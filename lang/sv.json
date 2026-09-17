@@ -936,10 +936,19 @@
         },
         "starters": {
             "title": "Prova till exempel",
-            "overview": "Ge mig en överblick över ärendet för ",
-            "summary": "Sammanfatta de senaste journalanteckningarna för ",
-            "report": "Skriv ett utkast till en rapport till handläggaren om ",
-            "organisation": "Vad står det i våra riktlinjer om "
+            "needsName": "Lägg till vem det gäller",
+            "labels": {
+                "overview": "Överblick över ett ärende",
+                "summary": "Sammanfatta de senaste journalanteckningarna",
+                "report": "Utkast till rapport till handläggaren",
+                "organisation": "Vad står det i våra riktlinjer?"
+            },
+            "prompts": {
+                "overview": "Ge mig en överblick över ärendet för ",
+                "summary": "Sammanfatta de senaste journalanteckningarna för ",
+                "report": "Skriv ett utkast till en rapport till handläggaren om ",
+                "organisation": "Vad står det i våra riktlinjer om "
+            }
         },
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
@@ -972,6 +981,20 @@
             "untitled": "Namnlös konversation",
             "deleteConfirmation": "Är du säker på att du vill ta bort denna konversation? Detta kan inte ångras.",
             "searchPlaceholder": "Sök i konversationer..."
+        },
+        "tools": {
+            "daily_brief": "Läser dagens överblick",
+            "my_shifts": "Läser dina skift",
+            "my_tasks": "Läser dina uppgifter",
+            "my_messages": "Räknar olästa meddelanden",
+            "create_task": "Skapar en uppgift",
+            "draft_journal_note": "Skriver ett journalutkast"
+        },
+        "toolTrace": {
+            "title": "Vad Cody läste",
+            "unknown": "Använder ett verktyg",
+            "failed": "Kunde inte läsas",
+            "duration": "{ms} ms"
         }
     },
     "back": "Tillbaka",
@@ -11147,7 +11170,9 @@
                 "isPublicHint": "Appen visas offentligt först när den har beskrivning och kategori.",
                 "screenshots": "Skärmbilder",
                 "addScreenshot": "Lägg till skärmbild",
-                "screenshotCaption": "Bildtext"
+                "screenshotCaption": "Bildtext",
+                "uploadScreenshot": "Ladda upp skärmbild",
+                "uploadFailed": "Bilden kunde inte laddas upp."
             },
             "colName": "Namn",
             "attachToCompany": "Tilldela till företag",

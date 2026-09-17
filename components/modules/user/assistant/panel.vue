@@ -120,7 +120,9 @@
                                     class="w-full bg-gray-50 border border-gray-100 rounded-md px-0 py-2 flex items-start gap-3">
                                     <div
                                         class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 ml-2 shadow-sm px-2">
-                                        <Icon name="ph:sparkle" class="h-4 w-4 text-white" />
+                                        <ModulesUserNavbarCodyMark :size="18" :stroke-width="2.6"
+                                            :state="message.companyDataStatus && message.companyDataStatus !== 'ready' ? 'blocked' : 'idle'"
+                                            class="text-white" />
                                     </div>
                                     <div class="flex-1 min-w-0">
                                         <div class="text-xs font-medium text-gray-400 mb-1">{{ $t('assistants.askAI') }}
@@ -140,6 +142,12 @@
                                                     : $t('assistants.companyDataBuilding') }}
                                             </span>
                                         </p>
+
+                                        <!-- What Cody read to get here. Kept with the answer, not
+                                        only shown while it was working: the receipt is what makes
+                                        an answer checkable after the fact. -->
+                                        <ModulesUserAssistantToolTrace v-if="message.receipts?.length"
+                                            :receipts="message.receipts" class="mt-2" />
 
                                         <!-- What the answer was actually built from. The backend
                                         already resolved these for the audit trail. -->
@@ -191,12 +199,23 @@
                             <div v-if="showStarters" class="space-y-2">
                                 <p class="text-xs font-medium text-gray-400">{{ $t('assistants.starters.title') }}</p>
                                 <button v-for="starter in STARTER_KEYS" :key="starter" type="button"
-                                    @click="useStarter($t(`assistants.starters.${starter}`))"
+                                    @click="useStarter($t(`assistants.starters.prompts.${starter}`))"
                                     class="flex w-full items-start gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-left text-sm text-gray-600 hover:border-primary/40 hover:text-primary transition-colors">
-                                    <Icon name="ph:sparkle" class="h-4 w-4 shrink-0 mt-0.5 text-primary/60" />
-                                    <span>{{ $t(`assistants.starters.${starter}`) }}</span>
+                                    <ModulesUserNavbarCodyMark :size="16" :stroke-width="3"
+                                        class="mt-0.5 shrink-0 text-primary/70" />
+                                    <span class="min-w-0">
+                                        {{ $t(`assistants.starters.labels.${starter}`) }}
+                                        <!-- These three need a name to mean anything, and the label
+                                        used to end mid-sentence ("...forløbet for") to show it.
+                                        That read as broken text; say what is missing instead. -->
+                                        <span v-if="starter !== 'organisation'" class="block text-xs text-gray-400">
+                                            {{ $t('assistants.starters.needsName') }}
+                                        </span>
+                                    </span>
                                 </button>
                             </div>
+                            <ModulesUserAssistantToolTrace v-if="state.isStreaming && state.activeTools.length"
+                                :live="state.activeTools" class="px-1" />
                             <div v-if="state.isStreaming" class="flex justify-center">
                                 <button type="button" @click="stopGenerating"
                                     class="flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-xs text-gray-500 hover:border-gray-300 hover:text-gray-700 transition-colors">
@@ -209,9 +228,16 @@
                                 class="w-full bg-gray-50 border border-gray-100 rounded-xl px-1 py-3 flex items-start gap-3">
                                 <div
                                     class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm ml-2">
-                                    <Icon name="ph:lightbulb" class="h-4 w-4 text-white" />
+                                    <ModulesUserNavbarCodyMark :size="18" :stroke-width="2.6" state="working"
+                                        class="text-white" />
                                 </div>
-                                <div class="flex items-center gap-0.5 py-2">
+                                <!-- The dots are what waiting looks like when there is nothing to
+                                say. As soon as a tool is running, the tool says it instead. -->
+                                <div v-if="state.activeTools.length || state.receipts.length" class="min-w-0 flex-1 py-1 pr-3">
+                                    <ModulesUserAssistantToolTrace :live="state.activeTools"
+                                        :receipts="state.receipts" />
+                                </div>
+                                <div v-else class="flex items-center gap-0.5 py-2">
                                     <span class="dot1">.</span>
                                     <span class="dot2">.</span>
                                     <span class="dot3">.</span>
@@ -432,6 +458,11 @@ const state = reactive({
     // Distinct from isGeneratingResponse: true only while fragments are still
     // arriving, which is the window where stopping means anything.
     isStreaming: false,
+    // What Cody is reading right now, and what it has read on this turn. Both
+    // are per-request: the receipts move onto the message when it lands, so
+    // they stay attached to the answer they belong to.
+    activeTools: [] as Array<{ tool: string, turn: number }>,
+    receipts: [] as Array<{ tool: string, summary?: string, ms?: number, ok?: boolean }>,
     // Kept so an answer can be re-asked without the user retyping the question.
     lastRequest: {
         prompt: '',
@@ -775,15 +806,35 @@ async function requestAnswer(formData: FormData) {
     const streamed = { index: -1, text: '', done: null as any }
     streamAbort = new AbortController()
 
+    state.activeTools = []
+    state.receipts = []
+
     try {
         await aIAssistantService.streamMessage(formData, (event: string, data: any) => {
+            // Tool events arrive between the fragments. An event name this
+            // client does not know is ignored by requestStream, which is what
+            // lets the backend add to this list without a flag day.
+            if (event === 'tool_call_start') {
+                state.activeTools.push({ tool: data?.tool ?? '', turn: data?.turn ?? 1 })
+                return
+            }
+            if (event === 'tool_call_end') {
+                state.activeTools = state.activeTools.filter((call) => call.tool !== data?.tool)
+                state.receipts.push({
+                    tool: data?.tool ?? '',
+                    summary: data?.summary ?? '',
+                    ms: data?.ms ?? 0,
+                    ok: data?.ok !== false,
+                })
+                return
+            }
             if (event === 'delta') {
                 if (streamed.index === -1) {
                     // The typing indicator gives way to the answer itself as
                     // soon as there is something to show.
                     state.isGeneratingResponse = false
                     state.isStreaming = true
-                    streamed.index = state.messages.push({ type: 'bot', text: '' }) - 1
+                    streamed.index = state.messages.push({ type: 'bot', text: '', receipts: state.receipts }) - 1
                 }
                 streamed.text += data?.text ?? ''
                 state.messages[streamed.index].text = streamed.text
@@ -810,6 +861,9 @@ async function requestAnswer(formData: FormData) {
         return await aIAssistantService.sendMessage(formData)
     } finally {
         state.isStreaming = false
+        // A tool left in the running list would sit there claiming to be
+        // reading something after the answer arrived.
+        state.activeTools = []
         streamAbort = null
     }
 
@@ -828,6 +882,9 @@ function applyAnswer(response: any) {
         text: response?.data?.answer,
         sources: response?.sources ?? [],
         companyDataStatus: response?.company_data_status ?? 'ready',
+        // Copied, not referenced: the next question resets state.receipts, and
+        // an answer's receipt belongs to that answer for as long as it is read.
+        receipts: [...state.receipts],
     })
 
     if (response.conversation_id) {
