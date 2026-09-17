@@ -15438,6 +15438,7 @@
     },
     "desktopLock": {
         "title": "CitizenOne är låst",
+        "reason": "Låst efter en stund utan aktivitet. Du är fortfarande inloggad - allt är som du lämnade det.",
         "passwordLabel": "Lösenord",
         "unlock": "Lås upp",
         "verifying": "Verifierar…",
