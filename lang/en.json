@@ -925,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Ask AI",
+        "askAI": "Ask Cody",
         "actions": {
             "copy": "Copy",
             "copied": "Copied",
@@ -933,22 +933,6 @@
             "insert": "Insert",
             "stop": "Stop",
             "regenerate": "Try again"
-        },
-        "starters": {
-            "title": "For example",
-            "needsName": "Add who it is about",
-            "labels": {
-                "overview": "Overview of a case",
-                "summary": "Summarise the latest @:terms.journalNotes{''}",
-                "report": "Draft a report for the caseworker",
-                "organisation": "What do our guidelines say?"
-            },
-            "prompts": {
-                "overview": "Give me an overview of the case for ",
-                "summary": "Summarise the latest @:terms.journalNotes{''} for ",
-                "report": "Draft a report for the caseworker about ",
-                "organisation": "What do our guidelines say about "
-            }
         },
         "basedOn": "Based on",
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
@@ -995,7 +979,66 @@
             "unknown": "Using a tool",
             "failed": "Could not be read",
             "duration": "{ms} ms"
-        }
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Your everyday assistant",
+            "scope": "Only sees what you have access to"
+        },
+        "greeting": {
+            "morning": "Good morning, {name}",
+            "forenoon": "Good morning, {name}",
+            "afternoon": "Good afternoon, {name}",
+            "evening": "Good evening, {name}",
+            "help": "How can I help you today?"
+        },
+        "quick": {
+            "title": "Get started",
+            "overview": "Give me an overview",
+            "journal": "Write a journal note",
+            "files": "Find attached files",
+            "shifts": "What shifts do I have?"
+        },
+        "quickPrompts": {
+            "overview": "Give me an overview of my day",
+            "journal": "Write a journal note for ",
+            "files": "Find the attached files about ",
+            "shifts": "What shifts do I have in the next seven days?"
+        },
+        "dataAndAccess": "About data and access",
+        "reviewShort": "Cody can be wrong - read the answer through.",
+        "cards": {
+            "badges": {
+                "draft": "Draft",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Due",
+                "column": "Column",
+                "date": "Date",
+                "shift": "Shift",
+                "department": "Department"
+            }
+        },
+        "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
+        "budgetSpent": "Your AI capacity is spent. Top up to continue.",
+        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
+        "dictate": {
+            "start": "Dictate",
+            "stop": "Stop recording",
+            "listening": "Listening…",
+            "transcribing": "Writing it down…",
+            "errors": {
+                "denied": "The browser is not allowed to use the microphone. Click the lock in the address bar and allow it.",
+                "missing": "No microphone found on this machine.",
+                "insecure": "Dictation needs a secure connection (https).",
+                "failed": "Could not transcribe the recording. Try again."
+            }
+        },
+        "attachFile": "Attach file",
+        "collapse": "Roll down",
+        "expand": "Roll up",
+        "shortcutHint": "Open and close with {shortcut}"
     },
     "back": "Back",
     "bellNotification": {
@@ -15534,6 +15577,7 @@
     },
     "desktopLock": {
         "title": "CitizenOne is locked",
+        "reason": "Locked after a while without activity. You are still signed in - everything is as you left it.",
         "passwordLabel": "Password",
         "unlock": "Unlock",
         "verifying": "Verifying…",
@@ -15664,6 +15708,20 @@
             "needsCard": "Needs a stored payment card. Tick the box on your next purchase so the card can be used from then on.",
             "consent": "You agree that the card on file is charged the amount above whenever the balance reaches the limit. Turn off at any time.",
             "failed": "The setting could not be saved. Try again shortly."
+        },
+        "requests": "{count} requests",
+        "byUser": {
+            "title": "Who is using it",
+            "subtitle": "This month, busiest first"
+        },
+        "userLimit": {
+            "title": "Limit per employee",
+            "help": "How many requests one employee may make per day. The company's whole daily allowance is {company}. Leave the field empty to use the limit we work out.",
+            "perDay": "requests per day",
+            "clear": "Use calculated limit",
+            "saved": "Limit saved",
+            "set": "You set it to {limit} requests per day.",
+            "derived": "Calculated limit: {limit} requests per day per employee."
         }
     }
 }

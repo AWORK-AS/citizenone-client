@@ -1,21 +1,25 @@
 <template>
     <div class="py-1">
+        <Tooltip :text="shortcutHint" position="bottom">
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
             :aria-expanded="assistantStore.isOpen"
             :aria-label="ariaLabel"
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
             <!-- The mark carries the state, so the count is not the only thing
             saying there is something waiting. -->
-            <ModulesUserNavbarCodyMark :size="20" :stroke-width="2.6"
-                :state="state.waiting > 0 ? 'attention' : 'idle'" class="md:!w-5 md:!h-5" />
+            <ModulesUserNavbarCodyMark :size="20" :state="state.waiting > 0 ? 'attention' : 'idle'"
+                class="md:!w-5 md:!h-5" />
+            <!-- The name, not the action. "Spørg AI" told you what to do with it
+            and nothing about what it is; the app is called Cody. -->
             <p class="text-sm font-semibold hidden lg:block">
-                {{ $t('assistants.askAI') }}
+                {{ $t('assistants.identity.name') }}
             </p>
             <span v-if="state.waiting > 0"
                 class="ml-0.5 inline-flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-primary px-1.5 text-[11.5px] font-bold tabular-nums text-white">
                 {{ state.waiting > 9 ? '9+' : state.waiting }}
             </span>
         </FormButton>
+        </Tooltip>
     </div>
 </template>
 
@@ -33,6 +37,14 @@ const { t } = useI18n()
 
 const state = reactive({
     waiting: 0,
+})
+
+// A shortcut nobody is told about is a shortcut nobody uses, and the button is
+// the only place people look. Mac gets the symbol it expects.
+const shortcutHint = computed(() => {
+    const isMac = typeof navigator !== 'undefined' && /Mac|iPhone|iPad/.test(navigator.platform ?? '')
+
+    return t('assistants.shortcutHint', { shortcut: isMac ? '⌘J' : 'Ctrl+J' })
 })
 
 const ariaLabel = computed(() => state.waiting > 0

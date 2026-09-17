@@ -925,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Spørg AI",
+        "askAI": "Spør Cody",
         "actions": {
             "copy": "Kopier",
             "copied": "Kopiert",
@@ -933,22 +933,6 @@
             "insert": "Sett inn",
             "stop": "Stopp",
             "regenerate": "Prøv igjen"
-        },
-        "starters": {
-            "title": "Prøv for eksempel",
-            "needsName": "Legg til hvem det gjelder",
-            "labels": {
-                "overview": "Oversikt over et forløp",
-                "summary": "Oppsummer de siste journalnotatene",
-                "report": "Utkast til rapport til saksbehandleren",
-                "organisation": "Hva står det i retningslinjene våre?"
-            },
-            "prompts": {
-                "overview": "Gi meg en oversikt over forløpet for ",
-                "summary": "Oppsummer de siste journalnotatene for ",
-                "report": "Skriv et utkast til en rapport til saksbehandleren om ",
-                "organisation": "Hva står det i retningslinjene våre om "
-            }
         },
         "basedOn": "Basert på",
         "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
@@ -995,7 +979,66 @@
             "unknown": "Bruker et verktøy",
             "failed": "Kunne ikke leses",
             "duration": "{ms} ms"
-        }
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Assistenten din i hverdagen",
+            "scope": "Ser bare det du har tilgang til"
+        },
+        "greeting": {
+            "morning": "God morgen, {name}",
+            "forenoon": "God formiddag, {name}",
+            "afternoon": "God ettermiddag, {name}",
+            "evening": "God kveld, {name}",
+            "help": "Hvordan kan jeg hjelpe deg i dag?"
+        },
+        "quick": {
+            "title": "Kom i gang",
+            "overview": "Gi meg en oversikt",
+            "journal": "Skriv journalnotat",
+            "files": "Finn vedlagte filer",
+            "shifts": "Hvilke vakter har jeg?"
+        },
+        "quickPrompts": {
+            "overview": "Gi meg en oversikt over dagen min",
+            "journal": "Skriv et journalnotat for ",
+            "files": "Finn de vedlagte filene om ",
+            "shifts": "Hvilke vakter har jeg de neste sju dagene?"
+        },
+        "dataAndAccess": "Om data og tilgang",
+        "reviewShort": "Cody kan ta feil - les svaret gjennom.",
+        "cards": {
+            "badges": {
+                "draft": "Utkast",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Frist",
+                "column": "Kolonne",
+                "date": "Dato",
+                "shift": "Vakttype",
+                "department": "Avdeling"
+            }
+        },
+        "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator.",
+        "budgetSpent": "AI-kapasiteten deres er brukt opp. Fyll på for å fortsette.",
+        "ownDailyLimit": "Du har brukt din egen dagsgrense for AI. Administratoren din kan heve den.",
+        "dictate": {
+            "start": "Diktér",
+            "stop": "Stopp opptak",
+            "listening": "Lytter…",
+            "transcribing": "Skriver det ned…",
+            "errors": {
+                "denied": "Nettleseren har ikke lov til å bruke mikrofonen. Klikk på låsen i adressefeltet og tillat den.",
+                "missing": "Ingen mikrofon funnet på denne maskinen.",
+                "insecure": "Diktering krever en sikker tilkobling (https).",
+                "failed": "Kunne ikke skrive ned opptaket. Prøv igjen."
+            }
+        },
+        "attachFile": "Legg ved fil",
+        "collapse": "Rull ned",
+        "expand": "Rull opp",
+        "shortcutHint": "Åpne og lukk med {shortcut}"
     },
     "back": "Tilbake",
     "bellNotification": {
@@ -15438,6 +15481,7 @@
     },
     "desktopLock": {
         "title": "CitizenOne er låst",
+        "reason": "Låst etter en stund uten aktivitet. Du er fortsatt logget inn - alt er som du forlot det.",
         "passwordLabel": "Passord",
         "unlock": "Lås opp",
         "verifying": "Bekrefter…",
@@ -15568,6 +15612,20 @@
             "needsCard": "Krever et lagret betalingskort. Sett hake ved neste kjøp, så kan kortet brukes videre.",
             "consent": "Dere godtar at kortet på filen belastes med beløpet over hver gang saldoen når grensen. Slå av når som helst.",
             "failed": "Innstillingen kunne ikke lagres. Prøv igjen om litt."
+        },
+        "requests": "{count} kall",
+        "byUser": {
+            "title": "Hvem bruker det",
+            "subtitle": "Denne måneden, mest aktive først"
+        },
+        "userLimit": {
+            "title": "Grense per ansatt",
+            "help": "Hvor mange kall én ansatt kan gjøre per dag. Firmaets samlede dagsgrense er {company}. La feltet stå tomt for å bruke grensen vi regner ut.",
+            "perDay": "kall per dag",
+            "clear": "Bruk utregnet grense",
+            "saved": "Grensen er lagret",
+            "set": "Dere satte den til {limit} kall per dag.",
+            "derived": "Utregnet grense: {limit} kall per dag per ansatt."
         }
     }
 }

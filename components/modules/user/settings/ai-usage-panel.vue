@@ -90,6 +90,53 @@
                         </tbody>
                     </table>
                 </div>
+
+                <!-- Who it went to. The usage was always recorded per person and
+                     never shown, so a customer could see capacity going somewhere
+                     and never where - and a limit nobody can attribute is a limit
+                     people argue about. -->
+                <div v-if="state.data.by_user?.length" class="mt-8">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.byUser.title') }}</h3>
+                    <p class="mt-0.5 text-xs text-gray-500">{{ $t('aiUsage.byUser.subtitle') }}</p>
+                    <ul class="mt-3 divide-y divide-gray-100">
+                        <li v-for="row in state.data.by_user" :key="row.name"
+                            class="flex items-baseline gap-3 py-2 text-sm">
+                            <span class="min-w-0 flex-1 truncate text-gray-900">{{ row.name }}</span>
+                            <span class="tabular-nums text-gray-600">{{ $t('aiUsage.requests', { count: row.requests }) }}</span>
+                            <span class="w-20 text-right tabular-nums text-gray-900">{{ kr(row.charged_kroner) }}</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- The ceiling, and whose it is. Set here rather than by us:
+                     what counts as reasonable differs between a dentist with four
+                     chairs and a care home with sixty staff. -->
+                <div class="mt-8 rounded-xl border border-gray-200 p-4">
+                    <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.userLimit.title') }}</h3>
+                    <p class="mt-1 text-xs text-gray-500">
+                        {{ $t('aiUsage.userLimit.help', { company: state.data.daily_allowance }) }}
+                    </p>
+                    <div class="mt-3 flex flex-wrap items-center gap-2">
+                        <input id="ai-user-limit" v-model="state.limitInput" type="number" min="1"
+                            :max="state.data.daily_allowance || undefined"
+                            :placeholder="String(state.data.user_daily_limit?.effective ?? '')"
+                            class="w-28 rounded-lg border border-gray-200 px-3 py-2 text-sm tabular-nums focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20" />
+                        <span class="text-sm text-gray-500">{{ $t('aiUsage.userLimit.perDay') }}</span>
+                        <FormButton buttonSize="sm" :isLoading="state.savingLimit" @click="saveUserLimit">
+                            {{ $t('save') }}
+                        </FormButton>
+                        <button v-if="state.data.user_daily_limit?.configured" type="button"
+                            :disabled="state.savingLimit" @click="clearUserLimit"
+                            class="text-sm text-gray-500 underline decoration-gray-300 hover:text-primary disabled:opacity-50">
+                            {{ $t('aiUsage.userLimit.clear') }}
+                        </button>
+                    </div>
+                    <p class="mt-2 text-xs text-gray-400">
+                        {{ state.data.user_daily_limit?.configured
+                            ? $t('aiUsage.userLimit.set', { limit: state.data.user_daily_limit.configured })
+                            : $t('aiUsage.userLimit.derived', { limit: state.data.user_daily_limit?.effective ?? 0 }) }}
+                    </p>
+                </div>
             </section>
 
             <!-- The other half of the ledger. A balance nobody can trace back to
@@ -118,13 +165,19 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { aiUsageService } from '@/components/api/user/AiUsageService'
+import { useAlert } from '@/composables/alert'
 
 const { t, locale } = useI18n()
+const { successAlert, errorAlert } = useAlert()
 
 const state = reactive({
     loading: true,
     failed: false,
     buying: false,
+    savingLimit: false,
+    // Left empty on purpose: the field shows the effective number as a
+    // placeholder, so an admin who types nothing changes nothing.
+    limitInput: '' as string | number,
     data: {
         budget_enabled: false,
         balance_kroner: 0,
@@ -132,6 +185,8 @@ const state = reactive({
         daily_allowance: 0,
         month_charged_kroner: 0,
         by_feature: [] as any[],
+        by_user: [] as any[],
+        user_daily_limit: null as any,
         daily: [] as any[],
         topups: [] as any[],
         topup_app: null as any,
@@ -156,6 +211,43 @@ function buyMore() {
         return
     }
     navigateTo('/apps')
+}
+
+/**
+ * Save, or clear, how much of a day one person may use.
+ *
+ * The server clamps to the company's own allowance and answers with the whole
+ * overview, so the screen redraws from what was actually stored rather than
+ * from what was typed - which is the difference between a number the customer
+ * set and a number they think they set.
+ */
+async function saveUserLimit() {
+    const typed = String(state.limitInput).trim()
+
+    if (typed === '') return
+
+    state.savingLimit = true
+    try {
+        const response = await aiUsageService.updateUserDailyLimit(Number(typed))
+        apply(response)
+        state.limitInput = ''
+        successAlert(t('alert.success'), t('aiUsage.userLimit.saved'))
+    } catch {
+        errorAlert(t('alert.error'), t('alert.somethingWentWrong'))
+    }
+    state.savingLimit = false
+}
+
+async function clearUserLimit() {
+    state.savingLimit = true
+    try {
+        const response = await aiUsageService.updateUserDailyLimit(null)
+        apply(response)
+        state.limitInput = ''
+    } catch {
+        errorAlert(t('alert.error'), t('alert.somethingWentWrong'))
+    }
+    state.savingLimit = false
 }
 
 const todayShare = computed(() => {
@@ -209,10 +301,13 @@ function featureLabel(feature: string) {
     return label === key ? feature : label
 }
 
+function apply(response: any) {
+    state.data = { ...state.data, ...(response?.data ?? response) }
+}
+
 async function load() {
     try {
-        const response = await aiUsageService.overview()
-        state.data = { ...state.data, ...(response?.data ?? response) }
+        apply(await aiUsageService.overview())
     } catch {
         state.failed = true
     } finally {
