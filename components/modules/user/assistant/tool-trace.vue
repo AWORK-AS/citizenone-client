@@ -4,7 +4,7 @@
         seconds this takes used to be a typing indicator and nothing else. -->
         <p v-for="call in live" :key="`${call.tool}-${call.turn}`"
             class="flex items-center gap-2 text-xs text-gray-500">
-            <ModulesUserNavbarCodyMark :size="14" :stroke-width="3.2" state="working" class="shrink-0 text-primary" />
+            <ModulesUserNavbarCodyMark :size="14" state="working" class="shrink-0 text-cody-deep" />
             <span>{{ label(call.tool) }}</span>
         </p>
 

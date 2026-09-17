@@ -1,21 +1,28 @@
 <template>
     <div class="border-t border-gray-100 bg-white px-4 py-4">
         <div>
-            <!-- Audit P2.1/P2.2/P2.4: transparency notices - search scope and the
-            "always review AI output" reminder. Kept as plain small text rather
-            than a colored Alert banner so they don't visually compete with the
-            chat itself on every open. -->
-            <div class="flex flex-col gap-1 mb-2 text-xs text-gray-400">
+            <!-- Audit P2.1/P2.2/P2.4: the transparency notices. All three used to
+            stand open above the field on every single open - a fifth of the panel
+            spent on small print nobody re-reads. The one that has to be seen stays
+            visible; search scope and the governance link sit one click away, which
+            is also where someone actually goes looking for them. -->
+            <div class="mb-2 flex items-center gap-2 text-[11.5px] text-gray-400">
+                <span class="size-1.5 shrink-0 rounded-full bg-amber-500" aria-hidden="true"></span>
+                <span class="min-w-0 flex-1 truncate">{{ $t('assistants.reviewShort') }}</span>
+                <button type="button" @click="state.showDataNotice = !state.showDataNotice"
+                    class="shrink-0 border-b border-gray-200 text-gray-500 transition-colors hover:border-primary/40 hover:text-primary">
+                    {{ $t('assistants.dataAndAccess') }}
+                </button>
+            </div>
+
+            <div v-if="state.showDataNotice"
+                class="mb-2 flex flex-col gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 text-[11.5px] text-gray-500">
                 <div class="flex items-start gap-1.5">
-                    <Icon name="ph:info" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                    <Icon name="ph:info" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
                     <span>{{ $t('assistants.searchScopeHint') }}</span>
                 </div>
                 <div class="flex items-start gap-1.5">
-                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
-                    <span>{{ $t('assistants.reviewNotice') }}</span>
-                </div>
-                <div class="flex items-start gap-1.5">
-                    <Icon name="ph:shield-check" class="h-3.5 w-3.5 shrink-0 mt-0.5" />
+                    <Icon name="ph:shield-check" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
                     <span>
                         {{ $t('assistants.dataGovernanceNotice') }}
                         <a :href="aiGovernanceUrl" target="_blank" rel="noopener noreferrer" class="underline"

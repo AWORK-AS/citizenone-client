@@ -5,8 +5,11 @@
     <div class="flex-1 overflow-y-auto scroll-smooth">
         <div class="px-4 py-5 space-y-5">
             <div v-for="(message, index) in state.messages" :key="index">
-                <!-- User message -->
-                <div v-if="message.type === 'user'" class="w-full bg-primary rounded-md px-4 py-3">
+                <!-- What you said. A bubble only as wide as its text, hung on the
+                right: the full-width dark slab it used to be read as a banner or a
+                button, not as something a person had said. -->
+                <div v-if="message.type === 'user'" class="flex justify-end">
+                    <div class="max-w-[85%] rounded-[15px] rounded-br-[4px] bg-primary px-3.5 py-2">
                     <div v-if="message.files && message.files.length > 0"
                         class="flex flex-wrap gap-1.5 justify-end mb-2">
                         <div v-for="(file, fIdx) in message.files" :key="fIdx"
@@ -15,21 +18,18 @@
                             <span class="max-w-[150px] truncate">{{ file.name }}</span>
                         </div>
                     </div>
-                    <div class="text-sm text-white leading-relaxed text-right whitespace-pre-wrap">{{ message?.text }}
+                    <div class="text-sm text-white leading-relaxed whitespace-pre-wrap">{{ message?.text }}</div>
                     </div>
                 </div>
 
-                <!-- Cody's answer -->
-                <div v-else
-                    class="w-full bg-gray-50 border border-gray-100 rounded-md px-0 py-2 flex items-start gap-3">
-                    <div
-                        class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center mt-0.5 ml-2 shadow-sm px-2">
-                        <ModulesUserNavbarCodyMark :size="18" :stroke-width="2.6"
-                            :state="message.companyDataStatus && message.companyDataStatus !== 'ready' ? 'blocked' : 'idle'"
-                            class="text-white" />
-                    </div>
+                <!-- Cody's answer. The card, the border and the name above every
+                reply were three layers of chrome that made the panel read as a form;
+                without them the text gets the full width and Cody sounds like a
+                colleague rather than a system returning a record. -->
+                <div v-else class="flex items-start gap-2.5">
+                    <ModulesUserNavbarCodyMark :size="20" class="mt-0.5 shrink-0 text-cody-deep"
+                        :state="message.companyDataStatus && message.companyDataStatus !== 'ready' ? 'blocked' : 'idle'" />
                     <div class="flex-1 min-w-0">
-                        <div class="text-xs font-medium text-gray-400 mb-1">{{ $t('assistants.askAI') }}</div>
                         <div class="ai-answer text-sm text-gray-800 leading-relaxed"
                             v-safe-html="formatMessage(message?.text)" />
 
@@ -96,24 +96,29 @@
                 </div>
             </div>
 
-            <!-- A blank box does not tell anyone what the assistant is for, so a fresh
-            chat offers the things it is actually good at. -->
-            <div v-if="showStarters" class="space-y-2">
-                <p class="text-xs font-medium text-gray-400">{{ $t('assistants.starters.title') }}</p>
-                <button v-for="starter in STARTER_KEYS" :key="starter" type="button"
-                    @click="useStarter($t(`assistants.starters.prompts.${starter}`))"
-                    class="flex w-full items-start gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-left text-sm text-gray-600 hover:border-primary/40 hover:text-primary transition-colors">
-                    <ModulesUserNavbarCodyMark :size="16" :stroke-width="3" class="mt-0.5 shrink-0 text-primary/70" />
-                    <span class="min-w-0">
-                        {{ $t(`assistants.starters.labels.${starter}`) }}
-                        <!-- These three need a name to mean anything, and the label used to
-                        end mid-sentence ("...forløbet for") to show it. That read as broken
-                        text; say what is missing instead. -->
-                        <span v-if="starter !== 'organisation'" class="block text-xs text-gray-400">
-                            {{ $t('assistants.starters.needsName') }}
+            <!-- Cody's opening. A blank box says nothing about what an assistant
+            is for, and a greeting that is also the first chat message says hello
+            twice. The figure appears here and in no other part of the thread:
+            somewhere with time to notice it. -->
+            <div v-if="showStarters" class="pt-1">
+                <div class="flex items-start gap-3 rounded-xl bg-cody-pale px-4 py-3.5 ring-1 ring-cody/15">
+                    <ModulesUserAssistantCodyFigure :size="38" waving class="shrink-0 text-cody-deep" />
+                    <div class="min-w-0">
+                        <p class="text-sm font-semibold text-gray-900">{{ greeting }}</p>
+                        <p class="text-sm text-gray-600">{{ $t('assistants.greeting.help') }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
+                    <button v-for="action in QUICK_ACTIONS" :key="action.key" type="button"
+                        @click="useStarter($t(`assistants.quickPrompts.${action.key}`))"
+                        class="flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-left transition-colors hover:border-cody/50 hover:bg-cody-pale">
+                        <Icon :name="action.icon" class="size-4 shrink-0 text-cody-deep" aria-hidden="true" />
+                        <span class="min-w-0 text-[13px] font-medium leading-snug text-gray-700">
+                            {{ $t(`assistants.quick.${action.key}`) }}
                         </span>
-                    </span>
-                </button>
+                    </button>
+                </div>
             </div>
 
             <!-- While the answer is being written, the tools still get to say what they
@@ -129,18 +134,14 @@
                 </button>
             </div>
 
-            <div v-if="state.isGeneratingResponse"
-                class="w-full bg-gray-50 border border-gray-100 rounded-xl px-1 py-3 flex items-start gap-3">
-                <div
-                    class="shrink-0 w-8 h-8 rounded-full bg-primary flex items-center justify-center shadow-sm ml-2">
-                    <ModulesUserNavbarCodyMark :size="18" :stroke-width="2.6" state="working" class="text-white" />
-                </div>
-                <!-- The dots are what waiting looks like when there is nothing to say. As
-                soon as a tool is running, the tool says it instead. -->
-                <div v-if="state.activeTools.length || state.receipts.length" class="min-w-0 flex-1 py-1 pr-3">
+            <div v-if="state.isGeneratingResponse" class="flex items-start gap-2.5">
+                <ModulesUserNavbarCodyMark :size="20" state="working" class="mt-0.5 shrink-0 text-cody-deep" />
+                <!-- The dots are what waiting looks like when there is nothing to
+                say. As soon as a tool is running, the tool says it instead. -->
+                <div v-if="state.activeTools.length || state.receipts.length" class="min-w-0 flex-1 pt-0.5">
                     <ModulesUserAssistantToolTrace :live="state.activeTools" :receipts="state.receipts" />
                 </div>
-                <div v-else class="flex items-center gap-0.5 py-2">
+                <div v-else class="flex items-center gap-0.5 pt-1">
                     <span class="dot1">.</span>
                     <span class="dot2">.</span>
                     <span class="dot3">.</span>
@@ -153,7 +154,9 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useAssistantStore } from '@/store/assistant'
+import { useUserStore } from '@/store/user'
 import { useCodyChat } from '@/composables/useCodyChat'
 
 /**
@@ -166,9 +169,11 @@ import { useCodyChat } from '@/composables/useCodyChat'
  */
 const assistantStore = useAssistantStore()
 
+const { t } = useI18n()
+const userStore = useUserStore() as any
+
 const {
     state,
-    STARTER_KEYS,
     showStarters,
     formatMessage,
     copyAnswer,
@@ -176,6 +181,28 @@ const {
     useStarter,
     stopGenerating,
 } = useCodyChat()
+
+/**
+ * Four things worth asking, and only things Cody can actually do. The icon
+ * guide's fourth card was "summarise a meeting", which it has no tool for -
+ * offering a capability that does not exist is the fastest way to make an
+ * assistant look stupid, so shifts took that place.
+ */
+const QUICK_ACTIONS = [
+    { key: 'overview', icon: 'ph:file-text' },
+    { key: 'journal', icon: 'ph:pencil-simple-line' },
+    { key: 'files', icon: 'ph:paperclip' },
+    { key: 'shifts', icon: 'ph:calendar-blank' },
+] as const
+
+// Greets by the clock, and by first name only: the surname makes it read like
+// a letter from the municipality.
+const greeting = computed(() => {
+    const hour = new Date().getHours()
+    const part = hour < 10 ? 'morning' : hour < 12 ? 'forenoon' : hour < 18 ? 'afternoon' : 'evening'
+
+    return t(`assistants.greeting.${part}`, { name: userStore.getUser?.firstname ?? '' }).trim().replace(/,$/, '')
+})
 </script>
 
 <style scoped>

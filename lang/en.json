@@ -925,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Ask AI",
+        "askAI": "Ask Cody",
         "actions": {
             "copy": "Copy",
             "copied": "Copied",
@@ -933,22 +933,6 @@
             "insert": "Insert",
             "stop": "Stop",
             "regenerate": "Try again"
-        },
-        "starters": {
-            "title": "For example",
-            "needsName": "Add who it is about",
-            "labels": {
-                "overview": "Overview of a case",
-                "summary": "Summarise the latest @:terms.journalNotes{''}",
-                "report": "Draft a report for the caseworker",
-                "organisation": "What do our guidelines say?"
-            },
-            "prompts": {
-                "overview": "Give me an overview of the case for ",
-                "summary": "Summarise the latest @:terms.journalNotes{''} for ",
-                "report": "Draft a report for the caseworker about ",
-                "organisation": "What do our guidelines say about "
-            }
         },
         "basedOn": "Based on",
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
@@ -995,7 +979,34 @@
             "unknown": "Using a tool",
             "failed": "Could not be read",
             "duration": "{ms} ms"
-        }
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Your everyday assistant",
+            "scope": "Only sees what you have access to"
+        },
+        "greeting": {
+            "morning": "Good morning, {name}",
+            "forenoon": "Good morning, {name}",
+            "afternoon": "Good afternoon, {name}",
+            "evening": "Good evening, {name}",
+            "help": "How can I help you today?"
+        },
+        "quick": {
+            "title": "Get started",
+            "overview": "Give me an overview",
+            "journal": "Write a journal note",
+            "files": "Find attached files",
+            "shifts": "What shifts do I have?"
+        },
+        "quickPrompts": {
+            "overview": "Give me an overview of my day",
+            "journal": "Write a journal note for ",
+            "files": "Find the attached files about ",
+            "shifts": "What shifts do I have in the next seven days?"
+        },
+        "dataAndAccess": "About data and access",
+        "reviewShort": "Cody can be wrong - read the answer through."
     },
     "back": "Back",
     "bellNotification": {

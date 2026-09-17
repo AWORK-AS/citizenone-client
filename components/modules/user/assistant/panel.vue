@@ -9,11 +9,16 @@
             <aside v-if="assistantStore.isOpen" :aria-label="$t('assistants.askAI')"
                 class="fixed inset-y-0 right-0 z-[56] flex w-full max-w-[26rem] flex-col border-l border-surface-200 bg-white shadow-2xl">
                 <header class="flex h-16 shrink-0 items-center gap-1 border-b border-surface-200 px-4">
-                    <!-- The header says what Cody is doing, so it is not just a title
-                    while an answer is being built. -->
-                    <ModulesUserNavbarCodyMark :size="20" :stroke-width="2.6" :state="markState"
-                        class="shrink-0 text-primary" />
-                    <p class="flex-1 truncate text-sm font-semibold text-gray-900">{{ $t('assistants.askAI') }}</p>
+                    <!-- The header carries the identity and the state: who this is,
+                    what it can see, and whether it is working. "Spørg AI" was an
+                    action, not a name, and it answered neither question. -->
+                    <ModulesUserNavbarCodyMark :size="26" :state="markState" class="shrink-0 text-cody-deep" />
+                    <p class="min-w-0 flex-1 text-sm font-semibold leading-tight text-gray-900">
+                        {{ $t('assistants.identity.name') }}
+                        <span class="block truncate text-[11.5px] font-normal text-gray-400">
+                            {{ $t('assistants.identity.scope') }}
+                        </span>
+                    </p>
                     <Tooltip :text="$t('assistants.history.newChat')">
                         <button :aria-label="$t('assistants.history.newChat')" type="button" @click="startNewChat"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">

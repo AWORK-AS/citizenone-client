@@ -76,8 +76,6 @@ export function useCodyChat(): CodyChat {
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
 
-const STARTER_KEYS = ['overview', 'summary', 'report', 'organisation'] as const
-
 export function createCodyChat() {
     const { t } = useI18n()
     const { can } = usePermissions()
@@ -124,6 +122,10 @@ export function createCodyChat() {
             redactedPrompt: '',
         },
         copiedIndex: null as number | null,
+        // The two quieter notices, opened from "About data and access" under the
+        // field. Kept in the chat rather than in the composer so the same answer
+        // is given wherever Cody grows a second surface.
+        showDataNotice: false,
         // Distinct from isGeneratingResponse: true only while fragments are still
         // arriving, which is the window where stopping means anything.
         isStreaming: false,
@@ -140,8 +142,10 @@ export function createCodyChat() {
         },
     })
 
+    // Cody's opening, shown while the thread is genuinely empty. It used to be
+    // `<= 1` because the greeting was itself a message.
     const showStarters = computed(() =>
-        state.view === 'chat' && state.messages.length <= 1 && !state.isGeneratingResponse)
+        state.view === 'chat' && state.messages.length === 0 && !state.isGeneratingResponse)
 
     const filteredConversations = computed(() => {
         const query = state.searchQuery.trim().toLowerCase()
@@ -172,11 +176,12 @@ export function createCodyChat() {
     // ---------------------------------------------------------------- opening
 
     function initialisePanel() {
-        // The greeting is seeded once. Re-opening keeps the conversation, otherwise
-        // stepping away to look something up would wipe the answer you went to check.
-        if (!state.messages.length) {
-            state.messages.push({ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` })
-        }
+        // No seeded greeting message any more. An empty thread now shows Cody's
+        // own opening - the figure, the greeting and four things worth asking -
+        // and a greeting that is also the first chat message would say hello
+        // twice. Re-opening keeps the conversation either way, otherwise
+        // stepping away to look something up would wipe the answer you went to
+        // check.
         state.view = 'chat'
         state.preview.isOpen = false
         fetchConversations()
@@ -402,7 +407,7 @@ export function createCodyChat() {
 
     function startNewChat() {
         clearAiElements()
-        state.messages = [{ type: 'bot', text: `${t('assistants.helloHowCanIAssistYouToday')}?` }]
+        state.messages = []
         state.activeConversationUuid = null
         state.mentionedEntities = []
         state.lastRequest.prompt = ''
@@ -758,7 +763,6 @@ export function createCodyChat() {
 
     return {
         state,
-        STARTER_KEYS,
         showStarters,
         filteredConversations,
         onComposerFocusRequest,

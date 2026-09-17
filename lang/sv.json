@@ -925,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Fråga AI",
+        "askAI": "Fråga Cody",
         "actions": {
             "copy": "Kopiera",
             "copied": "Kopierat",
@@ -933,22 +933,6 @@
             "insert": "Infoga",
             "stop": "Stoppa",
             "regenerate": "Försök igen"
-        },
-        "starters": {
-            "title": "Prova till exempel",
-            "needsName": "Lägg till vem det gäller",
-            "labels": {
-                "overview": "Överblick över ett ärende",
-                "summary": "Sammanfatta de senaste journalanteckningarna",
-                "report": "Utkast till rapport till handläggaren",
-                "organisation": "Vad står det i våra riktlinjer?"
-            },
-            "prompts": {
-                "overview": "Ge mig en överblick över ärendet för ",
-                "summary": "Sammanfatta de senaste journalanteckningarna för ",
-                "report": "Skriv ett utkast till en rapport till handläggaren om ",
-                "organisation": "Vad står det i våra riktlinjer om "
-            }
         },
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
@@ -995,7 +979,34 @@
             "unknown": "Använder ett verktyg",
             "failed": "Kunde inte läsas",
             "duration": "{ms} ms"
-        }
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Din assistent i vardagen",
+            "scope": "Ser bara det du har tillgång till"
+        },
+        "greeting": {
+            "morning": "God morgon, {name}",
+            "forenoon": "God förmiddag, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God kväll, {name}",
+            "help": "Hur kan jag hjälpa dig i dag?"
+        },
+        "quick": {
+            "title": "Kom i gång",
+            "overview": "Ge mig en överblick",
+            "journal": "Skriv journalanteckning",
+            "files": "Hitta bifogade filer",
+            "shifts": "Vilka skift har jag?"
+        },
+        "quickPrompts": {
+            "overview": "Ge mig en överblick över min dag",
+            "journal": "Skriv en journalanteckning för ",
+            "files": "Hitta de bifogade filerna om ",
+            "shifts": "Vilka skift har jag de kommande sju dagarna?"
+        },
+        "dataAndAccess": "Om data och åtkomst",
+        "reviewShort": "Cody kan ha fel - läs igenom svaret."
     },
     "back": "Tillbaka",
     "bellNotification": {
