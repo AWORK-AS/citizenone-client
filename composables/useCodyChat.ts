@@ -69,6 +69,8 @@ export interface CodyMessage {
     companyDataStatus?: 'ready' | 'missing' | 'building'
     receipts?: ToolReceipt[]
     cards?: AnswerCard[]
+    /** A turn that produced no answer, shown where the answer would be. */
+    failed?: boolean
 }
 
 export type CodyChat = ReturnType<typeof createCodyChat>
@@ -487,9 +489,42 @@ export function createCodyChat() {
                 fetchConversations()
             }
         } catch (error: any) {
-            state.error = rateLimitError(error) ?? error
+            reportFailure(error)
         }
         state.isGeneratingResponse = false
+    }
+
+    /**
+     * A failure that reads like a turn in the conversation.
+     *
+     * The red banner sat at the top of the panel, above the question, detached
+     * from it, and said the same sentence whatever had happened - which is how
+     * "your organisation's data is still being prepared, try again shortly"
+     * reached people as "something went wrong". A refusal is something Cody
+     * says, so it belongs where the answer would have been.
+     *
+     * The daily ceiling keeps the banner: that one carries a button.
+     */
+    function reportFailure(error: any) {
+        const limited = rateLimitError(error)
+
+        if (limited) {
+            state.error = limited
+
+            return
+        }
+
+        const message = typeof error?.message === 'string' ? error.message.trim() : ''
+
+        state.messages.push({
+            type: 'bot',
+            // A bare translation key is a broken string, not a message - it
+            // happens when a locale file is behind the code that raises it.
+            text: message !== '' && !message.startsWith('exception.')
+                ? message
+                : t('assistants.couldNotAnswer'),
+            failed: true,
+        })
     }
 
     // The assistant has its own request ceiling. Telling the user "something went
@@ -672,7 +707,7 @@ export function createCodyChat() {
             const response = await requestAnswer(formData)
             if (response?.data) applyAnswer(response)
         } catch (error: any) {
-            state.error = rateLimitError(error) ?? error
+            reportFailure(error)
         }
         state.isGeneratingResponse = false
     }

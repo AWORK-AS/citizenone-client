@@ -28,9 +28,13 @@
                 colleague rather than a system returning a record. -->
                 <div v-else class="flex items-start gap-2.5">
                     <ModulesUserNavbarCodyMark :size="20" class="mt-0.5 shrink-0"
-                        :state="message.companyDataStatus && message.companyDataStatus !== 'ready' ? 'blocked' : 'idle'" />
+                        :state="message.failed || (message.companyDataStatus && message.companyDataStatus !== 'ready') ? 'blocked' : 'idle'" />
                     <div class="flex-1 min-w-0">
-                        <div class="ai-answer text-sm text-gray-800 leading-relaxed"
+                        <!-- A refusal is something Cody says, so it sits where the
+                        answer would have been rather than in a red banner at the top
+                        of the panel, detached from the question that caused it. -->
+                        <p v-if="message.failed" class="text-sm leading-relaxed text-gray-500">{{ message.text }}</p>
+                        <div v-else class="ai-answer text-sm text-gray-800 leading-relaxed"
                             v-safe-html="formatMessage(message?.text)" />
 
                         <!-- An answer with no company data behind it is not the same as an
@@ -75,7 +79,7 @@
                         somewhere else. Copy takes the rendered answer as plain text,
                         matching what's actually shown in the bubble above (not the raw HTML
                         string the backend returned). -->
-                        <div v-if="index > 0" class="flex items-center gap-1 mt-2 -ml-1.5">
+                        <div v-if="index > 0 && !message.failed" class="flex items-center gap-1 mt-2 -ml-1.5">
                             <button type="button" @click="copyAnswer(message, index)"
                                 :title="$t('assistants.actions.copy')"
                                 class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
@@ -100,6 +104,12 @@
                                 {{ $t('assistants.actions.regenerate') }}
                             </button>
                         </div>
+                        <button v-if="message.failed && state.lastRequest.prompt" type="button"
+                            @click="regenerateAnswer" :disabled="state.isGeneratingResponse"
+                            class="mt-2 -ml-1.5 flex items-center gap-1 rounded px-1.5 py-1 text-xs text-gray-400 transition-colors hover:bg-primary/5 hover:text-primary disabled:opacity-40">
+                            <Icon name="ph:arrow-clockwise" class="h-3.5 w-3.5" />
+                            {{ $t('assistants.actions.regenerate') }}
+                        </button>
                     </div>
                 </div>
             </div>
