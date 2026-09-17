@@ -11147,7 +11147,9 @@
                 "isPublicHint": "Appen vises offentlig først når den har beskrivelse og kategori.",
                 "screenshots": "Skjermbilder",
                 "addScreenshot": "Legg til skjermbilde",
-                "screenshotCaption": "Bildetekst"
+                "screenshotCaption": "Bildetekst",
+                "uploadScreenshot": "Last opp skjermbilde",
+                "uploadFailed": "Bildet kunne ikke lastes opp."
             },
             "colName": "Navn",
             "attachToCompany": "Tilordne til selskap",

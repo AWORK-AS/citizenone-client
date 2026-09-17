@@ -11184,7 +11184,9 @@
                 "isPublicHint": "The app is only shown publicly once it has a description and a category.",
                 "screenshots": "Screenshots",
                 "addScreenshot": "Add screenshot",
-                "screenshotCaption": "Caption"
+                "screenshotCaption": "Caption",
+                "uploadScreenshot": "Upload screenshot",
+                "uploadFailed": "The image could not be uploaded."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",

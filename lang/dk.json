@@ -11184,7 +11184,9 @@
                 "isPublicHint": "Appen vises kun offentligt, når den har beskrivelse og kategori.",
                 "screenshots": "Skærmbilleder",
                 "addScreenshot": "Tilføj skærmbillede",
-                "screenshotCaption": "Billedtekst"
+                "screenshotCaption": "Billedtekst",
+                "uploadScreenshot": "Upload skærmbillede",
+                "uploadFailed": "Billedet kunne ikke uploades."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
