@@ -1006,7 +1006,20 @@
             "shifts": "Hvilke vakter har jeg de neste sju dagene?"
         },
         "dataAndAccess": "Om data og tilgang",
-        "reviewShort": "Cody kan ta feil - les svaret gjennom."
+        "reviewShort": "Cody kan ta feil - les svaret gjennom.",
+        "cards": {
+            "badges": {
+                "draft": "Utkast",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Frist",
+                "column": "Kolonne",
+                "date": "Dato",
+                "shift": "Vakttype",
+                "department": "Avdeling"
+            }
+        }
     },
     "back": "Tilbake",
     "bellNotification": {

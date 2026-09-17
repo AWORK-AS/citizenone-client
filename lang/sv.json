@@ -1006,7 +1006,20 @@
             "shifts": "Vilka skift har jag de kommande sju dagarna?"
         },
         "dataAndAccess": "Om data och åtkomst",
-        "reviewShort": "Cody kan ha fel - läs igenom svaret."
+        "reviewShort": "Cody kan ha fel - läs igenom svaret.",
+        "cards": {
+            "badges": {
+                "draft": "Utkast",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Deadline",
+                "column": "Kolumn",
+                "date": "Datum",
+                "shift": "Skifttyp",
+                "department": "Avdelning"
+            }
+        }
     },
     "back": "Tillbaka",
     "bellNotification": {

@@ -46,6 +46,21 @@ export interface ToolReceipt {
     ok?: boolean
 }
 
+/**
+ * A record the answer is about. Built by the server from a reference, for the
+ * user who is asking - never by the model, which supplies neither the values
+ * nor the link.
+ */
+export interface AnswerCard {
+    type: string
+    ref: string
+    title: string
+    subtitle?: string | null
+    facts?: Array<{ label: string, value: string }>
+    badges?: string[]
+    link?: string | null
+}
+
 export interface CodyMessage {
     type: 'user' | 'bot'
     text: string
@@ -53,6 +68,7 @@ export interface CodyMessage {
     sources?: Array<{ uuid: string, name: string }>
     companyDataStatus?: 'ready' | 'missing' | 'building'
     receipts?: ToolReceipt[]
+    cards?: AnswerCard[]
 }
 
 export type CodyChat = ReturnType<typeof createCodyChat>
@@ -75,6 +91,13 @@ export function useCodyChat(): CodyChat {
 }
 
 const MAX_FILE_SIZE = 20 * 1024 * 1024
+
+/**
+ * The card types this client can draw. Listed rather than accepted blindly,
+ * mirroring the backend's CardResolver: a type nobody has written a component
+ * for is dropped, so the server can add one before the client learns it.
+ */
+const KNOWN_CARDS = ['task', 'journal_note', 'shift_day']
 
 export function createCodyChat() {
     const { t } = useI18n()
@@ -134,6 +157,9 @@ export function createCodyChat() {
         // they stay attached to the answer they belong to.
         activeTools: [] as ToolCall[],
         receipts: [] as ToolReceipt[],
+        // The records this answer is about. Per-request like the receipts, and
+        // moved onto the message when it lands.
+        cards: [] as AnswerCard[],
         // Kept so an answer can be re-asked without the user retyping the question.
         lastRequest: {
             prompt: '',
@@ -514,6 +540,7 @@ export function createCodyChat() {
 
         state.activeTools = []
         state.receipts = []
+        state.cards = []
 
         try {
             await aIAssistantService.streamMessage(formData, (event: string, data: any) => {
@@ -534,6 +561,15 @@ export function createCodyChat() {
                     })
                     return
                 }
+                if (event === 'card') {
+                    // A type this client does not know is dropped rather than
+                    // improvised: it is what lets a new card ship on the server
+                    // before the component that draws it exists.
+                    if (KNOWN_CARDS.includes(data?.type) && data?.title) {
+                        state.cards.push(data as AnswerCard)
+                    }
+                    return
+                }
                 if (event === 'delta') {
                     if (streamed.index === -1) {
                         // The typing indicator gives way to the answer itself as
@@ -544,6 +580,7 @@ export function createCodyChat() {
                             type: 'bot',
                             text: '',
                             receipts: state.receipts,
+                            cards: state.cards,
                         }) - 1
                     }
                     streamed.text += data?.text ?? ''
@@ -592,9 +629,16 @@ export function createCodyChat() {
             text: response?.data?.answer,
             sources: response?.sources ?? [],
             companyDataStatus: response?.company_data_status ?? 'ready',
-            // Copied, not referenced: the next question resets state.receipts, and
-            // an answer's receipt belongs to that answer for as long as it is read.
+            // Copied, not referenced: the next question resets these, and an
+            // answer's receipt and cards belong to that answer for as long as it
+            // is read.
             receipts: [...state.receipts],
+            // The stream sends cards as they happen; the buffered endpoint has no
+            // stream and carries them in the body instead. Whichever answered,
+            // the answer ends up with the same cards.
+            cards: response?.cards?.length
+                ? (response.cards as AnswerCard[]).filter((card) => KNOWN_CARDS.includes(card.type))
+                : [...state.cards],
         })
 
         if (response.conversation_id) {

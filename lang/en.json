@@ -1006,7 +1006,20 @@
             "shifts": "What shifts do I have in the next seven days?"
         },
         "dataAndAccess": "About data and access",
-        "reviewShort": "Cody can be wrong - read the answer through."
+        "reviewShort": "Cody can be wrong - read the answer through.",
+        "cards": {
+            "badges": {
+                "draft": "Draft",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Due",
+                "column": "Column",
+                "date": "Date",
+                "shift": "Shift",
+                "department": "Department"
+            }
+        }
     },
     "back": "Back",
     "bellNotification": {

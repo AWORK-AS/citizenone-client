@@ -1006,7 +1006,20 @@
             "shifts": "Hvilke vagter har jeg de næste syv dage?"
         },
         "dataAndAccess": "Om data og adgang",
-        "reviewShort": "Cody kan tage fejl - læs svaret igennem."
+        "reviewShort": "Cody kan tage fejl - læs svaret igennem.",
+        "cards": {
+            "badges": {
+                "draft": "Udkast",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Frist",
+                "column": "Kolonne",
+                "date": "Dato",
+                "shift": "Vagttype",
+                "department": "Afdeling"
+            }
+        }
     },
     "back": "Tilbage",
     "bellNotification": {

@@ -45,6 +45,14 @@
                             </span>
                         </p>
 
+                        <!-- The records the answer is about, drawn as the product draws
+                        them. Every field was built by the server from a reference - the
+                        model supplies neither the values nor the link. -->
+                        <div v-if="message.cards?.length" class="mt-2.5 grid gap-2">
+                            <ModulesUserAssistantAnswerCard v-for="card in message.cards" :key="card.ref"
+                                :card="card" />
+                        </div>
+
                         <!-- What Cody read to get here. Kept with the answer, not only shown
                         while it was working: the receipt is what makes an answer checkable
                         after the fact. -->
@@ -138,8 +146,14 @@
                 <ModulesUserNavbarCodyMark :size="20" state="working" class="mt-0.5 shrink-0" />
                 <!-- The dots are what waiting looks like when there is nothing to
                 say. As soon as a tool is running, the tool says it instead. -->
-                <div v-if="state.activeTools.length || state.receipts.length" class="min-w-0 flex-1 pt-0.5">
+                <div v-if="state.activeTools.length || state.receipts.length || state.cards.length"
+                    class="min-w-0 flex-1 pt-0.5">
                     <ModulesUserAssistantToolTrace :live="state.activeTools" :receipts="state.receipts" />
+                    <!-- A card lands the moment the tool that touched it finishes,
+                    so the row is on screen while the model is still writing about it. -->
+                    <div v-if="state.cards.length" class="mt-2 grid gap-2">
+                        <ModulesUserAssistantAnswerCard v-for="card in state.cards" :key="card.ref" :card="card" />
+                    </div>
                 </div>
                 <div v-else class="flex items-center gap-0.5 pt-1">
                     <span class="dot1">.</span>
