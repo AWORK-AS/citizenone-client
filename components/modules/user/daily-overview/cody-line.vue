@@ -1,8 +1,7 @@
 <template>
     <section v-if="state.summary || state.loading"
         class="flex items-start gap-3 rounded-xl bg-primary-25 px-5 py-4 ring-1 ring-primary/15">
-        <ModulesUserNavbarCodyMark :size="20" :stroke-width="2.6" :working="state.loading"
-            class="mt-0.5 shrink-0 text-primary" />
+        <ModulesUserNavbarCodyMark :size="20" :working="state.loading" class="mt-0.5 shrink-0" />
 
         <div class="min-w-0 flex-1">
             <p v-if="state.loading" class="text-sm text-gray-500">{{ $t('myDay.cody.reading') }}</p>

@@ -202,12 +202,17 @@
                     </button>
                 </nav>
                 <div class="mt-auto flex flex-col items-center gap-2 pt-2 shrink-0">
-                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
+                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" compact />
                 </div>
             </div>
             <div :class="['flex flex-col w-[14rem] border-r border-[#e8eaef] overflow-y-auto custom-scrollbar',
                     isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']"
                 role="tabpanel" :id="`nav-panel-${activeContextGroup?.key}`" :aria-labelledby="`nav-tab-${activeContextGroup?.key}`">
+                <!-- Same reserved strip as the rail: without it this column
+                     starts at the window's true top edge, so its title sits
+                     level with the traffic lights while the rail's logo sits
+                     below them - the two columns visibly out of step. -->
+                <div v-if="isMacDesktopApp" class="app-drag-region w-full h-9 shrink-0" aria-hidden="true" />
                 <div class="h-16 flex items-center px-4 shrink-0">
                     <span class="text-primary font-semibold text-lg truncate">
                         {{ activeContextGroup ? $t(activeContextGroup.label) : 'CitizenOne™' }}
@@ -267,8 +272,15 @@
                 </button>
             </div>
             <!-- Navbar -->
-            <div ref="navbarRef"
-                class="sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6">
+            <!-- macOS hiddenInset: there is no system title bar, so the window
+                 can only be moved by what the page marks as draggable. Until
+                 now that was a 72px strip in the icon rail and nothing else,
+                 which left most of the window's top edge dead - you could not
+                 move the window, and double-clicking to zoom did nothing.
+                 The top bar is the natural grab handle; its own controls opt
+                 back out through the rule in main.css. -->
+            <div ref="navbarRef" :class="['sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6',
+                isMacDesktopApp ? 'app-drag-region' : '']">
                 <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" :aria-label="$t('menu')" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -344,8 +356,9 @@
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
                                 @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
-                                <Icon name="ph:sparkle" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
-                                <p class="text-sm font-semibold hidden lg:block">{{ $t('assistants.askAI') }}</p>
+                                <ModulesUserNavbarCodyMark :size="22" class="md:!w-5 md:!h-5" />
+                                <p class="text-sm font-semibold hidden lg:block">
+                                    {{ $t('assistants.identity.name') }}</p>
                             </FormButton>
                         </div>
 

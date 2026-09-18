@@ -48,6 +48,15 @@ export default {
           800: '#092e4d',
           900: '#072440',
         },
+        /* Cody's own four, from the icon guide: the deep C, the bright core,
+           and two tints for its surfaces. Separate from primary/secondary so a
+           change to the app's blue never silently restyles the assistant. */
+        cody: {
+          DEFAULT: '#0ea5a8',
+          deep: '#0b4d6b',
+          soft: '#5eead4',
+          pale: '#e6f6f8',
+        },
         secondary: {
           DEFAULT: '#1b6d8a',
           25: '#f0faf9',

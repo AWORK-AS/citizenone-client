@@ -511,6 +511,7 @@ import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAssistantStore } from '@/store/assistant'
+import { useDictation } from '@/composables/useDictation'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
@@ -1341,58 +1342,30 @@ function confirmAiGenerate() {
     }
 }
 
-// --- Dictate to journal (audio -> Whisper transcript -> AI-structured note) ---
-const isRecording = ref(false)
-const isTranscribing = ref(false)
-let mediaRecorder: any = null
-let audioChunks: any[] = []
+// --- Dictate to journal (audio -> transcript -> AI-structured note) ---
+//
+// The recording itself moved to useDictation(), which Cody's composer uses too.
+// What is left here is the part that is actually specific to a journal note:
+// the transcript is appended to the editor and then run through the existing AI
+// pass that structures it.
+const dictation = useDictation(async (transcript) => {
+    state.formJournal.content = state.formJournal.content
+        ? `${state.formJournal.content}<p>${transcript}</p>`
+        : `<p>${transcript}</p>`
 
-async function toggleDictation() {
-    if (isRecording.value) {
-        if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop()
-        isRecording.value = false
-        return
-    }
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
-        audioChunks = []
-        mediaRecorder = new MediaRecorder(stream)
-        mediaRecorder.ondataavailable = (e: any) => { if (e.data && e.data.size) audioChunks.push(e.data) }
-        mediaRecorder.onstop = async () => {
-            stream.getTracks().forEach((tr: any) => tr.stop())
-            await transcribeAndStructure()
-        }
-        mediaRecorder.start()
-        isRecording.value = true
-    } catch (error: any) {
-        state.error = { message: t('citizens.citizenJournals.form.micError') } as any
-    }
+    await generateNoteForJournalContent()
+})
+
+const isRecording = dictation.isRecording
+const isTranscribing = dictation.isTranscribing
+
+function toggleDictation() {
+    dictation.toggle()
 }
 
-async function transcribeAndStructure() {
-    if (!audioChunks.length) return
-    isTranscribing.value = true
-    state.error = {} as any
-    try {
-        const blob = new Blob(audioChunks, { type: 'audio/webm' })
-        const formData = new FormData()
-        formData.append('audio', blob, 'dictation.webm')
-        const response = await aIAssistantService.transcribeAudio(formData)
-        const transcript = (response?.data?.text ?? '').trim()
-        if (transcript) {
-            // Drop the raw transcript into the editor, then let the existing AI pass
-            // structure it into a proper journal note. No exclusions here - dictation
-            // is a direct action, not routed through the preview/selection modal.
-            state.formJournal.content = state.formJournal.content
-                ? `${state.formJournal.content}<p>${transcript}</p>`
-                : `<p>${transcript}</p>`
-            await generateNoteForJournalContent()
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    isTranscribing.value = false
-}
+watch(dictation.error, (problem) => {
+    if (problem) state.error = { message: t('citizens.citizenJournals.form.micError') } as any
+})
 
 // While this form is open the assistant may hand its answer straight into the
 // note, so the user does not copy out of one panel and paste into the other.

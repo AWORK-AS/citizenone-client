@@ -131,14 +131,30 @@
                         <Icon name="ph:trash" class="h-4 w-4" />
                     </button>
                 </div>
-                <div class="grid grid-cols-[1fr_1fr_auto] gap-2">
+                <SuperadminFormTextField v-model="state.newScreenshot.caption"
+                    :placeholder="$t('superadmin.apps.form.screenshotCaption')" />
+
+                <div class="grid grid-cols-[1fr_auto] gap-2">
                     <SuperadminFormTextField v-model="state.newScreenshot.url" type="url" placeholder="https://..." />
-                    <SuperadminFormTextField v-model="state.newScreenshot.caption"
-                        :placeholder="$t('superadmin.apps.form.screenshotCaption')" />
-                    <button type="button" class="rounded-lg border border-[#D5D9E2] px-3 text-[12px] font-medium text-[#205E77]"
-                        @click="addScreenshot">
+                    <button type="button"
+                        class="rounded-lg border border-[#D5D9E2] px-3 text-[12px] font-medium text-[#205E77] disabled:opacity-50"
+                        :disabled="!state.newScreenshot.url || state.isUploadingScreenshot" @click="addScreenshot">
                         {{ $t('superadmin.apps.form.addScreenshot') }}
                     </button>
+                </div>
+
+                <!-- Or a file off the editor's own machine. Same endpoint, same row. -->
+                <div>
+                    <input ref="screenshotFile" type="file" accept="image/png,image/jpeg,image/webp,image/gif"
+                        class="hidden" @change="uploadScreenshot" />
+                    <button type="button"
+                        class="flex w-full items-center justify-center gap-2 rounded-lg border border-dashed border-[#D5D9E2] px-3 py-2 text-[12px] font-medium text-[#5C6478] hover:border-[#42AED9] hover:text-[#205E77] disabled:opacity-50"
+                        :disabled="state.isUploadingScreenshot" @click="screenshotFile?.click()">
+                        <Icon :name="state.isUploadingScreenshot ? 'ph:spinner' : 'ph:upload-simple'"
+                            :class="['w-4 h-4', state.isUploadingScreenshot && 'animate-spin']" />
+                        {{ $t('superadmin.apps.form.uploadScreenshot') }}
+                    </button>
+                    <SuperadminFormError :error="state.errors.screenshot" />
                 </div>
             </div>
         </div>
@@ -323,6 +339,8 @@ const emit = defineEmits(['submitForm'])
 
 const { t } = useI18n()
 
+const screenshotFile = ref<HTMLInputElement | null>(null)
+
 const logoInputRef = ref<HTMLInputElement | null>(null)
 const imageInputRef = ref<HTMLInputElement | null>(null)
 const bgInputRef = ref<HTMLInputElement | null>(null)
@@ -339,7 +357,7 @@ const state = reactive({
     bgFile: null as File | null,
     bgPreview: '' as string,
     categories: [] as any[],
-    errors: { name: '' },
+    errors: { name: '', screenshot: '' },
     form: {
         category_id: '' as any,
         data_location: '',
@@ -370,6 +388,7 @@ const state = reactive({
         whats_new: '',
         yearly_price: 0,
     },
+    isUploadingScreenshot: false,
     newScreenshot: { url: '', caption: '' },
     screenshots: [] as any[],
     imageFile: null as File | null,
@@ -491,7 +510,7 @@ function reset() {
         whats_new: '',
         yearly_price: 0,
     }
-    state.errors = { name: '' }
+    state.errors = { name: '', screenshot: '' }
     state.screenshots = []
     state.newScreenshot = { url: '', caption: '' }
     state.logoFile = null
@@ -522,6 +541,44 @@ async function addScreenshot() {
         state.screenshots = [...state.screenshots, response.data]
         state.newScreenshot = { url: '', caption: '' }
     }
+}
+
+/**
+ * A file picked off the editor's machine. The caption field above is reused, so
+ * the two ways of adding a shot do not need two captions.
+ */
+async function uploadScreenshot(event: Event) {
+    const input = event.target as HTMLInputElement
+    const file = input.files?.[0]
+
+    if (!file || !props.selectedApp?.uuid) {
+        return
+    }
+
+    state.errors.screenshot = ''
+    state.isUploadingScreenshot = true
+
+    try {
+        const formData = new FormData()
+        formData.append('screenshot', file)
+        formData.append('sort_order', String(state.screenshots.length + 1))
+
+        if (state.newScreenshot.caption) {
+            formData.append('caption', state.newScreenshot.caption)
+        }
+
+        const response = await appService.uploadScreenshot(props.selectedApp.uuid, formData)
+
+        if (response?.data) {
+            state.screenshots = [...state.screenshots, response.data]
+            state.newScreenshot = { url: '', caption: '' }
+        }
+    } catch (error: any) {
+        state.errors.screenshot = error?.message ?? t('superadmin.apps.form.uploadFailed')
+    }
+
+    state.isUploadingScreenshot = false
+    input.value = ''
 }
 
 async function removeScreenshot(shot: any) {

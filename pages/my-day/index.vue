@@ -61,7 +61,7 @@
                                 :aria-label="$t('myDay.brief.askCody', { subject: $t(`myDay.brief.${item.key}`, item.count) })"
                                 :title="$t('myDay.brief.askCodyShort')"
                                 @click="askCodyAbout(item)">
-                                <ModulesUserNavbarCodyMark :size="17" :stroke-width="2.6" />
+                                <ModulesUserNavbarCodyMark :size="17" />
                             </button>
                         </li>
                     </ul>

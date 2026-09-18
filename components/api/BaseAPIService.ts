@@ -8,6 +8,10 @@ class BaseAPIService {
 
     private static readonly referenceCache = new Map<string, { at: number; data: any }>()
 
+    // The in-flight "is this session actually over" check, shared by every 401
+    // that arrives while it runs. See revokeAccess.
+    private static sessionCheck: Promise<boolean> | null = null
+
     /**
      * Lists that barely change during a session and that most pages need. Each
      * component fetches its own copy today: measured on production, opening the
@@ -257,11 +261,19 @@ class BaseAPIService {
                 }
                 if (!payload) continue
 
+                // Only the parse is tolerated. This used to wrap the handler
+                // call too, which swallowed everything the handler threw - so a
+                // server-sent `error` event, whose whole job is to carry the
+                // reason, reached the user as a generic "something went wrong".
+                // A half-written payload is still not worth failing for.
+                let parsed: any
                 try {
-                    onEvent(name, JSON.parse(payload))
+                    parsed = JSON.parse(payload)
                 } catch {
-                    // A half-written payload is not worth failing the answer for.
+                    continue
                 }
+
+                onEvent(name, parsed)
             }
         }
     }
@@ -490,8 +502,63 @@ class BaseAPIService {
         }
     }
 
-    revokeAccess() {
-        clearSessionToken()
+    /**
+     * Asks the API whether the session is actually over.
+     *
+     * One 401 is not proof of that. A page fires a dozen requests at once and
+     * any one of them can be refused on its own - a permission the user does
+     * not have, a route that checks something extra - and until now the first
+     * such answer signed the user out, deleted the desktop app's stored token
+     * and threw away the page they were on. The canonical "who am I" call is
+     * the one answer that means the session itself: a 401 here is the end of
+     * it, and anything else - a 200, a 403, a rate limit, a server error, no
+     * network at all - is not.
+     *
+     * Deliberately raw fetch, not this.request(): it must not recurse back into
+     * the 401 handling that called it.
+     */
+    private static async sessionIsOver(): Promise<boolean> {
+        const runtimeConfig = useRuntimeConfig()
+
+        try {
+            const response = await fetch(`${runtimeConfig.public.apiBaseURL}/user`, {
+                method: 'GET',
+                headers: {
+                    Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                    Accept: 'application/json',
+                },
+            })
+
+            return response.status === 401
+        } catch {
+            // Offline, a dropped connection, the server not answering: none of
+            // that says the session ended, and it is when signing the user out
+            // is least helpful.
+            return false
+        }
+    }
+
+    async revokeAccess() {
+        // Server-rendered: there is no session storage to clear and no window
+        // to navigate. Checked first so the request below never runs there.
+        if (typeof window === 'undefined') return
+
+        // A burst of parallel 401s asks once, not once per request.
+        BaseAPIService.sessionCheck ??= BaseAPIService.sessionIsOver()
+
+        let sessionIsOver: boolean
+        try {
+            sessionIsOver = await BaseAPIService.sessionCheck
+        } finally {
+            BaseAPIService.sessionCheck = null
+        }
+
+        if (!sessionIsOver) return
+
+        // False means the desktop shell checked too and kept the session, so
+        // there is nothing to clear and nowhere to send the user.
+        if (!(await clearSessionToken('unauthorized'))) return
+
         localStorage.removeItem("rememberMe")
         // If this 401 happened mid-impersonation (e.g. the backend revoked all of
         // the impersonated user's tokens), don't leave _original_token stranded -
@@ -506,7 +573,6 @@ class BaseAPIService {
         // that first navigateTo, so once we're already there the rest must be
         // no-ops — re-navigating to a bare "/" would wipe the redirect the
         // first call just set.
-        if (typeof window === 'undefined') return
         if (window.location.pathname === '/') return
 
         navigateTo({ path: '/', query: { redirect: window.location.pathname } })

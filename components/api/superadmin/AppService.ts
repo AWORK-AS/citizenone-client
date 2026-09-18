@@ -31,6 +31,12 @@ class AppService extends BaseAPIService {
         return await this.request(`/superadmin/apps/${appUuid}/screenshots`, 'POST', params)
     }
 
+    // The same endpoint, for a file picked off the editor's own machine rather
+    // than an address they already host it at.
+    async uploadScreenshot(appUuid: string, formData: FormData): Promise<any> {
+        return await this.requestFormData(`/superadmin/apps/${appUuid}/screenshots`, formData)
+    }
+
     async deleteScreenshot(screenshotUuid: string): Promise<any> {
         return await this.request(`/superadmin/apps/screenshots/${screenshotUuid}`, 'DELETE')
     }

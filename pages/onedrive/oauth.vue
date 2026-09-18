@@ -22,6 +22,8 @@ const errorMessage = ref('')
 
 onMounted(async () => {
   const code = route.query.code as string
+  const state = route.query.state as string
+  const returnTo = localStorage.getItem('onedrive_return_to') || '/apps?onedrive_connected=1'
 
   if (!code) {
     errorMessage.value = 'Ingen authorization code modtaget'
@@ -41,8 +43,13 @@ onMounted(async () => {
       headers['X-User-Id'] = String(userId)
     }
 
+    const params = new URLSearchParams({ code })
+    if (state) {
+      params.set('state', state)
+    }
+
     const response = await fetch(
-      `/api/user/onedrive/oauth?code=${encodeURIComponent(code)}`,
+      `/api/user/onedrive/oauth?${params.toString()}`,
       {
         method: 'GET',
         headers,
@@ -57,12 +64,13 @@ onMounted(async () => {
       await setSessionToken(sanctumToken)
     }
 
-    // Send bruger tilbage til apps-siden med success-markering
-    router.push('/apps?onedrive_connected=1')
+    localStorage.removeItem('onedrive_return_to')
+    router.push(returnTo)
 
   } catch (error: any) {
     errorMessage.value = error.message || 'Kunne ikke hente OneDrive token'
     errorAlert('Fejl', errorMessage.value)
+    localStorage.removeItem('onedrive_return_to')
     setTimeout(() => router.push('/apps'), 3000)
   }
 })

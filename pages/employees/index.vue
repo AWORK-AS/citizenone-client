@@ -169,7 +169,7 @@
                                             <Tooltip :text="employee?.has_secure_mail_access ?
                                                 $t('employees.table.actions.removeSecureMailAccess') :
                                                 $t('employees.table.actions.giveSecureMail')"
-                                                v-if="userStore.getUser?.is_secure_mail_active && !employee?.has_secure_mail_access">
+                                                v-if="userStore.getUser?.company_has_secure_mail && !employee?.has_secure_mail_access">
                                                 <FormButton :aria-label="employee?.has_secure_mail_access ?
                                                 $t('employees.table.actions.removeSecureMailAccess') :
                                                 $t('employees.table.actions.giveSecureMail')" type="button" buttonStyle="action"
