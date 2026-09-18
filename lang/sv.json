@@ -1638,6 +1638,9 @@
                 "copy": "Kopiér",
                 "delete": "Radera",
                 "edit": "Redigera",
+                "favoriteNoteLabel": "Anteckning (valfritt)",
+                "favoriteNoteSave": "Spara",
+                "favoriteNoteCancel": "Avbryt",
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flytta",
@@ -4466,6 +4469,10 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "quickEditTime": {
+            "tooltip": "Klicka för att redigera tiden",
+            "hint": "Enter för att spara · Esc för att avbryta"
+        },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg för {date}",
         "viewActivityLogForDay": "Visa aktivitetslogg för denna dag",
@@ -10462,6 +10469,12 @@
                 "title": "Kalenderprenumeration",
                 "description": "Prenumerera på dina pass i din egen kalenderapp (Google Kalender, Apple Kalender, Outlook). Schemat uppdateras automatiskt.",
                 "button": "Prenumerera på mina pass"
+            },
+            "sidebarMenu": {
+                "title": "Sidomeny",
+                "description": "Välj vilka av dina tillgängliga menyalternativ som visas i din egen vänstra sidomeny. Om du stänger av ett gäller det bara för dig.",
+                "empty": "Det finns inga anpassningsbara menyalternativ tillgängliga för dig.",
+                "saved": "Din sidomeny har uppdaterats."
             }
         },
         "settings": "Inställningar",
@@ -10871,6 +10884,7 @@
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
             "paycode": "Lönningskode",
+            "shortcutKey": "Kortkommando",
             "timeIn": "Tid in",
             "timeOut": "Tid ut",
             "multiplierRules": "Timmultiplikatorregler",

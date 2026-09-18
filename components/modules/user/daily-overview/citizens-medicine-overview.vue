@@ -63,13 +63,7 @@
                                                 return $t('overview.medicationOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                         }
                                     })()">
-                                    <span :class="[
-                                        due_date?.status === null && 'bg-secondary',
-                                        due_date?.status === 'delivered' && 'bg-primary',
-                                        due_date?.status === 'deviated' && 'bg-red-600',
-                                        due_date?.status === 'given' && 'bg-green-700',
-                                        'px-2 py-1 text-white rounded-md'
-                                    ]">
+                                    <span :class="[dueDateColorClass(due_date), 'px-2 py-1 text-white rounded-md']">
                                         {{ formatDateToReadable(due_date?.date) }} @
                                         {{ due_date?.time }}
                                     </span>
@@ -143,7 +137,10 @@ import { effectEvaluationService } from '@/components/api/user/EffectEvaluationS
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
 import type { Error } from '@/types'
+
+const { isMissed, isDueSoon } = medicineDoseTiming()
 
 const props = defineProps({
     dateRange: {
@@ -166,7 +163,10 @@ const state = reactive({
         isViewMedicineOpen: false,
     },
     selectedMedicine: {} as any,
+    now: new Date(),
 })
+
+let clockInterval: ReturnType<typeof setInterval> | null = null
 
 watch(() => props.dateRange, () => {
     fetchCitizensMedicines()
@@ -187,9 +187,25 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
+function dueDateColorClass(dueDate: any): string {
+    if (dueDate?.status === 'given') return 'bg-green-700'
+    if (isMissed(dueDate?.time, state.now)) return 'bg-red-600'
+    if (isDueSoon(dueDate?.time, state.now)) return 'bg-amber-500'
+    if (dueDate?.status === 'delivered') return 'bg-primary'
+    if (dueDate?.status === 'deviated') return 'bg-red-600'
+    return 'bg-secondary'
+}
+
 onMounted(() => {
     fetchCitizensMedicines()
     fetchEvaluationOverview()
+    clockInterval = setInterval(() => {
+        state.now = new Date()
+    }, 60_000)
+})
+
+onUnmounted(() => {
+    if (clockInterval) clearInterval(clockInterval)
 })
 
 async function fetchCitizensMedicines() {

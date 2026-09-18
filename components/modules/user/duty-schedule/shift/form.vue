@@ -39,6 +39,13 @@
                 <FormError :error="props?.error?.errors?.pay_code?.[0]" />
             </div>
             <div class="space-y-1">
+                <FormLabel for="shortcut_key" :label="$t('shifts.form.shortcutKey')" />
+                <FormTextField id="shortcut_key" name="shortcut_key" maxlength="1"
+                    :placeholder="$t('shifts.form.shortcutKey')" v-model="state.formShift.shortcut_key" />
+                <FormError :error="v$?.formShift?.shortcut_key?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.shortcut_key?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <FormLabel for="time_in" :label="$t('shifts.form.timeIn')" />
                 <FormTimeField id="time_in" name="time_in" :placeholder="$t('shifts.form.timeIn')"
                     v-model="state.formShift.time_in" />
@@ -240,6 +247,7 @@ const state = reactive({
         no_name: '',
         sv_name: '',
         pay_code: '',
+        shortcut_key: '',
         time_in: '',
         time_out: '',
         end_time_day_offset: '0',
@@ -257,6 +265,7 @@ watch(() => props.selectedShift, (newValue: any) => {
             no_name: newValue.no_name,
             sv_name: newValue.sv_name,
             pay_code: newValue.pay_code,
+            shortcut_key: newValue.shortcut_key ?? '',
             time_in: newValue.time_in,
             time_out: newValue.time_out,
             end_time_day_offset: newValue.end_time_day_offset != null ? String(newValue.end_time_day_offset) : '0',
@@ -386,6 +395,7 @@ function submitForm() {
         }))
         emit('submitForm', {
             ...state.formShift,
+            shortcut_key: state.formShift.shortcut_key?.trim() || null,
             end_time_day_offset: Number(state.formShift.end_time_day_offset) || 0,
             multiplier_rules: multiplierRules,
         })

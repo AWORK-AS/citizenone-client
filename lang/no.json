@@ -1638,6 +1638,9 @@
                 "copy": "Kopier",
                 "delete": "Slett",
                 "edit": "Rediger",
+                "favoriteNoteLabel": "Notat (valgfritt)",
+                "favoriteNoteSave": "Lagre",
+                "favoriteNoteCancel": "Avbryt",
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flytt",
@@ -4466,6 +4469,10 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "quickEditTime": {
+            "tooltip": "Klikk for å redigere tidspunktet",
+            "hint": "Enter for å lagre · Esc for å avbryte"
+        },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg for {date}",
         "viewActivityLogForDay": "Se aktivitetslogg for denne dagen",
@@ -10462,6 +10469,12 @@
                 "title": "Kalenderabonnement",
                 "description": "Abonner på vaktene dine i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vaktplanen oppdateres automatisk.",
                 "button": "Abonner på vaktene mine"
+            },
+            "sidebarMenu": {
+                "title": "Sidemeny",
+                "description": "Velg hvilke av dine tilgjengelige menyelementer som vises i din egen venstre sidemeny. Slår du et av, gjelder det kun for deg.",
+                "empty": "Det er ingen tilpassbare menyelementer tilgjengelige for deg.",
+                "saved": "Sidemenyen din er oppdatert."
             }
         },
         "settings": "Innstillinger",
@@ -10871,6 +10884,7 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
+            "shortcutKey": "Hurtigtast",
             "timeIn": "Tid inn",
             "timeOut": "Tid ut",
             "multiplierRules": "Timemultiplikatorregler",

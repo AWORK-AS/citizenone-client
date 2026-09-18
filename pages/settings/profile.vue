@@ -26,6 +26,23 @@
                     <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                         <div class="flex items-center gap-x-2">
                             <h3 class="font-semibold text-sm">
+                                {{ $t('settings.profile.sidebarMenu.title') }}
+                            </h3>
+                        </div>
+                        <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
+                            class="w-5 h-5" />
+                    </DisclosureButton>
+
+                    <DisclosurePanel as="dd" class="px-5 pb-5">
+                        <ModulesUserSettingsSidebarMenu />
+                    </DisclosurePanel>
+                </Disclosure>
+
+                <Disclosure as="div" v-slot="{ open }"
+                    class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary">
+                    <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
+                        <div class="flex items-center gap-x-2">
+                            <h3 class="font-semibold text-sm">
                                 {{ $t('2fa.google2FactorAuthentication') }}
                             </h3>
                         </div>

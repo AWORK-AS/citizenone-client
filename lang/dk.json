@@ -1638,6 +1638,9 @@
                 "copy": "Kopiér",
                 "delete": "Slet",
                 "edit": "Rediger",
+                "favoriteNoteLabel": "Note (valgfrit)",
+                "favoriteNoteSave": "Gem",
+                "favoriteNoteCancel": "Annuller",
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flyt",
@@ -4466,6 +4469,10 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "quickEditTime": {
+            "tooltip": "Klik for at redigere tidspunktet",
+            "hint": "Enter for at gemme · Esc for at annullere"
+        },
         "danlon_sync": "Synkroniser til Danløn",
         "danlon_sync_description": "Overfør planlagte timer og tillæg fra dine vagtplaner til Danløn lønsystem. Vælg medarbejdere, vælg en datoperiode og kortlæg vagttyper til Danløn-koder før synkronisering.",
         "danlon_step_configure": "Konfigurer",
@@ -10467,6 +10474,12 @@
                 "title": "Kalenderabonnement",
                 "description": "Abonnér på dine vagter i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vagtplanen opdateres automatisk.",
                 "button": "Abonnér på mine vagter"
+            },
+            "sidebarMenu": {
+                "title": "Sidemenu",
+                "description": "Vælg hvilke af dine tilgængelige menupunkter der vises i din egen venstre sidemenu. Slår du et fra, gælder det kun for dig.",
+                "empty": "Der er ingen tilpasselige menupunkter tilgængelige for dig.",
+                "saved": "Din sidemenu er blevet opdateret."
             }
         },
         "settings": "Indstillinger",
@@ -10908,6 +10921,7 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "paycode": "Lønningskode",
+            "shortcutKey": "Genvejstast",
             "timeIn": "Tid ind",
             "timeOut": "Tid ud",
             "multiplierRules": "Timemultiplikatorregler",
