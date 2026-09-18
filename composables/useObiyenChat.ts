@@ -23,13 +23,19 @@ function getBubble(): HTMLElement | null {
     return (host?.shadowRoot?.querySelector('.cw-bubble') as HTMLElement) ?? null
 }
 
+/** The window the bubble opens. Positioned `fixed` on its own, like the bubble. */
+function getPanel(): HTMLElement | null {
+    const host = getHost()
+    return (host?.shadowRoot?.querySelector('.cw-panel') as HTMLElement) ?? null
+}
+
 export function useObiyenChat() {
     /**
      * Tell the widget who is writing.
      *
      * Everything else the widget sends about a visitor is what the browser
-     * typed, so support has no way to know a "Jesper from Birketoften" really
-     * is one. The backend signs our user UUID with a secret only it has; the
+     * typed, so support has no way to know that a visitor
+     * claiming to be a named user at a named customer really is one. The backend signs our user UUID with a secret only it has; the
      * widget passes id and signature on, and Obiyen recomputes it. That is what
      * lets their assistant act on a request - reporting a bug from the chat, for
      * instance - instead of only answering questions.
@@ -98,33 +104,45 @@ export function useObiyenChat() {
     }
 
     /**
-     * Slide the chat bubble (and the window it opens) sideways so it stops
-     * sitting on top of the assistant panel's input field, which is exactly
-     * where it landed while someone was typing to the AI (Birketoften 31/8).
+     * Move the support chat clear of the assistant panel.
      *
-     * The widget lives outside the Nuxt root in its own shadow DOM and
-     * positions itself `fixed`, so the offset is applied as a transform on the
-     * host - which becomes the containing block for those fixed children. A
-     * host rendered as `display: contents` cannot carry a transform, so the
-     * bubble itself is moved instead.
+     * Both live in the bottom right corner: Cody is 26rem wide at `right: 1rem`, and the
+     * widget's bubble and window are both `position: fixed` at `right: 20px` with
+     * `z-index: 99999`. Open at the same time, support lands on top of Cody - the bubble over
+     * the prompt field while somebody was typing, reported 31/8, and the whole support window
+     * over the answer, reported 18/9.
+     *
+     * **The transform goes on the widget's own elements, never on the host.** The host is a
+     * bare `<div>` the loader appends to `body`, and in this app it computes to
+     * `display: inline`; a transform on an inline box is ignored, so moving the host did
+     * nothing at all for as long as that code existed, in every browser. Measured in the app:
+     * host `transform: matrix(1, 0, 0, 1, -432, 0)`, bubble and window unmoved at the pixel.
+     *
+     * Both elements have to be named. Even where the host can carry a transform it changes
+     * what `fixed` is measured against, which moves the widget to wherever the zero-height
+     * host box happens to sit rather than sideways by the offset asked for.
+     *
+     * Below the assistant's own breakpoint its panel is full width, and no sideways move can
+     * clear it. There the widget steps aside with `visibility` instead, which leaves the
+     * bubble's `display` alone: that is the hidden-until-revealed switch above, and writing
+     * to it here would reveal a bubble the user never asked for.
      */
     function setSideOffset(pixels: number) {
-        const host = getHost()
-        if (!host) return
+        if (!getHost()) return
 
-        const value = pixels > 0 ? `translateX(-${pixels}px)` : ''
-        const isContents = typeof getComputedStyle === 'function'
-            && getComputedStyle(host).display === 'contents'
+        const aside = pixels > 0
+        const narrow = typeof window !== 'undefined' && window.innerWidth < 640
+        const value = aside && !narrow ? `translateX(-${pixels}px)` : ''
 
-        if (isContents) {
-            host.style.transform = ''
-            getBubble()?.style.setProperty('transform', value)
+        for (const element of [getBubble(), getPanel()]) {
+            if (!element) continue
 
-            return
+            element.style.setProperty('transition', 'transform 300ms ease-in-out')
+            element.style.setProperty('transform', value)
+
+            if (aside && narrow) element.style.setProperty('visibility', 'hidden')
+            else element.style.removeProperty('visibility')
         }
-
-        host.style.transform = value
-        host.style.transition = 'transform 300ms ease-in-out'
     }
 
     function resetOnLogout() {
