@@ -831,7 +831,10 @@ function handleRenameRefresh(updatedDoc: any) {
 }
 
 function oneDriveLogin() {
-    router.push('/apps')
+    const userId = userStore.user?.id || localStorage.getItem('user_id')
+    oneDriveService.connectOneDrive(userId, '/drive?onedrive=1').catch((error: any) => {
+        errorAlert('Fejl!', error?.message || 'Kunne ikke starte forbindelse til OneDrive.')
+    })
 }
 
 function handleRefreshDocuments() {
