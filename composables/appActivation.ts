@@ -57,19 +57,12 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
                     window.open(authUrl, 'Google Drive Authentication', 'width=500,height=600')
                 }
             } else if (app?.generic_name === 'onedrive') {
-                const response = await onedriveService.getOneDriveAuthUrl()
-                const authUrl = response?.authUrl || response?.auth_url
-                if (authUrl) {
-                    if (userStore.getUser?.id) {
-                        localStorage.setItem('user_id', userStore.getUser.id)
-                    }
-                    if (app?.uuid) {
-                        localStorage.setItem('onedrive_app_uuid', app.uuid)
-                    }
-                    // Microsoft's COOP headers block window.close() in a popup, so
-                    // this one leaves the page rather than opening a window.
-                    window.location.href = authUrl
-                } else {
+                if (app?.uuid) {
+                    localStorage.setItem('onedrive_app_uuid', app.uuid)
+                }
+                try {
+                    await onedriveService.connectOneDrive(userStore.getUser?.id, '/apps?onedrive_connected=1')
+                } catch (e) {
                     activation.error = { message: t('apps.couldNotStartConnection') }
                 }
             } else if (app?.is_free) {
