@@ -3317,16 +3317,20 @@
                 },
                 "view": "Se"
             },
+            "admitted": "Startdatum",
+            "caseNumber": "Ärendenummer",
             "columns": {
                 "columns": "Kolumner",
                 "hint": "Välj vilka kolumner som ska visas i översikten."
             },
+            "coordinator": "Koordinator",
             "department": "Avdelning",
             "email": "E-post",
+            "municipality": "Kommun",
             "name": "Namn",
             "phone": "Telefon",
-            "ssn": "Personnummer",
-            "caseNumber": "Ärendenummer"
+            "section": "Paragraf / insatstyp",
+            "ssn": "Personnummer"
         },
         "tabs": {
             "attendance": "Närvaro",
@@ -4453,6 +4457,7 @@
                 "downloadPDF": "Ladda ner PDF",
                 "edit": "Redigera",
                 "move": "Flytta",
+                "openSelected": "Öppna valda",
                 "view": "Se"
             },
             "dateCreated": "Skapandedatum",

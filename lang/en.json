@@ -3317,16 +3317,20 @@
                 },
                 "view": "View"
             },
+            "admitted": "Start date",
+            "caseNumber": "Case number",
             "columns": {
                 "columns": "Columns",
                 "hint": "Choose which columns to show in the overview."
             },
+            "coordinator": "Coordinator",
             "department": "Department",
             "email": "Email",
+            "municipality": "Municipality",
             "name": "Name",
             "phone": "Phone",
-            "ssn": "Social security number",
-            "caseNumber": "Case number"
+            "section": "Paragraph / service type",
+            "ssn": "Social security number"
         },
         "tabs": {
             "attendance": "Attendance",
@@ -4453,6 +4457,7 @@
                 "downloadPDF": "Download PDF",
                 "edit": "Edit",
                 "move": "Move",
+                "openSelected": "Open selected",
                 "view": "View"
             },
             "dateCreated": "Date created",

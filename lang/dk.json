@@ -3317,16 +3317,20 @@
                 },
                 "view": "Se"
             },
+            "admitted": "Opstart",
+            "caseNumber": "Indsatsnummer",
             "columns": {
                 "columns": "Kolonner",
                 "hint": "Vælg hvilke kolonner der skal vises i oversigten."
             },
+            "coordinator": "Koordinator",
             "department": "Afdeling",
             "email": "E-mail",
+            "municipality": "Kommune",
             "name": "Navn",
             "phone": "Telefon",
-            "ssn": "CPR-nummer",
-            "caseNumber": "Indsatsnummer"
+            "section": "Paragraf / indsatstype",
+            "ssn": "CPR-nummer"
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -4453,6 +4457,7 @@
                 "downloadPDF": "Download PDF",
                 "edit": "Rediger",
                 "move": "Flyt",
+                "openSelected": "Åbn valgte",
                 "view": "Se"
             },
             "dateCreated": "Oprettelsesdato",

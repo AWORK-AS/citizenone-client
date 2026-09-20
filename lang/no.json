@@ -3317,16 +3317,20 @@
                 },
                 "view": "Se"
             },
+            "admitted": "Oppstart",
+            "caseNumber": "Saksnummer",
             "columns": {
                 "columns": "Kolonner",
                 "hint": "Velg hvilke kolonner som skal vises i oversikten."
             },
+            "coordinator": "Koordinator",
             "department": "Avdeling",
             "email": "E-post",
+            "municipality": "Kommune",
             "name": "Navn",
             "phone": "Telefon",
-            "ssn": "CPR-nummer",
-            "caseNumber": "Saksnummer"
+            "section": "Paragraf / tiltakstype",
+            "ssn": "CPR-nummer"
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -4453,6 +4457,7 @@
                 "downloadPDF": "Last ned PDF",
                 "edit": "Rediger",
                 "move": "Flytt",
+                "openSelected": "Åpne valgte",
                 "view": "Se"
             },
             "dateCreated": "Opprettelsesdato",
