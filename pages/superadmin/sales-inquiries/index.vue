@@ -92,6 +92,23 @@
                     </button>
                 </div>
 
+                <div class="flex items-center gap-1 flex-wrap mb-4">
+                    <!-- Kilden står på sin egen række. Den krydser status og ejerskab frem for at
+                         erstatte dem: "prisforespørgsler uden ejer" er det, salget faktisk leder
+                         efter, og det kan kun lade sig gøre, når de tre rækker er uafhængige. -->
+                    <span class="text-[13px] text-[#8B93A7] mr-1">{{ $t('superadmin.salesInquiries.sourceLabel') }}</span>
+
+                    <button v-for="tab in sourceTabs" :key="tab.key" @click="toggleSource(tab.key)" :class="[
+                        'px-3 py-1.5 rounded-lg text-[13px] font-medium border transition-colors',
+                        state.filters.source === tab.key
+                            ? 'bg-[#EEF6FA] text-[#205E77] border-[#42AED9]'
+                            : 'bg-white text-[#5C6478] border-[#D5D9E2] hover:bg-[#F5F6F8]',
+                    ]">
+                        {{ tabLabel(tab) }}
+                        <span v-if="sourceCounts[tab.key] !== undefined" class="ml-1 opacity-70">{{ sourceCounts[tab.key] }}</span>
+                    </button>
+                </div>
+
                 <div v-if="state.isLoading" class="flex justify-center py-16">
                     <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
                 </div>
@@ -454,6 +471,25 @@ const BOARD_PAGE_SIZE = 200
 
 // 'open' first, because the inbox is a queue and not an archive: what is left
 // to answer is the only reason anybody opens this page.
+/*
+ * Kilderne, i den rækkefølge salget møder dem.
+ *
+ * Filteret har ligget i backenden hele tiden, se `SalesInquiryFilter::source`, og websitet har
+ * sendt kilden med ved hver videresendelse. Det, der manglede, var en vej til det på skærmen.
+ *
+ * Etiketterne er dem, kolonnen "Type" i forvejen bruger. To ord for det samme - "Prisberegning" i
+ * en kolonne og "Prisforespørgsler" i en fane lige over den - er to ting at lære for den, der
+ * kigger, og de betyder ét.
+ */
+const sourceTabs = [
+    { key: 'price_quote', label: 'superadmin.salesInquiries.sources.price_quote' },
+    { key: 'book_demo', label: 'superadmin.salesInquiries.sources.book_demo' },
+    { key: 'contact', label: 'superadmin.salesInquiries.sources.contact' },
+    { key: 'quick_ask', label: 'superadmin.salesInquiries.sources.quick_ask' },
+    { key: 'trial', label: 'superadmin.salesInquiries.sources.trial' },
+    { key: 'other', label: 'superadmin.salesInquiries.sources.other' },
+]
+
 const statusTabs = [
     { key: 'open', label: 'superadmin.salesInquiries.tabs.open' },
     { key: 'new', label: 'superadmin.salesInquiries.statuses.new' },
@@ -474,7 +510,7 @@ const state = reactive({
     isSaving: false,
     page: 1,
     view: 'list' as 'list' | 'board',
-    filters: { status: 'open', assigned: '', search: '' },
+    filters: { status: 'open', assigned: '', search: '', source: '' },
     modal: { isDetailOpen: false, isColumnsOpen: false },
     selected: null as any,
     // How each stage is presented. Empty until the first fetch, and the
@@ -495,6 +531,9 @@ const state = reactive({
 
 const inquiries = computed(() => state.inquiries?.data ?? [])
 const counts = computed<Record<string, number>>(() => state.inquiries?.counts ?? {})
+
+/** Tallene pr. kilde. Tomme kilder står med som 0, så en fane ikke forsvinder en stille måned. */
+const sourceCounts = computed<Record<string, number>>(() => state.inquiries?.sourceCounts ?? {})
 const lastPage = computed(() => state.inquiries?.meta?.last_page ?? 1)
 const selected = computed(() => state.selected)
 
@@ -632,6 +671,13 @@ function selectStatus(status: string) {
     fetchInquiries()
 }
 
+/** Et klik på den valgte fane slår den fra igen, som de to knapper for ejerskab ved siden af. */
+function toggleSource(value: string) {
+    state.filters.source = state.filters.source === value ? '' : value
+    state.page = 1
+    fetchInquiries()
+}
+
 function toggleAssigned(value: string) {
     state.filters.assigned = state.filters.assigned === value ? '' : value
     state.page = 1
@@ -657,6 +703,9 @@ async function fetchInquiries() {
 
         if (state.filters.assigned) {
             params.assigned = state.filters.assigned
+        }
+        if (state.filters.source) {
+            params.source = state.filters.source
         }
         if (state.filters.search?.trim()) {
             params.search = JSON.stringify([state.filters.search.trim()])
