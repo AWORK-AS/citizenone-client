@@ -425,6 +425,24 @@
                                     <td width="15%" v-if="state.visibleColumns.includes('phone')">
                                         <span>{{ citizen?.phone }}</span>
                                     </td>
+                                    <td width="15%" v-if="state.visibleColumns.includes('section')">
+                                        <span>{{ citizen?.section?.label }}</span>
+                                    </td>
+                                    <td width="15%" v-if="state.visibleColumns.includes('municipality')">
+                                        <span>{{ citizen?.responsible_municipality?.name }}</span>
+                                    </td>
+                                    <td width="15%" v-if="state.visibleColumns.includes('coordinator')">
+                                        <span v-if="citizen?.primary_case_worker">
+                                            {{ citizen.primary_case_worker.firstname }}
+                                            {{ citizen.primary_case_worker.lastname }}
+                                        </span>
+                                    </td>
+                                    <td width="15%" v-if="state.visibleColumns.includes('department')">
+                                        <span>{{ citizen?.departments?.map((d: any) => d?.name).join(', ') }}</span>
+                                    </td>
+                                    <td width="12%" v-if="state.visibleColumns.includes('admitted')">
+                                        <span>{{ citizen?.date_admitted }}</span>
+                                    </td>
                                     <td width="20%">
                                         <div class="flex items-center justify-end gap-1.5">
                                             <Tooltip v-if="isInterventionCheckinEnabled"
@@ -657,6 +675,14 @@ const OPTIONAL_COLUMN_HEADERS: Record<string, any> = {
     email: { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
     ssn: { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
     phone: { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
+    // The columns a coordinator runs the day from. No sorter on the ones that
+    // live on a related table: the list sorts in SQL on a citizens column, and
+    // offering a sort that silently does nothing is worse than not offering it.
+    section: { name: 'citizens.table.section', isTranslateName: true },
+    municipality: { name: 'citizens.table.municipality', isTranslateName: true },
+    coordinator: { name: 'citizens.table.coordinator', isTranslateName: true },
+    department: { name: 'citizens.table.department', isTranslateName: true },
+    admitted: { name: 'citizens.table.admitted', isTranslateName: true, sorter: true, key: 'date_admitted' },
 }
 
 function rebuildColumnHeaders() {
