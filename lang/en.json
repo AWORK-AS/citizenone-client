@@ -2321,7 +2321,18 @@
             "useThisLocation": "Use This Location",
             "secondaryCaseworker": "Secondary {term}",
             "caseNumber": "Case number",
-            "caseNumberHint": "The number the case carries in the system it came from"
+            "caseNumberHint": "The number the case carries in the system it came from",
+            "reportingFrequency": "Reporting to the authority",
+            "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
+            "reportingStartsOn": "First report",
+            "reportingOptions": {
+                "biweekly": "Every two weeks",
+                "everySixMonths": "Every six months",
+                "everyThreeMonths": "Quarterly",
+                "monthly": "Monthly",
+                "weekly": "Weekly",
+                "yearly": "Yearly"
+            }
         },
         "importCitizens": {
             "alert": {

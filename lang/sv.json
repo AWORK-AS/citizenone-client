@@ -2321,7 +2321,18 @@
             "useThisLocation": "Använd denna placering",
             "secondaryCaseworker": "Sekundär {term}",
             "caseNumber": "Ärendenummer",
-            "caseNumberHint": "Numret ärendet har i systemet det kom från"
+            "caseNumberHint": "Numret ärendet har i systemet det kom från",
+            "reportingFrequency": "Rapportering till kommunen",
+            "reportingFrequencyHint": "Skapar en återkommande påminnelse till alla på insatsen som har en inloggning.",
+            "reportingStartsOn": "Första rapportering",
+            "reportingOptions": {
+                "biweekly": "Varannan vecka",
+                "everySixMonths": "Var sjätte månad",
+                "everyThreeMonths": "Varje kvartal",
+                "monthly": "Varje månad",
+                "weekly": "Varje vecka",
+                "yearly": "Årligen"
+            }
         },
         "importCitizens": {
             "alert": {

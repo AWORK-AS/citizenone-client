@@ -2321,7 +2321,18 @@
             "useThisLocation": "Bruk denne plassering",
             "secondaryCaseworker": "Sekundær {term}",
             "caseNumber": "Saksnummer",
-            "caseNumberHint": "Nummeret saken har i systemet den kom fra"
+            "caseNumberHint": "Nummeret saken har i systemet den kom fra",
+            "reportingFrequency": "Rapportering til kommunen",
+            "reportingFrequencyHint": "Oppretter en gjentakende påminnelse til alle på tiltaket med en pålogging.",
+            "reportingStartsOn": "Første rapportering",
+            "reportingOptions": {
+                "biweekly": "Hver 14. dag",
+                "everySixMonths": "Hvert halvår",
+                "everyThreeMonths": "Hvert kvartal",
+                "monthly": "Månedlig",
+                "weekly": "Ukentlig",
+                "yearly": "Årlig"
+            }
         },
         "importCitizens": {
             "alert": {
