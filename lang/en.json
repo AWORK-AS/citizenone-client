@@ -15122,26 +15122,32 @@
         "moveHint": "Moving forward needs the stage’s required fields filled in. Back is always allowed."
     },
     "inquiryServiceTypes": {
-        "title": "Service types",
-        "single": "Service type",
-        "description": "The kinds of work you deliver, with the paragraph they are granted under. A field can be tied to a single type so it is only asked for there.",
-        "hint": "Decides which type-specific fields are asked for.",
         "add": "Add",
+        "alert": {
+            "deleted": "The service type was deleted",
+            "deleteFailed": "The service type could not be deleted",
+            "saveFailed": "Could not be saved"
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this service type"
+        },
+        "description": "The kinds of work you deliver, with the paragraph they are granted under. A field can be tied to a single type so it is only asked for there.",
         "empty": "There are no service types yet.",
+        "fields": {
+            "hint": "Choose which built-in fields this kind of inquiry asks for. Clear a box to hide the field.",
+            "saved": "The fields were saved",
+            "selectAll": "Select all",
+            "title": "Fields on the form"
+        },
         "form": {
             "name": "Name",
             "namePlaceholder": "E.g. Family therapy",
             "paragraph": "Paragraph",
             "paragraphPlaceholder": "E.g. § 32"
         },
-        "confirmation": {
-            "delete": "Are you sure you want to delete this service type"
-        },
-        "alert": {
-            "deleted": "The service type was deleted",
-            "deleteFailed": "The service type could not be deleted",
-            "saveFailed": "Could not be saved"
-        }
+        "hint": "Decides which type-specific fields are asked for.",
+        "single": "Service type",
+        "title": "Service types"
     },
     "consultantMatch": {
         "title": "Consultant match",

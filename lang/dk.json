@@ -15122,26 +15122,32 @@
         "moveHint": "Fremad kræver at fasens påkrævede felter er udfyldt. Tilbage kan du altid."
     },
     "inquiryServiceTypes": {
-        "title": "Indsatstyper",
-        "single": "Indsatstype",
-        "description": "De typer indsats I leverer, med den paragraf de bevilges efter. Felter kan bindes til en enkelt type, så de kun spørges der.",
-        "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
         "add": "Tilføj",
+        "alert": {
+            "deleted": "Indsatstypen er slettet",
+            "deleteFailed": "Indsatstypen kunne ikke slettes",
+            "saveFailed": "Kunne ikke gemmes"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne indsatstype"
+        },
+        "description": "De typer indsats I leverer, med den paragraf de bevilges efter. Felter kan bindes til en enkelt type, så de kun spørges der.",
         "empty": "Der er ingen indsatstyper endnu.",
+        "fields": {
+            "hint": "Vælg hvilke af de faste felter denne henvendelsestype spørger om. Fjern flueben for at skjule et felt.",
+            "saved": "Felterne er gemt",
+            "selectAll": "Vælg alle",
+            "title": "Felter i formularen"
+        },
         "form": {
             "name": "Navn",
             "namePlaceholder": "Fx Familiebehandling",
             "paragraph": "Paragraf",
             "paragraphPlaceholder": "Fx § 32"
         },
-        "confirmation": {
-            "delete": "Er du sikker på, at du vil slette denne indsatstype"
-        },
-        "alert": {
-            "deleted": "Indsatstypen er slettet",
-            "deleteFailed": "Indsatstypen kunne ikke slettes",
-            "saveFailed": "Kunne ikke gemmes"
-        }
+        "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
+        "single": "Indsatstype",
+        "title": "Indsatstyper"
     },
     "consultantMatch": {
         "title": "Konsulentmatch",

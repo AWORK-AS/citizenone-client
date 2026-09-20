@@ -15026,26 +15026,32 @@
         "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
     },
     "inquiryServiceTypes": {
-        "title": "Insatstyper",
-        "single": "Insatstyp",
-        "description": "De typer insats ni levererar, med den paragraf de beviljas enligt. Fält kan bindas till en enda typ så att de bara efterfrågas där.",
-        "hint": "Avgör vilka typspecifika fält som efterfrågas.",
         "add": "Lägg till",
+        "alert": {
+            "deleted": "Insatstypen har tagits bort",
+            "deleteFailed": "Insatstypen kunde inte tas bort",
+            "saveFailed": "Kunde inte sparas"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här insatstypen"
+        },
+        "description": "De typer insats ni levererar, med den paragraf de beviljas enligt. Fält kan bindas till en enda typ så att de bara efterfrågas där.",
         "empty": "Det finns inga insatstyper än.",
+        "fields": {
+            "hint": "Välj vilka av de fasta fälten den här förfrågningstypen frågar om. Ta bort bocken för att dölja ett fält.",
+            "saved": "Fälten har sparats",
+            "selectAll": "Välj alla",
+            "title": "Fält i formuläret"
+        },
         "form": {
             "name": "Namn",
             "namePlaceholder": "T.ex. Familjebehandling",
             "paragraph": "Paragraf",
             "paragraphPlaceholder": "T.ex. § 32"
         },
-        "confirmation": {
-            "delete": "Är du säker på att du vill ta bort den här insatstypen"
-        },
-        "alert": {
-            "deleted": "Insatstypen har tagits bort",
-            "deleteFailed": "Insatstypen kunde inte tas bort",
-            "saveFailed": "Kunde inte sparas"
-        }
+        "hint": "Avgör vilka typspecifika fält som efterfrågas.",
+        "single": "Insatstyp",
+        "title": "Insatstyper"
     },
     "consultantMatch": {
         "title": "Konsultmatchning",

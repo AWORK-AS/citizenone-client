@@ -15026,26 +15026,32 @@
         "moveHint": "Framover krever at fasens påkrevde felter er fylt ut. Tilbake kan du alltid."
     },
     "inquiryServiceTypes": {
-        "title": "Innsatstyper",
-        "single": "Innsatstype",
-        "description": "De typene innsats dere leverer, med paragrafen de innvilges etter. Felter kan bindes til én type, så de bare spørres der.",
-        "hint": "Bestemmer hvilke typespesifikke felter som spørres om.",
         "add": "Legg til",
+        "alert": {
+            "deleted": "Innsatstypen er slettet",
+            "deleteFailed": "Innsatstypen kunne ikke slettes",
+            "saveFailed": "Kunne ikke lagres"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette denne innsatstypen"
+        },
+        "description": "De typene innsats dere leverer, med paragrafen de innvilges etter. Felter kan bindes til én type, så de bare spørres der.",
         "empty": "Det finnes ingen innsatstyper ennå.",
+        "fields": {
+            "hint": "Velg hvilke av de faste feltene denne henvendelsestypen spør om. Fjern haken for å skjule et felt.",
+            "saved": "Feltene er lagret",
+            "selectAll": "Velg alle",
+            "title": "Felter i skjemaet"
+        },
         "form": {
             "name": "Navn",
             "namePlaceholder": "F.eks. Familiebehandling",
             "paragraph": "Paragraf",
             "paragraphPlaceholder": "F.eks. § 32"
         },
-        "confirmation": {
-            "delete": "Er du sikker på at du vil slette denne innsatstypen"
-        },
-        "alert": {
-            "deleted": "Innsatstypen er slettet",
-            "deleteFailed": "Innsatstypen kunne ikke slettes",
-            "saveFailed": "Kunne ikke lagres"
-        }
+        "hint": "Bestemmer hvilke typespesifikke felter som spørres om.",
+        "single": "Innsatstype",
+        "title": "Innsatstyper"
     },
     "consultantMatch": {
         "title": "Konsulentmatch",
