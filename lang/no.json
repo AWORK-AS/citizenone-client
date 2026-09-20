@@ -9080,6 +9080,11 @@
             "latestJournal": "Seneste @:terms.journalNotes{''}",
             "score": "Score"
         },
+        "recentJournalNotes": {
+            "lastDays": "Siste {days} dager",
+            "more": "Vis {count} flere",
+            "title": "Siste @:terms.journalNotes{''}"
+        },
         "medicineAction": {
             "title": "Krever handling i dag",
             "deviated": "Avvik: {count}",

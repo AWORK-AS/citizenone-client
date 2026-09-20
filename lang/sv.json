@@ -9080,6 +9080,11 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "recentJournalNotes": {
+            "lastDays": "Senaste {days} dagarna",
+            "more": "Visa {count} fler",
+            "title": "Senaste journalanteckningar"
+        },
         "medicineAction": {
             "title": "Kräver åtgärd idag",
             "deviated": "Avvikelser: {count}",

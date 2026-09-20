@@ -301,28 +301,33 @@
                         </div>
                     </div>
 
-                    <!-- Latest journal notes panel -->
+                    <!-- Recent journal notes panel. Deliberately outside the
+                         date navigator above: the feed always opens on the last
+                         seven days, which is what staff read when they log in. -->
                     <div class="card" v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:notebook" class="h-5 w-5 text-primary" />
                                 <h3 class="text-sm font-semibold text-slate-900">
-                                    {{ $t('overview.latestJournal.latestJournal') }}
+                                    {{ $t('overview.recentJournalNotes.title') }}
                                 </h3>
                                 <span class="badge badge-green">
-                                    {{ state.stats.latestCitizensJournal?.data?.length ?? 0 }}
+                                    {{ state.stats.recentJournalNotesTotal }}
+                                </span>
+                                <span class="text-xs text-slate-500">
+                                    {{ $t('overview.recentJournalNotes.lastDays', { days: recentJournalDays }) }}
                                 </span>
                             </div>
                             <button
                                 class="text-sm text-primary font-medium hover:text-primary-700 transition-colors flex items-center gap-x-1"
-                                @click="navigateTo('/citizens')">
+                                @click="goToAllJournalNotes">
                                 {{ $t('overview.viewAll') }}
                                 <Icon name="heroicons:arrow-right-20-solid" class="h-4 w-4" />
                             </button>
                         </div>
                         <div>
-                            <ModulesUserDailyOverviewLatestJournal :dateRange="state.dateRange.formDateRange"
-                                :viewAll="false" />
+                            <ModulesUserDailyOverviewRecentJournalNotes :days="recentJournalDays"
+                                @total="(total: number) => state.stats.recentJournalNotesTotal = total" />
                         </div>
                     </div>
 
@@ -562,6 +567,7 @@ const state = reactive({
     stats: {
         citizenCalendarEvents: [],
         latestCitizensJournal: [],
+        recentJournalNotesTotal: 0,
         medicines: [],
         medicinesDeviatedCount: 0,
         medicinesGivenCount: 0,
@@ -624,6 +630,17 @@ const greetingPart = computed(() => {
     return hour < 12 ? 'morning' : (hour < 18 ? 'afternoon' : 'evening')
 })
 const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data?.length ?? 0)
+
+// The recent journal notes feed always opens on the last seven days, no matter
+// where the date navigator above stands - that is the window staff catch up on.
+const recentJournalDays = 7
+
+function goToAllJournalNotes() {
+    navigateTo({
+        path: '/journal-notes',
+        query: recentJournalWindow(recentJournalDays),
+    })
+}
 
 const { setPageCommands, clearPageCommands } = useCommandPalette()
 

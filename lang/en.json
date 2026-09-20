@@ -9085,6 +9085,11 @@
             "latestJournal": "Latest @:terms.journalNotes{''}",
             "score": "Score"
         },
+        "recentJournalNotes": {
+            "lastDays": "Last {days} days",
+            "more": "Show {count} more",
+            "title": "Recent @:terms.journalNotes{''}"
+        },
         "medicineAction": {
             "title": "Needs action today",
             "deviated": "Deviations: {count}",
