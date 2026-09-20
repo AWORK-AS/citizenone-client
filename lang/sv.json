@@ -1715,7 +1715,6 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "enterJournalContent": "Ange journalindhold manuelt",
-                "enterJournalTitleManually": "Ange journal titel manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
                     "description": "Granska vad som kommer att vara tillgängligt för AI:n innan du genererar.",
@@ -1754,9 +1753,10 @@
                 "tags": "Etiketter",
                 "teeth": "Tänder",
                 "title": "Titel",
-                "usePredefinedJournalTitle": "Använd foruddefineret journal titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
                 "createJournalTitle": "Create journal title",
+                "showJournalTitles": "Visa journaltitlar",
+                "titlePlaceholder": "Välj eller skriv en titel",
                 "dictate": "Diktera",
                 "stopDictation": "Stoppa",
                 "transcribing": "Transkriberar...",
@@ -9149,7 +9149,6 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Datum",
                 "draft": "Utkast",
-                "enterJournalTitleManually": "Ange journaltitel manuelt",
                 "note": "Anteckning",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
@@ -9158,8 +9157,7 @@
                     "noRisk": "Inga risk",
                     "none": "Inga"
                 },
-                "title": "Titel",
-                "usePredefinedJournalTitle": "Använd foruddefineret journaltitel"
+                "title": "Titel"
             },
             "quickRiskAssessment": "Snabb riskbedömning"
         },

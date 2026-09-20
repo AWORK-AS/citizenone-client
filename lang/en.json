@@ -1715,7 +1715,6 @@
                 "date": "Date",
                 "draft": "Draft",
                 "enterJournalContent": "Enter journal Content manually",
-                "enterJournalTitleManually": "Enter journal title manually",
                 "forTeeth": "For teeth",
                 "aiGenerate": {
                     "title": "Prepare with AI",
@@ -1754,9 +1753,10 @@
                 "tags": "Tags",
                 "teeth": "Teeth",
                 "title": "Title",
-                "usePredefinedJournalTitle": "Use predefined journal title",
                 "usePredefinedcontent": "Use predefined content",
                 "createJournalTitle": "Create journal title",
+                "showJournalTitles": "Show journal titles",
+                "titlePlaceholder": "Choose or type a title",
                 "dictate": "Dictate",
                 "stopDictation": "Stop",
                 "transcribing": "Transcribing...",
@@ -9154,7 +9154,6 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Date",
                 "draft": "Draft",
-                "enterJournalTitleManually": "Enter journal title manually",
                 "note": "Note",
                 "prepareWithAI": "Prepare with AI",
                 "risk": {
@@ -9163,8 +9162,7 @@
                     "noRisk": "No risk",
                     "none": "None"
                 },
-                "title": "Title",
-                "usePredefinedJournalTitle": "Use predefined journal title"
+                "title": "Title"
             },
             "quickRiskAssessment": "Quick risk assessment"
         },

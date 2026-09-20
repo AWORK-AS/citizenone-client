@@ -1715,7 +1715,6 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "enterJournalContent": "Indtast journalindhold manuelt",
-                "enterJournalTitleManually": "Indtast journal titel manuelt",
                 "aiGenerate": {
                     "title": "Udarbejd med AI",
                     "description": "Gennemgå, hvad der vil være tilgængeligt for AI'en, før du genererer.",
@@ -1754,9 +1753,10 @@
                 "tags": "Etiketter",
                 "teeth": "Tænder",
                 "title": "Titel",
-                "usePredefinedJournalTitle": "Brug foruddefineret journal titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
                 "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
+                "showJournalTitles": "Vis journaltitler",
+                "titlePlaceholder": "Vælg eller skriv en titel",
                 "dictate": "Diktér",
                 "stopDictation": "Stop",
                 "transcribing": "Transskriberer...",
@@ -9154,7 +9154,6 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Dato",
                 "draft": "Udkast",
-                "enterJournalTitleManually": "Indtast journaltitel manuelt",
                 "note": "Note",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
@@ -9163,8 +9162,7 @@
                     "noRisk": "Ingen risiko",
                     "none": "Ingen"
                 },
-                "title": "Titel",
-                "usePredefinedJournalTitle": "Brug foruddefineret journaltitel"
+                "title": "Titel"
             },
             "quickRiskAssessment": "Hurtig risikovurdering"
         },
