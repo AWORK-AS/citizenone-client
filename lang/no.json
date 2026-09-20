@@ -6702,7 +6702,9 @@
                     "documentSuccessfullySaved": "Dokument lagret vellykket",
                     "documentSuccessfullyUpdated": "Dokument oppdatert vellykket"
                 },
+                "expiresOn": "Utløper {date}",
                 "file": "Fil",
+                "issuedAt": "Innhentet den",
                 "name": "Navn",
                 "note": "Note"
             },

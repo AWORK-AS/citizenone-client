@@ -6702,7 +6702,9 @@
                     "documentSuccessfullySaved": "Dokument gemt med succes",
                     "documentSuccessfullyUpdated": "Dokument opdateret med succes"
                 },
+                "expiresOn": "Udløber {date}",
                 "file": "Fil",
+                "issuedAt": "Indhentet den",
                 "name": "Navn",
                 "note": "Note"
             },

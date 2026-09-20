@@ -56,6 +56,7 @@ async function updateEmployeeDocument(employeeDocumentDetails: any) {
         const params = {
             name: employeeDocumentDetails.name,
             note: employeeDocumentDetails.note,
+            issued_at: employeeDocumentDetails.issued_at || '',
         }
         const response = await employeeDocumentService.updateDocument(selectedEmployeeDocumentUuid, params)
         if (response.data) {

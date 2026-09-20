@@ -6702,7 +6702,9 @@
                     "documentSuccessfullySaved": "Document successfully saved",
                     "documentSuccessfullyUpdated": "Document successfully updated"
                 },
+                "expiresOn": "Expires {date}",
                 "file": "File",
+                "issuedAt": "Obtained on",
                 "name": "Name",
                 "note": "Note"
             },

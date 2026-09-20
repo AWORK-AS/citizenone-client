@@ -6702,7 +6702,9 @@
                     "documentSuccessfullySaved": "Dokument sparad",
                     "documentSuccessfullyUpdated": "Dokument uppdaterad"
                 },
+                "expiresOn": "Går ut {date}",
                 "file": "Fil",
+                "issuedAt": "Inhämtad den",
                 "name": "Namn",
                 "note": "Anteckning"
             },
