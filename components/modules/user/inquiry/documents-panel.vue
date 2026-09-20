@@ -1,5 +1,17 @@
 <template>
-    <div>
+    <div class="relative" @dragenter.prevent="state.isDragging = true"
+        @dragover.prevent="state.isDragging = true"
+        @dragleave.prevent="state.isDragging = false"
+        @drop.prevent="onDrop">
+        <!-- The paperwork that arrives with an inquiry arrives as an attachment
+             somebody has just saved, so dragging it here is the shortest route
+             from where it is to where it belongs. -->
+        <div v-if="state.isDragging"
+            class="pointer-events-none absolute inset-0 z-40 flex items-center justify-center rounded-lg border-2 border-dashed border-primary bg-primary/5">
+            <span class="rounded-lg bg-white px-4 py-2 text-sm font-semibold text-primary shadow-lg">
+                {{ $t('inquiryDocuments.dropHere') }}
+            </span>
+        </div>
         <div class="mb-3 flex items-center justify-between gap-3">
             <p class="text-sm font-semibold text-gray-900">
                 {{ $t('inquiryDocuments.title') }}
@@ -81,6 +93,7 @@ const state = reactive({
     documents: [] as any[],
     isDeleteOpen: false,
     isUploading: false,
+    isDragging: false,
     selected: null as any,
 })
 
@@ -119,16 +132,38 @@ async function onPick(event: any) {
     const file = event.target?.files?.[0]
     if (!file) return
 
+    await upload([file])
+    // Cleared so picking the same file twice fires the change event again.
+    if (fileInput.value) fileInput.value.value = ''
+}
+
+async function onDrop(event: DragEvent) {
+    state.isDragging = false
+
+    const files = Array.from(event.dataTransfer?.files ?? [])
+    if (!files.length) return
+
+    await upload(files)
+}
+
+/**
+ * Split out so a drop feeds exactly the same path as the file picker, rather
+ * than a second one that can fail differently. Uploaded one at a time because
+ * the endpoint takes one file, and stopping on the first failure so the error
+ * names the file it is about.
+ */
+async function upload(files: File[]) {
     state.isUploading = true
     try {
-        await inquiryDocumentService.uploadDocument(props.inquiryUuid, file, file.name)
+        for (const file of files) {
+            await inquiryDocumentService.uploadDocument(props.inquiryUuid, file, file.name)
+        }
         await fetchDocuments()
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.errors?.file?.[0] ?? error?.message ?? t('inquiryDocuments.uploadFailed'))
+        await fetchDocuments()
     }
     state.isUploading = false
-    // Cleared so picking the same file twice fires the change event again.
-    if (fileInput.value) fileInput.value.value = ''
 }
 
 function confirmDelete(doc: any) {
