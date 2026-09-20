@@ -29,7 +29,7 @@
                             <template #body v-if="!(state.isTableLoading || (state.sections?.data?.length === 0))">
                                 <tr v-for="(section, index) in state.sections?.data" :key="index">
                                     <td width="70%">
-                                        <span>{{ section?.name }}</span>
+                                        <span>{{ section?.label ?? section?.name }}</span>
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">

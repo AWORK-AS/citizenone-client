@@ -10190,7 +10190,9 @@
                 "newSectionSuccessfullySaved": "New section successfully saved",
                 "sectionSuccessfullyUpdated": "Section successfully updated"
             },
-            "name": "Name"
+            "name": "Name",
+            "paragraph": "Paragraph",
+            "paragraphPlaceholder": "E.g. §32"
         },
         "newSection": "New section",
         "sections": "Sections",

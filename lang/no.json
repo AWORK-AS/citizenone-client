@@ -10185,7 +10185,9 @@
                 "newSectionSuccessfullySaved": "Ny paragraf lagret vellykket",
                 "sectionSuccessfullyUpdated": "Paragraf oppdatert vellykket"
             },
-            "name": "Navn"
+            "name": "Navn",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "F.eks. §32"
         },
         "newSection": "Ny paragraf",
         "sections": "Paragraffer",

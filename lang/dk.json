@@ -10190,7 +10190,9 @@
                 "newSectionSuccessfullySaved": "Ny paragraf gemt med succes",
                 "sectionSuccessfullyUpdated": "Paragraf opdateret med succes"
             },
-            "name": "Navn"
+            "name": "Navn",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "Fx §32"
         },
         "newSection": "Ny paragraf",
         "sections": "Paragraffer",

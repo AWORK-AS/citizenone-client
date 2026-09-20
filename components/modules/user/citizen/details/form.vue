@@ -1912,9 +1912,11 @@ async function fetchSections() {
         if (response.data) {
             let options: any = []
             response.data.forEach(
+                // label joins the paragraph and what it is for; name alone for
+                // entries a customer has not split up yet.
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: item.label ?? item.name,
                 })
             )
             state.options.sections = options

@@ -10185,7 +10185,9 @@
                 "newSectionSuccessfullySaved": "Ny paragraf sparad",
                 "sectionSuccessfullyUpdated": "Paragraf uppdaterad"
             },
-            "name": "Namn"
+            "name": "Namn",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "T.ex. §32"
         },
         "newSection": "Ny paragraf",
         "sections": "Paragraffer",
