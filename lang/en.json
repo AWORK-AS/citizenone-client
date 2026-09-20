@@ -14422,7 +14422,11 @@
             "askMore": "Ask Cody about your day",
             "askMorePrompt": "Give me an overview of my day. What is most important to start with?",
             "prompt": "Here is what needs my attention today:\n{lines}\n\nWrite two short sentences about how my day looks and what I should take first. No headings, no bullet points, no names."
-        }
+        },
+        "distribution": "How cases are spread",
+        "distributionUnassigned": "{count} with no coordinator",
+        "distributionPrimary": "{count} primary",
+        "distributionSecondary": "{count} secondary"
     },
     "handover": {
         "button": "Shift overview",
@@ -15229,7 +15233,8 @@
         "delete": "Delete document",
         "confirmDelete": "Are you sure you want to delete this document",
         "uploadFailed": "The document could not be uploaded",
-        "deleteFailed": "The document could not be deleted"
+        "deleteFailed": "The document could not be deleted",
+        "dropHere": "Drop the files here"
     },
     "inquiryInvitations": {
         "title": "Consultants asked",

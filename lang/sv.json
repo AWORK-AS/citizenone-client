@@ -14326,7 +14326,11 @@
             "askMore": "Fråga Cody om din dag",
             "askMorePrompt": "Ge mig en överblick över min dag. Vad är viktigast att börja med?",
             "prompt": "Det här kräver min uppmärksamhet i dag:\n{lines}\n\nSkriv två korta meningar om hur min dag ser ut och vad jag bör ta först. Inga rubriker, inga punktlistor, inga namn."
-        }
+        },
+        "distribution": "Fördelning av insatser",
+        "distributionUnassigned": "{count} utan koordinator",
+        "distributionPrimary": "{count} primära",
+        "distributionSecondary": "{count} sekundära"
     },
     "handover": {
         "button": "Skiftöversikt",
@@ -15133,7 +15137,8 @@
         "delete": "Ta bort dokument",
         "confirmDelete": "Är du säker på att du vill ta bort det här dokumentet",
         "uploadFailed": "Dokumentet kunde inte laddas upp",
-        "deleteFailed": "Dokumentet kunde inte tas bort"
+        "deleteFailed": "Dokumentet kunde inte tas bort",
+        "dropHere": "Släpp filerna här"
     },
     "inquiryInvitations": {
         "title": "Konsulter tillfrågade",

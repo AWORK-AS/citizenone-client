@@ -14422,7 +14422,11 @@
             "askMore": "Spørg Cody om din dag",
             "askMorePrompt": "Giv mig et overblik over min dag. Hvad er vigtigst at tage fat på først?",
             "prompt": "Her er hvad der kræver min opmærksomhed i dag:\n{lines}\n\nSkriv to korte sætninger om hvordan min dag ser ud, og hvad jeg bør tage først. Ingen overskrifter, ingen punktopstilling, ingen navne."
-        }
+        },
+        "distribution": "Fordeling af indsatser",
+        "distributionUnassigned": "{count} uden koordinator",
+        "distributionPrimary": "{count} primære",
+        "distributionSecondary": "{count} sekundære"
     },
     "handover": {
         "button": "Vagtoverblik",
@@ -15229,7 +15233,8 @@
         "delete": "Slet dokument",
         "confirmDelete": "Er du sikker på, at du vil slette dette dokument",
         "uploadFailed": "Dokumentet kunne ikke uploades",
-        "deleteFailed": "Dokumentet kunne ikke slettes"
+        "deleteFailed": "Dokumentet kunne ikke slettes",
+        "dropHere": "Slip filerne her"
     },
     "inquiryInvitations": {
         "title": "Konsulenter spurgt",
