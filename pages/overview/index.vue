@@ -363,6 +363,7 @@
                             <ModulesUserDailyOverviewMyInquiryInvitations
                                 v-if="userStore.getUser?.company?.inquiry_pipeline_enabled" />
                             <ModulesUserDailyOverviewMyTasks />
+                            <ModulesUserDailyOverviewSentTasks />
                             <ModulesUserDailyOverviewReminders />
                         </div>
                     </div>

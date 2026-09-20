@@ -15133,56 +15133,8 @@
         }
     },
     "taskBoards": {
-        "title": "Uppgiftstavlor",
-        "newTask": "Ny uppgift",
-        "newBoard": "Ny tavla",
-        "overdue": "Försenad",
-        "unassigned": "Ingen ansvarig",
         "actions": {
             "edit": "Redigera uppgift"
-        },
-        "empty": {
-            "title": "Det finns inga uppgiftstavlor än",
-            "description": "En tavla samlar det arbete som inte hör till en enskild @:terms.citizen{''}. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
-            "action": "Skapa den första tavlan"
-        },
-        "form": {
-            "newTitle": "Ny uppgift",
-            "editTitle": "Redigera uppgift",
-            "title": "Titel",
-            "titlePlaceholder": "Vad ska göras?",
-            "description": "Beskrivning",
-            "descriptionPlaceholder": "Utveckla om det behövs",
-            "type": "Uppgiftstyp",
-            "noType": "Ingen typ",
-            "assignee": "Ansvarig",
-            "nobody": "Ingen",
-            "dueDate": "Sista dag",
-            "column": "Kolumn"
-        },
-        "board": {
-            "newTitle": "Ny uppgiftstavla",
-            "name": "Namn",
-            "namePlaceholder": "Till exempel Visitation",
-            "description": "Beskrivning",
-            "descriptionPlaceholder": "Vad används tavlan till?",
-            "columns": "Kolumner",
-            "columnsHint": "Separera med komma. Den sista kolumnen räknas som klar, så att tavlan själv kan visa vad som är gjort.",
-            "columnsPlaceholder": "Att göra, Pågår, Klart",
-            "inactiveSuffix": "Inaktiv",
-            "defaults": {
-                "todo": "Att göra",
-                "doing": "Pågår",
-                "done": "Klart"
-            }
-        },
-        "mine": {
-            "title": "Mina uppgifter",
-            "all": "Se alla"
-        },
-        "confirmation": {
-            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften",
-            "deleteBoard": "Är du säker på att du vill ta bort den här tavlan"
         },
         "alert": {
             "saveFailed": "Uppgiften kunde inte sparas",
@@ -15203,6 +15155,45 @@
             "boardReactivated": "Tavlan har återaktiverats",
             "boardStatusUpdateFailed": "Tavlans status kunde inte ändras"
         },
+        "board": {
+            "newTitle": "Ny uppgiftstavla",
+            "name": "Namn",
+            "namePlaceholder": "Till exempel Visitation",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Vad används tavlan till?",
+            "columns": "Kolumner",
+            "columnsHint": "Separera med komma. Den sista kolumnen räknas som klar, så att tavlan själv kan visa vad som är gjort.",
+            "columnsPlaceholder": "Att göra, Pågår, Klart",
+            "inactiveSuffix": "Inaktiv",
+            "defaults": {
+                "todo": "Att göra",
+                "doing": "Pågår",
+                "done": "Klart"
+            }
+        },
+        "confirmation": {
+            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften",
+            "deleteBoard": "Är du säker på att du vill ta bort den här tavlan"
+        },
+        "empty": {
+            "title": "Det finns inga uppgiftstavlor än",
+            "description": "En tavla samlar det arbete som inte hör till en enskild @:terms.citizen{''}. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
+            "action": "Skapa den första tavlan"
+        },
+        "form": {
+            "newTitle": "Ny uppgift",
+            "editTitle": "Redigera uppgift",
+            "title": "Titel",
+            "titlePlaceholder": "Vad ska göras?",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Utveckla om det behövs",
+            "type": "Uppgiftstyp",
+            "noType": "Ingen typ",
+            "assignee": "Ansvarig",
+            "nobody": "Ingen",
+            "dueDate": "Sista dag",
+            "column": "Kolumn"
+        },
         "manage": {
             "action": "Hantera tavla",
             "title": "Hantera tavla",
@@ -15219,7 +15210,19 @@
             "moveTasksTarget": "Flytta till",
             "leaveUnassigned": "Flytta inte (låt dem stå utan kolumn)",
             "noOtherColumns": "Det finns inga andra kolumner att flytta uppgifterna till - de blir stående utan en."
-        }
+        },
+        "mine": {
+            "title": "Mina uppgifter",
+            "all": "Se alla"
+        },
+        "newBoard": "Ny tavla",
+        "newTask": "Ny uppgift",
+        "overdue": "Försenad",
+        "sent": {
+            "title": "Skickat till andra"
+        },
+        "title": "Uppgiftstavlor",
+        "unassigned": "Ingen ansvarig"
     },
     "taskTypes": {
         "title": "Uppgiftstyper",

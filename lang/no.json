@@ -15133,56 +15133,8 @@
         }
     },
     "taskBoards": {
-        "title": "Oppgavetavler",
-        "newTask": "Ny oppgave",
-        "newBoard": "Ny tavle",
-        "overdue": "Overskredet",
-        "unassigned": "Ingen ansvarlig",
         "actions": {
             "edit": "Rediger oppgave"
-        },
-        "empty": {
-            "title": "Det finnes ingen oppgavetavler ennå",
-            "description": "En tavle samler arbeidet som ikke hører til én @:terms.citizen{''}. Sett opp kolonnene I arbeider i, og legg oppgavene hos den som skal løse dem.",
-            "action": "Opprett den første tavlen"
-        },
-        "form": {
-            "newTitle": "Ny oppgave",
-            "editTitle": "Rediger oppgave",
-            "title": "Tittel",
-            "titlePlaceholder": "Hva skal gjøres?",
-            "description": "Beskrivelse",
-            "descriptionPlaceholder": "Utdyp om nødvendig",
-            "type": "Oppgavetype",
-            "noType": "Ingen type",
-            "assignee": "Ansvarlig",
-            "nobody": "Ingen",
-            "dueDate": "Frist",
-            "column": "Kolonne"
-        },
-        "board": {
-            "newTitle": "Ny oppgavetavle",
-            "name": "Navn",
-            "namePlaceholder": "For eksempel Visitasjon",
-            "description": "Beskrivelse",
-            "descriptionPlaceholder": "Hva brukes tavlen til?",
-            "columns": "Kolonner",
-            "columnsHint": "Skill med komma. Den siste kolonnen regnes som ferdig, så tavlen selv kan vise hva som er løst.",
-            "columnsPlaceholder": "Skal gjøres, I gang, Ferdig",
-            "inactiveSuffix": "Inaktiv",
-            "defaults": {
-                "todo": "Skal gjøres",
-                "doing": "I gang",
-                "done": "Ferdig"
-            }
-        },
-        "mine": {
-            "title": "Mine oppgaver",
-            "all": "Se alle"
-        },
-        "confirmation": {
-            "deleteTask": "Er du sikker på at du vil slette denne oppgaven",
-            "deleteBoard": "Er du sikker på at du vil slette denne tavlen"
         },
         "alert": {
             "saveFailed": "Oppgaven kunne ikke lagres",
@@ -15203,6 +15155,45 @@
             "boardReactivated": "Tavlen er reaktivert",
             "boardStatusUpdateFailed": "Tavlens status kunne ikke endres"
         },
+        "board": {
+            "newTitle": "Ny oppgavetavle",
+            "name": "Navn",
+            "namePlaceholder": "For eksempel Visitasjon",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Hva brukes tavlen til?",
+            "columns": "Kolonner",
+            "columnsHint": "Skill med komma. Den siste kolonnen regnes som ferdig, så tavlen selv kan vise hva som er løst.",
+            "columnsPlaceholder": "Skal gjøres, I gang, Ferdig",
+            "inactiveSuffix": "Inaktiv",
+            "defaults": {
+                "todo": "Skal gjøres",
+                "doing": "I gang",
+                "done": "Ferdig"
+            }
+        },
+        "confirmation": {
+            "deleteTask": "Er du sikker på at du vil slette denne oppgaven",
+            "deleteBoard": "Er du sikker på at du vil slette denne tavlen"
+        },
+        "empty": {
+            "title": "Det finnes ingen oppgavetavler ennå",
+            "description": "En tavle samler arbeidet som ikke hører til én @:terms.citizen{''}. Sett opp kolonnene I arbeider i, og legg oppgavene hos den som skal løse dem.",
+            "action": "Opprett den første tavlen"
+        },
+        "form": {
+            "newTitle": "Ny oppgave",
+            "editTitle": "Rediger oppgave",
+            "title": "Tittel",
+            "titlePlaceholder": "Hva skal gjøres?",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Utdyp om nødvendig",
+            "type": "Oppgavetype",
+            "noType": "Ingen type",
+            "assignee": "Ansvarlig",
+            "nobody": "Ingen",
+            "dueDate": "Frist",
+            "column": "Kolonne"
+        },
         "manage": {
             "action": "Administrer tavle",
             "title": "Administrer tavle",
@@ -15219,7 +15210,19 @@
             "moveTasksTarget": "Flytt til",
             "leaveUnassigned": "Ikke flytt (la dem stå uten kolonne)",
             "noOtherColumns": "Det finnes ingen andre kolonner å flytte oppgavene til - de blir stående uten en."
-        }
+        },
+        "mine": {
+            "title": "Mine oppgaver",
+            "all": "Se alle"
+        },
+        "newBoard": "Ny tavle",
+        "newTask": "Ny oppgave",
+        "overdue": "Overskredet",
+        "sent": {
+            "title": "Sendt til andre"
+        },
+        "title": "Oppgavetavler",
+        "unassigned": "Ingen ansvarlig"
     },
     "taskTypes": {
         "title": "Oppgavetyper",
