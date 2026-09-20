@@ -15149,6 +15149,10 @@
         "single": "Indsatstype",
         "title": "Indsatstyper"
     },
+    "inquiryStageHistory": {
+        "empty": "Henvendelsen har ikke skiftet fase endnu.",
+        "title": "Faseændringer"
+    },
     "consultantMatch": {
         "title": "Konsulentmatch",
         "start": "Start konsulentmatch",

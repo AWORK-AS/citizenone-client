@@ -15149,6 +15149,10 @@
         "single": "Service type",
         "title": "Service types"
     },
+    "inquiryStageHistory": {
+        "empty": "This inquiry has not changed stage yet.",
+        "title": "Stage changes"
+    },
     "consultantMatch": {
         "title": "Consultant match",
         "start": "Start consultant match",

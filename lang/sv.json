@@ -15053,6 +15053,10 @@
         "single": "Insatstyp",
         "title": "Insatstyper"
     },
+    "inquiryStageHistory": {
+        "empty": "Förfrågan har inte bytt fas ännu.",
+        "title": "Fasändringar"
+    },
     "consultantMatch": {
         "title": "Konsultmatchning",
         "start": "Starta konsultmatchning",
