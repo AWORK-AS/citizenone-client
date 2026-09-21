@@ -47,6 +47,25 @@ describe('principalFor', () => {
         assert.equal(principalFor({ role: 'Citizen' }), 'citizen')
     })
 
+    test('a patient stays a patient once the portal payload replaces the login one', () => {
+        // /patient carries no company or industry - it carries the clinic and
+        // the sections a patient has. Reading the industry alone turned a
+        // patient into a citizen the moment that refresh landed.
+        assert.equal(principalFor({ role: 'Citizen', clinic: { name: 'Tandlægerne' } }), 'patient')
+        assert.equal(
+            principalFor({ role: 'Citizen', portal_visibility: { appointments: true, messages: true } }),
+            'patient',
+        )
+        assert.equal(principalFor({ role: 'Citizen', upcoming_appointments_count: 0 }), 'patient')
+    })
+
+    test("a citizen's own portal payload is still a citizen", () => {
+        assert.equal(
+            principalFor({ role: 'Citizen', portal_visibility: { overview: true, protocols: true, messages: true } }),
+            'citizen',
+        )
+    })
+
     test('the role can arrive on the roles array instead, as the store sometimes holds it', () => {
         assert.equal(principalFor({ roles: [{ name: 'Relative' }], ...social }), 'relative')
         assert.equal(principalFor({ roles: [{ name: 'Citizen' }], ...dental }), 'patient')

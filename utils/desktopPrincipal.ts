@@ -20,7 +20,21 @@ export function principalFor(user: any): DesktopPrincipal {
     if (role === 'Relative') return 'relative'
     if (role === 'ThirdParty') return 'third-party'
     if (role === 'Citizen') {
-        return user?.company?.industry?.system_name === 'dental' ? 'patient' : 'citizen'
+        // Two signals, because the store holds whichever payload spoke last.
+        // The login response carries the company and its industry, which is
+        // what `resolvePostLoginRedirect` reads - but the portal then refreshes
+        // the user from `/patient` or `/citizen`, and those carry neither: the
+        // patient payload identifies itself by the clinic it belongs to and the
+        // sections only a patient has. Reading the industry alone reported a
+        // patient as a citizen the moment that refresh landed, which is how
+        // this was found - the window was on /patient/overview while the Dock
+        // offered the citizen's menu.
+        const dental = user?.company?.industry?.system_name === 'dental'
+        const patientPayload = !!user?.clinic
+            || user?.portal_visibility?.appointments !== undefined
+            || user?.upcoming_appointments_count !== undefined
+
+        return dental || patientPayload ? 'patient' : 'citizen'
     }
 
     // Signed out included: the menus a login screen leads to are the staff ones.
