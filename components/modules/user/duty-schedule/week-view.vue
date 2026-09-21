@@ -2789,6 +2789,7 @@ function viewSchedule(employeeIndex: number, weekIndex: any, shift: any, shiftIn
         scheduleUuid: shift?.schedule_uuid,
         date_time_start: shift?.date_time_start,
         date_time_end: shift?.date_time_end,
+        hours: shift?.hours,
         user_uuid: userUuid,
         date: date,
         shift_type: shift?.type,
