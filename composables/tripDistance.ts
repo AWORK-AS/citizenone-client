@@ -1,5 +1,3 @@
-import { haversineDistanceMeters, type LatLng } from '@/composables/geo'
-
 export interface TripStop {
     address: string
     lat: number | null
@@ -12,23 +10,6 @@ export interface TripStop {
      * to the backend — splitStopsForApi() below maps fields explicitly.
      */
     key?: string
-}
-
-export function computeTripDistanceKm(stops: TripStop[]): number {
-    const points: LatLng[] = stops
-        .filter((s) => typeof s.lat === 'number' && typeof s.lng === 'number' && !Number.isNaN(s.lat) && !Number.isNaN(s.lng))
-        .map((s) => ({ lat: s.lat as number, lng: s.lng as number }))
-
-    if (points.length < 2) {
-        return 0
-    }
-
-    let totalMeters = 0
-    for (let i = 1; i < points.length; i++) {
-        totalMeters += haversineDistanceMeters(points[i - 1], points[i])
-    }
-
-    return Math.round((totalMeters / 1000) * 100) / 100
 }
 
 export interface TripStopApiPayload {
