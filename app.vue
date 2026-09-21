@@ -41,6 +41,11 @@ useHead({
 // own routes (same path, just a custom-protocol prefix instead of https://
 // app.citizenone.dk), so a link from an email/calendar invite opens straight
 // into the already-running app instead of another browser tab.
+// Desktop only: the Dock menu, ⌘, and ⌘⇧N are built by the shell, which has
+// no way of knowing whether the person signed in is staff or a relative. It
+// does now, and it stops offering them staff routes.
+useDesktopPrincipal()
+
 let unsubscribeDeepLink: (() => void) | null = null
 onMounted(() => {
 	const bridge = (window as any).citizenOneDesktop
