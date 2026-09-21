@@ -19,23 +19,11 @@
                 </div>
             </div>
             <div class="grid md:grid-cols-2 gap-x-3">
-                <div class="md:col-span-2">
-                    <button type="button"
-                        class="inline-flex items-center gap-1.5 rounded-full bg-primary-25 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-50 transition-colors"
-                        @click="state.usePredefinedJournalTitle = !state.usePredefinedJournalTitle">
-                        <Icon :name="state.usePredefinedJournalTitle ? 'ph:pencil-simple' : 'ph:list-bullets'"
-                            class="size-4" aria-hidden="true" />
-                        <span v-if="state.usePredefinedJournalTitle">
-                            {{ $t('citizens.citizenJournals.form.enterJournalTitleManually') }}
-                        </span>
-                        <span v-else>
-                            {{ $t('citizens.citizenJournals.form.usePredefinedJournalTitle') }}
-                        </span>
-                    </button>
-                </div>
-                <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
+                <!-- One title field: the saved titles are offered the moment it
+                     is focused, and anything else can still be typed. -->
+                <div class="space-y-1">
                     <div class="flex items-center py-0.5">
-                        <FormLabel for="predefined_title" :label="$t('citizens.citizenJournals.form.title')" />
+                        <FormLabel for="title" :label="$t('citizens.citizenJournals.form.title')" />
                         <button type="button" class="ml-auto text-sm text-primary hover:text-primary-700"
                             @click="navigateTo('/settings/journal-titles')">
                             <span>
@@ -43,15 +31,10 @@
                             </span>
                         </button>
                     </div>
-                    <FormSelect id="predefined_title" v-model="state.formJournal.title"
-                        :options="state.options.journal_titles" />
-                    <FormError :error="v$?.formJournal?.title?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.title?.[0]" />
-                </div>
-                <div class="space-y-1" v-else>
-                    <FormLabel for="title" :label="$t('citizens.citizenJournals.form.title')" />
-                    <FormTextField id="title" name="title" :placeholder="$t('citizens.citizenJournals.form.title')"
-                        v-model="state.formJournal.title" />
+                    <FormComboField id="title" name="title"
+                        :placeholder="$t('citizens.citizenJournals.form.titlePlaceholder')"
+                        :toggleLabel="$t('citizens.citizenJournals.form.showJournalTitles')"
+                        :options="state.options.journal_titles" v-model="state.formJournal.title" />
                     <FormError :error="v$?.formJournal?.title?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.title?.[0]" />
                 </div>
@@ -693,7 +676,6 @@ const state = reactive({
         ],
         teeth: [],
     },
-    usePredefinedJournalTitle: false,
     userPredefinedContents: false,
     formFieldConfig: {
         create: { risk_assessment: true, score: true } as Record<string, boolean>,
@@ -866,13 +848,10 @@ watch(() => props.selectedJournal, (newValue: any) => {
     }
 })
 
-watch([() => state.formJournal.title, () => state.usePredefinedJournalTitle], () => {
+// A title that matches a saved one brings its fields and its content template
+// with it; a title typed freely brings neither.
+watch(() => state.formJournal.title, () => {
     if (suppressChangeTracking) return
-    if (!state.usePredefinedJournalTitle) {
-        state.selectedJournalTitleFields = []
-        state.formJournal.field_answers = []
-        return
-    }
     const match = state.options.journal_titles_raw.find((o: any) => o.value === state.formJournal.title)
     const fields = match?.fields ?? []
     state.selectedJournalTitleFields = fields.map((f: any) => ({
@@ -981,7 +960,6 @@ function setFormJournalFromSelected(journal: any) {
 
     const savedAnswers = journal.journal_field_answers ?? []
     if (savedAnswers.length > 0) {
-        state.usePredefinedJournalTitle = true
         state.selectedJournalTitleFields = savedAnswers.map((a: any) => ({
             uuid: a.journal_title_field_uuid,
             label: a.label ?? '',
