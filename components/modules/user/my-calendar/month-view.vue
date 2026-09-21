@@ -146,7 +146,9 @@
                                 <li v-for="(myCalendarEvent, index) in visibleEvents(day)" :key="index">
                                     <div v-if="myCalendarEvent?.is_shift"
                                         class="flex items-center gap-x-1.5 rounded-md bg-indigo-50 px-1.5 py-1"
-                                        :title="`${myCalendarEvent?.title} · ${myCalendarEvent.time_start}-${myCalendarEvent.time_end}`">
+                                        :title="myCalendarEvent?.hours !== null && myCalendarEvent?.hours !== undefined
+                                            ? `${myCalendarEvent?.title} · ${myCalendarEvent.time_start}-${myCalendarEvent.time_end} · ${myCalendarEvent.hours} ${$t('dutySchedules.viewSchedule.hours')}`
+                                            : `${myCalendarEvent?.title} · ${myCalendarEvent.time_start}-${myCalendarEvent.time_end}`">
                                         <Icon name="ph:briefcase" class="h-3 w-3 flex-none text-indigo-500" />
                                         <span class="min-w-0 flex-1 truncate text-[11px] font-medium text-indigo-700">
                                             {{ myCalendarEvent?.title }}
