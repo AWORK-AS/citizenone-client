@@ -8728,9 +8728,12 @@
                 "tripSuccessfullyAdded": "Turen blev tilføjet",
                 "tripSuccessfullyUpdated": "Turen blev opdateret"
             },
+            "calculatingDistance": "Beregner…",
             "dateTimeStart": "Dato og tidspunkt",
+            "distanceUnavailable": "Vejafstanden kunne ikke beregnes lige nu. Prøv igen om et øjeblik.",
             "endAddress": "Slutadresse",
             "estimatedDistance": "Distance (beregnes automatisk)",
+            "ferryNote": "inkl. {km} km færge, ikke medregnet",
             "linkToCitizen": "Knyt denne tur til en @:terms.citizen{''} som en indsatstime",
             "mapHint": "Klik på kortet eller træk markøren for at justere placeringen",
             "note": "Note",

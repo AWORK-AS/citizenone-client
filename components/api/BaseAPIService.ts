@@ -365,6 +365,12 @@ class BaseAPIService {
                         message: "Server error. Please try again. If the problem persists, contact your system administrator",
                         errorId: BaseAPIService.errorIdOf(error),
                     })
+                case 503:
+                    // Some 503s carry a translated, user-facing message (e.g. the
+                    // mileage route-preview endpoint when the routing engine is
+                    // unreachable) that must reach the caller as-is, not be
+                    // replaced by the generic fallback below.
+                    throw new APIError(error.response._data)
                 default:
                     throw new APIError({
                         message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",

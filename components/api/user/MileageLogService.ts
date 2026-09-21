@@ -72,6 +72,12 @@ class MileageLogService extends BaseAPIService {
     async cancelTrip(mileageLogUuid: string): Promise<any> {
         return await this.request(`/user/mileage-logs/${mileageLogUuid}/cancel`, 'POST')
     }
+
+    // Runs the same OSRM road-routing calculation the save path uses, so the
+    // New/Edit trip modal's preview can never disagree with what gets stored.
+    async previewRoute(params: object, signal?: AbortSignal): Promise<any> {
+        return await this.request(`/user/mileage-logs/route-preview`, 'POST', params, signal)
+    }
 }
 
 export const mileageLogService = new MileageLogService()
