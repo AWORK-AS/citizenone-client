@@ -126,11 +126,6 @@
                                     </time>
                                 </dd>
                             </div>
-                            <div class="flex items-center gap-x-1 mt-1"
-                                v-if="event?.hours !== null && event?.hours !== undefined">
-                                <dt class="text-xs">{{ $t('dutySchedules.viewSchedule.hours') }}:</dt>
-                                <dd class="text-xs">{{ event.hours }}</dd>
-                            </div>
                         </dl>
                     </div>
                     <div v-else class="relative flex space-x-4 py-4">
