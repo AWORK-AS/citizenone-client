@@ -1970,6 +1970,7 @@ function viewSchedule(employeeIndex: number, shift: any) {
         scheduleUuid: shift?.schedule_uuid,
         date_time_start: shift?.date_time_start,
         date_time_end: shift?.date_time_end,
+        hours: shift?.hours,
         user_uuid: userUuid,
         shift_type: shift?.type,
         tags: shift?.tags,
