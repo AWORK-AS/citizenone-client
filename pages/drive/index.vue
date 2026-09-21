@@ -117,11 +117,13 @@
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple
                                 v-if="state.viewMode === 'local'" />
 
-                            <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureOpen = true"
+                            <Tooltip :text="$t('folderStructure.folderStructureTooltip')" wrap
                                 v-if="!state.isInsideOneDrive && (state.viewMode === 'local' || state.viewMode === 'google-drive')">
-                                <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('folderStructure.folderStructure') }}
-                            </FormButton>
+                                <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureOpen = true">
+                                    <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('folderStructure.folderStructure') }}
+                                </FormButton>
+                            </Tooltip>
 
                             <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true"
                                 v-if="(state.viewMode === 'local' || state.viewMode === 'google-drive' || state.isInsideOneDrive) && (isAtLeast('Admin') || can('manage_status_reports'))">
