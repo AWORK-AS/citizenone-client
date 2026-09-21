@@ -855,7 +855,32 @@
             "disconnected": "Frånkopplad från Danløn",
             "disconnectTitle": "Koppla från Danløn",
             "disconnectConfirmation": "Är du säker på att du vill koppla från din Danløn-integration? Du måste godkänna igen för att synkronisera scheman igen."
-        }
+        },
+        "free": "Gratis",
+        "searchPlaceholder": "Sök efter app, funktion eller leverantör",
+        "searchResults": "{count} resultat",
+        "noSearchResults": "Inga appar matchar \"{query}\".",
+        "seeAll": "Visa alla",
+        "newInStore": "Nytt i butiken",
+        "editorsPick": "Redaktionens val",
+        "readMoreAbout": "Läs mer om {name}",
+        "notFound": "Appen finns inte, eller är inte tillgänglig för er.",
+        "howItLooks": "Så här ser det ut",
+        "aboutTheApp": "Om appen",
+        "whatsNew": "Nytt i den här versionen",
+        "whatsNewIn": "Nytt i {version}",
+        "priceHeading": "Pris",
+        "monthly": "Månadsvis",
+        "yearly": "Årsvis",
+        "oneTime": "Engångsbelopp",
+        "version": "Version",
+        "updated": "Uppdaterad",
+        "category": "Kategori",
+        "publisher": "Utgivare",
+        "dataLocation": "Databehandling",
+        "billing": "Betalning",
+        "subscription": "Abonnemang",
+        "couldNotStartConnection": "Anslutningen kunde inte startas. Försök igen."
     },
     "archived": {
         "alert": {
@@ -900,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Fråga AI",
+        "askAI": "Fråga Cody",
         "actions": {
             "copy": "Kopiera",
             "copied": "Kopierat",
@@ -908,13 +933,6 @@
             "insert": "Infoga",
             "stop": "Stoppa",
             "regenerate": "Försök igen"
-        },
-        "starters": {
-            "title": "Prova till exempel",
-            "overview": "Ge mig en överblick över ärendet för ",
-            "summary": "Sammanfatta de senaste journalanteckningarna för ",
-            "report": "Skriv ett utkast till en rapport till handläggaren om ",
-            "organisation": "Vad står det i våra riktlinjer om "
         },
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
@@ -947,7 +965,80 @@
             "untitled": "Namnlös konversation",
             "deleteConfirmation": "Är du säker på att du vill ta bort denna konversation? Detta kan inte ångras.",
             "searchPlaceholder": "Sök i konversationer..."
-        }
+        },
+        "tools": {
+            "daily_brief": "Läser dagens överblick",
+            "my_shifts": "Läser dina skift",
+            "my_tasks": "Läser dina uppgifter",
+            "my_messages": "Räknar olästa meddelanden",
+            "create_task": "Skapar en uppgift",
+            "draft_journal_note": "Skriver ett journalutkast"
+        },
+        "toolTrace": {
+            "title": "Vad Cody läste",
+            "unknown": "Använder ett verktyg",
+            "failed": "Kunde inte läsas",
+            "duration": "{ms} ms"
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Din assistent i vardagen",
+            "scope": "Ser bara det du har tillgång till"
+        },
+        "greeting": {
+            "morning": "God morgon, {name}",
+            "forenoon": "God förmiddag, {name}",
+            "afternoon": "God eftermiddag, {name}",
+            "evening": "God kväll, {name}",
+            "help": "Hur kan jag hjälpa dig i dag?"
+        },
+        "quick": {
+            "title": "Kom i gång",
+            "overview": "Ge mig en överblick",
+            "journal": "Skriv journalanteckning",
+            "files": "Hitta bifogade filer",
+            "shifts": "Vilka skift har jag?"
+        },
+        "quickPrompts": {
+            "overview": "Ge mig en överblick över min dag",
+            "journal": "Skriv en journalanteckning för ",
+            "files": "Hitta de bifogade filerna om ",
+            "shifts": "Vilka skift har jag de kommande sju dagarna?"
+        },
+        "dataAndAccess": "Om data och åtkomst",
+        "reviewShort": "Cody kan ha fel - läs igenom svaret.",
+        "cards": {
+            "badges": {
+                "draft": "Utkast",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Deadline",
+                "column": "Kolumn",
+                "date": "Datum",
+                "shift": "Skifttyp",
+                "department": "Avdelning"
+            }
+        },
+        "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
+        "budgetSpent": "Er AI-kapacitet är förbrukad. Fyll på för att fortsätta.",
+        "ownDailyLimit": "Du har använt din egen dagsgräns för AI. Din administratör kan höja den.",
+        "dictate": {
+            "start": "Diktera",
+            "stop": "Stoppa inspelning",
+            "listening": "Lyssnar…",
+            "transcribing": "Skriver ner det…",
+            "errors": {
+                "denied": "Webbläsaren får inte använda mikrofonen. Klicka på låset i adressfältet och tillåt den.",
+                "missing": "Ingen mikrofon hittades på den här maskinen.",
+                "insecure": "Diktering kräver en säker anslutning (https).",
+                "failed": "Kunde inte skriva ner inspelningen. Försök igen."
+            }
+        },
+        "attachFile": "Bifoga fil",
+        "collapse": "Rulla ner",
+        "expand": "Rulla upp",
+        "shortcutHint": "Öppna och stäng med {shortcut}"
     },
     "back": "Tillbaka",
     "bellNotification": {
@@ -8579,6 +8670,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Avståndet har rättats",
+            "distanceReverted": "Avståndet har återställts till det beräknade värdet"
+        },
+        "correction": {
+            "calculatedDistance": "Beräknat avstånd",
+            "confirmRevert": "Är du säker på att du vill återställa det beräknade avståndet för denna resa",
+            "correctDistance": "Rätta avstånd",
+            "correctedBy": "Rättad av {name} den {date}",
+            "correctedDistance": "Rättat avstånd",
+            "reason": "Orsak till rättelse",
+            "reasonRequired": "En orsak måste anges",
+            "revertToCalculated": "Återställ beräknat avstånd"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS-spår (inkl. start/stopp)",
+            "breadcrumbs": "GPS-spår",
+            "manual": "Manuellt rättad",
+            "none": "Inga positionsdata",
+            "stops": "Angiven rutt",
+            "straight_line": "Fågelvägen"
+        },
         "download": {
             "download": "Ladda ner",
             "downloadMileageLog": "Ladda ner körjournal",
@@ -8634,6 +8747,11 @@
         "mileageLog": "Körjournal",
         "mileageReport": "Körrapport",
         "newTrip": "Ny resa",
+        "reviewReason": {
+            "implausible_end_coordinate": "Orimlig slutposition - sträckan räknas inte med.",
+            "implausible_start_coordinate": "Orimlig startposition - sträckan räknas inte med.",
+            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med."
+        },
         "summary": {
             "allTime": "All tid",
             "byEmployee": "Per medarbetare",
@@ -8656,6 +8774,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Är du säker på att du vill radera denna resa"
             },
+            "corrected": "Rättad",
             "date": "Datum",
             "distance": "Avstånd",
             "distanceSourceUnknown": "Okänd källa",
@@ -10298,10 +10417,14 @@
                 "termCitizensDefinite": "Klienterna (plural, bestämd)",
                 "portalAudiencePatient": "Patient",
                 "portalSectionAppointments": "Bokningar",
+                "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebokning",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
+                "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
                 "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
+                "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
@@ -11081,7 +11204,21 @@
                 "discountPercent": "Rabatt (%)",
                 "discountEndsAt": "Erbjudandet slutar",
                 "paymentFeePercent": "Betalningsavgift",
-                "paymentFeeHelp": "Vad CitizenOne tar av en betalning appen bär. Tom betyder ingen avgift."
+                "paymentFeeHelp": "Vad CitizenOne tar av en betalning appen bär. Tom betyder ingen avgift.",
+                "tagline": "Underrubrik",
+                "longDescription": "Lång beskrivning",
+                "whatsNew": "Nytt i den här versionen",
+                "publisher": "Utgivare",
+                "version": "Version",
+                "releasedAt": "Uppdaterad",
+                "dataLocation": "Databehandling",
+                "isPublic": "Visa på citizenone.dk",
+                "isPublicHint": "Appen visas offentligt först när den har beskrivning och kategori.",
+                "screenshots": "Skärmbilder",
+                "addScreenshot": "Lägg till skärmbild",
+                "screenshotCaption": "Bildtext",
+                "uploadScreenshot": "Ladda upp skärmbild",
+                "uploadFailed": "Bilden kunde inte laddas upp."
             },
             "colName": "Namn",
             "attachToCompany": "Tilldela till företag",
@@ -11089,7 +11226,38 @@
             "searchCompany": "Sök företag...",
             "assigned": "Tilldelad",
             "successAssigned": "App tilldelad",
-            "successAssignedBody": "{appName} har tilldelats till {companyName}"
+            "successAssignedBody": "{appName} har tilldelats till {companyName}",
+            "tabCatalogue": "Katalog",
+            "tabSales": "Försäljning",
+            "missingForStore": "Saknas: {fields}",
+            "sales": {
+                "acrossApps": "fördelat på {count} appar",
+                "activeSubscriptions": "Aktiva abonnemang",
+                "appsWithoutSale": "{count} appar utan försäljning",
+                "bestSelling": "Bäst säljande appar",
+                "cancelledLast30": "Uppsagda 30 dagar",
+                "colActive": "Aktiva",
+                "colApp": "App",
+                "colCancelled": "Uppsagda",
+                "colNew": "Nya 30 d",
+                "colRevenue": "Per månad",
+                "colShare": "Andel",
+                "colTrend": "Utveckling",
+                "conversion": "Konvertering",
+                "conversionPending": "Hur många som ser en appsida och aktiverar den kan visas först när butiken har räknat visningar en tid.",
+                "customers": "{count} kunder",
+                "monthlyRevenue": "Appintäkt per månad",
+                "netChange": "Nettoförändring",
+                "neverSold": "Säljer inte",
+                "neverSoldHint": "Inga aktiva abonnemang. Skriv klart texten, sätt ett annat pris eller ta bort dem ur butiken.",
+                "newLast30": "Nya 30 dagar",
+                "newMinusCancelled": "Nya minus uppsagda per månad",
+                "noCategory": "Ingen kategori",
+                "nothingSoldYet": "Ingen app har sålts ännu.",
+                "oneTime12Months": "Engångsförsäljning 12 månader",
+                "perMonthExVat": "Per månad, exkl. moms",
+                "trendLabel": "Utveckling för {name}"
+            }
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -13754,8 +13922,7 @@
                 "newDepartments": "Nya avdelningar ({count}):",
                 "newSections": "Nya paragrafer ({count}):",
                 "rowsToLookAt": "Rader att titta på",
-                "line": "Rad {line}",
-                "newSections": "Nya paragrafer ({count}):"
+                "line": "Rad {line}"
             },
             "importing": {
                 "label": "Importerar…"
@@ -14111,7 +14278,10 @@
             "heading": "Kräver din uppmärksamhet",
             "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dos är inte registrerad som given | {n} doser är inte registrerade som givna",
-            "reminders_due": "En påminnelse förfaller idag | {n} påminnelser förfaller idag"
+            "reminders_due": "En påminnelse förfaller idag | {n} påminnelser förfaller idag",
+            "askCody": "Fråga Cody om {subject}",
+            "askCodyShort": "Fråga Cody",
+            "askCodyPrompt": "Berätta mer om: {subject}.{detail} Vad bör jag göra åt det nu?"
         },
         "title": "Min dag",
         "greeting": {
@@ -14131,7 +14301,13 @@
         "untitledNote": "Anteckning utan titel",
         "reminders": "Mina påminnelser",
         "noReminders": "Inga påminnelser idag",
-        "newTask": "Ny uppgift"
+        "newTask": "Ny uppgift",
+        "cody": {
+            "reading": "Cody läser din dag ...",
+            "askMore": "Fråga Cody om din dag",
+            "askMorePrompt": "Ge mig en överblick över min dag. Vad är viktigast att börja med?",
+            "prompt": "Det här kräver min uppmärksamhet i dag:\n{lines}\n\nSkriv två korta meningar om hur min dag ser ut och vad jag bör ta först. Inga rubriker, inga punktlistor, inga namn."
+        }
     },
     "handover": {
         "button": "Skiftöversikt",
@@ -15129,6 +15305,7 @@
     "patient": {
         "nav": {
             "appointments": "Bokningar",
+            "calendar": "Kalender",
             "journal": "Journal",
             "documents": "Dokument",
             "priceEstimates": "Kostnadsförslag",
@@ -15307,6 +15484,7 @@
     },
     "desktopLock": {
         "title": "CitizenOne är låst",
+        "reason": "Låst efter en stund utan aktivitet. Du är fortfarande inloggad - allt är som du lämnade det.",
         "passwordLabel": "Lösenord",
         "unlock": "Lås upp",
         "verifying": "Verifierar…",
@@ -15352,6 +15530,7 @@
         "form": {
             "enable": "Aktivera onlinebokning på din webbplats",
             "enableLabel": "Låt besökare på din egen webbplats boka direkt i den här kalendern",
+            "logo": "Logotyp",
             "branding": "Varumärke",
             "brandingLabel": "Anpassa hur bokningswidgeten ser ut",
             "primaryColor": "Primärfärg",
@@ -15436,6 +15615,20 @@
             "needsCard": "Kräver ett sparat betalkort. Kryssa i rutan vid nästa köp, så kan kortet användas framöver.",
             "consent": "Ni godkänner att kortet på filen debiteras beloppet ovan varje gång saldot når gränsen. Stäng av när som helst.",
             "failed": "Inställningen kunde inte sparas. Försök igen om en stund."
+        },
+        "requests": "{count} anrop",
+        "byUser": {
+            "title": "Vem använder det",
+            "subtitle": "Denna månad, mest aktiva först"
+        },
+        "userLimit": {
+            "title": "Gräns per medarbetare",
+            "help": "Hur många anrop en medarbetare får göra per dag. Företagets totala dagsgräns är {company}. Lämna fältet tomt för att använda gränsen vi räknar ut.",
+            "perDay": "anrop per dag",
+            "clear": "Använd beräknad gräns",
+            "saved": "Gränsen är sparad",
+            "set": "Ni satte den till {limit} anrop per dag.",
+            "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare."
         }
     }
 }

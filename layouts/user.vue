@@ -202,12 +202,17 @@
                     </button>
                 </nav>
                 <div class="mt-auto flex flex-col items-center gap-2 pt-2 shrink-0">
-                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
+                    <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" compact />
                 </div>
             </div>
             <div :class="['flex flex-col w-[14rem] border-r border-[#e8eaef] overflow-y-auto custom-scrollbar',
                     isMacDesktopApp ? 'bg-white/70 backdrop-blur-xl' : 'bg-white']"
                 role="tabpanel" :id="`nav-panel-${activeContextGroup?.key}`" :aria-labelledby="`nav-tab-${activeContextGroup?.key}`">
+                <!-- Same reserved strip as the rail: without it this column
+                     starts at the window's true top edge, so its title sits
+                     level with the traffic lights while the rail's logo sits
+                     below them - the two columns visibly out of step. -->
+                <div v-if="isMacDesktopApp" class="app-drag-region w-full h-9 shrink-0" aria-hidden="true" />
                 <div class="h-16 flex items-center px-4 shrink-0">
                     <span class="text-primary font-semibold text-lg truncate">
                         {{ activeContextGroup ? $t(activeContextGroup.label) : 'CitizenOne™' }}
@@ -267,8 +272,15 @@
                 </button>
             </div>
             <!-- Navbar -->
-            <div ref="navbarRef"
-                class="sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6">
+            <!-- macOS hiddenInset: there is no system title bar, so the window
+                 can only be moved by what the page marks as draggable. Until
+                 now that was a 72px strip in the icon rail and nothing else,
+                 which left most of the window's top edge dead - you could not
+                 move the window, and double-clicking to zoom did nothing.
+                 The top bar is the natural grab handle; its own controls opt
+                 back out through the rule in main.css. -->
+            <div ref="navbarRef" :class="['sticky top-[var(--sticky-banner-height,0px)] z-50 flex h-16 shrink-0 items-center gap-x-3 bg-white/95 backdrop-blur-md border-b border-surface-200 px-4 sm:px-6 lg:px-6',
+                isMacDesktopApp ? 'app-drag-region' : '']">
                 <button type="button" class="-m-2.5 p-2.5 text-slate-500 lg:hidden" :aria-label="$t('menu')" @click="sidebarOpen = true">
                     <Icon name="heroicons:bars-3" class="h-6 w-6" aria-hidden="true" />
                 </button>
@@ -344,8 +356,9 @@
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
                                 @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
-                                <Icon name="ph:sparkle" class="h-6 w-6 md:w-5 md:h-5" aria-hidden="true" />
-                                <p class="text-sm font-semibold hidden lg:block">{{ $t('assistants.askAI') }}</p>
+                                <ModulesUserNavbarCodyMark :size="22" class="md:!w-5 md:!h-5" />
+                                <p class="text-sm font-semibold hidden lg:block">
+                                    {{ $t('assistants.identity.name') }}</p>
                             </FormButton>
                         </div>
 
@@ -449,6 +462,13 @@
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:users-three" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.colleagues') }}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem v-if="isAtLeast('Admin') && !discoverCompleted">
+                                        <div @click="navigateTo('/discover')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:compass" class="h-4 w-4 text-slate-400" />{{
+                                                $t('sidebar.discover') }}
                                         </div>
                                     </MenuItem>
                                     <MenuItem>
@@ -795,16 +815,7 @@ function groupIsOpen(group: any): boolean {
 }
 
 
-// "Get started" (sidebar) is the same /discover journey as the "Discover" tab -
-// per Allan's feedback, once onboarding is fully done it should disappear from
-// the sidebar too, not just the tab, so it doesn't look like something's still
-// outstanding. Re-generate the sidebar the moment this flips so it can vanish
-// immediately if the user finishes the last step while still on /discover,
-// without needing a full navigation/reload first.
 const { completed: discoverCompleted } = useDiscoverDone()
-watch(discoverCompleted, () => {
-    if (userStore.getUser) generateSidebarLinks(userStore.getUser)
-})
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
@@ -1049,7 +1060,6 @@ function getNavItemLabel(item: any) {
     const t = language.t
     if (item.rawLabel) return item.name
     if (item.name === 'Overview') return t('sidebar.overview')
-    if (item.name === 'Discover') return t('sidebar.discover')
     // The store already holds the resolved word - see setCustomPageNames.
     if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
     if (item.name === 'Invoicing') return t('sidebar.invoicing')
@@ -1187,18 +1197,6 @@ function generateSidebarLinks(user: any) {
             'overview-google-drive',
         ]
     })
-    if (isAtLeast('Admin') && !discoverCompleted.value) {
-        // Onboarding, not daily work: rendered in the sidebar footer.
-        nav.push({
-            name: 'Discover',
-            href: '/discover',
-            icon: 'ph:compass',
-            group: 'footer',
-            activeRouteNames: [
-                'discover',
-            ]
-        })
-    }
     // The recall list only exists for dental clinics, the same rule the tabs
     // and the API use.
     if (industryHasFeature('clinicOverview')) {

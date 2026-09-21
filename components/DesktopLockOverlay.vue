@@ -1,13 +1,28 @@
 <template>
     <Transition name="lock-fade">
         <div v-if="isLocked" class="fixed inset-0 z-[9999] flex items-center justify-center bg-white/80 backdrop-blur-md">
-            <form @submit.prevent="unlock" class="w-full max-w-sm bg-white rounded-2xl border border-surface-200 shadow-2xl p-8 mx-4">
+            <!-- The window's only handle. On macOS the app runs with
+            titleBarStyle "hiddenInset" - there is no system title bar, and the
+            only draggable surface is the strip citizenone-desktop asks the
+            client to reserve in the layout. This overlay is fixed inset-0, so
+            while it is up that strip is underneath it and the window cannot be
+            moved at all: locked, and nailed to the desk. So the overlay brings
+            its own. -->
+            <div class="app-drag-region absolute inset-x-0 top-0 h-9" aria-hidden="true"></div>
+
+            <form @submit.prevent="unlock"
+                class="app-no-drag-region w-full max-w-sm bg-white rounded-2xl border border-surface-200 shadow-2xl p-8 mx-4">
                 <div class="flex flex-col items-center mb-6">
                     <div class="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold mb-4">
                         {{ initials }}
                     </div>
                     <h2 class="text-lg font-semibold text-gray-900">{{ $t('desktopLock.title') }}</h2>
                     <p class="text-sm text-gray-500 mt-1">{{ userStore.getUser?.firstname }} {{ userStore.getUser?.lastname }}</p>
+                    <!-- Said out loud, because a screen asking for a password
+                    with nothing else on it reads as "you were logged out" - and
+                    then people go looking for what they lost. Nothing was lost:
+                    the session is still open behind this. -->
+                    <p class="mt-2 text-center text-xs text-gray-400">{{ $t('desktopLock.reason') }}</p>
                 </div>
                 <template v-if="touchIdAvailable">
                     <button type="button" @click="unlockWithTouchId" :disabled="isPromptingTouchId"

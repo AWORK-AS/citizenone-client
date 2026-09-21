@@ -5,7 +5,9 @@
  * Sanctum token into localStorage (no password needed), then verifies the
  * self-service Mileage Log page loads, creates a multi-stop citizen-less trip
  * via the real map-picker UI, confirms the computed distance and route show
- * up in the table, and checks the "Mileage Report" entry point on Time Logs.
+ * up in the table, exercises the manual distance correction (and that it
+ * survives a later route-moving save), and checks the "Mileage Report" entry
+ * point on Time Logs.
  * Self-restoring: deletes the trip it creates via the API at the end.
  *
  * Run:  see tests/e2e/README.md
@@ -141,6 +143,59 @@ try {
   ok('Created trip is retrievable via API with citizen_id null and computed kilometers > 0',
     !!created && created.citizen_id === null && Number(created.kilometers) > 0)
   createdUuid = created?.uuid
+
+  // 5b) Manual distance correction. The correction itself goes through the API
+  // rather than the row's button: the list row carries no stable identifier in
+  // the DOM, so clicking "the right row" is not reliable here. What the browser
+  // half checks is the part only the browser can - that the "Corrected" badge
+  // renders on the corrected row afterwards.
+  //
+  // The guard being tested is the one the whole feature rests on: an override
+  // must survive a later save that moves the coordinates the calculator scores.
+  if (createdUuid) {
+    const CORRECTED = /Corrected|Rettet/
+    const corrected = await api('PUT', `/mileage-logs/${createdUuid}/distance`, {
+      kilometers: 99.99,
+      reason: 'E2E browser test correction',
+    })
+
+    if (corrected.status === 400) {
+      // Manager/Admin only by design - a plain-employee token is a valid state
+      // for this test to run in, not a failure.
+      console.log('↷  skipped distance-correction checks (this token is not Manager+)')
+    } else {
+      ok('Distance correction accepted (2xx)', corrected.status >= 200 && corrected.status < 300)
+
+      // Move the end coordinate: without the guard in recalculateDistance(),
+      // this rescores the trip and wipes the correction.
+      const moved = await api('PUT', `/mileage-logs/${createdUuid}`, {
+        geo_end_lat: 56.1629,
+        geo_end_lng: 10.2039, // Aarhus - would score far higher
+      })
+      ok('Update after correction succeeds (2xx)', moved.status >= 200 && moved.status < 300)
+
+      const { json: after } = await api('GET', `/mileage-logs/${createdUuid}`)
+      ok('Corrected distance survives an update that moves the route',
+        Number(after?.data?.kilometers) === 99.99 && after?.data?.distance_source === 'manual')
+      ok('Calculated figure is snapshotted alongside the correction',
+        after?.data?.kilometers_calculated != null && Number(after.data.kilometers_calculated) !== 99.99)
+
+      await page.goto(`${BASE}/settings/mileage-log`, { waitUntil: 'domcontentloaded' })
+      await page.locator('button', { hasText: NEW_TRIP }).first().waitFor()
+      await page.getByText(CORRECTED).first().waitFor({ timeout: 10000 })
+      ok('"Corrected" badge renders on the corrected row', true)
+      await page.screenshot({ path: `${SHOT}/mileage-07-corrected.png`, fullPage: true })
+
+      // Reverting hands the row back to the calculator.
+      const reverted = await api('DELETE', `/mileage-logs/${createdUuid}/distance`)
+      ok('Revert to calculated succeeds (2xx)', reverted.status >= 200 && reverted.status < 300)
+      const { json: back } = await api('GET', `/mileage-logs/${createdUuid}`)
+      ok('Reverted trip is recalculated and its audit fields cleared',
+        back?.data?.distance_source !== 'manual'
+        && Number(back?.data?.kilometers) !== 99.99
+        && back?.data?.kilometers_calculated == null)
+    }
+  }
 
   // 6) "Mileage Report" entry point on the Time Logs settings page.
   const MILEAGE_REPORT = /Mileage Report|Kørselsrapport/

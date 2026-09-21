@@ -16,6 +16,30 @@ class AppService extends BaseAPIService {
     async deleteApp(appUuid: string): Promise<any> {
         return await this.request(`/superadmin/apps/${appUuid}`, 'DELETE')
     }
+
+    // Per-app sales: what each app earns per month, who bought it, who left.
+    async getSales(params?: object): Promise<any> {
+        return await this.request('/superadmin/apps/catalogue/sales', 'GET', params)
+    }
+
+    // The order the store draws its shelves in, sent as one list after a drag.
+    async reorder(items: object[]): Promise<any> {
+        return await this.request('/superadmin/apps/catalogue/reorder', 'POST', { items })
+    }
+
+    async addScreenshot(appUuid: string, params: object): Promise<any> {
+        return await this.request(`/superadmin/apps/${appUuid}/screenshots`, 'POST', params)
+    }
+
+    // The same endpoint, for a file picked off the editor's own machine rather
+    // than an address they already host it at.
+    async uploadScreenshot(appUuid: string, formData: FormData): Promise<any> {
+        return await this.requestFormData(`/superadmin/apps/${appUuid}/screenshots`, formData)
+    }
+
+    async deleteScreenshot(screenshotUuid: string): Promise<any> {
+        return await this.request(`/superadmin/apps/screenshots/${screenshotUuid}`, 'DELETE')
+    }
 }
 
 export const appService = new AppService()

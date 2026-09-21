@@ -157,16 +157,18 @@
                             </Badge>
                         </button>
 
-                        <!-- Separator -->
-                        <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
+                        <template v-if="isSupportVisible">
+                            <!-- Separator -->
+                            <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
 
-                        <button type="button"
-                            class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
-                            @click="openSupport">
-                            <Icon name="material-symbols:support" class="ml-2 h-8 w-8 md:w-6 md:h-6"
-                                aria-hidden="true" />
-                            <span class="hidden md:block">Support</span>
-                        </button>
+                            <button type="button"
+                                class="-m-2.5 p-2.5 flex items-center gap-x-2 text-sm text-primary hover:text-primary-700"
+                                @click="openSupport">
+                                <Icon name="material-symbols:support" class="ml-2 h-8 w-8 md:w-6 md:h-6"
+                                    aria-hidden="true" />
+                                <span class="hidden md:block">Support</span>
+                            </button>
+                        </template>
 
                         <!-- Separator -->
                         <div class="hidden lg:block lg:h-6 lg:w-px lg:bg-gray-900/10" aria-hidden="true" />
@@ -305,6 +307,15 @@ const navigation = ref([
         ]
     },
     {
+        name: 'Calendar',
+        label: 'patient.nav.calendar',
+        href: '/patient/calendar',
+        icon: 'ph:calendar-blank',
+        activeRouteNames: [
+            'patient-calendar',
+        ]
+    },
+    {
         name: 'Surveys',
         label: 'sidebar.surveys',
         href: '/patient/surveys',
@@ -362,6 +373,7 @@ const visibleNavigation = computed(() => {
         Overview: 'overview',
         Messages: 'messages',
         Appointments: 'appointments',
+        Calendar: 'calendar',
         Surveys: 'surveys',
         Forms: 'forms',
         Journal: 'journals',
@@ -379,6 +391,9 @@ const visibleNavigation = computed(() => {
         return visibility[sectionByName[item.name]] !== false
     })
 })
+
+// The support button is not part of the navigation array, so it is gated separately.
+const isSupportVisible = computed(() => (userStore.getUser as any)?.portal_visibility?.support !== false)
 
 const sidebarOpen = ref(false)
 

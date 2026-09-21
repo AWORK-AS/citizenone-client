@@ -855,7 +855,32 @@
             "disconnected": "Successfully disconnected from Danløn",
             "disconnectTitle": "Disconnect Danløn",
             "disconnectConfirmation": "Are you sure you want to disconnect your Danløn integration? You will need to re-authorize to sync schedules again."
-        }
+        },
+        "free": "Free",
+        "searchPlaceholder": "Search for an app, a feature or a vendor",
+        "searchResults": "{count} results",
+        "noSearchResults": "No apps match \"{query}\".",
+        "seeAll": "See all",
+        "newInStore": "New in the store",
+        "editorsPick": "Editor's pick",
+        "readMoreAbout": "Read more about {name}",
+        "notFound": "This app does not exist, or it is not available to you.",
+        "howItLooks": "How it looks",
+        "aboutTheApp": "About the app",
+        "whatsNew": "What's new in this version",
+        "whatsNewIn": "What's new in {version}",
+        "priceHeading": "Price",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "oneTime": "One-off",
+        "version": "Version",
+        "updated": "Updated",
+        "category": "Category",
+        "publisher": "Publisher",
+        "dataLocation": "Data processed in",
+        "billing": "Billing",
+        "subscription": "Subscription",
+        "couldNotStartConnection": "The connection could not be started. Try again."
     },
     "archived": {
         "alert": {
@@ -900,7 +925,7 @@
         }
     },
     "assistants": {
-        "askAI": "Ask AI",
+        "askAI": "Ask Cody",
         "actions": {
             "copy": "Copy",
             "copied": "Copied",
@@ -908,13 +933,6 @@
             "insert": "Insert",
             "stop": "Stop",
             "regenerate": "Try again"
-        },
-        "starters": {
-            "title": "For example",
-            "overview": "Give me an overview of the case for ",
-            "summary": "Summarise the latest @:terms.journalNotes{''} for ",
-            "report": "Draft a report for the caseworker about ",
-            "organisation": "What do our guidelines say about "
         },
         "basedOn": "Based on",
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
@@ -947,7 +965,80 @@
             "untitled": "Untitled conversation",
             "deleteConfirmation": "Are you sure you want to delete this conversation? This cannot be undone.",
             "searchPlaceholder": "Search conversations..."
-        }
+        },
+        "tools": {
+            "daily_brief": "Reading today's overview",
+            "my_shifts": "Reading your shifts",
+            "my_tasks": "Reading your tasks",
+            "my_messages": "Counting unread messages",
+            "create_task": "Creating a task",
+            "draft_journal_note": "Writing a journal draft"
+        },
+        "toolTrace": {
+            "title": "What Cody read",
+            "unknown": "Using a tool",
+            "failed": "Could not be read",
+            "duration": "{ms} ms"
+        },
+        "identity": {
+            "name": "Cody",
+            "tagline": "Your everyday assistant",
+            "scope": "Only sees what you have access to"
+        },
+        "greeting": {
+            "morning": "Good morning, {name}",
+            "forenoon": "Good morning, {name}",
+            "afternoon": "Good afternoon, {name}",
+            "evening": "Good evening, {name}",
+            "help": "How can I help you today?"
+        },
+        "quick": {
+            "title": "Get started",
+            "overview": "Give me an overview",
+            "journal": "Write a journal note",
+            "files": "Find attached files",
+            "shifts": "What shifts do I have?"
+        },
+        "quickPrompts": {
+            "overview": "Give me an overview of my day",
+            "journal": "Write a journal note for ",
+            "files": "Find the attached files about ",
+            "shifts": "What shifts do I have in the next seven days?"
+        },
+        "dataAndAccess": "About data and access",
+        "reviewShort": "Cody can be wrong - read the answer through.",
+        "cards": {
+            "badges": {
+                "draft": "Draft",
+                "ai": "AI"
+            },
+            "facts": {
+                "due_date": "Due",
+                "column": "Column",
+                "date": "Date",
+                "shift": "Shift",
+                "department": "Department"
+            }
+        },
+        "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
+        "budgetSpent": "Your AI capacity is spent. Top up to continue.",
+        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
+        "dictate": {
+            "start": "Dictate",
+            "stop": "Stop recording",
+            "listening": "Listening…",
+            "transcribing": "Writing it down…",
+            "errors": {
+                "denied": "The browser is not allowed to use the microphone. Click the lock in the address bar and allow it.",
+                "missing": "No microphone found on this machine.",
+                "insecure": "Dictation needs a secure connection (https).",
+                "failed": "Could not transcribe the recording. Try again."
+            }
+        },
+        "attachFile": "Attach file",
+        "collapse": "Roll down",
+        "expand": "Roll up",
+        "shortcutHint": "Open and close with {shortcut}"
     },
     "back": "Back",
     "bellNotification": {
@@ -8579,6 +8670,28 @@
         }
     },
     "mileageLog": {
+        "alert": {
+            "distanceCorrected": "Distance corrected",
+            "distanceReverted": "Distance reverted to the calculated value"
+        },
+        "correction": {
+            "calculatedDistance": "Calculated distance",
+            "confirmRevert": "Are you sure you want to revert this trip to the calculated distance",
+            "correctDistance": "Correct distance",
+            "correctedBy": "Corrected by {name} on {date}",
+            "correctedDistance": "Corrected distance",
+            "reason": "Reason for correction",
+            "reasonRequired": "A reason is required",
+            "revertToCalculated": "Revert to calculated"
+        },
+        "distanceSource": {
+            "anchored_breadcrumbs": "GPS track (incl. start/stop)",
+            "breadcrumbs": "GPS track",
+            "manual": "Manually corrected",
+            "none": "No position data",
+            "stops": "Entered route",
+            "straight_line": "Straight line"
+        },
         "download": {
             "download": "Download",
             "downloadMileageLog": "Download mileage log",
@@ -8634,6 +8747,11 @@
         "mileageLog": "Mileage Log",
         "mileageReport": "Mileage Report",
         "newTrip": "New trip",
+        "reviewReason": {
+            "implausible_end_coordinate": "Implausible end position - that leg is not counted.",
+            "implausible_start_coordinate": "Implausible start position - that leg is not counted.",
+            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted."
+        },
         "summary": {
             "allTime": "All time",
             "byEmployee": "By employee",
@@ -8656,6 +8774,7 @@
             "confirmation": {
                 "deleteTripConfirmation": "Are you sure you want to delete this trip"
             },
+            "corrected": "Corrected",
             "date": "Date",
             "distance": "Distance",
             "distanceSourceUnknown": "Unknown source",
@@ -10303,10 +10422,14 @@
                 "termCitizensDefinite": "The citizens (plural, definite)",
                 "portalAudiencePatient": "Patient",
                 "portalSectionAppointments": "Appointments",
+                "portalSectionCalendar": "Calendar",
                 "portalSectionBooking": "Online booking",
+                "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
+                "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
                 "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
+                "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
             }
         },
@@ -11118,7 +11241,21 @@
                 "discountPercent": "Discount (%)",
                 "discountEndsAt": "Offer ends",
                 "paymentFeePercent": "Payment fee",
-                "paymentFeeHelp": "What CitizenOne takes of a payment the app carries. Empty means no fee."
+                "paymentFeeHelp": "What CitizenOne takes of a payment the app carries. Empty means no fee.",
+                "tagline": "Subtitle",
+                "longDescription": "Long description",
+                "whatsNew": "What's new in this version",
+                "publisher": "Publisher",
+                "version": "Version",
+                "releasedAt": "Updated",
+                "dataLocation": "Data processed in",
+                "isPublic": "Show on citizenone.dk",
+                "isPublicHint": "The app is only shown publicly once it has a description and a category.",
+                "screenshots": "Screenshots",
+                "addScreenshot": "Add screenshot",
+                "screenshotCaption": "Caption",
+                "uploadScreenshot": "Upload screenshot",
+                "uploadFailed": "The image could not be uploaded."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",
@@ -11126,7 +11263,38 @@
             "searchCompany": "Search company...",
             "assigned": "Assigned",
             "successAssigned": "App assigned",
-            "successAssignedBody": "{appName} has been assigned to {companyName}"
+            "successAssignedBody": "{appName} has been assigned to {companyName}",
+            "tabCatalogue": "Catalogue",
+            "tabSales": "Sales",
+            "missingForStore": "Missing: {fields}",
+            "sales": {
+                "acrossApps": "across {count} apps",
+                "activeSubscriptions": "Active subscriptions",
+                "appsWithoutSale": "{count} apps without a sale",
+                "bestSelling": "Best selling apps",
+                "cancelledLast30": "Cancelled in 30 days",
+                "colActive": "Active",
+                "colApp": "App",
+                "colCancelled": "Cancelled",
+                "colNew": "New 30 d",
+                "colRevenue": "Per month",
+                "colShare": "Share",
+                "colTrend": "Trend",
+                "conversion": "Conversion",
+                "conversionPending": "How many who open an app page activate it can only be shown once the store has counted views for a while.",
+                "customers": "{count} customers",
+                "monthlyRevenue": "App revenue per month",
+                "netChange": "Net change",
+                "neverSold": "Not selling",
+                "neverSoldHint": "No active subscriptions. Finish the copy, price them differently, or take them out of the store.",
+                "newLast30": "New in 30 days",
+                "newMinusCancelled": "New minus cancelled per month",
+                "noCategory": "No category",
+                "nothingSoldYet": "No app has been sold yet.",
+                "oneTime12Months": "One-off sales, 12 months",
+                "perMonthExVat": "Per month, excl. VAT",
+                "trendLabel": "Trend for {name}"
+            }
         },
         "appCategories": {
             "pageTitle": "App categories",
@@ -13850,8 +14018,7 @@
                 "newDepartments": "New departments ({count}):",
                 "newSections": "New paragraphs ({count}):",
                 "rowsToLookAt": "Rows to look at",
-                "line": "Line {line}",
-                "newSections": "New paragraphs ({count}):"
+                "line": "Line {line}"
             },
             "importing": {
                 "label": "Importing…"
@@ -14207,7 +14374,10 @@
             "heading": "Needs your attention",
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
             "missed_doses": "One dose is not registered as given | {n} doses are not registered as given",
-            "reminders_due": "One reminder is due today | {n} reminders are due today"
+            "reminders_due": "One reminder is due today | {n} reminders are due today",
+            "askCody": "Ask Cody about {subject}",
+            "askCodyShort": "Ask Cody",
+            "askCodyPrompt": "Tell me more about: {subject}.{detail} What should I do about it now?"
         },
         "title": "My day",
         "greeting": {
@@ -14227,7 +14397,13 @@
         "untitledNote": "Untitled note",
         "reminders": "My reminders",
         "noReminders": "No reminders today",
-        "newTask": "New task"
+        "newTask": "New task",
+        "cody": {
+            "reading": "Cody is reading your day ...",
+            "askMore": "Ask Cody about your day",
+            "askMorePrompt": "Give me an overview of my day. What is most important to start with?",
+            "prompt": "Here is what needs my attention today:\n{lines}\n\nWrite two short sentences about how my day looks and what I should take first. No headings, no bullet points, no names."
+        }
     },
     "handover": {
         "button": "Shift overview",
@@ -15225,6 +15401,7 @@
     "patient": {
         "nav": {
             "appointments": "Appointments",
+            "calendar": "Calendar",
             "journal": "Journal",
             "documents": "Documents",
             "priceEstimates": "Estimates",
@@ -15403,6 +15580,7 @@
     },
     "desktopLock": {
         "title": "CitizenOne is locked",
+        "reason": "Locked after a while without activity. You are still signed in - everything is as you left it.",
         "passwordLabel": "Password",
         "unlock": "Unlock",
         "verifying": "Verifying…",
@@ -15448,6 +15626,7 @@
         "form": {
             "enable": "Enable online booking on your website",
             "enableLabel": "Let visitors on your own website book directly into this calendar",
+            "logo": "Logo",
             "branding": "Branding",
             "brandingLabel": "Customize how the booking widget looks",
             "primaryColor": "Primary color",
@@ -15532,6 +15711,20 @@
             "needsCard": "Needs a stored payment card. Tick the box on your next purchase so the card can be used from then on.",
             "consent": "You agree that the card on file is charged the amount above whenever the balance reaches the limit. Turn off at any time.",
             "failed": "The setting could not be saved. Try again shortly."
+        },
+        "requests": "{count} requests",
+        "byUser": {
+            "title": "Who is using it",
+            "subtitle": "This month, busiest first"
+        },
+        "userLimit": {
+            "title": "Limit per employee",
+            "help": "How many requests one employee may make per day. The company's whole daily allowance is {company}. Leave the field empty to use the limit we work out.",
+            "perDay": "requests per day",
+            "clear": "Use calculated limit",
+            "saved": "Limit saved",
+            "set": "You set it to {limit} requests per day.",
+            "derived": "Calculated limit: {limit} requests per day per employee."
         }
     }
 }

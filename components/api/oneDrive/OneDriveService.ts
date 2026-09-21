@@ -94,6 +94,26 @@ export default class OneDriveService extends BaseAPIService {
     });
   }
 
+  /**
+   * Starts the per-user Microsoft OAuth consent flow. Microsoft's COOP
+   * headers block window.close() from a popup, so this leaves the page
+   * rather than opening one - oauth.vue sends the user back to
+   * `returnTo` (localStorage, since the redirect round-trips through
+   * Microsoft) once consent completes.
+   */
+  async connectOneDrive(userId?: string | number, returnTo: string = '/apps?onedrive_connected=1'): Promise<void> {
+    const response = await this.getOneDriveAuthUrl();
+    const authUrl = response?.authUrl || response?.auth_url;
+    if (!authUrl) {
+      throw new Error('Could not start OneDrive connection');
+    }
+    if (userId) {
+      localStorage.setItem('user_id', String(userId));
+    }
+    localStorage.setItem('onedrive_return_to', returnTo);
+    window.location.href = authUrl;
+  }
+
   async listFiles(folderId: string = 'root'): Promise<any> {
     const token = await this.getAccessToken()
     return await this.requestExternal(

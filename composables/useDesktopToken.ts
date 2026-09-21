@@ -40,10 +40,26 @@ export async function setSessionToken(token: string): Promise<void> {
     localStorage.setItem('_token', token)
 }
 
-export async function clearSessionToken(): Promise<void> {
+/**
+ * `reason` tells the desktop shell whether this is a decision or a guess. A
+ * 'logout' is the user signing out and is carried out as asked. An
+ * 'unauthorized' is only a reaction to a 401, and the shell checks with the API
+ * before deleting a token from disk - if the session turns out to still be
+ * alive it keeps it and answers false, and nothing here is cleared either.
+ *
+ * Older desktop builds ignore the argument and resolve undefined, which is
+ * exactly what they did before: clear it.
+ */
+export async function clearSessionToken(reason: 'logout' | 'unauthorized' = 'logout'): Promise<boolean> {
     const desktop = bridge()
     if (desktop?.isDesktop) {
-        await desktop.auth.clearToken()
+        const cleared = await desktop.auth.clearToken(reason)
+
+        if (cleared === false) {
+            return false
+        }
     }
     localStorage.removeItem('_token')
+
+    return true
 }

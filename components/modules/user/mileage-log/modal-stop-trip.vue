@@ -90,8 +90,8 @@
                             <!-- A flagged 0.00 km trip here is a legitimate answer (the only
                                  leg was impossible), not "nothing recorded" -- the warning
                                  box below is what tells the driver that, not this line. -->
-                            <p class="text-xs text-gray-400 mt-1" v-if="tracking.activeTrip.value.distance_source_label">
-                                {{ tracking.activeTrip.value.distance_source_label }}
+                            <p class="text-xs text-gray-400 mt-1" v-if="tracking.activeTrip.value.distance_source">
+                                {{ labels.distanceSourceLabel(tracking.activeTrip.value) }}
                             </p>
                         </div>
 
@@ -102,8 +102,8 @@
                             <Icon name="ph:warning-circle" class="w-5 h-5 text-red-600 shrink-0 mt-0.5" />
                             <div>
                                 <p class="text-sm font-semibold text-red-700">{{ $t('mileageLog.table.needsReview') }}</p>
-                                <p class="text-xs text-red-700 mt-0.5" v-if="tracking.activeTrip.value.review_reason_label">
-                                    {{ tracking.activeTrip.value.review_reason_label }}
+                                <p class="text-xs text-red-700 mt-0.5" v-if="labels.reviewReasonLabel(tracking.activeTrip.value)">
+                                    {{ labels.reviewReasonLabel(tracking.activeTrip.value) }}
                                 </p>
                             </div>
                         </div>
@@ -123,6 +123,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useMileageTracking } from '@/composables/mileageTracking'
+import { useMileageLabels } from '@/composables/mileageLabels'
 import { citizenService } from '@/components/api/user/CitizenService'
 
 const props = defineProps({
@@ -138,6 +139,7 @@ const emit = defineEmits<{
 }>()
 
 const { t } = useI18n()
+const labels = useMileageLabels()
 const tracking = useMileageTracking(t)
 
 const state = reactive({

@@ -21,6 +21,10 @@
                     <p class="text-sm text-white/80 mt-0.5">{{ todayLabel }}</p>
                 </div>
 
+                <!-- Cody reads the same brief and says what it means. The list
+                     below states the facts; this says how the day looks. -->
+                <ModulesUserDailyOverviewCodyLine v-if="hasAi" :items="brief.items" />
+
                 <!-- What needs attention on this shift. Every line is computed by
                      the API, not generated: the counters above say "medicine
                      today: 22" without saying which of the 22 is a problem. -->
@@ -31,9 +35,10 @@
                         {{ $t('myDay.brief.heading') }}
                     </h2>
                     <ul class="space-y-2">
-                        <li v-for="item in brief.items" :key="item.key">
+                        <li v-for="item in brief.items" :key="item.key"
+                            class="flex items-stretch gap-1.5 rounded-lg bg-white ring-1 ring-gray-200 transition-colors hover:ring-primary/40">
                             <button type="button"
-                                class="flex min-h-11 w-full items-start gap-3 rounded-lg bg-white px-3 py-2 text-left ring-1 ring-gray-200 transition-colors hover:ring-primary/40"
+                                class="flex min-h-11 flex-1 items-start gap-3 rounded-l-lg px-3 py-2 text-left"
                                 @click="navigateTo(item.link)">
                                 <span class="mt-1 size-2 shrink-0 rounded-full" :class="{
                                     'bg-red-500': item.severity === 'critical',
@@ -48,6 +53,15 @@
                                         {{ describe(item) }}
                                     </span>
                                 </span>
+                            </button>
+                            <!-- The page already knows what this line says. Asking
+                                 about it should not mean typing it out again. -->
+                            <button v-if="hasAi" type="button"
+                                class="flex shrink-0 items-center rounded-r-lg px-2.5 text-gray-400 transition-colors hover:bg-primary-25 hover:text-primary"
+                                :aria-label="$t('myDay.brief.askCody', { subject: $t(`myDay.brief.${item.key}`, item.count) })"
+                                :title="$t('myDay.brief.askCodyShort')"
+                                @click="askCodyAbout(item)">
+                                <ModulesUserNavbarCodyMark :size="17" />
                             </button>
                         </li>
                     </ul>
@@ -235,6 +249,7 @@ import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { reminderService } from '@/components/api/user/ReminderService'
 import { usePermissions } from '@/composables/usePermissions'
+import { useAssistantStore } from '@/store/assistant'
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
@@ -257,6 +272,7 @@ const monthNames: Record<string, string[]> = {
     sv: ['januari', 'februari', 'mars', 'april', 'maj', 'juni', 'juli', 'augusti', 'september', 'oktober', 'november', 'december'],
 }
 const userStore = useUserStore() as any
+const assistantStore = useAssistantStore()
 const departmentStore = useDepartmentStore() as any
 const { isAtLeast, can } = usePermissions()
 
@@ -430,6 +446,24 @@ interface BriefItem {
 }
 
 const brief = reactive<{ items: BriefItem[] }>({ items: [] })
+
+const hasAi = computed(() => !!userStore.getUser?.has_ai_access)
+
+/**
+ * Hand the line the reader is looking at straight to Cody.
+ *
+ * The question is built from what the page already renders, so the assistant is
+ * asked about the same thing the reader can see rather than about a category.
+ * The brief's own detail line carries initials and times and never full names -
+ * it is written for a screen read in a shared room - so passing it along keeps
+ * that property.
+ */
+function askCodyAbout(item: BriefItem) {
+    const subject = t(`myDay.brief.${item.key}`, item.count)
+    const detail = item.details?.length ? ` ${describe(item)}.` : ''
+
+    assistantStore.askAbout(t('myDay.brief.askCodyPrompt', { subject, detail }))
+}
 
 async function fetchBrief() {
     try {

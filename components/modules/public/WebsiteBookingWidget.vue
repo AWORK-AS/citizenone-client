@@ -164,7 +164,7 @@ const LABELS: Record<string, Record<string, string>> = {
         bookingConfirmed: 'Booking confirmed',
         bookingConfirmedDefault: 'Your appointment has been booked. You will receive a confirmation email shortly.',
     },
-    da: {
+    dk: {
         loading: 'Indlæser…',
         chooseService: 'Vælg en ydelse',
         allDepartments: 'Alle afdelinger',
@@ -188,10 +188,62 @@ const LABELS: Record<string, Record<string, string>> = {
         bookingConfirmed: 'Booking bekræftet',
         bookingConfirmedDefault: 'Din tid er booket. Du modtager en bekræftelse på email.',
     },
+    no: {
+        loading: 'Laster…',
+        chooseService: 'Velg en tjeneste',
+        allDepartments: 'Alle avdelinger',
+        noServices: 'Ingen tjenester er tilgjengelige for nettbooking akkurat nå.',
+        chooseDate: 'Velg en dato',
+        noSlots: 'Ingen ledige tider på denne datoen.',
+        back: 'Tilbake',
+        yourDetails: 'Dine opplysninger',
+        firstName: 'Fornavn',
+        lastName: 'Etternavn',
+        email: 'E-post',
+        phone: 'Telefon',
+        address: 'Adresse',
+        notes: 'Notater',
+        socialSecurityNumber: 'Fødselsnummer',
+        dateOfBirth: 'Fødselsdato',
+        acceptConditions: 'Jeg godtar',
+        conditions: 'vilkårene',
+        confirmBooking: 'Bekreft booking',
+        booking: 'Booker…',
+        bookingConfirmed: 'Booking bekreftet',
+        bookingConfirmedDefault: 'Timen din er booket. Du vil motta en bekreftelse på e-post.',
+    },
+    sv: {
+        loading: 'Läser in…',
+        chooseService: 'Välj en tjänst',
+        allDepartments: 'Alla avdelningar',
+        noServices: 'Inga tjänster är tillgängliga för onlinebokning just nu.',
+        chooseDate: 'Välj ett datum',
+        noSlots: 'Inga lediga tider detta datum.',
+        back: 'Tillbaka',
+        yourDetails: 'Dina uppgifter',
+        firstName: 'Förnamn',
+        lastName: 'Efternamn',
+        email: 'E-post',
+        phone: 'Telefon',
+        address: 'Adress',
+        notes: 'Anteckningar',
+        socialSecurityNumber: 'Personnummer',
+        dateOfBirth: 'Födelsedatum',
+        acceptConditions: 'Jag godkänner',
+        conditions: 'villkoren',
+        confirmBooking: 'Bekräfta bokning',
+        booking: 'Bokar…',
+        bookingConfirmed: 'Bokning bekräftad',
+        bookingConfirmedDefault: 'Din tid är bokad. Du får en bekräftelse via e-post inom kort.',
+    },
 }
 
+// 'da' is an alias for 'dk' so embeds published before the dk/no/sv locales
+// were added (which passed data-locale="da") keep showing Danish instead of
+// silently falling back to English.
 function t(key: string): string {
-    const locale = props.locale === 'da' ? 'da' : 'en'
+    const requested = props.locale === 'da' ? 'dk' : props.locale
+    const locale = requested && LABELS[requested] ? requested : 'en'
     return LABELS[locale][key] ?? key
 }
 
