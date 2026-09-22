@@ -11856,7 +11856,11 @@
             },
             "tabs": {
                 "overview": "Overview",
-                "report": "Report"
+                "report": "Report",
+                "management": "Management"
+            },
+            "management": {
+                "subtitle": "Run rate, secured revenue and agreements. Only for those with access."
             }
         },
         "invoiceDetails": {

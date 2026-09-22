@@ -11856,7 +11856,11 @@
             },
             "tabs": {
                 "overview": "Overblik",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledelse"
+            },
+            "management": {
+                "subtitle": "Kørselsrate, sikret omsætning og aftaler. Kun for dem der har adgang."
             }
         },
         "invoiceDetails": {

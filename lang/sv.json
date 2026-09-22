@@ -11819,7 +11819,11 @@
             },
             "tabs": {
                 "overview": "Översikt",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledning"
+            },
+            "management": {
+                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet."
             }
         },
         "invoiceDetails": {

@@ -123,9 +123,9 @@
                     </div>
                 </div>
 
-                <!-- Row 1b: adoption and recurring revenue -->
-                <div class="grid grid-cols-2 gap-4"
-                    :class="state.recurringRevenue || state.churn ? 'lg:grid-cols-4' : 'lg:grid-cols-2'">
+                <!-- Row 1b: adoption. Tallene for penge og aftaler ligger på
+                     Ledelse-fanen, bag sin egen rettighed. -->
+                <div class="grid grid-cols-2 lg:grid-cols-2 gap-4">
                     <!-- Users right now -->
                     <div class="co-stat-card" style="--accent:#42AED9">
                         <div class="flex items-start justify-between">
@@ -168,116 +168,6 @@
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
                                 style="background:#EEF8F8">
                                 <Icon name="ph:buildings" class="w-5 h-5 text-[#368F8B]" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- MRR / ARR -->
-                    <div v-if="state.recurringRevenue" class="co-stat-card" style="--accent:#2E9E33">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.mrr') }}</p>
-                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.mrr')"
-                                        position="bottom" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
-                                    </Tooltip>
-                                </div>
-                                <p class="co-stat-value text-[#2E9E33]">
-                                    {{ formatAmount(state.recurringRevenue.mrr, 'DKK') }}
-                                </p>
-                                <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.arr, 'DKK') }) }}
-                                </p>
-                            </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EDF7EE">
-                                <Icon name="ph:chart-line-up" class="w-5 h-5 text-[#2E9E33]" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Committed: the part of the run rate that is collecting -->
-                    <div v-if="state.recurringRevenue?.cmrr !== undefined" class="co-stat-card" style="--accent:#205E77">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.cmrr') }}</p>
-                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.cmrr')" position="bottom" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
-                                    </Tooltip>
-                                </div>
-                                <p class="co-stat-value text-[#205E77]">
-                                    {{ formatAmount(state.recurringRevenue.cmrr, 'DKK') }}
-                                </p>
-                                <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.carr', { amount: formatAmount(state.recurringRevenue.carr, 'DKK') }) }}
-                                </p>
-                                <p v-if="state.recurringRevenue.agreements?.not_collecting" class="co-stat-sub text-[#CC3B2D]">
-                                    {{ $t('superadmin.dashboard.adoption.notCollecting', { count: state.recurringRevenue.agreements.not_collecting }) }}
-                                </p>
-                            </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#E4F1F6">
-                                <Icon name="ph:shield-check" class="w-5 h-5 text-[#205E77]" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Contracted: what the agreements are scheduled to bill -->
-                    <div v-if="state.recurringRevenue?.contracted_next_12_months !== undefined" class="co-stat-card"
-                        style="--accent:#42AED9">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.contracted') }}</p>
-                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.contracted')" position="bottom" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
-                                    </Tooltip>
-                                </div>
-                                <p class="co-stat-value text-[#42AED9]">
-                                    {{ formatAmount(state.recurringRevenue.contracted_next_12_months, 'DKK') }}
-                                </p>
-                                <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.contractedThreeYears', { amount: formatAmount(state.recurringRevenue.contracted_next_36_months, 'DKK') }) }}
-                                </p>
-                                <NuxtLink to="/superadmin/analytics"
-                                    class="co-stat-sub text-[#205E77] inline-flex items-center gap-1 hover:underline">
-                                    {{ $t('superadmin.dashboard.adoption.seeForecast') }}
-                                    <Icon name="ph:arrow-right" class="w-3 h-3" />
-                                </NuxtLink>
-                            </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#E8F6FC">
-                                <Icon name="ph:calendar-check" class="w-5 h-5 text-[#42AED9]" />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Churn -->
-                    <div v-if="state.churn" class="co-stat-card" style="--accent:#CC3B2D">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    <p class="co-stat-label">
-                                        {{ $t('superadmin.dashboard.adoption.churn', { days: state.churn.window_days }) }}
-                                    </p>
-                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.churn')" position="bottom" wrap>
-                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
-                                    </Tooltip>
-                                </div>
-                                <p class="co-stat-value" :class="state.churn.churned > 0 ? 'text-[#CC3B2D]' : ''">
-                                    {{ state.churn.rate === null ? '—' : `${state.churn.rate}%` }}
-                                </p>
-                                <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.churnSub', {
-                                        churned: state.churn.churned, base: state.churn.base
-                                    }) }}
-                                </p>
-                            </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#FFF0F0">
-                                <Icon name="ph:user-minus" class="w-5 h-5 text-[#CC3B2D]" />
                             </div>
                         </div>
                     </div>
@@ -373,29 +263,6 @@
 
                     <!-- Right column: revenue + storage -->
                     <div class="space-y-4">
-                        <!-- Revenue -->
-                        <div v-if="canViewFinancials" class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
-                            <div class="flex items-center justify-between mb-3">
-                                <h2 class="text-[13px] font-semibold text-[#1F2533]">
-                                    {{ $t('superadmin.dashboard.revenue.revenue') }}
-                                </h2>
-                            </div>
-                            <div class="flex gap-1.5 mb-3">
-                                <input type="date" v-model="state.revenueDateFrom"
-                                    class="text-xs border border-[#EAECF0] rounded-lg px-2 py-1.5 text-[#5C6478] bg-white outline-none focus:border-[#42AED9] flex-1 transition-colors"
-                                    @change="fetchDashboard" />
-                                <input type="date" v-model="state.revenueDateTo"
-                                    class="text-xs border border-[#EAECF0] rounded-lg px-2 py-1.5 text-[#5C6478] bg-white outline-none focus:border-[#42AED9] flex-1 transition-colors"
-                                    @change="fetchDashboard" />
-                            </div>
-                            <p class="text-[24px] font-bold text-[#1F2533]">
-                                {{ formatAmount(state.revenue, 'DKK') }}
-                            </p>
-                            <p class="text-[11px] text-[#8891A4] mt-0.5">
-                                {{ $t('superadmin.dashboard.exclVat') }}
-                            </p>
-                        </div>
-
                         <!-- Storage -->
                         <div class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
                             <div class="flex items-center justify-between mb-3">
@@ -496,17 +363,12 @@
 import moment from 'moment'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
-import { useAmountFormatter } from '@/composables/amountFormatter'
-import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatAmount } = useAmountFormatter()
 const { t } = useI18n()
-const { can } = usePermissions()
-const canViewFinancials = computed(() => can('view_financials'))
 const userStore = useUserStore() as any
 
 const localeMap: Record<string, string> = {
@@ -535,7 +397,6 @@ const state = reactive({
     totalPaidLicenses: 0,
     totalActiveLicenses: 0,
     unusedLicenses: 0,
-    revenue: 0,
     companyStorage: [] as any[],
     recentCompanies: [] as any[],
     usersOnlineNow: 0,
@@ -543,14 +404,6 @@ const state = reactive({
     companiesActiveToday: 0,
     companiesActiveThisWeek: 0,
     quietCompanies: [] as any[],
-    recurringRevenue: null as any,
-    churn: null as any,
-    // Måned til dato. Kortet stod på i dag-til-i dag, hvilket er en periode
-    // der næsten altid er tom, og et tomt omsætningskort ligner en stille
-    // måned frem for en forkert indstilling. Det er samtidig den periode
-    // API'et selv falder tilbage på, når der ingen datoer er med.
-    revenueDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
-    revenueDateTo: moment().format('YYYY-MM-DD'),
     isLoading: false,
     error: {} as any,
 })
@@ -605,9 +458,7 @@ onMounted(() => {
 
 async function fetchDashboard() {
     try {
-        const response = await dashboardService.getDashboardData({
-            date: { start_date: state.revenueDateFrom, end_date: state.revenueDateTo }
-        })
+        const response = await dashboardService.getDashboardData({})
         if (response) {
             state.totalCompanies = response?.data?.total_companies ?? 0
             state.payingCompanies = response?.data?.paying_companies ?? 0
@@ -617,16 +468,12 @@ async function fetchDashboard() {
             state.totalPaidLicenses = response?.data?.total_paid_licenses ?? 0
             state.totalActiveLicenses = response?.data?.total_active_licenses ?? 0
             state.unusedLicenses = response?.data?.unused_licenses ?? 0
-            state.revenue = response?.data?.total_revenue ?? 0
             state.companyStorage = response?.data?.company_storage ?? []
             state.usersOnlineNow = response?.data?.users_online_now ?? 0
             state.usersActiveToday = response?.data?.users_active_today ?? 0
             state.companiesActiveToday = response?.data?.companies_active_today ?? 0
             state.companiesActiveThisWeek = response?.data?.companies_active_this_week ?? 0
             state.quietCompanies = response?.data?.quiet_companies ?? []
-            // Null when the superadmin lacks view_financials, so the cards stay hidden.
-            state.recurringRevenue = response?.data?.recurring_revenue ?? null
-            state.churn = response?.data?.churn ?? null
         }
     } catch (e: any) { state.error = e }
 }
