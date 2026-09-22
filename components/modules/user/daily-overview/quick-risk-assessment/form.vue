@@ -14,35 +14,18 @@
             </div>
             <div class="space-y-3" v-if="state.formRiskAssessment.citizen_uuid">
                 <div class="grid md:grid-cols-2 gap-x-3">
-                    <div class="md:col-span-2">
-                        <button type="button" class="text-sm text-primary hover:text-primary-700"
-                            @click="state.usePredefinedJournalTitle = !state.usePredefinedJournalTitle">
-                            <span v-if="state.usePredefinedJournalTitle">
-                                {{ $t('overview.quickRiskAssessment.form.enterJournalTitleManually') }}
-                            </span>
-                            <span v-else>
-                                {{ $t('overview.quickRiskAssessment.form.usePredefinedJournalTitle') }}
-                            </span>
-                        </button>
-                    </div>
-                    <div class="space-y-1" v-if="state.usePredefinedJournalTitle">
+                    <div class="space-y-1">
                         <div class="flex justify-between items-center py-0.5">
-                            <FormLabel for="predefined_title" :label="$t('overview.quickRiskAssessment.form.title')" />
+                            <FormLabel for="title" :label="$t('overview.quickRiskAssessment.form.title')" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
                                 @click="state.modal.isAddJournalTitleOpen = true">
                                 {{ $t('journalTitles.addNewJournalTitle') }}
                             </span>
                         </div>
-                        <FormSelect id="predefined_title" v-model="state.formRiskAssessment.title"
-                            :options="state.options.journal_titles" />
-                        <FormError :error="v$?.formRiskAssessment?.title?.$errors[0]?.$message.toString()" />
-                        <FormError :error="props?.error?.errors?.title?.[0]" />
-                    </div>
-                    <div class="space-y-1" v-else>
-                        <FormLabel for="title" :label="$t('overview.quickRiskAssessment.form.title')" />
-                        <FormTextField id="title" name="title"
-                            :placeholder="$t('overview.quickRiskAssessment.form.title')"
-                            v-model="state.formRiskAssessment.title" />
+                        <FormComboField id="title" name="title"
+                            :placeholder="$t('citizens.citizenJournals.form.titlePlaceholder')"
+                            :toggleLabel="$t('citizens.citizenJournals.form.showJournalTitles')"
+                            :options="state.options.journal_titles" v-model="state.formRiskAssessment.title" />
                         <FormError :error="v$?.formRiskAssessment?.title?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.title?.[0]" />
                     </div>
@@ -286,7 +269,6 @@ const state = reactive({
         citizens: [] as any,
         journal_titles: [],
     },
-    usePredefinedJournalTitle: false,
 })
 
 onMounted(() => {

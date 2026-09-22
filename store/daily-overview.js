@@ -17,7 +17,11 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showGender: false,
                 showGoalsScoreStatistics: false,
                 showJournalScoreStatistics: false,
-                showLatestJournal: false,
+                // On by default: catching up on the last seven days of notes is
+                // what the overview is opened for, and the panel being off until
+                // someone found the show/hide list meant it was missing on every
+                // new device and every fresh login.
+                showLatestJournal: true,
                 showMedicineDeviationStatistics: false,
                 showMyDailyEvents: false,
                 showPlansAndGoals: false,

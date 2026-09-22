@@ -10,6 +10,12 @@
                 <FormError :error="v$?.formSection?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
+            <div class="space-y-1">
+                <FormLabel for="paragraph" :label="$t('sections.form.paragraph')" />
+                <FormTextField id="paragraph" name="paragraph" :placeholder="$t('sections.form.paragraphPlaceholder')"
+                    v-model="state.formSection.paragraph" />
+                <FormError :error="props?.error?.errors?.paragraph?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -54,6 +60,7 @@ const state = reactive({
     error: {} as Error,
     formSection: {
         name: '',
+        paragraph: '',
     },
 })
 
@@ -61,6 +68,7 @@ watch(() => props.selectedSection, (newValue: any) => {
     if (newValue != null) {
         state.formSection = {
             name: newValue.name,
+            paragraph: newValue.paragraph ?? '',
         }
     }
 })

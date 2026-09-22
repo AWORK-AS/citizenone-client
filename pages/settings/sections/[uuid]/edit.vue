@@ -52,6 +52,7 @@ const state = reactive({
     error: {} as Error,
     formSection: {
         name: '',
+        paragraph: '',
     },
     isPageLoading: false,
 })
@@ -68,6 +69,7 @@ async function fetchSection() {
         if (response) {
             state.formSection = {
                 name: response?.data?.name ?? '',
+                paragraph: response?.data?.paragraph ?? '',
             }
         }
     } catch (error: any) {
@@ -82,6 +84,7 @@ async function updateSection(sectionDetails: any) {
     try {
         const params = {
             name: sectionDetails.name,
+            paragraph: sectionDetails.paragraph || null,
         }
         const response = await sectionService.updateSection(sectionUuid, params)
         if (response.data) {

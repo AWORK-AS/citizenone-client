@@ -200,6 +200,10 @@ async function saveCitizen(citizenDetails: any) {
         params.append('email', citizenDetails.email)
         params.append('social_security_number', citizenDetails.social_security_number)
         params.append('case_number', citizenDetails.case_number ?? '')
+        // Sent even when empty: clearing the frequency is how a reporting
+        // requirement is lifted, and the reminder goes with it.
+        params.append('reporting_frequency', citizenDetails.reporting_frequency ?? '')
+        params.append('reporting_starts_on', citizenDetails.reporting_starts_on ?? '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))

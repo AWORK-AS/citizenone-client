@@ -135,6 +135,7 @@
                                             </div>
                                             <p class="mt-1 text-xs text-muted-400">
                                                 <span>{{ formatDateToReadable(journal.date) }}</span>
+                                                <span v-if="journal.created_at"> · {{ formatTimeToReadable(journal.created_at) }}</span>
                                             </p>
                                             <div class="mt-1">
                                                 <Badge type="primary" class="w-fit" v-if="journal.score">
@@ -315,14 +316,21 @@ import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
+const { formatDateToReadable, formatDateTimeToReadable, formatTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenJournalStore = useCitizenJournalStore()
 const departmentStore = useDepartmentStore()
+const route = useRoute()
 let currentTablePage = 1
+
+// The overview's recent-notes panel links here with its own window, so the page
+// opens on the same seven days the user was just looking at.
+const queryStartDate = typeof route.query.start_date === 'string' ? route.query.start_date : ''
+const queryEndDate = typeof route.query.end_date === 'string' ? route.query.end_date : ''
+const hasQueryDateRange = queryStartDate.length > 0 && queryEndDate.length > 0
 
 const breadcrumbLinks = [
     {
@@ -334,10 +342,12 @@ const breadcrumbLinks = [
 
 const state = reactive({
     citizenOptions: [] as any,
-    dataFilter: [] as any,
+    dataFilter: (hasQueryDateRange
+        ? { start_date: queryStartDate, end_date: queryEndDate }
+        : []) as any,
     error: {} as Error,
     filter: {
-        date_range: [] as any,
+        date_range: (hasQueryDateRange ? [queryStartDate, queryEndDate] : []) as any,
         journal: '' as any,
     },
     isPageLoading: false,

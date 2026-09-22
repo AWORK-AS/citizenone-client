@@ -50,6 +50,7 @@ const state = reactive({
     error: {} as Error,
     formSection: {
         name: '',
+        paragraph: '',
     },
     isPageLoading: false,
 })
@@ -60,6 +61,7 @@ async function saveSection(sectionDetails: any) {
     try {
         const params = {
             name: sectionDetails.name,
+            paragraph: sectionDetails.paragraph || null,
         }
         const response = await sectionService.saveSection(params)
         if (response.data) {

@@ -7,30 +7,12 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <form @submit.prevent="saveJournal" class="space-y-4">
                         <div class="grid md:grid-cols-2 gap-x-3">
-                            <div class="md:col-span-2">
-                                <button type="button" class="text-sm text-primary hover:text-primary-700"
-                                    @click="state.usePredefinedTitle = !state.usePredefinedTitle">
-                                    <span v-if="state.usePredefinedTitle">
-                                        {{ $t('citizens.citizenJournals.form.enterJournalTitleManually') }}
-                                    </span>
-                                    <span v-else>
-                                        {{ $t('citizens.citizenJournals.form.usePredefinedJournalTitle') }}
-                                    </span>
-                                </button>
-                            </div>
-                            <div class="space-y-1" v-if="state.usePredefinedTitle">
-                                <div class="flex justify-between items-center py-0.5">
-                                    <FormLabel for="journal_title" :label="$t('citizens.citizenJournals.form.title')" />
-                                </div>
-                                <FormSelect id="journal_title" v-model="state.formJournal.title"
-                                    :options="state.options.journal_titles" />
-                                <FormError :error="state.error?.errors?.title?.[0]" />
-                            </div>
-                            <div class="space-y-1" v-else>
+                            <div class="space-y-1">
                                 <FormLabel for="journal_title" :label="$t('citizens.citizenJournals.form.title')" />
-                                <FormTextField id="journal_title" name="journal_title"
-                                    :placeholder="$t('citizens.citizenJournals.form.title')"
-                                    v-model="state.formJournal.title" />
+                                <FormComboField id="journal_title" name="journal_title"
+                                    :placeholder="$t('citizens.citizenJournals.form.titlePlaceholder')"
+                                    :toggleLabel="$t('citizens.citizenJournals.form.showJournalTitles')"
+                                    :options="state.options.journal_titles" v-model="state.formJournal.title" />
                                 <FormError :error="state.error?.errors?.title?.[0]" />
                             </div>
                             <div class="space-y-1">
@@ -221,7 +203,6 @@ const state = reactive({
     isPageLoading: false,
     error: {} as Error,
     citizenUuid: '' as string,
-    usePredefinedTitle: false,
     formJournal: {
         title: '',
         date: moment().format('YYYY-MM-DD'),
@@ -283,7 +264,6 @@ function resolveCitizenUuid() {
 
 function resetForm() {
     state.error = {}
-    state.usePredefinedTitle = false
     state.formJournal = {
         title: '',
         date: moment().format('YYYY-MM-DD'),

@@ -37,6 +37,7 @@ const state = reactive({
     formEmployeeDocument: {
         file: '',
         note: '',
+        issued_at: '',
     },
     isPageLoading: false,
 })
@@ -58,6 +59,9 @@ async function saveEmployeeDocument(employeeDocumentDetails: any) {
         params.append('file', employeeDocumentDetails.file)
         params.append('file_type', 'child_protection_certificate')
         params.append('note', employeeDocumentDetails.note)
+        if (employeeDocumentDetails.issued_at) {
+            params.append('issued_at', employeeDocumentDetails.issued_at)
+        }
         const response = await employeeDocumentService.saveDocument(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullySaved')}.`)

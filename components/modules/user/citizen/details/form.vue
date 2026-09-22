@@ -302,6 +302,23 @@
                         {{ $t('citizens.form.interventionType') }}: {{ selectedSectionLabel }}
                     </p>
                 </div>
+                <!-- What the authority expects, and from when. The two together
+                     create the recurring reminder the case team receives. -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('reporting')">
+                    <div class="space-y-1">
+                        <FormLabel for="reporting_frequency" :label="$t('citizens.form.reportingFrequency')" />
+                        <FormSelect id="reporting_frequency" :options="reportingFrequencyOptions"
+                            :searchable="false" v-model="state.formCitizen.reporting_frequency" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.reportingFrequencyHint') }}</p>
+                        <FormError :error="props?.error?.errors?.reporting_frequency?.[0]" />
+                    </div>
+                    <div class="space-y-1" v-if="state.formCitizen.reporting_frequency">
+                        <FormLabel for="reporting_starts_on" :label="$t('citizens.form.reportingStartsOn')" />
+                        <FormDateField id="reporting_starts_on" name="reporting_starts_on"
+                            v-model="state.formCitizen.reporting_starts_on" />
+                        <FormError :error="props?.error?.errors?.reporting_starts_on?.[0]" />
+                    </div>
+                </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
                         <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
@@ -1222,6 +1239,18 @@ function isFieldVisible(fieldKey: string): boolean {
     return formConfig.value[fieldKey] !== false
 }
 
+// The frequencies an authority is reported to on. Deliberately not the full
+// reminder vocabulary: nobody reports daily or at weekends, and offering it
+// would only invite a mistake.
+const reportingFrequencyOptions = computed(() => [
+    { value: 'weekly', label: t('citizens.form.reportingOptions.weekly') },
+    { value: 'biweekly', label: t('citizens.form.reportingOptions.biweekly') },
+    { value: 'monthly', label: t('citizens.form.reportingOptions.monthly') },
+    { value: 'every_three_months', label: t('citizens.form.reportingOptions.everyThreeMonths') },
+    { value: 'every_six_months', label: t('citizens.form.reportingOptions.everySixMonths') },
+    { value: 'yearly', label: t('citizens.form.reportingOptions.yearly') },
+])
+
 const selectedSectionLabel = computed(() => {
     return state.options.sections.find((option: any) => option.value === state.formCitizen.section)?.label ?? ''
 })
@@ -1292,6 +1321,8 @@ const state = reactive({
         has_bullet_board_access: false,
         inquiryData: {
             conversation_summary: '',
+            reporting_frequency: '',
+            reporting_starts_on: '',
             inquiry_date: '',
             inquirer_name: '',
             outcome: '',
@@ -1571,6 +1602,8 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             has_bullet_board_access: selectedCitizen.has_bullet_board_access,
             inquiryData: {
                 conversation_summary: selectedCitizen.inquiryData?.conversation_summary || '',
+                reporting_frequency: selectedCitizen.reporting_frequency || '',
+                reporting_starts_on: selectedCitizen.reporting_starts_on || '',
                 inquiry_date: selectedCitizen.inquiryData?.inquiry_date || '',
                 inquirer_name: selectedCitizen.inquiryData?.inquirer_name || '',
                 outcome: selectedCitizen.inquiryData?.outcome || '',
@@ -1912,9 +1945,11 @@ async function fetchSections() {
         if (response.data) {
             let options: any = []
             response.data.forEach(
+                // label joins the paragraph and what it is for; name alone for
+                // entries a customer has not split up yet.
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: item.label ?? item.name,
                 })
             )
             state.options.sections = options

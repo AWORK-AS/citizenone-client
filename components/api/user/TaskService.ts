@@ -41,6 +41,10 @@ class TaskService extends BaseAPIService {
         return await this.request(`/user/tasks/mine`, 'GET')
     }
 
+    async getSentTasks(): Promise<any> {
+        return await this.request(`/user/tasks/sent`, 'GET')
+    }
+
     async saveTask(boardUuid: string, params: object): Promise<any> {
         return await this.request(`/user/tasks/boards/${boardUuid}/tasks`, 'POST', params)
     }
