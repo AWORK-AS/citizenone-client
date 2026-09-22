@@ -210,12 +210,10 @@
                                                 v-if=journal?.is_editable>
                                                 <Icon name="ph:pencil-duotone" class="size-4" />
                                             </FormButton>
-                                            <FormButton buttonSize="xs" :class="[
-                                                journal?.is_favorite && 'border-secondary bg-secondary text-white',
-                                                'rounded-md w-full md:w-fit']"
-                                                @click="addRemoveJournalToFavorite(journal.uuid)">
-                                                <Icon name="ph:star" class="size-4" />
-                                            </FormButton>
+                                            <ModulesUserJournalFavoriteButton :journal="journal"
+                                                activeClass="border-secondary bg-secondary text-white"
+                                                buttonClass="rounded-md w-full md:w-fit"
+                                                @updated="onJournalFavoriteUpdated" />
                                             <FormButton buttonSize="xs" :class="[
                                                 journal?.is_locked && 'border-secondary bg-secondary text-white',
                                                 'rounded-md w-full md:w-fit']"
@@ -440,19 +438,10 @@ function closeEditJournalModal() {
     state.selectedJournal = []
 }
 
-async function addRemoveJournalToFavorite(journalUuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await journalService.updateJournalFavorite(journalUuid)
-        if (response?.data) {
-            fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
+function onJournalFavoriteUpdated(updatedJournal: any) {
+    if (!updatedJournal) return
+    fetchJournals()
+    successAlert(`${t('alert.success')}!`, updatedJournal?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
 }
 
 async function lockUnlockJournal(journalUuid: any) {

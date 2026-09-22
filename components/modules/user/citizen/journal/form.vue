@@ -116,6 +116,18 @@
                     {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoalOrSubgoal') }}
                 </div>
             </div>
+            <!-- A direct jump to a sub-goal, so logging against one doesn't require
+                 walking the Plan -> Goal -> Sub-goal cascade below every time. The
+                 three fields it fills are the same ones the cascade uses, so nothing
+                 downstream (validation, save) needs to know this shortcut exists. -->
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <FormLabel for="journal_note_subgoal_shortcut"
+                    :label="$t('citizens.citizenJournals.form.jumpToSubgoal')" />
+                <FormComboField id="journal_note_subgoal_shortcut" name="journal_note_subgoal_shortcut"
+                    :placeholder="$t('citizens.citizenJournals.form.jumpToSubgoalPlaceholder')"
+                    :toggleLabel="$t('citizens.citizenJournals.form.jumpToSubgoalPlaceholder')"
+                    :options="state.options.journal_note_subgoal_shortcuts" v-model="state.subgoalShortcut" />
+            </div>
             <div class="grid md:grid-cols-3 gap-x-3"
                 v-if="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
                 <div class="space-y-1">
@@ -517,7 +529,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
@@ -622,6 +634,10 @@ const state = reactive({
         field_answers: [] as Array<{ journal_title_field_uuid: string, response: string | string[] }>,
     } as any,
     selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string, options: string[] }>,
+    // The "jump to a sub-goal" shortcut's own selection - kept separate from
+    // formJournal.journal_note_subgoal since picking here also has to drive
+    // the plan/goal cascade below it, not just the final field.
+    subgoalShortcut: '',
     pendingSurveys: [] as any[],
     surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
@@ -659,6 +675,8 @@ const state = reactive({
         journal_note_plans: [],
         journal_note_goals: [],
         journal_note_subgoals: [],
+        journal_note_subgoal_shortcuts: [] as any[],
+        journal_note_subgoal_shortcuts_raw: [] as any[],
         journal_titles: [],
         journal_titles_raw: [] as any[],
         risk_assessment_plans: [],
@@ -765,6 +783,46 @@ function collectAnsweredSurveyPayloads() {
         .map((a: any) => ({ assignment_uuid: a.uuid, answers: state.surveyAnswers[a.uuid] }))
 }
 
+// Flattens the citizen's active sub-goals (already active-only per the
+// backend) into a searchable "Plan / Goal / Sub-goal" picker, so writing a
+// note against a sub-goal doesn't require walking the cascade below level by
+// level first.
+async function fetchSubgoalShortcutOptions() {
+    if (!citizenUuid) return
+    try {
+        const response = await subgoalService.getAllSubgoalsForCitizen(citizenUuid)
+        const subgoals = response?.data ?? []
+        state.options.journal_note_subgoal_shortcuts_raw = subgoals
+        state.options.journal_note_subgoal_shortcuts = subgoals.map((subgoal: any) => {
+            const goal = subgoal?.citizen_goal
+            const plan = goal?.citizen_plan
+            const label = [plan?.name, goal?.name, subgoal?.name].filter(Boolean).join(' / ')
+            return { value: subgoal?.uuid, label }
+        })
+    } catch (error: any) {
+        // The shortcut is a convenience on top of the existing cascade below,
+        // so it failing silently must not block writing the note.
+    }
+}
+
+watch(() => state.subgoalShortcut, async (subgoalUuid: any) => {
+    if (!subgoalUuid) return
+    const picked = state.options.journal_note_subgoal_shortcuts_raw.find((s: any) => s.uuid === subgoalUuid)
+    if (!picked) return
+
+    const goalUuid = picked.citizen_goal?.uuid
+    const planUuid = picked.citizen_goal?.citizen_plan?.uuid
+
+    state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = true
+
+    await fetchAllGoalsForJournalNote(planUuid ?? null)
+    state.formJournal.journal_note_plan = planUuid ?? ''
+
+    await fetchAllSubgoalsForJournalNote(goalUuid)
+    state.formJournal.journal_note_goal = goalUuid ?? ''
+    state.formJournal.journal_note_subgoal = subgoalUuid
+})
+
 onMounted(() => {
     suppressChangeTracking = true
 
@@ -772,6 +830,7 @@ onMounted(() => {
     fetchAllPlans()
     fetchAllGoalsForJournalNote()
     fetchAllGoalsForRiskAssessment()
+    fetchSubgoalShortcutOptions()
     fetchAllJournalNoteTags()
     fetchAllJournalTitles()
     fetchAllTeeth()
@@ -878,6 +937,18 @@ watch(() => state.formJournal.title, () => {
         state.formJournal.content = ''
         lastAppliedTitleTemplate = ''
     }
+})
+
+// The "current plans and goals" pop-up lives one level up, outside this
+// form, and has no other way to know which Plan/Goal/Sub-goal the admin has
+// picked here - it needs this to narrow its own listing down instead of
+// always showing the citizen's entire plan history.
+watch(() => [
+    state.formJournal.journal_note_plan,
+    state.formJournal.journal_note_goal,
+    state.formJournal.journal_note_subgoal,
+], ([plan, goal, subgoal]) => {
+    emit('planGoalSubgoalSelected', { plan, goal, subgoal })
 })
 
 function toggleCheckboxAnswer(fieldIndex: number, option: string) {

@@ -706,6 +706,7 @@ import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCustomSidebarLinksStore } from '@/store/custom-sidebar-links'
+import { useSidebarNavStore } from '@/store/sidebar-nav'
 import { useAssistantStore } from '@/store/assistant'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
@@ -722,6 +723,7 @@ const citizenStore = useCitizenStore()
 const employeeStore = useEmployeeStore()
 const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
+const sidebarNavStore = useSidebarNavStore()
 const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
@@ -1057,40 +1059,7 @@ watch(() => language.locale.value, (newLanguage: any) => {
 })
 
 function getNavItemLabel(item: any) {
-    const t = language.t
-    if (item.rawLabel) return item.name
-    if (item.name === 'Overview') return t('sidebar.overview')
-    // The store already holds the resolved word - see setCustomPageNames.
-    if (item.name === 'Citizens') return customPagesStore.getCustomPagesName?.citizens || t('sidebar.citizens')
-    if (item.name === 'Invoicing') return t('sidebar.invoicing')
-    if (item.name === 'DentalOverview') return t('sidebar.dentalOverview')
-    if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
-    if (item.name === 'Calendar') return t('sidebar.calendar')
-    if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
-    if (item.name === 'My availability') return t('sidebar.myAvailability')
-    if (item.name === 'My shift evaluations') return t('sidebar.myShiftEvaluations')
-    if (item.name === 'Messages') return t('sidebar.messages')
-    if (item.name === 'Procedures') return t('sidebar.procedures') || 'Procedurer'
-    if (item.name === 'Protocols') return t('sidebar.protocols')
-    if (item.name === 'Reports') return t('sidebar.reports')
-    if (item.name === 'Plans And Goals Export') return t('sidebar.plansAndGoalsExport')
-    if (item.name === 'Report Templates') return t('sidebar.reportTemplates')
-    if (item.name === 'Documents') return t('sidebar.documents')
-    if (item.name === 'Mail') return t('sidebar.mail')
-    if (item.name === 'Leads') return t('sidebar.leads')
-    if (item.name === 'Bullet Board') return t('sidebar.bulletBoard')
-    // The string is a terminology link now, so it already carries the
-    // company's own word, capitalised for a menu entry.
-    if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
-    if (item.name === 'Forms') return t('sidebar.forms')
-    if (item.name === 'Billing') return language.t('employment.billing.billing')
-    if (item.name === 'Revenue report') return language.t('employment.revenue.report')
-    if (item.name === 'Management & Economy') return language.t('managementEconomy.title')
-    if (item.name === 'Economy') return language.t('economy.title')
-    if (item.name === 'Inquiries') return language.t('inquiries.inquiries')
-    if (item.name === 'Tasks') return language.t('taskBoards.title')
-    if (item.name === 'Staff workload') return language.t('staffWorkloadReport.title')
-    return item.name
+    return getSidebarNavItemLabel(item, language.t, customPagesStore)
 }
 
 // Global command palette (⌘K): sidebar navigation + any commands the current
@@ -1296,6 +1265,15 @@ function generateSidebarLinks(user: any) {
             'messages-chat_uuid'
         ]
     })
+    nav.push({
+        name: 'Reminders',
+        href: '/reminders',
+        icon: 'ph:bell',
+        group: 'daily',
+        activeRouteNames: [
+            'reminders'
+        ]
+    })
     if (userHasSecuredMailAccess) {
         nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail'] })
     }
@@ -1445,7 +1423,22 @@ function generateSidebarLinks(user: any) {
         console.error('generateSidebarLinks failed partway through', error)
     }
 
-    navigation.value = nav
+    // "Overview" and the dynamic per-company custom links (rawLabel: true, added
+    // via /settings/custom-links) aren't user-hideable - Overview so a user can't
+    // empty their own sidebar, custom links because they're already a separate,
+    // admin-controlled customization mechanism. Everything else built above this
+    // point is exactly what this user is currently eligible to see (all the
+    // company-module/role/permission/industry checks already ran) - record that
+    // for the sidebar-customization settings page before applying this user's own
+    // show/hide choices.
+    const eligibleForToggle = nav.filter((item) => item.name !== 'Overview' && !item.rawLabel)
+    sidebarNavStore.setEligibleItems(eligibleForToggle)
+
+    const preferences = Array.isArray(user?.sidebar_preferences) ? user.sidebar_preferences : []
+    const hiddenNames = new Set(preferences.filter((p: any) => p?.visible === false).map((p: any) => p.name))
+    const filteredNav = nav.filter((item) => item.name === 'Overview' || item.rawLabel || !hiddenNames.has(item.name))
+
+    navigation.value = filteredNav
     state.isSidebarLoading = false
 }
 

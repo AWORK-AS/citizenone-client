@@ -1056,7 +1056,9 @@
                                                     <Tooltip position="left" :text="$t('dutySchedules.newSchedule')">
                                                         <button :aria-label="$t('dutySchedules.newSchedule')"
                                                             class="w-6 h-6 sm:w-7 sm:h-7 flex items-center justify-center rounded-md border border-dashed border-primary/40 bg-primary/5 text-primary hover:bg-primary/15 hover:border-primary transition-colors"
-                                                            @click="openAddNewShiftModal(employee, employeeIndex as number, weekIndex as number, week)">
+                                                            @click="openAddNewShiftModal(employee, employeeIndex as number, weekIndex as number, week)"
+                                                            @mouseenter="setHoveredCell(employeeIndex, weekIndex, employee, week)"
+                                                            @mouseleave="clearHoveredCell(employeeIndex, weekIndex)">
                                                             <Icon name="ph:plus" class="h-3.5 w-3.5"
                                                                 aria-hidden="true" />
                                                         </button>
@@ -1132,9 +1134,24 @@
                                                                     <Icon name="ph:arrow-left"
                                                                         class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                                                                 </div>
-                                                                <span
-                                                                    class="text-xs lg:text-base font-bold text-white tracking-tight leading-none">
-                                                                    {{ moment(shift?.date_time_start).format("HH:mm") }}
+                                                                <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'start')"
+                                                                    :text="$t('dutySchedules.quickEditTime.tooltip')"
+                                                                    :disabled="!canQuickEditShift(shift)">
+                                                                    <span
+                                                                        class="text-xs lg:text-base font-bold text-white tracking-tight leading-none"
+                                                                        @click="handleTimeClick($event, employeeIndex, weekIndex, shift, shiftIndex, 'start')">
+                                                                        {{ moment(shift?.date_time_start).format("HH:mm") }}
+                                                                    </span>
+                                                                </Tooltip>
+                                                                <span v-else class="inline-flex flex-col w-16" @click.stop>
+                                                                    <FormTimeFieldTransparent name="quick-edit-start"
+                                                                        :value="state.quickEditTime.value"
+                                                                        @update:value="state.quickEditTime.value = $event"
+                                                                        @closed="confirmQuickEditTime(shift)"
+                                                                        @cancelled="cancelQuickEditTime()" />
+                                                                    <span class="text-[9px] leading-tight text-white/70 mt-0.5">
+                                                                        {{ $t('dutySchedules.quickEditTime.hint') }}
+                                                                    </span>
                                                                 </span>
                                                             </div>
                                                             <!-- Arrow: web only -->
@@ -1142,9 +1159,24 @@
                                                                 class="hidden sm:block w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
                                                             <!-- End time -->
                                                             <div class="flex items-center gap-0.5 mt-0.5 sm:mt-0">
-                                                                <span
-                                                                    class="text-xs lg:text-base font-bold text-white/80 sm:text-white tracking-tight leading-none">
-                                                                    {{ moment(shift?.date_time_end).format("HH:mm") }}
+                                                                <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'end')"
+                                                                    :text="$t('dutySchedules.quickEditTime.tooltip')"
+                                                                    :disabled="!canQuickEditShift(shift)">
+                                                                    <span
+                                                                        class="text-xs lg:text-base font-bold text-white/80 sm:text-white tracking-tight leading-none"
+                                                                        @click="handleTimeClick($event, employeeIndex, weekIndex, shift, shiftIndex, 'end')">
+                                                                        {{ moment(shift?.date_time_end).format("HH:mm") }}
+                                                                    </span>
+                                                                </Tooltip>
+                                                                <span v-else class="inline-flex flex-col w-16" @click.stop>
+                                                                    <FormTimeFieldTransparent name="quick-edit-end"
+                                                                        :value="state.quickEditTime.value"
+                                                                        @update:value="state.quickEditTime.value = $event"
+                                                                        @closed="confirmQuickEditTime(shift)"
+                                                                        @cancelled="cancelQuickEditTime()" />
+                                                                    <span class="text-[9px] leading-tight text-white/70 mt-0.5">
+                                                                        {{ $t('dutySchedules.quickEditTime.hint') }}
+                                                                    </span>
                                                                 </span>
                                                                 <div v-if="shift?.is_until_nextweek"
                                                                     class="bg-white/20 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center flex-shrink-0">
@@ -1155,6 +1187,19 @@
                                                         </div>
                                                         <div class="mx-1.5 sm:mx-2.5 border-t border-white/20 mb-1">
                                                         </div>
+                                                        <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
+                                                            :text="`${$t('dutySchedules.viewSchedule.hours')}: ${shift.hours}`"
+                                                            position="left" :wrap="true">
+                                                            <div
+                                                                class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5 cursor-help">
+                                                                <Icon name="ph:clock" class="w-3 h-3 flex-shrink-0"
+                                                                    style="color:rgba(255,255,255,0.7)" />
+                                                                <span
+                                                                    class="text-white/80 text-[10px] font-medium">
+                                                                    {{ shift.hours }}
+                                                                </span>
+                                                            </div>
+                                                        </Tooltip>
                                                         <div v-if="shift?.shift_span_position && shift?.shift_span_position !== 'single'"
                                                             class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5">
                                                             <div v-if="shift.shift_span_position === 'start'"
@@ -1490,6 +1535,7 @@
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { shiftService } from '@/components/api/user/ShiftService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
 import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
@@ -1584,6 +1630,15 @@ const state = reactive({
     addShift: {
         selectedEmployeeSchedule: {}
     } as any,
+    quickEditTime: {
+        employeeIndex: null as number | null,
+        weekIndex: null as any,
+        shiftIndex: null as number | null,
+        field: null as 'start' | 'end' | null,
+        value: '',
+    },
+    hoveredCell: null as { employeeIndex: number, weekIndex: any, employee: any, week: any } | null,
+    shiftTypes: [] as any[],
     departmentsWithMinimumStaff: [] as any[],
     copy: {
         allEmployeeSchedules: {},
@@ -1806,7 +1861,17 @@ onMounted(async () => {
     handleShiftRequestDeepLink()
     window.addEventListener('keydown', handleKeyDown)
     fetchDepartmentsWithMinimumStaff()
+    fetchShiftTypesForShortcuts()
 })
+
+async function fetchShiftTypesForShortcuts() {
+    try {
+        const response = await shiftService.getAllShifts({})
+        state.shiftTypes = response?.data ?? []
+    } catch (error: any) {
+        state.shiftTypes = []
+    }
+}
 
 async function fetchDepartmentsWithMinimumStaff() {
     try {
@@ -1904,6 +1969,13 @@ onBeforeUnmount(() => {
 function handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Escape') {
         stopCopying()
+        return
+    }
+    // Ignore shortcuts while typing anywhere (quick time-edit inputs, search fields, etc.)
+    const target = event.target as HTMLElement
+    if (target && ['INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName)) return
+    if (state.hoveredCell && event.key.length === 1) {
+        tryRapidFillShortcut(event.key)
     }
 }
 
@@ -2318,6 +2390,54 @@ function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: a
     }
     state.newShift.selectedDate = week?.date
     state.newShift.selectedEmployee = employee
+}
+
+function setHoveredCell(employeeIndex: number, weekIndex: any, employee: any, week: any) {
+    state.hoveredCell = { employeeIndex, weekIndex, employee, week }
+}
+
+function clearHoveredCell(employeeIndex: number, weekIndex: any) {
+    if (state.hoveredCell?.employeeIndex === employeeIndex && state.hoveredCell?.weekIndex === weekIndex) {
+        state.hoveredCell = null
+    }
+}
+
+// Excel-style rapid fill: while an empty cell's "+" button is hovered, pressing a
+// shift type's assigned shortcut key creates that shift directly on the cell's
+// date, using the shift type's own default time_in/time_out - no modal involved.
+async function tryRapidFillShortcut(key: string) {
+    const cell = state.hoveredCell
+    if (!cell?.employee?.uuid) return
+
+    const matchedShiftType = state.shiftTypes.find(
+        (shiftType: any) => shiftType?.shortcut_key && shiftType.shortcut_key.toLowerCase() === key.toLowerCase()
+    )
+    if (!matchedShiftType) return
+
+    const date = cell.week?.date
+    if (!date) return
+
+    const departmentUuid = cell.employee?.departments?.[0]?.uuid ? [cell.employee.departments[0].uuid] : []
+
+    // Rapid-fill always creates a single-day shift on the hovered cell, regardless
+    // of the shift type's own end_time_day_offset (some leave-type shift types, e.g.
+    // Compensatory Time, configure that as a multi-day default span - applying it here
+    // would let one keypress silently book many days with no confirmation). A shift
+    // meant to span multiple days should go through the full modal instead.
+    const params = {
+        user_uuid: cell.employee.uuid,
+        shift_type_uuid: matchedShiftType.uuid,
+        date_time_start: `${date} ${matchedShiftType.time_in}`,
+        date_time_end: `${date} ${matchedShiftType.time_out}`,
+        department_uuid: departmentUuid,
+    }
+
+    try {
+        await dutyScheduleService.saveDutySchedule(params)
+        fetchDutySchedule()
+    } catch (error: any) {
+        errorAlert('Error', error?.data?.message || error?.message || 'Could not create the shift.')
+    }
 }
 
 function openManageScheduleSlotModal(day: any) {
@@ -2883,6 +3003,101 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
     }
 }
 
+// Reproduces the exact same transformation modal-edit-shift.vue applies to a raw
+// shift/schedule row before sending it to updateDutySchedule (see its watcher on
+// props.selectedEmployeeSchedule) - schedule_tag_uuid/department_uuid/citizen_uuid
+// are full-replace on the backend (ScheduleRepository::update), so omitting them
+// here would silently wipe the shift's tags/department/citizens.
+function buildScheduleUpdateParams(shift: any, userUuid: string, dateTimeStart: string, dateTimeEnd: string) {
+    const citizenUuids: string[] = []
+    shift?.citizen_schedules?.forEach((citizenSchedule: any) => {
+        citizenUuids.push(citizenSchedule.citizen.uuid)
+    })
+
+    const scheduleTagUuid: string[] = []
+    shift?.tags?.forEach((tag: any) => {
+        scheduleTagUuid.push(tag.uuid)
+    })
+
+    const departmentUuid: string[] = []
+    if (shift?.departments?.[0]) {
+        departmentUuid.push(shift.departments[0].uuid)
+    }
+
+    return {
+        shift_type_uuid: shift?.type?.uuid,
+        is_sleeping_sick_leave: false,
+        do_not_count_weekends: false,
+        date_time_start: dateTimeStart,
+        date_time_end: dateTimeEnd,
+        user_uuid: userUuid,
+        citizen_uuid: citizenUuids,
+        schedule_tag_uuid: scheduleTagUuid,
+        department_uuid: departmentUuid,
+        note: shift?.note,
+        do_not_count_sick_leave: shift?.do_not_count_sick_leave,
+        use_compensatory_time: shift?.use_compensatory_time,
+    }
+}
+
+function canQuickEditShift(shift: any): boolean {
+    return (hasUpdatePermission.value || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)
+}
+
+function isQuickEditingField(employeeIndex: number, weekIndex: any, shiftIndex: number, field: 'start' | 'end'): boolean {
+    return state.quickEditTime.employeeIndex === employeeIndex
+        && state.quickEditTime.weekIndex === weekIndex
+        && state.quickEditTime.shiftIndex === shiftIndex
+        && state.quickEditTime.field === field
+}
+
+function handleTimeClick(event: MouseEvent, employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number, field: 'start' | 'end') {
+    if (!canQuickEditShift(shift)) return
+    event.stopPropagation()
+    startQuickEditTime(employeeIndex, weekIndex, shift, shiftIndex, field)
+}
+
+function startQuickEditTime(employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number, field: 'start' | 'end') {
+    const current = field === 'start' ? shift?.date_time_start : shift?.date_time_end
+    state.quickEditTime = {
+        employeeIndex,
+        weekIndex,
+        shiftIndex,
+        field,
+        value: moment(current).format('HH:mm'),
+    }
+}
+
+function cancelQuickEditTime() {
+    state.quickEditTime = {
+        employeeIndex: null,
+        weekIndex: null,
+        shiftIndex: null,
+        field: null,
+        value: '',
+    }
+}
+
+function confirmQuickEditTime(shift: any) {
+    const { employeeIndex, weekIndex, shiftIndex, field, value } = state.quickEditTime
+    if (employeeIndex === null || shiftIndex === null || !field || !value) {
+        cancelQuickEditTime()
+        return
+    }
+
+    const [hours, minutes] = value.split(':').map(Number)
+    const newStart = field === 'start'
+        ? moment(shift?.date_time_start).set({ hour: hours, minute: minutes, second: 0 }).format('YYYY-MM-DD HH:mm:ss')
+        : shift?.date_time_start
+    const newEnd = field === 'end'
+        ? moment(shift?.date_time_end).set({ hour: hours, minute: minutes, second: 0 }).format('YYYY-MM-DD HH:mm:ss')
+        : shift?.date_time_end
+
+    const userUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
+    const params = buildScheduleUpdateParams(shift, userUuid, newStart, newEnd)
+    updateDutySchedule(shift?.schedule_uuid, params, employeeIndex, weekIndex, shiftIndex)
+    cancelQuickEditTime()
+}
 
 async function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftSpanPosition?: string, shiftTypeUuid?: string) {
     try {
