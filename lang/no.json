@@ -6735,8 +6735,9 @@
         "editEmployee": "Rediger medarbeider",
         "employees": "Medarbeidere",
         "employmentStatus": {
+            "hourly": "Timelønnet",
             "permanent": "Fastansat​",
-            "substitute": "Timelønnet",
+            "substitute": "Vikar",
             "temporary": "Tidsbestemt​"
         },
         "certificates": {
@@ -7345,6 +7346,7 @@
         },
         "editFolderStructure": "Rediger mappestruktur",
         "folderStructure": "Mappestruktur",
+        "folderStructureTooltip": "Se og administrer mappemalene som brukes til å opprette dokumenter for nye borgere. Merk: å redigere en mal her endrer kun selve malen — ikke borgere som allerede har fått opprettet mappene sine.",
         "form": {
             "addSubfolder": "Legg til undermappe",
             "alert": {
@@ -7362,10 +7364,12 @@
             },
             "editFolderStructureRequest": "Rediger forespørsel om folderstruktur",
             "folderStructureRequests": "Forespørsler om endring av folderstruktur",
+            "folderStructureRequestsTooltip": "Foreslå en endring i en mappemal. Når en Admin godkjenner forespørselen, vil de nye mappene du har lagt til bli lagt til i malen OG hos alle eksisterende borgere — dette er den eneste måten å sende en endring ut til borgere som allerede har fått opprettet mappene sine.",
             "newFolderStructureRequest": "Ny forespørsel om endring av folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkjenn",
+                    "approveTooltip": "Godkjenning legger til de nye mappene fra denne forespørselen hos alle eksisterende borgere som allerede har denne mappestrukturen, i tillegg til å oppdatere malen.",
                     "delete": "Slett",
                     "disapprove": "Avvis",
                     "edit": "Rediger"
@@ -7387,7 +7391,9 @@
             "actions": {
                 "delete": "Slett",
                 "edit": "Rediger",
-                "view": "Se"
+                "editTooltip": "Oppdaterer kun denne malen. Eksisterende borgere endres ikke — bruk 'Forespørsler om endring av folderstruktur' for å bruke endringen på dem også.",
+                "view": "Se",
+                "viewTooltip": "Se denne malens mappestruktur."
             },
             "name": "Navn",
             "structure": "Struktur"

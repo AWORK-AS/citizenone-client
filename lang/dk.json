@@ -6735,8 +6735,9 @@
         "editEmployee": "Rediger medarbejder",
         "employees": "Medarbejdere",
         "employmentStatus": {
+            "hourly": "Timelønnet",
             "permanent": "Fastansat​",
-            "substitute": "Timelønnet",
+            "substitute": "Vikar",
             "temporary": "Tidsbestemt​"
         },
         "certificates": {
@@ -7345,6 +7346,7 @@
         },
         "editFolderStructure": "Rediger mappestruktur",
         "folderStructure": "Mappestruktur",
+        "folderStructureTooltip": "Se og administrer de mappeskabeloner, der bruges til at oprette nye borgeres dokumenter. Bemærk: at redigere en skabelon her ændrer kun selve skabelonen — ikke borgere, der allerede har fået oprettet deres mapper.",
         "form": {
             "addSubfolder": "Tilføj undermappe",
             "alert": {
@@ -7362,10 +7364,12 @@
             },
             "editFolderStructureRequest": "Rediger anmodning om folderstruktur",
             "folderStructureRequests": "Anmodninger om ændring af folderstruktur",
+            "folderStructureRequestsTooltip": "Foreslå en ændring til en mappeskabelon. Når en Admin godkender anmodningen, vil de nye mapper, du har tilføjet, blive anvendt på skabelonen OG på alle eksisterende borgere — det er den eneste måde at sende en ændring ud til borgere, der allerede har fået oprettet deres mapper.",
             "newFolderStructureRequest": "Ny anmodning om ændring af folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkend",
+                    "approveTooltip": "Godkendelse tilføjer de nye mapper fra denne anmodning til alle eksisterende borgere, der allerede har denne mappestruktur, ud over at opdatere skabelonen.",
                     "delete": "Slet",
                     "disapprove": "Afvis",
                     "edit": "Rediger"
@@ -7387,7 +7391,9 @@
             "actions": {
                 "delete": "Slet",
                 "edit": "Rediger",
-                "view": "Se"
+                "editTooltip": "Opdaterer kun denne skabelon. Eksisterende borgere ændres ikke — brug 'Anmodninger om ændring af folderstruktur' for også at anvende ændringen på dem.",
+                "view": "Se",
+                "viewTooltip": "Se denne skabelons mappestruktur."
             },
             "name": "Navn",
             "structure": "Struktur"

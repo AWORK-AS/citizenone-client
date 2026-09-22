@@ -8,10 +8,12 @@
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('folderStructure.newFolderStructure') }}
                     </FormButton>
-                    <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureRequestsOpen = true">
-                        <Icon name="ph:folder" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('folderStructure.requests.folderStructureRequests') }}
-                    </FormButton>
+                    <Tooltip :text="$t('folderStructure.requests.folderStructureRequestsTooltip')" wrap>
+                        <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureRequestsOpen = true">
+                            <Icon name="ph:folder" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('folderStructure.requests.folderStructureRequests') }}
+                        </FormButton>
+                    </Tooltip>
                 </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -28,17 +30,21 @@
                                     </td>
                                     <td width="50%">
                                         <div class="flex items-end gap-2">
-                                            <FormButton type="button" buttonStyle="action"
-                                                @click="viewFolderStructure(folder_structure)">
-                                                <Icon name="ph:eye" class="size-4" />
-                                                {{ $t('folderStructure.table.actions.view') }}
-                                            </FormButton>
-                                            <FormButton type="button" buttonStyle="action"
-                                                @click="editFolderStructure(folder_structure)"
+                                            <Tooltip :text="$t('folderStructure.table.actions.viewTooltip')" wrap>
+                                                <FormButton type="button" buttonStyle="action"
+                                                    @click="viewFolderStructure(folder_structure)">
+                                                    <Icon name="ph:eye" class="size-4" />
+                                                    {{ $t('folderStructure.table.actions.view') }}
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('folderStructure.table.actions.editTooltip')" wrap
                                                 v-if="isAtLeast('Admin')">
-                                                <Icon name="ph:pencil-simple" class="size-4" />
-                                                {{ $t('folderStructure.table.actions.edit') }}
-                                            </FormButton>
+                                                <FormButton type="button" buttonStyle="action"
+                                                    @click="editFolderStructure(folder_structure)">
+                                                    <Icon name="ph:pencil-simple" class="size-4" />
+                                                    {{ $t('folderStructure.table.actions.edit') }}
+                                                </FormButton>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                 </tr>
