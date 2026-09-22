@@ -188,7 +188,8 @@
             <ModulesUserCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen" :selectedPlan="state.selectedPlan"
                 @close="state.slideOver.isGoalOpen = false" />
             <ModulesUserCitizenPlanSingleGoalSlideOver :isOpen="state.slideOver.isSubgoalOpen"
-                :selectedGoal="state.selectedGoal" @close="state.slideOver.isSubgoalOpen = false" />
+                :selectedGoal="state.selectedGoal" :citizenUuid="state.selectedGoal?.citizen?.uuid"
+                @close="state.slideOver.isSubgoalOpen = false" />
         </div>
     </LoadingSpinner>
 </template>
