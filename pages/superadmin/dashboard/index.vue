@@ -284,7 +284,7 @@
                 </div>
 
                 <!-- Row 2: small licence stats -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
                         <p class="co-stat-label">
                             {{ $t('superadmin.dashboard.totalPaidLicenses') }}
@@ -307,14 +307,6 @@
                         </p>
                         <p class="text-[22px] font-bold text-[#1F2533] mt-1">
                             {{ state.unusedLicenses }}
-                        </p>
-                    </div>
-                    <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
-                        <p class="co-stat-label">
-                            {{ $t('superadmin.dashboard.sharedCitizenOne') }}
-                        </p>
-                        <p class="text-[22px] font-bold text-[#1F2533] mt-1">
-                            {{ state.sharedCitizenOne }}
                         </p>
                     </div>
                 </div>
@@ -543,7 +535,6 @@ const state = reactive({
     totalPaidLicenses: 0,
     totalActiveLicenses: 0,
     unusedLicenses: 0,
-    sharedCitizenOne: 0,
     revenue: 0,
     companyStorage: [] as any[],
     recentCompanies: [] as any[],
@@ -554,7 +545,11 @@ const state = reactive({
     quietCompanies: [] as any[],
     recurringRevenue: null as any,
     churn: null as any,
-    revenueDateFrom: moment().format('YYYY-MM-DD'),
+    // Måned til dato. Kortet stod på i dag-til-i dag, hvilket er en periode
+    // der næsten altid er tom, og et tomt omsætningskort ligner en stille
+    // måned frem for en forkert indstilling. Det er samtidig den periode
+    // API'et selv falder tilbage på, når der ingen datoer er med.
+    revenueDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     revenueDateTo: moment().format('YYYY-MM-DD'),
     isLoading: false,
     error: {} as any,
@@ -622,7 +617,6 @@ async function fetchDashboard() {
             state.totalPaidLicenses = response?.data?.total_paid_licenses ?? 0
             state.totalActiveLicenses = response?.data?.total_active_licenses ?? 0
             state.unusedLicenses = response?.data?.unused_licenses ?? 0
-            state.sharedCitizenOne = response?.data?.shared_citizen ?? 0
             state.revenue = response?.data?.total_revenue ?? 0
             state.companyStorage = response?.data?.company_storage ?? []
             state.usersOnlineNow = response?.data?.users_online_now ?? 0
