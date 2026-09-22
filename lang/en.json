@@ -6735,8 +6735,9 @@
         "editEmployee": "Edit employee",
         "employees": "Employees",
         "employmentStatus": {
+            "hourly": "Hourly Paid",
             "permanent": "Permanent",
-            "substitute": "Hourly Paid",
+            "substitute": "Substitute",
             "temporary": "​Temporary"
         },
         "certificates": {

@@ -312,7 +312,8 @@
                         <FormError :error="props?.error?.errors?.annual_norm_hours?.[0]" />
                         <FormError :error="state?.error?.errors?.annual_norm_hours?.[0]" />
                     </div>
-                    <div class="space-y-1" ref="weeklyNormHoursField" v-if="isAtLeast('Admin')">
+                    <div class="space-y-1" ref="weeklyNormHoursField"
+                        v-if="isAtLeast('Admin') && !state.formEmployee.employment.annual_norm_hours_disabled">
                         <div class="flex items-center gap-x-1">
                             <FormLabel for="weekly_norm_hours"
                                 :label="$t('employees.form.employment.weeklyNormHours')" />
@@ -592,6 +593,7 @@ import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
+import { EMPLOYMENT_STATUS_LABELS, WORKING_HOURS_LABELS, builtInOptions } from '@/utils/employmentOptions'
 import type { EmployeeForm, Error } from '@/types'
 
 const props = defineProps({
@@ -711,11 +713,7 @@ const state = reactive({
         // Seeded with the built-in options so the form is usable before the
         // company's own additions arrive; fetchEmploymentOptions() replaces both
         // lists with system + company entries.
-        employment_status: [
-            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
-            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
-            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
-        ],
+        employment_status: builtInOptions(EMPLOYMENT_STATUS_LABELS, t),
         jobSpecialties: [],
         jobTitles: [],
         spokenLanguages: [] as any,
@@ -724,10 +722,7 @@ const state = reactive({
         pages: [],
         regions: [],
         roleOptions: [],
-        working_hours: [
-            { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
-            { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
-        ],
+        working_hours: builtInOptions(WORKING_HOURS_LABELS, t),
         normPeriods: [] as any[],
     },
     normPeriodDetailsByUuid: {} as Record<string, { calculated_annual_standard_hours: number }>,
@@ -750,15 +745,8 @@ function localizeDecimalSeparator(value: number | string | null | undefined) {
 
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
-        state.options.employment_status = [
-            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
-            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
-            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
-        ]
-        state.options.working_hours = [
-            { value: 'full_time', label: `${t('employees.workingHours.fulltime')}` },
-            { value: 'part_time', label: `${t('employees.workingHours.parttime')}` },
-        ]
+        state.options.employment_status = builtInOptions(EMPLOYMENT_STATUS_LABELS, t)
+        state.options.working_hours = builtInOptions(WORKING_HOURS_LABELS, t)
         // Relabelling the built-in options above drops the company's own entries,
         // and this watcher also fires on the initial locale sync - which is what
         // wiped them straight after the first fetch. Put them back.
@@ -867,7 +855,17 @@ watch(() => state.formEmployee.employment.norm_period_uuid, (newUuid: any, oldUu
     if (!newUuid || newUuid === oldUuid) {
         return
     }
-    if (isPopulatingEmployee.value && state.formEmployee.employment.annual_norm_hours) {
+    // Hourly-paid has no annual norm at all, and the disabled checkbox says
+    // the same for anyone else - neither should have this field quietly
+    // refilled just because the norm period was touched.
+    if (state.formEmployee.employment.employment_status === 'hourly'
+        || state.formEmployee.employment.annual_norm_hours_disabled) {
+        return
+    }
+    // A value already on the form, typed by the admin or loaded from the
+    // employee's own record, is left alone - this is a suggested default for
+    // an empty field, not a value the norm period is allowed to overwrite.
+    if (state.formEmployee.employment.annual_norm_hours) {
         return
     }
     if (newUuid === 'default') {
@@ -877,6 +875,25 @@ watch(() => state.formEmployee.employment.norm_period_uuid, (newUuid: any, oldUu
     const calculatedAnnualHours = state.normPeriodDetailsByUuid[newUuid]?.calculated_annual_standard_hours
     if (calculatedAnnualHours != null) {
         state.formEmployee.employment.annual_norm_hours = localizeDecimalSeparator(calculatedAnnualHours)
+    }
+})
+
+watch(() => state.formEmployee.employment.employment_status, (newStatus: any, oldStatus: any) => {
+    if (isPopulatingEmployee.value || newStatus === oldStatus) {
+        return
+    }
+    if (newStatus === 'hourly') {
+        // Hourly-paid staff have no annual norm to be measured against - see
+        // the same note by the checkbox itself, above. Weekly is only ever a
+        // derived display of the annual figure, so it goes with it.
+        state.formEmployee.employment.annual_norm_hours_disabled = true
+        state.formEmployee.employment.annual_norm_hours = ''
+        state.formEmployee.employment.weekly_norm_hours = ''
+    } else if (oldStatus === 'hourly') {
+        // Moving off hourly should not leave the norm-hours field hidden by
+        // surprise - the admin can still re-check it if this employee really
+        // has no norm for some other reason.
+        state.formEmployee.employment.annual_norm_hours_disabled = false
     }
 })
 
@@ -964,14 +981,13 @@ function hasTrusteeErrors() {
 /**
  * Both employment dropdowns: the built-in options (translated here, since the
  * API deliberately does not pin them to one language) followed by whatever the
- * company has added under Settings.
+ * company has added under Settings. The label keys themselves live in
+ * utils/employmentOptions.ts, shared with the employee view page, so the two
+ * cannot drift into showing different text for the same saved value again.
  */
 const SYSTEM_OPTION_LABELS: Record<string, string> = {
-    full_time: 'employees.workingHours.fulltime',
-    part_time: 'employees.workingHours.parttime',
-    permanent: 'employees.employmentStatus.permanent',
-    temporary: 'employees.employmentStatus.temporary',
-    substitute: 'employees.employmentStatus.substitute',
+    ...WORKING_HOURS_LABELS,
+    ...EMPLOYMENT_STATUS_LABELS,
 }
 
 async function fetchEmploymentOptions() {

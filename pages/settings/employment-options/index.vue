@@ -80,6 +80,7 @@ import { employmentOptionService } from '@/components/api/user/EmploymentOptionS
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
+import { EMPLOYMENT_STATUS_LABELS, WORKING_HOURS_LABELS } from '@/utils/employmentOptions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -91,12 +92,11 @@ const types = ['working_hours', 'employment_status'] as const
 
 // The built-in options carry no label from the API on purpose: they are
 // translated, and storing one language server-side would pin them to it.
+// The keys themselves live in utils/employmentOptions.ts, shared with every
+// other place that lists these built-ins, so they cannot drift apart again.
 const SYSTEM_OPTION_LABELS: Record<string, string> = {
-    full_time: 'employees.workingHours.fulltime',
-    part_time: 'employees.workingHours.parttime',
-    permanent: 'employees.employmentStatus.permanent',
-    temporary: 'employees.employmentStatus.temporary',
-    substitute: 'employees.employmentStatus.substitute',
+    ...WORKING_HOURS_LABELS,
+    ...EMPLOYMENT_STATUS_LABELS,
 }
 
 const breadcrumbLinks = [
