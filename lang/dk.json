@@ -13025,6 +13025,7 @@
             "nobody": "Ingen",
             "unassigned": "Uden ejer",
             "mine": "Mine",
+            "sourceLabel": "Kilde",
             "previous": "Forrige",
             "next": "Næste",
             "tabs": {

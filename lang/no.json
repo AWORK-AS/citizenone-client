@@ -12929,6 +12929,7 @@
             "nobody": "Ingen",
             "unassigned": "Uten eier",
             "mine": "Mine",
+            "sourceLabel": "Kilde",
             "previous": "Forrige",
             "next": "Neste",
             "tabs": {
