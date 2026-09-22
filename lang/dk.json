@@ -1730,6 +1730,8 @@
                 "goal": "Mål",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
+                "jumpToSubgoal": "Spring direkte til et delmål",
+                "jumpToSubgoalPlaceholder": "Søg efter et delmål",
                 "note": "Note",
                 "plan": "Plan",
                 "prepareWithAI": "Udarbejd med AI",
@@ -9537,6 +9539,7 @@
         "statuses": "Statusser",
         "subgoal": "Delmål",
         "subgoals": "Delmål",
+        "switchGoal": "Skift mål",
         "table": {
             "actions": {
                 "archive": "Arkivér",

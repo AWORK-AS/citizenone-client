@@ -1730,6 +1730,8 @@
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
+                "jumpToSubgoal": "Jump to a sub-goal",
+                "jumpToSubgoalPlaceholder": "Search for a sub-goal",
                 "note": "Note",
                 "plan": "Plan",
                 "prepareWithAI": "Prepare with AI",
@@ -9537,6 +9539,7 @@
         "statuses": "Statuses",
         "subgoal": "Subgoal",
         "subgoals": "Subgoals",
+        "switchGoal": "Switch goal",
         "table": {
             "actions": {
                 "archive": "Archive",
