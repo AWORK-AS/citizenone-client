@@ -10331,6 +10331,9 @@
                     "manager": "Manager"
                 },
                 "allowChangePassword": "Allow employees to change password",
+                "allowEditGoals": "Allow employees to edit goals after 24 hours",
+                "allowEditPlans": "Allow employees to edit plans after 24 hours",
+                "allowEditSubGoals": "Allow employees to edit subgoals after 24 hours",
                 "allowGoals": "Allow employees to create goals",
                 "allowPlans": "Allow employees to create plans",
                 "allowSubGoals": "Allow employees to create subgoals",
