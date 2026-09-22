@@ -8608,6 +8608,7 @@
     "messages": {
         "actions": {
             "delete": "Delete",
+            "download": "Download",
             "edit": "Edit",
             "more": "More"
         },
