@@ -6742,8 +6742,9 @@
         "editEmployee": "Redigera anställd",
         "employees": "Anställda",
         "employmentStatus": {
+            "hourly": "Timavlönad",
             "permanent": "Fastansat​",
-            "substitute": "Timavlönad",
+            "substitute": "Vikarie",
             "temporary": "Tidsbestemt​"
         },
         "certificates": {
@@ -7352,6 +7353,7 @@
         },
         "editFolderStructure": "Redigera mappestruktur",
         "folderStructure": "Mappestruktur",
+        "folderStructureTooltip": "Visa och hantera de mappmallar som används för att skapa nya medborgares dokument. Observera: att redigera en mall här ändrar endast själva mallen — inte medborgare som redan har fått sina mappar skapade.",
         "form": {
             "addSubfolder": "Lägg till undermappe",
             "alert": {
@@ -7369,10 +7371,12 @@
             },
             "editFolderStructureRequest": "Redigera begäran om folderstruktur",
             "folderStructureRequests": "Begäranden om ändring av folderstruktur",
+            "folderStructureRequestsTooltip": "Föreslå en ändring i en mappmall. När en Admin godkänner begäran läggs de nya mapparna du lagt till till mallen OCH till alla befintliga medborgare — detta är det enda sättet att skicka ut en ändring till medborgare som redan har fått sina mappar skapade.",
             "newFolderStructureRequest": "Ny begäran om ändring av folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkänn",
+                    "approveTooltip": "Godkännande lägger till de nya mapparna från denna begäran hos alla befintliga medborgare som redan har denna mappstruktur, utöver att uppdatera mallen.",
                     "delete": "Radera",
                     "disapprove": "Avvisa",
                     "edit": "Redigera"
@@ -7394,7 +7398,9 @@
             "actions": {
                 "delete": "Radera",
                 "edit": "Redigera",
-                "view": "Se"
+                "editTooltip": "Uppdaterar endast denna mall. Befintliga medborgare ändras inte — använd 'Begäranden om ändring av folderstruktur' för att tillämpa ändringen på dem också.",
+                "view": "Se",
+                "viewTooltip": "Visa denna malls mappstruktur."
             },
             "name": "Namn",
             "structure": "Struktur"

@@ -36,12 +36,14 @@
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('folderStructure.requests.table.actions.delete') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action"
-                                                @click="confirmApproveFolderStructureRequest(folderStructure)"
-                                                v-if="isAtLeast('Admin')">
-                                                <Icon name="ph:check" class="size-4" />
-                                                {{ $t('folderStructure.requests.table.actions.approve') }}
-                                            </FormButton>
+                                            <Tooltip :text="$t('folderStructure.requests.table.actions.approveTooltip')"
+                                                wrap v-if="isAtLeast('Admin')">
+                                                <FormButton type="button" buttonStyle="action"
+                                                    @click="confirmApproveFolderStructureRequest(folderStructure)">
+                                                    <Icon name="ph:check" class="size-4" />
+                                                    {{ $t('folderStructure.requests.table.actions.approve') }}
+                                                </FormButton>
+                                            </Tooltip>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="confirmDisapproveFolderStructureRequest(folderStructure)"
                                                 v-if="isAtLeast('Admin')">

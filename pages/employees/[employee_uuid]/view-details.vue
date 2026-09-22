@@ -278,8 +278,8 @@
                                     </div>
                                     <div class="space-y-1">
                                         <Label :label="$t('employees.form.employment.employmentStatus')" />
-                                        <p class="font-medium capitalize">
-                                            {{ state.selectedEmployee.employment.employment_status }}
+                                        <p class="font-medium">
+                                            {{ resolveEmploymentStatusLabel(state.selectedEmployee.employment.employment_status, t) }}
                                         </p>
                                     </div>
                                 </div>
@@ -494,6 +494,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions, getPermissionLabel } from '@/composables/usePermissions'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
+import { resolveEmploymentStatusLabel } from '@/utils/employmentOptions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()

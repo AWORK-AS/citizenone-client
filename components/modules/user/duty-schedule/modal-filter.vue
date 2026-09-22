@@ -82,6 +82,7 @@ import { userService } from '@/components/api/user/UserService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { useI18n } from "vue-i18n"
+import { EMPLOYMENT_STATUS_LABELS, builtInOptions } from '@/utils/employmentOptions'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -109,11 +110,7 @@ const state = reactive({
         departments: [],
         employees: [],
         tags: [],
-        employment_status: [
-            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
-            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
-            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
-        ],
+        employment_status: builtInOptions(EMPLOYMENT_STATUS_LABELS, t),
     }
 })
 

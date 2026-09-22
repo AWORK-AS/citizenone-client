@@ -165,6 +165,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { saveAs } from 'file-saver'
+import { EMPLOYMENT_STATUS_LABELS, builtInOptions } from '@/utils/employmentOptions'
 
 const props = defineProps({
     filter: {
@@ -227,11 +228,7 @@ const state = reactive({
             { id: 2, title: 'filtered_view' },
         ],
         employees: [],
-        employment_status: [
-            { value: 'permanent', label: `${t('employees.employmentStatus.permanent')}` },
-            { value: 'temporary', label: `${t('employees.employmentStatus.temporary')}` },
-            { value: 'substitute', label: `${t('employees.employmentStatus.substitute')}` },
-        ],
+        employment_status: builtInOptions(EMPLOYMENT_STATUS_LABELS, t),
         downloadType: [
             { value: 'csv', label: 'Download hours in csv' },
             { value: 'excel', label: 'Download hours in excel' },
