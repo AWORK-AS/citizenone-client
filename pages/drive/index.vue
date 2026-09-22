@@ -143,6 +143,11 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="flex items-center gap-x-2">
                         <TableSearch @search="handleSearch" class="flex-1" />
+                        <FormButton v-if="isLocalView" buttonStyle="action"
+                            :disabled="!state.selectedDocuments.length" @click="openSelectedDocuments">
+                            <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('drive.table.actions.openSelected') }} ({{ state.selectedDocuments.length }})
+                        </FormButton>
                         <div v-if="state.isInsideOneDrive"
                             class="flex items-center gap-x-1 text-xs text-gray-500 whitespace-nowrap">
                             <span v-if="state.isOneDriveCacheLoading" class="flex items-center gap-x-1">
@@ -195,11 +200,18 @@
                             :isLoading="state.isTableLoading" :sortData="state.sortData"
                             emptyIcon="ph:folder-notch-open"
                             :emptyMessage="state.viewMode === 'google-drive' && !state.googleDriveConnected ? 'You have not activated or linked your Google Drive' : 'Ingen filer eller mapper her endnu — upload en fil eller opret en mappe via “Ny”.'"
-                            @sort="sort">
-                            <template #body
+                            :selection="isLocalView" rowKey="uuid"
+                            @sort="sort" @selection-change="onSelectionChange">
+                            <template #body="{ selectedRows, handleRowSelect }"
                                 v-if="!(state.isTableLoading || ((state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents)?.data?.length === 0))">
                                 <tr v-for="(document, index) in (state.viewMode === 'google-drive' ? state.googleDriveFiles.data : state.documents?.data)"
                                     :key="index">
+                                    <td width="50" v-if="isLocalView">
+                                        <input v-if="document?.file_url" type="checkbox"
+                                            :checked="selectedRows.some((row: any) => row.uuid === document.uuid)"
+                                            @change="handleRowSelect(document)"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                    </td>
                                     <td width="25%">
                                         <div v-if="state.viewMode === 'google-drive'">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
@@ -725,6 +737,7 @@ const state = reactive({
     isPageLoading: false,
     isTableLoading: false,
     documents: { data: [] } as any,
+    selectedDocuments: [] as any[],
     onedriveFolders: [] as any,
     isInsideOneDrive: false,
     googleDriveFiles: [] as any,
@@ -1305,6 +1318,27 @@ function viewDownloadDocument(document: any) {
     } else {
         viewFile(document)
     }
+}
+
+// Selection is only offered where a row is a file this system holds: Google
+// Drive and OneDrive rows go out through their own flows, and a checkbox that
+// cannot act on them would be a lie.
+const isLocalView = computed(() => state.viewMode !== 'google-drive' && !state.isInsideOneDrive)
+
+function onSelectionChange(rows: any[]) {
+    state.selectedDocuments = rows
+}
+
+// Best-effort: browsers block more than a couple of window.open calls that
+// aren't the direct result of a click, so only the first few tabs are
+// guaranteed to open - the same limitation the citizen document list has.
+async function openSelectedDocuments() {
+    // "Select all" in the table header also grabs folder rows, which have no
+    // file_url and nothing to view.
+    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
+        await viewFile(document)
+    }
+    state.selectedDocuments = []
 }
 
 // GDPR ask from the 2026-09-03 superbrugermøde: opening a company document

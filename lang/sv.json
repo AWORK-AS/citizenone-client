@@ -1715,7 +1715,6 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "enterJournalContent": "Ange journalindhold manuelt",
-                "enterJournalTitleManually": "Ange journal titel manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
                     "description": "Granska vad som kommer att vara tillgängligt för AI:n innan du genererar.",
@@ -1754,9 +1753,10 @@
                 "tags": "Etiketter",
                 "teeth": "Tänder",
                 "title": "Titel",
-                "usePredefinedJournalTitle": "Använd foruddefineret journal titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
                 "createJournalTitle": "Create journal title",
+                "showJournalTitles": "Visa journaltitlar",
+                "titlePlaceholder": "Välj eller skriv en titel",
                 "dictate": "Diktera",
                 "stopDictation": "Stoppa",
                 "transcribing": "Transkriberar...",
@@ -2321,7 +2321,18 @@
             "useThisLocation": "Använd denna placering",
             "secondaryCaseworker": "Sekundär {term}",
             "caseNumber": "Ärendenummer",
-            "caseNumberHint": "Numret ärendet har i systemet det kom från"
+            "caseNumberHint": "Numret ärendet har i systemet det kom från",
+            "reportingFrequency": "Rapportering till kommunen",
+            "reportingFrequencyHint": "Skapar en återkommande påminnelse till alla på insatsen som har en inloggning.",
+            "reportingStartsOn": "Första rapportering",
+            "reportingOptions": {
+                "biweekly": "Varannan vecka",
+                "everySixMonths": "Var sjätte månad",
+                "everyThreeMonths": "Varje kvartal",
+                "monthly": "Varje månad",
+                "weekly": "Varje vecka",
+                "yearly": "Årligen"
+            }
         },
         "importCitizens": {
             "alert": {
@@ -3317,16 +3328,20 @@
                 },
                 "view": "Se"
             },
+            "admitted": "Startdatum",
+            "caseNumber": "Ärendenummer",
             "columns": {
                 "columns": "Kolumner",
                 "hint": "Välj vilka kolumner som ska visas i översikten."
             },
+            "coordinator": "Koordinator",
             "department": "Avdelning",
             "email": "E-post",
+            "municipality": "Kommun",
             "name": "Namn",
             "phone": "Telefon",
-            "ssn": "Personnummer",
-            "caseNumber": "Ärendenummer"
+            "section": "Paragraf / insatstyp",
+            "ssn": "Personnummer"
         },
         "tabs": {
             "attendance": "Närvaro",
@@ -4453,6 +4468,7 @@
                 "downloadPDF": "Ladda ner PDF",
                 "edit": "Redigera",
                 "move": "Flytta",
+                "openSelected": "Öppna valda",
                 "view": "Se"
             },
             "dateCreated": "Skapandedatum",
@@ -6697,7 +6713,9 @@
                     "documentSuccessfullySaved": "Dokument sparad",
                     "documentSuccessfullyUpdated": "Dokument uppdaterad"
                 },
+                "expiresOn": "Går ut {date}",
                 "file": "Fil",
+                "issuedAt": "Inhämtad den",
                 "name": "Namn",
                 "note": "Anteckning"
             },
@@ -7631,23 +7649,13 @@
             "showNumbering": "Numrera frågorna"
         },
         "scale": {
-            "question": "Fråga",
-            "scaleKey": "Mätningens nyckel",
-            "scaleKeyHint": "Mallar med samma nyckel delar historik på medborgaren. Använd t.ex. trivsel.",
-            "maxScore": "Skala",
-            "maxScoreHint": "0 till 5 eller 0 till 10.",
-            "preview": "Så här ser den ut",
-            "bands": "Färgband",
-            "upTo": "Till och med",
-            "bandLabel": "Bandets namn",
             "addBand": "Lägg till band",
-            "raters": "Bedömande parter",
-            "ratersHint": "Medarbetaren skriver in allas bedömning. Lägg till fler, t.ex. en specialist.",
-            "raterLabel": "Namn",
             "addRater": "Lägg till part",
-            "showHistory": "Visa tidigare mätningar",
-            "perGoal": "Upprepa linjalen för varje mål",
-            "perGoalHint": "Påslaget visas linjalen en gång per aktivt mål på medborgaren.",
+            "allowHalf": "Tillåt halva steg",
+            "allowHalfHint": "Gör det möjligt att peka mellan två märken, t.ex. 4,5.",
+            "bandLabel": "Bandets namn",
+            "bands": "Färgband",
+            "clear": "Rensa",
             "defaults": {
                 "threatened": "Hotad",
                 "atRisk": "Utsatt",
@@ -7660,12 +7668,24 @@
                 "father": "Pappa",
                 "citizen": "Medborgaren"
             },
-            "clear": "Rensa",
-            "measuredAt": "Mätt den",
             "earlier": "Tidigare mätningar",
-            "recordedByHint": "Du noterar alla parters bedömning. Rapporten visar vem som skrivit in den.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 till 5 eller 0 till 10.",
+            "measuredAt": "Mätt den",
+            "needsTwo": "Det krävs två mätningar innan utvecklingen kan ritas.",
+            "perGoal": "Upprepa linjalen för varje mål",
+            "perGoalHint": "Påslaget visas linjalen en gång per aktivt mål på medborgaren.",
+            "preview": "Så här ser den ut",
             "previousHere": "Föregående mätning låg här",
-            "needsTwo": "Det krävs två mätningar innan utvecklingen kan ritas."
+            "question": "Fråga",
+            "raterLabel": "Namn",
+            "raters": "Bedömande parter",
+            "ratersHint": "Medarbetaren skriver in allas bedömning. Lägg till fler, t.ex. en specialist.",
+            "recordedByHint": "Du noterar alla parters bedömning. Rapporten visar vem som skrivit in den.",
+            "scaleKey": "Mätningens nyckel",
+            "scaleKeyHint": "Mallar med samma nyckel delar historik på medborgaren. Använd t.ex. trivsel.",
+            "showHistory": "Visa tidigare mätningar",
+            "upTo": "Till och med"
         },
         "mergeFields": {
             "insert": "Infoga fält",
@@ -8733,9 +8753,12 @@
                 "tripSuccessfullyAdded": "Resan har lagts till",
                 "tripSuccessfullyUpdated": "Resan har uppdaterats"
             },
+            "calculatingDistance": "Beräknar…",
             "dateTimeStart": "Datum och tid",
+            "distanceUnavailable": "Vägavståndet kunde inte beräknas just nu. Försök igen om en stund.",
             "endAddress": "Slutadress",
             "estimatedDistance": "Avstånd (beräknas automatiskt)",
+            "ferryNote": "inkl. {km} km färja, räknas inte med",
             "linkToCitizen": "Koppla denna resa till en brukare som en insatstimme",
             "mapHint": "Klicka på kartan eller dra markören för att justera platsen",
             "note": "Anteckning",
@@ -9082,6 +9105,11 @@
             "latestJournal": "Seneste journalnotater",
             "score": "Score"
         },
+        "recentJournalNotes": {
+            "lastDays": "Senaste {days} dagarna",
+            "more": "Visa {count} fler",
+            "title": "Senaste journalanteckningar"
+        },
         "medicineAction": {
             "title": "Kräver åtgärd idag",
             "deviated": "Avvikelser: {count}",
@@ -9146,7 +9174,6 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Datum",
                 "draft": "Utkast",
-                "enterJournalTitleManually": "Ange journaltitel manuelt",
                 "note": "Anteckning",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
@@ -9155,8 +9182,7 @@
                     "noRisk": "Inga risk",
                     "none": "Inga"
                 },
-                "title": "Titel",
-                "usePredefinedJournalTitle": "Använd foruddefineret journaltitel"
+                "title": "Titel"
             },
             "quickRiskAssessment": "Snabb riskbedömning"
         },
@@ -10185,7 +10211,9 @@
                 "newSectionSuccessfullySaved": "Ny paragraf sparad",
                 "sectionSuccessfullyUpdated": "Paragraf uppdaterad"
             },
-            "name": "Namn"
+            "name": "Namn",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "T.ex. §32"
         },
         "newSection": "Ny paragraf",
         "sections": "Paragraffer",
@@ -12906,6 +12934,7 @@
             "nobody": "Ingen",
             "unassigned": "Utan ägare",
             "mine": "Mina",
+            "sourceLabel": "Källa",
             "previous": "Föregående",
             "next": "Nästa",
             "tabs": {
@@ -14309,7 +14338,11 @@
             "askMore": "Fråga Cody om din dag",
             "askMorePrompt": "Ge mig en överblick över min dag. Vad är viktigast att börja med?",
             "prompt": "Det här kräver min uppmärksamhet i dag:\n{lines}\n\nSkriv två korta meningar om hur min dag ser ut och vad jag bör ta först. Inga rubriker, inga punktlistor, inga namn."
-        }
+        },
+        "distribution": "Fördelning av insatser",
+        "distributionUnassigned": "{count} utan koordinator",
+        "distributionPrimary": "{count} primära",
+        "distributionSecondary": "{count} sekundära"
     },
     "handover": {
         "button": "Skiftöversikt",
@@ -15020,26 +15053,36 @@
         "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
     },
     "inquiryServiceTypes": {
-        "title": "Insatstyper",
-        "single": "Insatstyp",
-        "description": "De typer insats ni levererar, med den paragraf de beviljas enligt. Fält kan bindas till en enda typ så att de bara efterfrågas där.",
-        "hint": "Avgör vilka typspecifika fält som efterfrågas.",
         "add": "Lägg till",
+        "alert": {
+            "deleted": "Insatstypen har tagits bort",
+            "deleteFailed": "Insatstypen kunde inte tas bort",
+            "saveFailed": "Kunde inte sparas"
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort den här insatstypen"
+        },
+        "description": "De typer insats ni levererar, med den paragraf de beviljas enligt. Fält kan bindas till en enda typ så att de bara efterfrågas där.",
         "empty": "Det finns inga insatstyper än.",
+        "fields": {
+            "hint": "Välj vilka av de fasta fälten den här förfrågningstypen frågar om. Ta bort bocken för att dölja ett fält.",
+            "saved": "Fälten har sparats",
+            "selectAll": "Välj alla",
+            "title": "Fält i formuläret"
+        },
         "form": {
             "name": "Namn",
             "namePlaceholder": "T.ex. Familjebehandling",
             "paragraph": "Paragraf",
             "paragraphPlaceholder": "T.ex. § 32"
         },
-        "confirmation": {
-            "delete": "Är du säker på att du vill ta bort den här insatstypen"
-        },
-        "alert": {
-            "deleted": "Insatstypen har tagits bort",
-            "deleteFailed": "Insatstypen kunde inte tas bort",
-            "saveFailed": "Kunde inte sparas"
-        }
+        "hint": "Avgör vilka typspecifika fält som efterfrågas.",
+        "single": "Insatstyp",
+        "title": "Insatstyper"
+    },
+    "inquiryStageHistory": {
+        "empty": "Förfrågan har inte bytt fas ännu.",
+        "title": "Fasändringar"
     },
     "consultantMatch": {
         "title": "Konsultmatchning",
@@ -15106,7 +15149,8 @@
         "delete": "Ta bort dokument",
         "confirmDelete": "Är du säker på att du vill ta bort det här dokumentet",
         "uploadFailed": "Dokumentet kunde inte laddas upp",
-        "deleteFailed": "Dokumentet kunde inte tas bort"
+        "deleteFailed": "Dokumentet kunde inte tas bort",
+        "dropHere": "Släpp filerna här"
     },
     "inquiryInvitations": {
         "title": "Konsulter tillfrågade",
@@ -15133,56 +15177,8 @@
         }
     },
     "taskBoards": {
-        "title": "Uppgiftstavlor",
-        "newTask": "Ny uppgift",
-        "newBoard": "Ny tavla",
-        "overdue": "Försenad",
-        "unassigned": "Ingen ansvarig",
         "actions": {
             "edit": "Redigera uppgift"
-        },
-        "empty": {
-            "title": "Det finns inga uppgiftstavlor än",
-            "description": "En tavla samlar det arbete som inte hör till en enskild @:terms.citizen{''}. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
-            "action": "Skapa den första tavlan"
-        },
-        "form": {
-            "newTitle": "Ny uppgift",
-            "editTitle": "Redigera uppgift",
-            "title": "Titel",
-            "titlePlaceholder": "Vad ska göras?",
-            "description": "Beskrivning",
-            "descriptionPlaceholder": "Utveckla om det behövs",
-            "type": "Uppgiftstyp",
-            "noType": "Ingen typ",
-            "assignee": "Ansvarig",
-            "nobody": "Ingen",
-            "dueDate": "Sista dag",
-            "column": "Kolumn"
-        },
-        "board": {
-            "newTitle": "Ny uppgiftstavla",
-            "name": "Namn",
-            "namePlaceholder": "Till exempel Visitation",
-            "description": "Beskrivning",
-            "descriptionPlaceholder": "Vad används tavlan till?",
-            "columns": "Kolumner",
-            "columnsHint": "Separera med komma. Den sista kolumnen räknas som klar, så att tavlan själv kan visa vad som är gjort.",
-            "columnsPlaceholder": "Att göra, Pågår, Klart",
-            "inactiveSuffix": "Inaktiv",
-            "defaults": {
-                "todo": "Att göra",
-                "doing": "Pågår",
-                "done": "Klart"
-            }
-        },
-        "mine": {
-            "title": "Mina uppgifter",
-            "all": "Se alla"
-        },
-        "confirmation": {
-            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften",
-            "deleteBoard": "Är du säker på att du vill ta bort den här tavlan"
         },
         "alert": {
             "saveFailed": "Uppgiften kunde inte sparas",
@@ -15203,6 +15199,45 @@
             "boardReactivated": "Tavlan har återaktiverats",
             "boardStatusUpdateFailed": "Tavlans status kunde inte ändras"
         },
+        "board": {
+            "newTitle": "Ny uppgiftstavla",
+            "name": "Namn",
+            "namePlaceholder": "Till exempel Visitation",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Vad används tavlan till?",
+            "columns": "Kolumner",
+            "columnsHint": "Separera med komma. Den sista kolumnen räknas som klar, så att tavlan själv kan visa vad som är gjort.",
+            "columnsPlaceholder": "Att göra, Pågår, Klart",
+            "inactiveSuffix": "Inaktiv",
+            "defaults": {
+                "todo": "Att göra",
+                "doing": "Pågår",
+                "done": "Klart"
+            }
+        },
+        "confirmation": {
+            "deleteTask": "Är du säker på att du vill ta bort den här uppgiften",
+            "deleteBoard": "Är du säker på att du vill ta bort den här tavlan"
+        },
+        "empty": {
+            "title": "Det finns inga uppgiftstavlor än",
+            "description": "En tavla samlar det arbete som inte hör till en enskild @:terms.citizen{''}. Skapa de kolumner ni arbetar i och lägg uppgifterna hos den som ska utföra dem.",
+            "action": "Skapa den första tavlan"
+        },
+        "form": {
+            "newTitle": "Ny uppgift",
+            "editTitle": "Redigera uppgift",
+            "title": "Titel",
+            "titlePlaceholder": "Vad ska göras?",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Utveckla om det behövs",
+            "type": "Uppgiftstyp",
+            "noType": "Ingen typ",
+            "assignee": "Ansvarig",
+            "nobody": "Ingen",
+            "dueDate": "Sista dag",
+            "column": "Kolumn"
+        },
         "manage": {
             "action": "Hantera tavla",
             "title": "Hantera tavla",
@@ -15219,7 +15254,19 @@
             "moveTasksTarget": "Flytta till",
             "leaveUnassigned": "Flytta inte (låt dem stå utan kolumn)",
             "noOtherColumns": "Det finns inga andra kolumner att flytta uppgifterna till - de blir stående utan en."
-        }
+        },
+        "mine": {
+            "title": "Mina uppgifter",
+            "all": "Se alla"
+        },
+        "newBoard": "Ny tavla",
+        "newTask": "Ny uppgift",
+        "overdue": "Försenad",
+        "sent": {
+            "title": "Skickat till andra"
+        },
+        "title": "Uppgiftstavlor",
+        "unassigned": "Ingen ansvarig"
     },
     "taskTypes": {
         "title": "Uppgiftstyper",

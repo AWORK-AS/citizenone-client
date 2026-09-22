@@ -223,6 +223,33 @@
                                 </template>
                             </div>
                         </section>
+
+                        <!-- Who is carrying what, and what is on nobody. Read here
+                             rather than by opening every case, which is how a team
+                             works out who covers for somebody away. -->
+                        <section v-if="distribution.coordinators.length" :id="`card-distribution`"
+                            class="rounded-xl bg-white ring-1 ring-gray-200 p-5 lg:col-span-2">
+                            <div class="flex items-center gap-2 mb-3">
+                                <Icon name="ph:users-three" class="size-5 text-tertiary" />
+                                <h3 class="font-semibold text-gray-900">{{ $t('myDay.distribution') }}</h3>
+                                <NuxtLink v-if="distribution.unassigned" to="/citizens"
+                                    class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-100 transition-colors">
+                                    {{ $t('myDay.distributionUnassigned', { count: distribution.unassigned }) }}
+                                </NuxtLink>
+                            </div>
+                            <ul class="space-y-2">
+                                <li v-for="row in distribution.coordinators" :key="row.uuid"
+                                    class="flex items-center gap-3 rounded-lg bg-gray-50 px-3 py-2">
+                                    <p class="min-w-0 flex-1 truncate text-sm font-medium text-gray-800">{{ row.name }}</p>
+                                    <span class="text-xs text-gray-500">
+                                        {{ $t('myDay.distributionPrimary', { count: row.primary }) }}
+                                    </span>
+                                    <span v-if="row.secondary" class="text-xxs text-gray-400">
+                                        {{ $t('myDay.distributionSecondary', { count: row.secondary }) }}
+                                    </span>
+                                </li>
+                            </ul>
+                        </section>
                     </div>
                 </LoadingSpinner>
 
@@ -247,6 +274,7 @@ import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import { reminderService } from '@/components/api/user/ReminderService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useAssistantStore } from '@/store/assistant'
@@ -281,6 +309,7 @@ const today = moment().format('YYYY-MM-DD')
 
 const state = reactive({
     isLoading: false,
+    distribution: { coordinators: [] as any[], unassigned: 0 },
     shifts: [] as any[],
     events: [] as any[],
     meds: [] as any[],
@@ -490,7 +519,27 @@ function scrollTo(key: string) {
 onMounted(() => {
     fetchAll()
     fetchBrief()
+    fetchDistribution()
 })
+
+const distribution = computed(() => state.distribution)
+
+/**
+ * Its own request rather than part of fetchAll: it is the one card here that
+ * is about the team rather than about today, and a company with no
+ * coordinators simply never renders it.
+ */
+async function fetchDistribution() {
+    try {
+        const response = await citizenContactService.getCoordinatorDistribution()
+        state.distribution = {
+            coordinators: response?.data?.coordinators ?? [],
+            unassigned: response?.data?.unassigned ?? 0,
+        }
+    } catch (_) {
+        state.distribution = { coordinators: [], unassigned: 0 }
+    }
+}
 
 async function fetchAll() {
     state.isLoading = true

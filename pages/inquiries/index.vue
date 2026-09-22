@@ -70,6 +70,21 @@
                                             </button>
                                         </MenuItem>
                                     </div>
+
+                                    <!-- The company's own forms, when it has set any up.
+                                         The two built-in ones stay above them: shelters and
+                                         crisis centres work from those every day. -->
+                                    <div class="px-1 py-1" v-if="state.serviceTypes.length">
+                                        <MenuItem v-for="type in state.serviceTypes" :key="type.uuid"
+                                            v-slot="{ active }">
+                                            <button :class="[
+                                                active && 'bg-gray-100',
+                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="serviceTypeNewInquiry(type)">
+                                                {{ type.label }}
+                                            </button>
+                                        </MenuItem>
+                                    </div>
                                 </MenuItems>
                             </transition>
                         </Menu>
@@ -297,6 +312,7 @@
             </div>
 
             <ModulesUserInquiryModalNew :isModalOpen="state.modal.isAddInquiryOpen" :inquiry-type="state.inquiryTpe"
+                :serviceType="state.newInquiryServiceType"
                 @close="state.modal.isAddInquiryOpen = false" @refreshInquiries="fetchInquiries" />
             <ModulesUserInquiryModalEdit :isModalOpen="state.modal.isEditInquiryOpen"
                 :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
@@ -325,6 +341,7 @@ definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', required
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
+import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
 import { useDepartmentStore } from '@/store/department'
@@ -474,6 +491,8 @@ const state = reactive({
     },
     selectedInquiry: {} as any,
     inquiryTpe: '',
+    serviceTypes: [] as any[],
+    newInquiryServiceType: null as any,
     exportInquiryType: '',
     pipelineStages: [] as any[],
     unassignedConvertedCount: 0,
@@ -485,6 +504,9 @@ onMounted(() => {
     if (pipelineEnabled.value) {
         fetchPipelineStages()
         fetchUnassignedConvertedCount()
+        // The company's own inquiry forms. Behind the same flag as the rest of
+        // the pipeline: without it there are no service types to offer.
+        fetchServiceTypes()
     }
 })
 
@@ -605,13 +627,35 @@ async function convertInquiry() {
 }
 
 function shelterNewInquiry() {
+    state.newInquiryServiceType = null
     state.inquiryTpe = 'shelter'
     state.modal.isAddInquiryOpen = true
 }
 
 function crisisCenterNewInquiry() {
+    state.newInquiryServiceType = null
     state.inquiryTpe = 'crisis_center'
     state.modal.isAddInquiryOpen = true
+}
+
+/**
+ * One of the company's own forms. The general built-in form carries it: it
+ * holds every field the shelter form does not, and the service type decides
+ * which of them are actually asked for.
+ */
+function serviceTypeNewInquiry(type: any) {
+    state.newInquiryServiceType = type
+    state.inquiryTpe = 'crisis_center'
+    state.modal.isAddInquiryOpen = true
+}
+
+async function fetchServiceTypes() {
+    try {
+        const response = await inquiryServiceTypeService.getServiceTypes()
+        state.serviceTypes = (response?.data ?? []).filter((type: any) => type.is_active)
+    } catch (_) {
+        state.serviceTypes = []
+    }
 }
 
 function deleteConfirmation(inquiry: any) {

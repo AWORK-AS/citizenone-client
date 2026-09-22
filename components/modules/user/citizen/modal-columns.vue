@@ -35,6 +35,11 @@ const OPTIONAL_COLUMNS = [
     { key: 'email', label: 'citizens.table.email' },
     { key: 'ssn', label: 'citizens.table.ssn' },
     { key: 'phone', label: 'citizens.table.phone' },
+    { key: 'section', label: 'citizens.table.section' },
+    { key: 'municipality', label: 'citizens.table.municipality' },
+    { key: 'coordinator', label: 'citizens.table.coordinator' },
+    { key: 'department', label: 'citizens.table.department' },
+    { key: 'admitted', label: 'citizens.table.admitted' },
 ]
 
 const props = defineProps({

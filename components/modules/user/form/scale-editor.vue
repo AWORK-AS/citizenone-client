@@ -20,6 +20,13 @@
                     :searchable="false" v-model="props.field.maxScore" />
                 <p class="text-xs text-gray-500">{{ $t('forms.scale.maxScoreHint') }}</p>
             </div>
+
+            <div class="space-y-1">
+                <FormLabel :label="$t('forms.scale.allowHalf')" />
+                <FormSwitch :value="props.field.allowHalf === true"
+                    @toggleSwitch="props.field.allowHalf = !props.field.allowHalf" />
+                <p class="text-xs text-gray-500">{{ $t('forms.scale.allowHalfHint') }}</p>
+            </div>
         </div>
 
         <!-- Preview, so the administrator sees the instrument rather than a table of hex codes. -->

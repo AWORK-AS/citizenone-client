@@ -29,16 +29,19 @@
                 </div>
                 <div class="grow flex rounded-sm border border-gray-300 overflow-hidden">
                     <button v-for="step in steps" :key="'step_' + raterIndex + '_' + step" type="button"
-                        class="grow py-1.5 text-xs border-r border-gray-200 last:border-r-0 transition-colors"
-                        :class="scoreOf(rater.key) === step
-                            ? 'text-white font-semibold'
-                            : 'text-gray-600 hover:bg-gray-100'"
+                        class="grow py-1.5 border-r border-gray-200 last:border-r-0 transition-colors"
+                        :class="[
+                            isWholeStep(step) ? 'text-xs' : 'text-[10px]',
+                            scoreOf(rater.key) === step
+                                ? 'text-white font-semibold'
+                                : isWholeStep(step) ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-400 hover:bg-gray-100',
+                        ]"
                         :style="scoreOf(rater.key) === step ? { backgroundColor: colourFor(step) } : {}"
                         :aria-pressed="scoreOf(rater.key) === step"
                         :title="previousScore(rater.key) === step ? $t('forms.scale.previousHere') : ''"
                         @click="setScore(rater.key, rater.label, step)">
                         <span class="relative inline-block">
-                            {{ step }}
+                            {{ formatStep(step) }}
                             <span v-if="previousScore(rater.key) === step && scoreOf(rater.key) !== step"
                                 class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full"
                                 :style="{ backgroundColor: colourFor(step), opacity: 0.55 }"></span>
@@ -98,6 +101,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
 
 const props = defineProps({
@@ -124,12 +128,35 @@ const props = defineProps({
     },
 })
 
+const { locale } = useI18n()
+
 const emit = defineEmits(['update:modelValue'])
 
 const history = ref<any[]>([])
 
 const maxScore = computed(() => Number(props.field?.maxScore) || 10)
-const steps = computed(() => Array.from({ length: maxScore.value + 1 }, (_, i) => i))
+
+// A lineal is pointed at as readily between two marks as on one, so a scale
+// can be configured to take halves. The whole numbers stay the marks; the
+// halves sit between them and are drawn smaller.
+const allowHalf = computed(() => props.field?.allowHalf === true)
+const steps = computed(() => {
+    const count = allowHalf.value ? maxScore.value * 2 + 1 : maxScore.value + 1
+    const size = allowHalf.value ? 0.5 : 1
+    return Array.from({ length: count }, (_, i) => i * size)
+})
+
+function isWholeStep(step: number): boolean {
+    return Number.isInteger(step)
+}
+
+// 4.5 reads as 4,5 everywhere but English, and a decimal point in a Danish
+// report looks like a typo.
+const stepFormatter = computed(() => new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK'))
+
+function formatStep(step: number): string {
+    return stepFormatter.value.format(step)
+}
 const bands = computed(() => props.field?.bands ?? [])
 const raters = computed(() => props.field?.raters ?? [])
 
