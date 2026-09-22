@@ -180,7 +180,28 @@ function asText(value: any) {
 
 function setValue(field: any, value: any) {
     draft.value = { ...draft.value, [field.uuid]: value === '' ? null : value }
+    fillRegionFrom(field, value)
     emit('update:modelValue', { ...draft.value })
+}
+
+/**
+ * A kommune and its region are never independently true. When a kommune is
+ * picked, any empty region field on the same form is filled from it, so nobody
+ * has to remember which region a Danish kommune sits in. An answer already
+ * given is left alone: the form may be recording something deliberate.
+ */
+function fillRegionFrom(field: any, value: any) {
+    if (field.type !== 'lookup' || field.options?.source !== 'municipalities' || !value) return
+
+    const picked = (field.lookup_options ?? []).find((option: any) => option.uuid === value)
+    if (!picked?.region_uuid) return
+
+    for (const candidate of state.fields) {
+        if (candidate.type !== 'lookup' || candidate.options?.source !== 'regions') continue
+        if (draft.value[candidate.uuid]) continue
+
+        draft.value = { ...draft.value, [candidate.uuid]: picked.region_uuid }
+    }
 }
 
 function isCreatingJobcenter(field: any) {

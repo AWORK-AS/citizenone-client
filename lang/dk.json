@@ -2321,7 +2321,18 @@
             "useThisLocation": "Brug denne placering",
             "secondaryCaseworker": "Sekundær {term}",
             "caseNumber": "Indsatsnummer",
-            "caseNumberHint": "Nummeret indsatsen har i det system, den kom fra"
+            "caseNumberHint": "Nummeret indsatsen har i det system, den kom fra",
+            "reportingFrequency": "Rapportering til kommunen",
+            "reportingFrequencyHint": "Opretter en tilbagevendende påmindelse til alle på indsatsen med et login.",
+            "reportingStartsOn": "Første rapportering",
+            "reportingOptions": {
+                "biweekly": "Hver 14. dag",
+                "everySixMonths": "Hvert halve år",
+                "everyThreeMonths": "Hvert kvartal",
+                "monthly": "Månedligt",
+                "weekly": "Ugentligt",
+                "yearly": "Årligt"
+            }
         },
         "importCitizens": {
             "alert": {
@@ -3317,16 +3328,20 @@
                 },
                 "view": "Se"
             },
+            "admitted": "Opstart",
+            "caseNumber": "Indsatsnummer",
             "columns": {
                 "columns": "Kolonner",
                 "hint": "Vælg hvilke kolonner der skal vises i oversigten."
             },
+            "coordinator": "Koordinator",
             "department": "Afdeling",
             "email": "E-mail",
+            "municipality": "Kommune",
             "name": "Navn",
             "phone": "Telefon",
-            "ssn": "CPR-nummer",
-            "caseNumber": "Indsatsnummer"
+            "section": "Paragraf / indsatstype",
+            "ssn": "CPR-nummer"
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -4453,6 +4468,7 @@
                 "downloadPDF": "Download PDF",
                 "edit": "Rediger",
                 "move": "Flyt",
+                "openSelected": "Åbn valgte",
                 "view": "Se"
             },
             "dateCreated": "Oprettelsesdato",
@@ -6697,7 +6713,9 @@
                     "documentSuccessfullySaved": "Dokument gemt med succes",
                     "documentSuccessfullyUpdated": "Dokument opdateret med succes"
                 },
+                "expiresOn": "Udløber {date}",
                 "file": "Fil",
+                "issuedAt": "Indhentet den",
                 "name": "Navn",
                 "note": "Note"
             },
@@ -7626,23 +7644,13 @@
             "showNumbering": "Nummerér spørgsmål"
         },
         "scale": {
-            "question": "Spørgsmål",
-            "scaleKey": "Målingens nøgle",
-            "scaleKeyHint": "Skabeloner med samme nøgle deler historik på @:terms.citizenDefinite{''}. Brug fx trivsel.",
-            "maxScore": "Skala",
-            "maxScoreHint": "0 til 5 eller 0 til 10.",
-            "preview": "Sådan ser den ud",
-            "bands": "Farvebånd",
-            "upTo": "Til og med",
-            "bandLabel": "Navn på bånd",
             "addBand": "Tilføj bånd",
-            "raters": "Vurderende parter",
-            "ratersHint": "Medarbejderen taster alles vurdering. Tilføj selv flere, fx en specialist.",
-            "raterLabel": "Navn",
             "addRater": "Tilføj part",
-            "showHistory": "Vis tidligere målinger",
-            "perGoal": "Gentag linealen for hvert mål",
-            "perGoalHint": "Slået til bliver linealen vist én gang pr. aktivt mål på @:terms.citizenDefinite{''}.",
+            "allowHalf": "Tillad halve trin",
+            "allowHalfHint": "Gør det muligt at pege mellem to mærker, fx 4,5.",
+            "bandLabel": "Navn på bånd",
+            "bands": "Farvebånd",
+            "clear": "Ryd",
             "defaults": {
                 "threatened": "Truet",
                 "atRisk": "Udsat",
@@ -7655,12 +7663,24 @@
                 "father": "Far",
                 "citizen": "@.capitalize:terms.citizenDefinite{''}"
             },
-            "clear": "Ryd",
-            "measuredAt": "Målt den",
             "earlier": "Tidligere målinger",
-            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned.",
+            "maxScore": "Skala",
+            "maxScoreHint": "0 til 5 eller 0 til 10.",
+            "measuredAt": "Målt den",
+            "needsTwo": "Der skal to målinger til før udviklingen kan tegnes.",
+            "perGoal": "Gentag linealen for hvert mål",
+            "perGoalHint": "Slået til bliver linealen vist én gang pr. aktivt mål på @:terms.citizenDefinite{''}.",
+            "preview": "Sådan ser den ud",
             "previousHere": "Forrige måling lå her",
-            "needsTwo": "Der skal to målinger til før udviklingen kan tegnes."
+            "question": "Spørgsmål",
+            "raterLabel": "Navn",
+            "raters": "Vurderende parter",
+            "ratersHint": "Medarbejderen taster alles vurdering. Tilføj selv flere, fx en specialist.",
+            "recordedByHint": "Du noterer alle parters vurdering. Rapporten viser hvem der har skrevet den ned.",
+            "scaleKey": "Målingens nøgle",
+            "scaleKeyHint": "Skabeloner med samme nøgle deler historik på @:terms.citizenDefinite{''}. Brug fx trivsel.",
+            "showHistory": "Vis tidligere målinger",
+            "upTo": "Til og med"
         },
         "mergeFields": {
             "insert": "Indsæt felt",
@@ -10191,7 +10211,9 @@
                 "newSectionSuccessfullySaved": "Ny paragraf gemt med succes",
                 "sectionSuccessfullyUpdated": "Paragraf opdateret med succes"
             },
-            "name": "Navn"
+            "name": "Navn",
+            "paragraph": "Paragraf",
+            "paragraphPlaceholder": "Fx §32"
         },
         "newSection": "Ny paragraf",
         "sections": "Paragraffer",
@@ -14406,7 +14428,11 @@
             "askMore": "Spørg Cody om din dag",
             "askMorePrompt": "Giv mig et overblik over min dag. Hvad er vigtigst at tage fat på først?",
             "prompt": "Her er hvad der kræver min opmærksomhed i dag:\n{lines}\n\nSkriv to korte sætninger om hvordan min dag ser ud, og hvad jeg bør tage først. Ingen overskrifter, ingen punktopstilling, ingen navne."
-        }
+        },
+        "distribution": "Fordeling af indsatser",
+        "distributionUnassigned": "{count} uden koordinator",
+        "distributionPrimary": "{count} primære",
+        "distributionSecondary": "{count} sekundære"
     },
     "handover": {
         "button": "Vagtoverblik",
@@ -15117,26 +15143,36 @@
         "moveHint": "Fremad kræver at fasens påkrævede felter er udfyldt. Tilbage kan du altid."
     },
     "inquiryServiceTypes": {
-        "title": "Indsatstyper",
-        "single": "Indsatstype",
-        "description": "De typer indsats I leverer, med den paragraf de bevilges efter. Felter kan bindes til en enkelt type, så de kun spørges der.",
-        "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
         "add": "Tilføj",
+        "alert": {
+            "deleted": "Indsatstypen er slettet",
+            "deleteFailed": "Indsatstypen kunne ikke slettes",
+            "saveFailed": "Kunne ikke gemmes"
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne indsatstype"
+        },
+        "description": "De typer indsats I leverer, med den paragraf de bevilges efter. Felter kan bindes til en enkelt type, så de kun spørges der.",
         "empty": "Der er ingen indsatstyper endnu.",
+        "fields": {
+            "hint": "Vælg hvilke af de faste felter denne henvendelsestype spørger om. Fjern flueben for at skjule et felt.",
+            "saved": "Felterne er gemt",
+            "selectAll": "Vælg alle",
+            "title": "Felter i formularen"
+        },
         "form": {
             "name": "Navn",
             "namePlaceholder": "Fx Familiebehandling",
             "paragraph": "Paragraf",
             "paragraphPlaceholder": "Fx § 32"
         },
-        "confirmation": {
-            "delete": "Er du sikker på, at du vil slette denne indsatstype"
-        },
-        "alert": {
-            "deleted": "Indsatstypen er slettet",
-            "deleteFailed": "Indsatstypen kunne ikke slettes",
-            "saveFailed": "Kunne ikke gemmes"
-        }
+        "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
+        "single": "Indsatstype",
+        "title": "Indsatstyper"
+    },
+    "inquiryStageHistory": {
+        "empty": "Henvendelsen har ikke skiftet fase endnu.",
+        "title": "Faseændringer"
     },
     "consultantMatch": {
         "title": "Konsulentmatch",
@@ -15203,7 +15239,8 @@
         "delete": "Slet dokument",
         "confirmDelete": "Er du sikker på, at du vil slette dette dokument",
         "uploadFailed": "Dokumentet kunne ikke uploades",
-        "deleteFailed": "Dokumentet kunne ikke slettes"
+        "deleteFailed": "Dokumentet kunne ikke slettes",
+        "dropHere": "Slip filerne her"
     },
     "inquiryInvitations": {
         "title": "Konsulenter spurgt",
@@ -15230,56 +15267,8 @@
         }
     },
     "taskBoards": {
-        "title": "Opgavetavler",
-        "newTask": "Ny opgave",
-        "newBoard": "Ny tavle",
-        "overdue": "Overskredet",
-        "unassigned": "Ingen ansvarlig",
         "actions": {
             "edit": "Rediger opgave"
-        },
-        "empty": {
-            "title": "Der er ingen opgavetavler endnu",
-            "description": "En tavle samler det arbejde, der ikke hører til én @:terms.citizen{''}. Opret kolonnerne I arbejder i, og placér opgaverne hos den, der skal løse dem.",
-            "action": "Opret den første tavle"
-        },
-        "form": {
-            "newTitle": "Ny opgave",
-            "editTitle": "Rediger opgave",
-            "title": "Titel",
-            "titlePlaceholder": "Hvad skal der gøres?",
-            "description": "Beskrivelse",
-            "descriptionPlaceholder": "Uddyb om nødvendigt",
-            "type": "Opgavetype",
-            "noType": "Ingen type",
-            "assignee": "Ansvarlig",
-            "nobody": "Ingen",
-            "dueDate": "Frist",
-            "column": "Kolonne"
-        },
-        "board": {
-            "newTitle": "Ny opgavetavle",
-            "name": "Navn",
-            "namePlaceholder": "F.eks. Visitation",
-            "description": "Beskrivelse",
-            "descriptionPlaceholder": "Hvad bruges tavlen til?",
-            "columns": "Kolonner",
-            "columnsHint": "Adskil med komma. Den sidste kolonne regnes som færdig, så tavlen selv kan vise, hvad der er løst.",
-            "columnsPlaceholder": "Skal gøres, I gang, Færdig",
-            "inactiveSuffix": "Inaktiv",
-            "defaults": {
-                "todo": "Skal gøres",
-                "doing": "I gang",
-                "done": "Færdig"
-            }
-        },
-        "mine": {
-            "title": "Mine opgaver",
-            "all": "Se alle"
-        },
-        "confirmation": {
-            "deleteTask": "Er du sikker på, at du vil slette denne opgave",
-            "deleteBoard": "Er du sikker på, at du vil slette denne tavle"
         },
         "alert": {
             "saveFailed": "Opgaven kunne ikke gemmes",
@@ -15300,6 +15289,45 @@
             "boardReactivated": "Tavlen er genaktiveret",
             "boardStatusUpdateFailed": "Tavlens status kunne ikke ændres"
         },
+        "board": {
+            "newTitle": "Ny opgavetavle",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Visitation",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Hvad bruges tavlen til?",
+            "columns": "Kolonner",
+            "columnsHint": "Adskil med komma. Den sidste kolonne regnes som færdig, så tavlen selv kan vise, hvad der er løst.",
+            "columnsPlaceholder": "Skal gøres, I gang, Færdig",
+            "inactiveSuffix": "Inaktiv",
+            "defaults": {
+                "todo": "Skal gøres",
+                "doing": "I gang",
+                "done": "Færdig"
+            }
+        },
+        "confirmation": {
+            "deleteTask": "Er du sikker på, at du vil slette denne opgave",
+            "deleteBoard": "Er du sikker på, at du vil slette denne tavle"
+        },
+        "empty": {
+            "title": "Der er ingen opgavetavler endnu",
+            "description": "En tavle samler det arbejde, der ikke hører til én @:terms.citizen{''}. Opret kolonnerne I arbejder i, og placér opgaverne hos den, der skal løse dem.",
+            "action": "Opret den første tavle"
+        },
+        "form": {
+            "newTitle": "Ny opgave",
+            "editTitle": "Rediger opgave",
+            "title": "Titel",
+            "titlePlaceholder": "Hvad skal der gøres?",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Uddyb om nødvendigt",
+            "type": "Opgavetype",
+            "noType": "Ingen type",
+            "assignee": "Ansvarlig",
+            "nobody": "Ingen",
+            "dueDate": "Frist",
+            "column": "Kolonne"
+        },
         "manage": {
             "action": "Administrer tavle",
             "title": "Administrer tavle",
@@ -15316,7 +15344,19 @@
             "moveTasksTarget": "Flyt til",
             "leaveUnassigned": "Flyt ikke (lad dem stå uden kolonne)",
             "noOtherColumns": "Der er ingen andre kolonner at flytte opgaverne til - de bliver stående uden en."
-        }
+        },
+        "mine": {
+            "title": "Mine opgaver",
+            "all": "Se alle"
+        },
+        "newBoard": "Ny tavle",
+        "newTask": "Ny opgave",
+        "overdue": "Overskredet",
+        "sent": {
+            "title": "Sendt til andre"
+        },
+        "title": "Opgavetavler",
+        "unassigned": "Ingen ansvarlig"
     },
     "taskTypes": {
         "title": "Opgavetyper",

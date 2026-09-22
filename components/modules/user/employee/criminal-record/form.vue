@@ -28,6 +28,16 @@
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
         <div class="space-y-1">
+            <FormLabel for="issued_at" :label="$t('employees.documents.form.issuedAt')" />
+            <FormDateField id="issued_at" name="issued_at" v-model="state.formEmployeeDocument.issued_at" />
+            <!-- The expiry follows from this date, so it is stated rather than
+                 asked for a second time and left to disagree with it. -->
+            <p v-if="state.formEmployeeDocument.issued_at" class="text-xs text-gray-500">
+                {{ $t('employees.documents.form.expiresOn', { date: derivedExpiry }) }}
+            </p>
+            <FormError :error="props?.error?.errors?.issued_at?.[0]" />
+        </div>
+        <div class="space-y-1">
             <FormLabel for="note" :label="$t('employees.documents.form.note')" />
             <FormTextArea id="note" name="note" :placeholder="$t('employees.documents.form.note')"
                 v-model="state.formEmployeeDocument.note" />
@@ -77,8 +87,21 @@ const state = reactive({
         file: '',
         name: props.selectedEmployeeDocument?.name,
         note: props.selectedEmployeeDocument?.note,
+        issued_at: props.selectedEmployeeDocument?.issued_at ?? '',
     } as any,
 })
+
+// A certificate is asked for again a year after it was obtained, which is what
+// the server does with issued_at. Shown here so nobody has to work it out.
+const derivedExpiry = computed(() => {
+    const issued = state.formEmployeeDocument.issued_at
+    if (!issued) return ''
+    const date = new Date(issued)
+    if (Number.isNaN(date.getTime())) return ''
+    date.setFullYear(date.getFullYear() + 1)
+    return date.toISOString().slice(0, 10)
+})
+
 
 const rules = computed(() => {
     if (props.formType === 'update') {
@@ -100,6 +123,7 @@ watch(() => props.selectedEmployeeDocument, (newValue: any) => {
             file: '',
             name: newValue.name,
             note: newValue.note,
+            issued_at: newValue.issued_at ?? '',
         }
     }
 })

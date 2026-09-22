@@ -9,27 +9,29 @@
                         {{ $t('inquiries.form.sections.inquiry') }}
                     </h3>
                     <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('inquiry_date')">
                             <FormLabel for="inquiry_date" :label="dateOfInquiryLabel" />
                             <FormDateField id="inquiry_date" name="inquiry_date"
                                 :placeholder="dateOfInquiryLabel" v-model="state.formInquiry.inquiry_date" />
                             <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('department_uuid')">
                             <FormLabel for="department_uuid" :label="departmentLabel" />
                             <FormSelectMultiple id="department_uuid" :options="state.options.departments"
                                 v-model="state.formInquiry.department_uuid" />
                             <FormError :error="props?.error?.errors?.department_uuid?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('contacted_by')">
                             <FormLabel for="contacted_by" :label="$t('inquiries.form.crisisCenter.fields.contactedBy')" />
                             <FormSelect id="contacted_by" :options="state.options.contactedBy"
                                 v-model="state.formInquiry.contacted_by" />
                             <FormError :error="v$?.formInquiry?.contacted_by?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.contacted_by?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <!-- Hidden when the type was already chosen on the way in:
+                             asking again invites two answers to the same question. -->
+                        <div class="space-y-1" v-if="!props.serviceType">
                             <FormLabel for="inquiry_service_type"
                                 :label="$t('inquiryServiceTypes.single')" />
                             <FormSelect id="inquiry_service_type" :options="state.options.serviceTypes"
@@ -39,7 +41,7 @@
                                 {{ $t('inquiryServiceTypes.hint') }}
                             </p>
                         </div>
-                        <div class="space-y-1 sm:col-span-2">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('company_contact')">
                             <FormLabel for="company_contact" :label="$t('inquiryContact.label')" />
                             <ModulesUserInquiryContactPicker :contact="props.selectedInquiry?.company_contact"
                                 @update:contactUuid="(uuid: any) => state.formInquiry.company_contact_uuid = uuid" />
@@ -47,7 +49,7 @@
                                 {{ $t('inquiryContact.hint') }}
                             </p>
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('inquirer_name')">
                             <FormLabel for="inquirer_name" :label="completedByLabel" />
                             <FormTextField id="inquirer_name" name="inquirer_name"
                                 :placeholder="completedByLabel" v-model="state.formInquiry.inquirer_name" />
@@ -61,21 +63,21 @@
                         {{ $t('inquiries.form.sections.citizen') }}
                     </h3>
                     <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('cpr')">
                             <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                             <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
                                 v-model="state.formInquiry.cpr" />
                             <FormError :error="v$?.formInquiry?.cpr?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.cpr?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('first_name')">
                             <FormLabel for="first_name" :label="$t('inquiries.form.firstname')" />
                             <FormTextField id="first_name" name="first_name" :placeholder="$t('inquiries.form.firstname')"
                                 v-model="state.formInquiry.first_name" />
                             <FormError :error="v$?.formInquiry?.first_name?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.first_name?.[0]" />
                         </div>
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('last_name')">
                             <FormLabel for="last_name" :label="$t('inquiries.form.lastname')" />
                             <FormTextField id="last_name" name="last_name" :placeholder="$t('inquiries.form.lastname')"
                                 v-model="state.formInquiry.last_name" />
@@ -89,7 +91,7 @@
                         {{ $t('inquiries.form.sections.assessment') }}
                     </h3>
                     <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1 sm:col-span-2">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('topic')">
                             <FormLabel for="topic" :label="$t('inquiries.form.crisisCenter.fields.topic')" />
                             <FormSelectMultiple id="topic" :options="state.options.about_list"
                                 v-model="state.formInquiry.topic_uuid" />
@@ -97,7 +99,7 @@
                             <FormError :error="props?.error?.errors?.topic_uuid?.[0]" />
                         </div>
                         <!-- Question 5: Assessment - Only show if topic includes "inquiry about place" -->
-                        <div class="space-y-1" v-if="showAssessmentFields">
+                        <div class="space-y-1" v-if="asksFor('assessment') && (showAssessmentFields)">
                             <FormLabel for="assessment" :label="$t('inquiries.form.crisisCenter.fields.assessment')" />
                             <FormSelect id="assessment" :options="state.options.assessment"
                                 v-model="state.formInquiry.target_group_crisis_center" />
@@ -105,7 +107,7 @@
                             <FormError :error="props?.error?.errors?.target_group_crisis_center?.[0]" />
                         </div>
                         <!-- Question 6: Received Visit - Only show if assessment is "yes" or "unknown" -->
-                        <div class="space-y-1" v-if="showReceivedVisitField">
+                        <div class="space-y-1" v-if="asksFor('received_visit') && (showReceivedVisitField)">
                             <FormLabel for="received_visit" :label="$t('inquiries.form.crisisCenter.fields.receivedVisit')" />
                             <FormSelect id="received_visit" :options="state.options.yesNo"
                                 v-model="state.formInquiry.received_visit" />
@@ -113,7 +115,7 @@
                             <FormError :error="props?.error?.errors?.received_visit?.[0]" />
                         </div>
                         <!-- Question 7: Assessment Reason - Only show if received_visit is "no" -->
-                        <div class="space-y-1 sm:col-span-2" v-if="showAssessmentReasonAndGuidance">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('assessment_reason') && (showAssessmentReasonAndGuidance)">
                             <FormLabel for="assessment_reason"
                                 :label="$t('inquiries.form.crisisCenter.fields.notOfferedInterview')" />
                             <FormSelectMultiple id="assessment_reason" :options="state.options.assessment_reason_list"
@@ -122,7 +124,7 @@
                             <FormError :error="props?.error?.errors?.assessment_uuid?.[0]" />
                         </div>
                         <!-- Question 8: Guidance - Only show if received_visit is "no" -->
-                        <div class="space-y-1 sm:col-span-2" v-if="showAssessmentReasonAndGuidance">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('guidance') && (showAssessmentReasonAndGuidance)">
                             <FormLabel for="guidance" :label="$t('inquiries.form.crisisCenter.fields.guidance')" />
                             <FormSelectMultiple id="guidance" :options="state.options.guidance_list"
                                 v-model="state.formInquiry.guidance_uuid" />
@@ -136,28 +138,28 @@
                         {{ $t('inquiries.form.sections.outcome') }}
                     </h3>
                     <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1">
+                        <div class="space-y-1" v-if="asksFor('outcome')">
                             <FormLabel for="outcome" :label="$t('inquiries.form.outcome')" />
                             <FormTextField id="outcome" name="outcome" :placeholder="$t('inquiries.form.outcome')"
                                 v-model="state.formInquiry.outcome" />
                             <FormError :error="v$?.formInquiry?.outcome?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.outcome?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="isPurposeActive">
+                        <div class="space-y-1" v-if="asksFor('purpose') && (isPurposeActive)">
                             <FormLabel for="purpose" :label="$t('inquiries.form.purpose')" />
                             <FormTextField id="purpose" name="purpose" :placeholder="$t('inquiries.form.purpose')"
                                 v-model="state.formInquiry.purpose" />
                             <FormError :error="v$?.formInquiry?.purpose?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.purpose?.[0]" />
                         </div>
-                        <div class="space-y-1 sm:col-span-2" v-if="isNotesActive">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('notes') && (isNotesActive)">
                             <FormLabel for="notes" :label="$t('inquiries.form.notes')" />
                             <FormTextArea id="notes" name="notes" :placeholder="$t('inquiries.form.notes')"
                                 v-model="state.formInquiry.notes" />
                             <FormError :error="v$?.formInquiry?.notes?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.notes?.[0]" />
                         </div>
-                        <div class="space-y-1 sm:col-span-2">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('conversation_summary')">
                             <FormLabel for="conversation_summary" :label="$t('inquiries.form.conversationSummary')" />
                             <FormTextArea id="conversation_summary" name="conversation_summary"
                                 :placeholder="$t('inquiries.form.conversationSummary')"
@@ -203,12 +205,30 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // The kind of inquiry being taken. Decides which built-in fields the
+    // form asks for; absent when one of the built-in forms is used directly.
+    serviceType: {
+        type: Object,
+        required: false,
+        default: null,
+    },
     selectedInquiry: {
         type: Object,
         required: false,
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+
+/**
+ * Whether this kind of inquiry asks for a built-in field. A form opened
+ * without a service type, or a type nobody has configured, asks for all of
+ * them - which is what every form did before the setting existed.
+ */
+function asksFor(field: string): boolean {
+    const configured = props.serviceType?.core_fields
+
+    return !Array.isArray(configured) || configured.includes(field)
+}
 
 const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
@@ -231,7 +251,7 @@ const state = reactive({
         department_uuid: [] as any,
         inquirer_name: '',
         company_contact_uuid: null as string | null,
-        inquiry_service_type_uuid: null as string | null,
+        inquiry_service_type_uuid: (props.serviceType?.uuid ?? null) as string | null,
         first_name: '',
         last_name: '',
         contacted_by: '',

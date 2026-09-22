@@ -17,6 +17,10 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'PUT', params)
     }
 
+    async getStageHistory(inquiryUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}/stage-history`, 'GET')
+    }
+
     async updatePipelineStatus(inquiryUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/pipeline-status`, 'PUT', params)
     }

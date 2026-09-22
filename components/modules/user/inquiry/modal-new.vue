@@ -1,12 +1,15 @@
 <template>
     <div>
-        <Modal size="lg" :title="inquiryType === 'shelter' ? shelterName : crisisCenterName" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg" :title="props.serviceType?.label ?? (inquiryType === 'shelter' ? shelterName : crisisCenterName)"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
+                        :serviceType="props.serviceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveCrisisCenterInquiry" />
                     <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" formType="create" :selectedInquiry="state.formInquiry"
+                        :serviceType="props.serviceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveShelterInquiry" />
                     <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues" class="mt-6" />
@@ -39,6 +42,13 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // Set when the user picked one of the company's own inquiry forms rather
+    // than one of the two built-in ones.
+    serviceType: {
+        type: Object,
+        required: false,
+        default: null,
+    },
 })
 const emit = defineEmits(['close', 'refreshInquiries'])
 
@@ -46,6 +56,7 @@ const state = reactive({
     error: {} as Error,
     formInquiry: {
         inquiry_type: props.inquiryType,
+        inquiry_service_type_uuid: props.serviceType?.uuid ?? null,
         cpr: '',
         inquiry_date: '',
         department_uuid: [],

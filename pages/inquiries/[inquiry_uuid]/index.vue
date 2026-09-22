@@ -97,6 +97,10 @@
                             <ModulesUserInquiryNotesPanel :inquiryUuid="state.inquiry.uuid"
                                 :stages="state.stages" />
                         </div>
+                        <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
+                            <ModulesUserInquiryStageHistoryPanel :inquiryUuid="state.inquiry.uuid"
+                                :stages="state.stages" />
+                        </div>
                     </div>
 
                     <!-- Right: who is involved, and where it can go next -->
