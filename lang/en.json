@@ -1638,6 +1638,9 @@
                 "copy": "Copy",
                 "delete": "Delete",
                 "edit": "Edit",
+                "favoriteNoteLabel": "Note (optional)",
+                "favoriteNoteSave": "Save",
+                "favoriteNoteCancel": "Cancel",
                 "journalLogs": "Journal logs",
                 "lock": "Lock journal",
                 "move": "Move",
@@ -1727,6 +1730,8 @@
                 "goal": "Goal",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
+                "jumpToSubgoal": "Jump to a sub-goal",
+                "jumpToSubgoalPlaceholder": "Search for a sub-goal",
                 "note": "Note",
                 "plan": "Plan",
                 "prepareWithAI": "Prepare with AI",
@@ -4482,6 +4487,10 @@
         "viewDraftFile": "View draft files"
     },
     "dutySchedules": {
+        "quickEditTime": {
+            "tooltip": "Click to edit the time",
+            "hint": "Enter to save · Esc to cancel"
+        },
         "danlon_sync": "Sync to Danløn",
         "danlon_sync_description": "Transfer scheduled hours and supplements from your duty schedules to Danløn payroll. Select employees, choose a date range, and map shift types to Danløn codes before syncing.",
         "danlon_step_configure": "Configure",
@@ -9530,6 +9539,7 @@
         "statuses": "Statuses",
         "subgoal": "Subgoal",
         "subgoals": "Subgoals",
+        "switchGoal": "Switch goal",
         "table": {
             "actions": {
                 "archive": "Archive",
@@ -10501,6 +10511,12 @@
                 "title": "Calendar subscription",
                 "description": "Subscribe to your shifts in your own calendar app (Google Calendar, Apple Calendar, Outlook). Your schedule updates automatically.",
                 "button": "Subscribe to my shifts"
+            },
+            "sidebarMenu": {
+                "title": "Sidebar menu",
+                "description": "Choose which of your available menu items show in your own left sidebar. Turning one off only hides it for you.",
+                "empty": "No customizable menu items are available to you.",
+                "saved": "Your sidebar menu has been updated."
             }
         },
         "settings": "Settings",
@@ -10942,6 +10958,7 @@
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "paycode": "Paycode",
+            "shortcutKey": "Shortcut key",
             "timeIn": "Time in",
             "timeOut": "Time out",
             "multiplierRules": "Hour multiplier rules",

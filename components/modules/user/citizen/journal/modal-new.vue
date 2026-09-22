@@ -23,14 +23,15 @@
                     </div>
                     <ModulesUserCitizenJournalForm formType="create" :selectedJournal="state.formJournal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveJournal" />
+                        @closeModal="closeModal" @submitForm="saveJournal"
+                        @planGoalSubgoalSelected="onPlanGoalSubgoalSelected" />
                 </LoadingSpinner>
             </template>
             <template #modal-right>
                 <div class="space-y-5">
                     <div class="overflow-auto space-y-4 pr-1" :style="computedRightModalMaxHeight">
                         <div class="group bg-white ring-1 ring-gray-200 rounded-xl p-5 transition-all hover:ring-secondary/40 hover:shadow-sm"
-                            v-for="(plan, index) in state.plans?.data" :key="index">
+                            v-for="(plan, index) in visiblePlans" :key="index">
                             <div class="flex flex-col gap-4">
                                 <div class="flex items-start gap-3">
                                     <div class="grow space-y-2 min-w-0">
@@ -83,7 +84,7 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="state.plans?.data?.length === 0"
+                    <div v-if="visiblePlans.length === 0"
                         class="flex flex-col items-center justify-center gap-3 py-12 text-center">
                         <div class="flex size-12 items-center justify-center rounded-full bg-primary-25">
                             <Icon name="ph:target" class="size-6 text-primary/70" aria-hidden="true" />
@@ -92,7 +93,11 @@
                             {{ $t('theresNoDataAvailableToDisplay') }}.
                         </p>
                     </div>
-                    <Pagination :data="state.plans" @previous="previous" @next="next" />
+                    <!-- Once the note is scoped to a plan/goal/sub-goal, the list above
+                         is a client-side filter of the already-fetched page, not a
+                         fresh query - paging through it would be misleading. -->
+                    <Pagination v-if="!state.selectedContext.plan" :data="state.plans" @previous="previous"
+                        @next="next" />
                 </div>
                 <ModulesUserCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen"
                     :selectedPlan="state.selectedPlan" @close="state.slideOver.isGoalOpen = false" />
@@ -129,6 +134,7 @@ let currentTablePage = 1
 
 watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
+        state.selectedContext = { plan: '', goal: '', subgoal: '' }
         fetchPlans()
     }
 })
@@ -163,6 +169,15 @@ const state = reactive({
     },
     plans: [] as any,
     selectedPlan: [] as any,
+    // The Plan/Goal/Sub-goal currently picked in the note form on the left,
+    // mirrored here so this panel can narrow down to it instead of always
+    // showing the citizen's whole plan history. Set from the form's
+    // planGoalSubgoalSelected emit, not fetched independently.
+    selectedContext: {
+        plan: '',
+        goal: '',
+        subgoal: '',
+    },
     slideOver: {
         isGoalOpen: false
     },
@@ -179,6 +194,25 @@ function closeModal() {
 function refreshJournal() {
     emit('refreshJournal')
 }
+
+function onPlanGoalSubgoalSelected(selection: { plan: string, goal: string, subgoal: string }) {
+    state.selectedContext.plan = selection?.plan ?? ''
+    state.selectedContext.goal = selection?.goal ?? ''
+    state.selectedContext.subgoal = selection?.subgoal ?? ''
+}
+
+// Narrows the panel down to the plan being written against, once one is
+// picked in the form - a sub-goal or goal alone doesn't narrow this further
+// since a plan card is the smallest unit this list renders; drilling into
+// its specific goal/sub-goal still happens via "Se mål" below, which itself
+// now only shows active items (see the CitizenGoalRepository/CitizenSubgoalRepository fix).
+const visiblePlans = computed(() => {
+    const plans = state.plans?.data ?? []
+    if (!state.selectedContext.plan) {
+        return plans
+    }
+    return plans.filter((plan: any) => plan?.uuid === state.selectedContext.plan)
+})
 
 const computedRightModalMaxHeight = computed(() => {
     const total = state.plans?.meta?.total || 0;

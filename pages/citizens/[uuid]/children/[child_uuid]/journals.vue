@@ -238,15 +238,10 @@
                                                     <Icon name="ph:arrows-out-cardinal" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip
-                                                :text="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')">
-                                                <FormButton :aria-label="journal?.is_favorite ? $t('citizens.citizenJournals.actions.removeFromFavorite') : $t('citizens.citizenJournals.actions.addToFavorite')" buttonSize="xs" :class="[
-                                                    journal?.is_favorite && 'border-secondary bg-secondary text-white',
-                                                    'rounded-md w-full md:w-fit']"
-                                                    @click="addRemoveJournalToFavorite(journal.uuid)">
-                                                    <Icon name="ph:star" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
+                                            <ModulesUserJournalFavoriteButton :journal="journal"
+                                                activeClass="border-secondary bg-secondary text-white"
+                                                buttonClass="rounded-md w-full md:w-fit"
+                                                @updated="onJournalFavoriteUpdated" />
                                             <Tooltip
                                                 :text="journal?.is_locked ? $t('citizens.citizenJournals.actions.unlock') : $t('citizens.citizenJournals.actions.lock')">
                                                 <FormButton :aria-label="journal?.is_locked ? $t('citizens.citizenJournals.actions.unlock') : $t('citizens.citizenJournals.actions.lock')" buttonSize="xs" :class="[
@@ -521,19 +516,10 @@ function closeEditJournalModal() {
     state.selectedJournal = []
 }
 
-async function addRemoveJournalToFavorite(journalUuid: any) {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await journalService.updateJournalFavorite(journalUuid)
-        if (response?.data) {
-            fetchJournals()
-            successAlert(`${t('alert.success')}!`, response?.data?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
+function onJournalFavoriteUpdated(updatedJournal: any) {
+    if (!updatedJournal) return
+    fetchJournals()
+    successAlert(`${t('alert.success')}!`, updatedJournal?.is_favorite ? `${t('citizens.citizenJournals.alert.addedToFavorites')}.` : `${t('citizens.citizenJournals.alert.removedToFavorites')}.`)
 }
 
 async function lockUnlockJournal(journalUuid: any) {

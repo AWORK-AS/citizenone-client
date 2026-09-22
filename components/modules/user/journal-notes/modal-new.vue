@@ -32,7 +32,8 @@
                         <ModulesUserCitizenJournalForm v-if="state.selectedCitizenUuids.length > 0"
                             formType="create" :selectedJournal="state.formJournal"
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                            @closeModal="closeModal" @submitForm="saveJournal" />
+                            @closeModal="closeModal" @submitForm="saveJournal"
+                            @planGoalSubgoalSelected="onPlanGoalSubgoalSelected" />
                     </div>
                 </LoadingSpinner>
             </template>
@@ -40,7 +41,7 @@
                 <div class="space-y-5">
                     <div class="overflow-auto space-y-5" :style="computedRightModalMaxHeight">
                         <div class="bg-white ring-1 ring-gray-200 rounded-md p-5 border-l-4 border-secondary"
-                            v-for="(plan, index) in state.plans?.data" :key="index">
+                            v-for="(plan, index) in visiblePlans" :key="index">
                             <div class="flex flex-col md:flex-row md:items-center gap-3 md:gap-10">
                                 <div class="grow space-y-1">
                                     <Badge type="plans-and-goals" class="w-fit" v-if="plan?.is_plans_with_goals">
@@ -86,10 +87,11 @@
                             </div>
                         </div>
                     </div>
-                    <div v-if="state.plans?.data?.length === 0">
+                    <div v-if="visiblePlans.length === 0">
                         <p class="text-center">{{ $t('theresNoDataAvailableToDisplay') }}.</p>
                     </div>
-                    <Pagination :data="state.plans" @previous="previous" @next="next" />
+                    <Pagination v-if="!state.selectedContext.plan" :data="state.plans" @previous="previous"
+                        @next="next" />
                 </div>
                 <ModulesUserCitizenPlanGoalSlideOver :isOpen="state.slideOver.isGoalOpen"
                     :selectedPlan="state.selectedPlan" @close="state.slideOver.isGoalOpen = false" />
@@ -166,6 +168,13 @@ const state = reactive({
     plans: [] as any,
     selectedCitizenUuids: [] as any,
     selectedPlan: [] as any,
+    // Same purpose as in citizen/journal/modal-new.vue - mirrors the form's
+    // Plan/Goal/Sub-goal selection so this panel can narrow down to it.
+    selectedContext: {
+        plan: '',
+        goal: '',
+        subgoal: '',
+    },
     slideOver: {
         isGoalOpen: false
     },
@@ -179,6 +188,7 @@ watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
         state.selectedCitizenUuids = []
         state.citizenError = false
+        state.selectedContext = { plan: '', goal: '', subgoal: '' }
         resetForm()
     }
 })
@@ -224,6 +234,20 @@ function closeModal() {
 function refreshJournal() {
     emit('refreshJournal')
 }
+
+function onPlanGoalSubgoalSelected(selection: { plan: string, goal: string, subgoal: string }) {
+    state.selectedContext.plan = selection?.plan ?? ''
+    state.selectedContext.goal = selection?.goal ?? ''
+    state.selectedContext.subgoal = selection?.subgoal ?? ''
+}
+
+const visiblePlans = computed(() => {
+    const plans = state.plans?.data ?? []
+    if (!state.selectedContext.plan) {
+        return plans
+    }
+    return plans.filter((plan: any) => plan?.uuid === state.selectedContext.plan)
+})
 
 const computedRightModalMaxHeight = computed(() => {
     const total = state.plans?.meta?.total || 0

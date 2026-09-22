@@ -32,6 +32,10 @@ class SubgoalService extends BaseAPIService {
     async getAllSubgoals(goalUuid: any): Promise<any> {
         return await this.request(`/user/citizen-subgoals/${goalUuid}/all/list`, 'GET')
     }
+
+    async getAllSubgoalsForCitizen(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-subgoals/${citizenUuid}/all/subgoal-list`, 'GET')
+    }
 }
 
 export const subgoalService = new SubgoalService()

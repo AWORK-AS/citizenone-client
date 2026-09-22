@@ -18,12 +18,12 @@
                                             <DialogTitle>
                                                 <div class="flex items-center gap-x-2">
                                                     <h3 class="text-base font-semibold leading-6 text-white">
-                                                        {{ props.selectedGoal?.name }}
+                                                        {{ state.selectedGoal?.name }}
                                                     </h3>
                                                     <Badge
-                                                        :type="props.selectedGoal?.is_completed ? 'active' : 'primary'">
+                                                        :type="state.selectedGoal?.is_completed ? 'active' : 'primary'">
                                                         <p class="text-xxs">
-                                                            <span v-if="props.selectedGoal?.is_completed">
+                                                            <span v-if="state.selectedGoal?.is_completed">
                                                                 {{ $t('plansandgoals.completed') }}
                                                             </span>
                                                             <span v-else>
@@ -45,17 +45,26 @@
                                         <div class="mt-1">
                                             <p class="text-sm text-white">
                                                 {{ $t('plansandgoals.dateCreated') }}: {{
-                                                    formatDateToReadable(props.selectedGoal?.created_at) }}
+                                                    formatDateToReadable(state.selectedGoal?.created_at) }}
                                             </p>
                                             <p class="text-sm text-white">
                                                 {{ $t('plansandgoals.completionDate') }}:
-                                                {{ formatDateToReadable(props.selectedGoal?.completion_date) }}
+                                                {{ formatDateToReadable(state.selectedGoal?.completion_date) }}
                                             </p>
                                         </div>
                                     </div>
                                     <div class="relative flex-1 px-4 py-6 sm:px-6 space-y-3">
+                                        <!-- Strong client wish (Jeanette/Birketoften): switching which active goal's
+                                             sub-goals are shown here, without closing this panel and reopening it
+                                             from a different goal card. Only offered when there is more than this
+                                             one goal to switch to. -->
+                                        <div class="space-y-1" v-if="state.otherActiveGoals.length > 0">
+                                            <FormLabel for="single_goal_switch" :label="$t('plansandgoals.switchGoal')" />
+                                            <FormSelect id="single_goal_switch" :options="goalSwitchOptions"
+                                                v-model="state.activeGoalUuid" />
+                                        </div>
                                         <div class="flex justify-end items-center gap-x-2">
-                                            <FormButton buttonStyle="action" @click="assignSurveyTo('goal', props.selectedGoal)">
+                                            <FormButton buttonStyle="action" @click="assignSurveyTo('goal', state.selectedGoal)">
                                                 <Icon name="ph:clipboard-text" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('surveys.assignSurvey') }}
                                             </FormButton>
@@ -207,10 +216,10 @@
                 </div>
             </div>
             <ModulesUserCitizenPlanGoalSubgoalModalNew :isModalOpen="state.modal.isAddSubgoalOpen"
-                :selectedGoal="props.selectedGoal" @close="state.modal.isAddSubgoalOpen = false"
+                :selectedGoal="state.selectedGoal" @close="state.modal.isAddSubgoalOpen = false"
                 @refreshGoals="fetchSubgoals" />
             <ModulesUserCitizenPlanGoalSubgoalModalEdit :isModalOpen="state.modal.isEditSubgoalOpen"
-                :selectedGoal="props.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
+                :selectedGoal="state.selectedGoal" :selectedSubgoal="state.selectedSubgoal"
                 @close="state.modal.isEditSubgoalOpen = false" @refreshGoals="fetchSubgoals" />
             <ModulesUserCitizenPlanChartModalChart :isModalOpen="state.modal.isChartOpen"
                 :selectedData="state.selectedSubgoal" @close="state.modal.isChartOpen = false" />
@@ -233,6 +242,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
+import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
@@ -250,6 +260,15 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // Most callers live under /citizens/[uuid]/... and don't need to pass
+    // this - it's read from the route. The daily-overview widget lists goals
+    // across every citizen at once, so its route carries no citizen uuid;
+    // that caller passes this explicitly (from the goal/plan row's own
+    // citizen) so the goal switcher below still has one to fetch siblings with.
+    citizenUuid: {
+        type: String,
+        default: '',
+    },
 })
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
@@ -257,10 +276,10 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const emit = defineEmits(['close'])
 const route = useRoute()
-const citizenUuid = route?.params?.uuid as string
+const citizenUuid = computed(() => props.citizenUuid || (route?.params?.uuid as string) || '')
 
 function assignSurveyTo(type: 'goal' | 'subgoal', entity: any) {
-    navigateTo(`/citizens/${citizenUuid}/surveys?link_type=${type}&link_uuid=${entity?.uuid}`)
+    navigateTo(`/citizens/${citizenUuid.value}/surveys?link_type=${type}&link_uuid=${entity?.uuid}`)
 }
 
 const state = reactive({
@@ -287,6 +306,18 @@ const state = reactive({
         is_completed: false,
     },
     subgoals: [] as any,
+    // The "switch goal" picker's own selection, and the pool it is built
+    // from - this goal's active siblings (excluding itself).
+    activeGoalUuid: '',
+    otherActiveGoals: [] as any[],
+})
+
+const goalSwitchOptions = computed(() => {
+    const current = state.selectedGoal?.uuid
+        ? [{ value: state.selectedGoal.uuid, label: state.selectedGoal.name }]
+        : []
+    const others = state.otherActiveGoals.map((goal: any) => ({ value: goal.uuid, label: goal.name }))
+    return [...current, ...others]
 })
 
 function closeSlide() {
@@ -317,16 +348,51 @@ watch(() => props.selectedGoal, (newValue: any) => {
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
         }
+        state.activeGoalUuid = newValue.uuid
         fetchSubgoals()
+        fetchOtherActiveGoals()
     }
 })
+
+// Picking a different goal from the switcher above re-points this whole
+// slide-over at it, the same way opening it fresh from a different goal
+// card would - fetchSubgoals() then loads that goal's own sub-goals.
+watch(() => state.activeGoalUuid, (newUuid: any) => {
+    if (!newUuid || newUuid === state.selectedGoal?.uuid) return
+    const picked = state.otherActiveGoals.find((goal: any) => goal.uuid === newUuid)
+    if (!picked) return
+
+    state.selectedGoal = {
+        id: picked.id,
+        uuid: picked.uuid,
+        name: picked.name,
+        description: picked.description,
+        completion_date: picked.completion_date,
+        date_completed: picked.date_completed,
+        is_completed: picked.is_completed,
+    }
+    fetchSubgoals()
+    fetchOtherActiveGoals()
+})
+
+async function fetchOtherActiveGoals() {
+    if (!citizenUuid.value) return
+    try {
+        const response = await goalService.getAllGoalsPerCitizen(citizenUuid.value)
+        const goals = response?.data ?? []
+        state.otherActiveGoals = goals.filter((goal: any) => goal.uuid !== state.selectedGoal?.uuid)
+    } catch (error: any) {
+        // The switcher is a convenience on top of the single goal already
+        // shown, so it failing to load must not block viewing that goal.
+    }
+}
 
 async function fetchSubgoals() {
     state.error = {}
     state.isPageLoading = true
     try {
         const params = {
-            goal_uuid: props.selectedGoal.uuid,
+            goal_uuid: state.selectedGoal.uuid,
         }
         const response = await subgoalService.getSubgoals(params)
         if (response) {
