@@ -10326,6 +10326,9 @@
                     "manager": "Manager"
                 },
                 "allowChangePassword": "Tillat medarbeidere at endre passord",
+                "allowEditGoals": "Tillat medarbeidere at redigere mål etter 24 timer",
+                "allowEditPlans": "Tillat medarbeidere at redigere planer etter 24 timer",
+                "allowEditSubGoals": "Tillat medarbeidere at redigere delmål etter 24 timer",
                 "allowGoals": "Tillat medarbeidere at opprette mål",
                 "allowPlans": "Tillat medarbeidere at opprette planer",
                 "allowSubGoals": "Tillat medarbeidere at opprette delmål",

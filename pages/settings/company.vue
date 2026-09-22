@@ -345,7 +345,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupPlans') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ plansCount }} / 3</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ plansCount }} / 6</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.plans }" />
                             </span>
                         </button>
@@ -370,6 +370,27 @@
                                     @toggleSwitch="state.formCompany.subgoals_enabled = !state.formCompany.subgoals_enabled" :label="$t('settings.company.form.allowSubGoals')" />
                                 <p>
                                     {{ $t('settings.company.form.allowSubGoals') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.edit_plans_enabled"
+                                    @toggleSwitch="state.formCompany.edit_plans_enabled = !state.formCompany.edit_plans_enabled" :label="$t('settings.company.form.allowEditPlans')" />
+                                <p>
+                                    {{ $t('settings.company.form.allowEditPlans') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.edit_goals_enabled"
+                                    @toggleSwitch="state.formCompany.edit_goals_enabled = !state.formCompany.edit_goals_enabled" :label="$t('settings.company.form.allowEditGoals')" />
+                                <p>
+                                    {{ $t('settings.company.form.allowEditGoals') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.edit_subgoals_enabled"
+                                    @toggleSwitch="state.formCompany.edit_subgoals_enabled = !state.formCompany.edit_subgoals_enabled" :label="$t('settings.company.form.allowEditSubGoals')" />
+                                <p>
+                                    {{ $t('settings.company.form.allowEditSubGoals') }}
                                 </p>
                             </div>
                         </div>
@@ -816,7 +837,14 @@ const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: 
 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)
-const plansCount = computed(() => [state.formCompany.plans_enabled, state.formCompany.goals_enabled, state.formCompany.subgoals_enabled].filter(Boolean).length)
+const plansCount = computed(() => [
+    state.formCompany.plans_enabled,
+    state.formCompany.goals_enabled,
+    state.formCompany.subgoals_enabled,
+    state.formCompany.edit_plans_enabled,
+    state.formCompany.edit_goals_enabled,
+    state.formCompany.edit_subgoals_enabled,
+].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
 const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen].filter(Boolean).length)
 const companyStore = useCompanyStore()
@@ -1012,6 +1040,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
             goals_enabled: newValue?.company?.employee_create_goals_enabled ? true : false,
             subgoals_enabled: newValue?.company?.employee_create_subgoals_enabled ? true : false,
+            edit_plans_enabled: newValue?.company?.employee_edit_plans_enabled ? true : false,
+            edit_goals_enabled: newValue?.company?.employee_edit_goals_enabled ? true : false,
+            edit_subgoals_enabled: newValue?.company?.employee_edit_subgoals_enabled ? true : false,
             is_lock_past_schedules: newValue?.company?.is_lock_past_schedules ? true : false,
             lock_shifts_before_date: newValue?.company?.lock_shifts_before_date ?? '',
             transfer_norm_hours_enabled: newValue?.company?.transfer_norm_hours_enabled ? true : false,
@@ -1220,6 +1251,9 @@ async function submitForm() {
                 employee_create_plans_enabled: state.formCompany.plans_enabled,
                 employee_create_goals_enabled: state.formCompany.goals_enabled,
                 employee_create_subgoals_enabled: state.formCompany.subgoals_enabled,
+                employee_edit_plans_enabled: state.formCompany.edit_plans_enabled,
+                employee_edit_goals_enabled: state.formCompany.edit_goals_enabled,
+                employee_edit_subgoals_enabled: state.formCompany.edit_subgoals_enabled,
                 is_lock_past_schedules: state.formCompany.is_lock_past_schedules,
                 lock_shifts_before_date: state.formCompany.is_lock_past_schedules ? (state.formCompany.lock_shifts_before_date || null) : null,
                 transfer_norm_hours_enabled: state.formCompany.transfer_norm_hours_enabled,
