@@ -169,7 +169,7 @@
                                             <img :src="attachment?.file_url" alt="Image"
                                                 v-if="isImageFile(attachment?.file_name)"
                                                 class="w-44 rounded-lg cursor-pointer hover:opacity-90"
-                                                @click="downloadFile(attachment)" />
+                                                @click="openImagePreview(attachment)" />
                                             <div v-else class="flex items-center gap-2 cursor-pointer hover:opacity-80"
                                                 @click="downloadFile(attachment)">
                                                 <Icon name="ph:file" class="h-7 w-7 flex-shrink-0" aria-hidden="true" />
@@ -222,7 +222,7 @@
                                         <img :src="attachment?.file_url" alt="Image"
                                             v-if="isImageFile(attachment?.file_name)"
                                             class="w-44 rounded-lg cursor-pointer hover:opacity-90"
-                                            @click="downloadFile(attachment)" />
+                                            @click="openImagePreview(attachment)" />
                                         <div v-else class="flex items-center gap-2 cursor-pointer hover:opacity-80"
                                             @click="downloadFile(attachment)">
                                             <Icon name="ph:file" class="h-7 w-7 flex-shrink-0 text-gray-500"
@@ -292,6 +292,30 @@
             :message="$t('messages.confirmation.deleteMessageConfirmation') + '?'"
             @close="state.modal.isDeleteConfirmationOpen = false" @confirm="deleteChatMessage" />
 
+        <!-- Image preview - opens the attachment in-app instead of forcing a
+        download, so viewing it never leaves a copy on the local disk. -->
+        <div v-if="state.modal.isImagePreviewOpen"
+            class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
+            @click.self="closeImagePreview">
+            <button type="button" :title="$t('close')" @click="closeImagePreview"
+                class="absolute top-4 right-4 flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white hover:bg-white/20">
+                <Icon name="ph:x" class="h-5 w-5" aria-hidden="true" />
+            </button>
+            <div class="flex max-h-full max-w-full flex-col items-center gap-3">
+                <img :src="state.previewAttachment?.file_url" :alt="state.previewAttachment?.file_name"
+                    class="max-h-[85vh] max-w-full rounded-lg object-contain" />
+                <div class="flex items-center gap-3">
+                    <span class="text-sm text-white/80 truncate max-w-[60vw]">{{
+                        state.previewAttachment?.file_name }}</span>
+                    <button type="button" @click="downloadFile(state.previewAttachment)"
+                        class="flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1.5 text-xs text-white hover:bg-white/20">
+                        <Icon name="ph:download-simple" class="h-3.5 w-3.5" aria-hidden="true" />
+                        {{ $t('messages.actions.download') }}
+                    </button>
+                </div>
+            </div>
+        </div>
+
     </div>
 </template>
 
@@ -344,11 +368,26 @@ const state = reactive({
         isEditChatMessageOpen: false,
         isEditGroupNameOpen: false,
         isManageGroupChatMembersOpen: false,
-        isUpgradeStorageOpen: false
+        isUpgradeStorageOpen: false,
+        isImagePreviewOpen: false,
     },
+    previewAttachment: null as any,
     selectedChat: {} as any,
     selectedChatIndex: '',
 })
+
+// Shown directly in-app rather than forced to disk: the images here can hold
+// sensitive personal information, and a local download is unnecessary
+// exposure (and a GDPR concern) when a preview is all the person needs.
+function openImagePreview(attachment: any) {
+    state.previewAttachment = attachment
+    state.modal.isImagePreviewOpen = true
+}
+
+function closeImagePreview() {
+    state.modal.isImagePreviewOpen = false
+    state.previewAttachment = null
+}
 
 function subscribeToChat() {
     channel = pusher.subscribe('citizenone.' + chatUuid)

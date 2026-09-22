@@ -8608,6 +8608,7 @@
     "messages": {
         "actions": {
             "delete": "Radera",
+            "download": "Ladda ner",
             "edit": "Redigera",
             "more": "Mer"
         },
