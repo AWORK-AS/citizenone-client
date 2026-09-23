@@ -1128,7 +1128,7 @@
                                                         <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                             @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
-                                                            <div class="flex items-center gap-0.5">
+                                                            <div v-if="shift?.date_time_start && shift?.date_time_end" class="flex items-center gap-0.5">
                                                                 <div v-if="shift?.is_from_lastweek"
                                                                     class="bg-white/20 w-3.5 h-3.5 sm:w-4 sm:h-4 rounded-full flex items-center justify-center flex-shrink-0">
                                                                     <Icon name="ph:arrow-left"
@@ -1155,10 +1155,10 @@
                                                                 </span>
                                                             </div>
                                                             <!-- Arrow: web only -->
-                                                            <Icon name="ph:arrow-right"
+                                                            <Icon v-if="shift?.date_time_start && shift?.date_time_end" name="ph:arrow-right"
                                                                 class="hidden sm:block w-3.5 h-3.5 text-white/70 flex-shrink-0 mx-1" />
                                                             <!-- End time -->
-                                                            <div class="flex items-center gap-0.5 mt-0.5 sm:mt-0">
+                                                            <div v-if="shift?.date_time_start && shift?.date_time_end" class="flex items-center gap-0.5 mt-0.5 sm:mt-0">
                                                                 <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'end')"
                                                                     :text="$t('dutySchedules.quickEditTime.tooltip')"
                                                                     :disabled="!canQuickEditShift(shift)">
@@ -1183,6 +1183,11 @@
                                                                     <Icon name="ph:arrow-right"
                                                                         class="w-2.5 h-2.5 sm:w-3 sm:h-3 text-white" />
                                                                 </div>
+                                                            </div>
+                                                            <div v-else class="flex items-center gap-0.5">
+                                                                <span class="text-xs lg:text-base font-bold text-white tracking-tight leading-none">
+                                                                    {{ $t('dutySchedules.allDay') }}
+                                                                </span>
                                                             </div>
                                                         </div>
                                                         <div class="mx-1.5 sm:mx-2.5 border-t border-white/20 mb-1">
@@ -1987,18 +1992,25 @@ function showShiftTypeDistribution(employee: any) {
 
 function sortMultiDayShiftsFirst(shifts: any) {
     const sortedShifts = shifts.sort((a: any, b: any) => {
-        const aMultiDay = moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
-        const bMultiDay = moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
+        const aMultiDay = a.date_time_start && a.date_time_end && moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
+        const bMultiDay = b.date_time_start && b.date_time_end && moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
 
         if (aMultiDay && !bMultiDay) return -1 // a comes first
         if (!aMultiDay && bMultiDay) return 1  // b comes first
-        // Same type: earliest start time first
+        // Same type: earliest start time first (all-day entries have no start time, so they sort first)
+        if (!a.date_time_start || !b.date_time_start) return (a.date_time_start ? 1 : 0) - (b.date_time_start ? 1 : 0)
         return moment(a.date_time_start).valueOf() - moment(b.date_time_start).valueOf()
     })
     return sortedShifts
 }
 
 function calculateShiftWidth(shift: any, weekIndex: string) {
+    if (weekIndex === 'sunday') return 'auto'
+
+    if (!shift.date_time_start || !shift.date_time_end) {
+        return 'auto' // All-day entries render as a single-day cell, not a multi-day span
+    }
+
     const shiftStart = moment(shift.date_time_start).startOf('day')
     const shiftEnd = moment(shift.date_time_end).startOf('day')
 
@@ -2016,8 +2028,6 @@ function calculateShiftWidth(shift: any, weekIndex: string) {
     if (endsAtMidnight) {
         dayDifference--
     }
-
-    if (weekIndex === 'sunday') return 'auto'
 
     if (dayDifference <= 0) return 'auto'
     if (dayDifference === 1) return '17.5rem'
@@ -2048,6 +2058,10 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 
 function getMultiDayShift(shifts: any) {
     return shifts?.find((shift: any) => {
+        if (!shift.date_time_start || !shift.date_time_end) {
+            return false // All-day entries never span multiple days
+        }
+
         const startDay = moment(shift.date_time_start).startOf('day')
         const endDay = moment(shift.date_time_end).startOf('day')
         const isMultiDay = endDay.diff(startDay, 'days') >= 1

@@ -4487,6 +4487,7 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "allDay": "Hele dagen",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
             "hint": "Enter for at gemme · Esc for at annullere"
