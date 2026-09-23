@@ -7374,12 +7374,12 @@
             },
             "editFolderStructureRequest": "Rediger forespørsel om folderstruktur",
             "folderStructureRequests": "Forespørsler om endring av folderstruktur",
-            "folderStructureRequestsTooltip": "Foreslå en endring i en mappemal. Når en Admin godkjenner forespørselen, vil de nye mappene du har lagt til bli lagt til i malen OG hos alle eksisterende borgere — dette er den eneste måten å sende en endring ut til borgere som allerede har fått opprettet mappene sine.",
+            "folderStructureRequestsTooltip": "Foreslå en endring i en mappemal: gi en eksisterende mappe nytt navn eller legg til en ny (det er ikke mulig å fjerne mapper her). Når en Admin godkjenner forespørselen, blir endringen brukt på malen OG hos alle eksisterende borgere — dette er den eneste måten å sende en endring ut til borgere som allerede har fått opprettet mappene sine.",
             "newFolderStructureRequest": "Ny forespørsel om endring av folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkjenn",
-                    "approveTooltip": "Godkjenning legger til de nye mappene fra denne forespørselen hos alle eksisterende borgere som allerede har denne mappestrukturen, i tillegg til å oppdatere malen.",
+                    "approveTooltip": "Godkjenning bruker denne forespørselens omdøpte og/eller nye mapper hos alle eksisterende borgere som allerede har denne mappestrukturen, i tillegg til å oppdatere malen.",
                     "delete": "Slett",
                     "disapprove": "Avvis",
                     "edit": "Rediger"

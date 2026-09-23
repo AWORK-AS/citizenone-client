@@ -64,7 +64,7 @@
                 <ModulesUserDocumentFolderStructureRequestModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureRequestsOpen"
                     @close="state.modal.isViewFolderStructureRequestsOpen = false"
-                    @refreshFolderStructures="fetchFolderStructures" />
+                    @refreshFolderStructures="onFolderStructureRequestApproved" />
             </template>
         </Modal>
     </div>
@@ -83,7 +83,10 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
-const emit = defineEmits(['close'])
+// 'refreshDocuments' bubbles all the way up to the Drive page: an approved request
+// can rename/add real folders, so its file listing goes stale otherwise until the
+// user manually reloads the page.
+const emit = defineEmits(['close', 'refreshDocuments'])
 let currentTablePage = 1
 
 const state = reactive({
@@ -175,5 +178,10 @@ function viewFolderStructure(folderStructure: any) {
 function editFolderStructure(folder_structure: any) {
     state.selected_folder_structure = folder_structure
     state.modal.editFolderStructureOpen = true
+}
+
+function onFolderStructureRequestApproved() {
+    fetchFolderStructures()
+    emit('refreshDocuments')
 }
 </script>

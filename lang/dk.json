@@ -7374,12 +7374,12 @@
             },
             "editFolderStructureRequest": "Rediger anmodning om folderstruktur",
             "folderStructureRequests": "Anmodninger om ændring af folderstruktur",
-            "folderStructureRequestsTooltip": "Foreslå en ændring til en mappeskabelon. Når en Admin godkender anmodningen, vil de nye mapper, du har tilføjet, blive anvendt på skabelonen OG på alle eksisterende borgere — det er den eneste måde at sende en ændring ud til borgere, der allerede har fået oprettet deres mapper.",
+            "folderStructureRequestsTooltip": "Foreslå en ændring til en mappeskabelon: omdøb en eksisterende mappe eller tilføj en ny (det er ikke muligt at fjerne mapper her). Når en Admin godkender anmodningen, bliver ændringen anvendt på skabelonen OG på alle eksisterende borgere — det er den eneste måde at sende en ændring ud til borgere, der allerede har fået oprettet deres mapper.",
             "newFolderStructureRequest": "Ny anmodning om ændring af folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkend",
-                    "approveTooltip": "Godkendelse tilføjer de nye mapper fra denne anmodning til alle eksisterende borgere, der allerede har denne mappestruktur, ud over at opdatere skabelonen.",
+                    "approveTooltip": "Godkendelse anvender denne anmodnings omdøbte og/eller nye mapper på alle eksisterende borgere, der allerede har denne mappestruktur, ud over at opdatere skabelonen.",
                     "delete": "Slet",
                     "disapprove": "Afvis",
                     "edit": "Rediger"
