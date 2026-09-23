@@ -26,8 +26,15 @@
                 </div>
 
                 <!-- Kørselsrate, sikret, aftalt og kundeafgang -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                    <!-- MRR / ARR -->
+                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Kørselsraten, og hvor meget af den der faktisk opkræves.
+                         Ét kort og ikke to: MRR og sikret MRR lå side om side og
+                         viste 48.702 og 47.620 - to store tal der siger næsten det
+                         samme, og som derfor begge blev læst som "omtrent MRR".
+                         Forskellen er det interessante, så den står som forskel:
+                         hvor meget der ikke kommer ind, og hvor mange aftaler det
+                         er. CARR er udeladt; den er ARR ganget med det samme
+                         forhold og tilføjede intet man kunne handle på. -->
                     <div v-if="state.recurringRevenue" class="co-stat-card" style="--accent:#2E9E33">
                         <div class="flex items-start justify-between">
                             <div>
@@ -44,37 +51,26 @@
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.arr, 'DKK') }) }}
                                 </p>
-                            </div>
-                            <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#EDF7EE">
-                                <Icon name="ph:chart-line-up" class="w-5 h-5 text-[#2E9E33]" />
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Committed: the part of the run rate that is collecting -->
-                    <div v-if="state.recurringRevenue?.cmrr !== undefined" class="co-stat-card" style="--accent:#205E77">
-                        <div class="flex items-start justify-between">
-                            <div>
-                                <div class="flex items-center gap-1">
-                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.cmrr') }}</p>
+                                <div v-if="state.recurringRevenue.cmrr !== undefined"
+                                    class="mt-2 pt-2 border-t border-[#F0F1F4] flex items-center gap-1">
+                                    <p class="co-stat-sub !mt-0"
+                                        :class="notCollectingAmount > 0 ? 'text-[#CC3B2D]' : ''">
+                                        {{ notCollectingAmount > 0
+                                            ? $t('superadmin.dashboard.adoption.notCollectingAmount', {
+                                                amount: formatAmount(notCollectingAmount, 'DKK'),
+                                                count: state.recurringRevenue.agreements?.not_collecting ?? 0
+                                            })
+                                            : $t('superadmin.dashboard.adoption.allCollecting') }}
+                                    </p>
                                     <Tooltip :text="$t('superadmin.dashboard.adoption.help.cmrr')" position="bottom" wrap>
                                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
                                     </Tooltip>
                                 </div>
-                                <p class="co-stat-value text-[#205E77]">
-                                    {{ formatAmount(state.recurringRevenue.cmrr, 'DKK') }}
-                                </p>
-                                <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.carr', { amount: formatAmount(state.recurringRevenue.carr, 'DKK') }) }}
-                                </p>
-                                <p v-if="state.recurringRevenue.agreements?.not_collecting" class="co-stat-sub text-[#CC3B2D]">
-                                    {{ $t('superadmin.dashboard.adoption.notCollecting', { count: state.recurringRevenue.agreements.not_collecting }) }}
-                                </p>
                             </div>
                             <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0"
-                                style="background:#E4F1F6">
-                                <Icon name="ph:shield-check" class="w-5 h-5 text-[#205E77]" />
+                                style="background:#EDF7EE">
+                                <Icon name="ph:chart-line-up" class="w-5 h-5 text-[#2E9E33]" />
                             </div>
                         </div>
                     </div>
@@ -188,6 +184,14 @@ const state = reactive({
     revenueDateFrom: moment().startOf('month').format('YYYY-MM-DD'),
     revenueDateTo: moment().format('YYYY-MM-DD'),
     error: {} as any,
+})
+
+// Det der ikke kommer ind: kørselsraten minus den del der faktisk opkræves.
+// Regnet her frem for i skabelonen, så tallet har et navn.
+const notCollectingAmount = computed(() => {
+    const r = state.recurringRevenue
+    if (!r || r.cmrr === undefined) return 0
+    return Math.max(0, Number(r.mrr ?? 0) - Number(r.cmrr ?? 0))
 })
 
 onMounted(() => fetchOverview())

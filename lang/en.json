@@ -11852,7 +11852,9 @@
                 "contracted": "Contracted, next 12 months",
                 "contractedThreeYears": "3 years: {amount}",
                 "seeForecast": "See the forecast",
-                "notCollecting": "{count} agreement(s) not collecting"
+                "notCollecting": "{count} agreement(s) not collecting",
+                "notCollectingAmount": "{amount} not collecting · {count} agreement(s)",
+                "allCollecting": "Every agreement is collecting"
             },
             "tabs": {
                 "overview": "Overview",

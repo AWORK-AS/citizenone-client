@@ -11852,7 +11852,9 @@
                 "contracted": "Aftalt, næste 12 mdr.",
                 "contractedThreeYears": "3 år: {amount}",
                 "seeForecast": "Se prognosen",
-                "notCollecting": "{count} aftale(r) betaler ikke"
+                "notCollecting": "{count} aftale(r) betaler ikke",
+                "notCollectingAmount": "{amount} kommer ikke ind · {count} aftale(r)",
+                "allCollecting": "Alle aftaler opkræves"
             },
             "tabs": {
                 "overview": "Overblik",
