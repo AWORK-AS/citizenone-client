@@ -206,6 +206,38 @@
                                             <p v-if="canViewFinancials" class="text-xs text-gray-400">
                                                 {{ $t('superadmin.companies.contract.tcvHint') }}
                                             </p>
+
+                                            <!-- Opsigelsen. Kun når der er en: et tomt
+                                                 "Opsagt: —" på hver kunde ville gøre
+                                                 den tilstand der betyder noget usynlig. -->
+                                            <template v-if="contract.is_cancelled">
+                                                <div class="flex items-baseline justify-between gap-x-4 border-t border-gray-100 pt-3">
+                                                    <dt class="text-amber-700">
+                                                        {{ $t('superadmin.companies.contract.cancelledAt') }}
+                                                    </dt>
+                                                    <dd class="font-medium text-amber-700">
+                                                        {{ formatDate(contract.cancelled_at) }}
+                                                    </dd>
+                                                </div>
+                                                <div class="flex items-baseline justify-between gap-x-4">
+                                                    <dt class="text-amber-700">
+                                                        {{ $t('superadmin.companies.contract.endsAt') }}
+                                                    </dt>
+                                                    <dd class="font-medium text-amber-700">
+                                                        {{ formatDate(contract.ends_at) }}
+                                                    </dd>
+                                                </div>
+                                                <p class="text-xs text-gray-400">
+                                                    {{ $t('superadmin.companies.contract.cancelledHint') }}
+                                                </p>
+                                            </template>
+
+                                            <button v-if="canManageCompanies" type="button" @click="openCancellation"
+                                                class="text-xs text-primary hover:underline pt-1">
+                                                {{ contract.is_cancelled
+                                                    ? $t('superadmin.companies.contract.editCancellation')
+                                                    : $t('superadmin.companies.contract.recordCancellation') }}
+                                            </button>
                                         </dl>
                                     </div>
                                 </div>
@@ -644,6 +676,50 @@
                 </template>
             </Modal>
 
+            <Modal size="sm" :title="$t('superadmin.companies.contract.cancellationTitle')"
+                :show="state.cancellation.isOpen" @close="state.cancellation.isOpen = false">
+                <template #modal-body>
+                    <div class="space-y-4">
+                        <p class="text-xs text-gray-500">
+                            {{ $t('superadmin.companies.contract.cancellationHelp') }}
+                        </p>
+                        <div class="space-y-1">
+                            <FormLabel for="cancelled_at"
+                                :label="$t('superadmin.companies.contract.cancelledAt')" />
+                            <input id="cancelled_at" type="date" v-model="state.cancellation.cancelledAt"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="ends_at" :label="$t('superadmin.companies.contract.endsAt')" />
+                            <input id="ends_at" type="date" v-model="state.cancellation.endsAt"
+                                :min="state.cancellation.cancelledAt || undefined"
+                                class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
+                            <p class="text-xs text-gray-500">
+                                {{ $t('superadmin.companies.contract.endsAtHint') }}
+                            </p>
+                        </div>
+                        <div class="flex justify-between items-center gap-3 pt-2">
+                            <button v-if="contract?.is_cancelled" type="button" @click="submitCancellation(true)"
+                                :disabled="state.cancellation.isSaving"
+                                class="text-xs text-red-600 hover:underline disabled:opacity-50">
+                                {{ $t('superadmin.companies.contract.clearCancellation') }}
+                            </button>
+                            <span v-else></span>
+                            <div class="flex gap-3">
+                                <FormButton buttonStyle="secondary" @click="state.cancellation.isOpen = false">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton buttonStyle="primary"
+                                    :disabled="state.cancellation.isSaving || !state.cancellation.endsAt"
+                                    @click="submitCancellation(false)">
+                                    {{ $t('save') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
+
             <DialogConfirmation :isModalOpen="state.removeLicense.isConfirmOpen"
                 :message="$t('superadmin.companies.licenseOverview.removeLicense.confirm', { license: state.removeLicense.target?.license, user: removeLicenseTargetUserName })"
                 @close="state.removeLicense.isConfirmOpen = false" @confirm="submitRemoveLicense" />
@@ -751,6 +827,12 @@ const state = reactive({
         { name: 'superadmin.companies.licenseOverview.table.user', isTranslateName: true, },
         { name: '', isTranslateName: false, },
     ],
+    cancellation: {
+        isOpen: false,
+        cancelledAt: '',
+        endsAt: '',
+        isSaving: false,
+    },
     dataFilter: {
         search: ''
     },
@@ -831,6 +913,8 @@ const state = reactive({
 // samme tal som alle andre steder - og TCV er ikke noget klienten selv gætter
 // sig til ud fra en pris den kan se.
 const contract = computed(() => state.subscriptions?.data?.contract ?? null)
+
+const canManageCompanies = computed(() => can('manage_companies'))
 
 const grantStoragePackageOptions = computed(() =>
     state.grantStorage.packages.map((pkg: any) => ({
@@ -1095,6 +1179,32 @@ function openEditTermModal(license: any) {
     state.editTerm.createdAt = license?.created_at ? String(license.created_at).slice(0, 10) : ''
     state.editTerm.paysViaLeverandorservice = false
     state.editTerm.isOpen = true
+}
+
+/**
+ * Åbner opsigelsen med de datoer der allerede står, så en rettelse er en
+ * rettelse og ikke en genindtastning.
+ */
+function openCancellation() {
+    state.cancellation.cancelledAt = contract.value?.cancelled_at ?? ''
+    state.cancellation.endsAt = contract.value?.ends_at ?? ''
+    state.cancellation.isOpen = true
+}
+
+async function submitCancellation(clear: boolean) {
+    state.cancellation.isSaving = true
+    try {
+        await licenseService.updateContractCancellation(companyUuid as string, {
+            contract_cancelled_at: clear ? null : (state.cancellation.cancelledAt || null),
+            contract_ends_at: clear ? null : (state.cancellation.endsAt || null),
+        })
+        state.cancellation.isOpen = false
+        successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.contract.cancellationSaved')}.`)
+        fetchSubscription()
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.contract.cancellationFailed'))
+    }
+    state.cancellation.isSaving = false
 }
 
 async function submitEditTerm() {

@@ -11718,7 +11718,18 @@
                 "renewsAt": "Next contract renewal",
                 "months": "{count} months",
                 "tcv": "Total contract value (TCV)",
-                "tcvHint": "Plan and add-ons, each times its own term. Excl. VAT."
+                "tcvHint": "Plan and add-ons, each times its own term. Excl. VAT.",
+                "cancelledAt": "Notice received",
+                "endsAt": "Ends",
+                "cancelledHint": "The forecast stops counting this customer after the end date.",
+                "recordCancellation": "Record cancellation",
+                "editCancellation": "Edit cancellation",
+                "cancellationTitle": "Cancellation",
+                "clearCancellation": "Remove cancellation",
+                "cancellationHelp": "The date the notice was received, and the day the agreement actually ends. They are rarely the same day.",
+                "endsAtHint": "The last day the customer pays. The forecast stops here.",
+                "cancellationSaved": "Cancellation saved",
+                "cancellationFailed": "Could not save the cancellation"
             }
         },
         "coupons": {

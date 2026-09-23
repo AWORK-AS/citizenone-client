@@ -11681,7 +11681,18 @@
                 "renewsAt": "Neste kontraktfornyelse",
                 "months": "{count} måneder",
                 "tcv": "Samlet avtaleverdi (TCV)",
-                "tcvHint": "Grunnpakke og tillegg, hver ganger sin løpetid. Ekskl. mva."
+                "tcvHint": "Grunnpakke og tillegg, hver ganger sin løpetid. Ekskl. mva.",
+                "cancelledAt": "Oppsigelse mottatt",
+                "endsAt": "Opphører",
+                "cancelledHint": "Prognosen regner ikke med denne kunden etter opphørsdatoen.",
+                "recordCancellation": "Registrer oppsigelse",
+                "editCancellation": "Rediger oppsigelse",
+                "cancellationTitle": "Oppsigelse",
+                "clearCancellation": "Fjern oppsigelse",
+                "cancellationHelp": "Datoen oppsigelsen ble mottatt, og dagen avtalen faktisk opphører. De er sjelden samme dag.",
+                "endsAtHint": "Siste dag kunden betaler. Prognosen stopper her.",
+                "cancellationSaved": "Oppsigelsen er lagret",
+                "cancellationFailed": "Oppsigelsen kunne ikke lagres"
             }
         },
         "coupons": {

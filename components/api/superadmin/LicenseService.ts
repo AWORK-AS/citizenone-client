@@ -95,6 +95,13 @@ class LicenseService extends BaseAPIService {
         return await this.request(`/superadmin/companies/${companyUuid}/licenses/${licenseUuid}/term`, 'PATCH', params)
     }
 
+    /**
+     * Registrér eller fortryd en opsigelse. Begge datoer tomme = ingen opsigelse.
+     */
+    async updateContractCancellation(companyUuid: string, params: { contract_cancelled_at: string | null; contract_ends_at: string | null }): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/contract/cancellation`, 'PATCH', params)
+    }
+
     // Bulk variant of updateSubscriptionTerm() for the Apps screen, which
     // shows one aggregated row per Application - applies the same term to
     // every active seat this company has for that app at once.
