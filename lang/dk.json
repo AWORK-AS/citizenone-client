@@ -11711,6 +11711,25 @@
                     "nursing_areas": "Plejeområder",
                     "ai_conversations": "AI-samtaler"
                 }
+            },
+            "contract": {
+                "startedAt": "Startdato",
+                "term": "Aftaleperiode",
+                "renewsAt": "Næste kontraktfornyelse",
+                "months": "{count} måneder",
+                "tcv": "Samlet aftaleværdi (TCV)",
+                "tcvHint": "Grundpakke og tillæg, hver gange sin løbetid. Ekskl. moms.",
+                "cancelledAt": "Opsigelse modtaget",
+                "endsAt": "Ophører",
+                "cancelledHint": "Prognosen regner ikke med denne kunde efter ophørsdatoen.",
+                "recordCancellation": "Registrér opsigelse",
+                "editCancellation": "Rediger opsigelse",
+                "cancellationTitle": "Opsigelse",
+                "clearCancellation": "Fjern opsigelse",
+                "cancellationHelp": "Datoen opsigelsen blev modtaget, og den dag aftalen faktisk ophører. De er sjældent den samme dag.",
+                "endsAtHint": "Sidste dag kunden betaler. Prognosen stopper her.",
+                "cancellationSaved": "Opsigelsen er gemt",
+                "cancellationFailed": "Opsigelsen kunne ikke gemmes"
             }
         },
         "coupons": {
@@ -12996,7 +13015,11 @@
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
                     "cumulative": "Akkumuleret"
-                }
+                },
+                "renewalsIn": "Fornyelser i {month}",
+                "renewalsCount": "{count} kunde(r)",
+                "noRenewals": "Ingen årsfornyelser i denne måned.",
+                "clickHint": "Klik på en grøn søjle for at se hvilke kunder den består af."
             }
         },
         "industries": {

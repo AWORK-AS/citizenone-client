@@ -170,8 +170,61 @@
                                 </div>
 
                                 <ClientOnly>
-                                    <VChart :option="forecastOption" style="height: 300px; width: 100%;" autoresize />
+                                    <VChart :option="forecastOption" style="height: 300px; width: 100%;" autoresize
+                                        @click="openRenewals" />
                                 </ClientOnly>
+
+                                <p v-if="!renewals.month" class="text-[11px] text-[#8891A4] mt-2 flex items-center gap-1.5">
+                                    <Icon name="ph:cursor-click" class="w-3.5 h-3.5 flex-shrink-0" />
+                                    {{ $t('superadmin.report.forecast.clickHint') }}
+                                </p>
+
+                                <!-- Hvem søjlen består af. Prognosen siger hvor meget;
+                                     salgsarbejdet har brug for hvem, så der kan arbejdes
+                                     med fornyelsen inden den er der. -->
+                                <div v-if="renewals.month"
+                                    class="mt-4 border border-[#EAECF0] rounded-xl overflow-hidden">
+                                    <div class="flex items-center justify-between px-4 py-3 bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                        <div>
+                                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                                                {{ $t('superadmin.report.forecast.renewalsIn', { month: renewalsMonthLabel }) }}
+                                            </p>
+                                            <p class="text-[11px] text-[#8891A4]">
+                                                {{ $t('superadmin.report.forecast.renewalsCount', { count: renewals.renewals.length }) }}
+                                                · {{ formatAmount(renewals.renewals_total, 'DKK') }}
+                                            </p>
+                                        </div>
+                                        <button type="button" @click="renewals.month = ''"
+                                            class="text-[#8891A4] hover:text-[#1F2533]">
+                                            <Icon name="ph:x" class="w-4 h-4" />
+                                        </button>
+                                    </div>
+
+                                    <div v-if="renewals.isLoading" class="flex justify-center py-8">
+                                        <Icon name="ph:spinner" class="w-5 h-5 text-[#42AED9] animate-spin" />
+                                    </div>
+                                    <p v-else-if="!renewals.renewals.length"
+                                        class="px-4 py-8 text-center text-[13px] text-[#8891A4]">
+                                        {{ $t('superadmin.report.forecast.noRenewals') }}
+                                    </p>
+                                    <div v-else>
+                                        <NuxtLink v-for="(row, i) in renewals.renewals" :key="i"
+                                            :to="`/superadmin/companies/${row.company_uuid}/license-overview`"
+                                            class="flex items-center justify-between px-4 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                                            <div class="min-w-0">
+                                                <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                                                    {{ row.company_name }}
+                                                </p>
+                                                <p class="text-[11px] text-[#8891A4]">
+                                                    {{ formatDateToReadable(row.renews_at) }}
+                                                </p>
+                                            </div>
+                                            <span class="text-[13px] font-semibold text-[#1F2533] shrink-0 ml-3">
+                                                {{ formatAmount(row.amount, 'DKK') }}
+                                            </span>
+                                        </NuxtLink>
+                                    </div>
+                                </div>
 
                                 <div class="flex flex-wrap gap-2 mt-3">
                                     <span v-for="year in state.forecast.by_year" :key="year.year"
@@ -209,10 +262,12 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
 const granularities = ['day', 'week', 'month', 'quarter', 'year']
@@ -276,6 +331,48 @@ const forecastNextTwelveMonths = computed(() =>
 const forecastRenewalTotal = computed(() =>
     forecastMonths.value.reduce((sum: number, month: any) => sum + (month.renewals ?? 0), 0)
 )
+
+const renewals = reactive({
+    month: '',
+    renewals: [] as any[],
+    renewals_total: 0,
+    isLoading: false,
+})
+
+const renewalsMonthLabel = computed(() =>
+    renewals.month ? moment(renewals.month + '-01').format('MMMM YYYY') : ''
+)
+
+/**
+ * Et klik på en søjle åbner de kunder den består af.
+ *
+ * Kun fornyelses-serien: de månedlige opkrævninger er de samme kunder hver
+ * måned og fortæller ikke noget man kan handle på. `dataIndex` peger ind i
+ * de samme måneder som grafen er tegnet af, så der spørges på måneden og
+ * ikke på etiketten under søjlen.
+ */
+async function openRenewals(event: any) {
+    if (event?.componentType !== 'series' || event?.seriesType !== 'bar') return
+    if (event?.seriesName !== t('superadmin.report.forecast.series.renewals')) return
+
+    const month = forecastMonths.value[event.dataIndex]?.month
+    if (!month) return
+
+    renewals.month = month
+    renewals.isLoading = true
+    renewals.renewals = []
+    renewals.renewals_total = 0
+
+    try {
+        const response = await analyticsService.getRenewals(month)
+        renewals.renewals = response?.renewals ?? []
+        renewals.renewals_total = response?.renewals_total ?? 0
+    } catch (_) {
+        renewals.renewals = []
+    }
+
+    renewals.isLoading = false
+}
 
 /**
  * Yearly renewals are stacked separately from the monthly charges: a month that
