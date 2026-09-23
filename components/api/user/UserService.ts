@@ -33,6 +33,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/company/update/details`, 'PUT', params)
     }
 
+    async updateCompanyTerminology(params: object): Promise<any> {
+        return await this.request(`/user/company/terminology`, 'PUT', params)
+    }
+
     async getPublicHolidays(): Promise<any> {
         return await this.request(`/user/public-holidays`, 'GET')
     }
