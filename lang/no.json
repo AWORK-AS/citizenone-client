@@ -11674,6 +11674,14 @@
                     "nursing_areas": "Pleieområder",
                     "ai_conversations": "AI-samtaler"
                 }
+            },
+            "contract": {
+                "startedAt": "Startdato",
+                "term": "Avtaleperiode",
+                "renewsAt": "Neste kontraktfornyelse",
+                "months": "{count} måneder",
+                "tcv": "Samlet avtaleverdi (TCV)",
+                "tcvHint": "Grunnpakke og tillegg, hver ganger sin løpetid. Ekskl. mva."
             }
         },
         "coupons": {

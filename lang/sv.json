@@ -11674,6 +11674,14 @@
                     "nursing_areas": "Vårdområden",
                     "ai_conversations": "AI-samtal"
                 }
+            },
+            "contract": {
+                "startedAt": "Startdatum",
+                "term": "Avtalsperiod",
+                "renewsAt": "Nästa avtalsförnyelse",
+                "months": "{count} månader",
+                "tcv": "Totalt avtalsvärde (TCV)",
+                "tcvHint": "Grundpaket och tillägg, var och en gånger sin löptid. Exkl. moms."
             }
         },
         "coupons": {

@@ -163,6 +163,50 @@
                                                 }}
                                             </li>
                                         </ul>
+
+                                        <!-- Aftalen: hvornår den begyndte, hvor længe den
+                                             løber, hvornår den fornyes, og hvad den er værd.
+                                             Fornyelse er adskilt fra "Næste betaling" med
+                                             vilje - de to datoer er ikke det samme. -->
+                                        <dl v-if="contract"
+                                            class="mt-8 border-t border-gray-200 pt-6 space-y-3 text-sm">
+                                            <div class="flex items-baseline justify-between gap-x-4">
+                                                <dt class="text-gray-500">
+                                                    {{ $t('superadmin.companies.contract.startedAt') }}
+                                                </dt>
+                                                <dd class="font-medium text-gray-900">
+                                                    {{ formatDate(contract.started_at) }}
+                                                </dd>
+                                            </div>
+                                            <div class="flex items-baseline justify-between gap-x-4">
+                                                <dt class="text-gray-500">
+                                                    {{ $t('superadmin.companies.contract.term') }}
+                                                </dt>
+                                                <dd class="font-medium text-gray-900">
+                                                    {{ $t('superadmin.companies.contract.months', { count: contract.term_months }) }}
+                                                </dd>
+                                            </div>
+                                            <div class="flex items-baseline justify-between gap-x-4">
+                                                <dt class="text-gray-500">
+                                                    {{ $t('superadmin.companies.contract.renewsAt') }}
+                                                </dt>
+                                                <dd class="font-medium text-gray-900">
+                                                    {{ formatDate(contract.renews_at) }}
+                                                </dd>
+                                            </div>
+                                            <div v-if="canViewFinancials"
+                                                class="flex items-baseline justify-between gap-x-4 border-t border-gray-100 pt-3">
+                                                <dt class="text-gray-500">
+                                                    {{ $t('superadmin.companies.contract.tcv') }}
+                                                </dt>
+                                                <dd class="font-semibold text-gray-900">
+                                                    {{ formatAmount(contract.total_contract_value, contract.currency) }}
+                                                </dd>
+                                            </div>
+                                            <p v-if="canViewFinancials" class="text-xs text-gray-400">
+                                                {{ $t('superadmin.companies.contract.tcvHint') }}
+                                            </p>
+                                        </dl>
                                     </div>
                                 </div>
                                 <div class="w-full">
@@ -667,6 +711,7 @@
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
@@ -680,8 +725,14 @@ const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
+const { formatDateToReadable } = useDatetimeFormatter()
+
 const canManageLicenses = computed(() => can('manage_licenses'))
 const canViewFinancials = computed(() => can('view_financials'))
+
+function formatDate(value?: string | null): string {
+    return value ? formatDateToReadable(value) : '—'
+}
 
 const detailTabs = computed(() => [
     { label: t('superadmin.companies.accounts.tabs.overview'), href: `/superadmin/companies/${companyUuid}/accounts`, icon: 'ph:house' },
@@ -775,6 +826,11 @@ const state = reactive({
         isSaving: false,
     },
 })
+
+// Aftalen bag abonnementet. API'et regner den, så tallet på skærmen er det
+// samme tal som alle andre steder - og TCV er ikke noget klienten selv gætter
+// sig til ud fra en pris den kan se.
+const contract = computed(() => state.subscriptions?.data?.contract ?? null)
 
 const grantStoragePackageOptions = computed(() =>
     state.grantStorage.packages.map((pkg: any) => ({

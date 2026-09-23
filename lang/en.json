@@ -11711,6 +11711,14 @@
                     "nursing_areas": "Nursing areas",
                     "ai_conversations": "AI conversations"
                 }
+            },
+            "contract": {
+                "startedAt": "Start date",
+                "term": "Contract term",
+                "renewsAt": "Next contract renewal",
+                "months": "{count} months",
+                "tcv": "Total contract value (TCV)",
+                "tcvHint": "Plan and add-ons, each times its own term. Excl. VAT."
             }
         },
         "coupons": {
