@@ -11844,7 +11844,12 @@
                 "management": "Ledning"
             },
             "management": {
-                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet."
+                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet.",
+                "concentration": {
+                    "title": "Var pengarna kommer från",
+                    "hint": "De tio största står för {top}% av MRR. Den största ensam för {largest}%. {count} betalande kunder totalt.",
+                    "empty": "Inga löpande avtal ännu."
+                }
             }
         },
         "invoiceDetails": {
@@ -12918,12 +12923,14 @@
                 "series": {
                     "recurring": "Månadsdebiteringar",
                     "renewals": "Årsförnyelser",
-                    "cumulative": "Ackumulerat"
+                    "cumulative": "Ackumulerat",
+                    "contracted": "Avtalat",
+                    "assumed": "Förutsatt förnyelse"
                 },
                 "renewalsIn": "Förnyelser i {month}",
                 "renewalsCount": "{count} kund(er)",
                 "noRenewals": "Inga årsförnyelser den här månaden.",
-                "clickHint": "Klicka på en grön stapel för att se vilka kunder den består av."
+                "clickHint": "Klicka på en stapel för att se vilka kunder den består av."
             }
         },
         "industries": {
