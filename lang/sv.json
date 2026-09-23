@@ -12902,7 +12902,11 @@
                     "recurring": "Månadsdebiteringar",
                     "renewals": "Årsförnyelser",
                     "cumulative": "Ackumulerat"
-                }
+                },
+                "renewalsIn": "Förnyelser i {month}",
+                "renewalsCount": "{count} kund(er)",
+                "noRenewals": "Inga årsförnyelser den här månaden.",
+                "clickHint": "Klicka på en grön stapel för att se vilka kunder den består av."
             }
         },
         "industries": {

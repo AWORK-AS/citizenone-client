@@ -12998,7 +12998,11 @@
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
                     "cumulative": "Akkumuleret"
-                }
+                },
+                "renewalsIn": "Fornyelser i {month}",
+                "renewalsCount": "{count} kunde(r)",
+                "noRenewals": "Ingen årsfornyelser i denne måned.",
+                "clickHint": "Klik på en grøn søjle for at se hvilke kunder den består af."
             }
         },
         "industries": {

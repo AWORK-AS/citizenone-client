@@ -12998,7 +12998,11 @@
                     "recurring": "Monthly charges",
                     "renewals": "Yearly renewals",
                     "cumulative": "Accumulated"
-                }
+                },
+                "renewalsIn": "Renewals in {month}",
+                "renewalsCount": "{count} customer(s)",
+                "noRenewals": "No annual renewals this month.",
+                "clickHint": "Click a green bar to see which customers it is made of."
             }
         },
         "industries": {

@@ -12902,7 +12902,11 @@
                     "recurring": "Månedlige trekk",
                     "renewals": "Årsfornyelser",
                     "cumulative": "Akkumulert"
-                }
+                },
+                "renewalsIn": "Fornyelser i {month}",
+                "renewalsCount": "{count} kunde(r)",
+                "noRenewals": "Ingen årsfornyelser denne måneden.",
+                "clickHint": "Klikk på en grønn søyle for å se hvilke kunder den består av."
             }
         },
         "industries": {
