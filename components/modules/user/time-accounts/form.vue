@@ -47,6 +47,22 @@
             <div class="border border-gray-200 rounded-md p-4 space-y-4">
                 <p class="text-sm font-semibold text-gray-700">{{ $t('timeAccounts.form.advancedConfiguration') }}</p>
 
+                <p v-if="!state.formTimeAccount.has_rule" class="text-sm text-gray-500">
+                    {{ $t('timeAccounts.form.noRules') }}
+                </p>
+                <FormButton v-if="!state.formTimeAccount.has_rule" type="button" buttonStyle="cancel"
+                    @click="state.formTimeAccount.has_rule = true">
+                    {{ $t('timeAccounts.form.addRule') }}
+                </FormButton>
+
+                <template v-if="state.formTimeAccount.has_rule">
+                <div class="flex justify-end">
+                    <button type="button" class="text-xs text-red-500 hover:text-red-700"
+                        @click="state.formTimeAccount.has_rule = false">
+                        {{ $t('cancel') }}
+                    </button>
+                </div>
+
                 <div class="space-y-1">
                     <FormLabel :label="$t('timeAccounts.form.ruleType')" />
                     <FormSelect id="rule_type" :options="ruleTypeOptions" :modelValue="state.formTimeAccount.rule.type"
@@ -110,6 +126,7 @@
                         <FormError
                             :error="v$?.formTimeAccount?.rule?.conditions.month_duration.$errors[0]?.$message.toString()" />
                     </div>
+                </template>
                 </template>
             </div>
 
@@ -187,6 +204,7 @@ const state = reactive({
         carry_over: false,
         is_recurring: false,
         is_active: false,
+        has_rule: false,
         rule: {
             type: '',
             grant_amount: '',
@@ -210,6 +228,7 @@ watch(() => state.formTimeAccount.initial_amount, (newValue: any) => {
 
 watch(() => props.selectedTimeAccount, (newValue: any) => {
     if (newValue != null) {
+        const existingRule = Array.isArray(newValue.rules) ? newValue.rules[0] : null
         state.formTimeAccount = {
             name: newValue.name ?? '',
             initial_amount: newValue.initial_amount ?? '',
@@ -218,16 +237,17 @@ watch(() => props.selectedTimeAccount, (newValue: any) => {
             carry_over: newValue.carry_over ?? false,
             is_recurring: newValue.is_recurring ?? false,
             is_active: newValue.is_active ?? true,
+            has_rule: !!existingRule,
             rule: {
-                type: newValue.rules?.type ?? '',
-                grant_amount: newValue.rules?.grant_amount ?? '',
-                grant_frequency: newValue.rules?.grant_frequency ?? '',
+                type: existingRule?.type ?? '',
+                grant_amount: existingRule?.grant_amount ?? '',
+                grant_frequency: existingRule?.grant_frequency ?? '',
                 conditions: {
-                    min_age: newValue.rules?.conditions?.min_age ?? '',
-                    max_age: newValue.rules?.conditions?.max_age ?? '',
-                    hired_before: newValue.rules?.conditions?.hired_before ?? '',
-                    hired_after: newValue.rules?.conditions?.hired_after ?? '',
-                    month_duration: newValue.rules?.conditions?.month_duration ?? '',
+                    min_age: existingRule?.conditions?.min_age ?? '',
+                    max_age: existingRule?.conditions?.max_age ?? '',
+                    hired_before: existingRule?.conditions?.hired_before ?? '',
+                    hired_after: existingRule?.conditions?.hired_after ?? '',
+                    month_duration: existingRule?.conditions?.month_duration ?? '',
                 },
             },
         }
@@ -247,29 +267,29 @@ const rules = computed(() => {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             rule: {
-                type: {
+                type: state.formTimeAccount.has_rule ? {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                grant_amount: {
+                } : {},
+                grant_amount: state.formTimeAccount.has_rule ? {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
-                grant_frequency: {
+                } : {},
+                grant_frequency: state.formTimeAccount.has_rule ? {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-                },
+                } : {},
                 conditions: {
-                    min_age: state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.max_age === '' ? {
+                    min_age: state.formTimeAccount.has_rule && state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.max_age === '' ? {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
-                    max_age: state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.min_age === '' ? {
+                    max_age: state.formTimeAccount.has_rule && state.formTimeAccount.rule.type === 'age' && state.formTimeAccount.rule.conditions.min_age === '' ? {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
-                    hired_after: state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_before === '' ? {
+                    hired_after: state.formTimeAccount.has_rule && state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_before === '' ? {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
-                    hired_before: state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_after === '' ? {
+                    hired_before: state.formTimeAccount.has_rule && state.formTimeAccount.rule.type === 'employment_date' && state.formTimeAccount.rule.conditions.hired_after === '' ? {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
-                    month_duration: state.formTimeAccount.rule.type === 'employment_duration' ? {
+                    month_duration: state.formTimeAccount.has_rule && state.formTimeAccount.rule.type === 'employment_duration' ? {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     } : {},
                 },
@@ -293,7 +313,9 @@ function submitForm() {
     if (!v$.value.$error) {
         emit('submitForm', {
             ...state.formTimeAccount,
-            rule: { ...state.formTimeAccount.rule, conditions: filteredConditions(state.formTimeAccount.rule) },
+            rule: state.formTimeAccount.has_rule
+                ? { ...state.formTimeAccount.rule, conditions: filteredConditions(state.formTimeAccount.rule) }
+                : null,
         })
     }
 }
