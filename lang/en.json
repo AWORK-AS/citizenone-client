@@ -13014,12 +13014,14 @@
                 "series": {
                     "recurring": "Monthly charges",
                     "renewals": "Yearly renewals",
-                    "cumulative": "Accumulated"
+                    "cumulative": "Accumulated",
+                    "contracted": "Contracted",
+                    "assumed": "Assumed renewal"
                 },
                 "renewalsIn": "Renewals in {month}",
                 "renewalsCount": "{count} customer(s)",
                 "noRenewals": "No annual renewals this month.",
-                "clickHint": "Click a green bar to see which customers it is made of."
+                "clickHint": "Click a bar to see which customers it is made of."
             }
         },
         "industries": {
