@@ -4,7 +4,16 @@
 		<Title>{{ $t('login.login') }} - {{ runtimeConfig?.public?.appName }}</Title>
 	</Head>
 
-	<div class="page">
+	<div :class="['page', isMacDesktopApp ? 'mac-desktop' : '']">
+
+		<!-- macOS hiddenInset title bar (see citizenone-desktop's main.ts): the
+		     window has no system title bar to grab, and this page covers the
+		     whole window, so without a drag region the login window cannot be
+		     moved at all. The strip also gives the window controls a band of
+		     their own above the logo, which otherwise sits right under them.
+		     Nothing is drawn here - the controls themselves are the system's,
+		     which the HIG requires (never replicate them). -->
+		<div v-if="isMacDesktopApp" class="app-drag-region mac-titlebar" aria-hidden="true" />
 
 		<div class="left">
 			<div class="bc bc1"></div>
@@ -239,6 +248,10 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+
+// Read once, not reactive: the desktop bridge is injected by the preload
+// before any page script runs and never changes after launch.
+const isMacDesktopApp = useIsDesktopApp() && useDesktopPlatform() === 'darwin'
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore()
 const language = useI18n()
@@ -562,6 +575,26 @@ setInterval(() => {
 	min-height: 100vh;
 	display: flex;
 	font-family: 'Inter', -apple-system, sans-serif;
+}
+
+/* Desktop app only. Kept to the width of the left panel, where the window
+   controls are and where nothing is clickable - a full-width band would sit
+   over the top of the sign-in card and swallow its clicks. z-index stays low
+   for the same reason: any dialog must come out on top of it. */
+.page .mac-titlebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 460px;
+	height: 38px;
+	z-index: 10;
+}
+
+/* The logo is 10px below the controls at the panel's own 3rem padding, which
+   reads as crowded rather than deliberate. Only the desktop app has controls
+   there, so only it pays for the clearance. */
+.page.mac-desktop .left {
+	padding-top: 4.5rem;
 }
 
 /* VENSTRE PANEL */
