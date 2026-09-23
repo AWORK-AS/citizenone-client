@@ -11815,11 +11815,17 @@
                 "contracted": "Avtalat, nästa 12 mån.",
                 "contractedThreeYears": "3 år: {amount}",
                 "seeForecast": "Se prognosen",
-                "notCollecting": "{count} avtal betalar inte"
+                "notCollecting": "{count} avtal betalar inte",
+                "notCollectingAmount": "{amount} kommer inte in · {count} avtal",
+                "allCollecting": "Alla avtal debiteras"
             },
             "tabs": {
                 "overview": "Översikt",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledning"
+            },
+            "management": {
+                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet."
             }
         },
         "invoiceDetails": {

@@ -11815,11 +11815,17 @@
                 "contracted": "Avtalt, neste 12 mnd.",
                 "contractedThreeYears": "3 år: {amount}",
                 "seeForecast": "Se prognosen",
-                "notCollecting": "{count} avtale(r) betaler ikke"
+                "notCollecting": "{count} avtale(r) betaler ikke",
+                "notCollectingAmount": "{amount} kommer ikke inn · {count} avtale(r)",
+                "allCollecting": "Alle avtaler blir krevd inn"
             },
             "tabs": {
                 "overview": "Oversikt",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledelse"
+            },
+            "management": {
+                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang."
             }
         },
         "invoiceDetails": {
