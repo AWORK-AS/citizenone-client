@@ -67,7 +67,7 @@
                 <ModulesUserCitizenDocumentFolderStructureRequestModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureRequestsOpen"
                     @close="state.modal.isViewFolderStructureRequestsOpen = false"
-                    @refreshFolderStructures="fetchFolderStructures" />
+                    @refreshFolderStructures="onFolderStructureRequestApproved" />
             </template>
         </Modal>
     </div>
@@ -88,7 +88,10 @@ const props = defineProps({
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
-const emit = defineEmits(['close'])
+// 'refreshDocuments' bubbles all the way up to the citizen's Documents page: an
+// approved request can rename/add real folders, so its file listing goes stale
+// otherwise until the user manually reloads the page.
+const emit = defineEmits(['close', 'refreshDocuments'])
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
 let currentTablePage = 1
@@ -183,5 +186,10 @@ function viewFolderStructure(folderStructure: any) {
 function editFolderStructure(folderStructure: any) {
     state.selected_folder_structure = folderStructure
     state.modal.editFolderStructureOpen = true
+}
+
+function onFolderStructureRequestApproved() {
+    fetchFolderStructures()
+    emit('refreshDocuments')
 }
 </script>
