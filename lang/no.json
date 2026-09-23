@@ -11845,7 +11845,12 @@
                 "management": "Ledelse"
             },
             "management": {
-                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang."
+                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang.",
+                "concentration": {
+                    "title": "Hvor pengene kommer fra",
+                    "hint": "De ti største står for {top}% av MRR. Den største alene for {largest}%. {count} betalende kunder totalt.",
+                    "empty": "Ingen løpende avtaler ennå."
+                }
             }
         },
         "invoiceDetails": {
@@ -12919,12 +12924,14 @@
                 "series": {
                     "recurring": "Månedlige trekk",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumulert"
+                    "cumulative": "Akkumulert",
+                    "contracted": "Avtalt",
+                    "assumed": "Forutsatt fornyelse"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser denne måneden.",
-                "clickHint": "Klikk på en grønn søyle for å se hvilke kunder den består av."
+                "clickHint": "Klikk på en søyle for å se hvilke kunder den består av."
             }
         },
         "industries": {

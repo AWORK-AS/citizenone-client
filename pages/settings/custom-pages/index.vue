@@ -182,7 +182,6 @@ async function saveTerms() {
     terms.saving = true
     try {
         const params = {
-            name: userStore.getUser?.company?.name ?? '',
             term_journals: terms.term_journals,
             term_journal: terms.term_journal,
             term_journal_note_tag: terms.term_journal_note_tag,
@@ -196,7 +195,7 @@ async function saveTerms() {
             term_citizens: terms.term_citizens,
             term_citizens_definite: terms.term_citizens_definite,
         }
-        const response = await userService.updateCompany(params)
+        const response = await userService.updateCompanyTerminology(params)
         if (response?.data) {
             const current: any = { ...userStore.getUser }
             if (current?.company) {

@@ -134,6 +134,52 @@
                     </div>
                 </div>
 
+                <!-- Hvem pengene kommer fra.
+                     En rangeret liste og ikke en graf: ti navngivne kunder med et
+                     beløb læses hurtigere som tal, og en søjle pr. kunde ville
+                     kræve at man slog navnet op for at vide hvem søjlen var. -->
+                <div v-if="concentration" class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
+                    <div class="px-5 py-4 border-b border-[#EAECF0]">
+                        <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                            {{ $t('superadmin.dashboard.management.concentration.title') }}
+                        </h2>
+                        <p class="text-[11px] text-[#8891A4] mt-0.5">
+                            {{ $t('superadmin.dashboard.management.concentration.hint', {
+                                top: concentration.top_share,
+                                largest: concentration.largest_share,
+                                count: concentration.customer_count,
+                            }) }}
+                        </p>
+                    </div>
+
+                    <div v-if="!concentration.customers?.length"
+                        class="px-5 py-8 text-center text-[13px] text-[#8891A4]">
+                        {{ $t('superadmin.dashboard.management.concentration.empty') }}
+                    </div>
+                    <div v-else>
+                        <NuxtLink v-for="(row, i) in concentration.customers" :key="i"
+                            :to="`/superadmin/companies/${row.company_uuid}/license-overview`"
+                            class="flex items-center gap-3 px-5 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                            <span class="text-[11px] text-[#B4BBC7] w-4 shrink-0">{{ i + 1 }}</span>
+                            <div class="min-w-0 flex-1">
+                                <p class="text-[13px] font-medium text-[#1F2533] truncate">{{ row.company_name }}</p>
+                                <!-- Andelen som en tynd streg: den gør rangordenen
+                                     synlig uden at gøre listen til en graf. -->
+                                <div class="h-1 bg-[#F0F1F4] rounded-full mt-1 overflow-hidden">
+                                    <div class="h-full rounded-full"
+                                        :style="`width:${Math.min(100, row.share)}%;background:#1C6E9C`"></div>
+                                </div>
+                            </div>
+                            <div class="text-right shrink-0">
+                                <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    {{ formatAmount(row.mrr, 'DKK') }}
+                                </p>
+                                <p class="text-[11px] text-[#8891A4]">{{ row.share }}%</p>
+                            </div>
+                        </NuxtLink>
+                    </div>
+                </div>
+
                 <!-- Faktureret i perioden -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                     <!-- Revenue -->
@@ -177,6 +223,7 @@ const state = reactive({
     revenue: 0,
     recurringRevenue: null as any,
     churn: null as any,
+    concentration: null as any,
     // Måned til dato. Kortet stod før på i dag-til-i dag, hvilket er en periode
     // der næsten altid er tom, og et tomt omsætningskort ligner en stille måned
     // frem for en forkert indstilling. Det er samtidig den periode API'et selv
@@ -188,6 +235,8 @@ const state = reactive({
 
 // Det der ikke kommer ind: kørselsraten minus den del der faktisk opkræves.
 // Regnet her frem for i skabelonen, så tallet har et navn.
+const concentration = computed(() => state.concentration)
+
 const notCollectingAmount = computed(() => {
     const r = state.recurringRevenue
     if (!r || r.cmrr === undefined) return 0
@@ -205,6 +254,7 @@ async function fetchOverview() {
             state.revenue = response?.data?.total_revenue ?? 0
             state.recurringRevenue = response?.data?.recurring_revenue ?? null
             state.churn = response?.data?.churn ?? null
+            state.concentration = response?.data?.concentration ?? null
         }
     } catch (e: any) { state.error = e }
 }
