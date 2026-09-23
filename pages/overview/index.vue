@@ -708,8 +708,22 @@ watch(() => departmentStore.getSelectedDepartmentName, () => {
     fetchUpcomingBirthdays()
 })
 
+// The user object is written more than once per load - route middleware
+// fetches it before the layout's own onMounted does - and this watcher fires on
+// every write. Each fire re-read the saved filter over whatever range the user
+// had just picked and refired the four requests behind it, which is a doubled
+// fan-out on a screen that already makes about a dozen calls, and the reason a
+// chosen range could snap back to today on its own. The saved filter decides
+// the range once; after that the range belongs to the session.
+//
+// immediate, because arriving from another page in the app leaves the user
+// already in the store, and a watcher with nothing left to fire on would leave
+// the events/journal/medicine cards empty.
+let savedDateFilterApplied = false
+
 watch(() => userStore.getUser, (user: any) => {
-    if (user) {
+    if (user && !savedDateFilterApplied) {
+        savedDateFilterApplied = true
         if (user?.daily_overview_date_filter?.filter_type === 'today') {
             state.dateRange.formDateRange = {
                 start_date: moment().format('YYYY-MM-DD'),
@@ -736,7 +750,7 @@ watch(() => userStore.getUser, (user: any) => {
         fetchCitizensMedicines(state.dateRange.formDateRange)
         fetchActiveTreatmentsCount()
     }
-})
+}, { immediate: true })
 
 function scrollToTreatments() {
     const el = document.getElementById('treatments-section')

@@ -33,6 +33,36 @@ class BaseAPIService {
     private static readonly CACHE_TTL_MS = 15000
 
     /**
+     * A 429 on a read is a burst, not abuse. Oversigt alone fans out roughly a
+     * dozen GETs on load and refires four of them on every date-range change,
+     * and the server's budget is keyed per user - so the same person with the
+     * desktop app and a browser tab open could push a perfectly ordinary screen
+     * over the edge and get a red banner instead of their data.
+     *
+     * Only GETs are retried. A POST that was refused may still have been
+     * counted, and repeating a write to save a banner is a worse bug than the
+     * banner. The wait comes from the server (Retry-After / retry_after), and
+     * anything longer than RATE_LIMIT_MAX_WAIT_S is handed to the caller
+     * instead: a screen frozen for most of a minute is not an improvement over
+     * an error that says to wait.
+     */
+    private static readonly RATE_LIMIT_RETRIES = 2
+
+    private static readonly RATE_LIMIT_MAX_WAIT_S = 10
+
+    /**
+     * Body first: Retry-After is only readable when the API exposes it through
+     * CORS, while retry_after in the 429 body always is.
+     */
+    private static retryAfterSecondsOf(error: any): number {
+        return (
+            Number(error?.response?._data?.retry_after) ||
+            Number(error?.response?.headers?.get?.('retry-after')) ||
+            0
+        )
+    }
+
+    /**
      * The API tags every request with an id and returns it as X-Request-Id. The
      * same id sits in the server log, so showing it turns "it broke some time
      * this afternoon" into a lookup.
@@ -278,7 +308,7 @@ class BaseAPIService {
         }
     }
 
-    private async _sendRequest(url: string, method: string, params: object, signal?: AbortSignal): Promise<any> {
+    private async _sendRequest(url: string, method: string, params: object, signal?: AbortSignal, attempt = 0): Promise<any> {
         const runtimeConfig = useRuntimeConfig()
         let config: any = null
         if (method === 'GET') {
@@ -309,6 +339,28 @@ class BaseAPIService {
             return await $fetch(url, config)
         } catch (error: any) {
             if (error?.name === 'AbortError') throw error
+
+            if (
+                error.response?.status === 429 &&
+                method === 'GET' &&
+                attempt < BaseAPIService.RATE_LIMIT_RETRIES
+            ) {
+                // No Retry-After at all still means "in a moment" - a second is
+                // the smallest wait the server's own per-minute window can clear
+                // in, and it keeps a missing header from disabling the retry.
+                const waitSeconds = BaseAPIService.retryAfterSecondsOf(error) || 1
+
+                if (waitSeconds <= BaseAPIService.RATE_LIMIT_MAX_WAIT_S) {
+                    await new Promise((resolve) => setTimeout(resolve, waitSeconds * 1000))
+
+                    // The caller may have navigated away while we waited; finishing
+                    // its request now would resolve into a component that is gone.
+                    if (signal?.aborted) throw new DOMException('Aborted', 'AbortError')
+
+                    return await this._sendRequest(url, method, params, signal, attempt + 1)
+                }
+            }
+
             switch (error.response?.status) {
                 case 400:
                     // A 400 here is usually a rule the server is enforcing on
@@ -335,13 +387,7 @@ class BaseAPIService {
                     throw new APIError({
                         ...error.response._data,
                         status: error.response.status,
-                        // Body first: Retry-After is only readable when the API
-                        // exposes it through CORS, while retry_after in the body
-                        // always is.
-                        retryAfter:
-                            Number(error.response._data?.retry_after) ||
-                            Number(error.response?.headers?.get?.('retry-after')) ||
-                            0,
+                        retryAfter: BaseAPIService.retryAfterSecondsOf(error),
                     })
                 case 409:
                     // Some 409s carry a business-rule flag alongside the message (e.g.
