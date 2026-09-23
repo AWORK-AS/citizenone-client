@@ -11886,6 +11886,18 @@
                     "title": "Where the money comes from",
                     "hint": "The ten largest account for {top}% of MRR. The largest alone for {largest}%. {count} paying customers in total.",
                     "empty": "No recurring agreements yet."
+                },
+                "bridge": {
+                    "title": "Why MRR moved",
+                    "between": "From {from} to {to}",
+                    "new": "New customers",
+                    "expansion": "Expansion",
+                    "contraction": "Contraction",
+                    "churned": "Cancelled",
+                    "net": "Net",
+                    "whoLeft": "Who left",
+                    "recordingSince": "Measured from {date}. Two measurements are needed to show a movement.",
+                    "notRecordedYet": "Per-customer measurement has not started yet. It begins with the next nightly run."
                 }
             }
         },

@@ -11849,6 +11849,18 @@
                     "title": "Var pengarna kommer från",
                     "hint": "De tio största står för {top}% av MRR. Den största ensam för {largest}%. {count} betalande kunder totalt.",
                     "empty": "Inga löpande avtal ännu."
+                },
+                "bridge": {
+                    "title": "Varför MRR rörde sig",
+                    "between": "Från {from} till {to}",
+                    "new": "Nya kunder",
+                    "expansion": "Merförsäljning",
+                    "contraction": "Nedgradering",
+                    "churned": "Uppsagt",
+                    "net": "Netto",
+                    "whoLeft": "Vilka som försvann",
+                    "recordingSince": "Mäts från {date}. Det krävs två mätningar för att visa en rörelse.",
+                    "notRecordedYet": "Mätning per kund har inte börjat än. Den startar med nästa nattliga körning."
                 }
             }
         },
