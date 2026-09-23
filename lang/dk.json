@@ -13014,12 +13014,14 @@
                 "series": {
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumuleret"
+                    "cumulative": "Akkumuleret",
+                    "contracted": "Aftalt",
+                    "assumed": "Forudsat fornyelse"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser i denne måned.",
-                "clickHint": "Klik på en grøn søjle for at se hvilke kunder den består af."
+                "clickHint": "Klik på en søjle for at se hvilke kunder den består af."
             }
         },
         "industries": {
