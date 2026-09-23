@@ -4487,6 +4487,7 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "allDay": "Hela dagen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
             "hint": "Enter för att spara · Esc för att avbryta"

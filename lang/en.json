@@ -4487,6 +4487,7 @@
         "viewDraftFile": "View draft files"
     },
     "dutySchedules": {
+        "allDay": "All day",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"
