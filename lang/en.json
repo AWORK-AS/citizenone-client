@@ -11881,7 +11881,12 @@
                 "management": "Management"
             },
             "management": {
-                "subtitle": "Run rate, secured revenue and agreements. Only for those with access."
+                "subtitle": "Run rate, secured revenue and agreements. Only for those with access.",
+                "concentration": {
+                    "title": "Where the money comes from",
+                    "hint": "The ten largest account for {top}% of MRR. The largest alone for {largest}%. {count} paying customers in total.",
+                    "empty": "No recurring agreements yet."
+                }
             }
         },
         "invoiceDetails": {

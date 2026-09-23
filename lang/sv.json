@@ -11844,7 +11844,12 @@
                 "management": "Ledning"
             },
             "management": {
-                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet."
+                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet.",
+                "concentration": {
+                    "title": "Var pengarna kommer från",
+                    "hint": "De tio största står för {top}% av MRR. Den största ensam för {largest}%. {count} betalande kunder totalt.",
+                    "empty": "Inga löpande avtal ännu."
+                }
             }
         },
         "invoiceDetails": {

@@ -11844,7 +11844,12 @@
                 "management": "Ledelse"
             },
             "management": {
-                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang."
+                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang.",
+                "concentration": {
+                    "title": "Hvor pengene kommer fra",
+                    "hint": "De ti største står for {top}% av MRR. Den største alene for {largest}%. {count} betalende kunder totalt.",
+                    "empty": "Ingen løpende avtaler ennå."
+                }
             }
         },
         "invoiceDetails": {

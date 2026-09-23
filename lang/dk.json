@@ -11881,7 +11881,12 @@
                 "management": "Ledelse"
             },
             "management": {
-                "subtitle": "Kørselsrate, sikret omsætning og aftaler. Kun for dem der har adgang."
+                "subtitle": "Kørselsrate, sikret omsætning og aftaler. Kun for dem der har adgang.",
+                "concentration": {
+                    "title": "Hvor pengene kommer fra",
+                    "hint": "De ti største står for {top}% af MRR. Den største alene for {largest}%. {count} betalende kunder i alt.",
+                    "empty": "Ingen løbende aftaler endnu."
+                }
             }
         },
         "invoiceDetails": {
