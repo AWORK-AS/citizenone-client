@@ -237,7 +237,7 @@
                     @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
-                    @close="state.modal.isViewFolderStructureOpen = false" />
+                    @close="state.modal.isViewFolderStructureOpen = false" @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isShareDocumentOpen"
                     :message="state.selectedDocument?.is_shared ? $t('citizens.documents.confirmation.unshareConfirmation') : $t('citizens.documents.confirmation.shareConfirmation') + '?'"
                     @close="state.modal.isShareDocumentOpen = false" @confirm="shareUnshareDocument" />

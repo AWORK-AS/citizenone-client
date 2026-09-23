@@ -12,14 +12,27 @@
                 <FormError :error="v$?.formFolderStructure?.folder_structure?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.folder_structure_uuid?.[0]" />
             </div>
-            <div class="space-y-4">
+            <div class="space-y-4" v-if="state.formFolderStructure.folder_structure">
                 <div v-for="(root, index) in state.formFolderStructure.structure" :key="index" class="space-y-3">
-                    <!-- Subfolders -->
-                    <div v-if="root.subfolder && root.subfolder.length > 0">
-                        <ModulesUserCitizenDocumentFolderStructureRequestRecursiveSubfolders
-                            :subfolders="root.subfolder" :parentIndex="index" @addSubfolder="addSubfolder"
-                            @removeSubfolder="removeSubfolder" />
+                    <div class="space-y-1">
+                        <FormLabel :for="`root-${index}`" :label="`${t('folderStructure.form.rootFolder')}`" />
+                        <!-- Root folder name is shown but not editable here: renaming/adding go through subfolders, root stays stable so citizen folders can still be matched to this template. -->
+                        <FormTextField :id="`root-${index}`" :name="`root-${index}`"
+                            v-model="state.formFolderStructure.structure[index].root"
+                            :placeholder="$t('folderStructure.form.rootFolder')" disabled />
                     </div>
+
+                    <!-- Subfolders -->
+                    <div v-if="root.subfolder && root.subfolder.length > 0" class="ml-6">
+                        <ModulesUserDocumentFolderStructureRequestRecursiveSubfolders :subfolders="root.subfolder"
+                            :parentIndex="index" @addSubfolder="addSubfolder" />
+                    </div>
+
+                    <!-- Add Subfolder Button -->
+                    <button type="button" class="text-primary text-sm hover:underline ml-6"
+                        @click="addSubfolder(state.formFolderStructure.structure[index])">
+                        {{ t('folderStructure.form.addSubfolder') }}
+                    </button>
                 </div>
             </div>
 
@@ -97,6 +110,11 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+// getAllTemplatesForCompany() sets `folder_structure` from selectedFolderStructureRequest
+// too, which would otherwise re-trigger the watcher below and clobber the structure
+// it just loaded from the request itself.
+let skipNextStructureFetch = false
+
 onMounted(() => {
     fetchFolderStructures()
 })
@@ -121,6 +139,7 @@ async function fetchFolderStructures() {
             )
             state.options.folderStructures = options
             if (props.selectedFolderStructureRequest) {
+                skipNextStructureFetch = true
                 state.formFolderStructure.folder_structure = props.selectedFolderStructureRequest?.folder_structure?.uuid
                 state.formFolderStructure.structure = JSON.parse(props.selectedFolderStructureRequest?.structure)
             }
@@ -131,16 +150,33 @@ async function fetchFolderStructures() {
     state.isPageLoading = false
 }
 
+// Once the admin picks a folder structure, load its current structure so they can
+// see and edit what's already there instead of proposing changes blind.
+watch(() => state.formFolderStructure.folder_structure, async (folderStructureUuid) => {
+    if (skipNextStructureFetch) {
+        skipNextStructureFetch = false
+        return
+    }
+    if (!folderStructureUuid) {
+        return
+    }
+    state.error = {}
+    try {
+        const response = await folderStructureService.getFolderStructure(folderStructureUuid)
+        if (response?.data?.structure) {
+            state.formFolderStructure.structure = JSON.parse(response.data.structure)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+})
+
 function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
         emit('submitForm', state.formFolderStructure)
     }
-}
-
-function removeRootFolder(index: number) {
-    state.formFolderStructure.structure.splice(index, 1)
 }
 
 function addSubfolder(subfolder: any) {
@@ -158,10 +194,5 @@ function addSubfolder(subfolder: any) {
 
     // Add the new subfolder as the last item
     subfolder.subfolder.push(newSubfolder)
-}
-
-function removeSubfolder(subfolder: any, index: number) {
-    // Remove the subfolder at the given index
-    subfolder.splice(index, 1)
 }
 </script>
