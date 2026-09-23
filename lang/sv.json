@@ -11675,6 +11675,25 @@
                     "nursing_areas": "Vårdområden",
                     "ai_conversations": "AI-samtal"
                 }
+            },
+            "contract": {
+                "startedAt": "Startdatum",
+                "term": "Avtalsperiod",
+                "renewsAt": "Nästa avtalsförnyelse",
+                "months": "{count} månader",
+                "tcv": "Totalt avtalsvärde (TCV)",
+                "tcvHint": "Grundpaket och tillägg, var och en gånger sin löptid. Exkl. moms.",
+                "cancelledAt": "Uppsägning mottagen",
+                "endsAt": "Upphör",
+                "cancelledHint": "Prognosen räknar inte med den här kunden efter slutdatumet.",
+                "recordCancellation": "Registrera uppsägning",
+                "editCancellation": "Redigera uppsägning",
+                "cancellationTitle": "Uppsägning",
+                "clearCancellation": "Ta bort uppsägning",
+                "cancellationHelp": "Datumet uppsägningen togs emot, och dagen avtalet faktiskt upphör. De är sällan samma dag.",
+                "endsAtHint": "Sista dagen kunden betalar. Prognosen stannar här.",
+                "cancellationSaved": "Uppsägningen är sparad",
+                "cancellationFailed": "Uppsägningen kunde inte sparas"
             }
         },
         "coupons": {
@@ -11816,11 +11835,17 @@
                 "contracted": "Avtalat, nästa 12 mån.",
                 "contractedThreeYears": "3 år: {amount}",
                 "seeForecast": "Se prognosen",
-                "notCollecting": "{count} avtal betalar inte"
+                "notCollecting": "{count} avtal betalar inte",
+                "notCollectingAmount": "{amount} kommer inte in · {count} avtal",
+                "allCollecting": "Alla avtal debiteras"
             },
             "tabs": {
                 "overview": "Översikt",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledning"
+            },
+            "management": {
+                "subtitle": "Intäktstakt, säkrad omsättning och avtal. Endast för dem med behörighet."
             }
         },
         "invoiceDetails": {
@@ -12895,7 +12920,11 @@
                     "recurring": "Månadsdebiteringar",
                     "renewals": "Årsförnyelser",
                     "cumulative": "Ackumulerat"
-                }
+                },
+                "renewalsIn": "Förnyelser i {month}",
+                "renewalsCount": "{count} kund(er)",
+                "noRenewals": "Inga årsförnyelser den här månaden.",
+                "clickHint": "Klicka på en grön stapel för att se vilka kunder den består av."
             }
         },
         "industries": {

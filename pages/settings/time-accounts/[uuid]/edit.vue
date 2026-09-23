@@ -108,7 +108,7 @@ async function updateTimeAccount(timeAccountDetails: any) {
             carry_over: timeAccountDetails.carry_over,
             is_recurring: timeAccountDetails.is_recurring,
             is_active: timeAccountDetails.is_active,
-            rules: [timeAccountDetails.rule],
+            rules: timeAccountDetails.rule ? [timeAccountDetails.rule] : [],
         }
         const response = await timeAccountService.updateTimeAccount(timeAccountUuid, params)
         if (response.data) {

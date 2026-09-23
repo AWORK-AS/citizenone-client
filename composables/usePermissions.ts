@@ -36,6 +36,7 @@ const PANEL_PERMISSIONS = new Set([
     'manage_sales_inquiries',
     'view_financials',
     'manage_financials',
+    'view_management',
     'manage_licenses',
     'manage_imports',
     'view_apps',

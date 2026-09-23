@@ -11675,6 +11675,25 @@
                     "nursing_areas": "Pleieområder",
                     "ai_conversations": "AI-samtaler"
                 }
+            },
+            "contract": {
+                "startedAt": "Startdato",
+                "term": "Avtaleperiode",
+                "renewsAt": "Neste kontraktfornyelse",
+                "months": "{count} måneder",
+                "tcv": "Samlet avtaleverdi (TCV)",
+                "tcvHint": "Grunnpakke og tillegg, hver ganger sin løpetid. Ekskl. mva.",
+                "cancelledAt": "Oppsigelse mottatt",
+                "endsAt": "Opphører",
+                "cancelledHint": "Prognosen regner ikke med denne kunden etter opphørsdatoen.",
+                "recordCancellation": "Registrer oppsigelse",
+                "editCancellation": "Rediger oppsigelse",
+                "cancellationTitle": "Oppsigelse",
+                "clearCancellation": "Fjern oppsigelse",
+                "cancellationHelp": "Datoen oppsigelsen ble mottatt, og dagen avtalen faktisk opphører. De er sjelden samme dag.",
+                "endsAtHint": "Siste dag kunden betaler. Prognosen stopper her.",
+                "cancellationSaved": "Oppsigelsen er lagret",
+                "cancellationFailed": "Oppsigelsen kunne ikke lagres"
             }
         },
         "coupons": {
@@ -11816,11 +11835,17 @@
                 "contracted": "Avtalt, neste 12 mnd.",
                 "contractedThreeYears": "3 år: {amount}",
                 "seeForecast": "Se prognosen",
-                "notCollecting": "{count} avtale(r) betaler ikke"
+                "notCollecting": "{count} avtale(r) betaler ikke",
+                "notCollectingAmount": "{amount} kommer ikke inn · {count} avtale(r)",
+                "allCollecting": "Alle avtaler blir krevd inn"
             },
             "tabs": {
                 "overview": "Oversikt",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledelse"
+            },
+            "management": {
+                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang."
             }
         },
         "invoiceDetails": {
@@ -12895,7 +12920,11 @@
                     "recurring": "Månedlige trekk",
                     "renewals": "Årsfornyelser",
                     "cumulative": "Akkumulert"
-                }
+                },
+                "renewalsIn": "Fornyelser i {month}",
+                "renewalsCount": "{count} kunde(r)",
+                "noRenewals": "Ingen årsfornyelser denne måneden.",
+                "clickHint": "Klikk på en grønn søyle for å se hvilke kunder den består av."
             }
         },
         "industries": {

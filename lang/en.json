@@ -11712,6 +11712,25 @@
                     "nursing_areas": "Nursing areas",
                     "ai_conversations": "AI conversations"
                 }
+            },
+            "contract": {
+                "startedAt": "Start date",
+                "term": "Contract term",
+                "renewsAt": "Next contract renewal",
+                "months": "{count} months",
+                "tcv": "Total contract value (TCV)",
+                "tcvHint": "Plan and add-ons, each times its own term. Excl. VAT.",
+                "cancelledAt": "Notice received",
+                "endsAt": "Ends",
+                "cancelledHint": "The forecast stops counting this customer after the end date.",
+                "recordCancellation": "Record cancellation",
+                "editCancellation": "Edit cancellation",
+                "cancellationTitle": "Cancellation",
+                "clearCancellation": "Remove cancellation",
+                "cancellationHelp": "The date the notice was received, and the day the agreement actually ends. They are rarely the same day.",
+                "endsAtHint": "The last day the customer pays. The forecast stops here.",
+                "cancellationSaved": "Cancellation saved",
+                "cancellationFailed": "Could not save the cancellation"
             }
         },
         "coupons": {
@@ -11853,11 +11872,17 @@
                 "contracted": "Contracted, next 12 months",
                 "contractedThreeYears": "3 years: {amount}",
                 "seeForecast": "See the forecast",
-                "notCollecting": "{count} agreement(s) not collecting"
+                "notCollecting": "{count} agreement(s) not collecting",
+                "notCollectingAmount": "{amount} not collecting · {count} agreement(s)",
+                "allCollecting": "Every agreement is collecting"
             },
             "tabs": {
                 "overview": "Overview",
-                "report": "Report"
+                "report": "Report",
+                "management": "Management"
+            },
+            "management": {
+                "subtitle": "Run rate, secured revenue and agreements. Only for those with access."
             }
         },
         "invoiceDetails": {
@@ -12991,7 +13016,11 @@
                     "recurring": "Monthly charges",
                     "renewals": "Yearly renewals",
                     "cumulative": "Accumulated"
-                }
+                },
+                "renewalsIn": "Renewals in {month}",
+                "renewalsCount": "{count} customer(s)",
+                "noRenewals": "No annual renewals this month.",
+                "clickHint": "Click a green bar to see which customers it is made of."
             }
         },
         "industries": {

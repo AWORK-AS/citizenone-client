@@ -13,6 +13,13 @@ class AnalyticsService extends BaseAPIService {
     async getRevenueForecast(years: number): Promise<any> {
         return await this.request(`/superadmin/analytics/revenue-forecast`, 'GET', { years })
     }
+
+    /**
+     * Kunderne bag én måneds søjle i prognosen. `month` er 'YYYY-MM'.
+     */
+    async getRenewals(month: string): Promise<any> {
+        return await this.request(`/superadmin/analytics/revenue-forecast/${month}/renewals`, 'GET')
+    }
 }
 
 export const analyticsService = new AnalyticsService()
