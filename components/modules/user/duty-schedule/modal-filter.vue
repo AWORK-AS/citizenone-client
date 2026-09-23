@@ -9,12 +9,12 @@
                         <div class="space-y-1">
                             <FormLabel for="department_uuids" :label="$t('dutySchedules.filter.departments')" />
                             <FormSelectMultiple id="department_uuids" :options="state.options.departments"
-                                v-model="state.formFilter.department_uuids" />
+                                :loading="state.isPageLoading" v-model="state.formFilter.department_uuids" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="employee_uuids" :label="$t('dutySchedules.filter.employees')" />
                             <FormSelectMultiple id="employee_uuids" :options="state.options.employees"
-                                v-model="state.formFilter.employee_uuids" />
+                                :loading="state.isPageLoading" v-model="state.formFilter.employee_uuids" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="employment_status" :label="$t('dutySchedules.filter.employmentStatus')" />
@@ -30,7 +30,7 @@
                                 </span>
                             </div>
                             <FormSelectMultiple id="schedule_tag_uuids" :options="state.options.tags"
-                                v-model="state.formFilter.schedule_tag_uuids" />
+                                :loading="state.isPageLoading" v-model="state.formFilter.schedule_tag_uuids" />
                         </div>
                         <div class="space-y-1">
                             <div class="flex items-center justify-between">
@@ -73,7 +73,7 @@
             </template>
         </Modal>
         <ModulesUserScheduleTagModalNew :isModalOpen="state.isAddNewScheduleTagOpen"
-            @close="state.isAddNewScheduleTagOpen = false" @refreshScheduleTags="fetchAllScheduleTags" />
+            @close="state.isAddNewScheduleTagOpen = false" @refreshScheduleTags="refreshScheduleTags" />
     </div>
 </template>
 
@@ -116,9 +116,7 @@ const state = reactive({
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
-        fetchAllDepartments()
-        fetchAllUsers()
-        fetchAllScheduleTags()
+        fetchFilterOptions()
     }
 })
 
@@ -126,70 +124,81 @@ function closeModal() {
     emit('close')
 }
 
-async function fetchAllDepartments() {
+// The three lists are fetched concurrently. Each used to manage state.error/
+// state.isPageLoading independently, so whichever finished last "won" - a real
+// failure in one could be silently erased by another's success right after, and
+// the loading indicator could drop before the slowest of the three had resolved.
+// Running them under one Promise.allSettled fixes both: loading stays on until
+// all three settle, and a failure is only overwritten by a later failure, never
+// masked by a later success.
+async function fetchFilterOptions() {
     state.error = {}
     state.isPageLoading = true
-    try {
-        const params = {}
-        const response = await departmentService.getAllDepartments(params)
-        if (response) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
-            )
-            state.options.departments = options
-        }
-    } catch (error: any) {
-        state.error = error
+    const results = await Promise.allSettled([
+        fetchAllDepartments(),
+        fetchAllUsers(),
+        fetchAllScheduleTags(),
+    ])
+    const failure = results.find((result) => result.status === 'rejected') as PromiseRejectedResult | undefined
+    if (failure) {
+        state.error = failure.reason
     }
     state.isPageLoading = false
+}
+
+async function fetchAllDepartments() {
+    const params = {}
+    const response = await departmentService.getAllDepartments(params)
+    if (response) {
+        let options: any = []
+        response.data.forEach(
+            (item: any) => options.push({
+                value: item.uuid,
+                label: item.name,
+            })
+        )
+        state.options.departments = options
+    }
 }
 
 async function fetchAllUsers() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const params = {}
-        const response = await userService.getAllUsers(params)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + (user?.lastname ?? ''),
-                })
-            )
-            state.options.employees = options
-        }
-    } catch (error: any) {
-        state.error = error
+    const params = {}
+    const response = await userService.getAllUsers(params)
+    if (response.data) {
+        let options: any = []
+        response.data.forEach(
+            (user: any) => options.push({
+                value: user?.uuid,
+                label: user?.firstname + " " + (user?.lastname ?? ''),
+            })
+        )
+        state.options.employees = options
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllScheduleTags() {
-    state.error = {}
-    state.isPageLoading = true
+    const params = {}
+    const response = await scheduleTagService.getAllScheduleTags(params)
+    if (response?.data) {
+        let options: any = []
+        response.data.forEach(
+            (tag: any) => options.push({
+                value: tag?.uuid,
+                label: tag?.tag,
+            })
+        )
+        state.options.tags = options
+    }
+}
+
+// Called directly (not through fetchFilterOptions) after a new tag is created,
+// so it needs its own error handling rather than relying on the batch above.
+async function refreshScheduleTags() {
     try {
-        const params = {}
-        const response = await scheduleTagService.getAllScheduleTags(params)
-        if (response?.data) {
-            let options: any = []
-            response.data.forEach(
-                (tag: any) => options.push({
-                    value: tag?.uuid,
-                    label: tag?.tag,
-                })
-            )
-            state.options.tags = options
-        }
+        await fetchAllScheduleTags()
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 function submitForm() {

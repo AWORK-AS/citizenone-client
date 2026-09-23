@@ -279,7 +279,14 @@
                                                                         width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                                         marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex)}rem`
                                                                     }">
-                                                                    <div class="flex justify-between text-white">
+                                                                    <div v-if="!shift?.date_time_start || !shift?.date_time_end"
+                                                                        class="flex justify-between text-white">
+                                                                        <p
+                                                                            class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-md">
+                                                                            {{ $t('dutySchedules.allDay') }}
+                                                                        </p>
+                                                                    </div>
+                                                                    <div v-else class="flex justify-between text-white">
                                                                         <p
                                                                             class="w-full px-2 py-2 flex items-center justify-center border border-white rounded-tl-md rounded-bl-md">
                                                                             {{
@@ -439,8 +446,8 @@ watch(() => state.selectedDate, (newSelectedDate: any) => {
 
 function sortMultiDayShiftsFirst(shifts: any) {
     const sortedShifts = shifts.sort((a: any, b: any) => {
-        const aMultiDay = moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
-        const bMultiDay = moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
+        const aMultiDay = a.date_time_start && a.date_time_end && moment(a.date_time_end).startOf('day').diff(moment(a.date_time_start).startOf('day'), 'days') >= 1
+        const bMultiDay = b.date_time_start && b.date_time_end && moment(b.date_time_end).startOf('day').diff(moment(b.date_time_start).startOf('day'), 'days') >= 1
 
         if (aMultiDay && !bMultiDay) return -1 // a comes first
         if (!aMultiDay && bMultiDay) return 1  // b comes first
@@ -450,13 +457,17 @@ function sortMultiDayShiftsFirst(shifts: any) {
 }
 
 function calculateShiftWidth(shift: any, weekIndex: string) {
-    const startDay = moment(shift?.date_time_start).startOf('day')
-    const endDay = moment(shift?.date_time_end).startOf('day')
-    const dayDifference = endDay.diff(startDay, 'days')
-
     if (weekIndex === 'sunday') {
         return 'auto'
     }
+
+    if (!shift?.date_time_start || !shift?.date_time_end) {
+        return 'auto' // All-day entries render as a single-day cell, not a multi-day span
+    }
+
+    const startDay = moment(shift?.date_time_start).startOf('day')
+    const endDay = moment(shift?.date_time_end).startOf('day')
+    const dayDifference = endDay.diff(startDay, 'days')
 
     if (dayDifference === 1) {
         if (moment(shift?.date_time_end).format('HH:mm:ss') === '00:00:00') {
@@ -499,6 +510,10 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
 function getMultiDayShift(shifts: any) {
     return shifts
         .find((shift: any) => {
+            if (!shift.date_time_start || !shift.date_time_end) {
+                return false // All-day entries never span multiple days
+            }
+
             const startDay = moment(shift.date_time_start).startOf('day')
             const endDay = moment(shift.date_time_end).startOf('day')
             const isMultiDay = endDay.diff(startDay, 'days') >= 1
@@ -533,11 +548,40 @@ async function fetchDutySchedule() {
                 expandedRecords.splice(0, expandedRecords.length, ...response.data.map(() => true))
             }
             state.isFirstLoad = false
+            fetchAvailableVacationDays()
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// findWeeklySchedules() doesn't compute available_vacation_days for this page
+// (that block is intentionally disabled there to avoid an N+1 on the company-wide
+// /schedules grid, which shares the same method) - fetch it the same way the
+// vacation-hours modal on this page already does, via the compensatory-vacation-hours
+// endpoint, so the inline figure and the modal's figure always agree.
+async function fetchAvailableVacationDays() {
+    const employees = state.weeklySchedules?.data ?? []
+    await Promise.all(employees.map(async (employee: any) => {
+        const normPeriod = employee?.norm_period
+        const startDate = normPeriod?.period_start
+            ? moment(normPeriod.period_start).format('YYYY-MM-DD')
+            : moment().startOf('year').format('YYYY-MM-DD')
+        const endDate = normPeriod?.period_end
+            ? moment(normPeriod.period_end).format('YYYY-MM-DD')
+            : moment().endOf('year').format('YYYY-MM-DD')
+        try {
+            const response = await dutyScheduleService.getCompensatoryVacationHours({
+                user_uuid: employee.uuid,
+                start_date: startDate,
+                end_date: endDate,
+            })
+            employee.available_vacation_days = response?.data?.current_vacation_days ?? 0
+        } catch (error: any) {
+            // Leave it unset rather than showing a wrong number for this one employee
+        }
+    }))
 }
 
 function toggleExpanded(index: number) {
