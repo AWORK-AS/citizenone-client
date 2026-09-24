@@ -6,18 +6,20 @@
                 <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
+            <!-- No breadcrumb: this is a top-level page, and the tabs below
+                 already say where you are. It read "Oversigt" three times over. -->
 
             <template #header>
                 <OverviewTabs active="overview" />
             </template>
 
             <template #guided-tour>
-                <div class="flex items-center gap-x-2">
+                <!-- ml-auto: with no breadcrumb beside it, this row would otherwise
+                     start at the left. Brand blue rather than violet - one action
+                     colour, as everywhere else. -->
+                <div class="ml-auto flex items-center gap-x-2">
                     <button type="button" v-if="userStore.getUser?.has_ai_access" @click="handoverOpen = true"
-                        class="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-3 py-1.5 text-xs font-medium text-violet-700 hover:bg-violet-200 transition-colors">
+                        class="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-100 transition-colors">
                         <Icon name="ph:sparkle-fill" class="size-4" aria-hidden="true" />
                         {{ $t('handover.button') }}
                     </button>
@@ -493,13 +495,6 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
-const breadcrumbLinks = [
-    {
-        name: 'overview.overview',
-        translate: true,
-        href: '/overview',
-    },
-]
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()

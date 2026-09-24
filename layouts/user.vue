@@ -76,7 +76,6 @@
                                                 v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
                                                 v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
-                                            <ModulesUserSidebarCompanyId />
                                         </li>
                                     </ul>
                                 </nav>
@@ -158,9 +157,6 @@
                                 </span>
                             </div>
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
-                            <div v-show="sidebarExpanded">
-                                <ModulesUserSidebarCompanyId />
-                            </div>
                         </li>
                     </ul>
                 </nav>
@@ -264,7 +260,6 @@
                         <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                         <span>{{ getNavItemLabel(item) }}</span>
                     </div>
-                    <ModulesUserSidebarCompanyId />
                 </div>
             </div>
         </div>
@@ -408,10 +403,11 @@
                             </Badge>
                         </button>
 
-                        <!-- Unread Messages -->
+                        <!-- Unread Messages. Not in the desktop shell, where chat has
+                             its own rail icon carrying the same count. -->
                         <button type="button"
                             class="relative w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors"
-                            @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
+                            @click="navigateTo('/messages')" v-if="!isDesktopApp && userStore.getUser?.unread_messages_count > 0">
                             <Icon name="ph:chat-circle" class="h-5 w-5" aria-hidden="true" />
                             <Badge type="notification"
                                 class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]">
@@ -469,6 +465,9 @@
                                         <p class="text-xs text-slate-500 mt-0.5">
                                             {{ userStore.getUser?.email }}
                                         </p>
+                                        <!-- Only ever asked for by support, so it lives here
+                                             rather than under the navigation on every screen. -->
+                                        <ModulesUserSidebarCompanyId class="mt-1.5 !text-left !text-slate-500" />
                                     </div>
                                     <MenuItem>
                                         <div class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors"
@@ -515,7 +514,7 @@
                                     <MenuItem>
                                         <div @click="navigateTo('/reminders')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                            <Icon name="ph:note-pencil" class="h-4 w-4 text-slate-400" />{{
+                                            <Icon name="ph:bell" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.reminders') }}
                                         </div>
                                     </MenuItem>
@@ -1315,7 +1314,7 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (userHasSecuredMailAccess) {
-        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail'] })
+        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail-inbox', 'mail-sent', 'mail-secured-mail'] })
     }
 
     nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })

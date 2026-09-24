@@ -6,9 +6,8 @@
                 <Title>{{ $t('overview.statisticsTab') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
+            <!-- No breadcrumb: this is a top-level page, and the tabs below
+                 already say where you are. It read "Oversigt" three times over. -->
 
             <template #header>
                 <OverviewTabs active="statistics" />
@@ -134,18 +133,6 @@ import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
-const breadcrumbLinks = [
-    {
-        name: 'overview.overview',
-        translate: true,
-        href: '/overview',
-    },
-    {
-        name: 'overview.statisticsTab',
-        translate: true,
-        href: '/statistics',
-    },
-]
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
