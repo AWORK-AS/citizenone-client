@@ -175,7 +175,10 @@ function goToApps() {
 onMounted(() => {
     document.addEventListener('keydown', onKeydown)
     // Reopening after a reload restores the panel, so its data has to load too.
-    if (assistantStore.isOpen) initialisePanel()
+    if (assistantStore.isOpen) {
+        initialisePanel()
+        assistantStore.loadBrief()
+    }
     syncChatBubbleOffset(assistantStore.isOpen)
 })
 
@@ -188,6 +191,11 @@ watch(() => assistantStore.isOpen, (isOpen: boolean) => {
     syncChatBubbleOffset(isOpen)
     if (!isOpen) return
     initialisePanel()
+    // The count on the button was fetched when the topbar mounted. Opening is
+    // when the list has to be right - someone who has just registered a dose
+    // and presses the button expects it gone - so it is always refetched here,
+    // and the button's count follows because both read the same store.
+    assistantStore.loadBrief(true)
     // The composer mounts with the panel, so the cursor lands in the field once
     // it is there to receive it.
     requestComposerFocus()

@@ -277,7 +277,7 @@ import { dailyOverviewService } from '@/components/api/user/DailyOverviewService
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import { reminderService } from '@/components/api/user/ReminderService'
 import { usePermissions } from '@/composables/usePermissions'
-import { useAssistantStore } from '@/store/assistant'
+import { useAssistantStore, describeBriefItem, type BriefItem } from '@/store/assistant'
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
@@ -466,15 +466,10 @@ const stats = computed(() => [
     { key: 'reminders', icon: 'ph:check-square', label: t('myDay.reminders'), value: state.reminders.filter((r) => !isReminderDone(r)).length },
 ])
 
-interface BriefItem {
-    key: string
-    severity: 'critical' | 'warning' | 'info'
-    count: number
-    link: string
-    details: Array<Record<string, string>>
-}
-
-const brief = reactive<{ items: BriefItem[] }>({ items: [] })
+// Shared with the Cody button and panel through the store, so the count in the
+// topbar and the list on this page are the same fetch and cannot disagree.
+const brief = reactive({ items: computed(() => assistantStore.brief) })
+const describe = describeBriefItem
 
 const hasAi = computed(() => !!userStore.getUser?.has_ai_access)
 
@@ -494,22 +489,10 @@ function askCodyAbout(item: BriefItem) {
     assistantStore.askAbout(t('myDay.brief.askCodyPrompt', { subject, detail }))
 }
 
-async function fetchBrief() {
-    try {
-        const response = await dailyOverviewService.getDailyBrief()
-        brief.items = response?.data?.items ?? []
-    } catch (error) {
-        // The brief is a summary of things visible elsewhere on the page, so a
-        // failure here hides the card rather than breaking the day.
-        brief.items = []
-    }
-}
-
-/** The second line: initials and times, never full names, for a screen read in a shared room. */
-function describe(item: BriefItem): string {
-    return item.details
-        .map((detail) => [detail.initials, detail.name, detail.time].filter(Boolean).join(' '))
-        .join(' · ')
+// The brief is a summary of things visible elsewhere on the page, so a failure
+// empties the card rather than breaking the day - the store is quiet on errors.
+function fetchBrief() {
+    assistantStore.loadBrief()
 }
 
 function scrollTo(key: string) {

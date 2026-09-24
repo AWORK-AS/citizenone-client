@@ -127,6 +127,8 @@
                     </div>
                 </div>
 
+                <ModulesUserAssistantBrief />
+
                 <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <button v-for="action in QUICK_ACTIONS" :key="action.key" type="button"
                         @click="useStarter($t(`assistants.quickPrompts.${action.key}`))"
