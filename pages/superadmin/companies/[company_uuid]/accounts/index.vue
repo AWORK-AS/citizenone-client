@@ -318,7 +318,7 @@
                                             class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
                                             <td class="co-td">
                                                 <div class="flex items-center gap-2.5">
-                                                    <img :src="account?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${account?.firstname}+${account?.lastname}&size=32`"
+                                                    <img :src="account?.image ?? avatarUrl(`${account?.firstname}+${account?.lastname}`)"
                                                         class="w-8 h-8 rounded-full object-cover" />
                                                     <span class="text-[13px] font-medium text-[#1F2533]">{{
                                                         account?.firstname }} {{

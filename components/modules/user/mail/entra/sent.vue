@@ -19,7 +19,7 @@
                     @click="setSelectedEmail(email)">
                     <div>
                         <div class="flex items-center gap-x-2">
-                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.toRecipients?.[0]?.emailAddress?.name}`"
+                            <img :src="avatarUrl(`${email?.toRecipients?.[0]?.emailAddress?.name}`)"
                                 class="rounded-full w-11 h-11 object-cover" />
                             <div class="grow">
                                 <div class="flex justify-between gap-3">

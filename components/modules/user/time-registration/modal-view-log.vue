@@ -6,7 +6,7 @@
                     <div class="space-y-1 my-1" v-if="props.selectedTimeLog?.user">
                         <FormLabel :label="$t('timeLogs.view.employee')" />
                         <div class="flex items-center gap-x-2 py-1">
-                            <img :src="props.selectedTimeLog?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedTimeLog?.user?.firstname + ' ' + props.selectedTimeLog?.user?.lastname}`"
+                            <img :src="props.selectedTimeLog?.user?.profile_image ?? avatarUrl(`${props.selectedTimeLog?.user?.firstname + ' ' + props.selectedTimeLog?.user?.lastname}`)"
                                 class="h-10 w-10 rounded-full bg-gray-50 object-cover border-2" />
                             <p class="text-sm font-medium">
                                 {{ props.selectedTimeLog?.user?.firstname }}

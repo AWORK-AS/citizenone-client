@@ -402,7 +402,7 @@
                                             <div class="px-2 pt-2 pb-1 sm:px-4 sm:pt-4 sm:pb-2 relative">
                                                 <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
                                                     <div class="flex items-center gap-x-1.5 sm:gap-x-2 min-w-0">
-                                                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
+                                                        <img :src="employee?.profile_image ?? avatarUrl(`${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`)"
                                                             :class="[
                                                                 employee?.shift_threshold === 'high' && 'border-green-700',
                                                                 employee?.shift_threshold === 'moderate' && 'border-yellow-500',

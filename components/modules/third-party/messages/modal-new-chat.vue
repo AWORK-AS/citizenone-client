@@ -137,7 +137,7 @@ function toggleRecipient(uuid: string) {
 
 function recipientAvatar(recipient: any) {
     return recipient?.profile_image ??
-        `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${recipient?.firstname + ' ' + recipient?.lastname}`
+        avatarUrl(`${recipient?.firstname + ' ' + recipient?.lastname}`)
 }
 
 async function fetchRecipients() {

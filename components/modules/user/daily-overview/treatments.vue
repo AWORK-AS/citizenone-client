@@ -17,7 +17,7 @@
                 class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
                 @click="navigateTo(`/citizens/${treatment?.citizen?.uuid}/nursing-areas?open=treatments`)">
                 <div class="flex gap-x-2">
-                    <img :src="treatment?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${treatment?.citizen?.firstname + ' ' + (treatment?.citizen?.lastname ?? '')}`"
+                    <img :src="treatment?.citizen?.image ?? avatarUrl(`${treatment?.citizen?.firstname + ' ' + (treatment?.citizen?.lastname ?? '')}`)"
                         class="rounded-full w-12 h-12 object-cover border-2 border-secondary" />
                     <div>
                         <p class="text-sm font-medium text-primary">

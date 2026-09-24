@@ -140,7 +140,7 @@
                         class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
                         @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex)"
                         @mouseleave="hidePopoverWithDelay()">
-                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                        <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                             :class="[
                                 employee?.shift_threshold === 'high' && 'ring-green-500',
                                 employee?.shift_threshold === 'moderate' && 'ring-yellow-500',
@@ -156,7 +156,7 @@
                             class="absolute left-full ml-2 top-0 z-[60] bg-white rounded-xl shadow-2xl ring-1 ring-gray-200 p-4 w-[340px] text-left"
                             @mouseenter="showPopover(employeeIndex)" @mouseleave="hidePopoverWithDelay()">
                             <div class="flex items-center gap-3 mb-3">
-                                <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                     :class="[employee?.shift_threshold === 'high' && 'border-green-700', employee?.shift_threshold === 'moderate' && 'border-yellow-500', employee?.shift_threshold === 'low' && 'border-red-600', 'h-12 w-12 rounded-full bg-gray-50 object-cover border-2 shadow-md ring-2 ring-white']" />
                                 <div>
                                     <p class="text-sm font-semibold text-gray-900">
@@ -691,7 +691,7 @@
 
                                                     <!-- Employee avatar + name -->
                                                     <div class="flex items-center gap-2 px-2 pb-1.5">
-                                                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=ffffff&color=0f4c75&name=${employee?.firstname}+${employee?.lastname}&size=32`"
+                                                        <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname}+${employee?.lastname}`)"
                                                             class="w-6 h-6 rounded-full object-cover flex-shrink-0"
                                                             style="border:2px solid rgba(255,255,255,0.8)" />
                                                         <span class="text-xs font-bold text-white truncate">

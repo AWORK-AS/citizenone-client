@@ -36,7 +36,7 @@
                                 <tr v-for="(expense, index) in state.expenses?.data" :key="index">
                                     <td width="15%">
                                         <div class="flex items-center gap-x-2">
-                                            <img :src="expense?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${expense?.user?.firstname + ' ' + expense?.user?.lastname}`"
+                                            <img :src="expense?.user?.profile_image ?? avatarUrl(`${expense?.user?.firstname + ' ' + expense?.user?.lastname}`)"
                                                 class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
                                             <span>
                                                 {{ expense?.user?.firstname }} {{ expense?.user?.lastname }}

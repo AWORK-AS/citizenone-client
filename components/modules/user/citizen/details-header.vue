@@ -12,7 +12,7 @@
                         <div class="flex justify-center flex-shrink-0">
                             <Tooltip :text="$t('citizens.riskHistory.title')">
                                 <button type="button" class="relative" @click="state.modal.isRiskHistoryOpen = true">
-                                    <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
+                                    <img :src="state.selectedCitizen?.data?.image ?? avatarUrl(`${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`)"
                                         :class="[
                                             state.selectedCitizen?.data?.latest_risk_assessment === null && 'border-secondary',
                                             state.selectedCitizen?.data?.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
