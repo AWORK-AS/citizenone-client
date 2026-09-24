@@ -505,14 +505,14 @@
                             </button>
                             <span class="text-[10px] text-gray-400">
                                 {{
-                                    week.days[0] ? moment(week.days[0]).format('D. MMM') : ''
+                                    week.days[0] ? formatLocalized(moment(week.days[0]), 'D. MMM') : ''
                                 }}
                                 –
                                 {{
                                     week.days[6] ?
-                                        moment(week.days[6]).format('D. MMM') :
+                                        formatLocalized(moment(week.days[6]), 'D. MMM') :
                                         (week.days.filter(day => day !== null).pop() ?
-                                            moment(week.days.filter(day => day !== null).pop()).format('D. MMM') : '')
+                                            formatLocalized(moment(week.days.filter(day => day !== null).pop()), 'D. MMM') : '')
                                 }}
                             </span>
                             <div class="ml-auto flex items-center gap-1"
@@ -1060,6 +1060,8 @@ import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+
+const { formatLocalized } = useDatetimeFormatter()
 
 const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
 const language = useI18n()

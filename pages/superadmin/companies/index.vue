@@ -196,6 +196,8 @@ import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -211,7 +213,7 @@ const hasPaymentData = computed(() =>
 )
 
 function formatDay(date: string) {
-    return date ? moment(date).format('D. MMM YYYY') : '—'
+    return date ? formatLocalized(moment(date), 'D. MMM YYYY') : '—'
 }
 const router = useRouter()
 
