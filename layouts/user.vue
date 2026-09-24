@@ -620,7 +620,7 @@
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
-        <ModulesUserNotificationsMissedMedicineToast />
+        <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -659,7 +659,10 @@
         <Transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-2"
             enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-200"
             leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
-            <div v-if="showCmdkTip"
+            <!-- Held back while a missed-medicine alert holds the same corner:
+                 the alert matters, the tip does not, and stacked they covered
+                 each other. It shows once the alert is gone. -->
+            <div v-if="showCmdkTip && !medicineToastVisible"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -912,6 +915,7 @@ watch([isSchedulesPage, isImpersonating], async () => {
 const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo } = useUndo()
 
 const showCmdkTip = ref(false)
+const medicineToastVisible = ref(false)
 const CMDK_TIP_KEY = 'hasSeenCmdkTip'
 
 function dismissCmdkTip() {
@@ -932,7 +936,8 @@ function tryCmdkTip() {
 // dismiss themselves via their own handlers), so at most one click is ever
 // lost to it and the covered control is reachable immediately after.
 function dismissCmdkTipIfClickOutside(event: PointerEvent) {
-    if (!showCmdkTip.value) return
+    // Not while it is held back: a click would mark as seen a tip nobody saw.
+    if (!showCmdkTip.value || medicineToastVisible.value) return
     const target = event.target as HTMLElement | null
     if (target?.closest('button')) return
     dismissCmdkTip()
