@@ -53,8 +53,10 @@
                         them. Every field was built by the server from a reference - the
                         model supplies neither the values nor the link. -->
                         <div v-if="message.cards?.length" class="mt-2.5 grid gap-2">
-                            <ModulesUserAssistantAnswerCard v-for="card in message.cards" :key="card.ref"
-                                :card="card" />
+                            <template v-for="card in message.cards" :key="card.ref">
+                                <ModulesUserAssistantMiloCard v-if="card.type === 'milo'" :card="card" />
+                                <ModulesUserAssistantAnswerCard v-else :card="card" />
+                            </template>
                         </div>
 
                         <!-- What Cody read to get here. Kept with the answer, not only shown
@@ -164,7 +166,10 @@
                     <!-- A card lands the moment the tool that touched it finishes,
                     so the row is on screen while the model is still writing about it. -->
                     <div v-if="state.cards.length" class="mt-2 grid gap-2">
-                        <ModulesUserAssistantAnswerCard v-for="card in state.cards" :key="card.ref" :card="card" />
+                        <template v-for="card in state.cards" :key="card.ref">
+                            <ModulesUserAssistantMiloCard v-if="card.type === 'milo'" :card="card" />
+                            <ModulesUserAssistantAnswerCard v-else :card="card" />
+                        </template>
                     </div>
                 </div>
                 <div v-else class="flex items-center gap-0.5 pt-1">

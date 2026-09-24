@@ -972,7 +972,8 @@
             "my_tasks": "Leser oppgavene dine",
             "my_messages": "Teller uleste meldinger",
             "create_task": "Oppretter en oppgave",
-            "draft_journal_note": "Skriver et journalutkast"
+            "draft_journal_note": "Skriver et journalutkast",
+            "refer_to_milo": "Henviser til Milo"
         },
         "toolTrace": {
             "title": "Hva Cody leste",
@@ -1038,7 +1039,14 @@
         "attachFile": "Legg ved fil",
         "collapse": "Rull ned",
         "expand": "Rull opp",
-        "shortcutHint": "Åpne og lukk med {shortcut}"
+        "shortcutHint": "Åpne og lukk med {shortcut}",
+        "milo": {
+            "title": "Milo kan hjelpe med det",
+            "support": "Milo er CitizenOnes supportassistent og kjenner systemet, innstillingene og kjente feil.",
+            "sales": "Milo kan svare på priser, moduler, oppgraderinger og demoer.",
+            "open": "Åpne Milo",
+            "nothingShared": "Cody sender ikke noe videre. Skriv spørsmålet ditt til Milo."
+        }
     },
     "back": "Tilbake",
     "bellNotification": {
