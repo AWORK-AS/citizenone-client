@@ -9213,7 +9213,7 @@
             "administered": "gitt",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vakt",
             "completed": "avsluttet",
-            "deviated": "Afvigelse",
+            "deviated": "avvik",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medisin der skal gives",
             "ongoing": "Igangværende",

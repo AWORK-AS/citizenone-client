@@ -9218,7 +9218,7 @@
             "administered": "givet",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vagt",
             "completed": "afsluttet",
-            "deviated": "Afvigelse",
+            "deviated": "afvigelse | afvigelser",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin der skal gives",
             "ongoing": "Igangværende",

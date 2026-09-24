@@ -9218,7 +9218,7 @@
             "administered": "administered",
             "citizensOnShift": "@.capitalize:terms.citizens{''} on shift",
             "completed": "completed",
-            "deviated": "Deviated",
+            "deviated": "deviated",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medications due",
             "ongoing": "Ongoing",
