@@ -13,7 +13,7 @@ const { avatarInitials, avatarUrl } = await import('../../utils/avatar.ts')
 
 describe('avatarInitials', () => {
     test('first and last name', () => {
-        assert.equal(avatarInitials('Louise Jensen'), 'LJ')
+        assert.equal(avatarInitials('Ada Lovelace'), 'AL')
     })
 
     test('middle names are skipped', () => {
@@ -30,13 +30,13 @@ describe('avatarInitials', () => {
 
     test('a name concatenated from missing fields is no name', () => {
         assert.equal(avatarInitials('undefined undefined'), '?')
-        assert.equal(avatarInitials('Louise undefined'), 'L')
+        assert.equal(avatarInitials('Ada undefined'), 'A')
         assert.equal(avatarInitials(null), '?')
         assert.equal(avatarInitials(''), '?')
     })
 
     test('the old URL separators split words', () => {
-        assert.equal(avatarInitials('Louise+Jensen'), 'LJ')
+        assert.equal(avatarInitials('Ada+Lovelace'), 'AL')
     })
 
     test('an email address uses the mailbox part', () => {
@@ -47,9 +47,9 @@ describe('avatarInitials', () => {
 
 describe('avatarUrl', () => {
     test('is a local data URI, never a network request', () => {
-        const url = avatarUrl('Louise Jensen')
+        const url = avatarUrl('Ada Lovelace')
         assert.match(url, /^data:image\/svg\+xml;charset=utf-8,/)
-        assert.ok(!url.includes('Louise'), 'the full name must not be in the image')
+        assert.ok(!url.includes('Ada'), 'the full name must not be in the image')
     })
 
     test('markup in a name is escaped', () => {
