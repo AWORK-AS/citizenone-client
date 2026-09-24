@@ -8,9 +8,8 @@
  * journal-note composer - four staff routes a relative's or a patient's token
  * is refused by, all of them one click away in the OS.
  *
- * The kind is resolved on this side because telling a patient from a citizen
- * needs the company's industry, which is the rule `resolvePostLoginRedirect`
- * already applies. Sending a resolved kind keeps one copy of it.
+ * The kind is resolved on this side from the same field
+ * `resolvePostLoginRedirect` routes on, so there is one copy of the rule.
  */
 export type DesktopPrincipal = 'staff' | 'relative' | 'third-party' | 'citizen' | 'patient'
 
@@ -20,21 +19,14 @@ export function principalFor(user: any): DesktopPrincipal {
     if (role === 'Relative') return 'relative'
     if (role === 'ThirdParty') return 'third-party'
     if (role === 'Citizen') {
-        // Two signals, because the store holds whichever payload spoke last.
-        // The login response carries the company and its industry, which is
-        // what `resolvePostLoginRedirect` reads - but the portal then refreshes
-        // the user from `/patient` or `/citizen`, and those carry neither: the
-        // patient payload identifies itself by the clinic it belongs to and the
-        // sections only a patient has. Reading the industry alone reported a
-        // patient as a citizen the moment that refresh landed, which is how
-        // this was found - the window was on /patient/overview while the Dock
-        // offered the citizen's menu.
-        const dental = user?.company?.industry?.system_name === 'dental'
-        const patientPayload = !!user?.clinic
-            || user?.portal_visibility?.appointments !== undefined
-            || user?.upcoming_appointments_count !== undefined
-
-        return dental || patientPayload ? 'patient' : 'citizen'
+        // One signal on every payload the store can hold: the login response,
+        // the citizen "me" endpoint and the patient one all report
+        // `is_patient_portal` now. This used to read the company industry and
+        // then sniff the payload's shape, because the industry is absent from
+        // the "me" responses the portal refreshes from - so a patient was
+        // reported as a citizen the moment that refresh landed, and the window
+        // sat on /patient/overview while the Dock offered the citizen's menu.
+        return user?.is_patient_portal ? 'patient' : 'citizen'
     }
 
     // Signed out included: the menus a login screen leads to are the staff ones.

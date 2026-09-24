@@ -28,7 +28,9 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/citizen/MessageService'
+import { messageService as citizenMessageService } from '@/components/api/citizen/MessageService'
+import { patientMessageService } from '@/components/api/patient/MessageService'
+import type { PropType } from 'vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -39,7 +41,13 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // The patient portal reuses these screens but talks to its own endpoints.
+    portal: {
+        type: String as PropType<'citizen' | 'patient'>,
+        default: 'citizen',
+    },
 })
+const messageService = props.portal === 'patient' ? patientMessageService : citizenMessageService
 const emit = defineEmits(['close', 'refreshGroupChatMembers', 'refreshChat'])
 const { t } = useI18n()
 const router = useRouter()

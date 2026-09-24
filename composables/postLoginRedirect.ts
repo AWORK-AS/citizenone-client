@@ -13,10 +13,15 @@ export function resolvePostLoginRedirect(role: string | undefined, user?: any): 
         return redirect
     }
 
-    // A dental clinic's citizens are patients, and they land in the patient
-    // portal instead of the citizen portal.
+    // A clinic's citizens are patients, and they land in the patient portal
+    // instead of the citizen portal. This used to be guessed from the company
+    // industry being `dental`, which is not the predicate the API gates
+    // /patient on: it gates on the `patient-access` app being bought, so a
+    // non-dental clinic that had paid for it was sent to the citizen portal,
+    // where its sections are switched off. The server now reports the
+    // entitlement it enforces. AW-2026-5434.
     if (role === 'Citizen') {
-        return user?.company?.industry?.system_name === 'dental'
+        return user?.is_patient_portal
             ? '/patient/overview'
             : '/citizen/overview'
     }

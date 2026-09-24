@@ -46,7 +46,9 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/citizen/MessageService'
+import { messageService as citizenMessageService } from '@/components/api/citizen/MessageService'
+import { patientMessageService } from '@/components/api/patient/MessageService'
+import type { PropType } from 'vue'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -58,7 +60,13 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // The patient portal reuses these screens but talks to its own endpoints.
+    portal: {
+        type: String as PropType<'citizen' | 'patient'>,
+        default: 'citizen',
+    },
 })
+const messageService = props.portal === 'patient' ? patientMessageService : citizenMessageService
 const emit = defineEmits(['close'])
 const { t } = useI18n()
 const userStore = useUserStore() as any
@@ -114,7 +122,7 @@ async function fetchAllAvailableChatUsers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
+                    label: user?.firstname + " " + user?.lastname + (user?.role ? " (" + user.role + ")" : ""),
                 })
             )
             state.options.receivers = options
@@ -140,7 +148,7 @@ async function sendMessage() {
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
-                navigateTo(`/messages/${chatUuid}`)
+                navigateTo(`/${props.portal}/messages/${chatUuid}`)
                 closeModal()
                 state.formChat.receivers = []
             }

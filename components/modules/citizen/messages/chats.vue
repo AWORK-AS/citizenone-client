@@ -93,7 +93,7 @@
                 </div>
             </li>
         </ul>
-        <ModulesCitizenMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen"
+        <ModulesCitizenMessagesModalNewChat :isModalOpen="state.modal.isNewChatOpen" :portal="props.portal"
             @close="state.modal.isNewChatOpen = false" />
     </div>
 </template>
@@ -101,6 +101,7 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
+import type { PropType } from 'vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -114,6 +115,10 @@ const props = defineProps({
     chats: {
         type: Object,
         required: true,
+    },
+    portal: {
+        type: String as PropType<'citizen' | 'patient'>,
+        default: 'citizen',
     },
 })
 
@@ -131,12 +136,18 @@ onMounted(() => {
     }
 })
 
+// Matched on uuid: user_id is only unique per member type, so a citizen and an
+// employee can share one, and the patient profile carries no numeric id at all.
+function isCurrentUser(chatMember: any) {
+    return !!chatMember?.user?.uuid && chatMember.user.uuid === userStore.getUser?.uuid
+}
+
 function chatToSelf(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id === userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => isCurrentUser(chatMember))
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => !isCurrentUser(chatMember))
 }
 
 function chatGroupMembers(chat: any) {
@@ -146,7 +157,7 @@ function chatGroupMembers(chat: any) {
 }
 
 function openChat(chat: any) {
-    navigateTo(`/citizen/messages/${chat.uuid}`)
+    navigateTo(`/${props.portal}/messages/${chat.uuid}`)
 }
 
 function memberDisplayName(member: any) {

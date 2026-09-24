@@ -31,6 +31,7 @@
                     <Pagination :data="state.chatMembers" @previous="previous" @next="next" />
                 </LoadingSpinner>
                 <ModulesCitizenMessagesGroupChatModalNewMembers :isModalOpen="state.modal.isAddNewGroupChatMembersOpen"
+                    :portal="props.portal"
                     @close="state.modal.isAddNewGroupChatMembersOpen = false"
                     @refreshGroupChatMembers="fetchGroupMembers" @refreshChat="emit('refreshChat')" />
                 <DialogConfirmation :isModalOpen="state.modal.isRemoveUserOpen"
@@ -42,7 +43,9 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/citizen/MessageService'
+import { messageService as citizenMessageService } from '@/components/api/citizen/MessageService'
+import { patientMessageService } from '@/components/api/patient/MessageService'
+import type { PropType } from 'vue'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -52,7 +55,13 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // The patient portal reuses these screens but talks to its own endpoints.
+    portal: {
+        type: String as PropType<'citizen' | 'patient'>,
+        default: 'citizen',
+    },
 })
+const messageService = props.portal === 'patient' ? patientMessageService : citizenMessageService
 const emit = defineEmits(['close', 'refreshChat'])
 
 const router = useRouter()

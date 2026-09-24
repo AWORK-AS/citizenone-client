@@ -466,9 +466,13 @@ async function fetchUser() {
         const response = await patientService.getCurrentLoggedInPatient()
         if (response?.data) {
             userStore.setUser(response?.data)
-            userStore.setLanguage(response?.data?.language?.code)
-            language.locale.value = response?.data?.language?.code
-
+            // A patient without a language would set the locale to undefined,
+            // and vue-i18n then throws on the next $t() and the page never renders.
+            const languageCode = response?.data?.language?.code
+            if (languageCode) {
+                userStore.setLanguage(languageCode)
+                language.locale.value = languageCode
+            }
         }
     } catch (error: any) {
         state.error = error
