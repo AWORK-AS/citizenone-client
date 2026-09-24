@@ -4487,6 +4487,7 @@
         "viewDraftFile": "Se udkastfiler"
     },
     "dutySchedules": {
+        "allDay": "Hele dagen",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",
             "hint": "Enter for å lagre · Esc for å avbryte"
@@ -7373,12 +7374,12 @@
             },
             "editFolderStructureRequest": "Rediger forespørsel om folderstruktur",
             "folderStructureRequests": "Forespørsler om endring av folderstruktur",
-            "folderStructureRequestsTooltip": "Foreslå en endring i en mappemal. Når en Admin godkjenner forespørselen, vil de nye mappene du har lagt til bli lagt til i malen OG hos alle eksisterende borgere — dette er den eneste måten å sende en endring ut til borgere som allerede har fått opprettet mappene sine.",
+            "folderStructureRequestsTooltip": "Foreslå en endring i en mappemal: gi en eksisterende mappe nytt navn eller legg til en ny (det er ikke mulig å fjerne mapper her). Når en Admin godkjenner forespørselen, blir endringen brukt på malen OG hos alle eksisterende borgere — dette er den eneste måten å sende en endring ut til borgere som allerede har fått opprettet mappene sine.",
             "newFolderStructureRequest": "Ny forespørsel om endring av folderstruktur",
             "table": {
                 "actions": {
                     "approve": "Godkjenn",
-                    "approveTooltip": "Godkjenning legger til de nye mappene fra denne forespørselen hos alle eksisterende borgere som allerede har denne mappestrukturen, i tillegg til å oppdatere malen.",
+                    "approveTooltip": "Godkjenning bruker denne forespørselens omdøpte og/eller nye mapper hos alle eksisterende borgere som allerede har denne mappestrukturen, i tillegg til å oppdatere malen.",
                     "delete": "Slett",
                     "disapprove": "Avvis",
                     "edit": "Rediger"
@@ -11673,6 +11674,25 @@
                     "nursing_areas": "Pleieområder",
                     "ai_conversations": "AI-samtaler"
                 }
+            },
+            "contract": {
+                "startedAt": "Startdato",
+                "term": "Avtaleperiode",
+                "renewsAt": "Neste kontraktfornyelse",
+                "months": "{count} måneder",
+                "tcv": "Samlet avtaleverdi (TCV)",
+                "tcvHint": "Grunnpakke og tillegg, hver ganger sin løpetid. Ekskl. mva.",
+                "cancelledAt": "Oppsigelse mottatt",
+                "endsAt": "Opphører",
+                "cancelledHint": "Prognosen regner ikke med denne kunden etter opphørsdatoen.",
+                "recordCancellation": "Registrer oppsigelse",
+                "editCancellation": "Rediger oppsigelse",
+                "cancellationTitle": "Oppsigelse",
+                "clearCancellation": "Fjern oppsigelse",
+                "cancellationHelp": "Datoen oppsigelsen ble mottatt, og dagen avtalen faktisk opphører. De er sjelden samme dag.",
+                "endsAtHint": "Siste dag kunden betaler. Prognosen stopper her.",
+                "cancellationSaved": "Oppsigelsen er lagret",
+                "cancellationFailed": "Oppsigelsen kunne ikke lagres"
             }
         },
         "coupons": {
@@ -11814,11 +11834,22 @@
                 "contracted": "Avtalt, neste 12 mnd.",
                 "contractedThreeYears": "3 år: {amount}",
                 "seeForecast": "Se prognosen",
-                "notCollecting": "{count} avtale(r) betaler ikke"
+                "notCollecting": "{count} avtale(r) betaler ikke",
+                "notCollectingAmount": "{amount} kommer ikke inn · {count} avtale(r)",
+                "allCollecting": "Alle avtaler blir krevd inn"
             },
             "tabs": {
                 "overview": "Oversikt",
-                "report": "Rapport"
+                "report": "Rapport",
+                "management": "Ledelse"
+            },
+            "management": {
+                "subtitle": "Kjørselsrate, sikret omsetning og avtaler. Kun for dem som har tilgang.",
+                "concentration": {
+                    "title": "Hvor pengene kommer fra",
+                    "hint": "De ti største står for {top}% av MRR. Den største alene for {largest}%. {count} betalende kunder totalt.",
+                    "empty": "Ingen løpende avtaler ennå."
+                }
             }
         },
         "invoiceDetails": {
@@ -12892,8 +12923,14 @@
                 "series": {
                     "recurring": "Månedlige trekk",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumulert"
-                }
+                    "cumulative": "Akkumulert",
+                    "contracted": "Avtalt",
+                    "assumed": "Forutsatt fornyelse"
+                },
+                "renewalsIn": "Fornyelser i {month}",
+                "renewalsCount": "{count} kunde(r)",
+                "noRenewals": "Ingen årsfornyelser denne måneden.",
+                "clickHint": "Klikk på en søyle for å se hvilke kunder den består av."
             }
         },
         "industries": {

@@ -1,7 +1,7 @@
 <template>
     <Multiselect mode="tags" :close-on-select="true" :searchable="true" :options="props.options" :limit="props.limit"
         :no-options-text="$t('theListIsEmpty')" :noResultsText="$t('noResultFound')" :max-height="props.maxHeight"
-        :appendToBody="props.appendToBody"
+        :appendToBody="props.appendToBody" :loading="props.loading"
         class="multiselect-limited" :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)" />
 </template>
 
@@ -29,6 +29,10 @@ const props = defineProps({
     maxHeight: {
         type: Number,
         default: 200,
+    },
+    loading: {
+        type: Boolean,
+        default: false,
     },
 })
 

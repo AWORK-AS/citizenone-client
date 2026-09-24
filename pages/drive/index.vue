@@ -422,7 +422,8 @@
                         @moveOneDriveFile="handleMoveOneDriveFile" />
                     <ModulesUserDocumentFolderStructureModalFolderStructures
                         :isModalOpen="state.modal.isViewFolderStructureOpen"
-                        @close="state.modal.isViewFolderStructureOpen = false" />
+                        @close="state.modal.isViewFolderStructureOpen = false"
+                        @refreshDocuments="handleRefreshDocuments" />
 
                     <!-- OneDrive mappestruktur modal -->
                     <Modal size="xl" title="OneDrive mappestruktur" :show="state.modal.isOneDriveFolderStructureOpen"

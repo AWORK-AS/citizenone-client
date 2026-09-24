@@ -169,9 +169,93 @@
                                     </div>
                                 </div>
 
+                                <!-- Hvor meget af totalen der er aftalt, og hvor meget der
+                                     forudsætter at kunderne fornyer. Skrevet som tal og ikke
+                                     kun tegnet, fordi den ravgule farve alene ikke er nok
+                                     kontrast til at bære forskellen. -->
+                                <div class="flex flex-wrap items-center gap-x-5 gap-y-1 mb-3 text-[12px]">
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-2.5 h-2.5 rounded-sm" style="background:#1C6E9C"></span>
+                                        <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.contracted') }}</span>
+                                        <strong class="text-[#1F2533]">{{ formatAmount(state.forecast.contracted_total, 'DKK') }}</strong>
+                                        <span class="text-[#8891A4]">({{ contractedShare }}%)</span>
+                                    </span>
+                                    <span class="flex items-center gap-1.5">
+                                        <span class="w-2.5 h-2.5 rounded-sm" style="background:#E0A83D"></span>
+                                        <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.assumed') }}</span>
+                                        <strong class="text-[#1F2533]">{{ formatAmount(state.forecast.assumed_total, 'DKK') }}</strong>
+                                    </span>
+                                </div>
+
                                 <ClientOnly>
-                                    <VChart :option="forecastOption" style="height: 300px; width: 100%;" autoresize />
+                                    <VChart :option="forecastOption" style="height: 300px; width: 100%;" autoresize
+                                        @click="openRenewals" />
                                 </ClientOnly>
+
+                                <p v-if="!renewals.month" class="text-[11px] text-[#8891A4] mt-2 flex items-center gap-1.5">
+                                    <Icon name="ph:cursor-click" class="w-3.5 h-3.5 flex-shrink-0" />
+                                    {{ $t('superadmin.report.forecast.clickHint') }}
+                                </p>
+
+                                <!-- Den akkumulerede kurve, i sit eget plot. Den når
+                                     millioner hvor en måned er titusinder, og delte den
+                                     akse med søjlerne var søjlerne ulæselige. -->
+                                <div class="mt-4 pt-4 border-t border-[#EAECF0]">
+                                    <p class="text-[11px] text-[#8891A4] mb-1">
+                                        {{ $t('superadmin.report.forecast.series.cumulative') }}
+                                    </p>
+                                    <ClientOnly>
+                                        <VChart :option="forecastCumulativeOption"
+                                            style="height: 140px; width: 100%;" autoresize />
+                                    </ClientOnly>
+                                </div>
+
+                                <!-- Hvem søjlen består af. Prognosen siger hvor meget;
+                                     salgsarbejdet har brug for hvem, så der kan arbejdes
+                                     med fornyelsen inden den er der. -->
+                                <div v-if="renewals.month"
+                                    class="mt-4 border border-[#EAECF0] rounded-xl overflow-hidden">
+                                    <div class="flex items-center justify-between px-4 py-3 bg-[#F9FAFB] border-b border-[#EAECF0]">
+                                        <div>
+                                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                                                {{ $t('superadmin.report.forecast.renewalsIn', { month: renewalsMonthLabel }) }}
+                                            </p>
+                                            <p class="text-[11px] text-[#8891A4]">
+                                                {{ $t('superadmin.report.forecast.renewalsCount', { count: renewals.renewals.length }) }}
+                                                · {{ formatAmount(renewals.renewals_total, 'DKK') }}
+                                            </p>
+                                        </div>
+                                        <button type="button" @click="renewals.month = ''"
+                                            class="text-[#8891A4] hover:text-[#1F2533]">
+                                            <Icon name="ph:x" class="w-4 h-4" />
+                                        </button>
+                                    </div>
+
+                                    <div v-if="renewals.isLoading" class="flex justify-center py-8">
+                                        <Icon name="ph:spinner" class="w-5 h-5 text-[#42AED9] animate-spin" />
+                                    </div>
+                                    <p v-else-if="!renewals.renewals.length"
+                                        class="px-4 py-8 text-center text-[13px] text-[#8891A4]">
+                                        {{ $t('superadmin.report.forecast.noRenewals') }}
+                                    </p>
+                                    <div v-else>
+                                        <NuxtLink v-for="(row, i) in renewals.renewals" :key="i"
+                                            :to="`/superadmin/companies/${row.company_uuid}/license-overview`"
+                                            class="flex items-center justify-between px-4 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                                            <div class="min-w-0">
+                                                <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                                                    {{ row.company_name }}
+                                                </p>
+                                                <p class="text-[11px] text-[#8891A4]">
+                                                    {{ formatDateToReadable(row.renews_at) }}
+                                                </p>
+                                            </div>
+                                            <span class="text-[13px] font-semibold text-[#1F2533] shrink-0 ml-3">
+                                                {{ formatAmount(row.amount, 'DKK') }}
+                                            </span>
+                                        </NuxtLink>
+                                    </div>
+                                </div>
 
                                 <div class="flex flex-wrap gap-2 mt-3">
                                     <span v-for="year in state.forecast.by_year" :key="year.year"
@@ -209,10 +293,12 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
 const granularities = ['day', 'week', 'month', 'quarter', 'year']
@@ -277,6 +363,48 @@ const forecastRenewalTotal = computed(() =>
     forecastMonths.value.reduce((sum: number, month: any) => sum + (month.renewals ?? 0), 0)
 )
 
+const renewals = reactive({
+    month: '',
+    renewals: [] as any[],
+    renewals_total: 0,
+    isLoading: false,
+})
+
+const renewalsMonthLabel = computed(() =>
+    renewals.month ? moment(renewals.month + '-01').format('MMMM YYYY') : ''
+)
+
+/**
+ * Et klik på en søjle åbner de kunder den består af.
+ *
+ * Begge segmenter åbner den samme måned: opdelingen i aftalt og forudsat er
+ * en egenskab ved kronerne, ikke ved kunderne, så det ville være vilkårligt
+ * hvilket af de to der måtte klikkes på. `dataIndex` peger ind i de samme
+ * måneder som grafen er tegnet af, så der spørges på måneden og ikke på
+ * etiketten under søjlen.
+ */
+async function openRenewals(event: any) {
+    if (event?.componentType !== 'series' || event?.seriesType !== 'bar') return
+
+    const month = forecastMonths.value[event.dataIndex]?.month
+    if (!month) return
+
+    renewals.month = month
+    renewals.isLoading = true
+    renewals.renewals = []
+    renewals.renewals_total = 0
+
+    try {
+        const response = await analyticsService.getRenewals(month)
+        renewals.renewals = response?.renewals ?? []
+        renewals.renewals_total = response?.renewals_total ?? 0
+    } catch (_) {
+        renewals.renewals = []
+    }
+
+    renewals.isLoading = false
+}
+
 /**
  * Yearly renewals are stacked separately from the monthly charges: a month that
  * looks like a spike is a month with renewals in it, and the chart should say
@@ -298,26 +426,65 @@ const forecastOption = computed(() => ({
     yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
     series: [
         {
-            name: t('superadmin.report.forecast.series.recurring'),
+            name: t('superadmin.report.forecast.series.contracted'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#42AED9' },
-            data: forecastMonths.value.map((month: any) => month.recurring),
+            itemStyle: { color: '#1C6E9C', borderColor: '#FFFFFF', borderWidth: 2 },
+            data: forecastMonths.value.map((month: any) => month.contracted),
         },
         {
-            name: t('superadmin.report.forecast.series.renewals'),
+            name: t('superadmin.report.forecast.series.assumed'),
             type: 'bar',
             stack: 'total',
-            itemStyle: { color: '#2E9E33' },
-            data: forecastMonths.value.map((month: any) => month.renewals),
+            itemStyle: { color: '#E0A83D', borderColor: '#FFFFFF', borderWidth: 2 },
+            // Skravering oveni farven: den del der hviler på en antagelse skal
+            // også kunne ses i sort/hvid, på en projektor og af en farveblind.
+            // Farven alene bærer ikke den skelnen.
+            data: forecastMonths.value.map((month: any) => month.assumed),
+            decal: { symbol: 'rect', dashArrayX: [1, 0], dashArrayY: [4, 3], rotation: Math.PI / 4, color: 'rgba(255,255,255,0.55)' },
         },
+    ],
+}))
+
+/**
+ * Den akkumulerede kurve har sit eget plot.
+ *
+ * Den lå oveni søjlerne på samme akse, og den når 1,7 mio. hvor en måned er
+ * omkring 50.000 - så søjlerne blev presset ned i under tre procent af højden
+ * og var ikke til at læse. To størrelsesordener hører ikke i samme plot, og en
+ * dobbeltakse ville kun have skjult problemet bag to skalaer ingen sammenligner
+ * rigtigt.
+ */
+// Hvor stor en andel af prognosen der hviler på aftaler der løber. Et enkelt
+// tal, fordi det er dét man vil vide når nogen spørger hvor sikker prognosen er.
+const contractedShare = computed(() => {
+    const total = Number(state.forecast?.total ?? 0)
+    if (!total) return 0
+    return Math.round((Number(state.forecast?.contracted_total ?? 0) / total) * 100)
+})
+
+const forecastCumulativeOption = computed(() => ({
+    tooltip: {
+        trigger: 'axis',
+        valueFormatter: (value: any) => formatAmount(value, 'DKK'),
+    },
+    grid: { left: 70, right: 20, top: 16, bottom: 30 },
+    xAxis: {
+        type: 'category',
+        data: forecastMonths.value.map((month: any) => moment(month.month + '-01').format('MMM YY')),
+        axisLabel: { show: false },
+        axisTick: { show: false },
+    },
+    yAxis: { type: 'value', axisLabel: { color: '#5C6478' } },
+    series: [
         {
             name: t('superadmin.report.forecast.series.cumulative'),
             type: 'line',
-            yAxisIndex: 0,
             smooth: true,
+            showSymbol: false,
             itemStyle: { color: '#205E77' },
             lineStyle: { width: 2 },
+            areaStyle: { color: 'rgba(32,94,119,0.08)' },
             data: forecastMonths.value.map((month: any) => month.cumulative),
         },
     ],

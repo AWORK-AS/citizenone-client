@@ -4487,6 +4487,7 @@
         "viewDraftFile": "View draft files"
     },
     "dutySchedules": {
+        "allDay": "All day",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"
@@ -7373,12 +7374,12 @@
             },
             "editFolderStructureRequest": "Edit folder structure request",
             "folderStructureRequests": "Folder structure requests",
-            "folderStructureRequestsTooltip": "Propose a change to a folder template. Once an Admin approves it, any new folders you added will be applied to the template AND to every existing citizen — this is the only way to push a change out to citizens who already have their folders.",
+            "folderStructureRequestsTooltip": "Propose a change to a folder template: rename an existing folder or add a new one (removing folders isn't supported here). Once an Admin approves it, the change is applied to the template AND to every existing citizen — this is the only way to push a change out to citizens who already have their folders.",
             "newFolderStructureRequest": "New folder structure request",
             "table": {
                 "actions": {
                     "approve": "Approve",
-                    "approveTooltip": "Approving will add the new folder(s) from this request to every existing citizen that already has this folder structure, in addition to updating the template.",
+                    "approveTooltip": "Approving will apply this request's renamed and/or new folder(s) to every existing citizen that already has this folder structure, in addition to updating the template.",
                     "delete": "Delete",
                     "disapprove": "Disapprove",
                     "edit": "Edit"
@@ -11710,6 +11711,25 @@
                     "nursing_areas": "Nursing areas",
                     "ai_conversations": "AI conversations"
                 }
+            },
+            "contract": {
+                "startedAt": "Start date",
+                "term": "Contract term",
+                "renewsAt": "Next contract renewal",
+                "months": "{count} months",
+                "tcv": "Total contract value (TCV)",
+                "tcvHint": "Plan and add-ons, each times its own term. Excl. VAT.",
+                "cancelledAt": "Notice received",
+                "endsAt": "Ends",
+                "cancelledHint": "The forecast stops counting this customer after the end date.",
+                "recordCancellation": "Record cancellation",
+                "editCancellation": "Edit cancellation",
+                "cancellationTitle": "Cancellation",
+                "clearCancellation": "Remove cancellation",
+                "cancellationHelp": "The date the notice was received, and the day the agreement actually ends. They are rarely the same day.",
+                "endsAtHint": "The last day the customer pays. The forecast stops here.",
+                "cancellationSaved": "Cancellation saved",
+                "cancellationFailed": "Could not save the cancellation"
             }
         },
         "coupons": {
@@ -11851,11 +11871,22 @@
                 "contracted": "Contracted, next 12 months",
                 "contractedThreeYears": "3 years: {amount}",
                 "seeForecast": "See the forecast",
-                "notCollecting": "{count} agreement(s) not collecting"
+                "notCollecting": "{count} agreement(s) not collecting",
+                "notCollectingAmount": "{amount} not collecting · {count} agreement(s)",
+                "allCollecting": "Every agreement is collecting"
             },
             "tabs": {
                 "overview": "Overview",
-                "report": "Report"
+                "report": "Report",
+                "management": "Management"
+            },
+            "management": {
+                "subtitle": "Run rate, secured revenue and agreements. Only for those with access.",
+                "concentration": {
+                    "title": "Where the money comes from",
+                    "hint": "The ten largest account for {top}% of MRR. The largest alone for {largest}%. {count} paying customers in total.",
+                    "empty": "No recurring agreements yet."
+                }
             }
         },
         "invoiceDetails": {
@@ -12988,8 +13019,14 @@
                 "series": {
                     "recurring": "Monthly charges",
                     "renewals": "Yearly renewals",
-                    "cumulative": "Accumulated"
-                }
+                    "cumulative": "Accumulated",
+                    "contracted": "Contracted",
+                    "assumed": "Assumed renewal"
+                },
+                "renewalsIn": "Renewals in {month}",
+                "renewalsCount": "{count} customer(s)",
+                "noRenewals": "No annual renewals this month.",
+                "clickHint": "Click a bar to see which customers it is made of."
             }
         },
         "industries": {
