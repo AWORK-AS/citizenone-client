@@ -7,9 +7,10 @@ import { usePermissions } from '@/composables/usePermissions'
 
 const { can } = usePermissions()
 
-// Overview and Report are two views of the same thing, so they sit as tabs on
-// the dashboard rather than as separate places in the sidebar. Each keeps its
-// own route, so a report is still something you can link a colleague to.
+// Overblik er drift og ses af alle med adgang til panelet. Rapport og Ledelse
+// er forretningens tilstand og ligger begge bag `view_management`. Hver fane
+// beholder sin egen rute, så en rapport stadig er noget man kan sende videre -
+// til en kollega der har adgangen.
 // Ledelse vises kun for dem der har rettigheden. Skjulningen her er en pænhed,
 // ikke en adgangskontrol - ruten bag den er gated i API'et.
 const tabs = computed(() => [
@@ -19,12 +20,15 @@ const tabs = computed(() => [
         href: '/superadmin/dashboard',
         routeNames: ['superadmin-dashboard'],
     },
-    {
+    // Rapporten ligger nu bag samme rettighed som Ledelse. Den viser kundetilgang
+    // og -afgang måned for måned og hvor meget af forretningen der er aftalt -
+    // forretningens tilstand, ikke drift.
+    ...(can('view_management') ? [{
         name: 'superadmin.dashboard.tabs.report',
         isTranslateName: true,
         href: '/superadmin/analytics',
         routeNames: ['superadmin-analytics'],
-    },
+    }] : []),
     ...(can('view_management') ? [{
         name: 'superadmin.dashboard.tabs.management',
         isTranslateName: true,

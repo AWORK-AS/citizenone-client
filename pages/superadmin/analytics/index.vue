@@ -11,6 +11,21 @@
 
                 <ModulesSuperadminDashboardTab />
 
+                <!-- Uden adgang: sig det, frem for at tegne tomme grafer.
+                     API'et afviser i forvejen, men en side fuld af nuller ligner
+                     en forretning uden kunder frem for en lukket dør. -->
+                <div v-if="!canViewReport"
+                    class="bg-white border border-[#EAECF0] rounded-xl p-10 text-center">
+                    <Icon name="ph:lock-simple" class="w-8 h-8 text-[#D5D9E2] mx-auto" />
+                    <p class="text-[14px] font-semibold text-[#1F2533] mt-3">
+                        {{ $t('superadmin.report.noAccess.title') }}
+                    </p>
+                    <p class="text-[12px] text-[#8891A4] mt-1">
+                        {{ $t('superadmin.report.noAccess.hint') }}
+                    </p>
+                </div>
+
+                <template v-else>
                 <!-- Header + period controls -->
                 <div class="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
                     <div>
@@ -283,6 +298,8 @@
                         </div>
                     </div>
                 </template>
+                </template>
+
             </div>
         </NuxtLayout>
     </div>
@@ -293,6 +310,7 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { usePermissions } from '@/composables/usePermissions'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
@@ -300,6 +318,10 @@ const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
+const { can } = usePermissions()
+
+// Rapporten ligger bag samme rettighed som Ledelse-fanen.
+const canViewReport = computed(() => can('view_management'))
 
 const granularities = ['day', 'week', 'month', 'quarter', 'year']
 const presets = [
