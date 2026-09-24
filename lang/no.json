@@ -14980,7 +14980,10 @@
             "departments": "Avdelinger",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talte språk",
-            "consultant_skills": "Konsulentkompetanser",
+            "consultant_skills": "Konsulentkompetanser (alle)",
+            "consultant_skills_competence": "Konsulentkompetanser: kompetanser",
+            "consultant_skills_course": "Konsulentkompetanser: kurs",
+            "consultant_skills_topic": "Konsulentkompetanser: emneord",
             "inquiry_service_types": "Innsatstyper",
             "employees": "Ansatte",
             "jobcenters": "Jobbsentre",
@@ -15188,7 +15191,8 @@
         },
         "askSelected": "Spør {count} valgte",
         "asked": "Konsulentene er spurt",
-        "askFailed": "Konsulentene kunne ikke spørres"
+        "askFailed": "Konsulentene kunne ikke spørres",
+        "prefilled": "Fylt ut fra henvendelsen: {fields}. Endre eller fjern før du søker."
     },
     "inquiryNotes": {
         "title": "Notater",

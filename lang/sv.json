@@ -14980,7 +14980,10 @@
             "departments": "Avdelningar",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talade språk",
-            "consultant_skills": "Konsultkompetenser",
+            "consultant_skills": "Konsultkompetenser (alla)",
+            "consultant_skills_competence": "Konsultkompetenser: kompetenser",
+            "consultant_skills_course": "Konsultkompetenser: kurser",
+            "consultant_skills_topic": "Konsultkompetenser: ämnesord",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
             "jobcenters": "Arbetsförmedlingar",
@@ -15188,7 +15191,8 @@
         },
         "askSelected": "Fråga {count} valda",
         "asked": "Konsulterna är tillfrågade",
-        "askFailed": "Konsulterna kunde inte tillfrågas"
+        "askFailed": "Konsulterna kunde inte tillfrågas",
+        "prefilled": "Ifyllt från ärendet: {fields}. Ändra eller rensa innan du söker."
     },
     "inquiryNotes": {
         "title": "Anteckningar",

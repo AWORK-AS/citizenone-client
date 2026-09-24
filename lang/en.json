@@ -15076,7 +15076,10 @@
             "departments": "Departments",
             "company_contacts": "Contacts",
             "spoken_languages": "Spoken languages",
-            "consultant_skills": "Consultant skills",
+            "consultant_skills": "Consultant skills (all)",
+            "consultant_skills_competence": "Consultant skills: competences",
+            "consultant_skills_course": "Consultant skills: courses",
+            "consultant_skills_topic": "Consultant skills: subject words",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
             "jobcenters": "Jobcenters",
@@ -15284,7 +15287,8 @@
         },
         "askSelected": "Ask {count} selected",
         "asked": "The consultants have been asked",
-        "askFailed": "The consultants could not be asked"
+        "askFailed": "The consultants could not be asked",
+        "prefilled": "Filled in from the inquiry: {fields}. Change or clear before searching."
     },
     "inquiryNotes": {
         "title": "Notes",
