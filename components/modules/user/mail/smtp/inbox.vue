@@ -1,5 +1,5 @@
 <template>
-    <div class="grow flex h-[80vh] min-w-0">
+    <div class="grow flex pane-height min-w-0">
         <!-- ===================== LIST COLUMN ===================== -->
         <div class="w-[20rem] xl:w-[24rem] shrink-0 flex flex-col bg-white border-r-0.5 border-gray-300 min-w-0">
             <div class="px-4 pt-4 pb-3 border-b-0.5 border-gray-300 flex flex-col gap-3">

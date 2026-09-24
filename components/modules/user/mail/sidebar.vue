@@ -3,7 +3,7 @@
          stacked icon-over-label buttons: "Indbakke" did not fit and was clipped
          to "ndbakke", and the active marker sat on top of the first letter. -->
     <nav :aria-label="$t('sidebar.mail')"
-        class="w-52 shrink-0 flex flex-col gap-1 p-3 border-r border-surface-200 bg-white h-[80vh]">
+        class="w-52 shrink-0 flex flex-col gap-1 p-3 border-r border-surface-200 bg-white pane-height">
         <button type="button" @click="state.modal.isSendEmailOpen = true"
             class="mb-3 inline-flex h-10 w-full items-center justify-center gap-x-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2">
             <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />

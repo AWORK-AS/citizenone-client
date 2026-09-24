@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="grow" v-else>
                                     <div class="relative">
-                                        <div style="height: 80vh; overflow-y: auto;">
+                                        <div class="pane-height overflow-y-auto">
                                             <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
                                                 email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
                                                 'px-4 py-3 cursor-pointer border-b-0.5 border-gray-300'
