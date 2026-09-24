@@ -972,7 +972,8 @@
             "my_tasks": "Reading your tasks",
             "my_messages": "Counting unread messages",
             "create_task": "Creating a task",
-            "draft_journal_note": "Writing a journal draft"
+            "draft_journal_note": "Writing a journal draft",
+            "refer_to_milo": "Referring to Milo"
         },
         "toolTrace": {
             "title": "What Cody read",
@@ -1038,7 +1039,14 @@
         "attachFile": "Attach file",
         "collapse": "Roll down",
         "expand": "Roll up",
-        "shortcutHint": "Open and close with {shortcut}"
+        "shortcutHint": "Open and close with {shortcut}",
+        "milo": {
+            "title": "Milo can help with that",
+            "support": "Milo is CitizenOne's support assistant and knows the system, its settings and known issues.",
+            "sales": "Milo can answer questions about prices, modules, upgrades and demos.",
+            "open": "Open Milo",
+            "nothingShared": "Cody passes nothing on. Ask Milo your question."
+        }
     },
     "back": "Back",
     "bellNotification": {
