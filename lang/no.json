@@ -9122,7 +9122,7 @@
             "title": "Siste @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Krever handling i dag",
+            "title": "Krever handling",
             "deviated": "Avvik: {count}",
             "overdue": "Forfalt: {count}",
             "more": "+{count} innbyggere"

@@ -9122,7 +9122,7 @@
             "title": "Senaste journalanteckningar"
         },
         "medicineAction": {
-            "title": "Kräver åtgärd idag",
+            "title": "Kräver åtgärd",
             "deviated": "Avvikelser: {count}",
             "overdue": "Försenad: {count}",
             "more": "+{count} medborgare"

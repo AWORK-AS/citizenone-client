@@ -9127,7 +9127,7 @@
             "title": "Recent @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Needs action today",
+            "title": "Needs action",
             "deviated": "Deviations: {count}",
             "overdue": "Overdue: {count}",
             "more": "+{count} @:terms.citizens{''}"

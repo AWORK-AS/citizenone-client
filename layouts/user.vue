@@ -504,21 +504,11 @@
                                                 $t('navbar.apps') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem v-if="userStore.getUser?.has_invoice_app">
-                                        <div @click="navigateTo('/invoicing')"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                            <Icon name="ph:receipt" class="h-4 w-4 text-slate-400" />{{
-                                                $t('navbar.invoices') }}
-                                        </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <div @click="navigateTo('/reminders')"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                            <Icon name="ph:bell" class="h-4 w-4 text-slate-400" />{{
-                                                $t('navbar.reminders') }}
-                                        </div>
-                                    </MenuItem>
-                                    <MenuItem>
+                                    <!-- Invoicing and reminders are not repeated here: the
+                                         navigation carries both under the same conditions.
+                                         Forms stays for the people the navigation leaves it
+                                         out for, and only for them. -->
+                                    <MenuItem v-if="!(isAtLeast('Admin') || can('manage_status_reports'))">
                                         <div @click="navigateTo('/forms')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:list-numbers" class="h-4 w-4 text-slate-400" />{{
