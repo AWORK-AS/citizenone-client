@@ -42,6 +42,31 @@
                                 <Icon name="ph:plus" class="size-4" />
                                 {{ $t('consultantSkills.add') }}
                             </FormButton>
+                            <FormButton type="button" buttonStyle="cancel" @click="togglePaste(type)">
+                                <Icon name="ph:list-plus" class="size-4" />
+                                {{ $t('consultantSkills.paste.open') }}
+                            </FormButton>
+                        </div>
+                    </div>
+
+                    <!-- A company usually arrives with the list it already keeps;
+                         pasting it beats two hundred rounds of Tilføj. -->
+                    <div v-if="state.pasting === type" class="space-y-3 border-b border-gray-100 bg-gray-50 px-4 py-4">
+                        <p class="text-xs text-gray-500">{{ $t('consultantSkills.paste.hint') }}</p>
+                        <FormTextArea :key="`paste-${type}-${state.pasteKey}`" :id="`paste-${type}`"
+                            :name="`paste-${type}`" :rows="6" v-model="state.pasteText"
+                            :placeholder="$t('consultantSkills.paste.placeholder')" />
+                        <div class="flex items-center justify-end gap-2">
+                            <span class="mr-auto text-xs text-gray-400">
+                                {{ $t('consultantSkills.paste.count', { count: pastedNames.length }) }}
+                            </span>
+                            <FormButton type="button" buttonStyle="cancel" @click="state.pasting = ''">
+                                {{ $t('cancel') }}
+                            </FormButton>
+                            <FormButton type="button" buttonStyle="primary" :disabled="!pastedNames.length"
+                                @click="addMany(type)">
+                                {{ $t('consultantSkills.paste.submit') }}
+                            </FormButton>
                         </div>
                     </div>
 
@@ -133,7 +158,13 @@ const state = reactive({
     editName: '',
     isDeleteOpen: false,
     selected: null as any,
+    pasting: '',
+    pasteText: '',
+    pasteKey: 0,
 })
+
+// One name per line; the server trims and skips repeats, this only counts.
+const pastedNames = computed(() => state.pasteText.split(/\r?\n/).map(line => line.trim()).filter(Boolean))
 
 onMounted(() => {
     fetchSkills()
@@ -163,6 +194,30 @@ async function add(type: string) {
         // A duplicate name comes back as a validation message, which is worth
         // reading rather than a banner at the top of a long page.
         errorAlert(t('alert.warning'), error?.errors?.name?.[0] ?? error?.message ?? t('consultantSkills.alert.saveFailed'))
+    }
+}
+
+function togglePaste(type: string) {
+    state.pasting = state.pasting === type ? '' : type
+    state.pasteText = ''
+    state.pasteKey++
+}
+
+async function addMany(type: string) {
+    state.error = {}
+    try {
+        const response = await consultantSkillService.saveSkills(type, pastedNames.value)
+        const added = response?.data?.length ?? 0
+        const skipped = response?.meta?.skipped?.length ?? 0
+        state.pasting = ''
+        state.pasteText = ''
+        state.pasteKey++
+        await fetchSkills()
+        // Saying what was left out is the point: a long list that silently
+        // shrinks reads as lost entries.
+        successAlert(`${t('alert.success')}!`, t('consultantSkills.paste.result', { added, skipped }))
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('consultantSkills.alert.saveFailed'))
     }
 }
 

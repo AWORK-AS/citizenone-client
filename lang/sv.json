@@ -14984,7 +14984,8 @@
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
             "jobcenters": "Arbetsförmedlingar",
-            "focus_areas": "Fokusområden"
+            "focus_areas": "Fokusområden (VUM, vuxna)",
+            "focus_areas_ics": "Fokusområden (ICS, barn och unga)"
         },
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
@@ -15037,6 +15038,14 @@
                 "title": "Ämnesord",
                 "hint": "Erfarenhet av t.ex. ADHD eller självskada"
             }
+        },
+        "paste": {
+            "open": "Klistra in lista",
+            "hint": "Ett namn per rad. Namn som redan finns på listan hoppas över.",
+            "placeholder": "Pedagog\nSjuksköterska\nSocionom",
+            "count": "{count} namn",
+            "submit": "Lägg till alla",
+            "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
     "consultantProfile": {

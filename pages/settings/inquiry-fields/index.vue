@@ -266,7 +266,7 @@ const TYPES = ['text', 'textarea', 'number', 'amount', 'date', 'select', 'multis
 const LOOKUP_SOURCES = [
     'municipalities', 'regions', 'departments', 'company_contacts',
     'spoken_languages', 'consultant_skills', 'inquiry_service_types', 'employees',
-    'jobcenters', 'focus_areas',
+    'jobcenters', 'focus_areas', 'focus_areas_ics',
 ]
 const CHOICE_TYPES = ['select', 'multiselect']
 

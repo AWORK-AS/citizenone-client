@@ -15080,7 +15080,8 @@
             "inquiry_service_types": "Indsatstyper",
             "employees": "Medarbejdere",
             "jobcenters": "Jobcentre",
-            "focus_areas": "Fokusområder"
+            "focus_areas": "Fokusområder (VUM, voksne)",
+            "focus_areas_ics": "Fokusområder (ICS, børn og unge)"
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
@@ -15133,6 +15134,14 @@
                 "title": "Emneord",
                 "hint": "Erfaring med fx ADHD eller selvskade"
             }
+        },
+        "paste": {
+            "open": "Indsæt liste",
+            "hint": "Ét navn pr. linje. Navne, der allerede står på listen, springes over.",
+            "placeholder": "Pædagog\nSygeplejerske\nSocialrådgiver",
+            "count": "{count} navne",
+            "submit": "Tilføj alle",
+            "result": "{added} tilføjet, {skipped} stod der allerede"
         }
     },
     "consultantProfile": {

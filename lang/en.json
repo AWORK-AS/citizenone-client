@@ -15080,7 +15080,8 @@
             "inquiry_service_types": "Service types",
             "employees": "Employees",
             "jobcenters": "Jobcenters",
-            "focus_areas": "Focus areas"
+            "focus_areas": "Focus areas (VUM, adults)",
+            "focus_areas_ics": "Focus areas (ICS, children and young people)"
         },
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
@@ -15133,6 +15134,14 @@
                 "title": "Subjects",
                 "hint": "Experience with e.g. ADHD or self-harm"
             }
+        },
+        "paste": {
+            "open": "Paste list",
+            "hint": "One name per line. Names already on the list are skipped.",
+            "placeholder": "Pedagogue\nNurse\nSocial worker",
+            "count": "{count} names",
+            "submit": "Add all",
+            "result": "{added} added, {skipped} already there"
         }
     },
     "consultantProfile": {
