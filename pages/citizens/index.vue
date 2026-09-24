@@ -322,7 +322,8 @@
                                     :alt="`${citizen.firstname} ${citizen.lastname}`" />
                                 <div class="min-w-0 flex-1">
                                     <button type="button"
-                                        class="flex min-h-11 w-full items-center truncate text-left font-semibold text-primary"
+                                        class="flex min-h-11 w-full items-center truncate text-left font-semibold"
+                                        :class="genderTextClass(citizen?.gender)"
                                         @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                         {{ citizen.firstname }} {{ citizen.lastname }}
                                     </button>
@@ -395,7 +396,8 @@
                                             <div>
                                                 <CitizenHoverCard :uuid="citizen.uuid" :preset="citizen">
                                                     <button type="button"
-                                                        class="text-left font-medium hover:text-primary hover:underline"
+                                                        class="text-left font-medium hover:underline"
+                                                        :class="genderTextClass(citizen?.gender)"
                                                         @click="navigateTo(`/citizens/${citizen.uuid}/journals`)">
                                                         {{ citizen?.firstname }} {{ citizen?.lastname }}
                                                     </button>
@@ -670,6 +672,15 @@ function companyHasModule(pageName: string): boolean {
 const isMedicineEnabled = computed(() => companyHasModule('Medicine card'))
 
 const isDokumentationEnabled = computed(() => companyHasModule('Plans and goals'))
+
+// Female/male get their own accent color in the overview so staff can tell
+// citizens apart at a glance; non_binary/will_not_disclose/unset stay neutral
+// rather than being guessed into one of the two.
+function genderTextClass(gender?: string | null): string {
+    if (gender === 'female') return 'text-accent-pink hover:text-accent-pink/80'
+    if (gender === 'male') return 'text-accent-blue hover:text-accent-blue/80'
+    return 'text-primary hover:text-primary/80'
+}
 
 const OPTIONAL_COLUMN_HEADERS: Record<string, any> = {
     email: { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
