@@ -1524,7 +1524,7 @@ function onDragEnd(e: DragEvent) {
 function onDragOver(e: DragEvent) {
     e.preventDefault()
     const t = e.currentTarget as HTMLElement
-    if (t) { t.style.outline = "2px dashed #2dbab2"; t.style.background = "rgba(45,186,178,0.08)"; t.classList.add("drag-over-cell") }
+    if (t) { t.style.outline = "2px dashed #0f4c75"; t.style.background = "rgba(15,76,117,0.06)"; t.classList.add("drag-over-cell") }
 }
 
 function onDragLeave(e: DragEvent) {

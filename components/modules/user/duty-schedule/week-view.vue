@@ -9,7 +9,7 @@
             leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-4">
             <div v-if="state.dragSuccessMessage"
                 class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-2xl shadow-2xl pointer-events-none">
-                <div class="w-5 h-5 rounded-full bg-[#2dbab2] flex items-center justify-center flex-shrink-0">
+                <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
                     <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
@@ -3249,7 +3249,7 @@ function onDragEnd(e: DragEvent) {
 function onDragOver(e: DragEvent) {
     e.preventDefault()
     const t = e.currentTarget as HTMLElement
-    if (t) { t.style.outline = "2px dashed #2dbab2"; t.style.background = "rgba(45,186,178,0.08)"; t.classList.add("drag-over-cell") }
+    if (t) { t.style.outline = "2px dashed #0f4c75"; t.style.background = "rgba(15,76,117,0.06)"; t.classList.add("drag-over-cell") }
 }
 
 function onDragLeave(e: DragEvent) {

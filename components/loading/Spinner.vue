@@ -10,7 +10,7 @@
                 <!-- Rotating brand accent arc -->
                 <svg class="co-spinner-arc absolute inset-0 h-full w-full" viewBox="0 0 44 44" fill="none"
                     aria-hidden="true">
-                    <circle cx="22" cy="22" r="20.5" stroke="#2dbab2" stroke-width="2.5" stroke-linecap="round"
+                    <circle cx="22" cy="22" r="20.5" stroke="#0f4c75" stroke-width="2.5" stroke-linecap="round"
                         stroke-dasharray="34 200" />
                 </svg>
                 <!-- CitizenOne mark, gently breathing -->
