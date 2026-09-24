@@ -265,8 +265,9 @@ const breadcrumbLinks = [
 const TYPES = ['text', 'textarea', 'number', 'amount', 'date', 'select', 'multiselect', 'scale', 'boolean', 'lookup', 'risk']
 const LOOKUP_SOURCES = [
     'municipalities', 'regions', 'departments', 'company_contacts',
-    'spoken_languages', 'consultant_skills', 'inquiry_service_types', 'employees',
-    'jobcenters', 'focus_areas',
+    'spoken_languages', 'consultant_skills', 'consultant_skills_competence', 'consultant_skills_course',
+    'consultant_skills_topic', 'inquiry_service_types', 'employees',
+    'jobcenters', 'focus_areas', 'focus_areas_ics',
 ]
 const CHOICE_TYPES = ['select', 'multiselect']
 
