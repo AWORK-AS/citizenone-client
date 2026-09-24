@@ -10,7 +10,7 @@
                             <div class="bg-white rounded-md p-5 ring-1 ring-inset ring-gray-100">
                                 <div class="grid grid-cols-2 gap-x-2">
                                     <div class="flex items-center gap-x-2">
-                                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                        <img :src="avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                             class="rounded-full w-11" />
                                         <div>
                                             <span>{{ employee?.firstname + ' ' + employee?.lastname }}</span>

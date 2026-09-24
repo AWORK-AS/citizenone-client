@@ -358,7 +358,7 @@
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',

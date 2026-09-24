@@ -81,7 +81,7 @@ const displayName = computed(() =>
 
 const avatar = computed(() =>
     state.data?.image ??
-    `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent(displayName.value || '?')}`)
+    avatarUrl(`${displayName.value || '?'}`))
 
 const risk = computed(() => state.data?.latest_risk_assessment?.assessment ?? null)
 const riskBorder = computed(() => ({

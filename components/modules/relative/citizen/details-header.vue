@@ -11,7 +11,7 @@
                     <div class="md:flex md:items-start md:gap-x-8">
                         <div class="flex justify-center flex-shrink-0">
                             <div class="relative">
-                                <img :src="state.selectedCitizen?.data?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`"
+                                <img :src="state.selectedCitizen?.data?.image ?? avatarUrl(`${state.selectedCitizen?.data?.firstname + ' ' + state.selectedCitizen?.data?.lastname}`)"
                                     class="rounded-full w-28 h-28 object-cover" />
                                 <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                             </div>

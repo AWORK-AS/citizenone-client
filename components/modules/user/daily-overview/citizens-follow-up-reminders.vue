@@ -173,7 +173,7 @@ function getCitizenImage(citizen: any): string {
     }
 
     const name = `${citizen?.firstname || ''} ${citizen?.lastname || ''}`
-    return `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent(name)}`
+    return avatarUrl(`${name}`)
 }
 function navigateToCitizen(citizen: any) {
     const firstReminder = citizen?.reminders?.[0]

@@ -16,7 +16,7 @@
                     <div>
                         <div>
                             <div class="flex items-center gap-x-2">
-                                <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')}`"
+                                <img :src="medicine?.citizen?.image ?? avatarUrl(`${medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')}`)"
                                     :class="[
                                         medicine?.citizen.latest_risk_assessment === null && 'border-secondary',
                                         medicine?.citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',

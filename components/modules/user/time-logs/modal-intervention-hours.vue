@@ -18,7 +18,7 @@
                                     <tr v-for="(hour, index) in state.interventionHours?.data" :key="index">
                                         <td width="15%">
                                             <div class="flex items-center gap-x-2">
-                                                <img :src="hour?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${hour?.citizen?.firstname + ' ' + hour?.citizen?.lastname}`"
+                                                <img :src="hour?.citizen?.image ?? avatarUrl(`${hour?.citizen?.firstname + ' ' + hour?.citizen?.lastname}`)"
                                                     class="rounded-full w-8 h-8 object-cover" />
                                                 <span>{{ hour?.citizen?.firstname }} {{ hour?.citizen?.lastname
                                                     }}</span>
@@ -51,7 +51,7 @@
                                         </td>
                                         <td width="15%">
                                             <div class="flex items-center gap-x-2">
-                                                <img :src="hour?.user?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${hour?.user?.firstname + ' ' + hour?.user?.lastname}`"
+                                                <img :src="hour?.user?.image ?? avatarUrl(`${hour?.user?.firstname + ' ' + hour?.user?.lastname}`)"
                                                     class="rounded-full w-6 h-6 object-cover" />
                                                 <span class="text-sm">{{ hour?.user?.firstname }} {{
                                                     hour?.user?.lastname }}</span>

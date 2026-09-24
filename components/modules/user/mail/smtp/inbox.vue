@@ -75,7 +75,7 @@
                         <span class="absolute left-0 top-0 bottom-0 w-[3px] transition-colors duration-150"
                             aria-hidden="true"
                             :class="isSelected(email) ? 'bg-primary' : (isUnread(email) ? 'bg-primary/50' : 'bg-transparent')"></span>
-                        <img :src="`https://ui-avatars.com/api/?background=205E77&color=fff&bold=true&name=${encodeURIComponent(senderName(email?.header?.from))}`"
+                        <img :src="avatarUrl(`${senderName(email?.header?.from)}`)"
                             class="rounded-full w-[38px] h-[38px] object-cover" alt="" />
                         <div class="min-w-0">
                             <div class="flex items-center gap-2">
@@ -134,7 +134,7 @@
                         {{ state.selectedEmail?.header?.subject }}
                     </h1>
                     <div class="flex items-center gap-3">
-                        <img :src="`https://ui-avatars.com/api/?background=205E77&color=fff&bold=true&name=${encodeURIComponent(senderName(state.selectedEmail?.header?.from))}`"
+                        <img :src="avatarUrl(`${senderName(state.selectedEmail?.header?.from)}`)"
                             class="rounded-full w-10 h-10 object-cover" alt="" />
                         <div class="min-w-0 grow">
                             <p class="text-sm font-semibold text-gray-900 truncate">

@@ -149,7 +149,7 @@
                                         <div class="p-3 col-span-2 space-y-2 border-0.5">
                                             <div class="relative">
                                                 <div class="flex items-center gap-x-2">
-                                                    <img :src="weeklySchedule?.employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`"
+                                                    <img :src="weeklySchedule?.employee?.profile_image ?? avatarUrl(`${weeklySchedule?.employee?.firstname + ' ' + weeklySchedule?.employee?.lastname}`)"
                                                         class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
                                                     <p class="text-sm font-medium">
                                                         {{ weeklySchedule?.employee?.firstname }}

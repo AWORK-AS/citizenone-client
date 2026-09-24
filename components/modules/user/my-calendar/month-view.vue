@@ -357,7 +357,7 @@
                         </dl>
                     </div>
                     <div v-else class="relative flex space-x-6 py-6">
-                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${myCalendarEvent?.title}`"
+                        <img :src="avatarUrl(`${myCalendarEvent?.title}`)"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
                         <div class="flex-auto">
                             <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">

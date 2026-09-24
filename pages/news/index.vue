@@ -29,7 +29,7 @@
                             <template #body v-if="!(state.isTableLoading || (state.news?.data?.length === 0))">
                                 <tr v-for="(news, index) in state.news?.data" :key="index">
                                     <td width="10%">
-                                        <img :src="news?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${news?.title}`"
+                                        <img :src="news?.image ?? avatarUrl(`${news?.title}`)"
                                             class="w-full" />
                                     </td>
                                     <td width="15%">
