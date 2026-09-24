@@ -7,16 +7,16 @@
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
             <!-- The mark carries the state, so the count is not the only thing
             saying there is something waiting. -->
-            <ModulesUserNavbarCodyMark :size="20" :state="state.waiting > 0 ? 'attention' : 'idle'"
+            <ModulesUserNavbarCodyMark :size="20" :state="waiting > 0 ? 'attention' : 'idle'"
                 class="md:!w-5 md:!h-5" />
             <!-- The name, not the action. "Spørg AI" told you what to do with it
             and nothing about what it is; the app is called Cody. -->
             <p class="text-sm font-semibold hidden lg:block">
                 {{ $t('assistants.identity.name') }}
             </p>
-            <span v-if="state.waiting > 0"
+            <span v-if="waiting > 0"
                 class="ml-0.5 inline-flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-primary px-1.5 text-[11.5px] font-bold tabular-nums text-white">
-                {{ state.waiting > 9 ? '9+' : state.waiting }}
+                {{ waiting > 9 ? '9+' : waiting }}
             </span>
         </FormButton>
         </Tooltip>
@@ -27,17 +27,12 @@
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useAssistantStore } from '@/store/assistant'
-import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 
 // The panel itself is rendered once by the user layout, not here - it has to
 // outlive this button and the layout needs the open state to make room for it.
 const userStore = useUserStore() as any
 const assistantStore = useAssistantStore()
 const { t } = useI18n()
-
-const state = reactive({
-    waiting: 0,
-})
 
 // A shortcut nobody is told about is a shortcut nobody uses, and the button is
 // the only place people look. Mac gets the symbol it expects.
@@ -47,10 +42,6 @@ const shortcutHint = computed(() => {
     return t('assistants.shortcutHint', { shortcut: isMac ? '⌘J' : 'Ctrl+J' })
 })
 
-const ariaLabel = computed(() => state.waiting > 0
-    ? `${t('assistants.askAI')} — ${t('assistants.waitingCount', { count: state.waiting })}`
-    : t('assistants.askAI'))
-
 /**
  * How many things need this user's attention right now, from the same brief the
  * My day page shows.
@@ -58,30 +49,20 @@ const ariaLabel = computed(() => state.waiting > 0
  * The button used to be a door: it said "Ask AI" whether or not there was any
  * reason to press it. Cody knows at login that two doses are unregistered, and
  * a static label throws that away. The count is what earns the button its place
- * in the topbar.
+ * in the topbar - and pressing it opens the panel on the list the count is made
+ * of, so the number always leads somewhere.
  *
- * Deliberately quiet on failure. A badge is worth having when it is right and
- * worth nothing when it is wrong, so a failed or slow brief leaves the button in
- * its plain state rather than showing a stale or invented number. Nothing here
- * blocks the topbar from rendering.
+ * The brief lives in the assistant store, shared with the panel and My day. A
+ * failed or slow brief leaves the button in its plain state rather than showing
+ * a stale or invented number, and nothing here blocks the topbar from rendering.
  */
-async function loadWaitingCount() {
-    if (!userStore.getUser?.has_ai_access) return
+const waiting = computed(() => assistantStore.waitingCount)
 
-    try {
-        const response = await dailyOverviewService.getDailyBrief()
-        const items = response?.items ?? response?.data?.items ?? []
+const ariaLabel = computed(() => waiting.value > 0
+    ? `${t('assistants.askAI')} — ${t('assistants.waitingCount', { count: waiting.value })}`
+    : t('assistants.askAI'))
 
-        // Items arrive grouped - "missed_doses" with a count of 2 - and a person
-        // reading the badge means things, not categories, so the counts are summed.
-        state.waiting = items.reduce(
-            (total: number, item: any) => total + (Number(item?.count) || 0),
-            0,
-        )
-    } catch {
-        state.waiting = 0
-    }
-}
-
-onMounted(loadWaitingCount)
+onMounted(() => {
+    if (userStore.getUser?.has_ai_access) assistantStore.loadBrief()
+})
 </script>

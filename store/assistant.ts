@@ -1,4 +1,28 @@
 import { defineStore } from 'pinia'
+import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
+import { useUserStore } from '@/store/user'
+
+export interface BriefItem {
+    key: string
+    severity: 'critical' | 'warning' | 'info'
+    count: number
+    link: string
+    details: Array<Record<string, string>>
+}
+
+/** The detail line: initials and times, never full names, for a screen read in a shared room. */
+export function describeBriefItem(item: BriefItem): string {
+    return (item.details ?? [])
+        .map((detail) => [detail.initials, detail.name, detail.time].filter(Boolean).join(' '))
+        .join(' · ')
+}
+
+// A brief younger than this is reused rather than fetched again, so the topbar
+// and My day mounting together cost one request, not two. Opening the panel
+// always refetches: that is when the list has to be right.
+const BRIEF_MAX_AGE_MS = 60_000
+
+let briefRequest: Promise<void> | null = null
 
 /**
  * Open/closed state for the assistant panel.
@@ -29,8 +53,59 @@ export const useAssistantStore = defineStore('assistantStore', {
         // panel picks it up, asks it and clears it. Not persisted: a question
         // that survives a reload would fire without anyone asking for it.
         pendingQuestion: null as string | null,
+        // What needs this user's attention today, from /user/daily-brief. Held
+        // here because three places show it - the count on the topbar button,
+        // the list in the panel and My day - and a count that disagrees with
+        // the list under it is worse than no count. Not persisted: a brief from
+        // yesterday's session is exactly the stale number the badge must not show.
+        brief: [] as BriefItem[],
+        briefLoadedAt: 0,
+        // Whose brief this is. A logout is not a page load, so without this a
+        // colleague signing in on the same screen within the minute would be
+        // shown the previous user's list.
+        briefOwner: null as string | null,
     }),
+    getters: {
+        // Things, not categories: "missed_doses" with a count of 2 is two.
+        waitingCount: (state) => state.brief.reduce((total, item) => total + (Number(item?.count) || 0), 0),
+    },
     actions: {
+        /**
+         * Fetch the brief, unless a fresh one is already here or on its way.
+         *
+         * Quiet on failure: a count is worth having when it is right and worth
+         * nothing when it is wrong, so a failed request empties it rather than
+         * leaving an old number up.
+         */
+        async loadBrief(force = false) {
+            const owner = (useUserStore() as any).getUser?.uuid ?? null
+
+            if (owner !== this.briefOwner) {
+                this.brief = []
+                this.briefLoadedAt = 0
+                this.briefOwner = owner
+            }
+
+            if (!force && this.briefLoadedAt && Date.now() - this.briefLoadedAt < BRIEF_MAX_AGE_MS) return
+            if (briefRequest) return briefRequest
+
+            briefRequest = (async () => {
+                try {
+                    const response = await dailyOverviewService.getDailyBrief()
+                    // Someone else may have signed in while this was on its way.
+                    if (this.briefOwner !== owner) return
+                    this.brief = response?.data?.items ?? response?.items ?? []
+                    this.briefLoadedAt = Date.now()
+                } catch {
+                    this.brief = []
+                    this.briefLoadedAt = 0
+                } finally {
+                    briefRequest = null
+                }
+            })()
+
+            return briefRequest
+        },
         open() {
             this.isOpen = true
             this.isCollapsed = false
