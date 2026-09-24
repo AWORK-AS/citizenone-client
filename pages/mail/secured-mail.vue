@@ -6,14 +6,16 @@
                 <Title>{{ $t('mail.secured.securedMail') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('mail.secured.securedMail') }}</template>
+            <!-- The page is Mail; the folder is named by the list column below, so
+                 the h1 no longer repeats it. -->
+            <template #header>{{ $t('sidebar.mail') }}</template>
             <template #settings>
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
                             <Tooltip :text="$t('mail.settings.settings')">
                                 <FormButton :aria-label="$t('mail.settings.settings')" buttonStyle="action">
-                                    <Icon name="ph:gear" class="h-3 w-3" aria-hidden="true" />
+                                    <Icon name="ph:gear" class="h-4 w-4" aria-hidden="true" />
                                 </FormButton>
                             </Tooltip>
                         </MenuButton>
@@ -81,7 +83,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="flex bg-white rounded-tr-md rounded-br-md">
+                            <div class="flex bg-white rounded-xl border border-surface-200 overflow-hidden">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
                                 <div class="grow flex items-center justify-center" v-if="state.loading.isEmailsLoading">
@@ -96,7 +98,7 @@
                                 </div>
                                 <div class="grow" v-else>
                                     <div class="relative">
-                                        <div style="height: 80vh; overflow-y: auto;">
+                                        <div class="pane-height overflow-y-auto">
                                             <div v-for="(email, emailIndex) in state.emails" :key="emailIndex" :class="[
                                                 email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
                                                 'px-4 py-3 cursor-pointer border-b-0.5 border-gray-300'

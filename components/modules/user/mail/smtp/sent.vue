@@ -13,7 +13,7 @@
         <Alert type="danger" :text="state?.error?.message" class="m-3"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="relative">
-            <div style="height: 80vh; overflow-y: auto;">
+            <div class="pane-height overflow-y-auto">
                 <div v-for="(email, emailIndex) in state.sentEmails" :key="emailIndex" :class="[
                     email?.is_read ? 'bg-gray-100 hover:bg-gray-200' : 'bg-white hover:bg-gray-100',
                     'px-4 py-3 cursor-pointer border-b-0.5 border-gray-300'

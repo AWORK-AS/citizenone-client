@@ -1,7 +1,7 @@
 <template>
-    <div class="grow flex h-[80vh] min-w-0">
+    <div class="grow flex pane-height min-w-0">
         <!-- ===================== LIST COLUMN ===================== -->
-        <div class="w-[384px] shrink-0 flex flex-col bg-white border-r-0.5 border-gray-300 min-w-0">
+        <div class="w-[20rem] xl:w-[24rem] shrink-0 flex flex-col bg-white border-r-0.5 border-gray-300 min-w-0">
             <div class="px-4 pt-4 pb-3 border-b-0.5 border-gray-300 flex flex-col gap-3">
                 <div class="flex items-baseline gap-2">
                     <h2 class="text-base font-bold text-gray-900">
@@ -74,7 +74,7 @@
                                     : (activeFilter === 'unread'
                                         ? ($te('mail.filter.noUnread') ?
                                             $t('mail.filter.noUnread') : 'Ingen ulæste beskeder') :
-                                        $t('mail.inbox')) }}
+                                        $t('mail.emptyInbox')) }}
                         </p>
                     </div>
 

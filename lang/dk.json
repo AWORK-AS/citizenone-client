@@ -8397,6 +8397,7 @@
             "to": "Til"
         },
         "forward": "Videre",
+        "emptyInbox": "Din indbakke er tom",
         "inbox": "Indbakke",
         "insertSignature": "Indsæt underskrift",
         "loadMore": "Indlæs mere",
@@ -9127,7 +9128,7 @@
             "title": "Seneste @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Kræver handling i dag",
+            "title": "Kræver handling",
             "deviated": "Afvigelser: {count}",
             "overdue": "Overskredet: {count}",
             "more": "+{count} @:terms.citizens{''}"
@@ -9218,7 +9219,7 @@
             "administered": "givet",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vagt",
             "completed": "afsluttet",
-            "deviated": "Afvigelse",
+            "deviated": "afvigelse | afvigelser",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin der skal gives",
             "ongoing": "Igangværende",
@@ -11020,6 +11021,7 @@
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
         "groups": {
+            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",

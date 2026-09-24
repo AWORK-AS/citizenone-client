@@ -6,9 +6,8 @@
                 <Title>{{ $t('myDay.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
+            <!-- No breadcrumb: this is a top-level page, and the tabs below
+                 already say where you are. It read "Oversigt" three times over. -->
 
             <template #header>
                 <OverviewTabs active="my-day" />
@@ -304,7 +303,6 @@ const assistantStore = useAssistantStore()
 const departmentStore = useDepartmentStore() as any
 const { isAtLeast, can } = usePermissions()
 
-const breadcrumbLinks = [{ name: 'myDay.title', translate: true, href: '/my-day' }]
 const today = moment().format('YYYY-MM-DD')
 
 const state = reactive({

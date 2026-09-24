@@ -8397,6 +8397,7 @@
             "to": "Til"
         },
         "forward": "Videre",
+        "emptyInbox": "Innboksen din er tom",
         "inbox": "Indbakke",
         "insertSignature": "Lim inn signatur",
         "loadMore": "Last mer",
@@ -9122,7 +9123,7 @@
             "title": "Siste @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Krever handling i dag",
+            "title": "Krever handling",
             "deviated": "Avvik: {count}",
             "overdue": "Forfalt: {count}",
             "more": "+{count} innbyggere"
@@ -9213,7 +9214,7 @@
             "administered": "gitt",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vakt",
             "completed": "avsluttet",
-            "deviated": "Afvigelse",
+            "deviated": "avvik",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medisin der skal gives",
             "ongoing": "Igangværende",
@@ -10983,6 +10984,7 @@
         "coupons": "Kuponer",
         "discover": "Kom i gang",
         "groups": {
+            "communication": "Kommunikasjon",
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",

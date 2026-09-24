@@ -8397,6 +8397,7 @@
             "to": "To"
         },
         "forward": "Forward",
+        "emptyInbox": "Your inbox is empty",
         "inbox": "Inbox",
         "insertSignature": "Insert signature",
         "loadMore": "Load more",
@@ -9127,7 +9128,7 @@
             "title": "Recent @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Needs action today",
+            "title": "Needs action",
             "deviated": "Deviations: {count}",
             "overdue": "Overdue: {count}",
             "more": "+{count} @:terms.citizens{''}"
@@ -9218,7 +9219,7 @@
             "administered": "administered",
             "citizensOnShift": "@.capitalize:terms.citizens{''} on shift",
             "completed": "completed",
-            "deviated": "Deviated",
+            "deviated": "deviated",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medications due",
             "ongoing": "Ongoing",
@@ -11020,6 +11021,7 @@
         "coupons": "Coupons",
         "discover": "Get started",
         "groups": {
+            "communication": "Communication",
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",

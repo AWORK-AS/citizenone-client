@@ -8397,6 +8397,7 @@
             "to": "Till"
         },
         "forward": "Vidare",
+        "emptyInbox": "Din inkorg är tom",
         "inbox": "Indbakke",
         "insertSignature": "Infoga underskrift",
         "loadMore": "Ladda mer",
@@ -9122,7 +9123,7 @@
             "title": "Senaste journalanteckningar"
         },
         "medicineAction": {
-            "title": "Kräver åtgärd idag",
+            "title": "Kräver åtgärd",
             "deviated": "Avvikelser: {count}",
             "overdue": "Försenad: {count}",
             "more": "+{count} medborgare"
@@ -9213,7 +9214,7 @@
             "administered": "given",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på pass",
             "completed": "avslutad",
-            "deviated": "Avvikelse",
+            "deviated": "avvikelse | avvikelser",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin där ska gives",
             "ongoing": "Pågående",
@@ -10983,6 +10984,7 @@
         "coupons": "Kuponer",
         "discover": "Kom igång",
         "groups": {
+            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",

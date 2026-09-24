@@ -406,12 +406,12 @@
                                     📋 {{ $t('dutySchedules.monthView.insertWeekHere') }}
                                 </button>
                                 <span class="text-[10px] text-gray-400">
-                                    {{ week.days[0] ? moment(week.days[0]).format('D. MMM') : '' }}
+                                    {{ week.days[0] ? formatLocalized(moment(week.days[0]), 'D. MMM') : '' }}
                                     –
                                     {{week.days[6] ?
-                                        moment(week.days[6]).format('D. MMM') :
+                                        formatLocalized(moment(week.days[6]), 'D. MMM') :
                                         (week.days.filter((d: any) => d !== null).pop() ?
-                                            moment(week.days.filter((d: any) => d !== null).pop()).format('D. MMM') : '')}}
+                                            formatLocalized(moment(week.days.filter((d: any) => d !== null).pop()), 'D. MMM') : '')}}
                                 </span>
                                 <div class="ml-auto flex items-center gap-1"
                                     v-if="isDailyScheduleCopiedEmpty() && !state.copy.selectedWeek && !state.copy.selectedMonth">
@@ -867,6 +867,8 @@ import { useUserStore } from '@/store/user'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+
+const { formatLocalized } = useDatetimeFormatter()
 
 let _hoverTimer: ReturnType<typeof setTimeout> | null = null
 

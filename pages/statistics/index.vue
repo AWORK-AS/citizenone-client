@@ -6,9 +6,8 @@
                 <Title>{{ $t('overview.statisticsTab') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
+            <!-- No breadcrumb: this is a top-level page, and the tabs below
+                 already say where you are. It read "Oversigt" three times over. -->
 
             <template #header>
                 <OverviewTabs active="statistics" />
@@ -134,18 +133,8 @@ import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
-const breadcrumbLinks = [
-    {
-        name: 'overview.overview',
-        translate: true,
-        href: '/overview',
-    },
-    {
-        name: 'overview.statisticsTab',
-        translate: true,
-        href: '/statistics',
-    },
-]
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
@@ -214,9 +203,9 @@ function formatDisplayDate() {
     const start = moment(state.dateRange.formDateRange.start_date)
     const end = moment(state.dateRange.formDateRange.end_date)
     if (start.isSame(end, 'day')) {
-        return start.format('DD. MMMM YYYY')
+        return formatLocalized(start, 'DD. MMMM YYYY')
     }
-    return `${start.format('DD. MMMM YYYY')} - ${end.format('DD. MMMM YYYY')}`
+    return `${formatLocalized(start, 'DD. MMMM YYYY')} - ${formatLocalized(end, 'DD. MMMM YYYY')}`
 }
 
 function previousDay() {

@@ -1,6 +1,6 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
-        <p class="text-sm md:text-base font-medium truncate max-w-24 md:max-w-fit"
+        <p class="text-sm md:text-base font-semibold text-slate-900 whitespace-nowrap truncate max-w-24 md:max-w-[16rem]"
             v-if="state.companies?.data?.length === 1">
             {{ userStore.getUser?.company?.name }}
         </p>

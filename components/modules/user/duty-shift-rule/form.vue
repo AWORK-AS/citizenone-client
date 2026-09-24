@@ -163,6 +163,8 @@ import { userService } from '@/components/api/user/UserService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { jobTitleService } from '@/components/api/user/JobTitleService'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 interface ScopeCondition {
     type: string
     operator: string
@@ -298,8 +300,8 @@ const windowPreview = computed(() => {
         ? moment(state.formDutyShiftRule.anchor_date)
         : moment()
     return {
-        start: anchor.clone().subtract(days, 'days').format('DD MMM YYYY'),
-        end: anchor.format('DD MMM YYYY'),
+        start: formatLocalized(anchor.clone().subtract(days, 'days'), 'DD MMM YYYY'),
+        end: formatLocalized(anchor, 'DD MMM YYYY'),
     }
 })
 
