@@ -11882,10 +11882,17 @@
             },
             "management": {
                 "subtitle": "Kørselsrate, sikret omsætning og aftaler. Kun for dem der har adgang.",
-                "concentration": {
-                    "title": "Hvor pengene kommer fra",
-                    "hint": "De ti største står for {top}% af MRR. Den største alene for {largest}%. {count} betalende kunder i alt.",
-                    "empty": "Ingen løbende aftaler endnu."
+                "bridge": {
+                    "title": "Hvorfor MRR bevægede sig",
+                    "between": "Fra {from} til {to}",
+                    "new": "Nye kunder",
+                    "expansion": "Mersalg",
+                    "contraction": "Nedgradering",
+                    "churned": "Opsagt",
+                    "net": "Netto",
+                    "whoLeft": "Hvem der forsvandt",
+                    "recordingSince": "Måles fra {date}. Der skal to målinger til at vise en bevægelse.",
+                    "notRecordedYet": "Måling pr. kunde er endnu ikke begyndt. Den starter med næste natlige kørsel."
                 }
             }
         },
@@ -13019,14 +13026,12 @@
                 "series": {
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumuleret",
-                    "contracted": "Aftalt",
-                    "assumed": "Forudsat fornyelse"
+                    "cumulative": "Akkumuleret"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser i denne måned.",
-                "clickHint": "Klik på en søjle for at se hvilke kunder den består af."
+                "clickHint": "Klik på en grøn søjle for at se hvilke kunder den består af."
             }
         },
         "industries": {
