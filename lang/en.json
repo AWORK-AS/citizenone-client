@@ -13027,6 +13027,10 @@
                 "renewalsCount": "{count} customer(s)",
                 "noRenewals": "No annual renewals this month.",
                 "clickHint": "Click a bar to see which customers it is made of."
+            },
+            "noAccess": {
+                "title": "The report is management only",
+                "hint": "Contact a superadmin if you need access."
             }
         },
         "industries": {

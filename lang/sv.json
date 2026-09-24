@@ -12931,6 +12931,10 @@
                 "renewalsCount": "{count} kund(er)",
                 "noRenewals": "Inga årsförnyelser den här månaden.",
                 "clickHint": "Klicka på en stapel för att se vilka kunder den består av."
+            },
+            "noAccess": {
+                "title": "Rapporten är endast för ledningen",
+                "hint": "Kontakta en superadmin om du behöver behörighet."
             }
         },
         "industries": {

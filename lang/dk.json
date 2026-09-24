@@ -13027,6 +13027,10 @@
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser i denne måned.",
                 "clickHint": "Klik på en søjle for at se hvilke kunder den består af."
+            },
+            "noAccess": {
+                "title": "Rapporten er forbeholdt ledelsen",
+                "hint": "Kontakt en superadmin, hvis du har brug for adgang."
             }
         },
         "industries": {
