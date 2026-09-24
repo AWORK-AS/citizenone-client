@@ -24,7 +24,7 @@
                             <div v-for="(citizen, index) in citizensWithLocations" :key="citizen.uuid"
                                 class="flex items-center justify-between p-3 hover:bg-gray-50 border-b last:border-b-0">
                                 <div class="flex items-center gap-x-3">
-                                    <img :src="citizen.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen.firstname + ' ' + citizen.lastname}`"
+                                    <img :src="citizen.image ?? avatarUrl(`${citizen.firstname + ' ' + citizen.lastname}`)"
                                         class="w-10 h-10 rounded-full object-cover border-2 border-gray-300" />
                                     <div>
                                         <p class="text-sm font-medium">{{ citizen.firstname }} {{ citizen.lastname }}

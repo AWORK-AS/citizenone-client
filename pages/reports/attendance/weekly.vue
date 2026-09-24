@@ -117,6 +117,8 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const userStore = useUserStore() as any
@@ -134,7 +136,7 @@ const weekDays = computed(() => {
         const d = currentWeekStart.value.clone().add(i, 'days')
         return {
             date: d.format('YYYY-MM-DD'),
-            weekday: d.format('ddd'),
+            weekday: formatLocalized(d, 'ddd'),
             display: d.format('D/M'),
             isToday: d.isSame(moment(), 'day'),
         }
@@ -142,8 +144,8 @@ const weekDays = computed(() => {
 })
 
 const weekLabel = computed(() => {
-    const start = currentWeekStart.value.format('D. MMM')
-    const end = currentWeekStart.value.clone().endOf('isoWeek').format('D. MMM YYYY')
+    const start = formatLocalized(currentWeekStart.value, 'D. MMM')
+    const end = formatLocalized(currentWeekStart.value.clone().endOf('isoWeek'), 'D. MMM YYYY')
     const week = currentWeekStart.value.isoWeek()
     return `${t('attendance.week')} ${week} · ${start} – ${end}`
 })

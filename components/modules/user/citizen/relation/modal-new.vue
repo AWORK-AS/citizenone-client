@@ -20,7 +20,7 @@
                                     @click="toggleRelationship(opt.value)"
                                     :class="['rounded-full border px-3 py-1.5 text-xs font-semibold transition',
                                         state.form.relationship_uuid === opt.value
-                                            ? 'border-[#2dbab2] bg-[#f0faf9] text-[#1b6d8a]'
+                                            ? 'border-primary bg-primary-50 text-primary'
                                             : 'border-surface-200 bg-white text-slate-500 hover:border-secondary/40 hover:text-secondary']">
                                     {{ opt.label }}
                                 </button>

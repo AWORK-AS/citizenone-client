@@ -367,6 +367,8 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const userStore = useUserStore() as any
@@ -411,7 +413,7 @@ const state = reactive({
 const formatGb = (value: any) => Number(value ?? 0).toLocaleString('da-DK', { maximumFractionDigits: 2 })
 
 function formatDay(value: string) {
-    return value ? moment(value).format('D. MMM YYYY') : '—'
+    return value ? formatLocalized(moment(value), 'D. MMM YYYY') : '—'
 }
 
 // A customer silent for a month is a different conversation from one that was

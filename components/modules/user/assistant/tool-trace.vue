@@ -89,6 +89,7 @@ const KNOWN_TOOLS = [
     'my_messages',
     'create_task',
     'draft_journal_note',
+    'refer_to_milo',
 ]
 
 const live = computed(() => props.live ?? [])

@@ -11,7 +11,7 @@
                 <div v-if="card.badges?.length || card.facts?.length" class="mt-1.5 flex flex-wrap items-center gap-1.5">
                     <span v-for="badge in card.badges ?? []" :key="badge"
                         :class="['rounded-full px-2 py-0.5 text-[10.5px] font-medium',
-                            badge === 'draft' ? 'bg-primary-50 text-primary' : 'bg-violet-100 text-violet-700']">
+                            badge === 'draft' ? 'bg-primary-50 text-primary' : 'bg-surface-100 text-slate-700']">
                         {{ $t(`assistants.cards.badges.${badge}`) }}
                     </span>
                     <span v-for="fact in card.facts ?? []" :key="fact.label" class="text-[11px] text-gray-400">

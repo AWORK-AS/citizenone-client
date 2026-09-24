@@ -6,18 +6,20 @@
                 <Title>{{ $t('overview.overview') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #breadcrumb>
-                <Breadcrumb :links="breadcrumbLinks" />
-            </template>
+            <!-- No breadcrumb: this is a top-level page, and the tabs below
+                 already say where you are. It read "Oversigt" three times over. -->
 
             <template #header>
                 <OverviewTabs active="overview" />
             </template>
 
             <template #guided-tour>
-                <div class="flex items-center gap-x-2">
+                <!-- ml-auto: with no breadcrumb beside it, this row would otherwise
+                     start at the left. Brand blue rather than violet - one action
+                     colour, as everywhere else. -->
+                <div class="ml-auto flex items-center gap-x-2">
                     <button type="button" v-if="userStore.getUser?.has_ai_access" @click="handoverOpen = true"
-                        class="inline-flex items-center gap-1.5 rounded-full bg-violet-100 px-3 py-1.5 text-xs font-medium text-violet-700 hover:bg-violet-200 transition-colors">
+                        class="inline-flex items-center gap-1.5 rounded-full bg-primary-50 px-3 py-1.5 text-xs font-medium text-primary hover:bg-primary-100 transition-colors">
                         <Icon name="ph:sparkle-fill" class="size-4" aria-hidden="true" />
                         {{ $t('handover.button') }}
                     </button>
@@ -138,7 +140,7 @@
                         <CountUp :value="Number(state.stats.citizenCalendarEvents?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
-                        {{ $t('overview.stats.ongoing') }} |
+                        {{ $t('overview.stats.ongoing') }} ·
                         {{ $t('overview.stats.upcoming') }}
                     </div>
                 </div>
@@ -151,7 +153,7 @@
                         <CountUp :value="Number(state.stats.latestCitizensJournal?.data?.length ?? 0)" />
                     </div>
                     <div class="stat-sublabel">
-                        {{ $t('overview.stats.acrossCitizens') }}
+                        {{ $t('overview.stats.acrossCitizens', { n: state.stats.latestCitizensJournal?.data?.length ?? 0 }) }}
                     </div>
                 </div>
                 <div class="stat-card" v-if="hasMedicineModule">
@@ -166,9 +168,9 @@
                         {{ state.stats.medicinesGivenCount }}
                         {{ $t('overview.stats.administered') }} ·
                         {{ state.stats.medicinesPendingCount }}
-                        {{ $t('overview.stats.pending') }}·
+                        {{ $t('overview.stats.pending') }} ·
                         {{ state.stats.medicinesDeviatedCount }}
-                        {{ $t('overview.stats.deviated') }}
+                        {{ $t('overview.stats.deviated', Number(state.stats.medicinesDeviatedCount ?? 0)) }}
                     </div>
                 </div>
                 <div class="stat-card cursor-pointer hover:ring-secondary hover:ring-2 transition-all"
@@ -208,13 +210,14 @@
                         </li>
                     </ul>
                     <!-- No birthdays this week: surface the next one in line -->
-                    <div v-else-if="!hasThisWeekBirthdays && nextBirthday"
-                        class="mt-2 flex items-center justify-between gap-x-2">
-                        <span class="truncate text-xs font-semibold text-primary">{{ nextBirthday.name }}</span>
-                        <span class="shrink-0 text-[11px] text-slate-500">
+                    <!-- Stacked: side by side, the non-shrinking "in 109 days · turns 48"
+                         left a quarter-width card room for "Louis..." and no more. -->
+                    <div v-else-if="!hasThisWeekBirthdays && nextBirthday" class="mt-2 min-w-0">
+                        <p class="truncate text-sm font-semibold text-primary">{{ nextBirthday.name }}</p>
+                        <p class="mt-0.5 text-xs text-slate-500">
                             {{ $t('overview.birthdays.inDays', { days: nextBirthday.days_until }) }} · {{
                                 $t('overview.birthdays.turns', { age: nextBirthday.age }) }}
-                        </span>
+                        </p>
                     </div>
                     <button v-if="hasThisWeekBirthdays && (laterBirthdaysCount > 0 || todaysBirthdays.length === 0)"
                         type="button" @click="state.modal.isBirthdaysOpen = true"
@@ -492,13 +495,6 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
-const breadcrumbLinks = [
-    {
-        name: 'overview.overview',
-        translate: true,
-        href: '/overview',
-    },
-]
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const departmentStore = useDepartmentStore()
@@ -539,7 +535,7 @@ const userStore = useUserStore() as any
 const handoverOpen = ref(false)
 const { celebrate } = useConfetti()
 const { successAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const route = useRoute()
 const router = useRouter()
 const newsSection = ref<HTMLElement | null>(null)
@@ -761,13 +757,25 @@ function scrollToTreatments() {
     }
 }
 
+// Month names come from the app's own `months.*` keys: moment's locale files
+// are not reliably bundled, so `format('MMMM')` printed "September - October"
+// in a Danish interface (see the same note in pages/my-day/index.vue).
+const MONTH_KEYS = ['january', 'february', 'march', 'april', 'may', 'june', 'july', 'august', 'september', 'october', 'november', 'december']
+
+function formatDay(date: moment.Moment, withYear: boolean) {
+    const month = t('months.' + MONTH_KEYS[date.month()])
+    // "24 September 2026" in English; "24. september 2026" in the Nordic languages.
+    const day = locale.value === 'en' ? `${date.date()} ${month}` : `${date.date()}. ${month.toLowerCase()}`
+    return withYear ? `${day} ${date.year()}` : day
+}
+
 function formatDisplayDate() {
     const start = moment(state.dateRange.formDateRange.start_date)
     const end = moment(state.dateRange.formDateRange.end_date)
     if (start.isSame(end, 'day')) {
-        return start.format('DD. MMMM YYYY')
+        return formatDay(start, true)
     }
-    return `${start.format('DD. MMMM YYYY')} - ${end.format('DD. MMMM YYYY')}`
+    return `${formatDay(start, !start.isSame(end, 'year'))} – ${formatDay(end, true)}`
 }
 
 function previousDay() {

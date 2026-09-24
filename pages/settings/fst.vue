@@ -36,7 +36,7 @@
                     <!-- installation happens there, this page is the manage screen). -->
                     <div v-if="!state.status.installed"
                         class="rounded-xl border border-dashed border-surface-200 bg-surface-50 p-8 text-center">
-                        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-[#f0faf9] text-[#2dbab2]">
+                        <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-primary-50 text-primary">
                             <Icon name="ph:plugs-connected" class="size-6" />
                         </div>
                         <p class="mt-3 text-sm text-slate-500">{{ notInstalledCard.message }}</p>

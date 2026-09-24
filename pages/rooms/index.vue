@@ -45,7 +45,7 @@
                                     <img
                                         v-for="(citizen, ci) in state.citizensPerRoom[room.uuid].slice(0, 4)"
                                         :key="ci"
-                                        :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname}+${citizen?.lastname}`"
+                                        :src="citizen?.image ?? avatarUrl(`${citizen?.firstname}+${citizen?.lastname}`)"
                                         :alt="`${citizen?.firstname} ${citizen?.lastname}`"
                                         class="w-7 h-7 rounded-full ring-2 ring-white object-cover"
                                     />

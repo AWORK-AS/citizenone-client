@@ -171,6 +171,8 @@ import { useTerminology } from '@/composables/useTerminology'
 import moment from 'moment'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const props = defineProps({
     isModalOpen: {
         type: Boolean,
@@ -216,7 +218,7 @@ const state = reactive({
 
 const calculatedEndDate = computed(() => {
     if (state.formReferral.start_date && state.formReferral.weeks) {
-        return moment(state.formReferral.start_date).add(state.formReferral.weeks, 'weeks').format('DD. MMMM YYYY')
+        return formatLocalized(moment(state.formReferral.start_date).add(state.formReferral.weeks, 'weeks'), 'DD. MMMM YYYY')
     }
     return null
 })

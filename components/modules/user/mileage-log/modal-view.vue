@@ -6,7 +6,7 @@
                     <div class="space-y-1 my-1">
                         <FormLabel :label="$t('mileageLog.view.createdBy')" />
                         <div class="flex items-center gap-x-2 py-1">
-                            <img :src="props.selectedMileageLog?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedMileageLog?.user?.firstname + ' ' + props.selectedMileageLog?.user?.lastname}`"
+                            <img :src="props.selectedMileageLog?.user?.profile_image ?? avatarUrl(`${props.selectedMileageLog?.user?.firstname + ' ' + props.selectedMileageLog?.user?.lastname}`)"
                                 class="h-10 w-10 rounded-full bg-gray-50 object-cover border-2" />
                             <p class="text-sm font-medium">
                                 {{ props.selectedMileageLog?.user?.firstname }}
@@ -18,7 +18,7 @@
                     <div class="space-y-1 my-1" v-if="props.selectedMileageLog?.citizen">
                         <FormLabel :label="$t('mileageLog.view.linkedCitizen')" />
                         <div class="flex items-center gap-x-2 py-1">
-                            <img :src="props.selectedMileageLog?.citizen?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedMileageLog?.citizen?.firstname + ' ' + props.selectedMileageLog?.citizen?.lastname}`"
+                            <img :src="props.selectedMileageLog?.citizen?.profile_image ?? avatarUrl(`${props.selectedMileageLog?.citizen?.firstname + ' ' + props.selectedMileageLog?.citizen?.lastname}`)"
                                 class="h-10 w-10 rounded-full bg-gray-50 object-cover border-2" />
                             <p class="text-sm font-medium">
                                 {{ props.selectedMileageLog?.citizen?.firstname }}

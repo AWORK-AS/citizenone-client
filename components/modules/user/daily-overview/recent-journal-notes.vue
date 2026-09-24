@@ -14,7 +14,7 @@
                 class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
                 @click="navigateTo(`/citizens/${journal?.citizen?.uuid}/journals`)">
                 <div class="flex gap-x-2">
-                    <img :src="journal?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${journal?.citizen?.firstname + ' ' + (journal?.citizen?.lastname ?? '')}`"
+                    <img :src="journal?.citizen?.image ?? avatarUrl(`${journal?.citizen?.firstname + ' ' + (journal?.citizen?.lastname ?? '')}`)"
                         :class="[
                             riskBorderClass(journal?.assessment),
                             'rounded-full w-12 h-12 object-cover border-2'

@@ -15,7 +15,7 @@
             <div v-for="(citizen, index) in state.citizensOrigin?.data" :key="index">
                 <div class="flex gap-x-2 pl-4 pr-3 py-4 cursor-pointer hover:bg-gray-100"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
-                    <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
+                    <img :src="citizen?.image ?? avatarUrl(`${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`)"
                         :class="[
                             citizen.latest_risk_assessment === null && 'border-secondary',
                             citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
