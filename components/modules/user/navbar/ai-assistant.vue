@@ -1,7 +1,10 @@
 <template>
-    <div class="py-1">
+    <div>
         <Tooltip :text="shortcutHint" position="bottom">
-        <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
+        <!-- Held to the top bar's 36px, so the controls beside the company
+             name read as one row. It keeps its blue outline: it is the one
+             control there that is an action rather than a setting. -->
+        <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-3 !h-9 !py-0"
             :aria-expanded="assistantStore.isOpen"
             :aria-label="ariaLabel"
             @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">

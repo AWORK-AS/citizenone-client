@@ -10,15 +10,20 @@
         </div>
         <div class="hidden xl:block" v-if="state.departments?.data?.length > 0">
             <!-- Sized by its label, capped, and truncated past the cap: a fixed
-                 w-34 broke "Alle afdelinger" over two lines in the top bar. -->
+                 w-34 broke "Alle afdelinger" over two lines in the top bar.
+                 A quiet white control like the rest of the bar, with the
+                 department's colour as a dot: as a filled block it was the
+                 loudest thing on screen, and the brand guide wants the top bar
+                 white. -->
             <Menu as="div" class="relative inline-block text-left max-w-[14rem]">
                 <div>
                     <MenuButton
-                        :class="['inline-flex w-full items-center justify-center gap-x-2 rounded-md px-4 py-2 text-sm font-semibold text-white shadow-sm whitespace-nowrap',
-                            departmentStore.getSelectedDepartmentColor ? '' : 'bg-primary']"
-                        :style="departmentStore.getSelectedDepartmentColor ? { backgroundColor: departmentStore.getSelectedDepartmentColor } : undefined">
+                        class="inline-flex w-full h-9 items-center gap-x-2 rounded-lg border border-surface-200 bg-white px-3 text-sm font-medium text-slate-800 hover:bg-surface-50 transition-colors whitespace-nowrap">
+                        <span :class="['size-2.5 shrink-0 rounded-full', departmentStore.getSelectedDepartmentColor ? '' : 'bg-primary']"
+                            :style="departmentStore.getSelectedDepartmentColor ? { backgroundColor: departmentStore.getSelectedDepartmentColor } : undefined"
+                            aria-hidden="true" />
                         <span class="truncate">{{ displayDepartmentName(departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name : departmentStore.getSelectedDepartmentName) }}</span>
-                        <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 shrink-0 text-white" aria-hidden="true" />
+                        <Icon name="heroicons:chevron-down" class="-mr-0.5 h-4 w-4 shrink-0 text-slate-400" aria-hidden="true" />
                     </MenuButton>
                 </div>
 

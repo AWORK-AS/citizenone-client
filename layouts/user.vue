@@ -313,9 +313,9 @@
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
-                        class="flex-1 flex flex-col justify-center gap-x-2 md:flex-row md:items-center md:justify-start relative z-[45]">
+                        class="flex-1 flex flex-col justify-center gap-x-3 md:flex-row md:items-center md:justify-start relative z-[45]">
                         <div
-                            class="hidden md:flex flex-col justify-center gap-x-2 xl:flex-row xl:items-center xl:justify-start">
+                            class="hidden md:flex flex-col justify-center gap-x-3 xl:flex-row xl:items-center xl:justify-start">
                             <div>
                                 <ModulesUserCompanySelection />
                             </div>
@@ -329,7 +329,7 @@
                         <div>
                             <ModulesUserNavbarSubscribeButton
                                 v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
-                                class="hidden md:block" />
+                                class="hidden md:inline-flex" />
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-2">
@@ -445,7 +445,9 @@
                                     <div
                                         :class="[userStore.getUser?.is_online ? 'bg-emerald-500' : 'bg-slate-400', 'w-2.5 h-2.5 rounded-full absolute -bottom-0.5 -right-0.5 border-2 border-white']" />
                                 </div>
-                                <span class="hidden xl:flex xl:items-center">
+                                <!-- The desktop shell spends ~300px on rail and panel, so
+                                     the name waits for a wider window there. -->
+                                <span :class="isDesktopApp ? 'hidden 2xl:flex 2xl:items-center' : 'hidden xl:flex xl:items-center'">
                                     <span class="text-sm font-medium text-slate-700 whitespace-nowrap">{{ userStore.getUser?.firstname }}
                                         {{ userStore.getUser?.lastname }}</span>
                                     <Icon name="heroicons:chevron-down-20-solid" class="ml-1.5 h-4 w-4 text-slate-400"
