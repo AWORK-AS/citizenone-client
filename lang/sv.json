@@ -8397,6 +8397,7 @@
             "to": "Till"
         },
         "forward": "Vidare",
+        "emptyInbox": "Din inkorg är tom",
         "inbox": "Indbakke",
         "insertSignature": "Infoga underskrift",
         "loadMore": "Ladda mer",

@@ -8397,6 +8397,7 @@
             "to": "Til"
         },
         "forward": "Videre",
+        "emptyInbox": "Din indbakke er tom",
         "inbox": "Indbakke",
         "insertSignature": "Indsæt underskrift",
         "loadMore": "Indlæs mere",

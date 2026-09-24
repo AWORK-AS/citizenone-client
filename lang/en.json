@@ -8397,6 +8397,7 @@
             "to": "To"
         },
         "forward": "Forward",
+        "emptyInbox": "Your inbox is empty",
         "inbox": "Inbox",
         "insertSignature": "Insert signature",
         "loadMore": "Load more",
