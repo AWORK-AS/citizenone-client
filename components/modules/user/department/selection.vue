@@ -9,13 +9,16 @@
             </select>
         </div>
         <div class="hidden xl:block" v-if="state.departments?.data?.length > 0">
-            <Menu as="div" class="relative inline-block text-left w-34">
+            <!-- Sized by its label, capped, and truncated past the cap: a fixed
+                 w-34 broke "Alle afdelinger" over two lines in the top bar. -->
+            <Menu as="div" class="relative inline-block text-left max-w-[14rem]">
                 <div>
                     <MenuButton
-                        class="inline-flex w-full items-center justify-center gap-x-2 rounded-md px-5 py-2 text-sm font-semibold text-white shadow-sm"
-                        :style="{ backgroundColor: departmentStore.getSelectedDepartmentColor ? departmentStore.getSelectedDepartmentColor : '#205E77' }">
-                        {{ displayDepartmentName(departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name : departmentStore.getSelectedDepartmentName) }}
-                        <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 text-white" aria-hidden="true" />
+                        :class="['inline-flex w-full items-center justify-center gap-x-2 rounded-md px-4 py-2 text-sm font-semibold text-white shadow-sm whitespace-nowrap',
+                            departmentStore.getSelectedDepartmentColor ? '' : 'bg-primary']"
+                        :style="departmentStore.getSelectedDepartmentColor ? { backgroundColor: departmentStore.getSelectedDepartmentColor } : undefined">
+                        <span class="truncate">{{ displayDepartmentName(departmentStore.getSelectedDepartmentName === '' ? state.departments?.data?.[0]?.name : departmentStore.getSelectedDepartmentName) }}</span>
+                        <Icon name="heroicons:chevron-down" class="-mr-1 h-5 w-5 shrink-0 text-white" aria-hidden="true" />
                     </MenuButton>
                 </div>
 

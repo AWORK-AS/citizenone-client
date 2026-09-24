@@ -11020,6 +11020,7 @@
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
         "groups": {
+            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",

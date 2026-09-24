@@ -187,19 +187,44 @@
                     class="cursor-pointer flex items-center justify-center w-11 h-11 mb-2 shrink-0">
                     <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
                 </span>
+                <!-- The padding is room for the focus ring: overflow-y-auto clips
+                     overflow on both axes, so a ring drawn outside a button that
+                     fills the nav's width lost its left and right sides and read
+                     as two stray arcs above and below the icon. -->
                 <nav role="tablist" aria-orientation="vertical" aria-label="Navigation"
-                    class="flex flex-col items-center gap-1 overflow-y-auto custom-scrollbar">
+                    class="flex flex-col items-center gap-1 overflow-y-auto custom-scrollbar p-1">
                     <button v-for="group in navigationGroups" :key="group.key" type="button" role="tab"
                         :id="`nav-tab-${group.key}`" :aria-controls="`nav-panel-${group.key}`"
                         @click="activeGroupKey = group.key" :title="$t(group.label)"
                         :aria-label="$t(group.label)" :aria-selected="activeContextGroup?.key === group.key"
                         :class="['flex items-center justify-center w-11 h-11 rounded-xl transition-colors shrink-0',
                             'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
-                            activeContextGroup?.key === group.key
+                            activeContextGroup?.key === group.key && !activeRailLink
                                 ? 'bg-[#eff6ff] text-primary'
                                 : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
                         <Icon :name="group.icon" class="h-5 w-5" aria-hidden="true" />
                     </button>
+                </nav>
+                <!-- Chat and mail are where people go many times a shift, and
+                     they are destinations rather than groups, so they sit in the
+                     rail as plain links instead of one click deeper in a panel. -->
+                <nav v-if="railLinks.length > 0" :aria-label="$t('sidebar.groups.communication')"
+                    class="flex flex-col items-center gap-1 p-1 mt-1 pt-2 border-t border-[#e8eaef] shrink-0">
+                    <NuxtLink v-for="item in railLinks" :key="item.name" :to="item.href"
+                        :title="getNavItemLabel(item)" :aria-label="getNavItemLabel(item)"
+                        :aria-current="activeRailLink?.name === item.name ? 'page' : undefined"
+                        :class="['relative flex items-center justify-center w-11 h-11 rounded-xl transition-colors shrink-0',
+                            'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                            activeRailLink?.name === item.name
+                                ? 'bg-[#eff6ff] text-primary'
+                                : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
+                        <Icon :name="item.icon" class="h-5 w-5" aria-hidden="true" />
+                        <Badge v-if="item.name === 'Messages' && userStore.getUser?.unread_messages_count > 0"
+                            type="notification"
+                            class="min-w-[18px] h-[18px] px-1 flex items-center justify-center absolute top-0.5 right-0.5 text-[10px]">
+                            {{ userStore.getUser.unread_messages_count > 99 ? '99+' : userStore.getUser.unread_messages_count }}
+                        </Badge>
+                    </NuxtLink>
                 </nav>
                 <div class="mt-auto flex flex-col items-center gap-2 pt-2 shrink-0">
                     <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" compact />
@@ -421,7 +446,7 @@
                                         :class="[userStore.getUser?.is_online ? 'bg-emerald-500' : 'bg-slate-400', 'w-2.5 h-2.5 rounded-full absolute -bottom-0.5 -right-0.5 border-2 border-white']" />
                                 </div>
                                 <span class="hidden xl:flex xl:items-center">
-                                    <span class="text-sm font-medium text-slate-700">{{ userStore.getUser?.firstname }}
+                                    <span class="text-sm font-medium text-slate-700 whitespace-nowrap">{{ userStore.getUser?.firstname }}
                                         {{ userStore.getUser?.lastname }}</span>
                                     <Icon name="heroicons:chevron-down-20-solid" class="ml-1.5 h-4 w-4 text-slate-400"
                                         aria-hidden="true" />
@@ -749,11 +774,24 @@ const NAV_GROUPS = [
     { key: 'shortcuts', label: 'sidebar.groups.shortcuts', icon: 'ph:star' },
 ]
 
+// Desktop shell only: entries lifted out of their group into the icon rail.
+// Taken from `navigation`, so an entry this user may not see, or has hidden,
+// stays out of the rail as well.
+const RAIL_LINK_NAMES = ['Messages', 'Mail']
+const railLinks = computed(() => isDesktopApp
+    ? navigation.value.filter((item: any) => RAIL_LINK_NAMES.includes(item.name))
+    : [])
+// By path, not route name: Mail's `activeRouteNames` does not match the
+// /mail/inbox route it opens, and every mail folder should light the icon.
+const activeRailLink = computed(() => railLinks.value.find((item: any) =>
+    route.path.startsWith(item.href.split('/').slice(0, 2).join('/'))) || null)
+
 const navigationGroups = computed(() =>
     NAV_GROUPS
         .map((group) => ({
             ...group,
-            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key),
+            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key
+                && !railLinks.value.includes(item)),
         }))
         .filter((group) => group.items.length > 0))
 

@@ -10983,6 +10983,7 @@
         "coupons": "Kuponer",
         "discover": "Kom i gang",
         "groups": {
+            "communication": "Kommunikasjon",
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",
