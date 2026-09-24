@@ -16,14 +16,10 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <ul>
-                    <li v-for="file in files" :key="file.name">{{ file.name }}</li>
-                </ul>
-
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
                         class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
-                        <ModulesCitizenMessagesChats :chats="state.chats" />
+                        <ModulesCitizenMessagesChats :chats="state.chats" portal="patient" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
                         class="md:col-span-7 xl:col-span-8 bg-white rounded-md pb-6">
@@ -120,7 +116,7 @@
                                 </div>
                                 <div v-for="(message, index) in state.messages" :key="index">
                                     <!-- Message (Right) -->
-                                    <div v-if="message?.sender?.id === userStore.getUser?.id">
+                                    <div v-if="isFromCurrentUser(message)">
                                         <div class="flex items-start justify-end mb-4">
                                             <div class="mr-2">
                                                 <Tooltip position="left"
@@ -156,7 +152,7 @@
                                             <div class="flex-shrink-0 flex items-center">
                                                 <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
                                                     alt="User" class="w-10 h-10 rounded-full object-cover"
-                                                    v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
+                                                    v-if="index === 0 || message?.sender?.uuid !== state.messages[index - 1]?.sender?.uuid">
                                                 <div v-else class="mr-10"></div>
                                             </div>
                                         </div>
@@ -164,14 +160,14 @@
                                     <!-- Message (Left) -->
                                     <div v-else>
                                         <p class="text-xs ml-12"
-                                            v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
+                                            v-if="index === 0 || message?.sender?.uuid !== state.messages[index - 1]?.sender?.uuid">
                                             {{ message?.sender?.firstname + " " + message?.sender?.lastname }}
                                         </p>
                                         <div class="flex items-start mt-1 mb-4">
                                             <div class="flex-shrink-0">
                                                 <img :src="message?.sender?.profile_image ?? '/img/avatars/user.svg'"
                                                     alt="User" class="w-10 h-10 rounded-full object-cover"
-                                                    v-if="index === 0 || message?.sender?.id !== state.messages[index - 1]?.sender?.id">
+                                                    v-if="index === 0 || message?.sender?.uuid !== state.messages[index - 1]?.sender?.uuid">
                                                 <div v-else class="ml-10"></div>
                                             </div>
                                             <div class="ml-2">
@@ -229,6 +225,7 @@
                     </LoadingSpinner>
                 </div>
                 <ModulesCitizenMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
+                    portal="patient"
                     @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
                 <!-- <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
                     :title="$t('citizens.documents.upgradeStorage')"
@@ -252,12 +249,10 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
-const currentRoute = router?.currentRoute?.value?.name
 const scrollableChatHistory = ref<HTMLElement | null>(null)
 let currentPage = 1
 let scrollHeight = 0
 const fileInput = ref(null) as any
-const files = ref<File[]>([])
 const breadcrumbLinks = [
     {
         name: 'messages.messages',
@@ -286,8 +281,7 @@ const state = reactive({
 onMounted(() => {
     const channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
-        state.messages.push(response?.data)
-        scrollToBottom()
+        appendMessage(response?.data)
         fetchChats()
     })
     fetchChat()
@@ -297,11 +291,11 @@ onMounted(() => {
     scrollHeight = scrollableChatHistory.value?.scrollHeight ?? 0
 })
 
-window.setInterval(() => {
-    if (currentRoute === 'messages-chat_uuid') {
-        fetchChats()
-    }
-}, 10000)
+// Opening another chat mounts this page again; without this every visit left
+// a live binding behind and each incoming message was appended once per visit.
+onBeforeUnmount(() => {
+    pusher.unsubscribe('citizenone.' + chatUuid)
+})
 
 function closeUpgradeStorageModal() {
     state.modal.isUpgradeStorageOpen = false
@@ -388,7 +382,8 @@ async function sendMessage() {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
-                scrollToBottom()
+                appendMessage(response?.data)
+                fetchChats()
             }
         } catch (error: any) {
             state.error = error
@@ -396,6 +391,16 @@ async function sendMessage() {
         state.isChatHistoryDividerLoading = false
         state.message = ''
     }
+}
+
+// The sender adds its own message from the send response, so it shows even when
+// the realtime event never arrives; the event for that same message is then skipped.
+function appendMessage(message: any) {
+    if (!message?.uuid || state.messages.some((existing: any) => existing?.uuid === message.uuid)) {
+        return
+    }
+    state.messages.push(message)
+    scrollToBottom()
 }
 
 function scrollToBottom() {
@@ -451,8 +456,8 @@ const uploadFiles = async (files: any) => {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
+                appendMessage(response?.data)
                 fetchChats()
-                scrollToBottom()
                 fileInput.value.value = ''
             }
         } catch (error: any) {
@@ -487,12 +492,22 @@ async function downloadFile(attachment: any) {
     state.isChatHistoryDividerLoading = false
 }
 
+// The patient profile carries a uuid but no numeric id, and user_id alone is
+// ambiguous between a citizen and an employee anyway.
+function isCurrentUser(chatMember: any) {
+    return !!chatMember?.user?.uuid && chatMember.user.uuid === userStore.getUser?.uuid
+}
+
+function isFromCurrentUser(message: any) {
+    return !!message?.sender?.uuid && message.sender.uuid === userStore.getUser?.uuid
+}
+
 function chatToSelf(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id === userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => isCurrentUser(chatMember))
 }
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
-    return chatMembers.filter((chatMember: any) => chatMember.user_id !== userStore.getUser?.id)
+    return chatMembers.filter((chatMember: any) => !isCurrentUser(chatMember))
 }
 
 function chatGroupMembers(chat: any) {

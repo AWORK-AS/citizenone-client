@@ -19,7 +19,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4" v-if="state.chats?.data?.length > 0">
                         <div class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
                             style="height: 80vh;">
-                            <ModulesCitizenMessagesChats :chats="state.chats" />
+                            <ModulesCitizenMessagesChats :chats="state.chats" portal="patient" />
                         </div>
                     </div>
                     <div v-else class="mx-auto max-w-lg py-20">
@@ -81,7 +81,6 @@
 </template>
 
 <script setup lang="ts">
-import pusher from '@/services/pusher'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { patientMessageService as messageService } from '@/components/api/patient/MessageService'
@@ -90,9 +89,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
-const router = useRouter()
 const userStore = useUserStore() as any
-const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
 const breadcrumbLinks = [
     {
@@ -119,10 +116,6 @@ const state = reactive({
 
 onMounted(() => {
     fetchAllAvailableChatUsers()
-    const channel = pusher.subscribe('citizenone.' + chatUuid)
-    channel.bind('chat-message', () => {
-        fetchChats()
-    })
     fetchChats()
 })
 
@@ -151,13 +144,13 @@ async function fetchAllAvailableChatUsers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
+                    label: user?.firstname + " " + user?.lastname + (user?.role ? " (" + user.role + ")" : ""),
                 })
             )
             state.options.receivers = options
         }
     } catch (error: any) {
-        state.error = error
+        state.error = { message: error.message }
     }
     state.isPageLoading = false
 }
