@@ -11886,6 +11886,18 @@
                     "title": "Where the money comes from",
                     "hint": "The ten largest account for {top}% of MRR. The largest alone for {largest}%. {count} paying customers in total.",
                     "empty": "No recurring agreements yet."
+                },
+                "bridge": {
+                    "title": "Why MRR moved",
+                    "between": "From {from} to {to}",
+                    "new": "New customers",
+                    "expansion": "Expansion",
+                    "contraction": "Contraction",
+                    "churned": "Cancelled",
+                    "net": "Net",
+                    "whoLeft": "Who left",
+                    "recordingSince": "Measured from {date}. Two measurements are needed to show a movement.",
+                    "notRecordedYet": "Per-customer measurement has not started yet. It begins with the next nightly run."
                 }
             }
         },
@@ -15080,11 +15092,15 @@
             "departments": "Departments",
             "company_contacts": "Contacts",
             "spoken_languages": "Spoken languages",
-            "consultant_skills": "Consultant skills",
+            "consultant_skills": "Consultant skills (all)",
+            "consultant_skills_competence": "Consultant skills: competences",
+            "consultant_skills_course": "Consultant skills: courses",
+            "consultant_skills_topic": "Consultant skills: subject words",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
             "jobcenters": "Jobcenters",
-            "focus_areas": "Focus areas"
+            "focus_areas": "Focus areas (VUM, adults)",
+            "focus_areas_ics": "Focus areas (ICS, children and young people)"
         },
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
@@ -15137,6 +15153,14 @@
                 "title": "Subjects",
                 "hint": "Experience with e.g. ADHD or self-harm"
             }
+        },
+        "paste": {
+            "open": "Paste list",
+            "hint": "One name per line. Names already on the list are skipped.",
+            "placeholder": "Pedagogue\nNurse\nSocial worker",
+            "count": "{count} names",
+            "submit": "Add all",
+            "result": "{added} added, {skipped} already there"
         }
     },
     "consultantProfile": {
@@ -15279,7 +15303,8 @@
         },
         "askSelected": "Ask {count} selected",
         "asked": "The consultants have been asked",
-        "askFailed": "The consultants could not be asked"
+        "askFailed": "The consultants could not be asked",
+        "prefilled": "Filled in from the inquiry: {fields}. Change or clear before searching."
     },
     "inquiryNotes": {
         "title": "Notes",

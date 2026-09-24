@@ -11849,6 +11849,18 @@
                     "title": "Var pengarna kommer från",
                     "hint": "De tio största står för {top}% av MRR. Den största ensam för {largest}%. {count} betalande kunder totalt.",
                     "empty": "Inga löpande avtal ännu."
+                },
+                "bridge": {
+                    "title": "Varför MRR rörde sig",
+                    "between": "Från {from} till {to}",
+                    "new": "Nya kunder",
+                    "expansion": "Merförsäljning",
+                    "contraction": "Nedgradering",
+                    "churned": "Uppsagt",
+                    "net": "Netto",
+                    "whoLeft": "Vilka som försvann",
+                    "recordingSince": "Mäts från {date}. Det krävs två mätningar för att visa en rörelse.",
+                    "notRecordedYet": "Mätning per kund har inte börjat än. Den startar med nästa nattliga körning."
                 }
             }
         },
@@ -14984,11 +14996,15 @@
             "departments": "Avdelningar",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talade språk",
-            "consultant_skills": "Konsultkompetenser",
+            "consultant_skills": "Konsultkompetenser (alla)",
+            "consultant_skills_competence": "Konsultkompetenser: kompetenser",
+            "consultant_skills_course": "Konsultkompetenser: kurser",
+            "consultant_skills_topic": "Konsultkompetenser: ämnesord",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
             "jobcenters": "Arbetsförmedlingar",
-            "focus_areas": "Fokusområden"
+            "focus_areas": "Fokusområden (VUM, vuxna)",
+            "focus_areas_ics": "Fokusområden (ICS, barn och unga)"
         },
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
@@ -15041,6 +15057,14 @@
                 "title": "Ämnesord",
                 "hint": "Erfarenhet av t.ex. ADHD eller självskada"
             }
+        },
+        "paste": {
+            "open": "Klistra in lista",
+            "hint": "Ett namn per rad. Namn som redan finns på listan hoppas över.",
+            "placeholder": "Pedagog\nSjuksköterska\nSocionom",
+            "count": "{count} namn",
+            "submit": "Lägg till alla",
+            "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
     "consultantProfile": {
@@ -15183,7 +15207,8 @@
         },
         "askSelected": "Fråga {count} valda",
         "asked": "Konsulterna är tillfrågade",
-        "askFailed": "Konsulterna kunde inte tillfrågas"
+        "askFailed": "Konsulterna kunde inte tillfrågas",
+        "prefilled": "Ifyllt från ärendet: {fields}. Ändra eller rensa innan du söker."
     },
     "inquiryNotes": {
         "title": "Anteckningar",

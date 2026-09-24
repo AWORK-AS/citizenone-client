@@ -11882,10 +11882,17 @@
             },
             "management": {
                 "subtitle": "Kørselsrate, sikret omsætning og aftaler. Kun for dem der har adgang.",
-                "concentration": {
-                    "title": "Hvor pengene kommer fra",
-                    "hint": "De ti største står for {top}% af MRR. Den største alene for {largest}%. {count} betalende kunder i alt.",
-                    "empty": "Ingen løbende aftaler endnu."
+                "bridge": {
+                    "title": "Hvorfor MRR bevægede sig",
+                    "between": "Fra {from} til {to}",
+                    "new": "Nye kunder",
+                    "expansion": "Mersalg",
+                    "contraction": "Nedgradering",
+                    "churned": "Opsagt",
+                    "net": "Netto",
+                    "whoLeft": "Hvem der forsvandt",
+                    "recordingSince": "Måles fra {date}. Der skal to målinger til at vise en bevægelse.",
+                    "notRecordedYet": "Måling pr. kunde er endnu ikke begyndt. Den starter med næste natlige kørsel."
                 }
             }
         },
@@ -13019,9 +13026,7 @@
                 "series": {
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumuleret",
-                    "contracted": "Aftalt",
-                    "assumed": "Forudsat fornyelse"
+                    "cumulative": "Akkumuleret"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
@@ -15080,11 +15085,15 @@
             "departments": "Afdelinger",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talte sprog",
-            "consultant_skills": "Konsulentkompetencer",
+            "consultant_skills": "Konsulentkompetencer (alle)",
+            "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
+            "consultant_skills_course": "Konsulentkompetencer: kurser",
+            "consultant_skills_topic": "Konsulentkompetencer: emneord",
             "inquiry_service_types": "Indsatstyper",
             "employees": "Medarbejdere",
             "jobcenters": "Jobcentre",
-            "focus_areas": "Fokusområder"
+            "focus_areas": "Fokusområder (VUM, voksne)",
+            "focus_areas_ics": "Fokusområder (ICS, børn og unge)"
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
@@ -15137,6 +15146,14 @@
                 "title": "Emneord",
                 "hint": "Erfaring med fx ADHD eller selvskade"
             }
+        },
+        "paste": {
+            "open": "Indsæt liste",
+            "hint": "Ét navn pr. linje. Navne, der allerede står på listen, springes over.",
+            "placeholder": "Pædagog\nSygeplejerske\nSocialrådgiver",
+            "count": "{count} navne",
+            "submit": "Tilføj alle",
+            "result": "{added} tilføjet, {skipped} stod der allerede"
         }
     },
     "consultantProfile": {
@@ -15279,7 +15296,8 @@
         },
         "askSelected": "Spørg {count} valgte",
         "asked": "Konsulenterne er spurgt",
-        "askFailed": "Konsulenterne kunne ikke spørges"
+        "askFailed": "Konsulenterne kunne ikke spørges",
+        "prefilled": "Udfyldt fra henvendelsen: {fields}. Ret eller ryd før du søger."
     },
     "inquiryNotes": {
         "title": "Notater",
