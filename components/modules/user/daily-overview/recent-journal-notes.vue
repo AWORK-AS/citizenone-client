@@ -26,6 +26,7 @@
                         <p class="text-xxs" v-if="journal?.user?.firstname && journal?.user?.lastname">
                             {{ $t('overview.createdBy') }}
                             {{ journal?.user?.firstname + ' ' + (journal?.user?.lastname ?? '') }}
+                            <span v-if="formatJobTitles(journal?.user)">({{ formatJobTitles(journal?.user) }})</span>
                         </p>
                         <div class="px-1">
                             <h3 class="text-base font-semibold">
