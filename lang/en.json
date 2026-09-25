@@ -1778,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
                 "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
                 "attachedSurveys": "Surveys to answer",
-                "linkedSurveys": "Linked surveys"
+                "linkedSurveys": "Linked surveys",
+                "quickJournalTitles": "Saved journal titles",
+                "moreJournalTitles": "+{count} more"
             },
             "journalLogs": {
                 "date": "Date",

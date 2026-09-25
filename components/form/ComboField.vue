@@ -26,10 +26,32 @@
                 {{ option.label }}
             </li>
         </ul>
+
+        <!-- The first few options as one-click picks, so the usual choice does
+             not take opening the list at all. -->
+        <div v-if="quickPickOptions.length > 0" class="flex flex-wrap gap-1.5 mt-2" role="group"
+            :aria-label="props.quickPicksLabel">
+            <button v-for="option in quickPickOptions" :key="option.value" type="button" :disabled="props.disabled"
+                :aria-pressed="option.value === props.modelValue"
+                class="max-w-full truncate px-3 py-1 text-xs rounded-full border transition-colors disabled:opacity-50"
+                :class="option.value === props.modelValue
+                    ? 'bg-primary border-primary text-white'
+                    : 'bg-white border-gray-200 text-gray-700 hover:border-primary hover:text-primary'"
+                @click="pickQuick(option)">
+                {{ option.label }}
+            </button>
+            <button v-if="hiddenQuickPickCount > 0" type="button" :disabled="props.disabled"
+                class="px-3 py-1 text-xs rounded-full border border-dashed border-gray-300 text-gray-500 hover:border-primary hover:text-primary disabled:opacity-50"
+                @mousedown.prevent @click="toggle">
+                {{ props.quickPicksMoreText ? props.quickPicksMoreText(hiddenQuickPickCount) : `+${hiddenQuickPickCount}` }}
+            </button>
+        </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue'
+
 /**
  * A text field that offers a list of suggestions the moment it is focused,
  * while still accepting anything typed into it. Unlike FormSelect, picking
@@ -77,6 +99,20 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    /** How many options to also show as one-click chips under the field; 0 shows none. */
+    quickPicks: {
+        type: Number,
+        default: 0,
+    },
+    quickPicksLabel: {
+        type: String,
+        default: '',
+    },
+    /** Label for the chip that opens the list, given how many options it holds back. */
+    quickPicksMoreText: {
+        type: Function as PropType<(count: number) => string>,
+        default: null,
+    },
 })
 
 const emit = defineEmits(['update:modelValue', 'select'])
@@ -95,6 +131,18 @@ const visibleOptions = computed(() => {
 
     return props.options.filter(option => option.label.toLowerCase().includes(query))
 })
+
+// The chosen value keeps its chip even when it sits past the cut-off, so the
+// row always shows what is picked.
+const quickPickOptions = computed(() => {
+    if (props.quickPicks <= 0) return []
+    const picks = props.options.slice(0, props.quickPicks)
+    const chosen = props.options.find(option => option.value === props.modelValue)
+    if (chosen && !picks.includes(chosen)) picks[picks.length - 1] = chosen
+    return picks
+})
+
+const hiddenQuickPickCount = computed(() => props.options.length - quickPickOptions.value.length)
 
 watch(() => props.options, () => {
     activeIndex.value = -1
@@ -157,6 +205,15 @@ function onEnter(event: KeyboardEvent) {
 function onEscape() {
     isOpen.value = false
     filterOnValue.value = false
+}
+
+// Tapping the chosen chip again clears it, the way a toggle would.
+function pickQuick(option: ComboOption) {
+    if (option.value === props.modelValue) {
+        emit('update:modelValue', '')
+        return
+    }
+    select(option)
 }
 
 function select(option: ComboOption) {

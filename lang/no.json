@@ -1778,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Velg kolleger som skal varsles",
                 "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet.",
                 "attachedSurveys": "Spørreskjemaer som skal besvares",
-                "linkedSurveys": "Tilknyttede spørreskjemaer"
+                "linkedSurveys": "Tilknyttede spørreskjemaer",
+                "quickJournalTitles": "Lagrede journaltitler",
+                "moreJournalTitles": "+{count} flere"
             },
             "journalLogs": {
                 "date": "Dato",
