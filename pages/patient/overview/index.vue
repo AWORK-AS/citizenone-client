@@ -91,11 +91,13 @@ import moment from 'moment'
 import { patientService } from '@/components/api/patient/PatientService'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { useUserStore } from '@/store/user'
 
 const { formatLocalized } = useDatetimeFormatter()
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
+const userStore = useUserStore()
 
 const state = reactive({
     error: {} as Error,
@@ -107,14 +109,16 @@ const state = reactive({
 const today = computed(() => formatLocalized(moment(), 'D. MMM YYYY'))
 
 // The same three counts the sidebar badges show, as cards that lead straight to
-// the thing that is waiting.
-const cards = computed(() => [
+// the thing that is waiting. A card is dropped when its section is hidden, the
+// same map the sidebar filters on, so it never leads to a page that errors.
+const cards = computed(() => ([
     {
         href: '/patient/messages',
         icon: 'heroicons:envelope',
         title: t('sidebar.messages'),
         count: state.overview?.unread_messages_count ?? 0,
         text: t('patient.overview.unreadMessages', { count: state.overview?.unread_messages_count ?? 0 }),
+        section: 'messages',
     },
     {
         href: '/patient/appointments',
@@ -122,6 +126,7 @@ const cards = computed(() => [
         title: t('patient.nav.appointments'),
         count: state.overview?.upcoming_appointments_count ?? 0,
         text: t('patient.overview.upcomingAppointments', { count: state.overview?.upcoming_appointments_count ?? 0 }),
+        section: 'appointments',
     },
     {
         href: '/patient/surveys',
@@ -129,8 +134,9 @@ const cards = computed(() => [
         title: t('sidebar.surveys'),
         count: state.overview?.pending_surveys_count ?? 0,
         text: t('patient.overview.pendingSurveys', { count: state.overview?.pending_surveys_count ?? 0 }),
+        section: 'surveys',
     },
-])
+]).filter((card: any) => (userStore.getUser as any)?.portal_visibility?.[card.section] !== false))
 
 function formatDate(date: any) {
     return date ? moment(date).format('DD-MM-YYYY') : ''
