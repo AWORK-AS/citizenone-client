@@ -1,59 +1,32 @@
 <template>
-    <div class="bg-white flex flex-col items-center gap-1.5 px-3 py-5 rounded-tl-md rounded-bl-md border-r-0.5 border-gray-300"
-        style="height: 80vh;">
-        <Tooltip :text="$t('mail.compose')" @click="state.modal.isSendEmailOpen = true">
-            <button
-                class="flex items-center justify-center w-12 h-12 mb-3 rounded-full text-white bg-primary shadow-md transition hover:opacity-90 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                :aria-label="$t('mail.compose')">
-                <Icon name="ph:pencil-simple" class="h-5 w-5" aria-hidden="true" />
-            </button>
-        </Tooltip>
+    <!-- A labelled folder column, as in any mail client. It was a 76px strip of
+         stacked icon-over-label buttons: "Indbakke" did not fit and was clipped
+         to "ndbakke", and the active marker sat on top of the first letter. -->
+    <nav :aria-label="$t('sidebar.mail')"
+        class="w-52 shrink-0 flex flex-col gap-1 p-3 border-r border-surface-200 bg-white pane-height">
+        <button type="button" @click="state.modal.isSendEmailOpen = true"
+            class="mb-3 inline-flex h-10 w-full items-center justify-center gap-x-2 rounded-lg bg-primary px-4 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-primary-600 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 focus-visible:ring-offset-2">
+            <Icon name="ph:pencil-simple" class="h-4 w-4" aria-hidden="true" />
+            {{ $t('mail.compose') }}
+        </button>
 
-        <div class="relative w-full">
-            <button
-                class="w-full flex flex-col items-center justify-center gap-1 py-3 rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                :class="$route.name === 'mail-inbox' ? 'text-primary bg-primary/5' : 'text-gray-500 hover:text-primary hover:bg-gray-50'"
-                @click="navigateTo('/mail/inbox')">
-                <Icon name="ph:envelope-open" class="h-6 w-6" aria-hidden="true" />
-                <span class="text-xxs font-semibold">{{ $t('mail.inbox') }}</span>
-            </button>
-            <span v-if="$route.name === 'mail-inbox'"
-                class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-primary" aria-hidden="true"></span>
-            <Badge type="notification" class="w-fit absolute right-1 top-1" v-if="(props?.unreadMessage ?? 0) > 0">
-                {{ props?.unreadMessage ?? 0 }}
-            </Badge>
-        </div>
-
-        <div class="relative w-full" v-if="userStore.getUser?.is_secure_mail_active">
-            <button
-                class="w-full flex flex-col items-center justify-center gap-1 py-3 rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                :class="$route.name === 'mail-secured-mail' ? 'text-primary bg-primary/5' : 'text-gray-500 hover:text-primary hover:bg-gray-50'"
-                @click="navigateTo('/mail/secured-mail')">
-                <Icon name="ph:lock-key-fill" class="h-6 w-6" aria-hidden="true" />
-                <span class="text-xxs font-semibold">{{ $t('mail.secured.securedMail') }}</span>
-            </button>
-            <span v-if="$route.name === 'mail-secured-mail'"
-                class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-primary" aria-hidden="true"></span>
-            <Badge type="notification" class="w-fit absolute right-1 top-1" v-if="(props?.unreadSecuredMessage ?? 0) > 0">
-                {{ props?.unreadSecuredMessage ?? 0 }}
-            </Badge>
-        </div>
-
-        <div class="relative w-full">
-            <button
-                class="w-full flex flex-col items-center justify-center gap-1 py-3 rounded-lg transition focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                :class="$route.name === 'mail-sent' ? 'text-primary bg-primary/5' : 'text-gray-500 hover:text-primary hover:bg-gray-50'"
-                @click="navigateTo('/mail/sent')">
-                <Icon name="ph:paper-plane-tilt" class="h-6 w-6" aria-hidden="true" />
-                <span class="text-xxs font-semibold">{{ $t('mail.sent') }}</span>
-            </button>
-            <span v-if="$route.name === 'mail-sent'"
-                class="absolute left-0 top-2 bottom-2 w-[3px] rounded-r bg-primary" aria-hidden="true"></span>
-        </div>
+        <NuxtLink v-for="folder in folders" :key="folder.route" :to="folder.href"
+            :aria-current="$route.name === folder.route ? 'page' : undefined"
+            class="flex h-10 items-center gap-x-3 rounded-lg px-3 text-sm transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            :class="$route.name === folder.route
+                ? 'bg-primary-50 text-primary font-semibold'
+                : 'text-slate-600 font-medium hover:bg-surface-50 hover:text-slate-900'">
+            <Icon :name="folder.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
+            <span class="truncate">{{ $t(folder.label) }}</span>
+            <span v-if="folder.unread > 0"
+                class="ml-auto inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-primary px-1.5 text-[11px] font-semibold tabular-nums text-white">
+                {{ folder.unread > 99 ? '99+' : folder.unread }}
+            </span>
+        </NuxtLink>
 
         <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
             @close="state.modal.isSendEmailOpen = false" @refreshSentEmails="emit('refreshSentEmails')" />
-    </div>
+    </nav>
 </template>
 
 <script setup lang="ts">
@@ -71,6 +44,14 @@ const props = defineProps({
 })
 
 const userStore = useUserStore() as any
+
+const folders = computed(() => [
+    { route: 'mail-inbox', href: '/mail/inbox', icon: 'ph:tray', label: 'mail.inbox', unread: props.unreadMessage ?? 0 },
+    ...(userStore.getUser?.is_secure_mail_active
+        ? [{ route: 'mail-secured-mail', href: '/mail/secured-mail', icon: 'ph:lock-key', label: 'mail.secured.securedMail', unread: props.unreadSecuredMessage ?? 0 }]
+        : []),
+    { route: 'mail-sent', href: '/mail/sent', icon: 'ph:paper-plane-tilt', label: 'mail.sent', unread: 0 },
+])
 
 const state = reactive({
     modal: {

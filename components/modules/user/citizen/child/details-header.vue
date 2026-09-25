@@ -9,7 +9,7 @@
                     <div class="md:flex md:items-start md:gap-x-8">
                         <div class="flex justify-center flex-shrink-0">
                             <div class="relative">
-                                <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${state.selectedChild?.data?.firstname + ' ' + state.selectedChild?.data?.lastname}`"
+                                <img :src="avatarUrl(`${state.selectedChild?.data?.firstname + ' ' + state.selectedChild?.data?.lastname}`)"
                                     class="rounded-full w-28 h-28 object-cover border-2" />
                                 <span class="absolute inset-0 rounded-full shadow-inner" aria-hidden="true" />
                             </div>

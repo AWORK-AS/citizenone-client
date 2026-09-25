@@ -43,6 +43,8 @@
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const userStore = useUserStore() as any
 
 defineProps({
@@ -60,6 +62,6 @@ defineEmits(['close'])
 const clinicName = computed(() => userStore.getUser?.clinic?.name ?? userStore.getUser?.company?.name ?? '')
 
 function formatDateTime(value: any) {
-    return value ? moment(value).format('dddd D. MMMM YYYY, HH:mm') : '-'
+    return value ? formatLocalized(moment(value), 'dddd D. MMMM YYYY, HH:mm') : '-'
 }
 </script>

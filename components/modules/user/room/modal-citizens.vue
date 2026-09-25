@@ -42,7 +42,7 @@
                             <div v-if="state.citizenToRemove?.uuid === citizen.uuid"
                                 class="flex items-center gap-3 py-2 px-2 rounded-md bg-red-50 ring-1 ring-red-200">
                                 <img
-                                    :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname}+${citizen?.lastname}`"
+                                    :src="citizen?.image ?? avatarUrl(`${citizen?.firstname}+${citizen?.lastname}`)"
                                     :alt="`${citizen?.firstname} ${citizen?.lastname}`"
                                     class="w-9 h-9 rounded-full object-cover shrink-0"
                                 />
@@ -65,7 +65,7 @@
                             <!-- Normal row -->
                             <div v-else class="flex items-center gap-3 py-2 px-2 rounded-md hover:bg-gray-50 group">
                                 <img
-                                    :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname}+${citizen?.lastname}`"
+                                    :src="citizen?.image ?? avatarUrl(`${citizen?.firstname}+${citizen?.lastname}`)"
                                     :alt="`${citizen?.firstname} ${citizen?.lastname}`"
                                     class="w-9 h-9 rounded-full object-cover shrink-0"
                                 />

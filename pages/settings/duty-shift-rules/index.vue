@@ -79,6 +79,8 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { isAtLeast } = usePermissions()
@@ -147,8 +149,8 @@ function handleSearch(value: any) {
 }
 function getTimeWindow(rule: any) {
     const anchor = moment(rule?.anchor_date || undefined)
-    const start = anchor.clone().subtract(rule.period_days, 'days').format('DD MMM YYYY')
-    const end = anchor.format('DD MMM YYYY')
+    const start = formatLocalized(anchor.clone().subtract(rule.period_days, 'days'), 'DD MMM YYYY')
+    const end = formatLocalized(anchor, 'DD MMM YYYY')
     return `${start} – ${end}`
 }
 function deleteRuleConfirmation(rule: any) {

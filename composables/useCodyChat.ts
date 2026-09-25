@@ -59,6 +59,8 @@ export interface AnswerCard {
     facts?: Array<{ label: string, value: string }>
     badges?: string[]
     link?: string | null
+    /** Only on a `milo` card: which kind of CitizenOne question it was. */
+    intent?: 'citizenone_support' | 'citizenone_sales'
 }
 
 export interface CodyMessage {
@@ -99,7 +101,7 @@ const MAX_FILE_SIZE = 20 * 1024 * 1024
  * mirroring the backend's CardResolver: a type nobody has written a component
  * for is dropped, so the server can add one before the client learns it.
  */
-const KNOWN_CARDS = ['task', 'journal_note', 'shift_day']
+const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo']
 
 export function createCodyChat() {
     const { t } = useI18n()

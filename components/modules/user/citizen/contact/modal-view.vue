@@ -4,7 +4,7 @@
             <template #modal-body>
                 <div class="space-y-4" v-if="contact">
                     <div class="flex items-center gap-x-3">
-                        <img :src="contact?.employee?.image ?? `https://ui-avatars.com/api/?background=205E77&color=fff&name=${(contact?.firstname || '') + ' ' + (contact?.lastname || '')}`"
+                        <img :src="contact?.employee?.image ?? avatarUrl(`${(contact?.firstname || '') + ' ' + (contact?.lastname || '')}`)"
                             class="rounded-full w-14 h-14 object-cover border-2 border-tertiary/40" />
                         <div>
                             <p class="text-base font-semibold text-gray-900">

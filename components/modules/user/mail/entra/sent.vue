@@ -13,13 +13,13 @@
         <Alert type="danger" :text="state?.error?.message" class="m-3"
             v-if="state.error?.message && state.error.message.length > 0" />
         <div class="relative">
-            <div style="height: 80vh; overflow-y: auto;">
+            <div class="pane-height overflow-y-auto">
                 <div v-for="(email, emailIndex) in state.sentEmails" :key="emailIndex"
                     class="bg-white hover:bg-gray-100 px-4 py-3 cursor-pointer border-b-0.5 border-gray-300"
                     @click="setSelectedEmail(email)">
                     <div>
                         <div class="flex items-center gap-x-2">
-                            <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${email?.toRecipients?.[0]?.emailAddress?.name}`"
+                            <img :src="avatarUrl(`${email?.toRecipients?.[0]?.emailAddress?.name}`)"
                                 class="rounded-full w-11 h-11 object-cover" />
                             <div class="grow">
                                 <div class="flex justify-between gap-3">

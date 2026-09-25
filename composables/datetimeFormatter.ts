@@ -2,7 +2,7 @@ import moment from 'moment'
 import { useI18n } from "vue-i18n"
 
 export function useDatetimeFormatter() {
-    const { t } = useI18n()
+    const { t, locale } = useI18n()
 
     function formatDateToReadable(date: string): string {
         const monthNumber = parseInt(moment(date).format('M'))
@@ -72,5 +72,34 @@ export function useDatetimeFormatter() {
         return `${weekday}, ${formatDateToReadable(date)}`
     }
 
-    return { formatDateToReadable, formatDateTimeToReadable, formatTimeToReadable, formatDateWithWeekdayToReadable }
+    /**
+     * `moment(date).format(pattern)`, with month and weekday names in the
+     * interface language. moment's own locale files are not reliably bundled,
+     * so `format('MMMM')` printed English names in a Danish interface. The
+     * names come from `calendar.month.*` / `calendar.days.*` instead and are
+     * handed to moment as bracketed literals; MMM and ddd are the first three
+     * letters. Nordic month and day names are lowercase mid-sentence, so only
+     * a name that opens the result is capitalised.
+     */
+    function formatLocalized(date: moment.MomentInput, pattern: string): string {
+        const m = moment(date)
+        if (!m.isValid()) return ''
+        if (locale.value === 'en') return m.clone().locale('en').format(pattern)
+
+        const english = m.clone().locale('en')
+        const month = t(`calendar.month.${english.format('MMMM')}`).toLowerCase()
+        const day = t(`calendar.days.${english.format('dddd')}`).toLowerCase()
+        const names: Record<string, string> = { MMMM: month, MMM: month.slice(0, 3), dddd: day, ddd: day.slice(0, 3) }
+
+        // Leave text the caller already bracketed alone.
+        const escaped = pattern
+            .split(/(\[[^\]]*\])/)
+            .map((part) => part.startsWith('[') ? part : part.replace(/MMMM|MMM|dddd|ddd/g, (token) => `[${names[token]}]`))
+            .join('')
+        const out = m.format(escaped)
+
+        return out.charAt(0).toUpperCase() + out.slice(1)
+    }
+
+    return { formatDateToReadable, formatDateTimeToReadable, formatTimeToReadable, formatDateWithWeekdayToReadable, formatLocalized }
 }

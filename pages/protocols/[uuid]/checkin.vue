@@ -129,6 +129,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 definePageMeta({ layout: false })
 
 const router = useRouter()
@@ -137,7 +139,7 @@ const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
 const protocolUuid = route.params.uuid as string
 
-const todayLabel = moment().format('dddd, D. MMMM YYYY')
+const todayLabel = formatLocalized(moment(), 'dddd, D. MMMM YYYY')
 
 const COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B']
 const avatarColor = (name: string) => COLORS[(name?.charCodeAt(0) ?? 0) % COLORS.length]

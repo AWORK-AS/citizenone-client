@@ -358,7 +358,7 @@
                                                 <div class="px-3 pt-3 pb-1 relative">
                                                     <div class="flex justify-between">
                                                         <div class="flex items-center gap-x-2">
-                                                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                                            <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                                                 :class="[
                                                                     employee?.shift_threshold === 'high' && 'border-green-700',
                                                                     employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -1524,7 +1524,7 @@ function onDragEnd(e: DragEvent) {
 function onDragOver(e: DragEvent) {
     e.preventDefault()
     const t = e.currentTarget as HTMLElement
-    if (t) { t.style.outline = "2px dashed #2dbab2"; t.style.background = "rgba(45,186,178,0.08)"; t.classList.add("drag-over-cell") }
+    if (t) { t.style.outline = "2px dashed #0f4c75"; t.style.background = "rgba(15,76,117,0.06)"; t.classList.add("drag-over-cell") }
 }
 
 function onDragLeave(e: DragEvent) {

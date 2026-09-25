@@ -79,6 +79,11 @@ const citizenName = computed(() => {
     return `${citizen.firstname} ${citizen.lastname}`
 })
 
+// The layout holds its own bottom-right tip back while this is up, so the
+// two never stack on top of each other.
+const emit = defineEmits<{ visibilityChange: [visible: boolean] }>()
+watch(() => !!(state.latest && !state.isDismissed), (visible) => emit('visibilityChange', visible), { immediate: true })
+
 let intervalId: ReturnType<typeof setInterval> | null = null
 let autoHideTimer: ReturnType<typeof setTimeout> | null = null
 

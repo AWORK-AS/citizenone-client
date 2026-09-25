@@ -131,6 +131,8 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const userStore = useUserStore() as any
@@ -143,7 +145,7 @@ onMounted(() => {
 
 const currentMonth = ref(moment().startOf('month'))
 
-const monthLabel = computed(() => currentMonth.value.format('MMMM YYYY'))
+const monthLabel = computed(() => formatLocalized(currentMonth.value, 'MMMM YYYY'))
 
 function prevMonth() { currentMonth.value = currentMonth.value.clone().subtract(1, 'month') }
 function nextMonth() { currentMonth.value = currentMonth.value.clone().add(1, 'month') }

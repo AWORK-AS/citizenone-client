@@ -972,7 +972,8 @@
             "my_tasks": "Leser oppgavene dine",
             "my_messages": "Teller uleste meldinger",
             "create_task": "Oppretter en oppgave",
-            "draft_journal_note": "Skriver et journalutkast"
+            "draft_journal_note": "Skriver et journalutkast",
+            "refer_to_milo": "Henviser til Milo"
         },
         "toolTrace": {
             "title": "Hva Cody leste",
@@ -1038,7 +1039,14 @@
         "attachFile": "Legg ved fil",
         "collapse": "Rull ned",
         "expand": "Rull opp",
-        "shortcutHint": "Åpne og lukk med {shortcut}"
+        "shortcutHint": "Åpne og lukk med {shortcut}",
+        "milo": {
+            "title": "Milo kan hjelpe med det",
+            "support": "Milo er CitizenOnes supportassistent og kjenner systemet, innstillingene og kjente feil.",
+            "sales": "Milo kan svare på priser, moduler, oppgraderinger og demoer.",
+            "open": "Åpne Milo",
+            "nothingShared": "Cody sender ikke noe videre. Skriv spørsmålet ditt til Milo."
+        }
     },
     "back": "Tilbake",
     "bellNotification": {
@@ -8397,6 +8405,7 @@
             "to": "Til"
         },
         "forward": "Videre",
+        "emptyInbox": "Innboksen din er tom",
         "inbox": "Indbakke",
         "insertSignature": "Lim inn signatur",
         "loadMore": "Last mer",
@@ -9123,7 +9132,7 @@
             "title": "Siste @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Krever handling i dag",
+            "title": "Krever handling",
             "deviated": "Avvik: {count}",
             "overdue": "Forfalt: {count}",
             "more": "+{count} innbyggere"
@@ -9144,7 +9153,8 @@
             "remembered": "Husket",
             "forgotten": "Glemt",
             "pending": "Venter",
-            "noEvaluationsToShow": "Ingen effektevalueringer å vise"
+            "noEvaluationsToShow": "Ingen effektevalueringer å vise",
+            "clickToEvaluate": "Klikk for å evaluere"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -9214,7 +9224,7 @@
             "administered": "gitt",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vakt",
             "completed": "avsluttet",
-            "deviated": "Afvigelse",
+            "deviated": "avvik",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medisin der skal gives",
             "ongoing": "Igangværende",
@@ -10984,6 +10994,7 @@
         "coupons": "Kuponer",
         "discover": "Kom i gang",
         "groups": {
+            "communication": "Kommunikasjon",
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",
@@ -11850,6 +11861,18 @@
                     "title": "Hvor pengene kommer fra",
                     "hint": "De ti største står for {top}% av MRR. Den største alene for {largest}%. {count} betalende kunder totalt.",
                     "empty": "Ingen løpende avtaler ennå."
+                },
+                "bridge": {
+                    "title": "Hvorfor MRR beveget seg",
+                    "between": "Fra {from} til {to}",
+                    "new": "Nye kunder",
+                    "expansion": "Mersalg",
+                    "contraction": "Nedgradering",
+                    "churned": "Oppsagt",
+                    "net": "Netto",
+                    "whoLeft": "Hvem som forsvant",
+                    "recordingSince": "Måles fra {date}. Det kreves to målinger for å vise en bevegelse.",
+                    "notRecordedYet": "Måling per kunde har ikke begynt ennå. Den starter med neste nattlige kjøring."
                 }
             }
         },
@@ -12932,6 +12955,10 @@
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser denne måneden.",
                 "clickHint": "Klikk på en søyle for å se hvilke kunder den består av."
+            },
+            "noAccess": {
+                "title": "Rapporten er forbeholdt ledelsen",
+                "hint": "Kontakt en superadmin hvis du trenger tilgang."
             }
         },
         "industries": {
@@ -12957,6 +12984,14 @@
             "selectAll": "Gi alle moduler",
             "modulesAll": "Bransjen får alle moduler.",
             "modulesNarrowed": "Bransjen får {count} av {total} moduler.",
+            "colApps": "Apper",
+            "apps": "Apper fra App Store",
+            "appsHelp": "Apper bransjen får som en grunnleggende del av pakken. Et nytt firma får én lisens til eieren uten kostnad. Bare våre egne apper kan velges.",
+            "appsNone": "Bransjen får ingen apper inkludert.",
+            "appsCount": "Bransjen får {count} app inkludert. | Bransjen får {count} apper inkludert.",
+            "appIncluded": "Inkludert",
+            "appFree": "Gratis",
+            "noApps": "Ingen",
             "locale": {
                 "dk": "Dansk",
                 "en": "Engelsk",
@@ -14981,11 +15016,15 @@
             "departments": "Avdelinger",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talte språk",
-            "consultant_skills": "Konsulentkompetanser",
+            "consultant_skills": "Konsulentkompetanser (alle)",
+            "consultant_skills_competence": "Konsulentkompetanser: kompetanser",
+            "consultant_skills_course": "Konsulentkompetanser: kurs",
+            "consultant_skills_topic": "Konsulentkompetanser: emneord",
             "inquiry_service_types": "Innsatstyper",
             "employees": "Ansatte",
             "jobcenters": "Jobbsentre",
-            "focus_areas": "Fokusområder"
+            "focus_areas": "Fokusområder (VUM, voksne)",
+            "focus_areas_ics": "Fokusområder (ICS, barn og unge)"
         },
         "allServiceTypes": "Alle innsatstyper",
         "allowMultiple": "Tillat mer enn ett svar",
@@ -15038,6 +15077,14 @@
                 "title": "Emneord",
                 "hint": "Erfaring med f.eks. ADHD eller selvskading"
             }
+        },
+        "paste": {
+            "open": "Lim inn liste",
+            "hint": "Ett navn per linje. Navn som allerede står på listen, hoppes over.",
+            "placeholder": "Pedagog\nSykepleier\nSosionom",
+            "count": "{count} navn",
+            "submit": "Legg til alle",
+            "result": "{added} lagt til, {skipped} fantes allerede"
         }
     },
     "consultantProfile": {
@@ -15180,7 +15227,8 @@
         },
         "askSelected": "Spør {count} valgte",
         "asked": "Konsulentene er spurt",
-        "askFailed": "Konsulentene kunne ikke spørres"
+        "askFailed": "Konsulentene kunne ikke spørres",
+        "prefilled": "Fylt ut fra henvendelsen: {fields}. Endre eller fjern før du søker."
     },
     "inquiryNotes": {
         "title": "Notater",

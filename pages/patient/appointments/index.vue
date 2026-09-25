@@ -130,6 +130,8 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { t } = useI18n()
@@ -155,7 +157,7 @@ const clinicName = computed(() => userStore.getUser?.clinic?.name ?? userStore.g
 const canBook = computed(() => (userStore.getUser?.portal_visibility ?? {}).booking !== false)
 
 function formatDateTime(value: any) {
-    return value ? moment(value).format('dddd D. MMMM YYYY, HH:mm') : '-'
+    return value ? formatLocalized(moment(value), 'dddd D. MMMM YYYY, HH:mm') : '-'
 }
 
 onMounted(() => fetchAppointments())

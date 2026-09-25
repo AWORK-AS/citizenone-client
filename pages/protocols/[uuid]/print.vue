@@ -145,6 +145,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 definePageMeta({ layout: false })
 
 const router = useRouter()
@@ -152,7 +154,7 @@ const route = useRoute()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
 const protocolUuid = route.params.uuid as string
-const today = moment().format('D. MMMM YYYY')
+const today = formatLocalized(moment(), 'D. MMMM YYYY')
 const window = process.client ? globalThis : null as any
 
 const participantName = (p: any) =>
