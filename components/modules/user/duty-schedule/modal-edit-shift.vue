@@ -34,7 +34,8 @@
                 <LoadingSpinner :isActive="props.isModalLoading || state.isPageLoading">
                     <ModulesUserDutyScheduleFormShift formType="update" :error="props.error"
                         :selectedEmployee="props.selectedEmployee" :selectedShift="state.formShift"
-                        :isModalLoading="props.isModalLoading || state.isPageLoading" @dateTimeChange="dateTimeChange"
+                        :isModalLoading="props.isModalLoading || state.isPageLoading" :showNotifyEmployee="props.showNotifyEmployee"
+                        @dateTimeChange="dateTimeChange"
                         @close="closeModal()" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @saveShift="updateShift" />
                 </LoadingSpinner>
@@ -80,6 +81,10 @@ const props = defineProps({
         type: Object,
         required: false,
         default: () => [],
+    },
+    showNotifyEmployee: {
+        type: Boolean,
+        default: false,
     },
 })
 const emit = defineEmits(['close', 'updateShift', 'resetEditShiftError', 'resetShiftWarnings', 'dateTimeChange'])
