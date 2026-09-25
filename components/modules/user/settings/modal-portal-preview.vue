@@ -178,6 +178,16 @@ const SECTIONS: Record<string, any[]> = {
             preview: 'settings.company.form.portalPreviewDocuments',
         },
         {
+            key: 'forms', icon: 'ph:note-pencil',
+            label: 'settings.company.form.portalSectionForms',
+            preview: 'settings.company.form.portalPreviewForms',
+        },
+        {
+            key: 'price_estimates', icon: 'ph:receipt',
+            label: 'settings.company.form.portalSectionPriceEstimates',
+            preview: 'settings.company.form.portalPreviewPriceEstimates',
+        },
+        {
             key: 'support', icon: 'material-symbols:support',
             label: 'settings.company.form.portalSectionSupport',
             preview: 'settings.company.form.portalPreviewSupport',
