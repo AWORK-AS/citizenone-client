@@ -10476,11 +10476,15 @@
                 "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Nettbestilling",
                 "portalSectionSupport": "Support",
+                "portalSectionForms": "Skjemaer",
+                "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewAppointments": "Pasienten ser sine kommende og tidligere avtaler hos klinikken.",
                 "portalPreviewCalendar": "Pasienten ser en kalender med sine egne avtaler og hendelser.",
                 "portalPreviewBooking": "Pasienten kan selv bestille en ledig time for behandlingene dere har åpnet for nettbestilling.",
                 "portalPreviewPatientJournals": "Pasienten ser kun journalnotatene dere har merket som delt, og bare hvis pasienten har journaltilgang.",
                 "portalPreviewSupport": "Pasienten kan åpne supportpanelet for å få hjelp.",
+                "portalPreviewForms": "Pasienten fyller ut skjemaene dere sender, f.eks. før et besøk.",
+                "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem.",
                 "portalNeverUnsharedJournalNotes": "Journalnotater som ikke er merket som delt"
             }
         },
