@@ -155,6 +155,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import ClassicEditor from '@/utils/editor'
+import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { planService } from '@/components/api/user/PlanService'
@@ -197,6 +198,7 @@ const editorConfig = ref({
             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
         ]
     },
+    extraPlugins: [AutoCapitalize],
 })
 
 const state = reactive({
