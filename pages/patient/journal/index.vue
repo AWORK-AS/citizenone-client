@@ -28,6 +28,7 @@
                             </div>
                             <p class="mt-1 text-sm text-gray-500" v-if="journal.user">
                                 {{ journal.user?.firstname }} {{ journal.user?.lastname }}
+                                <span v-if="formatJobTitles(journal.user)">({{ formatJobTitles(journal.user) }})</span>
                             </p>
                             <div class="mt-3 text-sm text-gray-700 journal-content" v-html="journal.content"></div>
                         </article>
