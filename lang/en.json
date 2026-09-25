@@ -7685,6 +7685,8 @@
                 "caseworker": "Caseworker",
                 "mother": "Mother",
                 "father": "Father",
+                "parents": "Parents",
+                "family": "Family",
                 "citizen": "The @:terms.citizen{''}"
             },
             "earlier": "Earlier measurements",
@@ -15885,6 +15887,37 @@
             "saved": "Limit saved",
             "set": "You set it to {limit} requests per day.",
             "derived": "Calculated limit: {limit} requests per day per employee."
+        }
+    },
+    "wellbeing": {
+        "tab": "Wellbeing",
+        "title": "Wellbeing",
+        "description": "Wellbeing measurements from 0 to 10 for the citizen and related citizens, such as siblings on the same intervention. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
+        "primary": "Main person",
+        "latest": "Latest",
+        "add": "New measurement",
+        "givenBy": "Given by",
+        "otherName": "Who",
+        "otherPlaceholder": "E.g. the school",
+        "receivedAt": "Received",
+        "score": "Score",
+        "recordedBy": "Recorded by",
+        "empty": "No measurements yet.",
+        "curve": "Wellbeing curve for {name}",
+        "remove": "Remove measurement",
+        "removeConfirmation": "Are you sure you want to remove this measurement",
+        "saveFailed": "The measurement could not be saved",
+        "removeFailed": "The measurement could not be removed",
+        "noRelations": "Siblings and other related citizens appear here once they are linked under",
+        "raters": {
+            "caseworker": "Caseworker",
+            "mother": "Mother",
+            "father": "Father",
+            "parents": "Parents",
+            "family": "Family",
+            "staff": "Us",
+            "citizen": "The child/young person",
+            "other": "Other"
         }
     }
 }

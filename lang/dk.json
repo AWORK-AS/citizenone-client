@@ -7685,6 +7685,8 @@
                 "caseworker": "Rådgiver",
                 "mother": "Mor",
                 "father": "Far",
+                "parents": "Forældre",
+                "family": "Familien",
                 "citizen": "@.capitalize:terms.citizenDefinite{''}"
             },
             "earlier": "Tidligere målinger",
@@ -15878,6 +15880,37 @@
             "saved": "Grænsen er gemt",
             "set": "I sat den til {limit} kald om dagen.",
             "derived": "Beregnet grænse: {limit} kald om dagen pr. medarbejder."
+        }
+    },
+    "wellbeing": {
+        "tab": "Trivsel",
+        "title": "Trivsel",
+        "description": "Trivselsmålinger fra 0 til 10 for borgeren og de relaterede borgere, fx søskende på samme indsats. Hver måling har den, der har givet den, og datoen den er modtaget. Målinger fra rapporter med nøglen \"trivsel\" vises også her.",
+        "primary": "Hovedperson",
+        "latest": "Seneste",
+        "add": "Ny måling",
+        "givenBy": "Afgivet af",
+        "otherName": "Hvem",
+        "otherPlaceholder": "Fx skolen",
+        "receivedAt": "Modtaget",
+        "score": "Score",
+        "recordedBy": "Noteret af",
+        "empty": "Ingen målinger endnu.",
+        "curve": "Trivselskurve for {name}",
+        "remove": "Fjern måling",
+        "removeConfirmation": "Er du sikker på, at du vil fjerne denne måling",
+        "saveFailed": "Målingen kunne ikke gemmes",
+        "removeFailed": "Målingen kunne ikke fjernes",
+        "noRelations": "Søskende og andre relaterede borgere vises her, når de er tilknyttet under",
+        "raters": {
+            "caseworker": "Rådgiver",
+            "mother": "Mor",
+            "father": "Far",
+            "parents": "Forældre",
+            "family": "Familien",
+            "staff": "Os",
+            "citizen": "Barnet/den unge",
+            "other": "Andet"
         }
     }
 }

@@ -7685,6 +7685,8 @@
                 "caseworker": "Handläggare",
                 "mother": "Mamma",
                 "father": "Pappa",
+                "parents": "Föräldrar",
+                "family": "Familjen",
                 "citizen": "Medborgaren"
             },
             "earlier": "Tidigare mätningar",
@@ -15789,6 +15791,37 @@
             "saved": "Gränsen är sparad",
             "set": "Ni satte den till {limit} anrop per dag.",
             "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare."
+        }
+    },
+    "wellbeing": {
+        "tab": "Välmående",
+        "title": "Välmående",
+        "description": "Mätningar av välmående från 0 till 10 för personen och relaterade personer, t.ex. syskon i samma insats. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
+        "primary": "Huvudperson",
+        "latest": "Senaste",
+        "add": "Ny mätning",
+        "givenBy": "Given av",
+        "otherName": "Vem",
+        "otherPlaceholder": "T.ex. skolan",
+        "receivedAt": "Mottagen",
+        "score": "Poäng",
+        "recordedBy": "Noterad av",
+        "empty": "Inga mätningar än.",
+        "curve": "Välmåendekurva för {name}",
+        "remove": "Ta bort mätning",
+        "removeConfirmation": "Är du säker på att du vill ta bort denna mätning",
+        "saveFailed": "Mätningen kunde inte sparas",
+        "removeFailed": "Mätningen kunde inte tas bort",
+        "noRelations": "Syskon och andra relaterade personer visas här när de är kopplade under",
+        "raters": {
+            "caseworker": "Handläggare",
+            "mother": "Mamma",
+            "father": "Pappa",
+            "parents": "Föräldrar",
+            "family": "Familjen",
+            "staff": "Vi",
+            "citizen": "Barnet/den unga",
+            "other": "Annat"
         }
     }
 }
