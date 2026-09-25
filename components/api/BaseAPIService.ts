@@ -107,6 +107,20 @@ class BaseAPIService {
         return data ?? {}
     }
 
+    /**
+     * Never sends "Bearer null"/"Bearer undefined": a component can mount and
+     * fire its first request before login has finished writing the token (or
+     * after logout has cleared it), and `'Bearer ' + localStorage.getItem(...)`
+     * turns that missing value into the literal string "null" on the wire. With
+     * no token yet, the request goes out with no Authorization header at all,
+     * which the backend correctly classifies as "no-bearer" rather than the
+     * misleading "malformed" (see UnauthenticatedDiagnostics on the backend).
+     */
+    private static authHeader(): Record<string, string> {
+        const token = localStorage.getItem('_token')
+        return token ? { Authorization: 'Bearer ' + token } : {}
+    }
+
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
         const key = `${method}:${url}:${JSON.stringify(params)}`
 
@@ -206,7 +220,7 @@ class BaseAPIService {
         const response = await fetch(`${runtimeConfig.public.apiBaseURL}${url}`, {
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                ...BaseAPIService.authHeader(),
                 Accept: 'text/event-stream',
             },
             body: body instanceof FormData ? body : JSON.stringify(body),
@@ -316,7 +330,7 @@ class BaseAPIService {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                    ...BaseAPIService.authHeader(),
                     Accept: 'application/json',
                 },
                 signal,
@@ -327,7 +341,7 @@ class BaseAPIService {
                 baseURL: runtimeConfig.public.apiBaseURL,
                 method: method,
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                    ...BaseAPIService.authHeader(),
                     Accept: 'application/json',
                 },
                 signal,
@@ -432,7 +446,7 @@ class BaseAPIService {
             baseURL: runtimeConfig.public.apiBaseURL,
             method: 'POST',
             headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                ...BaseAPIService.authHeader(),
                 Accept: 'application/json',
             },
             body: formData,
@@ -491,7 +505,7 @@ class BaseAPIService {
             baseURL: runtimeConfig.public.apiBaseURL,
             method,
             headers: {
-                Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                ...BaseAPIService.authHeader(),
                 Accept: 'application/json',
             },
             responseType: 'blob' as const,
@@ -576,7 +590,7 @@ class BaseAPIService {
             const response = await fetch(`${runtimeConfig.public.apiBaseURL}/user`, {
                 method: 'GET',
                 headers: {
-                    Authorization: 'Bearer ' + localStorage.getItem('_token'),
+                    ...BaseAPIService.authHeader(),
                     Accept: 'application/json',
                 },
             })
