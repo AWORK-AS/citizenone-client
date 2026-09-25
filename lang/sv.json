@@ -1778,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
                 "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
                 "attachedSurveys": "Enkäter att besvara",
-                "linkedSurveys": "Kopplade enkäter"
+                "linkedSurveys": "Kopplade enkäter",
+                "quickJournalTitles": "Sparade journaltitlar",
+                "moreJournalTitles": "+{count} fler"
             },
             "journalLogs": {
                 "date": "Datum",

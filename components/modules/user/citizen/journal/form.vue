@@ -34,6 +34,8 @@
                     <FormComboField id="title" name="title"
                         :placeholder="$t('citizens.citizenJournals.form.titlePlaceholder')"
                         :toggleLabel="$t('citizens.citizenJournals.form.showJournalTitles')"
+                        :quickPicks="6" :quickPicksLabel="$t('citizens.citizenJournals.form.quickJournalTitles')"
+                        :quickPicksMoreText="(count: number) => $t('citizens.citizenJournals.form.moreJournalTitles', { count })"
                         :options="state.options.journal_titles" v-model="state.formJournal.title" />
                     <FormError :error="v$?.formJournal?.title?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.title?.[0]" />
