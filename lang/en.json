@@ -9157,7 +9157,8 @@
             "remembered": "Remembered",
             "forgotten": "Forgotten",
             "pending": "Pending",
-            "noEvaluationsToShow": "No effect evaluations to show"
+            "noEvaluationsToShow": "No effect evaluations to show",
+            "clickToEvaluate": "Click to evaluate"
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",

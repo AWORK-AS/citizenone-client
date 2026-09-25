@@ -9152,7 +9152,8 @@
             "remembered": "Ihågkommen",
             "forgotten": "Glömd",
             "pending": "Väntande",
-            "noEvaluationsToShow": "Inga effektutvärderingar att visa"
+            "noEvaluationsToShow": "Inga effektutvärderingar att visa",
+            "clickToEvaluate": "Klicka för att utvärdera"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",

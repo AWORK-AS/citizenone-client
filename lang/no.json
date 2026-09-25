@@ -9152,7 +9152,8 @@
             "remembered": "Husket",
             "forgotten": "Glemt",
             "pending": "Venter",
-            "noEvaluationsToShow": "Ingen effektevalueringer å vise"
+            "noEvaluationsToShow": "Ingen effektevalueringer å vise",
+            "clickToEvaluate": "Klikk for å evaluere"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",

@@ -9157,7 +9157,8 @@
             "remembered": "Husket",
             "forgotten": "Glemt",
             "pending": "Afventer",
-            "noEvaluationsToShow": "Ingen effektevalueringer at vise"
+            "noEvaluationsToShow": "Ingen effektevalueringer at vise",
+            "clickToEvaluate": "Klik for at evaluere"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
