@@ -239,7 +239,8 @@
                                         <p class="text-xs">
                                             {{ $t('citizens.citizenJournals.createdBy') }}:
                                             {{ journal.user?.firstname }} {{ journal.user?.lastname }}
-                                            <span v-if="formatJobTitles(journal.user)">({{ formatJobTitles(journal.user) }})</span>
+                                            <!-- Trailing space inside: the newline before the next span is dropped by the compiler. -->
+                                            <span v-if="formatJobTitles(journal.user)">({{ formatJobTitles(journal.user) }}) </span>
                                             <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
                                             {{ formatDateTimeToReadable(journal.created_at) }}
                                         </p>
