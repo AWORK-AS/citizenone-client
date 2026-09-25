@@ -360,6 +360,17 @@
                         {{ $t('dutySchedules.form.doNotCountSickLeaveAsWorkingHours') }}
                     </div>
                 </div>
+                <div class="space-y-1" v-if="props.formType === 'update' && props.showNotifyEmployee">
+                    <div class="w-fit flex items-center cursor-pointer" data-testid="notify-employee-toggle"
+                        @click="toggleNotifyEmployee">
+                        <FormCheckbox id="notify_employee" :value="state.notifyEmployee" />
+                        {{ $t('dutySchedules.form.sendEmailToEmployee') }}
+                    </div>
+                    <p class="text-xs text-gray-500">
+                        {{ hasTimesChanged ? $t('dutySchedules.form.sendEmailToEmployeeTimesChanged') :
+                            $t('dutySchedules.form.sendEmailToEmployeeTimesUnchanged') }}
+                    </p>
+                </div>
             </div>
         </div>
         <div class="mt-6">
@@ -428,6 +439,11 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    // Live schedule edits email the employee; drafts/templates don't, so they leave this off.
+    showNotifyEmployee: {
+        type: Boolean,
+        default: false,
+    },
 })
 const { t } = useI18n()
 const emit = defineEmits(['close', 'isPageLoading', 'saveShift', 'dateTimeChange'])
@@ -476,6 +492,9 @@ const state = reactive({
         isShiftHistoryOpen: false,
     },
     showChildProtectionCertificateWarning: false,
+    // Follows hasTimesChanged until the planner ticks/unticks it themselves.
+    notifyEmployee: false,
+    isNotifyEmployeeTouched: false,
     employeeHourlyRates: {} as Record<string, number>,
     selectedEmployeeUnavailability: null as any,
     options: {
@@ -1036,14 +1055,57 @@ async function fetchAllCitizensPerUserDepartment() {
     emit('isPageLoading', false)
 }
 
+// The start/end that will actually be sent: a vacation day without overridden hours is
+// always saved as 08:00-15:24, whatever time the date-only fields hold.
+function submittedDateTimes() {
+    if (isVacationLeave.value && !state.formShift.is_override_vacation_hours) {
+        return {
+            date_time_start: moment(state.formShift.date_time_start, 'YYYY-MM-DD').startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm'),
+            date_time_end: moment(state.formShift.date_time_end, 'YYYY-MM-DD').startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm'),
+        }
+    }
+    return {
+        date_time_start: state.formShift.date_time_start,
+        date_time_end: state.formShift.date_time_end,
+    }
+}
+
+const DATE_TIME_FORMATS = ['YYYY-MM-DD H:mm', 'YYYY-MM-DD HH:mm', 'YYYY-MM-DD HH:mm:ss', 'YYYY-MM-DD']
+
+function isSameMinute(a: string, b: string) {
+    return moment(a, DATE_TIME_FORMATS).isSame(moment(b, DATE_TIME_FORMATS), 'minute')
+}
+
+// Only a changed date/time is something the employee really needs an email about;
+// a corrected shift type, tag or note usually isn't.
+const hasTimesChanged = computed(() => {
+    if (props.formType !== 'update' || !props.selectedShift) return false
+    const { date_time_start, date_time_end } = submittedDateTimes()
+    return !isSameMinute(date_time_start, props.selectedShift.date_time_start)
+        || !isSameMinute(date_time_end, props.selectedShift.date_time_end)
+})
+
+watch(hasTimesChanged, (changed) => {
+    if (!state.isNotifyEmployeeTouched) state.notifyEmployee = changed
+}, { immediate: true })
+
+watch(() => props.selectedShift?.uuid, () => {
+    state.isNotifyEmployeeTouched = false
+    state.notifyEmployee = hasTimesChanged.value
+})
+
+function toggleNotifyEmployee() {
+    state.isNotifyEmployeeTouched = true
+    state.notifyEmployee = !state.notifyEmployee
+}
+
 async function saveShift() {
     if (props.isModalLoading) return
     v$.value.$validate()
     if (!v$.value.$error) {
-        const payload = { ...state.formShift }
-        if (isVacationLeave.value && !state.formShift.is_override_vacation_hours) {
-            payload.date_time_start = moment(state.formShift.date_time_start, 'YYYY-MM-DD').startOf('day').add(8, 'hours').format('YYYY-MM-DD H:mm')
-            payload.date_time_end = moment(state.formShift.date_time_end, 'YYYY-MM-DD').startOf('day').add(15.4, 'hours').format('YYYY-MM-DD H:mm')
+        const payload = { ...state.formShift, ...submittedDateTimes() }
+        if (props.formType === 'update' && props.showNotifyEmployee) {
+            payload.notify_employee = state.notifyEmployee
         }
         emit('saveShift', payload)
     }

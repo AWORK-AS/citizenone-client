@@ -30,6 +30,7 @@
                             <p class="text-xxs" v-if="journal?.user?.firstname && journal?.user?.lastname">
                                 {{ $t('overview.createdBy') }}
                                 {{ journal?.user?.firstname + ' ' + (journal?.user?.lastname ?? '') }}
+                                <span v-if="formatJobTitles(journal?.user)">({{ formatJobTitles(journal?.user) }})</span>
                             </p>
                             <div class="px-1">
                                 <h3 class="text-base font-semibold">
@@ -67,6 +68,7 @@
                                 {{ $t('overview.createdBy') }}
                                 {{ citizen?.citizen_journal?.user?.firstname + ' ' +
                                     (citizen?.citizen_journal?.user?.lastname ?? '') }}
+                                <span v-if="formatJobTitles(citizen?.citizen_journal?.user)">({{ formatJobTitles(citizen?.citizen_journal?.user) }})</span>
                             </p>
                             <div class="px-1">
                                 <h3 class="text-base font-semibold">

@@ -2,10 +2,13 @@
     <textarea ref="textarea" type="text" :name="props.name" :autocomplete="props.name"
         class="appearance-none block w-full p-4 border border-gray-200 placeholder-gray-500 text-gray-900 rounded-lg focus:outline-none focus:ring-primary focus:border-primary focus:z-10 sm:text-sm resize-none"
         :placeholder="props.placeholder" :rows="props.rows"
+        :autocapitalize="props.autoCapitalize ? 'sentences' : undefined"
         @input="updateValue($event)" @focus="resize">{{ props.modelValue }}</textarea>
 </template>
 
 <script setup lang="ts">
+import { shouldCapitalizeLastLetter } from '@/utils/auto-capitalize'
+
 const props = defineProps({
     name: {
         type: String,
@@ -23,6 +26,13 @@ const props = defineProps({
         type: Number,
         required: false,
         default: 4,
+    },
+    // Journal notes: capitalize the first letter of the text and of every
+    // sentence while typing (see utils/auto-capitalize.ts).
+    autoCapitalize: {
+        type: Boolean,
+        required: false,
+        default: false,
     },
 })
 
@@ -73,9 +83,59 @@ function resize() {
     el.style.overflowY = contentHeight > MAX_HEIGHT_PX ? 'auto' : 'hidden'
 }
 
+// Where the last automatic capital was written, so undoing it can be told
+// apart from any other undo.
+let lastCapitalizedAt = -1
+
 function updateValue(event: any) {
+    if (props.autoCapitalize) {
+        capitalizeTypedLetter(event)
+    }
+
     emit('update:modelValue', event.target.value)
     resize()
+}
+
+/**
+ * Turns the letter just typed into a capital when it opens a sentence.
+ *
+ * It is replaced through execCommand so the browser's own undo stack keeps
+ * it: Ctrl+Z right after brings the lowercase letter back. Pasted text and
+ * IME compositions are left alone.
+ */
+function capitalizeTypedLetter(event: InputEvent) {
+    const el = event.target as HTMLTextAreaElement
+
+    // Undoing the capital leaves the restored lowercase letter selected, so
+    // the next keystroke would overwrite it - put the caret back after it.
+    if (event.inputType === 'historyUndo' && el.selectionStart === lastCapitalizedAt
+        && el.selectionEnd === lastCapitalizedAt + 1) {
+        el.setSelectionRange(el.selectionEnd, el.selectionEnd)
+        lastCapitalizedAt = -1
+
+        return
+    }
+
+    if (event.inputType !== 'insertText' || event.isComposing || el.selectionStart !== el.selectionEnd) {
+        return
+    }
+
+    const caret = el.selectionStart
+    const before = el.value.slice(0, caret)
+    const lineStart = before.lastIndexOf('\n') + 1
+
+    if (!shouldCapitalizeLastLetter(before.slice(lineStart))) {
+        return
+    }
+
+    const upper = before.charAt(caret - 1).toLocaleUpperCase()
+
+    lastCapitalizedAt = caret - 1
+    el.setSelectionRange(caret - 1, caret)
+
+    if (!document.execCommand('insertText', false, upper)) {
+        el.setRangeText(upper, caret - 1, caret, 'end')
+    }
 }
 
 onMounted(resize)

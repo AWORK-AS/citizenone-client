@@ -803,7 +803,7 @@
             :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
             @closeWarningDialog="closeWarningDialog" @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
             @resetNewShiftError="state.newShiftError = {}" />
-        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
+        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading" :showNotifyEmployee="true"
             :availableEmployees="filteredEmployeesForModal" :isModalOpen="state.modal.isEditShiftOpen"
             :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
@@ -1450,6 +1450,7 @@ async function updateSelectedSchedule(shiftDetails: any) {
         note: shiftDetails.note,
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
         use_compensatory_time: shiftDetails.use_compensatory_time,
+        notify_employee: shiftDetails.notify_employee,
     }
     await updateDutySchedule(scheduleUuid, params)
 }

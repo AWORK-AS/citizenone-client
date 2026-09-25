@@ -1778,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Velg kolleger som skal varsles",
                 "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet.",
                 "attachedSurveys": "Spørreskjemaer som skal besvares",
-                "linkedSurveys": "Tilknyttede spørreskjemaer"
+                "linkedSurveys": "Tilknyttede spørreskjemaer",
+                "quickJournalTitles": "Lagrede journaltitler",
+                "moreJournalTitles": "+{count} flere"
             },
             "journalLogs": {
                 "date": "Dato",
@@ -4401,7 +4403,10 @@
             "deleteFileConfirmation": "Er du sikker på at du vil slette denne fil",
             "deleteFolderConfirmation": "Er du sikker på at du vil slette denne mappe",
             "downloadWithCompanyLogoConfirmation": "Vil du downloade dette dokument med virksomhetens logo",
-            "upgradeStorageConfirmation": "Vil du oppgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vil du oppgradere din lagerplads",
+            "companyLogoLayoutHint": "Når logoen legges til, blir et Word-dokument satt opp på nytt, og skrifttyper og layout kan endres. Velg \"Uten logo\" for å beholde den originale layouten.",
+            "withoutLogo": "Uten logo",
+            "withLogo": "Med logo"
         },
         "createNewFolder": "Opprett ny mappe",
         "createTemplate": {
@@ -4482,7 +4487,8 @@
                 "edit": "Rediger",
                 "move": "Flytt",
                 "openSelected": "Åpne valgte",
-                "view": "Se"
+                "view": "Se",
+                "downloadOriginal": "Last ned original"
             },
             "dateCreated": "Opprettelsesdato",
             "lastModified": "Sist endret",
@@ -4492,7 +4498,13 @@
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Last opp fil",
         "viewDocument": "Se dokument",
-        "viewDraftFile": "Se udkastfiler"
+        "viewDraftFile": "Se udkastfiler",
+        "preview": {
+            "originalKeptNote": "Du ser en forhåndsvisning. Originalfilen er lagret uendret – last den ned for å åpne den i Word med nøyaktig samme skrifttyper og layout.",
+            "downloadOriginal": "Last ned original",
+            "renderFailed": "Dokumentet kan ikke vises her. Filen er ikke endret – last ned originalen for å åpne den i Word.",
+            "oneDriveDownloadFailed": "Filen kunne ikke hentes fra OneDrive. Prøv igjen, eller åpne den direkte i OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
@@ -4835,6 +4847,9 @@
             "departments": "Avdeling",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sykefravær som arbeidstimer",
+            "sendEmailToEmployee": "Send e-post til den ansatte",
+            "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
+            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
             "doNotCountWeekends": "Tæl ikke weekender med",
             "estimatedPayrollCost": "Estimert lønnskostnad",
             "forSleepingNightShift": "For sovende nattevagt",
@@ -8620,6 +8635,7 @@
     "messages": {
         "actions": {
             "delete": "Slett",
+            "download": "Last ned",
             "edit": "Rediger",
             "more": "Mer"
         },
@@ -9154,7 +9170,8 @@
             "remembered": "Husket",
             "forgotten": "Glemt",
             "pending": "Venter",
-            "noEvaluationsToShow": "Ingen effektevalueringer å vise"
+            "noEvaluationsToShow": "Ingen effektevalueringer å vise",
+            "clickToEvaluate": "Klikk for å evaluere"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",

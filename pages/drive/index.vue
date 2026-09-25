@@ -212,7 +212,7 @@
                                             @change="handleRowSelect(document)"
                                             class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
                                     </td>
-                                    <td width="25%">
+                                    <td width="25%" class="max-w-0">
                                         <div v-if="state.viewMode === 'google-drive'">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 v-if="document?.type === 'file'" @click="openGoogleDriveFile(document)">
@@ -348,6 +348,14 @@
                                                     <Icon name="ph:eye" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('drive.table.actions.downloadOriginal')"
+                                                v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
+                                                <FormButton :aria-label="$t('drive.table.actions.downloadOriginal')" type="button" buttonStyle="action"
+                                                    data-testid="drive-download-original"
+                                                    @click="downloadFile(document)">
+                                                    <Icon name="ph:download-simple" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.downloadPDF')"
                                                 v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
                                                 <FormButton :aria-label="$t('drive.table.actions.downloadPDF')" type="button" buttonStyle="action"
@@ -481,9 +489,11 @@
                         @close="state.modal.isEditDocumentFileWarningOpen = false"
                         @refreshDocuments="handleRefreshDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
-                        :selectedDocument="state.selectedDocument" @close="state.modal.isViewDocumentOpen = false" />
+                        :selectedDocument="state.selectedDocument" :loadFile="fetchOriginalFile"
+                        @close="state.modal.isViewDocumentOpen = false" />
                     <DialogConfirmation :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
-                        :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '?'"
+                        :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '? ' + $t('drive.confirmation.companyLogoLayoutHint')"
+                        :cancelLabel="$t('drive.confirmation.withoutLogo')" :confirmLabel="$t('drive.confirmation.withLogo')"
                         @close="cancelCompanyLogoDownload" @confirm="confirmCompanyLogoDownload" />
                     <ModulesUserDocumentModalNewGoogleDriveDirectory
                         :isModalOpen="state.modal.isCreateGoogleDriveFolderOpen"
@@ -533,11 +543,11 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
-import { documentBlobViewer } from '@/composables/documentBlobViewer'
+import { documentBlobViewer, documentFileName, documentExtension, canPreviewInApp } from '@/composables/documentBlobViewer'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useOneDriveCache } from '@/composables/useOneDriveCache'
 
-const { openBlobInNewTab } = documentBlobViewer()
+const { openOrSaveOriginal } = documentBlobViewer()
 const oneDriveService = new OneDriveService()
 const runtimeConfig = useRuntimeConfig()
 
@@ -1309,16 +1319,29 @@ async function handleSearch(value: any) {
     }
 }
 
+// Every path here works on the untouched original. Word files get the in-app
+// preview; PDFs and images open in a tab; anything else a browser cannot show
+// (older .doc, Excel, PowerPoint, ...) is saved under its real name so it
+// opens in the program that made it - never converted to PDF on the way.
 function viewDownloadDocument(document: any) {
-    const extension = document.file_url.split('.').pop().toLowerCase()
-    if (['docx', 'pages'].includes(extension)) {
+    if (canPreviewInApp(document)) {
         state.selectedDocument = document
         state.modal.isViewDocumentOpen = true
-    } else if (document?.is_onedrive) {
-        downloadFile(document)
     } else {
         viewFile(document)
     }
+}
+
+async function fetchOriginalFile(document: any): Promise<Blob> {
+    if (document?.is_onedrive) {
+        try {
+            return await oneDriveService.downloadOriginalFile(document.uuid)
+        } catch (e) {
+            throw { message: t('drive.preview.oneDriveDownloadFailed') }
+        }
+    }
+
+    return await documentService.downloadFile(document?.uuid)
 }
 
 // Selection is only offered where a row is a file this system holds: Google
@@ -1343,16 +1366,14 @@ async function openSelectedDocuments() {
 }
 
 // GDPR ask from the 2026-09-03 superbrugermøde: opening a company document
-// should not force it to disk. Only for locally-hosted files - OneDrive keeps
-// its existing download flow above, which already deals with its own
-// PDF-conversion/webUrl fallbacks.
+// should not force it to disk - formats the browser can show open in a tab.
 async function viewFile(document: any) {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await documentService.downloadFile(document?.uuid)
+        const response = await fetchOriginalFile(document)
         if (response) {
-            openBlobInNewTab(response)
+            openOrSaveOriginal(response, documentFileName(document))
         }
     } catch (error: any) {
         state.error = error
@@ -1365,72 +1386,44 @@ function openDownloadDocumentPdfDialog(document: any) {
     state.modal.isDownloadDialogConfirmationOpen = true
 }
 
+// DialogConfirmation emits "close" right after "confirm", so without this
+// guard "With logo" also fired a second, logo-less download straight after.
 function cancelCompanyLogoDownload() {
     state.modal.isDownloadDialogConfirmationOpen = false
-    state.isCompanyLogoIncluded = false
 
-    if (!state.isAlreadyDownlaoding) {
-        downloadDocumentPdf(state.selectedDocument)
+    if (state.isAlreadyDownlaoding) {
+        state.isAlreadyDownlaoding = false
+        return
     }
+
+    state.isCompanyLogoIncluded = false
+    downloadDocumentPdf(state.selectedDocument)
 }
 
 function confirmCompanyLogoDownload() {
     state.modal.isDownloadDialogConfirmationOpen = false
     state.isCompanyLogoIncluded = true
+    state.isAlreadyDownlaoding = true
 
     downloadDocumentPdf(state.selectedDocument)
 }
 
+// The file exactly as it was uploaded, under its own name and extension.
+// This used to save a converted PDF first (and, for OneDrive, the original
+// renamed to .pdf, which then opened blank).
 async function downloadFile(document: any) {
-    state.error = {};
-    state.isTableLoading = true;
+    state.error = {}
+    state.isTableLoading = true
     try {
-        if (document?.is_onedrive) {
-            try {
-                const response = await documentService.downloadPdf(document?.uuid);
-                if (response) {
-                    saveAs(response, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
-                    state.isTableLoading = false;
-                    return;
-                }
-            } catch (e) {
-
-            }
-            const downloadUrl = document?.['@microsoft.graph.downloadUrl'] || null;
-            if (downloadUrl) {
-                const response = await fetch(downloadUrl);
-                const blob = await response.blob();
-                saveAs(blob, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
-            } else if (document?.file_url) {
-                window.open(document.file_url, '_blank');
-            } else {
-                throw new Error('Kunne ikke finde link til OneDrive-filen');
-            }
-        } else {
-            const response = await documentService.downloadPdf(document?.uuid);
-            if (response) {
-                saveAs(response, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
-            }
-
-            state.error = {};
-            state.isTableLoading = true;
-            try {
-                const documentUuid = document?.uuid;
-                const response = await documentService.downloadFile(documentUuid);
-                if (response) {
-                    saveAs(response, document?.name);
-                }
-            } catch (error: any) {
-                state.error = error;
-            }
-            state.isTableLoading = false;
+        const response = await fetchOriginalFile(document)
+        if (response) {
+            saveAs(response, documentFileName(document))
         }
     } catch (error: any) {
-        state.error = error;
+        state.error = error
     }
-    state.isTableLoading = false;
+    state.isTableLoading = false
 }
-
 
 function triggerFileInput() {
     documentFile.value.click()
@@ -1988,17 +1981,33 @@ async function deleteDocument() {
     state.isTableLoading = false;
 }
 
+// "Rapport v2.docx" -> "Rapport v2.pdf". split('.')[0] cut names with a dot
+// in them short ("Rapport v2.1.docx" -> "Rapport v2.pdf").
+function pdfFileName(document: any): string {
+    const name = documentFileName(document)
+    const extension = documentExtension(document)
+    const base = extension && name.toLowerCase().endsWith('.' + extension)
+        ? name.slice(0, -(extension.length + 1))
+        : name
+
+    return (base || 'dokument') + '.pdf'
+}
+
 async function downloadDocumentPdf(document: any) {
     state.error = {};
     state.isTableLoading = true;
     try {
         if (document?.is_onedrive) {
             const blob = await oneDriveService.downloadFile(document.uuid);
-            saveAs(blob, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
+            saveAs(blob, pdfFileName(document));
         } else {
-            const response = await documentService.downloadPdf(document?.uuid);
+            // The logo choice from the confirmation dialog was never sent, so
+            // the API could not honour it.
+            const response = await documentService.downloadPdf(document?.uuid, {
+                is_company_logo_included: state.isCompanyLogoIncluded ? 'true' : 'false',
+            });
             if (response) {
-                saveAs(response, (document?.name?.split('.')[0] || 'dokument') + '.pdf');
+                saveAs(response, pdfFileName(document));
             }
         }
     } catch (error: any) {

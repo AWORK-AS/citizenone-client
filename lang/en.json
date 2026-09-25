@@ -1778,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
                 "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
                 "attachedSurveys": "Surveys to answer",
-                "linkedSurveys": "Linked surveys"
+                "linkedSurveys": "Linked surveys",
+                "quickJournalTitles": "Saved journal titles",
+                "moreJournalTitles": "+{count} more"
             },
             "journalLogs": {
                 "date": "Date",
@@ -4401,7 +4403,10 @@
             "deleteFileConfirmation": "Are you sure you want to delete this file",
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
             "downloadWithCompanyLogoConfirmation": "Do you want to download this document with company logo",
-            "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            "upgradeStorageConfirmation": "Do you want to upgrade your storage",
+            "companyLogoLayoutHint": "Adding the logo re-renders a Word document, so fonts and layout may change. Choose \"Without logo\" to keep the original layout.",
+            "withoutLogo": "Without logo",
+            "withLogo": "With logo"
         },
         "createNewFolder": "Create new folder",
         "createTemplate": {
@@ -4482,7 +4487,8 @@
                 "edit": "Edit",
                 "move": "Move",
                 "openSelected": "Open selected",
-                "view": "View"
+                "view": "View",
+                "downloadOriginal": "Download original"
             },
             "dateCreated": "Date created",
             "lastModified": "Last modified",
@@ -4492,7 +4498,13 @@
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",
         "viewDocument": "View document",
-        "viewDraftFile": "View draft files"
+        "viewDraftFile": "View draft files",
+        "preview": {
+            "originalKeptNote": "You are viewing a preview. The original file is stored unchanged – download it to open it in Word with exactly the same fonts and layout.",
+            "downloadOriginal": "Download original",
+            "renderFailed": "This document cannot be shown here. The file has not been changed – download the original to open it in Word.",
+            "oneDriveDownloadFailed": "The file could not be fetched from OneDrive. Try again, or open it directly in OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "All day",
@@ -4890,6 +4902,9 @@
             "departments": "Department",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
+            "sendEmailToEmployee": "Send email to employee",
+            "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
+            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
             "doNotCountWeekends": "Do not count weekends",
             "estimatedPayrollCost": "Estimated payroll cost",
             "forSleepingNightShift": "For sleeping night shift",
@@ -8620,6 +8635,7 @@
     "messages": {
         "actions": {
             "delete": "Delete",
+            "download": "Download",
             "edit": "Edit",
             "more": "More"
         },
@@ -9159,7 +9175,8 @@
             "remembered": "Remembered",
             "forgotten": "Forgotten",
             "pending": "Pending",
-            "noEvaluationsToShow": "No effect evaluations to show"
+            "noEvaluationsToShow": "No effect evaluations to show",
+            "clickToEvaluate": "Click to evaluate"
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
