@@ -816,6 +816,16 @@ const activeContextGroup = computed(() => {
 const COLLAPSED_GROUPS_KEY = 'co_sidebar_collapsed_groups'
 const collapsedGroups = ref<string[]>([])
 
+// Who is signed in, for the embedded support chat, as soon as the staff
+// layout mounts - not only when someone opens the chat from the Support
+// menu. Identifying only there left every other way into the chat
+// anonymous, and with it what Milo offers a known customer, such as filing
+// a bug report. Only staff layouts do this: the identity is a staff member's
+// name and email, and a portal user (citizen, relative, patient) must never
+// be announced to the helpdesk this way. The widget queues the claim if its
+// script has not booted, and sends it to Obiyen only when a chat exists.
+onMounted(() => useObiyenChat().identify())
+
 onMounted(() => {
     if (typeof localStorage === 'undefined') return
     try {
