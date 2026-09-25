@@ -235,6 +235,9 @@
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
+            <ModulesUserDocumentDocsFileModalPreview :isModalOpen="preview.isOpen"
+                :selectedDocument="preview.document" :loadFile="loadCitizenFile"
+                @close="preview.isOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -247,11 +250,22 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
-import { documentBlobViewer } from '@/composables/documentBlobViewer'
+import { documentBlobViewer, documentFileName, canPreviewInApp } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
-const { openBlobInNewTab } = documentBlobViewer()
+const { openOrSaveOriginal } = documentBlobViewer()
+
+// Word files are previewed in the app from the stored original instead of a
+// blob: tab, which a browser cannot render and saved as a nameless, blank file.
+const preview = reactive({
+    isOpen: false,
+    document: {} as any,
+})
+
+function loadCitizenFile(document: any): Promise<Blob> {
+    return citizenDocumentService.downloadCitizenFile(document?.uuid)
+}
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -389,7 +403,7 @@ async function downloadFile(document: any) {
         const documentUuid = document?.uuid
         const response = await citizenDocumentService.downloadCitizenFile(documentUuid)
         if (response) {
-            saveAs(response, document?.name)
+            saveAs(response, documentFileName(document))
         }
     } catch (error: any) {
         state.error = error
@@ -397,13 +411,19 @@ async function downloadFile(document: any) {
     state.isTableLoading = false
 }
 
-async function viewFile(document: any) {
+async function viewFile(document: any, allowPreview = true) {
+    if (allowPreview && canPreviewInApp(document)) {
+        preview.document = document
+        preview.isOpen = true
+        return
+    }
+
     state.error = {}
     state.isTableLoading = true
     try {
         const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
         if (response) {
-            openBlobInNewTab(response)
+            openOrSaveOriginal(response, documentFileName(document))
         }
     } catch (error: any) {
         state.error = error
@@ -417,7 +437,7 @@ function onSelectionChange(rows: any[]) {
 
 async function openSelectedDocuments() {
     for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
-        await viewFile(document)
+        await viewFile(document, false)
     }
     state.selectedDocuments = []
 }

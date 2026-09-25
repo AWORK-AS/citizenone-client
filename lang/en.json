@@ -4401,7 +4401,10 @@
             "deleteFileConfirmation": "Are you sure you want to delete this file",
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
             "downloadWithCompanyLogoConfirmation": "Do you want to download this document with company logo",
-            "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            "upgradeStorageConfirmation": "Do you want to upgrade your storage",
+            "companyLogoLayoutHint": "Adding the logo re-renders a Word document, so fonts and layout may change. Choose \"Without logo\" to keep the original layout.",
+            "withoutLogo": "Without logo",
+            "withLogo": "With logo"
         },
         "createNewFolder": "Create new folder",
         "createTemplate": {
@@ -4482,7 +4485,8 @@
                 "edit": "Edit",
                 "move": "Move",
                 "openSelected": "Open selected",
-                "view": "View"
+                "view": "View",
+                "downloadOriginal": "Download original"
             },
             "dateCreated": "Date created",
             "lastModified": "Last modified",
@@ -4492,7 +4496,13 @@
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",
         "viewDocument": "View document",
-        "viewDraftFile": "View draft files"
+        "viewDraftFile": "View draft files",
+        "preview": {
+            "originalKeptNote": "You are viewing a preview. The original file is stored unchanged – download it to open it in Word with exactly the same fonts and layout.",
+            "downloadOriginal": "Download original",
+            "renderFailed": "This document cannot be shown here. The file has not been changed – download the original to open it in Word.",
+            "oneDriveDownloadFailed": "The file could not be fetched from OneDrive. Try again, or open it directly in OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "All day",
