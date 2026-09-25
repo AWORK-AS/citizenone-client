@@ -39,6 +39,7 @@
                                 <th class="co-th">{{ $t('superadmin.industries.colIndustry') }}</th>
                                 <th class="co-th">{{ $t('superadmin.industries.colWord') }}</th>
                                 <th class="co-th">{{ $t('superadmin.industries.colModules') }}</th>
+                                <th class="co-th">{{ $t('superadmin.industries.colApps') }}</th>
                                 <th class="co-th">{{ $t('superadmin.industries.colSource') }}</th>
                                 <th class="co-th"></th>
                             </tr>
@@ -58,6 +59,9 @@
                                     {{ industry.all_pages
                                         ? $t('superadmin.industries.allModules')
                                         : $t('superadmin.industries.someModules', { count: industry.page_ids.length, total: pages.length }) }}
+                                </td>
+                                <td class="co-td text-[13px] text-[#5C6478]">
+                                    {{ appNames(industry) || $t('superadmin.industries.noApps') }}
                                 </td>
                                 <td class="co-td">
                                     <span v-if="isConfigured(industry)" class="co-pill-set">
@@ -137,6 +141,33 @@
                         </div>
                     </div>
 
+                    <div class="mt-6">
+                        <h4 class="text-[13px] font-semibold text-[#1F2533] mb-1">
+                            {{ $t('superadmin.industries.apps') }}
+                        </h4>
+                        <p class="text-[12px] text-[#8891A4] mb-1">
+                            {{ $t('superadmin.industries.appsHelp') }}
+                        </p>
+                        <p class="text-[12px] text-[#8891A4] mb-3">
+                            {{ state.form.application_ids.length
+                                ? $t('superadmin.industries.appsCount', { count: state.form.application_ids.length }, state.form.application_ids.length)
+                                : $t('superadmin.industries.appsNone') }}
+                        </p>
+                        <div class="grid grid-cols-3 gap-2 max-h-40 overflow-y-auto pr-1">
+                            <label v-for="app in applications" :key="app.id"
+                                class="flex items-center gap-2 text-[13px] text-[#5C6478] cursor-pointer">
+                                <input type="checkbox" :value="app.id" v-model="state.form.application_ids"
+                                    class="rounded border-[#D5D9E2]" />
+                                {{ app.name }}
+                                <span v-if="state.form.application_ids.includes(app.id)"
+                                    :class="app.is_free ? 'co-pill-default' : 'co-pill-set'">
+                                    {{ app.is_free ? $t('superadmin.industries.appFree') : $t('superadmin.industries.appIncluded') }}
+                                </span>
+                            </label>
+                        </div>
+                        <FormError :error="firstApplicationError" />
+                    </div>
+
                     <div class="flex justify-end gap-2 mt-6">
                         <button class="co-action-btn" @click="state.modal.isFormOpen = false">
                             {{ $t('superadmin.industries.cancel') }}
@@ -186,6 +217,7 @@ const TERM_FIELDS = [
 const state = reactive({
     industries: [] as any[],
     pages: [] as any[],
+    applications: [] as any[],
     error: {} as Error,
     formError: {} as Error,
     isLoading: false,
@@ -196,14 +228,33 @@ const state = reactive({
     form: {
         terms: {} as Record<string, Record<string, string>>,
         page_ids: [] as number[],
+        application_ids: [] as number[],
     },
 })
 
 const industries = computed(() => state.industries ?? [])
 const pages = computed(() => state.pages ?? [])
+// Only our own apps come back from the API; a third party's price is not ours to include.
+const applications = computed(() => state.applications ?? [])
+
+function appNames(industry: any) {
+    const ids = industry.application_ids ?? []
+
+    return applications.value
+        .filter(app => ids.includes(app.id))
+        .map(app => app.name)
+        .join(', ')
+}
+
+const firstApplicationError = computed(() => {
+    const errors = state.formError?.errors ?? {}
+    const key = Object.keys(errors).find(name => name.startsWith('application_ids'))
+
+    return key ? errors[key]?.[0] : undefined
+})
 
 /**
- * An industry counts as configured when a word or a page set has actually been saved for it.
+ * An industry counts as configured when a word, a page set or an app has actually been saved for it.
  * Without the distinction the list would read as if all 59 were set up, when in fact 56 of them
  * fall through to the language file.
  */
@@ -212,7 +263,7 @@ function isConfigured(industry: any) {
         TERM_FIELDS.some(field => (industry.terms?.[locale]?.[field] ?? '') !== '')
     )
 
-    return hasWord || (industry.page_ids?.length ?? 0) > 0
+    return hasWord || (industry.page_ids?.length ?? 0) > 0 || (industry.application_ids?.length ?? 0) > 0
 }
 
 const configuredCount = computed(() => industries.value.filter(isConfigured).length)
@@ -234,6 +285,7 @@ async function fetchIndustries() {
         const response = await industryService.getIndustryDefaults()
         state.industries = response?.data ?? []
         state.pages = response?.pages ?? []
+        state.applications = response?.applications ?? []
     } catch (error: any) {
         state.error = error
     }
@@ -255,7 +307,11 @@ function openEdit(industry: any) {
         }
     }
 
-    state.form = { terms, page_ids: [...(industry.page_ids ?? [])] }
+    state.form = {
+        terms,
+        page_ids: [...(industry.page_ids ?? [])],
+        application_ids: [...(industry.application_ids ?? [])],
+    }
     state.modal.isFormOpen = true
 }
 
@@ -266,6 +322,7 @@ async function save() {
         await industryService.updateIndustryDefaults(state.selected.uuid, {
             terms: state.form.terms,
             page_ids: state.form.page_ids,
+            application_ids: state.form.application_ids,
         })
         successAlert(
             t('superadmin.industries.saved'),
