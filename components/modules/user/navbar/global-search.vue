@@ -188,7 +188,7 @@ const shortcutLabel = computed(() => {
 const { recents: recentCitizens, pinned, isPinned, togglePin } = useRecentCitizens()
 
 function citizenAvatar(c: any) {
-    return c.image || `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent(c.name || '?')}`
+    return c.image || avatarUrl(`${c.name || '?'}`)
 }
 
 function openCitizen(c: any) {

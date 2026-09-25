@@ -110,6 +110,8 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -138,7 +140,7 @@ const summary = computed(() => {
 })
 
 function formatDate(date: any) {
-    return date ? moment(date).format('dddd D. MMMM') : ''
+    return date ? formatLocalized(moment(date), 'dddd D. MMMM') : ''
 }
 
 onMounted(() => fetchServices())

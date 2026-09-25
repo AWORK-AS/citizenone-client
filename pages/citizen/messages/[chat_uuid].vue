@@ -22,7 +22,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
-                        class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto" style="height: 80vh;">
+                        class="md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto pane-height">
                         <ModulesCitizenMessagesChats :chats="state.chats" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"

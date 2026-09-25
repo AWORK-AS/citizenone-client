@@ -972,7 +972,8 @@
             "my_tasks": "Læser dine opgaver",
             "my_messages": "Tæller ulæste beskeder",
             "create_task": "Opretter en opgave",
-            "draft_journal_note": "Skriver et journaludkast"
+            "draft_journal_note": "Skriver et journaludkast",
+            "refer_to_milo": "Henviser til Milo"
         },
         "toolTrace": {
             "title": "Hvad Cody læste",
@@ -1038,7 +1039,14 @@
         "attachFile": "Vedhæft fil",
         "collapse": "Rul ned",
         "expand": "Rul op",
-        "shortcutHint": "Åbn og luk med {shortcut}"
+        "shortcutHint": "Åbn og luk med {shortcut}",
+        "milo": {
+            "title": "Milo kan hjælpe med det",
+            "support": "Milo er CitizenOnes supportassistent og kender systemet, indstillingerne og kendte fejl.",
+            "sales": "Milo kan svare på priser, moduler, opgraderinger og demoer.",
+            "open": "Åbn Milo",
+            "nothingShared": "Cody sender ikke noget videre. Skriv dit spørgsmål til Milo."
+        }
     },
     "back": "Tilbage",
     "bellNotification": {
@@ -8397,6 +8405,7 @@
             "to": "Til"
         },
         "forward": "Videre",
+        "emptyInbox": "Din indbakke er tom",
         "inbox": "Indbakke",
         "insertSignature": "Indsæt underskrift",
         "loadMore": "Indlæs mere",
@@ -9128,7 +9137,7 @@
             "title": "Seneste @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Kræver handling i dag",
+            "title": "Kræver handling",
             "deviated": "Afvigelser: {count}",
             "overdue": "Overskredet: {count}",
             "more": "+{count} @:terms.citizens{''}"
@@ -9149,7 +9158,8 @@
             "remembered": "Husket",
             "forgotten": "Glemt",
             "pending": "Afventer",
-            "noEvaluationsToShow": "Ingen effektevalueringer at vise"
+            "noEvaluationsToShow": "Ingen effektevalueringer at vise",
+            "clickToEvaluate": "Klik for at evaluere"
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -9219,7 +9229,7 @@
             "administered": "givet",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på vagt",
             "completed": "afsluttet",
-            "deviated": "Afvigelse",
+            "deviated": "afvigelse | afvigelser",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin der skal gives",
             "ongoing": "Igangværende",
@@ -10471,11 +10481,15 @@
                 "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebooking",
                 "portalSectionSupport": "Support",
+                "portalSectionForms": "Formularer",
+                "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewAppointments": "Patienten ser sine kommende og tidligere aftaler hos klinikken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sine egne aftaler og begivenheder.",
                 "portalPreviewBooking": "Patienten kan selv booke en ledig tid til de behandlinger, I har åbnet for onlinebooking.",
                 "portalPreviewPatientJournals": "Patienten ser kun de journalnotater, I har markeret som delt, og kun hvis patienten har journaladgang.",
                 "portalPreviewSupport": "Patienten kan åbne supportpanelet for at få hjælp.",
+                "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
+                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
                 "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt"
             }
         },
@@ -11021,6 +11035,7 @@
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
         "groups": {
+            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
@@ -11883,10 +11898,17 @@
             },
             "management": {
                 "subtitle": "Kørselsrate, sikret omsætning og aftaler. Kun for dem der har adgang.",
-                "concentration": {
-                    "title": "Hvor pengene kommer fra",
-                    "hint": "De ti største står for {top}% af MRR. Den største alene for {largest}%. {count} betalende kunder i alt.",
-                    "empty": "Ingen løbende aftaler endnu."
+                "bridge": {
+                    "title": "Hvorfor MRR bevægede sig",
+                    "between": "Fra {from} til {to}",
+                    "new": "Nye kunder",
+                    "expansion": "Mersalg",
+                    "contraction": "Nedgradering",
+                    "churned": "Opsagt",
+                    "net": "Netto",
+                    "whoLeft": "Hvem der forsvandt",
+                    "recordingSince": "Måles fra {date}. Der skal to målinger til at vise en bevægelse.",
+                    "notRecordedYet": "Måling pr. kunde er endnu ikke begyndt. Den starter med næste natlige kørsel."
                 }
             }
         },
@@ -13020,14 +13042,16 @@
                 "series": {
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumuleret",
-                    "contracted": "Aftalt",
-                    "assumed": "Forudsat fornyelse"
+                    "cumulative": "Akkumuleret"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser i denne måned.",
                 "clickHint": "Klik på en søjle for at se hvilke kunder den består af."
+            },
+            "noAccess": {
+                "title": "Rapporten er forbeholdt ledelsen",
+                "hint": "Kontakt en superadmin, hvis du har brug for adgang."
             }
         },
         "industries": {
@@ -13053,6 +13077,14 @@
             "selectAll": "Giv alle moduler",
             "modulesAll": "Branchen får alle moduler.",
             "modulesNarrowed": "Branchen får {count} af {total} moduler.",
+            "colApps": "Apps",
+            "apps": "Apps fra App Store",
+            "appsHelp": "Apps branchen får som en basal del af pakken. Et nyt firma får én licens til ejeren uden beregning. Kun vores egne apps kan vælges.",
+            "appsNone": "Branchen får ingen apps med.",
+            "appsCount": "Branchen får {count} app med. | Branchen får {count} apps med.",
+            "appIncluded": "Inkluderet",
+            "appFree": "Gratis",
+            "noApps": "Ingen",
             "locale": {
                 "dk": "Dansk",
                 "en": "Engelsk",
@@ -15077,11 +15109,15 @@
             "departments": "Afdelinger",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talte sprog",
-            "consultant_skills": "Konsulentkompetencer",
+            "consultant_skills": "Konsulentkompetencer (alle)",
+            "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
+            "consultant_skills_course": "Konsulentkompetencer: kurser",
+            "consultant_skills_topic": "Konsulentkompetencer: emneord",
             "inquiry_service_types": "Indsatstyper",
             "employees": "Medarbejdere",
             "jobcenters": "Jobcentre",
-            "focus_areas": "Fokusområder"
+            "focus_areas": "Fokusområder (VUM, voksne)",
+            "focus_areas_ics": "Fokusområder (ICS, børn og unge)"
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
@@ -15134,6 +15170,14 @@
                 "title": "Emneord",
                 "hint": "Erfaring med fx ADHD eller selvskade"
             }
+        },
+        "paste": {
+            "open": "Indsæt liste",
+            "hint": "Ét navn pr. linje. Navne, der allerede står på listen, springes over.",
+            "placeholder": "Pædagog\nSygeplejerske\nSocialrådgiver",
+            "count": "{count} navne",
+            "submit": "Tilføj alle",
+            "result": "{added} tilføjet, {skipped} stod der allerede"
         }
     },
     "consultantProfile": {
@@ -15276,7 +15320,8 @@
         },
         "askSelected": "Spørg {count} valgte",
         "asked": "Konsulenterne er spurgt",
-        "askFailed": "Konsulenterne kunne ikke spørges"
+        "askFailed": "Konsulenterne kunne ikke spørges",
+        "prefilled": "Udfyldt fra henvendelsen: {fields}. Ret eller ryd før du søger."
     },
     "inquiryNotes": {
         "title": "Notater",

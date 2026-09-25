@@ -9,7 +9,7 @@
                         </FormButton>
                     </div>
                     <div class="mt-4 relative flex space-x-6 pb-6 xl:static">
-                        <img :src="`https://ui-avatars.com/api/?background=42AED9&color=fff&name=${props.selectedSchedule?.user?.firstname + ' ' + props.selectedSchedule?.user?.lastname}`"
+                        <img :src="avatarUrl(`${props.selectedSchedule?.user?.firstname + ' ' + props.selectedSchedule?.user?.lastname}`)"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
                         <div class="flex-auto">
                             <h3 class="pr-10 font-semibold text-gray-900 xl:pr-0">

@@ -180,6 +180,66 @@
                     </div>
                 </div>
 
+                <!-- Hvorfor kørselsraten bevægede sig.
+                     Kundeafgang i hoveder siger ikke om en måned var god: mister
+                     man sin største og vinder to små, ser det ud som vækst. Her
+                     står bevægelsen i kroner, delt i de fire ting den består af.
+                     Fortegnet bærer retningen, ikke farven alene. -->
+                <div v-if="bridge" class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm">
+                    <h2 class="text-[13px] font-semibold text-[#1F2533]">
+                        {{ $t('superadmin.dashboard.management.bridge.title') }}
+                    </h2>
+
+                    <p v-if="!bridge.available" class="text-[12px] text-[#8891A4] mt-2">
+                        {{ bridge.recorded_since
+                            ? $t('superadmin.dashboard.management.bridge.recordingSince', { date: formatDay(bridge.recorded_since) })
+                            : $t('superadmin.dashboard.management.bridge.notRecordedYet') }}
+                    </p>
+
+                    <template v-else>
+                        <p class="text-[11px] text-[#8891A4] mt-0.5">
+                            {{ $t('superadmin.dashboard.management.bridge.between', {
+                                from: formatDay(bridge.from), to: formatDay(bridge.to)
+                            }) }}
+                        </p>
+
+                        <dl class="mt-4 space-y-2 text-[13px]">
+                            <div v-for="row in bridgeRows" :key="row.key"
+                                class="flex items-baseline justify-between gap-4">
+                                <dt class="text-[#5C6478]">
+                                    {{ $t('superadmin.dashboard.management.bridge.' + row.key) }}
+                                </dt>
+                                <dd class="font-medium tabular-nums" :class="row.amount < 0 ? 'text-[#CC3B2D]' : 'text-[#2E9E33]'">
+                                    {{ row.amount < 0 ? '−' : '+' }} {{ formatAmount(Math.abs(row.amount), 'DKK') }}
+                                </dd>
+                            </div>
+                            <div class="flex items-baseline justify-between gap-4 border-t border-[#EAECF0] pt-2">
+                                <dt class="font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.dashboard.management.bridge.net') }}
+                                </dt>
+                                <dd class="font-bold tabular-nums"
+                                    :class="bridge.net < 0 ? 'text-[#CC3B2D]' : 'text-[#2E9E33]'">
+                                    {{ bridge.net < 0 ? '−' : '+' }} {{ formatAmount(Math.abs(bridge.net), 'DKK') }}
+                                </dd>
+                            </div>
+                        </dl>
+
+                        <div v-if="bridge.churned_customers?.length" class="mt-4 pt-3 border-t border-[#EAECF0]">
+                            <p class="text-[11px] text-[#8891A4] mb-2">
+                                {{ $t('superadmin.dashboard.management.bridge.whoLeft') }}
+                            </p>
+                            <NuxtLink v-for="(row, i) in bridge.churned_customers" :key="i"
+                                :to="`/superadmin/companies/${row.company_uuid}/license-overview`"
+                                class="flex items-center justify-between py-1.5 text-[12px] hover:underline">
+                                <span class="text-[#1F2533] truncate">{{ row.company_name }}</span>
+                                <span class="text-[#CC3B2D] font-medium shrink-0 ml-3">
+                                    − {{ formatAmount(row.mrr, 'DKK') }}
+                                </span>
+                            </NuxtLink>
+                        </div>
+                    </template>
+                </div>
+
                 <!-- Faktureret i perioden -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-5">
                     <!-- Revenue -->
@@ -224,6 +284,7 @@ const state = reactive({
     recurringRevenue: null as any,
     churn: null as any,
     concentration: null as any,
+    mrrBridge: null as any,
     // Måned til dato. Kortet stod før på i dag-til-i dag, hvilket er en periode
     // der næsten altid er tom, og et tomt omsætningskort ligner en stille måned
     // frem for en forkert indstilling. Det er samtidig den periode API'et selv
@@ -236,6 +297,20 @@ const state = reactive({
 // Det der ikke kommer ind: kørselsraten minus den del der faktisk opkræves.
 // Regnet her frem for i skabelonen, så tallet har et navn.
 const concentration = computed(() => state.concentration)
+const bridge = computed(() => state.mrrBridge)
+
+// Rækkefølgen er den regnestykket læses i: hvad der kom til, og hvad der gik fra.
+const bridgeRows = computed(() => [
+    { key: 'new', amount: Number(bridge.value?.new ?? 0) },
+    { key: 'expansion', amount: Number(bridge.value?.expansion ?? 0) },
+    { key: 'contraction', amount: -Number(bridge.value?.contraction ?? 0) },
+    { key: 'churned', amount: -Number(bridge.value?.churned ?? 0) },
+])
+
+function formatDay(value?: string | null) {
+    return value ? moment(value).format('D. MMM YYYY') : '—'
+}
+
 
 const notCollectingAmount = computed(() => {
     const r = state.recurringRevenue
@@ -255,6 +330,7 @@ async function fetchOverview() {
             state.recurringRevenue = response?.data?.recurring_revenue ?? null
             state.churn = response?.data?.churn ?? null
             state.concentration = response?.data?.concentration ?? null
+            state.mrrBridge = response?.data?.mrr_bridge ?? null
         }
     } catch (e: any) { state.error = e }
 }

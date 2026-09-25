@@ -20,7 +20,7 @@
                             class="flex items-center justify-between gap-x-2 py-2">
                             <div class="flex items-center gap-x-2">
                                 <div class="relative">
-                                    <img :src="member?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                    <img :src="member?.user?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                         class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
                                     <div :class="[
                                         member?.user?.is_online ? 'bg-green-500' : 'bg-red-700',

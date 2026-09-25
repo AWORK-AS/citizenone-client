@@ -50,7 +50,7 @@
                         @click="openRelated(relation)">
                         <div class="flex items-center gap-3">
                             <div
-                                class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-white font-bold text-sm">
+                                class="flex size-11 shrink-0 items-center justify-center rounded-xl bg-primary text-white font-bold text-sm">
                                 {{ initials(otherCitizen(relation)) }}
                             </div>
                             <div class="min-w-0 flex-1">
@@ -81,7 +81,7 @@
                 <!-- Empty state -->
                 <div v-else-if="!state.isTableLoading"
                     class="rounded-xl border border-dashed border-surface-200 bg-surface-50 py-14 px-6 text-center">
-                    <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-[#f0faf9] text-[#2dbab2]">
+                    <div class="mx-auto flex size-12 items-center justify-center rounded-full bg-primary-50 text-primary">
                         <Icon name="ph:users-three" class="size-6" />
                     </div>
                     <p class="mt-3 text-sm text-slate-500">{{ $t('citizenRelations.empty') }}</p>

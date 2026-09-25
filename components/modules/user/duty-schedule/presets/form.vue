@@ -123,7 +123,7 @@
                         <div class="flex items-center gap-x-2 py-1"
                             v-for="employee in state.presetPreview.affected_users.sort((a: any, b: any) => a.firstname.localeCompare(b.firstname))"
                             :key="employee.uuid">
-                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                            <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                 :class="[
                                     'h-10 w-10 rounded-full bg-gray-50 object-cover border-2'
                                 ]" />

@@ -318,7 +318,7 @@
                             class="rounded-lg border border-slate-200 bg-white p-4 shadow-sm">
                             <div class="flex items-start gap-3">
                                 <img class="size-11 shrink-0 rounded-full object-cover"
-                                    :src="citizen.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen.firstname} ${citizen.lastname}`"
+                                    :src="citizen.image ?? avatarUrl(`${citizen.firstname} ${citizen.lastname}`)"
                                     :alt="`${citizen.firstname} ${citizen.lastname}`" />
                                 <div class="min-w-0 flex-1">
                                     <button type="button"
@@ -385,7 +385,7 @@
                                                         :class="['size-5', isPinned(citizen.uuid) ? 'text-tertiary' : 'text-gray-300 hover:text-tertiary']" />
                                                 </button>
                                             </Tooltip>
-                                            <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + citizen?.lastname}`"
+                                            <img :src="citizen?.image ?? avatarUrl(`${citizen?.firstname + ' ' + citizen?.lastname}`)"
                                                 :class="[
                                                     citizen.latest_risk_assessment === null && 'border-secondary',
                                                     citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',

@@ -92,6 +92,8 @@ import { patientService } from '@/components/api/patient/PatientService'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const { formatLocalized } = useDatetimeFormatter()
+
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
@@ -102,7 +104,7 @@ const state = reactive({
     notifications: [] as any[],
 })
 
-const today = computed(() => moment().format('D. MMM YYYY'))
+const today = computed(() => formatLocalized(moment(), 'D. MMM YYYY'))
 
 // The same three counts the sidebar badges show, as cards that lead straight to
 // the thing that is waiting.

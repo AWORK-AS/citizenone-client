@@ -7,7 +7,7 @@
             {{ $t('citizens.incidents.reportIncident') }}
         </button>
         <button type="button"
-            class="text-center text-xs font-medium text-slate-500 hover:text-red-600 transition-colors whitespace-nowrap"
+            class="text-center text-xs font-medium text-slate-500 hover:text-red-600 transition-colors text-center"
             @click="state.slideOver.isReportIncidentOpen = true">
             {{ $t('citizens.incidents.seePreviousIncident') }}
         </button>

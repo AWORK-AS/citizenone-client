@@ -10,7 +10,7 @@
                     <div v-for="employee in filteredFavorites" :key="employee.uuid"
                         class="flex items-center justify-between py-2">
                         <div class="flex items-center gap-2 min-w-0">
-                            <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + (employee?.lastname ?? '')}`"
+                            <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + (employee?.lastname ?? '')}`)"
                                 class="h-8 w-8 flex-shrink-0 rounded-full bg-gray-50 object-cover" />
                             <span class="text-sm truncate">{{ employee?.firstname }} {{ employee?.lastname }}</span>
                         </div>

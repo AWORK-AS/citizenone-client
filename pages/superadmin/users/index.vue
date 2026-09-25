@@ -68,7 +68,7 @@
                             class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors group">
                             <td class="co-td">
                                 <div class="flex items-center gap-3">
-                                    <img :src="user?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${encodeURIComponent((user?.firstname || '?') + '+' + (user?.lastname || ''))}&size=32`"
+                                    <img :src="user?.image ?? avatarUrl(`${(user?.firstname || '?') + '+' + (user?.lastname || '')}`)"
                                         class="w-8 h-8 rounded-full object-cover flex-shrink-0" />
                                     <p class="text-[13px] font-semibold text-[#1F2533]">
                                         {{ user?.firstname }} {{ user?.lastname }}

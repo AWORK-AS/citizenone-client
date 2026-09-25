@@ -972,7 +972,8 @@
             "my_tasks": "Läser dina uppgifter",
             "my_messages": "Räknar olästa meddelanden",
             "create_task": "Skapar en uppgift",
-            "draft_journal_note": "Skriver ett journalutkast"
+            "draft_journal_note": "Skriver ett journalutkast",
+            "refer_to_milo": "Hänvisar till Milo"
         },
         "toolTrace": {
             "title": "Vad Cody läste",
@@ -1038,7 +1039,14 @@
         "attachFile": "Bifoga fil",
         "collapse": "Rulla ner",
         "expand": "Rulla upp",
-        "shortcutHint": "Öppna och stäng med {shortcut}"
+        "shortcutHint": "Öppna och stäng med {shortcut}",
+        "milo": {
+            "title": "Milo kan hjälpa till med det",
+            "support": "Milo är CitizenOnes supportassistent och kan systemet, inställningarna och kända fel.",
+            "sales": "Milo kan svara på frågor om priser, moduler, uppgraderingar och demor.",
+            "open": "Öppna Milo",
+            "nothingShared": "Cody skickar inget vidare. Skriv din fråga till Milo."
+        }
     },
     "back": "Tillbaka",
     "bellNotification": {
@@ -8397,6 +8405,7 @@
             "to": "Till"
         },
         "forward": "Vidare",
+        "emptyInbox": "Din inkorg är tom",
         "inbox": "Indbakke",
         "insertSignature": "Infoga underskrift",
         "loadMore": "Ladda mer",
@@ -9123,7 +9132,7 @@
             "title": "Senaste journalanteckningar"
         },
         "medicineAction": {
-            "title": "Kräver åtgärd idag",
+            "title": "Kräver åtgärd",
             "deviated": "Avvikelser: {count}",
             "overdue": "Försenad: {count}",
             "more": "+{count} medborgare"
@@ -9144,7 +9153,8 @@
             "remembered": "Ihågkommen",
             "forgotten": "Glömd",
             "pending": "Väntande",
-            "noEvaluationsToShow": "Inga effektutvärderingar att visa"
+            "noEvaluationsToShow": "Inga effektutvärderingar att visa",
+            "clickToEvaluate": "Klicka för att utvärdera"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
@@ -9214,7 +9224,7 @@
             "administered": "given",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på pass",
             "completed": "avslutad",
-            "deviated": "Avvikelse",
+            "deviated": "avvikelse | avvikelser",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin där ska gives",
             "ongoing": "Pågående",
@@ -10466,11 +10476,15 @@
                 "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebokning",
                 "portalSectionSupport": "Support",
+                "portalSectionForms": "Formulär",
+                "portalSectionPriceEstimates": "Kostnadsförslag",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
                 "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
                 "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
+                "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
+                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
             }
         },
@@ -10984,6 +10998,7 @@
         "coupons": "Kuponer",
         "discover": "Kom igång",
         "groups": {
+            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
@@ -11850,6 +11865,18 @@
                     "title": "Var pengarna kommer från",
                     "hint": "De tio största står för {top}% av MRR. Den största ensam för {largest}%. {count} betalande kunder totalt.",
                     "empty": "Inga löpande avtal ännu."
+                },
+                "bridge": {
+                    "title": "Varför MRR rörde sig",
+                    "between": "Från {from} till {to}",
+                    "new": "Nya kunder",
+                    "expansion": "Merförsäljning",
+                    "contraction": "Nedgradering",
+                    "churned": "Uppsagt",
+                    "net": "Netto",
+                    "whoLeft": "Vilka som försvann",
+                    "recordingSince": "Mäts från {date}. Det krävs två mätningar för att visa en rörelse.",
+                    "notRecordedYet": "Mätning per kund har inte börjat än. Den startar med nästa nattliga körning."
                 }
             }
         },
@@ -12932,6 +12959,10 @@
                 "renewalsCount": "{count} kund(er)",
                 "noRenewals": "Inga årsförnyelser den här månaden.",
                 "clickHint": "Klicka på en stapel för att se vilka kunder den består av."
+            },
+            "noAccess": {
+                "title": "Rapporten är endast för ledningen",
+                "hint": "Kontakta en superadmin om du behöver behörighet."
             }
         },
         "industries": {
@@ -12957,6 +12988,14 @@
             "selectAll": "Ge alla moduler",
             "modulesAll": "Branschen får alla moduler.",
             "modulesNarrowed": "Branschen får {count} av {total} moduler.",
+            "colApps": "Appar",
+            "apps": "Appar från App Store",
+            "appsHelp": "Appar branschen får som en grundläggande del av paketet. Ett nytt företag får en licens till ägaren utan kostnad. Endast våra egna appar kan väljas.",
+            "appsNone": "Branschen får inga appar inkluderade.",
+            "appsCount": "Branschen får {count} app inkluderad. | Branschen får {count} appar inkluderade.",
+            "appIncluded": "Inkluderad",
+            "appFree": "Gratis",
+            "noApps": "Inga",
             "locale": {
                 "dk": "Danska",
                 "en": "Engelska",
@@ -14981,11 +15020,15 @@
             "departments": "Avdelningar",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talade språk",
-            "consultant_skills": "Konsultkompetenser",
+            "consultant_skills": "Konsultkompetenser (alla)",
+            "consultant_skills_competence": "Konsultkompetenser: kompetenser",
+            "consultant_skills_course": "Konsultkompetenser: kurser",
+            "consultant_skills_topic": "Konsultkompetenser: ämnesord",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
             "jobcenters": "Arbetsförmedlingar",
-            "focus_areas": "Fokusområden"
+            "focus_areas": "Fokusområden (VUM, vuxna)",
+            "focus_areas_ics": "Fokusområden (ICS, barn och unga)"
         },
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
@@ -15038,6 +15081,14 @@
                 "title": "Ämnesord",
                 "hint": "Erfarenhet av t.ex. ADHD eller självskada"
             }
+        },
+        "paste": {
+            "open": "Klistra in lista",
+            "hint": "Ett namn per rad. Namn som redan finns på listan hoppas över.",
+            "placeholder": "Pedagog\nSjuksköterska\nSocionom",
+            "count": "{count} namn",
+            "submit": "Lägg till alla",
+            "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
     "consultantProfile": {
@@ -15180,7 +15231,8 @@
         },
         "askSelected": "Fråga {count} valda",
         "asked": "Konsulterna är tillfrågade",
-        "askFailed": "Konsulterna kunde inte tillfrågas"
+        "askFailed": "Konsulterna kunde inte tillfrågas",
+        "prefilled": "Ifyllt från ärendet: {fields}. Ändra eller rensa innan du söker."
     },
     "inquiryNotes": {
         "title": "Anteckningar",

@@ -12,7 +12,7 @@
                     v-if="props.selectedCitizen?.data?.is_missing_form" class="cursor-pointer">
                     <Icon name="ph:warning" class="h-5 w-5 text-yellow-500" aria-hidden="true" />
                 </Tooltip>
-                <button type="button" class="text-xs font-medium text-slate-500 hover:text-red-600 transition-colors whitespace-nowrap">
+                <button type="button" class="text-xs font-medium text-slate-500 hover:text-red-600 transition-colors text-center">
                     {{ $t('citizens.useOfForce.seePreviousUseOfForce') }}
                 </button>
             </div>
