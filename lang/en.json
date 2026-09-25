@@ -10481,11 +10481,15 @@
                 "portalSectionCalendar": "Calendar",
                 "portalSectionBooking": "Online booking",
                 "portalSectionSupport": "Support",
+                "portalSectionForms": "Forms",
+                "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
                 "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
                 "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
                 "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
+                "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
             }
         },

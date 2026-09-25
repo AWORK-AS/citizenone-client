@@ -710,8 +710,9 @@ const openSections = reactive({ access: true, communication: true, portals: true
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
 // Sections each external audience can open in its portal. Mirrors
 // PortalVisibilityService::SECTIONS on the backend.
-// The patient portal only exists for dental clinics, so its switches are only
-// offered there.
+// The patient portal is the patient-access app, so its switches are offered to
+// every company that has it - not only dental clinics, which left a clinic of
+// any other industry unable to switch a patient section off.
 const portalAudiences = computed(() => {
     const audiences = [
         {
@@ -743,7 +744,7 @@ const portalAudiences = computed(() => {
         },
     ] as any[]
 
-    if (userStore.getUser?.company?.industry?.system_name === 'dental') {
+    if ((userStore.getUser as any)?.company?.patient_access_activated) {
         audiences.push({
             key: 'patient',
             label: 'settings.company.form.portalAudiencePatient',
@@ -756,6 +757,8 @@ const portalAudiences = computed(() => {
                 { key: 'journals', label: 'settings.company.form.portalSectionJournals' },
                 { key: 'surveys', label: 'settings.company.form.portalSectionSurveys' },
                 { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
+                { key: 'forms', label: 'settings.company.form.portalSectionForms' },
+                { key: 'price_estimates', label: 'settings.company.form.portalSectionPriceEstimates' },
                 { key: 'support', label: 'settings.company.form.portalSectionSupport' },
             ],
         })

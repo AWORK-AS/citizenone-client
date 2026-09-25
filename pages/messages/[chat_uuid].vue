@@ -389,10 +389,20 @@ function closeImagePreview() {
     state.previewAttachment = null
 }
 
+// A sent message is shown from the send response rather than left to the
+// broadcast, which may not arrive (a file message was only visible after a
+// reload); the broadcast of that same message is then skipped by uuid.
+function addMessage(message: any) {
+    if (!message?.uuid || state.messages.some((existing: any) => existing?.uuid === message.uuid)) return false
+    state.messages.push(message)
+
+    return true
+}
+
 function subscribeToChat() {
     channel = pusher.subscribe('citizenone.' + chatUuid)
     channel.bind('chat-message', (response: any) => {
-        state.messages.push(response?.data)
+        if (!addMessage(response?.data)) return
         scrollToBottom()
         notifyIfBackgrounded(response?.data)
     })
@@ -656,6 +666,7 @@ async function sendMessage() {
             const params = { message: state.message, chat_uuid: chatUuid }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
+                addMessage(response?.data)
                 fetchChats?.()
                 scrollToBottom()
                 state.message = ''
@@ -714,6 +725,7 @@ const uploadFiles = async (files: any) => {
             }
             const response = await messageService.sendMessageViaChatUuid(params)
             if (response) {
+                addMessage(response?.data)
                 fetchChats?.()
                 scrollToBottom()
                 fileInput.value.value = ''

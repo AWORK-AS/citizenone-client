@@ -10481,11 +10481,15 @@
                 "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebooking",
                 "portalSectionSupport": "Support",
+                "portalSectionForms": "Formularer",
+                "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewAppointments": "Patienten ser sine kommende og tidligere aftaler hos klinikken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sine egne aftaler og begivenheder.",
                 "portalPreviewBooking": "Patienten kan selv booke en ledig tid til de behandlinger, I har åbnet for onlinebooking.",
                 "portalPreviewPatientJournals": "Patienten ser kun de journalnotater, I har markeret som delt, og kun hvis patienten har journaladgang.",
                 "portalPreviewSupport": "Patienten kan åbne supportpanelet for at få hjælp.",
+                "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
+                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
                 "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt"
             }
         },
