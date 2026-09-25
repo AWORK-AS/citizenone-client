@@ -7685,6 +7685,8 @@
                 "caseworker": "Rådgiver",
                 "mother": "Mor",
                 "father": "Far",
+                "parents": "Foreldre",
+                "family": "Familien",
                 "citizen": "Innbyggeren"
             },
             "earlier": "Tidligere målinger",
@@ -15787,6 +15789,37 @@
             "saved": "Grensen er lagret",
             "set": "Dere satte den til {limit} kall per dag.",
             "derived": "Utregnet grense: {limit} kall per dag per ansatt."
+        }
+    },
+    "wellbeing": {
+        "tab": "Trivsel",
+        "title": "Trivsel",
+        "description": "Trivselsmålinger fra 0 til 10 for innbyggeren og relaterte innbyggere, f.eks. søsken på samme tiltak. Hver måling har den som ga den og datoen den ble mottatt. Målinger fra rapporter med nøkkelen \"trivsel\" vises også her.",
+        "primary": "Hovedperson",
+        "latest": "Siste",
+        "add": "Ny måling",
+        "givenBy": "Gitt av",
+        "otherName": "Hvem",
+        "otherPlaceholder": "F.eks. skolen",
+        "receivedAt": "Mottatt",
+        "score": "Poeng",
+        "recordedBy": "Notert av",
+        "empty": "Ingen målinger ennå.",
+        "curve": "Trivselskurve for {name}",
+        "remove": "Fjern måling",
+        "removeConfirmation": "Er du sikker på at du vil fjerne denne målingen",
+        "saveFailed": "Målingen kunne ikke lagres",
+        "removeFailed": "Målingen kunne ikke fjernes",
+        "noRelations": "Søsken og andre relaterte innbyggere vises her når de er koblet under",
+        "raters": {
+            "caseworker": "Saksbehandler",
+            "mother": "Mor",
+            "father": "Far",
+            "parents": "Foreldre",
+            "family": "Familien",
+            "staff": "Oss",
+            "citizen": "Barnet/ungdommen",
+            "other": "Annet"
         }
     }
 }
