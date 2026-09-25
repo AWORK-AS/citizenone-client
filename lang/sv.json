@@ -4403,7 +4403,10 @@
             "deleteFileConfirmation": "Är du säker på att du vill radera denna fil",
             "deleteFolderConfirmation": "Är du säker på att du vill radera denna mapp",
             "downloadWithCompanyLogoConfirmation": "Vill du downloade detta dokument med virksomhedens logotyp",
-            "upgradeStorageConfirmation": "Vill du opgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vill du opgradere din lagerplads",
+            "companyLogoLayoutHint": "När logotypen läggs till återskapas ett Word-dokument, och typsnitt och layout kan ändras. Välj \"Utan logotyp\" för att behålla den ursprungliga layouten.",
+            "withoutLogo": "Utan logotyp",
+            "withLogo": "Med logotyp"
         },
         "createNewFolder": "Skapa ny mapp",
         "createTemplate": {
@@ -4484,7 +4487,8 @@
                 "edit": "Redigera",
                 "move": "Flytta",
                 "openSelected": "Öppna valda",
-                "view": "Se"
+                "view": "Se",
+                "downloadOriginal": "Ladda ner original"
             },
             "dateCreated": "Skapandedatum",
             "lastModified": "Sidst ändrad",
@@ -4494,7 +4498,13 @@
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
         "viewDocument": "Se dokument",
-        "viewDraftFile": "Se udkastfiler"
+        "viewDraftFile": "Se udkastfiler",
+        "preview": {
+            "originalKeptNote": "Du ser en förhandsvisning. Originalfilen är sparad oförändrad – ladda ner den för att öppna den i Word med exakt samma typsnitt och layout.",
+            "downloadOriginal": "Ladda ner original",
+            "renderFailed": "Dokumentet kan inte visas här. Filen har inte ändrats – ladda ner originalet för att öppna det i Word.",
+            "oneDriveDownloadFailed": "Filen kunde inte hämtas från OneDrive. Försök igen eller öppna den direkt i OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "Hela dagen",

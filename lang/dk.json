@@ -4403,7 +4403,10 @@
             "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
             "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
             "downloadWithCompanyLogoConfirmation": "Vil du downloade dette dokument med virksomhedens logo",
-            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vil du opgradere din lagerplads",
+            "companyLogoLayoutHint": "Tilføjes logoet, bliver et Word-dokument sat op igen, og skrifttyper og layout kan ændre sig. Vælg \"Uden logo\" for at beholde det originale layout.",
+            "withoutLogo": "Uden logo",
+            "withLogo": "Med logo"
         },
         "createNewFolder": "Opret ny mappe",
         "createTemplate": {
@@ -4484,7 +4487,8 @@
                 "edit": "Rediger",
                 "move": "Flyt",
                 "openSelected": "Åbn valgte",
-                "view": "Se"
+                "view": "Se",
+                "downloadOriginal": "Hent original"
             },
             "dateCreated": "Oprettelsesdato",
             "lastModified": "Sidst ændret",
@@ -4494,7 +4498,13 @@
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
         "viewDocument": "Se dokument",
-        "viewDraftFile": "Se udkastfiler"
+        "viewDraftFile": "Se udkastfiler",
+        "preview": {
+            "originalKeptNote": "Du ser en forhåndsvisning. Originalfilen er gemt uændret – hent den for at åbne den i Word med præcis samme skrifttyper og layout.",
+            "downloadOriginal": "Hent original",
+            "renderFailed": "Dokumentet kan ikke vises her. Filen er ikke ændret – hent originalen for at åbne den i Word.",
+            "oneDriveDownloadFailed": "Filen kunne ikke hentes fra OneDrive. Prøv igen, eller åbn den direkte i OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
