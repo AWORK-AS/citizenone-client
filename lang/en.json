@@ -7924,7 +7924,8 @@
                 "inquiry": "The inquiry",
                 "citizen": "The @:terms.citizen{''}",
                 "assessment": "Assessment",
-                "outcome": "Outcome and notes"
+                "outcome": "Outcome and notes",
+                "matchNeeds": "Match: language and location"
             }
         },
         "inquiries": "Inquiries",
@@ -15260,7 +15261,9 @@
             "minTravelKm": "Must travel at least (km)",
             "minWeeklyHours": "At least hours per week",
             "minStep": "At least step assessment",
-            "needsCar": "Needs a car"
+            "needsCar": "Needs a car",
+            "secondaryHint": "A plus. Never counts against the consultant.",
+            "withinTravelRangeOnly": "Only consultants within their travel distance"
         },
         "criteriaNames": {
             "skill_uuids": "Skills",
@@ -15271,11 +15274,26 @@
             "min_travel_km": "Travel distance",
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
-            "min_weekly_hours": "Hours"
+            "min_weekly_hours": "Hours",
+            "primary_spoken_language_uuid": "Primary language",
+            "within_travel_range": "Within travel distance"
         },
         "askSelected": "Ask {count} selected",
         "asked": "The consultants have been asked",
-        "askFailed": "The consultants could not be asked"
+        "askFailed": "The consultants could not be asked",
+        "location": {
+            "none": "No location on the inquiry, so no distances are shown"
+        },
+        "sort": {
+            "match": "Best match",
+            "distance": "Nearest"
+        },
+        "distance": {
+            "unknown": "Distance unknown",
+            "km": "{km} km",
+            "approx": "approx. {km} km"
+        },
+        "secondaryLanguageMet": "Also speaks {language}"
     },
     "inquiryNotes": {
         "title": "Notes",
@@ -15832,6 +15850,22 @@
             "saved": "Limit saved",
             "set": "You set it to {limit} requests per day.",
             "derived": "Calculated limit: {limit} requests per day per employee."
+        }
+    },
+    "inquiryMatchNeeds": {
+        "heading": "Match: language and location",
+        "hint": "Used by the consultant match. The consultant must speak the primary language; the secondary language is a plus.",
+        "primaryLanguage": "Primary language",
+        "secondaryLanguage": "Secondary language",
+        "location": "Location",
+        "locationPlaceholder": "Address or area, e.g. Vesterbro",
+        "postalCode": "Postal code",
+        "pending": "Being placed on the map",
+        "notFound": "Could not be found on the map. Check the address or add a postal code",
+        "geocoded": {
+            "address": "Placed from the address",
+            "place": "Placed from the area",
+            "postal_code": "Placed from the postal code (approximate)"
         }
     }
 }
