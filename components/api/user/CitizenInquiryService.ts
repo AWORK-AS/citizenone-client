@@ -25,6 +25,17 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/pipeline-status`, 'PUT', params)
     }
 
+    // Flags that the case needs a consultant recruited. Flagging it tells the
+    // recruitment team, once.
+    async updateNeedsRecruitment(inquiryUuid: any, needsRecruitment: boolean): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/${inquiryUuid}/needs-recruitment`, 'PUT', { needs_recruitment: needsRecruitment })
+    }
+
+    // Lost cases over a period: count and lost revenue per reason, and the cases.
+    async getLostReport(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/reports/lost`, 'GET', params)
+    }
+
     async deleteInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'DELETE')
     }

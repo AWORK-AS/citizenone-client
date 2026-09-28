@@ -39,6 +39,21 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
+                        <!-- The wellbeing ruler's development over time, one line per
+                             child. Only offered where the ruler is in use. -->
+                        <div v-if="showWellbeing" class="rounded-lg border border-gray-200 bg-white">
+                            <button type="button"
+                                class="flex w-full items-center justify-between px-4 py-3 text-left text-sm font-semibold text-gray-900"
+                                :aria-expanded="state.isWellbeingOpen"
+                                @click="state.isWellbeingOpen = !state.isWellbeingOpen">
+                                {{ $t('wellbeing.development.title') }}
+                                <Icon :name="state.isWellbeingOpen ? 'ph:caret-up' : 'ph:caret-down'" class="size-4 text-gray-500" />
+                            </button>
+                            <div v-if="state.isWellbeingOpen" class="border-t border-gray-100 p-4">
+                                <ModulesUserCitizenWellbeingDevelopmentChart :key="state.wellbeingChartKey"
+                                    :citizenUuid="String(citizenUuid)" />
+                            </div>
+                        </div>
                         <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
                             <button class="flex items-center gap-x-1 text-sm text-primary group"
                                 @click="state.modal.isFilterJournalOpen = true">
@@ -358,6 +373,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { journalService } from '@/components/api/user/JournalService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
@@ -410,13 +426,33 @@ const state = reactive({
         isRecordHistoryOpen: false,
     },
     selectedJournal: [] as any,
+    isWellbeingRulerEnabled: false,
+    isWellbeingOpen: false,
+    wellbeingChartKey: 0,
     sortData: {
         sortField: 'date',
         sortOrder: 'descend',
     },
 })
 
+// Shown when the company has the ruler on, or when notes on this page already
+// carry scores from before it was switched off.
+const showWellbeing = computed(() => state.isWellbeingRulerEnabled
+    || (state.journals?.data ?? []).some((journal: any) => journal?.wellbeing_scores?.length > 0))
+
+async function fetchWellbeingRulerConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_journal' })
+        state.isWellbeingRulerEnabled = (response?.data ?? [])
+            .some((config: any) => config?.form_fields?.wellbeing_ruler === true)
+    } catch {
+        state.isWellbeingRulerEnabled = false
+    }
+}
+
 onMounted(() => {
+    fetchWellbeingRulerConfig()
+
     if (citizenJournalStore.getSortDataBy === 'Journal ascending') {
         state.sortData = {
             sortField: 'date',
@@ -465,6 +501,8 @@ async function fetchJournals() {
         const response = await journalService.getJournals(params)
         if (response) {
             state.journals = response
+            // A saved note may have moved the curve.
+            state.wellbeingChartKey++
         }
     } catch (error: any) {
         state.error = error

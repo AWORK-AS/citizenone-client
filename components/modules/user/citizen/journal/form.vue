@@ -108,6 +108,11 @@
                 <FormError :error="v$?.formJournal?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
             </div>
+            <!-- The wellbeing ruler, when the company has switched it on for journal
+                 notes. Optional: an untouched row records nothing. -->
+            <ModulesUserCitizenJournalWellbeingRuler v-if="isWellbeingRulerEnabled"
+                :rows="wellbeingRows" :modelValue="state.wellbeingScores"
+                @update:modelValue="onWellbeingChange" />
             <div v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
@@ -499,6 +504,7 @@ import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
 import { userService } from '@/components/api/user/UserService'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { citizenChildService } from '@/components/api/user/CitizenChildService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@/utils/editor'
 import { Mention } from 'ckeditor5'
@@ -696,10 +702,71 @@ const state = reactive({
     },
     userPredefinedContents: false,
     formFieldConfig: {
-        create: { risk_assessment: true, score: true } as Record<string, boolean>,
-        edit: { risk_assessment: true, score: true } as Record<string, boolean>,
+        create: { risk_assessment: true, score: true, wellbeing_ruler: false } as Record<string, boolean>,
+        edit: { risk_assessment: true, score: true, wellbeing_ruler: false } as Record<string, boolean>,
     },
+    // One score per child in the case, keyed by the child's uuid, or under
+    // CASE_KEY when the case has no children.
+    wellbeingScores: {} as Record<string, number | null>,
+    wellbeingChildren: [] as Array<{ uuid: string, firstname: string, lastname: string }>,
 })
+
+const WELLBEING_CASE_KEY = 'case'
+
+// Opt-in per company, and only where the note is about one known citizen.
+const isWellbeingRulerEnabled = computed(() => {
+    const formTypeKey = props.formType === 'create' ? 'create' : 'edit'
+    return !!citizenUuid && state.formFieldConfig[formTypeKey]?.wellbeing_ruler === true
+})
+
+const wellbeingRows = computed(() => {
+    if (state.wellbeingChildren.length === 0) {
+        return [{ key: WELLBEING_CASE_KEY, label: t('wellbeing.ruler.wholeCase') }]
+    }
+
+    return state.wellbeingChildren.map((child) => ({
+        key: child.uuid,
+        label: `${child.firstname ?? ''} ${child.lastname ?? ''}`.trim(),
+    }))
+})
+
+function onWellbeingChange(value: Record<string, number | null>) {
+    state.wellbeingScores = value
+    // The ruler lives outside formJournal, so an edit has to say it changed
+    // for the autosave to pick it up.
+    if (props.formType === 'update' && !suppressChangeTracking) {
+        state.hasChanges = true
+        state.isAutoSaving = true
+    }
+}
+
+function wellbeingPayload() {
+    return wellbeingRows.value
+        .filter((row) => state.wellbeingScores[row.key] !== null && state.wellbeingScores[row.key] !== undefined)
+        .map((row) => ({
+            child_uuid: row.key === WELLBEING_CASE_KEY ? null : row.key,
+            score: Number(state.wellbeingScores[row.key]),
+        }))
+}
+
+async function fetchWellbeingChildren() {
+    if (!citizenUuid) return
+    try {
+        const response = await citizenChildService.getCitizenChildren({ citizen_uuid: citizenUuid, page_length: 100 })
+        state.wellbeingChildren = response?.data ?? []
+    } catch {
+        // Without the children the ruler still works for the case as a whole.
+        state.wellbeingChildren = []
+    }
+}
+
+function setWellbeingFromJournal(journal: any) {
+    const scores: Record<string, number | null> = {}
+    ;(journal?.wellbeing_scores ?? []).forEach((entry: any) => {
+        scores[entry.child_uuid ?? WELLBEING_CASE_KEY] = Number(entry.score)
+    })
+    state.wellbeingScores = scores
+}
 
 function isFieldVisible(fieldKey: string): boolean {
     const formTypeKey = props.formType === 'create' ? 'create' : 'edit'
@@ -715,12 +782,18 @@ async function fetchFormFieldConfig() {
                     state.formFieldConfig[config.form_type as 'create' | 'edit'] = {
                         risk_assessment: config.form_fields?.risk_assessment !== false,
                         score: config.form_fields?.score !== false,
+                        wellbeing_ruler: config.form_fields?.wellbeing_ruler === true,
                     }
                 }
             })
         }
     } catch (error: any) {
         // silently ignore — default to visible when config can't be loaded
+    }
+
+    // Only asked for when the ruler is on, so a company without it pays nothing.
+    if (isWellbeingRulerEnabled.value) {
+        fetchWellbeingChildren()
     }
 }
 
@@ -993,6 +1066,7 @@ watch(() => state.hasChanges, (hasChanges) => {
 }, { immediate: true })
 
 function setFormJournalFromSelected(journal: any) {
+    setWellbeingFromJournal(journal)
     state.formJournal = {
         id: journal.id,
         uuid: journal.uuid,
@@ -1104,6 +1178,9 @@ function submitForm() {
             isAutoSaving: state.isAutoSaving,
             formJournal: state.formJournal,
             pending_survey_answers: collectAnsweredSurveyPayloads(),
+            // Only sent when the ruler is shown, so saving from a form without
+            // it leaves the note's scores alone.
+            ...(isWellbeingRulerEnabled.value ? { wellbeing_scores: wellbeingPayload() } : {}),
         })
     }
 }

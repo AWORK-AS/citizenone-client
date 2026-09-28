@@ -133,7 +133,8 @@
             </div>
         </div>
         <ModulesUserMailEntraModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
-            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
+            :selectedAttachment="state.selectedAttachment" :messageId="state.selectedEmail?.id ?? ''" folder="sent"
+            @close="state.modal.isDownloadAttachment = false" />
     </div>
 </template>
 

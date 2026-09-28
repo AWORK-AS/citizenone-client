@@ -67,6 +67,8 @@ async function updateJournal(journalDetails: any) {
             score: journalDetails.formJournal.score,
             teeth_uuid: journalDetails.formJournal.teeth,
             field_answers: journalDetails.formJournal.field_answers ?? [],
+            // Present only when the form showed the wellbeing ruler.
+            ...(journalDetails.wellbeing_scores ? { wellbeing_scores: journalDetails.wellbeing_scores } : {}),
         }
         const response = await journalService.updateJournal(journalUuid, params)
         if (response?.data) {

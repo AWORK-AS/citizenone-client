@@ -3346,7 +3346,29 @@
             "name": "Navn",
             "phone": "Telefon",
             "section": "Paragraf / tiltakstype",
-            "ssn": "CPR-nummer"
+            "ssn": "CPR-nummer",
+            "consultant": "Konsulent",
+            "startupStatus": "Oppstartsstatus",
+            "phase": "Status / fase",
+            "scope": "Omfang",
+            "geography": "Geografi",
+            "phases": {
+                "upcoming": "Ikke startet",
+                "active": "I drift",
+                "ended": "Avsluttet"
+            },
+            "startupStatuses": {
+                "missing_coordinator": "Mangler koordinator",
+                "missing_consultant": "Mangler konsulent",
+                "missing_start_date": "Mangler oppstartsdato",
+                "ready": "Klar for oppstart",
+                "started": "Startet"
+            },
+            "scopeUnits": {
+                "week": "t/uke",
+                "month": "t/mnd",
+                "day": "t/dag"
+            }
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -4116,7 +4138,11 @@
                 "green": "Grønn",
                 "yellow": "Gul",
                 "red": "Rød"
-            }
+            },
+            "consultant": "Konsulent",
+            "region": "Region",
+            "weeklyHoursFrom": "Timer per uke fra",
+            "weeklyHoursTo": "Timer per uke til"
         },
         "emptyFiltered": "Ingen {citizens} passer med filtrene."
     },
@@ -8166,7 +8192,9 @@
         "subtitle": "Konfigurer hvilke felter som er synlige i @:terms.citizenDefinite{'s'} journalskjema for oppretting og redigering.",
         "title": "Journalskjema konfigurasjon",
         "scoreToggle": "Vis \"Nåværende nivå\" i journalskjemaet",
-        "scoreDescription": "Når den er slått av, vises ikke feltet \"Nåværende nivå\" i journalens opprett- og redigeringsskjema. Feltet er tomt fra start, så et nivå står der bare hvis noen har valgt det."
+        "scoreDescription": "Når den er slått av, vises ikke feltet \"Nåværende nivå\" i journalens opprett- og redigeringsskjema. Feltet er tomt fra start, så et nivå står der bare hvis noen har valgt det.",
+        "wellbeingRulerToggle": "Vis trivselslinjal i @:terms.journalNotes{''}",
+        "wellbeingRulerDescription": "Når den er slått på, kan det gis en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn i saken. Scoren er valgfri og inngår i trivselsutviklingen og i statusrapportens trivselslinjal."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -8392,7 +8420,8 @@
         "downloadFile": {
             "alert": {
                 "fileSuccessfullyDownloadedToCitizensFolder": "Filen er blitt lastet ned til @:terms.citizenDefinite{'s'} mappe",
-                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blitt lastet ned til organisationens mappe"
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blitt lastet ned til organisationens mappe",
+                "fileSuccessfullyAddedToInquiry": "Filen er lagt til henvendelsen"
             },
             "citizen": "@.capitalize:terms.citizen{''}",
             "citizenFolder": "@.capitalize:terms.citizen{''} mappe",
@@ -8400,7 +8429,10 @@
             "downloadFileToCitizensFolder": "Last ned fil til @:terms.citizenDefinite{'s'} mappe",
             "downloadFileToMyComputer": "Last ned fil til min computer",
             "downloadFileToOrganizationsFolder": "Last ned fil til organisationens mappe",
-            "organizationFolder": "Organisationsmappe"
+            "organizationFolder": "Organisationsmappe",
+            "addFileToInquiry": "Legg fil til henvendelsen",
+            "inquiry": "Henvendelse",
+            "inquiryHint": "Filen hentes direkte fra din egen e-post og legges til henvendelsens dokumenter."
         },
         "draft": "Kladde",
         "form": {
@@ -14920,7 +14952,8 @@
             "name": "Navn",
             "namePlaceholder": "F.eks. Avklaring",
             "color": "Farge",
-            "role": "Rolle"
+            "role": "Rolle",
+            "notifiesRecruitment": "Gir beskjed til rekruttering"
         },
         "roles": {
             "neutral": "Vanlig fase",
@@ -15804,6 +15837,81 @@
             "address": "Plassert ut fra adressen",
             "place": "Plassert ut fra området",
             "postal_code": "Plassert ut fra postnummeret (omtrentlig)"
+        }
+    },
+    "wellbeing": {
+        "ruler": {
+            "title": "Trivselslinjal",
+            "optional": "Valgfri",
+            "hint": "Velg en score fra 0 til {max}, halve trinn er tillatt. En rad uten score lagres ikke.",
+            "clear": "Tøm",
+            "wholeCase": "Samlet"
+        },
+        "development": {
+            "title": "Trivselsutvikling",
+            "from": "Fra",
+            "to": "Til",
+            "empty": "Det er ennå ingen trivselsscorer i perioden."
+        }
+    },
+    "inquiryRecruitment": {
+        "needsRecruitment": "Behov for rekruttering",
+        "hint": "Slå på når saken mangler en konsulent. Rekrutteringsteamet får beskjed én gang.",
+        "notifiedAt": "Rekrutteringsteamet fikk beskjed {date}.",
+        "saved": "Rekrutteringsbehovet er lagret",
+        "settings": {
+            "title": "Rekrutteringsteam",
+            "description": "De som får beskjed når en henvendelse markeres med behov for rekruttering eller kommer i en fase som gir beskjed til rekruttering. Beskjeden kommer som varsel, push og e-post og beskriver oppdraget, aldri personen.",
+            "groups": "Medarbeidergrupper",
+            "users": "Medarbeidere",
+            "taskBoard": "Opprett oppgave på tavle",
+            "taskBoardHint": "Valgfritt. Oppgaven legges i tavlens første kolonne.",
+            "recipientCount": "Beskjeden når {count} medarbeider(e).",
+            "nobody": "Ingen får beskjed ennå. Velg en gruppe eller en medarbeider.",
+            "saved": "Rekrutteringsteamet er lagret"
+        }
+    },
+    "inquiryLost": {
+        "modal": {
+            "title": "Marker som tapt",
+            "hint": "Registrer hvorfor saken er tapt, så det kan inngå i rapporteringen.",
+            "reason": "Årsak",
+            "noReasons": "Det finnes ingen tapsårsaker å velge mellom ennå. De opprettes under innstillinger for faser.",
+            "note": "Utdyping",
+            "notePlaceholder": "Hva skjedde?",
+            "price": "Estimert tilbudspris",
+            "pricePlaceholder": "Beløp i kr",
+            "confirm": "Marker som tapt"
+        },
+        "detail": {
+            "heading": "Tapt sak"
+        },
+        "report": {
+            "open": "Tapte saker",
+            "title": "Tapte saker",
+            "subtitle": "Antall og tapt omsetning per årsak i perioden.",
+            "from": "Fra",
+            "to": "Til",
+            "totalCount": "Tapte saker",
+            "totalRevenue": "Tapt omsetning",
+            "byReason": "Per årsak",
+            "empty": "Ingen tapte saker i perioden.",
+            "noReason": "Uten årsak",
+            "cases": "Saker: {count}",
+            "withoutPrice": "uten pris: {count}",
+            "lostCases": "Sakene",
+            "lostAt": "Tapt",
+            "case": "Sak"
+        },
+        "settings": {
+            "title": "Tapsårsaker",
+            "description": "Årsakene man velger mellom når en sak markeres som tapt. En årsak som er brukt, kan bare deaktiveres, så rapporten beholder historikken.",
+            "namePlaceholder": "F.eks. pris eller manglende kapasitet",
+            "active": "Aktiv",
+            "delete": "Slett årsak",
+            "empty": "Ingen tapsårsaker ennå.",
+            "newReason": "Ny årsak",
+            "add": "Legg til årsak"
         }
     }
 }

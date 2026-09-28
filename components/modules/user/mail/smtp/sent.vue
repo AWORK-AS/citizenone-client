@@ -123,7 +123,8 @@
             </div>
         </div>
         <ModulesUserMailSmtpModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
-            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
+            :selectedAttachment="state.selectedAttachment" :messageId="state.selectedEmail?.header?.uid ?? ''" folder="sent"
+            @close="state.modal.isDownloadAttachment = false" />
     </div>
 </template>
 

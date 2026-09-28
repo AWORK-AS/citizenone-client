@@ -219,22 +219,33 @@ function bandWidth(bandIndex: number): string {
 }
 
 const historyDates = computed(() => [...new Set(history.value.map((h: any) => h.measured_at))])
-const historyRaters = computed(() => [...new Set(history.value.map((h: any) => h.rater_key))])
 
-function historyLabel(raterKey: string): string {
-    return history.value.find((h: any) => h.rater_key === raterKey)?.rater_label || raterKey
+/**
+ * One line per party, and per child when a child has been scored on its own
+ * (from the ruler in a journal note). The case's own scores keep the plain
+ * rater key, so the marker on the ruler above still finds them.
+ */
+function seriesKey(row: any): string {
+    return row.child_uuid ? `${row.rater_key}|${row.child_uuid}` : row.rater_key
 }
 
-function historyScore(raterKey: string, date: string): number | null {
-    const hit = history.value.find((h: any) => h.rater_key === raterKey && h.measured_at === date)
+const historyRaters = computed(() => [...new Set(history.value.map((h: any) => seriesKey(h)))])
+
+function historyLabel(key: string): string {
+    const row = history.value.find((h: any) => seriesKey(h) === key)
+    return row?.child_name || row?.rater_label || row?.rater_key || key
+}
+
+function historyScore(key: string, date: string): number | null {
+    const hit = history.value.find((h: any) => seriesKey(h) === key && h.measured_at === date)
     return hit ? Number(hit.score) : null
 }
 
 /** The most recent earlier score, marked faintly so movement is visible in place. */
-function previousScore(raterKey: string): number | null {
+function previousScore(key: string): number | null {
     const dates = historyDates.value
     for (let i = dates.length - 1; i >= 0; i--) {
-        const score = historyScore(raterKey, dates[i])
+        const score = historyScore(key, dates[i])
         if (score !== null) return score
     }
 
@@ -292,7 +303,10 @@ async function fetchHistory() {
     try {
         const response = await citizenScaleScoreService.getScaleScores(props.citizenUuid, {
             scale_key: props.field.scaleKey,
-            limit: 24,
+            // The children's own curves from the journal ruler belong in the
+            // status report too.
+            include_children: 1,
+            limit: 60,
         })
         history.value = response?.data ?? []
     } catch {
