@@ -16099,6 +16099,7 @@
         "locationPlaceholder": "Adresse eller område, fx Vesterbro",
         "postalCode": "Postnummer",
         "pending": "Placeres på kortet om lidt",
+        "unavailable": "Ikke placeret på kortet: kortopslag er ikke sat op, så der vises ingen afstand",
         "notFound": "Kunne ikke findes på kortet. Tjek adressen eller angiv et postnummer",
         "geocoded": {
             "address": "Placeret ud fra adressen",

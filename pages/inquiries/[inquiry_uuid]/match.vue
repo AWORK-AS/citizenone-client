@@ -341,7 +341,11 @@ const locationStatus = computed(() => {
         return t('inquiryMatchNeeds.geocoded.' + (state.inquiry.location_geocode_source || 'address'))
     }
 
-    return state.inquiry?.location_geocoded_at ? t('inquiryMatchNeeds.notFound') : t('inquiryMatchNeeds.pending')
+    if (state.inquiry?.location_geocoded_at) return t('inquiryMatchNeeds.notFound')
+
+    // Nothing will ever place it without a geocoding token; say so rather than
+    // promising a point that never comes.
+    return state.inquiry?.location_geocoding_enabled === false ? t('inquiryMatchNeeds.unavailable') : t('inquiryMatchNeeds.pending')
 })
 
 const secondaryLanguageName = computed(() =>
