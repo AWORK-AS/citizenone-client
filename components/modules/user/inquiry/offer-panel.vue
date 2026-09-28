@@ -262,6 +262,14 @@
                         <FormDateField id="respond-date" name="respond-date" :placeholder="$t('inquiryOffer.respondedAt')"
                             v-model="state.respond.responded_at" />
                     </div>
+                    <!-- A rejected offer loses the case, and a lost case asks why
+                         once the company keeps a list of reasons. -->
+                    <div v-if="state.respond.decision === 'rejected' && lostReasonOptions.length" class="space-y-1">
+                        <FormLabel for="respond-lost-reason" :label="$t('inquiryLost.modal.reason')" />
+                        <FormSelect id="respond-lost-reason" v-model="state.respond.lost_reason_uuid"
+                            :options="lostReasonOptions" :canClear="false" />
+                        <FormError :error="state.lostReasonMissing ? $t('validation.thisFieldIsRequired') + '.' : ''" />
+                    </div>
                     <div v-if="state.respond.decision === 'rejected'">
                         <FormLabel for="respond-reason" :label="$t('inquiryOffer.rejectionReason')" />
                         <FormTextArea id="respond-reason" name="respond-reason" :rows="2"
@@ -298,6 +306,7 @@
 
 <script setup lang="ts">
 import { inquiryOfferService } from '@/components/api/user/InquiryOfferService'
+import { inquiryLostReasonService } from '@/components/api/user/InquiryLostReasonService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -369,7 +378,9 @@ const state = reactive({
     sendFor: null as any,
     send: { sent_at: '', deadline_days: '' as any },
     respondFor: null as any,
-    respond: { decision: 'accepted', responded_at: '', remarks: '', rejection_reason: '', start_wishes: '' },
+    respond: { decision: 'accepted', responded_at: '', remarks: '', rejection_reason: '', start_wishes: '', lost_reason_uuid: '' },
+    lostReasons: [] as any[],
+    lostReasonMissing: false,
     deleteFor: null as any,
 })
 
@@ -566,18 +577,38 @@ async function send() {
     }
 }
 
+const lostReasonOptions = computed(() => state.lostReasons
+    .filter((reason: any) => reason.is_active)
+    .map((reason: any) => ({ value: reason.uuid, label: reason.name })))
+
+async function fetchLostReasons() {
+    try {
+        const response = await inquiryLostReasonService.getReasons()
+        state.lostReasons = response?.data ?? []
+    } catch {
+        state.lostReasons = []
+    }
+}
+
 function openRespond(offer: any) {
     state.respondFor = offer
+    state.lostReasonMissing = false
     state.respond = {
         decision: 'accepted',
         responded_at: new Date().toISOString().slice(0, 10),
         remarks: '',
         rejection_reason: '',
         start_wishes: '',
+        lost_reason_uuid: '',
     }
+    fetchLostReasons()
 }
 
 async function respond() {
+    if (state.respond.decision === 'rejected' && lostReasonOptions.value.length && !state.respond.lost_reason_uuid) {
+        state.lostReasonMissing = true
+        return
+    }
     state.isSaving = true
     try {
         const response = await inquiryOfferService.respondToOffer(state.respondFor.uuid, {
@@ -586,6 +617,7 @@ async function respond() {
             remarks: state.respond.remarks || null,
             rejection_reason: state.respond.decision === 'rejected' ? (state.respond.rejection_reason || null) : null,
             start_wishes: state.respond.decision === 'accepted' ? (state.respond.start_wishes || null) : null,
+            lost_reason_uuid: state.respond.decision === 'rejected' ? (state.respond.lost_reason_uuid || null) : null,
         })
         state.respondFor = null
         await fetchAll()
