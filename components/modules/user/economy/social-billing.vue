@@ -761,7 +761,9 @@ async function fetchExtraction() {
                 ...row,
                 // Everything billable starts selected: the common case is the
                 // whole period, and unticking is quicker than ticking twenty.
-                is_selected: !row.is_fully_invoiced && Number(row.used_hours) > 0,
+                // A fixed price or a contract fee is due without any hours.
+                is_selected: !row.is_fully_invoiced && (Number(row.used_hours) > 0
+                    || (row.contract_lines ?? []).some((line: any) => !line.is_billed && Number(line.amount ?? 0) !== 0)),
                 // What the registrations add up to. Hours can be edited down to
                 // the contract, never up past what was delivered.
                 recorded_hours: Number(row.used_hours ?? 0),
