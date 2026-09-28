@@ -210,7 +210,11 @@ async function fetchOptions() {
     if (state.options.departments.length === 0) {
         try {
             const response = await departmentService.getAllDepartments({})
-            state.options.departments = (response?.data ?? []).map((department: any) => ({
+            // The list starts with an "All departments" pseudo row (no id) that
+            // is a view filter, not a department anyone can be placed in.
+            state.options.departments = (response?.data ?? [])
+                .filter((department: any) => department?.id != null && department?.uuid !== 'all-departments')
+                .map((department: any) => ({
                 value: department.uuid,
                 label: department.name,
             }))
