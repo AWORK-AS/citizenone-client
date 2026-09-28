@@ -7958,7 +7958,8 @@
                 "inquiry": "Förfrågan",
                 "citizen": "Medborgaren",
                 "assessment": "Bedömning",
-                "outcome": "Resultat och anteckningar"
+                "outcome": "Resultat och anteckningar",
+                "matchNeeds": "Match: språk och plats"
             }
         },
         "inquiries": "Förfrågningar",
@@ -15198,7 +15199,9 @@
             "minTravelKm": "Måste köra minst (km)",
             "minWeeklyHours": "Minst timmar per vecka",
             "minStep": "Minst stegbedömning",
-            "needsCar": "Måste ha bil"
+            "needsCar": "Måste ha bil",
+            "secondaryHint": "Ett plus. Räknas inte emot konsulten.",
+            "withinTravelRangeOnly": "Endast konsulter inom sitt köravstånd"
         },
         "criteriaNames": {
             "skill_uuids": "Kompetenser",
@@ -15209,11 +15212,26 @@
             "min_travel_km": "Körsträcka",
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",
-            "min_weekly_hours": "Timantal"
+            "min_weekly_hours": "Timantal",
+            "primary_spoken_language_uuid": "Primärt språk",
+            "within_travel_range": "Inom köravstånd"
         },
         "askSelected": "Fråga {count} valda",
         "asked": "Konsulterna är tillfrågade",
-        "askFailed": "Konsulterna kunde inte tillfrågas"
+        "askFailed": "Konsulterna kunde inte tillfrågas",
+        "location": {
+            "none": "Ingen plats på förfrågan, så inga avstånd visas"
+        },
+        "sort": {
+            "match": "Bästa match",
+            "distance": "Närmast"
+        },
+        "distance": {
+            "unknown": "Avstånd okänt",
+            "km": "{km} km",
+            "approx": "ca {km} km"
+        },
+        "secondaryLanguageMet": "Talar även {language}"
     },
     "inquiryNotes": {
         "title": "Anteckningar",
@@ -15770,6 +15788,22 @@
             "saved": "Gränsen är sparad",
             "set": "Ni satte den till {limit} anrop per dag.",
             "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare."
+        }
+    },
+    "inquiryMatchNeeds": {
+        "heading": "Match: språk och plats",
+        "hint": "Används av konsultmatchningen. Konsulten måste tala det primära språket, det sekundära språket är ett plus.",
+        "primaryLanguage": "Primärt språk",
+        "secondaryLanguage": "Sekundärt språk",
+        "location": "Plats",
+        "locationPlaceholder": "Adress eller område, t.ex. Vesterbro",
+        "postalCode": "Postnummer",
+        "pending": "Placeras på kartan om en stund",
+        "notFound": "Kunde inte hittas på kartan. Kontrollera adressen eller ange ett postnummer",
+        "geocoded": {
+            "address": "Placerad utifrån adressen",
+            "place": "Placerad utifrån området",
+            "postal_code": "Placerad utifrån postnumret (ungefärligt)"
         }
     }
 }

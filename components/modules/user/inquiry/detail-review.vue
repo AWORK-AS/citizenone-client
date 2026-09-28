@@ -209,6 +209,18 @@ const sections = computed(() => {
             ],
         },
         { key: 'citizen', fields: citizen },
+        {
+            key: 'matchNeeds',
+            fields: [
+                { label: t('inquiryMatchNeeds.primaryLanguage'), value: inq.primary_spoken_language?.name ?? '' },
+                { label: t('inquiryMatchNeeds.secondaryLanguage'), value: inq.secondary_spoken_language?.name ?? '' },
+                {
+                    label: t('inquiryMatchNeeds.location'),
+                    value: [inq.location_address, inq.location_postal_code].filter(Boolean).join(', '),
+                    wide: true,
+                },
+            ],
+        },
         { key: 'assessment', fields: assessment },
         {
             key: 'outcome',

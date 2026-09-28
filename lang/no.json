@@ -7958,7 +7958,8 @@
                 "inquiry": "Henvendelsen",
                 "citizen": "Borgeren",
                 "assessment": "Vurdering",
-                "outcome": "Resultat og notater"
+                "outcome": "Resultat og notater",
+                "matchNeeds": "Match: språk og sted"
             }
         },
         "inquiries": "Henvendelser",
@@ -15198,7 +15199,9 @@
             "minTravelKm": "Må kjøre minst (km)",
             "minWeeklyHours": "Minst timer per uke",
             "minStep": "Minst trinnvurdering",
-            "needsCar": "Må ha bil"
+            "needsCar": "Må ha bil",
+            "secondaryHint": "Et pluss. Teller ikke mot konsulenten.",
+            "withinTravelRangeOnly": "Kun konsulenter innenfor sin kjøreavstand"
         },
         "criteriaNames": {
             "skill_uuids": "Kompetanser",
@@ -15209,11 +15212,26 @@
             "min_travel_km": "Kjøreavstand",
             "consultant_status": "Status",
             "min_step_assessment": "Trinnvurdering",
-            "min_weekly_hours": "Timetall"
+            "min_weekly_hours": "Timetall",
+            "primary_spoken_language_uuid": "Primærspråk",
+            "within_travel_range": "Innenfor kjøreavstand"
         },
         "askSelected": "Spør {count} valgte",
         "asked": "Konsulentene er spurt",
-        "askFailed": "Konsulentene kunne ikke spørres"
+        "askFailed": "Konsulentene kunne ikke spørres",
+        "location": {
+            "none": "Ingen lokasjon på henvendelsen, så ingen avstander vises"
+        },
+        "sort": {
+            "match": "Beste match",
+            "distance": "Nærmest"
+        },
+        "distance": {
+            "unknown": "Avstand ukjent",
+            "km": "{km} km",
+            "approx": "ca. {km} km"
+        },
+        "secondaryLanguageMet": "Snakker også {language}"
     },
     "inquiryNotes": {
         "title": "Notater",
@@ -15770,6 +15788,22 @@
             "saved": "Grensen er lagret",
             "set": "Dere satte den til {limit} kall per dag.",
             "derived": "Utregnet grense: {limit} kall per dag per ansatt."
+        }
+    },
+    "inquiryMatchNeeds": {
+        "heading": "Match: språk og sted",
+        "hint": "Brukes av konsulentmatchen. Konsulenten må snakke primærspråket, sekundærspråket er et pluss.",
+        "primaryLanguage": "Primærspråk",
+        "secondaryLanguage": "Sekundærspråk",
+        "location": "Lokasjon",
+        "locationPlaceholder": "Adresse eller område, f.eks. Vesterbro",
+        "postalCode": "Postnummer",
+        "pending": "Plasseres på kartet om litt",
+        "notFound": "Kunne ikke finnes på kartet. Sjekk adressen eller oppgi et postnummer",
+        "geocoded": {
+            "address": "Plassert ut fra adressen",
+            "place": "Plassert ut fra området",
+            "postal_code": "Plassert ut fra postnummeret (omtrentlig)"
         }
     }
 }
