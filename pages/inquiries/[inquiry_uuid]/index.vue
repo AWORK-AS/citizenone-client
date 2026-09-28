@@ -148,6 +148,41 @@
                             </p>
                         </div>
 
+                        <!-- A case that needs a consultant nobody has yet. Flagging it
+                             tells the recruitment team, once. -->
+                        <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
+                            <div class="flex items-center justify-between gap-3">
+                                <p class="text-sm font-semibold text-gray-900">
+                                    {{ $t('inquiryRecruitment.needsRecruitment') }}
+                                </p>
+                                <FormSwitch :value="!!state.inquiry.needs_recruitment"
+                                    @toggleSwitch="toggleNeedsRecruitment" />
+                            </div>
+                            <p class="mt-2 text-xs text-gray-400">
+                                <template v-if="state.inquiry.recruitment_notified_at">
+                                    {{ $t('inquiryRecruitment.notifiedAt', { date: formatDateToReadable(state.inquiry.recruitment_notified_at) }) }}
+                                </template>
+                                <template v-else>{{ $t('inquiryRecruitment.hint') }}</template>
+                            </p>
+                        </div>
+
+                        <!-- Why it was lost, while it is. -->
+                        <div v-if="isLost && (state.inquiry?.lost_reason || state.inquiry?.lost_reason_note || state.inquiry?.lost_estimated_price !== null)"
+                            class="rounded-lg border border-[#f0c4b8] bg-[#fdf1ee] p-5 text-[13px] text-slate-700">
+                            <p class="mb-2 text-sm font-semibold text-[#c0442c]">{{ $t('inquiryLost.detail.heading') }}</p>
+                            <p v-if="state.inquiry?.lost_reason">
+                                <span class="font-semibold">{{ $t('inquiryLost.modal.reason') }}:</span>
+                                {{ state.inquiry.lost_reason.name }}
+                            </p>
+                            <p v-if="state.inquiry?.lost_estimated_price !== null && state.inquiry?.lost_estimated_price !== undefined">
+                                <span class="font-semibold">{{ $t('inquiryLost.modal.price') }}:</span>
+                                {{ formatAmount(state.inquiry.lost_estimated_price) }}
+                            </p>
+                            <p v-if="state.inquiry?.lost_reason_note" class="mt-1 whitespace-pre-line">
+                                {{ state.inquiry.lost_reason_note }}
+                            </p>
+                        </div>
+
                         <div class="rounded-lg border border-gray-200 bg-white p-5">
                             <p class="mb-1 text-sm font-semibold text-gray-900">
                                 {{ $t('inquiryDetail.moveHeading') }}
@@ -175,6 +210,9 @@
 
             <ModulesUserInquiryModalEdit :isModalOpen="state.isEditOpen" :selectedInquiry="state.inquiry ?? {}"
                 @close="state.isEditOpen = false" @refreshInquiries="fetchAll" />
+
+            <ModulesUserInquiryModalMarkLost :isModalOpen="state.isLostOpen" @close="state.isLostOpen = false"
+                @confirm="confirmLost" />
 
             <DialogConfirmation :isModalOpen="state.isConvertOpen"
                 :message="$t('inquiries.table.confirmation.convertAsCitizenConfirmation') + '?'"
@@ -216,6 +254,8 @@ const state = reactive({
     inquiry: null as any,
     isConvertOpen: false,
     isEditOpen: false,
+    isLostOpen: false,
+    pendingLostSlug: '' as string,
     missingFields: [] as string[],
     nextStage: null as any,
     stages: [] as any[],
@@ -292,9 +332,43 @@ async function fetchAll() {
     }
 }
 
-async function moveTo(slug: string) {
+// Losing a case asks why first: the reason, a note and the estimated price.
+function moveTo(slug: string) {
+    const target = state.stages.find((stage: any) => stage.slug === slug)
+
+    if (target?.system_role === 'lost') {
+        state.pendingLostSlug = slug
+        state.isLostOpen = true
+        return
+    }
+
+    submitMove(slug)
+}
+
+function confirmLost(details: Record<string, any>) {
+    state.isLostOpen = false
+    submitMove(state.pendingLostSlug, details)
+}
+
+async function toggleNeedsRecruitment() {
     try {
-        const response = await citizenInquiryService.updatePipelineStatus(inquiryUuid, { pipeline_status: slug })
+        const response = await citizenInquiryService.updateNeedsRecruitment(inquiryUuid, !state.inquiry?.needs_recruitment)
+        if (response?.data) {
+            state.inquiry = response.data
+            successAlert(`${t('alert.success')}!`, `${t('inquiryRecruitment.saved')}.`)
+        }
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('inquiryPipeline.moveFailed'))
+    }
+}
+
+function formatAmount(value: number) {
+    return new Intl.NumberFormat('da-DK', { style: 'currency', currency: 'DKK', maximumFractionDigits: 0 }).format(Number(value) || 0)
+}
+
+async function submitMove(slug: string, details: Record<string, any> = {}) {
+    try {
+        const response = await citizenInquiryService.updatePipelineStatus(inquiryUuid, { pipeline_status: slug, ...details })
         if (response?.data) {
             await fetchAll()
             successAlert(`${t('alert.success')}!`, `${t('inquiryPipeline.moved')}.`)

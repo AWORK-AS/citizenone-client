@@ -46,6 +46,14 @@
                                 @update:modelValue="saveStage(stage)" />
                         </div>
 
+                        <!-- Entering this stage tells the recruitment team. -->
+                        <label class="flex items-center gap-2 pb-2.5 text-sm text-slate-700 cursor-pointer">
+                            <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                :checked="!!stage.notifies_recruitment"
+                                @change="stage.notifies_recruitment = ($event.target as HTMLInputElement).checked; saveStage(stage)" />
+                            {{ $t('inquiryPipelineStages.form.notifiesRecruitment') }}
+                        </label>
+
                         <div class="flex items-center gap-2 ml-auto">
                             <Tooltip :text="$t('inquiryPipelineStages.actions.moveUp')">
                                 <FormButton type="button" buttonStyle="action" :disabled="index === 0"
@@ -96,6 +104,10 @@
                         </FormButton>
                     </div>
                 </div>
+
+                <ModulesUserInquirySettingsRecruitment />
+
+                <ModulesUserInquirySettingsLostReasons />
             </div>
 
             <DialogConfirmation :isModalOpen="state.isDeleteOpen"
@@ -182,6 +194,7 @@ async function saveStage(stage: any) {
             name: stage.name,
             color: stage.color,
             system_role: stage.system_role,
+            notifies_recruitment: !!stage.notifies_recruitment,
         })
     } catch (error: any) {
         state.error = error

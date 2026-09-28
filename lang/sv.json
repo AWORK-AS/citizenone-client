@@ -3346,7 +3346,29 @@
             "name": "Namn",
             "phone": "Telefon",
             "section": "Paragraf / insatstyp",
-            "ssn": "Personnummer"
+            "ssn": "Personnummer",
+            "consultant": "Konsult",
+            "startupStatus": "Uppstartsstatus",
+            "phase": "Status / fas",
+            "scope": "Omfattning",
+            "geography": "Geografi",
+            "phases": {
+                "upcoming": "Inte startad",
+                "active": "I drift",
+                "ended": "Avslutad"
+            },
+            "startupStatuses": {
+                "missing_coordinator": "Saknar koordinator",
+                "missing_consultant": "Saknar konsult",
+                "missing_start_date": "Saknar startdatum",
+                "ready": "Redo för start",
+                "started": "Startad"
+            },
+            "scopeUnits": {
+                "week": "tim/vecka",
+                "month": "tim/mån",
+                "day": "tim/dag"
+            }
         },
         "tabs": {
             "attendance": "Närvaro",
@@ -4116,7 +4138,11 @@
                 "green": "Grön",
                 "yellow": "Gul",
                 "red": "Röd"
-            }
+            },
+            "consultant": "Konsult",
+            "region": "Region",
+            "weeklyHoursFrom": "Timmar per vecka från",
+            "weeklyHoursTo": "Timmar per vecka till"
         },
         "emptyFiltered": "Inga {citizens} matchar filtren."
     },
@@ -8131,7 +8157,9 @@
         "subtitle": "Konfigurera vilka fält som är synliga i medborgarens journalformulär för att skapa och redigera.",
         "title": "Journalformulärets konfiguration",
         "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
-        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den."
+        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den.",
+        "wellbeingRulerToggle": "Visa välmåendelinjal i @:terms.journalNotes{''}",
+        "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -8357,7 +8385,8 @@
         "downloadFile": {
             "alert": {
                 "fileSuccessfullyDownloadedToCitizensFolder": "Filen är blivit nedladdat till @:terms.citizenDefinite{'s'} mapp",
-                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen är blivit nedladdat till organisationens mapp"
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen är blivit nedladdat till organisationens mapp",
+                "fileSuccessfullyAddedToInquiry": "Filen har lagts till i ärendet"
             },
             "citizen": "@.capitalize:terms.citizen{''}",
             "citizenFolder": "@.capitalize:terms.citizen{''} mapp",
@@ -8365,7 +8394,10 @@
             "downloadFileToCitizensFolder": "Ladda ner fil till @:terms.citizenDefinite{'s'} mapp",
             "downloadFileToMyComputer": "Ladda ner fil till min computer",
             "downloadFileToOrganizationsFolder": "Ladda ner fil till organisationens mapp",
-            "organizationFolder": "Organisationsmappe"
+            "organizationFolder": "Organisationsmappe",
+            "addFileToInquiry": "Lägg till fil i ärendet",
+            "inquiry": "Ärende",
+            "inquiryHint": "Filen hämtas direkt från din egen e-post och läggs till ärendets dokument."
         },
         "draft": "Utkast",
         "form": {
@@ -14885,7 +14917,8 @@
             "name": "Namn",
             "namePlaceholder": "T.ex. Utredning",
             "color": "Färg",
-            "role": "Roll"
+            "role": "Roll",
+            "notifiesRecruitment": "Meddelar rekryteringen"
         },
         "roles": {
             "neutral": "Vanlig fas",
@@ -15736,6 +15769,81 @@
             "saved": "Gränsen är sparad",
             "set": "Ni satte den till {limit} anrop per dag.",
             "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare."
+        }
+    },
+    "wellbeing": {
+        "ruler": {
+            "title": "Välmåendelinjal",
+            "optional": "Valfri",
+            "hint": "Välj ett värde från 0 till {max}, halva steg är tillåtna. En rad utan värde sparas inte.",
+            "clear": "Rensa",
+            "wholeCase": "Samlat"
+        },
+        "development": {
+            "title": "Välmåendeutveckling",
+            "from": "Från",
+            "to": "Till",
+            "empty": "Det finns ännu inga välmåendevärden i perioden."
+        }
+    },
+    "inquiryRecruitment": {
+        "needsRecruitment": "Behov av rekrytering",
+        "hint": "Slå på när ärendet saknar en konsult. Rekryteringsteamet meddelas en gång.",
+        "notifiedAt": "Rekryteringsteamet meddelades {date}.",
+        "saved": "Rekryteringsbehovet har sparats",
+        "settings": {
+            "title": "Rekryteringsteam",
+            "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis, push och mejl som beskriver uppdraget, aldrig personen.",
+            "groups": "Medarbetargrupper",
+            "users": "Medarbetare",
+            "taskBoard": "Skapa uppgift på tavla",
+            "taskBoardHint": "Valfritt. Uppgiften läggs i tavlans första kolumn.",
+            "recipientCount": "Meddelandet når {count} medarbetare.",
+            "nobody": "Ingen meddelas ännu. Välj en grupp eller en medarbetare.",
+            "saved": "Rekryteringsteamet har sparats"
+        }
+    },
+    "inquiryLost": {
+        "modal": {
+            "title": "Markera som förlorat",
+            "hint": "Registrera varför ärendet förlorades, så att det kan rapporteras.",
+            "reason": "Orsak",
+            "noReasons": "Det finns inga orsaker att välja mellan ännu. De skapas under inställningarna för faser.",
+            "note": "Fördjupning",
+            "notePlaceholder": "Vad hände?",
+            "price": "Uppskattat offertpris",
+            "pricePlaceholder": "Belopp i kr",
+            "confirm": "Markera som förlorat"
+        },
+        "detail": {
+            "heading": "Förlorat ärende"
+        },
+        "report": {
+            "open": "Förlorade ärenden",
+            "title": "Förlorade ärenden",
+            "subtitle": "Antal och förlorad omsättning per orsak under perioden.",
+            "from": "Från",
+            "to": "Till",
+            "totalCount": "Förlorade ärenden",
+            "totalRevenue": "Förlorad omsättning",
+            "byReason": "Per orsak",
+            "empty": "Inga förlorade ärenden under perioden.",
+            "noReason": "Utan orsak",
+            "cases": "Ärenden: {count}",
+            "withoutPrice": "utan pris: {count}",
+            "lostCases": "Ärendena",
+            "lostAt": "Förlorat",
+            "case": "Ärende"
+        },
+        "settings": {
+            "title": "Förlustorsaker",
+            "description": "Orsakerna att välja mellan när ett ärende markeras som förlorat. En orsak som har använts kan bara inaktiveras, så att rapporten behåller historiken.",
+            "namePlaceholder": "T.ex. pris eller brist på kapacitet",
+            "active": "Aktiv",
+            "delete": "Ta bort orsak",
+            "empty": "Inga förlustorsaker ännu.",
+            "newReason": "Ny orsak",
+            "add": "Lägg till orsak"
         }
     }
 }

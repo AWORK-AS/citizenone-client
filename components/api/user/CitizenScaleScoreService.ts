@@ -5,6 +5,10 @@ class CitizenScaleScoreService extends BaseAPIService {
         return await this.request(`/user/citizens/${citizenUuid}/scale-scores`, 'GET', params)
     }
 
+    async getDevelopment(citizenUuid: string, params: object): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/scale-scores/development`, 'GET', params)
+    }
+
     async getGroupIterations(citizenUuid: string, params: object): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/group-iterations`, 'GET', params)
     }

@@ -3346,7 +3346,29 @@
             "name": "Name",
             "phone": "Phone",
             "section": "Paragraph / service type",
-            "ssn": "Social security number"
+            "ssn": "Social security number",
+            "consultant": "Consultant",
+            "startupStatus": "Start-up status",
+            "phase": "Status / phase",
+            "scope": "Scope",
+            "geography": "Geography",
+            "phases": {
+                "upcoming": "Not started",
+                "active": "Running",
+                "ended": "Ended"
+            },
+            "startupStatuses": {
+                "missing_coordinator": "Missing coordinator",
+                "missing_consultant": "Missing consultant",
+                "missing_start_date": "Missing start date",
+                "ready": "Ready to start",
+                "started": "Started"
+            },
+            "scopeUnits": {
+                "week": "h/week",
+                "month": "h/month",
+                "day": "h/day"
+            }
         },
         "tabs": {
             "attendance": "Attendance",
@@ -4116,7 +4138,11 @@
                 "green": "Green",
                 "yellow": "Yellow",
                 "red": "Red"
-            }
+            },
+            "consultant": "Consultant",
+            "region": "Region",
+            "weeklyHoursFrom": "Hours per week from",
+            "weeklyHoursTo": "Hours per week to"
         },
         "emptyFiltered": "No {citizens} match the filters."
     },
@@ -8131,7 +8157,9 @@
         "subtitle": "Configure which fields are visible in the @:terms.citizenDefinite{'s'} journal create and edit forms.",
         "title": "Journal Form Configuration",
         "scoreToggle": "Show \"Current level\" in the journal form",
-        "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it."
+        "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it.",
+        "wellbeingRulerToggle": "Show the wellbeing ruler in @:terms.journalNotes{''}",
+        "wellbeingRulerDescription": "When switched on, a wellbeing score from 0 to 10 can be given in @:terms.journalNotes{''}, one for each child on the case. The score is optional and is part of the wellbeing development and the status report's wellbeing ruler."
     },
     "journalNotes": {
         "title": "@.capitalize:terms.journalNotes{''}",
@@ -8357,7 +8385,8 @@
         "downloadFile": {
             "alert": {
                 "fileSuccessfullyDownloadedToCitizensFolder": "File successfully downloaded to @:terms.citizen{''}'s folder",
-                "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder"
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder",
+                "fileSuccessfullyAddedToInquiry": "The file has been added to the inquiry"
             },
             "citizen": "@.capitalize:terms.citizen{''}",
             "citizenFolder": "@.capitalize:terms.citizen{''} folder",
@@ -8365,7 +8394,10 @@
             "downloadFileToCitizensFolder": "Download file to @:terms.citizen{''}'s folder",
             "downloadFileToMyComputer": "Download file to my computer",
             "downloadFileToOrganizationsFolder": "Download file to organization's folder",
-            "organizationFolder": "Organization folder"
+            "organizationFolder": "Organization folder",
+            "addFileToInquiry": "Add file to inquiry",
+            "inquiry": "Inquiry",
+            "inquiryHint": "The file is read straight from your own mailbox and added to the inquiry's documents."
         },
         "draft": "Draft",
         "form": {
@@ -14981,7 +15013,8 @@
             "name": "Name",
             "namePlaceholder": "E.g. Clarification",
             "color": "Colour",
-            "role": "Role"
+            "role": "Role",
+            "notifiesRecruitment": "Notifies recruitment"
         },
         "roles": {
             "neutral": "Regular stage",
@@ -15832,6 +15865,81 @@
             "saved": "Limit saved",
             "set": "You set it to {limit} requests per day.",
             "derived": "Calculated limit: {limit} requests per day per employee."
+        }
+    },
+    "wellbeing": {
+        "ruler": {
+            "title": "Wellbeing ruler",
+            "optional": "Optional",
+            "hint": "Choose a score from 0 to {max}; half steps are allowed. A row without a score is not saved.",
+            "clear": "Clear",
+            "wholeCase": "Overall"
+        },
+        "development": {
+            "title": "Wellbeing development",
+            "from": "From",
+            "to": "To",
+            "empty": "There are no wellbeing scores in the period yet."
+        }
+    },
+    "inquiryRecruitment": {
+        "needsRecruitment": "Needs recruitment",
+        "hint": "Turn on when the case lacks a consultant. The recruitment team is told once.",
+        "notifiedAt": "The recruitment team was told on {date}.",
+        "saved": "The recruitment need has been saved",
+        "settings": {
+            "title": "Recruitment team",
+            "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification, a push and a mail describing the work, never the person.",
+            "groups": "Employee groups",
+            "users": "Employees",
+            "taskBoard": "Create a task on board",
+            "taskBoardHint": "Optional. The task goes into the board's first column.",
+            "recipientCount": "The message reaches {count} employee(s).",
+            "nobody": "Nobody is told yet. Choose a group or an employee.",
+            "saved": "The recruitment team has been saved"
+        }
+    },
+    "inquiryLost": {
+        "modal": {
+            "title": "Mark as lost",
+            "hint": "Record why the case was lost, so it can be reported on.",
+            "reason": "Reason",
+            "noReasons": "There are no lost reasons to choose from yet. They are set up in the stage settings.",
+            "note": "Elaboration",
+            "notePlaceholder": "What happened?",
+            "price": "Estimated offer price",
+            "pricePlaceholder": "Amount in DKK",
+            "confirm": "Mark as lost"
+        },
+        "detail": {
+            "heading": "Lost case"
+        },
+        "report": {
+            "open": "Lost cases",
+            "title": "Lost cases",
+            "subtitle": "Count and lost revenue per reason in the period.",
+            "from": "From",
+            "to": "To",
+            "totalCount": "Lost cases",
+            "totalRevenue": "Lost revenue",
+            "byReason": "Per reason",
+            "empty": "No lost cases in the period.",
+            "noReason": "No reason",
+            "cases": "Cases: {count}",
+            "withoutPrice": "without price: {count}",
+            "lostCases": "The cases",
+            "lostAt": "Lost",
+            "case": "Case"
+        },
+        "settings": {
+            "title": "Lost reasons",
+            "description": "The reasons to choose from when a case is marked as lost. A reason that has been used can only be deactivated, so the report keeps its history.",
+            "namePlaceholder": "E.g. price or lack of capacity",
+            "active": "Active",
+            "delete": "Delete reason",
+            "empty": "No lost reasons yet.",
+            "newReason": "New reason",
+            "add": "Add reason"
         }
     }
 }

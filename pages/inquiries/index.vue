@@ -34,6 +34,12 @@
                         </select>
                     </div>
                     <div class="flex items-center gap-x-3">
+                        <!-- Lost cases per reason and what they would have been worth. -->
+                        <FormButton v-if="pipelineEnabled && (isAtLeast('Manager') || can('update'))" buttonStyle="action"
+                            @click="navigateTo('/inquiries/lost-report')">
+                            <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('inquiryLost.report.open') }}
+                        </FormButton>
                         <Menu as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
@@ -318,6 +324,9 @@
                 :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
                 @refreshInquiries="fetchInquiries" />
 
+            <ModulesUserInquiryModalMarkLost :isModalOpen="pendingLost !== null" @close="pendingLost = null"
+                @confirm="confirmLost" />
+
             <ModulesUserInquiryModalUnassignedConverted :isModalOpen="state.modal.isUnassignedConvertedOpen"
                 @close="state.modal.isUnassignedConvertedOpen = false" @claimed="fetchUnassignedConvertedCount" />
 
@@ -352,6 +361,7 @@ import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
@@ -365,6 +375,7 @@ const { t } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+const { isAtLeast, can } = usePermissions()
 // The mockup's board shares the width between the columns rather than scrolling
 // sideways. Stages are configurable, though, so past six columns there is not
 // enough room to read a card and the row scrolls instead.
@@ -426,9 +437,26 @@ function onDrop(stageSlug: string) {
     }
 }
 
-async function moveStage(inquiry: any, status: string) {
+// Dropping a card on the lost stage asks why first.
+const pendingLost = ref<{ inquiry: any, status: string } | null>(null)
+
+function confirmLost(details: Record<string, any>) {
+    const pending = pendingLost.value
+    pendingLost.value = null
+    if (pending) {
+        moveStage(pending.inquiry, pending.status, details)
+    }
+}
+
+async function moveStage(inquiry: any, status: string, details: Record<string, any> | null = null) {
+    const target = state.pipelineStages.find((stage: any) => stage.slug === status)
+    if (target?.system_role === 'lost' && details === null) {
+        pendingLost.value = { inquiry, status }
+        return
+    }
+
     try {
-        const response = await citizenInquiryService.updatePipelineStatus(inquiry.uuid, { pipeline_status: status })
+        const response = await citizenInquiryService.updatePipelineStatus(inquiry.uuid, { pipeline_status: status, ...(details ?? {}) })
         if (response?.data) {
             fetchInquiries()
             successAlert(`${t('alert.success')}!`, `${t('inquiryPipeline.moved')}.`)
