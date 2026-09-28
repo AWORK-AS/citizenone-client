@@ -71,6 +71,7 @@ export function useSettingsCatalog() {
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryPipelineStages', '/settings/inquiry-pipeline-stages', ['settings-inquiry-pipeline-stages'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryFields', '/settings/inquiry-fields', ['settings-inquiry-fields'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryServiceTypes', '/settings/inquiry-service-types', ['settings-inquiry-service-types'])),
+            ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryOffers', '/settings/inquiry-offers', ['settings-inquiry-offers'])),
             ...when(hasTasks, item('access', 'settings.tabs.taskTypes', '/settings/task-types', ['settings-task-types'])),
             ...when(hasTasks, item('access', 'settings.tabs.taskRules', '/settings/task-rules', ['settings-task-rules'])),
             ...when(hasSurveys, item('journal', 'settings.tabs.surveys', '/surveys', ['surveys', 'surveys-new', 'surveys-survey_uuid-edit', 'surveys-survey_uuid-assignments', 'surveys-survey_uuid-fill'])),

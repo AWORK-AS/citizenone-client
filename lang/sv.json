@@ -10680,7 +10680,8 @@
             "inquiryServiceTypes": "Insatstyper",
             "taskTypes": "Uppgiftstyper",
             "taskRules": "Uppgiftsregler",
-            "employmentOptions": "Anställningsval"
+            "employmentOptions": "Anställningsval",
+            "inquiryOffers": "Offerter och priser"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -15208,7 +15209,12 @@
     },
     "inquiryStageHistory": {
         "empty": "Förfrågan har inte bytt fas ännu.",
-        "title": "Fasändringar"
+        "title": "Fasändringar",
+        "events": {
+            "offer_sent": "Offert skickad",
+            "offer_accepted": "Offert godkänd",
+            "offer_rejected": "Offert avvisad"
+        }
     },
     "consultantMatch": {
         "title": "Konsultmatchning",
@@ -15913,5 +15919,163 @@
             "newReason": "Ny orsak",
             "add": "Lägg till orsak"
         }
+    },
+    "inquiryOffer": {
+        "title": "Offert",
+        "hint": "Preliminär beräkning, versioner, utskick och kommunens svar.",
+        "newVersion": "Ny version",
+        "newCalculation": "Ny beräkning",
+        "specialLanguageBanner": "Specialspråk valt på förfrågan: {languages}. Tillägget läggs automatiskt på beräkningen.",
+        "empty": "Ingen offert har gjorts ännu.",
+        "version": "Version {version}",
+        "statuses": {
+            "draft": "Utkast",
+            "sent": "Skickad",
+            "accepted": "Godkänd",
+            "rejected": "Avvisad",
+            "superseded": "Ersatt"
+        },
+        "specialLanguage": "Specialspråk",
+        "overdue": "Fristen har passerats",
+        "perMonth": "per månad",
+        "perWeek": "per vecka",
+        "hoursPerWeek": "timmar per vecka",
+        "total": "Totalt",
+        "sentOn": "skickad {date}",
+        "deadlineOn": "frist {date}",
+        "respondedOn": "svar {date}",
+        "rejectionReason": "Orsak till avvisning",
+        "startWishes": "Önskemål om start",
+        "edit": "Redigera",
+        "hideDetails": "Dölj beräkning",
+        "showDetails": "Visa beräkning",
+        "send": "Skicka offert",
+        "registerAnswer": "Registrera svar",
+        "delete": "Radera",
+        "editingVersion": "Redigera version {version}",
+        "newDraft": "Nytt utkast",
+        "inputs": {
+            "contact_hours_per_session": "Kontakttimmar per tillfälle",
+            "sessions_per_week": "Antal tillfällen per vecka",
+            "admin_hours_per_session": "Extra adm.-tid per tillfälle (timmar)",
+            "transport_hours_per_session": "Beräknad restid per tillfälle (timmar)",
+            "reports_per_month": "Rapporter per månad",
+            "duration_weeks": "Varaktighet (veckor)",
+            "price_date": "Prisdatum",
+            "supervision": "Handledning",
+            "room": "Egna lokaler",
+            "special_language": "Specialspråk"
+        },
+        "specialLanguageAuto": "Automatiskt utifrån förfrågan",
+        "yes": "Ja",
+        "no": "Nej",
+        "adjustPrices": "Justera priser för denna offert",
+        "overrides": {
+            "hourly_rate": "Timpris",
+            "admin_hourly_rate": "Timpris, administration",
+            "transport_hourly_rate": "Timpris, resor",
+            "special_language_surcharge": "Tillägg för specialspråk per timme",
+            "supervision_price_per_week": "Handledning per vecka",
+            "room_price_per_session": "Lokal per tillfälle",
+            "reporting_price_per_report": "Pris per rapport",
+            "weeks_per_month": "Veckor per månad"
+        },
+        "extraItems": "Övriga tillägg och avdrag",
+        "extraLabel": "Text",
+        "extraAmount": "Belopp",
+        "per": {
+            "week": "per vecka",
+            "month": "per månad",
+            "once": "engångsbelopp"
+        },
+        "addExtraItem": "Lägg till rad",
+        "consultants": "Presentation av valda konsulter",
+        "consultantsHint": "Konsulterna som valts för ärendet presenteras i offerten med kompetenser och språk. Skriv gärna en kort presentation.",
+        "consultantNotePlaceholder": "Kort presentation för kommunen",
+        "note": "Anmärkningar",
+        "saveDraft": "Spara utkast",
+        "sendTitle": "Skicka offert",
+        "sentAt": "Skickad",
+        "deadlineDays": "Svarsfrist (dagar)",
+        "deadlinePreview": "Kommunen ska svara senast {date}.",
+        "reminderHint": "Du och den som gjorde offerten får en påminnelse när fristen närmar sig, och igen om den passeras.",
+        "answerTitle": "Registrera kommunens svar",
+        "respondedAt": "Datum för svar",
+        "startWishesPlaceholder": "T.ex. önskat startdatum eller justeringar",
+        "remarks": "Anmärkningar",
+        "acceptHint": "Förfrågan flyttas till den vunna fasen. När den konverteras förs pris och timmar över till kontraktsfälten.",
+        "rejectHint": "Förfrågan flyttas till den förlorade fasen, och orsaken sparas i beslutsloggen.",
+        "confirmDelete": "Vill du radera utkastet",
+        "fromCatalogue": "från katalogen",
+        "saved": "Offerten har sparats",
+        "saveFailed": "Offerten kunde inte sparas",
+        "sentAlert": "Offerten är registrerad som skickad",
+        "answerSaved": "Svaret har registrerats",
+        "stageBlocked": "Svaret är registrerat, men förfrågan kunde inte flyttas eftersom dessa fält saknas: {fields}",
+        "fileName": "offert-version-{version}",
+        "downloadFailed": "Dokumentet kunde inte hämtas",
+        "specialLanguageChosen": "Specialspråk: {languages}",
+        "result": {
+            "item": "Post",
+            "quantity": "Timmar/antal",
+            "unitPrice": "Pris",
+            "perWeek": "Per vecka",
+            "weeklyPrice": "Pris per vecka",
+            "monthlyPrice": "Pris per månad",
+            "totalPrice": "Totalpris",
+            "weeklyHours": "Timmar per vecka",
+            "assumptions": "Förutsättningar"
+        }
+    },
+    "inquiryOfferSettings": {
+        "title": "Offerter och priser",
+        "description": "Taxor per insatstyp, gemensamma priser, specialspråk och offertmallen. Priserna revideras genom att lägga till en ny version med ett startdatum, så att tidigare offerter fortfarande kan förklaras med de priser som gällde då.",
+        "rates": {
+            "title": "Taxor per insatstyp",
+            "hint": "Timpriset för kontakttimmar. Administration och resor använder samma timpris om inget eget anges.",
+            "serviceType": "Insatstyp",
+            "hourly_rate": "Timpris",
+            "admin_hourly_rate": "Administration",
+            "transport_hourly_rate": "Resor",
+            "empty": "Inga taxor har angetts ännu."
+        },
+        "validFrom": "Gäller från",
+        "note": "Anteckning",
+        "add": "Lägg till",
+        "fromDate": "Från {date}",
+        "prices": {
+            "title": "Gemensamma priser",
+            "hint": "Tillägg för specialspråk, handledning, lokaler och rapportering. Lägg till en ny version vid den årliga prisjusteringen.",
+            "special_language_surcharge": "Specialspråk per timme",
+            "supervision_price_per_week": "Handledning per vecka",
+            "room_price_per_session": "Lokal per tillfälle",
+            "reporting_price_per_report": "Pris per rapport",
+            "weeks_per_month": "Veckor per månad",
+            "special_language_applies_to": "Specialspråkstillägget läggs på",
+            "appliesContact": "Kontakttimmarna",
+            "appliesAll": "Alla timmar",
+            "addRevision": "Lägg till version",
+            "empty": "Inga priser har angetts ännu."
+        },
+        "languages": {
+            "title": "Specialspråk",
+            "hint": "Markera de språk som utlöser specialspråkstillägg. Alla andra språk räknas som vanliga språk.",
+            "search": "Sök språk",
+            "count": "{count} språk markerade som specialspråk"
+        },
+        "template": {
+            "title": "Offertmall",
+            "hint": "Texterna fogas in i offerten som PDF och Word. Du kan använda dessa fält: {placeholders}",
+            "documentTitle": "Rubrik",
+            "documentTitlePlaceholder": "Offert",
+            "intro": "Inledning",
+            "introPlaceholder": "Text före prisberäkningen",
+            "terms": "Avslutning och villkor",
+            "termsPlaceholder": "Text efter prisberäkningen",
+            "deadlineDays": "Standard svarsfrist (dagar)",
+            "reminderDaysBefore": "Påminnelse dagar före fristen"
+        },
+        "saved": "Sparat",
+        "saveFailed": "Kunde inte sparas"
     }
 }
