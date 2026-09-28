@@ -383,6 +383,8 @@ async function submitMove(slug: string, details: Record<string, any> = {}) {
         const response = await citizenInquiryService.updatePipelineStatus(inquiryUuid, { pipeline_status: slug, ...details })
         if (response?.data) {
             await fetchAll()
+            // The move is itself a stage change; the panel reads its own list.
+            historyPanel.value?.fetchHistory?.()
             successAlert(`${t('alert.success')}!`, `${t('inquiryPipeline.moved')}.`)
         }
     } catch (error: any) {
