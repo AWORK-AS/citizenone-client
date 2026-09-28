@@ -6934,7 +6934,41 @@
             "active": "Active",
             "inactive": "Inactive"
         },
-        "emptyFiltered": "No employees match the filters."
+        "emptyFiltered": "No employees match the filters.",
+        "bulkEdit": {
+            "action": "Edit selected",
+            "addToCurrent": "Add to the current ones",
+            "apply": "Apply",
+            "clearSelection": "Clear selection",
+            "confirmArchive": "{count} employees will be archived, removed from the overview and have their licences released. Press again to confirm.",
+            "confirmArchiveButton": "Confirm archiving",
+            "departments": "Department",
+            "employeeGroups": "Employee groups",
+            "how": "How",
+            "intro": "Only what you fill in is changed. Everything else stays as it was.",
+            "noChange": "Unchanged",
+            "reasons": {
+                "archived": "Is archived",
+                "insufficient_level": "Has a higher role than you",
+                "no_license_available": "No free licence",
+                "self": "Your own role and status are not changed here"
+            },
+            "replaceCurrent": "Replace the current ones",
+            "result": "{updated} of {requested} employees updated.",
+            "role": "Role",
+            "roleAdd": "Add the role and keep the current ones",
+            "roleReplace": "Replace the current roles",
+            "selected": "{count} selected",
+            "skippedHeader": "Not changed",
+            "status": "Status",
+            "statusActive": "Active",
+            "statusActiveHint": "Can log in and uses a licence. An employee without one takes a free licence.",
+            "statusArchived": "Archived",
+            "statusArchivedHint": "Has left. Removed from the overview and the licence is released.",
+            "statusPassive": "Passive",
+            "statusPassiveHint": "Stays in the system and can be found in consultant matching, but cannot log in and uses no licence.",
+            "title": "Edit {count} employees"
+        }
     },
     "entriesPerPage": "Entries per page",
     "error": {

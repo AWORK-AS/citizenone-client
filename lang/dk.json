@@ -6934,7 +6934,41 @@
             "active": "Aktiv",
             "inactive": "Inaktiv"
         },
-        "emptyFiltered": "Ingen medarbejdere matcher filtrene."
+        "emptyFiltered": "Ingen medarbejdere matcher filtrene.",
+        "bulkEdit": {
+            "action": "Rediger valgte",
+            "addToCurrent": "Tilføj til de nuværende",
+            "apply": "Anvend",
+            "clearSelection": "Ryd valg",
+            "confirmArchive": "{count} medarbejdere arkiveres, forsvinder fra oversigten og får deres licenser frigivet. Tryk igen for at bekræfte.",
+            "confirmArchiveButton": "Bekræft arkivering",
+            "departments": "Afdeling",
+            "employeeGroups": "Medarbejdergrupper",
+            "how": "Hvordan",
+            "intro": "Kun det du udfylder bliver ændret. Alt andet står som før.",
+            "noChange": "Uændret",
+            "reasons": {
+                "archived": "Er arkiveret",
+                "insufficient_level": "Har en højere rolle end dig",
+                "no_license_available": "Ingen ledig licens",
+                "self": "Din egen rolle og status ændres ikke her"
+            },
+            "replaceCurrent": "Erstat de nuværende",
+            "result": "{updated} af {requested} medarbejdere er opdateret.",
+            "role": "Rolle",
+            "roleAdd": "Tilføj rollen og behold de nuværende",
+            "roleReplace": "Erstat de nuværende roller",
+            "selected": "{count} valgt",
+            "skippedHeader": "Ikke ændret",
+            "status": "Status",
+            "statusActive": "Aktiv",
+            "statusActiveHint": "Kan logge ind og bruger en licens. Har medarbejderen ingen licens, tages en ledig.",
+            "statusArchived": "Arkiveret",
+            "statusArchivedHint": "Fratrådt. Forsvinder fra oversigten og licensen frigives.",
+            "statusPassive": "Passiv",
+            "statusPassiveHint": "Bliver i systemet og kan findes i konsulentmatch, men kan ikke logge ind og bruger ingen licens.",
+            "title": "Rediger {count} medarbejdere"
+        }
     },
     "entriesPerPage": "Indlæg pr. side",
     "error": {

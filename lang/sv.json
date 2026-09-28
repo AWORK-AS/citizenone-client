@@ -6934,7 +6934,41 @@
             "active": "Aktiv",
             "inactive": "Inaktiv"
         },
-        "emptyFiltered": "Inga medarbetare matchar filtren."
+        "emptyFiltered": "Inga medarbetare matchar filtren.",
+        "bulkEdit": {
+            "action": "Redigera valda",
+            "addToCurrent": "Lägg till de nuvarande",
+            "apply": "Verkställ",
+            "clearSelection": "Rensa val",
+            "confirmArchive": "{count} medarbetare arkiveras, försvinner från översikten och får sina licenser frigjorda. Tryck igen för att bekräfta.",
+            "confirmArchiveButton": "Bekräfta arkivering",
+            "departments": "Avdelning",
+            "employeeGroups": "Medarbetargrupper",
+            "how": "Hur",
+            "intro": "Bara det du fyller i ändras. Allt annat förblir som förut.",
+            "noChange": "Oförändrad",
+            "reasons": {
+                "archived": "Är arkiverad",
+                "insufficient_level": "Har en högre roll än du",
+                "no_license_available": "Ingen ledig licens",
+                "self": "Din egen roll och status ändras inte här"
+            },
+            "replaceCurrent": "Ersätt de nuvarande",
+            "result": "{updated} av {requested} medarbetare uppdaterade.",
+            "role": "Roll",
+            "roleAdd": "Lägg till rollen och behåll de nuvarande",
+            "roleReplace": "Ersätt de nuvarande rollerna",
+            "selected": "{count} valda",
+            "skippedHeader": "Inte ändrade",
+            "status": "Status",
+            "statusActive": "Aktiv",
+            "statusActiveHint": "Kan logga in och använder en licens. Saknar medarbetaren licens tas en ledig.",
+            "statusArchived": "Arkiverad",
+            "statusArchivedHint": "Har slutat. Försvinner från översikten och licensen frigörs.",
+            "statusPassive": "Passiv",
+            "statusPassiveHint": "Stannar i systemet och kan hittas i konsultmatchning, men kan inte logga in och använder ingen licens.",
+            "title": "Redigera {count} medarbetare"
+        }
     },
     "entriesPerPage": "Indläg pr. sida",
     "error": {
