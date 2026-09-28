@@ -106,15 +106,15 @@
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel :label="$t('socialWelfare.contract.contactHours')" />
-                                    <input type="number" min="0" step="0.25" class="co-cell-input w-32" v-model="state.form.contact_hours" />
+                                    <input type="number" min="0" step="0.01" class="co-cell-input w-32" v-model="state.form.contact_hours" />
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel :label="$t('socialWelfare.contract.adminHours')" />
-                                    <input type="number" min="0" step="0.25" class="co-cell-input w-32" v-model="state.form.admin_hours" />
+                                    <input type="number" min="0" step="0.01" class="co-cell-input w-32" v-model="state.form.admin_hours" />
                                 </div>
                                 <div class="space-y-1">
                                     <FormLabel :label="$t('socialWelfare.contract.transportHours')" />
-                                    <input type="number" min="0" step="0.25" class="co-cell-input w-32" v-model="state.form.transport_hours" />
+                                    <input type="number" min="0" step="0.01" class="co-cell-input w-32" v-model="state.form.transport_hours" />
                                 </div>
                                 <p class="text-sm text-slate-600 pb-2">
                                     {{ $t('socialWelfare.contract.grantedTotal') }}: <strong>{{ formatHours(grantedTotal) }}</strong>
@@ -285,12 +285,22 @@ function fromPeriod(source: any, asNew: boolean) {
     form.stay_uuid = source.stay_uuid ?? null
     form.customer_department_uuid = source.customer_department?.uuid ?? null
     form.price_type = source.price_type || 'hourly'
-    form.price = source.price ?? source.agreed_price ?? ''
+    form.price = source.price ?? ''
     form.hours_interval = source.hours_interval || 'weekly'
     form.contact_hours = source.contact_hours ?? ''
     form.admin_hours = source.admin_hours ?? ''
     form.transport_hours = source.transport_hours ?? ''
     form.billing_frequency = source.billing_frequency || 'monthly'
+
+    // The stay's agreed price is an amount per period (a won offer carries its
+    // monthly price there), never an hourly rate. Copying it into the hourly
+    // price would bill that amount for every hour, so a monthly one becomes a
+    // fixed monthly price and any other is left for the user to fill in.
+    if (source.is_fallback && source.price == null && source.agreed_price != null && source.hours_interval === 'monthly') {
+        form.price_type = 'fixed'
+        form.price = source.agreed_price
+        form.billing_frequency = 'monthly'
+    }
     form.payment_terms_days = source.payment_terms_days ?? ''
     form.economic_customer_number = source.economic_customer_number ?? ''
     form.economic_product_number = source.economic_product_number ?? ''
