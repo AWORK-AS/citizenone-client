@@ -741,17 +741,30 @@ async function saveVisibleColumns(columns: string[]) {
     state.modal.isColumnsOpen = false
     try {
         await userService.updateCitizensListColumns(columns)
+        // The user store is persisted in the browser; without this the next
+        // page load starts from the choice made before this one.
+        if (userStore.getUser) {
+            userStore.setUser({ ...userStore.getUser, citizens_list_columns: columns })
+        }
     } catch (error: any) {
         state.error = error
     }
 }
 
-onMounted(() => {
-    const saved = userStore.getUser?.citizens_list_columns
+function applySavedColumns(saved: any) {
     const parsed = typeof saved === 'string' ? JSON.parse(saved || '[]') : saved
     if (Array.isArray(parsed) && parsed.length) {
         state.visibleColumns = parsed
+        rebuildColumnHeaders()
     }
+}
+
+// The layout fetches the user after this page has mounted, so a fresh copy
+// (or the first one, on a cold load) can arrive later than onMounted.
+watch(() => userStore.getUser?.citizens_list_columns, (saved) => applySavedColumns(saved))
+
+onMounted(() => {
+    applySavedColumns(userStore.getUser?.citizens_list_columns)
     rebuildColumnHeaders()
 
     fetchCitizens()
