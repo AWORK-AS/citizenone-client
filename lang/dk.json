@@ -15676,7 +15676,8 @@
             "title": "Sendt til andre"
         },
         "title": "Opgavetavler",
-        "unassigned": "Ingen ansvarlig"
+        "unassigned": "Ingen ansvarlig",
+        "openInquiry": "Åbn henvendelse"
     },
     "taskTypes": {
         "title": "Opgavetyper",

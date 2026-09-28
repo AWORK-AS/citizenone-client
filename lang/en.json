@@ -15676,7 +15676,8 @@
             "title": "Waiting on others"
         },
         "title": "Task boards",
-        "unassigned": "Nobody assigned"
+        "unassigned": "Nobody assigned",
+        "openInquiry": "Open inquiry"
     },
     "taskTypes": {
         "title": "Task types",

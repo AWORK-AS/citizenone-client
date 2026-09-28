@@ -15580,7 +15580,8 @@
             "title": "Sendt til andre"
         },
         "title": "Oppgavetavler",
-        "unassigned": "Ingen ansvarlig"
+        "unassigned": "Ingen ansvarlig",
+        "openInquiry": "Åpne henvendelse"
     },
     "taskTypes": {
         "title": "Oppgavetyper",

@@ -15580,7 +15580,8 @@
             "title": "Skickat till andra"
         },
         "title": "Uppgiftstavlor",
-        "unassigned": "Ingen ansvarig"
+        "unassigned": "Ingen ansvarig",
+        "openInquiry": "Öppna ärende"
     },
     "taskTypes": {
         "title": "Uppgiftstyper",
