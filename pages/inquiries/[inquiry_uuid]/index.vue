@@ -91,6 +91,9 @@
                             <ModulesUserInquiryInvitationsPanel :inquiryUuid="state.inquiry.uuid" />
                         </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
+                            <ModulesUserInquiryOfferPanel :inquiryUuid="state.inquiry.uuid" @changed="onOfferChanged" />
+                        </div>
+                        <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryDocumentsPanel :inquiryUuid="state.inquiry.uuid" />
                         </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
@@ -98,7 +101,7 @@
                                 :stages="state.stages" />
                         </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
-                            <ModulesUserInquiryStageHistoryPanel :inquiryUuid="state.inquiry.uuid"
+                            <ModulesUserInquiryStageHistoryPanel ref="historyPanel" :inquiryUuid="state.inquiry.uuid"
                                 :stages="state.stages" />
                         </div>
                     </div>
@@ -290,6 +293,15 @@ async function fetchAll() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+const historyPanel = ref<any>(null)
+
+// Sending or answering an offer moves the inquiry and writes to the decision
+// log, so both are read again rather than left showing the old state.
+async function onOfferChanged() {
+    await fetchAll()
+    historyPanel.value?.fetchHistory?.()
 }
 
 async function moveTo(slug: string) {

@@ -10618,7 +10618,8 @@
             "inquiryServiceTypes": "Service types",
             "taskTypes": "Task types",
             "taskRules": "Task rules",
-            "employmentOptions": "Employment options"
+            "employmentOptions": "Employment options",
+            "inquiryOffers": "Offers and prices"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -15236,7 +15237,12 @@
     },
     "inquiryStageHistory": {
         "empty": "This inquiry has not changed stage yet.",
-        "title": "Stage changes"
+        "title": "Stage changes",
+        "events": {
+            "offer_sent": "Offer sent",
+            "offer_accepted": "Offer accepted",
+            "offer_rejected": "Offer rejected"
+        }
     },
     "consultantMatch": {
         "title": "Consultant match",
@@ -15833,5 +15839,163 @@
             "set": "You set it to {limit} requests per day.",
             "derived": "Calculated limit: {limit} requests per day per employee."
         }
+    },
+    "inquiryOffer": {
+        "title": "Offer",
+        "hint": "Preliminary calculation, versions, sending and the municipality's answer.",
+        "newVersion": "New version",
+        "newCalculation": "New calculation",
+        "specialLanguageBanner": "Special language chosen on the inquiry: {languages}. The surcharge is added to the calculation automatically.",
+        "empty": "No offer has been made yet.",
+        "version": "Version {version}",
+        "statuses": {
+            "draft": "Draft",
+            "sent": "Sent",
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "superseded": "Replaced"
+        },
+        "specialLanguage": "Special language",
+        "overdue": "Deadline passed",
+        "perMonth": "per month",
+        "perWeek": "per week",
+        "hoursPerWeek": "hours per week",
+        "total": "Total",
+        "sentOn": "sent {date}",
+        "deadlineOn": "deadline {date}",
+        "respondedOn": "answered {date}",
+        "rejectionReason": "Reason for rejection",
+        "startWishes": "Wishes for the start",
+        "edit": "Edit",
+        "hideDetails": "Hide calculation",
+        "showDetails": "Show calculation",
+        "send": "Send offer",
+        "registerAnswer": "Register answer",
+        "delete": "Delete",
+        "editingVersion": "Edit version {version}",
+        "newDraft": "New draft",
+        "inputs": {
+            "contact_hours_per_session": "Contact hours per session",
+            "sessions_per_week": "Sessions per week",
+            "admin_hours_per_session": "Extra admin time per session (hours)",
+            "transport_hours_per_session": "Estimated travel time per session (hours)",
+            "reports_per_month": "Reports per month",
+            "duration_weeks": "Duration (weeks)",
+            "price_date": "Price date",
+            "supervision": "Supervision",
+            "room": "Own rooms",
+            "special_language": "Special language"
+        },
+        "specialLanguageAuto": "Automatic from the inquiry",
+        "yes": "Yes",
+        "no": "No",
+        "adjustPrices": "Adjust prices for this offer",
+        "overrides": {
+            "hourly_rate": "Hourly rate",
+            "admin_hourly_rate": "Hourly rate, administration",
+            "transport_hourly_rate": "Hourly rate, travel",
+            "special_language_surcharge": "Special language surcharge per hour",
+            "supervision_price_per_week": "Supervision per week",
+            "room_price_per_session": "Room per session",
+            "reporting_price_per_report": "Price per report",
+            "weeks_per_month": "Weeks per month"
+        },
+        "extraItems": "Other surcharges and deductions",
+        "extraLabel": "Text",
+        "extraAmount": "Amount",
+        "per": {
+            "week": "per week",
+            "month": "per month",
+            "once": "one-off"
+        },
+        "addExtraItem": "Add line",
+        "consultants": "Presentation of the chosen consultants",
+        "consultantsHint": "The consultants chosen for the case are presented in the offer with skills and languages. Add a short presentation if you like.",
+        "consultantNotePlaceholder": "Short presentation for the municipality",
+        "note": "Remarks",
+        "saveDraft": "Save draft",
+        "sendTitle": "Send offer",
+        "sentAt": "Sent",
+        "deadlineDays": "Reply deadline (days)",
+        "deadlinePreview": "The municipality must answer by {date}.",
+        "reminderHint": "You and the person who made the offer are reminded when the deadline approaches, and again if it passes.",
+        "answerTitle": "Register the municipality's answer",
+        "respondedAt": "Date of answer",
+        "startWishesPlaceholder": "E.g. preferred start date or adjustments",
+        "remarks": "Remarks",
+        "acceptHint": "The inquiry moves to the won stage. When it is converted, price and hours are carried over to the contract fields.",
+        "rejectHint": "The inquiry moves to the lost stage, and the reason is kept in the decision log.",
+        "confirmDelete": "Do you want to delete the draft",
+        "fromCatalogue": "from the catalogue",
+        "saved": "The offer has been saved",
+        "saveFailed": "The offer could not be saved",
+        "sentAlert": "The offer is registered as sent",
+        "answerSaved": "The answer has been registered",
+        "stageBlocked": "The answer is registered, but the inquiry could not be moved because these fields are missing: {fields}",
+        "fileName": "offer-version-{version}",
+        "downloadFailed": "The document could not be downloaded",
+        "specialLanguageChosen": "Special language: {languages}",
+        "result": {
+            "item": "Item",
+            "quantity": "Hours/qty",
+            "unitPrice": "Price",
+            "perWeek": "Per week",
+            "weeklyPrice": "Price per week",
+            "monthlyPrice": "Price per month",
+            "totalPrice": "Total price",
+            "weeklyHours": "Hours per week",
+            "assumptions": "Assumptions"
+        }
+    },
+    "inquiryOfferSettings": {
+        "title": "Offers and prices",
+        "description": "Rates per service type, the shared prices, special languages and the offer template. Prices are revised by adding a new version with a start date, so earlier offers can still be explained with the prices that applied then.",
+        "rates": {
+            "title": "Rates per service type",
+            "hint": "The hourly rate for contact hours. Administration and travel use the same rate unless a separate one is set.",
+            "serviceType": "Service type",
+            "hourly_rate": "Hourly rate",
+            "admin_hourly_rate": "Administration",
+            "transport_hourly_rate": "Travel",
+            "empty": "No rates have been set yet."
+        },
+        "validFrom": "Valid from",
+        "note": "Note",
+        "add": "Add",
+        "fromDate": "From {date}",
+        "prices": {
+            "title": "Shared prices",
+            "hint": "Surcharges for special language, supervision, rooms and reporting. Add a new version at the yearly price revision.",
+            "special_language_surcharge": "Special language per hour",
+            "supervision_price_per_week": "Supervision per week",
+            "room_price_per_session": "Room per session",
+            "reporting_price_per_report": "Price per report",
+            "weeks_per_month": "Weeks per month",
+            "special_language_applies_to": "Special language surcharge applies to",
+            "appliesContact": "The contact hours",
+            "appliesAll": "All hours",
+            "addRevision": "Add version",
+            "empty": "No prices have been set yet."
+        },
+        "languages": {
+            "title": "Special languages",
+            "hint": "Mark the languages that trigger the special language surcharge. All other languages count as common languages.",
+            "search": "Search languages",
+            "count": "{count} languages marked as special"
+        },
+        "template": {
+            "title": "Offer template",
+            "hint": "The texts are merged into the offer as PDF and Word. You can use these fields: {placeholders}",
+            "documentTitle": "Heading",
+            "documentTitlePlaceholder": "Offer",
+            "intro": "Introduction",
+            "introPlaceholder": "Text before the price calculation",
+            "terms": "Closing and terms",
+            "termsPlaceholder": "Text after the price calculation",
+            "deadlineDays": "Default reply deadline (days)",
+            "reminderDaysBefore": "Reminder days before the deadline"
+        },
+        "saved": "Saved",
+        "saveFailed": "Could not be saved"
     }
 }

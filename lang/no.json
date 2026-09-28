@@ -10613,7 +10613,8 @@
             "inquiryServiceTypes": "Innsatstyper",
             "taskTypes": "Oppgavetyper",
             "taskRules": "Oppgaveregler",
-            "employmentOptions": "Ansettelsesvalg"
+            "employmentOptions": "Ansettelsesvalg",
+            "inquiryOffers": "Tilbud og priser"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -15140,7 +15141,12 @@
     },
     "inquiryStageHistory": {
         "empty": "Henvendelsen har ikke byttet fase ennå.",
-        "title": "Faseendringer"
+        "title": "Faseendringer",
+        "events": {
+            "offer_sent": "Tilbud sendt",
+            "offer_accepted": "Tilbud godkjent",
+            "offer_rejected": "Tilbud avvist"
+        }
     },
     "consultantMatch": {
         "title": "Konsulentmatch",
@@ -15737,5 +15743,163 @@
             "set": "Dere satte den til {limit} kall per dag.",
             "derived": "Utregnet grense: {limit} kall per dag per ansatt."
         }
+    },
+    "inquiryOffer": {
+        "title": "Tilbud",
+        "hint": "Foreløpig beregning, versjoner, utsending og kommunens svar.",
+        "newVersion": "Ny versjon",
+        "newCalculation": "Ny beregning",
+        "specialLanguageBanner": "Spesialspråk valgt på henvendelsen: {languages}. Tillegget legges automatisk på beregningen.",
+        "empty": "Det er ikke laget et tilbud ennå.",
+        "version": "Versjon {version}",
+        "statuses": {
+            "draft": "Utkast",
+            "sent": "Sendt",
+            "accepted": "Godkjent",
+            "rejected": "Avvist",
+            "superseded": "Erstattet"
+        },
+        "specialLanguage": "Spesialspråk",
+        "overdue": "Fristen er overskredet",
+        "perMonth": "per måned",
+        "perWeek": "per uke",
+        "hoursPerWeek": "timer per uke",
+        "total": "Totalt",
+        "sentOn": "sendt {date}",
+        "deadlineOn": "frist {date}",
+        "respondedOn": "svar {date}",
+        "rejectionReason": "Årsak til avvisning",
+        "startWishes": "Ønsker til oppstart",
+        "edit": "Rediger",
+        "hideDetails": "Skjul beregning",
+        "showDetails": "Vis beregning",
+        "send": "Send tilbud",
+        "registerAnswer": "Registrer svar",
+        "delete": "Slett",
+        "editingVersion": "Rediger versjon {version}",
+        "newDraft": "Nytt utkast",
+        "inputs": {
+            "contact_hours_per_session": "Kontakttimer per forløp",
+            "sessions_per_week": "Antall forløp per uke",
+            "admin_hours_per_session": "Ekstra adm.-tid per forløp (timer)",
+            "transport_hours_per_session": "Anslått reisetid per forløp (timer)",
+            "reports_per_month": "Rapporter per måned",
+            "duration_weeks": "Varighet (uker)",
+            "price_date": "Prisdato",
+            "supervision": "Veiledning",
+            "room": "Egne lokaler",
+            "special_language": "Spesialspråk"
+        },
+        "specialLanguageAuto": "Automatisk ut fra henvendelsen",
+        "yes": "Ja",
+        "no": "Nei",
+        "adjustPrices": "Juster priser for dette tilbudet",
+        "overrides": {
+            "hourly_rate": "Timepris",
+            "admin_hourly_rate": "Timepris, administrasjon",
+            "transport_hourly_rate": "Timepris, reise",
+            "special_language_surcharge": "Tillegg for spesialspråk per time",
+            "supervision_price_per_week": "Veiledning per uke",
+            "room_price_per_session": "Lokale per forløp",
+            "reporting_price_per_report": "Pris per rapport",
+            "weeks_per_month": "Uker per måned"
+        },
+        "extraItems": "Andre tillegg og fradrag",
+        "extraLabel": "Tekst",
+        "extraAmount": "Beløp",
+        "per": {
+            "week": "per uke",
+            "month": "per måned",
+            "once": "engangsbeløp"
+        },
+        "addExtraItem": "Legg til linje",
+        "consultants": "Presentasjon av valgte konsulenter",
+        "consultantsHint": "Konsulentene som er valgt på saken, presenteres i tilbudet med kompetanser og språk. Skriv gjerne en kort presentasjon.",
+        "consultantNotePlaceholder": "Kort presentasjon til kommunen",
+        "note": "Merknader",
+        "saveDraft": "Lagre utkast",
+        "sendTitle": "Send tilbud",
+        "sentAt": "Sendt",
+        "deadlineDays": "Svarfrist (dager)",
+        "deadlinePreview": "Kommunen må svare senest {date}.",
+        "reminderHint": "Du og den som laget tilbudet, får en påminnelse når fristen nærmer seg, og igjen hvis den overskrides.",
+        "answerTitle": "Registrer kommunens svar",
+        "respondedAt": "Dato for svar",
+        "startWishesPlaceholder": "F.eks. ønsket oppstartsdato eller justeringer",
+        "remarks": "Merknader",
+        "acceptHint": "Henvendelsen flyttes til den vunne fasen. Når den konverteres, overføres pris og timer til kontraktfeltene.",
+        "rejectHint": "Henvendelsen flyttes til den tapte fasen, og årsaken lagres i beslutningsloggen.",
+        "confirmDelete": "Vil du slette utkastet",
+        "fromCatalogue": "fra katalogen",
+        "saved": "Tilbudet er lagret",
+        "saveFailed": "Tilbudet kunne ikke lagres",
+        "sentAlert": "Tilbudet er registrert som sendt",
+        "answerSaved": "Svaret er registrert",
+        "stageBlocked": "Svaret er registrert, men henvendelsen kunne ikke flyttes fordi disse feltene mangler: {fields}",
+        "fileName": "tilbud-versjon-{version}",
+        "downloadFailed": "Dokumentet kunne ikke hentes",
+        "specialLanguageChosen": "Spesialspråk: {languages}",
+        "result": {
+            "item": "Post",
+            "quantity": "Timer/antall",
+            "unitPrice": "Pris",
+            "perWeek": "Per uke",
+            "weeklyPrice": "Pris per uke",
+            "monthlyPrice": "Pris per måned",
+            "totalPrice": "Samlet pris",
+            "weeklyHours": "Timer per uke",
+            "assumptions": "Forutsetninger"
+        }
+    },
+    "inquiryOfferSettings": {
+        "title": "Tilbud og priser",
+        "description": "Takster per tiltakstype, felles priser, spesialspråk og tilbudsmalen. Prisene revideres ved å legge til en ny versjon med en startdato, slik at tidligere tilbud fortsatt kan forklares med prisene som gjaldt da.",
+        "rates": {
+            "title": "Takster per tiltakstype",
+            "hint": "Timeprisen for kontakttimer. Administrasjon og reise bruker samme timepris med mindre en egen er angitt.",
+            "serviceType": "Tiltakstype",
+            "hourly_rate": "Timepris",
+            "admin_hourly_rate": "Administrasjon",
+            "transport_hourly_rate": "Reise",
+            "empty": "Det er ikke angitt noen takster ennå."
+        },
+        "validFrom": "Gjelder fra",
+        "note": "Notat",
+        "add": "Legg til",
+        "fromDate": "Fra {date}",
+        "prices": {
+            "title": "Felles priser",
+            "hint": "Tillegg for spesialspråk, veiledning, lokaler og rapportering. Legg til en ny versjon ved den årlige prisreguleringen.",
+            "special_language_surcharge": "Spesialspråk per time",
+            "supervision_price_per_week": "Veiledning per uke",
+            "room_price_per_session": "Lokale per forløp",
+            "reporting_price_per_report": "Pris per rapport",
+            "weeks_per_month": "Uker per måned",
+            "special_language_applies_to": "Spesialspråktillegget legges på",
+            "appliesContact": "Kontakttimene",
+            "appliesAll": "Alle timer",
+            "addRevision": "Legg til versjon",
+            "empty": "Det er ikke angitt noen priser ennå."
+        },
+        "languages": {
+            "title": "Spesialspråk",
+            "hint": "Merk språkene som utløser spesialspråktillegg. Alle andre språk regnes som vanlige språk.",
+            "search": "Søk etter språk",
+            "count": "{count} språk merket som spesialspråk"
+        },
+        "template": {
+            "title": "Tilbudsmal",
+            "hint": "Tekstene flettes inn i tilbudet som PDF og Word. Du kan bruke disse feltene: {placeholders}",
+            "documentTitle": "Overskrift",
+            "documentTitlePlaceholder": "Tilbud",
+            "intro": "Innledning",
+            "introPlaceholder": "Tekst før prisberegningen",
+            "terms": "Avslutning og vilkår",
+            "termsPlaceholder": "Tekst etter prisberegningen",
+            "deadlineDays": "Standard svarfrist (dager)",
+            "reminderDaysBefore": "Påminnelse dager før fristen"
+        },
+        "saved": "Lagret",
+        "saveFailed": "Kunne ikke lagres"
     }
 }
