@@ -180,7 +180,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             name: 'citizens.tabs.economy', icon: 'ph:wallet', isTranslateName: true,
             category: 'admin', primary: false,
             href: `/citizens/${citizenUuid}/wallets`,
-            routeNames: ['citizens-uuid-wallets', 'citizens-uuid-wallets-wallet_uuid', 'citizens-uuid-expenses'],
+            routeNames: ['citizens-uuid-wallets', 'citizens-uuid-wallets-wallet_uuid', 'citizens-uuid-expenses', 'citizens-uuid-contract'],
         })
     }
     if (can('Contacts')) {
