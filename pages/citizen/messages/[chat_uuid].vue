@@ -144,7 +144,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-sm">{{ message?.message }}</p>
+                                                        <p v-if="message?.message" :class="message?.chat_message_attachments?.length > 0 && 'mt-2'" class="text-sm">{{ message?.message }}</p>
                                                     </div>
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
@@ -196,7 +196,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-gray-700 text-sm">{{ message?.message }}
+                                                        <p v-if="message?.message" :class="message?.chat_message_attachments?.length > 0 && 'mt-2'" class="text-gray-700 text-sm">{{ message?.message }}
                                                         </p>
                                                     </div>
                                                 </Tooltip>

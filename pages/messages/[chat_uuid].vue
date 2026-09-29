@@ -179,7 +179,7 @@
                                         </div>
                                     </div>
                                     <!-- Text -->
-                                    <p v-else class="text-sm leading-relaxed"
+                                    <p v-if="message?.message" :class="message?.chat_message_attachments?.length > 0 && 'mt-2'" class="text-sm leading-relaxed"
                                         v-safe-html="message?.message?.replace(/\n/g, '<br>')" />
                                 </div>
                             </div>
@@ -233,7 +233,7 @@
                                     </div>
                                 </div>
                                 <!-- Text -->
-                                <p v-else class="text-sm leading-relaxed"
+                                <p v-if="message?.message" :class="message?.chat_message_attachments?.length > 0 && 'mt-2'" class="text-sm leading-relaxed"
                                     v-safe-html="message?.message?.replace(/\n/g, '<br>')" />
                             </div>
                         </div>
