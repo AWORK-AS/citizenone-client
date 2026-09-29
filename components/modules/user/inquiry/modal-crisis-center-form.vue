@@ -169,6 +169,8 @@
                         </div>
                     </div>
                 </section>
+                <ModulesUserInquiryMatchNeedsBlock :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
+                    :error="props.error" @update="(value: any) => matchNeeds = value" />
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -240,6 +242,10 @@ const departmentLabel = computed(() => customPagesStore.getCustomPagesName?.depa
 const customPages = ref<any[]>([])
 const isNotesActive = computed(() => customPages.value.find((p: any) => p.page_type === 'own_notes')?.is_field_active ?? true)
 const isPurposeActive = computed(() => customPages.value.find((p: any) => p.page_type === 'purpose')?.is_field_active ?? true)
+
+// Languages and location for the consultant match. Null until touched, so a
+// save that never changed them sends nothing and leaves them as they are.
+const matchNeeds = ref<Record<string, any> | null>(null)
 
 const state = reactive({
     error: {} as Error,
@@ -529,7 +535,7 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formInquiry)
+        emit('submitForm', { ...state.formInquiry, match_needs: matchNeeds.value })
     }
 }
 </script>

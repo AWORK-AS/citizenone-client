@@ -30,6 +30,7 @@ export function useSettingsCatalog() {
         if (!user) return []
 
         const isEmploymentServices = user?.company?.industry?.system_name === 'employment_services'
+        const isSocialWelfare = user?.company?.industry?.system_name === 'social_welfare'
         const hasInquiries = !!user?.company?.inquiry_pipeline_enabled
         const hasTasks = !!user?.company?.tasks_workflow_enabled
         const hasSurveys = user?.is_surveys_active !== false
@@ -54,6 +55,7 @@ export function useSettingsCatalog() {
             item('access', 'settings.tabs.customLinks', '/settings/custom-links', ['settings-custom-links', 'settings-custom-links-new', 'settings-custom-links-uuid-edit']),
             item('communication', 'settings.tabs.messageTemplates', '/settings/message-templates', ['settings-message-templates']),
             item('access', 'settings.tabs.departments', '/settings/departments', ['settings-departments']),
+            ...when(isSocialWelfare, item('citizens', 'settings.tabs.customerDepartments', '/settings/customer-departments', ['settings-customer-departments'])),
             item('health', 'settings.tabs.diagnoses', '/settings/diagnoses', ['settings-diagnoses']),
             item('health', 'settings.tabs.dosageForms', '/settings/dosage-forms', ['settings-dosage-forms']),
             item('schedule', 'settings.tabs.dutyShiftRules', '/settings/duty-shift-rules', ['settings-duty-shift-rules']),
@@ -71,6 +73,7 @@ export function useSettingsCatalog() {
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryPipelineStages', '/settings/inquiry-pipeline-stages', ['settings-inquiry-pipeline-stages'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryFields', '/settings/inquiry-fields', ['settings-inquiry-fields'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryServiceTypes', '/settings/inquiry-service-types', ['settings-inquiry-service-types'])),
+            ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryOffers', '/settings/inquiry-offers', ['settings-inquiry-offers'])),
             ...when(hasTasks, item('access', 'settings.tabs.taskTypes', '/settings/task-types', ['settings-task-types'])),
             ...when(hasTasks, item('access', 'settings.tabs.taskRules', '/settings/task-rules', ['settings-task-rules'])),
             ...when(hasSurveys, item('journal', 'settings.tabs.surveys', '/surveys', ['surveys', 'surveys-new', 'surveys-survey_uuid-edit', 'surveys-survey_uuid-assignments', 'surveys-survey_uuid-fill'])),

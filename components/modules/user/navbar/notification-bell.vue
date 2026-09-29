@@ -185,6 +185,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('surveyreturned')) return 'survey'
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
+    if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
     return 'other'
 }
 
@@ -195,6 +196,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
+    inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -489,6 +491,13 @@ async function handleNotifClick(notif: any) {
         if (citizenUuid) {
             state.isOpen = false
             navigateTo(`/citizens/${citizenUuid}/journals`)
+        }
+    }    // A case that needs a consultant recruited: straight to the inquiry.
+    if (getCategory(notif.type) === 'inquiry_recruitment') {
+        const inquiryUuid = notif.data?.content?.inquiry_uuid
+        if (inquiryUuid) {
+            state.isOpen = false
+            navigateTo(`/inquiries/${inquiryUuid}`)
         }
     }
 }

@@ -113,6 +113,7 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
             field_values: state.fieldValues,
+            ...(inquiryDetails.match_needs ?? {}),
         }
         const response = await citizenInquiryService.saveInquiry(params)
         if (response.data) {
@@ -152,6 +153,7 @@ async function saveShelterInquiry(inquiryDetails: any) {
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
             field_values: state.fieldValues,
+            ...(inquiryDetails.match_needs ?? {}),
         }
         const response = await citizenInquiryService.saveInquiry(params)
         if (response.data) {
