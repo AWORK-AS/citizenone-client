@@ -152,3 +152,38 @@ describe('overnight-wrap window "22:00 - 06:00" — seeded platform-wide, easy t
         assert.equal(minutesUntil('22:00 - 06:00', anHourIn), 420)
     })
 })
+
+describe('optional date anchor — multi-day dashboard overview (AW-2026-6579)', () => {
+    // The dashboard renders a chip per (date, slot) across a date range. Each
+    // chip must be judged against its own date, not today's clock.
+
+    test('a past day\'s slot is missed even if its time is later than now', () => {
+        assert.equal(isMissed('17:00', NOW, '2026-08-23'), true)
+    })
+
+    test('a future day\'s slot is neither missed nor due soon', () => {
+        assert.equal(isMissed('10:00', NOW, '2026-08-25'), false)
+        assert.equal(isDueSoon('16:00', NOW, '2026-08-25'), false)
+    })
+
+    test('today\'s date behaves exactly like passing no date', () => {
+        assert.equal(isMissed('10:00', NOW, '2026-08-24'), isMissed('10:00', NOW))
+        assert.equal(isDueSoon('16:00', NOW, '2026-08-24'), isDueSoon('16:00', NOW))
+    })
+
+    test('a range window on a past day is missed', () => {
+        assert.equal(isMissed('06:00 - 10:00', NOW, '2026-08-23'), true)
+    })
+
+    test('an overnight window from yesterday is still open before its close', () => {
+        // Yesterday's "22:00 - 06:00" closes today at 06:00.
+        const earlyMorning = new Date('2026-08-25T05:30:00')
+        assert.equal(isMissed('22:00 - 06:00', earlyMorning, '2026-08-24'), false)
+        assert.equal(isDueSoon('22:00 - 06:00', earlyMorning, '2026-08-24'), true)
+    })
+
+    test('an unparseable date falls back to today', () => {
+        assert.equal(isMissed('10:00', NOW, null), true)
+        assert.equal(isMissed('10:00', NOW, 'not-a-date'), true)
+    })
+})

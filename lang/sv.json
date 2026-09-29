@@ -2892,8 +2892,8 @@
                 }
             },
             "pouringHistory": {
-                "title": "Doseringshistorik",
-                "noPourings": "Det finns ännu inga registrerade doseringar för denna medicin.",
+                "title": "Historik för doseringsbehållaren",
+                "noPourings": "Inget har ännu fyllts i doseringsbehållaren för denna medicin. Givna och utlämnade doser visas under Medicinhistorik.",
                 "remainingStock": "Kvar i behållare"
             },
             "plannedDelivery": {
@@ -3012,7 +3012,7 @@
                     "giveMedicine": "Giv medicin",
                     "givePNMedicine": "Giv PN-medicin",
                     "medicineHistory": "Medicinhistorik",
-                    "pouringHistory": "Doseringshistorik",
+                    "pouringHistory": "Historik för doseringsbehållaren",
                     "view": "Se"
                 },
                 "activeIngredients": "Indholdsstoffer",
