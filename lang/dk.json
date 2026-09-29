@@ -2892,8 +2892,8 @@
                 }
             },
             "pouringHistory": {
-                "title": "Doseringshistorik",
-                "noPourings": "Der er endnu ikke registreret nogen doseringer for denne medicin.",
+                "title": "Historik for doseringsæsken",
+                "noPourings": "Der er endnu ikke hældt noget i doseringsæsken for denne medicin. Givne og udleverede doser vises under Medicinhistorik.",
                 "remainingStock": "Resterende i beholder"
             },
             "plannedDelivery": {
@@ -3012,7 +3012,7 @@
                     "giveMedicine": "Giv medicin",
                     "givePNMedicine": "Giv PN-medicin",
                     "medicineHistory": "Medicinhistorik",
-                    "pouringHistory": "Doseringshistorik",
+                    "pouringHistory": "Historik for doseringsæsken",
                     "view": "Se"
                 },
                 "activeIngredients": "Indholdsstoffer",
