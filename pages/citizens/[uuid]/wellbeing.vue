@@ -62,6 +62,8 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
 
+definePageMeta({ middleware: 'require-page', requiredPage: 'Wellbeing' })
+
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
