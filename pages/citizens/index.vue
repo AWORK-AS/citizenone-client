@@ -717,9 +717,16 @@ function startupStatusClass(status: string) {
     return 'bg-[#fdf3df] text-[#8a6208]'
 }
 
-/** Allocated hours, by the period the case was granted in. */
+/**
+ * Granted hours in the unit they were agreed in. The server picks the source:
+ * today's contract period, then the stay's agreed hours, then the allocation.
+ */
 function formatScope(citizen: any) {
     const hours = (value: any) => new Intl.NumberFormat('da-DK', { maximumFractionDigits: 2 }).format(Number(value))
+    const units: Record<string, string> = { weekly: 'week', monthly: 'month', daily: 'day', total: 'total' }
+    if (citizen?.scope_hours != null && units[citizen?.scope_interval]) {
+        return `${hours(citizen.scope_hours)} ${t('citizens.table.scopeUnits.' + units[citizen.scope_interval])}`
+    }
     if (citizen?.allocated_weekly_hours) return `${hours(citizen.allocated_weekly_hours)} ${t('citizens.table.scopeUnits.week')}`
     if (citizen?.allocated_monthly_hours) return `${hours(citizen.allocated_monthly_hours)} ${t('citizens.table.scopeUnits.month')}`
     if (citizen?.allocated_daily_hours) return `${hours(citizen.allocated_daily_hours)} ${t('citizens.table.scopeUnits.day')}`

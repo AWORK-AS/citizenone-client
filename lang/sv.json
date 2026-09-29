@@ -3367,7 +3367,8 @@
             "scopeUnits": {
                 "week": "tim/vecka",
                 "month": "tim/mån",
-                "day": "tim/dag"
+                "day": "tim/dag",
+                "total": "h totalt"
             }
         },
         "tabs": {

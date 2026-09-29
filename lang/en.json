@@ -3367,7 +3367,8 @@
             "scopeUnits": {
                 "week": "h/week",
                 "month": "h/month",
-                "day": "h/day"
+                "day": "h/day",
+                "total": "h total"
             }
         },
         "tabs": {

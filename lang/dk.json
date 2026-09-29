@@ -3367,7 +3367,8 @@
             "scopeUnits": {
                 "week": "t/uge",
                 "month": "t/md",
-                "day": "t/dag"
+                "day": "t/dag",
+                "total": "t i alt"
             }
         },
         "tabs": {

@@ -3367,7 +3367,8 @@
             "scopeUnits": {
                 "week": "t/uke",
                 "month": "t/mnd",
-                "day": "t/dag"
+                "day": "t/dag",
+                "total": "t totalt"
             }
         },
         "tabs": {
