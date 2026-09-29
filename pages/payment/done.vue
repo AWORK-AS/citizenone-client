@@ -123,8 +123,8 @@ onMounted(() => load())
 }
 
 .payment-mark.is-done {
-    background: #f0faf9;
-    color: #2dbab2;
+    background: #ecfdf5;
+    color: #047857;
 }
 
 .payment-mark.is-pending {

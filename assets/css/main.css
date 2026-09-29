@@ -1402,3 +1402,13 @@ input.appearance-none.border-primary {
 .co-toast.warn .notification-title {
     color: #B4761F;
 }
+
+/* A full-height working pane - a mailbox, a conversation list - under the top
+   bar and page header. Was a flat 80vh: two scrollbars in a short desktop
+   window, a dead strip under the pane in a tall one. The offset is the top
+   bar, the page header and <main>'s padding; the floor keeps a pane usable in
+   a window too short for the calc. */
+.pane-height {
+    height: calc(100dvh - 13rem);
+    min-height: 28rem;
+}

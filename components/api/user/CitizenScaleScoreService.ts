@@ -16,6 +16,11 @@ class CitizenScaleScoreService extends BaseAPIService {
     async saveScaleScore(citizenUuid: string, params: object): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/scale-scores`, 'POST', params)
     }
+
+    // Only a measurement entered on its own; one from a report stays with it.
+    async deleteScaleScore(citizenUuid: string, scoreUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/scale-scores/${scoreUuid}`, 'DELETE')
+    }
 }
 
 export const citizenScaleScoreService = new CitizenScaleScoreService()

@@ -12,7 +12,7 @@
             leave-to-class="opacity-0 translate-y-4">
             <div v-if="state.dragSuccessMessage"
                 class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-2xl shadow-2xl pointer-events-none">
-                <div class="w-5 h-5 rounded-full bg-[#2dbab2] flex items-center justify-center flex-shrink-0">
+                <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
                     <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
@@ -219,7 +219,7 @@
                         class="border-b border-gray-100 flex flex-col items-center justify-center py-3 px-2 cursor-default relative"
                         @mouseenter="(isAtLeast('Admin') || userStore.getUser?.uuid === employee?.uuid) && showPopover(employeeIndex as any)"
                         @mouseleave="hidePopoverWithDelay()">
-                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                        <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                             :class="[
                                 employee?.shift_threshold === 'high' && 'ring-green-500',
                                 employee?.shift_threshold === 'moderate' && 'ring-yellow-500',
@@ -234,7 +234,7 @@
                             class="absolute left-full ml-2 top-0 z-[60] bg-white rounded-xl shadow-2xl ring-1 ring-gray-200 p-4 w-[340px] text-left"
                             @mouseenter="showPopover(employeeIndex)" @mouseleave="hidePopoverWithDelay()">
                             <div class="flex items-center gap-3 mb-3">
-                                <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${employee?.firstname + ' ' + employee?.lastname}`"
+                                <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname + ' ' + employee?.lastname}`)"
                                     :class="[employee?.shift_threshold === 'high' && 'border-green-700', employee?.shift_threshold === 'moderate' && 'border-yellow-500', employee?.shift_threshold === 'low' && 'border-red-600', 'h-12 w-12 rounded-full bg-gray-50 object-cover border-2 shadow-md ring-2 ring-white']" />
                                 <div>
                                     <p class="text-sm font-semibold text-gray-900">
@@ -505,14 +505,14 @@
                             </button>
                             <span class="text-[10px] text-gray-400">
                                 {{
-                                    week.days[0] ? moment(week.days[0]).format('D. MMM') : ''
+                                    week.days[0] ? formatLocalized(moment(week.days[0]), 'D. MMM') : ''
                                 }}
                                 –
                                 {{
                                     week.days[6] ?
-                                        moment(week.days[6]).format('D. MMM') :
+                                        formatLocalized(moment(week.days[6]), 'D. MMM') :
                                         (week.days.filter(day => day !== null).pop() ?
-                                            moment(week.days.filter(day => day !== null).pop()).format('D. MMM') : '')
+                                            formatLocalized(moment(week.days.filter(day => day !== null).pop()), 'D. MMM') : '')
                                 }}
                             </span>
                             <div class="ml-auto flex items-center gap-1"
@@ -829,7 +829,7 @@
                                                     style="border-color:rgba(255,255,255,0.25)"></div>
 
                                                 <div class="flex items-center gap-2 px-2 pb-1.5">
-                                                    <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=ffffff&color=0f4c75&name=${employee?.firstname}+${employee?.lastname}&size=32`"
+                                                    <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname}+${employee?.lastname}`)"
                                                         class="w-6 h-6 rounded-full object-cover flex-shrink-0"
                                                         style="border:2px solid rgba(255,255,255,0.8)" />
                                                     <span class="text-xs font-bold truncate" style="color:white">
@@ -963,7 +963,7 @@
             :shiftWarnings="state.shiftWarnings" @dateTimeChange="dateTimeChange"
             @closeWarningDialog="closeWarningDialog" @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
             @resetNewShiftError="state.newShiftError = {}" />
-        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
+        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading" :showNotifyEmployee="true"
             :availableEmployees="filteredEmployeesForModal" :isModalOpen="state.modal.isEditShiftOpen"
             :error="state.editShiftError" :selectedEmployee="state.editShift.selectedEmployee"
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
@@ -1060,6 +1060,8 @@ import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+
+const { formatLocalized } = useDatetimeFormatter()
 
 const emit = defineEmits(['setDutyScheduleCurrentDate', 'setDutyScheduleCurrentFilter'])
 const language = useI18n()
@@ -1585,7 +1587,7 @@ function onMonthDragEnd(e: DragEvent) {
 function onMonthDragOver(e: DragEvent) {
     e.preventDefault()
     const t = e.currentTarget as HTMLElement
-    if (t) { t.style.outline = '2px dashed #2dbab2'; t.style.background = 'rgba(45,186,178,0.08)'; t.classList.add('drag-over-cell') }
+    if (t) { t.style.outline = '2px dashed #0f4c75'; t.style.background = 'rgba(15,76,117,0.06)'; t.classList.add('drag-over-cell') }
 }
 
 function onMonthDragLeave(e: DragEvent) {
@@ -2034,6 +2036,7 @@ async function updateSelectedSchedule(shiftDetails: any) {
         note: shiftDetails.note,
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
         use_compensatory_time: shiftDetails.use_compensatory_time,
+        notify_employee: shiftDetails.notify_employee,
     }
     updateDutySchedule(scheduleUuid, params)
 }

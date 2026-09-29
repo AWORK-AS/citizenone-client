@@ -34,7 +34,7 @@
                                         </td>
                                         <td width="30%">
                                             <div class="flex items-center gap-x-2">
-                                                <img :src="preset.creator?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${preset.creator?.firstname + ' ' + preset.creator?.lastname}`"
+                                                <img :src="preset.creator?.profile_image ?? avatarUrl(`${preset.creator?.firstname + ' ' + preset.creator?.lastname}`)"
                                                     class="h-11 w-11 rounded-full bg-gray-50 object-cover" />
                                                 <span>
                                                     {{ preset.creator?.firstname }} {{ preset.creator?.lastname }}

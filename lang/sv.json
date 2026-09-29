@@ -972,7 +972,8 @@
             "my_tasks": "Läser dina uppgifter",
             "my_messages": "Räknar olästa meddelanden",
             "create_task": "Skapar en uppgift",
-            "draft_journal_note": "Skriver ett journalutkast"
+            "draft_journal_note": "Skriver ett journalutkast",
+            "refer_to_milo": "Hänvisar till Milo"
         },
         "toolTrace": {
             "title": "Vad Cody läste",
@@ -1038,7 +1039,14 @@
         "attachFile": "Bifoga fil",
         "collapse": "Rulla ner",
         "expand": "Rulla upp",
-        "shortcutHint": "Öppna och stäng med {shortcut}"
+        "shortcutHint": "Öppna och stäng med {shortcut}",
+        "milo": {
+            "title": "Milo kan hjälpa till med det",
+            "support": "Milo är CitizenOnes supportassistent och kan systemet, inställningarna och kända fel.",
+            "sales": "Milo kan svara på frågor om priser, moduler, uppgraderingar och demor.",
+            "open": "Öppna Milo",
+            "nothingShared": "Cody skickar inget vidare. Skriv din fråga till Milo."
+        }
     },
     "back": "Tillbaka",
     "bellNotification": {
@@ -1770,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
                 "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
                 "attachedSurveys": "Enkäter att besvara",
-                "linkedSurveys": "Kopplade enkäter"
+                "linkedSurveys": "Kopplade enkäter",
+                "quickJournalTitles": "Sparade journaltitlar",
+                "moreJournalTitles": "+{count} fler"
             },
             "journalLogs": {
                 "date": "Datum",
@@ -2882,8 +2892,8 @@
                 }
             },
             "pouringHistory": {
-                "title": "Doseringshistorik",
-                "noPourings": "Det finns ännu inga registrerade doseringar för denna medicin.",
+                "title": "Historik för doseringsbehållaren",
+                "noPourings": "Inget har ännu fyllts i doseringsbehållaren för denna medicin. Givna och utlämnade doser visas under Medicinhistorik.",
                 "remainingStock": "Kvar i behållare"
             },
             "plannedDelivery": {
@@ -3002,7 +3012,7 @@
                     "giveMedicine": "Giv medicin",
                     "givePNMedicine": "Giv PN-medicin",
                     "medicineHistory": "Medicinhistorik",
-                    "pouringHistory": "Doseringshistorik",
+                    "pouringHistory": "Historik för doseringsbehållaren",
                     "view": "Se"
                 },
                 "activeIngredients": "Indholdsstoffer",
@@ -4421,7 +4431,10 @@
             "deleteFileConfirmation": "Är du säker på att du vill radera denna fil",
             "deleteFolderConfirmation": "Är du säker på att du vill radera denna mapp",
             "downloadWithCompanyLogoConfirmation": "Vill du downloade detta dokument med virksomhedens logotyp",
-            "upgradeStorageConfirmation": "Vill du opgradere din lagerplads"
+            "upgradeStorageConfirmation": "Vill du opgradere din lagerplads",
+            "companyLogoLayoutHint": "När logotypen läggs till återskapas ett Word-dokument, och typsnitt och layout kan ändras. Välj \"Utan logotyp\" för att behålla den ursprungliga layouten.",
+            "withoutLogo": "Utan logotyp",
+            "withLogo": "Med logotyp"
         },
         "createNewFolder": "Skapa ny mapp",
         "createTemplate": {
@@ -4502,7 +4515,8 @@
                 "edit": "Redigera",
                 "move": "Flytta",
                 "openSelected": "Öppna valda",
-                "view": "Se"
+                "view": "Se",
+                "downloadOriginal": "Ladda ner original"
             },
             "dateCreated": "Skapandedatum",
             "lastModified": "Sidst ändrad",
@@ -4512,7 +4526,13 @@
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
         "viewDocument": "Se dokument",
-        "viewDraftFile": "Se udkastfiler"
+        "viewDraftFile": "Se udkastfiler",
+        "preview": {
+            "originalKeptNote": "Du ser en förhandsvisning. Originalfilen är sparad oförändrad – ladda ner den för att öppna den i Word med exakt samma typsnitt och layout.",
+            "downloadOriginal": "Ladda ner original",
+            "renderFailed": "Dokumentet kan inte visas här. Filen har inte ändrats – ladda ner originalet för att öppna det i Word.",
+            "oneDriveDownloadFailed": "Filen kunde inte hämtas från OneDrive. Försök igen eller öppna den direkt i OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "Hela dagen",
@@ -4867,7 +4887,10 @@
             "title": "Titel",
             "useCompensatoryTime": "Använd afspadseringstid",
             "users": "Användare",
-            "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum"
+            "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum",
+            "sendEmailToEmployee": "Skicka e-post till medarbetaren",
+            "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
+            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen."
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -7739,7 +7762,9 @@
                 "caseworker": "Handläggare",
                 "mother": "Mamma",
                 "father": "Pappa",
-                "citizen": "Medborgaren"
+                "citizen": "Medborgaren",
+                "parents": "Föräldrar",
+                "family": "Familjen"
             },
             "earlier": "Tidigare mätningar",
             "maxScore": "Skala",
@@ -8571,7 +8596,8 @@
                 "step6Password": "Lösenord: det 16-teckens applösenordet (utan mellanslag)",
                 "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
             }
-        }
+        },
+        "emptyInbox": "Din inkorg är tom"
     },
     "massUnits": {
         "addNewMassUnit": "Lägg till ny masseenhed",
@@ -8679,7 +8705,8 @@
         "actions": {
             "delete": "Radera",
             "edit": "Redigera",
-            "more": "Mer"
+            "more": "Mer",
+            "download": "Ladda ner"
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chatt raderad",
@@ -9191,7 +9218,7 @@
             "title": "Senaste journalanteckningar"
         },
         "medicineAction": {
-            "title": "Kräver åtgärd idag",
+            "title": "Kräver åtgärd",
             "deviated": "Avvikelser: {count}",
             "overdue": "Försenad: {count}",
             "more": "+{count} medborgare"
@@ -9212,7 +9239,8 @@
             "remembered": "Ihågkommen",
             "forgotten": "Glömd",
             "pending": "Väntande",
-            "noEvaluationsToShow": "Inga effektutvärderingar att visa"
+            "noEvaluationsToShow": "Inga effektutvärderingar att visa",
+            "clickToEvaluate": "Klicka för att utvärdera"
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
@@ -9282,7 +9310,7 @@
             "administered": "given",
             "citizensOnShift": "@.capitalize:terms.citizens{''} på pass",
             "completed": "avslutad",
-            "deviated": "Avvikelse",
+            "deviated": "avvikelse | avvikelser",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medicin där ska gives",
             "ongoing": "Pågående",
@@ -10539,7 +10567,11 @@
                 "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
                 "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
-                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
+                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
+                "portalSectionForms": "Formulär",
+                "portalSectionPriceEstimates": "Kostnadsförslag",
+                "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
+                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem."
             }
         },
         "licenseOverview": {
@@ -11057,7 +11089,8 @@
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
-            "shortcuts": "Genvägar"
+            "shortcuts": "Genvägar",
+            "communication": "Kommunikation"
         },
         "documents": "Dokument",
         "dutySchedules": "Tjänsteschema",
@@ -11920,6 +11953,18 @@
                     "title": "Var pengarna kommer från",
                     "hint": "De tio största står för {top}% av MRR. Den största ensam för {largest}%. {count} betalande kunder totalt.",
                     "empty": "Inga löpande avtal ännu."
+                },
+                "bridge": {
+                    "title": "Varför MRR rörde sig",
+                    "between": "Från {from} till {to}",
+                    "new": "Nya kunder",
+                    "expansion": "Merförsäljning",
+                    "contraction": "Nedgradering",
+                    "churned": "Uppsagt",
+                    "net": "Netto",
+                    "whoLeft": "Vilka som försvann",
+                    "recordingSince": "Mäts från {date}. Det krävs två mätningar för att visa en rörelse.",
+                    "notRecordedYet": "Mätning per kund har inte börjat än. Den startar med nästa nattliga körning."
                 }
             }
         },
@@ -13002,6 +13047,10 @@
                 "renewalsCount": "{count} kund(er)",
                 "noRenewals": "Inga årsförnyelser den här månaden.",
                 "clickHint": "Klicka på en stapel för att se vilka kunder den består av."
+            },
+            "noAccess": {
+                "title": "Rapporten är endast för ledningen",
+                "hint": "Kontakta en superadmin om du behöver behörighet."
             }
         },
         "industries": {
@@ -13046,7 +13095,15 @@
                 "term_journal_note_tag": "Anteckningstyp",
                 "term_agreement": "Avtal",
                 "term_jobcenter": "Jobbcenter"
-            }
+            },
+            "colApps": "Appar",
+            "apps": "Appar från App Store",
+            "appsHelp": "Appar branschen får som en grundläggande del av paketet. Ett nytt företag får en licens till ägaren utan kostnad. Endast våra egna appar kan väljas.",
+            "appsNone": "Branschen får inga appar inkluderade.",
+            "appsCount": "Branschen får {count} app inkluderad. | Branschen får {count} appar inkluderade.",
+            "appIncluded": "Inkluderad",
+            "appFree": "Gratis",
+            "noApps": "Inga"
         },
         "salesInquiries": {
             "pageTitle": "Förfrågningar",
@@ -15214,12 +15271,16 @@
             "departments": "Avdelningar",
             "company_contacts": "Kontakter",
             "spoken_languages": "Talade språk",
-            "consultant_skills": "Konsultkompetenser",
+            "consultant_skills": "Konsultkompetenser (alla)",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
             "jobcenters": "Arbetsförmedlingar",
-            "focus_areas": "Fokusområden",
-            "customer_departments": "Kunder och avdelningar"
+            "focus_areas": "Fokusområden (VUM, vuxna)",
+            "customer_departments": "Kunder och avdelningar",
+            "consultant_skills_competence": "Konsultkompetenser: kompetenser",
+            "consultant_skills_course": "Konsultkompetenser: kurser",
+            "consultant_skills_topic": "Konsultkompetenser: ämnesord",
+            "focus_areas_ics": "Fokusområden (ICS, barn och unga)"
         },
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
@@ -15272,6 +15333,14 @@
                 "title": "Ämnesord",
                 "hint": "Erfarenhet av t.ex. ADHD eller självskada"
             }
+        },
+        "paste": {
+            "open": "Klistra in lista",
+            "hint": "Ett namn per rad. Namn som redan finns på listan hoppas över.",
+            "placeholder": "Pedagog\nSjuksköterska\nSocionom",
+            "count": "{count} namn",
+            "submit": "Lägg till alla",
+            "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
     "consultantProfile": {
@@ -15436,7 +15505,8 @@
             "km": "{km} km",
             "approx": "ca {km} km"
         },
-        "secondaryLanguageMet": "Talar även {language}"
+        "secondaryLanguageMet": "Talar även {language}",
+        "prefilled": "Ifyllt från ärendet: {fields}. Ändra eller rensa innan du söker."
     },
     "inquiryNotes": {
         "title": "Anteckningar",
@@ -16026,6 +16096,35 @@
             "from": "Från",
             "to": "Till",
             "empty": "Det finns ännu inga välmåendevärden i perioden."
+        },
+        "tab": "Välmående",
+        "title": "Välmående",
+        "description": "Mätningar av välmående från 0 till 10 för personen och relaterade personer, t.ex. syskon i samma insats. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
+        "primary": "Huvudperson",
+        "latest": "Senaste",
+        "add": "Ny mätning",
+        "givenBy": "Given av",
+        "otherName": "Vem",
+        "otherPlaceholder": "T.ex. skolan",
+        "receivedAt": "Mottagen",
+        "score": "Poäng",
+        "recordedBy": "Noterad av",
+        "empty": "Inga mätningar än.",
+        "curve": "Välmåendekurva för {name}",
+        "remove": "Ta bort mätning",
+        "removeConfirmation": "Är du säker på att du vill ta bort denna mätning",
+        "saveFailed": "Mätningen kunde inte sparas",
+        "removeFailed": "Mätningen kunde inte tas bort",
+        "noRelations": "Syskon och andra relaterade personer visas här när de är kopplade under",
+        "raters": {
+            "caseworker": "Handläggare",
+            "mother": "Mamma",
+            "father": "Pappa",
+            "parents": "Föräldrar",
+            "family": "Familjen",
+            "staff": "Vi",
+            "citizen": "Barnet/den unga",
+            "other": "Annat"
         }
     },
     "inquiryRecruitment": {

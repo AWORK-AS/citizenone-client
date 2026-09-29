@@ -9,6 +9,12 @@ class ConsultantSkillService extends BaseAPIService {
         return await this.request(`/user/consultant-skills`, 'POST', params)
     }
 
+    // A whole list into one catalogue. Names already there come back in
+    // meta.skipped instead of failing the list.
+    async saveSkills(type: string, names: string[]): Promise<any> {
+        return await this.request(`/user/consultant-skills/bulk`, 'POST', { type, names })
+    }
+
     async updateSkill(skillUuid: string, params: object): Promise<any> {
         return await this.request(`/user/consultant-skills/${skillUuid}`, 'PUT', params)
     }

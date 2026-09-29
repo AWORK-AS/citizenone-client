@@ -26,6 +26,9 @@
                         <p class="mb-4 text-sm font-semibold text-gray-900">
                             {{ $t('consultantMatch.criteria') }}
                         </p>
+                        <p v-if="state.prefilledFrom.length" class="-mt-2 mb-4 text-xs text-gray-500">
+                            {{ $t('consultantMatch.prefilled', { fields: state.prefilledFrom.join(', ') }) }}
+                        </p>
 
                         <div class="space-y-3.5">
                             <div v-for="type in SKILL_TYPES" :key="type">
@@ -252,6 +255,7 @@ definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', required
 
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
+import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { inquiryConsultantInvitationService } from '@/components/api/user/InquiryConsultantInvitationService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
@@ -310,7 +314,7 @@ function emptyForm() {
 }
 
 // The inquiry's own language needs, as the starting point of a search.
-function prefillFromInquiry() {
+function prefillLanguagesFromInquiry() {
     state.form.primary_spoken_language_uuid = state.inquiry?.primary_spoken_language?.uuid ?? null
     state.form.secondary_spoken_language_uuid = state.inquiry?.secondary_spoken_language?.uuid ?? null
 }
@@ -330,6 +334,7 @@ const state = reactive({
     inquiry: null as any,
     locationGeocoded: false,
     form: emptyForm(),
+    prefilledFrom: [] as string[],
 })
 
 const inquiryLocation = computed(() =>
@@ -399,7 +404,7 @@ async function fetchInquiry() {
     try {
         const response = await citizenInquiryService.getSelectedInquiry(inquiryUuid)
         state.inquiry = response?.data ?? null
-        prefillFromInquiry()
+        prefillLanguagesFromInquiry()
     } catch (error: any) {
         state.error = error
     }
@@ -494,11 +499,58 @@ async function fetchLookups() {
     } catch (error: any) {
         state.error = error
     }
+
+    await prefillFromInquiry()
+}
+
+/**
+ * Starts the criteria from what the henvendelse already records - its
+ * languages, kommune, region and skills - so a coordinator does not type in
+ * again what the intake asked for. Only a starting point: every criterion can
+ * still be changed or cleared before searching.
+ */
+async function prefillFromInquiry() {
+    let fields: any[] = []
+    try {
+        fields = (await inquiryFieldService.getFields(inquiryUuid))?.data ?? []
+    } catch {
+        // No fields to read is no reason to stop the match; it starts empty.
+        return
+    }
+
+    const asList = (answer: any): string[] =>
+        (Array.isArray(answer) ? answer : [answer]).filter((uuid) => typeof uuid === 'string' && uuid)
+    const activeSkills = new Set(state.catalogue.filter((skill: any) => skill.is_active).map((skill: any) => skill.uuid))
+    const used: string[] = []
+
+    for (const field of fields) {
+        if (field.type !== 'lookup' || field.answer == null) continue
+
+        const source = String(field.options?.source ?? '')
+        const uuids = asList(field.answer)
+        const before = JSON.stringify(state.form)
+
+        if (source === 'spoken_languages') {
+            state.form.spoken_language_uuids = [...new Set([...state.form.spoken_language_uuids, ...uuids])]
+        } else if (source.startsWith('consultant_skills')) {
+            // A skill since deactivated would be a criterion nobody can meet.
+            const skills = uuids.filter((uuid) => activeSkills.has(uuid))
+            state.form.skill_uuids = [...new Set([...state.form.skill_uuids, ...skills])]
+        } else if (source === 'municipalities' && !state.form.municipality_uuid) {
+            state.form.municipality_uuid = uuids[0] ?? null
+        } else if (source === 'regions' && !state.form.region_uuid) {
+            state.form.region_uuid = uuids[0] ?? null
+        }
+
+        if (JSON.stringify(state.form) !== before) used.push(field.label)
+    }
+
+    state.prefilledFrom = used
 }
 
 function reset() {
     state.form = emptyForm()
-    prefillFromInquiry()
+    state.prefilledFrom = []
     state.results = []
     state.criteriaAsked = []
     state.hasSearched = false

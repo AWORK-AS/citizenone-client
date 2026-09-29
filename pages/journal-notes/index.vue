@@ -106,7 +106,7 @@
                                                     </div>
                                                     <div v-if="journal.is_ai_used">
                                                         <span
-                                                            class="inline-flex items-center gap-1 rounded-full bg-violet-100 px-2 py-0.5 text-xxs font-medium text-violet-700">
+                                                            class="inline-flex items-center gap-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
                                                             <Icon name="ph:sparkle-fill" class="size-3 shrink-0" />
                                                             {{ $t('citizens.citizenJournals.aiUsed') }}
                                                         </span>
@@ -195,6 +195,8 @@
                                         <p class="text-xs">
                                             {{ $t('citizens.citizenJournals.createdBy') }}:
                                             {{ journal.user?.firstname }} {{ journal.user?.lastname }}
+                                            <!-- Trailing space inside: the newline before the next span is dropped by the compiler. -->
+                                            <span v-if="formatJobTitles(journal.user)">({{ formatJobTitles(journal.user) }}) </span>
                                             <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
                                             {{ formatDateTimeToReadable(journal.created_at) }}
                                         </p>

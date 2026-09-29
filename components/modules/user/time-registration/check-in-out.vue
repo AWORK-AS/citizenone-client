@@ -12,9 +12,12 @@
                 userStore.getIsLoggedIn
                     ? 'bg-[#eff6ff] text-primary'
                     : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
-            <Icon :name="userStore.getIsLoggedIn ? 'ph:pause-circle' : 'ph:play-circle'" class="h-5 w-5"
+            <!-- A clock, not play/pause: in the rail a play button read as media
+                 controls. The time only shows while it is running - "00:00"
+                 under a stopped clock said nothing. -->
+            <Icon :name="userStore.getIsLoggedIn ? 'ph:clock-countdown' : 'ph:clock'" class="h-5 w-5"
                 aria-hidden="true" />
-            <span class="text-[9px] leading-none mt-0.5 tabular-nums">{{ shortTime }}</span>
+            <span v-if="userStore.getIsLoggedIn" class="text-[9px] leading-none mt-0.5 tabular-nums">{{ shortTime }}</span>
         </button>
         <div v-else class="bg-white rounded-md flex items-center justify-between gap-x-2 p-4">
             <p class="text-sm text-primary font-bold">

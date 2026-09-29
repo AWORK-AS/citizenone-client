@@ -32,6 +32,10 @@
                                 <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.message?.[0]" />
                             </div>
+                            <div class="space-y-1">
+                                <ModulesCitizenMessagesAttachmentPicker v-model="state.formChat.files" />
+                                <FormError :error="attachmentError" />
+                            </div>
                         </div>
                         <div class="mt-6 mb-2">
                             <FormButton type="submit" buttonStyle="primary" class="w-full">
@@ -46,9 +50,11 @@
 </template>
 
 <script setup lang="ts">
-import { messageService } from '@/components/api/citizen/MessageService'
+import { messageService as citizenMessageService } from '@/components/api/citizen/MessageService'
+import { patientMessageService } from '@/components/api/patient/MessageService'
+import type { PropType } from 'vue'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -58,7 +64,13 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // The patient portal reuses these screens but talks to its own endpoints.
+    portal: {
+        type: String as PropType<'citizen' | 'patient'>,
+        default: 'citizen',
+    },
 })
+const messageService = props.portal === 'patient' ? patientMessageService : citizenMessageService
 const emit = defineEmits(['close'])
 const { t } = useI18n()
 const userStore = useUserStore() as any
@@ -71,6 +83,7 @@ const state = reactive({
         message: '',
         receivers: [] as any,
         subject: '',
+        files: [] as File[],
     },
     isPageLoading: false,
     options: {
@@ -88,8 +101,10 @@ onMounted(() => {
 const rules = computed(() => {
     return {
         formChat: {
+            // A conversation can open with just a file, as a reply can.
             message: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`,
+                    requiredIf(() => state.formChat.files.length === 0)),
             },
             receivers: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -99,6 +114,13 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+// The server reports file errors per index (file.0, file.1, ...).
+const attachmentError = computed(() => {
+    const errors = state?.error?.errors ?? {}
+    const key = Object.keys(errors).find((name) => name === 'file' || name.startsWith('file.'))
+    return key ? errors[key]?.[0] : ''
+})
 
 function closeModal() {
     emit('close')
@@ -114,7 +136,7 @@ async function fetchAllAvailableChatUsers() {
             response.data.forEach(
                 (user: any) => options.push({
                     value: user?.uuid,
-                    label: user?.firstname + " " + user?.lastname + " (" + user?.role + ")",
+                    label: user?.firstname + " " + user?.lastname + (user?.role ? " (" + user.role + ")" : ""),
                 })
             )
             state.options.receivers = options
@@ -130,19 +152,29 @@ async function sendMessage() {
     if (!v$.value.$error) {
         state.isPageLoading = true
         try {
-            const params = {
+            const receivers = userStore.getUser?.company?.group_chat_enabled ?
+                state.formChat.receivers :
+                [state.formChat.receivers]
+            // Files need multipart; everything else keeps going as JSON.
+            let params: any = {
                 subject: state.formChat.subject,
                 message: state.formChat.message,
-                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
-                    state.formChat.receivers :
-                    [state.formChat.receivers]
+                receiver_uuid: receivers,
+            }
+            if (state.formChat.files.length > 0) {
+                params = new FormData()
+                params.append('subject', state.formChat.subject ?? '')
+                params.append('message', state.formChat.message ?? '')
+                receivers.forEach((uuid: string) => params.append('receiver_uuid[]', uuid))
+                state.formChat.files.forEach((file: File) => params.append('file[]', file))
             }
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
                 const chatUuid = response?.data?.chat?.uuid
-                navigateTo(`/messages/${chatUuid}`)
+                navigateTo(`/${props.portal}/messages/${chatUuid}`)
                 closeModal()
                 state.formChat.receivers = []
+                state.formChat.files = []
             }
         } catch (error: any) {
             state.error = error

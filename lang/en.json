@@ -972,7 +972,8 @@
             "my_tasks": "Reading your tasks",
             "my_messages": "Counting unread messages",
             "create_task": "Creating a task",
-            "draft_journal_note": "Writing a journal draft"
+            "draft_journal_note": "Writing a journal draft",
+            "refer_to_milo": "Referring to Milo"
         },
         "toolTrace": {
             "title": "What Cody read",
@@ -1038,7 +1039,14 @@
         "attachFile": "Attach file",
         "collapse": "Roll down",
         "expand": "Roll up",
-        "shortcutHint": "Open and close with {shortcut}"
+        "shortcutHint": "Open and close with {shortcut}",
+        "milo": {
+            "title": "Milo can help with that",
+            "support": "Milo is CitizenOne's support assistant and knows the system, its settings and known issues.",
+            "sales": "Milo can answer questions about prices, modules, upgrades and demos.",
+            "open": "Open Milo",
+            "nothingShared": "Cody passes nothing on. Ask Milo your question."
+        }
     },
     "back": "Back",
     "bellNotification": {
@@ -1770,7 +1778,9 @@
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
                 "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
                 "attachedSurveys": "Surveys to answer",
-                "linkedSurveys": "Linked surveys"
+                "linkedSurveys": "Linked surveys",
+                "quickJournalTitles": "Saved journal titles",
+                "moreJournalTitles": "+{count} more"
             },
             "journalLogs": {
                 "date": "Date",
@@ -2882,8 +2892,8 @@
                 }
             },
             "pouringHistory": {
-                "title": "Pouring history",
-                "noPourings": "No pourings have been registered for this medicine yet.",
+                "title": "Pouring container history",
+                "noPourings": "Nothing has been poured into the pouring container for this medicine yet. Doses given or delivered are shown under Medicine history.",
                 "remainingStock": "Remaining in container"
             },
             "plannedDelivery": {
@@ -3002,7 +3012,7 @@
                     "giveMedicine": "Give medicine",
                     "givePNMedicine": "Give PN medicine",
                     "medicineHistory": "Medicine history",
-                    "pouringHistory": "Pouring history",
+                    "pouringHistory": "Pouring container history",
                     "view": "View"
                 },
                 "activeIngredients": "Active ingredients",
@@ -4421,7 +4431,10 @@
             "deleteFileConfirmation": "Are you sure you want to delete this file",
             "deleteFolderConfirmation": "Are you sure you want to delete this folder",
             "downloadWithCompanyLogoConfirmation": "Do you want to download this document with company logo",
-            "upgradeStorageConfirmation": "Do you want to upgrade your storage"
+            "upgradeStorageConfirmation": "Do you want to upgrade your storage",
+            "companyLogoLayoutHint": "Adding the logo re-renders a Word document, so fonts and layout may change. Choose \"Without logo\" to keep the original layout.",
+            "withoutLogo": "Without logo",
+            "withLogo": "With logo"
         },
         "createNewFolder": "Create new folder",
         "createTemplate": {
@@ -4502,7 +4515,8 @@
                 "edit": "Edit",
                 "move": "Move",
                 "openSelected": "Open selected",
-                "view": "View"
+                "view": "View",
+                "downloadOriginal": "Download original"
             },
             "dateCreated": "Date created",
             "lastModified": "Last modified",
@@ -4512,7 +4526,13 @@
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",
         "viewDocument": "View document",
-        "viewDraftFile": "View draft files"
+        "viewDraftFile": "View draft files",
+        "preview": {
+            "originalKeptNote": "You are viewing a preview. The original file is stored unchanged – download it to open it in Word with exactly the same fonts and layout.",
+            "downloadOriginal": "Download original",
+            "renderFailed": "This document cannot be shown here. The file has not been changed – download the original to open it in Word.",
+            "oneDriveDownloadFailed": "The file could not be fetched from OneDrive. Try again, or open it directly in OneDrive."
+        }
     },
     "dutySchedules": {
         "allDay": "All day",
@@ -4922,7 +4942,10 @@
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users",
-            "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date"
+            "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date",
+            "sendEmailToEmployee": "Send email to employee",
+            "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
+            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app."
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -7739,7 +7762,9 @@
                 "caseworker": "Caseworker",
                 "mother": "Mother",
                 "father": "Father",
-                "citizen": "The @:terms.citizen{''}"
+                "citizen": "The @:terms.citizen{''}",
+                "parents": "Parents",
+                "family": "Family"
             },
             "earlier": "Earlier measurements",
             "maxScore": "Scale",
@@ -8571,7 +8596,8 @@
                 "step6Password": "Password: the 16-character app password (without spaces)",
                 "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
             }
-        }
+        },
+        "emptyInbox": "Your inbox is empty"
     },
     "massUnits": {
         "addNewMassUnit": "Add new mass unit",
@@ -8679,7 +8705,8 @@
         "actions": {
             "delete": "Delete",
             "edit": "Edit",
-            "more": "More"
+            "more": "More",
+            "download": "Download"
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chat successfully deleted",
@@ -9196,7 +9223,7 @@
             "title": "Recent @:terms.journalNotes{''}"
         },
         "medicineAction": {
-            "title": "Needs action today",
+            "title": "Needs action",
             "deviated": "Deviations: {count}",
             "overdue": "Overdue: {count}",
             "more": "+{count} @:terms.citizens{''}"
@@ -9217,7 +9244,8 @@
             "remembered": "Remembered",
             "forgotten": "Forgotten",
             "pending": "Pending",
-            "noEvaluationsToShow": "No effect evaluations to show"
+            "noEvaluationsToShow": "No effect evaluations to show",
+            "clickToEvaluate": "Click to evaluate"
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
@@ -9287,7 +9315,7 @@
             "administered": "administered",
             "citizensOnShift": "@.capitalize:terms.citizens{''} on shift",
             "completed": "completed",
-            "deviated": "Deviated",
+            "deviated": "deviated",
             "journalEntries": "@.capitalize:terms.journalNotes{''}",
             "medicationsDue": "Medications due",
             "ongoing": "Ongoing",
@@ -10544,7 +10572,11 @@
                 "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
                 "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
-                "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
+                "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared",
+                "portalSectionForms": "Forms",
+                "portalSectionPriceEstimates": "Price estimates",
+                "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them."
             }
         },
         "licenseOverview": {
@@ -11094,7 +11126,8 @@
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",
-            "shortcuts": "Shortcuts"
+            "shortcuts": "Shortcuts",
+            "communication": "Communication"
         },
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
@@ -11957,6 +11990,18 @@
                     "title": "Where the money comes from",
                     "hint": "The ten largest account for {top}% of MRR. The largest alone for {largest}%. {count} paying customers in total.",
                     "empty": "No recurring agreements yet."
+                },
+                "bridge": {
+                    "title": "Why MRR moved",
+                    "between": "From {from} to {to}",
+                    "new": "New customers",
+                    "expansion": "Expansion",
+                    "contraction": "Contraction",
+                    "churned": "Cancelled",
+                    "net": "Net",
+                    "whoLeft": "Who left",
+                    "recordingSince": "Measured from {date}. Two measurements are needed to show a movement.",
+                    "notRecordedYet": "Per-customer measurement has not started yet. It begins with the next nightly run."
                 }
             }
         },
@@ -13098,6 +13143,10 @@
                 "renewalsCount": "{count} customer(s)",
                 "noRenewals": "No annual renewals this month.",
                 "clickHint": "Click a bar to see which customers it is made of."
+            },
+            "noAccess": {
+                "title": "The report is management only",
+                "hint": "Contact a superadmin if you need access."
             }
         },
         "industries": {
@@ -13142,7 +13191,15 @@
                 "term_journal_note_tag": "Note type",
                 "term_agreement": "Agreement",
                 "term_jobcenter": "Jobcenter"
-            }
+            },
+            "colApps": "Apps",
+            "apps": "Apps from the App Store",
+            "appsHelp": "Apps the industry gets as a basic part of the package. A new company gets one license for the owner at no charge. Only our own apps can be chosen.",
+            "appsNone": "The industry gets no apps included.",
+            "appsCount": "The industry gets {count} app included. | The industry gets {count} apps included.",
+            "appIncluded": "Included",
+            "appFree": "Free",
+            "noApps": "None"
         },
         "salesInquiries": {
             "pageTitle": "Inquiries",
@@ -15310,12 +15367,16 @@
             "departments": "Departments",
             "company_contacts": "Contacts",
             "spoken_languages": "Spoken languages",
-            "consultant_skills": "Consultant skills",
+            "consultant_skills": "Consultant skills (all)",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
             "jobcenters": "Jobcenters",
-            "focus_areas": "Focus areas",
-            "customer_departments": "Customers and departments"
+            "focus_areas": "Focus areas (VUM, adults)",
+            "customer_departments": "Customers and departments",
+            "consultant_skills_competence": "Consultant skills: competences",
+            "consultant_skills_course": "Consultant skills: courses",
+            "consultant_skills_topic": "Consultant skills: subject words",
+            "focus_areas_ics": "Focus areas (ICS, children and young people)"
         },
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
@@ -15368,6 +15429,14 @@
                 "title": "Subjects",
                 "hint": "Experience with e.g. ADHD or self-harm"
             }
+        },
+        "paste": {
+            "open": "Paste list",
+            "hint": "One name per line. Names already on the list are skipped.",
+            "placeholder": "Pedagogue\nNurse\nSocial worker",
+            "count": "{count} names",
+            "submit": "Add all",
+            "result": "{added} added, {skipped} already there"
         }
     },
     "consultantProfile": {
@@ -15532,7 +15601,8 @@
             "km": "{km} km",
             "approx": "approx. {km} km"
         },
-        "secondaryLanguageMet": "Also speaks {language}"
+        "secondaryLanguageMet": "Also speaks {language}",
+        "prefilled": "Filled in from the inquiry: {fields}. Change or clear before searching."
     },
     "inquiryNotes": {
         "title": "Notes",
@@ -16122,6 +16192,35 @@
             "from": "From",
             "to": "To",
             "empty": "There are no wellbeing scores in the period yet."
+        },
+        "tab": "Wellbeing",
+        "title": "Wellbeing",
+        "description": "Wellbeing measurements from 0 to 10 for the citizen and related citizens, such as siblings on the same intervention. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
+        "primary": "Main person",
+        "latest": "Latest",
+        "add": "New measurement",
+        "givenBy": "Given by",
+        "otherName": "Who",
+        "otherPlaceholder": "E.g. the school",
+        "receivedAt": "Received",
+        "score": "Score",
+        "recordedBy": "Recorded by",
+        "empty": "No measurements yet.",
+        "curve": "Wellbeing curve for {name}",
+        "remove": "Remove measurement",
+        "removeConfirmation": "Are you sure you want to remove this measurement",
+        "saveFailed": "The measurement could not be saved",
+        "removeFailed": "The measurement could not be removed",
+        "noRelations": "Siblings and other related citizens appear here once they are linked under",
+        "raters": {
+            "caseworker": "Caseworker",
+            "mother": "Mother",
+            "father": "Father",
+            "parents": "Parents",
+            "family": "Family",
+            "staff": "Us",
+            "citizen": "The child/young person",
+            "other": "Other"
         }
     },
     "inquiryRecruitment": {

@@ -38,7 +38,7 @@
                             class="absolute -right-4 -top-6 size-16 rounded-full bg-secondary/10 transition-transform group-hover:scale-110" />
                         <div class="relative flex items-start gap-3">
                             <div
-                                class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-gradient-to-br from-[#2dbab2] to-[#1b6d8a] text-white shadow-sm">
+                                class="flex-shrink-0 grid place-items-center size-9 rounded-lg bg-primary text-white">
                                 <Icon name="ph:fingerprint" class="h-5 w-5" />
                             </div>
                             <div class="flex-1 min-w-0">

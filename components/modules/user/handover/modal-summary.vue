@@ -27,7 +27,7 @@
                             </div>
 
                             <p class="flex items-center gap-1.5 text-xxs text-gray-400">
-                                <Icon name="ph:sparkle-fill" class="size-3 text-violet-500" />
+                                <Icon name="ph:sparkle-fill" class="size-3 text-primary" />
                                 {{ $t('handover.aiNote') }}
                             </p>
                         </div>

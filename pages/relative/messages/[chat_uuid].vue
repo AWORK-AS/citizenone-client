@@ -29,8 +29,7 @@
 
                 <div class="grid grid-cols-1 md:grid-cols-12 gap-x-10 gap-y-4">
                     <LoadingSpinner :isActive="state.isChatLoading"
-                        class="hidden md:block md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto"
-                        style="height: 80vh;">
+                        class="hidden md:block md:col-span-5 xl:col-span-4 bg-white rounded-md overflow-y-auto pane-height">
                         <ModulesRelativeMessagesChats :chats="state.chats" />
                     </LoadingSpinner>
                     <LoadingSpinner :isActive="state.isChatHistoryDividerLoading"
@@ -94,7 +93,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-sm">{{ message?.message }}</p>
+                                                        <p v-if="message?.message" :class="message?.chat_message_attachments?.length > 0 && 'mt-2'" class="text-sm">{{ message?.message }}</p>
                                                     </div>
                                                     <p class="text-xs text-gray-500 mt-1"
                                                         v-if="index === state.messages.length - 1 && message?.receipt?.created_at">
@@ -146,7 +145,7 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <p v-else class="text-gray-700 text-sm">{{ message?.message }}
+                                                        <p v-if="message?.message" :class="message?.chat_message_attachments?.length > 0 && 'mt-2'" class="text-gray-700 text-sm">{{ message?.message }}
                                                         </p>
                                                     </div>
                                                 </Tooltip>

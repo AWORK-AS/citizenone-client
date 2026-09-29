@@ -30,7 +30,7 @@
                 </div>
                 <div>
                     <FormLabel for="qc-content" :label="$t('desktopQuickCapture.content')" />
-                    <FormTextArea name="qc-content" v-model="note.content" rows="4"
+                    <FormTextArea name="qc-content" v-model="note.content" :rows="4" auto-capitalize
                         :placeholder="$t('desktopQuickCapture.content')" />
                 </div>
             </template>

@@ -1164,6 +1164,8 @@ function addScale() {
             { key: 'caseworker', label: `${t('forms.scale.defaults.caseworker')}` },
             { key: 'mother', label: `${t('forms.scale.defaults.mother')}` },
             { key: 'father', label: `${t('forms.scale.defaults.father')}` },
+            { key: 'parents', label: `${t('forms.scale.defaults.parents')}` },
+            { key: 'family', label: `${t('forms.scale.defaults.family')}` },
             { key: 'citizen', label: `${t('forms.scale.defaults.citizen')}` },
         ],
         showHistory: true,

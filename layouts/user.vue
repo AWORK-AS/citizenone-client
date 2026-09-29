@@ -76,7 +76,6 @@
                                                 v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
                                                 v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
-                                            <ModulesUserSidebarCompanyId />
                                         </li>
                                     </ul>
                                 </nav>
@@ -158,9 +157,6 @@
                                 </span>
                             </div>
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
-                            <div v-show="sidebarExpanded">
-                                <ModulesUserSidebarCompanyId />
-                            </div>
                         </li>
                     </ul>
                 </nav>
@@ -187,19 +183,44 @@
                     class="cursor-pointer flex items-center justify-center w-11 h-11 mb-2 shrink-0">
                     <img src="/img/icons/asset-app.png" alt="CitizenOne" class="h-7 w-7 object-contain" />
                 </span>
+                <!-- The padding is room for the focus ring: overflow-y-auto clips
+                     overflow on both axes, so a ring drawn outside a button that
+                     fills the nav's width lost its left and right sides and read
+                     as two stray arcs above and below the icon. -->
                 <nav role="tablist" aria-orientation="vertical" aria-label="Navigation"
-                    class="flex flex-col items-center gap-1 overflow-y-auto custom-scrollbar">
+                    class="flex flex-col items-center gap-1 overflow-y-auto custom-scrollbar p-1">
                     <button v-for="group in navigationGroups" :key="group.key" type="button" role="tab"
                         :id="`nav-tab-${group.key}`" :aria-controls="`nav-panel-${group.key}`"
                         @click="activeGroupKey = group.key" :title="$t(group.label)"
                         :aria-label="$t(group.label)" :aria-selected="activeContextGroup?.key === group.key"
                         :class="['flex items-center justify-center w-11 h-11 rounded-xl transition-colors shrink-0',
                             'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
-                            activeContextGroup?.key === group.key
+                            activeContextGroup?.key === group.key && !activeRailLink
                                 ? 'bg-[#eff6ff] text-primary'
                                 : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
                         <Icon :name="group.icon" class="h-5 w-5" aria-hidden="true" />
                     </button>
+                </nav>
+                <!-- Chat and mail are where people go many times a shift, and
+                     they are destinations rather than groups, so they sit in the
+                     rail as plain links instead of one click deeper in a panel. -->
+                <nav v-if="railLinks.length > 0" :aria-label="$t('sidebar.groups.communication')"
+                    class="flex flex-col items-center gap-1 p-1 mt-1 pt-2 border-t border-[#e8eaef] shrink-0">
+                    <NuxtLink v-for="item in railLinks" :key="item.name" :to="item.href"
+                        :title="getNavItemLabel(item)" :aria-label="getNavItemLabel(item)"
+                        :aria-current="activeRailLink?.name === item.name ? 'page' : undefined"
+                        :class="['relative flex items-center justify-center w-11 h-11 rounded-xl transition-colors shrink-0',
+                            'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary',
+                            activeRailLink?.name === item.name
+                                ? 'bg-[#eff6ff] text-primary'
+                                : 'text-[#6b7280] hover:bg-[#f3f4f6] hover:text-[#0f1a2e]']">
+                        <Icon :name="item.icon" class="h-5 w-5" aria-hidden="true" />
+                        <Badge v-if="item.name === 'Messages' && userStore.getUser?.unread_messages_count > 0"
+                            type="notification"
+                            class="min-w-[18px] h-[18px] px-1 flex items-center justify-center absolute top-0.5 right-0.5 text-[10px]">
+                            {{ userStore.getUser.unread_messages_count > 99 ? '99+' : userStore.getUser.unread_messages_count }}
+                        </Badge>
+                    </NuxtLink>
                 </nav>
                 <div class="mt-auto flex flex-col items-center gap-2 pt-2 shrink-0">
                     <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" compact />
@@ -239,7 +260,6 @@
                         <Icon :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                         <span>{{ getNavItemLabel(item) }}</span>
                     </div>
-                    <ModulesUserSidebarCompanyId />
                 </div>
             </div>
         </div>
@@ -288,9 +308,9 @@
 
                 <div class="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
                     <div
-                        class="flex-1 flex flex-col justify-center gap-x-2 md:flex-row md:items-center md:justify-start relative z-[45]">
+                        class="flex-1 flex flex-col justify-center gap-x-3 md:flex-row md:items-center md:justify-start relative z-[45]">
                         <div
-                            class="hidden md:flex flex-col justify-center gap-x-2 xl:flex-row xl:items-center xl:justify-start">
+                            class="hidden md:flex flex-col justify-center gap-x-3 xl:flex-row xl:items-center xl:justify-start">
                             <div>
                                 <ModulesUserCompanySelection />
                             </div>
@@ -304,7 +324,7 @@
                         <div>
                             <ModulesUserNavbarSubscribeButton
                                 v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
-                                class="hidden md:block" />
+                                class="hidden md:inline-flex" />
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-2">
@@ -383,10 +403,11 @@
                             </Badge>
                         </button>
 
-                        <!-- Unread Messages -->
+                        <!-- Unread Messages. Not in the desktop shell, where chat has
+                             its own rail icon carrying the same count. -->
                         <button type="button"
                             class="relative w-9 h-9 rounded-full flex items-center justify-center text-slate-400 hover:text-slate-600 hover:bg-surface-100 transition-colors"
-                            @click="navigateTo('/messages')" v-if="userStore.getUser?.unread_messages_count > 0">
+                            @click="navigateTo('/messages')" v-if="!isDesktopApp && userStore.getUser?.unread_messages_count > 0">
                             <Icon name="ph:chat-circle" class="h-5 w-5" aria-hidden="true" />
                             <Badge type="notification"
                                 class="w-4.5 h-4.5 flex items-center justify-center absolute -top-0.5 -right-0.5 text-[10px]">
@@ -420,8 +441,10 @@
                                     <div
                                         :class="[userStore.getUser?.is_online ? 'bg-emerald-500' : 'bg-slate-400', 'w-2.5 h-2.5 rounded-full absolute -bottom-0.5 -right-0.5 border-2 border-white']" />
                                 </div>
-                                <span class="hidden xl:flex xl:items-center">
-                                    <span class="text-sm font-medium text-slate-700">{{ userStore.getUser?.firstname }}
+                                <!-- The desktop shell spends ~300px on rail and panel, so
+                                     the name waits for a wider window there. -->
+                                <span :class="isDesktopApp ? 'hidden 2xl:flex 2xl:items-center' : 'hidden xl:flex xl:items-center'">
+                                    <span class="text-sm font-medium text-slate-700 whitespace-nowrap">{{ userStore.getUser?.firstname }}
                                         {{ userStore.getUser?.lastname }}</span>
                                     <Icon name="heroicons:chevron-down-20-solid" class="ml-1.5 h-4 w-4 text-slate-400"
                                         aria-hidden="true" />
@@ -442,6 +465,9 @@
                                         <p class="text-xs text-slate-500 mt-0.5">
                                             {{ userStore.getUser?.email }}
                                         </p>
+                                        <!-- Only ever asked for by support, so it lives here
+                                             rather than under the navigation on every screen. -->
+                                        <ModulesUserSidebarCompanyId class="mt-1.5 !text-left !text-slate-500" />
                                     </div>
                                     <MenuItem>
                                         <div class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors"
@@ -478,21 +504,11 @@
                                                 $t('navbar.apps') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem v-if="userStore.getUser?.has_invoice_app">
-                                        <div @click="navigateTo('/invoicing')"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                            <Icon name="ph:receipt" class="h-4 w-4 text-slate-400" />{{
-                                                $t('navbar.invoices') }}
-                                        </div>
-                                    </MenuItem>
-                                    <MenuItem>
-                                        <div @click="navigateTo('/reminders')"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
-                                            <Icon name="ph:note-pencil" class="h-4 w-4 text-slate-400" />{{
-                                                $t('navbar.reminders') }}
-                                        </div>
-                                    </MenuItem>
-                                    <MenuItem>
+                                    <!-- Invoicing and reminders are not repeated here: the
+                                         navigation carries both under the same conditions.
+                                         Forms stays for the people the navigation leaves it
+                                         out for, and only for them. -->
+                                    <MenuItem v-if="!(isAtLeast('Admin') || can('manage_status_reports'))">
                                         <div @click="navigateTo('/forms')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:list-numbers" class="h-4 w-4 text-slate-400" />{{
@@ -604,7 +620,7 @@
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
-        <ModulesUserNotificationsMissedMedicineToast />
+        <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -643,7 +659,10 @@
         <Transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-2"
             enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-200"
             leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
-            <div v-if="showCmdkTip"
+            <!-- Held back while a missed-medicine alert holds the same corner:
+                 the alert matters, the tip does not, and stacked they covered
+                 each other. It shows once the alert is gone. -->
+            <div v-if="showCmdkTip && !medicineToastVisible"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -749,11 +768,24 @@ const NAV_GROUPS = [
     { key: 'shortcuts', label: 'sidebar.groups.shortcuts', icon: 'ph:star' },
 ]
 
+// Desktop shell only: entries lifted out of their group into the icon rail.
+// Taken from `navigation`, so an entry this user may not see, or has hidden,
+// stays out of the rail as well.
+const RAIL_LINK_NAMES = ['Messages', 'Mail']
+const railLinks = computed(() => isDesktopApp
+    ? navigation.value.filter((item: any) => RAIL_LINK_NAMES.includes(item.name))
+    : [])
+// By path, not route name: Mail's `activeRouteNames` does not match the
+// /mail/inbox route it opens, and every mail folder should light the icon.
+const activeRailLink = computed(() => railLinks.value.find((item: any) =>
+    route.path.startsWith(item.href.split('/').slice(0, 2).join('/'))) || null)
+
 const navigationGroups = computed(() =>
     NAV_GROUPS
         .map((group) => ({
             ...group,
-            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key),
+            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key
+                && !railLinks.value.includes(item)),
         }))
         .filter((group) => group.items.length > 0))
 
@@ -783,6 +815,16 @@ const activeContextGroup = computed(() => {
 // so it lives where the palette hint lives.
 const COLLAPSED_GROUPS_KEY = 'co_sidebar_collapsed_groups'
 const collapsedGroups = ref<string[]>([])
+
+// Who is signed in, for the embedded support chat, as soon as the staff
+// layout mounts - not only when someone opens the chat from the Support
+// menu. Identifying only there left every other way into the chat
+// anonymous, and with it what Milo offers a known customer, such as filing
+// a bug report. Only staff layouts do this: the identity is a staff member's
+// name and email, and a portal user (citizen, relative, patient) must never
+// be announced to the helpdesk this way. The widget queues the claim if its
+// script has not booted, and sends it to Obiyen only when a chat exists.
+onMounted(() => useObiyenChat().identify())
 
 onMounted(() => {
     if (typeof localStorage === 'undefined') return
@@ -883,6 +925,7 @@ watch([isSchedulesPage, isImpersonating], async () => {
 const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo } = useUndo()
 
 const showCmdkTip = ref(false)
+const medicineToastVisible = ref(false)
 const CMDK_TIP_KEY = 'hasSeenCmdkTip'
 
 function dismissCmdkTip() {
@@ -903,7 +946,8 @@ function tryCmdkTip() {
 // dismiss themselves via their own handlers), so at most one click is ever
 // lost to it and the covered control is reachable immediately after.
 function dismissCmdkTipIfClickOutside(event: PointerEvent) {
-    if (!showCmdkTip.value) return
+    // Not while it is held back: a click would mark as seen a tip nobody saw.
+    if (!showCmdkTip.value || medicineToastVisible.value) return
     const target = event.target as HTMLElement | null
     if (target?.closest('button')) return
     dismissCmdkTip()
@@ -1275,7 +1319,7 @@ function generateSidebarLinks(user: any) {
         ]
     })
     if (userHasSecuredMailAccess) {
-        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail'] })
+        nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail-inbox', 'mail-sent', 'mail-secured-mail'] })
     }
 
     nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })

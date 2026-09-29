@@ -76,7 +76,7 @@
                                     </td>
                                     <td width="15%">
                                         <div class="flex items-center gap-x-2">
-                                            <img :src="outcome?.user?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${outcome?.user?.name}`"
+                                            <img :src="outcome?.user?.profile_image ?? avatarUrl(`${outcome?.user?.name}`)"
                                                 class="h-8 w-8 rounded-full bg-gray-50 object-cover" />
                                             <span>{{ outcome?.user?.name }}</span>
                                         </div>

@@ -34,6 +34,8 @@
                     <FormComboField id="title" name="title"
                         :placeholder="$t('citizens.citizenJournals.form.titlePlaceholder')"
                         :toggleLabel="$t('citizens.citizenJournals.form.showJournalTitles')"
+                        :quickPicks="6" :quickPicksLabel="$t('citizens.citizenJournals.form.quickJournalTitles')"
+                        :quickPicksMoreText="(count: number) => $t('citizens.citizenJournals.form.moreJournalTitles', { count })"
                         :options="state.options.journal_titles" v-model="state.formJournal.title" />
                     <FormError :error="v$?.formJournal?.title?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.title?.[0]" />
@@ -49,7 +51,8 @@
                 <div v-for="(field, i) in state.selectedJournalTitleFields" :key="field.uuid" class="space-y-1">
                     <FormLabel :for="`dyn_field_${field.uuid}`" :label="field.label" />
                     <FormTextArea v-if="field.field_type === 'textarea'" :name="`dyn_field_${field.uuid}`"
-                        placeholder="" :rows="3" v-model="state.formJournal.field_answers[i].response" />
+                        placeholder="" :rows="3" auto-capitalize
+                        v-model="state.formJournal.field_answers[i].response" />
                     <FormDateField v-else-if="field.field_type === 'date'" :id="`dyn_field_${field.uuid}`"
                         :name="`dyn_field_${field.uuid}`" placeholder=""
                         v-model="state.formJournal.field_answers[i].response" />
@@ -509,6 +512,7 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import ClassicEditor from '@/utils/editor'
 import { Mention } from 'ckeditor5'
 import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
+import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAssistantStore } from '@/store/assistant'
@@ -585,7 +589,7 @@ const editorContentConfig = ref({
             { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
         ]
     },
-    extraPlugins: [ContentUploadAdapterPlugin, Mention, MentionCustomization],
+    extraPlugins: [ContentUploadAdapterPlugin, Mention, MentionCustomization, AutoCapitalize],
     // Roadmap 357: @ tags a colleague (notified) or a citizen (initials only).
     mention: mentionConfig(),
     height: 500  // Set the editor height here
@@ -604,7 +608,7 @@ const editorNoteConfig = ref({
             { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' },
         ]
     },
-    extraPlugins: [NoteUploadAdapterPlugin, Mention, MentionCustomization],
+    extraPlugins: [NoteUploadAdapterPlugin, Mention, MentionCustomization, AutoCapitalize],
     mention: mentionConfig(),
     height: 500  // Set the editor height here
 }) as any

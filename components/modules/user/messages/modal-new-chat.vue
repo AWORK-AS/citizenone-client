@@ -59,6 +59,11 @@
                                 </div>
                                 <FormError :error="state?.error?.errors?.message?.[0]" />
                             </div>
+
+                            <div class="space-y-1">
+                                <ModulesCitizenMessagesAttachmentPicker v-model="state.formChat.files" />
+                                <FormError :error="attachmentError" />
+                            </div>
                         </div>
 
                         <div class="mt-6 flex items-center justify-end gap-2">
@@ -83,7 +88,7 @@
 <script setup lang="ts">
 import { messageService } from '@/components/api/user/MessageService'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -111,6 +116,7 @@ const state = reactive({
         message: '',
         receivers: [] as any,
         subject: '',
+        files: [] as File[],
     },
     isPageLoading: false,
     isSending: false,
@@ -127,7 +133,8 @@ const canSend = computed(() => {
     const hasRecipients = Array.isArray(state.formChat.receivers)
         ? state.formChat.receivers.length > 0
         : !!state.formChat.receivers
-    return hasRecipients && state.formChat.message.trim().length > 0 && !state.isSending
+    const hasContent = state.formChat.message.trim().length > 0 || state.formChat.files.length > 0
+    return hasRecipients && hasContent && !state.isSending
 })
 
 onMounted(() => {
@@ -155,8 +162,10 @@ watch(() => [...state.formChat.employeeGroups], (selected, previous) => {
 const rules = computed(() => {
     return {
         formChat: {
+            // A conversation can open with just a file, as a reply can.
             message: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`,
+                    requiredIf(() => state.formChat.files.length === 0)),
             },
             receivers: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -166,6 +175,13 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+// The server reports file errors per index (file.0, file.1, ...).
+const attachmentError = computed(() => {
+    const errors = (state?.error as any)?.errors ?? {}
+    const key = Object.keys(errors).find((name) => name === 'file' || name.startsWith('file.'))
+    return key ? errors[key]?.[0] : ''
+})
 
 function handleKeydown(event: KeyboardEvent) {
     if ((event.metaKey || event.ctrlKey) && event.key === 'Enter') {
@@ -223,12 +239,21 @@ async function sendMessage() {
     if (!v$.value.$error) {
         state.isSending = true
         try {
-            const params = {
+            const receivers = userStore.getUser?.company?.group_chat_enabled ?
+                state.formChat.receivers :
+                [state.formChat.receivers]
+            // Files need multipart; everything else keeps going as JSON.
+            let params: any = {
                 subject: state.formChat.subject,
                 message: state.formChat.message,
-                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
-                    state.formChat.receivers :
-                    [state.formChat.receivers]
+                receiver_uuid: receivers,
+            }
+            if (state.formChat.files.length > 0) {
+                params = new FormData()
+                params.append('subject', state.formChat.subject ?? '')
+                params.append('message', state.formChat.message ?? '')
+                receivers.forEach((uuid: string) => params.append('receiver_uuid[]', uuid))
+                state.formChat.files.forEach((file: File) => params.append('file[]', file))
             }
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
@@ -237,6 +262,7 @@ async function sendMessage() {
                 state.formChat.employeeGroups = []
                 state.formChat.subject = ''
                 state.formChat.message = ''
+                state.formChat.files = []
                 v$.value.$reset()
                 emit('chatCreated')
                 navigateTo(`/messages/${chatUuid}`)

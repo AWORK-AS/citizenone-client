@@ -9,7 +9,7 @@
             leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-4">
             <div v-if="state.dragSuccessMessage"
                 class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[9999] flex items-center gap-3 bg-gray-900 text-white text-sm font-medium px-5 py-3 rounded-2xl shadow-2xl pointer-events-none">
-                <div class="w-5 h-5 rounded-full bg-[#2dbab2] flex items-center justify-center flex-shrink-0">
+                <div class="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center flex-shrink-0">
                     <svg class="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                     </svg>
@@ -402,7 +402,7 @@
                                             <div class="px-2 pt-2 pb-1 sm:px-4 sm:pt-4 sm:pb-2 relative">
                                                 <div class="flex flex-col sm:flex-row sm:justify-between gap-1">
                                                     <div class="flex items-center gap-x-1.5 sm:gap-x-2 min-w-0">
-                                                        <img :src="employee?.profile_image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`"
+                                                        <img :src="employee?.profile_image ?? avatarUrl(`${getDisplayName(employee).firstName + ' ' + getDisplayName(employee).lastName}`)"
                                                             :class="[
                                                                 employee?.shift_threshold === 'high' && 'border-green-700',
                                                                 employee?.shift_threshold === 'moderate' && 'border-yellow-500',
@@ -1461,7 +1461,7 @@
             @dateTimeChange="dateTimeChange" @closeWarningDialog="closeWarningDialog"
             @close="state.modal.isAddShiftOpen = false" @saveShift="saveShift"
             @resetNewShiftError="state.newShiftError = {}" @resetShiftWarnings="state.shiftWarnings = []" />
-        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading"
+        <ModulesUserDutyScheduleModalEditShift :isModalLoading="state.isModalLoading" :showNotifyEmployee="true"
             :isModalOpen="state.modal.isEditShiftOpen" :error="state.editShiftError"
             :selectedEmployee="state.editShift.selectedEmployee"
             :selectedEmployeeSchedule="state.editShift.selectedEmployeeSchedule"
@@ -2984,6 +2984,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         note: shiftDetails.note,
         do_not_count_sick_leave: shiftDetails.do_not_count_sick_leave,
         use_compensatory_time: shiftDetails.use_compensatory_time,
+        notify_employee: shiftDetails.notify_employee,
     }
     updateDutySchedule(scheduleUuid, params, employeeIndex, weekIndex, shiftIndex)
 }
@@ -3249,7 +3250,7 @@ function onDragEnd(e: DragEvent) {
 function onDragOver(e: DragEvent) {
     e.preventDefault()
     const t = e.currentTarget as HTMLElement
-    if (t) { t.style.outline = "2px dashed #2dbab2"; t.style.background = "rgba(45,186,178,0.08)"; t.classList.add("drag-over-cell") }
+    if (t) { t.style.outline = "2px dashed #0f4c75"; t.style.background = "rgba(15,76,117,0.06)"; t.classList.add("drag-over-cell") }
 }
 
 function onDragLeave(e: DragEvent) {

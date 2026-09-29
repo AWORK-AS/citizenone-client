@@ -15,7 +15,7 @@
                     class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)" v-if="props?.viewAll">
                     <div class="flex gap-x-2">
-                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
+                        <img :src="citizen?.image ?? avatarUrl(`${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`)"
                             :class="[
                                 citizen.latest_risk_assessment === null && 'border-secondary',
                                 citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
@@ -30,6 +30,7 @@
                             <p class="text-xxs" v-if="journal?.user?.firstname && journal?.user?.lastname">
                                 {{ $t('overview.createdBy') }}
                                 {{ journal?.user?.firstname + ' ' + (journal?.user?.lastname ?? '') }}
+                                <span v-if="formatJobTitles(journal?.user)">({{ formatJobTitles(journal?.user) }})</span>
                             </p>
                             <div class="px-1">
                                 <h3 class="text-base font-semibold">
@@ -50,7 +51,7 @@
                 <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
                     @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
                     <div class="flex gap-x-2">
-                        <img :src="citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`"
+                        <img :src="citizen?.image ?? avatarUrl(`${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`)"
                             :class="[
                                 citizen.latest_risk_assessment === null && 'border-secondary',
                                 citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
@@ -67,6 +68,7 @@
                                 {{ $t('overview.createdBy') }}
                                 {{ citizen?.citizen_journal?.user?.firstname + ' ' +
                                     (citizen?.citizen_journal?.user?.lastname ?? '') }}
+                                <span v-if="formatJobTitles(citizen?.citizen_journal?.user)">({{ formatJobTitles(citizen?.citizen_journal?.user) }})</span>
                             </p>
                             <div class="px-1">
                                 <h3 class="text-base font-semibold">

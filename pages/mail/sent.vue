@@ -6,14 +6,16 @@
                 <Title>{{ $t('mail.sent') }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
-            <template #header>{{ $t('mail.sent') }}</template>
+            <!-- The page is Mail; the folder is named by the list column below, so
+                 the h1 no longer repeats it. -->
+            <template #header>{{ $t('sidebar.mail') }}</template>
             <template #settings>
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
                             <Tooltip :text="$t('mail.settings.settings')">
                                 <FormButton :aria-label="$t('mail.settings.settings')" buttonStyle="action">
-                                    <Icon name="ph:gear" class="h-3 w-3" aria-hidden="true" />
+                                    <Icon name="ph:gear" class="h-4 w-4" aria-hidden="true" />
                                 </FormButton>
                             </Tooltip>
                         </MenuButton>
@@ -81,7 +83,7 @@
                             </div>
                         </div>
                         <div v-else>
-                            <div class="flex bg-white rounded-tr-md rounded-br-md">
+                            <div class="flex bg-white rounded-xl border border-surface-200 overflow-hidden">
                                 <ModulesUserMailSidebar :unreadMessage="state.unreadEmails"
                                     :unreadSecuredMessage="state.unreadSecuredMessage" />
                                 <ModulesUserMailSmtpSent v-if="emailConfigurationType === 'smtp'" />

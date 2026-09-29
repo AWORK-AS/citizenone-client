@@ -16,7 +16,7 @@
                     <div>
                         <div>
                             <div class="flex items-center gap-x-2">
-                                <img :src="medicine?.citizen?.image ?? `https://ui-avatars.com/api/?background=42AED9&color=fff&name=${medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')}`"
+                                <img :src="medicine?.citizen?.image ?? avatarUrl(`${medicine?.citizen?.firstname + ' ' + (medicine?.citizen?.lastname ?? '')}`)"
                                     :class="[
                                         medicine?.citizen.latest_risk_assessment === null && 'border-secondary',
                                         medicine?.citizen.latest_risk_assessment?.assessment === 'no risk' && 'border-green-700',
@@ -100,33 +100,41 @@
             </div>
             <div v-else class="space-y-2 overflow-scroll max-h-72">
                 <div v-for="(history, historyIndex) in state.evaluationOverview?.data" :key="historyIndex"
-                    class="border rounded-md px-3 py-2 text-xs space-y-1.5">
+                    :class="[history.citizen_medicine?.uuid && 'cursor-pointer hover:bg-gray-100', 'border rounded-md px-3 py-2 text-xs space-y-1.5']"
+                    @click="viewEvaluationHistory(history)">
                     <div class="flex items-center justify-between">
                         <span class="font-medium">
                             {{ history.citizen?.firstname }} {{ history.citizen?.lastname }}
                             —
-                            {{ language.locale.value === 'en' ? history.medicine?.en_name : history.medicine?.dk_name }}
+                            {{ evaluationMedicineName(history) }}
                         </span>
                         <span class="text-gray-400">{{ formatDateToReadable(history.date) }}</span>
                     </div>
                     <div class="flex flex-wrap gap-1.5">
-                        <span v-for="(slot, slotIndex) in history.slots" :key="slotIndex" :class="[
-                            slot.status === 'remembered' && 'bg-green-100 text-green-700',
-                            slot.status === 'forgotten' && 'bg-red-100 text-red-700',
-                            slot.status === 'pending' && 'bg-amber-100 text-amber-700',
-                            'px-2 py-1 rounded-md inline-flex items-center gap-1'
-                        ]" :title="slot.status === 'remembered' ? formatDateTimeToReadable(slot.evaluated_at) : ''">
+                        <button type="button" v-for="(slot, slotIndex) in history.slots" :key="slotIndex" :class="[
+                            slot.status === 'remembered' && 'bg-green-100 text-green-700 hover:bg-green-200',
+                            slot.status === 'forgotten' && 'bg-red-100 text-red-700 hover:bg-red-200',
+                            slot.status === 'pending' && 'bg-amber-100 text-amber-700 hover:bg-amber-200',
+                            'px-2 py-1 rounded-md inline-flex items-center gap-1 transition-colors cursor-pointer'
+                        ]" :title="slot.status === 'remembered' ? formatDateTimeToReadable(slot.evaluated_at) : $t('overview.medicationOverview.clickToEvaluate')"
+                            @click.stop="openSlotEvaluation(history, slot)">
                             {{ slot.time }} ·
                             {{
                                 slot.status === 'remembered' ? $t('overview.medicationOverview.remembered')
                                     : slot.status === 'forgotten' ? $t('overview.medicationOverview.forgotten')
                                         : $t('overview.medicationOverview.pending')
                             }}
-                        </span>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
+        <ModulesUserCitizenMedicineEvaluationModalNew :isModalOpen="state.modal.isAddEvaluationOpen"
+            :selectedMedicineEvaluation="state.selectedEvaluation" @close="state.modal.isAddEvaluationOpen = false"
+            @refreshEvaluations="fetchEvaluationOverview" />
+        <ModulesUserCitizenMedicineEvaluationModalEdit :isModalOpen="state.modal.isEditEvaluationOpen"
+            :selectedMedicineEvaluation="state.selectedEvaluation" @close="state.modal.isEditEvaluationOpen = false"
+            @refreshEvaluations="fetchEvaluationOverview" />
     </LoadingSpinner>
 </template>
 
@@ -160,8 +168,11 @@ const state = reactive({
     medicines: [] as any,
     evaluationOverview: [] as any,
     modal: {
+        isAddEvaluationOpen: false,
+        isEditEvaluationOpen: false,
         isViewMedicineOpen: false,
     },
+    selectedEvaluation: {} as any,
     selectedMedicine: {} as any,
     now: new Date(),
 })
@@ -187,12 +198,15 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
+// A handled slot keeps its status colour; the overdue/due-soon timing only
+// applies to slots nobody has handled yet, anchored to the chip's own date
+// (AW-2026-6579: a delivered "06:00 - 10:00" dose turned red after 10:00).
 function dueDateColorClass(dueDate: any): string {
     if (dueDate?.status === 'given') return 'bg-green-700'
-    if (isMissed(dueDate?.time, state.now)) return 'bg-red-600'
-    if (isDueSoon(dueDate?.time, state.now)) return 'bg-amber-500'
     if (dueDate?.status === 'delivered') return 'bg-primary'
     if (dueDate?.status === 'deviated') return 'bg-red-600'
+    if (isMissed(dueDate?.time, state.now, dueDate?.date)) return 'bg-red-600'
+    if (isDueSoon(dueDate?.time, state.now, dueDate?.date)) return 'bg-amber-500'
     return 'bg-secondary'
 }
 
@@ -252,5 +266,35 @@ async function fetchEvaluationOverview() {
 function viewMedicineHistory(medicine: any) {
     state.selectedMedicine = medicine
     state.modal.isViewMedicineOpen = true
+}
+
+function evaluationMedicineName(history: any): string {
+    return language.locale.value === 'en' ? history.medicine?.en_name : history.medicine?.dk_name
+}
+
+function viewEvaluationHistory(history: any) {
+    if (!history.citizen_medicine?.uuid) return
+    viewMedicineHistory(history.citizen_medicine)
+}
+
+function openSlotEvaluation(history: any, slot: any) {
+    if (slot.status === 'remembered') {
+        // Older API responses don't carry the evaluation uuid; editing without it would PUT to /undefined
+        if (!slot.evaluation_uuid) return
+        state.selectedEvaluation = {
+            entry: { uuid: slot.evaluation_uuid, evaluation: slot.evaluation },
+            medicine_name: evaluationMedicineName(history),
+            time: slot.time,
+        }
+        state.modal.isEditEvaluationOpen = true
+        return
+    }
+
+    state.selectedEvaluation = {
+        entry: { uuid: history.uuid },
+        medicine_name: evaluationMedicineName(history),
+        time: slot.time,
+    }
+    state.modal.isAddEvaluationOpen = true
 }
 </script>

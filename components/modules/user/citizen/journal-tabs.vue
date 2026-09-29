@@ -45,6 +45,17 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-journals'],
         })
     }
+    // Wellbeing measured over time, for the citizen and whoever is related to
+    // them. Follows the journal: it is written by the same people, and dental
+    // patients are not measured this way.
+    if (can('Journals') && !isDental) {
+        tabs.push({
+            name: 'wellbeing.tab', icon: 'ph:chart-line-up', isTranslateName: true,
+            category: 'documentation', primary: false,
+            href: `/citizens/${citizenUuid}/wellbeing`,
+            routeNames: ['citizens-uuid-wellbeing'],
+        })
+    }
     if (industryHasFeature('toothChart')) {
         tabs.push({
             name: 'citizens.tabs.toothChart', icon: 'ph:tooth', isTranslateName: true,
