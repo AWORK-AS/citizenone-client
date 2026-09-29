@@ -45,6 +45,13 @@
                         <FormDateField id="to_date" name="to_date" :placeholder="$t('socialWelfare.billing.toDate')"
                             v-model="state.filter.to_date" />
                     </div>
+                    <div class="space-y-1">
+                        <FormLabel :label="$t('socialWelfare.billing.invoicePer')" />
+                        <select class="co-cell-input w-56" v-model="state.filter.group_by">
+                            <option value="customer">{{ $t('socialWelfare.billing.invoicePerCustomer') }}</option>
+                            <option value="intervention">{{ $t('socialWelfare.billing.invoicePerIntervention') }}</option>
+                        </select>
+                    </div>
                     <FormButton buttonStyle="primary" @click="fetchExtraction" :disabled="state.isLoading">
                         <Icon name="ph:funnel" class="w-4 h-4" />
                         {{ $t('socialWelfare.billing.generate') }}
@@ -64,8 +71,8 @@
                     <Icon name="ph:check-circle" class="w-5 h-5" />
                     {{ $t('socialWelfare.billing.convertedBanner', { count: state.convertedCount }) }}
                 </p>
-                <FormButton buttonStyle="success" @click="navigateTo('/invoicing')" v-if="hasInvoiceApp">
-                    <Icon name="ph:arrow-right" class="w-4 h-4" />
+                <FormButton buttonStyle="success" @click="scrollToInvoices">
+                    <Icon name="ph:arrow-down" class="w-4 h-4" />
                     {{ $t('socialWelfare.billing.goToInvoices') }}
                 </FormButton>
             </div>
@@ -127,15 +134,17 @@
                         </Tooltip>
                     </div>
 
-                    <!-- One card per paying municipality, because that is what becomes one invoice -->
-                    <div v-for="group in state.groups" :key="group.municipality_uuid ?? 'unassigned'"
+                    <!-- One card per invoice: a customer department (or paying
+                         municipality), or a single intervention. -->
+                    <div v-for="group in state.groups" :key="group.key ?? group.municipality_uuid ?? 'unassigned'"
                         class="bg-white border border-surface-200 rounded-xl shadow-sm overflow-hidden">
 
                         <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-b border-surface-200 bg-slate-50">
                             <div>
                                 <p class="text-sm font-semibold text-slate-900">
-                                    {{ group.municipality_name || $t('socialWelfare.billing.noMunicipality') }}
+                                    {{ group.label || group.municipality_name || $t('socialWelfare.billing.noMunicipality') }}
                                 </p>
+                                <p v-if="billToLine(group)" class="text-[12px] text-slate-500">{{ billToLine(group) }}</p>
                                 <p class="text-[13px] text-slate-400">
                                     {{ group.rows.length }} {{ $t('socialWelfare.billing.citizens') }}
                                     <span v-if="selectedRowsOf(group).length">
@@ -228,6 +237,14 @@
                                                 {{ row.stay_journal_number || (row.stay_uuid ? $t('socialWelfare.billing.stayWithoutNumber') : $t('socialWelfare.billing.outsideStay')) }}
                                             </p>
                                             <p class="text-[12px] text-slate-400">{{ row.period_from }} - {{ row.period_to }}</p>
+                                            <p v-if="row.contract_period && !row.contract_period.is_fallback"
+                                                class="text-[11px] text-slate-500 mt-0.5">
+                                                {{ $t('socialWelfare.billing.contractMode.' + row.price_mode) }}
+                                                · {{ $t('socialWelfare.contract.frequencies.' + row.contract_period.billing_frequency) }}
+                                            </p>
+                                            <p v-if="row.contract_period_changes_in_window" class="text-[11px] text-orange-600 mt-0.5">
+                                                {{ $t('socialWelfare.billing.contractChangesInWindow') }}
+                                            </p>
                                         </td>
                                         <td class="co-td text-slate-500">{{ row.section || '-' }}</td>
                                         <td class="co-td">
@@ -259,7 +276,7 @@
                                         </td>
                                         <td class="co-td">
                                             <input type="number" min="0" step="0.01" class="co-cell-input w-28"
-                                                :disabled="row.is_fully_invoiced" v-model="row.hourly_rate" />
+                                                :disabled="row.is_fully_invoiced || row.price_mode === 'fixed'" v-model="row.hourly_rate" />
                                         </td>
                                         <td class="co-td text-slate-500">
                                             {{ row.contract_price === null ? '-' : formatAmount(row.contract_price) }}
@@ -277,6 +294,28 @@
                                                 </button>
                                             </Tooltip>
                                         </td>
+                                    </tr>
+
+                                    <!-- What the contract adds on top of the hours: a fixed
+                                         price, agreed administration time, its own fees. -->
+                                    <tr v-for="line in row.contract_lines" :key="`${rowKey(row)}:${line.kind}:${line.contract_line_uuid ?? ''}`"
+                                        class="border-b border-surface-200 bg-slate-50/40 text-[13px]"
+                                        :class="line.is_billed ? 'opacity-60' : ''">
+                                        <td class="co-td">
+                                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                                :disabled="line.is_billed" v-model="line.is_included" />
+                                        </td>
+                                        <td class="co-td"></td>
+                                        <td class="co-td text-slate-600" colspan="3">
+                                            {{ line.description }}
+                                            <span v-if="line.is_billed" class="text-[11px] text-green-700">({{ $t('socialWelfare.billing.invoiced') }})</span>
+                                        </td>
+                                        <td class="co-td text-slate-600">{{ formatHours(line.quantity) }}</td>
+                                        <td class="co-td"></td>
+                                        <td class="co-td text-slate-600">{{ formatAmount(line.price) }}</td>
+                                        <td class="co-td"></td>
+                                        <td class="co-td text-right text-slate-900">{{ formatAmount(line.amount) }}</td>
+                                        <td class="co-td"></td>
                                     </tr>
 
                                     <!-- The line as it will read on the invoice, and the
@@ -392,6 +431,8 @@
                     </div>
                 </div>
             </LoadingSpinner>
+
+            <ModulesUserEconomySocialBillingInvoices ref="invoicesList" />
         </div>
     </div>
 </template>
@@ -424,8 +465,6 @@ onMounted(() => {
     fetchExtraction()
 })
 
-const hasInvoiceApp = computed(() => Boolean(userStore.getUser?.has_invoice_app))
-
 const state = reactive({
     error: {} as Error,
     hasFetched: false,
@@ -436,8 +475,29 @@ const state = reactive({
     filter: {
         from_date: '',
         to_date: '',
+        group_by: 'customer',
     },
 })
+
+const invoicesList = ref<any>(null)
+
+function scrollToInvoices() {
+    invoicesList.value?.$el?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
+}
+
+// Who the invoice goes to, as one line under the card title.
+function billToLine(group: any): string {
+    const billTo = group.bill_to ?? {}
+
+    return [
+        billTo.address,
+        billTo.ean_number ? `EAN ${billTo.ean_number}` : null,
+        billTo.customer_number ? `${t('socialWelfare.billing.customerNumber')} ${billTo.customer_number}` : null,
+        billTo.payment_terms_days !== null && billTo.payment_terms_days !== undefined
+            ? t('socialWelfare.customerDepartments.days', { days: billTo.payment_terms_days })
+            : null,
+    ].filter(Boolean).join(' · ')
+}
 
 const steps = computed(() => [
     t('socialWelfare.billing.stepPeriod'),
@@ -542,8 +602,14 @@ function timeOf(reg: any): string {
 function rowAmount(row: any): number {
     const hours = Number(row.used_hours ?? 0)
     const rate = Number(row.hourly_rate ?? 0)
+    const lines = includedContractLines(row).reduce((sum: number, line: any) => sum + Number(line.amount ?? 0), 0)
 
-    return Math.round(hours * rate * 100) / 100
+    return Math.round((hours * rate + lines) * 100) / 100
+}
+
+// The contract's own lines that will go on the invoice with this row.
+function includedContractLines(row: any): any[] {
+    return (row.contract_lines ?? []).filter((line: any) => !line.is_billed && line.is_included)
 }
 
 function extraAmount(extra: any): number {
@@ -570,7 +636,11 @@ function clampHours(row: any) {
 }
 
 function isBillable(row: any): boolean {
-    return !row.is_fully_invoiced && rowAmount(row) > 0
+    if (row.is_fully_invoiced) return false
+
+    // Under a fixed price the hours are billed at nothing, but still have to
+    // be settled, so hours alone make the row billable.
+    return rowAmount(row) > 0 || (row.price_mode === 'fixed' && Number(row.used_hours ?? 0) > 0)
 }
 
 function billableRowsOf(group: any): any[] {
@@ -691,15 +761,19 @@ async function fetchExtraction() {
                 ...row,
                 // Everything billable starts selected: the common case is the
                 // whole period, and unticking is quicker than ticking twenty.
-                is_selected: !row.is_fully_invoiced && Number(row.used_hours) > 0,
+                // A fixed price or a contract fee is due without any hours.
+                is_selected: !row.is_fully_invoiced && (Number(row.used_hours) > 0
+                    || (row.contract_lines ?? []).some((line: any) => !line.is_billed && Number(line.amount ?? 0) !== 0)),
                 // What the registrations add up to. Hours can be edited down to
                 // the contract, never up past what was delivered.
                 recorded_hours: Number(row.used_hours ?? 0),
                 line_description: defaultLineDescription(row),
+                contract_lines: (row.contract_lines ?? []).map((line: any) => ({ ...line, is_included: !line.is_billed })),
             })),
         }))
         state.hasFetched = true
         state.convertedCount = 0
+        invoicesList.value?.refresh?.()
         expanded.value = []
         registrations.value = {}
     } catch (error: any) {
@@ -709,16 +783,27 @@ async function fetchExtraction() {
 }
 
 function defaultLineDescription(row: any): string {
+    // Built by the server from the contract, with CPR and case number only
+    // when the contract says so.
+    if (row.line_description) return row.line_description
+
     return [row.citizen_name, row.stay_journal_number, `${t('socialWelfare.billing.hoursFor')} ${row.period_from} - ${row.period_to}`]
         .filter(Boolean).join(' - ')
 }
 
 function groupPayload(group: any, rows: any[]) {
+    const billTo = group.bill_to ?? {}
+
     return {
-        bill_to_name: group.municipality_name || t('socialWelfare.billing.noMunicipality'),
+        bill_to_name: billTo.name || group.municipality_name || t('socialWelfare.billing.noMunicipality'),
+        bill_to_address: billTo.address || null,
+        customer_department_uuid: billTo.customer_department_uuid || null,
+        ean_number: billTo.ean_number || null,
+        customer_number: billTo.customer_number || null,
+        payment_terms_days: billTo.payment_terms_days ?? null,
         note: group.note,
         lines: [
-            ...rows.map((row: any) => ({
+            ...rows.filter((row: any) => Number(row.used_hours) > 0).map((row: any) => ({
                 citizen_uuid: row.citizen_uuid,
                 description: String(row.line_description ?? '').trim() || defaultLineDescription(row),
                 quantity: Number(row.used_hours),
@@ -728,7 +813,22 @@ function groupPayload(group: any, rows: any[]) {
                 // take the other placement's hours with it.
                 period_from: row.period_from,
                 period_to: row.period_to,
+                line_kind: 'hours',
+                contract_period_uuid: row.contract_period_uuid ?? null,
+                product_number: row.hours_product_number ?? null,
             })),
+            ...rows.flatMap((row: any) => includedContractLines(row).map((line: any) => ({
+                citizen_uuid: row.citizen_uuid,
+                description: line.description,
+                quantity: Number(line.quantity),
+                price: Number(line.price),
+                period_from: line.period_from,
+                period_to: line.period_to,
+                line_kind: line.kind,
+                contract_period_uuid: line.contract_period_uuid,
+                contract_line_uuid: line.contract_line_uuid ?? null,
+                product_number: line.product_number ?? null,
+            }))),
             ...extraLinesOf(group).map((extra: any) => ({
                 description: String(extra.description).trim(),
                 quantity: Number(extra.quantity),

@@ -3357,7 +3357,30 @@
             "name": "Name",
             "phone": "Phone",
             "section": "Paragraph / service type",
-            "ssn": "Social security number"
+            "ssn": "Social security number",
+            "consultant": "Consultant",
+            "startupStatus": "Start-up status",
+            "phase": "Status / phase",
+            "scope": "Scope",
+            "geography": "Geography",
+            "phases": {
+                "upcoming": "Not started",
+                "active": "Running",
+                "ended": "Ended"
+            },
+            "startupStatuses": {
+                "missing_coordinator": "Missing coordinator",
+                "missing_consultant": "Missing consultant",
+                "missing_start_date": "Missing start date",
+                "ready": "Ready to start",
+                "started": "Started"
+            },
+            "scopeUnits": {
+                "week": "h/week",
+                "month": "h/month",
+                "day": "h/day",
+                "total": "h total"
+            }
         },
         "tabs": {
             "attendance": "Attendance",
@@ -3793,7 +3816,8 @@
             },
             "tabs": {
                 "expenses": "Expenses",
-                "wallets": "Wallets"
+                "wallets": "Wallets",
+                "contract": "Contract"
             },
             "wallets": "Wallets"
         },
@@ -4127,7 +4151,11 @@
                 "green": "Green",
                 "yellow": "Yellow",
                 "red": "Red"
-            }
+            },
+            "consultant": "Consultant",
+            "region": "Region",
+            "weeklyHoursFrom": "Hours per week from",
+            "weeklyHoursTo": "Hours per week to"
         },
         "emptyFiltered": "No {citizens} match the filters."
     },
@@ -4903,9 +4931,6 @@
             "departments": "Department",
             "description": "Description",
             "doNotCountSickLeaveAsWorkingHours": "Do not count sick leave as working hours",
-            "sendEmailToEmployee": "Send email to employee",
-            "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
-            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
             "doNotCountWeekends": "Do not count weekends",
             "estimatedPayrollCost": "Estimated payroll cost",
             "forSleepingNightShift": "For sleeping night shift",
@@ -4918,7 +4943,10 @@
             "title": "Title",
             "useCompensatoryTime": "Use compensatory time",
             "users": "Users",
-            "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date"
+            "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date",
+            "sendEmailToEmployee": "Send email to employee",
+            "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
+            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app."
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -6958,7 +6986,41 @@
             "active": "Active",
             "inactive": "Inactive"
         },
-        "emptyFiltered": "No employees match the filters."
+        "emptyFiltered": "No employees match the filters.",
+        "bulkEdit": {
+            "action": "Edit selected",
+            "addToCurrent": "Add to the current ones",
+            "apply": "Apply",
+            "clearSelection": "Clear selection",
+            "confirmArchive": "{count} employees will be archived, removed from the overview and have their licences released. Press again to confirm.",
+            "confirmArchiveButton": "Confirm archiving",
+            "departments": "Department",
+            "employeeGroups": "Employee groups",
+            "how": "How",
+            "intro": "Only what you fill in is changed. Everything else stays as it was.",
+            "noChange": "Unchanged",
+            "reasons": {
+                "archived": "Is archived",
+                "insufficient_level": "Has a higher role than you",
+                "no_license_available": "No free licence",
+                "self": "Your own role and status are not changed here"
+            },
+            "replaceCurrent": "Replace the current ones",
+            "result": "{updated} of {requested} employees updated.",
+            "role": "Role",
+            "roleAdd": "Add the role and keep the current ones",
+            "roleReplace": "Replace the current roles",
+            "selected": "{count} selected",
+            "skippedHeader": "Not changed",
+            "status": "Status",
+            "statusActive": "Active",
+            "statusActiveHint": "Can log in and uses a licence. An employee without one takes a free licence.",
+            "statusArchived": "Archived",
+            "statusArchivedHint": "Has left. Removed from the overview and the licence is released.",
+            "statusPassive": "Passive",
+            "statusPassiveHint": "Stays in the system and can be found in consultant matching, but cannot log in and uses no licence.",
+            "title": "Edit {count} employees"
+        }
     },
     "entriesPerPage": "Entries per page",
     "error": {
@@ -7701,9 +7763,9 @@
                 "caseworker": "Caseworker",
                 "mother": "Mother",
                 "father": "Father",
+                "citizen": "The @:terms.citizen{''}",
                 "parents": "Parents",
-                "family": "Family",
-                "citizen": "The @:terms.citizen{''}"
+                "family": "Family"
             },
             "earlier": "Earlier measurements",
             "maxScore": "Scale",
@@ -7950,7 +8012,8 @@
                 "inquiry": "The inquiry",
                 "citizen": "The @:terms.citizen{''}",
                 "assessment": "Assessment",
-                "outcome": "Outcome and notes"
+                "outcome": "Outcome and notes",
+                "matchNeeds": "Match: language and location"
             }
         },
         "inquiries": "Inquiries",
@@ -8157,7 +8220,9 @@
         "subtitle": "Configure which fields are visible in the @:terms.citizenDefinite{'s'} journal create and edit forms.",
         "title": "Journal Form Configuration",
         "scoreToggle": "Show \"Current level\" in the journal form",
-        "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it."
+        "scoreDescription": "When switched off, the \"Current level\" field is hidden in the journal create and edit forms. The field starts empty, so a level is only there if someone chose it.",
+        "wellbeingRulerToggle": "Show the wellbeing ruler in @:terms.journalNotes{''}",
+        "wellbeingRulerDescription": "When switched on, a wellbeing score from 0 to 10 can be given in @:terms.journalNotes{''}, one for each child on the case. The score is optional and is part of the wellbeing development and the status report's wellbeing ruler."
     },
     "journalNotes": {
         "title": "@.capitalize:terms.journalNotes{''}",
@@ -8383,7 +8448,8 @@
         "downloadFile": {
             "alert": {
                 "fileSuccessfullyDownloadedToCitizensFolder": "File successfully downloaded to @:terms.citizen{''}'s folder",
-                "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder"
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "File successfully downloaded to organization's folder",
+                "fileSuccessfullyAddedToInquiry": "The file has been added to the inquiry"
             },
             "citizen": "@.capitalize:terms.citizen{''}",
             "citizenFolder": "@.capitalize:terms.citizen{''} folder",
@@ -8391,7 +8457,10 @@
             "downloadFileToCitizensFolder": "Download file to @:terms.citizen{''}'s folder",
             "downloadFileToMyComputer": "Download file to my computer",
             "downloadFileToOrganizationsFolder": "Download file to organization's folder",
-            "organizationFolder": "Organization folder"
+            "organizationFolder": "Organization folder",
+            "addFileToInquiry": "Add file to inquiry",
+            "inquiry": "Inquiry",
+            "inquiryHint": "The file is read straight from your own mailbox and added to the inquiry's documents."
         },
         "draft": "Draft",
         "form": {
@@ -8423,7 +8492,6 @@
             "to": "To"
         },
         "forward": "Forward",
-        "emptyInbox": "Your inbox is empty",
         "inbox": "Inbox",
         "insertSignature": "Insert signature",
         "loadMore": "Load more",
@@ -8529,7 +8597,8 @@
                 "step6Password": "Password: the 16-character app password (without spaces)",
                 "oauthNote": "Note: XOAUTH2 requires a full OAuth2 flow with access tokens and is not supported here. App Password is the correct approach for this integration."
             }
-        }
+        },
+        "emptyInbox": "Your inbox is empty"
     },
     "massUnits": {
         "addNewMassUnit": "Add new mass unit",
@@ -8636,9 +8705,9 @@
     "messages": {
         "actions": {
             "delete": "Delete",
-            "download": "Download",
             "edit": "Edit",
-            "more": "More"
+            "more": "More",
+            "download": "Download"
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chat successfully deleted",
@@ -10499,16 +10568,16 @@
                 "portalSectionCalendar": "Calendar",
                 "portalSectionBooking": "Online booking",
                 "portalSectionSupport": "Support",
-                "portalSectionForms": "Forms",
-                "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
                 "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
                 "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
                 "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
+                "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared",
+                "portalSectionForms": "Forms",
+                "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
-                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
-                "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared"
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them."
             }
         },
         "licenseOverview": {
@@ -10651,7 +10720,9 @@
             "inquiryServiceTypes": "Service types",
             "taskTypes": "Task types",
             "taskRules": "Task rules",
-            "employmentOptions": "Employment options"
+            "employmentOptions": "Employment options",
+            "inquiryOffers": "Offers and prices",
+            "customerDepartments": "Customers and departments"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11053,11 +11124,11 @@
         "coupons": "Coupons",
         "discover": "Get started",
         "groups": {
-            "communication": "Communication",
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",
-            "shortcuts": "Shortcuts"
+            "shortcuts": "Shortcuts",
+            "communication": "Communication"
         },
         "documents": "Documents",
         "dutySchedules": "Duty schedules",
@@ -13102,14 +13173,6 @@
             "selectAll": "Give all modules",
             "modulesAll": "The industry gets all modules.",
             "modulesNarrowed": "The industry gets {count} of {total} modules.",
-            "colApps": "Apps",
-            "apps": "Apps from the App Store",
-            "appsHelp": "Apps the industry gets as a basic part of the package. A new company gets one license for the owner at no charge. Only our own apps can be chosen.",
-            "appsNone": "The industry gets no apps included.",
-            "appsCount": "The industry gets {count} app included. | The industry gets {count} apps included.",
-            "appIncluded": "Included",
-            "appFree": "Free",
-            "noApps": "None",
             "locale": {
                 "dk": "Danish",
                 "en": "English",
@@ -13129,7 +13192,15 @@
                 "term_journal_note_tag": "Note type",
                 "term_agreement": "Agreement",
                 "term_jobcenter": "Jobcenter"
-            }
+            },
+            "colApps": "Apps",
+            "apps": "Apps from the App Store",
+            "appsHelp": "Apps the industry gets as a basic part of the package. A new company gets one license for the owner at no charge. Only our own apps can be chosen.",
+            "appsNone": "The industry gets no apps included.",
+            "appsCount": "The industry gets {count} app included. | The industry gets {count} apps included.",
+            "appIncluded": "Included",
+            "appFree": "Free",
+            "noApps": "None"
         },
         "salesInquiries": {
             "pageTitle": "Inquiries",
@@ -15017,9 +15088,9 @@
             "extraRemove": "Remove the line",
             "lineDescription": "Text on the invoice line",
             "invoiceNote": "Note on the invoice",
-            "goToInvoices": "Go to invoices",
+            "goToInvoices": "See the invoices",
             "nothingSelected": "Select at least one placement, or add an extra line.",
-            "convertedBanner": "{count} invoice(s) created and waiting under Invoicing.",
+            "convertedBanner": "{count} invoice(s) created and waiting at the bottom of the page.",
             "registrations": "Hour registrations",
             "invoiceCount": "{count} invoice(s)",
             "selectedOfRows": "{selected} of {total} selected",
@@ -15027,7 +15098,169 @@
             "helpPeriod": "The period decides which hour registrations are included: every registration starting inside it that has not been invoiced already. Hours invoiced once do not come back.",
             "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
             "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the @:terms.citizen{''}'s allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the @:terms.citizen{''} record.",
-            "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send."
+            "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send.",
+            "invoicePer": "Invoice per",
+            "invoicePerCustomer": "Customer/department",
+            "invoicePerIntervention": "@.capitalize:terms.citizen{''}",
+            "contractMode": {
+                "legacy": "Hours at hourly rate",
+                "hourly": "Contract: price per hour",
+                "fixed": "Contract: fixed price"
+            },
+            "contractChangesInWindow": "The contract changes during the period. The one that applies at the start is used.",
+            "customerNumber": "Customer no."
+        },
+        "customerDepartments": {
+            "title": "Customers and departments",
+            "intro": "The departments at your customers that invoices are sent to. A customer can have several departments, each with its own address, EAN number and terms.",
+            "new": "New department",
+            "edit": "Edit department",
+            "search": "Search by name, customer or EAN",
+            "empty": "No departments have been created yet.",
+            "noCustomer": "No customer",
+            "municipality": "Municipality",
+            "customerHelp": "Pick the municipality, or type the customer name if it is not a municipality.",
+            "customerName": "Customer name",
+            "customerNamePlaceholder": "E.g. a private customer",
+            "name": "Department name",
+            "street": "Address",
+            "postCode": "Postcode",
+            "city": "City",
+            "address": "Address",
+            "eanNumber": "EAN number",
+            "customerNumber": "Customer number",
+            "paymentTermsDays": "Payment terms",
+            "days": "{days} days net",
+            "email": "Invoice e-mail",
+            "contactPerson": "Contact person",
+            "phone": "Phone",
+            "noticeTerms": "Notice terms",
+            "priceRegulation": "Price regulation agreement",
+            "isActive": "Active",
+            "saved": "The department has been saved",
+            "deleted": "The department has been deleted",
+            "confirmDelete": "Delete the department? Contracts and invoices that point to it keep their details."
+        },
+        "contract": {
+            "title": "Contract",
+            "billedTo": "Billed to",
+            "noDepartmentYet": "No department chosen yet",
+            "newPeriod": "New contract period",
+            "editPeriod": "Edit contract period",
+            "agreedPrice": "Agreed price",
+            "grantedHours": "Granted hours",
+            "billingFrequency": "Billing frequency",
+            "paymentTermsDays": "Payment terms",
+            "fallbackTitle": "The contract fields on the stay are used for now",
+            "fallbackText": "No contract period has been created yet. The billing extraction uses the contract price and contract hours from the stay. Create a contract period to manage price, hours split and billing from here.",
+            "history": "Contract periods",
+            "noPeriods": "No contract periods yet.",
+            "period": "Period",
+            "department": "Customer and department",
+            "hoursSplit": "Hours split",
+            "onInvoice": "On the invoice",
+            "lines": "Own contract lines",
+            "current": "Current",
+            "contactHoursShort": "Contact",
+            "adminHoursShort": "Administration",
+            "transportHoursShort": "Transport",
+            "cpr": "CPR number",
+            "caseNumber": "Case number",
+            "economicCustomerNumberShort": "Customer no.",
+            "economicProductNumberShort": "Item no.",
+            "confirmDelete": "Delete the contract period? A period used on an invoice cannot be deleted, only ended.",
+            "deleted": "The contract period has been deleted",
+            "saved": "The contract period has been saved",
+            "perHour": "per hour",
+            "perFrequency": {
+                "monthly": "per month",
+                "quarterly": "per quarter",
+                "half_yearly": "per half year",
+                "yearly": "per year"
+            },
+            "intervals": {
+                "weekly": "per week",
+                "monthly": "per month",
+                "total": "in total for the period"
+            },
+            "frequencies": {
+                "monthly": "Monthly",
+                "quarterly": "Quarterly",
+                "half_yearly": "Half-yearly",
+                "yearly": "Yearly"
+            },
+            "reviewTitle": "Review hours and price",
+            "reviewText": "The new period is filled in with the previous period's price ({price}) and hours ({hours}). Check that they still apply before you save.",
+            "reviewConfirm": "I have reviewed hours and price",
+            "startDate": "Start date",
+            "endDate": "End date",
+            "stay": "Stay",
+            "allStays": "All stays",
+            "noDepartment": "No department",
+            "createDepartment": "Create customers and departments under Settings",
+            "priceType": "Pricing model",
+            "priceTypes": {
+                "hourly": "Price per delivered hour",
+                "fixed": "Fixed price per billing period"
+            },
+            "fixedPrice": "Fixed price",
+            "hourlyPrice": "Hourly price",
+            "hoursInterval": "The hours apply",
+            "contactHours": "Contact time",
+            "adminHours": "Administration time",
+            "transportHours": "Transport time",
+            "grantedTotal": "Granted in total",
+            "fromDepartment": "{days} days (from the department)",
+            "economicCustomerNumber": "Customer number in e-conomic",
+            "economicProductNumber": "Item number in e-conomic",
+            "showCpr": "Show CPR number on the invoice",
+            "showCaseNumber": "Show case number on the invoice",
+            "noCaseNumber": "No case number is registered, so nothing is shown.",
+            "addLine": "Add line",
+            "noLines": "E.g. start-up fee, room rent or status report.",
+            "lineDescription": "Description",
+            "linePlaceholder": "E.g. start-up fee",
+            "lineAmount": "Amount",
+            "lineRecurrence": "Billed",
+            "recurrences": {
+                "one_off": "Once",
+                "recurring": "Every billing period"
+            },
+            "note": "Note"
+        },
+        "invoices": {
+            "title": "Invoices from the extraction",
+            "subtitle": "Select several invoices and send or mark them together.",
+            "filterUnsent": "Not sent",
+            "filterSent": "Sent",
+            "filterAll": "All",
+            "selected": "{count} selected",
+            "markSent": "Mark as sent",
+            "markUnsent": "Mark as not sent",
+            "recipientPlaceholder": "Recipient (otherwise the department e-mail)",
+            "sendEmail": "Send by e-mail",
+            "pushEconomic": "Send to e-conomic as draft",
+            "empty": "No invoices in this view.",
+            "number": "Invoice no.",
+            "billTo": "Recipient",
+            "interventions": "@.capitalize:terms.citizens{''}",
+            "due": "Due",
+            "status": "Status",
+            "sent": "Sent",
+            "notSent": "Not sent",
+            "download": "Open PDF",
+            "partial": "{ok} went through, {failed} failed. See the marked invoices.",
+            "done": "{count} invoice(s) processed.",
+            "reasons": {
+                "no_recipient": "No recipient e-mail",
+                "not_found": "The invoice was not found",
+                "error": "Something went wrong",
+                "not_connected": "e-conomic is not connected",
+                "invoice_not_found": "The invoice was not found",
+                "customer_failed": "The customer could not be created in e-conomic",
+                "invoice_failed": "The draft could not be created in e-conomic",
+                "unknown_action": "Unknown action"
+            }
         }
     },
     "inquiryPipelineStages": {
@@ -15039,7 +15272,8 @@
             "name": "Name",
             "namePlaceholder": "E.g. Clarification",
             "color": "Colour",
-            "role": "Role"
+            "role": "Role",
+            "notifiesRecruitment": "Notifies recruitment"
         },
         "roles": {
             "neutral": "Regular stage",
@@ -15135,13 +15369,14 @@
             "company_contacts": "Contacts",
             "spoken_languages": "Spoken languages",
             "consultant_skills": "Consultant skills (all)",
-            "consultant_skills_competence": "Consultant skills: competences",
-            "consultant_skills_course": "Consultant skills: courses",
-            "consultant_skills_topic": "Consultant skills: subject words",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
             "jobcenters": "Jobcenters",
             "focus_areas": "Focus areas (VUM, adults)",
+            "customer_departments": "Customers and departments",
+            "consultant_skills_competence": "Consultant skills: competences",
+            "consultant_skills_course": "Consultant skills: courses",
+            "consultant_skills_topic": "Consultant skills: subject words",
             "focus_areas_ics": "Focus areas (ICS, children and young people)"
         },
         "allServiceTypes": "All service types",
@@ -15306,7 +15541,12 @@
     },
     "inquiryStageHistory": {
         "empty": "This inquiry has not changed stage yet.",
-        "title": "Stage changes"
+        "title": "Stage changes",
+        "events": {
+            "offer_sent": "Offer sent",
+            "offer_accepted": "Offer accepted",
+            "offer_rejected": "Offer rejected"
+        }
     },
     "consultantMatch": {
         "title": "Consultant match",
@@ -15330,7 +15570,9 @@
             "minTravelKm": "Must travel at least (km)",
             "minWeeklyHours": "At least hours per week",
             "minStep": "At least step assessment",
-            "needsCar": "Needs a car"
+            "needsCar": "Needs a car",
+            "secondaryHint": "A plus. Never counts against the consultant.",
+            "withinTravelRangeOnly": "Only consultants within their travel distance"
         },
         "criteriaNames": {
             "skill_uuids": "Skills",
@@ -15341,11 +15583,26 @@
             "min_travel_km": "Travel distance",
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
-            "min_weekly_hours": "Hours"
+            "min_weekly_hours": "Hours",
+            "primary_spoken_language_uuid": "Primary language",
+            "within_travel_range": "Within travel distance"
         },
         "askSelected": "Ask {count} selected",
         "asked": "The consultants have been asked",
         "askFailed": "The consultants could not be asked",
+        "location": {
+            "none": "No location on the inquiry, so no distances are shown"
+        },
+        "sort": {
+            "match": "Best match",
+            "distance": "Nearest"
+        },
+        "distance": {
+            "unknown": "Distance unknown",
+            "km": "{km} km",
+            "approx": "approx. {km} km"
+        },
+        "secondaryLanguageMet": "Also speaks {language}",
         "prefilled": "Filled in from the inquiry: {fields}. Change or clear before searching."
     },
     "inquiryNotes": {
@@ -15491,7 +15748,8 @@
             "title": "Waiting on others"
         },
         "title": "Task boards",
-        "unassigned": "Nobody assigned"
+        "unassigned": "Nobody assigned",
+        "openInquiry": "Open inquiry"
     },
     "taskTypes": {
         "title": "Task types",
@@ -15905,7 +16163,37 @@
             "derived": "Calculated limit: {limit} requests per day per employee."
         }
     },
+    "inquiryMatchNeeds": {
+        "heading": "Match: language and location",
+        "hint": "Used by the consultant match. The consultant must speak the primary language; the secondary language is a plus.",
+        "primaryLanguage": "Primary language",
+        "secondaryLanguage": "Secondary language",
+        "location": "Location",
+        "locationPlaceholder": "Address or area, e.g. Vesterbro",
+        "postalCode": "Postal code",
+        "pending": "Being placed on the map",
+        "unavailable": "Not placed on the map: map lookup is not set up, so no distance is shown",
+        "notFound": "Could not be found on the map. Check the address or add a postal code",
+        "geocoded": {
+            "address": "Placed from the address",
+            "place": "Placed from the area",
+            "postal_code": "Placed from the postal code (approximate)"
+        }
+    },
     "wellbeing": {
+        "ruler": {
+            "title": "Wellbeing ruler",
+            "optional": "Optional",
+            "hint": "Choose a score from 0 to {max}; half steps are allowed. A row without a score is not saved.",
+            "clear": "Clear",
+            "wholeCase": "Overall"
+        },
+        "development": {
+            "title": "Wellbeing development",
+            "from": "From",
+            "to": "To",
+            "empty": "There are no wellbeing scores in the period yet."
+        },
         "tab": "Wellbeing",
         "title": "Wellbeing",
         "description": "Wellbeing measurements from 0 to 10 for the citizen and related citizens, such as siblings on the same intervention. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
@@ -15935,5 +16223,223 @@
             "citizen": "The child/young person",
             "other": "Other"
         }
+    },
+    "inquiryRecruitment": {
+        "needsRecruitment": "Needs recruitment",
+        "hint": "Turn on when the case lacks a consultant. The recruitment team is told once.",
+        "notifiedAt": "The recruitment team was told on {date}.",
+        "saved": "The recruitment need has been saved",
+        "settings": {
+            "title": "Recruitment team",
+            "description": "The people told when an inquiry is flagged as needing recruitment or enters a stage that notifies recruitment. They get a notification, a push and a mail describing the work, never the person.",
+            "groups": "Employee groups",
+            "users": "Employees",
+            "taskBoard": "Create a task on board",
+            "taskBoardHint": "Optional. The task goes into the board's first column.",
+            "recipientCount": "The message reaches {count} employee(s).",
+            "nobody": "Nobody is told yet. Choose a group or an employee.",
+            "saved": "The recruitment team has been saved"
+        }
+    },
+    "inquiryLost": {
+        "modal": {
+            "title": "Mark as lost",
+            "hint": "Record why the case was lost, so it can be reported on.",
+            "reason": "Reason",
+            "noReasons": "There are no lost reasons to choose from yet. They are set up in the stage settings.",
+            "note": "Elaboration",
+            "notePlaceholder": "What happened?",
+            "price": "Estimated offer price",
+            "pricePlaceholder": "Amount in DKK",
+            "confirm": "Mark as lost"
+        },
+        "detail": {
+            "heading": "Lost case"
+        },
+        "report": {
+            "open": "Lost cases",
+            "title": "Lost cases",
+            "subtitle": "Count and lost revenue per reason in the period.",
+            "from": "From",
+            "to": "To",
+            "totalCount": "Lost cases",
+            "totalRevenue": "Lost revenue",
+            "byReason": "Per reason",
+            "empty": "No lost cases in the period.",
+            "noReason": "No reason",
+            "cases": "Cases: {count}",
+            "withoutPrice": "without price: {count}",
+            "lostCases": "The cases",
+            "lostAt": "Lost",
+            "case": "Case"
+        },
+        "settings": {
+            "title": "Lost reasons",
+            "description": "The reasons to choose from when a case is marked as lost. A reason that has been used can only be deactivated, so the report keeps its history.",
+            "namePlaceholder": "E.g. price or lack of capacity",
+            "active": "Active",
+            "delete": "Delete reason",
+            "empty": "No lost reasons yet.",
+            "newReason": "New reason",
+            "add": "Add reason"
+        }
+    },
+    "inquiryOffer": {
+        "title": "Offer",
+        "hint": "Preliminary calculation, versions, sending and the municipality's answer.",
+        "newVersion": "New version",
+        "newCalculation": "New calculation",
+        "specialLanguageBanner": "Special language chosen on the inquiry: {languages}. The surcharge is added to the calculation automatically.",
+        "empty": "No offer has been made yet.",
+        "version": "Version {version}",
+        "statuses": {
+            "draft": "Draft",
+            "sent": "Sent",
+            "accepted": "Accepted",
+            "rejected": "Rejected",
+            "superseded": "Replaced"
+        },
+        "specialLanguage": "Special language",
+        "overdue": "Deadline passed",
+        "perMonth": "per month",
+        "perWeek": "per week",
+        "hoursPerWeek": "hours per week",
+        "total": "Total",
+        "sentOn": "sent {date}",
+        "deadlineOn": "deadline {date}",
+        "respondedOn": "answered {date}",
+        "rejectionReason": "Reason for rejection",
+        "startWishes": "Wishes for the start",
+        "edit": "Edit",
+        "hideDetails": "Hide calculation",
+        "showDetails": "Show calculation",
+        "send": "Send offer",
+        "registerAnswer": "Register answer",
+        "delete": "Delete",
+        "editingVersion": "Edit version {version}",
+        "newDraft": "New draft",
+        "inputs": {
+            "contact_hours_per_session": "Contact hours per session",
+            "sessions_per_week": "Sessions per week",
+            "admin_hours_per_session": "Extra admin time per session (hours)",
+            "transport_hours_per_session": "Estimated travel time per session (hours)",
+            "reports_per_month": "Reports per month",
+            "duration_weeks": "Duration (weeks)",
+            "price_date": "Price date",
+            "supervision": "Supervision",
+            "room": "Own rooms",
+            "special_language": "Special language"
+        },
+        "specialLanguageAuto": "Automatic from the inquiry",
+        "yes": "Yes",
+        "no": "No",
+        "adjustPrices": "Adjust prices for this offer",
+        "overrides": {
+            "hourly_rate": "Hourly rate",
+            "admin_hourly_rate": "Hourly rate, administration",
+            "transport_hourly_rate": "Hourly rate, travel",
+            "special_language_surcharge": "Special language surcharge per hour",
+            "supervision_price_per_week": "Supervision per week",
+            "room_price_per_session": "Room per session",
+            "reporting_price_per_report": "Price per report",
+            "weeks_per_month": "Weeks per month"
+        },
+        "extraItems": "Other surcharges and deductions",
+        "extraLabel": "Text",
+        "extraAmount": "Amount",
+        "per": {
+            "week": "per week",
+            "month": "per month",
+            "once": "one-off"
+        },
+        "addExtraItem": "Add line",
+        "consultants": "Presentation of the chosen consultants",
+        "consultantsHint": "The consultants chosen for the case are presented in the offer with skills and languages. Add a short presentation if you like.",
+        "consultantNotePlaceholder": "Short presentation for the municipality",
+        "note": "Remarks",
+        "saveDraft": "Save draft",
+        "sendTitle": "Send offer",
+        "sentAt": "Sent",
+        "deadlineDays": "Reply deadline (days)",
+        "deadlinePreview": "The municipality must answer by {date}.",
+        "reminderHint": "You and the person who made the offer are reminded when the deadline approaches, and again if it passes.",
+        "answerTitle": "Register the municipality's answer",
+        "respondedAt": "Date of answer",
+        "startWishesPlaceholder": "E.g. preferred start date or adjustments",
+        "remarks": "Remarks",
+        "acceptHint": "The inquiry moves to the won stage. When it is converted, price and hours are carried over to the contract fields.",
+        "rejectHint": "The inquiry moves to the lost stage, and the reason is kept in the decision log.",
+        "confirmDelete": "Do you want to delete the draft",
+        "fromCatalogue": "from the catalogue",
+        "saved": "The offer has been saved",
+        "saveFailed": "The offer could not be saved",
+        "sentAlert": "The offer is registered as sent",
+        "answerSaved": "The answer has been registered",
+        "stageBlocked": "The answer is registered, but the inquiry could not be moved because these fields are missing: {fields}",
+        "fileName": "offer-version-{version}",
+        "downloadFailed": "The document could not be downloaded",
+        "specialLanguageChosen": "Special language: {languages}",
+        "result": {
+            "item": "Item",
+            "quantity": "Hours/qty",
+            "unitPrice": "Price",
+            "perWeek": "Per week",
+            "weeklyPrice": "Price per week",
+            "monthlyPrice": "Price per month",
+            "totalPrice": "Total price",
+            "weeklyHours": "Hours per week",
+            "assumptions": "Assumptions"
+        }
+    },
+    "inquiryOfferSettings": {
+        "title": "Offers and prices",
+        "description": "Rates per service type, the shared prices, special languages and the offer template. Prices are revised by adding a new version with a start date, so earlier offers can still be explained with the prices that applied then.",
+        "rates": {
+            "title": "Rates per service type",
+            "hint": "The hourly rate for contact hours. Administration and travel use the same rate unless a separate one is set.",
+            "serviceType": "Service type",
+            "hourly_rate": "Hourly rate",
+            "admin_hourly_rate": "Administration",
+            "transport_hourly_rate": "Travel",
+            "empty": "No rates have been set yet."
+        },
+        "validFrom": "Valid from",
+        "note": "Note",
+        "add": "Add",
+        "fromDate": "From {date}",
+        "prices": {
+            "title": "Shared prices",
+            "hint": "Surcharges for special language, supervision, rooms and reporting. Add a new version at the yearly price revision.",
+            "special_language_surcharge": "Special language per hour",
+            "supervision_price_per_week": "Supervision per week",
+            "room_price_per_session": "Room per session",
+            "reporting_price_per_report": "Price per report",
+            "weeks_per_month": "Weeks per month",
+            "special_language_applies_to": "Special language surcharge applies to",
+            "appliesContact": "The contact hours",
+            "appliesAll": "All hours",
+            "addRevision": "Add version",
+            "empty": "No prices have been set yet."
+        },
+        "languages": {
+            "title": "Special languages",
+            "hint": "Mark the languages that trigger the special language surcharge. All other languages count as common languages.",
+            "search": "Search languages",
+            "count": "{count} languages marked as special"
+        },
+        "template": {
+            "title": "Offer template",
+            "hint": "The texts are merged into the offer as PDF and Word. You can use these fields: {placeholders}",
+            "documentTitle": "Heading",
+            "documentTitlePlaceholder": "Offer",
+            "intro": "Introduction",
+            "introPlaceholder": "Text before the price calculation",
+            "terms": "Closing and terms",
+            "termsPlaceholder": "Text after the price calculation",
+            "deadlineDays": "Default reply deadline (days)",
+            "reminderDaysBefore": "Reminder days before the deadline"
+        },
+        "saved": "Saved",
+        "saveFailed": "Could not be saved"
     }
 }

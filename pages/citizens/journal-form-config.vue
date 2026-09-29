@@ -54,6 +54,19 @@
                                 </p>
                             </div>
 
+                            <div class="border-t border-gray-100 pt-4 space-y-2">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.isWellbeingRulerVisible"
+                                        @toggleSwitch="state.isWellbeingRulerVisible = !state.isWellbeingRulerVisible" />
+                                    <p class="text-sm text-gray-700">
+                                        {{ $t('journalFormConfig.wellbeingRulerToggle') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">
+                                    {{ $t('journalFormConfig.wellbeingRulerDescription') }}
+                                </p>
+                            </div>
+
                             <div class="pt-2">
                                 <FormButton type="button" buttonStyle="primary" class="w-full"
                                     @click="submitFormFieldConfig()">
@@ -98,6 +111,9 @@ const state = reactive({
     isPageLoading: false,
     isRiskAssessmentVisible: true,
     isScoreVisible: true,
+    // Off unless switched on: the ruler is an opt-in for the companies that
+    // measure wellbeing, not a field every journal form should grow.
+    isWellbeingRulerVisible: false,
 })
 
 onMounted(() => {
@@ -122,6 +138,9 @@ async function fetchFormFieldConfigs() {
 
             const scoreValue = createConfig?.form_fields?.score ?? editConfig?.form_fields?.score
             state.isScoreVisible = scoreValue !== false
+
+            const rulerValue = createConfig?.form_fields?.wellbeing_ruler ?? editConfig?.form_fields?.wellbeing_ruler
+            state.isWellbeingRulerVisible = rulerValue === true
         }
     } catch (error: any) {
         state.error = error
@@ -138,12 +157,20 @@ async function submitFormFieldConfig() {
         await formFieldConfigService.updateFormConfig({
             entity_type: 'citizen_journal',
             form_type: 'create',
-            form_fields: { risk_assessment: state.isRiskAssessmentVisible, score: state.isScoreVisible },
+            form_fields: {
+                risk_assessment: state.isRiskAssessmentVisible,
+                score: state.isScoreVisible,
+                wellbeing_ruler: state.isWellbeingRulerVisible,
+            },
         })
         await formFieldConfigService.updateFormConfig({
             entity_type: 'citizen_journal',
             form_type: 'edit',
-            form_fields: { risk_assessment: state.isRiskAssessmentVisible, score: state.isScoreVisible },
+            form_fields: {
+                risk_assessment: state.isRiskAssessmentVisible,
+                score: state.isScoreVisible,
+                wellbeing_ruler: state.isWellbeingRulerVisible,
+            },
         })
         successAlert(`${t('alert.success')}!`, `${t('journalFormConfig.alert.successfullyUpdated')}.`)
         navigateTo('/citizens')

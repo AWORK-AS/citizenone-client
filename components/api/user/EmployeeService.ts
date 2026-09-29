@@ -17,6 +17,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/update`, 'POST', params)
     }
 
+    async bulkUpdateEmployees(params: object): Promise<any> {
+        return await this.request(`/user/employees/bulk-update`, 'POST', params)
+    }
+
     async archiveEmployee(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/archive`, 'PUT')
     }

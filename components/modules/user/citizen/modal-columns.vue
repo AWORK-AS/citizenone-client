@@ -38,6 +38,11 @@ const OPTIONAL_COLUMNS = [
     { key: 'section', label: 'citizens.table.section' },
     { key: 'municipality', label: 'citizens.table.municipality' },
     { key: 'coordinator', label: 'citizens.table.coordinator' },
+    { key: 'consultant', label: 'citizens.table.consultant' },
+    { key: 'startup_status', label: 'citizens.table.startupStatus' },
+    { key: 'phase', label: 'citizens.table.phase' },
+    { key: 'scope', label: 'citizens.table.scope' },
+    { key: 'geography', label: 'citizens.table.geography' },
     { key: 'department', label: 'citizens.table.department' },
     { key: 'admitted', label: 'citizens.table.admitted' },
 ]

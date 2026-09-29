@@ -121,6 +121,7 @@ async function updateCrisisCenterInquiry(inquiryDetails: any) {
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
+            ...(inquiryDetails.match_needs ?? {}),
         }
         const response = await citizenInquiryService.updateInquiry(inquiryUuid, params)
         if (response?.data) {
@@ -160,6 +161,7 @@ async function updateShelterInquiry(inquiryDetails: any) {
             outcome: inquiryDetails.outcome,
             purpose: inquiryDetails.purpose,
             conversation_summary: inquiryDetails.conversation_summary,
+            ...(inquiryDetails.match_needs ?? {}),
         }
         const response = await citizenInquiryService.updateInquiry(inquiryUuid, params)
         if (response?.data) {
