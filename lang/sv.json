@@ -6694,8 +6694,7 @@
     },
     "employees": {
         "alert": {
-            "employeeSuccessfullyArchived": "Anställd arkiverad",
-            "employeeSuccessfullyDeleted": "Anställd raderad"
+            "employeeSuccessfullyArchived": "Anställd arkiverad"
         },
         "archiveEmployee": "Arkiver anställd",
         "archivedEmployees": "Arkiverade anställda",
@@ -6720,11 +6719,8 @@
         },
         "confirmation": {
             "archiveConfirmation": "Är du säker på att du vill arkivere denna anställd",
-            "deletePermanentlyConfirmation": "Är du säker på att du vill radera denna anställd permanent",
-            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, att du ska opbevare medarbejderoplysninger i 5 år",
-            "thisCantBeUndone": "Detta kan inte fortrydes"
+            "archiveExplanation": "Den anställde kan inte längre logga in och tas bort från listor över aktiva anställda. Journalanteckningar, dokumentation och historik behålls, och den anställde visas fortfarande som författare. Du kan när som helst återställa den anställde under Inställningar → Arkiverad"
         },
-        "deleteEmployee": "Radera anställd",
         "documents": {
             "alert": {
                 "documentSuccessfullyArchived": "Dokument arkiverad",
@@ -11157,10 +11153,13 @@
         "accounts": {
             "accounts": "Konton",
             "alert": {
-                "deletedSuccessfully": "Konto raderad"
+                "archivedSuccessfully": "Kontot har arkiverats",
+                "restoredSuccessfully": "Kontot har återställts"
             },
             "confirmation": {
-                "deleteConfirmation": "Är du säker på att du vill radera denna konto"
+                "archiveConfirmation": "Är du säker på att du vill arkivera detta konto",
+                "restoreConfirmation": "Är du säker på att du vill återställa detta konto",
+                "archiveExplanation": "Den anställde kan inte längre logga in och tas bort från företagets listor över aktiva anställda. Journalanteckningar, dokumentation och historik behålls, och den anställde visas fortfarande som författare. Kontot kan återställas när som helst"
             },
             "editAccount": "Redigera konto",
             "form": {
@@ -11191,14 +11190,16 @@
                 "actions": {
                     "activate": "Aktivera",
                     "deactivate": "Deaktiver",
-                    "delete": "Radera",
                     "edit": "Redigera",
-                    "impersonate": "Logga in som klient"
+                    "impersonate": "Logga in som klient",
+                    "archive": "Arkivera",
+                    "restore": "Återställ"
                 },
                 "email": "E-post",
                 "name": "Namn",
                 "phone": "Telefon",
-                "role": "Roll"
+                "role": "Roll",
+                "archived": "Arkiverad"
             }
         },
         "apps": {

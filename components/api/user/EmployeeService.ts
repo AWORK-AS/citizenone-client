@@ -17,8 +17,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/update`, 'POST', params)
     }
 
-    async archiveEmployee(employeeUuid: any): Promise<any> {
-        return await this.request(`/user/employees/${employeeUuid}/archive`, 'PUT')
+    // Employees are archived (true) or restored (false), never deleted, so
+    // their journals and history stay intact.
+    async archiveEmployee(employeeUuid: any, archived: boolean): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/archive`, 'PUT', { archived })
     }
 
     async assignCitizen(employeeUuid: any, params: object): Promise<any> {
@@ -27,10 +29,6 @@ class EmployeeService extends BaseAPIService {
 
     async getArchivedEmployees(params: object): Promise<any> {
         return await this.request(`/user/employees/archived/list`, 'GET', params)
-    }
-
-    async deleteEmployee(employeeUuid: any): Promise<any> {
-        return await this.request(`/user/employees/${employeeUuid}`, 'DELETE')
     }
 
     async toggleAILicense(employeeUuid: any): Promise<any> {

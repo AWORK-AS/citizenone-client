@@ -307,6 +307,13 @@ onMounted(() => {
 		return
 	}
 
+	// Google/Microsoft SSO sends a refused login (archived or inactive account,
+	// provider failure) back here as ?error=<message>.
+	const ssoError = route.query.error
+	if (typeof ssoError === 'string' && ssoError.length > 0) {
+		state.error = { message: ssoError } as Error
+	}
+
 	const rememberMe = localStorage.getItem("rememberMe")
 	if (rememberMe) {
 		navigateTo(resolvePostLoginRedirect(userStore.getUser?.role, userStore.getUser))

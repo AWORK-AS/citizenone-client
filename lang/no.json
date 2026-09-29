@@ -6694,8 +6694,7 @@
     },
     "employees": {
         "alert": {
-            "employeeSuccessfullyArchived": "Medarbeider arkivert vellykket",
-            "employeeSuccessfullyDeleted": "Medarbeider slettet vellykket"
+            "employeeSuccessfullyArchived": "Medarbeider arkivert vellykket"
         },
         "archiveEmployee": "Arkiver medarbeider",
         "archivedEmployees": "Arkiverte medarbeidere",
@@ -6720,11 +6719,8 @@
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på at du vil arkivere denne medarbeider",
-            "deletePermanentlyConfirmation": "Er du sikker på at du vil slette denne medarbeider permanent",
-            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbeideroplysninger i 5 år",
-            "thisCantBeUndone": "Dette kan ikke angres"
+            "archiveExplanation": "Medarbeideren kan ikke lenger logge inn og fjernes fra aktive medarbeiderlister. Journalnotater, dokumentasjon og historikk beholdes, og medarbeideren vises fortsatt som forfatter. Du kan når som helst gjenopprette medarbeideren under Innstillinger → Arkivert"
         },
-        "deleteEmployee": "Slett medarbeider",
         "documents": {
             "alert": {
                 "documentSuccessfullyArchived": "Dokument arkivert vellykket",
@@ -11157,10 +11153,13 @@
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
-                "deletedSuccessfully": "Konto slettet vellykket"
+                "archivedSuccessfully": "Kontoen er arkivert",
+                "restoredSuccessfully": "Kontoen er gjenopprettet"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på at du vil slette denne konto"
+                "archiveConfirmation": "Er du sikker på at du vil arkivere denne kontoen",
+                "restoreConfirmation": "Er du sikker på at du vil gjenopprette denne kontoen",
+                "archiveExplanation": "Medarbeideren kan ikke lenger logge inn og fjernes fra virksomhetens aktive medarbeiderlister. Journalnotater, dokumentasjon og historikk beholdes, og medarbeideren vises fortsatt som forfatter. Kontoen kan når som helst gjenopprettes"
             },
             "editAccount": "Rediger konto",
             "form": {
@@ -11191,14 +11190,16 @@
                 "actions": {
                     "activate": "Aktiver",
                     "deactivate": "Deaktiver",
-                    "delete": "Slett",
                     "edit": "Rediger",
-                    "impersonate": "Logg inn som klient"
+                    "impersonate": "Logg inn som klient",
+                    "archive": "Arkiver",
+                    "restore": "Gjenopprett"
                 },
                 "email": "E-post",
                 "name": "Navn",
                 "phone": "Telefon",
-                "role": "Rolle"
+                "role": "Rolle",
+                "archived": "Arkivert"
             }
         },
         "apps": {
