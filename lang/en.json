@@ -85,6 +85,7 @@
     },
     "companyModules": {
         "Economy": "Economy",
+        "Wellbeing": "Wellbeing",
         "Journals": "Journals",
         "Medicine card": "Medicine card",
         "Plans and goals": "Plans and goals",
