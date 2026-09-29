@@ -72,14 +72,26 @@ function resolveDeadline(time: string): { h: number; m: number; wrapsToNextDay: 
     return { h, m, wrapsToNextDay }
 }
 
-function scheduledFor(time: string, now: Date): Date | null {
+// Optional "YYYY-MM-DD" (a backend due-date bucket key) to anchor the slot to
+// instead of today. The multi-day dashboard overview (AW-2026-6579) renders
+// chips for past and future dates too; without this, every chip was judged
+// against today's clock, so a past day's slot could read "not missed" and a
+// future day's slot "due soon". Parsed as a LOCAL date — `new Date('2026-09-23')`
+// would be UTC midnight and land on the previous day west of Greenwich.
+function anchorDate(date: string | null | undefined, now: Date): Date {
+    const match = date?.match(/^(\d{4})-(\d{2})-(\d{2})/)
+    if (!match) return new Date(now)
+    return new Date(Number(match[1]), Number(match[2]) - 1, Number(match[3]))
+}
+
+function scheduledFor(time: string, now: Date, date?: string | null): Date | null {
     const deadline = resolveDeadline(time)
     if (!deadline) return null
 
     // Always shift a wrapped range's deadline to the next calendar day,
     // unconditionally — see the header comment for why this doesn't depend
     // on what time "now" currently is.
-    const scheduled = new Date(now)
+    const scheduled = anchorDate(date, now)
     scheduled.setHours(deadline.h, deadline.m, 0, 0)
     if (deadline.wrapsToNextDay) {
         scheduled.setDate(scheduled.getDate() + 1)
@@ -88,14 +100,14 @@ function scheduledFor(time: string, now: Date): Date | null {
 }
 
 export function medicineDoseTiming() {
-    function isMissed(time: string, now: Date): boolean {
-        const scheduled = scheduledFor(time, now)
+    function isMissed(time: string, now: Date, date?: string | null): boolean {
+        const scheduled = scheduledFor(time, now, date)
         if (!scheduled) return false
         return now > scheduled
     }
 
-    function isDueSoon(time: string, now: Date): boolean {
-        const scheduled = scheduledFor(time, now)
+    function isDueSoon(time: string, now: Date, date?: string | null): boolean {
+        const scheduled = scheduledFor(time, now, date)
         if (!scheduled) return false
         const diff = scheduled.getTime() - now.getTime()
         return diff > 0 && diff <= 60 * 60 * 1000
