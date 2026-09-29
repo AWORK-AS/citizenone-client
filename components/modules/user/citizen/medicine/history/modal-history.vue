@@ -35,8 +35,12 @@
                             <div class="flex flex-wrap gap-2">
                                 <button v-for="pending in pendingEvaluations" :key="pending.key" type="button"
                                     @click="createEvaluation(pending)"
-                                    class="inline-flex items-center gap-1.5 text-xs bg-white border border-amber-300 text-amber-800 px-3 py-1.5 rounded-lg hover:bg-amber-100 transition-colors font-medium">
-                                    <Icon name="ph:clock" class="size-3" />
+                                    :class="[
+                                        pending.isForgotten ? 'border-red-300 text-red-700 hover:bg-red-50' : 'border-amber-300 text-amber-800 hover:bg-amber-100',
+                                        'inline-flex items-center gap-1.5 text-xs bg-white border px-3 py-1.5 rounded-lg transition-colors font-medium'
+                                    ]">
+                                    <Icon :name="pending.isForgotten ? 'ph:warning' : 'ph:clock'" class="size-3" />
+                                    <template v-if="pending.isForgotten">{{ $t('overview.medicationOverview.forgotten') }} ·</template>
                                     {{ $t('citizens.medicineJournals.historyModal.evaluateAt') }}
                                     {{ pending.time }} — {{ pending.medicine_name }}
                                 </button>
@@ -143,8 +147,12 @@
                                                     <template v-else>
                                                         <button type="button"
                                                             @click="createEvaluation({ time: evalTime, medicine_name: getEntryMedicineName(), entry })"
-                                                            class="inline-flex items-center gap-1.5 text-xs bg-amber-50 border border-amber-300 text-amber-800 px-2.5 py-1.5 rounded-lg hover:bg-amber-100 transition-colors font-medium">
-                                                            <Icon name="ph:clock" class="size-3" />
+                                                            :class="[
+                                                                isForgotten(entry, evalTime) ? 'bg-red-50 border-red-300 text-red-700 hover:bg-red-100' : 'bg-amber-50 border-amber-300 text-amber-800 hover:bg-amber-100',
+                                                                'inline-flex items-center gap-1.5 text-xs border px-2.5 py-1.5 rounded-lg transition-colors font-medium'
+                                                            ]">
+                                                            <Icon :name="isForgotten(entry, evalTime) ? 'ph:warning' : 'ph:clock'" class="size-3" />
+                                                            <template v-if="isForgotten(entry, evalTime)">{{ $t('overview.medicationOverview.forgotten') }} ·</template>
                                                             {{
                                                                 $t('citizens.medicineJournals.historyModal.evaluateAt')
                                                             }} {{
@@ -364,6 +372,7 @@ const pendingEvaluations = computed(() => {
                 pending.push({
                     key: `${entry.uuid}_${time}`,
                     time,
+                    isForgotten: isForgotten(entry, time),
                     medicine_name: getEntryMedicineName(),
                     entry,
                 })
@@ -397,6 +406,14 @@ function getEntryMedicineName(): string {
 function isEvaluated(entry: any, evalTime: string): boolean {
     const normalized = normalizeTime(evalTime)
     return entry.effect_evaluations?.some((e: any) => normalizeTime(e.time) === normalized) ?? false
+}
+
+// Status comes from the backend (evaluation_slots) so this screen and the
+// dashboard's effect-evaluation widget always agree on what is forgotten.
+// The backend keys a slot by its leading HH:mm ("13:00 - 17:00" -> "13:00").
+function isForgotten(entry: any, evalTime: string): boolean {
+    const normalized = evalTime?.trim().match(/^(\d{2}:\d{2})/)?.[1] ?? evalTime
+    return entry.evaluation_slots?.some((slot: any) => slot.time === normalized && slot.status === 'forgotten') ?? false
 }
 
 function normalizeTime(time: string): string {
