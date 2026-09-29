@@ -64,6 +64,10 @@
                                         <FormError :error="v$?.formChat?.message?.$errors[0]?.$message.toString()" />
                                         <FormError :error="state?.error?.errors?.message?.[0]" />
                                     </div>
+                                    <div class="space-y-1">
+                                        <ModulesCitizenMessagesAttachmentPicker v-model="state.formChat.files" />
+                                        <FormError :error="attachmentError" />
+                                    </div>
                                 </div>
                                 <div class="mt-6">
                                     <FormButton type="submit" buttonStyle="primary" class="w-full">
@@ -81,7 +85,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { patientMessageService as messageService } from '@/components/api/patient/MessageService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
@@ -103,8 +107,9 @@ const state = reactive({
     error: {} as Error,
     formChat: {
         message: '',
-        receivers: [],
+        receivers: [] as any,
         subject: '',
+        files: [] as File[],
     },
     isPageLoading: false,
     showStartConversation: false,
@@ -121,8 +126,10 @@ onMounted(() => {
 const rules = computed(() => {
     return {
         formChat: {
+            // A conversation can open with just a file, as a reply can.
             message: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`,
+                    requiredIf(() => state.formChat.files.length === 0)),
             },
             receivers: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
@@ -132,6 +139,13 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+// The server reports file errors per index (file.0, file.1, ...).
+const attachmentError = computed(() => {
+    const errors = (state?.error as any)?.errors ?? {}
+    const key = Object.keys(errors).find((name) => name === 'file' || name.startsWith('file.'))
+    return key ? errors[key]?.[0] : ''
+})
 
 async function fetchAllAvailableChatUsers() {
     state.error = {}
@@ -173,12 +187,21 @@ async function sendMessage() {
     if (!v$.value.$error) {
         state.isPageLoading = true
         try {
-            const params = {
+            const receivers = userStore.getUser?.company?.group_chat_enabled ?
+                state.formChat.receivers :
+                [state.formChat.receivers]
+            // Files need multipart; everything else keeps going as JSON.
+            let params: any = {
                 subject: state.formChat.subject,
                 message: state.formChat.message,
-                receiver_uuid: userStore.getUser?.company?.group_chat_enabled ?
-                    state.formChat.receivers :
-                    [state.formChat.receivers]
+                receiver_uuid: receivers,
+            }
+            if (state.formChat.files.length > 0) {
+                params = new FormData()
+                params.append('subject', state.formChat.subject ?? '')
+                params.append('message', state.formChat.message ?? '')
+                receivers.forEach((uuid: string) => params.append('receiver_uuid[]', uuid))
+                state.formChat.files.forEach((file: File) => params.append('file[]', file))
             }
             const response = await messageService.sendMessageViaReceiverUuid(params)
             if (response) {
