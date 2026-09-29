@@ -101,11 +101,33 @@
                             {{ $t('table.clearFilters') }}
                         </button>
                     </div>
+                    <div class="flex flex-wrap items-center gap-3 rounded-lg bg-slate-50 px-4 py-2"
+                        v-if="canBulkEdit && state.selectedEmployees.length > 0">
+                        <span class="text-sm font-medium text-slate-700">
+                            {{ $t('employees.bulkEdit.selected', { count: state.selectedEmployees.length }) }}
+                        </span>
+                        <FormButton buttonStyle="action" @click="state.modal.isBulkEditOpen = true">
+                            <Icon name="ph:pencil-simple-line" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('employees.bulkEdit.action') }}
+                        </FormButton>
+                        <button type="button" class="text-xs font-medium text-tertiary hover:underline"
+                            @click="clearSelection">
+                            {{ $t('employees.bulkEdit.clearSelection') }}
+                        </button>
+                    </div>
                     <div class="table-responsive">
-                        <Table :columnHeaders="state.columnHeaders" :data="state.employees"
-                            :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort">
-                            <template #body v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
+                        <Table :key="state.tableKey" :columnHeaders="state.columnHeaders" :data="state.employees"
+                            :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort"
+                            :selection="canBulkEdit" rowKey="uuid" @selection-change="onSelectionChange">
+                            <template #body="{ selectedRows, handleRowSelect }"
+                                v-if="!(state.isTableLoading || (state.employees?.data?.length === 0))">
                                 <tr v-for="(employee, index) in state.employees?.data" :key="index">
+                                    <td width="50" v-if="canBulkEdit">
+                                        <input type="checkbox" :aria-label="`${employee?.firstname} ${employee?.lastname}`"
+                                            :checked="selectedRows.some((row: any) => row.uuid === employee.uuid)"
+                                            @change="handleRowSelect(employee)"
+                                            class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
+                                    </td>
                                     <td width="30%">
                                         <div class="flex items-center gap-x-2">
                                             <div class="relative">
@@ -208,6 +230,9 @@
                 :message="$t('employees.table.confirmation.bookingAccessConfirmation') + '?'"
                 @close="state.modal.isGiveBookingAccessOpen = false" @confirm="giveBookingAccess" />
 
+            <ModulesUserEmployeeModalBulkEdit :isModalOpen="state.modal.isBulkEditOpen"
+                :employees="state.selectedEmployees" @close="closeBulkEdit" @updated="state.bulkEditDone = true" />
+
             <ModulesUserEmployeeModalFilter :isModalOpen="state.modal.isFilterOpen" :filter="state.propertyFilter"
                 @close="state.modal.isFilterOpen = false" @setFilter="applyFilter" />
 
@@ -272,9 +297,36 @@ const state = reactive({
         isGiveAIAccessOpen: false,
         isGiveBookingAccessOpen: false,
         isGuidedTourEmployeesOpen: false,
+        isBulkEditOpen: false,
     },
     selectedEmployee: {} as any,
+    // Bulk edit: the rows ticked on this page. Re-keying the table clears its
+    // own copy of the selection whenever the list is fetched again.
+    selectedEmployees: [] as any[],
+    tableKey: 0,
+    bulkEditDone: false,
 })
+
+// Same bar as editing a single employee's role and groups on the card.
+const canBulkEdit = computed(() => isAtLeast('Admin'))
+
+function onSelectionChange(rows: any[]) {
+    state.selectedEmployees = [...rows]
+}
+
+function clearSelection() {
+    state.selectedEmployees = []
+    state.tableKey++
+}
+
+function closeBulkEdit() {
+    state.modal.isBulkEditOpen = false
+
+    if (state.bulkEditDone) {
+        state.bulkEditDone = false
+        fetchEmployees()
+    }
+}
 
 watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     if (newValue != null) {
@@ -292,6 +344,7 @@ function openGuidedTour() {
 
 async function fetchEmployees() {
     state.error = {}
+    clearSelection()
     state.isTableLoading = true
     try {
         const params = {

@@ -95,6 +95,11 @@
                             <p v-if="task.description" class="mt-1.5 line-clamp-2 text-[12px] text-slate-500">
                                 {{ task.description }}
                             </p>
+                            <NuxtLink v-if="task.linked_inquiry" :to="`/inquiries/${task.linked_inquiry.uuid}`"
+                                class="mt-1.5 inline-flex items-center gap-1 text-[12px] font-semibold text-primary-600 hover:underline">
+                                <Icon name="ph:arrow-square-out" class="size-3.5" />
+                                {{ $t('taskBoards.openInquiry') }}
+                            </NuxtLink>
 
                             <div class="mt-2 flex flex-wrap items-center gap-1.5">
                                 <span v-if="task.type"

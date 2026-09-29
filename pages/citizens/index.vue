@@ -432,10 +432,30 @@
                                         <span>{{ citizen?.responsible_municipality?.name }}</span>
                                     </td>
                                     <td width="15%" v-if="state.visibleColumns.includes('coordinator')">
-                                        <span v-if="citizen?.primary_case_worker">
+                                        <span v-if="citizen?.coordinator_name">{{ citizen.coordinator_name }}</span>
+                                        <span v-else-if="citizen?.primary_case_worker">
                                             {{ citizen.primary_case_worker.firstname }}
                                             {{ citizen.primary_case_worker.lastname }}
                                         </span>
+                                    </td>
+                                    <td width="15%" v-if="state.visibleColumns.includes('consultant')">
+                                        <span>{{ citizen?.consultant?.name }}</span>
+                                    </td>
+                                    <td width="12%" v-if="state.visibleColumns.includes('startup_status')">
+                                        <span v-if="citizen?.startup_status"
+                                            class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-semibold"
+                                            :class="startupStatusClass(citizen.startup_status)">
+                                            {{ $t(`citizens.table.startupStatuses.${citizen.startup_status}`) }}
+                                        </span>
+                                    </td>
+                                    <td width="10%" v-if="state.visibleColumns.includes('phase')">
+                                        <span v-if="citizen?.phase">{{ $t(`citizens.table.phases.${citizen.phase}`) }}</span>
+                                    </td>
+                                    <td width="10%" v-if="state.visibleColumns.includes('scope')">
+                                        <span>{{ formatScope(citizen) }}</span>
+                                    </td>
+                                    <td width="12%" v-if="state.visibleColumns.includes('geography')">
+                                        <span>{{ [citizen?.region_name, citizen?.address?.post_code].filter(Boolean).join(', ') }}</span>
                                     </td>
                                     <td width="15%" v-if="state.visibleColumns.includes('department')">
                                         <span>{{ citizen?.departments?.map((d: any) => d?.name).join(', ') }}</span>
@@ -675,14 +695,43 @@ const OPTIONAL_COLUMN_HEADERS: Record<string, any> = {
     email: { name: 'citizens.table.email', isTranslateName: true, sorter: true, key: 'email' },
     ssn: { name: 'citizens.table.ssn', isTranslateName: true, sorter: true, key: 'social_security_number' },
     phone: { name: 'citizens.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
-    // The columns a coordinator runs the day from. No sorter on the ones that
-    // live on a related table: the list sorts in SQL on a citizens column, and
-    // offering a sort that silently does nothing is worse than not offering it.
-    section: { name: 'citizens.table.section', isTranslateName: true },
-    municipality: { name: 'citizens.table.municipality', isTranslateName: true },
-    coordinator: { name: 'citizens.table.coordinator', isTranslateName: true },
+    // The columns a coordinator runs the day from. The ones read off another
+    // table sort on a key the backend derives in the list query itself
+    // (CitizenListColumns), so the sort is on exactly what the column shows.
+    section: { name: 'citizens.table.section', isTranslateName: true, sorter: true, key: 'section_name' },
+    municipality: { name: 'citizens.table.municipality', isTranslateName: true, sorter: true, key: 'municipality_name' },
+    coordinator: { name: 'citizens.table.coordinator', isTranslateName: true, sorter: true, key: 'coordinator_name' },
+    consultant: { name: 'citizens.table.consultant', isTranslateName: true, sorter: true, key: 'consultant_name' },
+    startup_status: { name: 'citizens.table.startupStatus', isTranslateName: true, sorter: true, key: 'startup_status' },
+    phase: { name: 'citizens.table.phase', isTranslateName: true, sorter: true, key: 'phase' },
+    scope: { name: 'citizens.table.scope', isTranslateName: true, sorter: true, key: 'allocated_weekly_hours' },
+    geography: { name: 'citizens.table.geography', isTranslateName: true, sorter: true, key: 'region_name' },
     department: { name: 'citizens.table.department', isTranslateName: true },
     admitted: { name: 'citizens.table.admitted', isTranslateName: true, sorter: true, key: 'date_admitted' },
+}
+
+function startupStatusClass(status: string) {
+    if (status === 'started') return 'bg-[#e6f6ee] text-[#1f9d6b]'
+    if (status === 'ready') return 'bg-[#dcf1f7] text-[#1b6d8a]'
+
+    return 'bg-[#fdf3df] text-[#8a6208]'
+}
+
+/**
+ * Granted hours in the unit they were agreed in. The server picks the source:
+ * today's contract period, then the stay's agreed hours, then the allocation.
+ */
+function formatScope(citizen: any) {
+    const hours = (value: any) => new Intl.NumberFormat('da-DK', { maximumFractionDigits: 2 }).format(Number(value))
+    const units: Record<string, string> = { weekly: 'week', monthly: 'month', daily: 'day', total: 'total' }
+    if (citizen?.scope_hours != null && units[citizen?.scope_interval]) {
+        return `${hours(citizen.scope_hours)} ${t('citizens.table.scopeUnits.' + units[citizen.scope_interval])}`
+    }
+    if (citizen?.allocated_weekly_hours) return `${hours(citizen.allocated_weekly_hours)} ${t('citizens.table.scopeUnits.week')}`
+    if (citizen?.allocated_monthly_hours) return `${hours(citizen.allocated_monthly_hours)} ${t('citizens.table.scopeUnits.month')}`
+    if (citizen?.allocated_daily_hours) return `${hours(citizen.allocated_daily_hours)} ${t('citizens.table.scopeUnits.day')}`
+
+    return ''
 }
 
 function rebuildColumnHeaders() {
@@ -699,17 +748,30 @@ async function saveVisibleColumns(columns: string[]) {
     state.modal.isColumnsOpen = false
     try {
         await userService.updateCitizensListColumns(columns)
+        // The user store is persisted in the browser; without this the next
+        // page load starts from the choice made before this one.
+        if (userStore.getUser) {
+            userStore.setUser({ ...userStore.getUser, citizens_list_columns: columns })
+        }
     } catch (error: any) {
         state.error = error
     }
 }
 
-onMounted(() => {
-    const saved = userStore.getUser?.citizens_list_columns
+function applySavedColumns(saved: any) {
     const parsed = typeof saved === 'string' ? JSON.parse(saved || '[]') : saved
     if (Array.isArray(parsed) && parsed.length) {
         state.visibleColumns = parsed
+        rebuildColumnHeaders()
     }
+}
+
+// The layout fetches the user after this page has mounted, so a fresh copy
+// (or the first one, on a cold load) can arrive later than onMounted.
+watch(() => userStore.getUser?.citizens_list_columns, (saved) => applySavedColumns(saved))
+
+onMounted(() => {
+    applySavedColumns(userStore.getUser?.citizens_list_columns)
     rebuildColumnHeaders()
 
     fetchCitizens()
@@ -993,6 +1055,14 @@ const activeFilterChips = computed(() => {
         admitted_to: t('citizens.filters.admittedTo'),
         coordinator: t('citizens.coordinators.title'),
         coordinator_role: t('citizens.filters.coordinatorRole'),
+        consultant: t('citizens.filters.consultant'),
+        municipality_uuid: t('citizens.table.municipality'),
+        region_uuid: t('citizens.filters.region'),
+        section_uuid: t('citizens.table.section'),
+        phase: t('citizens.table.phase'),
+        startup_status: t('citizens.table.startupStatus'),
+        weekly_hours_from: t('citizens.filters.weeklyHoursFrom'),
+        weekly_hours_to: t('citizens.filters.weeklyHoursTo'),
         gender: t('citizens.form.gender'),
         requires_interpreter: t('citizens.filters.requiresInterpreter'),
         risk_level: t('citizens.filters.riskLevel'),

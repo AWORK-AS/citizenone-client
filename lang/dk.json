@@ -3357,7 +3357,30 @@
             "name": "Navn",
             "phone": "Telefon",
             "section": "Paragraf / indsatstype",
-            "ssn": "CPR-nummer"
+            "ssn": "CPR-nummer",
+            "consultant": "Konsulent",
+            "startupStatus": "Opstartsstatus",
+            "phase": "Status / fase",
+            "scope": "Omfang",
+            "geography": "Geografi",
+            "phases": {
+                "upcoming": "Ikke startet",
+                "active": "I drift",
+                "ended": "Afsluttet"
+            },
+            "startupStatuses": {
+                "missing_coordinator": "Mangler koordinator",
+                "missing_consultant": "Mangler konsulent",
+                "missing_start_date": "Mangler opstartsdato",
+                "ready": "Klar til opstart",
+                "started": "Startet"
+            },
+            "scopeUnits": {
+                "week": "t/uge",
+                "month": "t/md",
+                "day": "t/dag",
+                "total": "t i alt"
+            }
         },
         "tabs": {
             "attendance": "Fremmøde",
@@ -3793,7 +3816,8 @@
             },
             "tabs": {
                 "expenses": "Udgifter",
-                "wallets": "Punge"
+                "wallets": "Punge",
+                "contract": "Kontrakt"
             },
             "wallets": "Økonomi"
         },
@@ -4127,7 +4151,11 @@
                 "green": "Grøn",
                 "yellow": "Gul",
                 "red": "Rød"
-            }
+            },
+            "consultant": "Konsulent",
+            "region": "Region",
+            "weeklyHoursFrom": "Timer pr. uge fra",
+            "weeklyHoursTo": "Timer pr. uge til"
         },
         "emptyFiltered": "Ingen {citizens} matcher filtrene."
     },
@@ -4903,9 +4931,6 @@
             "departments": "Afdeling",
             "description": "Beskrivelse",
             "doNotCountSickLeaveAsWorkingHours": "Tæl ikke sygefravær som arbejdstimer",
-            "sendEmailToEmployee": "Send e-mail til medarbejderen",
-            "sendEmailToEmployeeTimesChanged": "Vagtens dato eller tidspunkt er ændret, så det anbefales at sende en e-mail.",
-            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uændret, så en e-mail er som regel ikke nødvendig. Medarbejderen får stadig en notifikation i appen.",
             "doNotCountWeekends": "Tæl ikke weekender med",
             "estimatedPayrollCost": "Estimeret lønomkostning",
             "forSleepingNightShift": "For sovende nattevagt",
@@ -4918,7 +4943,10 @@
             "title": "Titel",
             "useCompensatoryTime": "Brug afspadseringstid",
             "users": "Brugere",
-            "employeeMarkedUnavailable": "Denne medarbejder har markeret sig utilgængelig på denne dato"
+            "employeeMarkedUnavailable": "Denne medarbejder har markeret sig utilgængelig på denne dato",
+            "sendEmailToEmployee": "Send e-mail til medarbejderen",
+            "sendEmailToEmployeeTimesChanged": "Vagtens dato eller tidspunkt er ændret, så det anbefales at sende en e-mail.",
+            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uændret, så en e-mail er som regel ikke nødvendig. Medarbejderen får stadig en notifikation i appen."
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbejdet)",
@@ -6958,7 +6986,41 @@
             "active": "Aktiv",
             "inactive": "Inaktiv"
         },
-        "emptyFiltered": "Ingen medarbejdere matcher filtrene."
+        "emptyFiltered": "Ingen medarbejdere matcher filtrene.",
+        "bulkEdit": {
+            "action": "Rediger valgte",
+            "addToCurrent": "Tilføj til de nuværende",
+            "apply": "Anvend",
+            "clearSelection": "Ryd valg",
+            "confirmArchive": "{count} medarbejdere arkiveres, forsvinder fra oversigten og får deres licenser frigivet. Tryk igen for at bekræfte.",
+            "confirmArchiveButton": "Bekræft arkivering",
+            "departments": "Afdeling",
+            "employeeGroups": "Medarbejdergrupper",
+            "how": "Hvordan",
+            "intro": "Kun det du udfylder bliver ændret. Alt andet står som før.",
+            "noChange": "Uændret",
+            "reasons": {
+                "archived": "Er arkiveret",
+                "insufficient_level": "Har en højere rolle end dig",
+                "no_license_available": "Ingen ledig licens",
+                "self": "Din egen rolle og status ændres ikke her"
+            },
+            "replaceCurrent": "Erstat de nuværende",
+            "result": "{updated} af {requested} medarbejdere er opdateret.",
+            "role": "Rolle",
+            "roleAdd": "Tilføj rollen og behold de nuværende",
+            "roleReplace": "Erstat de nuværende roller",
+            "selected": "{count} valgt",
+            "skippedHeader": "Ikke ændret",
+            "status": "Status",
+            "statusActive": "Aktiv",
+            "statusActiveHint": "Kan logge ind og bruger en licens. Har medarbejderen ingen licens, tages en ledig.",
+            "statusArchived": "Arkiveret",
+            "statusArchivedHint": "Fratrådt. Forsvinder fra oversigten og licensen frigives.",
+            "statusPassive": "Passiv",
+            "statusPassiveHint": "Bliver i systemet og kan findes i konsulentmatch, men kan ikke logge ind og bruger ingen licens.",
+            "title": "Rediger {count} medarbejdere"
+        }
     },
     "entriesPerPage": "Indlæg pr. side",
     "error": {
@@ -7701,9 +7763,9 @@
                 "caseworker": "Rådgiver",
                 "mother": "Mor",
                 "father": "Far",
+                "citizen": "@.capitalize:terms.citizenDefinite{''}",
                 "parents": "Forældre",
-                "family": "Familien",
-                "citizen": "@.capitalize:terms.citizenDefinite{''}"
+                "family": "Familien"
             },
             "earlier": "Tidligere målinger",
             "maxScore": "Skala",
@@ -7950,7 +8012,8 @@
                 "inquiry": "Henvendelsen",
                 "citizen": "@.capitalize:terms.citizenDefinite{''}",
                 "assessment": "Vurdering",
-                "outcome": "Resultat og noter"
+                "outcome": "Resultat og noter",
+                "matchNeeds": "Match: sprog og sted"
             }
         },
         "inquiries": "Henvendelser",
@@ -8157,7 +8220,9 @@
         "subtitle": "Konfigurer hvilke felter der er synlige i @:terms.citizenDefinite{'s'} journal opret- og redigeringsformularer.",
         "title": "Journalformular konfiguration",
         "scoreToggle": "Vis \"Nuværende niveau\" i journalformularen",
-        "scoreDescription": "Når den er slået fra, vises feltet \"Nuværende niveau\" ikke i journalens opret- og redigeringsformularer. Feltet er tomt fra start, så et niveau kun står der, hvis nogen har valgt det."
+        "scoreDescription": "Når den er slået fra, vises feltet \"Nuværende niveau\" ikke i journalens opret- og redigeringsformularer. Feltet er tomt fra start, så et niveau kun står der, hvis nogen har valgt det.",
+        "wellbeingRulerToggle": "Vis trivselslineal i @:terms.journalNotes{''}",
+        "wellbeingRulerDescription": "Når den er slået til, kan der gives en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn på sagen. Scoren er valgfri og indgår i trivselsudviklingen og i statusrapportens trivselslineal."
     },
     "journalNotes": {
         "title": "@.capitalize:terms.journalNotes{''}",
@@ -8383,7 +8448,8 @@
         "downloadFile": {
             "alert": {
                 "fileSuccessfullyDownloadedToCitizensFolder": "Filen er blevet downloadet til @:terms.citizenDefinite{'s'} mappe",
-                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blevet downloadet til organisationens mappe"
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen er blevet downloadet til organisationens mappe",
+                "fileSuccessfullyAddedToInquiry": "Filen er tilføjet til henvendelsen"
             },
             "citizen": "@.capitalize:terms.citizen{''}",
             "citizenFolder": "@.capitalize:terms.citizen{''} mappe",
@@ -8391,7 +8457,10 @@
             "downloadFileToCitizensFolder": "Download fil til @:terms.citizenDefinite{'s'} mappe",
             "downloadFileToMyComputer": "Download fil til min computer",
             "downloadFileToOrganizationsFolder": "Download fil til organisationens mappe",
-            "organizationFolder": "Organisationsmappe"
+            "organizationFolder": "Organisationsmappe",
+            "addFileToInquiry": "Tilføj fil til henvendelse",
+            "inquiry": "Henvendelse",
+            "inquiryHint": "Filen hentes direkte fra din egen mail og lægges på henvendelsens dokumenter."
         },
         "draft": "Kladde",
         "form": {
@@ -8423,7 +8492,6 @@
             "to": "Til"
         },
         "forward": "Videre",
-        "emptyInbox": "Din indbakke er tom",
         "inbox": "Indbakke",
         "insertSignature": "Indsæt underskrift",
         "loadMore": "Indlæs mere",
@@ -8529,7 +8597,8 @@
                 "step6Password": "Adgangskode: den 16-tegns app-adgangskode (uden mellemrum)",
                 "oauthNote": "Bemærk: XOAUTH2 kræver et fuldt OAuth2-flow med adgangstokens og understøttes ikke her. App-adgangskode er den korrekte tilgang til denne integration."
             }
-        }
+        },
+        "emptyInbox": "Din indbakke er tom"
     },
     "massUnits": {
         "addNewMassUnit": "Tilføj ny masseenhed",
@@ -8636,9 +8705,9 @@
     "messages": {
         "actions": {
             "delete": "Slet",
-            "download": "Download",
             "edit": "Rediger",
-            "more": "Mere"
+            "more": "Mere",
+            "download": "Download"
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chat slettet med succes",
@@ -10499,16 +10568,16 @@
                 "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebooking",
                 "portalSectionSupport": "Support",
-                "portalSectionForms": "Formularer",
-                "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewAppointments": "Patienten ser sine kommende og tidligere aftaler hos klinikken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sine egne aftaler og begivenheder.",
                 "portalPreviewBooking": "Patienten kan selv booke en ledig tid til de behandlinger, I har åbnet for onlinebooking.",
                 "portalPreviewPatientJournals": "Patienten ser kun de journalnotater, I har markeret som delt, og kun hvis patienten har journaladgang.",
                 "portalPreviewSupport": "Patienten kan åbne supportpanelet for at få hjælp.",
+                "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt",
+                "portalSectionForms": "Formularer",
+                "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
-                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
-                "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt"
+                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem."
             }
         },
         "licenseOverview": {
@@ -10651,7 +10720,9 @@
             "inquiryServiceTypes": "Indsatstyper",
             "taskTypes": "Opgavetyper",
             "taskRules": "Opgaveregler",
-            "employmentOptions": "Ansættelsesvalg"
+            "employmentOptions": "Ansættelsesvalg",
+            "inquiryOffers": "Tilbud og priser",
+            "customerDepartments": "Kunder og afdelinger"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11053,11 +11124,11 @@
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
         "groups": {
-            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
-            "shortcuts": "Genveje"
+            "shortcuts": "Genveje",
+            "communication": "Kommunikation"
         },
         "documents": "Dokumenter",
         "dutySchedules": "Vagtskema",
@@ -13095,14 +13166,6 @@
             "selectAll": "Giv alle moduler",
             "modulesAll": "Branchen får alle moduler.",
             "modulesNarrowed": "Branchen får {count} af {total} moduler.",
-            "colApps": "Apps",
-            "apps": "Apps fra App Store",
-            "appsHelp": "Apps branchen får som en basal del af pakken. Et nyt firma får én licens til ejeren uden beregning. Kun vores egne apps kan vælges.",
-            "appsNone": "Branchen får ingen apps med.",
-            "appsCount": "Branchen får {count} app med. | Branchen får {count} apps med.",
-            "appIncluded": "Inkluderet",
-            "appFree": "Gratis",
-            "noApps": "Ingen",
             "locale": {
                 "dk": "Dansk",
                 "en": "Engelsk",
@@ -13122,7 +13185,15 @@
                 "term_journal_note_tag": "Notattype",
                 "term_agreement": "Aftale",
                 "term_jobcenter": "Jobcenter"
-            }
+            },
+            "colApps": "Apps",
+            "apps": "Apps fra App Store",
+            "appsHelp": "Apps branchen får som en basal del af pakken. Et nyt firma får én licens til ejeren uden beregning. Kun vores egne apps kan vælges.",
+            "appsNone": "Branchen får ingen apps med.",
+            "appsCount": "Branchen får {count} app med. | Branchen får {count} apps med.",
+            "appIncluded": "Inkluderet",
+            "appFree": "Gratis",
+            "noApps": "Ingen"
         },
         "salesInquiries": {
             "pageTitle": "Henvendelser",
@@ -15010,9 +15081,9 @@
             "extraRemove": "Fjern linjen",
             "lineDescription": "Tekst på fakturalinjen",
             "invoiceNote": "Notat på fakturaen",
-            "goToInvoices": "Gå til fakturaer",
+            "goToInvoices": "Se fakturaerne",
             "nothingSelected": "Vælg mindst én indsats, eller tilføj en diverse-linje.",
-            "convertedBanner": "{count} faktura(er) er oprettet og ligger klar under Fakturering.",
+            "convertedBanner": "{count} faktura(er) er oprettet og ligger klar nederst på siden.",
             "registrations": "Timeregistreringer",
             "invoiceCount": "{count} faktura(er)",
             "selectedOfRows": "{selected} af {total} valgt",
@@ -15020,7 +15091,169 @@
             "helpPeriod": "Perioden bestemmer hvilke timeregistreringer der kommer med: alle registreringer der starter i perioden, og som ikke allerede er faktureret. Timer der er faktureret én gang dukker ikke op igen.",
             "helpUsedHours": "Timerne fra timeregistreringerne bag rækken. Du kan sætte dem ned, hvis kontrakten kun dækker en del, og resten afskrives så på perioden. Du kan ikke sætte dem op over det registrerede - brug en diverse-linje til det, der ikke er timer.",
             "helpAgreedHours": "Det leverede holdes op mod kontrakttimerne på indsatsen, hvis de er udfyldt, ellers mod @:terms.citizenDefinite{'s'} tildelte timer. Timerne skaleres til rækkens periode, så et ophold der starter midt i måneden ikke ser underleveret ud. Kontrakttimer sættes på opholdet under @:terms.citizenDefinite{'s'} stamkort.",
-            "helpConvert": "Omdanner de valgte indsatser til én faktura pr. betalende kommune, inklusive diverse-linjer. Ikonet på rækken laver en faktura med kun den ene indsats. Fakturaerne lander under Fakturering, klar til at sende."
+            "helpConvert": "Omdanner de valgte indsatser til én faktura pr. betalende kommune, inklusive diverse-linjer. Ikonet på rækken laver en faktura med kun den ene indsats. Fakturaerne lander under Fakturering, klar til at sende.",
+            "invoicePer": "Faktura pr.",
+            "invoicePerCustomer": "Kunde/afdeling",
+            "invoicePerIntervention": "@.capitalize:terms.citizen{''}",
+            "contractMode": {
+                "legacy": "Timer til timepris",
+                "hourly": "Kontrakt: pris pr. time",
+                "fixed": "Kontrakt: fast pris"
+            },
+            "contractChangesInWindow": "Kontrakten skifter i perioden. Den periode, der gælder ved start, bruges.",
+            "customerNumber": "Kundenr."
+        },
+        "customerDepartments": {
+            "title": "Kunder og afdelinger",
+            "intro": "De afdelinger hos jeres kunder, som fakturaerne sendes til. En kunde kan have flere afdelinger, hver med egen adresse, EAN-nummer og betingelser.",
+            "new": "Ny afdeling",
+            "edit": "Rediger afdeling",
+            "search": "Søg på navn, kunde eller EAN",
+            "empty": "Der er ikke oprettet nogen afdelinger endnu.",
+            "noCustomer": "Uden kunde",
+            "municipality": "Kommune",
+            "customerHelp": "Vælg kommunen, eller skriv kundens navn hvis det ikke er en kommune.",
+            "customerName": "Kundens navn",
+            "customerNamePlaceholder": "Fx en privat kunde",
+            "name": "Afdelingens navn",
+            "street": "Adresse",
+            "postCode": "Postnr.",
+            "city": "By",
+            "address": "Adresse",
+            "eanNumber": "EAN-nummer",
+            "customerNumber": "Kundenummer",
+            "paymentTermsDays": "Betalingsbetingelser",
+            "days": "{days} dage netto",
+            "email": "E-mail til fakturaer",
+            "contactPerson": "Kontaktperson",
+            "phone": "Telefon",
+            "noticeTerms": "Opsigelsesvilkår",
+            "priceRegulation": "Prisreguleringsaftale",
+            "isActive": "Aktiv",
+            "saved": "Afdelingen er gemt",
+            "deleted": "Afdelingen er slettet",
+            "confirmDelete": "Slet afdelingen? Kontrakter og fakturaer, der peger på den, beholder deres oplysninger."
+        },
+        "contract": {
+            "title": "Kontrakt",
+            "billedTo": "Faktureres til",
+            "noDepartmentYet": "Ingen afdeling valgt endnu",
+            "newPeriod": "Ny kontraktperiode",
+            "editPeriod": "Rediger kontraktperiode",
+            "agreedPrice": "Aftalt pris",
+            "grantedHours": "Bevilgede timer",
+            "billingFrequency": "Faktureringsfrekvens",
+            "paymentTermsDays": "Betalingsbetingelser",
+            "fallbackTitle": "Kontraktfelterne på opholdet bruges indtil videre",
+            "fallbackText": "Der er endnu ikke oprettet en kontraktperiode. Faktureringsudtrækket bruger kontraktpris og kontrakttimer fra opholdet. Opret en kontraktperiode for at styre pris, timefordeling og fakturering herfra.",
+            "history": "Kontraktperioder",
+            "noPeriods": "Ingen kontraktperioder endnu.",
+            "period": "Periode",
+            "department": "Kunde og afdeling",
+            "hoursSplit": "Timefordeling",
+            "onInvoice": "På fakturaen",
+            "lines": "Egne kontraktlinjer",
+            "current": "Gældende",
+            "contactHoursShort": "ATA/kontakt",
+            "adminHoursShort": "Administration",
+            "transportHoursShort": "Transport",
+            "cpr": "CPR-nummer",
+            "caseNumber": "Indsatsnummer",
+            "economicCustomerNumberShort": "Kundenr.",
+            "economicProductNumberShort": "Varenr.",
+            "confirmDelete": "Slet kontraktperioden? En periode, der er brugt på en faktura, kan ikke slettes, kun afsluttes.",
+            "deleted": "Kontraktperioden er slettet",
+            "saved": "Kontraktperioden er gemt",
+            "perHour": "pr. time",
+            "perFrequency": {
+                "monthly": "pr. måned",
+                "quarterly": "pr. kvartal",
+                "half_yearly": "pr. halvår",
+                "yearly": "pr. år"
+            },
+            "intervals": {
+                "weekly": "pr. uge",
+                "monthly": "pr. måned",
+                "total": "i alt for perioden"
+            },
+            "frequencies": {
+                "monthly": "Månedlig",
+                "quarterly": "Kvartalsvis",
+                "half_yearly": "Halvårlig",
+                "yearly": "Årlig"
+            },
+            "reviewTitle": "Gennemgå timer og pris",
+            "reviewText": "Den nye periode er udfyldt med den forrige periodes pris ({price}) og timer ({hours}). Tjek at de stadig passer, før du gemmer.",
+            "reviewConfirm": "Jeg har gennemgået timer og pris",
+            "startDate": "Startdato",
+            "endDate": "Slutdato",
+            "stay": "Ophold",
+            "allStays": "Alle ophold",
+            "noDepartment": "Ingen afdeling",
+            "createDepartment": "Opret kunder og afdelinger under Indstillinger",
+            "priceType": "Prismodel",
+            "priceTypes": {
+                "hourly": "Pris pr. leveret time",
+                "fixed": "Fast pris pr. faktureringsperiode"
+            },
+            "fixedPrice": "Fast pris",
+            "hourlyPrice": "Timepris",
+            "hoursInterval": "Timerne gælder",
+            "contactHours": "ATA-/kontakttid",
+            "adminHours": "Administrationstid",
+            "transportHours": "Transporttid",
+            "grantedTotal": "Bevilget i alt",
+            "fromDepartment": "{days} dage (fra afdelingen)",
+            "economicCustomerNumber": "Kundenummer i e-conomic",
+            "economicProductNumber": "Varenummer i e-conomic",
+            "showCpr": "Vis CPR-nummer på fakturaen",
+            "showCaseNumber": "Vis indsatsnummer på fakturaen",
+            "noCaseNumber": "Der er ikke registreret et indsatsnummer, så der vises intet.",
+            "addLine": "Tilføj linje",
+            "noLines": "Fx opstartsgebyr, lokaleleje eller statusrapport.",
+            "lineDescription": "Beskrivelse",
+            "linePlaceholder": "Fx opstartsgebyr",
+            "lineAmount": "Beløb",
+            "lineRecurrence": "Faktureres",
+            "recurrences": {
+                "one_off": "Én gang",
+                "recurring": "Hver faktureringsperiode"
+            },
+            "note": "Note"
+        },
+        "invoices": {
+            "title": "Fakturaer fra udtrækket",
+            "subtitle": "Markér flere fakturaer og send eller markér dem samlet.",
+            "filterUnsent": "Ikke sendt",
+            "filterSent": "Sendt",
+            "filterAll": "Alle",
+            "selected": "{count} valgt",
+            "markSent": "Markér som sendt",
+            "markUnsent": "Markér som ikke sendt",
+            "recipientPlaceholder": "Modtager (ellers afdelingens e-mail)",
+            "sendEmail": "Send på e-mail",
+            "pushEconomic": "Send til e-conomic som kladde",
+            "empty": "Ingen fakturaer i denne visning.",
+            "number": "Fakturanr.",
+            "billTo": "Modtager",
+            "interventions": "@.capitalize:terms.citizens{''}",
+            "due": "Forfald",
+            "status": "Status",
+            "sent": "Sendt",
+            "notSent": "Ikke sendt",
+            "download": "Åbn PDF",
+            "partial": "{ok} gik igennem, {failed} fejlede. Se de markerede fakturaer.",
+            "done": "{count} faktura(er) er behandlet.",
+            "reasons": {
+                "no_recipient": "Ingen modtager-e-mail",
+                "not_found": "Fakturaen blev ikke fundet",
+                "error": "Der skete en fejl",
+                "not_connected": "e-conomic er ikke forbundet",
+                "invoice_not_found": "Fakturaen blev ikke fundet",
+                "customer_failed": "Kunden kunne ikke oprettes i e-conomic",
+                "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
+                "unknown_action": "Ukendt handling"
+            }
         }
     },
     "inquiryPipelineStages": {
@@ -15032,7 +15265,8 @@
             "name": "Navn",
             "namePlaceholder": "Fx Afklaring",
             "color": "Farve",
-            "role": "Rolle"
+            "role": "Rolle",
+            "notifiesRecruitment": "Giver besked til rekruttering"
         },
         "roles": {
             "neutral": "Almindelig fase",
@@ -15128,13 +15362,14 @@
             "company_contacts": "Kontakter",
             "spoken_languages": "Talte sprog",
             "consultant_skills": "Konsulentkompetencer (alle)",
-            "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
-            "consultant_skills_course": "Konsulentkompetencer: kurser",
-            "consultant_skills_topic": "Konsulentkompetencer: emneord",
             "inquiry_service_types": "Indsatstyper",
             "employees": "Medarbejdere",
             "jobcenters": "Jobcentre",
             "focus_areas": "Fokusområder (VUM, voksne)",
+            "customer_departments": "Kunder og afdelinger",
+            "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
+            "consultant_skills_course": "Konsulentkompetencer: kurser",
+            "consultant_skills_topic": "Konsulentkompetencer: emneord",
             "focus_areas_ics": "Fokusområder (ICS, børn og unge)"
         },
         "allServiceTypes": "Alle indsatstyper",
@@ -15299,7 +15534,12 @@
     },
     "inquiryStageHistory": {
         "empty": "Henvendelsen har ikke skiftet fase endnu.",
-        "title": "Faseændringer"
+        "title": "Faseændringer",
+        "events": {
+            "offer_sent": "Tilbud sendt",
+            "offer_accepted": "Tilbud godkendt",
+            "offer_rejected": "Tilbud afvist"
+        }
     },
     "consultantMatch": {
         "title": "Konsulentmatch",
@@ -15323,7 +15563,9 @@
             "minTravelKm": "Skal køre mindst (km)",
             "minWeeklyHours": "Mindst timer pr. uge",
             "minStep": "Mindst trinvurdering",
-            "needsCar": "Skal have bil"
+            "needsCar": "Skal have bil",
+            "secondaryHint": "Et plus. Tæller ikke imod konsulenten.",
+            "withinTravelRangeOnly": "Kun konsulenter inden for deres køreafstand"
         },
         "criteriaNames": {
             "skill_uuids": "Kompetencer",
@@ -15334,11 +15576,26 @@
             "min_travel_km": "Køreafstand",
             "consultant_status": "Status",
             "min_step_assessment": "Trinvurdering",
-            "min_weekly_hours": "Timetal"
+            "min_weekly_hours": "Timetal",
+            "primary_spoken_language_uuid": "Primært sprog",
+            "within_travel_range": "Inden for køreafstand"
         },
         "askSelected": "Spørg {count} valgte",
         "asked": "Konsulenterne er spurgt",
         "askFailed": "Konsulenterne kunne ikke spørges",
+        "location": {
+            "none": "Ingen lokation på henvendelsen, så der vises ingen afstande"
+        },
+        "sort": {
+            "match": "Bedste match",
+            "distance": "Nærmest"
+        },
+        "distance": {
+            "unknown": "Afstand ukendt",
+            "km": "{km} km",
+            "approx": "ca. {km} km"
+        },
+        "secondaryLanguageMet": "Taler også {language}",
         "prefilled": "Udfyldt fra henvendelsen: {fields}. Ret eller ryd før du søger."
     },
     "inquiryNotes": {
@@ -15484,7 +15741,8 @@
             "title": "Sendt til andre"
         },
         "title": "Opgavetavler",
-        "unassigned": "Ingen ansvarlig"
+        "unassigned": "Ingen ansvarlig",
+        "openInquiry": "Åbn henvendelse"
     },
     "taskTypes": {
         "title": "Opgavetyper",
@@ -15898,7 +16156,37 @@
             "derived": "Beregnet grænse: {limit} kald om dagen pr. medarbejder."
         }
     },
+    "inquiryMatchNeeds": {
+        "heading": "Match: sprog og sted",
+        "hint": "Bruges af konsulentmatchet. Primært sprog skal konsulenten tale, sekundært sprog er et plus.",
+        "primaryLanguage": "Primært sprog",
+        "secondaryLanguage": "Sekundært sprog",
+        "location": "Lokation",
+        "locationPlaceholder": "Adresse eller område, fx Vesterbro",
+        "postalCode": "Postnummer",
+        "pending": "Placeres på kortet om lidt",
+        "unavailable": "Ikke placeret på kortet: kortopslag er ikke sat op, så der vises ingen afstand",
+        "notFound": "Kunne ikke findes på kortet. Tjek adressen eller angiv et postnummer",
+        "geocoded": {
+            "address": "Placeret ud fra adressen",
+            "place": "Placeret ud fra området",
+            "postal_code": "Placeret ud fra postnummeret (omtrentligt)"
+        }
+    },
     "wellbeing": {
+        "ruler": {
+            "title": "Trivselslineal",
+            "optional": "Valgfri",
+            "hint": "Vælg en score fra 0 til {max}, halve trin er tilladt. En række uden score gemmes ikke.",
+            "clear": "Ryd",
+            "wholeCase": "Samlet"
+        },
+        "development": {
+            "title": "Trivselsudvikling",
+            "from": "Fra",
+            "to": "Til",
+            "empty": "Der er endnu ingen trivselsscorer i perioden."
+        },
         "tab": "Trivsel",
         "title": "Trivsel",
         "description": "Trivselsmålinger fra 0 til 10 for borgeren og de relaterede borgere, fx søskende på samme indsats. Hver måling har den, der har givet den, og datoen den er modtaget. Målinger fra rapporter med nøglen \"trivsel\" vises også her.",
@@ -15928,5 +16216,223 @@
             "citizen": "Barnet/den unge",
             "other": "Andet"
         }
+    },
+    "inquiryRecruitment": {
+        "needsRecruitment": "Behov for rekruttering",
+        "hint": "Slå til, når sagen mangler en konsulent. Rekrutteringsteamet får besked én gang.",
+        "notifiedAt": "Rekrutteringsteamet fik besked {date}.",
+        "saved": "Rekrutteringsbehovet er gemt",
+        "settings": {
+            "title": "Rekrutteringsteam",
+            "description": "Dem der får besked, når en henvendelse markeres med behov for rekruttering eller kommer i en fase, der giver besked til rekruttering. Beskeden kommer som notifikation, push og mail og beskriver opgaven, ikke personen.",
+            "groups": "Medarbejdergrupper",
+            "users": "Medarbejdere",
+            "taskBoard": "Opret opgave på tavle",
+            "taskBoardHint": "Valgfrit. Opgaven lægges i tavlens første kolonne.",
+            "recipientCount": "Beskeden når {count} medarbejder(e).",
+            "nobody": "Ingen får besked endnu. Vælg en gruppe eller en medarbejder.",
+            "saved": "Rekrutteringsteamet er gemt"
+        }
+    },
+    "inquiryLost": {
+        "modal": {
+            "title": "Marker som tabt",
+            "hint": "Registrer hvorfor sagen er tabt, så det kan indgå i rapporteringen.",
+            "reason": "Årsag",
+            "noReasons": "Der er ingen tabsårsager at vælge imellem endnu. De oprettes under indstillinger for faser.",
+            "note": "Uddybning",
+            "notePlaceholder": "Hvad skete der?",
+            "price": "Estimeret tilbudspris",
+            "pricePlaceholder": "Beløb i kr.",
+            "confirm": "Marker som tabt"
+        },
+        "detail": {
+            "heading": "Tabt sag"
+        },
+        "report": {
+            "open": "Tabte sager",
+            "title": "Tabte sager",
+            "subtitle": "Antal og tabt omsætning pr. årsag i perioden.",
+            "from": "Fra",
+            "to": "Til",
+            "totalCount": "Tabte sager",
+            "totalRevenue": "Tabt omsætning",
+            "byReason": "Pr. årsag",
+            "empty": "Ingen tabte sager i perioden.",
+            "noReason": "Uden årsag",
+            "cases": "Sager: {count}",
+            "withoutPrice": "uden pris: {count}",
+            "lostCases": "Sagerne",
+            "lostAt": "Tabt",
+            "case": "Sag"
+        },
+        "settings": {
+            "title": "Tabsårsager",
+            "description": "Årsagerne man vælger imellem, når en sag markeres som tabt. En årsag der er brugt, kan kun deaktiveres, så rapporten bevarer historikken.",
+            "namePlaceholder": "Fx pris eller manglende kapacitet",
+            "active": "Aktiv",
+            "delete": "Slet årsag",
+            "empty": "Ingen tabsårsager endnu.",
+            "newReason": "Ny årsag",
+            "add": "Tilføj årsag"
+        }
+    },
+    "inquiryOffer": {
+        "title": "Tilbud",
+        "hint": "Foreløbig beregning, versioner, afsendelse og kommunens svar.",
+        "newVersion": "Ny version",
+        "newCalculation": "Ny beregning",
+        "specialLanguageBanner": "Særsprog valgt på henvendelsen: {languages}. Tillægget lægges automatisk på beregningen.",
+        "empty": "Der er ikke lavet et tilbud endnu.",
+        "version": "Version {version}",
+        "statuses": {
+            "draft": "Kladde",
+            "sent": "Sendt",
+            "accepted": "Godkendt",
+            "rejected": "Afvist",
+            "superseded": "Erstattet"
+        },
+        "specialLanguage": "Særsprog",
+        "overdue": "Fristen er overskredet",
+        "perMonth": "pr. måned",
+        "perWeek": "pr. uge",
+        "hoursPerWeek": "timer pr. uge",
+        "total": "I alt",
+        "sentOn": "sendt {date}",
+        "deadlineOn": "frist {date}",
+        "respondedOn": "svar {date}",
+        "rejectionReason": "Årsag til afvisning",
+        "startWishes": "Ønsker til opstart",
+        "edit": "Rediger",
+        "hideDetails": "Skjul beregning",
+        "showDetails": "Vis beregning",
+        "send": "Send tilbud",
+        "registerAnswer": "Registrer svar",
+        "delete": "Slet",
+        "editingVersion": "Rediger version {version}",
+        "newDraft": "Ny kladde",
+        "inputs": {
+            "contact_hours_per_session": "Kontakttimer pr. forløb",
+            "sessions_per_week": "Antal forløb pr. uge",
+            "admin_hours_per_session": "Ekstra adm.-tid pr. forløb (timer)",
+            "transport_hours_per_session": "Anslået transporttid pr. forløb (timer)",
+            "reports_per_month": "Rapporter pr. måned",
+            "duration_weeks": "Varighed (uger)",
+            "price_date": "Prisdato",
+            "supervision": "Sparring",
+            "room": "Egne lokaler",
+            "special_language": "Særsprog"
+        },
+        "specialLanguageAuto": "Automatisk ud fra henvendelsen",
+        "yes": "Ja",
+        "no": "Nej",
+        "adjustPrices": "Juster priser for dette tilbud",
+        "overrides": {
+            "hourly_rate": "Timepris",
+            "admin_hourly_rate": "Timepris, administration",
+            "transport_hourly_rate": "Timepris, transport",
+            "special_language_surcharge": "Tillæg for særsprog pr. time",
+            "supervision_price_per_week": "Sparring pr. uge",
+            "room_price_per_session": "Lokale pr. forløb",
+            "reporting_price_per_report": "Pris pr. rapport",
+            "weeks_per_month": "Uger pr. måned"
+        },
+        "extraItems": "Øvrige tillæg og fradrag",
+        "extraLabel": "Tekst",
+        "extraAmount": "Beløb",
+        "per": {
+            "week": "pr. uge",
+            "month": "pr. måned",
+            "once": "engangsbeløb"
+        },
+        "addExtraItem": "Tilføj linje",
+        "consultants": "Præsentation af valgte konsulenter",
+        "consultantsHint": "Konsulenterne, der er valgt på sagen, præsenteres i tilbuddet med kompetencer og sprog. Skriv evt. en kort præsentation.",
+        "consultantNotePlaceholder": "Kort præsentation til kommunen",
+        "note": "Bemærkninger",
+        "saveDraft": "Gem kladde",
+        "sendTitle": "Send tilbud",
+        "sentAt": "Afsendt",
+        "deadlineDays": "Svarfrist (dage)",
+        "deadlinePreview": "Kommunen skal svare senest {date}.",
+        "reminderHint": "Du og den, der lavede tilbuddet, får en påmindelse, når fristen nærmer sig, og igen hvis den overskrides.",
+        "answerTitle": "Registrer kommunens svar",
+        "respondedAt": "Dato for svar",
+        "startWishesPlaceholder": "Fx ønsket opstartsdato eller justeringer",
+        "remarks": "Bemærkninger",
+        "acceptHint": "Henvendelsen flyttes til den vundne fase. Når den konverteres, overføres pris og timer til kontraktfelterne.",
+        "rejectHint": "Henvendelsen flyttes til den tabte fase, og årsagen gemmes i beslutningsloggen.",
+        "confirmDelete": "Vil du slette kladden",
+        "fromCatalogue": "fra kataloget",
+        "saved": "Tilbuddet er gemt",
+        "saveFailed": "Tilbuddet kunne ikke gemmes",
+        "sentAlert": "Tilbuddet er registreret som sendt",
+        "answerSaved": "Svaret er registreret",
+        "stageBlocked": "Svaret er registreret, men henvendelsen kunne ikke flyttes, fordi disse felter mangler: {fields}",
+        "fileName": "tilbud-version-{version}",
+        "downloadFailed": "Dokumentet kunne ikke hentes",
+        "specialLanguageChosen": "Særsprog: {languages}",
+        "result": {
+            "item": "Post",
+            "quantity": "Timer/antal",
+            "unitPrice": "Pris",
+            "perWeek": "Pr. uge",
+            "weeklyPrice": "Pris pr. uge",
+            "monthlyPrice": "Pris pr. måned",
+            "totalPrice": "Samlet pris",
+            "weeklyHours": "Timer pr. uge",
+            "assumptions": "Forudsætninger"
+        }
+    },
+    "inquiryOfferSettings": {
+        "title": "Tilbud og priser",
+        "description": "Takster pr. indsatstype, de fælles priser, særsprog og tilbudsskabelonen. Priserne revideres ved at tilføje en ny version med en startdato, så tidligere tilbud stadig kan forklares med de priser, der gjaldt dengang.",
+        "rates": {
+            "title": "Takster pr. indsatstype",
+            "hint": "Timeprisen for kontakttimer. Administration og transport bruger samme timepris, medmindre der er angivet en særskilt.",
+            "serviceType": "Indsatstype",
+            "hourly_rate": "Timepris",
+            "admin_hourly_rate": "Administration",
+            "transport_hourly_rate": "Transport",
+            "empty": "Der er ikke angivet nogen takster endnu."
+        },
+        "validFrom": "Gælder fra",
+        "note": "Note",
+        "add": "Tilføj",
+        "fromDate": "Fra {date}",
+        "prices": {
+            "title": "Fælles priser",
+            "hint": "Tillæg for særsprog, sparring, lokaler og rapportering. Tilføj en ny version ved den årlige prisregulering.",
+            "special_language_surcharge": "Særsprog pr. time",
+            "supervision_price_per_week": "Sparring pr. uge",
+            "room_price_per_session": "Lokale pr. forløb",
+            "reporting_price_per_report": "Pris pr. rapport",
+            "weeks_per_month": "Uger pr. måned",
+            "special_language_applies_to": "Særsprogstillæg lægges på",
+            "appliesContact": "Kontakttimerne",
+            "appliesAll": "Alle timer",
+            "addRevision": "Tilføj version",
+            "empty": "Der er ikke angivet nogen priser endnu."
+        },
+        "languages": {
+            "title": "Særsprog",
+            "hint": "Marker de sprog, der udløser særsprogstillæg. Alle andre sprog regnes som almindelige sprog.",
+            "search": "Søg efter sprog",
+            "count": "{count} sprog markeret som særsprog"
+        },
+        "template": {
+            "title": "Tilbudsskabelon",
+            "hint": "Teksterne flettes ind i tilbuddet som PDF og Word. Du kan bruge disse felter: {placeholders}",
+            "documentTitle": "Overskrift",
+            "documentTitlePlaceholder": "Tilbud",
+            "intro": "Indledning",
+            "introPlaceholder": "Tekst før prisberegningen",
+            "terms": "Afslutning og vilkår",
+            "termsPlaceholder": "Tekst efter prisberegningen",
+            "deadlineDays": "Standard svarfrist (dage)",
+            "reminderDaysBefore": "Påmindelse dage før fristen"
+        },
+        "saved": "Gemt",
+        "saveFailed": "Kunne ikke gemmes"
     }
 }
