@@ -17,6 +17,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/update`, 'POST', params)
     }
 
+    async bulkUpdateEmployees(params: object): Promise<any> {
+        return await this.request(`/user/employees/bulk-update`, 'POST', params)
+    }
+
     // Employees are archived (true) or restored (false), never deleted, so
     // their journals and history stay intact.
     async archiveEmployee(employeeUuid: any, archived: boolean): Promise<any> {

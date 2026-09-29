@@ -85,6 +85,7 @@
     },
     "companyModules": {
         "Economy": "Ekonomi",
+        "Wellbeing": "Välmående",
         "Journals": "Journaler",
         "Medicine card": "Medicinkort",
         "Plans and goals": "Planer och mål",
@@ -3356,7 +3357,30 @@
             "name": "Namn",
             "phone": "Telefon",
             "section": "Paragraf / insatstyp",
-            "ssn": "Personnummer"
+            "ssn": "Personnummer",
+            "consultant": "Konsult",
+            "startupStatus": "Uppstartsstatus",
+            "phase": "Status / fas",
+            "scope": "Omfattning",
+            "geography": "Geografi",
+            "phases": {
+                "upcoming": "Inte startad",
+                "active": "I drift",
+                "ended": "Avslutad"
+            },
+            "startupStatuses": {
+                "missing_coordinator": "Saknar koordinator",
+                "missing_consultant": "Saknar konsult",
+                "missing_start_date": "Saknar startdatum",
+                "ready": "Redo för start",
+                "started": "Startad"
+            },
+            "scopeUnits": {
+                "week": "tim/vecka",
+                "month": "tim/mån",
+                "day": "tim/dag",
+                "total": "h totalt"
+            }
         },
         "tabs": {
             "attendance": "Närvaro",
@@ -3792,7 +3816,8 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge"
+                "wallets": "Punge",
+                "contract": "Avtal"
             },
             "wallets": "Ekonomi"
         },
@@ -4126,7 +4151,11 @@
                 "green": "Grön",
                 "yellow": "Gul",
                 "red": "Röd"
-            }
+            },
+            "consultant": "Konsult",
+            "region": "Region",
+            "weeklyHoursFrom": "Timmar per vecka från",
+            "weeklyHoursTo": "Timmar per vecka till"
         },
         "emptyFiltered": "Inga {citizens} matchar filtren."
     },
@@ -4847,9 +4876,6 @@
             "departments": "Avdelning",
             "description": "Beskrivning",
             "doNotCountSickLeaveAsWorkingHours": "Täl inte sjukfrånvaro som arbejdstimer",
-            "sendEmailToEmployee": "Skicka e-post till medarbetaren",
-            "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
-            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen.",
             "doNotCountWeekends": "Täl inte weekender med",
             "estimatedPayrollCost": "Uppskattad lönekostnad",
             "forSleepingNightShift": "För sovende nattpass",
@@ -4862,7 +4888,10 @@
             "title": "Titel",
             "useCompensatoryTime": "Använd afspadseringstid",
             "users": "Användare",
-            "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum"
+            "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum",
+            "sendEmailToEmployee": "Skicka e-post till medarbetaren",
+            "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
+            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen."
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -6953,7 +6982,41 @@
             "active": "Aktiv",
             "inactive": "Inaktiv"
         },
-        "emptyFiltered": "Inga medarbetare matchar filtren."
+        "emptyFiltered": "Inga medarbetare matchar filtren.",
+        "bulkEdit": {
+            "action": "Redigera valda",
+            "addToCurrent": "Lägg till de nuvarande",
+            "apply": "Verkställ",
+            "clearSelection": "Rensa val",
+            "confirmArchive": "{count} medarbetare arkiveras, försvinner från översikten och får sina licenser frigjorda. Tryck igen för att bekräfta.",
+            "confirmArchiveButton": "Bekräfta arkivering",
+            "departments": "Avdelning",
+            "employeeGroups": "Medarbetargrupper",
+            "how": "Hur",
+            "intro": "Bara det du fyller i ändras. Allt annat förblir som förut.",
+            "noChange": "Oförändrad",
+            "reasons": {
+                "archived": "Är arkiverad",
+                "insufficient_level": "Har en högre roll än du",
+                "no_license_available": "Ingen ledig licens",
+                "self": "Din egen roll och status ändras inte här"
+            },
+            "replaceCurrent": "Ersätt de nuvarande",
+            "result": "{updated} av {requested} medarbetare uppdaterade.",
+            "role": "Roll",
+            "roleAdd": "Lägg till rollen och behåll de nuvarande",
+            "roleReplace": "Ersätt de nuvarande rollerna",
+            "selected": "{count} valda",
+            "skippedHeader": "Inte ändrade",
+            "status": "Status",
+            "statusActive": "Aktiv",
+            "statusActiveHint": "Kan logga in och använder en licens. Saknar medarbetaren licens tas en ledig.",
+            "statusArchived": "Arkiverad",
+            "statusArchivedHint": "Har slutat. Försvinner från översikten och licensen frigörs.",
+            "statusPassive": "Passiv",
+            "statusPassiveHint": "Stannar i systemet och kan hittas i konsultmatchning, men kan inte logga in och använder ingen licens.",
+            "title": "Redigera {count} medarbetare"
+        }
     },
     "entriesPerPage": "Indläg pr. sida",
     "error": {
@@ -7696,9 +7759,9 @@
                 "caseworker": "Handläggare",
                 "mother": "Mamma",
                 "father": "Pappa",
+                "citizen": "Medborgaren",
                 "parents": "Föräldrar",
-                "family": "Familjen",
-                "citizen": "Medborgaren"
+                "family": "Familjen"
             },
             "earlier": "Tidigare mätningar",
             "maxScore": "Skala",
@@ -7945,7 +8008,8 @@
                 "inquiry": "Förfrågan",
                 "citizen": "Medborgaren",
                 "assessment": "Bedömning",
-                "outcome": "Resultat och anteckningar"
+                "outcome": "Resultat och anteckningar",
+                "matchNeeds": "Match: språk och plats"
             }
         },
         "inquiries": "Förfrågningar",
@@ -8152,7 +8216,9 @@
         "subtitle": "Konfigurera vilka fält som är synliga i medborgarens journalformulär för att skapa och redigera.",
         "title": "Journalformulärets konfiguration",
         "scoreToggle": "Visa \"Nuvarande nivå\" i journalformuläret",
-        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den."
+        "scoreDescription": "När den är avstängd visas inte fältet \"Nuvarande nivå\" i journalens skapa- och redigeringsformulär. Fältet är tomt från början, så en nivå står där bara om någon har valt den.",
+        "wellbeingRulerToggle": "Visa välmåendelinjal i @:terms.journalNotes{''}",
+        "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal."
     },
     "journalNotes": {
         "title": "Journal notes",
@@ -8378,7 +8444,8 @@
         "downloadFile": {
             "alert": {
                 "fileSuccessfullyDownloadedToCitizensFolder": "Filen är blivit nedladdat till @:terms.citizenDefinite{'s'} mapp",
-                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen är blivit nedladdat till organisationens mapp"
+                "fileSuccessfullyDownloadedToOrganizationsFolder": "Filen är blivit nedladdat till organisationens mapp",
+                "fileSuccessfullyAddedToInquiry": "Filen har lagts till i ärendet"
             },
             "citizen": "@.capitalize:terms.citizen{''}",
             "citizenFolder": "@.capitalize:terms.citizen{''} mapp",
@@ -8386,7 +8453,10 @@
             "downloadFileToCitizensFolder": "Ladda ner fil till @:terms.citizenDefinite{'s'} mapp",
             "downloadFileToMyComputer": "Ladda ner fil till min computer",
             "downloadFileToOrganizationsFolder": "Ladda ner fil till organisationens mapp",
-            "organizationFolder": "Organisationsmappe"
+            "organizationFolder": "Organisationsmappe",
+            "addFileToInquiry": "Lägg till fil i ärendet",
+            "inquiry": "Ärende",
+            "inquiryHint": "Filen hämtas direkt från din egen e-post och läggs till ärendets dokument."
         },
         "draft": "Utkast",
         "form": {
@@ -8418,7 +8488,6 @@
             "to": "Till"
         },
         "forward": "Vidare",
-        "emptyInbox": "Din inkorg är tom",
         "inbox": "Indbakke",
         "insertSignature": "Infoga underskrift",
         "loadMore": "Ladda mer",
@@ -8524,7 +8593,8 @@
                 "step6Password": "Lösenord: det 16-teckens applösenordet (utan mellanslag)",
                 "oauthNote": "Obs: XOAUTH2 kräver ett fullständigt OAuth2-flöde med åtkomsttokens och stöds inte här. Applösenord är rätt metod för denna integration."
             }
-        }
+        },
+        "emptyInbox": "Din inkorg är tom"
     },
     "massUnits": {
         "addNewMassUnit": "Lägg till ny masseenhed",
@@ -8631,9 +8701,9 @@
     "messages": {
         "actions": {
             "delete": "Radera",
-            "download": "Ladda ner",
             "edit": "Redigera",
-            "more": "Mer"
+            "more": "Mer",
+            "download": "Ladda ner"
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chatt raderad",
@@ -10489,16 +10559,16 @@
                 "portalSectionCalendar": "Kalender",
                 "portalSectionBooking": "Onlinebokning",
                 "portalSectionSupport": "Support",
-                "portalSectionForms": "Formulär",
-                "portalSectionPriceEstimates": "Kostnadsförslag",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
                 "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
                 "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
+                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
+                "portalSectionForms": "Formulär",
+                "portalSectionPriceEstimates": "Kostnadsförslag",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
-                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
-                "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade"
+                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem."
             }
         },
         "licenseOverview": {
@@ -10641,7 +10711,9 @@
             "inquiryServiceTypes": "Insatstyper",
             "taskTypes": "Uppgiftstyper",
             "taskRules": "Uppgiftsregler",
-            "employmentOptions": "Anställningsval"
+            "employmentOptions": "Anställningsval",
+            "inquiryOffers": "Offerter och priser",
+            "customerDepartments": "Kunder och avdelningar"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11011,11 +11083,11 @@
         "coupons": "Kuponer",
         "discover": "Kom igång",
         "groups": {
-            "communication": "Kommunikation",
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
-            "shortcuts": "Genvägar"
+            "shortcuts": "Genvägar",
+            "communication": "Kommunikation"
         },
         "documents": "Dokument",
         "dutySchedules": "Tjänsteschema",
@@ -13006,14 +13078,6 @@
             "selectAll": "Ge alla moduler",
             "modulesAll": "Branschen får alla moduler.",
             "modulesNarrowed": "Branschen får {count} av {total} moduler.",
-            "colApps": "Appar",
-            "apps": "Appar från App Store",
-            "appsHelp": "Appar branschen får som en grundläggande del av paketet. Ett nytt företag får en licens till ägaren utan kostnad. Endast våra egna appar kan väljas.",
-            "appsNone": "Branschen får inga appar inkluderade.",
-            "appsCount": "Branschen får {count} app inkluderad. | Branschen får {count} appar inkluderade.",
-            "appIncluded": "Inkluderad",
-            "appFree": "Gratis",
-            "noApps": "Inga",
             "locale": {
                 "dk": "Danska",
                 "en": "Engelska",
@@ -13033,7 +13097,15 @@
                 "term_journal_note_tag": "Anteckningstyp",
                 "term_agreement": "Avtal",
                 "term_jobcenter": "Jobbcenter"
-            }
+            },
+            "colApps": "Appar",
+            "apps": "Appar från App Store",
+            "appsHelp": "Appar branschen får som en grundläggande del av paketet. Ett nytt företag får en licens till ägaren utan kostnad. Endast våra egna appar kan väljas.",
+            "appsNone": "Branschen får inga appar inkluderade.",
+            "appsCount": "Branschen får {count} app inkluderad. | Branschen får {count} appar inkluderade.",
+            "appIncluded": "Inkluderad",
+            "appFree": "Gratis",
+            "noApps": "Inga"
         },
         "salesInquiries": {
             "pageTitle": "Förfrågningar",
@@ -14921,9 +14993,9 @@
             "extraRemove": "Ta bort raden",
             "lineDescription": "Text på fakturaraden",
             "invoiceNote": "Notering på fakturan",
-            "goToInvoices": "Gå till fakturor",
+            "goToInvoices": "Se fakturorna",
             "nothingSelected": "Välj minst en insats, eller lägg till en övrig rad.",
-            "convertedBanner": "{count} faktura(or) har skapats och ligger klara under Fakturering.",
+            "convertedBanner": "{count} faktura(or) har skapats och ligger klara längst ner på sidan.",
             "registrations": "Timregistreringar",
             "invoiceCount": "{count} faktura(or)",
             "selectedOfRows": "{selected} av {total} valda",
@@ -14931,7 +15003,169 @@
             "helpPeriod": "Perioden avgör vilka timregistreringar som kommer med: alla registreringar som börjar i perioden och som inte redan är fakturerade. Timmar som fakturerats en gång kommer inte tillbaka.",
             "helpUsedHours": "Timmarna från timregistreringarna bakom raden. Du kan sänka dem när kontraktet bara täcker en del, och resten skrivs då av för perioden. Du kan inte höja dem över det registrerade - använd en övrig rad för det som inte är timmar.",
             "helpAgreedHours": "Det levererade hålls upp mot kontraktstimmarna på insatsen om de är ifyllda, annars mot medborgarens tilldelade timmar. Timmarna skalas till radens period, så att en placering som börjar mitt i månaden inte ser underlevererad ut. Kontraktstimmar sätts på placeringen i medborgarens stamkort.",
-            "helpConvert": "Omvandlar de valda insatserna till en faktura per betalande kommun, övriga rader inkluderade. Ikonen på raden skapar en faktura med bara den insatsen. Fakturorna ligger under Fakturering, klara att skickas."
+            "helpConvert": "Omvandlar de valda insatserna till en faktura per betalande kommun, övriga rader inkluderade. Ikonen på raden skapar en faktura med bara den insatsen. Fakturorna ligger under Fakturering, klara att skickas.",
+            "invoicePer": "Faktura per",
+            "invoicePerCustomer": "Kund/avdelning",
+            "invoicePerIntervention": "@.capitalize:terms.citizen{''}",
+            "contractMode": {
+                "legacy": "Timmar till timpris",
+                "hourly": "Avtal: pris per timme",
+                "fixed": "Avtal: fast pris"
+            },
+            "contractChangesInWindow": "Avtalet ändras under perioden. Det som gäller vid starten används.",
+            "customerNumber": "Kundnr"
+        },
+        "customerDepartments": {
+            "title": "Kunder och avdelningar",
+            "intro": "Avdelningarna hos era kunder som fakturorna skickas till. En kund kan ha flera avdelningar, var och en med egen adress, EAN-nummer och villkor.",
+            "new": "Ny avdelning",
+            "edit": "Redigera avdelning",
+            "search": "Sök på namn, kund eller EAN",
+            "empty": "Inga avdelningar har skapats ännu.",
+            "noCustomer": "Utan kund",
+            "municipality": "Kommun",
+            "customerHelp": "Välj kommunen, eller skriv kundens namn om det inte är en kommun.",
+            "customerName": "Kundens namn",
+            "customerNamePlaceholder": "T.ex. en privat kund",
+            "name": "Avdelningens namn",
+            "street": "Adress",
+            "postCode": "Postnr",
+            "city": "Ort",
+            "address": "Adress",
+            "eanNumber": "EAN-nummer",
+            "customerNumber": "Kundnummer",
+            "paymentTermsDays": "Betalningsvillkor",
+            "days": "{days} dagar netto",
+            "email": "E-post för fakturor",
+            "contactPerson": "Kontaktperson",
+            "phone": "Telefon",
+            "noticeTerms": "Uppsägningsvillkor",
+            "priceRegulation": "Prisregleringsavtal",
+            "isActive": "Aktiv",
+            "saved": "Avdelningen har sparats",
+            "deleted": "Avdelningen har raderats",
+            "confirmDelete": "Radera avdelningen? Avtal och fakturor som pekar på den behåller sina uppgifter."
+        },
+        "contract": {
+            "title": "Avtal",
+            "billedTo": "Faktureras till",
+            "noDepartmentYet": "Ingen avdelning vald ännu",
+            "newPeriod": "Ny avtalsperiod",
+            "editPeriod": "Redigera avtalsperiod",
+            "agreedPrice": "Avtalat pris",
+            "grantedHours": "Beviljade timmar",
+            "billingFrequency": "Faktureringsfrekvens",
+            "paymentTermsDays": "Betalningsvillkor",
+            "fallbackTitle": "Avtalsfälten på vistelsen används tills vidare",
+            "fallbackText": "Ingen avtalsperiod har skapats ännu. Faktureringsuttaget använder avtalspris och avtalstimmar från vistelsen. Skapa en avtalsperiod för att styra pris, timfördelning och fakturering härifrån.",
+            "history": "Avtalsperioder",
+            "noPeriods": "Inga avtalsperioder ännu.",
+            "period": "Period",
+            "department": "Kund och avdelning",
+            "hoursSplit": "Timfördelning",
+            "onInvoice": "På fakturan",
+            "lines": "Egna avtalsrader",
+            "current": "Gällande",
+            "contactHoursShort": "Kontakt",
+            "adminHoursShort": "Administration",
+            "transportHoursShort": "Transport",
+            "cpr": "Personnummer",
+            "caseNumber": "Insatsnummer",
+            "economicCustomerNumberShort": "Kundnr",
+            "economicProductNumberShort": "Artikelnr",
+            "confirmDelete": "Radera avtalsperioden? En period som har använts på en faktura kan inte raderas, bara avslutas.",
+            "deleted": "Avtalsperioden har raderats",
+            "saved": "Avtalsperioden har sparats",
+            "perHour": "per timme",
+            "perFrequency": {
+                "monthly": "per månad",
+                "quarterly": "per kvartal",
+                "half_yearly": "per halvår",
+                "yearly": "per år"
+            },
+            "intervals": {
+                "weekly": "per vecka",
+                "monthly": "per månad",
+                "total": "totalt för perioden"
+            },
+            "frequencies": {
+                "monthly": "Månadsvis",
+                "quarterly": "Kvartalsvis",
+                "half_yearly": "Halvårsvis",
+                "yearly": "Årsvis"
+            },
+            "reviewTitle": "Gå igenom timmar och pris",
+            "reviewText": "Den nya perioden är ifylld med föregående periods pris ({price}) och timmar ({hours}). Kontrollera att de fortfarande stämmer innan du sparar.",
+            "reviewConfirm": "Jag har gått igenom timmar och pris",
+            "startDate": "Startdatum",
+            "endDate": "Slutdatum",
+            "stay": "Vistelse",
+            "allStays": "Alla vistelser",
+            "noDepartment": "Ingen avdelning",
+            "createDepartment": "Skapa kunder och avdelningar under Inställningar",
+            "priceType": "Prismodell",
+            "priceTypes": {
+                "hourly": "Pris per levererad timme",
+                "fixed": "Fast pris per faktureringsperiod"
+            },
+            "fixedPrice": "Fast pris",
+            "hourlyPrice": "Timpris",
+            "hoursInterval": "Timmarna gäller",
+            "contactHours": "Kontakttid",
+            "adminHours": "Administrationstid",
+            "transportHours": "Transporttid",
+            "grantedTotal": "Beviljat totalt",
+            "fromDepartment": "{days} dagar (från avdelningen)",
+            "economicCustomerNumber": "Kundnummer i e-conomic",
+            "economicProductNumber": "Artikelnummer i e-conomic",
+            "showCpr": "Visa personnummer på fakturan",
+            "showCaseNumber": "Visa insatsnummer på fakturan",
+            "noCaseNumber": "Inget insatsnummer är registrerat, så inget visas.",
+            "addLine": "Lägg till rad",
+            "noLines": "T.ex. startavgift, lokalhyra eller statusrapport.",
+            "lineDescription": "Beskrivning",
+            "linePlaceholder": "T.ex. startavgift",
+            "lineAmount": "Belopp",
+            "lineRecurrence": "Faktureras",
+            "recurrences": {
+                "one_off": "En gång",
+                "recurring": "Varje faktureringsperiod"
+            },
+            "note": "Anteckning"
+        },
+        "invoices": {
+            "title": "Fakturor från uttaget",
+            "subtitle": "Markera flera fakturor och skicka eller markera dem samtidigt.",
+            "filterUnsent": "Ej skickade",
+            "filterSent": "Skickade",
+            "filterAll": "Alla",
+            "selected": "{count} valda",
+            "markSent": "Markera som skickad",
+            "markUnsent": "Markera som ej skickad",
+            "recipientPlaceholder": "Mottagare (annars avdelningens e-post)",
+            "sendEmail": "Skicka via e-post",
+            "pushEconomic": "Skicka till e-conomic som utkast",
+            "empty": "Inga fakturor i den här vyn.",
+            "number": "Fakturanr",
+            "billTo": "Mottagare",
+            "interventions": "@.capitalize:terms.citizens{''}",
+            "due": "Förfaller",
+            "status": "Status",
+            "sent": "Skickad",
+            "notSent": "Ej skickad",
+            "download": "Öppna PDF",
+            "partial": "{ok} gick igenom, {failed} misslyckades. Se de markerade fakturorna.",
+            "done": "{count} faktura(or) har behandlats.",
+            "reasons": {
+                "no_recipient": "Ingen mottagarmejl",
+                "not_found": "Fakturan hittades inte",
+                "error": "Ett fel uppstod",
+                "not_connected": "e-conomic är inte anslutet",
+                "invoice_not_found": "Fakturan hittades inte",
+                "customer_failed": "Kunden kunde inte skapas i e-conomic",
+                "invoice_failed": "Utkastet kunde inte skapas i e-conomic",
+                "unknown_action": "Okänd åtgärd"
+            }
         }
     },
     "inquiryPipelineStages": {
@@ -14943,7 +15177,8 @@
             "name": "Namn",
             "namePlaceholder": "T.ex. Utredning",
             "color": "Färg",
-            "role": "Roll"
+            "role": "Roll",
+            "notifiesRecruitment": "Meddelar rekryteringen"
         },
         "roles": {
             "neutral": "Vanlig fas",
@@ -15039,13 +15274,14 @@
             "company_contacts": "Kontakter",
             "spoken_languages": "Talade språk",
             "consultant_skills": "Konsultkompetenser (alla)",
-            "consultant_skills_competence": "Konsultkompetenser: kompetenser",
-            "consultant_skills_course": "Konsultkompetenser: kurser",
-            "consultant_skills_topic": "Konsultkompetenser: ämnesord",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
             "jobcenters": "Arbetsförmedlingar",
             "focus_areas": "Fokusområden (VUM, vuxna)",
+            "customer_departments": "Kunder och avdelningar",
+            "consultant_skills_competence": "Konsultkompetenser: kompetenser",
+            "consultant_skills_course": "Konsultkompetenser: kurser",
+            "consultant_skills_topic": "Konsultkompetenser: ämnesord",
             "focus_areas_ics": "Fokusområden (ICS, barn och unga)"
         },
         "allServiceTypes": "Alla insatstyper",
@@ -15210,7 +15446,12 @@
     },
     "inquiryStageHistory": {
         "empty": "Förfrågan har inte bytt fas ännu.",
-        "title": "Fasändringar"
+        "title": "Fasändringar",
+        "events": {
+            "offer_sent": "Offert skickad",
+            "offer_accepted": "Offert godkänd",
+            "offer_rejected": "Offert avvisad"
+        }
     },
     "consultantMatch": {
         "title": "Konsultmatchning",
@@ -15234,7 +15475,9 @@
             "minTravelKm": "Måste köra minst (km)",
             "minWeeklyHours": "Minst timmar per vecka",
             "minStep": "Minst stegbedömning",
-            "needsCar": "Måste ha bil"
+            "needsCar": "Måste ha bil",
+            "secondaryHint": "Ett plus. Räknas inte emot konsulten.",
+            "withinTravelRangeOnly": "Endast konsulter inom sitt köravstånd"
         },
         "criteriaNames": {
             "skill_uuids": "Kompetenser",
@@ -15245,11 +15488,26 @@
             "min_travel_km": "Körsträcka",
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",
-            "min_weekly_hours": "Timantal"
+            "min_weekly_hours": "Timantal",
+            "primary_spoken_language_uuid": "Primärt språk",
+            "within_travel_range": "Inom köravstånd"
         },
         "askSelected": "Fråga {count} valda",
         "asked": "Konsulterna är tillfrågade",
         "askFailed": "Konsulterna kunde inte tillfrågas",
+        "location": {
+            "none": "Ingen plats på förfrågan, så inga avstånd visas"
+        },
+        "sort": {
+            "match": "Bästa match",
+            "distance": "Närmast"
+        },
+        "distance": {
+            "unknown": "Avstånd okänt",
+            "km": "{km} km",
+            "approx": "ca {km} km"
+        },
+        "secondaryLanguageMet": "Talar även {language}",
         "prefilled": "Ifyllt från ärendet: {fields}. Ändra eller rensa innan du söker."
     },
     "inquiryNotes": {
@@ -15395,7 +15653,8 @@
             "title": "Skickat till andra"
         },
         "title": "Uppgiftstavlor",
-        "unassigned": "Ingen ansvarig"
+        "unassigned": "Ingen ansvarig",
+        "openInquiry": "Öppna ärende"
     },
     "taskTypes": {
         "title": "Uppgiftstyper",
@@ -15809,7 +16068,37 @@
             "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare."
         }
     },
+    "inquiryMatchNeeds": {
+        "heading": "Match: språk och plats",
+        "hint": "Används av konsultmatchningen. Konsulten måste tala det primära språket, det sekundära språket är ett plus.",
+        "primaryLanguage": "Primärt språk",
+        "secondaryLanguage": "Sekundärt språk",
+        "location": "Plats",
+        "locationPlaceholder": "Adress eller område, t.ex. Vesterbro",
+        "postalCode": "Postnummer",
+        "pending": "Placeras på kartan om en stund",
+        "unavailable": "Inte placerad på kartan: kartuppslag är inte konfigurerat, så inget avstånd visas",
+        "notFound": "Kunde inte hittas på kartan. Kontrollera adressen eller ange ett postnummer",
+        "geocoded": {
+            "address": "Placerad utifrån adressen",
+            "place": "Placerad utifrån området",
+            "postal_code": "Placerad utifrån postnumret (ungefärligt)"
+        }
+    },
     "wellbeing": {
+        "ruler": {
+            "title": "Välmåendelinjal",
+            "optional": "Valfri",
+            "hint": "Välj ett värde från 0 till {max}, halva steg är tillåtna. En rad utan värde sparas inte.",
+            "clear": "Rensa",
+            "wholeCase": "Samlat"
+        },
+        "development": {
+            "title": "Välmåendeutveckling",
+            "from": "Från",
+            "to": "Till",
+            "empty": "Det finns ännu inga välmåendevärden i perioden."
+        },
         "tab": "Välmående",
         "title": "Välmående",
         "description": "Mätningar av välmående från 0 till 10 för personen och relaterade personer, t.ex. syskon i samma insats. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
@@ -15839,5 +16128,223 @@
             "citizen": "Barnet/den unga",
             "other": "Annat"
         }
+    },
+    "inquiryRecruitment": {
+        "needsRecruitment": "Behov av rekrytering",
+        "hint": "Slå på när ärendet saknar en konsult. Rekryteringsteamet meddelas en gång.",
+        "notifiedAt": "Rekryteringsteamet meddelades {date}.",
+        "saved": "Rekryteringsbehovet har sparats",
+        "settings": {
+            "title": "Rekryteringsteam",
+            "description": "De som meddelas när ett ärende markeras med behov av rekrytering eller kommer till en fas som meddelar rekryteringen. De får en notis, push och mejl som beskriver uppdraget, aldrig personen.",
+            "groups": "Medarbetargrupper",
+            "users": "Medarbetare",
+            "taskBoard": "Skapa uppgift på tavla",
+            "taskBoardHint": "Valfritt. Uppgiften läggs i tavlans första kolumn.",
+            "recipientCount": "Meddelandet når {count} medarbetare.",
+            "nobody": "Ingen meddelas ännu. Välj en grupp eller en medarbetare.",
+            "saved": "Rekryteringsteamet har sparats"
+        }
+    },
+    "inquiryLost": {
+        "modal": {
+            "title": "Markera som förlorat",
+            "hint": "Registrera varför ärendet förlorades, så att det kan rapporteras.",
+            "reason": "Orsak",
+            "noReasons": "Det finns inga orsaker att välja mellan ännu. De skapas under inställningarna för faser.",
+            "note": "Fördjupning",
+            "notePlaceholder": "Vad hände?",
+            "price": "Uppskattat offertpris",
+            "pricePlaceholder": "Belopp i kr",
+            "confirm": "Markera som förlorat"
+        },
+        "detail": {
+            "heading": "Förlorat ärende"
+        },
+        "report": {
+            "open": "Förlorade ärenden",
+            "title": "Förlorade ärenden",
+            "subtitle": "Antal och förlorad omsättning per orsak under perioden.",
+            "from": "Från",
+            "to": "Till",
+            "totalCount": "Förlorade ärenden",
+            "totalRevenue": "Förlorad omsättning",
+            "byReason": "Per orsak",
+            "empty": "Inga förlorade ärenden under perioden.",
+            "noReason": "Utan orsak",
+            "cases": "Ärenden: {count}",
+            "withoutPrice": "utan pris: {count}",
+            "lostCases": "Ärendena",
+            "lostAt": "Förlorat",
+            "case": "Ärende"
+        },
+        "settings": {
+            "title": "Förlustorsaker",
+            "description": "Orsakerna att välja mellan när ett ärende markeras som förlorat. En orsak som har använts kan bara inaktiveras, så att rapporten behåller historiken.",
+            "namePlaceholder": "T.ex. pris eller brist på kapacitet",
+            "active": "Aktiv",
+            "delete": "Ta bort orsak",
+            "empty": "Inga förlustorsaker ännu.",
+            "newReason": "Ny orsak",
+            "add": "Lägg till orsak"
+        }
+    },
+    "inquiryOffer": {
+        "title": "Offert",
+        "hint": "Preliminär beräkning, versioner, utskick och kommunens svar.",
+        "newVersion": "Ny version",
+        "newCalculation": "Ny beräkning",
+        "specialLanguageBanner": "Specialspråk valt på förfrågan: {languages}. Tillägget läggs automatiskt på beräkningen.",
+        "empty": "Ingen offert har gjorts ännu.",
+        "version": "Version {version}",
+        "statuses": {
+            "draft": "Utkast",
+            "sent": "Skickad",
+            "accepted": "Godkänd",
+            "rejected": "Avvisad",
+            "superseded": "Ersatt"
+        },
+        "specialLanguage": "Specialspråk",
+        "overdue": "Fristen har passerats",
+        "perMonth": "per månad",
+        "perWeek": "per vecka",
+        "hoursPerWeek": "timmar per vecka",
+        "total": "Totalt",
+        "sentOn": "skickad {date}",
+        "deadlineOn": "frist {date}",
+        "respondedOn": "svar {date}",
+        "rejectionReason": "Orsak till avvisning",
+        "startWishes": "Önskemål om start",
+        "edit": "Redigera",
+        "hideDetails": "Dölj beräkning",
+        "showDetails": "Visa beräkning",
+        "send": "Skicka offert",
+        "registerAnswer": "Registrera svar",
+        "delete": "Radera",
+        "editingVersion": "Redigera version {version}",
+        "newDraft": "Nytt utkast",
+        "inputs": {
+            "contact_hours_per_session": "Kontakttimmar per tillfälle",
+            "sessions_per_week": "Antal tillfällen per vecka",
+            "admin_hours_per_session": "Extra adm.-tid per tillfälle (timmar)",
+            "transport_hours_per_session": "Beräknad restid per tillfälle (timmar)",
+            "reports_per_month": "Rapporter per månad",
+            "duration_weeks": "Varaktighet (veckor)",
+            "price_date": "Prisdatum",
+            "supervision": "Handledning",
+            "room": "Egna lokaler",
+            "special_language": "Specialspråk"
+        },
+        "specialLanguageAuto": "Automatiskt utifrån förfrågan",
+        "yes": "Ja",
+        "no": "Nej",
+        "adjustPrices": "Justera priser för denna offert",
+        "overrides": {
+            "hourly_rate": "Timpris",
+            "admin_hourly_rate": "Timpris, administration",
+            "transport_hourly_rate": "Timpris, resor",
+            "special_language_surcharge": "Tillägg för specialspråk per timme",
+            "supervision_price_per_week": "Handledning per vecka",
+            "room_price_per_session": "Lokal per tillfälle",
+            "reporting_price_per_report": "Pris per rapport",
+            "weeks_per_month": "Veckor per månad"
+        },
+        "extraItems": "Övriga tillägg och avdrag",
+        "extraLabel": "Text",
+        "extraAmount": "Belopp",
+        "per": {
+            "week": "per vecka",
+            "month": "per månad",
+            "once": "engångsbelopp"
+        },
+        "addExtraItem": "Lägg till rad",
+        "consultants": "Presentation av valda konsulter",
+        "consultantsHint": "Konsulterna som valts för ärendet presenteras i offerten med kompetenser och språk. Skriv gärna en kort presentation.",
+        "consultantNotePlaceholder": "Kort presentation för kommunen",
+        "note": "Anmärkningar",
+        "saveDraft": "Spara utkast",
+        "sendTitle": "Skicka offert",
+        "sentAt": "Skickad",
+        "deadlineDays": "Svarsfrist (dagar)",
+        "deadlinePreview": "Kommunen ska svara senast {date}.",
+        "reminderHint": "Du och den som gjorde offerten får en påminnelse när fristen närmar sig, och igen om den passeras.",
+        "answerTitle": "Registrera kommunens svar",
+        "respondedAt": "Datum för svar",
+        "startWishesPlaceholder": "T.ex. önskat startdatum eller justeringar",
+        "remarks": "Anmärkningar",
+        "acceptHint": "Förfrågan flyttas till den vunna fasen. När den konverteras förs pris och timmar över till kontraktsfälten.",
+        "rejectHint": "Förfrågan flyttas till den förlorade fasen, och orsaken sparas i beslutsloggen.",
+        "confirmDelete": "Vill du radera utkastet",
+        "fromCatalogue": "från katalogen",
+        "saved": "Offerten har sparats",
+        "saveFailed": "Offerten kunde inte sparas",
+        "sentAlert": "Offerten är registrerad som skickad",
+        "answerSaved": "Svaret har registrerats",
+        "stageBlocked": "Svaret är registrerat, men förfrågan kunde inte flyttas eftersom dessa fält saknas: {fields}",
+        "fileName": "offert-version-{version}",
+        "downloadFailed": "Dokumentet kunde inte hämtas",
+        "specialLanguageChosen": "Specialspråk: {languages}",
+        "result": {
+            "item": "Post",
+            "quantity": "Timmar/antal",
+            "unitPrice": "Pris",
+            "perWeek": "Per vecka",
+            "weeklyPrice": "Pris per vecka",
+            "monthlyPrice": "Pris per månad",
+            "totalPrice": "Totalpris",
+            "weeklyHours": "Timmar per vecka",
+            "assumptions": "Förutsättningar"
+        }
+    },
+    "inquiryOfferSettings": {
+        "title": "Offerter och priser",
+        "description": "Taxor per insatstyp, gemensamma priser, specialspråk och offertmallen. Priserna revideras genom att lägga till en ny version med ett startdatum, så att tidigare offerter fortfarande kan förklaras med de priser som gällde då.",
+        "rates": {
+            "title": "Taxor per insatstyp",
+            "hint": "Timpriset för kontakttimmar. Administration och resor använder samma timpris om inget eget anges.",
+            "serviceType": "Insatstyp",
+            "hourly_rate": "Timpris",
+            "admin_hourly_rate": "Administration",
+            "transport_hourly_rate": "Resor",
+            "empty": "Inga taxor har angetts ännu."
+        },
+        "validFrom": "Gäller från",
+        "note": "Anteckning",
+        "add": "Lägg till",
+        "fromDate": "Från {date}",
+        "prices": {
+            "title": "Gemensamma priser",
+            "hint": "Tillägg för specialspråk, handledning, lokaler och rapportering. Lägg till en ny version vid den årliga prisjusteringen.",
+            "special_language_surcharge": "Specialspråk per timme",
+            "supervision_price_per_week": "Handledning per vecka",
+            "room_price_per_session": "Lokal per tillfälle",
+            "reporting_price_per_report": "Pris per rapport",
+            "weeks_per_month": "Veckor per månad",
+            "special_language_applies_to": "Specialspråkstillägget läggs på",
+            "appliesContact": "Kontakttimmarna",
+            "appliesAll": "Alla timmar",
+            "addRevision": "Lägg till version",
+            "empty": "Inga priser har angetts ännu."
+        },
+        "languages": {
+            "title": "Specialspråk",
+            "hint": "Markera de språk som utlöser specialspråkstillägg. Alla andra språk räknas som vanliga språk.",
+            "search": "Sök språk",
+            "count": "{count} språk markerade som specialspråk"
+        },
+        "template": {
+            "title": "Offertmall",
+            "hint": "Texterna fogas in i offerten som PDF och Word. Du kan använda dessa fält: {placeholders}",
+            "documentTitle": "Rubrik",
+            "documentTitlePlaceholder": "Offert",
+            "intro": "Inledning",
+            "introPlaceholder": "Text före prisberäkningen",
+            "terms": "Avslutning och villkor",
+            "termsPlaceholder": "Text efter prisberäkningen",
+            "deadlineDays": "Standard svarsfrist (dagar)",
+            "reminderDaysBefore": "Påminnelse dagar före fristen"
+        },
+        "saved": "Sparat",
+        "saveFailed": "Kunde inte sparas"
     }
 }

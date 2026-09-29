@@ -40,6 +40,22 @@
                             </div>
 
                             <div>
+                                <FormLabel for="crit-primary-language"
+                                    :label="$t('inquiryMatchNeeds.primaryLanguage')" />
+                                <FormSelect id="crit-primary-language" searchable
+                                    v-model="state.form.primary_spoken_language_uuid" :options="languageOptions" />
+                            </div>
+
+                            <div>
+                                <FormLabel for="crit-secondary-language"
+                                    :label="$t('inquiryMatchNeeds.secondaryLanguage')" />
+                                <FormSelect id="crit-secondary-language" searchable
+                                    v-model="state.form.secondary_spoken_language_uuid"
+                                    :options="languageOptions.filter((o: any) => o.value !== state.form.primary_spoken_language_uuid)" />
+                                <p class="mt-1 text-[11px] text-slate-400">{{ $t('consultantMatch.form.secondaryHint') }}</p>
+                            </div>
+
+                            <div>
                                 <FormLabel for="crit-languages"
                                     :label="$t('consultantMatch.form.spokenLanguages')" />
                                 <FormSelectMultiple id="crit-languages" v-model="state.form.spoken_language_uuids"
@@ -92,6 +108,22 @@
                                 </div>
                             </div>
 
+                            <!-- Where the case takes place comes from the inquiry itself;
+                                 distances are measured from there. -->
+                            <div class="rounded-lg border border-surface-200 bg-surface-50 px-3 py-2.5">
+                                <p class="text-xs font-bold text-slate-500">{{ $t('inquiryMatchNeeds.location') }}</p>
+                                <p class="mt-0.5 text-[13px] text-slate-700">
+                                    {{ inquiryLocation || $t('consultantMatch.location.none') }}
+                                </p>
+                                <p v-if="inquiryLocation" class="mt-0.5 text-[11px] text-slate-400">{{ locationStatus }}</p>
+                                <div v-if="state.inquiry?.location_geocoded"
+                                    class="mt-2 flex w-fit cursor-pointer items-center gap-2"
+                                    @click="state.form.within_travel_range_only = !state.form.within_travel_range_only">
+                                    <FormCheckbox :value="state.form.within_travel_range_only" />
+                                    <span class="text-sm">{{ $t('consultantMatch.form.withinTravelRangeOnly') }}</span>
+                                </div>
+                            </div>
+
                             <div class="flex w-fit cursor-pointer items-center gap-2"
                                 @click="state.form.has_car = state.form.has_car ? null : true">
                                 <FormCheckbox :value="!!state.form.has_car" />
@@ -121,6 +153,15 @@
                                     criteria: state.criteriaAsked.length,
                                 }) }}
                             </p>
+                            <div v-if="state.inquiry?.location_geocoded"
+                                class="flex items-center gap-1 rounded-lg border border-surface-200 bg-white p-0.5">
+                                <button v-for="option in ['match', 'distance']" :key="option" type="button"
+                                    class="rounded-md px-2.5 py-1 text-[12px] font-semibold transition-colors"
+                                    :class="state.form.sort === option ? 'bg-secondary text-white' : 'text-slate-500 hover:bg-surface-50'"
+                                    @click="setSort(option)">
+                                    {{ $t('consultantMatch.sort.' + option) }}
+                                </button>
+                            </div>
                             <FormButton v-if="state.picked.length" type="button" buttonStyle="primary"
                                 :disabled="state.isInviting" @click="invite">
                                 <Icon name="ph:paper-plane-tilt" class="size-4" />
@@ -158,6 +199,20 @@
                                         <span v-if="!result.is_ready"
                                             class="rounded-full bg-[#fbe9e5] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c0442c]">
                                             {{ $t('consultantMatch.notReady') }}
+                                        </span>
+                                        <!-- Distance from the case to her home; approximate
+                                             when her home is only known by postal code. -->
+                                        <span v-if="state.locationGeocoded"
+                                            class="inline-flex items-center gap-1 rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
+                                            :class="distanceClass(result)">
+                                            <Icon name="ph:map-pin" class="size-3" />
+                                            {{ distanceText(result) }}
+                                        </span>
+                                        <!-- The secondary language is a plus, never a miss,
+                                             so only having it is shown. -->
+                                        <span v-if="result.secondary_language_match === true"
+                                            class="rounded-full bg-[#e6f6ee] px-2.5 py-[3px] text-[11.5px] font-bold text-[#177a53]">
+                                            {{ $t('consultantMatch.secondaryLanguageMet', { language: secondaryLanguageName }) }}
                                         </span>
                                     </div>
                                         <p class="mt-1 text-xs text-slate-500">{{ profileLine(result) }}</p>
@@ -198,6 +253,7 @@
 <script setup lang="ts">
 definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', requiredCompanyFlag: 'inquiry_pipeline_enabled' })
 
+import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { inquiryConsultantInvitationService } from '@/components/api/user/InquiryConsultantInvitationService'
@@ -250,7 +306,17 @@ function emptyForm() {
         consultant_status: [] as string[],
         min_step_assessment: null as number | null,
         min_weekly_hours: '',
+        primary_spoken_language_uuid: null as string | null,
+        secondary_spoken_language_uuid: null as string | null,
+        within_travel_range_only: false,
+        sort: 'match' as 'match' | 'distance',
     }
+}
+
+// The inquiry's own language needs, as the starting point of a search.
+function prefillLanguagesFromInquiry() {
+    state.form.primary_spoken_language_uuid = state.inquiry?.primary_spoken_language?.uuid ?? null
+    state.form.secondary_spoken_language_uuid = state.inquiry?.secondary_spoken_language?.uuid ?? null
 }
 
 const state = reactive({
@@ -265,9 +331,57 @@ const state = reactive({
     results: [] as any[],
     picked: [] as string[],
     isInviting: false,
+    inquiry: null as any,
+    locationGeocoded: false,
     form: emptyForm(),
     prefilledFrom: [] as string[],
 })
+
+const inquiryLocation = computed(() =>
+    [state.inquiry?.location_address, state.inquiry?.location_postal_code].filter(Boolean).join(', ')
+)
+
+const locationStatus = computed(() => {
+    if (state.inquiry?.location_geocoded) {
+        return t('inquiryMatchNeeds.geocoded.' + (state.inquiry.location_geocode_source || 'address'))
+    }
+
+    if (state.inquiry?.location_geocoded_at) return t('inquiryMatchNeeds.notFound')
+
+    // Nothing will ever place it without a geocoding token; say so rather than
+    // promising a point that never comes.
+    return state.inquiry?.location_geocoding_enabled === false ? t('inquiryMatchNeeds.unavailable') : t('inquiryMatchNeeds.pending')
+})
+
+const secondaryLanguageName = computed(() =>
+    state.languages.find((l: any) => l.uuid === state.form.secondary_spoken_language_uuid)?.name ?? ''
+)
+
+function distanceText(result: any) {
+    if (result.distance_km === null || result.distance_km === undefined) {
+        return t('consultantMatch.distance.unknown')
+    }
+
+    const km = Number(result.distance_km).toLocaleString('da-DK', { maximumFractionDigits: 1 })
+
+    return result.distance_basis === 'postal_code'
+        ? t('consultantMatch.distance.approx', { km })
+        : t('consultantMatch.distance.km', { km })
+}
+
+function distanceClass(result: any) {
+    if (result.distance_km === null || result.distance_km === undefined) return 'bg-surface-100 text-slate-500'
+
+    return result.unmet.includes('within_travel_range')
+        ? 'bg-[#fdf3df] text-[#8a6208]'
+        : 'bg-[#eef6fb] text-secondary'
+}
+
+function setSort(sort: 'match' | 'distance') {
+    if (state.form.sort === sort) return
+    state.form.sort = sort
+    if (state.hasSearched) search()
+}
 
 const fullCount = computed(() => state.results.filter((r: any) => r.match === 'full').length)
 
@@ -283,7 +397,18 @@ const statusOptions = computed(() =>
 
 onMounted(() => {
     fetchLookups()
+    fetchInquiry()
 })
+
+async function fetchInquiry() {
+    try {
+        const response = await citizenInquiryService.getSelectedInquiry(inquiryUuid)
+        state.inquiry = response?.data ?? null
+        prefillLanguagesFromInquiry()
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function skillOptions(type: string) {
     return state.catalogue
@@ -437,7 +562,11 @@ async function search() {
     try {
         // Only what was actually filled in is sent: an empty criterion must not
         // become a requirement nobody can meet.
-        const payload: Record<string, any> = {}
+        // The case being matched: its location is where distances run from.
+        const payload: Record<string, any> = { inquiry_uuid: inquiryUuid, sort: state.form.sort }
+        if (state.form.primary_spoken_language_uuid) payload.primary_spoken_language_uuid = state.form.primary_spoken_language_uuid
+        if (state.form.secondary_spoken_language_uuid) payload.secondary_spoken_language_uuid = state.form.secondary_spoken_language_uuid
+        if (state.form.within_travel_range_only) payload.within_travel_range_only = true
         if (state.form.skill_uuids.length) payload.skill_uuids = state.form.skill_uuids
         if (state.form.spoken_language_uuids.length) payload.spoken_language_uuids = state.form.spoken_language_uuids
         if (state.form.municipality_uuid) payload.municipality_uuid = state.form.municipality_uuid
@@ -451,6 +580,7 @@ async function search() {
         const response = await consultantSkillService.match(payload)
         state.results = response?.data ?? []
         state.criteriaAsked = response?.meta?.criteria_asked ?? []
+        state.locationGeocoded = !!response?.meta?.location?.geocoded
         state.hasSearched = true
         // A new result set makes an old selection meaningless.
         state.picked = []

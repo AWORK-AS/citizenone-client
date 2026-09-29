@@ -1,0 +1,186 @@
+<template>
+    <div>
+        <NuxtLayout name="user">
+            <Head>
+                <Title>{{ $t('socialWelfare.customerDepartments.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+            <template #breadcrumb>
+                <Breadcrumb :links="breadcrumbLinks" />
+            </template>
+            <template #header>{{ $t('socialWelfare.customerDepartments.title') }}</template>
+
+            <div class="mt-8 space-y-5">
+                <div class="flex flex-wrap items-center justify-between gap-3">
+                    <p class="text-sm text-slate-500 max-w-2xl">{{ $t('socialWelfare.customerDepartments.intro') }}</p>
+                    <FormButton buttonStyle="action" @click="openModal(null)">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('socialWelfare.customerDepartments.new') }}
+                    </FormButton>
+                </div>
+
+                <Alert type="danger" :text="state.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+
+                <div class="flex items-center gap-3">
+                    <input type="search" class="co-cell-input w-72" v-model="state.search"
+                        :placeholder="$t('socialWelfare.customerDepartments.search')" @keyup.enter="fetchDepartments" />
+                    <FormButton buttonStyle="action" @click="fetchDepartments">
+                        <Icon name="ph:magnifying-glass" class="h-4 w-4" />
+                    </FormButton>
+                </div>
+
+                <LoadingSpinner :isActive="state.isLoading">
+                    <div v-if="!state.departments.length"
+                        class="bg-white border border-surface-200 rounded-xl p-12 text-center shadow-sm">
+                        <Icon name="ph:buildings" class="w-12 h-12 text-slate-300 mx-auto mb-3" />
+                        <p class="text-slate-400 text-sm">{{ $t('socialWelfare.customerDepartments.empty') }}</p>
+                    </div>
+
+                    <!-- One card per customer, because a customer buys through
+                         several departments and each has its own EAN. -->
+                    <div v-else class="space-y-5">
+                        <div v-for="customer in grouped" :key="customer.label"
+                            class="bg-white border border-surface-200 rounded-xl shadow-sm overflow-hidden">
+                            <div class="px-5 py-3 border-b border-surface-200 bg-slate-50">
+                                <p class="text-sm font-semibold text-slate-900">
+                                    {{ customer.label || $t('socialWelfare.customerDepartments.noCustomer') }}
+                                </p>
+                            </div>
+                            <div class="overflow-x-auto">
+                                <table class="w-full">
+                                    <thead class="border-b border-surface-200">
+                                        <tr>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.name') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.address') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.eanNumber') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.customerNumber') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.paymentTermsDays') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.isActive') }}</th>
+                                            <th class="co-th"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr v-for="department in customer.departments" :key="department.uuid"
+                                            class="border-b border-surface-200 last:border-0">
+                                            <td class="co-td">
+                                                <p class="font-medium text-slate-900">{{ department.name }}</p>
+                                                <p v-if="department.email" class="text-[12px] text-slate-400">{{ department.email }}</p>
+                                            </td>
+                                            <td class="co-td text-slate-500">{{ department.address || '-' }}</td>
+                                            <td class="co-td text-slate-500 tabular-nums">{{ department.ean_number || '-' }}</td>
+                                            <td class="co-td text-slate-500">{{ department.customer_number || '-' }}</td>
+                                            <td class="co-td text-slate-500">
+                                                {{ department.payment_terms_days === null ? '-' : $t('socialWelfare.customerDepartments.days', { days: department.payment_terms_days }) }}
+                                            </td>
+                                            <td class="co-td text-slate-500">{{ department.is_active ? $t('yes') : $t('no') }}</td>
+                                            <td class="co-td">
+                                                <div class="flex items-center justify-end gap-2">
+                                                    <FormButton type="button" buttonStyle="action" @click="openModal(department)">
+                                                        <Icon name="ph:pencil-simple" class="size-4" />
+                                                        {{ $t('edit') }}
+                                                    </FormButton>
+                                                    <FormButton type="button" buttonStyle="danger" @click="confirmDelete(department)">
+                                                        <Icon name="ph:trash" class="size-4" />
+                                                    </FormButton>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </LoadingSpinner>
+            </div>
+
+            <ModulesUserEconomyCustomerDepartmentModal :isModalOpen="state.isModalOpen" :department="state.selected"
+                @close="state.isModalOpen = false" @saved="fetchDepartments" />
+            <DialogConfirmation :isModalOpen="state.isDeleteOpen"
+                :message="$t('socialWelfare.customerDepartments.confirmDelete')"
+                @close="state.isDeleteOpen = false" @confirm="deleteDepartment" />
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
+import { useUserStore } from '@/store/user'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
+import type { Error } from '@/types'
+
+const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
+const { successAlert } = useAlert()
+const { t } = useI18n()
+
+const breadcrumbLinks = [
+    { name: 'socialWelfare.customerDepartments.title', translate: true, href: '/settings/customer-departments' },
+]
+
+const state = reactive({
+    departments: [] as any[],
+    error: {} as Error,
+    isLoading: false,
+    isModalOpen: false,
+    isDeleteOpen: false,
+    selected: null as any,
+    search: '',
+})
+
+const grouped = computed(() => {
+    const groups: Record<string, { label: string, departments: any[] }> = {}
+
+    for (const department of state.departments) {
+        const label = department.customer_label || ''
+        groups[label] ??= { label, departments: [] }
+        groups[label].departments.push(department)
+    }
+
+    return Object.values(groups).sort((a, b) => a.label.localeCompare(b.label))
+})
+
+onMounted(() => {
+    if (userStore.getUser?.company?.industry?.system_name !== 'social_welfare') {
+        navigateTo('/settings/expense-categories')
+
+        return
+    }
+
+    fetchDepartments()
+})
+
+async function fetchDepartments() {
+    state.error = {} as Error
+    state.isLoading = true
+    try {
+        const response = await socialWelfareService.getCustomerDepartments(state.search ? { search: state.search } : {})
+        state.departments = response?.data ?? []
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
+function openModal(department: any) {
+    state.selected = department
+    state.isModalOpen = true
+}
+
+function confirmDelete(department: any) {
+    state.selected = department
+    state.isDeleteOpen = true
+}
+
+async function deleteDepartment() {
+    state.isDeleteOpen = false
+    state.error = {} as Error
+    try {
+        await socialWelfareService.deleteCustomerDepartment(state.selected.uuid)
+        successAlert(`${t('alert.success')}!`, t('socialWelfare.customerDepartments.deleted'))
+        fetchDepartments()
+    } catch (error: any) {
+        state.error = error
+    }
+}
+</script>

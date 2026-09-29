@@ -43,6 +43,14 @@
                         :options="lookupOptions(field)"
                         @update:modelValue="(value: any) => setValue(field, value)" />
 
+                    <!-- A special language carries a surcharge on the offer, so it is
+                         said where it is chosen. -->
+                    <p v-if="field.type === 'lookup' && specialChosen(field).length"
+                        class="mt-1 inline-flex items-center gap-1 rounded-full bg-[#fdf1ee] px-2 py-px text-[11px] font-bold text-[#c0442c]">
+                        <Icon name="ph:translate" class="size-3" />
+                        {{ $t('inquiryOffer.specialLanguageChosen', { languages: specialChosen(field).join(', ') }) }}
+                    </p>
+
                     <FormSelect v-else-if="field.type === 'select'" :modelValue="draft[field.uuid] ?? null"
                         :options="choiceOptions(field)" :searchable="false"
                         @update:modelValue="(value: any) => setValue(field, value)" />
@@ -139,7 +147,18 @@ function isWide(field: any) {
 }
 
 function lookupOptions(field: any) {
-    return (field.lookup_options ?? []).map((option: any) => ({ value: option.uuid, label: option.label }))
+    return (field.lookup_options ?? []).map((option: any) => ({
+        value: option.uuid,
+        label: option.is_special ? `${option.label} (${t('inquiryOffer.specialLanguage').toLowerCase()})` : option.label,
+    }))
+}
+
+function specialChosen(field: any): string[] {
+    const chosen = ([] as any[]).concat(draft.value[field.uuid] ?? [])
+
+    return (field.lookup_options ?? [])
+        .filter((option: any) => option.is_special && chosen.includes(option.uuid))
+        .map((option: any) => option.label)
 }
 
 function choiceOptions(field: any) {

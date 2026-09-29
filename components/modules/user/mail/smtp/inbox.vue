@@ -204,7 +204,8 @@
         </div>
 
         <ModulesUserMailSmtpModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
-            :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
+            :selectedAttachment="state.selectedAttachment" :messageId="state.selectedEmail?.header?.uid ?? ''" folder="inbox"
+            @close="state.modal.isDownloadAttachment = false" />
         <ModulesUserMailModalLinkToCitizen :isModalOpen="state.modal.isLinkToCitizen"
             :selectedEmail="state.selectedEmail" sourceFolder="INBOX" @close="state.modal.isLinkToCitizen = false" />
     </div>
