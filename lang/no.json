@@ -85,6 +85,7 @@
     },
     "companyModules": {
         "Economy": "Økonomi",
+        "Wellbeing": "Trivsel",
         "Journals": "Journaler",
         "Medicine card": "Medisinkort",
         "Plans and goals": "Planer og mål",

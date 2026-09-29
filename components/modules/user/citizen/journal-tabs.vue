@@ -46,9 +46,9 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
         })
     }
     // Wellbeing measured over time, for the citizen and whoever is related to
-    // them. Follows the journal: it is written by the same people, and dental
-    // patients are not measured this way.
-    if (can('Journals') && !isDental) {
+    // them. Its own module, so an admin can switch it off under Settings ->
+    // Company -> Moduler. Dental patients are not measured this way.
+    if (can('Wellbeing') && !isDental) {
         tabs.push({
             name: 'wellbeing.tab', icon: 'ph:chart-line-up', isTranslateName: true,
             category: 'documentation', primary: false,
