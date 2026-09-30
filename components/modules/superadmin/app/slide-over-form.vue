@@ -346,6 +346,7 @@ const imageInputRef = ref<HTMLInputElement | null>(null)
 const bgInputRef = ref<HTMLInputElement | null>(null)
 
 const boolFlags = [
+    { key: 'is_free', label: 'superadmin.apps.form.isFree' },
     { key: 'is_quantifiable', label: 'superadmin.apps.form.quantifiable' },
     { key: 'is_thirdparty', label: 'superadmin.apps.form.thirdPartyApp' },
     { key: 'is_popular', label: 'superadmin.apps.form.popular' },
@@ -365,6 +366,7 @@ const state = reactive({
         discount_ends_at: '' as any,
         discount_percent: 0,
         is_active: true,
+        is_free: false,
         is_news: false,
         is_one_time_fee: false,
         is_popular: false,
@@ -407,6 +409,7 @@ watch(() => props.selectedApp, (app: any) => {
             discount_ends_at: app.discount_ends_at ? String(app.discount_ends_at).slice(0, 10) : '',
             discount_percent: app.discount_percent ?? 0,
             is_active: app.is_active !== false,
+            is_free: app.is_free ?? false,
             is_news: app.is_news ?? false,
             is_one_time_fee: app.is_one_time_fee ?? false,
             is_popular: app.is_popular ?? false,
@@ -487,6 +490,7 @@ function reset() {
         discount_ends_at: '',
         discount_percent: 0,
         is_active: true,
+        is_free: false,
         is_news: false,
         is_one_time_fee: false,
         is_popular: false,

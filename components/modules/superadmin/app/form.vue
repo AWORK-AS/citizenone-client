@@ -122,6 +122,13 @@
             </div>
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formApp.is_free = !state.formApp.is_free">
+                    <FormCheckbox :value="state.formApp.is_free" />
+                    {{ $t('superadmin.apps.form.isFree') }}
+                </div>
+            </div>
+            <div class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formApp.is_quantifiable = !state.formApp.is_quantifiable">
                     <FormCheckbox :value="state.formApp.is_quantifiable" />
                     {{ $t('superadmin.apps.form.quantifiable') }}
@@ -214,6 +221,7 @@ const state = reactive({
         type: '',
         logo: '',
         image: '',
+        is_free: false,
         is_quantifiable: false,
         is_thirdparty: false,
         is_popular: false,
@@ -245,6 +253,7 @@ watch(() => props.selectedApp, (newValue: any) => {
             type: newValue.type,
             logo: '',
             image: '',
+            is_free: newValue.is_free,
             is_quantifiable: newValue.is_quantifiable,
             is_thirdparty: newValue.is_thirdparty,
             is_popular: newValue.is_popular,
