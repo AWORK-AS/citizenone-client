@@ -11199,6 +11199,10 @@
             "purchaseExtraLicenses": "Purchase extra licenses",
             "total": "Total"
         },
+        "basisUserLimit": {
+            "confirmUpgrade": "Do you want to upgrade to Pro?",
+            "title": "Upgrade to Pro"
+        },
         "coupon": {
             "coupon": "Coupon",
             "enterYourCouponCodeHereForExclusiveSavings": "Enter your coupon code here for exclusive savings",
