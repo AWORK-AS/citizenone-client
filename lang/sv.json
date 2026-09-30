@@ -11704,7 +11704,8 @@
                 "storage": "Lagringsanvändning",
                 "nextPayment": "Nästa betalning",
                 "perYear": "{amount} per år",
-                "notCollecting": "Betalar inte"
+                "notCollecting": "Betalar inte",
+                "source": "Källa"
             },
             "tabs": {
                 "accounts": "Konton",
@@ -11818,6 +11819,14 @@
                 "endsAtHint": "Sista dagen kunden betalar. Prognosen stannar här.",
                 "cancellationSaved": "Uppsägningen är sparad",
                 "cancellationFailed": "Uppsägningen kunde inte sparas"
+            },
+            "source": {
+                "all": "Alla källor",
+                "search": "Sökmotor (organisk)",
+                "campaign": "Kampanj",
+                "referral": "Hänvisning",
+                "direct": "Direkt",
+                "unknown": "Okänd"
             }
         },
         "coupons": {

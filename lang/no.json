@@ -11704,7 +11704,8 @@
                 "storage": "Lagerforbruk",
                 "nextPayment": "Neste betaling",
                 "perYear": "{amount} per år",
-                "notCollecting": "Betaler ikke"
+                "notCollecting": "Betaler ikke",
+                "source": "Kilde"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -11818,6 +11819,14 @@
                 "endsAtHint": "Siste dag kunden betaler. Prognosen stopper her.",
                 "cancellationSaved": "Oppsigelsen er lagret",
                 "cancellationFailed": "Oppsigelsen kunne ikke lagres"
+            },
+            "source": {
+                "all": "Alle kilder",
+                "search": "Søkemotor (organisk)",
+                "campaign": "Kampanje",
+                "referral": "Henvisning",
+                "direct": "Direkte",
+                "unknown": "Ukjent"
             }
         },
         "coupons": {

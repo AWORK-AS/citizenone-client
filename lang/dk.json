@@ -11741,7 +11741,8 @@
                 "storage": "Lagerforbrug",
                 "nextPayment": "Næste betaling",
                 "perYear": "{amount} pr. år",
-                "notCollecting": "Betaler ikke"
+                "notCollecting": "Betaler ikke",
+                "source": "Kilde"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -11855,6 +11856,14 @@
                 "endsAtHint": "Sidste dag kunden betaler. Prognosen stopper her.",
                 "cancellationSaved": "Opsigelsen er gemt",
                 "cancellationFailed": "Opsigelsen kunne ikke gemmes"
+            },
+            "source": {
+                "all": "Alle kilder",
+                "search": "Søgemaskine (organisk)",
+                "campaign": "Kampagne",
+                "referral": "Henvisning",
+                "direct": "Direkte",
+                "unknown": "Ukendt"
             }
         },
         "coupons": {
