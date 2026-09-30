@@ -9978,6 +9978,7 @@
             "password": "Adgangskode",
             "personalizeYourCitizenOneExperience": "Vælg den branche, der passer bedst til din organisation",
             "phone": "Telefon",
+            "phoneOptional": "Telefon (valgfrit)",
             "phonePlaceholder": "Indtast dit telefonnummer",
             "signin": "Log ind",
             "termsAndConditions": "Vilkår og betingelser",

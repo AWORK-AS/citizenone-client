@@ -9978,6 +9978,7 @@
             "password": "Password",
             "personalizeYourCitizenOneExperience": "Choose the industry that best fits your organization",
             "phone": "Phone",
+            "phoneOptional": "Phone (optional)",
             "phonePlaceholder": "Enter your phone number",
             "signin": "Sign in",
             "termsAndConditions": "Terms and Conditions",

@@ -9973,6 +9973,7 @@
             "password": "Lösenord",
             "personalizeYourCitizenOneExperience": "Välj den bransch som passar bäst för din organisation",
             "phone": "Telefon",
+            "phoneOptional": "Telefon (valfritt)",
             "phonePlaceholder": "Ange ditt telefonnummer",
             "signin": "Logga in",
             "termsAndConditions": "Vilkår och betingelser",
