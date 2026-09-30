@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "buffer": {
+                    "description": "Kræv en minimumsafstand omkring bookinger for denne ydelse.",
+                    "minutesAfter": "Minutter påkrævet efter en booking",
+                    "minutesBefore": "Minutter påkrævet før en booking",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notifikation",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "buffer": {
+                    "description": "Kræv en minimumsafstand omkring bookinger for denne ydelse.",
+                    "minutesAfter": "Minutter påkrævet efter en booking",
+                    "minutesBefore": "Minutter påkrævet før en booking",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notifikation",
