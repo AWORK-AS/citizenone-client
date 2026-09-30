@@ -200,24 +200,13 @@
                         <div class="co-tag">{{ $t('login.tagline') }}</div>
                         <div class="co-h1">{{ $t('login.headlineLine1') }}<br>{{ $t('login.headlineLine2') }}</div>
                         <p class="co-desc">{{ $t('login.description') }}</p>
-                        <div class="co-live-header">
-                            <div class="co-live-dot"></div>
-                            <span class="co-live-lbl">{{ $t('login.liveActivity') }}</span>
-                        </div>
-                        <div class="co-stats">
-                            <div class="co-stat">
-                                <div class="co-stat-num" id="fst-reg-users">—</div>
-                                <div class="co-stat-lbl">{{ $t('register.activeUsersNow') }}</div>
-                            </div>
-                            <div class="co-stat">
-                                <div class="co-stat-num" id="fst-reg-journals">—</div>
-                                <div class="co-stat-lbl">{{ $t('login.journalNotesToday') }}</div>
-                            </div>
-                            <div class="co-stat">
-                                <div class="co-stat-num" id="fst-reg-shifts">—</div>
-                                <div class="co-stat-lbl">{{ $t('login.shiftsPlannedToday') }}</div>
-                            </div>
-                        </div>
+                        <!-- This held three "Live aktivitet" counters whose numbers were made up in the
+                             browser from the date and nudged every few seconds. Two promises that
+                             are true instead, as on the CitizenOne register page. -->
+                        <ul class="co-points">
+                            <li>{{ $t('register.noCommitment') }}</li>
+                            <li>{{ $t('register.youCanExplore') }}</li>
+                        </ul>
                     </div>
                     <div class="co-foot">
                         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.2)"
@@ -310,84 +299,6 @@ const vRules1$ = useVuelidate(rules1, state)
 const vRules2$ = useVuelidate(rules2, state)
 
 onMounted(() => {
-    // Live stats panel
-    const coFmt = (n: number) => Math.round(n).toLocaleString('da-DK')
-    const coAnimCount = (id: string, target: number, dur: number) => {
-        const el = document.getElementById(id)
-        if (!el) return
-        const start = performance.now()
-        const step = (now: number) => {
-            const p = Math.min((now - start) / dur, 1)
-            const e = 1 - Math.pow(1 - p, 3)
-            el.textContent = coFmt(Math.round(e * target))
-            if (p < 1) requestAnimationFrame(step)
-        }
-        requestAnimationFrame(step)
-    }
-    const coNow = new Date()
-    const coBase = new Date('2024-01-01')
-    const coMonths = Math.max(1, (coNow.getFullYear() - coBase.getFullYear()) * 12 + (coNow.getMonth() - coBase.getMonth()))
-    const coGf = coMonths <= 12 ? Math.pow(1.08, coMonths) : Math.pow(1.08, 12) * Math.pow(1.04, coMonths - 12)
-    const coSeed = coNow.getDate() * 31 + coNow.getMonth() * 7 + coNow.getFullYear()
-    const coSr = (min: number, max: number, off: number) => {
-        const x = Math.abs(Math.sin(coSeed + off) * 99991)
-        return Math.round(min + (x - Math.floor(x)) * (max - min))
-    }
-    const coH = coNow.getHours()
-    const coWd = coNow.getDay()
-    const coIsWE = coWd === 0 || coWd === 6
-    const coTMul = coIsWE ? 0.6 : (coH >= 7 && coH <= 17 ? 1.0 : 0.35)
-    let coUsers = Math.max(200, Math.min(999, Math.round(coSr(750, 999, 1) * coTMul)))
-    const coJournalMax = Math.round(Math.min(coGf * 5200, 17000))
-    const coMinSinceMidnight = coH * 60 + coNow.getMinutes()
-    const coJCurve = (() => {
-        const m = coMinSinceMidnight
-        if (m < 360) return 18 + m * 0.04
-        if (m < 420) return 32 + (m - 360) * 2.5
-        if (m < 540) return 182 + (m - 420) * 28
-        if (m < 720) return 3542 + (m - 540) * 42
-        if (m < 1020) return 11102 + (m - 720) * 19
-        if (m < 1380) return 16802 + (m - 1020) * 0.5
-        return coJournalMax - 30
-    })()
-    let coJournals = Math.round(coJCurve * (coJournalMax / 17000))
-    if (coIsWE) coJournals = Math.round(coJournals * 0.45)
-    const coJSkew = Math.round((coSr(0, 100, 9) - 50) * 1.2)
-    coJournals = Math.max(18, Math.min(coJournalMax, coJournals + coJSkew))
-    if (coJournals % 100 === 0) coJournals += 43
-    if (coJournals % 50 === 0) coJournals += 17
-    let coShifts = coSr(300, 800, 3)
-    if (coJournals % 100 === 0) coJournals += 43
-    if (coJournals % 50 === 0) coJournals += 17
-    if (coShifts % 100 === 0) coShifts += 23
-    if (coShifts % 50 === 0) coShifts += 11
-    if (coUsers % 100 === 0) coUsers += 7
-    setTimeout(() => {
-        coAnimCount('fst-reg-users', coUsers, 1600)
-        coAnimCount('fst-reg-journals', coJournals, 2000)
-        coAnimCount('fst-reg-shifts', coShifts, 1800)
-    }, 1600)
-    setInterval(() => {
-        const el = document.getElementById('fst-reg-users')
-        if (!el) return
-        const delta = (Math.random() > 0.5 ? 1 : -1) * Math.ceil(Math.random() * 3)
-        coUsers = Math.max(Math.round(600 * coTMul), Math.min(999, coUsers + delta))
-        el.textContent = coFmt(coUsers)
-    }, 4000)
-    setInterval(() => {
-        const el = document.getElementById('fst-reg-journals')
-        if (!el) return
-        coJournals = Math.min(coJournalMax, coJournals + Math.ceil(Math.random() * 2))
-        el.textContent = coFmt(coJournals)
-    }, 7000)
-    setInterval(() => {
-        const el = document.getElementById('fst-reg-shifts')
-        if (!el) return
-        if (Math.random() > 0.65) {
-            coShifts = Math.min(800, coShifts + 1)
-            el.textContent = coFmt(coShifts)
-        }
-    }, 11000)
 
     animateAssets()
     fetchAllIndustries()
@@ -811,20 +722,7 @@ async function navigateToTAC() {
     margin-bottom: 1.5rem
 }
 
-.co-live-header {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 0.875rem
-}
 
-.co-live-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: #22c55e;
-    animation: copulse 2s ease-in-out infinite
-}
 
 @keyframes copulse {
 
@@ -840,43 +738,38 @@ async function navigateToTAC() {
     }
 }
 
-.co-live-lbl {
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(66, 174, 217, 0.8);
-    letter-spacing: 1px;
-    text-transform: uppercase
-}
 
-.co-stats {
+
+
+
+
+.co-points {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1rem;
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 1rem
+    gap: 10px;
+    max-width: 320px
 }
 
-.co-stat {
-    background: rgba(66, 174, 217, 0.08);
-    border: 1px solid rgba(66, 174, 217, 0.15);
-    border-radius: 9px;
-    padding: 11px 13px
+.co-points li {
+    position: relative;
+    padding-left: 22px;
+    font-size: 12.5px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.75)
 }
 
-.co-stat-num {
-    font-size: 20px;
-    font-weight: 700;
-    color: #fff;
-    letter-spacing: -0.5px;
-    line-height: 1;
-    margin-bottom: 4px;
-    font-variant-numeric: tabular-nums
-}
-
-.co-stat-lbl {
-    font-size: 9.5px;
-    color: rgba(255, 255, 255, 0.4);
-    font-weight: 500;
-    line-height: 1.3
+.co-points li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 5px;
+    width: 10px;
+    height: 6px;
+    border-left: 2px solid rgb(66, 174, 217);
+    border-bottom: 2px solid rgb(66, 174, 217);
+    transform: rotate(-45deg)
 }
 
 .co-foot {
