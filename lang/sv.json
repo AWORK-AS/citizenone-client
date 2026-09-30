@@ -1095,6 +1095,90 @@
             "description": "nämnde dig i {citizen}s journal"
         }
     },
+    "bookingServices": {
+        "title": "Tjänster",
+        "intro": "Tjänster är det patienterna bokar i patientportalen och på er webbplats: en behandling, behandlaren som ger den och tiderna den kan bokas. Evenemang och kurser är något annat och visas inte för patienterna i portalen.",
+        "new": "Ny tjänst",
+        "none": "Inga tjänster än. Skapa en och lägg till de tider patienterna kan boka.",
+        "table": {
+            "name": "Tjänst",
+            "clinician": "Behandlare",
+            "onlineBooking": "Onlinebokning",
+            "times": "Kommande tider"
+        },
+        "online": "På",
+        "offline": "Av",
+        "openTimes": "{count} lediga",
+        "bookedTimes": "{count} bokade",
+        "actions": {
+            "times": "Tider",
+            "edit": "Redigera",
+            "delete": "Radera"
+        },
+        "form": {
+            "newTitle": "Ny tjänst",
+            "editTitle": "Redigera tjänst",
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Konsultation, 30 minuter",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Det patienterna behöver veta innan de bokar",
+            "clinician": "Behandlare",
+            "clinicianHelp": "Patienterna bokar tid hos den här personen. Bokningen hamnar i personens kalender.",
+            "department": "Avdelning",
+            "departmentHelp": "Patienter som hör till en avdelning ser bara den avdelningens tjänster. Lämna tomt för att använda behandlarens avdelningar.",
+            "onlineBooking": "Öppen för onlinebokning",
+            "onlineBookingHelp": "När den är avstängd kan patienterna varken se eller boka tjänsten. Befintliga bokningar behålls.",
+            "nameRequired": "Ange ett namn"
+        },
+        "alert": {
+            "created": "Tjänsten har skapats",
+            "updated": "Tjänsten har sparats",
+            "deleted": "Tjänsten har raderats",
+            "timesCreated": "{created} tider har lagts till",
+            "timesSkipped": "{skipped} fanns redan och ändrades inte",
+            "timeDeleted": "Tiden har tagits bort",
+            "timesCleared": "{deleted} obokade tider har tagits bort"
+        },
+        "confirmDelete": "Radera den här tjänsten och dess obokade tider?",
+        "times": {
+            "title": "Tider för {name}",
+            "addTitle": "Lägg till tider",
+            "dateFrom": "Från datum",
+            "dateTo": "Till datum",
+            "weekdays": "Veckodagar",
+            "dayFrom": "Dagen börjar",
+            "dayTo": "Dagen slutar",
+            "length": "Längd (min)",
+            "gap": "Paus emellan (min)",
+            "capacity": "Patienter per tid",
+            "build": "Skapa tider",
+            "rowsHelp": "Tiderna läggs till på varje vald veckodag under perioden. Justera eller ta bort dem innan du lägger till.",
+            "addRow": "Lägg till en tid",
+            "removeRow": "Ta bort den här tiden",
+            "start": "Start",
+            "end": "Slut",
+            "summary": "{times} tider om dagen på {days} dagar",
+            "submit": "Lägg till tider",
+            "noRows": "Skapa eller lägg till minst en tid först",
+            "upcomingTitle": "Kommande tider",
+            "noUpcoming": "Inga kommande tider. Patienterna kan inte boka tjänsten förrän du lägger till några.",
+            "booked": "bokad",
+            "left": "{count} lediga",
+            "deleteTime": "Ta bort den här tiden",
+            "bookedCannotDelete": "Bokade tider kan bara tas bort genom att avboka",
+            "clearUnbooked": "Ta bort alla obokade tider",
+            "confirmClear": "Ta bort alla tider som ingen har bokat?"
+        },
+        "weekdays": {
+            "1": "Mån",
+            "2": "Tis",
+            "3": "Ons",
+            "4": "Tor",
+            "5": "Fre",
+            "6": "Lör",
+            "7": "Sön"
+        }
+    },
     "bookingSettings": {
         "alert": {
             "bookingSettingsSuccessfullySaved": "Bokning inställningar sparad"
@@ -1452,7 +1536,8 @@
         "tabs": {
             "bookings": "Bokningar",
             "events": "Händelser",
-            "appointments": "Bokade tider"
+            "appointments": "Bokade tider",
+            "services": "Tjänster"
         },
         "today": "Idag",
         "view": {

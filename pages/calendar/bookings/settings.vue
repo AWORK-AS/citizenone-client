@@ -777,7 +777,8 @@ async function submitForm() {
 
 async function fetchBookingServiceOptions() {
     try {
-        const response = await bookingServiceService.getBookingServices()
+        // Every service, not the first page of them.
+        const response = await bookingServiceService.getBookingServices({ all: 'true' })
         const items = response?.data?.data ?? response?.data ?? []
         state.options.bookingServices = items.map((item: any) => ({
             value: item.uuid,

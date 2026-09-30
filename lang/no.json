@@ -1095,6 +1095,90 @@
             "description": "nevnte deg i {citizen}s journal"
         }
     },
+    "bookingServices": {
+        "title": "Tjenester",
+        "intro": "Tjenester er det pasientene bestiller i pasientportalen og på nettsiden deres: en behandling, behandleren som gir den, og tidene den kan bestilles. Arrangementer og kurs er noe annet og vises ikke for pasientene i portalen.",
+        "new": "Ny tjeneste",
+        "none": "Ingen tjenester ennå. Opprett en, og legg til tidene pasientene kan bestille.",
+        "table": {
+            "name": "Tjeneste",
+            "clinician": "Behandler",
+            "onlineBooking": "Nettbooking",
+            "times": "Kommende tider"
+        },
+        "online": "På",
+        "offline": "Av",
+        "openTimes": "{count} ledige",
+        "bookedTimes": "{count} booket",
+        "actions": {
+            "times": "Tider",
+            "edit": "Rediger",
+            "delete": "Slett"
+        },
+        "form": {
+            "newTitle": "Ny tjeneste",
+            "editTitle": "Rediger tjeneste",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Konsultasjon, 30 minutter",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Det pasientene bør vite før de bestiller",
+            "clinician": "Behandler",
+            "clinicianHelp": "Pasientene bestiller time hos denne personen. Bestillingen havner i vedkommendes kalender.",
+            "department": "Avdeling",
+            "departmentHelp": "Pasienter knyttet til en avdeling ser bare den avdelingens tjenester. La feltet stå tomt for å bruke behandlerens avdelinger.",
+            "onlineBooking": "Åpen for nettbooking",
+            "onlineBookingHelp": "Når den er slått av, kan pasientene verken se eller bestille tjenesten. Eksisterende bestillinger beholdes.",
+            "nameRequired": "Skriv inn et navn"
+        },
+        "alert": {
+            "created": "Tjenesten er opprettet",
+            "updated": "Tjenesten er lagret",
+            "deleted": "Tjenesten er slettet",
+            "timesCreated": "{created} tider lagt til",
+            "timesSkipped": "{skipped} fantes allerede og ble ikke endret",
+            "timeDeleted": "Tiden er fjernet",
+            "timesCleared": "{deleted} ubookede tider fjernet"
+        },
+        "confirmDelete": "Slette denne tjenesten og de ubookede tidene?",
+        "times": {
+            "title": "Tider for {name}",
+            "addTitle": "Legg til tider",
+            "dateFrom": "Fra dato",
+            "dateTo": "Til dato",
+            "weekdays": "Ukedager",
+            "dayFrom": "Dagen starter",
+            "dayTo": "Dagen slutter",
+            "length": "Varighet (min)",
+            "gap": "Pause mellom (min)",
+            "capacity": "Pasienter per tid",
+            "build": "Lag tider",
+            "rowsHelp": "Tidene legges til på hver valgte ukedag i perioden. Juster eller fjern dem før du legger dem til.",
+            "addRow": "Legg til en tid",
+            "removeRow": "Fjern denne tiden",
+            "start": "Start",
+            "end": "Slutt",
+            "summary": "{times} tider om dagen på {days} dager",
+            "submit": "Legg til tider",
+            "noRows": "Lag eller legg til minst én tid først",
+            "upcomingTitle": "Kommende tider",
+            "noUpcoming": "Ingen kommende tider. Pasientene kan ikke bestille tjenesten før du legger til noen.",
+            "booked": "booket",
+            "left": "{count} ledige",
+            "deleteTime": "Fjern denne tiden",
+            "bookedCannotDelete": "Bookede tider kan bare fjernes ved å avlyse bestillingen",
+            "clearUnbooked": "Fjern alle ubookede tider",
+            "confirmClear": "Fjerne alle tider som ingen har booket?"
+        },
+        "weekdays": {
+            "1": "Man",
+            "2": "Tir",
+            "3": "Ons",
+            "4": "Tor",
+            "5": "Fre",
+            "6": "Lør",
+            "7": "Søn"
+        }
+    },
     "bookingSettings": {
         "alert": {
             "bookingSettingsSuccessfullySaved": "Booking innstillinger lagret vellykket"
@@ -1452,7 +1536,8 @@
         "tabs": {
             "bookings": "Bookinger",
             "events": "Arrangementer",
-            "appointments": "Bookede tider"
+            "appointments": "Bookede tider",
+            "services": "Tjenester"
         },
         "today": "I dag",
         "view": {

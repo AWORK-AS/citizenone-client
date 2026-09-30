@@ -1095,6 +1095,90 @@
             "description": "mentioned you in {citizen}’s journal"
         }
     },
+    "bookingServices": {
+        "title": "Services",
+        "intro": "Services are what patients book in the patient portal and on your website: a treatment, the clinician who gives it, and the times it can be booked. Events and courses are separate and are not shown to patients in the portal.",
+        "new": "New service",
+        "none": "No services yet. Create one, then add the times patients can book.",
+        "table": {
+            "name": "Service",
+            "clinician": "Clinician",
+            "onlineBooking": "Online booking",
+            "times": "Upcoming times"
+        },
+        "online": "On",
+        "offline": "Off",
+        "openTimes": "{count} open",
+        "bookedTimes": "{count} booked",
+        "actions": {
+            "times": "Times",
+            "edit": "Edit",
+            "delete": "Delete"
+        },
+        "form": {
+            "newTitle": "New service",
+            "editTitle": "Edit service",
+            "name": "Name",
+            "namePlaceholder": "E.g. Consultation, 30 minutes",
+            "description": "Description",
+            "descriptionPlaceholder": "What patients should know before they book",
+            "clinician": "Clinician",
+            "clinicianHelp": "Patients book time with this person. The booking lands in their calendar.",
+            "department": "Department",
+            "departmentHelp": "Patients attached to a department only see that department's services. Leave empty to use the clinician's departments.",
+            "onlineBooking": "Open for online booking",
+            "onlineBookingHelp": "When off, patients can neither see nor book the service. Existing bookings are kept.",
+            "nameRequired": "Enter a name"
+        },
+        "alert": {
+            "created": "The service was created",
+            "updated": "The service was saved",
+            "deleted": "The service was deleted",
+            "timesCreated": "{created} times added",
+            "timesSkipped": "{skipped} already existed and were left as they were",
+            "timeDeleted": "The time was removed",
+            "timesCleared": "{deleted} unbooked times removed"
+        },
+        "confirmDelete": "Delete this service and its unbooked times?",
+        "times": {
+            "title": "Times for {name}",
+            "addTitle": "Add times",
+            "dateFrom": "From date",
+            "dateTo": "To date",
+            "weekdays": "Weekdays",
+            "dayFrom": "Day starts",
+            "dayTo": "Day ends",
+            "length": "Length (min)",
+            "gap": "Break between (min)",
+            "capacity": "Patients per time",
+            "build": "Build times",
+            "rowsHelp": "These times are added on every chosen weekday in the period. Adjust or remove any of them before adding.",
+            "addRow": "Add a time",
+            "removeRow": "Remove this time",
+            "start": "Start",
+            "end": "End",
+            "summary": "{times} times a day on {days} days",
+            "submit": "Add times",
+            "noRows": "Build or add at least one time first",
+            "upcomingTitle": "Upcoming times",
+            "noUpcoming": "No upcoming times. Patients cannot book this service until you add some.",
+            "booked": "booked",
+            "left": "{count} left",
+            "deleteTime": "Remove this time",
+            "bookedCannotDelete": "Booked times can only be removed by cancelling the booking",
+            "clearUnbooked": "Remove all unbooked times",
+            "confirmClear": "Remove every time nobody has booked?"
+        },
+        "weekdays": {
+            "1": "Mon",
+            "2": "Tue",
+            "3": "Wed",
+            "4": "Thu",
+            "5": "Fri",
+            "6": "Sat",
+            "7": "Sun"
+        }
+    },
     "bookingSettings": {
         "alert": {
             "bookingSettingsSuccessfullySaved": "Booking settings successfully saved"
@@ -1452,7 +1536,8 @@
         "tabs": {
             "bookings": "Bookings",
             "events": "Events",
-            "appointments": "Booked times"
+            "appointments": "Booked times",
+            "services": "Services"
         },
         "today": "Today",
         "view": {

@@ -27,6 +27,17 @@ const state = reactive({
             ]
         },
         {
+            // What patients book in the patient portal and the website widget:
+            // a treatment with a clinician and its times. Events and courses
+            // on the tab before it are a separate thing the portal never shows.
+            name: 'calendar.tabs.services',
+            isTranslateName: true,
+            href: `/calendar/bookings/services`,
+            routeNames: [
+                'calendar-bookings-services',
+            ]
+        },
+        {
             // The times patients have actually taken. The bookings tab beside
             // it is what a clinic offers; this is what came back.
             name: 'calendar.tabs.appointments',
@@ -45,6 +56,9 @@ function changeTab(value: any) {
     }
     else if (value === t('calendar.tabs.bookings')) {
         navigateTo(`/calendar/bookings`)
+    }
+    else if (value === t('calendar.tabs.services')) {
+        navigateTo(`/calendar/bookings/services`)
     }
     else if (value === t('calendar.tabs.appointments')) {
         navigateTo(`/calendar/bookings/appointments`)

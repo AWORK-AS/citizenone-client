@@ -1095,6 +1095,90 @@
             "description": "nævnte dig i {citizen}s journal"
         }
     },
+    "bookingServices": {
+        "title": "Ydelser",
+        "intro": "Ydelser er det, patienterne booker i patientportalen og på jeres hjemmeside: en behandling, den behandler der giver den, og de tider den kan bookes. Begivenheder og kurser er noget andet og vises ikke for patienterne i portalen.",
+        "new": "Ny ydelse",
+        "none": "Ingen ydelser endnu. Opret en, og tilføj de tider patienterne kan booke.",
+        "table": {
+            "name": "Ydelse",
+            "clinician": "Behandler",
+            "onlineBooking": "Onlinebooking",
+            "times": "Kommende tider"
+        },
+        "online": "Til",
+        "offline": "Fra",
+        "openTimes": "{count} ledige",
+        "bookedTimes": "{count} booket",
+        "actions": {
+            "times": "Tider",
+            "edit": "Rediger",
+            "delete": "Slet"
+        },
+        "form": {
+            "newTitle": "Ny ydelse",
+            "editTitle": "Rediger ydelse",
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Konsultation, 30 minutter",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Det patienterne skal vide, før de booker",
+            "clinician": "Behandler",
+            "clinicianHelp": "Patienterne booker tid hos denne person. Bookingen lander i vedkommendes kalender.",
+            "department": "Afdeling",
+            "departmentHelp": "Patienter tilknyttet en afdeling ser kun den afdelings ydelser. Lad feltet stå tomt for at bruge behandlerens afdelinger.",
+            "onlineBooking": "Åben for onlinebooking",
+            "onlineBookingHelp": "Når den er slået fra, kan patienterne hverken se eller booke ydelsen. Eksisterende bookinger bevares.",
+            "nameRequired": "Skriv et navn"
+        },
+        "alert": {
+            "created": "Ydelsen er oprettet",
+            "updated": "Ydelsen er gemt",
+            "deleted": "Ydelsen er slettet",
+            "timesCreated": "{created} tider tilføjet",
+            "timesSkipped": "{skipped} fandtes allerede og blev ikke ændret",
+            "timeDeleted": "Tiden er fjernet",
+            "timesCleared": "{deleted} ubookede tider fjernet"
+        },
+        "confirmDelete": "Slet denne ydelse og dens ubookede tider?",
+        "times": {
+            "title": "Tider for {name}",
+            "addTitle": "Tilføj tider",
+            "dateFrom": "Fra dato",
+            "dateTo": "Til dato",
+            "weekdays": "Ugedage",
+            "dayFrom": "Dagen starter",
+            "dayTo": "Dagen slutter",
+            "length": "Varighed (min)",
+            "gap": "Pause imellem (min)",
+            "capacity": "Patienter pr. tid",
+            "build": "Lav tider",
+            "rowsHelp": "Tiderne tilføjes på hver valgt ugedag i perioden. Ret eller fjern dem, før du tilføjer.",
+            "addRow": "Tilføj en tid",
+            "removeRow": "Fjern denne tid",
+            "start": "Start",
+            "end": "Slut",
+            "summary": "{times} tider om dagen på {days} dage",
+            "submit": "Tilføj tider",
+            "noRows": "Lav eller tilføj mindst én tid først",
+            "upcomingTitle": "Kommende tider",
+            "noUpcoming": "Ingen kommende tider. Patienterne kan ikke booke ydelsen, før du tilføjer nogle.",
+            "booked": "booket",
+            "left": "{count} ledige",
+            "deleteTime": "Fjern denne tid",
+            "bookedCannotDelete": "Bookede tider kan kun fjernes ved at aflyse bookingen",
+            "clearUnbooked": "Fjern alle ubookede tider",
+            "confirmClear": "Fjern alle tider, som ingen har booket?"
+        },
+        "weekdays": {
+            "1": "Man",
+            "2": "Tir",
+            "3": "Ons",
+            "4": "Tor",
+            "5": "Fre",
+            "6": "Lør",
+            "7": "Søn"
+        }
+    },
     "bookingSettings": {
         "alert": {
             "bookingSettingsSuccessfullySaved": "Booking indstillinger gemt med succes"
@@ -1452,7 +1536,8 @@
         "tabs": {
             "bookings": "Bookinger",
             "events": "Begivenheder",
-            "appointments": "Bookede tider"
+            "appointments": "Bookede tider",
+            "services": "Ydelser"
         },
         "today": "I dag",
         "view": {
