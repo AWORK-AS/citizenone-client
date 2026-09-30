@@ -145,6 +145,8 @@ async function saveEvent(eventDetails: any) {
         params.append('close_registration', eventDetails.close_registration)
         params.append('is_online_booking', eventDetails.is_online_booking)
         params.append('is_reminder_enabled', eventDetails.is_reminder_enabled)
+        params.append('buffer_minutes_before', eventDetails.buffer_minutes_before)
+        params.append('buffer_minutes_after', eventDetails.buffer_minutes_after)
 
         eventDetails.slots.forEach((slot: any, i: number) => {
             params.append(`slots[${i}][start_time]`, slot.start_time)

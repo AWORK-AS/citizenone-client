@@ -162,6 +162,8 @@ async function saveCourse(courseDetails: any) {
         params.append('close_registration', courseDetails.close_registration)
         params.append('is_online_booking', courseDetails.is_online_booking)
         params.append('is_reminder_enabled', courseDetails.is_reminder_enabled)
+        params.append('buffer_minutes_before', courseDetails.buffer_minutes_before)
+        params.append('buffer_minutes_after', courseDetails.buffer_minutes_after)
         const response = await coursesEventsService.updateEventCourse(courseUuid, params)
         if (response.data) {
             refreshCoursesEvents()

@@ -292,6 +292,32 @@
                 </div>
                 <div class="space-y-1">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">
+                        {{ $t('bookings.formEvent.settings.buffer.title') }}
+                    </h2>
+                    <p class="text-sm text-gray-600">
+                        {{ $t('bookings.formEvent.settings.buffer.description') }}
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="buffer_minutes_before"
+                                :label="$t('bookings.formEvent.settings.buffer.minutesBefore')" />
+                            <FormNumberField id="buffer_minutes_before" name="buffer_minutes_before"
+                                :placeholder="$t('bookings.formEvent.settings.buffer.minutesBefore')"
+                                v-model="state.formEvent.buffer_minutes_before" />
+                            <FormError :error="state?.error?.errors?.buffer_minutes_before?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="buffer_minutes_after"
+                                :label="$t('bookings.formEvent.settings.buffer.minutesAfter')" />
+                            <FormNumberField id="buffer_minutes_after" name="buffer_minutes_after"
+                                :placeholder="$t('bookings.formEvent.settings.buffer.minutesAfter')"
+                                v-model="state.formEvent.buffer_minutes_after" />
+                            <FormError :error="state?.error?.errors?.buffer_minutes_after?.[0]" />
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">
                         {{ $t('bookings.formEvent.settings.otherSettings.otherSettings') }}
                     </h2>
                     <div class="flex items-center gap-x-2">
@@ -466,7 +492,9 @@ const state = reactive({
         close_registration: false,
         is_online_booking: false,
         is_reminder_enabled: false,
-        exclude_weekend: false
+        exclude_weekend: false,
+        buffer_minutes_before: 0,
+        buffer_minutes_after: 0,
     },
     isPageLoading: false,
     modal: {
@@ -515,6 +543,8 @@ watch(() => props.selectedEvent, (selectedEvent: any) => {
             is_online_booking: selectedEvent?.is_online_booking,
             is_reminder_enabled: selectedEvent?.is_reminder_enabled,
             exclude_weekend: selectedEvent?.exclude_weekend || false,
+            buffer_minutes_before: selectedEvent?.buffer_minutes_before || 0,
+            buffer_minutes_after: selectedEvent?.buffer_minutes_after || 0,
         }
         avatarUrl.value = selectedEvent?.image ? selectedEvent?.image : `/img/icons/asset-02.svg`
     }
@@ -699,8 +729,10 @@ function addSlot() {
     let end = "06:30"
 
     if (lastSlot) {
-        // Use the previous slot's end_time as the next start
-        start = lastSlot.end_time
+        // Use the previous slot's end_time, plus this service's required
+        // buffer, as the next start
+        const gap = Math.max(Number(state.formEvent.buffer_minutes_after) || 0, Number(state.formEvent.buffer_minutes_before) || 0)
+        start = addMinutesToTime(lastSlot.end_time, gap)
         end = addMinutesToTime(start, 30) // adds 30 minutes
     }
 
