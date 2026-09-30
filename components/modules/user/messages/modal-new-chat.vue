@@ -210,12 +210,34 @@ async function fetchAllAvailableChatUsers() {
                     label: user?.firstname + " " + (user?.lastname ?? ''),
                 })
             )
-            state.options.receivers = options
+            state.options.receivers = [...options, ...await fetchPatients()]
         }
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// A clinic with the patient portal can open a conversation with a patient, as
+// the mobile app already can. The list used to be colleagues only. The chat
+// members list is the source: it holds the citizens with portal access (role
+// Citizen) next to the staff, who are already listed above. Labelled with the
+// company's own word for a citizen, since the select has no option groups.
+async function fetchPatients() {
+    if (!userStore.getUser?.company?.patient_access_activated) return []
+
+    try {
+        const response = await messageService.getAllAvailableUsers()
+        return (response?.data ?? [])
+            .filter((person: any) => person?.role === 'Citizen')
+            .map((person: any) => ({
+                value: person?.uuid,
+                label: `${person?.firstname ?? ''} ${person?.lastname ?? ''}`.trim() + ` (${t('terms.citizen')})`,
+            }))
+    } catch {
+        // Colleagues stay selectable if the patient list cannot be loaded.
+        return []
+    }
 }
 
 async function fetchEmployeeGroups() {
