@@ -19,6 +19,7 @@ export interface AppForm {
     is_recommended?: boolean,
     is_news?: boolean,
     is_quantifiable?: boolean,
+    is_free?: boolean,
     is_active?: boolean,
     background_image?: string,
     slug?: string,
