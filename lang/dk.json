@@ -6723,8 +6723,7 @@
     },
     "employees": {
         "alert": {
-            "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes",
-            "employeeSuccessfullyDeleted": "Medarbejder slettet med succes"
+            "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes"
         },
         "archiveEmployee": "Arkiver medarbejder",
         "archivedEmployees": "Arkiverede medarbejdere",
@@ -6749,11 +6748,8 @@
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne medarbejder",
-            "deletePermanentlyConfirmation": "Er du sikker på, at du vil slette denne medarbejder permanent",
-            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbejderoplysninger i 5 år",
-            "thisCantBeUndone": "Dette kan ikke fortrydes"
+            "archiveExplanation": "Medarbejderen kan ikke længere logge ind og fjernes fra aktive medarbejderlister. Journalnotater, dokumentation og historik bevares, og medarbejderen vises fortsat som forfatter. Du kan til enhver tid gendanne medarbejderen under Indstillinger → Arkiveret"
         },
-        "deleteEmployee": "Slet medarbejder",
         "documents": {
             "alert": {
                 "documentSuccessfullyArchived": "Dokument arkiveret med succes",
@@ -11266,10 +11262,13 @@
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
-                "deletedSuccessfully": "Konto slettet med succes"
+                "archivedSuccessfully": "Konto arkiveret",
+                "restoredSuccessfully": "Konto gendannet"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne konto"
+                "archiveConfirmation": "Er du sikker på, at du vil arkivere denne konto",
+                "restoreConfirmation": "Er du sikker på, at du vil gendanne denne konto",
+                "archiveExplanation": "Medarbejderen kan ikke længere logge ind og fjernes fra virksomhedens aktive medarbejderlister. Journalnotater, dokumentation og historik bevares, og medarbejderen vises fortsat som forfatter. Kontoen kan til enhver tid gendannes"
             },
             "editAccount": "Rediger konto",
             "form": {
@@ -11300,14 +11299,16 @@
                 "actions": {
                     "activate": "Aktivér",
                     "deactivate": "Deaktiver",
-                    "delete": "Slet",
                     "edit": "Rediger",
-                    "impersonate": "Log ind som klient"
+                    "impersonate": "Log ind som klient",
+                    "archive": "Arkivér",
+                    "restore": "Gendan"
                 },
                 "email": "E-mail",
                 "name": "Navn",
                 "phone": "Telefon",
-                "role": "Rolle"
+                "role": "Rolle",
+                "archived": "Arkiveret"
             }
         },
         "apps": {
