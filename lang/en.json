@@ -11741,7 +11741,8 @@
                 "storage": "Storage usage",
                 "nextPayment": "Next payment",
                 "perYear": "{amount} per year",
-                "notCollecting": "Not collecting"
+                "notCollecting": "Not collecting",
+                "source": "Source"
             },
             "tabs": {
                 "accounts": "Accounts",
@@ -11855,6 +11856,14 @@
                 "endsAtHint": "The last day the customer pays. The forecast stops here.",
                 "cancellationSaved": "Cancellation saved",
                 "cancellationFailed": "Could not save the cancellation"
+            },
+            "source": {
+                "all": "All sources",
+                "search": "Search engine (organic)",
+                "campaign": "Campaign",
+                "referral": "Referral",
+                "direct": "Direct",
+                "unknown": "Unknown"
             }
         },
         "coupons": {
