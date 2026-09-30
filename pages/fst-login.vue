@@ -41,34 +41,8 @@
 					{{ $t('login.description') }}
 				</p>
 
-				<div class="fst-idx-live">
-					<div class="fst-idx-live-hdr">
-						<div class="fst-idx-live-dot"></div>
-						<span class="fst-idx-live-lbl">
-							{{ $t('login.liveActivity') }}
-						</span>
-					</div>
-					<div class="fst-idx-stats">
-						<div class="fst-idx-stat">
-							<div class="fst-idx-stat-num" id="fst-users">—</div>
-							<div class="fst-idx-stat-lbl">
-								{{ $t('login.activeUsers') }}
-							</div>
-						</div>
-						<div class="fst-idx-stat">
-							<div class="fst-idx-stat-num" id="fst-journals">—</div>
-							<div class="fst-idx-stat-lbl">
-								{{ $t('login.journalNotesToday') }}
-							</div>
-						</div>
-						<div class="fst-idx-stat">
-							<div class="fst-idx-stat-num" id="fst-shifts">—</div>
-							<div class="fst-idx-stat-lbl">
-								{{ $t('login.shiftsPlannedToday') }}
-							</div>
-						</div>
-					</div>
-				</div>
+				<!-- The "Live aktivitet" counters were removed: their numbers were generated in the browser from
+				     the date and nudged every few seconds, and a login page is no place for invented figures. -->
 			</div>
 
 			<div class="fst-left-foot">
@@ -286,81 +260,6 @@ onMounted(() => {
 	}
 	state.deviceUuid = deviceUuid
 
-	// Live stats
-	const fstFmt = (n: number) => Math.round(n).toLocaleString('da-DK')
-	const fstAnim = (id: string, target: number, dur: number) => {
-		const el = document.getElementById(id)
-		if (!el) return
-		const start = performance.now()
-		const step = (now: number) => {
-			const p = Math.min((now - start) / dur, 1)
-			const e = 1 - Math.pow(1 - p, 3)
-			el.textContent = fstFmt(Math.round(e * target))
-			if (p < 1) requestAnimationFrame(step)
-		}
-		requestAnimationFrame(step)
-	}
-	const now = new Date()
-	const base = new Date('2024-01-01')
-	const months = Math.max(1, (now.getFullYear() - base.getFullYear()) * 12 + (now.getMonth() - base.getMonth()))
-	const gf = months <= 12 ? Math.pow(1.08, months) : Math.pow(1.08, 12) * Math.pow(1.04, months - 12)
-	const seed = now.getDate() * 31 + now.getMonth() * 7
-	const sr = (min: number, max: number, off: number) => {
-		const x = Math.abs(Math.sin(seed + off) * 99991)
-		return Math.round(min + (x - Math.floor(x)) * (max - min))
-	}
-	const h = now.getHours()
-	const wd = now.getDay()
-	const isWE = wd === 0 || wd === 6
-	const tMul = isWE ? 0.6 : (h >= 7 && h <= 17 ? 1.0 : 0.35)
-	const journalMax = Math.round(Math.min(gf * 5200, 17000))
-	const minsSinceMidnight = h * 60 + now.getMinutes()
-	const jCurve = (() => {
-		const m = minsSinceMidnight
-		if (m < 360) return 18 + m * 0.04
-		if (m < 420) return 32 + (m - 360) * 2.5
-		if (m < 540) return 182 + (m - 420) * 28
-		if (m < 720) return 3542 + (m - 540) * 42
-		if (m < 1020) return 11102 + (m - 720) * 19
-		if (m < 1380) return 16802 + (m - 1020) * 0.5
-		return journalMax - 30
-	})()
-	let users = Math.max(200, Math.min(999, Math.round(sr(750, 999, 1) * tMul)))
-	let journals = Math.max(18, Math.min(journalMax, Math.round(jCurve * (journalMax / 17000))))
-	if (isWE) journals = Math.round(journals * 0.45)
-	const jSkew = Math.round((sr(0, 100, 9) - 50) * 1.2)
-	journals = Math.max(18, Math.min(journalMax, journals + jSkew))
-	if (journals % 100 === 0) journals += 43
-	if (journals % 50 === 0) journals += 17
-	let shifts = sr(300, 800, 3)
-	if (shifts % 100 === 0) shifts += 23
-
-	setTimeout(() => {
-		fstAnim('fst-users', users, 1600)
-		fstAnim('fst-journals', journals, 2000)
-		fstAnim('fst-shifts', shifts, 1800)
-	}, 800)
-	setInterval(() => {
-		const el = document.getElementById('fst-users')
-		if (!el) return
-		const d = (Math.random() > 0.5 ? 1 : -1) * Math.ceil(Math.random() * 3)
-		users = Math.max(Math.round(500 * tMul), Math.min(999, users + d))
-		el.textContent = fstFmt(users)
-	}, 4000)
-	setInterval(() => {
-		const el = document.getElementById('fst-journals')
-		if (!el) return
-		journals = Math.min(journalMax, journals + Math.ceil(Math.random() * 2))
-		el.textContent = fstFmt(journals)
-	}, 7000)
-	setInterval(() => {
-		const el = document.getElementById('fst-shifts')
-		if (!el) return
-		if (Math.random() > 0.65) {
-			shifts = Math.min(800, shifts + 1)
-			el.textContent = fstFmt(shifts)
-		}
-	}, 11000)
 })
 
 function animateAssets() {
@@ -712,24 +611,8 @@ async function navigateToSupport() {
 	gap: 6px;
 }
 
-.fst-idx-live {
-	margin-top: 0;
-}
 
-.fst-idx-live-hdr {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin-bottom: 0.75rem;
-}
 
-.fst-idx-live-dot {
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	background: rgb(66, 174, 217);
-	animation: fpulsea 2s ease-in-out infinite;
-}
 
 @keyframes fpulsea {
 
@@ -745,43 +628,10 @@ async function navigateToSupport() {
 	}
 }
 
-.fst-idx-live-lbl {
-	font-size: 10px;
-	font-weight: 700;
-	color: rgba(66, 174, 217, 0.8);
-	letter-spacing: 1px;
-	text-transform: uppercase;
-}
 
-.fst-idx-stats {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	gap: 8px;
-}
 
-.fst-idx-stat {
-	background: rgba(66, 174, 217, 0.08);
-	border: 1px solid rgba(66, 174, 217, 0.15);
-	border-radius: 9px;
-	padding: 10px 12px;
-}
 
-.fst-idx-stat-num {
-	font-size: 18px;
-	font-weight: 700;
-	color: #fff;
-	letter-spacing: -0.5px;
-	line-height: 1;
-	margin-bottom: 4px;
-	font-variant-numeric: tabular-nums;
-}
 
-.fst-idx-stat-lbl {
-	font-size: 9px;
-	color: rgba(255, 255, 255, 0.4);
-	font-weight: 500;
-	line-height: 1.3;
-}
 
 .fst-right {
 	flex: 1;

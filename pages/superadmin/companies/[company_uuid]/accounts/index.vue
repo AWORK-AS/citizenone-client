@@ -333,7 +333,10 @@
                                                     class="co-badge co-badge-gray text-[11px]">{{ role.name }}</span>
                                             </td>
                                             <td class="co-td">
-                                                <span v-if="account?.is_active"
+                                                <span v-if="account?.is_archived"
+                                                    class="co-badge co-badge-gray text-[11px]">{{
+                                                        $t('superadmin.accounts.table.archived') }}</span>
+                                                <span v-else-if="account?.is_active"
                                                     class="co-badge co-badge-green text-[11px]">{{
                                                         $t('superadmin.companies.table.active') }}</span>
                                                 <span v-else class="co-badge co-badge-red text-[11px]">{{
@@ -363,10 +366,11 @@
                                                         <Icon :name="account.is_active ? 'ph:x' : 'ph:check'"
                                                             class="w-3.5 h-3.5" />
                                                     </SuperadminTableButton>
-                                                    <SuperadminTableButton @click="confirmAccountDeletion(account)"
-                                                        :title="$t('superadmin.accounts.table.actions.delete')"
-                                                        buttonStyle="danger">
-                                                        <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                                                    <SuperadminTableButton @click="confirmAccountArchiving(account)"
+                                                        :title="account?.is_archived ? $t('superadmin.accounts.table.actions.restore') : $t('superadmin.accounts.table.actions.archive')"
+                                                        :buttonStyle="account?.is_archived ? 'success' : 'danger'">
+                                                        <Icon :name="account?.is_archived ? 'ph:arrow-counter-clockwise' : 'ph:archive'"
+                                                            class="w-3.5 h-3.5" />
                                                     </SuperadminTableButton>
                                                 </div>
                                             </td>
@@ -379,9 +383,12 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteAccountOpen"
-                :message="$t('superadmin.accounts.confirmation.deleteConfirmation') + '?'"
-                @close="state.modal.isDeleteAccountOpen = false" @confirm="deleteAccount" />
+            <DialogConfirmation :isModalOpen="state.modal.isArchiveAccountOpen"
+                :message="state.selectedAccount?.is_archived
+                    ? $t('superadmin.accounts.confirmation.restoreConfirmation') + '?'
+                    : $t('superadmin.accounts.confirmation.archiveConfirmation') + '? ' +
+                        $t('superadmin.accounts.confirmation.archiveExplanation') + '.'"
+                @close="state.modal.isArchiveAccountOpen = false" @confirm="archiveAccount" />
         </NuxtLayout>
     </div>
 
@@ -442,7 +449,7 @@ const state = reactive({
     isPageLoading: false,
     licensesCount: null as any,
     modal: {
-        isDeleteAccountOpen: false,
+        isArchiveAccountOpen: false,
     },
     selectedAccount: null as any,
     subscription: null as any,
@@ -703,19 +710,22 @@ async function activateDeactivateAccount(index: number, account: any) {
     state.isAccountsLoading = false
 }
 
-function confirmAccountDeletion(account: any) {
+function confirmAccountArchiving(account: any) {
     state.selectedAccount = account
-    state.modal.isDeleteAccountOpen = true
+    state.modal.isArchiveAccountOpen = true
 }
 
-async function deleteAccount() {
+async function archiveAccount() {
     state.error = {}
     state.isAccountsLoading = true
+    const archive = !state.selectedAccount?.is_archived
     try {
-        const response = await accountService.deleteAccount(state.selectedAccount.uuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        const response = await accountService.archiveAccount(state.selectedAccount.uuid, archive)
+        if (response?.data) {
             fetchAccounts()
-            successAlert(`${t('alert.success')}!`, `${t('superadmin.accounts.alert.deletedSuccessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t(archive
+                ? 'superadmin.accounts.alert.archivedSuccessfully'
+                : 'superadmin.accounts.alert.restoredSuccessfully')}.`)
         }
     } catch (error: any) {
         state.error = error

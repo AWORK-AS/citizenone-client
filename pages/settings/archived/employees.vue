@@ -184,7 +184,7 @@ async function unarchiveEmployee() {
     state.isTableLoading = true
     try {
         const employeeUuid = state.selectedEmployee?.uuid
-        const response = await employeeService.archiveEmployee(employeeUuid)
+        const response = await employeeService.archiveEmployee(employeeUuid, false)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyUnarchive')}.`)
             fetchArchivedEmployees()
