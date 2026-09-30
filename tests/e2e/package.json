@@ -31,6 +31,7 @@
     "test:google-drive-overview-tab": "node google-drive-overview-tab.mjs",
     "test:economy-any-industry": "node economy-any-industry.mjs",
     "test:multi-year-subscription-terms": "node multi-year-subscription-terms.mjs",
+    "test:pricing-nov2026": "node pricing-nov2026.mjs",
     "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs"
   },
   "dependencies": {
