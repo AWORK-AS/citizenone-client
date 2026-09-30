@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgjengelige pladser ved denne arrangement",
+                "buffer": {
+                    "description": "Krev en minimumsavstand rundt bookinger for denne tjenesten.",
+                    "minutesAfter": "Minutter påkrevd etter en booking",
+                    "minutesBefore": "Minutter påkrevd før en booking",
+                    "title": "Buffertid"
+                },
                 "moms": "Mva",
                 "notification": {
                     "notification": "Varsel",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgjengelige pladser ved denne arrangement",
+                "buffer": {
+                    "description": "Krev en minimumsavstand rundt bookinger for denne tjenesten.",
+                    "minutesAfter": "Minutter påkrevd etter en booking",
+                    "minutesBefore": "Minutter påkrevd før en booking",
+                    "title": "Buffertid"
+                },
                 "moms": "Mva",
                 "notification": {
                     "notification": "Varsel",
@@ -5577,6 +5589,7 @@
                     "description": "Beskrivelse",
                     "image": "Bilde",
                     "isOneTimeFee": "Én gang gebyr",
+                    "isFree": "Gratis",
                     "link": "Link",
                     "logo": "Logo",
                     "monthlyPrice": "Månedlig pris",
@@ -11352,6 +11365,7 @@
                 "setupFee": "Oppstartsgebyr",
                 "sortOrder": "Sorteringsrekkefølge",
                 "link": "Lenke",
+                "isFree": "Gratis",
                 "quantifiable": "Kvantifiserbar",
                 "thirdPartyApp": "Tredjeparts-app",
                 "popular": "Populær",

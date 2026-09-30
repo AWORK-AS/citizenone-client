@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Available spots at the event",
+                "buffer": {
+                    "description": "Require a minimum gap around bookings for this service.",
+                    "minutesAfter": "Minutes required after a booking",
+                    "minutesBefore": "Minutes required before a booking",
+                    "title": "Buffer time"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notification",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Available spots at the event",
+                "buffer": {
+                    "description": "Require a minimum gap around bookings for this service.",
+                    "minutesAfter": "Minutes required after a booking",
+                    "minutesBefore": "Minutes required before a booking",
+                    "title": "Buffer time"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notification",
@@ -5632,6 +5644,7 @@
                     "description": "Description",
                     "image": "Image",
                     "isOneTimeFee": "Is one time fee",
+                    "isFree": "Free",
                     "link": "Link",
                     "logo": "Logo",
                     "monthlyPrice": "Monthly price",
@@ -11389,6 +11402,7 @@
                 "setupFee": "Setup fee",
                 "sortOrder": "Sort order",
                 "link": "Link",
+                "isFree": "Free",
                 "quantifiable": "Quantifiable",
                 "thirdPartyApp": "Third party app",
                 "popular": "Popular",

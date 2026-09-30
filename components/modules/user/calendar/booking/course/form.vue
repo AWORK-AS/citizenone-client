@@ -287,6 +287,32 @@
                 </div>
                 <div class="space-y-1">
                     <h2 class="text-base font-semibold leading-7 text-gray-900">
+                        {{ $t('bookings.formCourse.settings.buffer.title') }}
+                    </h2>
+                    <p class="text-sm text-gray-600">
+                        {{ $t('bookings.formCourse.settings.buffer.description') }}
+                    </p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="buffer_minutes_before"
+                                :label="$t('bookings.formCourse.settings.buffer.minutesBefore')" />
+                            <FormNumberField id="buffer_minutes_before" name="buffer_minutes_before"
+                                :placeholder="$t('bookings.formCourse.settings.buffer.minutesBefore')"
+                                v-model="state.formCourse.buffer_minutes_before" />
+                            <FormError :error="state?.error?.errors?.buffer_minutes_before?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="buffer_minutes_after"
+                                :label="$t('bookings.formCourse.settings.buffer.minutesAfter')" />
+                            <FormNumberField id="buffer_minutes_after" name="buffer_minutes_after"
+                                :placeholder="$t('bookings.formCourse.settings.buffer.minutesAfter')"
+                                v-model="state.formCourse.buffer_minutes_after" />
+                            <FormError :error="state?.error?.errors?.buffer_minutes_after?.[0]" />
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-1">
+                    <h2 class="text-base font-semibold leading-7 text-gray-900">
                         {{ $t('bookings.formCourse.settings.otherSettings.otherSettings') }}
                     </h2>
                     <div class="flex items-center gap-x-2">
@@ -459,6 +485,8 @@ const state = reactive({
         close_registration: false,
         is_online_booking: false,
         is_reminder_enabled: false,
+        buffer_minutes_before: 0,
+        buffer_minutes_after: 0,
     },
     isPageLoading: false,
     modal: {
@@ -501,6 +529,8 @@ watch(() => props.selectedCourse, (selectedCourse: any) => {
             close_registration: selectedCourse?.close_registration,
             is_online_booking: selectedCourse?.is_online_booking,
             is_reminder_enabled: selectedCourse?.is_reminder_enabled,
+            buffer_minutes_before: selectedCourse?.buffer_minutes_before || 0,
+            buffer_minutes_after: selectedCourse?.buffer_minutes_after || 0,
         }
         avatarUrl.value = selectedCourse?.image ? selectedCourse?.image : `/img/icons/asset-02.svg`
     }

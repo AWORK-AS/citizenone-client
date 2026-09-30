@@ -656,6 +656,136 @@ are left in place (no delete API for `Company`/`Invoice`), matching
 fixtures via the tinker script above (the "not due"/"due" pair especially,
 since their `scheduled_price` is consumed on the first successful promotion).
 
+### `booking-app` — full booking CRUD + booking-client journey
+
+Covers the whole booking app end to end: admin CRUD for booking tags, online
+booking settings, and the event/course wizard (including the `buffer_minutes_before`/
+`buffer_minutes_after` fields shipped alongside this test — the browser form
+for those was writing to local state but never actually including them in the
+save request; that was a real bug, fixed as part of this test), appointment
+hand-over, and the complete booking-client journey: anonymous public booking
+through to that same client logging into their own portal and seeing it.
+
+Scope, confirmed by reading the source rather than assumed:
+
+- There's no admin UI to create a `BookingService` (the single-provider
+  "treatment" model) — the real "create a bookable thing" UI is the
+  EventCourse wizard (single event / course), which is what this script tests
+  as service CRUD. Website Booking's embed-widget flow needs a real
+  `BookingService` and is out of scope.
+- Appointments have no UI create or delete, only reassignment ("hand over").
+- The booking-client portal is read-only — no cancel/reschedule exists.
+- `BookingAppointmentService::createServiceBookingAppointment`/`createBookingAppointment`
+  both call `bookingClientRepository->findByEmail()` before creating a new
+  client — so a `BookingClient` pre-seeded with a real email **and password
+  already set** gets reused by the public booking step below, which is what
+  makes the login step in Scenario F possible without a password-reset email.
+
+Mint every fixture in one pass:
+
+```bash
+php artisan tinker --execute='
+  $language = App\Models\Language::firstOrCreate(["code" => "en"], ["uuid" => (string) Illuminate\Support\Str::uuid(), "name" => "English"]);
+  $company = App\Models\Company::firstOrCreate(["name" => "E2E Booking App Co"], ["is_active" => true]);
+
+  $admin = App\Models\User::firstOrCreate(
+    ["email" => "e2e-booking-admin@test.com"],
+    ["firstname" => "E2E", "lastname" => "BookingAdmin", "phone" => "+4500000094",
+     "company_id" => $company->id, "language_id" => $language->id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false,
+     "is_active" => true, "is_email_verified" => true]
+  );
+  if (! $admin->hasRole("Admin")) $admin->assignRole("Admin");
+
+  // Two separate gates need satisfying, not one - confirmed by reading both
+  // code paths rather than assumed:
+  // 1. The real API enforcement (e.g. createServiceBookingAppointment)
+  //    checks $company->hasApplication("booking") - the same "booking"
+  //    Application pattern proven in
+  //    tests/Feature/BookingCalendarTest.php::grantBookingLicense.
+  // 2. The frontend's own page gate (pages/calendar/bookings/index.vue,
+  //    redirects to /calendar without it) reads a completely different
+  //    flag - user.has_booking_app_access - which UserService::findLoggedInUser
+  //    computes from $user->booking_license_id specifically (a per-user
+  //    assigned license FK), not from "the company has any booking
+  //    subscription at all". Granting only the company-level Application
+  //    subscription (as BookingCalendarTest does, since it never touches the
+  //    frontend) leaves has_booking_app_access false and the admin UI
+  //    redirects away before this script ever reaches it.
+  $bookingApp = App\Models\Application::firstOrCreate(
+    ["generic_name" => "booking"],
+    ["uuid" => (string) Illuminate\Support\Str::uuid(), "name" => "Booking", "description" => "Booking",
+     "is_one_time_fee" => false, "price" => 0.00, "monthly_price" => 49.00, "yearly_price" => 490.00,
+     "type" => "Other", "is_active" => true]
+  );
+  $bookingSub = App\Models\UserSubscription::firstOrCreate(
+    ["user_id" => $admin->id, "deal_type" => App\Models\Application::class, "deal_id" => $bookingApp->id],
+    ["uuid" => (string) Illuminate\Support\Str::uuid(), "company_id" => $company->id, "is_active" => true, "is_taken" => true]
+  );
+  if ($admin->booking_license_id !== $bookingSub->id) {
+    $admin->booking_license_id = $bookingSub->id;
+    $admin->save();
+  }
+
+  // The reassignment ("hand over") target.
+  $colleague = App\Models\User::firstOrCreate(
+    ["email" => "e2e-booking-colleague@test.com"],
+    ["firstname" => "E2E", "lastname" => "Colleague", "phone" => "+4500000093",
+     "company_id" => $company->id, "language_id" => $language->id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false,
+     "is_active" => true, "is_email_verified" => true]
+  );
+  if (! $colleague->hasRole("Admin")) $colleague->assignRole("Admin");
+
+  // Pre-seeded WITH a password, so the public booking step reuses this
+  // client by email (findByEmail) instead of creating a fresh passwordless
+  // one, and Scenario F can log in immediately.
+  $client = App\Models\BookingClient::firstOrCreate(
+    ["email" => "e2e-booking-client@test.com"],
+    ["uuid" => (string) Illuminate\Support\Str::uuid(), "firstname" => "E2E", "lastname" => "Client",
+     "password" => bcrypt("password")]
+  );
+  if (! $client->password) { $client->password = bcrypt("password"); $client->save(); }
+
+  echo "CO_TOKEN=".$admin->createToken("e2e-booking-admin")->plainTextToken."\n";
+  echo "CO_COLLEAGUE_NAME=".$colleague->firstname." ".$colleague->lastname."\n";
+  echo "CO_CLIENT_EMAIL=".$client->email."\n";
+  echo "CO_CLIENT_PASSWORD=password\n";
+'
+```
+
+```bash
+CO_TOKEN='<admin-token>' CO_COLLEAGUE_NAME='E2E Colleague' \
+  CO_CLIENT_EMAIL='e2e-booking-client@test.com' CO_CLIENT_PASSWORD='password' \
+  npm run test:booking-app
+```
+
+Not self-restoring for everything: Scenario A's tag and Scenario C's
+throwaway event are deleted by the script itself, but the fixture company,
+admin, colleague, booking client, the kept event, and the
+appointment/reassignment it produces are left in place — same accepted
+trade-off as `pricing-nov2026.mjs`/`multi-year-subscription-terms.mjs` (no
+delete API for `Company`). Re-running the whole story end to end needs either
+a fresh fixture company (bump the names/emails above) or manually deleting
+the kept event first.
+
+Known, deliberately out-of-scope gaps (not silently worked around):
+
+- Website Booking's embed/hosted widget booking flow (needs a `BookingService`,
+  which has no admin UI).
+- Any password-reset/forgot-password email round trip.
+- Booking-client cancel/reschedule (doesn't exist in the product).
+- Admin-side appointment delete (API-only, no UI button to drive).
+- Editing an existing event/course does not correctly re-populate
+  `booking_setting`-derived fields (price, spots, tags, the buffer minutes,
+  etc.) in the form — `EventCourseResource` nests them under `booking_setting`
+  rather than flattening them to the top level the way `name`/`address` are,
+  and the edit-repopulation `watch()` in both `single-event/form.vue` and
+  `course/form.vue` reads them from the top level. This is a pre-existing gap
+  (predates this test), not introduced by it — the edit scenarios above only
+  assert on `name`, which is a real top-level column and does round-trip
+  correctly.
+
 ### `economy-any-industry` — needs a `CO_TOKEN` whose company has the Economy page/modules granted
 
 Covers opening the Economy nav item and its four tabs (overview,

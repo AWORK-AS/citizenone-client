@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tillgängliga platser vet denna händelse",
+                "buffer": {
+                    "description": "Kräv ett minsta avstånd runt bokningar för denna tjänst.",
+                    "minutesAfter": "Minuter som krävs efter en bokning",
+                    "minutesBefore": "Minuter som krävs före en bokning",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notis",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tillgängliga platser vet denna händelse",
+                "buffer": {
+                    "description": "Kräv ett minsta avstånd runt bokningar för denna tjänst.",
+                    "minutesAfter": "Minuter som krävs efter en bokning",
+                    "minutesBefore": "Minuter som krävs före en bokning",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notis",
@@ -5577,6 +5589,7 @@
                     "description": "Beskrivning",
                     "image": "Bild",
                     "isOneTimeFee": "Én gang gebyr",
+                    "isFree": "Gratis",
                     "link": "Länk",
                     "logo": "Logotyp",
                     "monthlyPrice": "Månadsvis pris",
@@ -11352,6 +11365,7 @@
                 "setupFee": "Startavgift",
                 "sortOrder": "Sorteringsordning",
                 "link": "Länk",
+                "isFree": "Gratis",
                 "quantifiable": "Kvantifierbar",
                 "thirdPartyApp": "Tredjepartsapp",
                 "popular": "Populär",
