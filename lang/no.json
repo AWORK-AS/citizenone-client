@@ -11159,6 +11159,10 @@
             "purchaseExtraLicenses": "Kjøp ekstra lisenser",
             "total": "Totalt"
         },
+        "basisUserLimit": {
+            "confirmUpgrade": "Vil du oppgradere til Pro?",
+            "title": "Oppgrader til Pro"
+        },
         "coupon": {
             "coupon": "Coupon",
             "enterYourCouponCodeHereForExclusiveSavings": "Skriv inn din kuponkode her for eksklusive besparelser",

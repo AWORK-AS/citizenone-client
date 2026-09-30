@@ -103,6 +103,9 @@
         </div>
         <ModulesUserSubscriptionModalAddOnCoupon :isModalOpen="state.modal.isEnterCouponShow"
             @close="state.modal.isEnterCouponShow = false" />
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeToProOpen" :title="$t('subscription.basisUserLimit.title')"
+            :message="state.error?.message + ' ' + $t('subscription.basisUserLimit.confirmUpgrade')"
+            @close="state.modal.isUpgradeToProOpen = false" @confirm="navigateTo('/subscription/subscribe')" />
     </LoadingSpinner>
 </template>
 
@@ -112,6 +115,7 @@ import { cartService } from '@/components/api/user/CartService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
 import { useCouponStore } from '@/store/coupon'
+import { isBasisUserLimitError } from '@/utils/basisUserLimit'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -146,7 +150,8 @@ const state = reactive({
     },
     isPageLoading: false,
     modal: {
-        isEnterCouponShow: false
+        isEnterCouponShow: false,
+        isUpgradeToProOpen: false,
     }
 })
 
@@ -253,6 +258,9 @@ async function handleSaveCart() {
         }
     } catch (error: any) {
         state.error = error
+        if (isBasisUserLimitError(error?.message)) {
+            state.modal.isUpgradeToProOpen = true
+        }
     }
     state.isPageLoading = false
 }
