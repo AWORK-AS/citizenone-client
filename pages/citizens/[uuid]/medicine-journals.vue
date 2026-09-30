@@ -312,7 +312,7 @@
                     </span>
 
                     <div class="flex flex-wrap items-center gap-2 ml-auto"
-                        v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
+                        v-if="canGiveMedicine">
                         <FormButton buttonStyle="cancel" class="rounded-md"
                             v-if="dueNowDoses.length > 0 && citizenMedicineStore.getSelectedMedicines?.length === 0"
                             @click="state.modal.isGiveAllDueOpen = true">
@@ -1089,7 +1089,7 @@
                                             <Tooltip
                                                 :text="$t('citizens.medicineJournals.table.actions.givePNMedicine')"
                                                 position="left"
-                                                v-if="medicine.is_pn_medicine && (isAtLeast('Admin') || can('update_citizen_medicine'))">
+                                                v-if="medicine.is_pn_medicine && canGiveMedicine">
                                                 <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.givePNMedicine')" buttonStyle="action" class="rounded-md text-xs shrink-0"
                                                     @click="givePNMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-3" />
@@ -1097,7 +1097,7 @@
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.medicineJournals.table.actions.giveMedicine')"
                                                 position="left"
-                                                v-else-if="!medicine.is_pn_medicine && (isAtLeast('Admin') || can('update_citizen_medicine'))">
+                                                v-else-if="!medicine.is_pn_medicine && canGiveMedicine">
                                                 <FormButton :aria-label="$t('citizens.medicineJournals.table.actions.giveMedicine')" type="button" buttonStyle="action" class="rounded-md"
                                                     @click="giveMedicine(medicine)">
                                                     <Icon name="ph:plus" class="size-4" />
@@ -1270,6 +1270,8 @@ const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
+// Giving medication registers a dose, not an edit of the medicine - mirror the backend rule in CitizenMedicineHistoryService.
+const canGiveMedicine = computed(() => isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine'))
 const { formatDateToReadable, formatDateWithWeekdayToReadable } = useDatetimeFormatter()
 const userStore = useUserStore() as any
 const customPagesStore = useCustomPagesStore() as any
