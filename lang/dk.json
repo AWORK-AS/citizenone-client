@@ -10452,6 +10452,8 @@
                 "relativeChat": "Chat med pårørende",
                 "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
                 "relativeChatContactPersons": "Pårørende kan skrive til @:terms.citizenDefinite{'s'} tilknyttede kontaktpersoner",
+                "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
+                "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
                 "groupPortalAccess": "Portaladgang",
                 "portalAccessHint": "Vælg hvad pårørende, tredjeparter og @:terms.citizens{''} kan se i deres egen portal",

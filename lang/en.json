@@ -10452,6 +10452,8 @@
                 "relativeChat": "Chat with relatives",
                 "relativeChatManagement": "Relatives can write to management and administrators",
                 "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
+                "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
+                "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
