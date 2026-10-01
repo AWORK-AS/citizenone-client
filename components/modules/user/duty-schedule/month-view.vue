@@ -1049,6 +1049,7 @@ function hidePopoverWithDelay() {
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { useEntireShiftEdit } from '@/composables/useEntireShiftEdit'
 import { dutyScheduleFavoriteEmployeeService } from '@/components/api/user/DutyScheduleFavoriteEmployeeService'
 import { useFavoriteEmployees } from '@/composables/useFavoriteEmployees'
 import { useDepartmentStore } from '@/store/department'
@@ -1995,10 +1996,12 @@ function viewSchedule(employeeIndex: number, shift: any) {
     state.modal.isViewShiftOpen = true
 }
 
-function editSchedule(employee: any, employeeIndex: number, shift: any) {
+const { withEntireShift } = useEntireShiftEdit()
+
+async function editSchedule(employee: any, employeeIndex: number, shift: any) {
     const userUuid = employee.uuid
     state.editShift.selectedEmployee = employee
-    state.editShift.selectedEmployeeSchedule = {
+    state.editShift.selectedEmployeeSchedule = await withEntireShift({
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
         date_time_start: shift?.date_time_start,
@@ -2012,7 +2015,7 @@ function editSchedule(employee: any, employeeIndex: number, shift: any) {
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
         use_compensatory_time: shift?.use_compensatory_time,
         shift_span_position: shift?.shift_span_position,
-    }
+    }, (uuid: string) => dutyScheduleService.getDutySchedule(uuid))
     state.modal.isEditShiftOpen = true
 }
 
@@ -2028,6 +2031,7 @@ async function updateSelectedSchedule(shiftDetails: any) {
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
+        edit_entire_shift: state.editShift.selectedEmployeeSchedule.edit_entire_shift,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
         user_uuid: employeeUuid,
         citizen_uuid: shiftDetails.citizens,

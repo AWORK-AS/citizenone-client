@@ -643,6 +643,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { draftTemplateScheduleService } from '@/components/api/user/DraftTemplateScheduleService'
+import { useEntireShiftEdit } from '@/composables/useEntireShiftEdit'
 import { useDepartmentStore } from '@/store/department'
 import { useDraftDutyScheduleStore } from '@/store/draft-duty-schedule'
 import { useUserStore } from '@/store/user'
@@ -1367,11 +1368,13 @@ async function removeEntireShiftSpan() {
     }
 }
 
-function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
+const { withEntireShift } = useEntireShiftEdit()
+
+async function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number) {
     const date = state.weeklySchedules?.data?.[employeeIndex].weeks[weekIndex].date
     const userUuid = state.weeklySchedules?.data?.[employeeIndex].uuid
     state.editShift.selectedEmployee = employee
-    state.editShift.selectedEmployeeSchedule = {
+    state.editShift.selectedEmployeeSchedule = await withEntireShift({
         citizen_schedules: shift?.citizen_schedules,
         scheduleUuid: shift?.schedule_uuid,
         date_time_start: shift?.date_time_start,
@@ -1386,10 +1389,11 @@ function editSchedule(employee: any, employeeIndex: number, weekIndex: any, shif
         departments: shift?.departments,
         note: shift?.note,
         do_not_count_sick_leave: shift?.do_not_count_sick_leave,
+        shift_span_position: shift?.shift_span_position,
         employeeIndex: employeeIndex,
         weekIndex: weekIndex,
         shiftIndex: shiftIndex,
-    }
+    }, (uuid: string) => draftTemplateScheduleService.getScheduleDraft(uuid))
     state.modal.isEditShiftOpen = true
 }
 
@@ -1404,6 +1408,7 @@ function updateSelectedSchedule(shiftDetails: any) {
         do_not_count_weekends: shiftDetails.do_not_count_weekends,
         date_time_start: shiftDetails?.date_time_start,
         date_time_end: shiftDetails?.date_time_end,
+        edit_entire_shift: state.editShift.selectedEmployeeSchedule.edit_entire_shift,
         is_apply_to_all: shiftDetails?.recurring?.is_apply_to_all,
         user_uuid: state.editShift.selectedEmployeeSchedule.user_uuid,
         citizen_uuid: shiftDetails.citizens,
