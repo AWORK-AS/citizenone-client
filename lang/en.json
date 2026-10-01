@@ -16470,5 +16470,58 @@
         },
         "saved": "Saved",
         "saveFailed": "Could not be saved"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Daily Overview",
+        "intro": "Decide what the Daily Overview shows. Set a company default and, where a department needs something else, give it its own layout. Each user gets the layout of the department they have selected; with no layout, users choose for themselves as before.",
+        "scope": "Applies to",
+        "companyDefault": "Company default (all departments)",
+        "hasOwnLayout": "Own layout",
+        "usesCompanyDefault": "Uses the company default",
+        "noLayout": "No layout - users choose for themselves",
+        "lock": "Same overview for everyone",
+        "lockHelp": "Users cannot show or hide anything. Turn this off to let users choose the boxes that are not required.",
+        "builtInBoxes": "Standard boxes",
+        "customBoxes": "Custom boxes",
+        "customBoxesHelp": "Boxes you set up yourself. Each one only shows the citizens assigned to the person viewing it.",
+        "noCustomBoxes": "No custom boxes yet.",
+        "newBox": "New box",
+        "editBox": "Edit box",
+        "deleteBoxConfirmation": "Delete this box? It is removed from every layout",
+        "removeLayout": "Remove layout",
+        "removeDepartmentLayoutConfirmation": "Remove this department's layout? Its users get the company default",
+        "removeCompanyLayoutConfirmation": "Remove the company default? Users without a department layout choose for themselves again",
+        "saved": "The layout has been saved",
+        "layoutRemoved": "The layout has been removed",
+        "boxSaved": "The box has been saved",
+        "boxDeleted": "The box has been deleted",
+        "managedByAdmin": "Your administrator has set up this overview. Boxes with a lock are required.",
+        "requiredByAdmin": "Required by your administrator",
+        "states": {
+            "mandatory": "Required",
+            "optional": "User's choice",
+            "hidden": "Hidden",
+            "shown": "Shown"
+        },
+        "sources": {
+            "assigned_citizens": "My assigned citizens",
+            "plans_and_goals": "Plans, goals and sub-goals"
+        },
+        "form": {
+            "title": "Title",
+            "source": "Shows",
+            "limit": "Maximum number of citizens",
+            "dueWithinDays": "Only goals due within (days)",
+            "dueWithinDaysHelp": "Leave empty to show every active goal. Overdue goals are always shown.",
+            "includeCompleted": "Include completed goals",
+            "pageNote": "Only shown to people whose role has the Plans and goals page."
+        },
+        "box": {
+            "loadFailed": "This box could not be loaded.",
+            "noCitizens": "No citizens are assigned to you.",
+            "noPlans": "Nothing to show from your citizens' plans right now.",
+            "overdue": "Overdue {date}",
+            "dueToday": "Due today"
+        }
     }
 }

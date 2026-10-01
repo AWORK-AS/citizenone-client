@@ -16463,5 +16463,58 @@
         },
         "saved": "Gemt",
         "saveFailed": "Kunne ikke gemmes"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Dagligt overblik",
+        "intro": "Bestem hvad det daglige overblik viser. Lav en standard for hele virksomheden, og giv en afdeling sit eget layout, hvor den har brug for noget andet. Hver bruger får layoutet for den afdeling, de har valgt; uden layout vælger brugerne selv som hidtil.",
+        "scope": "Gælder for",
+        "companyDefault": "Virksomhedens standard (alle afdelinger)",
+        "hasOwnLayout": "Eget layout",
+        "usesCompanyDefault": "Bruger virksomhedens standard",
+        "noLayout": "Intet layout - brugerne vælger selv",
+        "lock": "Samme overblik for alle",
+        "lockHelp": "Brugerne kan ikke vise eller skjule noget. Slå fra for at lade brugerne vælge de bokse, der ikke er påkrævet.",
+        "builtInBoxes": "Standardbokse",
+        "customBoxes": "Egne bokse",
+        "customBoxesHelp": "Bokse du selv sætter op. Hver boks viser kun de borgere, der er tilknyttet den, der ser den.",
+        "noCustomBoxes": "Ingen egne bokse endnu.",
+        "newBox": "Ny boks",
+        "editBox": "Rediger boks",
+        "deleteBoxConfirmation": "Slet denne boks? Den fjernes fra alle layouts",
+        "removeLayout": "Fjern layout",
+        "removeDepartmentLayoutConfirmation": "Fjern afdelingens layout? Dens brugere får virksomhedens standard",
+        "removeCompanyLayoutConfirmation": "Fjern virksomhedens standard? Brugere uden et afdelingslayout vælger selv igen",
+        "saved": "Layoutet er gemt",
+        "layoutRemoved": "Layoutet er fjernet",
+        "boxSaved": "Boksen er gemt",
+        "boxDeleted": "Boksen er slettet",
+        "managedByAdmin": "Din administrator har sat dette overblik op. Bokse med en lås er påkrævet.",
+        "requiredByAdmin": "Påkrævet af din administrator",
+        "states": {
+            "mandatory": "Påkrævet",
+            "optional": "Brugerens valg",
+            "hidden": "Skjult",
+            "shown": "Vist"
+        },
+        "sources": {
+            "assigned_citizens": "Mine tilknyttede borgere",
+            "plans_and_goals": "Planer, mål og delmål"
+        },
+        "form": {
+            "title": "Titel",
+            "source": "Viser",
+            "limit": "Maksimalt antal borgere",
+            "dueWithinDays": "Kun mål med frist inden for (dage)",
+            "dueWithinDaysHelp": "Lad feltet stå tomt for at vise alle aktive mål. Overskredne mål vises altid.",
+            "includeCompleted": "Medtag fuldførte mål",
+            "pageNote": "Vises kun for personer, hvis rolle har siden Planer og mål."
+        },
+        "box": {
+            "loadFailed": "Boksen kunne ikke indlæses.",
+            "noCitizens": "Du har ingen tilknyttede borgere.",
+            "noPlans": "Intet at vise fra dine borgeres planer lige nu.",
+            "overdue": "Overskredet {date}",
+            "dueToday": "Frist i dag"
+        }
     }
 }

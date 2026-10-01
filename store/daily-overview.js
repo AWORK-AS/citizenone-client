@@ -38,8 +38,18 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showCitizenMedicineOverview: true,
                 showLatestJournalNotes: true,
             },
+            // The admin-set layout for this user's selected department (or the
+            // company default); null when there is none, and the page then works
+            // off dailyOverviewFilter alone, exactly as before layouts existed.
+            layout: null,
         }),
         actions: {
+            setDailyOverviewFilterFlag(key, flag) {
+                this.dailyOverviewFilter[key] = flag
+            },
+            setLayout(layout) {
+                this.layout = layout ?? null
+            },
             setDailyOverviewFilterShowBulletBoard(flag) {
                 this.dailyOverviewFilter.showBulletBoard = flag
             },
@@ -122,6 +132,7 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
         getters: {
             getDailyOverviewFilter: (state) => state.dailyOverviewFilter,
             getViewAllFilter: (state) => state.viewAllFilter,
+            getLayout: (state) => state.layout,
         },
     },
 )

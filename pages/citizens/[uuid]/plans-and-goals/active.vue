@@ -406,9 +406,28 @@ watch(() => (state.slideOver.isGoalOpen), (isGoalOpen: boolean) => {
     }
 })
 
-onMounted(() => {
-    fetchPlans()
+onMounted(async () => {
+    await fetchPlans()
+    openRequestedItem()
 })
+
+/**
+ * Opens the plan (?plan=) or single goal (?goal=) a link pointed at, such as a
+ * Daily Overview box. Only when it is in the list as loaded; otherwise the page
+ * simply shows the citizen's plans.
+ */
+function openRequestedItem() {
+    const query = router?.currentRoute?.value?.query ?? {}
+    const planUuid = query.plan as string | undefined
+    const goalUuid = query.goal as string | undefined
+    if (!planUuid && !goalUuid) return
+
+    const item = (state.plans?.data ?? []).find((entry: any) => entry?.uuid === (planUuid ?? goalUuid))
+    if (!item) return
+
+    if (goalUuid || item.is_single_goal) viewSubgoals(item)
+    else viewPlan(item)
+}
 
 function hasCreatePlanAccess() {
     if (isAtLeast('Admin')) return true

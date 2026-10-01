@@ -16374,5 +16374,58 @@
         },
         "saved": "Lagret",
         "saveFailed": "Kunne ikke lagres"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Daglig oversikt",
+        "intro": "Bestem hva den daglige oversikten viser. Lag en standard for hele virksomheten, og gi en avdeling sin egen layout der den trenger noe annet. Hver bruker får layouten for avdelingen de har valgt; uten layout velger brukerne selv som før.",
+        "scope": "Gjelder for",
+        "companyDefault": "Virksomhetens standard (alle avdelinger)",
+        "hasOwnLayout": "Egen layout",
+        "usesCompanyDefault": "Bruker virksomhetens standard",
+        "noLayout": "Ingen layout - brukerne velger selv",
+        "lock": "Samme oversikt for alle",
+        "lockHelp": "Brukerne kan ikke vise eller skjule noe. Slå av for å la brukerne velge boksene som ikke er påkrevd.",
+        "builtInBoxes": "Standardbokser",
+        "customBoxes": "Egne bokser",
+        "customBoxesHelp": "Bokser du setter opp selv. Hver boks viser bare innbyggerne som er tilknyttet den som ser den.",
+        "noCustomBoxes": "Ingen egne bokser ennå.",
+        "newBox": "Ny boks",
+        "editBox": "Rediger boks",
+        "deleteBoxConfirmation": "Slette denne boksen? Den fjernes fra alle layouter",
+        "removeLayout": "Fjern layout",
+        "removeDepartmentLayoutConfirmation": "Fjerne avdelingens layout? Brukerne får virksomhetens standard",
+        "removeCompanyLayoutConfirmation": "Fjerne virksomhetens standard? Brukere uten avdelingslayout velger selv igjen",
+        "saved": "Layouten er lagret",
+        "layoutRemoved": "Layouten er fjernet",
+        "boxSaved": "Boksen er lagret",
+        "boxDeleted": "Boksen er slettet",
+        "managedByAdmin": "Administratoren din har satt opp denne oversikten. Bokser med lås er påkrevd.",
+        "requiredByAdmin": "Påkrevd av administratoren din",
+        "states": {
+            "mandatory": "Påkrevd",
+            "optional": "Brukerens valg",
+            "hidden": "Skjult",
+            "shown": "Vist"
+        },
+        "sources": {
+            "assigned_citizens": "Mine tilknyttede innbyggere",
+            "plans_and_goals": "Planer, mål og delmål"
+        },
+        "form": {
+            "title": "Tittel",
+            "source": "Viser",
+            "limit": "Maksimalt antall innbyggere",
+            "dueWithinDays": "Bare mål med frist innen (dager)",
+            "dueWithinDaysHelp": "La feltet stå tomt for å vise alle aktive mål. Forfalte mål vises alltid.",
+            "includeCompleted": "Ta med fullførte mål",
+            "pageNote": "Vises bare for personer med en rolle som har siden Planer og mål."
+        },
+        "box": {
+            "loadFailed": "Boksen kunne ikke lastes.",
+            "noCitizens": "Du har ingen tilknyttede innbyggere.",
+            "noPlans": "Ingenting å vise fra innbyggernes planer akkurat nå.",
+            "overdue": "Forfalt {date}",
+            "dueToday": "Frist i dag"
+        }
     }
 }

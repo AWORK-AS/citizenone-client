@@ -117,6 +117,51 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/daily-overview-filter`, 'PUT', params)
     }
 
+    /**
+     * The admin-set layout this user gets: their selected department's, else the
+     * company default. `data` is null when no admin has set one up.
+     */
+    async getLayout(): Promise<any> {
+        return await this.request(`/user/daily-overview/layout`, 'GET')
+    }
+
+    async getLayouts(): Promise<any> {
+        return await this.request(`/user/daily-overview/layouts`, 'GET')
+    }
+
+    /** One scope for the admin page. No department_uuid means the company default. */
+    async getLayoutScope(params: object): Promise<any> {
+        return await this.request(`/user/daily-overview/layouts/scope`, 'GET', params)
+    }
+
+    async saveLayoutScope(params: object): Promise<any> {
+        return await this.request(`/user/daily-overview/layouts/scope`, 'PUT', params)
+    }
+
+    async deleteLayoutScope(params: object): Promise<any> {
+        return await this.request(`/user/daily-overview/layouts/scope`, 'DELETE', params)
+    }
+
+    async getCustomBoxes(): Promise<any> {
+        return await this.request(`/user/daily-overview/custom-boxes`, 'GET')
+    }
+
+    async saveCustomBox(params: object): Promise<any> {
+        return await this.request(`/user/daily-overview/custom-boxes`, 'POST', params)
+    }
+
+    async updateCustomBox(uuid: string, params: object): Promise<any> {
+        return await this.request(`/user/daily-overview/custom-boxes/${uuid}`, 'PUT', params)
+    }
+
+    async deleteCustomBox(uuid: string): Promise<any> {
+        return await this.request(`/user/daily-overview/custom-boxes/${uuid}`, 'DELETE')
+    }
+
+    async getCustomBoxData(uuid: string): Promise<any> {
+        return await this.request(`/user/daily-overview/custom-boxes/${uuid}/data`, 'GET')
+    }
+
     async updateViewAllFilter(params: object): Promise<any> {
         return await this.request(`/user/view-all-filter`, 'PUT', params)
     }

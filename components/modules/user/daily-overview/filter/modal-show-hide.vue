@@ -6,130 +6,24 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <p v-if="layoutIsLocked" class="mb-4 flex items-start gap-x-2 rounded-lg bg-primary-25 px-3 py-2 text-xs text-slate-600">
+                        <Icon name="ph:lock-simple" class="mt-0.5 h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
+                        {{ $t('dailyOverviewLayouts.managedByAdmin') }}
+                    </p>
                     <div class="space-y-3">
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensDailyEvents()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents" />
-                            {{ $t('overview.filter.items.citizensEvents') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowLatestJournal()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showLatestJournal" />
-                            {{ $t('overview.filter.items.latestJournal') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowDailyMedicineOverview()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview" />
-                            {{ $t('overview.filter.items.medicationOverview') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensFollowUpReminders()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders" />
-                            {{ $t('overview.filter.items.citizensFollowUpReminders') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowTreatments()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showTreatments" />
-                            {{ $t('overview.filter.items.treatments') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowMyDailyEvents()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents" />
-                            {{ $t('overview.filter.items.calendar') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowBulletBoard()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showBulletBoard" />
-                            {{ $t('overview.filter.items.bulletBoard') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensAdmissionAndDischarged()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged" />
-                            {{ $t('overview.filter.items.citizensAdmissionAndDischarged') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensOrigin()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin" />
-                            {{ $t('overview.filter.items.citizensOrigin') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizenAdditictions()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions" />
-                            {{ $t('overview.filter.items.citizensAddictions') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowCitizensDiagnoses()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses" />
-                            {{ $t('overview.filter.items.citizensDiagnoses') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowRiskAssessment()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment" />
-                            {{ customPagesStore.getCustomPagesName?.riskAssessment }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowGender()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGender" />
-                            {{ $t('overview.filter.items.gender') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowStatusesScoreStatistics()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics" />
-                            {{ $t('overview.filter.items.statusesStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowGoalsScoreStatistics()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics" />
-                            {{ $t('overview.filter.items.goalsStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowIncidentStatistics()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics" />
-                            {{ $t('overview.filter.items.incidentStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowMedicineDeviationStatistics()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics" />
-                            {{ $t('overview.filter.items.medicineDeviationStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowJournalScoreStatistics()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics" />
-                            {{ $t('overview.filter.items.journalStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowSubgoalsScoreStatistics()">
-                            <FormCheckbox
-                                :value="dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics" />
-                            {{ $t('overview.filter.items.subgoalsStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            v-if="userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false"
-                            @click="setDailyOverviewFilterShowUseOfForceStatistics()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics" />
-                            {{ $t('overview.filter.items.useOfForceStatistics') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowScheduleSlots()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots" />
-                            {{ $t('overview.filter.items.scheduleSlots') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowPlansAndGoals()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals" />
-                            {{ $t('overview.filter.items.plansAndGoals') }}
-                        </div>
-                        <div class="w-fit flex items-center cursor-pointer text-sm"
-                            @click="setDailyOverviewFilterShowReminders()">
-                            <FormCheckbox :value="dailyOverviewStore.getDailyOverviewFilter.showReminders" />
-                            {{ $t('reminders.reminders') }}
-                        </div>
+                        <template v-for="item in visibleItems" :key="item.key">
+                            <div v-if="isMandatory(item.key)" class="w-fit flex items-center text-sm text-slate-500"
+                                :title="$t('dailyOverviewLayouts.requiredByAdmin')">
+                                <FormCheckbox :value="true" />
+                                {{ item.label }}
+                                <Icon name="ph:lock-simple" class="ml-1.5 h-3.5 w-3.5 text-slate-400"
+                                    :aria-label="$t('dailyOverviewLayouts.requiredByAdmin')" />
+                            </div>
+                            <div v-else class="w-fit flex items-center cursor-pointer text-sm" @click="toggle(item.key)">
+                                <FormCheckbox :value="isChecked(item.key)" />
+                                {{ item.label }}
+                            </div>
+                        </template>
                     </div>
                     <div class="mt-5 flex gap-x-3 justify-end">
                         <FormButton buttonStyle="primary" @click="closeModal">
@@ -147,11 +41,15 @@ import { dailyOverviewService } from '@/components/api/user/DailyOverviewService
 import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { useDailyOverviewLayout } from '@/composables/useDailyOverviewLayout'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
-const dailyOverviewStore = useDailyOverviewStore()
+const dailyOverviewStore = useDailyOverviewStore() as any
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { t } = useI18n()
+const { isLocked: layoutIsLocked, isMandatory, isHidden, customBoxes } = useDailyOverviewLayout()
 
 const props = defineProps({
     isModalOpen: {
@@ -166,31 +64,64 @@ const state = reactive({
     isPageLoading: false,
 })
 
+/**
+ * Every flag in daily_overview_filter, in the order the list shows them. The
+ * same modal serves the Daily Overview and the Statistics page, so both pages'
+ * flags are here; an admin layout only ever applies to the Daily Overview ones.
+ */
+const FILTER_ITEMS = computed(() => [
+    { key: 'showCitizensDailyEvents', label: t('overview.filter.items.citizensEvents') },
+    { key: 'showLatestJournal', label: t('overview.filter.items.latestJournal') },
+    { key: 'showDailyMedicineOverview', label: t('overview.filter.items.medicationOverview') },
+    { key: 'showCitizensFollowUpReminders', label: t('overview.filter.items.citizensFollowUpReminders') },
+    { key: 'showTreatments', label: t('overview.filter.items.treatments') },
+    { key: 'showMyDailyEvents', label: t('overview.filter.items.calendar') },
+    { key: 'showBulletBoard', label: t('overview.filter.items.bulletBoard') },
+    { key: 'showCitizensAdmissionAndDischarged', label: t('overview.filter.items.citizensAdmissionAndDischarged') },
+    { key: 'showCitizensOrigin', label: t('overview.filter.items.citizensOrigin') },
+    { key: 'showCitizensAddictions', label: t('overview.filter.items.citizensAddictions') },
+    { key: 'showCitizensDiagnoses', label: t('overview.filter.items.citizensDiagnoses') },
+    { key: 'showRiskAssessment', label: customPagesStore.getCustomPagesName?.riskAssessment },
+    { key: 'showGender', label: t('overview.filter.items.gender') },
+    { key: 'showStatusesScoreStatistics', label: t('overview.filter.items.statusesStatistics') },
+    { key: 'showGoalsScoreStatistics', label: t('overview.filter.items.goalsStatistics') },
+    { key: 'showIncidentStatistics', label: t('overview.filter.items.incidentStatistics') },
+    { key: 'showMedicineDeviationStatistics', label: t('overview.filter.items.medicineDeviationStatistics') },
+    { key: 'showJournalScoreStatistics', label: t('overview.filter.items.journalStatistics') },
+    { key: 'showSubgoalsScoreStatistics', label: t('overview.filter.items.subgoalsStatistics') },
+    ...(userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false
+        ? [{ key: 'showUseOfForceStatistics', label: t('overview.filter.items.useOfForceStatistics') }]
+        : []),
+    { key: 'showScheduleSlots', label: t('overview.filter.items.scheduleSlots') },
+    { key: 'showPlansAndGoals', label: t('overview.filter.items.plansAndGoals') },
+    { key: 'showReminders', label: t('reminders.reminders') },
+])
+
+/** The fixed list, minus what the admin hid, plus the admin's custom boxes. */
+const visibleItems = computed(() => [
+    ...FILTER_ITEMS.value.filter((item) => !isHidden(item.key)),
+    ...customBoxes.value
+        .filter((box: any) => box.state !== 'hidden')
+        .map((box: any) => ({ key: box.key, label: box.title })),
+])
+
+function isChecked(key: string): boolean {
+    const value = dailyOverviewStore.getDailyOverviewFilter?.[key]
+    return key.startsWith('custom:') ? value !== false : !!value
+}
+
 watch(() => userStore.getUser, (user: any) => {
     if (Object.keys(user)?.length > 0) {
-        dailyOverviewStore.setDailyOverviewFilterShowBulletBoard(JSON.parse(user?.daily_overview_filter)?.showBulletBoard)
-        dailyOverviewStore.setDailyOverviewFilterShowCitizenAdditictions(JSON.parse(user?.daily_overview_filter)?.showCitizensAddictions)
-        dailyOverviewStore.setDailyOverviewFilterShowCitizensAdmissionAndDischarged(JSON.parse(user?.daily_overview_filter)?.showCitizensAdmissionAndDischarged)
-        dailyOverviewStore.setDailyOverviewFilterShowCitizensDailyEvents(JSON.parse(user?.daily_overview_filter)?.showCitizensDailyEvents)
-        dailyOverviewStore.setDailyOverviewFilterShowCitizensDiagnoses(JSON.parse(user?.daily_overview_filter)?.showCitizensDiagnoses)
-        dailyOverviewStore.setDailyOverviewFilterShowCitizensFollowUpReminders(JSON.parse(user?.daily_overview_filter)?.showCitizensFollowUpReminders)
-        dailyOverviewStore.setDailyOverviewFilterShowCitizensOrigin(JSON.parse(user?.daily_overview_filter)?.showCitizensOrigin)
-        dailyOverviewStore.setDailyOverviewFilterShowDailyMedicineOverview(JSON.parse(user?.daily_overview_filter)?.showDailyMedicineOverview)
-        dailyOverviewStore.setDailyOverviewFilterShowGender(JSON.parse(user?.daily_overview_filter)?.showGender)
-        dailyOverviewStore.setDailyOverviewFilterShowLatestJournal(JSON.parse(user?.daily_overview_filter)?.showLatestJournal)
-        dailyOverviewStore.setDailyOverviewFilterShowJournalScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showJournalScoreStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowMyDailyEvents(JSON.parse(user?.daily_overview_filter)?.showMyDailyEvents)
-        dailyOverviewStore.setDailyOverviewFilterShowRiskAssessment(JSON.parse(user?.daily_overview_filter)?.showRiskAssessment)
-        dailyOverviewStore.setDailyOverviewFilterShowGoalsScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showGoalsScoreStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowSubgoalsScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showStatusesScoreStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowStatusesScoreStatistics(JSON.parse(user?.daily_overview_filter)?.showSubgoalsScoreStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowIncidentStatistics(JSON.parse(user?.daily_overview_filter)?.showIncidentStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowUseOfForceStatistics(JSON.parse(user?.daily_overview_filter)?.showUseOfForceStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowMedicineDeviationStatistics(JSON.parse(user?.daily_overview_filter)?.showMedicineDeviationStatistics)
-        dailyOverviewStore.setDailyOverviewFilterShowTreatments(JSON.parse(user?.daily_overview_filter)?.showTreatments)
-        dailyOverviewStore.setDailyOverviewFilterShowScheduleSlots(JSON.parse(user?.daily_overview_filter)?.showScheduleSlots)
-        dailyOverviewStore.setDailyOverviewFilterShowPlansAndGoals(JSON.parse(user?.daily_overview_filter)?.showPlansAndGoals)
-        dailyOverviewStore.setDailyOverviewFilterShowReminders(JSON.parse(user?.daily_overview_filter)?.showReminders ?? true)
+        const saved = JSON.parse(user?.daily_overview_filter) ?? {}
+        for (const item of FILTER_ITEMS.value) {
+            dailyOverviewStore.setDailyOverviewFilterFlag(item.key, saved?.[item.key])
+        }
+        // Reminders predate the filter, so a filter saved before it existed shows them.
+        dailyOverviewStore.setDailyOverviewFilterFlag('showReminders', saved?.showReminders ?? true)
+        // Personal choices about the admin's custom boxes.
+        for (const key of Object.keys(saved).filter((entry) => entry.startsWith('custom:'))) {
+            dailyOverviewStore.setDailyOverviewFilterFlag(key, saved[key])
+        }
     }
 })
 
@@ -198,963 +129,19 @@ function closeModal() {
     emit('close')
 }
 
-async function setDailyOverviewFilterShowBulletBoard() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: !dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowBulletBoard(!dailyOverviewStore.getDailyOverviewFilter.showBulletBoard)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
+async function toggle(key: string) {
+    if (isMandatory(key)) return
 
-async function setDailyOverviewFilterShowCitizenAdditictions() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: !dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
+        const next = !isChecked(key)
         const params = {
-            daily_overview_filter: daily_overview_filter
+            daily_overview_filter: { ...dailyOverviewStore.getDailyOverviewFilter, [key]: next },
         }
         const response = await dailyOverviewService.updateDailyOverviewFilter(params)
         if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowCitizenAdditictions(!dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowCitizensAdmissionAndDischarged() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: !dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowCitizensAdmissionAndDischarged(!dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowCitizensDailyEvents() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: !dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowCitizensDailyEvents(!dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowCitizensDiagnoses() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: !dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowCitizensDiagnoses(!dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowCitizensOrigin() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensOrigin: !dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowCitizensOrigin(!dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowDailyMedicineOverview() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: !dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowDailyMedicineOverview(!dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowGender() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: !dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowGender(!dailyOverviewStore.getDailyOverviewFilter.showGender)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowLatestJournal() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: !dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowLatestJournal(!dailyOverviewStore.getDailyOverviewFilter.showLatestJournal)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowJournalScoreStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: !dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowJournalScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowMyDailyEvents() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: !dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowMyDailyEvents(!dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowRiskAssessment() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: !dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowRiskAssessment(!dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowGoalsScoreStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: !dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowGoalsScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowSubgoalsScoreStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: !dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowSubgoalsScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowStatusesScoreStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: !dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowStatusesScoreStatistics(!dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowIncidentStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: !dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowIncidentStatistics(!dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowUseOfForceStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: !dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowUseOfForceStatistics(!dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowMedicineDeviationStatistics() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: !dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowMedicineDeviationStatistics(!dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowTreatments() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: !dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowTreatments(!dailyOverviewStore.getDailyOverviewFilter.showTreatments)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowScheduleSlots() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: !dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowScheduleSlots(!dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowPlansAndGoals() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: !dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowPlansAndGoals(!dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowCitizensFollowUpReminders() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: !dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowCitizensFollowUpReminders(!dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function setDailyOverviewFilterShowReminders() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const daily_overview_filter = {
-            showBulletBoard: dailyOverviewStore.getDailyOverviewFilter.showBulletBoard,
-            showCitizensAddictions: dailyOverviewStore.getDailyOverviewFilter.showCitizensAddictions,
-            showCitizensAdmissionAndDischarged: dailyOverviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged,
-            showCitizensDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showCitizensDailyEvents,
-            showCitizensDiagnoses: dailyOverviewStore.getDailyOverviewFilter.showCitizensDiagnoses,
-            showCitizensFollowUpReminders: dailyOverviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders,
-            showCitizensOrigin: dailyOverviewStore.getDailyOverviewFilter.showCitizensOrigin,
-            showDailyMedicineOverview: dailyOverviewStore.getDailyOverviewFilter.showDailyMedicineOverview,
-            showGender: dailyOverviewStore.getDailyOverviewFilter.showGender,
-            showGoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showGoalsScoreStatistics,
-            showLatestJournal: dailyOverviewStore.getDailyOverviewFilter.showLatestJournal,
-            showJournalScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showJournalScoreStatistics,
-            showMyDailyEvents: dailyOverviewStore.getDailyOverviewFilter.showMyDailyEvents,
-            showRiskAssessment: dailyOverviewStore.getDailyOverviewFilter.showRiskAssessment,
-            showStatusesScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showStatusesScoreStatistics,
-            showSubgoalsScoreStatistics: dailyOverviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics,
-            showIncidentStatistics: dailyOverviewStore.getDailyOverviewFilter.showIncidentStatistics,
-            showUseOfForceStatistics: dailyOverviewStore.getDailyOverviewFilter.showUseOfForceStatistics,
-            showMedicineDeviationStatistics: dailyOverviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics,
-            showTreatments: dailyOverviewStore.getDailyOverviewFilter.showTreatments,
-            showScheduleSlots: dailyOverviewStore.getDailyOverviewFilter.showScheduleSlots,
-            showPlansAndGoals: dailyOverviewStore.getDailyOverviewFilter.showPlansAndGoals,
-            showReminders: !dailyOverviewStore.getDailyOverviewFilter.showReminders,
-        }
-        const params = {
-            daily_overview_filter: daily_overview_filter
-        }
-        const response = await dailyOverviewService.updateDailyOverviewFilter(params)
-        if (response) {
-            dailyOverviewStore.setDailyOverviewFilterShowReminders(!dailyOverviewStore.getDailyOverviewFilter.showReminders)
+            dailyOverviewStore.setDailyOverviewFilterFlag(key, next)
         }
     } catch (error: any) {
         state.error = error
