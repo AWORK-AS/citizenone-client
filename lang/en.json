@@ -2052,7 +2052,9 @@
                 "dateCreated": "Date created",
                 "lastModified": "Last modified",
                 "name": "Name",
-                "owner": "Owner"
+                "owner": "Owner",
+                "id": "ID",
+                "location": "Location"
             },
             "template": "Template",
             "upgradeStorage": "Upgrade storage",
@@ -4535,7 +4537,9 @@
             "dateCreated": "Date created",
             "lastModified": "Last modified",
             "name": "Name",
-            "owner": "Owner"
+            "owner": "Owner",
+            "id": "ID",
+            "location": "Location"
         },
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",

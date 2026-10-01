@@ -92,7 +92,10 @@
                                             @change="handleRowSelect(document)"
                                             class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
                                     </td>
-                                    <td width="25%">
+                                    <td width="60" data-testid="document-id">
+                                        <span class="text-sm text-slate-600 tabular-nums">{{ document?.id }}</span>
+                                    </td>
+                                    <td width="32%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="viewFile(document)">
                                             <Icon name="ph:file" class="size-6" />
@@ -111,18 +114,24 @@
                                             </Tooltip>
                                             <span class="truncate">{{ document?.name }}</span>
                                         </span>
+                                        <p v-if="document?.folder_path !== undefined"
+                                            class="mt-0.5 flex items-center gap-x-1 text-xs text-slate-500"
+                                            :title="$t('citizens.documents.table.location')" data-testid="document-location">
+                                            <Icon name="ph:folder-simple" class="size-3.5 shrink-0" aria-hidden="true" />
+                                            <span class="truncate">{{ document?.folder_path || $t('citizens.tabs.documents') }}</span>
+                                        </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <p class="truncate">
                                             {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
                                         </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <span class="truncate">
                                             {{ formatDateTimeToReadable(document?.created_at) }}
                                         </span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <span class="truncate">
                                             {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
                                         </span>
@@ -294,6 +303,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
+        { name: 'citizens.documents.table.id', isTranslateName: true, sorter: true, key: 'id', width: 60 },
         { name: 'citizens.documents.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: 'citizens.documents.table.owner', isTranslateName: true, },
         { name: 'citizens.documents.table.dateCreated', isTranslateName: true, sorter: true, key: 'created_at' },

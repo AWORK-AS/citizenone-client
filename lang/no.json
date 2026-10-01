@@ -2052,7 +2052,9 @@
                 "dateCreated": "Opprettelsesdato",
                 "lastModified": "Sist endret",
                 "name": "Navn",
-                "owner": "Ejer"
+                "owner": "Ejer",
+                "id": "ID",
+                "location": "Plassering"
             },
             "template": "Mal",
             "upgradeStorage": "Opgradér lager",
@@ -4535,7 +4537,9 @@
             "dateCreated": "Opprettelsesdato",
             "lastModified": "Sist endret",
             "name": "Navn",
-            "owner": "Ejer"
+            "owner": "Ejer",
+            "id": "ID",
+            "location": "Plassering"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Last opp fil",
