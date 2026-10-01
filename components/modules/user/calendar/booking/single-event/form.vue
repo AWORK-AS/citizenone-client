@@ -700,24 +700,29 @@ function addMinutesToTime(time: string, minsToAdd: number) {
     return `${newHours}:${newMinutes}`
 }
 
+/**
+ * One row per time of day. An event stores a copy of each time for every
+ * date, and `capacity` on a copy is the seats left - so a time somebody has
+ * booked used to show up as a second row with one seat fewer, and saving it
+ * took that seat off every date. The bookings are added back, so the row shows
+ * the seats the time has.
+ */
 function formatExistingTimeSlots(data: any) {
-    const slots = data
+    const rows = new Map()
 
-    const uniqueSlots = []
-    const seen = new Set()
+    for (const slot of data ?? []) {
+        const key = `${slot.start_time}-${slot.end_time}`
+        const seats = Number(slot.capacity ?? 0) + Number(slot.appointments_count ?? 0)
+        const row = rows.get(key)
 
-    for (const slot of slots) {
-        const key = `${slot.start_time}-${slot.end_time}-${slot.capacity}`
-        if (!seen.has(key)) {
-            seen.add(key)
-            uniqueSlots.push({
-                start_time: slot.start_time,
-                end_time: slot.end_time,
-                capacity: slot.capacity
-            })
+        if (!row) {
+            rows.set(key, { start_time: slot.start_time, end_time: slot.end_time, capacity: seats })
+        } else if (seats > row.capacity) {
+            row.capacity = seats
         }
     }
-    return uniqueSlots
+
+    return [...rows.values()]
 }
 
 function addSlot() {
