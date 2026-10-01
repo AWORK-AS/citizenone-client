@@ -5496,6 +5496,7 @@
             "datetimeStart": "Dato og tid start",
             "departments": "Afdelinger",
             "hours": "Timer",
+            "hoursThisDay": "Denne dag",
             "note": "Bemærkning",
             "typeOfShift": "Type af vagt",
             "viewSchedule": "Se tidsplan"

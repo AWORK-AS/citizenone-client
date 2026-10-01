@@ -696,12 +696,13 @@
                                             </div>
                                             <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
                                                 :key="'s-' + employeeIndex + '-' + shiftIndex"
-                                                :class="['rounded-lg relative cursor-pointer !mt-4 overflow-visible', shift.is_conflict ? 'ring-2 ring-red-400' : '', isShiftLocked(shift?.date_time_start) && 'opacity-60']"
+                                                :class="['rounded-lg relative cursor-pointer !mt-4 overflow-visible transition-shadow', shift.is_conflict ? 'ring-2 ring-red-400' : '', isShiftLocked(shift?.date_time_start) && 'opacity-60', isSpanHighlighted(shift) && 'outline outline-2 outline-offset-2 outline-primary-400 shadow-lg']"
                                                 :draggable="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)"
                                                 :style="{ backgroundColor: shift?.type?.color }"
                                                 @click.stop="(hasScheduleManageAccess && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, shift) : viewSchedule(employeeIndex as number, shift)"
                                                 @dragstart="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start) && onMonthDragStart($event, employee, day, shift)"
-                                                @dragend="isAtLeast('Admin') && onMonthDragEnd($event)">
+                                                @dragend="isAtLeast('Admin') && onMonthDragEnd($event)"
+                                                @mouseenter="hoverSpan(shift)" @mouseleave="hoverSpan(null)">
                                                 <!-- Conflict indicator -->
                                                 <div v-if="shift.is_conflict" class="absolute -top-2 -left-2 z-30">
                                                     <Tooltip position="right" :wrap="true"
@@ -814,14 +815,14 @@
                                                     </span>
                                                 </div>
                                                 <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
-                                                    :text="`${$t('dutySchedules.viewSchedule.hours')}: ${shift.hours}`"
+                                                    :text="shiftHoursTooltip(shift)"
                                                     position="left" :wrap="true">
                                                     <div class="flex items-center gap-1 px-2 pb-1 cursor-help">
                                                         <Icon name="ph:clock" class="w-3 h-3 flex-shrink-0"
                                                             style="color:rgba(255,255,255,0.7)" />
                                                         <span class="text-[10px] font-medium"
                                                             style="color:rgba(255,255,255,0.8)">
-                                                            {{ shift.hours }}
+                                                            {{ shiftDisplayHours(shift) }}
                                                         </span>
                                                     </div>
                                                 </Tooltip>
@@ -1454,6 +1455,40 @@ function nextMonth() {
 // ============================================================
 function hasConflict(shifts: any) {
     return shifts?.some((shift: any) => shift.is_conflict === true) || false
+}
+
+// AW-2026-4263 — a night shift is stored as one row per day it touches, so each
+// block's own `hours` is only that day's piece (1.75 + 8.75). Under each block of a
+// span show the whole shift's total (10.5) instead; the tooltip keeps the piece.
+function isSpanShift(shift: any) {
+    return !!shift?.shift_span_position && shift.shift_span_position !== 'single'
+}
+
+// Hovering one block of a night shift outlines every block of that same shift, so
+// the "Vagt start" and "Vagt slut" halves can be told apart from the nights next to
+// them. Keyed by the backend's `span_id`, not `shift_parent_uuid`: that uuid can be
+// shared by unrelated nights.
+const hoveredSpanId = ref<number | null>(null)
+
+function hoverSpan(shift: any) {
+    hoveredSpanId.value = isSpanShift(shift) ? (shift?.span_id ?? null) : null
+}
+
+function isSpanHighlighted(shift: any) {
+    return hoveredSpanId.value !== null && isSpanShift(shift) && shift?.span_id === hoveredSpanId.value
+}
+
+function shiftDisplayHours(shift: any) {
+    return isSpanShift(shift) && shift?.span_hours !== null && shift?.span_hours !== undefined
+        ? shift.span_hours
+        : shift?.hours
+}
+
+function shiftHoursTooltip(shift: any) {
+    const total = `${language.t('dutySchedules.viewSchedule.hours')}: ${shiftDisplayHours(shift)}`
+    return shiftDisplayHours(shift) !== shift?.hours
+        ? `${total} · ${language.t('dutySchedules.viewSchedule.hoursThisDay')}: ${shift.hours}`
+        : total
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
