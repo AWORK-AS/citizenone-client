@@ -174,7 +174,7 @@
                     </div>
                 </div>
                 <div class="stat-card cursor-pointer hover:ring-secondary hover:ring-2 transition-all"
-                    @click="scrollToTreatments" v-if="overviewStore.getDailyOverviewFilter.showTreatments">
+                    @click="scrollToTreatments" v-if="isShown('showTreatments')">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-green-500"></span>
                         {{ $t('overview.stats.activeTreatments') }}
@@ -273,15 +273,20 @@
 
             <!-- Main content grid -->
             <div class="mt-8 space-y-10">
+                <!-- Boxes the admin set up (custom Daily Overview boxes). First,
+                     because they are what the admin decided matters most here. -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" v-if="visibleCustomBoxes.length > 0">
+                    <ModulesUserDailyOverviewCustomBox v-for="box in visibleCustomBoxes" :key="box.key" :box="box" />
+                </div>
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents ||
-                    overviewStore.getDailyOverviewFilter.showLatestJournal ||
-                    overviewStore.getDailyOverviewFilter.showDailyMedicineOverview ||
-                    overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders ||
-                    overviewStore.getDailyOverviewFilter.showReminders">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="isShown('showCitizensDailyEvents') ||
+                    isShown('showLatestJournal') ||
+                    isShown('showDailyMedicineOverview') ||
+                    isShown('showCitizensFollowUpReminders') ||
+                    isShown('showReminders')">
                     <!-- Citizens' events panel -->
-                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensDailyEvents">
+                    <div class="card" v-if="isShown('showCitizensDailyEvents')">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:check-circle" class="h-5 w-5 text-primary" />
@@ -307,7 +312,7 @@
                     <!-- Recent journal notes panel. Deliberately outside the
                          date navigator above: the feed always opens on the last
                          seven days, which is what staff read when they log in. -->
-                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showLatestJournal">
+                    <div class="card" v-if="isShown('showLatestJournal')">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:notebook" class="h-5 w-5 text-primary" />
@@ -336,7 +341,7 @@
 
                     <!-- Medication overview panel -->
                     <div class="card"
-                        v-if="hasMedicineModule && overviewStore.getDailyOverviewFilter.showDailyMedicineOverview">
+                        v-if="hasMedicineModule && isShown('showDailyMedicineOverview')">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:camera-plus" class="h-5 w-5 text-primary" />
@@ -352,7 +357,7 @@
                     </div>
 
                     <!-- User reminders panel -->
-                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showReminders">
+                    <div class="card" v-if="isShown('showReminders')">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:check-square" class="h-5 w-5 text-primary" />
@@ -377,7 +382,7 @@
                     </div>
 
                     <!-- Follow up reminders panel -->
-                    <div class="card" v-if="overviewStore.getDailyOverviewFilter.showCitizensFollowUpReminders">
+                    <div class="card" v-if="isShown('showCitizensFollowUpReminders')">
                         <div class="card-header">
                             <div class="flex items-center gap-x-2">
                                 <Icon name="ph:notification" class="h-5 w-5 text-primary" />
@@ -394,26 +399,26 @@
                 </div>
 
                 <!-- Treatments, My Events, Bulletin -->
-                <div id="treatments-section" class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="overviewStore.getDailyOverviewFilter.showTreatments ||
-                    overviewStore.getDailyOverviewFilter.showMyDailyEvents ||
-                    overviewStore.getDailyOverviewFilter.showBulletBoard">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showTreatments">
+                <div id="treatments-section" class="grid grid-cols-1 md:grid-cols-3 gap-5" v-if="isShown('showTreatments') ||
+                    isShown('showMyDailyEvents') ||
+                    isShown('showBulletBoard')">
+                    <div v-if="isShown('showTreatments')">
                         <ModulesUserDailyOverviewTreatments :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showMyDailyEvents">
+                    <div v-if="isShown('showMyDailyEvents')">
                         <ModulesUserDailyOverviewMyEventToday :dateRange="state.dateRange.formDateRange" />
                     </div>
                     <ModulesUserDailyOverviewBulletBoard :dateRange="state.dateRange.formDateRange"
-                        v-if="overviewStore.getDailyOverviewFilter.showBulletBoard" />
+                        v-if="isShown('showBulletBoard')" />
                 </div>
 
                 <!-- Schedule + Plans -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5"
-                    v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots || overviewStore.getDailyOverviewFilter.showPlansAndGoals">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showScheduleSlots">
+                    v-if="isShown('showScheduleSlots') || isShown('showPlansAndGoals')">
+                    <div v-if="isShown('showScheduleSlots')">
                         <ModulesUserDailyOverviewScheduleSlots :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showPlansAndGoals">
+                    <div v-if="isShown('showPlansAndGoals')">
                         <ModulesUserDailyOverviewPlansAndGoals :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
@@ -489,6 +494,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { continuityService } from '@/components/api/user/ContinuityService'
 import { useCommandPalette } from '@/composables/useCommandPalette'
 import { useDailyOverviewStore } from '@/store/daily-overview'
+import { useDailyOverviewLayout } from '@/composables/useDailyOverviewLayout'
 import { useDepartmentStore } from '@/store/department'
 import { useConfetti } from '@/composables/useConfetti'
 import { useAlert } from '@/composables/alert'
@@ -497,6 +503,9 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
+// Admin-set layout for the selected department; with none, isShown() is the
+// user's own show/hide choice, exactly as before.
+const { isShown, visibleCustomBoxes, refreshLayout } = useDailyOverviewLayout()
 const departmentStore = useDepartmentStore()
 
 /**
@@ -669,6 +678,7 @@ onMounted(() => {
         state.modal.isCreateJournalOpen = true
         router.replace({ query: {} })
     }
+    refreshLayout()
     scrollToNewsIfNeeded()
     fetchUpcomingBirthdays()
     fetchAllCitizens()
@@ -702,6 +712,7 @@ async function fetchAllCitizens() {
 
 watch(() => departmentStore.getSelectedDepartmentName, () => {
     fetchUpcomingBirthdays()
+    refreshLayout()
 })
 
 // The user object is written more than once per load - route middleware

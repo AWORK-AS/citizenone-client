@@ -16376,5 +16376,58 @@
         },
         "saved": "Sparat",
         "saveFailed": "Kunde inte sparas"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Daglig översikt",
+        "intro": "Bestäm vad den dagliga översikten visar. Skapa en standard för hela företaget och ge en avdelning en egen layout där den behöver något annat. Varje användare får layouten för den avdelning de har valt; utan layout väljer användarna själva som tidigare.",
+        "scope": "Gäller för",
+        "companyDefault": "Företagets standard (alla avdelningar)",
+        "hasOwnLayout": "Egen layout",
+        "usesCompanyDefault": "Använder företagets standard",
+        "noLayout": "Ingen layout - användarna väljer själva",
+        "lock": "Samma översikt för alla",
+        "lockHelp": "Användarna kan inte visa eller dölja något. Stäng av för att låta användarna välja de rutor som inte är obligatoriska.",
+        "builtInBoxes": "Standardrutor",
+        "customBoxes": "Egna rutor",
+        "customBoxesHelp": "Rutor du själv skapar. Varje ruta visar bara de brukare som är kopplade till den som tittar.",
+        "noCustomBoxes": "Inga egna rutor ännu.",
+        "newBox": "Ny ruta",
+        "editBox": "Redigera ruta",
+        "deleteBoxConfirmation": "Ta bort den här rutan? Den tas bort från alla layouter",
+        "removeLayout": "Ta bort layout",
+        "removeDepartmentLayoutConfirmation": "Ta bort avdelningens layout? Dess användare får företagets standard",
+        "removeCompanyLayoutConfirmation": "Ta bort företagets standard? Användare utan avdelningslayout väljer själva igen",
+        "saved": "Layouten har sparats",
+        "layoutRemoved": "Layouten har tagits bort",
+        "boxSaved": "Rutan har sparats",
+        "boxDeleted": "Rutan har tagits bort",
+        "managedByAdmin": "Din administratör har ställt in den här översikten. Rutor med lås är obligatoriska.",
+        "requiredByAdmin": "Obligatorisk enligt din administratör",
+        "states": {
+            "mandatory": "Obligatorisk",
+            "optional": "Användarens val",
+            "hidden": "Dold",
+            "shown": "Visas"
+        },
+        "sources": {
+            "assigned_citizens": "Mina kopplade brukare",
+            "plans_and_goals": "Planer, mål och delmål"
+        },
+        "form": {
+            "title": "Titel",
+            "source": "Visar",
+            "limit": "Högsta antal brukare",
+            "dueWithinDays": "Bara mål med deadline inom (dagar)",
+            "dueWithinDaysHelp": "Lämna tomt för att visa alla aktiva mål. Försenade mål visas alltid.",
+            "includeCompleted": "Ta med slutförda mål",
+            "pageNote": "Visas bara för personer vars roll har sidan Planer och mål."
+        },
+        "box": {
+            "loadFailed": "Rutan kunde inte laddas.",
+            "noCitizens": "Du har inga kopplade brukare.",
+            "noPlans": "Inget att visa från dina brukares planer just nu.",
+            "overdue": "Försenad {date}",
+            "dueToday": "Deadline i dag"
+        }
     }
 }
