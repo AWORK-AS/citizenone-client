@@ -1087,14 +1087,16 @@
                                                     <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(week?.shifts)"
                                                         :key="shiftIndex" :class="[
                                                             'rounded-xl relative mb-4 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20',
-                                                            isShiftLocked(shift?.date_time_start) && 'opacity-60'
+                                                            isShiftLocked(shift?.date_time_start) && 'opacity-60',
+                                                            isSpanHighlighted(shift) && 'outline outline-2 outline-offset-2 outline-primary-400 shadow-lg'
                                                         ]" :style="{
                                                             backgroundColor: `${shift?.type?.color}`,
                                                             width: `${calculateShiftWidth(shift, weekIndex.toString())}`,
                                                             marginTop: `${calculateMarginTop(employee?.weeks, weekIndex.toString(), shiftIndex as number)}rem`
                                                         }" :draggable="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)"
                                                         @dragstart="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start) && onDragStart($event, employee, weekIndex as number, shift)"
-                                                        @dragend="isAtLeast('Admin') && onDragEnd($event)">
+                                                        @dragend="isAtLeast('Admin') && onDragEnd($event)"
+                                                        @mouseenter="hoverSpan(shift)" @mouseleave="hoverSpan(null)">
                                                         <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
                                                             🤒
@@ -1193,7 +1195,7 @@
                                                         <div class="mx-1.5 sm:mx-2.5 border-t border-white/20 mb-1">
                                                         </div>
                                                         <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
-                                                            :text="`${$t('dutySchedules.viewSchedule.hours')}: ${shift.hours}`"
+                                                            :text="shiftHoursTooltip(shift)"
                                                             position="left" :wrap="true">
                                                             <div
                                                                 class="flex items-center gap-1 px-1.5 sm:px-2.5 pb-1 sm:pb-1.5 cursor-help">
@@ -1201,7 +1203,7 @@
                                                                     style="color:rgba(255,255,255,0.7)" />
                                                                 <span
                                                                     class="text-white/80 text-[10px] font-medium">
-                                                                    {{ shift.hours }}
+                                                                    {{ shiftDisplayHours(shift) }}
                                                                 </span>
                                                             </div>
                                                         </Tooltip>
@@ -1989,6 +1991,40 @@ function handleKeyDown(event: KeyboardEvent) {
 function showShiftTypeDistribution(employee: any) {
     state.shiftTypesDistribution.selectedEmployee = employee
     state.modal.isShowDistributionOfShiftTypes = true
+}
+
+// AW-2026-4263 — a night shift is stored as one row per day it touches, so each
+// block's own `hours` is only that day's piece (1.75 + 8.75). Under each block of a
+// span show the whole shift's total (10.5) instead; the tooltip keeps the piece.
+function isSpanShift(shift: any) {
+    return !!shift?.shift_span_position && shift.shift_span_position !== 'single'
+}
+
+// Hovering one block of a night shift outlines every block of that same shift, so
+// the "Vagt start" and "Vagt slut" halves can be told apart from the nights next to
+// them. Keyed by the backend's `span_id`, not `shift_parent_uuid`: that uuid can be
+// shared by unrelated nights.
+const hoveredSpanId = ref<number | null>(null)
+
+function hoverSpan(shift: any) {
+    hoveredSpanId.value = isSpanShift(shift) ? (shift?.span_id ?? null) : null
+}
+
+function isSpanHighlighted(shift: any) {
+    return hoveredSpanId.value !== null && isSpanShift(shift) && shift?.span_id === hoveredSpanId.value
+}
+
+function shiftDisplayHours(shift: any) {
+    return isSpanShift(shift) && shift?.span_hours !== null && shift?.span_hours !== undefined
+        ? shift.span_hours
+        : shift?.hours
+}
+
+function shiftHoursTooltip(shift: any) {
+    const total = `${language.t('dutySchedules.viewSchedule.hours')}: ${shiftDisplayHours(shift)}`
+    return shiftDisplayHours(shift) !== shift?.hours
+        ? `${total} · ${language.t('dutySchedules.viewSchedule.hoursThisDay')}: ${shift.hours}`
+        : total
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
