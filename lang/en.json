@@ -1401,6 +1401,7 @@
                 "confirmation": {
                     "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as @:terms.citizen{''}"
                 },
+                "isCitizen": "Already a @:terms.citizen{''}",
                 "participants": "Participants",
                 "table": {
                     "emailAddress": "Email address",

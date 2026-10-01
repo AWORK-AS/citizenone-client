@@ -19,7 +19,12 @@
                             </td>
                             <td width="20%">
                                 <div class="flex items-end justify-end gap-2">
-                                    <FormButton type="button" buttonStyle="action"
+                                    <!-- A patient who booked from the portal is one already. -->
+                                    <span v-if="participant?.citizen_id"
+                                        class="rounded-full bg-primary/10 px-2.5 py-1 text-xs font-semibold text-primary">
+                                        {{ $t('bookings.view.participants.isCitizen') }}
+                                    </span>
+                                    <FormButton v-else type="button" buttonStyle="action"
                                         @click="convertAsCitizenConfirmation(participant)">
                                         <Icon name="ph:user-plus" class="size-4" />
                                         {{ $t('bookings.view.participants.actions.convertAsCitizen') }}
