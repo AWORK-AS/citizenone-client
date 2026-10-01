@@ -116,7 +116,7 @@
             <ModulesUserCitizenJournalWellbeingRuler v-if="isWellbeingRulerEnabled"
                 :rows="wellbeingRows" :modelValue="state.wellbeingScores"
                 @update:modelValue="onWellbeingChange" />
-            <div v-if="props.formType === 'create'">
+            <div>
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
                     <FormCheckbox id="copy_journal_note_to_plan_or_goal_or_subgoal"
@@ -128,7 +128,7 @@
                  walking the Plan -> Goal -> Sub-goal cascade below every time. The
                  three fields it fills are the same ones the cascade uses, so nothing
                  downstream (validation, save) needs to know this shortcut exists. -->
-            <div class="space-y-1" v-if="props.formType === 'create'">
+            <div class="space-y-1" v-if="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
                 <FormLabel for="journal_note_subgoal_shortcut"
                     :label="$t('citizens.citizenJournals.form.jumpToSubgoal')" />
                 <FormComboField id="journal_note_subgoal_shortcut" name="journal_note_subgoal_shortcut"
@@ -142,7 +142,7 @@
                     <FormLabel for="journal_note_plan" :label="$t('citizens.citizenJournals.form.plan')" />
                     <FormSelect id="journal_note_plan" :options="state.options.journal_note_plans"
                         v-model="state.formJournal.journal_note_plan"
-                        @change="(journalNotePlanUuid: any) => fetchAllGoalsForJournalNote(journalNotePlanUuid)" />
+                        @change="(journalNotePlanUuid: any) => { if (!suppressChangeTracking) fetchAllGoalsForJournalNote(journalNotePlanUuid) }" />
                     <FormError :error="v$?.formJournal?.journal_note_plan?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.journal_note_plan?.[0]" />
                 </div>
@@ -150,7 +150,7 @@
                     <FormLabel for="journal_note_goal" :label="$t('citizens.citizenJournals.form.goal')" />
                     <FormSelect id="journal_note_goal" :options="state.options.journal_note_goals"
                         v-model="state.formJournal.journal_note_goal"
-                        @change="(journalNoteGoalUuid: any) => fetchAllSubgoalsForJournalNote(journalNoteGoalUuid)" />
+                        @change="(journalNoteGoalUuid: any) => { if (!suppressChangeTracking) fetchAllSubgoalsForJournalNote(journalNoteGoalUuid) }" />
                     <FormError :error="v$?.formJournal?.journal_note_goal?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.journal_note_goal?.[0]" />
                 </div>
@@ -947,17 +947,17 @@ onMounted(() => {
     //     state.formJournal.teeth.push(tooth?.uuid)
     // })
 
-    runSilently(() => {
-        setFormJournalFromSelected(props.selectedJournal)
+    runSilently(async () => {
+        await setFormJournalFromSelected(props.selectedJournal)
         state.hasChanges = false
         state.isAutoSaving = false
     })
 })
 
-function runSilently(fn: () => void) {
+async function runSilently(fn: () => void | Promise<void>) {
     suppressChangeTracking = true
     try {
-        fn()
+        await fn()
     } finally {
         // release on next tick so all nested reactive updates settle
         nextTick(() => {
@@ -976,8 +976,8 @@ watch(() => props.selectedJournal, (newValue: any) => {
     if (newValue != null) {
         if (!newValue) return
         // switching journals is also programmatic; do it silently
-        runSilently(() => {
-            setFormJournalFromSelected(newValue)
+        runSilently(async () => {
+            await setFormJournalFromSelected(newValue)
             state.hasChanges = false
             state.isAutoSaving = false
         })
@@ -1069,7 +1069,7 @@ watch(() => state.hasChanges, (hasChanges) => {
     }
 }, { immediate: true })
 
-function setFormJournalFromSelected(journal: any) {
+async function setFormJournalFromSelected(journal: any) {
     setWellbeingFromJournal(journal)
     state.formJournal = {
         id: journal.id,
@@ -1077,7 +1077,10 @@ function setFormJournalFromSelected(journal: any) {
         content: journal.content ?? '',
         journal_note_tags: [],
         date: journal.date,
-        copy_journal_note_to_plan_or_goal_or_subgoal: journal.copy_journal_note_to_plan_or_goal_or_subgoal,
+        // The checkbox itself is never stored - re-derived from whether the
+        // note is actually linked, so re-opening an already-linked note shows
+        // it checked (and pre-filled below) instead of looking untouched.
+        copy_journal_note_to_plan_or_goal_or_subgoal: !!journal.linked_to,
         journal_note_plan: '',
         journal_note_goal: '',
         journal_note_subgoal: '',
@@ -1123,6 +1126,31 @@ function setFormJournalFromSelected(journal: any) {
         state.selectedJournalTitleFields = []
         state.formJournal.field_answers = []
     }
+
+    // Re-selects the exact plan/goal/subgoal this note is already linked to,
+    // cascading through the same fetches the pickers themselves trigger on
+    // change, so the dropdowns show real, fetched options rather than just a
+    // bare uuid with nothing to display it. One loading cycle around the
+    // whole cascade, not one per step - silent skips each fetch's own toggle.
+    if (journal.linked_to) {
+        emit('isPageLoading', true)
+        const planUuid = journal.linked_to.plan?.uuid ?? null
+        const goalUuid = journal.linked_to.goal?.uuid ?? null
+        const subgoalUuid = journal.linked_to.subgoal?.uuid ?? null
+
+        if (planUuid) {
+            await fetchAllGoalsForJournalNote(planUuid, true)
+            state.formJournal.journal_note_plan = planUuid
+        }
+        if (goalUuid) {
+            await fetchAllSubgoalsForJournalNote(goalUuid, true)
+            state.formJournal.journal_note_goal = goalUuid
+        }
+        if (subgoalUuid) {
+            state.formJournal.journal_note_subgoal = subgoalUuid
+        }
+        emit('isPageLoading', false)
+    }
 }
 
 const rules = computed(() => {
@@ -1136,6 +1164,14 @@ const rules = computed(() => {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
                 content: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                // The cascade's base field - a goal/subgoal can't be picked
+                // without it. Catches "checked the box, haven't picked
+                // anything yet" before it ever reaches the server (which
+                // would otherwise reject it and surface as a scary top-level
+                // alert the moment auto-save's 3s timer fires).
+                journal_note_plan: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             },
@@ -1594,9 +1630,13 @@ async function fetchColleagues() {
     }
 }
 
-async function fetchAllGoalsForJournalNote(planUuid: any = null) {
+// `silent` skips this function's own loading toggle - used when the caller
+// is already driving its own single loading cycle around several of these
+// calls in a row (the edit-prefill cascade), so the spinner doesn't flash
+// off and back on between each step.
+async function fetchAllGoalsForJournalNote(planUuid: any = null, silent = false) {
     state.error = {}
-    emit('isPageLoading', true)
+    if (!silent) emit('isPageLoading', true)
     try {
         state.formJournal.journal_note_goal = ''
         state.formJournal.journal_note_subgoal = ''
@@ -1621,12 +1661,12 @@ async function fetchAllGoalsForJournalNote(planUuid: any = null) {
     } catch (error: any) {
         state.error = error
     }
-    emit('isPageLoading', false)
+    if (!silent) emit('isPageLoading', false)
 }
 
-async function fetchAllSubgoalsForJournalNote(goalUuid: any) {
+async function fetchAllSubgoalsForJournalNote(goalUuid: any, silent = false) {
     state.error = {}
-    emit('isPageLoading', true)
+    if (!silent) emit('isPageLoading', true)
     try {
         state.formJournal.journal_note_subgoal = ''
         state.options.journal_note_subgoals = []
@@ -1644,7 +1684,7 @@ async function fetchAllSubgoalsForJournalNote(goalUuid: any) {
     } catch (error: any) {
         state.error = error
     }
-    emit('isPageLoading', false)
+    if (!silent) emit('isPageLoading', false)
 }
 
 async function fetchAllGoalsForRiskAssessment(planUuid: any = null) {

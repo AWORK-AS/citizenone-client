@@ -1814,6 +1814,8 @@
                 },
                 "updatedBy": "Opdateret af"
             },
+            "linkedTo": "Knyttet til",
+            "linkedToOpen": "Åbn",
             "mentions": {
                 "hint": "Skriv {'@'} for at tagge en kollega eller en @:terms.citizen{''}",
                 "noAccess": "ingen adgang",

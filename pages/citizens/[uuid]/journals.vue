@@ -259,6 +259,8 @@
                                             <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
                                             {{ formatDateTimeToReadable(journal.created_at) }}
                                         </p>
+                                        <ModulesUserJournalLinkedToBadge :journal="journal"
+                                            :plansAndGoalsBasePath="`/citizens/${citizenUuid}/plans-and-goals/all`" />
                                     </div>
                                     <div class="ms-auto">
                                         <div class="flex items-center gap-x-2">
