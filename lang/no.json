@@ -5442,6 +5442,7 @@
             "datetimeStart": "Dato og tid start",
             "departments": "Avdelinger",
             "hours": "Timer",
+            "hoursThisDay": "Denne dagen",
             "note": "Bemærkning",
             "typeOfShift": "Type av vakt",
             "viewSchedule": "Se tidsplan"

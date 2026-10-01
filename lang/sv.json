@@ -5442,6 +5442,7 @@
             "datetimeStart": "Datum och tid start",
             "departments": "Avdelningar",
             "hours": "Timmar",
+            "hoursThisDay": "Denna dag",
             "note": "Anmärkning",
             "typeOfShift": "Typ av pass",
             "viewSchedule": "Se schema"
