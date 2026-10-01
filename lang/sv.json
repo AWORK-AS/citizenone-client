@@ -1401,6 +1401,7 @@
                 "confirmation": {
                     "convertAsCitizenConfirmation": "Är du säker på att du vill konvertere denna deltagare till @:terms.citizen{''}?"
                 },
+                "isCitizen": "Redan @:terms.citizen{''}",
                 "participants": "Deltagare",
                 "table": {
                     "emailAddress": "E-postadress",
@@ -10575,7 +10576,7 @@
                 "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
-                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
+                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar och händelser ni erbjuder i onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
                 "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
@@ -11704,7 +11705,8 @@
                 "storage": "Lagringsanvändning",
                 "nextPayment": "Nästa betalning",
                 "perYear": "{amount} per år",
-                "notCollecting": "Betalar inte"
+                "notCollecting": "Betalar inte",
+                "source": "Källa"
             },
             "tabs": {
                 "accounts": "Konton",
@@ -11818,6 +11820,14 @@
                 "endsAtHint": "Sista dagen kunden betalar. Prognosen stannar här.",
                 "cancellationSaved": "Uppsägningen är sparad",
                 "cancellationFailed": "Uppsägningen kunde inte sparas"
+            },
+            "source": {
+                "all": "Alla källor",
+                "search": "Sökmotor (organisk)",
+                "campaign": "Kampanj",
+                "referral": "Hänvisning",
+                "direct": "Direkt",
+                "unknown": "Okänd"
             }
         },
         "coupons": {
@@ -15801,8 +15811,9 @@
         },
         "booking": {
             "bookTime": "Boka tid",
-            "noServices": "Kliniken har inga behandlingar öppna för onlinebokning just nu.",
-            "chooseTreatment": "Välj behandling",
+            "noServices": "Kliniken har inget öppet för onlinebokning just nu.",
+            "chooseWhat": "Välj vad du vill boka",
+            "event": "Händelse",
             "chooseDate": "Välj datum",
             "noDates": "Inga lediga datum.",
             "chooseTime": "Välj tid",

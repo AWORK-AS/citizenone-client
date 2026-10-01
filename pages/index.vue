@@ -50,34 +50,8 @@
 					{{ $t('login.description') }}
 				</p>
 
-				<div class="idx-live">
-					<div class="idx-live-hdr">
-						<div class="idx-live-dot"></div>
-						<span class="idx-live-lbl">
-							{{ $t('login.liveActivity') }}
-						</span>
-					</div>
-					<div class="idx-stats">
-						<div class="idx-stat">
-							<div class="idx-stat-num" id="idx-users">—</div>
-							<div class="idx-stat-lbl">
-								{{ $t('login.activeUsers') }}
-							</div>
-						</div>
-						<div class="idx-stat">
-							<div class="idx-stat-num" id="idx-journals">—</div>
-							<div class="idx-stat-lbl">
-								{{ $t('login.journalNotesToday') }}
-							</div>
-						</div>
-						<div class="idx-stat">
-							<div class="idx-stat-num" id="idx-shifts">—</div>
-							<div class="idx-stat-lbl">
-								{{ $t('login.shiftsPlannedToday') }}
-							</div>
-						</div>
-					</div>
-				</div>
+				<!-- The "Live aktivitet" counters were removed: their numbers were generated in the browser from
+				     the date and nudged every few seconds, and a login page is no place for invented figures. -->
 			</div>
 
 			<div class="left-foot">
@@ -495,80 +469,6 @@ async function loginWithSSO() {
 	state.isPageLoading = false
 }
 
-// Live stats
-const idxFmt = (n: number) => Math.round(n).toLocaleString('da-DK')
-const idxAnim = (id: string, target: number, dur: number) => {
-	const el = document.getElementById(id)
-	if (!el) return
-	const start = performance.now()
-	const step = (now: number) => {
-		const p = Math.min((now - start) / dur, 1)
-		const e = 1 - Math.pow(1 - p, 3)
-		el.textContent = idxFmt(Math.round(e * target))
-		if (p < 1) requestAnimationFrame(step)
-	}
-	requestAnimationFrame(step)
-}
-const idxNow = new Date()
-const idxBase = new Date('2024-01-01')
-const idxMonths = Math.max(1, (idxNow.getFullYear() - idxBase.getFullYear()) * 12 + (idxNow.getMonth() - idxBase.getMonth()))
-const idxGf = idxMonths <= 12 ? Math.pow(1.08, idxMonths) : Math.pow(1.08, 12) * Math.pow(1.04, idxMonths - 12)
-const idxSeed = idxNow.getDate() * 31 + idxNow.getMonth() * 7
-const idxSr = (min: number, max: number, off: number) => {
-	const x = Math.abs(Math.sin(idxSeed + off) * 99991)
-	return Math.round(min + (x - Math.floor(x)) * (max - min))
-}
-const idxH = idxNow.getHours()
-const idxWd = idxNow.getDay()
-const idxIsWE = idxWd === 0 || idxWd === 6
-const idxTMul = idxIsWE ? 0.6 : (idxH >= 7 && idxH <= 17 ? 1.0 : 0.35)
-const idxJournalMax = Math.round(Math.min(idxGf * 5200, 17000))
-const idxMinSinceMidnight = idxH * 60 + idxNow.getMinutes()
-const idxJCurve = (() => {
-	const m = idxMinSinceMidnight
-	if (m < 360) return 18 + m * 0.04
-	if (m < 420) return 32 + (m - 360) * 2.5
-	if (m < 540) return 182 + (m - 420) * 28
-	if (m < 720) return 3542 + (m - 540) * 42
-	if (m < 1020) return 11102 + (m - 720) * 19
-	if (m < 1380) return 16802 + (m - 1020) * 0.5
-	return idxJournalMax - 30
-})()
-let idxUsers = Math.max(200, Math.min(999, Math.round(idxSr(750, 999, 1) * idxTMul)))
-let idxJournals = Math.max(18, Math.min(idxJournalMax, Math.round(idxJCurve * (idxJournalMax / 17000))))
-if (idxIsWE) idxJournals = Math.round(idxJournals * 0.45)
-const idxJSkew = Math.round((idxSr(0, 100, 9) - 50) * 1.2)
-idxJournals = Math.max(18, Math.min(idxJournalMax, idxJournals + idxJSkew))
-if (idxJournals % 100 === 0) idxJournals += 43
-if (idxJournals % 50 === 0) idxJournals += 17
-let idxShifts = idxSr(300, 800, 3)
-if (idxShifts % 100 === 0) idxShifts += 23
-setTimeout(() => {
-	idxAnim('idx-users', idxUsers, 1600)
-	idxAnim('idx-journals', idxJournals, 2000)
-	idxAnim('idx-shifts', idxShifts, 1800)
-}, 800)
-setInterval(() => {
-	const el = document.getElementById('idx-users')
-	if (!el) return
-	const d = (Math.random() > 0.5 ? 1 : -1) * Math.ceil(Math.random() * 3)
-	idxUsers = Math.max(Math.round(500 * idxTMul), Math.min(999, idxUsers + d))
-	el.textContent = idxFmt(idxUsers)
-}, 4000)
-setInterval(() => {
-	const el = document.getElementById('idx-journals')
-	if (!el) return
-	idxJournals = Math.min(idxJournalMax, idxJournals + Math.ceil(Math.random() * 2))
-	el.textContent = idxFmt(idxJournals)
-}, 7000)
-setInterval(() => {
-	const el = document.getElementById('idx-shifts')
-	if (!el) return
-	if (Math.random() > 0.65) {
-		idxShifts = Math.min(800, idxShifts + 1)
-		el.textContent = idxFmt(idxShifts)
-	}
-}, 11000)
 </script>
 
 <style>
@@ -861,24 +761,8 @@ setInterval(() => {
 }
 
 /* LIVE STATS */
-.idx-live {
-	margin-top: 0;
-}
 
-.idx-live-hdr {
-	display: flex;
-	align-items: center;
-	gap: 8px;
-	margin-bottom: 0.75rem;
-}
 
-.idx-live-dot {
-	width: 7px;
-	height: 7px;
-	border-radius: 50%;
-	background: rgb(66, 174, 217);
-	animation: pulsea 2s ease-in-out infinite;
-}
 
 @keyframes pulsea {
 
@@ -894,43 +778,10 @@ setInterval(() => {
 	}
 }
 
-.idx-live-lbl {
-	font-size: 10px;
-	font-weight: 700;
-	color: rgba(66, 174, 217, 0.8);
-	letter-spacing: 1px;
-	text-transform: uppercase;
-}
 
-.idx-stats {
-	display: grid;
-	grid-template-columns: 1fr 1fr 1fr;
-	gap: 8px;
-}
 
-.idx-stat {
-	background: rgba(66, 174, 217, 0.08);
-	border: 1px solid rgba(66, 174, 217, 0.15);
-	border-radius: 9px;
-	padding: 10px 12px;
-}
 
-.idx-stat-num {
-	font-size: 18px;
-	font-weight: 700;
-	color: #fff;
-	letter-spacing: -0.5px;
-	line-height: 1;
-	margin-bottom: 4px;
-	font-variant-numeric: tabular-nums;
-}
 
-.idx-stat-lbl {
-	font-size: 9px;
-	color: rgba(255, 255, 255, 0.4);
-	font-weight: 500;
-	line-height: 1.3;
-}
 
 /* HØJRE PANEL */
 .right {

@@ -21,14 +21,24 @@
                         <!-- Step 1: what -->
                         <div class="lg:col-span-2 space-y-3">
                             <p class="text-xs font-bold text-primary uppercase tracking-widest">
-                                {{ $t('patient.booking.chooseTreatment') }}
+                                {{ $t('patient.booking.chooseWhat') }}
                             </p>
                             <button v-for="service in state.services" :key="service.uuid" type="button"
                                 class="w-full text-left bg-white rounded-2xl border px-5 py-4 transition"
                                 :class="state.selectedService?.uuid === service.uuid ? 'border-primary shadow-card-hover' : 'border-gray-200 hover:border-primary/40'"
                                 @click="selectService(service)">
-                                <p class="font-semibold text-gray-900">{{ service.name }}</p>
-                                <p class="mt-1 text-sm text-gray-500" v-if="service.description">{{ service.description }}</p>
+                                <div class="flex items-center gap-2">
+                                    <p class="font-semibold text-gray-900">{{ service.name }}</p>
+                                    <span v-if="service.kind === 'event'"
+                                        class="rounded-full bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary">
+                                        {{ $t('patient.booking.event') }}
+                                    </span>
+                                </div>
+                                <p class="mt-1 text-sm text-gray-500 line-clamp-2" v-if="service.description">{{ service.description }}</p>
+                                <p class="mt-1.5 text-sm text-gray-600 flex items-center gap-2" v-if="service.location">
+                                    <Icon name="heroicons:map-pin" class="h-4 w-4 text-gray-400" aria-hidden="true" />
+                                    {{ service.location }}
+                                </p>
                                 <p class="mt-1.5 text-sm text-gray-600" v-if="service.staff_name">
                                     {{ service.staff_name }}
                                 </p>
@@ -80,17 +90,18 @@
 
                             <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 space-y-4"
                                 v-if="state.selectedSlot">
-                                <FormLabel :label="$t('patient.booking.note')" />
-                                <textarea v-model="state.notes" rows="3" maxlength="1000"
-                                    class="block w-full rounded-md border border-gray-300 text-sm focus:border-primary focus:ring-primary"
-                                    :placeholder="$t('patient.booking.notePlaceholder')"></textarea>
+                                <label for="booking-note" class="block text-xs font-bold text-primary uppercase tracking-widest">
+                                    {{ $t('patient.booking.note') }}
+                                </label>
+                                <FormTextArea id="booking-note" name="notes" :rows="3" maxlength="1000"
+                                    :placeholder="$t('patient.booking.notePlaceholder')" v-model="state.notes" />
 
-                                <div class="flex items-center justify-between gap-3">
-                                    <p class="text-sm text-gray-600">
+                                <div class="flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                                    <p class="text-sm font-medium text-gray-900">
                                         {{ summary }}
                                     </p>
-                                    <FormButton type="button" buttonStyle="action" :disabled="state.isBooking"
-                                        @click="book">
+                                    <FormButton type="button" buttonStyle="primary" class="sm:w-auto w-full"
+                                        :disabled="state.isBooking" @click="book">
                                         {{ $t('patient.booking.confirm') }}
                                     </FormButton>
                                 </div>
