@@ -90,17 +90,18 @@
 
                             <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 space-y-4"
                                 v-if="state.selectedSlot">
-                                <FormLabel :label="$t('patient.booking.note')" />
-                                <textarea v-model="state.notes" rows="3" maxlength="1000"
-                                    class="block w-full rounded-md border border-gray-300 text-sm focus:border-primary focus:ring-primary"
-                                    :placeholder="$t('patient.booking.notePlaceholder')"></textarea>
+                                <label for="booking-note" class="block text-xs font-bold text-primary uppercase tracking-widest">
+                                    {{ $t('patient.booking.note') }}
+                                </label>
+                                <FormTextArea id="booking-note" name="notes" :rows="3" maxlength="1000"
+                                    :placeholder="$t('patient.booking.notePlaceholder')" v-model="state.notes" />
 
-                                <div class="flex items-center justify-between gap-3">
-                                    <p class="text-sm text-gray-600">
+                                <div class="flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+                                    <p class="text-sm font-medium text-gray-900">
                                         {{ summary }}
                                     </p>
-                                    <FormButton type="button" buttonStyle="action" :disabled="state.isBooking"
-                                        @click="book">
+                                    <FormButton type="button" buttonStyle="primary" class="sm:w-auto w-full"
+                                        :disabled="state.isBooking" @click="book">
                                         {{ $t('patient.booking.confirm') }}
                                     </FormButton>
                                 </div>
