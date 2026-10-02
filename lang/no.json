@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Legg ved fil",
                 "content": "Innhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopier journalnote til plan, mål eller delmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopier journalnote til plan, mål, delmål eller enkeltmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopier risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nåværende nivå",
@@ -1750,12 +1750,15 @@
                 },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
+                "attachmentRemovalHint": "Fjern avmerkingen for å fjerne notatet fra planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nåværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
                 "jumpToSubgoal": "Hopp direkte til et delmål",
                 "jumpToSubgoalPlaceholder": "Søk etter et delmål",
                 "note": "Note",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Velg en plan eller et enkeltmål.",
+                "singleGoal": "Enkeltmål",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
@@ -1814,6 +1817,8 @@
                 },
                 "updatedBy": "Oppdatert av"
             },
+            "linkedTo": "Knyttet til",
+            "linkedToOpen": "Åpne",
             "mentions": {
                 "hint": "Skriv {'@'} for å tagge en kollega eller en innbygger",
                 "noAccess": "ingen tilgang",
@@ -2052,7 +2057,9 @@
                 "dateCreated": "Opprettelsesdato",
                 "lastModified": "Sist endret",
                 "name": "Navn",
-                "owner": "Ejer"
+                "owner": "Ejer",
+                "id": "ID",
+                "location": "Plassering"
             },
             "template": "Mal",
             "upgradeStorage": "Opgradér lager",
@@ -3092,6 +3099,8 @@
                     }
                 }
             },
+            "doctorJournals": "Legejournal",
+            "newDoctorJournal": "Ny legejournal",
             "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
@@ -3244,6 +3253,13 @@
             "viewNursingProfessionalRecord": "Se sykeplejerskernes professionelle journal",
             "vitals": {
                 "editVitals": "Rediger vitale tegn",
+                "graph": {
+                    "diastolic": "Diastolisk",
+                    "empty": "Ingen data å vise i graf ennå.",
+                    "skippedEntries": "{count} oppføringer kunne ikke vises i grafen",
+                    "systolic": "Systolisk",
+                    "viewGraphs": "Se grafer"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitale verdier er blitt lagt til",
@@ -4535,7 +4551,9 @@
             "dateCreated": "Opprettelsesdato",
             "lastModified": "Sist endret",
             "name": "Navn",
-            "owner": "Ejer"
+            "owner": "Ejer",
+            "id": "ID",
+            "location": "Plassering"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Last opp fil",
@@ -8512,6 +8530,15 @@
             "loadingYourEmails": "Laster dine e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Lagre som PDF",
+            "download": "Last ned PDF",
+            "saveToDrive": "Lagre til Drev",
+            "chooseFolder": "Velg mappe",
+            "rootFolder": "Dokumenter (rot)",
+            "savedToDrive": "Lagret til Drev",
+            "noSubject": "E-post"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {
@@ -9183,6 +9210,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medisin afveget",
                 "myDailyEvents": "Mine daglige arrangementer",
+                "nextShift": "Neste vakt",
                 "plansAndGoals": "Planer og mål",
                 "riskAssessment": "Risikovurdering",
                 "scheduleSlots": "Udbyd vakter",
@@ -9257,6 +9285,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
             "medicineDeviationStatistics": "Medisin afveget"
+        },
+        "nextShift": {
+            "title": "Når er min neste vakt?",
+            "none": "Du har ingen kommende vakter planlagt.",
+            "today": "I dag",
+            "tomorrow": "I morgen",
+            "startsIn": "Starter om {time}",
+            "startingNow": "Starter nå",
+            "hoursMinutes": "{hours} t {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} t",
+            "differentDepartment": "Annen avdeling enn din vanlige",
+            "usually": "Vanligvis: {department}",
+            "department": "Avdeling",
+            "departments": "Avdelinger",
+            "noDepartment": "Ingen avdeling",
+            "shift": "Vakt",
+            "date": "Dato",
+            "time": "Tidspunkt",
+            "duration": "Varighet",
+            "details": "Vaktdetaljer",
+            "clickForDetails": "Klikk for detaljer",
+            "viewSchedule": "Åpne vaktplan",
+            "reminderInfo": "I mobilappen får du et push-varsel 2 timer før vakten starter.",
+            "onlyDifferent": "Denne vakten er i en annen avdeling enn den du vanligvis jobber i."
         },
         "myDailyEvents": "Mine daglige arrangementer",
         "news": "Nyheter",
@@ -10457,6 +10510,8 @@
                 "relativeChat": "Chat med pårørende",
                 "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
                 "relativeChatContactPersons": "Pårørende kan skrive til innbyggerens tilknyttede kontaktpersoner",
+                "patientChatInbox": "Pasienter skriver til hele klinikken (felles innboks)",
+                "patientChatInboxHint": "Pasientene kan ikke velge en bestemt ansatt. Alle aktive ansatte ser meldingen og kan svare",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
                 "groupPortalAccess": "Portaltilgang",
                 "portalAccessHint": "Velg hva pårørende, tredjeparter og innbyggere kan se i sin egen portal",
@@ -16377,5 +16432,58 @@
         },
         "saved": "Lagret",
         "saveFailed": "Kunne ikke lagres"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Daglig oversikt",
+        "intro": "Bestem hva den daglige oversikten viser. Lag en standard for hele virksomheten, og gi en avdeling sin egen layout der den trenger noe annet. Hver bruker får layouten for avdelingen de har valgt; uten layout velger brukerne selv som før.",
+        "scope": "Gjelder for",
+        "companyDefault": "Virksomhetens standard (alle avdelinger)",
+        "hasOwnLayout": "Egen layout",
+        "usesCompanyDefault": "Bruker virksomhetens standard",
+        "noLayout": "Ingen layout - brukerne velger selv",
+        "lock": "Samme oversikt for alle",
+        "lockHelp": "Brukerne kan ikke vise eller skjule noe. Slå av for å la brukerne velge boksene som ikke er påkrevd.",
+        "builtInBoxes": "Standardbokser",
+        "customBoxes": "Egne bokser",
+        "customBoxesHelp": "Bokser du setter opp selv. Hver boks viser bare innbyggerne som er tilknyttet den som ser den.",
+        "noCustomBoxes": "Ingen egne bokser ennå.",
+        "newBox": "Ny boks",
+        "editBox": "Rediger boks",
+        "deleteBoxConfirmation": "Slette denne boksen? Den fjernes fra alle layouter",
+        "removeLayout": "Fjern layout",
+        "removeDepartmentLayoutConfirmation": "Fjerne avdelingens layout? Brukerne får virksomhetens standard",
+        "removeCompanyLayoutConfirmation": "Fjerne virksomhetens standard? Brukere uten avdelingslayout velger selv igjen",
+        "saved": "Layouten er lagret",
+        "layoutRemoved": "Layouten er fjernet",
+        "boxSaved": "Boksen er lagret",
+        "boxDeleted": "Boksen er slettet",
+        "managedByAdmin": "Administratoren din har satt opp denne oversikten. Bokser med lås er påkrevd.",
+        "requiredByAdmin": "Påkrevd av administratoren din",
+        "states": {
+            "mandatory": "Påkrevd",
+            "optional": "Brukerens valg",
+            "hidden": "Skjult",
+            "shown": "Vist"
+        },
+        "sources": {
+            "assigned_citizens": "Mine tilknyttede innbyggere",
+            "plans_and_goals": "Planer, mål og delmål"
+        },
+        "form": {
+            "title": "Tittel",
+            "source": "Viser",
+            "limit": "Maksimalt antall innbyggere",
+            "dueWithinDays": "Bare mål med frist innen (dager)",
+            "dueWithinDaysHelp": "La feltet stå tomt for å vise alle aktive mål. Forfalte mål vises alltid.",
+            "includeCompleted": "Ta med fullførte mål",
+            "pageNote": "Vises bare for personer med en rolle som har siden Planer og mål."
+        },
+        "box": {
+            "loadFailed": "Boksen kunne ikke lastes.",
+            "noCitizens": "Du har ingen tilknyttede innbyggere.",
+            "noPlans": "Ingenting å vise fra innbyggernes planer akkurat nå.",
+            "overdue": "Forfalt {date}",
+            "dueToday": "Frist i dag"
+        }
     }
 }

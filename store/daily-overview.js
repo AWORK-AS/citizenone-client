@@ -24,6 +24,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showLatestJournal: true,
                 showMedicineDeviationStatistics: false,
                 showMyDailyEvents: false,
+                // On by default: it is the one box every employee with a schedule
+                // wants, and nobody finds it in the show/hide list unprompted.
+                showNextShift: true,
                 showPlansAndGoals: false,
                 showReminders: true,
                 showRiskAssessment: false,
@@ -38,8 +41,18 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showCitizenMedicineOverview: true,
                 showLatestJournalNotes: true,
             },
+            // The admin-set layout for this user's selected department (or the
+            // company default); null when there is none, and the page then works
+            // off dailyOverviewFilter alone, exactly as before layouts existed.
+            layout: null,
         }),
         actions: {
+            setDailyOverviewFilterFlag(key, flag) {
+                this.dailyOverviewFilter[key] = flag
+            },
+            setLayout(layout) {
+                this.layout = layout ?? null
+            },
             setDailyOverviewFilterShowBulletBoard(flag) {
                 this.dailyOverviewFilter.showBulletBoard = flag
             },
@@ -106,6 +119,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             setDailyOverviewFilterShowPlansAndGoals(flag) {
                 this.dailyOverviewFilter.showPlansAndGoals = flag
             },
+            setDailyOverviewFilterShowNextShift(flag) {
+                this.dailyOverviewFilter.showNextShift = flag
+            },
             setDailyOverviewFilterShowReminders(flag) {
                 this.dailyOverviewFilter.showReminders = flag
             },
@@ -122,6 +138,7 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
         getters: {
             getDailyOverviewFilter: (state) => state.dailyOverviewFilter,
             getViewAllFilter: (state) => state.viewAllFilter,
+            getLayout: (state) => state.layout,
         },
     },
 )

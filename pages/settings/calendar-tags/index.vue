@@ -14,7 +14,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="navigateTo('/settings/calendar-tags/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/calendar-tags/new')" v-if="isAtLeast('Admin')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('calendarTags.addNewCalendarTag') }}
                     </FormButton>
@@ -78,8 +78,10 @@ import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
+const { isAtLeast } = usePermissions()
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()

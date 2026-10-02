@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Bifoga fil",
                 "content": "Innehåll",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote till plan, mål eller delmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote till plan, mål, delmål eller enkeltmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér riskbedömning till plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuvarande nivå",
@@ -1750,12 +1750,15 @@
                 },
                 "forTeeth": "Till tänder",
                 "goal": "Mål",
+                "attachmentRemovalHint": "Avmarkera rutan för att ta bort anteckningen från planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Dölj nuvarande planer, mål och delmål",
                 "journalNoteTags": "Journalnotetag",
                 "jumpToSubgoal": "Hoppa direkt till ett delmål",
                 "jumpToSubgoalPlaceholder": "Sök efter ett delmål",
                 "note": "Anteckning",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Välj en plan eller ett enkeltmål.",
+                "singleGoal": "Enkeltmål",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut ökad risk",
@@ -1814,6 +1817,8 @@
                 },
                 "updatedBy": "Uppdaterad av"
             },
+            "linkedTo": "Länkad till",
+            "linkedToOpen": "Öppna",
             "mentions": {
                 "hint": "Skriv {'@'} för att tagga en kollega eller en brukare",
                 "noAccess": "ingen åtkomst",
@@ -2052,7 +2057,9 @@
                 "dateCreated": "Skapandedatum",
                 "lastModified": "Sidst ändrad",
                 "name": "Namn",
-                "owner": "Ägare"
+                "owner": "Ägare",
+                "id": "ID",
+                "location": "Plats"
             },
             "template": "Mall",
             "upgradeStorage": "Opgradér lager",
@@ -3092,6 +3099,8 @@
                     }
                 }
             },
+            "doctorJournals": "Läkarjournal",
+            "newDoctorJournal": "Ny läkarjournal",
             "editNursingProfessionalRecord": "Redigera sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
@@ -3244,6 +3253,13 @@
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal",
             "vitals": {
                 "editVitals": "Redigera vitale tegn",
+                "graph": {
+                    "diastolic": "Diastoliskt",
+                    "empty": "Ingen data att visa i diagram än.",
+                    "skippedEntries": "{count} poster kunde inte visas i diagrammet",
+                    "systolic": "Systoliskt",
+                    "viewGraphs": "Visa diagram"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitale värden har lagts till",
@@ -4535,7 +4551,9 @@
             "dateCreated": "Skapandedatum",
             "lastModified": "Sidst ändrad",
             "name": "Namn",
-            "owner": "Ägare"
+            "owner": "Ägare",
+            "id": "ID",
+            "location": "Plats"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
@@ -8512,6 +8530,15 @@
             "loadingYourEmails": "Laddar dina e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Spara som PDF",
+            "download": "Ladda ner PDF",
+            "saveToDrive": "Spara till Drive",
+            "chooseFolder": "Välj mapp",
+            "rootFolder": "Dokument (rot)",
+            "savedToDrive": "Sparat till Drive",
+            "noSubject": "E-post"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {
@@ -9183,6 +9210,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin avvikit",
                 "myDailyEvents": "Mina daglige händelser",
+                "nextShift": "Nästa pass",
                 "plansAndGoals": "Planer och mål",
                 "riskAssessment": "Riskbedömning",
                 "scheduleSlots": "Udbyd pass",
@@ -9257,6 +9285,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
             "medicineDeviationStatistics": "Medicin avvikit"
+        },
+        "nextShift": {
+            "title": "När är mitt nästa pass?",
+            "none": "Du har inga kommande pass planerade.",
+            "today": "Idag",
+            "tomorrow": "Imorgon",
+            "startsIn": "Börjar om {time}",
+            "startingNow": "Börjar nu",
+            "hoursMinutes": "{hours} h {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} h",
+            "differentDepartment": "Annan avdelning än din vanliga",
+            "usually": "Vanligtvis: {department}",
+            "department": "Avdelning",
+            "departments": "Avdelningar",
+            "noDepartment": "Ingen avdelning",
+            "shift": "Pass",
+            "date": "Datum",
+            "time": "Tid",
+            "duration": "Längd",
+            "details": "Passdetaljer",
+            "clickForDetails": "Klicka för detaljer",
+            "viewSchedule": "Öppna schemat",
+            "reminderInfo": "I mobilappen får du en push-notis 2 timmar innan passet börjar.",
+            "onlyDifferent": "Det här passet är på en annan avdelning än den du vanligtvis arbetar på."
         },
         "myDailyEvents": "Mina daglige händelser",
         "news": "Nyheter",
@@ -10457,6 +10510,8 @@
                 "relativeChat": "Chatt med anhöriga",
                 "relativeChatManagement": "Anhöriga kan skriva till ledning och administratörer",
                 "relativeChatContactPersons": "Anhöriga kan skriva till medborgarens tilldelade kontaktpersoner",
+                "patientChatInbox": "Patienter skriver till hela kliniken (gemensam inkorg)",
+                "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
                 "groupPortalAccess": "Portalåtkomst",
                 "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",
@@ -16377,5 +16432,58 @@
         },
         "saved": "Sparat",
         "saveFailed": "Kunde inte sparas"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Daglig översikt",
+        "intro": "Bestäm vad den dagliga översikten visar. Skapa en standard för hela företaget och ge en avdelning en egen layout där den behöver något annat. Varje användare får layouten för den avdelning de har valt; utan layout väljer användarna själva som tidigare.",
+        "scope": "Gäller för",
+        "companyDefault": "Företagets standard (alla avdelningar)",
+        "hasOwnLayout": "Egen layout",
+        "usesCompanyDefault": "Använder företagets standard",
+        "noLayout": "Ingen layout - användarna väljer själva",
+        "lock": "Samma översikt för alla",
+        "lockHelp": "Användarna kan inte visa eller dölja något. Stäng av för att låta användarna välja de rutor som inte är obligatoriska.",
+        "builtInBoxes": "Standardrutor",
+        "customBoxes": "Egna rutor",
+        "customBoxesHelp": "Rutor du själv skapar. Varje ruta visar bara de brukare som är kopplade till den som tittar.",
+        "noCustomBoxes": "Inga egna rutor ännu.",
+        "newBox": "Ny ruta",
+        "editBox": "Redigera ruta",
+        "deleteBoxConfirmation": "Ta bort den här rutan? Den tas bort från alla layouter",
+        "removeLayout": "Ta bort layout",
+        "removeDepartmentLayoutConfirmation": "Ta bort avdelningens layout? Dess användare får företagets standard",
+        "removeCompanyLayoutConfirmation": "Ta bort företagets standard? Användare utan avdelningslayout väljer själva igen",
+        "saved": "Layouten har sparats",
+        "layoutRemoved": "Layouten har tagits bort",
+        "boxSaved": "Rutan har sparats",
+        "boxDeleted": "Rutan har tagits bort",
+        "managedByAdmin": "Din administratör har ställt in den här översikten. Rutor med lås är obligatoriska.",
+        "requiredByAdmin": "Obligatorisk enligt din administratör",
+        "states": {
+            "mandatory": "Obligatorisk",
+            "optional": "Användarens val",
+            "hidden": "Dold",
+            "shown": "Visas"
+        },
+        "sources": {
+            "assigned_citizens": "Mina kopplade brukare",
+            "plans_and_goals": "Planer, mål och delmål"
+        },
+        "form": {
+            "title": "Titel",
+            "source": "Visar",
+            "limit": "Högsta antal brukare",
+            "dueWithinDays": "Bara mål med deadline inom (dagar)",
+            "dueWithinDaysHelp": "Lämna tomt för att visa alla aktiva mål. Försenade mål visas alltid.",
+            "includeCompleted": "Ta med slutförda mål",
+            "pageNote": "Visas bara för personer vars roll har sidan Planer och mål."
+        },
+        "box": {
+            "loadFailed": "Rutan kunde inte laddas.",
+            "noCitizens": "Du har inga kopplade brukare.",
+            "noPlans": "Inget att visa från dina brukares planer just nu.",
+            "overdue": "Försenad {date}",
+            "dueToday": "Deadline i dag"
+        }
     }
 }

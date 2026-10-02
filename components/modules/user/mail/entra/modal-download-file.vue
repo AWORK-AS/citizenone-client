@@ -280,7 +280,7 @@ async function fetchAllCitizenFolders() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: folderOptionLabel(item),
                 })
             )
             state.options.citizen_folders = options
@@ -301,7 +301,7 @@ async function fetchAllCompanyFolders() {
             response.data.forEach(
                 (item: any) => options.push({
                     value: item.uuid,
-                    label: item.name,
+                    label: folderOptionLabel(item),
                 })
             )
             state.options.company_folders = options
