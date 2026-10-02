@@ -22,6 +22,8 @@ import {
     invoicePaymentState,
     isBankTransferInvoice,
     isInvoiceFree,
+    isCancellationRemainder,
+    AGREEMENT_TEMPLATES,
     noticeStatus,
     unwrapData,
     unwrapInstallments,
@@ -222,6 +224,34 @@ describe('end date, renewal value and covered invoices', () => {
         assert.equal(isInvoiceFree({ company_agreement_installment_id: 5 }), false)
         assert.equal(isInvoiceFree({ covered_by_agreement: false }), true)
         assert.equal(isInvoiceFree({}), true)
+    })
+})
+
+describe('templates and the cancellation remainder', () => {
+    test('the A-customer template is 48 months, 25 / 3 / 12, bank transfer, fee 295', () => {
+        const a4 = AGREEMENT_TEMPLATES.find((t) => t.key === 'a4').values
+        assert.equal(a4.term_months, 48)
+        assert.equal(a4.billing_plan, 'installments')
+        assert.deepEqual(a4.preset, { upfront_percent: 25, remaining_count: 3, remaining_interval_months: 12 })
+        assert.equal(a4.payment_method, 'bank_transfer')
+        assert.equal(a4.fee_per_invoice, 295)
+        assert.equal(a4.notice_months, 3)
+        assert.equal(a4.auto_renews, true)
+        const rows = buildPresetInstallments(400000, '2026-07-12', a4.preset)
+        assert.deepEqual(rows.map((r) => r.amount), [100000, 100000, 100000, 100000])
+    })
+
+    test('the Memox template is 30 / 3 / 12 and the blank one has no values', () => {
+        assert.deepEqual(AGREEMENT_TEMPLATES.find((t) => t.key === 'memox').values.preset,
+            { upfront_percent: 30, remaining_count: 3, remaining_interval_months: 12 })
+        assert.equal(AGREEMENT_TEMPLATES.find((t) => t.key === 'empty').values, null)
+        assert.equal(AGREEMENT_TEMPLATES.find((t) => t.key === 'monthly').values.term_months, 12)
+    })
+
+    test('recognises the remainder installment label', () => {
+        assert.equal(isCancellationRemainder('Restbeløb ved opsigelse'), true)
+        assert.equal(isCancellationRemainder('Rate 1 af 4'), false)
+        assert.equal(isCancellationRemainder(null), false)
     })
 })
 

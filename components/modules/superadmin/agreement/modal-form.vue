@@ -9,6 +9,24 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
 
                     <form @submit.prevent="submit" class="space-y-6">
+                        <!-- Quick start -->
+                        <section v-if="!props.agreement">
+                            <SuperadminFormLabel :label="$t('superadmin.agreements.templates.title')" />
+                            <div class="flex flex-wrap gap-2">
+                                <Tooltip v-for="tpl in templates" :key="tpl.key"
+                                    :text="$t(`superadmin.agreements.templates.${tpl.key}Help`)" position="top" wrap>
+                                    <button type="button"
+                                        class="px-3 py-1.5 rounded-lg border text-[12px] font-medium transition-colors"
+                                        :class="state.template === tpl.key
+                                            ? 'border-[#205E77] bg-[#E4F1F6] text-[#205E77]'
+                                            : 'border-[#EAECF0] bg-white text-[#5C6478] hover:border-[#205E77]'"
+                                        @click="applyTemplate(tpl)">
+                                        {{ $t(`superadmin.agreements.templates.${tpl.key}`) }}
+                                    </button>
+                                </Tooltip>
+                            </div>
+                        </section>
+
                         <!-- Contract -->
                         <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div class="md:col-span-2">
@@ -355,6 +373,8 @@ import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import {
+    AGREEMENT_TEMPLATES,
+    type AgreementTemplate,
     buildAgreementPayload,
     buildPresetInstallments,
     installmentsDifference,
@@ -383,7 +403,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 
 const plans: BillingPlan[] = ['monthly', 'yearly', 'prepaid_multi_year', 'installments']
 
-const state = reactive({ isSaving: false, error: {} as Error })
+const state = reactive({ isSaving: false, error: {} as Error, template: '' })
+const templates = AGREEMENT_TEMPLATES
 const preview = reactive({ rows: [] as InstallmentInput[], meta: null as SchedulePreview | null, isLoading: false, error: '' })
 
 function blankForm(): AgreementFormState & { installments: Row[] } {
@@ -432,6 +453,7 @@ const canSubmit = computed(() =>
 
 function resetFromProps() {
     state.error = {}
+    state.template = ''
     preview.rows = []
     preview.meta = null
     preview.error = ''
@@ -475,6 +497,40 @@ function label(sequence: number, total: number, upfront: number | null): string 
         ? t('superadmin.agreements.form.presetLabelUpfront', { n: sequence, total, percent: upfront })
         : t('superadmin.agreements.form.presetLabel', { n: sequence, total })
 }
+
+function applyTemplate(tpl: AgreementTemplate) {
+    state.template = tpl.key
+    if (!tpl.values) {
+        const name = form.name
+        Object.assign(form, blankForm(), { name })
+        return
+    }
+    const v = tpl.values
+    Object.assign(form, {
+        term_mode: 'months',
+        term_months: v.term_months,
+        billing_plan: v.billing_plan,
+        payment_method: v.payment_method,
+        fee_per_invoice: v.fee_per_invoice,
+        notice_months: v.notice_months,
+        auto_renews: v.auto_renews,
+        prepaid_years: null,
+        installments: [],
+        installmentsEdited: false,
+        presetApplied: false,
+    })
+    if (v.preset) {
+        form.preset = { ...v.preset }
+        applyPreset()
+    }
+}
+
+// An untouched preset follows the contract value and start date as they are typed.
+watch(() => [form.contract_value, form.starts_on], () => {
+    if (form.billing_plan === 'installments' && form.presetApplied && !form.installmentsEdited && !hasLockedRows.value) {
+        applyPreset()
+    }
+})
 
 function applyPreset() {
     if (hasLockedRows.value) return

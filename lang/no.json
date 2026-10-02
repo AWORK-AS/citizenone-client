@@ -13490,6 +13490,30 @@
                 "noneToAdd": "Ingen fakturaer å legge til.",
                 "remove": "Fjern",
                 "removeHelp": "Fjern fakturaen fra avtalen slik at den igjen teller som en vanlig faktura."
+            },
+            "templates": {
+                "title": "Mal",
+                "a4": "A-kunde: 4 år, 4 årlige avdrag",
+                "a4Help": "4 års binding, 25 % ved oppstart og 3 årlige avdrag. Bankoverføring, servicegebyr 295 kr., oppsigelsesvarsel 3 mnd., fornyes automatisk.",
+                "memox": "A-kunde: 4 år, 30 % + 3 avdrag",
+                "memoxHelp": "4 års binding, 30 % ved oppstart og resten fordelt på 3 årlige avdrag. Bankoverføring, servicegebyr 295 kr.",
+                "monthly": "Månedlig, 12 mnd.",
+                "monthlyHelp": "12 måneders binding med månedlig betaling via bankoverføring.",
+                "empty": "Tom",
+                "emptyHelp": "Start med tomme felt."
+            },
+            "cancel": {
+                "title": "Si opp avtalen",
+                "accelerate": "Fakturer gjenstående beløp nå",
+                "accelerateHelp": "Samler alle gjenstående avdrag i én faktura nå. Slått av faktureres avdragene som planlagt til bindingen utløper.",
+                "previewAccelerated": "Kunden faktureres {amount} eksl. mva nå ({count} avdrag samles)",
+                "previewAsPlanned": "Gjenstående avdrag faktureres som planlagt til {date}",
+                "warning": "Oppsigelsen kan ikke angres. Når fakturaen først er opprettet, kan den ikke trekkes tilbake herfra.",
+                "confirm": "Si opp avtalen"
+            },
+            "remainder": {
+                "chip": "Restbeløp ved oppsigelse",
+                "help": "Samlet restbeløp fakturert fordi avtalen ble sagt opp før bindingen utløp."
             }
         },
         "metrics": {

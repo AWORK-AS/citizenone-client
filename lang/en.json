@@ -13586,6 +13586,30 @@
                 "noneToAdd": "No invoices to add.",
                 "remove": "Remove",
                 "removeHelp": "Remove the invoice from the agreement so it counts as an ordinary invoice again."
+            },
+            "templates": {
+                "title": "Template",
+                "a4": "A customer: 4 years, 4 yearly installments",
+                "a4Help": "4-year binding, 25 % upfront and 3 yearly installments. Bank transfer, service fee 295, 3 months notice, renews automatically.",
+                "memox": "A customer: 4 years, 30 % + 3 installments",
+                "memoxHelp": "4-year binding, 30 % upfront and the rest in 3 yearly installments. Bank transfer, service fee 295.",
+                "monthly": "Monthly, 12 months",
+                "monthlyHelp": "12-month binding with monthly payment by bank transfer.",
+                "empty": "Blank",
+                "emptyHelp": "Start with empty fields."
+            },
+            "cancel": {
+                "title": "Cancel the agreement",
+                "accelerate": "Invoice the remaining amount now",
+                "accelerateHelp": "Gathers all remaining installments into one invoice now. Off, the installments are invoiced as planned until the binding ends.",
+                "previewAccelerated": "The customer is invoiced {amount} excl. VAT now ({count} installments gathered)",
+                "previewAsPlanned": "The remaining installments are invoiced as planned until {date}",
+                "warning": "The cancellation cannot be undone. Once the invoice is created it cannot be taken back from here.",
+                "confirm": "Cancel agreement"
+            },
+            "remainder": {
+                "chip": "Remainder on cancellation",
+                "help": "The gathered remaining amount, invoiced because the agreement was cancelled before the binding ended."
             }
         },
         "metrics": {

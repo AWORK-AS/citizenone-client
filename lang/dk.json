@@ -13581,6 +13581,30 @@
                 "noneToAdd": "Ingen fakturaer at tilføje.",
                 "remove": "Fjern",
                 "removeHelp": "Fjern fakturaen fra aftalen, så den igen regnes som en almindelig faktura."
+            },
+            "templates": {
+                "title": "Skabelon",
+                "a4": "A-kunde: 4 år, 4 årlige rater",
+                "a4Help": "4 års binding, 25 % ved opstart og 3 årlige rater. Bankoverførsel, servicegebyr 295 kr., opsigelsesvarsel 3 mdr., fornyes automatisk.",
+                "memox": "A-kunde: 4 år, 30 % + 3 rater",
+                "memoxHelp": "4 års binding, 30 % ved opstart og resten fordelt på 3 årlige rater. Bankoverførsel, servicegebyr 295 kr.",
+                "monthly": "Månedlig, 12 mdr.",
+                "monthlyHelp": "12 måneders binding med månedlig betaling via bankoverførsel.",
+                "empty": "Tom",
+                "emptyHelp": "Start med tomme felter."
+            },
+            "cancel": {
+                "title": "Opsig aftalen",
+                "accelerate": "Fakturér resterende beløb nu",
+                "accelerateHelp": "Samler alle resterende rater i én faktura nu. Slået fra faktureres raterne som planlagt indtil bindingens udløb.",
+                "previewAccelerated": "Kunden faktureres {amount} ekskl. moms nu ({count} rater samles)",
+                "previewAsPlanned": "Resterende rater faktureres som planlagt til {date}",
+                "warning": "Opsigelsen kan ikke fortrydes. Er fakturaen først dannet, kan den ikke tages tilbage herfra.",
+                "confirm": "Opsig aftalen"
+            },
+            "remainder": {
+                "chip": "Restbeløb ved opsigelse",
+                "help": "Samlet restbeløb faktureret fordi aftalen blev opsagt før bindingens udløb."
             }
         },
         "metrics": {

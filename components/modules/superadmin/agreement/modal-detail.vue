@@ -72,7 +72,16 @@
                                     class="border-t border-[#F5F6F8]">
                                     <td class="px-4 py-2 text-[#8891A4]">{{ row.sequence }}</td>
                                     <td class="px-4 py-2">{{ formatDateToReadable(row.due_on) }}</td>
-                                    <td class="px-4 py-2 text-[#5C6478]">{{ row.label }}</td>
+                                    <td class="px-4 py-2 text-[#5C6478]">
+                                        {{ row.label }}
+                                        <Tooltip v-if="isCancellationRemainder(row.label)"
+                                            :text="$t('superadmin.agreements.remainder.help')" position="top" wrap>
+                                            <span class="co-badge bg-[#FEF3C7] text-[#B45309] ml-1.5">
+                                                <Icon name="ph:flag" class="w-3 h-3" aria-hidden="true" />
+                                                {{ $t('superadmin.agreements.remainder.chip') }}
+                                            </span>
+                                        </Tooltip>
+                                    </td>
                                     <td class="px-4 py-2 text-right font-medium">{{ formatAmount(row.amount, 'DKK') }}</td>
                                     <td class="px-4 py-2">
                                         <Tooltip v-if="row.invoice" :text="$t('superadmin.agreements.detail.openInvoice')"
@@ -212,18 +221,11 @@
                     <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
                         <div v-if="state.agreement.status === 'active'" class="flex items-center gap-2">
                             <Tooltip :text="$t('superadmin.agreements.detail.cancelHelp')" position="top" wrap>
-                                <FormButton type="button" buttonStyle="danger" @click="state.cancel.open = !state.cancel.open">
+                                <FormButton type="button" buttonStyle="danger" @click="state.cancel.open = true">
                                     <Icon name="ph:prohibit" class="w-4 h-4" aria-hidden="true" />
                                     {{ $t('superadmin.agreements.detail.cancel') }}
                                 </FormButton>
                             </Tooltip>
-                            <template v-if="state.cancel.open">
-                                <input type="date" class="co-cell-input" v-model="state.cancel.date"
-                                    :aria-label="$t('superadmin.agreements.detail.cancelDate')" />
-                                <FormButton type="button" buttonStyle="danger" @click="cancelAgreement">
-                                    {{ $t('confirm') }}
-                                </FormButton>
-                            </template>
                         </div>
                         <span v-else></span>
                         <div class="flex items-center gap-2">
@@ -249,6 +251,8 @@
             <ModulesSuperadminAgreementModalCoveredInvoices :isModalOpen="state.isCoverOpen"
                 :companyUuid="props.companyUuid" :agreementUuid="state.agreement?.uuid ?? ''"
                 @close="state.isCoverOpen = false" @covered="onCovered" />
+            <ModulesSuperadminAgreementModalCancel :isModalOpen="state.cancel.open" :agreement="state.agreement"
+                @close="state.cancel.open = false" @cancelled="onCancelled" />
             <DialogConfirmation :isModalOpen="state.isDeleteOpen"
                 :message="$t('superadmin.agreements.detail.deleteConfirm') + '?'"
                 @close="state.isDeleteOpen = false" @confirm="deleteAgreement" />
@@ -262,7 +266,7 @@ import { useI18n } from 'vue-i18n'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { unwrapData } from '@/composables/agreements'
+import { isCancellationRemainder, unwrapData } from '@/composables/agreements'
 import type { Agreement, LinkableSubscription } from '@/types/agreement'
 import type { Error } from '@/types'
 
@@ -283,7 +287,7 @@ const state = reactive({
     error: {} as Error,
     linked: [] as string[],
     candidates: [] as LinkableSubscription[],
-    cancel: { open: false, date: moment().format('YYYY-MM-DD') },
+    cancel: { open: false },
     isDeleteOpen: false,
     linkTarget: null as any,
     isCoverOpen: false,
@@ -386,16 +390,11 @@ async function saveSubscriptions() {
     }
 }
 
-async function cancelAgreement() {
-    if (!state.agreement) return
-    state.error = {}
-    try {
-        state.agreement = unwrapData<Agreement>(await agreementService.cancelAgreement(state.agreement.uuid, state.cancel.date))
-        state.cancel.open = false
-        emit('changed')
-    } catch (error: any) {
-        state.error = error
-    }
+// The API answers with the full agreement: replace local state with it.
+function onCancelled(agreement: Agreement) {
+    state.cancel.open = false
+    state.agreement = agreement
+    emit('changed')
 }
 
 async function deleteAgreement() {

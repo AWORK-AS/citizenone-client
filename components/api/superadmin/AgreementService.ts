@@ -33,8 +33,13 @@ class AgreementService extends BaseAPIService {
         return await this.request(`/superadmin/agreements/${agreementUuid}`, 'DELETE')
     }
 
-    async cancelAgreement(agreementUuid: string, cancelledAt: string): Promise<{ data: any }> {
-        return await this.request(`/superadmin/agreements/${agreementUuid}/cancel`, 'POST', { cancelled_at: cancelledAt })
+    /** With `preview` nothing is saved: the answer says what the customer would be invoiced. */
+    async cancelAgreement(
+        agreementUuid: string,
+        payload: { cancelled_at: string; accelerate_remaining: boolean },
+        preview = false,
+    ): Promise<{ data: any }> {
+        return await this.request(`/superadmin/agreements/${agreementUuid}/cancel${preview ? '?preview=1' : ''}`, 'POST', payload)
     }
 
     /** Same body as create; returns the installments without saving anything. */

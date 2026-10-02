@@ -210,6 +210,52 @@ export function isInvoiceFree(invoice: any): boolean {
     return !invoice?.covered_by_agreement && !invoice?.company_agreement_installment_id
 }
 
+/** The installment the backend creates when an agreement is cancelled with the rest accelerated. */
+export function isCancellationRemainder(label: string | null | undefined): boolean {
+    return !!label && label.trim().toLowerCase().startsWith('restbeløb ved opsigelse')
+}
+
+export interface AgreementTemplate {
+    key: 'a4' | 'memox' | 'monthly' | 'empty'
+    values: {
+        term_months: number
+        billing_plan: 'monthly' | 'installments'
+        payment_method: 'bank_transfer' | 'card'
+        fee_per_invoice: number
+        notice_months: number
+        auto_renews: boolean
+        preset: { upfront_percent: number; remaining_count: number; remaining_interval_months: number } | null
+    } | null
+}
+
+/** Quick-start shapes. Every field stays editable after one is picked. */
+export const AGREEMENT_TEMPLATES: AgreementTemplate[] = [
+    {
+        key: 'a4',
+        values: {
+            term_months: 48, billing_plan: 'installments', payment_method: 'bank_transfer', fee_per_invoice: 295,
+            notice_months: 3, auto_renews: true,
+            preset: { upfront_percent: 25, remaining_count: 3, remaining_interval_months: 12 },
+        },
+    },
+    {
+        key: 'memox',
+        values: {
+            term_months: 48, billing_plan: 'installments', payment_method: 'bank_transfer', fee_per_invoice: 295,
+            notice_months: 3, auto_renews: true,
+            preset: { upfront_percent: 30, remaining_count: 3, remaining_interval_months: 12 },
+        },
+    },
+    {
+        key: 'monthly',
+        values: {
+            term_months: 12, billing_plan: 'monthly', payment_method: 'bank_transfer', fee_per_invoice: 0,
+            notice_months: 3, auto_renews: true, preset: null,
+        },
+    },
+    { key: 'empty', values: null },
+]
+
 export type NoticeTone = 'none' | 'passed' | 'soon' | 'ok'
 
 /**

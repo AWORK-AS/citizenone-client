@@ -13490,6 +13490,30 @@
                 "noneToAdd": "Inga fakturor att lägga till.",
                 "remove": "Ta bort",
                 "removeHelp": "Ta bort fakturan från avtalet så att den åter räknas som en vanlig faktura."
+            },
+            "templates": {
+                "title": "Mall",
+                "a4": "A-kund: 4 år, 4 årliga delbetalningar",
+                "a4Help": "4 års bindning, 25 % vid start och 3 årliga delbetalningar. Banköverföring, serviceavgift 295 kr., uppsägningstid 3 mån., förnyas automatiskt.",
+                "memox": "A-kund: 4 år, 30 % + 3 delbetalningar",
+                "memoxHelp": "4 års bindning, 30 % vid start och resten fördelat på 3 årliga delbetalningar. Banköverföring, serviceavgift 295 kr.",
+                "monthly": "Månadsvis, 12 mån.",
+                "monthlyHelp": "12 månaders bindning med månadsbetalning via banköverföring.",
+                "empty": "Tom",
+                "emptyHelp": "Börja med tomma fält."
+            },
+            "cancel": {
+                "title": "Säg upp avtalet",
+                "accelerate": "Fakturera återstående belopp nu",
+                "accelerateHelp": "Samlar alla återstående delbetalningar i en faktura nu. Avstängt faktureras delbetalningarna som planerat tills bindningen går ut.",
+                "previewAccelerated": "Kunden faktureras {amount} exkl. moms nu ({count} delbetalningar samlas)",
+                "previewAsPlanned": "Återstående delbetalningar faktureras som planerat till {date}",
+                "warning": "Uppsägningen kan inte ångras. När fakturan väl skapats kan den inte tas tillbaka härifrån.",
+                "confirm": "Säg upp avtalet"
+            },
+            "remainder": {
+                "chip": "Restbelopp vid uppsägning",
+                "help": "Samlat restbelopp som fakturerats eftersom avtalet sades upp före bindningens slut."
             }
         },
         "metrics": {
