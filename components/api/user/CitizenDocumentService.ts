@@ -5,6 +5,10 @@ class CitizenDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders`, 'GET', params)
     }    
     
+    async getFolderPath(folderUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-file-folders/${folderUuid}/path`, 'GET')
+    }
+
     async getCitizenFileFoldersDrafts(params: object): Promise<any> {
         return await this.request(`user/citizen-file-folders-attachments/drafts`, 'GET', params)
     }

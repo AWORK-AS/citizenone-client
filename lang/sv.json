@@ -2052,7 +2052,9 @@
                 "dateCreated": "Skapandedatum",
                 "lastModified": "Sidst ändrad",
                 "name": "Namn",
-                "owner": "Ägare"
+                "owner": "Ägare",
+                "id": "ID",
+                "location": "Plats"
             },
             "template": "Mall",
             "upgradeStorage": "Opgradér lager",
@@ -4535,7 +4537,9 @@
             "dateCreated": "Skapandedatum",
             "lastModified": "Sidst ändrad",
             "name": "Namn",
-            "owner": "Ägare"
+            "owner": "Ägare",
+            "id": "ID",
+            "location": "Plats"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",

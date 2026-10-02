@@ -11,7 +11,7 @@
                         </span>
                     </label>
                 </th>
-                <th v-for="(item, index) in props.columnHeaders" :key="index" :width="props.width">
+                <th v-for="(item, index) in props.columnHeaders" :key="index" :width="item.width ?? props.width">
                     <div class="flex items-center gap-x-2" :class="[
                         item.textAlign === 'left' && 'text-left',
                         item.textAlign === 'right' && 'text-right',
