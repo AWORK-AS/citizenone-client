@@ -24,6 +24,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 showLatestJournal: true,
                 showMedicineDeviationStatistics: false,
                 showMyDailyEvents: false,
+                // On by default: it is the one box every employee with a schedule
+                // wants, and nobody finds it in the show/hide list unprompted.
+                showNextShift: true,
                 showPlansAndGoals: false,
                 showReminders: true,
                 showRiskAssessment: false,
@@ -115,6 +118,9 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
             },
             setDailyOverviewFilterShowPlansAndGoals(flag) {
                 this.dailyOverviewFilter.showPlansAndGoals = flag
+            },
+            setDailyOverviewFilterShowNextShift(flag) {
+                this.dailyOverviewFilter.showNextShift = flag
             },
             setDailyOverviewFilterShowReminders(flag) {
                 this.dailyOverviewFilter.showReminders = flag

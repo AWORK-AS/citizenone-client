@@ -4,7 +4,7 @@ import { dailyOverviewService } from '@/components/api/user/DailyOverviewService
 export type BoxState = 'mandatory' | 'optional' | 'hidden'
 
 /**
- * The ten Daily Overview boxes an admin layout can control, keyed by the flag
+ * The Daily Overview boxes an admin layout can control, keyed by the flag
  * they already have in a user's daily_overview_filter. The Statistics page's
  * flags share that filter but are not part of a layout.
  */
@@ -19,6 +19,7 @@ export const DAILY_OVERVIEW_BOXES = [
     { key: 'showBulletBoard', label: 'overview.filter.items.bulletBoard' },
     { key: 'showScheduleSlots', label: 'overview.filter.items.scheduleSlots' },
     { key: 'showPlansAndGoals', label: 'overview.filter.items.plansAndGoals' },
+    { key: 'showNextShift', label: 'overview.filter.items.nextShift' },
 ] as const
 
 /**

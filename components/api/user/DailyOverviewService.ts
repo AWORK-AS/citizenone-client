@@ -101,6 +101,11 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/daily-overview/schedule-slots`, 'GET', params)
     }
 
+    /** The signed-in user's next working shift, or `data: null` when none is planned. */
+    async getNextShift(): Promise<any> {
+        return await this.request(`/user/daily-overview/next-shift`, 'GET')
+    }
+
     async getCitizenPlansAndGoals(params: object): Promise<any> {
         return await this.request(`/user/citizen-plans/goals-and-sub-goals/all`, 'GET', params)
     }
