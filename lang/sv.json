@@ -3074,6 +3074,39 @@
             "noJournalToDisplay": "Inga journal att visa"
         },
         "nursingAreas": {
+            "checklists": {
+                "addItem": "Lägg till punkt",
+                "checklists": "Checklistor",
+                "editChecklist": "Redigera checklista",
+                "editItem": "Redigera punkt",
+                "empty": "Inga checklistor än",
+                "form": {
+                    "alert": {
+                        "checklistSuccessfullyAdded": "Checklista tillagd",
+                        "checklistSuccessfullyUpdated": "Checklista uppdaterad"
+                    },
+                    "description": "Beskrivning",
+                    "title": "Titel"
+                },
+                "newChecklist": "Ny checklista",
+                "newItem": "Ny punkt",
+                "noItems": "Inga punkter än",
+                "progress": "{completed}/{total} slutförda",
+                "table": {
+                    "actions": {
+                        "delete": "Ta bort",
+                        "edit": "Redigera"
+                    },
+                    "alert": {
+                        "checklistSuccessfullyDeleted": "Checklista borttagen",
+                        "itemSuccessfullyDeleted": "Punkt borttagen"
+                    },
+                    "confirmation": {
+                        "deleteChecklistConfirmation": "Är du säker på att du vill ta bort denna checklista",
+                        "deleteItemConfirmation": "Är du säker på att du vill ta bort denna punkt"
+                    }
+                }
+            },
             "consentCompetenceOrCapacity": {
                 "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet",
                 "editConsentCompetenceOrCapacity": "Redigera samtykkekompetence eller kapacitet",
