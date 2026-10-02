@@ -131,6 +131,7 @@
                         <div class="mt-5 space-y-5 stagger-children">
                             <ModulesUserCitizenJournalCard v-for="(journal, index) in state.journals?.data" :key="index"
                                 :journal="journal" :filterView="citizenJournalStore.getFilterView"
+                                :plansAndGoalsBasePath="`/citizens/${citizenUuid}/plans-and-goals/all`"
                                 @edit="editJournal" @copy="copyJournal" @move="moveJournal"
                                 @favorite-updated="onJournalFavoriteUpdated" @lock-unlock="lockUnlockJournal"
                                 @pin-unpin="pinUnpinJournal" @view-logs="viewJournalLogs"

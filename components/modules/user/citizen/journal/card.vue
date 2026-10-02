@@ -131,6 +131,8 @@
                     <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
                     {{ formatDateTimeToReadable(journal.created_at) }}
                 </p>
+                <ModulesUserJournalLinkedToBadge v-if="plansAndGoalsBasePath" :journal="journal"
+                    :plansAndGoalsBasePath="plansAndGoalsBasePath" />
             </div>
             <div class="ms-auto">
                 <div class="flex items-center gap-x-2">
@@ -213,6 +215,7 @@ const language = useI18n()
 withDefaults(defineProps<{
     journal: any,
     filterView?: string,
+    plansAndGoalsBasePath?: string,
 }>(), {
     filterView: 'Standard view',
 })

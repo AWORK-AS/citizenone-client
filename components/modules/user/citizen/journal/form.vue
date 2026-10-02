@@ -116,19 +116,22 @@
             <ModulesUserCitizenJournalWellbeingRuler v-if="isWellbeingRulerEnabled"
                 :rows="wellbeingRows" :modelValue="state.wellbeingScores"
                 @update:modelValue="onWellbeingChange" />
-            <div v-if="props.formType === 'create'">
+            <div>
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
                     <FormCheckbox id="copy_journal_note_to_plan_or_goal_or_subgoal"
                         :value="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal" />
                     {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoalOrSubgoal') }}
                 </div>
+                <p v-if="props.formType === 'update' && state.linkedToPlan" class="mt-1 text-xs text-gray-500">
+                    {{ $t('citizens.citizenJournals.form.attachmentRemovalHint') }}
+                </p>
             </div>
             <!-- A direct jump to a sub-goal, so logging against one doesn't require
                  walking the Plan -> Goal -> Sub-goal cascade below every time. The
                  three fields it fills are the same ones the cascade uses, so nothing
                  downstream (validation, save) needs to know this shortcut exists. -->
-            <div class="space-y-1" v-if="props.formType === 'create'">
+            <div class="space-y-1">
                 <FormLabel for="journal_note_subgoal_shortcut"
                     :label="$t('citizens.citizenJournals.form.jumpToSubgoal')" />
                 <FormComboField id="journal_note_subgoal_shortcut" name="journal_note_subgoal_shortcut"
@@ -136,13 +139,16 @@
                     :toggleLabel="$t('citizens.citizenJournals.form.jumpToSubgoalPlaceholder')"
                     :options="state.options.journal_note_subgoal_shortcuts" v-model="state.subgoalShortcut" />
             </div>
-            <div class="grid md:grid-cols-3 gap-x-3"
+            <!-- Plan > Goal > Sub-goal, or a single goal (enkeltmål) > Sub-goal. A single
+                 goal belongs to no plan, so picking one clears the plan and goal (and the
+                 other way round); the sub-goal list follows whichever of the two is picked. -->
+            <div class="grid md:grid-cols-2 gap-x-3 gap-y-2"
                 v-if="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
                 <div class="space-y-1">
                     <FormLabel for="journal_note_plan" :label="$t('citizens.citizenJournals.form.plan')" />
                     <FormSelect id="journal_note_plan" :options="state.options.journal_note_plans"
                         v-model="state.formJournal.journal_note_plan"
-                        @change="(journalNotePlanUuid: any) => fetchAllGoalsForJournalNote(journalNotePlanUuid)" />
+                        @change="(journalNotePlanUuid: any) => onJournalNotePlanChange(journalNotePlanUuid)" />
                     <FormError :error="v$?.formJournal?.journal_note_plan?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.journal_note_plan?.[0]" />
                 </div>
@@ -150,9 +156,15 @@
                     <FormLabel for="journal_note_goal" :label="$t('citizens.citizenJournals.form.goal')" />
                     <FormSelect id="journal_note_goal" :options="state.options.journal_note_goals"
                         v-model="state.formJournal.journal_note_goal"
-                        @change="(journalNoteGoalUuid: any) => fetchAllSubgoalsForJournalNote(journalNoteGoalUuid)" />
+                        @change="(journalNoteGoalUuid: any) => onJournalNoteGoalChange(journalNoteGoalUuid)" />
                     <FormError :error="v$?.formJournal?.journal_note_goal?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.journal_note_goal?.[0]" />
+                </div>
+                <div class="space-y-1">
+                    <FormLabel for="journal_note_single_goal" :label="$t('citizens.citizenJournals.form.singleGoal')" />
+                    <FormSelect id="journal_note_single_goal" :options="state.options.journal_note_single_goals"
+                        v-model="state.formJournal.journal_note_single_goal"
+                        @change="(singleGoalUuid: any) => onJournalNoteSingleGoalChange(singleGoalUuid)" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="journal_note_subgoals" :label="$t('citizens.citizenJournals.form.subgoal')" />
@@ -224,7 +236,8 @@
                     <FormLabel for="journal_note_tags"
                         :label="term('journalNoteTag', $t('citizens.citizenJournals.form.journalNoteTags'))" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        @click="state.modal.isAddJournalNoteTagsOpen = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('journalNoteTags.addNewTag') }}
                     </span>
                 </div>
@@ -350,7 +363,8 @@
                     <FormLabel for="risk_assessment_tags"
                         :label="customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('citizens.citizenJournals.form.tags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        @click="state.modal.isAddJournalNoteTagsOpen = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('journalNoteTags.addNewTag') }}
                     </span>
                 </div>
@@ -496,6 +510,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { journalService } from '@/components/api/user/JournalService'
@@ -524,6 +539,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {
@@ -625,6 +642,7 @@ const state = reactive({
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
+        journal_note_single_goal: '',
         journal_note_subgoal: '',
         copy_risk_assessment_to_plan_or_goal_or_subgoal: false,
         risk_assessment_plan: '',
@@ -648,6 +666,9 @@ const state = reactive({
     // formJournal.journal_note_subgoal since picking here also has to drive
     // the plan/goal cascade below it, not just the final field.
     subgoalShortcut: '',
+    // The note was already attached to something when the edit form opened -
+    // only used to explain what unticking the box does.
+    linkedToPlan: false,
     pendingSurveys: [] as any[],
     surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
@@ -684,6 +705,7 @@ const state = reactive({
         ],
         journal_note_plans: [],
         journal_note_goals: [],
+        journal_note_single_goals: [],
         journal_note_subgoals: [],
         journal_note_subgoal_shortcuts: [] as any[],
         journal_note_subgoal_shortcuts_raw: [] as any[],
@@ -887,17 +909,21 @@ watch(() => state.subgoalShortcut, async (subgoalUuid: any) => {
     const picked = state.options.journal_note_subgoal_shortcuts_raw.find((s: any) => s.uuid === subgoalUuid)
     if (!picked) return
 
-    const goalUuid = picked.citizen_goal?.uuid
-    const planUuid = picked.citizen_goal?.citizen_plan?.uuid
+    const goal = picked.citizen_goal
+    const plan = goal?.citizen_plan
+    const item = (model: any) => model?.uuid ? { uuid: model.uuid, name: model.name } : null
+    const link = {
+        plan: item(plan),
+        goal: plan?.uuid ? item(goal) : null,
+        single_goal: plan?.uuid ? null : item(goal),
+        subgoal: { uuid: subgoalUuid, name: picked.name },
+    }
 
     state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = true
-
-    await fetchAllGoalsForJournalNote(planUuid ?? null)
-    state.formJournal.journal_note_plan = planUuid ?? ''
-
-    await fetchAllSubgoalsForJournalNote(goalUuid)
-    state.formJournal.journal_note_goal = goalUuid ?? ''
-    state.formJournal.journal_note_subgoal = subgoalUuid
+    const values = planGoalSubgoalValues(link)
+    syncSeenLevels(values)
+    Object.assign(state.formJournal, values)
+    await loadAttachedItemOptions(link)
 })
 
 onMounted(() => {
@@ -905,7 +931,7 @@ onMounted(() => {
 
     fetchFormFieldConfig()
     fetchAllPlans()
-    fetchAllGoalsForJournalNote()
+    fetchSingleGoalsForJournalNote()
     fetchAllGoalsForRiskAssessment()
     fetchSubgoalShortcutOptions()
     fetchAllJournalNoteTags()
@@ -947,17 +973,17 @@ onMounted(() => {
     //     state.formJournal.teeth.push(tooth?.uuid)
     // })
 
-    runSilently(() => {
-        setFormJournalFromSelected(props.selectedJournal)
+    runSilently(async () => {
+        await setFormJournalFromSelected(props.selectedJournal)
         state.hasChanges = false
         state.isAutoSaving = false
     })
 })
 
-function runSilently(fn: () => void) {
+async function runSilently(fn: () => void | Promise<void>) {
     suppressChangeTracking = true
     try {
-        fn()
+        await fn()
     } finally {
         // release on next tick so all nested reactive updates settle
         nextTick(() => {
@@ -976,8 +1002,8 @@ watch(() => props.selectedJournal, (newValue: any) => {
     if (newValue != null) {
         if (!newValue) return
         // switching journals is also programmatic; do it silently
-        runSilently(() => {
-            setFormJournalFromSelected(newValue)
+        runSilently(async () => {
+            await setFormJournalFromSelected(newValue)
             state.hasChanges = false
             state.isAutoSaving = false
         })
@@ -1020,12 +1046,15 @@ watch(() => state.formJournal.title, () => {
 // form, and has no other way to know which Plan/Goal/Sub-goal the admin has
 // picked here - it needs this to narrow its own listing down instead of
 // always showing the citizen's entire plan history.
+// A single goal is listed in that pop-up as a card of its own, next to the
+// plans, so it narrows the listing the way a plan does.
 watch(() => [
     state.formJournal.journal_note_plan,
+    state.formJournal.journal_note_single_goal,
     state.formJournal.journal_note_goal,
     state.formJournal.journal_note_subgoal,
-], ([plan, goal, subgoal]) => {
-    emit('planGoalSubgoalSelected', { plan, goal, subgoal })
+], ([plan, singleGoal, goal, subgoal]) => {
+    emit('planGoalSubgoalSelected', { plan: plan || singleGoal, goal, subgoal })
 })
 
 function toggleCheckboxAnswer(fieldIndex: number, option: string) {
@@ -1069,7 +1098,7 @@ watch(() => state.hasChanges, (hasChanges) => {
     }
 }, { immediate: true })
 
-function setFormJournalFromSelected(journal: any) {
+async function setFormJournalFromSelected(journal: any) {
     setWellbeingFromJournal(journal)
     state.formJournal = {
         id: journal.id,
@@ -1077,10 +1106,10 @@ function setFormJournalFromSelected(journal: any) {
         content: journal.content ?? '',
         journal_note_tags: [],
         date: journal.date,
-        copy_journal_note_to_plan_or_goal_or_subgoal: journal.copy_journal_note_to_plan_or_goal_or_subgoal,
-        journal_note_plan: '',
-        journal_note_goal: '',
-        journal_note_subgoal: '',
+        // Ticked and filled in when the note is already attached to a plan,
+        // goal, sub-goal or single goal, so editing it shows where it is.
+        copy_journal_note_to_plan_or_goal_or_subgoal: !!journal.plan_goal_subgoal,
+        ...planGoalSubgoalValues(journal.plan_goal_subgoal),
         copy_risk_assessment_to_plan_or_goal_or_subgoal: journal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
         risk_assessment_plan: '',
         risk_assessment_goal: '',
@@ -1106,6 +1135,10 @@ function setFormJournalFromSelected(journal: any) {
     journal.teeth?.forEach((tooth: any) => {
         state.formJournal.teeth.push(tooth?.uuid)
     })
+
+    state.linkedToPlan = !!journal.plan_goal_subgoal
+    syncSeenLevels(planGoalSubgoalValues(journal.plan_goal_subgoal))
+    loadAttachedItemOptions(journal.plan_goal_subgoal ?? null)
 
     const savedAnswers = journal.journal_field_answers ?? []
     if (savedAnswers.length > 0) {
@@ -1137,6 +1170,14 @@ const rules = computed(() => {
                 },
                 content: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                // A goal or sub-goal can only be reached through its plan or
+                // single goal, so one of those has to be chosen.
+                journal_note_plan: {
+                    planOrSingleGoal: helpers.withMessage(
+                        () => t('citizens.citizenJournals.form.selectPlanOrSingleGoal'),
+                        (_value: any, siblings: any) => !!(siblings?.journal_note_plan || siblings?.journal_note_single_goal),
+                    ),
                 },
             },
         }
@@ -1374,6 +1415,7 @@ async function fetchAllPlans() {
             )
             state.options.journal_note_plans = options
             state.options.risk_assessment_plans = options
+            keepAttachedItemsListed()
         }
     } catch (error: any) {
         state.error = error
@@ -1594,6 +1636,24 @@ async function fetchColleagues() {
     }
 }
 
+// The goals of one plan. A single goal (enkeltmål) has no plan, so it is not
+// listed here - see fetchSingleGoalsForJournalNote.
+async function loadGoalOptions(planUuid: any) {
+    const response = await goalService.getAllGoalsPerPlan(planUuid)
+    state.options.journal_note_goals = (response?.data ?? []).map((goal: any) => ({
+        value: goal?.uuid,
+        label: goal?.name,
+    }))
+}
+
+async function loadSubgoalOptions(goalUuid: any) {
+    const response = await subgoalService.getAllSubgoals(goalUuid)
+    state.options.journal_note_subgoals = (response?.data ?? []).map((subgoal: any) => ({
+        value: subgoal?.uuid,
+        label: subgoal?.name,
+    }))
+}
+
 async function fetchAllGoalsForJournalNote(planUuid: any = null) {
     state.error = {}
     emit('isPageLoading', true)
@@ -1602,21 +1662,8 @@ async function fetchAllGoalsForJournalNote(planUuid: any = null) {
         state.formJournal.journal_note_subgoal = ''
         state.options.journal_note_goals = []
         state.options.journal_note_subgoals = []
-        let response = {} as any
         if (planUuid) {
-            response = await goalService.getAllGoalsPerPlan(planUuid)
-        } else {
-            response = await goalService.getAllGoalsPerCitizen(citizenUuid)
-        }
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (goal: any) => options.push({
-                    value: goal?.uuid,
-                    label: goal?.name,
-                })
-            )
-            state.options.journal_note_goals = options
+            await loadGoalOptions(planUuid)
         }
     } catch (error: any) {
         state.error = error
@@ -1630,21 +1677,126 @@ async function fetchAllSubgoalsForJournalNote(goalUuid: any) {
     try {
         state.formJournal.journal_note_subgoal = ''
         state.options.journal_note_subgoals = []
-        const response = await subgoalService.getAllSubgoals(goalUuid)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (subgoal: any) => options.push({
-                    value: subgoal?.uuid,
-                    label: subgoal?.name,
-                })
-            )
-            state.options.journal_note_subgoals = options
+        if (goalUuid) {
+            await loadSubgoalOptions(goalUuid)
         }
     } catch (error: any) {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+// The citizen's single goals - the goals that belong to no plan.
+async function fetchSingleGoalsForJournalNote() {
+    if (!citizenUuid) return
+    try {
+        const response = await goalService.getAllGoalsPerCitizen(citizenUuid)
+        state.options.journal_note_single_goals = (response?.data ?? []).map((goal: any) => ({
+            value: goal?.uuid,
+            label: goal?.name,
+        }))
+        keepAttachedItemsListed()
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+// A Multiselect also emits `change` when its value is set from outside, so
+// clearing the single goal because a plan was picked would come back as a
+// "single goal cleared" and clear the plan in turn. `seen` holds the value each
+// level was last given - by the user or by us - and a change that matches it
+// is just that echo.
+const seen = { plan: '', goal: '', single: '' }
+
+function syncSeenLevels(values: { journal_note_plan?: string, journal_note_goal?: string, journal_note_single_goal?: string }) {
+    seen.plan = values.journal_note_plan ?? ''
+    seen.goal = values.journal_note_goal ?? ''
+    seen.single = values.journal_note_single_goal ?? ''
+}
+
+function clearSubgoals() {
+    state.formJournal.journal_note_subgoal = ''
+    state.options.journal_note_subgoals = []
+}
+
+async function onJournalNotePlanChange(planUuid: any) {
+    const next = planUuid || ''
+    if (next === seen.plan) return
+    seen.plan = next
+    seen.single = ''
+    seen.goal = ''
+    state.formJournal.journal_note_single_goal = ''
+    await fetchAllGoalsForJournalNote(next)
+}
+
+async function onJournalNoteGoalChange(goalUuid: any) {
+    const next = goalUuid || ''
+    if (next === seen.goal) return
+    seen.goal = next
+    await fetchAllSubgoalsForJournalNote(next)
+}
+
+async function onJournalNoteSingleGoalChange(singleGoalUuid: any) {
+    const next = singleGoalUuid || ''
+    if (next === seen.single) return
+    seen.single = next
+    if (next) {
+        seen.plan = ''
+        seen.goal = ''
+        state.formJournal.journal_note_plan = ''
+        state.formJournal.journal_note_goal = ''
+        state.options.journal_note_goals = []
+    }
+    await fetchAllSubgoalsForJournalNote(next)
+}
+
+// What the note is attached to, as the backend reported it. The pickers list
+// only active items, so an item that has since been completed or archived has
+// to be added back or the note would look unattached.
+let attachedLink: any = null
+
+function keepAttachedItemsListed() {
+    const ensure = (list: any[], item: any) => {
+        if (item?.uuid && !list.some((option: any) => option.value === item.uuid)) {
+            list.push({ value: item.uuid, label: item.name })
+        }
+    }
+    ensure(state.options.journal_note_plans, attachedLink?.plan)
+    ensure(state.options.journal_note_goals, attachedLink?.goal)
+    ensure(state.options.journal_note_single_goals, attachedLink?.single_goal)
+    ensure(state.options.journal_note_subgoals, attachedLink?.subgoal)
+}
+
+// The values of every level the attached item sits under: plan > goal >
+// sub-goal, or single goal > sub-goal.
+function planGoalSubgoalValues(link: any) {
+    return {
+        journal_note_plan: link?.plan?.uuid ?? '',
+        journal_note_goal: link?.goal?.uuid ?? '',
+        journal_note_single_goal: link?.single_goal?.uuid ?? '',
+        journal_note_subgoal: link?.subgoal?.uuid ?? '',
+    }
+}
+
+// Fills the lists the attached item is picked from, without touching what is
+// selected - the values were already set from the same link.
+async function loadAttachedItemOptions(link: any) {
+    attachedLink = link
+    if (!link) return
+    try {
+        if (link.plan?.uuid) {
+            await loadGoalOptions(link.plan.uuid)
+        }
+        // Offered even when the note sits on the goal itself, so a sub-goal
+        // can be chosen without picking the goal again.
+        const parentGoalUuid = link.goal?.uuid ?? link.single_goal?.uuid
+        if (parentGoalUuid) {
+            await loadSubgoalOptions(parentGoalUuid)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    keepAttachedItemsListed()
 }
 
 async function fetchAllGoalsForRiskAssessment(planUuid: any = null) {

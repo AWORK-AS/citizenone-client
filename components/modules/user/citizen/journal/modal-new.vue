@@ -112,6 +112,7 @@ import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/user/PlanService'
 import { journalService } from '@/components/api/user/JournalService'
+import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
 import { surveyService } from '@/components/api/user/SurveyService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
@@ -270,15 +271,6 @@ async function saveJournal(journalDetails: any) {
     state.error = {}
     state.isPageLoading = true
     try {
-        let journal_note_plan_goal_subgoal_uuid = ''
-        if (journalDetails.formJournal.journal_note_subgoal) {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_subgoal
-        } else if (journalDetails.formJournal.journal_note_goal) {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_goal
-        } else {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_plan
-        }
-
         let risk_assessment_plan_goal_subgoal_uuid = ''
         if (journalDetails.formJournal.risk_assessment_subgoal) {
             risk_assessment_plan_goal_subgoal_uuid = journalDetails.formJournal.risk_assessment_subgoal
@@ -292,8 +284,7 @@ async function saveJournal(journalDetails: any) {
             citizen_uuid: citizenUuid,
             title: journalDetails.formJournal.title,
             date: journalDetails.formJournal.date,
-            copy_journal_note_to_plan_or_goal_or_subgoal: journalDetails.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
-            journal_note_plan_goal_subgoal_uuid: journal_note_plan_goal_subgoal_uuid,
+            ...journalNotePlanLinkParams(journalDetails.formJournal),
             copy_risk_assessment_to_plan_or_goal_or_subgoal: journalDetails.formJournal.copy_risk_assessment_to_plan_or_goal_or_subgoal,
             risk_assessment_plan_goal_subgoal_uuid: risk_assessment_plan_goal_subgoal_uuid,
             content: journalDetails.formJournal.content,

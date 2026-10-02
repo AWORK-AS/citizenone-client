@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { journalService } from '@/components/api/user/JournalService'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -57,6 +58,7 @@ async function updateJournal(journalDetails: any) {
             title: journalDetails.formJournal.title,
             date: journalDetails.formJournal.date,
             content: journalDetails.formJournal.content,
+            ...journalNotePlanLinkParams(journalDetails.formJournal, true),
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,

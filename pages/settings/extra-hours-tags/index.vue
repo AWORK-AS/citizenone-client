@@ -14,7 +14,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="navigateTo('/settings/extra-hours-tags/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/extra-hours-tags/new')" v-if="isAtLeast('Admin')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('extraHoursTags.addNewExtraHoursTag') }}
                     </FormButton>
@@ -75,8 +75,10 @@ import { extraHoursTagService } from '@/components/api/user/ExtraHoursTagService
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
+const { isAtLeast } = usePermissions()
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()

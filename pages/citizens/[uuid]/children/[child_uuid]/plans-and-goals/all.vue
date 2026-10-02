@@ -412,9 +412,28 @@ watch(() => (state.slideOver.isGoalOpen), (isGoalOpen: boolean) => {
     }
 })
 
-onMounted(() => {
-    fetchPlans()
+onMounted(async () => {
+    await fetchPlans()
+    openLinkedPlanFromQuery()
 })
+
+// Lands a journal note's "Linked to" link on the right plan, opened to the
+// right slide-over - mirrors the route.query auto-open pattern already used
+// in nursing-areas/index.vue, rather than introducing a new one.
+function openLinkedPlanFromQuery() {
+    const query = router?.currentRoute?.value?.query
+    const planUuid = query?.plan_uuid as string | undefined
+    if (!planUuid) return
+
+    const plan = state.plans?.data?.find((p: any) => p.uuid === planUuid)
+    if (!plan) return
+
+    if (plan.is_single_goal) {
+        viewSubgoals(plan)
+    } else {
+        viewPlan(plan)
+    }
+}
 
 function hasCreatePlanAccess() {
     const user = userStore.getUser

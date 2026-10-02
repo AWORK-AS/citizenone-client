@@ -196,6 +196,8 @@
                             <Icon name="ph:link" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.emails.linkToCitizen') }}
                         </FormButton>
+                        <ModulesUserMailSavePdfMenu :messageId="state.selectedEmail?.id ?? ''" folder="inbox"
+                            :subject="state.selectedEmail?.subject ?? ''" />
                     </div>
                 </div>
             </template>

@@ -20,6 +20,10 @@ class VitalService extends BaseAPIService {
     async deleteVital(vitalUuid: any): Promise<any> {
         return await this.request(`/user/vitals/${vitalUuid}`, 'DELETE')
     }
+
+    async getAllVitalsForGraph(params: object): Promise<any> {
+        return await this.request(`/user/vitals/all/list`, 'GET', params)
+    }
 }
 
 export const vitalService = new VitalService()

@@ -126,7 +126,7 @@ async function fetchAllFolders() {
     try {
         const response = await documentService.getAllFolders()
         if (response) {
-            state.options.folders = response.data.map((item: any) => ({ value: item.uuid, label: item.name }))
+            state.options.folders = response.data.map((item: any) => ({ value: item.uuid, label: folderOptionLabel(item) }))
         }
     } catch (error: any) {
         state.error = error
