@@ -24,6 +24,9 @@ export interface AgreementInstallment {
     amount: number
     label: string | null
     invoice: AgreementInstallmentInvoice | null
+    /** Settled outside CitizenOne (e.g. in e-conomic): never invoiced. */
+    settled_externally_at: string | null
+    settled_note: string | null
 }
 
 /** A planned installment as sent to / returned by the API before it is saved. */
@@ -84,6 +87,8 @@ export interface Agreement {
     status: AgreementStatus
     cancelled_at: string | null
     internal_note: string | null
+    settled_externally_before?: string | null
+    settled_note?: string | null
     contract_mrr: number
     contract_arr: number
     invoiced_total: number
@@ -107,6 +112,8 @@ export interface AgreementPayload {
     fee_per_invoice: number
     payment_method: AgreementPaymentMethod
     internal_note: string | null
+    settled_externally_before: string | null
+    settled_note: string | null
     installment_preset: InstallmentPreset | null
     installments: InstallmentInput[] | null
 }

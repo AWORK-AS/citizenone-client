@@ -79,6 +79,13 @@
                                                 <Icon name="ph:file-text" class="w-3 h-3" />
                                                 {{ $t('superadmin.companies.accounts.manualInvoice') }}
                                             </span>
+                                            <Tooltip v-else-if="state.subscription?.data?.payment_method === 'bank_transfer'"
+                                                :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
+                                                <span class="co-badge co-badge-navy">
+                                                    <Icon name="ph:bank" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.payment.bankTransfer') }}
+                                                </span>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>

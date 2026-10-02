@@ -49,6 +49,13 @@ class AgreementService extends BaseAPIService {
         })
     }
 
+    /** Links an existing invoice to an installment. Returns the full agreement. */
+    async linkInvoice(agreementUuid: string, installmentUuid: string, invoiceUuid: string): Promise<{ data: any }> {
+        return await this.request(`/superadmin/agreements/${agreementUuid}/installments/${installmentUuid}/link-invoice`, 'POST', {
+            invoice_uuid: invoiceUuid,
+        })
+    }
+
     async registerPayment(invoiceUuid: string, payload: RegisterPaymentPayload): Promise<any> {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/payment`, 'POST', payload)
     }

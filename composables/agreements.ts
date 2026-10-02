@@ -118,6 +118,8 @@ export interface AgreementFormState {
     fee_per_invoice: number | string
     payment_method: AgreementPayload['payment_method']
     internal_note: string
+    settled_externally_before: string
+    settled_note: string
     preset: { upfront_percent: number | string; remaining_count: number | string; remaining_interval_months: number | string }
     installments: InstallmentInput[]
     /** True once somebody edited the list by hand after applying the preset. */
@@ -146,6 +148,8 @@ export function buildAgreementPayload(form: AgreementFormState): AgreementPayloa
         fee_per_invoice: Number(form.fee_per_invoice) || 0,
         payment_method: form.payment_method,
         internal_note: form.internal_note?.trim() ? form.internal_note.trim() : null,
+        settled_externally_before: form.settled_externally_before ? form.settled_externally_before : null,
+        settled_note: form.settled_note?.trim() ? form.settled_note.trim() : null,
         installment_preset: isInstallments && !useExplicit && form.presetApplied
             ? {
                 upfront_percent: Number(form.preset.upfront_percent),
@@ -213,6 +217,11 @@ export function noticeStatus(
     return { tone: 'ok', days }
 }
 
+/** Agreement and bank-transfer invoices are never paid through the in-app card flow. */
+export function isBankTransferInvoice(invoice: any): boolean {
+    return invoice?.invoice_type === 'bank_transfer' || invoice?.type === 'agreement'
+}
+
 export type InvoicePaymentState = 'paid' | 'failed' | 'bank_transfer_unpaid' | 'unpaid' | 'unknown'
 
 /**
@@ -226,7 +235,7 @@ export function invoicePaymentState(invoice: any): InvoicePaymentState {
     if (invoice.status === 'failed') return 'failed'
     const hasPaymentInfo = invoice.is_paid === false || (typeof invoice.status === 'string' && invoice.status !== '')
     if (!hasPaymentInfo) return 'unknown'
-    return invoice.invoice_type === 'bank_transfer' ? 'bank_transfer_unpaid' : 'unpaid'
+    return isBankTransferInvoice(invoice) ? 'bank_transfer_unpaid' : 'unpaid'
 }
 
 export interface ForecastBucketTotals {

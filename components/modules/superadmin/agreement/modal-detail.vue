@@ -75,12 +75,29 @@
                                                 #{{ row.invoice.invoice_number }}
                                             </NuxtLink>
                                         </Tooltip>
-                                        <Tooltip v-else :text="$t('superadmin.agreements.detail.notInvoicedHelp')"
-                                            position="top" wrap>
+                                        <Tooltip v-else-if="row.settled_externally_at"
+                                            :text="row.settled_note
+                                                ? $t('superadmin.agreements.settled.helpWithNote', { note: row.settled_note })
+                                                : $t('superadmin.agreements.settled.help')" position="top" wrap>
                                             <span class="co-badge co-badge-gray">
-                                                {{ $t('superadmin.agreements.detail.notInvoiced') }}
+                                                <Icon name="ph:check-square" class="w-3 h-3" aria-hidden="true" />
+                                                {{ $t('superadmin.agreements.settled.chip') }}
                                             </span>
                                         </Tooltip>
+                                        <div v-else class="flex items-center gap-2">
+                                            <Tooltip :text="$t('superadmin.agreements.detail.notInvoicedHelp')"
+                                                position="top" wrap>
+                                                <span class="co-badge co-badge-gray">
+                                                    {{ $t('superadmin.agreements.detail.notInvoiced') }}
+                                                </span>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('superadmin.agreements.linkInvoice.help')" position="top" wrap>
+                                                <SuperadminTableButton @click="state.linkTarget = row">
+                                                    <Icon name="ph:link" class="w-3.5 h-3.5" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.linkInvoice.action') }}
+                                                </SuperadminTableButton>
+                                            </Tooltip>
+                                        </div>
                                     </td>
                                     <td class="px-4 py-2">
                                         <template v-if="row.invoice">
@@ -179,6 +196,9 @@
                     </div>
                 </div>
             </LoadingSpinner>
+            <ModulesSuperadminAgreementModalLinkInvoice :isModalOpen="!!state.linkTarget" :companyUuid="props.companyUuid"
+                :agreementUuid="state.agreement?.uuid ?? ''" :installment="state.linkTarget"
+                @close="state.linkTarget = null" @linked="onInvoiceLinked" />
             <DialogConfirmation :isModalOpen="state.isDeleteOpen"
                 :message="$t('superadmin.agreements.detail.deleteConfirm') + '?'"
                 @close="state.isDeleteOpen = false" @confirm="deleteAgreement" />
@@ -215,6 +235,7 @@ const state = reactive({
     candidates: [] as LinkableSubscription[],
     cancel: { open: false, date: moment().format('YYYY-MM-DD') },
     isDeleteOpen: false,
+    linkTarget: null as any,
 })
 
 const cards = computed(() => {
@@ -276,6 +297,13 @@ async function loadCandidates() {
     } catch (_) {
         state.candidates = []
     }
+}
+
+// The API answers with the full agreement: replace local state with it.
+function onInvoiceLinked(agreement: Agreement) {
+    state.linkTarget = null
+    state.agreement = agreement
+    emit('changed')
 }
 
 async function saveSubscriptions() {

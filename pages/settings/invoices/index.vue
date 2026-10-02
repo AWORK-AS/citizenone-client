@@ -120,11 +120,15 @@
                                                 <Icon name="ph:envelope-simple" class="size-4" />
                                                 {{ $t('invoices.table.actions.sendInvoice') }}
                                             </FormButton>
-                                            <FormButton type="button" buttonStyle="action" v-if="!invoice?.is_paid"
+                                            <FormButton type="button" buttonStyle="action"
+                                                v-if="!invoice?.is_paid && !isBankTransferInvoice(invoice)"
                                                 @click="payInvoice(invoice)">
                                                 <Icon name="ph:credit-card" class="size-4" />
                                                 {{ $t('invoices.table.actions.pay') }}
                                             </FormButton>
+                                            <span v-else-if="!invoice?.is_paid" class="self-center text-xs text-primary">
+                                                {{ $t('invoicePayment.payByBankTransfer') }}
+                                            </span>
                                         </div>
                                     </td>
                                 </tr>
@@ -144,6 +148,7 @@
 import { appService } from '@/components/api/user/AppService'
 import { companyFeeService } from '@/components/api/user/CompanyFeeService'
 import { invoiceService } from '@/components/api/user/InvoiceService'
+import { isBankTransferInvoice } from '@/composables/agreements'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"

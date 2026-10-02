@@ -20,6 +20,7 @@ import {
     installmentsMatchContract,
     installmentsSum,
     invoicePaymentState,
+    isBankTransferInvoice,
     noticeStatus,
     unwrapData,
     unwrapInstallments,
@@ -50,6 +51,7 @@ const baseForm = () => ({
     name: ' Test ', starts_on: '2026-07-12', term_months: 48, notice_months: 3, auto_renews: true,
     billing_plan: 'installments', prepaid_years: null, contract_value: 947136, fee_per_invoice: 295,
     payment_method: 'bank_transfer', internal_note: '',
+    settled_externally_before: '', settled_note: '',
     preset: { ...memoxPreset }, installments: [], installmentsEdited: false, presetApplied: false,
 })
 
@@ -170,6 +172,24 @@ describe('response shapes from the spec', () => {
 
     test('the installment with an invoice is the locked one', () => {
         assert.ok(agreementResource.installments[0].invoice)
+    })
+})
+
+describe('settled externally', () => {
+    test('empty settled fields are sent as null, filled ones as given', () => {
+        const empty = buildAgreementPayload(baseForm())
+        assert.equal(empty.settled_externally_before, null)
+        assert.equal(empty.settled_note, null)
+        const filled = buildAgreementPayload({ ...baseForm(), settled_externally_before: '2026-10-01', settled_note: ' e-conomic 297637275 ' })
+        assert.equal(filled.settled_externally_before, '2026-10-01')
+        assert.equal(filled.settled_note, 'e-conomic 297637275')
+    })
+
+    test('agreement and bank-transfer invoices never take the card pay flow', () => {
+        assert.equal(isBankTransferInvoice({ invoice_type: 'bank_transfer' }), true)
+        assert.equal(isBankTransferInvoice({ type: 'agreement' }), true)
+        assert.equal(isBankTransferInvoice({ type: 'new', invoice_type: null }), false)
+        assert.equal(invoicePaymentState({ is_paid: false, status: 'pending', type: 'agreement' }), 'bank_transfer_unpaid')
     })
 })
 

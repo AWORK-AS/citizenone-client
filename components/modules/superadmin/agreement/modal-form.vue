@@ -82,6 +82,31 @@
                             </div>
                         </section>
 
+                        <!-- Settled outside CitizenOne (backfilling existing customers) -->
+                        <section class="border border-[#EAECF0] rounded-xl p-4 bg-[#F9FAFB] space-y-3">
+                            <div class="flex items-center gap-1.5">
+                                <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.agreements.form.settledTitle') }}
+                                </p>
+                                <Tooltip :text="$t('superadmin.agreements.help.settledExternally')" position="top" wrap>
+                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                        :aria-label="$t('superadmin.agreements.help.settledExternally')" />
+                                </Tooltip>
+                            </div>
+                            <p class="text-[12px] text-[#5C6478]">{{ $t('superadmin.agreements.help.settledExternally') }}</p>
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div>
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.settledBefore')" />
+                                    <input class="co-input" type="date" v-model="form.settled_externally_before" />
+                                </div>
+                                <div>
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.settledNote')" />
+                                    <input class="co-input" type="text" maxlength="255" v-model="form.settled_note"
+                                        :placeholder="$t('superadmin.agreements.form.settledNotePlaceholder')" />
+                                </div>
+                            </div>
+                        </section>
+
                         <!-- Billing plan -->
                         <section class="space-y-4">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -167,11 +192,17 @@
                                         <input class="co-cell-input col-span-3" type="number" step="0.01" min="0"
                                             v-model.number="row.amount" :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.amount')" />
-                                        <input class="co-cell-input col-span-4" type="text" v-model="row.label"
+                                        <input class="co-cell-input col-span-3" type="text" v-model="row.label"
                                             :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.label')" />
-                                        <div class="col-span-1 flex justify-end">
-                                            <Tooltip v-if="row.locked" :text="$t('superadmin.agreements.form.lockedRow')"
+                                        <div class="col-span-2 flex justify-end">
+                                            <Tooltip v-if="row.settledAt" :text="settledTooltip(row)" position="left" wrap>
+                                                <span class="co-badge co-badge-gray">
+                                                    <Icon name="ph:check-square" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.settled.chip') }}
+                                                </span>
+                                            </Tooltip>
+                                            <Tooltip v-else-if="row.locked" :text="$t('superadmin.agreements.form.lockedRow')"
                                                 position="left" wrap>
                                                 <Icon name="ph:lock-simple" class="w-4 h-4 text-[#8891A4]"
                                                     :aria-label="$t('superadmin.agreements.form.lockedRow')" />
@@ -303,7 +334,7 @@ import {
 import type { Agreement, BillingPlan, InstallmentInput, SchedulePreview } from '@/types/agreement'
 import type { Error } from '@/types'
 
-type Row = InstallmentInput & { locked?: boolean }
+type Row = InstallmentInput & { locked?: boolean; settledNote?: string | null; settledAt?: string | null }
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -335,6 +366,8 @@ function blankForm(): AgreementFormState & { installments: Row[] } {
         fee_per_invoice: 0,
         payment_method: 'bank_transfer',
         internal_note: '',
+        settled_externally_before: '',
+        settled_note: '',
         preset: { upfront_percent: 30, remaining_count: 3, remaining_interval_months: 12 },
         installments: [],
         installmentsEdited: false,
@@ -381,13 +414,18 @@ function resetFromProps() {
         fee_per_invoice: a.fee_per_invoice,
         payment_method: a.payment_method,
         internal_note: a.internal_note ?? '',
+        settled_externally_before: a.settled_externally_before ?? '',
+        settled_note: a.settled_note ?? '',
         installments: a.billing_plan === 'installments'
             ? (a.installments ?? []).map((row) => ({
                 due_on: row.due_on,
                 amount: row.amount,
                 label: row.label,
-                // An installment that already has an invoice is history.
-                locked: !!row.invoice,
+                // An installment that already has an invoice, or was settled
+                // outside CitizenOne, is history.
+                locked: !!row.invoice || !!row.settled_externally_at,
+                settledAt: row.settled_externally_at,
+                settledNote: row.settled_note,
             }))
             : [],
     })
@@ -415,6 +453,12 @@ function applyPreset() {
     )
     form.presetApplied = true
     form.installmentsEdited = false
+}
+
+function settledTooltip(row: Row): string {
+    return row.settledNote
+        ? t('superadmin.agreements.settled.helpWithNote', { note: row.settledNote })
+        : t('superadmin.agreements.settled.help')
 }
 
 function markEdited() { form.installmentsEdited = true }
