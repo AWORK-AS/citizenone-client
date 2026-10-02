@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "buffer": {
+                    "description": "Kræv en minimumsafstand omkring bookinger for denne ydelse.",
+                    "minutesAfter": "Minutter påkrævet efter en booking",
+                    "minutesBefore": "Minutter påkrævet før en booking",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notifikation",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tilgængelige pladser ved denne begivenhed",
+                "buffer": {
+                    "description": "Kræv en minimumsafstand omkring bookinger for denne ydelse.",
+                    "minutesAfter": "Minutter påkrævet efter en booking",
+                    "minutesBefore": "Minutter påkrævet før en booking",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notifikation",
@@ -1389,6 +1401,7 @@
                 "confirmation": {
                     "convertAsCitizenConfirmation": "Er du sikker på, at du vil konvertere denne deltager til @:terms.citizen{''}?"
                 },
+                "isCitizen": "Allerede @:terms.citizen{''}",
                 "participants": "Deltagere",
                 "table": {
                     "emailAddress": "E-mailadresse",
@@ -5484,6 +5497,7 @@
             "datetimeStart": "Dato og tid start",
             "departments": "Afdelinger",
             "hours": "Timer",
+            "hoursThisDay": "Denne dag",
             "note": "Bemærkning",
             "typeOfShift": "Type af vagt",
             "viewSchedule": "Se tidsplan"
@@ -6724,8 +6738,7 @@
     },
     "employees": {
         "alert": {
-            "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes",
-            "employeeSuccessfullyDeleted": "Medarbejder slettet med succes"
+            "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes"
         },
         "archiveEmployee": "Arkiver medarbejder",
         "archivedEmployees": "Arkiverede medarbejdere",
@@ -6750,11 +6763,8 @@
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på, at du vil arkivere denne medarbejder",
-            "deletePermanentlyConfirmation": "Er du sikker på, at du vil slette denne medarbejder permanent",
-            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, at du skal opbevare medarbejderoplysninger i 5 år",
-            "thisCantBeUndone": "Dette kan ikke fortrydes"
+            "archiveExplanation": "Medarbejderen kan ikke længere logge ind og fjernes fra aktive medarbejderlister. Journalnotater, dokumentation og historik bevares, og medarbejderen vises fortsat som forfatter. Du kan til enhver tid gendanne medarbejderen under Indstillinger → Arkiveret"
         },
-        "deleteEmployee": "Slet medarbejder",
         "documents": {
             "alert": {
                 "documentSuccessfullyArchived": "Dokument arkiveret med succes",
@@ -10574,7 +10584,7 @@
                 "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Patienten ser sine kommende og tidligere aftaler hos klinikken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sine egne aftaler og begivenheder.",
-                "portalPreviewBooking": "Patienten kan selv booke en ledig tid til de behandlinger, I har åbnet for onlinebooking.",
+                "portalPreviewBooking": "Patienten kan selv booke en ledig tid til de behandlinger og begivenheder, I tilbyder i onlinebooking.",
                 "portalPreviewPatientJournals": "Patienten ser kun de journalnotater, I har markeret som delt, og kun hvis patienten har journaladgang.",
                 "portalPreviewSupport": "Patienten kan åbne supportpanelet for at få hjælp.",
                 "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt",
@@ -11203,6 +11213,10 @@
             "purchaseExtraLicenses": "Køb ekstra licenser",
             "total": "Total"
         },
+        "basisUserLimit": {
+            "confirmUpgrade": "Vil du opgradere til Pro?",
+            "title": "Opgrader til Pro"
+        },
         "coupon": {
             "coupon": "Coupon",
             "enterYourCouponCodeHereForExclusiveSavings": "Indtast din kuponkode her for eksklusive besparelser",
@@ -11270,10 +11284,13 @@
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
-                "deletedSuccessfully": "Konto slettet med succes"
+                "archivedSuccessfully": "Konto arkiveret",
+                "restoredSuccessfully": "Konto gendannet"
             },
             "confirmation": {
-                "deleteConfirmation": "Er du sikker på, at du vil slette denne konto"
+                "archiveConfirmation": "Er du sikker på, at du vil arkivere denne konto",
+                "restoreConfirmation": "Er du sikker på, at du vil gendanne denne konto",
+                "archiveExplanation": "Medarbejderen kan ikke længere logge ind og fjernes fra virksomhedens aktive medarbejderlister. Journalnotater, dokumentation og historik bevares, og medarbejderen vises fortsat som forfatter. Kontoen kan til enhver tid gendannes"
             },
             "editAccount": "Rediger konto",
             "form": {
@@ -11304,14 +11321,16 @@
                 "actions": {
                     "activate": "Aktivér",
                     "deactivate": "Deaktiver",
-                    "delete": "Slet",
                     "edit": "Rediger",
-                    "impersonate": "Log ind som klient"
+                    "impersonate": "Log ind som klient",
+                    "archive": "Arkivér",
+                    "restore": "Gendan"
                 },
                 "email": "E-mail",
                 "name": "Navn",
                 "phone": "Telefon",
-                "role": "Rolle"
+                "role": "Rolle",
+                "archived": "Arkiveret"
             }
         },
         "apps": {
@@ -15875,8 +15894,9 @@
         },
         "booking": {
             "bookTime": "Book tid",
-            "noServices": "Klinikken har ingen ledige behandlinger til onlinebooking lige nu.",
-            "chooseTreatment": "Vælg behandling",
+            "noServices": "Klinikken har ikke noget åbent for onlinebooking lige nu.",
+            "chooseWhat": "Vælg hvad du vil booke",
+            "event": "Begivenhed",
             "chooseDate": "Vælg dato",
             "noDates": "Ingen ledige datoer.",
             "chooseTime": "Vælg tidspunkt",

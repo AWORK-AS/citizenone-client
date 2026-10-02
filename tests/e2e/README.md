@@ -499,6 +499,293 @@ will fail fast with a clear message rather than silently hitting the "company
 already has a subscription" rejection - revoke whatever's left via superadmin
 before re-running.
 
+### `pricing-nov2026` — needs 6 dedicated fixture companies (tinker), one real artisan run
+
+Covers the Nov 1, 2026 pricing change end to end: new-signup pricing (real Nexi
+sandbox checkout), the Basis 4-user cap (cart-blocked with the "upgrade to
+Pro" dialog, employee-invite blocked with a plain alert, a pre-cap company
+grandfathered at 5 seats), existing-customer renewal repricing (the real
+`invoices:generate-monthly-deal` command promotes `scheduled_price` once
+`scheduled_price_effective_date` has passed, proven via the invoice-details
+page rather than `pages/subscription/index.vue` — that page renders the
+*live* `Deal` price and can't distinguish a promoted subscription from one
+not yet due), the changePlan-anchoring-gap regression, and an existing
+customer's add-on purchase picking up the current (not frozen) price.
+
+Requires `Deal::where('name','Basis'/'Pro')` to already reflect the new
+prices — run `php artisan db:seed --class=UpdateDealPricesNov2026Seeder`
+first if it hasn't shipped to this environment yet.
+
+**Risk**: the script runs `php artisan invoices:generate-monthly-deal` for
+real against the dev database. That command has no per-company scope flag —
+it processes every Deal subscription due today, not just these fixtures. All
+charges land on Nexi's sandbox (test credentials, no real money), but another
+engineer's dev fixture whose billing day happens to match today will get an
+extra sandbox invoice too — the same accepted trade-off `multi-year-subscription-terms.mjs`
+already documents for its own cleanup trail.
+
+Mint every fixture in one pass:
+
+```bash
+php artisan tinker --execute='
+  $language = App\Models\Language::firstOrCreate(["code" => "en"], ["uuid" => (string) Illuminate\Support\Str::uuid(), "name" => "English"]);
+  $basis = App\Models\Deal::where("name", "Basis")->firstOrFail();
+  $pro = App\Models\Deal::where("name", "Pro")->firstOrFail();
+
+  function e2eAdmin($name, $language) {
+    $company = App\Models\Company::firstOrCreate(["name" => $name], ["is_active" => true]);
+    $admin = App\Models\User::firstOrCreate(
+      ["email" => Illuminate\Support\Str::slug($name)."@test.com"],
+      ["firstname" => "E2E", "lastname" => "Admin", "phone" => "+45".rand(10000000, 99999999),
+       "company_id" => $company->id, "language_id" => $language->id,
+       "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false,
+       "is_active" => true, "is_email_verified" => true]
+    );
+    if (! $admin->hasRole("Admin")) $admin->assignRole("Admin");
+    return [$company, $admin, $admin->createToken("e2e")->plainTextToken];
+  }
+
+  function e2eAnchor($company, $admin, $deal, $frequency, $invoiceType, $currentPrice, $createdAt, $scheduledPrice = null, $scheduledEffectiveDate = null) {
+    $invoice = new App\Models\Invoice;
+    $invoice->forceFill([
+      "uuid" => (string) Illuminate\Support\Str::uuid(), "user_id" => $admin->id, "company_id" => $company->id,
+      "type" => $invoiceType, "frequency" => $frequency, "total_amount" => $currentPrice,
+      "is_paid" => true, "status" => "paid", "created_at" => $createdAt,
+    ]);
+    $invoice->save();
+
+    $detail = App\Models\InvoiceDetail::create([
+      "uuid" => (string) Illuminate\Support\Str::uuid(), "invoice_id" => $invoice->id,
+      "deal_type" => App\Models\Deal::class, "deal_id" => $deal->id, "quantity" => 1, "price" => $currentPrice,
+      "scheduled_price" => $scheduledPrice, "scheduled_price_effective_date" => $scheduledEffectiveDate,
+    ]);
+
+    App\Models\ExternalData::create([
+      "uuid" => (string) Illuminate\Support\Str::uuid(), "user_id" => $admin->id, "invoice_id" => $invoice->id,
+      "reference_number" => (string) Illuminate\Support\Str::uuid(), "external_data_type" => "subscription", "type" => "new",
+      "data" => json_encode(["payment" => ["subscription" => ["id" => "sub_e2e_".Illuminate\Support\Str::random(8)]]]),
+    ]);
+
+    App\Models\UserSubscription::create([
+      "uuid" => (string) Illuminate\Support\Str::uuid(), "user_id" => $admin->id, "company_id" => $company->id,
+      "invoice_id" => $invoice->id, "deal_type" => App\Models\Deal::class, "deal_id" => $deal->id,
+      "is_active" => true, "is_taken" => true,
+    ]);
+
+    return $invoice;
+  }
+
+  $today = now()->day;
+  $createdAtToday = now()->subYear()->day($today)->format("Y-m-d H:i:s");
+
+  // A: fresh company, no subscription yet.
+  [, , $newco] = e2eAdmin("E2E Pricing New Signup", $language);
+
+  // B: Basis at 2/4 seats (2 included + 0 extra) for the cap-blocked cases.
+  [$basisCapCompany, $basisCapAdmin, $basisCap] = e2eAdmin("E2E Pricing Basis Cap", $language);
+  e2eAnchor($basisCapCompany, $basisCapAdmin, $basis, "monthly", "new", 249.00, $createdAtToday);
+
+  // B: Basis already at 5 users (pre-cap, grandfathered) - seed 3 extra seats
+  // directly, bypassing the cap the API would enforce.
+  [$grandfatherCompany, $grandfatherAdmin, $grandfather] = e2eAdmin("E2E Pricing Basis Grandfather", $language);
+  e2eAnchor($grandfatherCompany, $grandfatherAdmin, $basis, "monthly", "new", 249.00, $createdAtToday);
+  $extraUserDeal = App\Models\AddOnDeal::where("type", "user")->first();
+  for ($i = 0; $i < 3; $i++) {
+    $seatUser = App\Models\User::create([
+      "uuid" => (string) Illuminate\Support\Str::uuid(), "company_id" => $grandfatherCompany->id, "language_id" => $language->id,
+      "firstname" => "Seat", "lastname" => (string) $i, "email" => "e2e-grandfather-seat-$i@test.com",
+      "password" => bcrypt("password"), "is_active" => true, "is_archived" => false, "is_bot" => false,
+    ]);
+    App\Models\UserSubscription::create([
+      "uuid" => (string) Illuminate\Support\Str::uuid(), "user_id" => $seatUser->id, "company_id" => $grandfatherCompany->id,
+      "deal_type" => App\Models\AddOnDeal::class, "deal_id" => $extraUserDeal->id, "is_active" => true, "is_taken" => true,
+    ]);
+  }
+
+  // C: due today, effective date in the future - must NOT promote.
+  [$notDueCompany, $notDueAdmin, $notDue] = e2eAdmin("E2E Pricing Renewal Not Due", $language);
+  e2eAnchor($notDueCompany, $notDueAdmin, $basis, "monthly", "new", 249.00, $createdAtToday, 299.00, now()->addDay()->toDateString());
+
+  // C: due today, effective date already passed - MUST promote.
+  [$dueCompany, $dueAdmin, $due] = e2eAdmin("E2E Pricing Renewal Due", $language);
+  e2eAnchor($dueCompany, $dueAdmin, $basis, "monthly", "new", 249.00, $createdAtToday, 299.00, now()->subDay()->toDateString());
+
+  // C: changePlan-anchored (type=recurring) - regression proof for the
+  // anchoring-gap fix; before it, this was never billed again at all.
+  [$changePlanCompany, $changePlanAdmin, $changePlan] = e2eAdmin("E2E Pricing ChangePlan Anchor", $language);
+  e2eAnchor($changePlanCompany, $changePlanAdmin, $basis, "monthly", "recurring", 249.00, $createdAtToday);
+
+  // D: existing (old-price) customer buying more today.
+  [$oldPriceCompany, $oldPriceAdmin, $oldPrice] = e2eAdmin("E2E Pricing Old Price Existing Customer", $language);
+  e2eAnchor($oldPriceCompany, $oldPriceAdmin, $basis, "monthly", "new", 249.00, $createdAtToday);
+
+  echo "CO_NEWCO_TOKEN=$newco\n";
+  echo "CO_BASISCAP_TOKEN=$basisCap\n";
+  echo "CO_BASISCAP_COMPANY_UUID=".$basisCapCompany->uuid."\n";
+  echo "CO_GRANDFATHER_TOKEN=$grandfather\n";
+  echo "CO_RENEWAL_NOTDUE_TOKEN=$notDue\n";
+  echo "CO_RENEWAL_DUE_TOKEN=$due\n";
+  echo "CO_CHANGEPLAN_TOKEN=$changePlan\n";
+  echo "CO_OLDPRICE_TOKEN=$oldPrice\n";
+'
+```
+
+Each anchor invoice's `created_at` is set to today's day-of-month a year ago
+so the renewal command's own billing-day check fires "today" whatever day
+the script is actually run — the same real-relative-date approach
+`compensatory-time-toggle` uses, since there's no way to fake "now" for a
+live dev server the way `Carbon::setTestNow()` fakes it inside PHPUnit.
+
+```bash
+CO_NEWCO_TOKEN='<token>' CO_BASISCAP_TOKEN='<token>' CO_BASISCAP_COMPANY_UUID='<uuid>' \
+  CO_GRANDFATHER_TOKEN='<token>' CO_RENEWAL_NOTDUE_TOKEN='<token>' CO_RENEWAL_DUE_TOKEN='<token>' \
+  CO_CHANGEPLAN_TOKEN='<token>' CO_OLDPRICE_TOKEN='<token>' \
+  npm run test:pricing-nov2026
+```
+
+Optional `CO_NEWCO_YEARLY_TOKEN` (a second fresh no-subscription company,
+same `e2eAdmin()` pattern) additionally drives a Pro/yearly signup — the
+Basis/monthly pass above is required, this second combination is not, since
+the full price x frequency x plan matrix is already covered by
+`SchedulePriceChangeNov2026Test.php`; this script proves the UI/Nexi wiring
+once for each, not the arithmetic.
+
+Not self-restoring: the fixture companies and their invoices/subscriptions
+are left in place (no delete API for `Company`/`Invoice`), matching
+`multi-year-subscription-terms.mjs`'s convention — re-running requires fresh
+fixtures via the tinker script above (the "not due"/"due" pair especially,
+since their `scheduled_price` is consumed on the first successful promotion).
+
+### `booking-app` — full booking CRUD + booking-client journey
+
+Covers the whole booking app end to end: admin CRUD for booking tags, online
+booking settings, and the event/course wizard (including the `buffer_minutes_before`/
+`buffer_minutes_after` fields shipped alongside this test — the browser form
+for those was writing to local state but never actually including them in the
+save request; that was a real bug, fixed as part of this test), appointment
+hand-over, and the complete booking-client journey: anonymous public booking
+through to that same client logging into their own portal and seeing it.
+
+Scope, confirmed by reading the source rather than assumed:
+
+- There's no admin UI to create a `BookingService` (the single-provider
+  "treatment" model) — the real "create a bookable thing" UI is the
+  EventCourse wizard (single event / course), which is what this script tests
+  as service CRUD. Website Booking's embed-widget flow needs a real
+  `BookingService` and is out of scope.
+- Appointments have no UI create or delete, only reassignment ("hand over").
+- The booking-client portal is read-only — no cancel/reschedule exists.
+- `BookingAppointmentService::createServiceBookingAppointment`/`createBookingAppointment`
+  both call `bookingClientRepository->findByEmail()` before creating a new
+  client — so a `BookingClient` pre-seeded with a real email **and password
+  already set** gets reused by the public booking step below, which is what
+  makes the login step in Scenario F possible without a password-reset email.
+
+Mint every fixture in one pass:
+
+```bash
+php artisan tinker --execute='
+  $language = App\Models\Language::firstOrCreate(["code" => "en"], ["uuid" => (string) Illuminate\Support\Str::uuid(), "name" => "English"]);
+  $company = App\Models\Company::firstOrCreate(["name" => "E2E Booking App Co"], ["is_active" => true]);
+
+  $admin = App\Models\User::firstOrCreate(
+    ["email" => "e2e-booking-admin@test.com"],
+    ["firstname" => "E2E", "lastname" => "BookingAdmin", "phone" => "+4500000094",
+     "company_id" => $company->id, "language_id" => $language->id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false,
+     "is_active" => true, "is_email_verified" => true]
+  );
+  if (! $admin->hasRole("Admin")) $admin->assignRole("Admin");
+
+  // Two separate gates need satisfying, not one - confirmed by reading both
+  // code paths rather than assumed:
+  // 1. The real API enforcement (e.g. createServiceBookingAppointment)
+  //    checks $company->hasApplication("booking") - the same "booking"
+  //    Application pattern proven in
+  //    tests/Feature/BookingCalendarTest.php::grantBookingLicense.
+  // 2. The frontend's own page gate (pages/calendar/bookings/index.vue,
+  //    redirects to /calendar without it) reads a completely different
+  //    flag - user.has_booking_app_access - which UserService::findLoggedInUser
+  //    computes from $user->booking_license_id specifically (a per-user
+  //    assigned license FK), not from "the company has any booking
+  //    subscription at all". Granting only the company-level Application
+  //    subscription (as BookingCalendarTest does, since it never touches the
+  //    frontend) leaves has_booking_app_access false and the admin UI
+  //    redirects away before this script ever reaches it.
+  $bookingApp = App\Models\Application::firstOrCreate(
+    ["generic_name" => "booking"],
+    ["uuid" => (string) Illuminate\Support\Str::uuid(), "name" => "Booking", "description" => "Booking",
+     "is_one_time_fee" => false, "price" => 0.00, "monthly_price" => 49.00, "yearly_price" => 490.00,
+     "type" => "Other", "is_active" => true]
+  );
+  $bookingSub = App\Models\UserSubscription::firstOrCreate(
+    ["user_id" => $admin->id, "deal_type" => App\Models\Application::class, "deal_id" => $bookingApp->id],
+    ["uuid" => (string) Illuminate\Support\Str::uuid(), "company_id" => $company->id, "is_active" => true, "is_taken" => true]
+  );
+  if ($admin->booking_license_id !== $bookingSub->id) {
+    $admin->booking_license_id = $bookingSub->id;
+    $admin->save();
+  }
+
+  // The reassignment ("hand over") target.
+  $colleague = App\Models\User::firstOrCreate(
+    ["email" => "e2e-booking-colleague@test.com"],
+    ["firstname" => "E2E", "lastname" => "Colleague", "phone" => "+4500000093",
+     "company_id" => $company->id, "language_id" => $language->id,
+     "password" => bcrypt("password"), "is_bot" => false, "is_archived" => false,
+     "is_active" => true, "is_email_verified" => true]
+  );
+  if (! $colleague->hasRole("Admin")) $colleague->assignRole("Admin");
+
+  // Pre-seeded WITH a password, so the public booking step reuses this
+  // client by email (findByEmail) instead of creating a fresh passwordless
+  // one, and Scenario F can log in immediately.
+  $client = App\Models\BookingClient::firstOrCreate(
+    ["email" => "e2e-booking-client@test.com"],
+    ["uuid" => (string) Illuminate\Support\Str::uuid(), "firstname" => "E2E", "lastname" => "Client",
+     "password" => bcrypt("password")]
+  );
+  if (! $client->password) { $client->password = bcrypt("password"); $client->save(); }
+
+  echo "CO_TOKEN=".$admin->createToken("e2e-booking-admin")->plainTextToken."\n";
+  echo "CO_COLLEAGUE_NAME=".$colleague->firstname." ".$colleague->lastname."\n";
+  echo "CO_CLIENT_EMAIL=".$client->email."\n";
+  echo "CO_CLIENT_PASSWORD=password\n";
+'
+```
+
+```bash
+CO_TOKEN='<admin-token>' CO_COLLEAGUE_NAME='E2E Colleague' \
+  CO_CLIENT_EMAIL='e2e-booking-client@test.com' CO_CLIENT_PASSWORD='password' \
+  npm run test:booking-app
+```
+
+Not self-restoring for everything: Scenario A's tag and Scenario C's
+throwaway event are deleted by the script itself, but the fixture company,
+admin, colleague, booking client, the kept event, and the
+appointment/reassignment it produces are left in place — same accepted
+trade-off as `pricing-nov2026.mjs`/`multi-year-subscription-terms.mjs` (no
+delete API for `Company`). Re-running the whole story end to end needs either
+a fresh fixture company (bump the names/emails above) or manually deleting
+the kept event first.
+
+Known, deliberately out-of-scope gaps (not silently worked around):
+
+- Website Booking's embed/hosted widget booking flow (needs a `BookingService`,
+  which has no admin UI).
+- Any password-reset/forgot-password email round trip.
+- Booking-client cancel/reschedule (doesn't exist in the product).
+- Admin-side appointment delete (API-only, no UI button to drive).
+- Editing an existing event/course does not correctly re-populate
+  `booking_setting`-derived fields (price, spots, tags, the buffer minutes,
+  etc.) in the form — `EventCourseResource` nests them under `booking_setting`
+  rather than flattening them to the top level the way `name`/`address` are,
+  and the edit-repopulation `watch()` in both `single-event/form.vue` and
+  `course/form.vue` reads them from the top level. This is a pre-existing gap
+  (predates this test), not introduced by it — the edit scenarios above only
+  assert on `name`, which is a real top-level column and does round-trip
+  correctly.
+
 ### `economy-any-industry` — needs a `CO_TOKEN` whose company has the Economy page/modules granted
 
 Covers opening the Economy nav item and its four tabs (overview,

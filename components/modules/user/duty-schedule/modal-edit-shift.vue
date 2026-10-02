@@ -177,7 +177,9 @@ function closeModal() {
 }
 
 function dateTimeChange(employeeUuid: string, newDateTimeStart: string, newDateTimeEnd: string, shiftTypeUuid?: string) {
-    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, props.selectedEmployeeSchedule?.shift_span_position, shiftTypeUuid)
+    // Editing the whole overnight shift (AW-2026-6620) validates it like any other shift.
+    const spanPosition = props.selectedEmployeeSchedule?.edit_entire_shift ? 'single' : props.selectedEmployeeSchedule?.shift_span_position
+    emit('dateTimeChange', employeeUuid, newDateTimeStart, newDateTimeEnd, spanPosition, shiftTypeUuid)
 }
 
 async function updateShift(shiftDetails: any) {

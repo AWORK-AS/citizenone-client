@@ -18,30 +18,23 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex gap-x-3 justify-end" v-if="isAtLeast('Admin')">
-                        <div class="flex justify-end">
-                            <FormButton type="button" buttonStyle="warning" @click="confirmCitizenArchiving">
-                                {{ $t('employees.archiveEmployee') }}
-                            </FormButton>
-                        </div>
-                        <div class="flex justify-end" v-if="userStore.getUser?.uuid !== employeeUuid">
-                            <FormButton type="button" buttonStyle="danger" @click="confirmEmployeeDeletion">
-                                {{ $t('employees.deleteEmployee') }}
-                            </FormButton>
-                        </div>
+                    <div class="flex gap-x-3 justify-end"
+                        v-if="isAtLeast('Admin') && userStore.getUser?.uuid !== employeeUuid">
+                        <FormButton type="button" buttonStyle="warning" @click="confirmEmployeeArchiving">
+                            {{ $t('employees.archiveEmployee') }}
+                        </FormButton>
                     </div>
+                    <Alert type="danger" :text="state.archiveError?.message" class="mb-3"
+                        v-if="state.archiveError?.message && state.archiveError.message.length > 0" />
                     <ModulesUserEmployeeForm formType="update" :selectedEmployee="state.formEmployee"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateEmployee" />
                 </LoadingSpinner>
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isArchiveEmployeeOpen"
-                :message="$t('employees.confirmation.archiveConfirmation') + '?'"
+                :message="$t('employees.confirmation.archiveConfirmation') + '? ' +
+                    $t('employees.confirmation.archiveExplanation') + '.'"
                 @close="state.modal.isArchiveEmployeeOpen = false" @confirm="archiveEmployee" />
-            <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen" :message="$t('employees.confirmation.deletePermanentlyConfirmation') + '? ' +
-                $t('employees.confirmation.thisCantBeUndone') + '. ' +
-                $t('employees.confirmation.rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years') + '.'"
-                @close="state.modal.isDeleteEmployeeOpen = false" @confirm="deleteEmployee" />
         </NuxtLayout>
     </div>
 </template>
@@ -75,6 +68,7 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
+    archiveError: {} as Error,
     error: {} as Error,
     formEmployee: {
         profile_image: '',
@@ -124,7 +118,6 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isArchiveEmployeeOpen: false,
-        isDeleteEmployeeOpen: false,
     },
 })
 
@@ -282,40 +275,21 @@ async function updateEmployee(employeeDetails: any) {
     state.isPageLoading = false
 }
 
-function confirmCitizenArchiving() {
+function confirmEmployeeArchiving() {
     state.modal.isArchiveEmployeeOpen = true
 }
 
-function confirmEmployeeDeletion() {
-    state.modal.isDeleteEmployeeOpen = true
-}
-
 async function archiveEmployee() {
-    state.error = {}
+    state.archiveError = {}
     state.isPageLoading = true
     try {
-        const response = await employeeService.archiveEmployee(employeeUuid)
+        const response = await employeeService.archiveEmployee(employeeUuid, true)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.alert.employeeSuccessfullyArchived')}.`)
             navigateTo('/employees')
         }
     } catch (error: any) {
-        state.error = error
-    }
-    state.isPageLoading = false
-}
-
-async function deleteEmployee() {
-    state.error = {}
-    state.isPageLoading = true
-    try {
-        const response = await employeeService.deleteEmployee(employeeUuid)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
-            successAlert(`${t('alert.success')}!`, `${t('employees.alert.employeeSuccessfullyDeleted')}.`)
-            navigateTo('/employees')
-        }
-    } catch (error: any) {
-        state.error = error
+        state.archiveError = error
     }
     state.isPageLoading = false
 }

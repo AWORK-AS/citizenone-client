@@ -17,8 +17,10 @@ class AccountService extends BaseAPIService {
         return await this.request(`/superadmin/accounts/${accountUuid}`, 'PUT', params)
     }
 
-    async deleteAccount(accountUuid: any): Promise<any> {
-        return await this.request(`/superadmin/accounts/${accountUuid}`, 'DELETE')
+    // Customer accounts are archived (true) or restored (false), never deleted,
+    // so the employee's journals and history stay intact.
+    async archiveAccount(accountUuid: any, archived: boolean): Promise<any> {
+        return await this.request(`/superadmin/accounts/${accountUuid}/archive`, 'PUT', { archived })
     }
 
     async activateDeactiveAccount(accountUuid: any, params: object): Promise<any> {

@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tillgängliga platser vet denna händelse",
+                "buffer": {
+                    "description": "Kräv ett minsta avstånd runt bokningar för denna tjänst.",
+                    "minutesAfter": "Minuter som krävs efter en bokning",
+                    "minutesBefore": "Minuter som krävs före en bokning",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notis",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Tillgängliga platser vet denna händelse",
+                "buffer": {
+                    "description": "Kräv ett minsta avstånd runt bokningar för denna tjänst.",
+                    "minutesAfter": "Minuter som krävs efter en bokning",
+                    "minutesBefore": "Minuter som krävs före en bokning",
+                    "title": "Buffertid"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notis",
@@ -1389,6 +1401,7 @@
                 "confirmation": {
                     "convertAsCitizenConfirmation": "Är du säker på att du vill konvertere denna deltagare till @:terms.citizen{''}?"
                 },
+                "isCitizen": "Redan @:terms.citizen{''}",
                 "participants": "Deltagare",
                 "table": {
                     "emailAddress": "E-postadress",
@@ -5429,6 +5442,7 @@
             "datetimeStart": "Datum och tid start",
             "departments": "Avdelningar",
             "hours": "Timmar",
+            "hoursThisDay": "Denna dag",
             "note": "Anmärkning",
             "typeOfShift": "Typ av pass",
             "viewSchedule": "Se schema"
@@ -6724,8 +6738,7 @@
     },
     "employees": {
         "alert": {
-            "employeeSuccessfullyArchived": "Anställd arkiverad",
-            "employeeSuccessfullyDeleted": "Anställd raderad"
+            "employeeSuccessfullyArchived": "Anställd arkiverad"
         },
         "archiveEmployee": "Arkiver anställd",
         "archivedEmployees": "Arkiverade anställda",
@@ -6750,11 +6763,8 @@
         },
         "confirmation": {
             "archiveConfirmation": "Är du säker på att du vill arkivere denna anställd",
-            "deletePermanentlyConfirmation": "Är du säker på att du vill radera denna anställd permanent",
-            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Husk, att du ska opbevare medarbejderoplysninger i 5 år",
-            "thisCantBeUndone": "Detta kan inte fortrydes"
+            "archiveExplanation": "Den anställde kan inte längre logga in och tas bort från listor över aktiva anställda. Journalanteckningar, dokumentation och historik behålls, och den anställde visas fortfarande som författare. Du kan när som helst återställa den anställde under Inställningar → Arkiverad"
         },
-        "deleteEmployee": "Radera anställd",
         "documents": {
             "alert": {
                 "documentSuccessfullyArchived": "Dokument arkiverad",
@@ -10569,7 +10579,7 @@
                 "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "Patienten ser sina kommande och tidigare bokningar hos kliniken.",
                 "portalPreviewCalendar": "Patienten ser en kalender med sina egna bokningar och händelser.",
-                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar ni öppnat för onlinebokning.",
+                "portalPreviewBooking": "Patienten kan själv boka en ledig tid för de behandlingar och händelser ni erbjuder i onlinebokning.",
                 "portalPreviewPatientJournals": "Patienten ser bara de journalanteckningar ni markerat som delade, och bara om patienten har journalåtkomst.",
                 "portalPreviewSupport": "Patienten kan öppna supportpanelen för att få hjälp.",
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
@@ -11166,6 +11176,10 @@
             "purchaseExtraLicenses": "Köp extra licenser",
             "total": "Total"
         },
+        "basisUserLimit": {
+            "confirmUpgrade": "Vill du uppgradera till Pro?",
+            "title": "Uppgradera till Pro"
+        },
         "coupon": {
             "coupon": "Coupon",
             "enterYourCouponCodeHereForExclusiveSavings": "Ange din kuponkode här för eksklusive besparelser",
@@ -11233,10 +11247,13 @@
         "accounts": {
             "accounts": "Konton",
             "alert": {
-                "deletedSuccessfully": "Konto raderad"
+                "archivedSuccessfully": "Kontot har arkiverats",
+                "restoredSuccessfully": "Kontot har återställts"
             },
             "confirmation": {
-                "deleteConfirmation": "Är du säker på att du vill radera denna konto"
+                "archiveConfirmation": "Är du säker på att du vill arkivera detta konto",
+                "restoreConfirmation": "Är du säker på att du vill återställa detta konto",
+                "archiveExplanation": "Den anställde kan inte längre logga in och tas bort från företagets listor över aktiva anställda. Journalanteckningar, dokumentation och historik behålls, och den anställde visas fortfarande som författare. Kontot kan återställas när som helst"
             },
             "editAccount": "Redigera konto",
             "form": {
@@ -11267,14 +11284,16 @@
                 "actions": {
                     "activate": "Aktivera",
                     "deactivate": "Deaktiver",
-                    "delete": "Radera",
                     "edit": "Redigera",
-                    "impersonate": "Logga in som klient"
+                    "impersonate": "Logga in som klient",
+                    "archive": "Arkivera",
+                    "restore": "Återställ"
                 },
                 "email": "E-post",
                 "name": "Namn",
                 "phone": "Telefon",
-                "role": "Roll"
+                "role": "Roll",
+                "archived": "Arkiverad"
             }
         },
         "apps": {
@@ -15786,8 +15805,9 @@
         },
         "booking": {
             "bookTime": "Boka tid",
-            "noServices": "Kliniken har inga behandlingar öppna för onlinebokning just nu.",
-            "chooseTreatment": "Välj behandling",
+            "noServices": "Kliniken har inget öppet för onlinebokning just nu.",
+            "chooseWhat": "Välj vad du vill boka",
+            "event": "Händelse",
             "chooseDate": "Välj datum",
             "noDates": "Inga lediga datum.",
             "chooseTime": "Välj tid",

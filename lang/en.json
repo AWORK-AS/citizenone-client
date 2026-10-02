@@ -887,7 +887,7 @@
         "alert": {
             "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} successfully unarchive",
             "documentSuccessfullyUnarchive": "Document successfully unarchive",
-            "employeeSuccessfullyUnarchive": "Employee successfully unarchive",
+            "employeeSuccessfullyUnarchive": "Employee successfully unarchived",
             "goalSuccessfullyUnarchive": "Goal successfully unarchive",
             "planSuccessfullyUnarchive": "Plan successfully unarchive",
             "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
@@ -1237,6 +1237,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Available spots at the event",
+                "buffer": {
+                    "description": "Require a minimum gap around bookings for this service.",
+                    "minutesAfter": "Minutes required after a booking",
+                    "minutesBefore": "Minutes required before a booking",
+                    "title": "Buffer time"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notification",
@@ -1290,6 +1296,12 @@
             },
             "settings": {
                 "availableSpotsAtThisEvent": "Available spots at the event",
+                "buffer": {
+                    "description": "Require a minimum gap around bookings for this service.",
+                    "minutesAfter": "Minutes required after a booking",
+                    "minutesBefore": "Minutes required before a booking",
+                    "title": "Buffer time"
+                },
                 "moms": "Moms",
                 "notification": {
                     "notification": "Notification",
@@ -1389,6 +1401,7 @@
                 "confirmation": {
                     "convertAsCitizenConfirmation": "Are you sure you want to convert this participant as @:terms.citizen{''}"
                 },
+                "isCitizen": "Already a @:terms.citizen{''}",
                 "participants": "Participants",
                 "table": {
                     "emailAddress": "Email address",
@@ -5484,6 +5497,7 @@
             "datetimeStart": "Date time start",
             "departments": "Departments",
             "hours": "Hours",
+            "hoursThisDay": "This day",
             "note": "Note",
             "typeOfShift": "Type of shift",
             "viewSchedule": "View schedule"
@@ -6724,8 +6738,7 @@
     },
     "employees": {
         "alert": {
-            "employeeSuccessfullyArchived": "Employee successfully archived",
-            "employeeSuccessfullyDeleted": "Employee successfully deleted"
+            "employeeSuccessfullyArchived": "Employee successfully archived"
         },
         "archiveEmployee": "Archive employee",
         "archivedEmployees": "Archived employees",
@@ -6750,11 +6763,8 @@
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this employee",
-            "deletePermanentlyConfirmation": "Are you sure you want to delete this employee permanently",
-            "rememberThatYouMustHoldEmployeeInformationForAHistoryOf5Years": "Remember that you must hold employee information for a history of 5 years",
-            "thisCantBeUndone": "This can't be undone"
+            "archiveExplanation": "They will no longer be able to log in, and they will be removed from active employee lists. Their journal entries, documentation and history are kept, and they are still shown as the author. You can restore them at any time under Settings → Archived"
         },
-        "deleteEmployee": "Delete employee",
         "documents": {
             "alert": {
                 "documentSuccessfullyArchived": "Document successfully archived",
@@ -10574,7 +10584,7 @@
                 "portalSectionSupport": "Support",
                 "portalPreviewAppointments": "The patient sees their upcoming and past appointments at the clinic.",
                 "portalPreviewCalendar": "The patient sees a calendar with their own appointments and events.",
-                "portalPreviewBooking": "The patient can book a free time for the treatments you opened for online booking.",
+                "portalPreviewBooking": "The patient can book a free time for the treatments and events you offer in online booking.",
                 "portalPreviewPatientJournals": "The patient only sees journal notes you marked as shared, and only if the patient has journal access.",
                 "portalPreviewSupport": "The patient can open the support panel to get in touch with help.",
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared",
@@ -11203,6 +11213,10 @@
             "purchaseExtraLicenses": "Purchase extra licenses",
             "total": "Total"
         },
+        "basisUserLimit": {
+            "confirmUpgrade": "Do you want to upgrade to Pro?",
+            "title": "Upgrade to Pro"
+        },
         "coupon": {
             "coupon": "Coupon",
             "enterYourCouponCodeHereForExclusiveSavings": "Enter your coupon code here for exclusive savings",
@@ -11270,10 +11284,13 @@
         "accounts": {
             "accounts": "Accounts",
             "alert": {
-                "deletedSuccessfully": "Account successfully deleted"
+                "archivedSuccessfully": "Account successfully archived",
+                "restoredSuccessfully": "Account successfully restored"
             },
             "confirmation": {
-                "deleteConfirmation": "Are you sure you want to delete this account"
+                "archiveConfirmation": "Are you sure you want to archive this account",
+                "restoreConfirmation": "Are you sure you want to restore this account",
+                "archiveExplanation": "The employee will no longer be able to log in and is removed from the company's active employee lists. Their journal entries, documentation and history are kept and still show them as the author. The account can be restored at any time"
             },
             "editAccount": "Edit account",
             "form": {
@@ -11304,14 +11321,16 @@
                 "actions": {
                     "activate": "Activate",
                     "deactivate": "Deactivate",
-                    "delete": "Delete",
                     "edit": "Edit",
-                    "impersonate": "Log in as client"
+                    "impersonate": "Log in as client",
+                    "archive": "Archive",
+                    "restore": "Restore"
                 },
                 "email": "Email",
                 "name": "Name",
                 "phone": "Phone",
-                "role": "Role"
+                "role": "Role",
+                "archived": "Archived"
             }
         },
         "apps": {
@@ -15882,8 +15901,9 @@
         },
         "booking": {
             "bookTime": "Book a time",
-            "noServices": "The clinic has no treatments open for online booking right now.",
-            "chooseTreatment": "Choose treatment",
+            "noServices": "The clinic has nothing open for online booking right now.",
+            "chooseWhat": "Choose what to book",
+            "event": "Event",
             "chooseDate": "Choose date",
             "noDates": "No available dates.",
             "chooseTime": "Choose time",
