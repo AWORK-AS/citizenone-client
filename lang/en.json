@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal or single goal",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {
                     "currentLevel": "Current level",
@@ -1750,12 +1750,15 @@
                     "redactionNotice": "Personal identifiers (name, CPR, address, phone, email) are always removed."
                 },
                 "goal": "Goal",
+                "attachmentRemovalHint": "Clear the checkbox to remove this note from its plan, goal, sub-goal or single goal.",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
                 "jumpToSubgoal": "Jump to a sub-goal",
                 "jumpToSubgoalPlaceholder": "Search for a sub-goal",
                 "note": "Note",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Select a plan or a single goal.",
+                "singleGoal": "Single goal",
                 "prepareWithAI": "Prepare with AI",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
@@ -1814,6 +1817,8 @@
                 },
                 "updatedBy": "Updated by"
             },
+            "linkedTo": "Linked to",
+            "linkedToOpen": "Open",
             "mentions": {
                 "hint": "Type {'@'} to tag a colleague or a @:terms.citizen{''}",
                 "noAccess": "no access",
@@ -2052,7 +2057,9 @@
                 "dateCreated": "Date created",
                 "lastModified": "Last modified",
                 "name": "Name",
-                "owner": "Owner"
+                "owner": "Owner",
+                "id": "ID",
+                "location": "Location"
             },
             "template": "Template",
             "upgradeStorage": "Upgrade storage",
@@ -3092,6 +3099,8 @@
                     }
                 }
             },
+            "doctorJournals": "Medical records",
+            "newDoctorJournal": "New medical record",
             "editNursingProfessionalRecord": "Edit nursing professional record",
             "form": {
                 "alert": {
@@ -3244,6 +3253,13 @@
             "viewNursingProfessionalRecord": "View nursing professional record",
             "vitals": {
                 "editVitals": "Edit vitals",
+                "graph": {
+                    "diastolic": "Diastolic",
+                    "empty": "No data to graph yet.",
+                    "skippedEntries": "{count} entries couldn't be graphed",
+                    "systolic": "Systolic",
+                    "viewGraphs": "View graphs"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitals successfully added",
@@ -4535,7 +4551,9 @@
             "dateCreated": "Date created",
             "lastModified": "Last modified",
             "name": "Name",
-            "owner": "Owner"
+            "owner": "Owner",
+            "id": "ID",
+            "location": "Location"
         },
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",
@@ -8512,6 +8530,15 @@
             "loadingYourEmails": "Loading your emails"
         },
         "mail": "Mail",
+        "pdf": {
+            "saveAsPdf": "Save as PDF",
+            "download": "Download PDF",
+            "saveToDrive": "Save to Drive",
+            "chooseFolder": "Choose folder",
+            "rootFolder": "Documents (root)",
+            "savedToDrive": "Saved to Drive",
+            "noSubject": "Email"
+        },
         "reply": "Reply",
         "secured": {
             "alert": {
@@ -9188,6 +9215,7 @@
                 "medicationOverview": "Medication overview",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
+                "nextShift": "Next shift",
                 "plansAndGoals": "Plans and goals",
                 "riskAssessment": "Risk assessment",
                 "scheduleSlots": "Schedule slots",
@@ -9262,6 +9290,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
             "medicineDeviationStatistics": "Medicine deviated"
+        },
+        "nextShift": {
+            "title": "When is my next shift?",
+            "none": "You have no upcoming shifts scheduled.",
+            "today": "Today",
+            "tomorrow": "Tomorrow",
+            "startsIn": "Starts in {time}",
+            "startingNow": "Starting now",
+            "hoursMinutes": "{hours} h {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} h",
+            "differentDepartment": "Different from your usual department",
+            "usually": "Usually: {department}",
+            "department": "Department",
+            "departments": "Departments",
+            "noDepartment": "No department",
+            "shift": "Shift",
+            "date": "Date",
+            "time": "Time",
+            "duration": "Duration",
+            "details": "Shift details",
+            "clickForDetails": "Click for details",
+            "viewSchedule": "Open duty schedule",
+            "reminderInfo": "In the mobile app you get a push reminder 2 hours before the shift starts.",
+            "onlyDifferent": "This shift is in a different department than the one you usually work in."
         },
         "myDailyEvents": "My daily events",
         "news": "News",
@@ -10462,6 +10515,8 @@
                 "relativeChat": "Chat with relatives",
                 "relativeChatManagement": "Relatives can write to management and administrators",
                 "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
+                "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
+                "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
@@ -11743,7 +11798,8 @@
                 "storage": "Storage usage",
                 "nextPayment": "Next payment",
                 "perYear": "{amount} per year",
-                "notCollecting": "Not collecting"
+                "notCollecting": "Not collecting",
+                "source": "Source"
             },
             "tabs": {
                 "accounts": "Accounts",
@@ -11857,6 +11913,14 @@
                 "endsAtHint": "The last day the customer pays. The forecast stops here.",
                 "cancellationSaved": "Cancellation saved",
                 "cancellationFailed": "Could not save the cancellation"
+            },
+            "source": {
+                "all": "All sources",
+                "search": "Search engine (organic)",
+                "campaign": "Campaign",
+                "referral": "Referral",
+                "direct": "Direct",
+                "unknown": "Unknown"
             }
         },
         "coupons": {
@@ -16464,5 +16528,58 @@
         },
         "saved": "Saved",
         "saveFailed": "Could not be saved"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Daily Overview",
+        "intro": "Decide what the Daily Overview shows. Set a company default and, where a department needs something else, give it its own layout. Each user gets the layout of the department they have selected; with no layout, users choose for themselves as before.",
+        "scope": "Applies to",
+        "companyDefault": "Company default (all departments)",
+        "hasOwnLayout": "Own layout",
+        "usesCompanyDefault": "Uses the company default",
+        "noLayout": "No layout - users choose for themselves",
+        "lock": "Same overview for everyone",
+        "lockHelp": "Users cannot show or hide anything. Turn this off to let users choose the boxes that are not required.",
+        "builtInBoxes": "Standard boxes",
+        "customBoxes": "Custom boxes",
+        "customBoxesHelp": "Boxes you set up yourself. Each one only shows the citizens assigned to the person viewing it.",
+        "noCustomBoxes": "No custom boxes yet.",
+        "newBox": "New box",
+        "editBox": "Edit box",
+        "deleteBoxConfirmation": "Delete this box? It is removed from every layout",
+        "removeLayout": "Remove layout",
+        "removeDepartmentLayoutConfirmation": "Remove this department's layout? Its users get the company default",
+        "removeCompanyLayoutConfirmation": "Remove the company default? Users without a department layout choose for themselves again",
+        "saved": "The layout has been saved",
+        "layoutRemoved": "The layout has been removed",
+        "boxSaved": "The box has been saved",
+        "boxDeleted": "The box has been deleted",
+        "managedByAdmin": "Your administrator has set up this overview. Boxes with a lock are required.",
+        "requiredByAdmin": "Required by your administrator",
+        "states": {
+            "mandatory": "Required",
+            "optional": "User's choice",
+            "hidden": "Hidden",
+            "shown": "Shown"
+        },
+        "sources": {
+            "assigned_citizens": "My assigned citizens",
+            "plans_and_goals": "Plans, goals and sub-goals"
+        },
+        "form": {
+            "title": "Title",
+            "source": "Shows",
+            "limit": "Maximum number of citizens",
+            "dueWithinDays": "Only goals due within (days)",
+            "dueWithinDaysHelp": "Leave empty to show every active goal. Overdue goals are always shown.",
+            "includeCompleted": "Include completed goals",
+            "pageNote": "Only shown to people whose role has the Plans and goals page."
+        },
+        "box": {
+            "loadFailed": "This box could not be loaded.",
+            "noCitizens": "No citizens are assigned to you.",
+            "noPlans": "Nothing to show from your citizens' plans right now.",
+            "overdue": "Overdue {date}",
+            "dueToday": "Due today"
+        }
     }
 }

@@ -1,4 +1,5 @@
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 export interface SettingsNavItem {
     /** Either an i18n key or, when `isTranslateName` is false, a ready label. */
@@ -36,6 +37,7 @@ export interface SettingsNavSection {
 export function useSettingsNav() {
     const userStore = useUserStore() as any
     const { catalogItems } = useSettingsCatalog()
+    const { can } = usePermissions()
 
     const isAdmin = computed(() => !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
 
@@ -53,10 +55,16 @@ export function useSettingsNav() {
         const timeLogs = item('timeLogs.timeLogs', '/settings/time-logs', ['settings-time-logs'])
         const mileageLog = item('mileageLog.mileageLog', '/settings/mileage-log', ['settings-mileage-log'])
 
+        // Admin-set Daily Overview layouts. Also offered to a non-admin whose role
+        // was given manage_daily_overview, e.g. a department manager.
+        const dailyOverview = item('dailyOverviewLayouts.title', '/settings/daily-overview', ['settings-daily-overview'])
+
         // Everyone who is not an admin has these three pages and nothing else,
         // so they get one unlabelled section rather than a rail of headings.
         if (!isAdmin.value) {
-            return [{ key: 'me', labelKey: 'settings.groups.me', items: [profile, timeLogs, mileageLog] }]
+            const own = [profile, timeLogs, mileageLog]
+            if (can('manage_daily_overview')) own.push(dailyOverview)
+            return [{ key: 'me', labelKey: 'settings.groups.me', items: own }]
         }
 
         const isEmploymentServices = user?.company?.industry?.system_name === 'employment_services'
@@ -67,6 +75,7 @@ export function useSettingsNav() {
             // reader's own profile. One entry: the four pages carry a tab row.
             item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-license-overview', 'settings-storage', 'settings-invoices', 'settings-ai-usage']),
             item('settings.tabs.import', '/settings/import', ['settings-import']),
+            dailyOverview,
         ]
         if (isEmploymentServices) {
             company.push(

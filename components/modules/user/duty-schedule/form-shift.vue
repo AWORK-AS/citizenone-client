@@ -336,7 +336,8 @@
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isAddNewScheduleTagOpen = true">
+                            @click="state.modal.isAddNewScheduleTagOpen = true"
+                            v-if="isAtLeast('Admin')">
                             {{ $t('scheduleTags.addNewScheduleTag') }}
                         </span>
                     </div>
@@ -400,6 +401,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import moment from 'moment'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
@@ -413,6 +415,8 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {

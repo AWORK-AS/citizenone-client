@@ -37,6 +37,24 @@
 
                 <div>
                     <div class="mt-8 space-y-5">
+                        <Disclosure as="div" v-slot="{ open }" :key="'laegejournal-' + openSection"
+                            class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
+                            :defaultOpen="openSection === 'laegejournal'">
+                            <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
+                                <div class="flex items-center gap-x-2">
+                                    <h3 class="font-semibold text-sm">
+                                        {{ $t('citizens.nursingAreas.doctorJournals') }}
+                                    </h3>
+                                </div>
+                                <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
+                                    class="w-5 h-5" />
+                            </DisclosureButton>
+
+                            <DisclosurePanel as="dd" class="px-5 pb-5">
+                                <ModulesUserCitizenJournalMedicalRecordList />
+                            </DisclosurePanel>
+                        </Disclosure>
+
                         <Disclosure as="div" v-slot="{ open }" :key="'npr-' + openSection"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
                             :defaultOpen="openSection === 'nursing-professional-records'">

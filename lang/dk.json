@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Vedhæft fil",
                 "content": "Indhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål, delmål eller enkeltmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuværende niveau",
@@ -1750,12 +1750,15 @@
                 },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
+                "attachmentRemovalHint": "Fjern fluebenet for at fjerne notatet fra planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
                 "jumpToSubgoal": "Spring direkte til et delmål",
                 "jumpToSubgoalPlaceholder": "Søg efter et delmål",
                 "note": "Note",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Vælg en plan eller et enkeltmål.",
+                "singleGoal": "Enkeltmål",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
@@ -1814,6 +1817,8 @@
                 },
                 "updatedBy": "Opdateret af"
             },
+            "linkedTo": "Knyttet til",
+            "linkedToOpen": "Åbn",
             "mentions": {
                 "hint": "Skriv {'@'} for at tagge en kollega eller en @:terms.citizen{''}",
                 "noAccess": "ingen adgang",
@@ -2052,7 +2057,9 @@
                 "dateCreated": "Oprettelsesdato",
                 "lastModified": "Sidst ændret",
                 "name": "Navn",
-                "owner": "Ejer"
+                "owner": "Ejer",
+                "id": "ID",
+                "location": "Placering"
             },
             "template": "Skabelon",
             "upgradeStorage": "Opgradér lager",
@@ -3092,6 +3099,8 @@
                     }
                 }
             },
+            "doctorJournals": "Lægejournal",
+            "newDoctorJournal": "Ny lægejournal",
             "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
@@ -3244,6 +3253,13 @@
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal",
             "vitals": {
                 "editVitals": "Rediger vitale tegn",
+                "graph": {
+                    "diastolic": "Diastolisk",
+                    "empty": "Ingen data at vise i graf endnu.",
+                    "skippedEntries": "{count} indtastninger kunne ikke vises i grafen",
+                    "systolic": "Systolisk",
+                    "viewGraphs": "Se grafer"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitale værdier er blevet tilføjet",
@@ -4535,7 +4551,9 @@
             "dateCreated": "Oprettelsesdato",
             "lastModified": "Sidst ændret",
             "name": "Navn",
-            "owner": "Ejer"
+            "owner": "Ejer",
+            "id": "ID",
+            "location": "Placering"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
@@ -8512,6 +8530,15 @@
             "loadingYourEmails": "Indlæser dine e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Gem som PDF",
+            "download": "Download PDF",
+            "saveToDrive": "Gem til Drev",
+            "chooseFolder": "Vælg mappe",
+            "rootFolder": "Dokumenter (rod)",
+            "savedToDrive": "Gemt til Drev",
+            "noSubject": "E-mail"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {
@@ -9188,6 +9215,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin afveget",
                 "myDailyEvents": "Mine daglige begivenheder",
+                "nextShift": "Næste vagt",
                 "plansAndGoals": "Planer og mål",
                 "riskAssessment": "Risikovurdering",
                 "scheduleSlots": "Udbyd vagter",
@@ -9262,6 +9290,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
             "medicineDeviationStatistics": "Medicin afveget"
+        },
+        "nextShift": {
+            "title": "Hvornår er min næste vagt?",
+            "none": "Du har ingen kommende vagter planlagt.",
+            "today": "I dag",
+            "tomorrow": "I morgen",
+            "startsIn": "Starter om {time}",
+            "startingNow": "Starter nu",
+            "hoursMinutes": "{hours} t {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} t",
+            "differentDepartment": "Anden afdeling end din sædvanlige",
+            "usually": "Normalt: {department}",
+            "department": "Afdeling",
+            "departments": "Afdelinger",
+            "noDepartment": "Ingen afdeling",
+            "shift": "Vagt",
+            "date": "Dato",
+            "time": "Tidspunkt",
+            "duration": "Varighed",
+            "details": "Vagtdetaljer",
+            "clickForDetails": "Klik for detaljer",
+            "viewSchedule": "Åbn vagtplan",
+            "reminderInfo": "I mobilappen får du en push-notifikation 2 timer før vagten starter.",
+            "onlyDifferent": "Denne vagt ligger i en anden afdeling end den, du normalt arbejder i."
         },
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
@@ -10462,6 +10515,8 @@
                 "relativeChat": "Chat med pårørende",
                 "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
                 "relativeChatContactPersons": "Pårørende kan skrive til @:terms.citizenDefinite{'s'} tilknyttede kontaktpersoner",
+                "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
+                "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
                 "groupPortalAccess": "Portaladgang",
                 "portalAccessHint": "Vælg hvad pårørende, tredjeparter og @:terms.citizens{''} kan se i deres egen portal",
@@ -11743,7 +11798,8 @@
                 "storage": "Lagerforbrug",
                 "nextPayment": "Næste betaling",
                 "perYear": "{amount} pr. år",
-                "notCollecting": "Betaler ikke"
+                "notCollecting": "Betaler ikke",
+                "source": "Kilde"
             },
             "tabs": {
                 "accounts": "Kontoer",
@@ -11857,6 +11913,14 @@
                 "endsAtHint": "Sidste dag kunden betaler. Prognosen stopper her.",
                 "cancellationSaved": "Opsigelsen er gemt",
                 "cancellationFailed": "Opsigelsen kunne ikke gemmes"
+            },
+            "source": {
+                "all": "Alle kilder",
+                "search": "Søgemaskine (organisk)",
+                "campaign": "Kampagne",
+                "referral": "Henvisning",
+                "direct": "Direkte",
+                "unknown": "Ukendt"
             }
         },
         "coupons": {
@@ -16457,5 +16521,58 @@
         },
         "saved": "Gemt",
         "saveFailed": "Kunne ikke gemmes"
+    },
+    "dailyOverviewLayouts": {
+        "title": "Dagligt overblik",
+        "intro": "Bestem hvad det daglige overblik viser. Lav en standard for hele virksomheden, og giv en afdeling sit eget layout, hvor den har brug for noget andet. Hver bruger får layoutet for den afdeling, de har valgt; uden layout vælger brugerne selv som hidtil.",
+        "scope": "Gælder for",
+        "companyDefault": "Virksomhedens standard (alle afdelinger)",
+        "hasOwnLayout": "Eget layout",
+        "usesCompanyDefault": "Bruger virksomhedens standard",
+        "noLayout": "Intet layout - brugerne vælger selv",
+        "lock": "Samme overblik for alle",
+        "lockHelp": "Brugerne kan ikke vise eller skjule noget. Slå fra for at lade brugerne vælge de bokse, der ikke er påkrævet.",
+        "builtInBoxes": "Standardbokse",
+        "customBoxes": "Egne bokse",
+        "customBoxesHelp": "Bokse du selv sætter op. Hver boks viser kun de borgere, der er tilknyttet den, der ser den.",
+        "noCustomBoxes": "Ingen egne bokse endnu.",
+        "newBox": "Ny boks",
+        "editBox": "Rediger boks",
+        "deleteBoxConfirmation": "Slet denne boks? Den fjernes fra alle layouts",
+        "removeLayout": "Fjern layout",
+        "removeDepartmentLayoutConfirmation": "Fjern afdelingens layout? Dens brugere får virksomhedens standard",
+        "removeCompanyLayoutConfirmation": "Fjern virksomhedens standard? Brugere uden et afdelingslayout vælger selv igen",
+        "saved": "Layoutet er gemt",
+        "layoutRemoved": "Layoutet er fjernet",
+        "boxSaved": "Boksen er gemt",
+        "boxDeleted": "Boksen er slettet",
+        "managedByAdmin": "Din administrator har sat dette overblik op. Bokse med en lås er påkrævet.",
+        "requiredByAdmin": "Påkrævet af din administrator",
+        "states": {
+            "mandatory": "Påkrævet",
+            "optional": "Brugerens valg",
+            "hidden": "Skjult",
+            "shown": "Vist"
+        },
+        "sources": {
+            "assigned_citizens": "Mine tilknyttede borgere",
+            "plans_and_goals": "Planer, mål og delmål"
+        },
+        "form": {
+            "title": "Titel",
+            "source": "Viser",
+            "limit": "Maksimalt antal borgere",
+            "dueWithinDays": "Kun mål med frist inden for (dage)",
+            "dueWithinDaysHelp": "Lad feltet stå tomt for at vise alle aktive mål. Overskredne mål vises altid.",
+            "includeCompleted": "Medtag fuldførte mål",
+            "pageNote": "Vises kun for personer, hvis rolle har siden Planer og mål."
+        },
+        "box": {
+            "loadFailed": "Boksen kunne ikke indlæses.",
+            "noCitizens": "Du har ingen tilknyttede borgere.",
+            "noPlans": "Intet at vise fra dine borgeres planer lige nu.",
+            "overdue": "Overskredet {date}",
+            "dueToday": "Frist i dag"
+        }
     }
 }

@@ -256,6 +256,7 @@
 </template>
 
 <script setup lang="ts">
+import { signupSourceFromQuery } from '@/composables/signupSource'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
 import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
@@ -341,7 +342,35 @@ const rules2 = computed(() => {
 const vRules1$ = useVuelidate(rules1, state)
 const vRules2$ = useVuelidate(rules2, state)
 
+// Where the signup came from: the website adds utm_*, gclid, landing, ref and a Salesflow sequence's sf to the register link
+// (see lib/attribution.ts in the website). Kept in sessionStorage because a Google or Microsoft
+// login round-trips back here with only ?email=&provider=, and the origin would be lost.
+const SIGNUP_SOURCE_STORE = 'citizenone:signup-source'
+
+function readSignupSource(): Record<string, string> {
+    const fromUrl = signupSourceFromQuery(window.location.search)
+    if (!fromUrl.ref && document.referrer) {
+        try {
+            const host = new URL(document.referrer).hostname
+            if (host && !host.endsWith('citizenone.dk')) fromUrl.ref = host
+        } catch { /* an unreadable referrer is no referrer */ }
+    }
+    try {
+        if (Object.keys(fromUrl).length > 0) {
+            sessionStorage.setItem(SIGNUP_SOURCE_STORE, JSON.stringify(fromUrl))
+            return fromUrl
+        }
+        return JSON.parse(sessionStorage.getItem(SIGNUP_SOURCE_STORE) || '{}')
+    } catch {
+        return fromUrl
+    }
+}
+
+const signupSource = ref<Record<string, string>>({})
+
 onMounted(() => {
+    signupSource.value = readSignupSource()
+
     // Pre-udfyld email fra OAuth redirect (Google/Microsoft)
     const urlParams = new URLSearchParams(window.location.search)
     const emailParam = urlParams.get('email')
@@ -521,6 +550,7 @@ async function register() {
                     name: state.formRegister.company_name,
                     phone: state.formRegister.phone,
                     email: state.formRegister.email,
+                    ...signupSource.value,
                 }
                 const response = await authService.register(params)
                 if (response.data) {

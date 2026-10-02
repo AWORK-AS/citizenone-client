@@ -163,7 +163,7 @@ async function fetchAllFolders() {
                 response.data.forEach(
                     (item: any) => options.push({
                         value: item.uuid,
-                        label: item.name,
+                        label: folderOptionLabel(item),
                     }))
             }
         }

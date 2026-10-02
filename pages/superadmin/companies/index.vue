@@ -62,9 +62,23 @@
                         </button>
                     </div>
 
+                    <!-- Source -->
+                    <select v-model="state.dataFilter.source"
+                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors ml-auto"
+                        @change="handleSourceChange">
+                        <option value="">{{ $t('superadmin.companies.source.all') }}</option>
+                        <option value="google_ads">Google Ads</option>
+                        <option value="search">{{ $t('superadmin.companies.source.search') }}</option>
+                        <option value="findsocialetilbud">FindSocialeTilbud</option>
+                        <option value="campaign">{{ $t('superadmin.companies.source.campaign') }}</option>
+                        <option value="referral">{{ $t('superadmin.companies.source.referral') }}</option>
+                        <option value="direct">{{ $t('superadmin.companies.source.direct') }}</option>
+                        <option value="unknown">{{ $t('superadmin.companies.source.unknown') }}</option>
+                    </select>
+
                     <!-- Sort -->
                     <select v-model="sortLabel"
-                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors ml-auto"
+                        class="text-sm border border-[#EAECF0] rounded-lg px-3 py-2 bg-white text-[#5C6478] outline-none focus:border-[#42AED9] transition-colors"
                         @change="handleSortChange">
                         <option value="name_asc">{{ $t('superadmin.companies.sort.nameAsc') }}</option>
                         <option value="name_desc">{{ $t('superadmin.companies.sort.nameDesc') }}</option>
@@ -126,6 +140,18 @@
                                     {{ company.website.replace(/^https?:\/\//, '') }}
                                 </a>
                                 <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                            </td>
+                            <td class="co-td">
+                                <span v-if="company?.signup_source?.channel"
+                                    class="inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold"
+                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-[#E8F6FB] text-[#1F7FA3]' : 'bg-[#F2F4F7] text-[#5C6478]'"
+                                    :title="[company.signup_source.detail, company.signup_source.landing_page].filter(Boolean).join(' · ')">
+                                    {{ company.signup_source.label }}
+                                </span>
+                                <span v-else class="text-[#8891A4] text-[13px]">{{ $t('superadmin.companies.source.unknown') }}</span>
+                                <div v-if="company?.signup_source?.detail" class="text-[11px] text-[#8891A4] truncate max-w-[180px] mt-0.5">
+                                    {{ company.signup_source.detail }}
+                                </div>
                             </td>
                             <td class="co-td">
                                 <div v-if="company?.storage_used_gb !== null && company?.storage_used_gb !== undefined"
@@ -233,6 +259,7 @@ const state = reactive({
         { key: 'phone', name: t('superadmin.companies.table.phone') },
         { key: 'cvr', name: t('superadmin.companies.table.cvr') },
         { key: 'website', name: t('superadmin.companies.table.website') },
+        { key: 'signup_source', name: t('superadmin.companies.table.source') },
         { key: 'storage_used_bytes', name: t('superadmin.companies.table.storage'), sorter: true },
         // Future payments are only in the response for a superadmin with
         // `view_financials`, so the column comes and goes with the data rather
@@ -243,6 +270,7 @@ const state = reactive({
     companies: [] as any,
     dataFilter: {
         search: '',
+        source: '',
     } as any,
     error: {} as Error,
     inactiveCount: 0,
@@ -304,7 +332,13 @@ function buildFilterParams() {
     if (state.activeTab === 'active') params.is_active = true
     if (state.activeTab === 'inactive') params.is_active = false
     if (state.activeTab === 'paying') params.paying = true
+    if (state.dataFilter.source) params.source = state.dataFilter.source
     return params
+}
+
+function handleSourceChange() {
+    currentTablePage = 1
+    fetchCompanies()
 }
 
 async function fetchCompanies() {
