@@ -14,7 +14,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="navigateTo('/settings/journal-note-tags/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/journal-note-tags/new')" v-if="isAtLeast('Admin')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('journalNoteTags.addNewTag') }}
                     </FormButton>
@@ -47,12 +47,14 @@
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
-                                                @click="navigateTo(`/settings/journal-note-tags/${journalNoteTag.uuid}/edit`)">
+                                                @click="navigateTo(`/settings/journal-note-tags/${journalNoteTag.uuid}/edit`)"
+                                                v-if="isAtLeast('Admin')">
                                                 <Icon name="ph:pencil-simple" class="size-4" />
                                                 {{ $t('journalNoteTags.table.actions.edit') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
-                                                @click="deleteJournalNoteTagConfirmation(journalNoteTag)">
+                                                @click="deleteJournalNoteTagConfirmation(journalNoteTag)"
+                                                v-if="isAtLeast('Admin')">
                                                 <Icon name="ph:trash" class="size-4" />
                                                 {{ $t('journalNoteTags.table.actions.delete') }}
                                             </FormButton>
@@ -77,8 +79,10 @@ import { journalNoteTagService } from '@/components/api/user/JournalNoteTagServi
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
+const { isAtLeast } = usePermissions()
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()

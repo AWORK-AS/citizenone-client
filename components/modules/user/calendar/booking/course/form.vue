@@ -258,7 +258,8 @@
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="schedule_tag_uuid" :label="$t('dutySchedules.form.tags')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isAddNewBookingTag = true">
+                            @click="state.modal.isAddNewBookingTag = true"
+                            v-if="isAtLeast('Admin')">
                             {{ $t('bookingTags.addNewBookingTag') }}
                         </span>
                     </div>
@@ -410,6 +411,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import moment from 'moment'
 import ClassicEditor from '@/utils/editor'
 import { onlineBookingSettingsService } from '@/components/api/user/OnlineBookingSettingsService'
@@ -419,6 +421,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {

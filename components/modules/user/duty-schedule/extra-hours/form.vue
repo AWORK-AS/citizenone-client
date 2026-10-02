@@ -24,7 +24,8 @@
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="tags" :label="$t('dutySchedules.extraHours.form.tags')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                            @click="state.modal.isAddExtraHoursTagsOpen = true">
+                            @click="state.modal.isAddExtraHoursTagsOpen = true"
+                            v-if="isAtLeast('Admin')">
                             {{ $t('extraHoursTags.addNewExtraHoursTag') }}
                         </span>
                     </div>
@@ -85,6 +86,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import { extraHoursTagService } from '@/components/api/user/ExtraHoursTagService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useCustomPagesStore } from '@/store/custom-pages'
@@ -93,6 +95,8 @@ import { required, helpers } from '@vuelidate/validators'
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {

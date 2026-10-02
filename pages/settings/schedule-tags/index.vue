@@ -14,7 +14,7 @@
 
             <div class="mt-8">
                 <div class="flex justify-end items-center mb-5">
-                    <FormButton buttonStyle="action" @click="navigateTo('/settings/schedule-tags/new')">
+                    <FormButton buttonStyle="action" @click="navigateTo('/settings/schedule-tags/new')" v-if="isAtLeast('Admin')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('scheduleTags.addNewScheduleTag') }}
                     </FormButton>
@@ -78,8 +78,10 @@ import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
+const { isAtLeast } = usePermissions()
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
