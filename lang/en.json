@@ -8518,6 +8518,15 @@
             "loadingYourEmails": "Loading your emails"
         },
         "mail": "Mail",
+        "pdf": {
+            "saveAsPdf": "Save as PDF",
+            "download": "Download PDF",
+            "saveToDrive": "Save to Drive",
+            "chooseFolder": "Choose folder",
+            "rootFolder": "Documents (root)",
+            "savedToDrive": "Saved to Drive",
+            "noSubject": "Email"
+        },
         "reply": "Reply",
         "secured": {
             "alert": {

@@ -802,3 +802,106 @@ backend for the equivalent page/module setup).
 ```bash
 CO_TOKEN='<token>' npm run test:economy-any-industry
 ```
+
+### `mail-pdf` — needs a real IMAP mailbox (GreenMail), two tokens, and a citizen uuid
+
+Covers "Save as PDF" on regular mail (see `EMAIL_PDF_IMPLEMENTATION_PLAN.md` and
+`EMAIL_PDF_FIXES_PLAN.md` in `citizenone-backend`). Its main goal is proving
+the security promise holds in a real run - the backend re-reads the message
+from the user's own mailbox (never trusts client HTML), HTMLPurifier strips
+scripts/remote resources/`file://` references, and wkhtmltopdf never fetches
+or executes any of it - plus the user-facing flow, translations, permission
+gating, and the "Link to citizen" PDF fix. SMTP/IMAP runs fully real against
+a throwaway GreenMail container; Microsoft 365 can't run for real locally (it
+needs a live tenant), so that part is covered by stubbing the Graph-backed
+endpoints with `page.route()`, as `google-drive-overview-tab` does for Google
+Drive.
+
+**1. Start GreenMail** (in-memory, auth disabled, IMAP only):
+
+```bash
+docker run -d --rm --name co-e2e-greenmail -p 127.0.0.1:3143:3143 \
+  -e GREENMAIL_OPTS='-Dgreenmail.setup.test.imap -Dgreenmail.hostname=0.0.0.0 -Dgreenmail.auth.disabled' \
+  greenmail/standalone:latest
+```
+
+With login checks disabled, the first IMAP login as `e2e-mailpdf@citizenone.test`
+creates that mailbox - nothing to pre-provision.
+
+**2. One-time fixtures** (tinker) - creates two dedicated users (so no real
+user's `email_settings` is touched) pointed at that GreenMail mailbox, and
+prints the two tokens below. Replace `PUT-AN-ADMIN-EMAIL-HERE` with an existing
+Admin whose company has the Mail (`regular-mail`) subscription - `dev@awork.dk`
+works if that company has it:
+
+```bash
+php artisan tinker --execute='
+  $seedEmail = "dev@awork.dk";
+  $companyId = App\Models\User::where("email", $seedEmail)->firstOrFail()->company_id;
+  if (! app(App\Interface\Repository\UserSubscriptionRepositoryInterface::class)->findMailSubscription($companyId)) {
+      throw new Exception("Company {$companyId} has no Mail (regular-mail) subscription");
+  }
+  $make = fn ($email, $first, $lang, $phone) => App\Models\User::firstOrCreate(["email" => $email], [
+      "firstname" => $first, "lastname" => "E2E", "phone" => $phone, "company_id" => $companyId,
+      "language_id" => App\Models\Language::where("code", $lang)->value("id"),
+      "password" => bcrypt(Illuminate\Support\Str::random(32)), "is_bot" => false, "is_archived" => false,
+      "is_first_login" => false,
+  ]);
+  $admin = $make("e2e-mailpdf-admin@test.com", "MailPdfAdmin", "en", "+4500000201");
+  $admin->syncRoles([App\Models\Role::whereNull("company_id")->where("name", "Admin")->firstOrFail()]);
+  $staff = $make("e2e-mailpdf-staff@test.com", "MailPdfStaff", "dk", "+4500000202");
+  $staff->syncRoles([App\Models\Role::where("company_id", $companyId)->where("name", "User")->firstOrFail()]);
+  $staff->syncPermissions([]);
+  if ($staff->fresh()->can("create")) { throw new Exception("This company'\''s User role grants create; the gating check needs a user without it"); }
+  foreach ([$admin, $staff] as $u) {
+      App\Models\EmailSetting::updateOrCreate(["user_id" => $u->id], [
+          "type" => "smtp",
+          "smtp_host" => "127.0.0.1", "smtp_port" => 3025, "smtp_username" => "e2e-mailpdf@citizenone.test", "smtp_password" => "e2e", "smtp_encryption" => "notls",
+          "imap_host" => "127.0.0.1", "imap_port" => 3143, "imap_username" => "e2e-mailpdf@citizenone.test", "imap_password" => "e2e", "imap_encryption" => "notls",
+      ]);
+  }
+  echo "CO_TOKEN=".$admin->createToken("e2e-mailpdf")->plainTextToken.PHP_EOL;
+  echo "CO_DK_TOKEN=".$staff->createToken("e2e-mailpdf")->plainTextToken.PHP_EOL;
+'
+```
+
+`imap_encryption` must be `notls`, not `null` - Webklex's `setAccountConfig`
+treats a null value as unset and silently falls back to `ssl`, which GreenMail
+(plain TCP here) won't speak.
+
+`is_first_login => false` matters: a brand-new user otherwise triggers the
+guided-tour welcome modal (`layouts/user.vue`'s `guidedUserTourModalVisibility()`),
+whose video iframe sits on top of the page and intercepts every click -
+including the inbox row click the test needs to make first.
+
+**3. Pick `CO_CITIZEN_UUID`**: any citizen in the same company as `CO_TOKEN`.
+
+**4. Run** - the test seeds its own mailbox messages (via
+`fixtures/mail-pdf-seed.py`, stdlib Python - no extra install) tagged with a
+fresh `RUN` marker every time, so re-running is always safe even against a
+still-running GreenMail container with old messages left in it:
+
+```bash
+cd tests/e2e
+CO_TOKEN='<admin-token>' CO_DK_TOKEN='<staff-token>' CO_CITIZEN_UUID='<uuid>' npm run test:mail-pdf
+```
+
+Optional env: `CO_BACKEND_PATH` (default `../../../citizenone-backend`, used
+for the tinker fixture/verification calls), `CO_IMAP_PORT` (default `3143`).
+
+**5. Manual teardown when finished** - the two fixture users and their tokens
+are kept on purpose (reused across runs, like other e2e fixtures); only the
+GreenMail container and their `email_settings`/tokens need removing:
+
+```bash
+docker rm -f co-e2e-greenmail
+php artisan tinker --execute='
+  foreach (["e2e-mailpdf-admin@test.com","e2e-mailpdf-staff@test.com"] as $e) {
+    $u = App\Models\User::where("email",$e)->first(); if (! $u) continue;
+    App\Models\EmailSetting::where("user_id",$u->id)->delete(); $u->tokens()->delete();
+  }'
+```
+
+Everything else the test creates during a run (Drive files/folder, the
+citizen-linked email and its document, the cached mail attachment file) is
+deleted in its own `finally` block by exact id/uuid - never a bulk reset.
