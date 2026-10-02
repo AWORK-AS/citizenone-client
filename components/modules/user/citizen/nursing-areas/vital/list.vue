@@ -3,8 +3,13 @@
         <div class="space-y-3">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
-            <div class="flex justify-end items-center mb-5 gap-x-2" v-if="isAtLeast('Admin') || can('create_citizen_health')">
-                <FormButton buttonStyle="action" @click="state.modal.isAddVitalOpen = true">
+            <div class="flex justify-end items-center mb-5 gap-x-2">
+                <FormButton buttonStyle="action" @click="state.modal.isChartOpen = true">
+                    <Icon name="ph:chart-line" class="h-4 w-4" aria-hidden="true" />
+                    {{ $t('citizens.nursingAreas.vitals.graph.viewGraphs') }}
+                </FormButton>
+                <FormButton buttonStyle="action" @click="state.modal.isAddVitalOpen = true"
+                    v-if="isAtLeast('Admin') || can('create_citizen_health')">
                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('citizens.nursingAreas.vitals.newVitals') }}
                 </FormButton>
@@ -106,6 +111,8 @@
         <ModulesUserCitizenNursingAreasVitalModalEdit :isModalOpen="state.modal.isEditVitalOpen"
             :selectedVitals="state.selectedRecord" @close="state.modal.isEditVitalOpen = false"
             @refreshVitals="fetchVitals" />
+        <ModulesUserCitizenNursingAreasVitalModalChart :isModalOpen="state.modal.isChartOpen"
+            :citizenUuid="citizenUuid" @close="state.modal.isChartOpen = false" />
     </LoadingSpinner>
 </template>
 
@@ -130,6 +137,7 @@ const state = reactive({
     modal: {
         isAddVitalOpen: false,
         isEditVitalOpen: false,
+        isChartOpen: false,
     },
     sortData: {
         sortField: 'id',
