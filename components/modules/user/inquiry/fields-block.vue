@@ -37,19 +37,45 @@
                             @toggleSwitch="setValue(field, !draft[field.uuid])" />
                     </div>
 
+                    <!-- Same colored-choice pattern as the quick risk assessment, so a
+                         caseworker reads the same three levels the same way everywhere. -->
+                    <div v-else-if="field.type === 'risk'">
+                        <RadioGroup :modelValue="draft[field.uuid] ?? null"
+                            @update:modelValue="(value: any) => setValue(field, value)"
+                            class="grid grid-cols-1 gap-3 sm:grid-cols-3">
+                            <RadioGroupOption as="template" v-for="level in RISK_LEVELS" :key="level.value"
+                                :value="level.value" v-slot="{ active, checked }">
+                                <div :class="[
+                                    active ? 'ring-1 ring-offset-2' : '',
+                                    level.ring,
+                                    checked ? [level.bg, 'text-white ring-0'] : ['border', level.border, 'ring-inset'],
+                                    'cursor-pointer flex items-center justify-center rounded-md px-2 py-2 text-xs']">
+                                    {{ level.label }}
+                                </div>
+                            </RadioGroupOption>
+                        </RadioGroup>
+                    </div>
+
                     <!-- A lookup points at a register the company already keeps, so
                          the options come with the field rather than being typed here. -->
-                    <FormSelect v-else-if="field.type === 'lookup'" :modelValue="draft[field.uuid] ?? null"
-                        :options="lookupOptions(field)"
-                        @update:modelValue="(value: any) => setValue(field, value)" />
+                    <div v-else-if="field.type === 'lookup'">
+                        <!-- A lookup with `multiple` set can take more than one answer -
+                             a single select would silently drop everything past the first. -->
+                        <FormSelectMultiple v-if="field.options?.multiple" :modelValue="draft[field.uuid] ?? []"
+                            :options="lookupOptions(field)"
+                            @update:modelValue="(value: any) => setValue(field, value)" />
 
-                    <!-- A special language carries a surcharge on the offer, so it is
-                         said where it is chosen. -->
-                    <p v-if="field.type === 'lookup' && specialChosen(field).length"
-                        class="mt-1 inline-flex items-center gap-1 rounded-full bg-[#fdf1ee] px-2 py-px text-[11px] font-bold text-[#c0442c]">
-                        <Icon name="ph:translate" class="size-3" />
-                        {{ $t('inquiryOffer.specialLanguageChosen', { languages: specialChosen(field).join(', ') }) }}
-                    </p>
+                        <FormSelect v-else :modelValue="draft[field.uuid] ?? null" :options="lookupOptions(field)"
+                            @update:modelValue="(value: any) => setValue(field, value)" />
+
+                        <!-- A special language carries a surcharge on the offer, so it is
+                             said where it is chosen. -->
+                        <p v-if="specialChosen(field).length"
+                            class="mt-1 inline-flex items-center gap-1 rounded-full bg-[#fdf1ee] px-2 py-px text-[11px] font-bold text-[#c0442c]">
+                            <Icon name="ph:translate" class="size-3" />
+                            {{ $t('inquiryOffer.specialLanguageChosen', { languages: specialChosen(field).join(', ') }) }}
+                        </p>
+                    </div>
 
                     <FormSelect v-else-if="field.type === 'select'" :modelValue="draft[field.uuid] ?? null"
                         :options="choiceOptions(field)" :searchable="false"
@@ -95,6 +121,7 @@
 <script setup lang="ts">
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { useAlert } from '@/composables/alert'
+import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
 
 const { successAlert, errorAlert } = useAlert()
@@ -110,6 +137,12 @@ const props = defineProps({
 const emit = defineEmits(['saved'])
 
 const WIDE_TYPES = ['textarea', 'multiselect']
+
+const RISK_LEVELS = computed(() => [
+    { value: 'no risk', label: t('overview.quickRiskAssessment.form.risk.noRisk'), bg: 'bg-green-700', border: 'border-green-700', ring: 'ring-green-700' },
+    { value: 'increased risk', label: t('overview.quickRiskAssessment.form.risk.increasedRisk'), bg: 'bg-yellow-500', border: 'border-yellow-500', ring: 'ring-yellow-500' },
+    { value: 'acute increased risk', label: t('overview.quickRiskAssessment.form.risk.acuteIncreasedRisk'), bg: 'bg-red-600', border: 'border-red-600', ring: 'ring-red-600' },
+])
 
 const state = reactive({
     fields: [] as any[],
@@ -143,7 +176,7 @@ function normalisedDraft(source: Record<string, any>) {
 }
 
 function isWide(field: any) {
-    return WIDE_TYPES.includes(field.type)
+    return WIDE_TYPES.includes(field.type) || (field.type === 'lookup' && field.options?.multiple)
 }
 
 function lookupOptions(field: any) {
@@ -168,8 +201,13 @@ function choiceOptions(field: any) {
 function scaleSteps(field: any) {
     const min = Number(field.options?.min ?? 1)
     const max = Number(field.options?.max ?? 5)
+    const step = field.options?.allow_half ? 0.5 : 1
+    const steps = []
+    for (let value = min; value <= max; value += step) {
+        steps.push(value)
+    }
 
-    return Array.from({ length: Math.max(0, max - min + 1) }, (_, index) => min + index)
+    return steps
 }
 
 function numericPlaceholder(field: any) {
@@ -178,6 +216,13 @@ function numericPlaceholder(field: any) {
 
 function asText(value: any) {
     return value === null || value === undefined ? '' : String(value)
+}
+
+// A field that takes several answers starts from an empty list, not null.
+function initialAnswer(field: any) {
+    const multiple = field.type === 'multiselect' || (field.type === 'lookup' && field.options?.multiple)
+
+    return field.answer ?? (multiple ? [] : null)
 }
 
 function hasAnswer(field: any) {
@@ -247,7 +292,7 @@ async function fetchFields() {
 
         const answers: Record<string, any> = {}
         for (const field of state.fields) {
-            answers[field.uuid] = field.answer ?? (field.type === 'multiselect' ? [] : null)
+            answers[field.uuid] = initialAnswer(field)
         }
 
         loaded.value = answers
@@ -280,7 +325,7 @@ async function save() {
 
         const answers: Record<string, any> = {}
         for (const field of state.fields) {
-            answers[field.uuid] = field.answer ?? (field.type === 'multiselect' ? [] : null)
+            answers[field.uuid] = initialAnswer(field)
         }
         loaded.value = answers
         draft.value = { ...answers }
