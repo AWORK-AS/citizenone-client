@@ -9,7 +9,8 @@
                     <p class="text-xs font-semibold uppercase tracking-wide text-gray-400">{{ $t(row.label) }}</p>
                     <div class="flex gap-1">
                         <div v-for="tooth in row.teeth" :key="tooth.uuid" class="flex flex-col items-center gap-1">
-                            <span v-if="row.key === 'upper'" class="text-[11px] font-medium text-gray-500">
+                            <span v-if="row.key === 'upper'" class="text-[11px]"
+                                :class="labelClass(tooth)">
                                 {{ toothLabel(tooth) }}
                             </span>
 
@@ -23,8 +24,7 @@
                             </span>
 
                             <svg :viewBox="`0 0 ${WIDTH} ${HEIGHT}`" :width="WIDTH" :height="HEIGHT"
-                                class="rounded transition"
-                                :class="tooth.uuid === props.selectedToothUuid ? 'ring-2 ring-primary' : ''"
+                                class="rounded transition outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                                 role="button" tabindex="0" :aria-label="ariaLabel(tooth)"
                                 @keydown.enter.prevent="select(tooth, 'whole')"
                                 @keydown.space.prevent="select(tooth, 'whole')">
@@ -48,7 +48,11 @@
                                         @click="select(tooth, face.surface)" />
                                 </g>
 
-                                <path :d="crownOutline(tooth, row.key)" fill="none" stroke="#6b7280" stroke-width="1"
+                                <!-- The picked tooth is told by a darker outline, as on the
+                                     arch, rather than a box around the whole cell. -->
+                                <path :d="crownOutline(tooth, row.key)" fill="none"
+                                    :stroke="tooth.uuid === props.selectedToothUuid ? '#1e3a5f' : '#6b7280'"
+                                    :stroke-width="tooth.uuid === props.selectedToothUuid ? 2.5 : 1"
                                     pointer-events="none" />
 
                                 <!-- A tooth that is gone is crossed out, the way it
@@ -68,7 +72,8 @@
                                 <span class="text-gray-600">{{ perioOf(tooth)?.pocket_depth_mm ?? '' }}</span>
                             </span>
 
-                            <span v-if="row.key === 'lower'" class="text-[11px] font-medium text-gray-500">
+                            <span v-if="row.key === 'lower'" class="text-[11px]"
+                                :class="labelClass(tooth)">
                                 {{ toothLabel(tooth) }}
                             </span>
                         </div>
@@ -337,6 +342,10 @@ function ariaLabel(tooth: any): string {
     return status
         ? `${t('citizens.toothChart.tooth')} ${toothLabel(tooth)}: ${t(`citizens.toothChart.statuses.${status}`)}`
         : `${t('citizens.toothChart.tooth')} ${toothLabel(tooth)}`
+}
+
+function labelClass(tooth: any): string {
+    return tooth.uuid === props.selectedToothUuid ? 'font-bold text-primary' : 'font-medium text-gray-500'
 }
 
 function select(tooth: any, surface: string) {
