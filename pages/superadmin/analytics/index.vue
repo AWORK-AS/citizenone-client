@@ -81,6 +81,10 @@
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
+                <!-- Aftaletal: kontrakt-MRR/ARR som hovedtal, cash næste 12 mdr.,
+                     backlog, udestående og bindinger der udløber. -->
+                <ModulesSuperadminAgreementMetrics v-if="hasFinancials" :data="state.recurringRevenue" />
+
                 <!-- Totals for the chosen range -->
                 <div class="grid grid-cols-2 gap-4"
                     :class="hasFinancials ? 'lg:grid-cols-5' : 'lg:grid-cols-4'">
@@ -195,11 +199,25 @@
                                         <strong class="text-[#1F2533]">{{ formatAmount(state.forecast.contracted_total, 'DKK') }}</strong>
                                         <span class="text-[#8891A4]">({{ contractedShare }}%)</span>
                                     </span>
+                                    <Tooltip :text="$t('superadmin.report.forecast.help.installments')" position="top" wrap>
+                                        <span class="flex items-center gap-1.5">
+                                            <span class="w-2.5 h-2.5 rounded-sm" style="background:#368F8B"></span>
+                                            <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.installments') }}</span>
+                                            <strong class="text-[#1F2533]">{{ formatAmount(bucketTotals.installments, 'DKK') }}</strong>
+                                        </span>
+                                    </Tooltip>
                                     <span class="flex items-center gap-1.5">
                                         <span class="w-2.5 h-2.5 rounded-sm" style="background:#E0A83D"></span>
                                         <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.assumed') }}</span>
                                         <strong class="text-[#1F2533]">{{ formatAmount(state.forecast.assumed_total, 'DKK') }}</strong>
                                     </span>
+                                    <Tooltip :text="$t('superadmin.report.forecast.help.assumedRenewal')" position="top" wrap>
+                                        <span class="flex items-center gap-1.5">
+                                            <span class="w-2.5 h-2.5 rounded-sm" style="background:#F0CE8B"></span>
+                                            <span class="text-[#5C6478]">{{ $t('superadmin.report.forecast.series.assumedRenewal') }}</span>
+                                            <strong class="text-[#1F2533]">{{ formatAmount(bucketTotals.assumed_renewal, 'DKK') }}</strong>
+                                        </span>
+                                    </Tooltip>
                                 </div>
 
                                 <ClientOnly>
@@ -309,6 +327,8 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
+import { dashboardService } from '@/components/api/superadmin/DashboardService'
+import { forecastBucketTotals } from '@/composables/agreements'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -344,6 +364,8 @@ const state = reactive({
     // The forecast is its own request: it looks forward, has its own horizon,
     // and must not be refetched every time somebody moves the date range.
     forecast: null as any,
+    // `recurring_revenue` from the management overview: the agreement figures.
+    recurringRevenue: null as any,
     forecastYears: 3,
     isForecastLoading: false,
 })
@@ -375,6 +397,10 @@ const totalCards = computed(() => {
 const hasMrrData = computed(() => state.buckets.some((b: any) => b.mrr !== null && b.mrr !== undefined))
 
 const forecastMonths = computed<any[]>(() => state.forecast?.months ?? [])
+
+// Totals of the four buckets over the chosen horizon. `installments` and
+// `assumed_renewal` are per-month fields next to `contracted` and `assumed`.
+const bucketTotals = computed(() => forecastBucketTotals(forecastMonths.value))
 
 /** The first twelve months of the horizon, whatever horizon is selected. */
 const forecastNextTwelveMonths = computed(() =>
@@ -455,6 +481,13 @@ const forecastOption = computed(() => ({
             data: forecastMonths.value.map((month: any) => month.contracted),
         },
         {
+            name: t('superadmin.report.forecast.series.installments'),
+            type: 'bar',
+            stack: 'total',
+            itemStyle: { color: '#368F8B', borderColor: '#FFFFFF', borderWidth: 2 },
+            data: forecastMonths.value.map((month: any) => month.installments ?? 0),
+        },
+        {
             name: t('superadmin.report.forecast.series.assumed'),
             type: 'bar',
             stack: 'total',
@@ -464,6 +497,16 @@ const forecastOption = computed(() => ({
             // Farven alene bærer ikke den skelnen.
             data: forecastMonths.value.map((month: any) => month.assumed),
             decal: { symbol: 'rect', dashArrayX: [1, 0], dashArrayY: [4, 3], rotation: Math.PI / 4, color: 'rgba(255,255,255,0.55)' },
+        },
+        {
+            // Agreements that auto-renew past ends_on. An assumption, so it gets
+            // its own hatching (wider stripes) and colour next to `assumed`.
+            name: t('superadmin.report.forecast.series.assumedRenewal'),
+            type: 'bar',
+            stack: 'total',
+            itemStyle: { color: '#F0CE8B', borderColor: '#FFFFFF', borderWidth: 2 },
+            data: forecastMonths.value.map((month: any) => month.assumed_renewal ?? 0),
+            decal: { symbol: 'rect', dashArrayX: [1, 0], dashArrayY: [8, 4], rotation: -Math.PI / 4, color: 'rgba(31,37,51,0.25)' },
         },
     ],
 }))
@@ -482,7 +525,9 @@ const forecastOption = computed(() => ({
 const contractedShare = computed(() => {
     const total = Number(state.forecast?.total ?? 0)
     if (!total) return 0
-    return Math.round((Number(state.forecast?.contracted_total ?? 0) / total) * 100)
+    // Scheduled installments are contracted money too.
+    const contracted = Number(state.forecast?.contracted_total ?? 0) + bucketTotals.value.installments
+    return Math.min(100, Math.round((contracted / total) * 100))
 })
 
 const forecastCumulativeOption = computed(() => ({
@@ -652,7 +697,18 @@ function onRangeChanged() {
 onMounted(() => {
     fetchTrends()
     fetchForecast()
+    fetchAgreementFigures()
 })
+
+async function fetchAgreementFigures() {
+    try {
+        const response = await dashboardService.getManagementOverview({})
+        state.recurringRevenue = response?.data?.recurring_revenue ?? null
+    } catch (_) {
+        // Behind a different permission than the report: no figures, no error.
+        state.recurringRevenue = null
+    }
+}
 
 function selectForecastYears(years: number) {
     if (state.forecastYears === years) return
