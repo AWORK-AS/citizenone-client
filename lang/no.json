@@ -10457,6 +10457,8 @@
                 "relativeChat": "Chat med pårørende",
                 "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
                 "relativeChatContactPersons": "Pårørende kan skrive til innbyggerens tilknyttede kontaktpersoner",
+                "patientChatInbox": "Pasienter skriver til hele klinikken (felles innboks)",
+                "patientChatInboxHint": "Pasientene kan ikke velge en bestemt ansatt. Alle aktive ansatte ser meldingen og kan svare",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
                 "groupPortalAccess": "Portaltilgang",
                 "portalAccessHint": "Velg hva pårørende, tredjeparter og innbyggere kan se i sin egen portal",
