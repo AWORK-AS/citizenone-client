@@ -3099,6 +3099,8 @@
                     }
                 }
             },
+            "doctorJournals": "Medical records",
+            "newDoctorJournal": "New medical record",
             "editNursingProfessionalRecord": "Edit nursing professional record",
             "form": {
                 "alert": {

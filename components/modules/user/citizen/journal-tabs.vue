@@ -133,7 +133,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
         tabs.push({
             name: 'citizens.tabs.health', icon: 'ph:heartbeat', isTranslateName: true,
             category: 'care', primary: true,
-            href: `/citizens/${citizenUuid}/nursing-areas?open=nursing-professional-records`,
+            href: `/citizens/${citizenUuid}/nursing-areas?open=laegejournal`,
             routeNames: [
                 'citizens-uuid-nursing-areas',
                 'citizens-uuid-nursing-areas-new',

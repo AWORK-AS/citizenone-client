@@ -129,206 +129,13 @@
                             </div>
                         </div>
                         <div class="mt-5 space-y-5 stagger-children">
-                            <div :class="[
-                                'bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow p-5 border border-gray-100 border-l-4',
-                                journal.is_pinned ? 'border-l-primary' : 'border-l-secondary'
-                            ]" v-for="(journal, index) in state.journals?.data" :key="index" :data-uuid="journal.uuid">
-                                <div class="space-y-3">
-                                    <div class="space-y-1.5">
-                                        <div>
-                                            <div class="flex items-center gap-x-3 justify-between">
-                                                <div class="flex items-center gap-x-3">
-                                                    <h3 class="text-md font-semibold">
-                                                        {{ journal.title }}
-                                                    </h3>
-                                                    <div v-if="journal.is_pinned"
-                                                        class="flex items-center gap-x-1 text-primary text-xs font-medium">
-                                                        <Icon name="ph:push-pin-fill" class="size-3.5" />
-                                                    </div>
-                                                    <div v-if="journal.is_draft">
-                                                        <Badge type="primary">
-                                                            <p class="text-xs">
-                                                                {{ $t('citizens.citizenJournals.form.draft') }}
-                                                            </p>
-                                                        </Badge>
-                                                    </div>
-                                                    <div v-if="journal.is_ai_used">
-                                                        <span
-                                                            class="inline-flex items-center gap-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
-                                                            <Icon name="ph:sparkle-fill" class="size-3 shrink-0" />
-                                                            {{ $t('citizens.citizenJournals.aiUsed') }}
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                                <div
-                                                    v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
-                                                    <Badge type="no-risk" v-if="journal.assessment === 'no risk'">
-                                                        <p class="text-xs">
-                                                            {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
-                                                        </p>
-                                                    </Badge>
-                                                    <Badge type="increased-risk"
-                                                        v-if="journal.assessment === 'increased risk'">
-                                                        <p class="text-xs">
-                                                            {{
-                                                                $t('citizens.citizenJournals.form.risk.increasedRisk')
-                                                            }}
-                                                        </p>
-                                                    </Badge>
-                                                    <Badge type="acute-increased-risk"
-                                                        v-if="journal.assessment === 'acute increased risk'">
-                                                        <p class="text-xs">
-                                                            {{
-                                                                $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk')
-                                                            }}
-                                                        </p>
-                                                    </Badge>
-                                                </div>
-                                            </div>
-                                            <p class="mt-1 text-xs text-muted-400">
-                                                <span>{{ formatDateToReadable(journal.date) }}</span>
-                                            </p>
-                                            <div class="mt-1">
-                                                <Badge type="primary" class="w-fit" v-if="journal.score">
-                                                    <p class="text-xxs" v-if="journal.score === 1">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.minorChallenges')
-                                                        }}
-                                                    </p>
-                                                    <p class="text-xxs" v-if="journal.score === 2">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.moderateChallenges')
-                                                        }}
-                                                    </p>
-                                                    <p class="text-xxs" v-if="journal.score === 3">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.significantChallenges')
-                                                        }}
-                                                    </p>
-                                                    <p class="text-xxs" v-if="journal.score === 4">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.severeChallenges')
-                                                        }}
-                                                    </p>
-                                                    <p class="text-xxs" v-if="journal.score === 5">
-                                                        {{
-                                                            $t('plansandgoals.table.expectedLevels.verySubstantialChallenges')
-                                                        }}
-                                                    </p>
-                                                </Badge>
-                                            </div>
-                                        </div>
-                                        <div class="text-sm text-muted-400"
-                                            v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
-                                            <JournalMentionContent :html="journal.content" />
-                                        </div>
-                                        <div class="flex items-center gap-x-1"
-                                            v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
-                                            <div class="px-2 py-1 rounded-full text-white text-xxs"
-                                                :style="`background:${journalTag?.color};`"
-                                                v-for="(journalTag, index) in journal?.journal_tags" :index="index">
-                                                {{ journalTag?.name }}
-                                            </div>
-                                        </div>
-                                        <div class="text-sm text-muted-400"
-                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView) && journal.note">
-                                            <p class="font-semibold">
-                                                {{ customPagesStore.getCustomPagesName?.riskAssessment }}:
-                                            </p>
-                                            <JournalMentionContent :html="journal.note" />
-                                        </div>
-                                        <div class="flex items-center gap-x-1"
-                                            v-if="['Standard view', 'Risk assessment view'].includes(citizenJournalStore.getFilterView)">
-                                            <div class="px-2 py-1 rounded-full text-white text-xxs"
-                                                :style="`background:${riskTag?.color};`"
-                                                v-for="(riskTag, index) in journal?.risk_tags" :index="index">
-                                                {{ riskTag?.name }}
-                                            </div>
-                                        </div>
-                                        <div class="text-sm">
-                                            <p v-for="(tooth, index) in journal?.teeth" :key="index">
-                                                {{ tooth?.number }}.
-                                                {{ language.locale.value === 'en' ? tooth?.en_name : tooth?.dk_name }}
-                                            </p>
-                                        </div>
-                                        <p class="text-xs">
-                                            {{ $t('citizens.citizenJournals.createdBy') }}:
-                                            {{ journal.user?.firstname }} {{ journal.user?.lastname }}
-                                            <!-- Trailing space inside: the newline before the next span is dropped by the compiler. -->
-                                            <span v-if="formatJobTitles(journal.user)">({{ formatJobTitles(journal.user) }}) </span>
-                                            <span class="lowercase">{{ $t('citizens.citizenJournals.on') }}</span>
-                                            {{ formatDateTimeToReadable(journal.created_at) }}
-                                        </p>
-                                        <ModulesUserJournalLinkedToBadge :journal="journal"
-                                            :plansAndGoalsBasePath="`/citizens/${citizenUuid}/plans-and-goals/all`" />
-                                    </div>
-                                    <div class="ms-auto">
-                                        <div class="flex items-center gap-x-2">
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.edit')"
-                                                v-if="journal?.is_editable">
-                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.edit')" buttonStyle="primary" buttonSize="xs"
-                                                    @click="editJournal(journal)">
-                                                    <Icon name="ph:pencil-duotone" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.copy')"
-                                                v-if="journal?.is_copyable">
-                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.copy')" buttonStyle="primary" buttonSize="xs"
-                                                    @click="copyJournal(journal)">
-                                                    <Icon name="ph:copy" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.move')"
-                                                v-if="journal?.is_movable">
-                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.move')" buttonStyle="primary" buttonSize="xs"
-                                                    @click="moveJournal(journal)">
-                                                    <Icon name="ph:arrows-out-cardinal" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <ModulesUserJournalFavoriteButton :journal="journal"
-                                                @updated="onJournalFavoriteUpdated" />
-                                            <Tooltip
-                                                :text="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`">
-                                                <FormButton :aria-label="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`" buttonSize="xs" :class="[
-                                                    journal?.is_locked && 'border-primary bg-primary text-white',
-                                                    'w-full md:w-fit']" @click="lockUnlockJournal(journal.uuid)">
-                                                    <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
-                                                    <Icon name="ph:lock-open" class="size-4" v-else />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip
-                                                :text="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`">
-                                                <FormButton :aria-label="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`" buttonSize="xs" :class="[
-                                                    journal?.is_pinned && 'border-primary bg-primary text-white',
-                                                    'w-full md:w-fit']" @click="pinUnpinJournal(journal.uuid)">
-                                                    <Icon name="ph:push-pin-fill" class="size-4"
-                                                        v-if="journal.is_pinned" />
-                                                    <Icon name="ph:push-pin" class="size-4" v-else />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="`${term('journal', 'Journal')} logs`">
-                                                <FormButton :aria-label="`${term('journal', 'Journal')} logs`" buttonStyle="primary" buttonSize="xs"
-                                                    @click="viewJournalLogs(journal)">
-                                                    <Icon name="ph:clock-clockwise" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('recordHistory.viewHistory')">
-                                                <FormButton :aria-label="$t('recordHistory.viewHistory')" buttonStyle="action" buttonSize="xs"
-                                                    data-testid="journal-history" @click="viewRecordHistory(journal)">
-                                                    <Icon name="ph:clock-counter-clockwise" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
-                                                <FormButton :aria-label="$t('citizens.citizenJournals.actions.delete')" buttonStyle="danger" buttonSize="xs"
-                                                    @click="confirmJournalDeletion(journal)"
-                                                    v-if="journal?.is_deletable">
-                                                    <Icon name="ph:trash-duotone" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <ModulesUserCitizenJournalCard v-for="(journal, index) in state.journals?.data" :key="index"
+                                :journal="journal" :filterView="citizenJournalStore.getFilterView"
+                                :plansAndGoalsBasePath="`/citizens/${citizenUuid}/plans-and-goals/all`"
+                                @edit="editJournal" @copy="copyJournal" @move="moveJournal"
+                                @favorite-updated="onJournalFavoriteUpdated" @lock-unlock="lockUnlockJournal"
+                                @pin-unpin="pinUnpinJournal" @view-logs="viewJournalLogs"
+                                @view-history="viewRecordHistory" @delete="confirmJournalDeletion" />
                             <div v-if="state.journals?.data?.length === 0"
                                 class="flex flex-col items-center justify-center py-16 text-center">
                                 <Icon name="ph:note-pencil" class="h-10 w-10 text-slate-300" aria-hidden="true" />
@@ -375,7 +182,6 @@
 </template>
 
 <script setup lang="ts">
-import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { journalService } from '@/components/api/user/JournalService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
@@ -387,11 +193,9 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useTerminology } from '@/composables/useTerminology'
 
 const runtimeConfig = useRuntimeConfig()
-const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
-const language = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const { term } = useTerminology()
 const router = useRouter()

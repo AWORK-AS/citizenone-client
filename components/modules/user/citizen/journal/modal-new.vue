@@ -127,6 +127,14 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // Set when opened from the Health tab's medical-records section. Not
+    // shown in the form - the note is a medical record because of where it
+    // was created.
+    isMedicalRecord: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -283,6 +291,7 @@ async function saveJournal(journalDetails: any) {
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
+            is_medical_record: props.isMedicalRecord,
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
             assessment: journalDetails.formJournal.assessment,
             note: journalDetails.formJournal.note,

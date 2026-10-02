@@ -3099,6 +3099,8 @@
                     }
                 }
             },
+            "doctorJournals": "Lægejournal",
+            "newDoctorJournal": "Ny lægejournal",
             "editNursingProfessionalRecord": "Rediger sundhedsfaglig optegnelse",
             "form": {
                 "alert": {
