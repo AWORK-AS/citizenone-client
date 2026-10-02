@@ -8512,6 +8512,15 @@
             "loadingYourEmails": "Laddar dina e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Spara som PDF",
+            "download": "Ladda ner PDF",
+            "saveToDrive": "Spara till Drive",
+            "chooseFolder": "Välj mapp",
+            "rootFolder": "Dokument (rot)",
+            "savedToDrive": "Sparat till Drive",
+            "noSubject": "E-post"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {

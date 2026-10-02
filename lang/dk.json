@@ -8512,6 +8512,15 @@
             "loadingYourEmails": "Indlæser dine e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Gem som PDF",
+            "download": "Download PDF",
+            "saveToDrive": "Gem til Drev",
+            "chooseFolder": "Vælg mappe",
+            "rootFolder": "Dokumenter (rod)",
+            "savedToDrive": "Gemt til Drev",
+            "noSubject": "E-mail"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {

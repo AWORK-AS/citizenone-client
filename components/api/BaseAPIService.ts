@@ -521,7 +521,12 @@ class BaseAPIService {
             return await $fetch(url, config) as Blob
         } catch (error: any) {
             switch (error.response.status) {
-                case 400:
+                case 400: {
+                    // Not error.response._data directly: this call asked for a blob,
+                    // so ofetch handed the error body back as one too - a 400's
+                    // server-written message (e.g. "Email not found") would
+                    // otherwise be lost behind an unparsed Blob.
+                    const errorBody = await BaseAPIService.errorBodyOf(error.response._data)
                     // A 400 here is usually a rule the server is enforcing on
                     // purpose - a required field, a delete that would orphan
                     // something - and that message is written for the user. An
@@ -530,18 +535,17 @@ class BaseAPIService {
                     // forgot a field. The id is kept only when the body says
                     // nothing useful, which is the case it was added for.
                     throw new APIError(
-                        error.response._data?.message
-                            ? error.response._data
-                            : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
+                        errorBody?.message
+                            ? errorBody
+                            : { ...errorBody, errorId: BaseAPIService.errorIdOf(error) }
                     )
+                }
                 case 404:
                 case 409:
                 case 422:
                 case 429:
-                    throw new APIError(error.response._data)
+                    throw new APIError(await BaseAPIService.errorBodyOf(error.response._data))
                 case 401: {
-                    // Not error.response._data directly: this call asked for a blob,
-                    // so ofetch handed the error body back as one too.
                     const errorBody = await BaseAPIService.errorBodyOf(error.response._data)
                     if (BaseAPIService.isSessionExpired(errorBody)) {
                         this.revokeAccess()
@@ -553,7 +557,7 @@ class BaseAPIService {
                     })
                 }
                 case 403:
-                    throw new APIError(error.response._data)
+                    throw new APIError(await BaseAPIService.errorBodyOf(error.response._data))
                 case 500:
                     throw new APIError({
                         message: "Server error. Please try again. If the problem persists, contact your system administrator",

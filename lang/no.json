@@ -8512,6 +8512,15 @@
             "loadingYourEmails": "Laster dine e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Lagre som PDF",
+            "download": "Last ned PDF",
+            "saveToDrive": "Lagre til Drev",
+            "chooseFolder": "Velg mappe",
+            "rootFolder": "Dokumenter (rot)",
+            "savedToDrive": "Lagret til Drev",
+            "noSubject": "E-post"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {
