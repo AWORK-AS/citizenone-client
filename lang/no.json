@@ -1814,6 +1814,8 @@
                 },
                 "updatedBy": "Oppdatert av"
             },
+            "linkedTo": "Knyttet til",
+            "linkedToOpen": "Åpne",
             "mentions": {
                 "hint": "Skriv {'@'} for å tagge en kollega eller en innbygger",
                 "noAccess": "ingen tilgang",

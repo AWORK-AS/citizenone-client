@@ -1814,6 +1814,8 @@
                 },
                 "updatedBy": "Uppdaterad av"
             },
+            "linkedTo": "Länkad till",
+            "linkedToOpen": "Öppna",
             "mentions": {
                 "hint": "Skriv {'@'} för att tagga en kollega eller en brukare",
                 "noAccess": "ingen åtkomst",

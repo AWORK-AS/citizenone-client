@@ -1814,6 +1814,8 @@
                 },
                 "updatedBy": "Updated by"
             },
+            "linkedTo": "Linked to",
+            "linkedToOpen": "Open",
             "mentions": {
                 "hint": "Type {'@'} to tag a colleague or a @:terms.citizen{''}",
                 "noAccess": "no access",
