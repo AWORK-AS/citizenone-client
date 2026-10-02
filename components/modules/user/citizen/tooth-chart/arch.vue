@@ -17,7 +17,7 @@
                     stroke-dasharray="4 6" />
 
                 <g v-for="tooth in placed" :key="tooth.uuid">
-                    <g :transform="tooth.transform" class="cursor-pointer" role="button" tabindex="0"
+                    <g :transform="tooth.transform" class="cursor-pointer outline-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary" role="button" tabindex="0"
                         :aria-label="ariaLabel(tooth)" @click="emit('select', tooth.uuid, 'whole')"
                         @keydown.enter.prevent="emit('select', tooth.uuid, 'whole')"
                         @keydown.space.prevent="emit('select', tooth.uuid, 'whole')">
