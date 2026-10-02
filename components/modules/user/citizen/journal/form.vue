@@ -224,7 +224,8 @@
                     <FormLabel for="journal_note_tags"
                         :label="term('journalNoteTag', $t('citizens.citizenJournals.form.journalNoteTags'))" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        @click="state.modal.isAddJournalNoteTagsOpen = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('journalNoteTags.addNewTag') }}
                     </span>
                 </div>
@@ -350,7 +351,8 @@
                     <FormLabel for="risk_assessment_tags"
                         :label="customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('citizens.citizenJournals.form.tags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        @click="state.modal.isAddJournalNoteTagsOpen = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('journalNoteTags.addNewTag') }}
                     </span>
                 </div>
@@ -496,6 +498,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { journalService } from '@/components/api/user/JournalService'
@@ -524,6 +527,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {

@@ -85,7 +85,8 @@
                 <div class="flex justify-between items-center py-0.5">
                     <FormLabel for="calendar_tag_uuid" :label="$t('events.form.tags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddNewCalendarTag = true">
+                        @click="state.modal.isAddNewCalendarTag = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('calendarTags.addNewCalendarTag') }}
                     </span>
                 </div>
@@ -300,6 +301,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import moment from 'moment'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -311,6 +313,8 @@ import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {
