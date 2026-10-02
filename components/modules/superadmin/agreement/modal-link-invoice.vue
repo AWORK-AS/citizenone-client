@@ -42,7 +42,7 @@
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { unwrapData } from '@/composables/agreements'
+import { isInvoiceFree, unwrapData } from '@/composables/agreements'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -73,7 +73,7 @@ watch(() => props.isModalOpen, async (open: boolean) => {
         const response = await companyService.getInvoicesPerCompany(props.companyUuid, {
             page: 1, sortField: 'id', sortOrder: 'descend',
         })
-        state.invoices = response?.data ?? []
+        state.invoices = (response?.data ?? []).filter(isInvoiceFree)
     } catch (error: any) {
         state.error = error
     }

@@ -18,6 +18,8 @@ const props = defineProps({
     invoice: { type: Object as () => any, default: null },
     /** i18n key for the "paid via your chosen payment method" text of this screen. */
     paidViaMethodKey: { type: String, required: true },
+    /** i18n key for an invoice covered by an agreement. The customer text is the default. */
+    coveredKey: { type: String, default: 'invoicePayment.covered' },
 })
 
 const { t } = useI18n()
@@ -27,6 +29,8 @@ const paymentState = computed(() => invoicePaymentState(props.invoice))
 
 const message = computed(() => {
     switch (paymentState.value) {
+        case 'covered':
+            return t(props.coveredKey)
         case 'paid':
             if (props.invoice?.invoice_type === 'bank_transfer') {
                 return props.invoice?.paid_at

@@ -33,6 +33,13 @@
                             {{ formatDateToReadable(state.agreement.starts_on) }} - {{ formatDateToReadable(state.agreement.ends_on) }}
                             ({{ $t('superadmin.agreements.months', { count: state.agreement.term_months }) }})
                         </span>
+                        <Tooltip v-if="state.agreement.renewals_count > 0" :text="$t('superadmin.agreements.renewedHelp')"
+                            position="top" wrap>
+                            <span class="co-badge co-badge-navy">
+                                <Icon name="ph:arrows-clockwise" class="w-3 h-3" aria-hidden="true" />
+                                {{ $t('superadmin.agreements.renewed', { count: state.agreement.renewals_count }) }}
+                            </span>
+                        </Tooltip>
                         <ModulesSuperadminAgreementNoticeBadge :deadline="state.agreement.notice_deadline"
                             :autoRenews="state.agreement.auto_renews" />
                     </div>
@@ -124,6 +131,46 @@
                         </table>
                     </section>
 
+                    <!-- Invoices covered by the agreement -->
+                    <section class="border border-[#EAECF0] rounded-xl p-4 space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-1.5">
+                                <p class="text-[13px] font-semibold text-[#1F2533]">
+                                    {{ $t('superadmin.agreements.covered.title') }}
+                                </p>
+                                <Tooltip :text="$t('superadmin.agreements.covered.help')" position="top" wrap>
+                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                        :aria-label="$t('superadmin.agreements.covered.help')" />
+                                </Tooltip>
+                            </div>
+                            <Tooltip :text="$t('superadmin.agreements.covered.addHelp')" position="left" wrap>
+                                <FormButton type="button" buttonStyle="action" @click="state.isCoverOpen = true">
+                                    <Icon name="ph:plus" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.covered.add') }}
+                                </FormButton>
+                            </Tooltip>
+                        </div>
+                        <p v-if="!(state.agreement.covered_invoices ?? []).length" class="text-[12px] text-[#8891A4]">
+                            {{ $t('superadmin.agreements.covered.none') }}
+                        </p>
+                        <div v-for="invoice in state.agreement.covered_invoices ?? []" :key="invoice.uuid"
+                            class="flex items-center justify-between gap-3 text-sm">
+                            <NuxtLink class="font-mono text-[#205E77] hover:underline"
+                                :to="`/superadmin/companies/${props.companyUuid}/invoices/${invoice.uuid}/invoice-details`">
+                                #{{ invoice.invoice_number }}
+                            </NuxtLink>
+                            <span v-if="invoice.total_amount !== undefined" class="text-[#5C6478]">
+                                {{ formatAmount(invoice.total_amount, 'DKK') }}
+                            </span>
+                            <Tooltip :text="$t('superadmin.agreements.covered.removeHelp')" position="left" wrap>
+                                <SuperadminTableButton buttonStyle="danger" @click="removeCovered(invoice.uuid)">
+                                    <Icon name="ph:x" class="w-3.5 h-3.5" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.covered.remove') }}
+                                </SuperadminTableButton>
+                            </Tooltip>
+                        </div>
+                    </section>
+
                     <!-- Subscriptions -->
                     <section class="border border-[#EAECF0] rounded-xl p-4 space-y-3">
                         <div class="flex items-center gap-1.5">
@@ -199,6 +246,9 @@
             <ModulesSuperadminAgreementModalLinkInvoice :isModalOpen="!!state.linkTarget" :companyUuid="props.companyUuid"
                 :agreementUuid="state.agreement?.uuid ?? ''" :installment="state.linkTarget"
                 @close="state.linkTarget = null" @linked="onInvoiceLinked" />
+            <ModulesSuperadminAgreementModalCoveredInvoices :isModalOpen="state.isCoverOpen"
+                :companyUuid="props.companyUuid" :agreementUuid="state.agreement?.uuid ?? ''"
+                @close="state.isCoverOpen = false" @covered="onCovered" />
             <DialogConfirmation :isModalOpen="state.isDeleteOpen"
                 :message="$t('superadmin.agreements.detail.deleteConfirm') + '?'"
                 @close="state.isDeleteOpen = false" @confirm="deleteAgreement" />
@@ -236,6 +286,7 @@ const state = reactive({
     cancel: { open: false, date: moment().format('YYYY-MM-DD') },
     isDeleteOpen: false,
     linkTarget: null as any,
+    isCoverOpen: false,
 })
 
 const cards = computed(() => {
@@ -269,7 +320,7 @@ const linkedChanged = computed(() => {
 })
 
 function statusClass(status: string) {
-    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : 'co-badge-gray'
+    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-[#FEF3C7] text-[#B45309]' : 'co-badge-gray'
 }
 
 watch(() => props.isModalOpen, (open: boolean) => { if (open) load() })
@@ -304,6 +355,23 @@ function onInvoiceLinked(agreement: Agreement) {
     state.linkTarget = null
     state.agreement = agreement
     emit('changed')
+}
+
+function onCovered(agreement: Agreement) {
+    state.isCoverOpen = false
+    state.agreement = agreement
+    emit('changed')
+}
+
+async function removeCovered(invoiceUuid: string) {
+    if (!state.agreement) return
+    state.error = {}
+    try {
+        state.agreement = unwrapData<Agreement>(await agreementService.removeCoveredInvoice(state.agreement.uuid, invoiceUuid))
+        emit('changed')
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function saveSubscriptions() {

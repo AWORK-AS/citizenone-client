@@ -22,13 +22,34 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-1">
-                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.termMonths')" required />
-                                    <Tooltip :text="$t('superadmin.agreements.help.termMonths')" position="top" wrap>
+                                    <SuperadminFormLabel
+                                        :label="form.term_mode === 'months' ? $t('superadmin.agreements.form.termMonths') : $t('superadmin.agreements.form.endsOn')"
+                                        required />
+                                    <Tooltip :text="$t('superadmin.agreements.help.termMode')" position="top" wrap>
                                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
-                                            :aria-label="$t('superadmin.agreements.help.termMonths')" />
+                                            :aria-label="$t('superadmin.agreements.help.termMode')" />
                                     </Tooltip>
+                                    <div class="ml-auto mb-[5px] inline-flex rounded-md border border-[#EAECF0] overflow-hidden text-[11px]"
+                                        role="group" :aria-label="$t('superadmin.agreements.help.termMode')">
+                                        <Tooltip :text="$t('superadmin.agreements.help.termMonths')" position="top" wrap>
+                                            <button type="button" class="px-2 py-0.5"
+                                                :class="form.term_mode === 'months' ? 'bg-[#205E77] text-white' : 'bg-white text-[#5C6478]'"
+                                                @click="form.term_mode = 'months'">
+                                                {{ $t('superadmin.agreements.form.modeMonths') }}
+                                            </button>
+                                        </Tooltip>
+                                        <Tooltip :text="$t('superadmin.agreements.help.endsOn')" position="top" wrap>
+                                            <button type="button" class="px-2 py-0.5"
+                                                :class="form.term_mode === 'end_date' ? 'bg-[#205E77] text-white' : 'bg-white text-[#5C6478]'"
+                                                @click="form.term_mode = 'end_date'">
+                                                {{ $t('superadmin.agreements.form.modeEndDate') }}
+                                            </button>
+                                        </Tooltip>
+                                    </div>
                                 </div>
-                                <input class="co-input" type="number" min="1" step="1" v-model="form.term_months" />
+                                <input v-if="form.term_mode === 'months'" class="co-input" type="number" min="1" step="1"
+                                    v-model="form.term_months" />
+                                <input v-else class="co-input" type="date" v-model="form.ends_on" :min="form.starts_on" />
                             </div>
                             <div>
                                 <div class="flex items-center gap-1">
@@ -57,6 +78,18 @@
                                     </Tooltip>
                                 </div>
                                 <input class="co-input" type="number" min="0" step="0.01" v-model="form.contract_value" />
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalValue')" />
+                                    <Tooltip :text="$t('superadmin.agreements.help.renewalValue')" position="top" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                            :aria-label="$t('superadmin.agreements.help.renewalValue')" />
+                                    </Tooltip>
+                                </div>
+                                <input class="co-input" type="number" min="0" step="0.01"
+                                    v-model="form.renewal_annual_value"
+                                    :placeholder="$t('superadmin.agreements.form.renewalValuePlaceholder')" />
                             </div>
                             <div>
                                 <div class="flex items-center gap-1">
@@ -358,6 +391,9 @@ function blankForm(): AgreementFormState & { installments: Row[] } {
         name: '',
         starts_on: moment().format('YYYY-MM-DD'),
         term_months: 12,
+        term_mode: 'months',
+        ends_on: '',
+        renewal_annual_value: '',
         notice_months: 3,
         auto_renews: true,
         billing_plan: 'yearly',
@@ -383,7 +419,7 @@ const listDiff = computed(() => installmentsDifference(form.installments, Number
 const sumOk = computed(() => installmentsMatchContract(form.installments, Number(form.contract_value) || 0))
 
 const previewReady = computed(() =>
-    !!form.starts_on && Number(form.term_months) > 0 && Number(form.contract_value) > 0
+    !!form.starts_on && (form.term_mode === 'end_date' ? !!form.ends_on : Number(form.term_months) > 0) && Number(form.contract_value) > 0
     && (form.billing_plan !== 'prepaid_multi_year' || Number(form.prepaid_years) > 0)
     && (form.billing_plan !== 'installments' || form.installments.length > 0)
 )
@@ -406,6 +442,7 @@ function resetFromProps() {
         name: a.name,
         starts_on: a.starts_on,
         term_months: a.term_months,
+        renewal_annual_value: a.renewal_annual_value ?? '',
         notice_months: a.notice_months,
         auto_renews: a.auto_renews,
         billing_plan: a.billing_plan,

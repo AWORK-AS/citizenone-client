@@ -69,6 +69,14 @@ export interface InstallmentPreset {
     remaining_interval_months: number
 }
 
+export interface CoveredInvoice {
+    uuid: string
+    invoice_number: string
+    total_amount?: number
+    is_paid?: boolean
+    created_at?: string
+}
+
 export interface Agreement {
     uuid: string
     company_uuid: string
@@ -87,6 +95,9 @@ export interface Agreement {
     status: AgreementStatus
     cancelled_at: string | null
     internal_note: string | null
+    renewal_annual_value: number | null
+    renewals_count: number
+    covered_invoices?: CoveredInvoice[]
     settled_externally_before?: string | null
     settled_note?: string | null
     contract_mrr: number
@@ -103,12 +114,15 @@ export interface Agreement {
 export interface AgreementPayload {
     name: string
     starts_on: string
-    term_months: number
+    /** Omitted when the binding is given as an end date (`ends_on`). */
+    term_months?: number
+    ends_on?: string
     notice_months: number
     auto_renews: boolean
     billing_plan: BillingPlan
     prepaid_years: number | null
     contract_value: number
+    renewal_annual_value: number | null
     fee_per_invoice: number
     payment_method: AgreementPaymentMethod
     internal_note: string | null

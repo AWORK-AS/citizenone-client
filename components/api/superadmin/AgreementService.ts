@@ -56,6 +56,16 @@ class AgreementService extends BaseAPIService {
         })
     }
 
+    async addCoveredInvoices(agreementUuid: string, invoiceUuids: string[]): Promise<{ data: any }> {
+        return await this.request(`/superadmin/agreements/${agreementUuid}/covered-invoices`, 'POST', {
+            invoice_uuids: invoiceUuids,
+        })
+    }
+
+    async removeCoveredInvoice(agreementUuid: string, invoiceUuid: string): Promise<{ data: any }> {
+        return await this.request(`/superadmin/agreements/${agreementUuid}/covered-invoices/${invoiceUuid}`, 'DELETE')
+    }
+
     async registerPayment(invoiceUuid: string, payload: RegisterPaymentPayload): Promise<any> {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/payment`, 'POST', payload)
     }

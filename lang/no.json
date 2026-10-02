@@ -13339,7 +13339,10 @@
                 "invoiced": "Samlet beløp på fakturaer opprettet for avtalen.",
                 "backlog": "Gjenstående bundet avtaleverdi: avdrag uten betalt faktura.",
                 "subscriptions": "Lisenser og Pro-profil koblet til avtalen gjelder hele bindingen og belastes ikke med kort i tillegg.",
-                "settledExternally": "Åpne avdrag som forfaller før denne datoen markeres som oppgjort og faktureres aldri. Bruk det for kunder som allerede har betalt via e-conomic."
+                "settledExternally": "Åpne avdrag som forfaller før denne datoen markeres som oppgjort og faktureres aldri. Bruk det for kunder som allerede har betalt via e-conomic.",
+                "renewalValue": "Hva avtalen koster per år etter bindingen, eksl. mva. Tom: avtaleverdi delt på bindingen i måneder ganger 12.",
+                "termMode": "Oppgi bindingen enten som antall måneder eller som en sluttdato.",
+                "endsOn": "Bindingens siste dag. Antall måneder beregnes av serveren, f.eks. 2025-06-10 til 2028-09-01."
             },
             "form": {
                 "createTitle": "Ny avtale",
@@ -13382,7 +13385,12 @@
                 "settledTitle": "Oppgjort utenfor CitizenOne før",
                 "settledBefore": "Oppgjort før (dato)",
                 "settledNote": "Notat om oppgjør",
-                "settledNotePlaceholder": "f.eks. e-conomic bilag 297637275"
+                "settledNotePlaceholder": "f.eks. e-conomic bilag 297637275",
+                "renewalValue": "Årlig verdi ved fornyelse",
+                "renewalValuePlaceholder": "Standard",
+                "endsOn": "Sluttdato",
+                "modeMonths": "Binding i måneder",
+                "modeEndDate": "Sluttdato"
             },
             "detail": {
                 "title": "Avtale",
@@ -13465,6 +13473,23 @@
                 "invoice": "Faktura",
                 "choose": "Velg faktura",
                 "none": "Kunden har ingen fakturaer ennå."
+            },
+            "renewed": "Fornyet {count} ganger",
+            "renewedHelp": "Avtalen er fornyet automatisk, 12 måneder om gangen, siden bindingen utløp.",
+            "covered": {
+                "chip": "Dekket av avtale",
+                "help": "Fakturaen dokumenterer lisenser levert under avtalen og teller ikke som omsetning.",
+                "footer": "Denne fakturaen er dekket av en avtale og skal ikke betales.",
+                "title": "Fakturaer dekket av avtalen",
+                "add": "Legg til",
+                "addHelp": "Velg fakturaer som dokumenterer lisenser levert under avtalen.",
+                "addTitle": "Legg til dekkede fakturaer",
+                "addIntro": "Velg fakturaene avtalen dekker. De teller ikke lenger som omsetning.",
+                "addSelected": "Legg til {count}",
+                "none": "Ingen fakturaer er dekket av avtalen.",
+                "noneToAdd": "Ingen fakturaer å legge til.",
+                "remove": "Fjern",
+                "removeHelp": "Fjern fakturaen fra avtalen slik at den igjen teller som en vanlig faktura."
             }
         },
         "metrics": {
@@ -16718,6 +16743,7 @@
         "paidOn": "Betalt {date}",
         "failed": "Betalingen av denne fakturaen ble avvist.",
         "payByBankTransfer": "Betales via bankoverføring",
-        "unpaid": "Denne fakturaen er ikke betalt ennå."
+        "unpaid": "Denne fakturaen er ikke betalt ennå.",
+        "covered": "Inngår i deres avtale"
     }
 }

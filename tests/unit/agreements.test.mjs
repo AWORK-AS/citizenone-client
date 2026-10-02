@@ -21,6 +21,7 @@ import {
     installmentsSum,
     invoicePaymentState,
     isBankTransferInvoice,
+    isInvoiceFree,
     noticeStatus,
     unwrapData,
     unwrapInstallments,
@@ -51,7 +52,7 @@ const baseForm = () => ({
     name: ' Test ', starts_on: '2026-07-12', term_months: 48, notice_months: 3, auto_renews: true,
     billing_plan: 'installments', prepaid_years: null, contract_value: 947136, fee_per_invoice: 295,
     payment_method: 'bank_transfer', internal_note: '',
-    settled_externally_before: '', settled_note: '',
+    settled_externally_before: '', settled_note: '', term_mode: 'months', ends_on: '', renewal_annual_value: '',
     preset: { ...memoxPreset }, installments: [], installmentsEdited: false, presetApplied: false,
 })
 
@@ -190,6 +191,37 @@ describe('settled externally', () => {
         assert.equal(isBankTransferInvoice({ type: 'agreement' }), true)
         assert.equal(isBankTransferInvoice({ type: 'new', invoice_type: null }), false)
         assert.equal(invoicePaymentState({ is_paid: false, status: 'pending', type: 'agreement' }), 'bank_transfer_unpaid')
+    })
+})
+
+describe('end date, renewal value and covered invoices', () => {
+    test('months mode sends term_months and no ends_on', () => {
+        const body = buildAgreementPayload(baseForm())
+        assert.equal(body.term_months, 48)
+        assert.equal('ends_on' in body, false)
+        assert.equal(body.renewal_annual_value, null)
+    })
+
+    test('end-date mode sends ends_on and leaves term_months to the backend', () => {
+        // Langebjerg: 2025-06-10 to 2028-09-01.
+        const body = buildAgreementPayload({ ...baseForm(), starts_on: '2025-06-10', term_mode: 'end_date', ends_on: '2028-09-01' })
+        assert.equal(body.ends_on, '2028-09-01')
+        assert.equal('term_months' in body, false)
+    })
+
+    test('a renewal value is sent as a number', () => {
+        assert.equal(buildAgreementPayload({ ...baseForm(), renewal_annual_value: '236784.00' }).renewal_annual_value, 236784)
+    })
+
+    test('a covered invoice is its own payment state', () => {
+        assert.equal(invoicePaymentState({ covered_by_agreement: true, is_paid: false, status: 'pending' }), 'covered')
+    })
+
+    test('pickers leave out invoices on an installment or already covered', () => {
+        assert.equal(isInvoiceFree({ covered_by_agreement: true }), false)
+        assert.equal(isInvoiceFree({ company_agreement_installment_id: 5 }), false)
+        assert.equal(isInvoiceFree({ covered_by_agreement: false }), true)
+        assert.equal(isInvoiceFree({}), true)
     })
 })
 

@@ -13435,7 +13435,10 @@
                 "invoiced": "Total of the invoices created for the agreement.",
                 "backlog": "Remaining committed value: installments without a paid invoice.",
                 "subscriptions": "Licences and the Pro profile linked to the agreement apply for the whole binding and are not charged by card on top.",
-                "settledExternally": "Open installments due before this date are marked as settled and are never invoiced. Use it for customers who already paid through e-conomic."
+                "settledExternally": "Open installments due before this date are marked as settled and are never invoiced. Use it for customers who already paid through e-conomic.",
+                "renewalValue": "What the agreement costs per year after the binding, excl. VAT. Empty: contract value divided by the binding in months, times 12.",
+                "termMode": "Give the binding either as a number of months or as an end date.",
+                "endsOn": "The last day of the binding. The server works out the months, e.g. 2025-06-10 to 2028-09-01."
             },
             "form": {
                 "createTitle": "New agreement",
@@ -13478,7 +13481,12 @@
                 "settledTitle": "Settled outside CitizenOne before",
                 "settledBefore": "Settled before (date)",
                 "settledNote": "Settlement note",
-                "settledNotePlaceholder": "e.g. e-conomic voucher 297637275"
+                "settledNotePlaceholder": "e.g. e-conomic voucher 297637275",
+                "renewalValue": "Annual value on renewal",
+                "renewalValuePlaceholder": "Default",
+                "endsOn": "End date",
+                "modeMonths": "Binding in months",
+                "modeEndDate": "End date"
             },
             "detail": {
                 "title": "Agreement",
@@ -13561,6 +13569,23 @@
                 "invoice": "Invoice",
                 "choose": "Choose invoice",
                 "none": "The customer has no invoices yet."
+            },
+            "renewed": "Renewed {count} times",
+            "renewedHelp": "The agreement has renewed automatically, 12 months at a time, since the binding ended.",
+            "covered": {
+                "chip": "Covered by agreement",
+                "help": "This invoice records licences provided under the agreement and is not counted as revenue.",
+                "footer": "This invoice is covered by an agreement and is not to be paid.",
+                "title": "Invoices covered by the agreement",
+                "add": "Add",
+                "addHelp": "Choose invoices that record licences provided under the agreement.",
+                "addTitle": "Add covered invoices",
+                "addIntro": "Choose the invoices the agreement covers. They no longer count as revenue.",
+                "addSelected": "Add {count}",
+                "none": "No invoices are covered by the agreement.",
+                "noneToAdd": "No invoices to add.",
+                "remove": "Remove",
+                "removeHelp": "Remove the invoice from the agreement so it counts as an ordinary invoice again."
             }
         },
         "metrics": {
@@ -16814,6 +16839,7 @@
         "paidOn": "Paid on {date}",
         "failed": "Payment of this invoice was rejected.",
         "payByBankTransfer": "To be paid by bank transfer",
-        "unpaid": "This invoice has not been paid yet."
+        "unpaid": "This invoice has not been paid yet.",
+        "covered": "Included in your agreement"
     }
 }

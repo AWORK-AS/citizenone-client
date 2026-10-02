@@ -110,6 +110,10 @@ export interface AgreementFormState {
     name: string
     starts_on: string
     term_months: number | string
+    /** 'months' sends term_months, 'end_date' sends ends_on and leaves the term to the backend. */
+    term_mode: 'months' | 'end_date'
+    ends_on: string
+    renewal_annual_value: number | string
     notice_months: number | string
     auto_renews: boolean
     billing_plan: AgreementPayload['billing_plan']
@@ -139,12 +143,17 @@ export function buildAgreementPayload(form: AgreementFormState): AgreementPayloa
     return {
         name: form.name.trim(),
         starts_on: form.starts_on,
-        term_months: Number(form.term_months),
+        ...(form.term_mode === 'end_date'
+            ? { ends_on: form.ends_on }
+            : { term_months: Number(form.term_months) }),
         notice_months: Number(form.notice_months),
         auto_renews: !!form.auto_renews,
         billing_plan: form.billing_plan,
         prepaid_years: form.billing_plan === 'prepaid_multi_year' ? Number(form.prepaid_years) || null : null,
         contract_value: Number(form.contract_value),
+        renewal_annual_value: form.renewal_annual_value === '' || form.renewal_annual_value === null
+            ? null
+            : Number(form.renewal_annual_value),
         fee_per_invoice: Number(form.fee_per_invoice) || 0,
         payment_method: form.payment_method,
         internal_note: form.internal_note?.trim() ? form.internal_note.trim() : null,
@@ -196,6 +205,11 @@ export function unwrapPreview(response: any): SchedulePreview {
     }
 }
 
+/** An invoice that is neither on an installment nor covered by an agreement can be linked or covered. */
+export function isInvoiceFree(invoice: any): boolean {
+    return !invoice?.covered_by_agreement && !invoice?.company_agreement_installment_id
+}
+
 export type NoticeTone = 'none' | 'passed' | 'soon' | 'ok'
 
 /**
@@ -222,7 +236,7 @@ export function isBankTransferInvoice(invoice: any): boolean {
     return invoice?.invoice_type === 'bank_transfer' || invoice?.type === 'agreement'
 }
 
-export type InvoicePaymentState = 'paid' | 'failed' | 'bank_transfer_unpaid' | 'unpaid' | 'unknown'
+export type InvoicePaymentState = 'covered' | 'paid' | 'failed' | 'bank_transfer_unpaid' | 'unpaid' | 'unknown'
 
 /**
  * What the invoice detail footer says. The text used to be a constant that read
@@ -231,6 +245,7 @@ export type InvoicePaymentState = 'paid' | 'failed' | 'bank_transfer_unpaid' | '
  */
 export function invoicePaymentState(invoice: any): InvoicePaymentState {
     if (!invoice) return 'unknown'
+    if (invoice.covered_by_agreement === true) return 'covered'
     if (invoice.is_paid === true || invoice.status === 'paid') return 'paid'
     if (invoice.status === 'failed') return 'failed'
     const hasPaymentInfo = invoice.is_paid === false || (typeof invoice.status === 'string' && invoice.status !== '')

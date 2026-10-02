@@ -17,14 +17,21 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <div class="flex items-center gap-x-2 justify-end">
-                    <Tooltip v-if="state.invoice?.data && !state.invoice.data.is_paid"
+                    <Tooltip v-if="state.invoice?.data?.covered_by_agreement"
+                        :text="$t('superadmin.agreements.covered.help')" position="bottom" wrap>
+                        <span class="co-badge co-badge-navy">
+                            <Icon name="ph:handshake" class="w-3 h-3" aria-hidden="true" />
+                            {{ $t('superadmin.agreements.covered.chip') }}
+                        </span>
+                    </Tooltip>
+                    <Tooltip v-if="state.invoice?.data && !state.invoice.data.is_paid && !state.invoice.data.covered_by_agreement"
                         :text="$t('superadmin.agreements.payment.registerHelp')" position="bottom">
                         <FormButton buttonStyle="success" @click="state.isPaymentOpen = true">
                             <Icon name="ph:bank" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('superadmin.agreements.payment.register') }}
                         </FormButton>
                     </Tooltip>
-                    <Tooltip v-if="state.invoice?.data?.is_paid && state.invoice.data.paid_at"
+                    <Tooltip v-if="state.invoice?.data?.is_paid && state.invoice.data.paid_at && !state.invoice.data.covered_by_agreement"
                         :text="$t('superadmin.agreements.payment.undoHelp')" position="bottom">
                         <FormButton buttonStyle="danger" @click="state.isUndoOpen = true">
                             <Icon name="ph:arrow-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
@@ -104,7 +111,8 @@
                     </div>
                 </div>
                 <ModulesSuperadminAgreementInvoicePaymentNotice :invoice="state.invoice?.data"
-                    paidViaMethodKey="superadmin.invoiceDetails.thisInvoiceHasAlreadyBeenPaid" />
+                    paidViaMethodKey="superadmin.invoiceDetails.thisInvoiceHasAlreadyBeenPaid"
+                    coveredKey="superadmin.agreements.covered.footer" />
             </LoadingSpinner>
             <ModulesSuperadminAgreementModalPayment :isModalOpen="state.isPaymentOpen"
                 :invoice="state.invoice?.data" @close="state.isPaymentOpen = false" @saved="onPaymentSaved" />

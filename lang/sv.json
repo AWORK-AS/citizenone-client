@@ -13339,7 +13339,10 @@
                 "invoiced": "Totalt belopp på fakturor som skapats för avtalet.",
                 "backlog": "Återstående bundet avtalsvärde: delbetalningar utan betald faktura.",
                 "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
-                "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic."
+                "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
+                "renewalValue": "Vad avtalet kostar per år efter bindningen, exkl. moms. Tomt: avtalsvärde delat med bindningen i månader gånger 12.",
+                "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
+                "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
             },
             "form": {
                 "createTitle": "Nytt avtal",
@@ -13382,7 +13385,12 @@
                 "settledTitle": "Reglerat utanför CitizenOne före",
                 "settledBefore": "Reglerat före (datum)",
                 "settledNote": "Anteckning om reglering",
-                "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275"
+                "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275",
+                "renewalValue": "Årligt värde vid förnyelse",
+                "renewalValuePlaceholder": "Standard",
+                "endsOn": "Slutdatum",
+                "modeMonths": "Bindning i månader",
+                "modeEndDate": "Slutdatum"
             },
             "detail": {
                 "title": "Avtal",
@@ -13465,6 +13473,23 @@
                 "invoice": "Faktura",
                 "choose": "Välj faktura",
                 "none": "Kunden har inga fakturor ännu."
+            },
+            "renewed": "Förnyat {count} gånger",
+            "renewedHelp": "Avtalet har förnyats automatiskt, 12 månader i taget, sedan bindningen gick ut.",
+            "covered": {
+                "chip": "Täckt av avtal",
+                "help": "Fakturan dokumenterar licenser som levererats under avtalet och räknas inte som intäkt.",
+                "footer": "Den här fakturan täcks av ett avtal och ska inte betalas.",
+                "title": "Fakturor som täcks av avtalet",
+                "add": "Lägg till",
+                "addHelp": "Välj fakturor som dokumenterar licenser som levererats under avtalet.",
+                "addTitle": "Lägg till täckta fakturor",
+                "addIntro": "Välj fakturorna som avtalet täcker. De räknas inte längre som intäkt.",
+                "addSelected": "Lägg till {count}",
+                "none": "Inga fakturor täcks av avtalet.",
+                "noneToAdd": "Inga fakturor att lägga till.",
+                "remove": "Ta bort",
+                "removeHelp": "Ta bort fakturan från avtalet så att den åter räknas som en vanlig faktura."
             }
         },
         "metrics": {
@@ -16718,6 +16743,7 @@
         "paidOn": "Betald {date}",
         "failed": "Betalningen av den här fakturan avvisades.",
         "payByBankTransfer": "Betalas via banköverföring",
-        "unpaid": "Den här fakturan är inte betald ännu."
+        "unpaid": "Den här fakturan är inte betald ännu.",
+        "covered": "Ingår i ert avtal"
     }
 }

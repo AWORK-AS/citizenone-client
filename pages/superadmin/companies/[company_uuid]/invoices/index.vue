@@ -61,7 +61,13 @@
                                     </Tooltip>
                                 </td>
                                 <td class="co-td">
-                                    <span v-if="invoice?.is_paid" class="co-badge co-badge-green">
+                                    <Tooltip v-if="invoice?.covered_by_agreement" :text="$t('superadmin.agreements.covered.help')" position="top" wrap>
+                                        <span class="co-badge co-badge-navy">
+                                            <Icon name="ph:handshake" class="w-3 h-3" aria-hidden="true" />
+                                            {{ $t('superadmin.agreements.covered.chip') }}
+                                        </span>
+                                    </Tooltip>
+                                    <span v-else-if="invoice?.is_paid" class="co-badge co-badge-green">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
                                         {{ $t('superadmin.invoices.table.paid') }}
                                     </span>
@@ -84,12 +90,12 @@
                                             <Icon name="ph:eye" class="w-3.5 h-3.5" />
                                             {{ $t('superadmin.invoices.table.actions.view') }}
                                         </SuperadminTableButton>
-                                        <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type"
+                                        <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type && !invoice?.covered_by_agreement"
                                             buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
                                             <Icon name="ph:check" class="w-3.5 h-3.5" />
                                             {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                         </SuperadminTableButton>
-                                        <Tooltip v-if="!invoice?.is_paid"
+                                        <Tooltip v-if="!invoice?.is_paid && !invoice?.covered_by_agreement"
                                             :text="$t('superadmin.agreements.payment.registerHelp')" position="top">
                                             <SuperadminTableButton buttonStyle="success"
                                                 @click="openRegisterPayment(invoice)">

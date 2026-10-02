@@ -60,6 +60,10 @@
                                     <p class="text-[11px] text-[#8891A4]">
                                         {{ $t('superadmin.agreements.months', { count: agreement.term_months }) }}
                                         <template v-if="agreement.auto_renews"> · {{ $t('superadmin.agreements.autoRenews') }}</template>
+                                        <Tooltip v-if="agreement.renewals_count > 0"
+                                            :text="$t('superadmin.agreements.renewedHelp')" position="top" wrap>
+                                            <span> · {{ $t('superadmin.agreements.renewed', { count: agreement.renewals_count }) }}</span>
+                                        </Tooltip>
                                     </p>
                                 </td>
                                 <td class="co-td text-[13px] text-[#1F2533] whitespace-nowrap">
@@ -177,7 +181,7 @@ const state = reactive({
 })
 
 function statusClass(status: string) {
-    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : 'co-badge-gray'
+    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-[#FEF3C7] text-[#B45309]' : 'co-badge-gray'
 }
 
 onMounted(fetchAgreements)
