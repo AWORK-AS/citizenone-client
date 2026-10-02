@@ -11816,7 +11816,8 @@
                 "active": "Aktive",
                 "inactive": "Inaktive",
                 "paying": "Betalende",
-                "migration": "Datamigrering"
+                "migration": "Datamigrering",
+                "agreements": "Aftaler"
             },
             "totalClients": "{count} klienter i alt",
             "export": "Eksporter",
@@ -13222,12 +13223,21 @@
                 "series": {
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumuleret"
+                    "cumulative": "Akkumuleret",
+                    "installments": "Rater (aftaler)",
+                    "assumedRenewal": "Antaget fornyelse, aftaler",
+                    "contracted": "Aftalt",
+                    "assumed": "Antaget fornyelse"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser i denne måned.",
-                "clickHint": "Klik på en søjle for at se hvilke kunder den består af."
+                "clickHint": "Klik på en søjle for at se hvilke kunder den består af.",
+                "help": {
+                    "installments": "Rater fra aftaler, placeret på forfaldsdatoen. Aftalt, ikke forudsat.",
+                    "assumedRenewal": "Aftaler der fornyes automatisk efter bindingen, regnet som årlig værdi. En antagelse, ikke en aftale."
+                },
+                "installmentsIn": "Aftalernes rater og antagne fornyelser"
             },
             "noAccess": {
                 "title": "Rapporten er forbeholdt ledelsen",
@@ -13360,6 +13370,219 @@
                 "noteAdded": "Noten er tilføjet",
                 "columnsSaved": "Kolonnerne er gemt"
             }
+        },
+        "agreements": {
+            "title": "Aftaler",
+            "subtitle": "Bindingsperiode, betalingsplan og aftaleværdi pr. kunde.",
+            "new": "Ny aftale",
+            "newHelp": "Opret en aftale med bindingsperiode og betalingsplan for denne kunde.",
+            "empty": "Ingen aftaler endnu",
+            "emptyHint": "Kunden tæller med abonnementets pris, indtil der oprettes en aftale.",
+            "months": "{count} mdr.",
+            "autoRenews": "fornyes automatisk",
+            "perYear": "{amount} / år",
+            "saved": "Aftalen er gemt.",
+            "deleted": "Aftalen er slettet.",
+            "table": {
+                "name": "Aftale",
+                "period": "Binding",
+                "billingPlan": "Betalingsplan",
+                "contractValue": "Aftaleværdi",
+                "mrrArr": "Kontrakt-MRR / ARR",
+                "backlog": "Backlog",
+                "status": "Status",
+                "notice": "Opsigelsesfrist",
+                "dueOn": "Forfald",
+                "amount": "Beløb ekskl. moms",
+                "label": "Tekst"
+            },
+            "plans": {
+                "monthly": "Månedlig",
+                "yearly": "Årlig",
+                "prepaid_multi_year": "Flere år forud",
+                "installments": "Rater"
+            },
+            "statuses": {
+                "active": "Aktiv",
+                "ended": "Udløbet",
+                "cancelled": "Opsagt"
+            },
+            "paymentMethods": {
+                "bank_transfer": "Bankoverførsel",
+                "card": "Kort"
+            },
+            "internal": {
+                "title": "Kun intern information.",
+                "body": "Aftaler, bindinger, aftaleværdi og interne noter vises aldrig for kunden. Kunden ser kun sine fakturaer.",
+                "help": "Denne side er kun for superadmins. Intet herfra eksponeres i kundens visning."
+            },
+            "help": {
+                "termMonths": "Bindingsperiodens længde i måneder, fx 48.",
+                "noticeMonths": "Hvor mange måneder før bindingen udløber kunden skal have opsagt.",
+                "autoRenews": "Hvis slået til, antages aftalen fornyet årligt efter udløb i prognosen.",
+                "contractValue": "Samlet værdi ekskl. moms over hele bindingen.",
+                "feePerInvoice": "Servicegebyr ekskl. moms, lagt oveni hver faktura.",
+                "billingPlan": "Hvordan aftalen opkræves. Bindingen og betalingsfrekvensen er to forskellige ting.",
+                "preview": "Beregnet af serveren med de værdier du har indtastet. Intet gemmes.",
+                "status": "Aktiv: løber nu. Udløbet: bindingen er slut. Opsagt: aftalen er opsagt.",
+                "billingPlanBadge": "Hvordan aftalen opkræves.",
+                "mrrArr": "Aftaleværdi delt med bindingen i måneder (MRR), og gange 12 (ARR).",
+                "invoiced": "Samlet beløb på fakturaer der er dannet for aftalen.",
+                "backlog": "Resterende bundet aftaleværdi: rater uden betalt faktura.",
+                "subscriptions": "Licenser og Pro-profil koblet til aftalen gælder hele bindingen og opkræves ikke med kort ved siden af.",
+                "settledExternally": "Åbne rater der forfalder før denne dato markeres som afregnet og faktureres aldrig. Brug det til kunder der allerede har betalt via e-conomic."
+            },
+            "form": {
+                "createTitle": "Ny aftale",
+                "editTitle": "Rediger aftale",
+                "name": "Navn",
+                "namePlaceholder": "fx CitizenOne Pro inkl. AI - 180 brugere",
+                "startsOn": "Ikrafttræden",
+                "termMonths": "Binding (måneder)",
+                "noticeMonths": "Opsigelsesvarsel (måneder)",
+                "autoRenews": "Fornyes automatisk",
+                "contractValue": "Aftaleværdi ekskl. moms",
+                "feePerInvoice": "Servicegebyr pr. faktura",
+                "paymentMethod": "Betalingsmetode",
+                "internalNote": "Intern note",
+                "internalNotePlaceholder": "Kun synlig for superadmins",
+                "billingPlan": "Betalingsplan",
+                "prepaidYears": "År pr. opkrævning",
+                "presetTitle": "Ratehjælper",
+                "presetHint": "Fx 30 % ved opstart og resten fordelt ligeligt. Du kan rette rækkerne bagefter.",
+                "upfrontPercent": "Forud (%)",
+                "remainingCount": "Antal senere rater",
+                "remainingInterval": "Interval (måneder)",
+                "applyPreset": "Beregn rater",
+                "applyPresetHelp": "Erstatter listen nedenfor med raterne fra hjælperen.",
+                "presetLocked": "Der er allerede fakturerede rater. De kan ikke ændres, så hjælperen er slået fra.",
+                "installmentList": "Rater",
+                "addInstallment": "Tilføj rate",
+                "addInstallmentHelp": "Tilføj en række til listen.",
+                "noInstallments": "Ingen rater endnu. Brug hjælperen eller tilføj en række.",
+                "lockedRow": "Der er dannet en faktura for denne rate. Den kan ikke ændres eller slettes.",
+                "removeInstallment": "Fjern rate",
+                "sumCheckHelp": "Summen af raterne skal være lig med aftaleværdien (tolerance 0,01 kr.).",
+                "sumOk": "Raterne summer til {sum}",
+                "sumMismatch": "Raterne summer til {sum}, aftaleværdien er {value} (forskel {diff})",
+                "previewTitle": "Forhåndsvisning af plan",
+                "previewEmpty": "Udfyld start, binding og aftaleværdi for at se planen.",
+                "save": "Gem aftale",
+                "presetLabel": "Rate {n} af {total}",
+                "presetLabelUpfront": "Rate {n} af {total} - {percent} % ved opstart",
+                "settledTitle": "Afregnet uden for CitizenOne før",
+                "settledBefore": "Afregnet før (dato)",
+                "settledNote": "Note til afregning",
+                "settledNotePlaceholder": "fx e-conomic bilag 297637275"
+            },
+            "detail": {
+                "title": "Aftale",
+                "installments": "Rater og fakturaer",
+                "invoice": "Faktura",
+                "paid": "Betalt",
+                "openInvoice": "Åbn fakturaen",
+                "notInvoiced": "Ikke faktureret",
+                "notInvoicedHelp": "Fakturaen dannes automatisk på forfaldsdagen.",
+                "paidHelp": "Fakturaen er betalt på den viste dato.",
+                "unpaidHelp": "Fakturaen er dannet men endnu ikke betalt. Registrér betalingen på fakturaen.",
+                "subscriptions": "Koblede abonnementer",
+                "noSubscriptions": "Ingen abonnementer at koble.",
+                "saveSubscriptions": "Gem kobling",
+                "saveSubscriptionsHelp": "Gemmer hvilke licenser og Pro-profil der hører til aftalen.",
+                "mainSubscription": "Hovedabonnement",
+                "cancel": "Opsig aftalen",
+                "cancelHelp": "Markerer aftalen som opsagt fra den valgte dato.",
+                "cancelDate": "Opsigelsesdato",
+                "delete": "Slet",
+                "deleteHelp": "Kun muligt hvis der ikke er dannet fakturaer for aftalen.",
+                "deleteConfirm": "Slet aftalen",
+                "edit": "Rediger",
+                "editHelp": "Ret aftalens vilkår og betalingsplan.",
+                "openHelp": "Se rater, fakturaer og koblede abonnementer.",
+                "invoicedTotal": "Faktureret",
+                "linkedElsewhere": "Er allerede koblet til en anden aftale. Fjern koblingen dér først.",
+                "dealTypes": {
+                    "deal": "Licens",
+                    "add_on_deal": "Tilkøb",
+                    "application": "App"
+                }
+            },
+            "notice": {
+                "passed": "Opsigelsesfrist passeret {date}",
+                "soon": "Opsigelsesfrist om {days} dage",
+                "deadline": "Opsigelsesfrist {date}",
+                "help": "Seneste dato kunden kan opsige uden at aftalen fornyes. Efter {date} er det for sent.",
+                "passedRenews": "Fristen {date} er passeret, og aftalen fornyes automatisk.",
+                "passedEnds": "Fristen {date} er passeret. Aftalen udløber ved bindingens udløb."
+            },
+            "payment": {
+                "title": "Registrér betaling",
+                "intro": "Registrér at faktura {number} er betalt uden for CitizenOne, fx via bankoverførsel.",
+                "paidAt": "Betalt den",
+                "paidAmount": "Betalt beløb",
+                "paidAmountHint": "Beløb inkl. moms og gebyr.",
+                "note": "Betalingsnote",
+                "notePlaceholder": "fx e-conomic bilagsnummer",
+                "register": "Registrér betaling",
+                "registerHelp": "Markér fakturaen som betalt med dato, beløb og bilagsnummer.",
+                "registered": "Betalingen er registreret.",
+                "undo": "Fortryd",
+                "undoHelp": "Fjern den registrerede betaling, så fakturaen igen står som ubetalt.",
+                "undoConfirm": "Fortryd den registrerede betaling",
+                "undone": "Betalingen er fortrudt.",
+                "bankTransfer": "Bankoverførsel",
+                "bankTransferHelp": "Fakturaen betales med bankoverførsel og ikke med kort."
+            },
+            "companyList": {
+                "bindingUntil": "Binding til",
+                "mrr": "{amount} / md."
+            },
+            "preview": {
+                "endsOn": "Udløber {date}",
+                "endsOnHelp": "Bindingens slutdato, beregnet af serveren.",
+                "noticeDeadline": "Opsigelsesfrist {date}",
+                "mrrArr": "Kontrakt-MRR {mrr} / ARR {arr}"
+            },
+            "settled": {
+                "chip": "Afregnet eksternt",
+                "help": "Afregnet uden for CitizenOne. Fakturaen dannes ikke, og raden kan ikke ændres.",
+                "helpWithNote": "Afregnet uden for CitizenOne: {note}. Fakturaen dannes ikke, og raden kan ikke ændres."
+            },
+            "linkInvoice": {
+                "action": "Kobl faktura",
+                "help": "Kobl en eksisterende faktura til denne rate i stedet for at danne en ny.",
+                "title": "Kobl faktura til rate",
+                "intro": "Vælg den faktura der hører til raten {label} ({amount} ekskl. moms).",
+                "invoice": "Faktura",
+                "choose": "Vælg faktura",
+                "none": "Kunden har ingen fakturaer endnu."
+            }
+        },
+        "metrics": {
+            "contractMrr": "Kontrakt-MRR",
+            "contractArr": "Kontrakt-ARR {amount}",
+            "cashMrr": "Cash-MRR",
+            "cashArr": "Cash-ARR, næste 12 mdr. {amount}",
+            "backlog": "Resterende bundet aftaleværdi",
+            "backlogSub": "Rater uden betalt faktura",
+            "outstanding": "Udestående",
+            "outstandingSub": "Faktureret og ubetalt",
+            "bindingsEnding": "Bindinger der udløber",
+            "bindingsWithin": "{count} aftale(r) udløber inden for {months} mdr.",
+            "monthsShort": "{months} mdr.",
+            "internalNote": "Aftaletal er interne og vises aldrig for kunderne.",
+            "help": {
+                "contractMrr": "Aftalernes værdi delt over bindingen, plus abonnementer uden aftale. Hovedtallet. ARR er dette tal gange 12.",
+                "cashMrr": "Det der faktisk fakturereres de næste 12 måneder (rater og planlagte opkrævninger) delt med 12.",
+                "backlog": "Summen af rater på aktive aftaler, hvor fakturaen ikke er betalt.",
+                "outstanding": "Fakturaer for aftaler der er dannet, men endnu ikke betalt.",
+                "bindingsEnding": "Antal aktive aftaler hvis binding udløber inden for 3, 6 og 12 måneder.",
+                "upcoming": "Aktive aftaler sorteret efter udløb. Klik for at åbne kundens Aftaler."
+            },
+            "upcomingTitle": "Næste bindinger der udløber",
+            "upcomingDates": "Udløber {ends} - opsigelsesfrist {notice}",
+            "noAutoRenew": "Fornyes ikke",
+            "noAutoRenewHelp": "Aftalen fornyes ikke automatisk og udløber ved bindingens slutning."
         }
     },
     "support": {
@@ -16580,5 +16803,12 @@
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "invoicePayment": {
+        "paid": "Denne faktura er betalt.",
+        "paidOn": "Betalt d. {date}",
+        "failed": "Betalingen af denne faktura blev afvist.",
+        "payByBankTransfer": "Betales via bankoverførsel",
+        "unpaid": "Denne faktura er endnu ikke betalt."
     }
 }

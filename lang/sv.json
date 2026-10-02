@@ -11779,7 +11779,8 @@
                 "active": "Aktiva",
                 "inactive": "Inaktiva",
                 "paying": "Betalande",
-                "migration": "Datamigrering"
+                "migration": "Datamigrering",
+                "agreements": "Avtal"
             },
             "totalClients": "klienter totalt",
             "export": "Exportera",
@@ -13133,12 +13134,19 @@
                     "renewals": "Årsförnyelser",
                     "cumulative": "Ackumulerat",
                     "contracted": "Avtalat",
-                    "assumed": "Förutsatt förnyelse"
+                    "assumed": "Förutsatt förnyelse",
+                    "installments": "Delbetalningar (avtal)",
+                    "assumedRenewal": "Antagen förnyelse, avtal"
                 },
                 "renewalsIn": "Förnyelser i {month}",
                 "renewalsCount": "{count} kund(er)",
                 "noRenewals": "Inga årsförnyelser den här månaden.",
-                "clickHint": "Klicka på en stapel för att se vilka kunder den består av."
+                "clickHint": "Klicka på en stapel för att se vilka kunder den består av.",
+                "help": {
+                    "installments": "Delbetalningar från avtal, placerade på förfallodatumet. Avtalat, inte antaget.",
+                    "assumedRenewal": "Avtal som förnyas automatiskt efter bindningen, räknat som årligt värde. Ett antagande, inte ett avtal."
+                },
+                "installmentsIn": "Avtalens delbetalningar och antagna förnyelser"
             },
             "noAccess": {
                 "title": "Rapporten är endast för ledningen",
@@ -13271,6 +13279,219 @@
                 "noteAdded": "Anteckningen har lagts till",
                 "columnsSaved": "Kolumnerna har sparats"
             }
+        },
+        "agreements": {
+            "title": "Avtal",
+            "subtitle": "Bindningstid, betalningsplan och avtalsvärde per kund.",
+            "new": "Nytt avtal",
+            "newHelp": "Skapa ett avtal med bindningstid och betalningsplan för den här kunden.",
+            "empty": "Inga avtal ännu",
+            "emptyHint": "Kunden räknas med abonnemangspriset tills ett avtal skapas.",
+            "months": "{count} mån.",
+            "autoRenews": "förnyas automatiskt",
+            "perYear": "{amount} / år",
+            "saved": "Avtalet har sparats.",
+            "deleted": "Avtalet har raderats.",
+            "table": {
+                "name": "Avtal",
+                "period": "Bindning",
+                "billingPlan": "Betalningsplan",
+                "contractValue": "Avtalsvärde",
+                "mrrArr": "Kontrakt-MRR / ARR",
+                "backlog": "Backlog",
+                "status": "Status",
+                "notice": "Uppsägningstid",
+                "dueOn": "Förfallodatum",
+                "amount": "Belopp exkl. moms",
+                "label": "Text"
+            },
+            "plans": {
+                "monthly": "Månadsvis",
+                "yearly": "Årlig",
+                "prepaid_multi_year": "Flera år i förskott",
+                "installments": "Delbetalningar"
+            },
+            "statuses": {
+                "active": "Aktiv",
+                "ended": "Avslutat",
+                "cancelled": "Uppsagt"
+            },
+            "paymentMethods": {
+                "bank_transfer": "Banköverföring",
+                "card": "Kort"
+            },
+            "internal": {
+                "title": "Endast intern information.",
+                "body": "Avtal, bindningar, avtalsvärde och interna anteckningar visas aldrig för kunden. Kunden ser bara sina fakturor.",
+                "help": "Den här sidan är endast för superadmins. Inget här visas i kundens vy."
+            },
+            "help": {
+                "termMonths": "Bindningstidens längd i månader, t.ex. 48.",
+                "noticeMonths": "Hur många månader före bindningens slut kunden måste ha sagt upp.",
+                "autoRenews": "Om på antar prognosen att avtalet förnyas årligen efter slutdatum.",
+                "contractValue": "Totalt värde exkl. moms över hela bindningen.",
+                "feePerInvoice": "Serviceavgift exkl. moms som läggs på varje faktura.",
+                "billingPlan": "Hur avtalet faktureras. Bindningen och betalningsfrekvensen är två olika saker.",
+                "preview": "Beräknat av servern utifrån värdena du angett. Inget sparas.",
+                "status": "Aktiv: pågår nu. Avslutat: bindningen är slut. Uppsagt: avtalet är uppsagt.",
+                "billingPlanBadge": "Hur avtalet faktureras.",
+                "mrrArr": "Avtalsvärde delat med bindningen i månader (MRR), och gånger 12 (ARR).",
+                "invoiced": "Totalt belopp på fakturor som skapats för avtalet.",
+                "backlog": "Återstående bundet avtalsvärde: delbetalningar utan betald faktura.",
+                "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
+                "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic."
+            },
+            "form": {
+                "createTitle": "Nytt avtal",
+                "editTitle": "Redigera avtal",
+                "name": "Namn",
+                "namePlaceholder": "t.ex. CitizenOne Pro inkl. AI - 180 användare",
+                "startsOn": "Ikraftträdande",
+                "termMonths": "Bindning (månader)",
+                "noticeMonths": "Uppsägningstid (månader)",
+                "autoRenews": "Förnyas automatiskt",
+                "contractValue": "Avtalsvärde exkl. moms",
+                "feePerInvoice": "Serviceavgift per faktura",
+                "paymentMethod": "Betalningsmetod",
+                "internalNote": "Intern anteckning",
+                "internalNotePlaceholder": "Endast synlig för superadmins",
+                "billingPlan": "Betalningsplan",
+                "prepaidYears": "År per fakturering",
+                "presetTitle": "Delbetalningshjälp",
+                "presetHint": "T.ex. 30 % vid start och resten fördelat lika. Du kan ändra raderna efteråt.",
+                "upfrontPercent": "Förskott (%)",
+                "remainingCount": "Antal senare delbetalningar",
+                "remainingInterval": "Intervall (månader)",
+                "applyPreset": "Beräkna delbetalningar",
+                "applyPresetHelp": "Ersätter listan nedan med delbetalningarna från hjälpen.",
+                "presetLocked": "Vissa delbetalningar är redan fakturerade. De kan inte ändras, så hjälpen är avstängd.",
+                "installmentList": "Delbetalningar",
+                "addInstallment": "Lägg till delbetalning",
+                "addInstallmentHelp": "Lägg till en rad i listan.",
+                "noInstallments": "Inga delbetalningar ännu. Använd hjälpen eller lägg till en rad.",
+                "lockedRow": "En faktura har skapats för den här delbetalningen. Den kan inte ändras eller tas bort.",
+                "removeInstallment": "Ta bort delbetalning",
+                "sumCheckHelp": "Summan av delbetalningarna måste motsvara avtalsvärdet (tolerans 0,01).",
+                "sumOk": "Delbetalningarna summerar till {sum}",
+                "sumMismatch": "Delbetalningarna summerar till {sum}, avtalsvärdet är {value} (skillnad {diff})",
+                "previewTitle": "Förhandsvisning av plan",
+                "previewEmpty": "Fyll i start, bindning och avtalsvärde för att se planen.",
+                "save": "Spara avtal",
+                "presetLabel": "Delbetalning {n} av {total}",
+                "presetLabelUpfront": "Delbetalning {n} av {total} - {percent} % vid start",
+                "settledTitle": "Reglerat utanför CitizenOne före",
+                "settledBefore": "Reglerat före (datum)",
+                "settledNote": "Anteckning om reglering",
+                "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275"
+            },
+            "detail": {
+                "title": "Avtal",
+                "installments": "Delbetalningar och fakturor",
+                "invoice": "Faktura",
+                "paid": "Betald",
+                "openInvoice": "Öppna fakturan",
+                "notInvoiced": "Ej fakturerad",
+                "notInvoicedHelp": "Fakturan skapas automatiskt på förfallodagen.",
+                "paidHelp": "Fakturan betaldes på det visade datumet.",
+                "unpaidHelp": "Fakturan finns men är inte betald ännu. Registrera betalningen på fakturan.",
+                "subscriptions": "Kopplade abonnemang",
+                "noSubscriptions": "Inga abonnemang att koppla.",
+                "saveSubscriptions": "Spara koppling",
+                "saveSubscriptionsHelp": "Sparar vilka licenser och vilken Pro-profil som hör till avtalet.",
+                "mainSubscription": "Huvudabonnemang",
+                "cancel": "Säg upp avtalet",
+                "cancelHelp": "Markerar avtalet som uppsagt från valt datum.",
+                "cancelDate": "Uppsägningsdatum",
+                "delete": "Radera",
+                "deleteHelp": "Endast möjligt om inga fakturor har skapats för avtalet.",
+                "deleteConfirm": "Radera avtalet",
+                "edit": "Redigera",
+                "editHelp": "Ändra avtalets villkor och betalningsplan.",
+                "openHelp": "Se delbetalningar, fakturor och kopplade abonnemang.",
+                "invoicedTotal": "Fakturerat",
+                "linkedElsewhere": "Är redan kopplad till ett annat avtal. Ta bort kopplingen där först.",
+                "dealTypes": {
+                    "deal": "Licens",
+                    "add_on_deal": "Tillägg",
+                    "application": "App"
+                }
+            },
+            "notice": {
+                "passed": "Uppsägningstiden passerade {date}",
+                "soon": "Uppsägningstid om {days} dagar",
+                "deadline": "Uppsägningstid {date}",
+                "help": "Sista datum kunden kan säga upp utan att avtalet förnyas. Efter {date} är det för sent.",
+                "passedRenews": "Tidsfristen {date} har passerat och avtalet förnyas automatiskt.",
+                "passedEnds": "Tidsfristen {date} har passerat. Avtalet upphör när bindningen går ut."
+            },
+            "payment": {
+                "title": "Registrera betalning",
+                "intro": "Registrera att faktura {number} har betalats utanför CitizenOne, t.ex. via banköverföring.",
+                "paidAt": "Betald den",
+                "paidAmount": "Betalt belopp",
+                "paidAmountHint": "Belopp inkl. moms och avgift.",
+                "note": "Betalningsanteckning",
+                "notePlaceholder": "t.ex. e-conomic verifikationsnummer",
+                "register": "Registrera betalning",
+                "registerHelp": "Markera fakturan som betald med datum, belopp och verifikationsnummer.",
+                "registered": "Betalningen har registrerats.",
+                "undo": "Ångra",
+                "undoHelp": "Ta bort den registrerade betalningen så att fakturan åter står som obetald.",
+                "undoConfirm": "Ångra den registrerade betalningen",
+                "undone": "Betalningen har ångrats.",
+                "bankTransfer": "Banköverföring",
+                "bankTransferHelp": "Fakturan betalas via banköverföring och inte med kort."
+            },
+            "companyList": {
+                "bindingUntil": "Bindning till",
+                "mrr": "{amount} / mån."
+            },
+            "preview": {
+                "endsOn": "Slutar {date}",
+                "endsOnHelp": "Bindningens slutdatum, beräknat av servern.",
+                "noticeDeadline": "Uppsägningstid {date}",
+                "mrrArr": "Kontrakt-MRR {mrr} / ARR {arr}"
+            },
+            "settled": {
+                "chip": "Reglerat externt",
+                "help": "Reglerat utanför CitizenOne. Ingen faktura skapas och raden kan inte ändras.",
+                "helpWithNote": "Reglerat utanför CitizenOne: {note}. Ingen faktura skapas och raden kan inte ändras."
+            },
+            "linkInvoice": {
+                "action": "Koppla faktura",
+                "help": "Koppla en befintlig faktura till den här delbetalningen i stället för att skapa en ny.",
+                "title": "Koppla faktura till delbetalning",
+                "intro": "Välj fakturan som hör till delbetalningen {label} ({amount} exkl. moms).",
+                "invoice": "Faktura",
+                "choose": "Välj faktura",
+                "none": "Kunden har inga fakturor ännu."
+            }
+        },
+        "metrics": {
+            "contractMrr": "Kontrakt-MRR",
+            "contractArr": "Kontrakt-ARR {amount}",
+            "cashMrr": "Cash-MRR",
+            "cashArr": "Cash-ARR, nästa 12 mån. {amount}",
+            "backlog": "Återstående bundet avtalsvärde",
+            "backlogSub": "Delbetalningar utan betald faktura",
+            "outstanding": "Utestående",
+            "outstandingSub": "Fakturerat och obetalt",
+            "bindingsEnding": "Bindningar som löper ut",
+            "bindingsWithin": "{count} avtal löper ut inom {months} mån.",
+            "monthsShort": "{months} mån.",
+            "internalNote": "Avtalssiffror är interna och visas aldrig för kunderna.",
+            "help": {
+                "contractMrr": "Avtalens värde fördelat över bindningen, plus abonnemang utan avtal. Huvudsiffran. ARR är detta gånger 12.",
+                "cashMrr": "Det som faktiskt faktureras de närmaste 12 månaderna (delbetalningar och planerade debiteringar) delat med 12.",
+                "backlog": "Summan av delbetalningar på aktiva avtal där fakturan inte är betald.",
+                "outstanding": "Avtalsfakturor som skapats men ännu inte betalats.",
+                "bindingsEnding": "Antal aktiva avtal vars bindning löper ut inom 3, 6 och 12 månader.",
+                "upcoming": "Aktiva avtal sorterade efter slutdatum. Klicka för att öppna kundens Avtal."
+            },
+            "upcomingTitle": "Nästa bindningar som löper ut",
+            "upcomingDates": "Slutar {ends} - uppsägningstid {notice}",
+            "noAutoRenew": "Förnyas inte",
+            "noAutoRenewHelp": "Avtalet förnyas inte automatiskt och upphör när bindningen går ut."
         }
     },
     "support": {
@@ -16491,5 +16712,12 @@
             "overdue": "Försenad {date}",
             "dueToday": "Deadline i dag"
         }
+    },
+    "invoicePayment": {
+        "paid": "Den här fakturan är betald.",
+        "paidOn": "Betald {date}",
+        "failed": "Betalningen av den här fakturan avvisades.",
+        "payByBankTransfer": "Betalas via banköverföring",
+        "unpaid": "Den här fakturan är inte betald ännu."
     }
 }
