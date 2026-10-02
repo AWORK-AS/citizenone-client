@@ -1,0 +1,313 @@
+<template>
+    <Modal size="3xl" :title="state.agreement?.name ?? $t('superadmin.agreements.detail.title')" titleIcon="ph:handshake"
+        :show="props.isModalOpen" @close="$emit('close')">
+        <template #modal-body>
+            <LoadingSpinner :isActive="state.isLoading">
+                <div v-if="state.agreement" class="space-y-6">
+                    <ModulesSuperadminAgreementInternalNotice />
+                    <Alert type="danger" :text="state.error?.message"
+                        v-if="state.error?.message && state.error.message.length > 0" />
+
+                    <!-- Key figures -->
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                        <Tooltip v-for="card in cards" :key="card.key" :text="card.help" position="bottom" wrap>
+                            <div class="rounded-xl border border-[#EAECF0] bg-white p-3 w-full text-left">
+                                <p class="text-[11px] text-[#8891A4]">{{ card.label }}</p>
+                                <p class="text-[17px] font-semibold text-[#1F2533]">{{ card.value }}</p>
+                            </div>
+                        </Tooltip>
+                    </div>
+
+                    <div class="flex flex-wrap items-center gap-2 text-[12px]">
+                        <Tooltip :text="$t('superadmin.agreements.help.status')" position="top" wrap>
+                            <span class="co-badge" :class="statusClass(state.agreement.status)">
+                                {{ $t(`superadmin.agreements.statuses.${state.agreement.status}`) }}
+                            </span>
+                        </Tooltip>
+                        <Tooltip :text="$t('superadmin.agreements.help.billingPlanBadge')" position="top" wrap>
+                            <span class="co-badge co-badge-navy">
+                                {{ $t(`superadmin.agreements.plans.${state.agreement.billing_plan}`) }}
+                            </span>
+                        </Tooltip>
+                        <span class="text-[#5C6478]">
+                            {{ formatDateToReadable(state.agreement.starts_on) }} - {{ formatDateToReadable(state.agreement.ends_on) }}
+                            ({{ $t('superadmin.agreements.months', { count: state.agreement.term_months }) }})
+                        </span>
+                        <ModulesSuperadminAgreementNoticeBadge :deadline="state.agreement.notice_deadline"
+                            :autoRenews="state.agreement.auto_renews" />
+                    </div>
+
+                    <p v-if="state.agreement.internal_note"
+                        class="text-[13px] text-[#5C6478] bg-[#F9FAFB] border border-[#EAECF0] rounded-lg px-3 py-2 whitespace-pre-wrap">
+                        {{ state.agreement.internal_note }}
+                    </p>
+
+                    <!-- Installments -->
+                    <section class="border border-[#EAECF0] rounded-xl overflow-hidden">
+                        <div class="px-4 py-2.5 bg-[#F9FAFB] border-b border-[#EAECF0]">
+                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                                {{ $t('superadmin.agreements.detail.installments') }}
+                            </p>
+                        </div>
+                        <table class="w-full text-[13px]">
+                            <thead>
+                                <tr class="text-left text-[11px] uppercase text-[#5C6478]">
+                                    <th class="px-4 py-2">#</th>
+                                    <th class="px-4 py-2">{{ $t('superadmin.agreements.table.dueOn') }}</th>
+                                    <th class="px-4 py-2">{{ $t('superadmin.agreements.table.label') }}</th>
+                                    <th class="px-4 py-2 text-right">{{ $t('superadmin.agreements.table.amount') }}</th>
+                                    <th class="px-4 py-2">{{ $t('superadmin.agreements.detail.invoice') }}</th>
+                                    <th class="px-4 py-2">{{ $t('superadmin.agreements.detail.paid') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="row in state.agreement.installments" :key="row.uuid"
+                                    class="border-t border-[#F5F6F8]">
+                                    <td class="px-4 py-2 text-[#8891A4]">{{ row.sequence }}</td>
+                                    <td class="px-4 py-2">{{ formatDateToReadable(row.due_on) }}</td>
+                                    <td class="px-4 py-2 text-[#5C6478]">{{ row.label }}</td>
+                                    <td class="px-4 py-2 text-right font-medium">{{ formatAmount(row.amount, 'DKK') }}</td>
+                                    <td class="px-4 py-2">
+                                        <Tooltip v-if="row.invoice" :text="$t('superadmin.agreements.detail.openInvoice')"
+                                            position="top">
+                                            <NuxtLink class="font-mono text-[#205E77] hover:underline"
+                                                :to="`/superadmin/companies/${props.companyUuid}/invoices/${row.invoice.uuid}/invoice-details`">
+                                                #{{ row.invoice.invoice_number }}
+                                            </NuxtLink>
+                                        </Tooltip>
+                                        <Tooltip v-else :text="$t('superadmin.agreements.detail.notInvoicedHelp')"
+                                            position="top" wrap>
+                                            <span class="co-badge co-badge-gray">
+                                                {{ $t('superadmin.agreements.detail.notInvoiced') }}
+                                            </span>
+                                        </Tooltip>
+                                    </td>
+                                    <td class="px-4 py-2">
+                                        <template v-if="row.invoice">
+                                            <Tooltip v-if="row.invoice.is_paid"
+                                                :text="$t('superadmin.agreements.detail.paidHelp')" position="top" wrap>
+                                                <span class="co-badge co-badge-green">
+                                                    <Icon name="ph:check" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ row.invoice.paid_at
+                                                        ? formatDateToReadable(row.invoice.paid_at)
+                                                        : $t('superadmin.invoices.table.paid') }}
+                                                </span>
+                                            </Tooltip>
+                                            <Tooltip v-else :text="$t('superadmin.agreements.detail.unpaidHelp')"
+                                                position="top" wrap>
+                                                <span class="co-badge co-badge-red">
+                                                    {{ $t('superadmin.invoices.table.unpaid') }}
+                                                </span>
+                                            </Tooltip>
+                                        </template>
+                                        <span v-else class="text-[#B4BBC7]">-</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
+
+                    <!-- Subscriptions -->
+                    <section class="border border-[#EAECF0] rounded-xl p-4 space-y-3">
+                        <div class="flex items-center gap-1.5">
+                            <p class="text-[13px] font-semibold text-[#1F2533]">
+                                {{ $t('superadmin.agreements.detail.subscriptions') }}
+                            </p>
+                            <Tooltip :text="$t('superadmin.agreements.help.subscriptions')" position="top" wrap>
+                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                    :aria-label="$t('superadmin.agreements.help.subscriptions')" />
+                            </Tooltip>
+                        </div>
+                        <p v-if="!subscriptionOptions.length" class="text-[12px] text-[#8891A4]">
+                            {{ $t('superadmin.agreements.detail.noSubscriptions') }}
+                        </p>
+                        <label v-for="option in subscriptionOptions" :key="option.uuid"
+                            class="flex items-center gap-2 text-sm text-[#1F2533] cursor-pointer">
+                            <input type="checkbox" class="rounded border-[#D5D9E2]" :value="option.uuid"
+                                v-model="state.linked" />
+                            <span>{{ option.label }}</span>
+                            <span v-if="option.user_name" class="text-[12px] text-[#8891A4]">{{ option.user_name }}</span>
+                        </label>
+                        <Tooltip :text="$t('superadmin.agreements.detail.saveSubscriptionsHelp')" position="top" wrap>
+                            <FormButton type="button" buttonStyle="action" :disabled="!linkedChanged"
+                                @click="saveSubscriptions">
+                                <Icon name="ph:link" class="w-4 h-4" aria-hidden="true" />
+                                {{ $t('superadmin.agreements.detail.saveSubscriptions') }}
+                            </FormButton>
+                        </Tooltip>
+                    </section>
+
+                    <!-- Actions -->
+                    <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                        <div v-if="state.agreement.status === 'active'" class="flex items-center gap-2">
+                            <Tooltip :text="$t('superadmin.agreements.detail.cancelHelp')" position="top" wrap>
+                                <FormButton type="button" buttonStyle="danger" @click="state.cancel.open = !state.cancel.open">
+                                    <Icon name="ph:prohibit" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.detail.cancel') }}
+                                </FormButton>
+                            </Tooltip>
+                            <template v-if="state.cancel.open">
+                                <input type="date" class="co-cell-input" v-model="state.cancel.date"
+                                    :aria-label="$t('superadmin.agreements.detail.cancelDate')" />
+                                <FormButton type="button" buttonStyle="danger" @click="cancelAgreement">
+                                    {{ $t('confirm') }}
+                                </FormButton>
+                            </template>
+                        </div>
+                        <span v-else></span>
+                        <div class="flex items-center gap-2">
+                            <Tooltip :text="$t('superadmin.agreements.detail.deleteHelp')" position="top" wrap>
+                                <FormButton type="button" buttonStyle="danger" @click="state.isDeleteOpen = true">
+                                    <Icon name="ph:trash" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.detail.delete') }}
+                                </FormButton>
+                            </Tooltip>
+                            <Tooltip :text="$t('superadmin.agreements.detail.editHelp')" position="top">
+                                <FormButton type="button" buttonStyle="primary" @click="$emit('edit', state.agreement)">
+                                    <Icon name="ph:pencil-simple" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.detail.edit') }}
+                                </FormButton>
+                            </Tooltip>
+                        </div>
+                    </div>
+                </div>
+            </LoadingSpinner>
+            <DialogConfirmation :isModalOpen="state.isDeleteOpen"
+                :message="$t('superadmin.agreements.detail.deleteConfirm') + '?'"
+                @close="state.isDeleteOpen = false" @confirm="deleteAgreement" />
+        </template>
+    </Modal>
+</template>
+
+<script setup lang="ts">
+import moment from 'moment'
+import { useI18n } from 'vue-i18n'
+import { agreementService } from '@/components/api/superadmin/AgreementService'
+import { licenseService } from '@/components/api/superadmin/LicenseService'
+import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { unwrapData } from '@/composables/agreements'
+import type { Agreement, AgreementSubscription } from '@/types/agreement'
+import type { Error } from '@/types'
+
+const props = defineProps({
+    isModalOpen: { type: Boolean, required: true },
+    companyUuid: { type: String, required: true },
+    agreementUuid: { type: String, default: '' },
+})
+const emit = defineEmits(['close', 'edit', 'changed', 'deleted'])
+
+const { t } = useI18n()
+const { formatAmount } = useAmountFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
+
+const state = reactive({
+    agreement: null as Agreement | null,
+    isLoading: false,
+    error: {} as Error,
+    linked: [] as string[],
+    candidates: [] as AgreementSubscription[],
+    cancel: { open: false, date: moment().format('YYYY-MM-DD') },
+    isDeleteOpen: false,
+})
+
+const cards = computed(() => {
+    const a = state.agreement
+    if (!a) return []
+    return [
+        { key: 'value', label: t('superadmin.agreements.table.contractValue'), value: formatAmount(a.contract_value, 'DKK'), help: t('superadmin.agreements.help.contractValue') },
+        { key: 'mrr', label: t('superadmin.agreements.table.mrrArr'), value: `${formatAmount(a.contract_mrr, 'DKK')} / ${formatAmount(a.contract_arr, 'DKK')}`, help: t('superadmin.agreements.help.mrrArr') },
+        { key: 'invoiced', label: t('superadmin.agreements.detail.invoicedTotal'), value: formatAmount(a.invoiced_total, 'DKK'), help: t('superadmin.agreements.help.invoiced') },
+        { key: 'backlog', label: t('superadmin.agreements.table.backlog'), value: formatAmount(a.backlog, 'DKK'), help: t('superadmin.agreements.help.backlog') },
+    ]
+})
+
+/** Linked subscriptions plus the company's main subscription, if not linked yet. */
+const subscriptionOptions = computed<AgreementSubscription[]>(() => {
+    const linked = state.agreement?.subscriptions ?? []
+    const seen = new Set(linked.map((s) => s.uuid))
+    return [...linked, ...state.candidates.filter((c) => !seen.has(c.uuid))]
+})
+
+const linkedChanged = computed(() => {
+    const original = (state.agreement?.subscriptions ?? []).map((s) => s.uuid).sort().join(',')
+    return original !== [...state.linked].sort().join(',')
+})
+
+function statusClass(status: string) {
+    return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : 'co-badge-gray'
+}
+
+watch(() => props.isModalOpen, (open: boolean) => { if (open) load() })
+
+async function load() {
+    if (!props.agreementUuid) return
+    state.error = {}
+    state.isLoading = true
+    state.cancel.open = false
+    try {
+        state.agreement = unwrapData<Agreement>(await agreementService.getAgreement(props.agreementUuid))
+        state.linked = (state.agreement?.subscriptions ?? []).map((s) => s.uuid)
+        await loadCandidates()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
+// The company's main subscription is the one existing endpoint that names a
+// subscription uuid; licences already linked arrive on the agreement itself.
+async function loadCandidates() {
+    state.candidates = []
+    try {
+        const main = unwrapData<any>(await licenseService.getSubscription(props.companyUuid))
+        if (main?.uuid) {
+            state.candidates = [{
+                uuid: main.uuid,
+                type: main.type ?? '',
+                label: main.deal?.name ?? t('superadmin.agreements.detail.mainSubscription'),
+                user_name: null,
+            }]
+        }
+    } catch (_) {
+        state.candidates = []
+    }
+}
+
+async function saveSubscriptions() {
+    if (!state.agreement) return
+    state.error = {}
+    try {
+        state.agreement = unwrapData<Agreement>(await agreementService.linkSubscriptions(state.agreement.uuid, state.linked))
+        state.linked = (state.agreement?.subscriptions ?? []).map((s) => s.uuid)
+        emit('changed')
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function cancelAgreement() {
+    if (!state.agreement) return
+    state.error = {}
+    try {
+        state.agreement = unwrapData<Agreement>(await agreementService.cancelAgreement(state.agreement.uuid, state.cancel.date))
+        state.cancel.open = false
+        emit('changed')
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function deleteAgreement() {
+    if (!state.agreement) return
+    state.error = {}
+    state.isDeleteOpen = false
+    try {
+        await agreementService.deleteAgreement(state.agreement.uuid)
+        emit('deleted')
+    } catch (error: any) {
+        // 422 when invoices already exist: the message from the API says so.
+        state.error = error
+    }
+}
+</script>
