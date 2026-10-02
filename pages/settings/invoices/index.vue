@@ -88,7 +88,10 @@
                                     </td>
                                     <td width="20%">
                                         <div>
-                                            <Badge type="active" class="w-fit" v-if="invoice?.is_paid">
+                                            <Badge type="inactive" class="w-fit" v-if="invoice?.covered_by_agreement">
+                                                {{ $t('invoicePayment.covered') }}
+                                            </Badge>
+                                            <Badge type="active" class="w-fit" v-else-if="invoice?.is_paid">
                                                 {{ $t('invoices.table.paid') }}
                                             </Badge>
                                             <Badge type="inactive" class="w-fit" v-else>
@@ -126,10 +129,7 @@
                                                 <Icon name="ph:credit-card" class="size-4" />
                                                 {{ $t('invoices.table.actions.pay') }}
                                             </FormButton>
-                                            <span v-else-if="invoice?.covered_by_agreement" class="self-center text-xs text-primary">
-                                                {{ $t('invoicePayment.covered') }}
-                                            </span>
-                                            <span v-else-if="!invoice?.is_paid" class="self-center text-xs text-primary">
+                                            <span v-else-if="!invoice?.is_paid && !invoice?.covered_by_agreement" class="self-center text-xs text-primary">
                                                 {{ $t('invoicePayment.payByBankTransfer') }}
                                             </span>
                                         </div>

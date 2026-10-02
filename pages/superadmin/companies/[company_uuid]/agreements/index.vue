@@ -48,6 +48,8 @@
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
+                    <div class="overflow-x-auto">
+                    <div class="min-w-[1100px]">
                     <SuperadminTable :columnHeaders="columnHeaders" :data="{ data: state.agreements }"
                         :isLoading="state.isLoading" :emptyMessage="$t('superadmin.agreements.empty')"
                         :emptySubMessage="$t('superadmin.agreements.emptyHint')" emptyIcon="ph:handshake" rowKey="uuid">
@@ -120,6 +122,8 @@
                             </tr>
                         </template>
                     </SuperadminTable>
+                    </div>
+                    </div>
                 </div>
 
                 <ModulesSuperadminAgreementModalDetail :isModalOpen="state.detail.open" :companyUuid="companyUuid"

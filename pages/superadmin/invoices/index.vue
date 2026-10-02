@@ -281,6 +281,7 @@ const state = reactive({
         isUndoPaymentOpen: false,
     },
     paidCount: 0,
+    totalCount: 0,
     pendingCount: 0,
     selectedInvoice: {} as any,
     sortData: {
@@ -295,7 +296,7 @@ const hasActiveFilters = computed(() =>
 )
 
 const tabs = computed(() => [
-    { key: 'all', label: t('superadmin.invoices.tabs.all'), count: (state.paidCount + state.pendingCount + state.failedCount) },
+    { key: 'all', label: t('superadmin.invoices.tabs.all'), count: state.totalCount },
     { key: 'paid', label: t('superadmin.invoices.tabs.paid'), count: state.paidCount },
     { key: 'pending', label: t('superadmin.invoices.tabs.pending'), count: state.pendingCount },
     { key: 'failed', label: t('superadmin.invoices.tabs.failed'), count: state.failedCount },
@@ -323,6 +324,11 @@ async function fetchInvoices() {
         const response = await invoiceService.getInvoices(params)
         if (response) {
             state.invoices = response
+            // total_invoices_count includes invoices covered by an agreement, which
+            // are neither paid, pending nor failed; older servers lack it.
+            state.totalCount = response?.total_invoices_count
+                ?? ((response?.paid_invoices_count ?? 0) + (response?.pending_invoices_count ?? 0)
+                    + (response?.failed_invoices_count ?? 0) + (response?.covered_invoices_count ?? 0))
             state.paidCount = response?.paid_invoices_count
             state.pendingCount = response?.pending_invoices_count
             state.failedCount = response?.failed_invoices_count
