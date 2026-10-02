@@ -121,13 +121,20 @@
                         <p v-if="!subscriptionOptions.length" class="text-[12px] text-[#8891A4]">
                             {{ $t('superadmin.agreements.detail.noSubscriptions') }}
                         </p>
-                        <label v-for="option in subscriptionOptions" :key="option.uuid"
-                            class="flex items-center gap-2 text-sm text-[#1F2533] cursor-pointer">
-                            <input type="checkbox" class="rounded border-[#D5D9E2]" :value="option.uuid"
-                                v-model="state.linked" />
-                            <span>{{ option.label }}</span>
-                            <span v-if="option.user_name" class="text-[12px] text-[#8891A4]">{{ option.user_name }}</span>
-                        </label>
+                        <Tooltip v-for="option in subscriptionOptions" :key="option.uuid"
+                            :text="$t('superadmin.agreements.detail.linkedElsewhere')" :disabled="!isLinkedElsewhere(option)"
+                            position="top" wrap class="!block">
+                            <label class="flex items-center gap-2 text-sm"
+                                :class="isLinkedElsewhere(option) ? 'text-[#8891A4] cursor-not-allowed' : 'text-[#1F2533] cursor-pointer'">
+                                <input type="checkbox" class="rounded border-[#D5D9E2]" :value="option.uuid"
+                                    :disabled="isLinkedElsewhere(option)" v-model="state.linked" />
+                                <span>{{ option.label }}</span>
+                                <span class="co-badge co-badge-gray">
+                                    {{ $t(`superadmin.agreements.detail.dealTypes.${option.deal_type ?? 'deal'}`) }}
+                                </span>
+                                <span v-if="option.user_name" class="text-[12px] text-[#8891A4]">{{ option.user_name }}</span>
+                            </label>
+                        </Tooltip>
                         <Tooltip :text="$t('superadmin.agreements.detail.saveSubscriptionsHelp')" position="top" wrap>
                             <FormButton type="button" buttonStyle="action" :disabled="!linkedChanged"
                                 @click="saveSubscriptions">
@@ -183,11 +190,10 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
-import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { unwrapData } from '@/composables/agreements'
-import type { Agreement, AgreementSubscription } from '@/types/agreement'
+import type { Agreement, LinkableSubscription } from '@/types/agreement'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -206,7 +212,7 @@ const state = reactive({
     isLoading: false,
     error: {} as Error,
     linked: [] as string[],
-    candidates: [] as AgreementSubscription[],
+    candidates: [] as LinkableSubscription[],
     cancel: { open: false, date: moment().format('YYYY-MM-DD') },
     isDeleteOpen: false,
 })
@@ -223,11 +229,18 @@ const cards = computed(() => {
 })
 
 /** Linked subscriptions plus the company's main subscription, if not linked yet. */
-const subscriptionOptions = computed<AgreementSubscription[]>(() => {
-    const linked = state.agreement?.subscriptions ?? []
-    const seen = new Set(linked.map((s) => s.uuid))
-    return [...linked, ...state.candidates.filter((c) => !seen.has(c.uuid))]
+const subscriptionOptions = computed<LinkableSubscription[]>(() => {
+    const seen = new Set(state.candidates.map((c) => c.uuid))
+    const linkedHere = (state.agreement?.subscriptions ?? [])
+        .filter((s) => !seen.has(s.uuid))
+        .map((s) => ({ ...s, deal_type: 'deal' as const, company_agreement_uuid: state.agreement?.uuid ?? null }))
+    return [...linkedHere, ...state.candidates]
 })
+
+/** Already part of another agreement: shown, but cannot be moved from here. */
+function isLinkedElsewhere(option: LinkableSubscription): boolean {
+    return !!option.company_agreement_uuid && option.company_agreement_uuid !== state.agreement?.uuid
+}
 
 const linkedChanged = computed(() => {
     const original = (state.agreement?.subscriptions ?? []).map((s) => s.uuid).sort().join(',')
@@ -255,20 +268,11 @@ async function load() {
     state.isLoading = false
 }
 
-// The company's main subscription is the one existing endpoint that names a
-// subscription uuid; licences already linked arrive on the agreement itself.
 async function loadCandidates() {
     state.candidates = []
     try {
-        const main = unwrapData<any>(await licenseService.getSubscription(props.companyUuid))
-        if (main?.uuid) {
-            state.candidates = [{
-                uuid: main.uuid,
-                type: main.type ?? '',
-                label: main.deal?.name ?? t('superadmin.agreements.detail.mainSubscription'),
-                user_name: null,
-            }]
-        }
+        const list = unwrapData<LinkableSubscription[]>(await agreementService.getLinkableSubscriptions(props.companyUuid))
+        state.candidates = Array.isArray(list) ? list : []
     } catch (_) {
         state.candidates = []
     }

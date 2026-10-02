@@ -225,6 +225,26 @@
                                 <Icon v-if="preview.isLoading" name="ph:spinner"
                                     class="w-4 h-4 text-[#42AED9] animate-spin" aria-hidden="true" />
                             </div>
+                            <div v-if="preview.meta && preview.rows.length"
+                                class="flex flex-wrap gap-2 px-4 py-2.5 border-b border-[#F5F6F8]">
+                                <Tooltip :text="$t('superadmin.agreements.preview.endsOnHelp')" position="top" wrap>
+                                    <span class="co-badge co-badge-gray">
+                                        {{ $t('superadmin.agreements.preview.endsOn', { date: formatDateToReadable(preview.meta.ends_on ?? '') }) }}
+                                    </span>
+                                </Tooltip>
+                                <Tooltip :text="$t('superadmin.agreements.help.noticeMonths')" position="top" wrap>
+                                    <span class="co-badge co-badge-gray">
+                                        {{ $t('superadmin.agreements.preview.noticeDeadline', { date: formatDateToReadable(preview.meta.notice_deadline ?? '') }) }}
+                                    </span>
+                                </Tooltip>
+                                <Tooltip :text="$t('superadmin.agreements.help.mrrArr')" position="top" wrap>
+                                    <span class="co-badge co-badge-navy">
+                                        {{ $t('superadmin.agreements.preview.mrrArr', {
+                                            mrr: formatAmount(preview.meta.contract_mrr ?? 0, 'DKK'),
+                                            arr: formatAmount(preview.meta.contract_arr ?? 0, 'DKK') }) }}
+                                    </span>
+                                </Tooltip>
+                            </div>
                             <p v-if="preview.error" class="px-4 py-3 text-[12px] text-[#CC3B2D]">{{ preview.error }}</p>
                             <p v-else-if="!preview.rows.length" class="px-4 py-4 text-[12px] text-[#8891A4]">
                                 {{ $t('superadmin.agreements.form.previewEmpty') }}
@@ -277,10 +297,10 @@ import {
     installmentsMatchContract,
     installmentsSum,
     unwrapData,
-    unwrapInstallments,
+    unwrapPreview,
     type AgreementFormState,
 } from '@/composables/agreements'
-import type { Agreement, BillingPlan, InstallmentInput } from '@/types/agreement'
+import type { Agreement, BillingPlan, InstallmentInput, SchedulePreview } from '@/types/agreement'
 import type { Error } from '@/types'
 
 type Row = InstallmentInput & { locked?: boolean }
@@ -300,7 +320,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const plans: BillingPlan[] = ['monthly', 'yearly', 'prepaid_multi_year', 'installments']
 
 const state = reactive({ isSaving: false, error: {} as Error })
-const preview = reactive({ rows: [] as InstallmentInput[], isLoading: false, error: '' })
+const preview = reactive({ rows: [] as InstallmentInput[], meta: null as SchedulePreview | null, isLoading: false, error: '' })
 
 function blankForm(): AgreementFormState & { installments: Row[] } {
     return {
@@ -344,6 +364,7 @@ const canSubmit = computed(() =>
 function resetFromProps() {
     state.error = {}
     preview.rows = []
+    preview.meta = null
     preview.error = ''
     Object.assign(form, blankForm())
     const a = props.agreement
@@ -422,6 +443,7 @@ watch(
         clearTimeout(previewTimer)
         if (!props.isModalOpen || !previewReady.value) {
             preview.rows = []
+            preview.meta = null
             preview.error = ''
             return
         }
@@ -436,10 +458,13 @@ async function runPreview() {
     try {
         const response = await agreementService.previewSchedule(buildAgreementPayload(form))
         if (seq !== previewSeq) return
-        preview.rows = unwrapInstallments(response)
+        const result = unwrapPreview(response)
+        preview.rows = result.installments
+        preview.meta = result
     } catch (error: any) {
         if (seq !== previewSeq) return
         preview.rows = []
+        preview.meta = null
         preview.error = error?.message ?? ''
     }
     if (seq === previewSeq) preview.isLoading = false

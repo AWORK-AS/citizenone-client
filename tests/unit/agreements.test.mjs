@@ -23,6 +23,7 @@ import {
     noticeStatus,
     unwrapData,
     unwrapInstallments,
+    unwrapPreview,
 } from '../../composables/agreements.ts'
 
 // From the spec: the Memox example. 30 % upfront, then 3 equal installments
@@ -152,6 +153,19 @@ describe('response shapes from the spec', () => {
         assert.equal(unwrapInstallments({ installments: rows }).length, 1)
         assert.equal(unwrapInstallments({ data: { installments: rows } }).length, 1)
         assert.deepEqual(unwrapInstallments(null), [])
+    })
+
+    test('unwrapPreview reads the installments and the derived figures', () => {
+        const preview = unwrapPreview({ data: {
+            installments: [{ uuid: null, sequence: 1, due_on: '2026-07-12', amount: 284140.8, label: 'Rate 1' }],
+            ends_on: '2030-07-12', notice_deadline: '2030-04-12', contract_value: 947136,
+            contract_mrr: 19732, contract_arr: 236784, total: 947136,
+        } })
+        assert.equal(preview.installments.length, 1)
+        assert.equal(preview.ends_on, '2030-07-12')
+        assert.equal(preview.notice_deadline, '2030-04-12')
+        assert.equal(preview.contract_mrr, 19732)
+        assert.equal(preview.contract_arr, 236784)
     })
 
     test('the installment with an invoice is the locked one', () => {

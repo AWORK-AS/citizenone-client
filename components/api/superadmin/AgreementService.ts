@@ -11,6 +11,11 @@ class AgreementService extends BaseAPIService {
         return await this.request(`/superadmin/companies/${companyUuid}/agreements`, 'GET')
     }
 
+    /** Subscriptions of the company that can be linked, with any agreement they already belong to. */
+    async getLinkableSubscriptions(companyUuid: string): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/agreement-subscriptions`, 'GET')
+    }
+
     async createAgreement(companyUuid: string, payload: AgreementPayload): Promise<{ data: any }> {
         return await this.request(`/superadmin/companies/${companyUuid}/agreements`, 'POST', payload)
     }

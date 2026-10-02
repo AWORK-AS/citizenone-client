@@ -81,6 +81,41 @@
             </div>
         </div>
 
+        <!-- The bindings that end soonest, each linking to the company's Aftaler tab -->
+        <div v-if="showUpcoming && upcoming.length"
+            class="bg-white border border-[#EAECF0] rounded-xl shadow-sm overflow-hidden">
+            <div class="px-5 py-3 border-b border-[#EAECF0] flex items-center gap-1.5">
+                <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ $t('superadmin.metrics.upcomingTitle') }}</h2>
+                <Tooltip :text="$t('superadmin.metrics.help.upcoming')" position="top" wrap>
+                    <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                        :aria-label="$t('superadmin.metrics.help.upcoming')" />
+                </Tooltip>
+            </div>
+            <NuxtLink v-for="row in upcoming" :key="row.agreement_uuid"
+                :to="`/superadmin/companies/${row.company_uuid}/agreements`"
+                class="flex items-center justify-between gap-3 px-5 py-2.5 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                <div class="min-w-0">
+                    <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                        {{ row.company_name }}
+                        <span class="text-[#8891A4] font-normal">{{ row.agreement_name }}</span>
+                    </p>
+                    <p class="text-[11px] text-[#8891A4]">
+                        {{ $t('superadmin.metrics.upcomingDates', {
+                            ends: formatDateToReadable(row.ends_on), notice: formatDateToReadable(row.notice_deadline) }) }}
+                    </p>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <Tooltip :text="row.auto_renews ? $t('superadmin.agreements.help.autoRenews') : $t('superadmin.metrics.noAutoRenewHelp')"
+                        position="top" wrap>
+                        <span class="co-badge" :class="row.auto_renews ? 'co-badge-navy' : 'co-badge-gray'">
+                            {{ row.auto_renews ? $t('superadmin.agreements.autoRenews') : $t('superadmin.metrics.noAutoRenew') }}
+                        </span>
+                    </Tooltip>
+                    <span class="text-[13px] font-semibold text-[#1F2533]">{{ formatAmount(num(row.contract_mrr), 'DKK') }}</span>
+                </div>
+            </NuxtLink>
+        </div>
+
         <Tooltip :text="$t('superadmin.agreements.internal.help')" position="top" wrap>
             <p class="text-[11px] text-[#8891A4] flex items-center gap-1.5">
                 <Icon name="ph:eye-slash" class="w-3.5 h-3.5" aria-hidden="true" />
@@ -92,6 +127,7 @@
 
 <script setup lang="ts">
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { BindingsEnding } from '@/types/agreement'
 
 /**
@@ -103,9 +139,12 @@ import type { BindingsEnding } from '@/types/agreement'
 const props = defineProps({
     data: { type: Object as () => any, default: null },
     showHeadline: { type: Boolean, default: true },
+    /** The short list of the bindings that end next (bindings_ending.upcoming). */
+    showUpcoming: { type: Boolean, default: false },
 })
 
 const { formatAmount } = useAmountFormatter()
+const { formatDateToReadable } = useDatetimeFormatter()
 
 const hasData = computed(() => props.data && props.data.contract_mrr !== undefined && props.data.contract_mrr !== null)
 
@@ -113,6 +152,8 @@ function num(value: any): number {
     const n = Number(value)
     return Number.isFinite(n) ? n : 0
 }
+
+const upcoming = computed<any[]>(() => (props.data?.bindings_ending?.upcoming ?? []).slice(0, 8))
 
 const bindingBuckets = computed(() => {
     const ending: Partial<BindingsEnding> = props.data?.bindings_ending ?? {}

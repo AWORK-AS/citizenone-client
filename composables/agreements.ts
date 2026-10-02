@@ -8,6 +8,7 @@ import type {
     AgreementPayload,
     InstallmentInput,
     InstallmentPreset,
+    SchedulePreview,
 } from '@/types/agreement'
 
 /** Money is compared in whole cents, so 0.1 + 0.2 never fails a sum check. */
@@ -175,6 +176,20 @@ export function unwrapInstallments(response: any): InstallmentInput[] {
     if (Array.isArray(body)) return body
     if (Array.isArray(body?.installments)) return body.installments
     return []
+}
+
+/** Preview body: the installments plus the derived dates and contract MRR/ARR. */
+export function unwrapPreview(response: any): SchedulePreview {
+    const body = unwrapData<any>(response)
+    return {
+        installments: unwrapInstallments(response),
+        ends_on: body?.ends_on,
+        notice_deadline: body?.notice_deadline,
+        contract_value: body?.contract_value,
+        contract_mrr: body?.contract_mrr,
+        contract_arr: body?.contract_arr,
+        total: body?.total,
+    }
 }
 
 export type NoticeTone = 'none' | 'passed' | 'soon' | 'ok'

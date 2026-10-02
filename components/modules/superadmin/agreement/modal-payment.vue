@@ -66,7 +66,7 @@ watch(() => props.isModalOpen, (open: boolean) => {
     if (!open) return
     state.error = {}
     state.form.paid_at = moment().format('YYYY-MM-DD')
-    state.form.paid_amount = props.invoice?.total_amount_incl_vat ?? props.invoice?.total_amount ?? ''
+    state.form.paid_amount = props.invoice?.total_amount ?? ''
     state.form.payment_note = ''
 })
 

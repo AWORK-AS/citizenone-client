@@ -254,8 +254,8 @@
                                                 {{ $t('superadmin.report.forecast.renewalsIn', { month: renewalsMonthLabel }) }}
                                             </p>
                                             <p class="text-[11px] text-[#8891A4]">
-                                                {{ $t('superadmin.report.forecast.renewalsCount', { count: renewals.renewals.length }) }}
-                                                · {{ formatAmount(renewals.renewals_total, 'DKK') }}
+                                                {{ $t('superadmin.report.forecast.renewalsCount', { count: renewals.renewals.length + renewals.installments.length }) }}
+                                                · {{ formatAmount(renewals.renewals_total + renewals.installments_total, 'DKK') }}
                                             </p>
                                         </div>
                                         <button type="button" @click="renewals.month = ''"
@@ -267,7 +267,7 @@
                                     <div v-if="renewals.isLoading" class="flex justify-center py-8">
                                         <Icon name="ph:spinner" class="w-5 h-5 text-[#42AED9] animate-spin" />
                                     </div>
-                                    <p v-else-if="!renewals.renewals.length"
+                                    <p v-else-if="!renewals.renewals.length && !renewals.installments.length"
                                         class="px-4 py-8 text-center text-[13px] text-[#8891A4]">
                                         {{ $t('superadmin.report.forecast.noRenewals') }}
                                     </p>
@@ -281,6 +281,39 @@
                                                 </p>
                                                 <p class="text-[11px] text-[#8891A4]">
                                                     {{ formatDateToReadable(row.renews_at) }}
+                                                </p>
+                                            </div>
+                                            <span class="text-[13px] font-semibold text-[#1F2533] shrink-0 ml-3">
+                                                {{ formatAmount(row.amount, 'DKK') }}
+                                            </span>
+                                        </NuxtLink>
+                                        <!-- Agreement installments and assumed agreement renewals in the month -->
+                                        <div v-if="renewals.installments.length"
+                                            class="px-4 py-2 bg-[#F9FAFB] border-y border-[#EAECF0] text-[11px] font-semibold uppercase text-[#5C6478]">
+                                            {{ $t('superadmin.report.forecast.installmentsIn') }}
+                                            · {{ formatAmount(renewals.installments_total, 'DKK') }}
+                                        </div>
+                                        <NuxtLink v-for="(row, i) in renewals.installments" :key="`i${i}`"
+                                            :to="`/superadmin/companies/${row.company_uuid}/agreements`"
+                                            class="flex items-center justify-between px-4 py-3 border-b border-[#F5F6F8] last:border-0 hover:bg-[#F9FAFB] transition-colors">
+                                            <div class="min-w-0">
+                                                <p class="text-[13px] font-medium text-[#1F2533] truncate">
+                                                    {{ row.company_name }}
+                                                    <span class="text-[#8891A4] font-normal">{{ row.agreement_name }}</span>
+                                                </p>
+                                                <p class="text-[11px] text-[#8891A4] flex items-center gap-1.5">
+                                                    {{ formatDateToReadable(row.due_on) }}
+                                                    <Tooltip :text="$t(row.kind === 'installment'
+                                                        ? 'superadmin.report.forecast.help.installments'
+                                                        : 'superadmin.report.forecast.help.assumedRenewal')"
+                                                        position="top" wrap>
+                                                        <span class="co-badge"
+                                                            :class="row.kind === 'installment' ? 'co-badge-navy' : 'bg-[#FEF3C7] text-[#B45309]'">
+                                                            {{ $t(row.kind === 'installment'
+                                                                ? 'superadmin.report.forecast.series.installments'
+                                                                : 'superadmin.report.forecast.series.assumedRenewal') }}
+                                                        </span>
+                                                    </Tooltip>
                                                 </p>
                                             </div>
                                             <span class="text-[13px] font-semibold text-[#1F2533] shrink-0 ml-3">
@@ -415,6 +448,8 @@ const renewals = reactive({
     month: '',
     renewals: [] as any[],
     renewals_total: 0,
+    installments: [] as any[],
+    installments_total: 0,
     isLoading: false,
 })
 
@@ -441,11 +476,15 @@ async function openRenewals(event: any) {
     renewals.isLoading = true
     renewals.renewals = []
     renewals.renewals_total = 0
+    renewals.installments = []
+    renewals.installments_total = 0
 
     try {
         const response = await analyticsService.getRenewals(month)
         renewals.renewals = response?.renewals ?? []
         renewals.renewals_total = response?.renewals_total ?? 0
+        renewals.installments = response?.installments ?? []
+        renewals.installments_total = response?.installments_total ?? 0
     } catch (_) {
         renewals.renewals = []
     }

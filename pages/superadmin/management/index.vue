@@ -138,7 +138,7 @@
 
                 <!-- Aftaletal: kontrakt-MRR/ARR er hovedtallet ovenfor; her kommer
                      cash-tallene, backlog, udestående og bindinger der udløber. -->
-                <ModulesSuperadminAgreementMetrics :data="state.recurringRevenue" :showHeadline="false" />
+                <ModulesSuperadminAgreementMetrics :data="state.recurringRevenue" :showHeadline="false" showUpcoming />
 
                 <!-- Hvem pengene kommer fra.
                      En rangeret liste og ikke en graf: ti navngivne kunder med et

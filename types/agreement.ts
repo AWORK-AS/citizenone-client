@@ -40,6 +40,26 @@ export interface AgreementSubscription {
     user_name: string | null
 }
 
+export interface LinkableSubscription {
+    uuid: string
+    type: string
+    label: string
+    deal_type: 'deal' | 'add_on_deal' | 'application'
+    user_name: string | null
+    /** Set when the subscription already belongs to an agreement. */
+    company_agreement_uuid: string | null
+}
+
+export interface SchedulePreview {
+    installments: InstallmentInput[]
+    ends_on?: string
+    notice_deadline?: string
+    contract_value?: number
+    contract_mrr?: number
+    contract_arr?: number
+    total?: number
+}
+
 export interface InstallmentPreset {
     upfront_percent: number
     remaining_count: number
