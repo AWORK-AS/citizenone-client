@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Bifoga fil",
                 "content": "Innehåll",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote till plan, mål eller delmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote till plan, mål, delmål eller enkeltmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér riskbedömning till plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuvarande nivå",
@@ -1750,12 +1750,15 @@
                 },
                 "forTeeth": "Till tänder",
                 "goal": "Mål",
+                "attachmentRemovalHint": "Avmarkera rutan för att ta bort anteckningen från planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Dölj nuvarande planer, mål och delmål",
                 "journalNoteTags": "Journalnotetag",
                 "jumpToSubgoal": "Hoppa direkt till ett delmål",
                 "jumpToSubgoalPlaceholder": "Sök efter ett delmål",
                 "note": "Anteckning",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Välj en plan eller ett enkeltmål.",
+                "singleGoal": "Enkeltmål",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut ökad risk",

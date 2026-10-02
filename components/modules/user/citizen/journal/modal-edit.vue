@@ -16,6 +16,7 @@
 <script setup lang="ts">
 import { journalService } from '@/components/api/user/JournalService'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -53,22 +54,11 @@ async function updateJournal(journalDetails: any) {
     state.isPageLoading = true
     try {
         const journalUuid = journalDetails.formJournal.uuid
-
-        let journal_note_plan_goal_subgoal_uuid = ''
-        if (journalDetails.formJournal.journal_note_subgoal) {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_subgoal
-        } else if (journalDetails.formJournal.journal_note_goal) {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_goal
-        } else {
-            journal_note_plan_goal_subgoal_uuid = journalDetails.formJournal.journal_note_plan
-        }
-
         const params = {
             title: journalDetails.formJournal.title,
             date: journalDetails.formJournal.date,
             content: journalDetails.formJournal.content,
-            copy_journal_note_to_plan_or_goal_or_subgoal: journalDetails.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
-            journal_note_plan_goal_subgoal_uuid: journal_note_plan_goal_subgoal_uuid,
+            ...journalNotePlanLinkParams(journalDetails.formJournal, true),
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,

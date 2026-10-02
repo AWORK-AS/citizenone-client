@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Vedhæft fil",
                 "content": "Indhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål eller delmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål, delmål eller enkeltmål",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuværende niveau",
@@ -1750,12 +1750,15 @@
                 },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
+                "attachmentRemovalHint": "Fjern fluebenet for at fjerne notatet fra planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nuværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
                 "jumpToSubgoal": "Spring direkte til et delmål",
                 "jumpToSubgoalPlaceholder": "Søg efter et delmål",
                 "note": "Note",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Vælg en plan eller et enkeltmål.",
+                "singleGoal": "Enkeltmål",
                 "prepareWithAI": "Udarbejd med AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",

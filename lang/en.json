@@ -1727,7 +1727,7 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal or subgoal",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal or single goal",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {
                     "currentLevel": "Current level",
@@ -1750,12 +1750,15 @@
                     "redactionNotice": "Personal identifiers (name, CPR, address, phone, email) are always removed."
                 },
                 "goal": "Goal",
+                "attachmentRemovalHint": "Clear the checkbox to remove this note from its plan, goal, sub-goal or single goal.",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
                 "jumpToSubgoal": "Jump to a sub-goal",
                 "jumpToSubgoalPlaceholder": "Search for a sub-goal",
                 "note": "Note",
                 "plan": "Plan",
+                "selectPlanOrSingleGoal": "Select a plan or a single goal.",
+                "singleGoal": "Single goal",
                 "prepareWithAI": "Prepare with AI",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
