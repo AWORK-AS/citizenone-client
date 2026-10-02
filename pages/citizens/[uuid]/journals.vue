@@ -222,6 +222,11 @@
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
                                             <JournalMentionContent :html="journal.content" />
                                         </div>
+                                        <div class="flex items-center gap-x-1 text-xs text-muted-500" v-if="journal?.plan_goal_subgoal">
+                                            <Icon name="ph:flag" class="size-4 shrink-0" />
+                                            <span>{{ $t('citizens.citizenJournals.form.attachedTo') }}:
+                                                {{ journalNotePlanGoalSubgoalLabel(journal.plan_goal_subgoal) }}</span>
+                                        </div>
                                         <div class="flex items-center gap-x-1"
                                             v-if="['Standard view', 'Journal note view'].includes(citizenJournalStore.getFilterView)">
                                             <div class="px-2 py-1 rounded-full text-white text-xxs"
@@ -375,6 +380,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { journalService } from '@/components/api/user/JournalService'
+import { journalNotePlanGoalSubgoalLabel } from '@/utils/journal-plan-link'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'

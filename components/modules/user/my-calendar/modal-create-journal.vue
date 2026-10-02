@@ -39,21 +39,31 @@
                                 {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoalOrSubgoal') }}
                             </div>
                         </div>
-                        <div class="grid md:grid-cols-3 gap-x-3"
+                        <!-- A single goal (enkeltmål) belongs to no plan, so it is picked instead of
+                             a plan and goal; picking one clears the other. -->
+                        <div class="grid md:grid-cols-2 gap-x-3 gap-y-2"
                             v-if="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal && state.citizenUuid">
                             <div class="space-y-1">
                                 <FormLabel for="journal_note_plan"
                                     :label="$t('citizens.citizenJournals.form.plan')" />
                                 <FormSelect id="journal_note_plan" :options="state.options.plans"
                                     v-model="state.formJournal.journal_note_plan"
-                                    @change="(uuid: any) => fetchGoalsForPlan(uuid)" />
+                                    @change="(uuid: any) => onPlanChange(uuid)" />
+                                <FormError :error="state.planError" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="journal_note_goal"
                                     :label="$t('citizens.citizenJournals.form.goal')" />
                                 <FormSelect id="journal_note_goal" :options="state.options.goals"
                                     v-model="state.formJournal.journal_note_goal"
-                                    @change="(uuid: any) => fetchSubgoalsForGoal(uuid)" />
+                                    @change="(uuid: any) => onGoalChange(uuid)" />
+                            </div>
+                            <div class="space-y-1">
+                                <FormLabel for="journal_note_single_goal"
+                                    :label="$t('citizens.citizenJournals.form.singleGoal')" />
+                                <FormSelect id="journal_note_single_goal" :options="state.options.singleGoals"
+                                    v-model="state.formJournal.journal_note_single_goal"
+                                    @change="(uuid: any) => onSingleGoalChange(uuid)" />
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="journal_note_subgoal"
@@ -158,6 +168,7 @@
 import moment from 'moment'
 import ClassicEditor from '@/utils/editor'
 import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
+import { journalNotePlanGoalSubgoalUuid } from '@/utils/journal-plan-link'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { planService } from '@/components/api/user/PlanService'
@@ -207,6 +218,7 @@ const state = reactive({
     isPageLoading: false,
     error: {} as Error,
     citizenUuid: '' as string,
+    planError: '',
     formJournal: {
         title: '',
         date: moment().format('YYYY-MM-DD'),
@@ -217,6 +229,7 @@ const state = reactive({
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
+        journal_note_single_goal: '',
         journal_note_subgoal: '',
         assessment: null as any,
         note: '',
@@ -238,6 +251,7 @@ const state = reactive({
         ] as any[],
         plans: [] as any[],
         goals: [] as any[],
+        singleGoals: [] as any[],
         subgoals: [] as any[],
         journal_titles: [] as any[],
         journal_note_tags: [] as any[],
@@ -252,6 +266,7 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
         resolveCitizenUuid()
         if (state.citizenUuid) {
             fetchPlans()
+            fetchSingleGoals()
             fetchJournalNoteTags()
             fetchJournalTitles()
         }
@@ -278,15 +293,21 @@ function resetForm() {
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
+        journal_note_single_goal: '',
         journal_note_subgoal: '',
         assessment: null,
         note: '',
         risk_assessment_tags: [],
     }
+    seen.plan = ''
+    seen.goal = ''
+    seen.single = ''
     state.options.plans = []
     state.options.goals = []
+    state.options.singleGoals = []
     state.options.subgoals = []
     state.options.journal_titles = []
+    state.planError = ''
     state.options.journal_note_tags = []
     state.options.risk_assessment_tags = []
 }
@@ -303,6 +324,58 @@ async function fetchPlans() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+async function fetchSingleGoals() {
+    try {
+        const response = await goalService.getAllGoalsPerCitizen(state.citizenUuid)
+        state.options.singleGoals = (response?.data ?? []).map((goal: any) => ({
+            value: goal.uuid,
+            label: goal.name,
+        }))
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+// A Multiselect also emits `change` when its value is set from outside, so
+// clearing the single goal because a plan was picked would come back as a
+// "single goal cleared" and clear the plan in turn. `seen` holds the value each
+// level was last given - by the user or by us - and a change matching it is
+// just that echo.
+const seen = { plan: '', goal: '', single: '' }
+
+async function onPlanChange(planUuid: string) {
+    const next = planUuid || ''
+    if (next === seen.plan) return
+    seen.plan = next
+    seen.goal = ''
+    seen.single = ''
+    state.formJournal.journal_note_single_goal = ''
+    state.planError = ''
+    await fetchGoalsForPlan(next)
+}
+
+async function onGoalChange(goalUuid: string) {
+    const next = goalUuid || ''
+    if (next === seen.goal) return
+    seen.goal = next
+    await fetchSubgoalsForGoal(next)
+}
+
+async function onSingleGoalChange(goalUuid: string) {
+    const next = goalUuid || ''
+    if (next === seen.single) return
+    seen.single = next
+    if (next) {
+        seen.plan = ''
+        seen.goal = ''
+        state.formJournal.journal_note_plan = ''
+        state.formJournal.journal_note_goal = ''
+        state.options.goals = []
+    }
+    state.planError = ''
+    await fetchSubgoalsForGoal(next)
 }
 
 async function fetchGoalsForPlan(planUuid: string) {
@@ -378,11 +451,15 @@ async function saveJournal() {
     state.isPageLoading = true
     try {
         const uuid = props.selectedEvent?.uuid
-        const journal_note_plan_goal_subgoal_uuid =
-            state.formJournal.journal_note_subgoal ||
-            state.formJournal.journal_note_goal ||
-            state.formJournal.journal_note_plan ||
-            ''
+        const journal_note_plan_goal_subgoal_uuid = journalNotePlanGoalSubgoalUuid(state.formJournal)
+
+        // A goal or sub-goal is reached through its plan or single goal.
+        if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal
+            && !state.formJournal.journal_note_plan && !state.formJournal.journal_note_single_goal) {
+            state.planError = t('citizens.citizenJournals.form.selectPlanOrSingleGoal')
+            state.isPageLoading = false
+            return
+        }
 
         const params: any = {
             title: state.formJournal.title,
