@@ -1750,7 +1750,6 @@
                 },
                 "forTeeth": "Til tænder",
                 "goal": "Mål",
-                "attachedTo": "Knyttet til",
                 "attachmentRemovalHint": "Fjern avmerkingen for å fjerne notatet fra planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Skjul nåværende planer, mål og delmål",
                 "journalNoteTags": "Journalnotetag",
@@ -1818,6 +1817,8 @@
                 },
                 "updatedBy": "Oppdatert av"
             },
+            "linkedTo": "Knyttet til",
+            "linkedToOpen": "Åpne",
             "mentions": {
                 "hint": "Skriv {'@'} for å tagge en kollega eller en innbygger",
                 "noAccess": "ingen tilgang",
@@ -2056,7 +2057,9 @@
                 "dateCreated": "Opprettelsesdato",
                 "lastModified": "Sist endret",
                 "name": "Navn",
-                "owner": "Ejer"
+                "owner": "Ejer",
+                "id": "ID",
+                "location": "Plassering"
             },
             "template": "Mal",
             "upgradeStorage": "Opgradér lager",
@@ -4539,7 +4542,9 @@
             "dateCreated": "Opprettelsesdato",
             "lastModified": "Sist endret",
             "name": "Navn",
-            "owner": "Ejer"
+            "owner": "Ejer",
+            "id": "ID",
+            "location": "Plassering"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Last opp fil",
@@ -8516,6 +8521,15 @@
             "loadingYourEmails": "Laster dine e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Lagre som PDF",
+            "download": "Last ned PDF",
+            "saveToDrive": "Lagre til Drev",
+            "chooseFolder": "Velg mappe",
+            "rootFolder": "Dokumenter (rot)",
+            "savedToDrive": "Lagret til Drev",
+            "noSubject": "E-post"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {
@@ -9187,6 +9201,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medisin afveget",
                 "myDailyEvents": "Mine daglige arrangementer",
+                "nextShift": "Neste vakt",
                 "plansAndGoals": "Planer og mål",
                 "riskAssessment": "Risikovurdering",
                 "scheduleSlots": "Udbyd vakter",
@@ -9261,6 +9276,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
             "medicineDeviationStatistics": "Medisin afveget"
+        },
+        "nextShift": {
+            "title": "Når er min neste vakt?",
+            "none": "Du har ingen kommende vakter planlagt.",
+            "today": "I dag",
+            "tomorrow": "I morgen",
+            "startsIn": "Starter om {time}",
+            "startingNow": "Starter nå",
+            "hoursMinutes": "{hours} t {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} t",
+            "differentDepartment": "Annen avdeling enn din vanlige",
+            "usually": "Vanligvis: {department}",
+            "department": "Avdeling",
+            "departments": "Avdelinger",
+            "noDepartment": "Ingen avdeling",
+            "shift": "Vakt",
+            "date": "Dato",
+            "time": "Tidspunkt",
+            "duration": "Varighet",
+            "details": "Vaktdetaljer",
+            "clickForDetails": "Klikk for detaljer",
+            "viewSchedule": "Åpne vaktplan",
+            "reminderInfo": "I mobilappen får du et push-varsel 2 timer før vakten starter.",
+            "onlyDifferent": "Denne vakten er i en annen avdeling enn den du vanligvis jobber i."
         },
         "myDailyEvents": "Mine daglige arrangementer",
         "news": "Nyheter",
@@ -10461,6 +10501,8 @@
                 "relativeChat": "Chat med pårørende",
                 "relativeChatManagement": "Pårørende kan skrive til ledelse og administratorer",
                 "relativeChatContactPersons": "Pårørende kan skrive til innbyggerens tilknyttede kontaktpersoner",
+                "patientChatInbox": "Pasienter skriver til hele klinikken (felles innboks)",
+                "patientChatInboxHint": "Pasientene kan ikke velge en bestemt ansatt. Alle aktive ansatte ser meldingen og kan svare",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
                 "groupPortalAccess": "Portaltilgang",
                 "portalAccessHint": "Velg hva pårørende, tredjeparter og innbyggere kan se i sin egen portal",

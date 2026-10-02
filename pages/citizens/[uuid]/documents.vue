@@ -84,7 +84,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="flex items-center gap-x-2">
-                        <TableSearch @search="handleSearch" class="flex-1" />
+                        <TableSearch :key="searchResetKey" @search="handleSearch" class="flex-1" />
                         <FormButton buttonStyle="action" :disabled="!state.selectedDocuments.length"
                             @click="openSelectedDocuments">
                             <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
@@ -92,11 +92,8 @@
                         </FormButton>
                     </div>
                     <div class="table-responsive">
-                        <!-- <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
-                            @click="$router.back()" v-if="router?.currentRoute?.value?.query?.folder_uuid">
-                            <Icon name="ph:arrow-left" size="16" class="text-black" />
-                            <span class="text-sm">{{ $t('back') }}</span>
-                        </div> -->
+                        <ModulesUserDocumentFolderBreadcrumb :rootLabel="$t('citizens.tabs.documents')"
+                            :path="folderPath" @navigate="goToFolder" />
                         <Table :columnHeaders="state.columnHeaders" :data="state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" :selection="true"
                             rowKey="uuid" @sort="sort" @selection-change="onSelectionChange">
@@ -109,7 +106,10 @@
                                             @change="handleRowSelect(document)"
                                             class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
                                     </td>
-                                    <td width="25%">
+                                    <td width="60" data-testid="document-id">
+                                        <span class="text-sm text-slate-600 tabular-nums">{{ document?.id }}</span>
+                                    </td>
+                                    <td width="32%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                             v-if="document?.file_url" @click="viewFile(document)">
                                             <Icon name="ph:file" class="size-6" />
@@ -128,18 +128,23 @@
                                             </Tooltip>
                                             <span class="truncate">{{ document?.name }}</span>
                                         </span>
+                                        <p v-if="document?.folder_path !== undefined" class="mt-0.5 flex items-center gap-x-1 text-xs text-slate-500"
+                                            :title="$t('citizens.documents.table.location')" data-testid="document-location">
+                                            <Icon name="ph:folder-simple" class="size-3.5 shrink-0" aria-hidden="true" />
+                                            <span class="truncate">{{ document?.folder_path || $t('citizens.tabs.documents') }}</span>
+                                        </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <p class="truncate">
                                             {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
                                         </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <span class="truncate">
                                             {{ formatDateTimeToReadable(document?.created_at) }}
                                         </span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <span class="truncate">
                                             {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
                                         </span>
@@ -311,6 +316,7 @@ const breadcrumbLinks = [
 
 const state = reactive({
     columnHeaders: [
+        { name: 'citizens.documents.table.id', isTranslateName: true, sorter: true, key: 'id', width: 60 },
         { name: 'citizens.documents.table.name', isTranslateName: true, sorter: true, key: 'name' },
         { name: 'citizens.documents.table.owner', isTranslateName: true, },
         { name: 'citizens.documents.table.dateCreated', isTranslateName: true, sorter: true, key: 'created_at' },
@@ -375,12 +381,62 @@ function closeUpgradeStorageModal() {
 }
 
 
+// Breadcrumb path (root -> open folder), asked of the backend so it is right
+// on reload and on deep links.
+const folderPath = ref<{ uuid: string; name: string }[]>([])
+async function fetchFolderPath(folderUuid: any) {
+    if (!folderUuid || typeof folderUuid !== 'string') {
+        folderPath.value = []
+        return
+    }
+    // The previous folder's trail must not linger while this one loads: Back
+    // would lead to the wrong parent.
+    if (folderPath.value[folderPath.value.length - 1]?.uuid !== folderUuid) {
+        folderPath.value = []
+    }
+    try {
+        const res: any = await citizenDocumentService.getFolderPath(folderUuid)
+        folderPath.value = res?.data ?? []
+    } catch (e) {
+        folderPath.value = []
+    }
+}
+
+// A search covers all of the citizen's folders, so each hit says where it lives.
+const isSearchActive = computed(() => {
+    const search = state.dataFilter.search as any
+    return !is_draft.value && Array.isArray(search) && search.length > 0
+})
+
+// Remounting the search box is how its text is cleared from here.
+const searchResetKey = ref(0)
+
+// Breadcrumb, Back button and folder hits all land here (null = the root). A
+// folder opened from a search result must show its own contents, so the search
+// is dropped first.
+async function goToFolder(folderUuid: string | null) {
+    currentTablePage = 1
+    if (isSearchActive.value) {
+        state.dataFilter.search = ''
+        searchResetKey.value++
+    }
+    let url = `/citizens/${citizenUuid}/documents`
+    if (folderUuid) {
+        url += `?folder_uuid=${folderUuid}`
+        if (is_draft.value) {
+            url += '&is_draft=true'
+        }
+    }
+    await navigateTo(url)
+}
+
 async function fetchDocuments(folderUuid: any = null) {
     state.error = {}
     state.isTableLoading = true
     try {
         const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
         is_draft.value = is_draft.value = router?.currentRoute?.value?.query?.is_draft === 'true'
+        fetchFolderPath(folderUuid)
         const params = {
             citizen_uuid: citizenUuid,
             page: currentTablePage,
@@ -550,6 +606,11 @@ async function viewDirectory(document: any, is_draft: boolean = false) {
 
     selectedDocument.value = folderUuid
     currentTablePage = 1
+
+    if (isSearchActive.value) {
+        state.dataFilter.search = ''
+        searchResetKey.value++
+    }
 
     let url = `/citizens/${citizenUuid}/documents?folder_uuid=${folderUuid}`
     if (is_draft) {

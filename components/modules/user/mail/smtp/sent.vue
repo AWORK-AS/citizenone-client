@@ -70,9 +70,13 @@
                     <span>{{ $t('back') }}</span>
                 </button>
                 <div class="mt-3 text-gray-900">
-                    <p class="text-lg font-semibold">
-                        {{ state.selectedEmail?.header?.subject }}
-                    </p>
+                    <div class="flex items-center justify-between gap-3">
+                        <p class="text-lg font-semibold">
+                            {{ state.selectedEmail?.header?.subject }}
+                        </p>
+                        <ModulesUserMailSavePdfMenu :messageId="state.selectedEmail?.header?.uid ?? ''" folder="sent"
+                            :subject="state.selectedEmail?.header?.subject ?? ''" openDirection="down" />
+                    </div>
                     <div class="flex-wrap md:flex gap-1 text-sm">
                         <p>
                             {{ $t('mail.content.to') }}

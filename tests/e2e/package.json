@@ -33,7 +33,8 @@
     "test:multi-year-subscription-terms": "node multi-year-subscription-terms.mjs",
     "test:pricing-nov2026": "node pricing-nov2026.mjs",
     "test:booking-app": "node booking-app.mjs",
-    "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs"
+    "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs",
+    "test:mail-pdf": "node mail-pdf.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

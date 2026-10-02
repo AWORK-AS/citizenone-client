@@ -1750,7 +1750,6 @@
                 },
                 "forTeeth": "Till tänder",
                 "goal": "Mål",
-                "attachedTo": "Kopplad till",
                 "attachmentRemovalHint": "Avmarkera rutan för att ta bort anteckningen från planen, målet, delmålet eller enkeltmålet.",
                 "hideCurrentPlansGoalsAndSubgoals": "Dölj nuvarande planer, mål och delmål",
                 "journalNoteTags": "Journalnotetag",
@@ -1818,6 +1817,8 @@
                 },
                 "updatedBy": "Uppdaterad av"
             },
+            "linkedTo": "Länkad till",
+            "linkedToOpen": "Öppna",
             "mentions": {
                 "hint": "Skriv {'@'} för att tagga en kollega eller en brukare",
                 "noAccess": "ingen åtkomst",
@@ -2056,7 +2057,9 @@
                 "dateCreated": "Skapandedatum",
                 "lastModified": "Sidst ändrad",
                 "name": "Namn",
-                "owner": "Ägare"
+                "owner": "Ägare",
+                "id": "ID",
+                "location": "Plats"
             },
             "template": "Mall",
             "upgradeStorage": "Opgradér lager",
@@ -4539,7 +4542,9 @@
             "dateCreated": "Skapandedatum",
             "lastModified": "Sidst ändrad",
             "name": "Namn",
-            "owner": "Ägare"
+            "owner": "Ägare",
+            "id": "ID",
+            "location": "Plats"
         },
         "upgradeStorage": "Opgradér lagerplads",
         "uploadFile": "Upload fil",
@@ -8516,6 +8521,15 @@
             "loadingYourEmails": "Laddar dina e-mails"
         },
         "mail": "Post",
+        "pdf": {
+            "saveAsPdf": "Spara som PDF",
+            "download": "Ladda ner PDF",
+            "saveToDrive": "Spara till Drive",
+            "chooseFolder": "Välj mapp",
+            "rootFolder": "Dokument (rot)",
+            "savedToDrive": "Sparat till Drive",
+            "noSubject": "E-post"
+        },
         "reply": "Svar",
         "secured": {
             "alert": {
@@ -9187,6 +9201,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin avvikit",
                 "myDailyEvents": "Mina daglige händelser",
+                "nextShift": "Nästa pass",
                 "plansAndGoals": "Planer och mål",
                 "riskAssessment": "Riskbedömning",
                 "scheduleSlots": "Udbyd pass",
@@ -9261,6 +9276,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
             "medicineDeviationStatistics": "Medicin avvikit"
+        },
+        "nextShift": {
+            "title": "När är mitt nästa pass?",
+            "none": "Du har inga kommande pass planerade.",
+            "today": "Idag",
+            "tomorrow": "Imorgon",
+            "startsIn": "Börjar om {time}",
+            "startingNow": "Börjar nu",
+            "hoursMinutes": "{hours} h {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} h",
+            "differentDepartment": "Annan avdelning än din vanliga",
+            "usually": "Vanligtvis: {department}",
+            "department": "Avdelning",
+            "departments": "Avdelningar",
+            "noDepartment": "Ingen avdelning",
+            "shift": "Pass",
+            "date": "Datum",
+            "time": "Tid",
+            "duration": "Längd",
+            "details": "Passdetaljer",
+            "clickForDetails": "Klicka för detaljer",
+            "viewSchedule": "Öppna schemat",
+            "reminderInfo": "I mobilappen får du en push-notis 2 timmar innan passet börjar.",
+            "onlyDifferent": "Det här passet är på en annan avdelning än den du vanligtvis arbetar på."
         },
         "myDailyEvents": "Mina daglige händelser",
         "news": "Nyheter",
@@ -10461,6 +10501,8 @@
                 "relativeChat": "Chatt med anhöriga",
                 "relativeChatManagement": "Anhöriga kan skriva till ledning och administratörer",
                 "relativeChatContactPersons": "Anhöriga kan skriva till medborgarens tilldelade kontaktpersoner",
+                "patientChatInbox": "Patienter skriver till hela kliniken (gemensam inkorg)",
+                "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
                 "groupPortalAccess": "Portalåtkomst",
                 "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",

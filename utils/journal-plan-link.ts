@@ -22,11 +22,3 @@ export function journalNotePlanLinkParams(form: any, isUpdate = false): Record<s
         ...(isUpdate ? { remove_journal_note_plan_goal_subgoal: !attach } : {}),
     }
 }
-
-// "Plan / Goal / Sub-goal" or "Single goal / Sub-goal" for a note's attachment.
-export function journalNotePlanGoalSubgoalLabel(link: any): string {
-    return [link?.plan, link?.goal, link?.single_goal, link?.subgoal]
-        .map((item: any) => item?.name)
-        .filter(Boolean)
-        .join(' / ')
-}

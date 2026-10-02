@@ -278,6 +278,10 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" v-if="visibleCustomBoxes.length > 0">
                     <ModulesUserDailyOverviewCustomBox v-for="box in visibleCustomBoxes" :key="box.key" :box="box" />
                 </div>
+                <!-- When is my next shift? Above the rest: it is the first thing an employee checks. -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" v-if="isShown('showNextShift')">
+                    <ModulesUserDailyOverviewNextShift />
+                </div>
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-5 gap-y-6 stagger-children" v-if="isShown('showCitizensDailyEvents') ||

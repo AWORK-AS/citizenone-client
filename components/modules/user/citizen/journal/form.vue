@@ -236,7 +236,8 @@
                     <FormLabel for="journal_note_tags"
                         :label="term('journalNoteTag', $t('citizens.citizenJournals.form.journalNoteTags'))" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        @click="state.modal.isAddJournalNoteTagsOpen = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('journalNoteTags.addNewTag') }}
                     </span>
                 </div>
@@ -362,7 +363,8 @@
                     <FormLabel for="risk_assessment_tags"
                         :label="customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('citizens.citizenJournals.form.tags')" />
                     <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
-                        @click="state.modal.isAddJournalNoteTagsOpen = true">
+                        @click="state.modal.isAddJournalNoteTagsOpen = true"
+                        v-if="isAtLeast('Admin')">
                         {{ $t('journalNoteTags.addNewTag') }}
                     </span>
                 </div>
@@ -508,6 +510,7 @@
 </template>
 
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions'
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { journalService } from '@/components/api/user/JournalService'
@@ -536,6 +539,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     error: {
@@ -968,17 +973,17 @@ onMounted(() => {
     //     state.formJournal.teeth.push(tooth?.uuid)
     // })
 
-    runSilently(() => {
-        setFormJournalFromSelected(props.selectedJournal)
+    runSilently(async () => {
+        await setFormJournalFromSelected(props.selectedJournal)
         state.hasChanges = false
         state.isAutoSaving = false
     })
 })
 
-function runSilently(fn: () => void) {
+async function runSilently(fn: () => void | Promise<void>) {
     suppressChangeTracking = true
     try {
-        fn()
+        await fn()
     } finally {
         // release on next tick so all nested reactive updates settle
         nextTick(() => {
@@ -997,8 +1002,8 @@ watch(() => props.selectedJournal, (newValue: any) => {
     if (newValue != null) {
         if (!newValue) return
         // switching journals is also programmatic; do it silently
-        runSilently(() => {
-            setFormJournalFromSelected(newValue)
+        runSilently(async () => {
+            await setFormJournalFromSelected(newValue)
             state.hasChanges = false
             state.isAutoSaving = false
         })
@@ -1093,7 +1098,7 @@ watch(() => state.hasChanges, (hasChanges) => {
     }
 }, { immediate: true })
 
-function setFormJournalFromSelected(journal: any) {
+async function setFormJournalFromSelected(journal: any) {
     setWellbeingFromJournal(journal)
     state.formJournal = {
         id: journal.id,

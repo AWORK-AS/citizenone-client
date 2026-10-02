@@ -142,7 +142,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="flex items-center gap-x-2">
-                        <TableSearch @search="handleSearch" class="flex-1" />
+                        <TableSearch :key="searchResetKey" @search="handleSearch" class="flex-1" />
                         <FormButton v-if="isLocalView" buttonStyle="action"
                             :disabled="!state.selectedDocuments.length" @click="openSelectedDocuments">
                             <Icon name="ph:arrow-square-out" class="h-4 w-4" aria-hidden="true" />
@@ -172,20 +172,8 @@
                             <Icon name="ph:arrow-left" size="16" class="text-black" />
                             <span class="text-sm">{{ $t('back') }}</span>
                         </div>
-                        <nav v-if="state.viewMode === 'local' && folderPath.length"
-                            class="flex items-center flex-wrap gap-x-1 gap-y-1 mb-3 text-sm">
-                            <button type="button" @click="navigateTo('/drive')"
-                                class="text-slate-500 hover:text-primary font-medium">
-                                {{ $t('drive.companyDocuments') }}
-                            </button>
-                            <template v-for="(f, i) in folderPath" :key="f.uuid">
-                                <Icon name="ph:caret-right" class="h-3.5 w-3.5 text-slate-300 shrink-0" aria-hidden="true" />
-                                <button type="button" @click="navigateTo(`/drive?folder_uuid=${f.uuid}`)"
-                                    :class="i === folderPath.length - 1 ? 'text-slate-800 font-semibold' : 'text-slate-500 hover:text-primary'">
-                                    {{ f.name }}
-                                </button>
-                            </template>
-                        </nav>
+                        <ModulesUserDocumentFolderBreadcrumb v-if="state.viewMode === 'local' && !state.isInsideOneDrive"
+                            :rootLabel="$t('drive.companyDocuments')" :path="folderPath" @navigate="goToFolder" />
                         <div class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer"
                             @click="goBackOneDriveFolder"
                             v-if="state.isInsideOneDrive && (state.oneDriveFolderStack.length > 0 || state.dataFilter.search)">
@@ -195,7 +183,7 @@
                         <div v-if="state.isPageLoading" class="w-full flex justify-center items-center py-10">
                             <LoadingSpinner :isActive="true" />
                         </div>
-                        <Table v-else :columnHeaders="state.columnHeaders"
+                        <Table v-else :columnHeaders="tableHeaders"
                             :data="state.viewMode === 'google-drive' ? state.googleDriveFiles : state.documents"
                             :isLoading="state.isTableLoading" :sortData="state.sortData"
                             emptyIcon="ph:folder-notch-open"
@@ -212,7 +200,10 @@
                                             @change="handleRowSelect(document)"
                                             class="peer w-5 h-5 appearance-none border bg-white border-primary rounded-sm checked:bg-secondary checked:border-secondary focus:ring-0 cursor-pointer" />
                                     </td>
-                                    <td width="25%" class="max-w-0">
+                                    <td width="60" v-if="isLocalView" data-testid="document-id">
+                                        <span class="text-sm text-slate-600 tabular-nums">{{ document?.id }}</span>
+                                    </td>
+                                    <td width="32%" class="max-w-0">
                                         <div v-if="state.viewMode === 'google-drive'">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 v-if="document?.type === 'file'" @click="openGoogleDriveFile(document)">
@@ -274,19 +265,25 @@
                                                 </Tooltip>
                                                 <span class="truncate">{{ document?.name }}</span>
                                             </div>
+                                            <p v-if="document?.folder_path !== undefined"
+                                                class="mt-0.5 flex items-center gap-x-1 text-xs text-slate-500"
+                                                :title="$t('drive.table.location')" data-testid="document-location">
+                                                <Icon name="ph:folder-simple" class="size-3.5 shrink-0" aria-hidden="true" />
+                                                <span class="truncate">{{ document?.folder_path || $t('drive.companyDocuments') }}</span>
+                                            </p>
                                         </div>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <p class="truncate">
                                             {{ document?.user?.firstname + ' ' + document?.user?.lastname }}
                                         </p>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <span class="truncate">
                                             {{ formatDateTimeToReadable(document?.created_at) }}
                                         </span>
                                     </td>
-                                    <td width="20%">
+                                    <td width="17%">
                                         <span class="truncate">
                                             {{ document?.updated_at && formatDateTimeToReadable(document?.updated_at) }}
                                         </span>
@@ -1182,6 +1179,11 @@ async function fetchFolderPath(folderUuid: any) {
         folderPath.value = []
         return
     }
+    // The previous folder's trail must not linger while this one loads: Back
+    // would lead to the wrong parent.
+    if (folderPath.value[folderPath.value.length - 1]?.uuid !== folderUuid) {
+        folderPath.value = []
+    }
     try {
         const res: any = await documentService.getFolderPath(folderUuid)
         folderPath.value = res?.data ?? []
@@ -1348,6 +1350,32 @@ async function fetchOriginalFile(document: any): Promise<Blob> {
 // Drive and OneDrive rows go out through their own flows, and a checkbox that
 // cannot act on them would be a lie.
 const isLocalView = computed(() => state.viewMode !== 'google-drive' && !state.isInsideOneDrive)
+
+// Google Drive and OneDrive rows carry their own provider ids, so the numeric
+// document ID column belongs to the CitizenOne view only.
+const tableHeaders = computed(() => isLocalView.value
+    ? [{ name: 'drive.table.id', isTranslateName: true, sorter: true, key: 'id', width: 60 }, ...state.columnHeaders]
+    : state.columnHeaders)
+
+// A search covers every folder, so each hit says where it lives.
+const isSearchActive = computed(() => {
+    const search = state.dataFilter.search as any
+    return isLocalView.value && Array.isArray(search) && search.length > 0
+})
+
+// Remounting the search box is how its text is cleared from here.
+const searchResetKey = ref(0)
+
+// Breadcrumb, Back button and search hits all land here. A folder opened from
+// a search result must show its own contents, so the search is dropped first.
+async function goToFolder(folderUuid: string | null) {
+    currentTablePage = 1
+    if (isSearchActive.value) {
+        state.dataFilter.search = ''
+        searchResetKey.value++
+    }
+    await navigateTo(folderUuid ? `/drive?folder_uuid=${folderUuid}` : '/drive')
+}
 
 function onSelectionChange(rows: any[]) {
     state.selectedDocuments = rows
@@ -1567,7 +1595,7 @@ async function viewDirectory(document: any) {
         if (current) {
             state.folderStack.push(current as string)
         }
-        await navigateTo(`/drive?folder_uuid=${document.uuid}`)
+        await goToFolder(document.uuid)
         return
     }
     if (document?.is_onedrive) {

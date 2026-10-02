@@ -1750,7 +1750,6 @@
                     "redactionNotice": "Personal identifiers (name, CPR, address, phone, email) are always removed."
                 },
                 "goal": "Goal",
-                "attachedTo": "Attached to",
                 "attachmentRemovalHint": "Clear the checkbox to remove this note from its plan, goal, sub-goal or single goal.",
                 "hideCurrentPlansGoalsAndSubgoals": "Hide current plans, goals, and subgoals",
                 "journalNoteTags": "Journal note tags",
@@ -1818,6 +1817,8 @@
                 },
                 "updatedBy": "Updated by"
             },
+            "linkedTo": "Linked to",
+            "linkedToOpen": "Open",
             "mentions": {
                 "hint": "Type {'@'} to tag a colleague or a @:terms.citizen{''}",
                 "noAccess": "no access",
@@ -2056,7 +2057,9 @@
                 "dateCreated": "Date created",
                 "lastModified": "Last modified",
                 "name": "Name",
-                "owner": "Owner"
+                "owner": "Owner",
+                "id": "ID",
+                "location": "Location"
             },
             "template": "Template",
             "upgradeStorage": "Upgrade storage",
@@ -4539,7 +4542,9 @@
             "dateCreated": "Date created",
             "lastModified": "Last modified",
             "name": "Name",
-            "owner": "Owner"
+            "owner": "Owner",
+            "id": "ID",
+            "location": "Location"
         },
         "upgradeStorage": "Upgrade storage",
         "uploadFile": "Upload file",
@@ -8516,6 +8521,15 @@
             "loadingYourEmails": "Loading your emails"
         },
         "mail": "Mail",
+        "pdf": {
+            "saveAsPdf": "Save as PDF",
+            "download": "Download PDF",
+            "saveToDrive": "Save to Drive",
+            "chooseFolder": "Choose folder",
+            "rootFolder": "Documents (root)",
+            "savedToDrive": "Saved to Drive",
+            "noSubject": "Email"
+        },
         "reply": "Reply",
         "secured": {
             "alert": {
@@ -9192,6 +9206,7 @@
                 "medicationOverview": "Medication overview",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
+                "nextShift": "Next shift",
                 "plansAndGoals": "Plans and goals",
                 "riskAssessment": "Risk assessment",
                 "scheduleSlots": "Schedule slots",
@@ -9266,6 +9281,31 @@
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
             "medicineDeviationStatistics": "Medicine deviated"
+        },
+        "nextShift": {
+            "title": "When is my next shift?",
+            "none": "You have no upcoming shifts scheduled.",
+            "today": "Today",
+            "tomorrow": "Tomorrow",
+            "startsIn": "Starts in {time}",
+            "startingNow": "Starting now",
+            "hoursMinutes": "{hours} h {minutes} min",
+            "minutesOnly": "{minutes} min",
+            "hoursShort": "{hours} h",
+            "differentDepartment": "Different from your usual department",
+            "usually": "Usually: {department}",
+            "department": "Department",
+            "departments": "Departments",
+            "noDepartment": "No department",
+            "shift": "Shift",
+            "date": "Date",
+            "time": "Time",
+            "duration": "Duration",
+            "details": "Shift details",
+            "clickForDetails": "Click for details",
+            "viewSchedule": "Open duty schedule",
+            "reminderInfo": "In the mobile app you get a push reminder 2 hours before the shift starts.",
+            "onlyDifferent": "This shift is in a different department than the one you usually work in."
         },
         "myDailyEvents": "My daily events",
         "news": "News",
@@ -10466,6 +10506,8 @@
                 "relativeChat": "Chat with relatives",
                 "relativeChatManagement": "Relatives can write to management and administrators",
                 "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
+                "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
+                "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
