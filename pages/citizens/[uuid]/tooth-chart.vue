@@ -52,12 +52,12 @@
                                         <!-- Two things are switched often while working: which
                                              dentition is charted and how it is drawn. They are
                                              grouped so neither is mistaken for an action. -->
-                                        <div class="inline-flex rounded-lg bg-gray-100 p-0.5">
+                                        <div class="inline-flex rounded-lg bg-gray-100 p-0.5" v-if="offersPrimaryTeeth">
                                             <button type="button" v-for="option in dentitionOptions" :key="option.value"
                                                 @click="state.dentition = option.value" :class="[
                                                     'rounded-md px-3 py-1.5 text-sm font-medium transition',
                                                     state.dentition === option.value
-                                                        ? 'bg-white text-primary shadow-sm'
+                                                        ? 'bg-primary text-white shadow-sm'
                                                         : 'text-gray-500 hover:text-gray-700'
                                                 ]">
                                                 {{ option.label }}
@@ -69,7 +69,7 @@
                                                 @click="state.view = option.value" :class="[
                                                     'rounded-md px-3 py-1.5 text-sm font-medium transition',
                                                     state.view === option.value
-                                                        ? 'bg-white text-primary shadow-sm'
+                                                        ? 'bg-primary text-white shadow-sm'
                                                         : 'text-gray-500 hover:text-gray-700'
                                                 ]">
                                                 {{ option.label }}
@@ -81,7 +81,7 @@
                                                 @click="state.numbering = option.value" :class="[
                                                     'rounded-md px-3 py-1.5 text-sm font-medium transition',
                                                     state.numbering === option.value
-                                                        ? 'bg-white text-primary shadow-sm'
+                                                        ? 'bg-primary text-white shadow-sm'
                                                         : 'text-gray-500 hover:text-gray-700'
                                                 ]">
                                                 {{ option.label }}
@@ -228,6 +228,7 @@ const state = reactive({
     surfaceOptions: [] as string[],
     perio: [] as any[],
     patient: null as any,
+    ageYears: null as number | null,
     examinations: [] as any[],
     lastExamination: null as any,
     viewedExamination: null as any,
@@ -277,6 +278,7 @@ async function loadChart() {
         state.statusOptions = response?.data?.status_options || []
         state.surfaceOptions = response?.data?.surface_options || []
         state.patient = response?.data?.patient || null
+        state.ageYears = response?.data?.age_years ?? null
         state.generalNotes = response?.data?.general_notes || ''
         state.oralHealthNotes = response?.data?.oral_health_notes || ''
     } catch (error: any) {
@@ -285,6 +287,27 @@ async function loadChart() {
         state.isPageLoading = false
     }
 }
+
+// Every milk tooth is normally gone by about 13. Past that the choice only
+// leads to an empty chart, so it is not offered; with no birthday on file the
+// clinic decides.
+const PRIMARY_TEETH_MAX_AGE = 12
+
+const offersPrimaryTeeth = computed(() =>
+    state.teeth.some((tooth: any) => tooth.dentition === 'primary')
+    && (state.ageYears === null || state.ageYears <= PRIMARY_TEETH_MAX_AGE))
+
+watch(offersPrimaryTeeth, (offered) => {
+    if (!offered) state.dentition = 'permanent'
+})
+
+// A tooth picked in one dentition is not drawn in the other, so the panel
+// would keep editing a tooth nobody can see.
+watch(() => state.dentition, () => {
+    if (selectedTooth.value && (selectedTooth.value.dentition || 'permanent') !== state.dentition) {
+        clearSelection()
+    }
+})
 
 const dentitionOptions = computed(() => [
     { value: 'permanent' as const, label: t('citizens.toothChart.dentition.permanent') },
