@@ -3251,6 +3251,13 @@
             "viewNursingProfessionalRecord": "Se sykeplejerskernes professionelle journal",
             "vitals": {
                 "editVitals": "Rediger vitale tegn",
+                "graph": {
+                    "diastolic": "Diastolisk",
+                    "empty": "Ingen data å vise i graf ennå.",
+                    "skippedEntries": "{count} oppføringer kunne ikke vises i grafen",
+                    "systolic": "Systolisk",
+                    "viewGraphs": "Se grafer"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitale verdier er blitt lagt til",

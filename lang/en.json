@@ -3251,6 +3251,13 @@
             "viewNursingProfessionalRecord": "View nursing professional record",
             "vitals": {
                 "editVitals": "Edit vitals",
+                "graph": {
+                    "diastolic": "Diastolic",
+                    "empty": "No data to graph yet.",
+                    "skippedEntries": "{count} entries couldn't be graphed",
+                    "systolic": "Systolic",
+                    "viewGraphs": "View graphs"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitals successfully added",

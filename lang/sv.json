@@ -3251,6 +3251,13 @@
             "viewNursingProfessionalRecord": "Se sygeplejerskernes professionelle journal",
             "vitals": {
                 "editVitals": "Redigera vitale tegn",
+                "graph": {
+                    "diastolic": "Diastoliskt",
+                    "empty": "Ingen data att visa i diagram än.",
+                    "skippedEntries": "{count} poster kunde inte visas i diagrammet",
+                    "systolic": "Systoliskt",
+                    "viewGraphs": "Visa diagram"
+                },
                 "form": {
                     "alert": {
                         "vitalsSuccessfullyAdded": "Vitale värden har lagts till",
