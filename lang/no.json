@@ -891,7 +891,10 @@
             "employeeSuccessfullyUnarchive": "Medarbeider genåbnet vellykket",
             "goalSuccessfullyUnarchive": "Mål gjenopprettet vellykket",
             "planSuccessfullyUnarchive": "Plan gjenopprettet vellykket",
-            "subgoalSuccessfullyUnarchive": "Delmål gjenopprettet vellykket"
+            "subgoalSuccessfullyUnarchive": "Delmål gjenopprettet vellykket",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet permanent",
+            "documentSuccessfullyDeleted": "Dokument slettet permanent",
+            "employeeSuccessfullyDeleted": "Medarbeider slettet permanent"
         },
         "confirmation": {
             "unarchiveCitizen": "Er du sikker på at du vil genåbne denne @:terms.citizen{''}",
@@ -899,14 +902,21 @@
             "unarchiveEmployee": "Er du sikker på at du vil genåbne denne medarbeider",
             "unarchiveGoal": "Er du sikker på at du vil gjenopprette dette mål",
             "unarchivePlan": "Er du sikker på at du vil gjenopprette denne plan",
-            "unarchiveSubgoal": "Er du sikker på at du vil gjenopprette dette delmål"
+            "unarchiveSubgoal": "Er du sikker på at du vil gjenopprette dette delmål",
+            "deleteCitizen": "Er du sikker på at du vil slette denne @:terms.citizen{''} permanent? Denne handlingen kan ikke angres.",
+            "deleteDocument": "Er du sikker på at du vil slette dette dokumentet permanent? Denne handlingen kan ikke angres.",
+            "deleteEmployee": "Er du sikker på at du vil slette denne medarbeideren permanent? Denne handlingen kan ikke angres."
         },
         "table": {
             "actions": {
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
                 "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbeider"
+                "unarchiveEmployee": "Genåbn medarbeider",
+                "delete": "Slett",
+                "deleteCitizen": "Slett @:terms.citizen{''}",
+                "deleteDocument": "Slett dokument",
+                "deleteEmployee": "Slett medarbeider"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
