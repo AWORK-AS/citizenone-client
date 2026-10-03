@@ -891,7 +891,10 @@
             "employeeSuccessfullyUnarchive": "Employee successfully unarchived",
             "goalSuccessfullyUnarchive": "Goal successfully unarchive",
             "planSuccessfullyUnarchive": "Plan successfully unarchive",
-            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
+            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} permanently deleted",
+            "documentSuccessfullyDeleted": "Document permanently deleted",
+            "employeeSuccessfullyDeleted": "Employee permanently deleted"
         },
         "confirmation": {
             "unarchiveCitizen": "Are you sure you want to unarchive this @:terms.citizen{''}",
@@ -899,14 +902,21 @@
             "unarchiveEmployee": "Are you sure you want to unarchive this employee",
             "unarchiveGoal": "Are you sure you want to unarchive this goal",
             "unarchivePlan": "Are you sure you want to unarchive this plan",
-            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal"
+            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal",
+            "deleteCitizen": "Are you sure you want to permanently delete this @:terms.citizen{''}? This action cannot be undone.",
+            "deleteDocument": "Are you sure you want to permanently delete this document? This action cannot be undone.",
+            "deleteEmployee": "Are you sure you want to permanently delete this employee? This action cannot be undone."
         },
         "table": {
             "actions": {
                 "unarchive": "Unarchive",
                 "unarchiveCitizen": "Unarchive @:terms.citizen{''}",
                 "unarchiveDocument": "Unarchive document",
-                "unarchiveEmployee": "Unarchive employee"
+                "unarchiveEmployee": "Unarchive employee",
+                "delete": "Delete",
+                "deleteCitizen": "Delete @:terms.citizen{''}",
+                "deleteDocument": "Delete document",
+                "deleteEmployee": "Delete employee"
             },
             "belongsTo": "Belongs to",
             "date": "Date",

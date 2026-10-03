@@ -891,7 +891,10 @@
             "employeeSuccessfullyUnarchive": "Anställd genåbnet",
             "goalSuccessfullyUnarchive": "Mål gendannet",
             "planSuccessfullyUnarchive": "Plan gendannet",
-            "subgoalSuccessfullyUnarchive": "Delmål gendannet"
+            "subgoalSuccessfullyUnarchive": "Delmål gendannet",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} permanent raderad",
+            "documentSuccessfullyDeleted": "Dokument permanent raderat",
+            "employeeSuccessfullyDeleted": "Anställd permanent raderad"
         },
         "confirmation": {
             "unarchiveCitizen": "Är du säker på att du vill genåbne denna @:terms.citizen{''}",
@@ -899,14 +902,21 @@
             "unarchiveEmployee": "Är du säker på att du vill genåbne denna anställd",
             "unarchiveGoal": "Är du säker på att du vill gendanne detta mål",
             "unarchivePlan": "Är du säker på att du vill gendanne denna plan",
-            "unarchiveSubgoal": "Är du säker på att du vill gendanne detta delmål"
+            "unarchiveSubgoal": "Är du säker på att du vill gendanne detta delmål",
+            "deleteCitizen": "Är du säker på att du vill radera denna @:terms.citizen{''} permanent? Denna åtgärd kan inte ångras.",
+            "deleteDocument": "Är du säker på att du vill radera detta dokument permanent? Denna åtgärd kan inte ångras.",
+            "deleteEmployee": "Är du säker på att du vill radera denna anställd permanent? Denna åtgärd kan inte ångras."
         },
         "table": {
             "actions": {
                 "unarchive": "Återöppna",
                 "unarchiveCitizen": "Återöppna @:terms.citizen{''}",
                 "unarchiveDocument": "Återöppna dokument",
-                "unarchiveEmployee": "Återöppna anställd"
+                "unarchiveEmployee": "Återöppna anställd",
+                "delete": "Radera",
+                "deleteCitizen": "Radera @:terms.citizen{''}",
+                "deleteDocument": "Radera dokument",
+                "deleteEmployee": "Radera anställd"
             },
             "belongsTo": "Tillhör",
             "date": "Datum",

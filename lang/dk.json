@@ -891,7 +891,10 @@
             "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes",
             "goalSuccessfullyUnarchive": "Mål gendannet med succes",
             "planSuccessfullyUnarchive": "Plan gendannet med succes",
-            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes"
+            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet permanent",
+            "documentSuccessfullyDeleted": "Dokument slettet permanent",
+            "employeeSuccessfullyDeleted": "Medarbejder slettet permanent"
         },
         "confirmation": {
             "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne @:terms.citizen{''}",
@@ -899,14 +902,21 @@
             "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder",
             "unarchiveGoal": "Er du sikker på, at du vil gendanne dette mål",
             "unarchivePlan": "Er du sikker på, at du vil gendanne denne plan",
-            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål"
+            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål",
+            "deleteCitizen": "Er du sikker på, at du vil slette denne @:terms.citizen{''} permanent? Denne handling kan ikke fortrydes.",
+            "deleteDocument": "Er du sikker på, at du vil slette dette dokument permanent? Denne handling kan ikke fortrydes.",
+            "deleteEmployee": "Er du sikker på, at du vil slette denne medarbejder permanent? Denne handling kan ikke fortrydes."
         },
         "table": {
             "actions": {
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
                 "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbejder"
+                "unarchiveEmployee": "Genåbn medarbejder",
+                "delete": "Slet",
+                "deleteCitizen": "Slet @:terms.citizen{''}",
+                "deleteDocument": "Slet dokument",
+                "deleteEmployee": "Slet medarbejder"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
