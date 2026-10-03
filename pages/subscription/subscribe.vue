@@ -528,10 +528,10 @@ async function subscribe(deal: any) {
             params.type = 'yearly'
         }
         const response = await userSubscriptionService.subscribe(params)
-        if (response) {
+        if (response?.paymentId) {
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
-                paymentId: response?.paymentId,
+                paymentId: response.paymentId,
                 containerId: "subscribe-checkout",
                 language: "da-DK",
                 theme: {
@@ -546,6 +546,8 @@ async function subscribe(deal: any) {
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)
             })
             state.isDealsHidden = true
+        } else {
+            state.error = { message: language.t('subscription.couldNotStartCheckout') }
         }
     } catch (error: any) {
         state.error = error

@@ -881,7 +881,8 @@
         "dataLocation": "Databehandling",
         "billing": "Betaling",
         "subscription": "Abonnement",
-        "couldNotStartConnection": "Tilkoblingen kunne ikke startes. Prøv igjen."
+        "couldNotStartConnection": "Tilkoblingen kunne ikke startes. Prøv igjen.",
+        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igjen."
     },
     "archived": {
         "alert": {
@@ -8153,7 +8154,8 @@
             },
             "alert": {
                 "invoicePaidSuccessfully": "Faktura betalt vellykket",
-                "invoiceSuccessfullySent": "Faktura sendt vellykket"
+                "invoiceSuccessfullySent": "Faktura sendt vellykket",
+                "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igjen om litt."
             },
             "amount": "Beløp",
             "company": "Virksomhet",
@@ -11217,7 +11219,8 @@
             "seeDetails": "Se lagringsplass",
             "warningBody": "{percent}% av deres {quota} GB er brukt. Når plassen er brukt opp, kan det ikke lastes opp flere filer.",
             "fullBody": "{percent}% av deres {quota} GB er brukt. Nye filer kan ikke lastes opp før dere frigjør plass eller oppgraderer."
-        }
+        },
+        "couldNotStartUpgrade": "Oppgraderingen kunne ikke startes. Prøv igjen om litt."
     },
     "submit": "Indsend",
     "subscription": {
@@ -11227,7 +11230,8 @@
             "extraDepartment": "Ekstra avdeling",
             "extraUser": "Ekstra @:terms.citizen{''}",
             "purchaseExtraLicenses": "Kjøp ekstra lisenser",
-            "total": "Totalt"
+            "total": "Totalt",
+            "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
         },
         "basisUserLimit": {
             "confirmUpgrade": "Vil du oppgradere til Pro?",
@@ -11294,7 +11298,8 @@
         },
         "subscription": "Abonnement",
         "updateSubscription": "Oppdater abonnement",
-        "upgrade": "Opgradér"
+        "upgrade": "Opgradér",
+        "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
         "accounts": {
@@ -14348,7 +14353,8 @@
             "buyButton": "Kjøp kreditter",
             "processing": "Behandler...",
             "purchaseSuccess": "Kreditter lagt til på kontoen din",
-            "appNotFound": "SMS-appen ble ikke funnet. Prøv igjen senere."
+            "appNotFound": "SMS-appen ble ikke funnet. Prøv igjen senere.",
+            "couldNotStartPurchase": "Kjøpet kunne ikke startes. Prøv igjen om litt."
         },
         "form": {
             "sendSmsNotification": "Send SMS-varsel",

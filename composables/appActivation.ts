@@ -101,7 +101,9 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
 
         const response = await appService.activateApp(app?.uuid, params)
 
-        if (!response) {
+        if (!response?.paymentId) {
+            activation.error = { message: t('apps.couldNotStartPayment') }
+
             return
         }
 
