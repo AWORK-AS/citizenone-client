@@ -3075,6 +3075,39 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "checklists": {
+                "addItem": "Legg til punkt",
+                "checklists": "Sjekklister",
+                "editChecklist": "Rediger sjekkliste",
+                "editItem": "Rediger punkt",
+                "empty": "Ingen sjekklister ennå",
+                "form": {
+                    "alert": {
+                        "checklistSuccessfullyAdded": "Sjekkliste lagt til",
+                        "checklistSuccessfullyUpdated": "Sjekkliste oppdatert"
+                    },
+                    "description": "Beskrivelse",
+                    "title": "Tittel"
+                },
+                "newChecklist": "Ny sjekkliste",
+                "newItem": "Nytt punkt",
+                "noItems": "Ingen punkter ennå",
+                "progress": "{completed}/{total} fullført",
+                "table": {
+                    "actions": {
+                        "delete": "Slett",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "checklistSuccessfullyDeleted": "Sjekkliste slettet",
+                        "itemSuccessfullyDeleted": "Punkt slettet"
+                    },
+                    "confirmation": {
+                        "deleteChecklistConfirmation": "Er du sikker på at du vil slette denne sjekklisten",
+                        "deleteItemConfirmation": "Er du sikker på at du vil slette dette punktet"
+                    }
+                }
+            },
             "consentCompetenceOrCapacity": {
                 "consentCompetenceOrCapacity": "Samtykkekompetence eller kapasitet",
                 "editConsentCompetenceOrCapacity": "Rediger samtykkekompetence eller kapasitet",

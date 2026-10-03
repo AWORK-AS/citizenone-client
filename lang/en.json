@@ -3075,6 +3075,39 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
+            "checklists": {
+                "addItem": "Add item",
+                "checklists": "Checklists",
+                "editChecklist": "Edit checklist",
+                "editItem": "Edit item",
+                "empty": "No checklists yet",
+                "form": {
+                    "alert": {
+                        "checklistSuccessfullyAdded": "Checklist successfully added",
+                        "checklistSuccessfullyUpdated": "Checklist successfully updated"
+                    },
+                    "description": "Description",
+                    "title": "Title"
+                },
+                "newChecklist": "New checklist",
+                "newItem": "New item",
+                "noItems": "No items yet",
+                "progress": "{completed}/{total} completed",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "checklistSuccessfullyDeleted": "Checklist successfully deleted",
+                        "itemSuccessfullyDeleted": "Item successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteChecklistConfirmation": "Are you sure you want to delete this checklist",
+                        "deleteItemConfirmation": "Are you sure you want to delete this item"
+                    }
+                }
+            },
             "consentCompetenceOrCapacity": {
                 "consentCompetenceOrCapacity": "Consent competence or capacity",
                 "editConsentCompetenceOrCapacity": "Edit consent competence or capacity",
