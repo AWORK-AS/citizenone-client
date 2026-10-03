@@ -1712,6 +1712,7 @@
                 "includeRiskAssessment": "Inkluder riskbedömning"
             },
             "editNote": "Redigera anteckning",
+            "viewNote": "Visa anteckning",
             "filter": {
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
