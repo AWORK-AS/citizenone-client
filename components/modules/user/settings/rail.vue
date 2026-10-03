@@ -86,6 +86,7 @@ const { tt } = useTerminology()
 const ADMIN_ONLY_ROUTES = [
     'settings-company',
     'settings-import',
+    'settings-whistleblower',
     'settings-power-bi',
     'settings-economic',
     'settings-gdpr-retention',
