@@ -1712,6 +1712,7 @@
                 "includeRiskAssessment": "Inkluder risikovurdering"
             },
             "editNote": "Rediger notat",
+            "viewNote": "Se notat",
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
