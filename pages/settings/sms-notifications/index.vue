@@ -355,14 +355,14 @@ async function purchaseCredits() {
             return
         }
         const response = await appService.activateApp(smsAppUuid as any, { amount: state.creditAmount })
-        if (response) {
+        if (response?.paymentId) {
             state.isCheckoutVisible = true
             await nextTick()
             const checkoutEl = document.getElementById('sms-checkout')
             if (checkoutEl) checkoutEl.innerHTML = ''
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
-                paymentId: response?.paymentId,
+                paymentId: response.paymentId,
                 containerId: 'sms-checkout',
                 language: 'da-DK',
                 theme: { buttonRadius: '5px' },
@@ -372,6 +372,10 @@ async function purchaseCredits() {
                 checkout.cleanup()
                 navigateTo(`/settings/sms-notifications?paymentId=${res['paymentId']}`)
             })
+        } else {
+            state.error = { message: t('sms.credits.couldNotStartPurchase') } as Error
+            state.isPurchasing = false
+            return
         }
     } catch (error: any) {
         state.error = error

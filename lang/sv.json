@@ -881,7 +881,8 @@
         "dataLocation": "Databehandling",
         "billing": "Betalning",
         "subscription": "Abonnemang",
-        "couldNotStartConnection": "Anslutningen kunde inte startas. Försök igen."
+        "couldNotStartConnection": "Anslutningen kunde inte startas. Försök igen.",
+        "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen."
     },
     "archived": {
         "alert": {
@@ -8153,7 +8154,8 @@
             },
             "alert": {
                 "invoicePaidSuccessfully": "Faktura betald",
-                "invoiceSuccessfullySent": "Faktura skickad"
+                "invoiceSuccessfullySent": "Faktura skickad",
+                "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen om en stund."
             },
             "amount": "Belopp",
             "company": "Företag",
@@ -11217,7 +11219,8 @@
             "seeDetails": "Se lagringsutrymme",
             "warningBody": "{percent}% av era {quota} GB är använt. När utrymmet tar slut går det inte att ladda upp fler filer.",
             "fullBody": "{percent}% av era {quota} GB är använt. Nya filer kan inte laddas upp förrän ni frigör utrymme eller uppgraderar."
-        }
+        },
+        "couldNotStartUpgrade": "Uppgraderingen kunde inte startas. Försök igen om en stund."
     },
     "submit": "Indsend",
     "subscription": {
@@ -11227,7 +11230,8 @@
             "extraDepartment": "Extra avdelning",
             "extraUser": "Extra användare",
             "purchaseExtraLicenses": "Köp extra licenser",
-            "total": "Total"
+            "total": "Total",
+            "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
         },
         "basisUserLimit": {
             "confirmUpgrade": "Vill du uppgradera till Pro?",
@@ -11294,7 +11298,8 @@
         },
         "subscription": "Prenumeration",
         "updateSubscription": "Uppdatera prenumeration",
-        "upgrade": "Opgradér"
+        "upgrade": "Opgradér",
+        "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
         "accounts": {
@@ -14348,7 +14353,8 @@
             "buyButton": "Köp krediter",
             "processing": "Bearbetar...",
             "purchaseSuccess": "Krediter tillagda på ditt konto",
-            "appNotFound": "SMS-appen hittades inte. Försök igen senare."
+            "appNotFound": "SMS-appen hittades inte. Försök igen senare.",
+            "couldNotStartPurchase": "Köpet kunde inte startas. Försök igen om en stund."
         },
         "form": {
             "sendSmsNotification": "Skicka SMS-notifikation",
