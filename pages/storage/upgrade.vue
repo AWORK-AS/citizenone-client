@@ -343,10 +343,10 @@ async function upgrade(deal: any) {
             'type': 'monthly',
         }
         const response = await userSubscriptionService.subscribe(params)
-        if (response) {
+        if (response?.paymentId) {
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
-                paymentId: response?.paymentId,
+                paymentId: response.paymentId,
                 containerId: "upgrade-checkout",
                 language: "da-DK",
                 theme: {
@@ -360,6 +360,8 @@ async function upgrade(deal: any) {
                 navigateTo(`/subscription/subscribed-successfully?paymentId=${paymentId}`)
             })
             state.isDealsHidden = true
+        } else {
+            state.error = { message: language.t('storage.couldNotStartUpgrade') }
         }
     } catch (error: any) {
         state.error = error

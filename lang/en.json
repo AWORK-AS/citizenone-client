@@ -881,7 +881,8 @@
         "dataLocation": "Data processed in",
         "billing": "Billing",
         "subscription": "Subscription",
-        "couldNotStartConnection": "The connection could not be started. Try again."
+        "couldNotStartConnection": "The connection could not be started. Try again.",
+        "couldNotStartPayment": "The payment could not be started. Try again."
     },
     "archived": {
         "alert": {
@@ -8153,7 +8154,8 @@
             },
             "alert": {
                 "invoicePaidSuccessfully": "Invoice paid successfully",
-                "invoiceSuccessfullySent": "Invoice successfully sent"
+                "invoiceSuccessfullySent": "Invoice successfully sent",
+                "couldNotStartPayment": "The payment could not be started. Try again shortly."
             },
             "amount": "Amount",
             "company": "Company",
@@ -11254,7 +11256,8 @@
             "seeDetails": "See storage",
             "warningBody": "{percent}% of your {quota} GB is used. When the space runs out, no more files can be uploaded.",
             "fullBody": "{percent}% of your {quota} GB is used. New files cannot be uploaded until you free up space or upgrade."
-        }
+        },
+        "couldNotStartUpgrade": "The upgrade could not be started. Try again shortly."
     },
     "submit": "Submit",
     "subscription": {
@@ -11264,7 +11267,8 @@
             "extraDepartment": "Extra department",
             "extraUser": "Extra user",
             "purchaseExtraLicenses": "Purchase extra licenses",
-            "total": "Total"
+            "total": "Total",
+            "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
         },
         "basisUserLimit": {
             "confirmUpgrade": "Do you want to upgrade to Pro?",
@@ -11331,7 +11335,8 @@
         },
         "subscription": "Subscription",
         "updateSubscription": "Update subscription",
-        "upgrade": "Upgrade"
+        "upgrade": "Upgrade",
+        "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
         "accounts": {
@@ -14444,7 +14449,8 @@
             "buyButton": "Buy credits",
             "processing": "Processing...",
             "purchaseSuccess": "Credits added to your account",
-            "appNotFound": "SMS app not found. Please try again later."
+            "appNotFound": "SMS app not found. Please try again later.",
+            "couldNotStartPurchase": "The purchase could not be started. Try again shortly."
         },
         "form": {
             "sendSmsNotification": "Send SMS notification",

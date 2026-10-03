@@ -279,6 +279,8 @@ async function pay() {
                 state.done = true
                 emit('purchased')
             })
+        } else {
+            state.error = t('aiUsage.buy.failed')
         }
     } catch (error: any) {
         state.error = error?.message ?? t('aiUsage.buy.failed')

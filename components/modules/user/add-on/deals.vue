@@ -117,8 +117,10 @@ import { useUserStore } from '@/store/user'
 import { useCouponStore } from '@/store/coupon'
 import { isBasisUserLimitError } from '@/utils/basisUserLimit'
 import type { Error } from '@/types'
+import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
 const couponStore = useCouponStore()
 const userStore = useUserStore() as any
@@ -238,10 +240,10 @@ async function handleSaveCart() {
             coupon_code: couponStore.getAddOnCouponCode,
         }
         const response = await cartService.checkoutCart(params)
-        if (response) {
+        if (response?.paymentId) {
             const checkoutOptions = {
                 checkoutKey: runtimeConfig?.public?.checkoutKey,
-                paymentId: response?.paymentId,
+                paymentId: response.paymentId,
                 containerId: "cart-checkout",
                 language: "da-DK",
                 theme: {
@@ -255,6 +257,8 @@ async function handleSaveCart() {
                 navigateTo(`/subscription/add-on-payment-successful?paymentId=${paymentId}`)
             })
             state.isDealsHidden = true
+        } else {
+            state.error = { message: t('subscription.addOnDeals.couldNotStartCheckout') } as Error
         }
     } catch (error: any) {
         state.error = error

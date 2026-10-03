@@ -327,6 +327,8 @@ async function payInvoice(invoice: any) {
                 checkout.cleanup()
                 navigateTo(`/settings/invoices?paymentId=${res['paymentId']}&invoiceUuid=${invoice.uuid}`)
             })
+        } else {
+            state.error = { message: t('invoices.table.alert.couldNotStartPayment') }
         }
     } catch (error: any) {
         state.error = error
