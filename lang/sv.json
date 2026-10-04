@@ -9847,7 +9847,27 @@
             "selectDatesFirst": "Välj start- och slutdatum först",
             "startDate": "Startdatum",
             "weeklyOn": "På",
-            "yearlyInMonths": "I månader"
+            "yearlyInMonths": "I månader",
+            "recordingMode": "Registrera närvaro",
+            "perDay": "Per dag",
+            "perHour": "Per timme",
+            "recordingModeDayHelp": "En registrering per brukare för varje dag.",
+            "recordingModeHourHelp": "En registrering per brukare för varje tidsintervall varje dag, så att närvaro kan registreras timme för timme.",
+            "timeSlots": "Tidsintervall",
+            "timeSlotsHelp": "Fyll i ett tidsintervall för varje timme i ett spann, eller lägg till dem ett i taget.",
+            "fromHour": "Från",
+            "toHour": "Till",
+            "fillHourly": "Fyll i varje timme",
+            "slotStart": "Start",
+            "slotEnd": "Slut",
+            "removeSlot": "Ta bort tidsintervall",
+            "noTimeSlots": "Inga tidsintervall ännu.",
+            "addSlot": "Lägg till tidsintervall",
+            "errors": {
+                "timeSlotsRequired": "Lägg till minst ett tidsintervall.",
+                "timeSlotEndAfterStart": "Varje tidsintervall måste sluta efter att det börjar.",
+                "timeSlotsOverlap": "Tidsintervallen får inte överlappa varandra."
+            }
         },
         "checkIn": "Checka in",
         "checkOut": "Checka ut",
@@ -9873,7 +9893,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Datum",
-                "status": "Status"
+                "status": "Status",
+                "time": "Tid"
             },
             "confirmation": {
                 "deleteConfirmation": "Är du säker på att du vill radera denna protokoll"
