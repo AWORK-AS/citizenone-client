@@ -11779,7 +11779,10 @@
                 "selectType": "Velg type...",
                 "sendWelcomeEmail": "Send velkomst-e-post",
                 "sendWelcomeEmailDesc": "Administratoren mottar påloggingsinstruksjoner på e-post",
-                "settings": "Innstillinger"
+                "settings": "Innstillinger",
+                "economicCustomerNumber": "e-conomic kundenummer",
+                "economicCustomerNumberHelp": "Kundens nummer i CitizenOnes e-conomic. Uten nummer opprettes ikke avtaleratene som kladd i e-conomic.",
+                "economicCustomerNumberPlaceholder": "Valgfritt"
             },
             "importCompanies": {
                 "alert": {
@@ -12064,7 +12067,9 @@
                 "referral": "Henvisning",
                 "direct": "Direkte",
                 "unknown": "Ukjent"
-            }
+            },
+            "economicCustomerNumber": "e-conomic kundenr. {number}",
+            "economicCustomerNumberNone": "Ikke e-conomic kundenr."
         },
         "coupons": {
             "active": "Aktiv",
@@ -13711,6 +13716,20 @@
                     "override": "En fast pris som er angitt på avtalen, erstatter listeprisen ved de kommende fornyelsene.",
                     "fallback": "Ingen lisenser er tilknyttet, så verdien er anslått ut fra avtaleverdien."
                 }
+            },
+            "economic": {
+                "draft": "Kladd {number}",
+                "booked": "Bokført {number}",
+                "error": "Feil i e-conomic",
+                "draftHelp": "Fakturaen ligger som kladd i CitizenOnes e-conomic og er ikke bokført ennå.",
+                "bookedHelp": "Fakturaen er bokført i CitizenOnes e-conomic.",
+                "errorHelp": "Opprettelsen i e-conomic mislyktes: {error}",
+                "create": "Opprett kladd i e-conomic",
+                "retry": "Prøv igjen",
+                "createHelp": "Oppretter fakturaen som kladd i CitizenOnes e-conomic. Krever at virksomheten har et e-conomic kundenummer.",
+                "retryHelp": "Prøver å opprette kladden i CitizenOnes e-conomic på nytt etter feilen.",
+                "created": "Kladden er opprettet i e-conomic.",
+                "missingNumber": "Kunden har en løpende avtale, men ikke noe e-conomic kundenummer. Avtalerater opprettes ikke som kladd i e-conomic før nummeret er fylt ut under Rediger."
             }
         },
         "metrics": {

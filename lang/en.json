@@ -11816,7 +11816,10 @@
                 "selectType": "Select type...",
                 "sendWelcomeEmail": "Send welcome email",
                 "sendWelcomeEmailDesc": "The administrator receives login instructions by email",
-                "settings": "Settings"
+                "settings": "Settings",
+                "economicCustomerNumber": "e-conomic customer number",
+                "economicCustomerNumberHelp": "The customer's number in CitizenOne's e-conomic. Without a number, agreement installments are not created as drafts in e-conomic.",
+                "economicCustomerNumberPlaceholder": "Optional"
             },
             "importCompanies": {
                 "alert": {
@@ -12101,7 +12104,9 @@
                 "referral": "Referral",
                 "direct": "Direct",
                 "unknown": "Unknown"
-            }
+            },
+            "economicCustomerNumber": "e-conomic customer no. {number}",
+            "economicCustomerNumberNone": "No e-conomic customer no."
         },
         "coupons": {
             "active": "Active",
@@ -13807,6 +13812,20 @@
                     "override": "A fixed price set on the agreement replaces the list price for the coming renewals.",
                     "fallback": "No licences are linked, so the value is estimated from the contract value."
                 }
+            },
+            "economic": {
+                "draft": "Draft {number}",
+                "booked": "Booked {number}",
+                "error": "e-conomic error",
+                "draftHelp": "The invoice is a draft in CitizenOne's e-conomic and has not been booked yet.",
+                "bookedHelp": "The invoice has been booked in CitizenOne's e-conomic.",
+                "errorHelp": "Creating the invoice in e-conomic failed: {error}",
+                "create": "Create draft in e-conomic",
+                "retry": "Try again",
+                "createHelp": "Creates the invoice as a draft in CitizenOne's e-conomic. Requires the company to have an e-conomic customer number.",
+                "retryHelp": "Tries to create the draft in CitizenOne's e-conomic again after the error.",
+                "created": "The draft was created in e-conomic.",
+                "missingNumber": "The customer has a running agreement but no e-conomic customer number. Agreement installments are not created as drafts in e-conomic until the number is filled in under Edit."
             }
         },
         "metrics": {

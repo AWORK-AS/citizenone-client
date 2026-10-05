@@ -24,6 +24,8 @@
                             {{ $t('superadmin.agreements.covered.chip') }}
                         </span>
                     </Tooltip>
+                    <ModulesSuperadminAgreementEconomicStatus v-if="state.invoice?.data" :invoice="economicInvoice"
+                        @updated="onEconomicUpdated" @failed="(error: any) => state.error = error" />
                     <Tooltip v-if="state.invoice?.data && !state.invoice.data.is_paid && !state.invoice.data.covered_by_agreement"
                         :text="$t('superadmin.agreements.payment.registerHelp')" position="bottom">
                         <FormButton buttonStyle="success" @click="state.isPaymentOpen = true">
@@ -156,6 +158,19 @@ const state = reactive({
     isPaymentOpen: false,
     isUndoOpen: false,
 })
+
+const economicInvoice = computed(() => ({ uuid: invoiceUuid, ...(state.invoice?.data ?? {}) }))
+
+// The API answers with the invoice: replace the local state with it.
+async function onEconomicUpdated(updated: any) {
+    state.error = {}
+    successAlert(`${language.t('alert.success')}!`, language.t('superadmin.agreements.economic.created'))
+    if (updated && typeof updated === 'object' && updated.invoice_number) {
+        state.invoice = { ...state.invoice, data: { ...state.invoice.data, ...updated } }
+    } else {
+        await fetchInvoice()
+    }
+}
 
 onMounted(() => {
     fetchInvoice()

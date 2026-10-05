@@ -120,13 +120,16 @@
                                         <span v-else class="text-[#B4BBC7]">-</span>
                                     </td>
                                     <td class="px-4 py-2">
-                                        <Tooltip v-if="row.invoice" :text="$t('superadmin.agreements.detail.openInvoice')"
-                                            position="top">
-                                            <NuxtLink class="font-mono text-[#205E77] hover:underline"
-                                                :to="`/superadmin/companies/${props.companyUuid}/invoices/${row.invoice.uuid}/invoice-details`">
-                                                #{{ row.invoice.invoice_number }}
-                                            </NuxtLink>
-                                        </Tooltip>
+                                        <div v-if="row.invoice" class="flex flex-wrap items-center gap-2">
+                                            <Tooltip :text="$t('superadmin.agreements.detail.openInvoice')" position="top">
+                                                <NuxtLink class="font-mono text-[#205E77] hover:underline"
+                                                    :to="`/superadmin/companies/${props.companyUuid}/invoices/${row.invoice.uuid}/invoice-details`">
+                                                    #{{ row.invoice.invoice_number }}
+                                                </NuxtLink>
+                                            </Tooltip>
+                                            <ModulesSuperadminAgreementEconomicStatus :invoice="row.invoice"
+                                                @updated="load" @failed="(error: any) => state.error = error" />
+                                        </div>
                                         <Tooltip v-else-if="row.settled_externally_at"
                                             :text="row.settled_note
                                                 ? $t('superadmin.agreements.settled.helpWithNote', { note: row.settled_note })
