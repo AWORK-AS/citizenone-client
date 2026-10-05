@@ -95,6 +95,7 @@ const state = reactive({
         spoken_languages: [],
         primary_spoken_language: '',
         requires_interpreter: false,
+        has_special_language: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -194,6 +195,7 @@ async function fetchCitizen() {
                 spoken_languages: [],
                 primary_spoken_language: '',
                 requires_interpreter: response?.data?.requires_interpreter ?? false,
+                has_special_language: response?.data?.has_special_language ?? false,
                 diagnoses: [],
                 medication_allergies: [],
                 addictions: [],
@@ -326,6 +328,7 @@ async function updateCitizen(citizenDetails: any) {
         params.append('spoken_languages_uuid', JSON.stringify(citizenDetails.spoken_languages ?? []))
         params.append('primary_spoken_language_uuid', citizenDetails.primary_spoken_language ?? '')
         params.append('requires_interpreter', citizenDetails.requires_interpreter ? 'true' : 'false')
+        params.append('has_special_language', citizenDetails.has_special_language ? 'true' : 'false')
         params.append('diagnoses_uuid', JSON.stringify(citizenDetails.diagnoses))
         params.append('medication_allergies_uuid', JSON.stringify(citizenDetails.medication_allergies))
         params.append('addictions_uuid', JSON.stringify(citizenDetails.addictions))

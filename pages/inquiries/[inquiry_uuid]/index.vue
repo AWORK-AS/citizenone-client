@@ -225,6 +225,7 @@
 </template>
 
 <script setup lang="ts">
+import { formLabel } from '@/composables/inquiryForms'
 definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', requiredCompanyFlag: 'inquiry_pipeline_enabled' })
 
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
@@ -279,7 +280,9 @@ const headline = computed(() => {
 })
 
 const subline = computed(() => [
-    state.inquiry?.inquiry_type === 'shelter' ? shelterName.value : crisisCenterName.value,
+    state.inquiry?.form
+        ? formLabel(state.inquiry.form, { shelter: shelterName.value, crisisCenter: crisisCenterName.value })
+        : state.inquiry?.inquiry_type === 'shelter' ? shelterName.value : crisisCenterName.value,
     state.inquiry?.origin ? t('inquiryOrigin.' + state.inquiry.origin) : '',
     state.inquiry?.inquiry_date ? formatDateToReadable(state.inquiry.inquiry_date) : '',
     state.inquiry?.inquirer_name,

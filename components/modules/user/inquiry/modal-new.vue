@@ -1,18 +1,18 @@
 <template>
     <div>
-        <Modal size="lg" :title="props.serviceType?.label ?? (inquiryType === 'shelter' ? shelterName : crisisCenterName)"
+        <Modal size="lg" :title="title"
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
-                        :serviceType="props.serviceType"
+                        :form="props.form" :serviceType="preselectedServiceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveCrisisCenterInquiry" />
                     <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" formType="create" :selectedInquiry="state.formInquiry"
-                        :serviceType="props.serviceType"
+                        :form="props.form" :serviceType="preselectedServiceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveShelterInquiry" />
-                    <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues" class="mt-6" />
+                    <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues" :formUuid="props.form?.uuid ?? null" class="mt-6" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -25,6 +25,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
+import { formLabel } from '@/composables/inquiryForms'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -42,21 +43,30 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
-    // Set when the user picked one of the company's own inquiry forms rather
-    // than one of the two built-in ones.
-    serviceType: {
+    // The form "Ny henvendelse" was opened on. Null only while the company's
+    // forms could not be read, when the built-in form asks for everything.
+    form: {
         type: Object,
         required: false,
         default: null,
     },
 })
+
+const title = computed(() => formLabel((props.form as any) ?? { name: null, builtin: props.inquiryType as any }, {
+    shelter: shelterName.value,
+    crisisCenter: crisisCenterName.value,
+}))
+
+// A form may come with its service type chosen; asking again would invite two
+// answers to the same question.
+const preselectedServiceType = computed(() => props.form?.service_type ?? null)
 const emit = defineEmits(['close', 'refreshInquiries'])
 
 const state = reactive({
     error: {} as Error,
     formInquiry: {
         inquiry_type: props.inquiryType,
-        inquiry_service_type_uuid: props.serviceType?.uuid ?? null,
+        inquiry_service_type_uuid: props.form?.service_type?.uuid ?? null,
         cpr: '',
         inquiry_date: '',
         department_uuid: [],
@@ -94,6 +104,7 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
     try {
         const params = {
             inquiry_type: inquiryDetails.inquiry_type,
+            inquiry_form_uuid: props.form?.uuid ?? null,
             cpr: inquiryDetails.cpr,
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
@@ -133,6 +144,7 @@ async function saveShelterInquiry(inquiryDetails: any) {
     try {
         const params = {
             inquiry_type: inquiryDetails.inquiry_type,
+            inquiry_form_uuid: props.form?.uuid ?? null,
             cpr: inquiryDetails.cpr,
             cpr_missing_reason: inquiryDetails.cpr_missing_reason,
             inquiry_date: inquiryDetails.inquiry_date,

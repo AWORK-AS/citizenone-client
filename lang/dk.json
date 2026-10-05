@@ -2369,7 +2369,10 @@
                 "monthly": "Månedligt",
                 "weekly": "Ugentligt",
                 "yearly": "Årligt"
-            }
+            },
+            "hasSpecialLanguage": "Særligt sprog",
+            "hasSpecialLanguageDescription": "Markér, hvis der er behov for et særligt sprog. Vises på kontrakten.",
+            "hasSpecialLanguageTooltip": "Ja eller nej: om personen har brug for et særligt sprog. Bruges i kontraktoversigten."
         },
         "importCitizens": {
             "alert": {
@@ -10791,7 +10794,8 @@
             "taskRules": "Opgaveregler",
             "employmentOptions": "Ansættelsesvalg",
             "inquiryOffers": "Tilbud og priser",
-            "customerDepartments": "Kunder og afdelinger"
+            "customerDepartments": "Kunder og afdelinger",
+            "inquiryForms": "Henvendelsesformularer"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -15040,6 +15044,27 @@
             },
             "fees": "Betalingsgebyr til CitizenOne",
             "feesHelp": "Opkræves på jeres egen CitizenOne-faktura."
+        },
+        "bulkSend": {
+            "selected": "{count} valgt",
+            "send": "Send valgte",
+            "sendHelp": "Bogfører de valgte fakturaer og sætter dem i kø til afsendelse på mail. Fakturaer uden modtagerens e-mail, allerede sendte og annullerede springes over.",
+            "clear": "Ryd markering",
+            "clearHelp": "Fjern markeringen fra alle fakturaer",
+            "selectAll": "Vælg alle fakturaer på listen, der kan sendes",
+            "selectRow": "Vælg fakturaen til afsendelse",
+            "confirm": "Send {count} fakturaer på mail? De bogføres og får fakturanummer med det samme.",
+            "summary": "{queued} sat i kø til afsendelse, {skipped} sprunget over",
+            "queuedHelp": "Mailene sendes i baggrunden. En faktura får status sendt, når mailen er afsendt.",
+            "dismiss": "Luk oversigten",
+            "reasons": {
+                "not_found": "Fakturaen blev ikke fundet",
+                "forbidden": "Du har ikke adgang til @:terms.citizen{''}",
+                "no_email": "Modtageren har ingen e-mailadresse",
+                "already_sent": "Fakturaen er allerede sendt",
+                "not_sendable": "En annulleret eller krediteret faktura kan ikke sendes",
+                "error": "Fakturaen kunne ikke sendes"
+            }
         }
     },
     "invoiceTemplates": {
@@ -15190,10 +15215,19 @@
             "contractMode": {
                 "legacy": "Timer til timepris",
                 "hourly": "Kontrakt: pris pr. time",
-                "fixed": "Kontrakt: fast pris"
+                "fixed": "Kontrakt: fast pris",
+                "one_off": "Kontrakt: engangspris"
             },
-            "contractChangesInWindow": "Kontrakten skifter i perioden. Den periode, der gælder ved start, bruges.",
-            "customerNumber": "Kundenr."
+            "customerNumber": "Kundenr.",
+            "segment": "Del {index} af {count}",
+            "segmentHelp": "Opholdet skifter kontraktperiode i perioden og er derfor delt i flere rækker. Hver række faktureres efter sin egen kontraktperiode.",
+            "contractWindow": "Kontraktperiode: {from} - {to}",
+            "alreadyInvoiced": "Allerede faktureret",
+            "invoicedNow": "Faktureres nu",
+            "helpAlreadyInvoiced": "Er allerede faktureret på en tidligere faktura og tages ikke med igen.",
+            "helpInvoicedNow": "Er valgt og kommer med på fakturaen, når du konverterer.",
+            "selectRow": "Vælg rækken til fakturering",
+            "includeLine": "Tag kontraktlinjen med på fakturaen"
         },
         "customerDepartments": {
             "title": "Kunder og afdelinger",
@@ -15286,7 +15320,8 @@
             "priceType": "Prismodel",
             "priceTypes": {
                 "hourly": "Pris pr. leveret time",
-                "fixed": "Fast pris pr. faktureringsperiode"
+                "fixed": "Fast pris pr. faktureringsperiode",
+                "one_off": "Engangspris"
             },
             "fixedPrice": "Fast pris",
             "hourlyPrice": "Timepris",
@@ -15311,7 +15346,61 @@
                 "one_off": "Én gang",
                 "recurring": "Hver faktureringsperiode"
             },
-            "note": "Note"
+            "note": "Note",
+            "oneOffPrice": "Engangspris",
+            "onceOnly": "én gang",
+            "priceTypeHelp": "Hvordan kontrakten afregnes: pr. leveret time, med en fast pris pr. faktureringsperiode eller med et engangsbeløb.",
+            "priceTypeHelps": {
+                "hourly": "Hver leveret time faktureres til timeprisen.",
+                "fixed": "Den faste pris faktureres for hver faktureringsperiode, uanset hvor mange timer der leveres. Leverede timer står på fakturaen til 0 kr.",
+                "one_off": "Prisen faktureres én gang og aldrig igen. Leverede timer står på fakturaen til 0 kr. (indeholdt i engangsprisen)."
+            },
+            "billingTiming": "Faktureringstidspunkt",
+            "billingTimings": {
+                "in_arrears": "Bagudrettet",
+                "in_advance": "Forudrettet"
+            },
+            "billingTimingHelp": "Bagudrettet fakturerer for den periode, der er gået. Forudrettet fakturerer for den kommende faktureringsperiode. Gælder fast pris og tilbagevendende linjer. Leverede timer faktureres altid bagud.",
+            "billingTimingHelps": {
+                "in_arrears": "Fast pris og tilbagevendende linjer faktureres for den periode, der er gået. Leverede timer faktureres altid bagud.",
+                "in_advance": "Fast pris og tilbagevendende linjer faktureres for den kommende faktureringsperiode, til og med udgangen af næste måned, kvartal, halvår eller år. Leverede timer faktureres stadig bagud."
+            },
+            "hourTypes": "Timetyper",
+            "hourTypesHelp": "Vælg de timetyper, der er bevilget, og angiv timer for hver. Hvad en type faktureres efter, bestemmes under Indstillinger.",
+            "noHourTypes": "Der er ingen timetyper endnu.",
+            "createHourTypes": "Opret timetyper under Indstillinger",
+            "hoursOfType": "Timer: {name}",
+            "noPaymentTerms": "Ingen betalingsbetingelser valgt",
+            "legacyTerms": "{days} dage (findes ikke på listen)",
+            "createPaymentTerms": "Opret betalingsbetingelser under Indstillinger",
+            "customFields": "Kontraktfelter",
+            "fieldOnContract": "Vises på kontrakten",
+            "fieldOnInvoice": "Vises på fakturaen",
+            "fieldHidden": "Vises hverken på kontrakt eller faktura",
+            "presetLines": "Gebyrer og faste linjer",
+            "presetKinds": {
+                "startup_fee": "Opstartsgebyr",
+                "room_rent": "Lokaleleje",
+                "status_report": "Statusrapport"
+            },
+            "presetHelps": {
+                "startup_fee": "Et gebyr, der som udgangspunkt faktureres én gang ved opstart.",
+                "room_rent": "Leje af lokale, der som udgangspunkt faktureres hver faktureringsperiode.",
+                "status_report": "Et gebyr for en statusrapport, der som udgangspunkt faktureres én gang."
+            },
+            "addLineHelp": "Tilføj en anden linje end opstartsgebyr, lokaleleje og statusrapport.",
+            "reviewIntro": "Den nye periode er udfyldt med den forrige periodes vilkår. Gennemgå disse punkter, før du gemmer:",
+            "reviewItems": {
+                "price": "Prisen",
+                "granted_hours": "De bevilgede timer",
+                "hours_split": "Fordelingen på timetyper"
+            },
+            "reviewConfirmHelp": "Perioden gemmes først, når du har bekræftet, at vilkårene stadig gælder.",
+            "showCprHelp": "Fakturalinjen får CPR-nummeret med.",
+            "showCaseNumberHelp": "Fakturalinjen får både indsatsnummeret og sagens journalnummer med, hvis de er registreret.",
+            "specialLanguage": "Særligt sprog",
+            "specialLanguageHelp": "Registreres på selve profilen og kan ikke ændres her.",
+            "reviewKept": "Uændret fra forrige periode: {items}."
         },
         "invoices": {
             "title": "Fakturaer fra udtrækket",
@@ -15346,6 +15435,76 @@
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
                 "unknown_action": "Ukendt handling"
             }
+        },
+        "hourTypes": {
+            "title": "Timetyper",
+            "intro": "De typer timer, en kontraktperiode kan bevilge: kontakttid, administration, transport og dine egne. Hver type kan have sit eget varenummer.",
+            "new": "Ny timetype",
+            "newHelp": "Opret en ny timetype, som kan vælges på kontraktperioder.",
+            "edit": "Rediger timetype",
+            "empty": "Der er ingen timetyper endnu.",
+            "basisTitle": "Hvad faktureres der efter?",
+            "basis": {
+                "delivered": "Leverede timer",
+                "granted": "Bevilgede timer"
+            },
+            "basisHelp": {
+                "delivered": "Faktureres efter de timer, der er registreret som leveret i perioden.",
+                "granted": "Faktureres efter de bevilgede timer (bevilgede timer gange timeprisen), uanset hvor mange der er leveret. Gælder, når prisen er pr. time."
+            },
+            "name": "Navn",
+            "billingBasis": "Faktureres efter",
+            "productNumber": "Varenummer i e-conomic",
+            "sortOrder": "Rækkefølge",
+            "isActive": "Aktiv",
+            "isActiveHelp": "En inaktiv timetype kan ikke vælges på nye perioder, men bevares på eksisterende.",
+            "system": "System",
+            "systemHelp": "En systemtype følger med fra start. Den kan rettes, men ikke slettes.",
+            "systemNotDeletable": "En systemtype kan ikke slettes",
+            "saved": "Timetypen er gemt",
+            "deleted": "Timetypen er slettet",
+            "confirmDelete": "Slet timetypen? Den kan ikke længere vælges på kontraktperioder."
+        },
+        "paymentTerms": {
+            "title": "Betalingsbetingelser",
+            "intro": "De betalingsbetingelser (antal dage), som kontraktperioder og kunder kan vælge imellem.",
+            "new": "Ny betalingsbetingelse",
+            "newHelp": "Opret en ny betalingsbetingelse, som kan vælges på kontraktperioder og kundeafdelinger.",
+            "edit": "Rediger betalingsbetingelse",
+            "empty": "Der er ingen betalingsbetingelser endnu.",
+            "days": "Antal dage",
+            "label": "Tekst",
+            "labelPlaceholder": "Valgfri, f.eks. Netto 30 dage",
+            "sortOrder": "Rækkefølge",
+            "isActive": "Aktiv",
+            "isActiveHelp": "En inaktiv betingelse kan ikke vælges på nye perioder eller afdelinger.",
+            "saved": "Betalingsbetingelsen er gemt",
+            "deleted": "Betalingsbetingelsen er slettet",
+            "confirmDelete": "Slet betalingsbetingelsen? Perioder og afdelinger, der allerede bruger den, beholder deres antal dage."
+        },
+        "contractFields": {
+            "title": "Kontraktfelter",
+            "intro": "Egne felter, der udfyldes på hver kontraktperiode, f.eks. et rammeaftalenummer. Et felt kan vises på kontrakten, på fakturalinjen eller begge steder.",
+            "new": "Nyt kontraktfelt",
+            "newHelp": "Opret et nyt felt, som kan udfyldes på kontraktperioder.",
+            "edit": "Rediger kontraktfelt",
+            "empty": "Der er ingen kontraktfelter endnu.",
+            "label": "Navn",
+            "fieldType": "Type",
+            "types": {
+                "text": "Tekst",
+                "number": "Tal"
+            },
+            "showOnContract": "Vis på kontrakten",
+            "showOnContractHelp": "Værdien vises under kontraktfanen.",
+            "showOnInvoice": "Vis på fakturaen",
+            "showOnInvoiceHelp": "Værdien skrives i parentes på fakturalinjen sammen med feltets navn.",
+            "sortOrder": "Rækkefølge",
+            "isActive": "Aktiv",
+            "isActiveHelp": "Et inaktivt felt kan ikke udfyldes på nye perioder, men værdier på eksisterende bevares.",
+            "saved": "Kontraktfeltet er gemt",
+            "deleted": "Kontraktfeltet er slettet",
+            "confirmDelete": "Slet kontraktfeltet? Værdier på eksisterende perioder går tabt."
         }
     },
     "inquiryPipelineStages": {
@@ -15432,7 +15591,9 @@
             "source": "Slå op i",
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
             "serviceType": "Kun for indsatstype",
-            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type."
+            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type.",
+            "form": "Formular",
+            "formHint": "Feltet spørges kun på denne formular."
         },
         "types": {
             "text": "Tekst",
@@ -15466,7 +15627,8 @@
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
-        "allowHalfSteps": "Tillad halve trin (fx 4,5)"
+        "allowHalfSteps": "Tillad halve trin (fx 4,5)",
+        "allForms": "Alle formularer"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -15622,7 +15784,8 @@
         },
         "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
         "single": "Indsatstype",
-        "title": "Indsatstyper"
+        "title": "Indsatstyper",
+        "formsMoved": "Hvilke faste felter en henvendelse spørger om, vælges nu under Henvendelsesformularer."
     },
     "inquiryStageHistory": {
         "empty": "Henvendelsen har ikke skiftet fase endnu.",
