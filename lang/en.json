@@ -10796,7 +10796,10 @@
             "inquiryOffers": "Offers and prices",
             "customerDepartments": "Customers and departments",
             "inquiryForms": "Inquiry forms",
-            "visitTypes": "Visit types"
+            "visitTypes": "Visit types",
+            "contractHourTypes": "Hour types",
+            "paymentTerms": "Payment terms",
+            "contractFields": "Contract fields"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -15292,7 +15295,7 @@
                 "cooperation": "Cooperation"
             },
             "help": {
-                "externalId": "The customer's id in WorkZone. Used to update the department when you import again.",
+                "externalId": "The customer's ID as shown in WorkZone (the ID column of the export). Used to update the department when you import again.",
                 "customerName": "The customer, e.g. the municipality name. In WorkZone, Navn 1 is customer and department separated by a comma.",
                 "name": "The department name as it appears on the invoice.",
                 "street": "First address line.",
@@ -15325,7 +15328,7 @@
                 "button": "Import from WorkZone",
                 "buttonHelp": "Upload a file from WorkZone and see what would happen before anything is saved.",
                 "help": "Choose WorkZone's OData export of customers (Kommuner) as xlsx or csv. The first row must be column headers, and the Navn 1 column is required.",
-                "helpReimport": "You see a preview first. Importing again updates departments with the same WorkZone ID, and empty cells in the file do not overwrite what is in CitizenOne.",
+                "helpReimport": "You see a preview first. Importing again updates departments with the same WorkZone ID (as shown in WorkZone), and empty cells in the file do not overwrite what is in CitizenOne. Discontinued departments are imported as inactive.",
                 "file": "File",
                 "fileHelp": "xlsx, xls or csv, 5 MB at most.",
                 "badType": "The file must be xlsx, xls or csv.",
@@ -15358,7 +15361,10 @@
                 "apply": "Import {count}",
                 "applyHelp": "Saves the rows that are created or updated in one go. A skipped row changes nothing.",
                 "done": "{count} departments have been imported"
-            }
+            },
+            "eanAndCustomerNumber": "EAN / customer no.",
+            "inactive": "Inactive",
+            "inactiveHelp": "The department is inactive (discontinued in WorkZone) and cannot be chosen on new contract periods."
         },
         "contract": {
             "title": "Contract",

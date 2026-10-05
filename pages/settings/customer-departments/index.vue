@@ -65,32 +65,39 @@
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.name') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.municipalityRegion') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.address') }}</th>
-                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.eanNumber') }}</th>
-                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.customerNumber') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.eanAndCustomerNumber') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.paymentTermsDays') }}</th>
-                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.isActive') }}</th>
-                                            <th class="co-th"></th>
+                                            <th class="co-th sticky right-0 bg-white"></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr v-for="department in customer.departments" :key="department.uuid"
-                                            class="border-b border-surface-200 last:border-0">
+                                            class="border-b border-surface-200 last:border-0"
+                                            :class="department.is_active ? '' : 'bg-slate-50 text-slate-400'">
                                             <td class="co-td text-slate-500 tabular-nums">{{ department.external_id || '-' }}</td>
                                             <td class="co-td">
-                                                <p class="font-medium text-slate-900">{{ department.name }}</p>
+                                                <p class="font-medium" :class="department.is_active ? 'text-slate-900' : 'text-slate-500'">
+                                                    {{ department.name }}
+                                                    <Tooltip v-if="!department.is_active" :text="$t('socialWelfare.customerDepartments.inactiveHelp')" wrap position="top">
+                                                        <span class="co-badge co-badge-gray text-[11px] ml-1">{{ $t('socialWelfare.customerDepartments.inactive') }}</span>
+                                                    </Tooltip>
+                                                </p>
                                                 <p v-if="department.email" class="text-[12px] text-slate-400">{{ department.email }}</p>
                                             </td>
                                             <td class="co-td text-slate-500 text-[13px]">
                                                 {{ [department.municipality_name, department.region].filter(Boolean).join(' · ') || '-' }}
                                             </td>
                                             <td class="co-td text-slate-500">{{ department.address || '-' }}</td>
-                                            <td class="co-td text-slate-500 tabular-nums">{{ department.ean_number || '-' }}</td>
-                                            <td class="co-td text-slate-500">{{ department.customer_number || '-' }}</td>
-                                            <td class="co-td text-slate-500">
+                                            <td class="co-td text-slate-500 text-[13px]">
+                                                <p class="tabular-nums">{{ department.ean_number || '-' }}</p>
+                                                <p v-if="department.customer_number" class="text-[12px] text-slate-400">
+                                                    {{ $t('socialWelfare.customerDepartments.customerNumber') }} {{ department.customer_number }}
+                                                </p>
+                                            </td>
+                                            <td class="co-td text-slate-500 text-[13px]">
                                                 {{ department.payment_terms_days === null ? '-' : $t('socialWelfare.customerDepartments.days', { days: department.payment_terms_days }) }}
                                             </td>
-                                            <td class="co-td text-slate-500">{{ department.is_active ? $t('yes') : $t('no') }}</td>
-                                            <td class="co-td">
+                                            <td class="co-td sticky right-0" :class="department.is_active ? 'bg-white' : 'bg-slate-50'">
                                                 <div class="flex items-center justify-end gap-2">
                                                     <FormButton type="button" buttonStyle="action" @click="openModal(department)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />

@@ -10791,7 +10791,10 @@
             "inquiryOffers": "Offerter och priser",
             "customerDepartments": "Kunder och avdelningar",
             "inquiryForms": "Förfrågningsformulär",
-            "visitTypes": "Besökstyper"
+            "visitTypes": "Besökstyper",
+            "contractHourTypes": "Timtyper",
+            "paymentTerms": "Betalningsvillkor",
+            "contractFields": "Avtalsfält"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -15148,7 +15151,7 @@
             "intro": "Avdelningarna hos era kunder som fakturorna skickas till. En kund kan ha flera avdelningar, var och en med egen adress, EAN-nummer och villkor.",
             "new": "Ny avdelning",
             "edit": "Redigera avdelning",
-            "search": "Sök på namn, kund, EAN, kundnr eller WorkZone-id",
+            "search": "Sök på namn, kund, EAN, kundnr eller WorkZone-ID",
             "empty": "Inga avdelningar har skapats ännu.",
             "noCustomer": "Utan kund",
             "municipality": "Kommun",
@@ -15173,7 +15176,7 @@
             "saved": "Avdelningen har sparats",
             "deleted": "Avdelningen har raderats",
             "confirmDelete": "Radera avdelningen? Avtal och fakturor som pekar på den behåller sina uppgifter.",
-            "externalId": "WorkZone-id",
+            "externalId": "WorkZone-ID",
             "addressLine2": "Adress 2",
             "addressType": "Adresstyp",
             "region": "Region",
@@ -15196,7 +15199,7 @@
                 "cooperation": "Samarbete"
             },
             "help": {
-                "externalId": "Kundens id i WorkZone. Används för att uppdatera avdelningen när du importerar igen.",
+                "externalId": "Kundens ID, som den visas i WorkZone (kolumnen ID i exporten). Används för att uppdatera avdelningen när du importerar igen.",
                 "customerName": "Kunden, t.ex. kommunens namn. Navn 1 i WorkZone är kund och avdelning åtskilda av komma.",
                 "name": "Avdelningens namn, som det står på fakturan.",
                 "street": "Första adressraden.",
@@ -15229,7 +15232,7 @@
                 "button": "Importera från WorkZone",
                 "buttonHelp": "Ladda upp en fil från WorkZone och se vad som skulle hända innan något sparas.",
                 "help": "Välj WorkZones OData-export av kommuner (Kommuner) som xlsx eller csv. Första raden måste vara kolumnrubriker, och kolumnen Navn 1 krävs.",
-                "helpReimport": "Du ser först en förhandsgranskning. Importerar du igen uppdateras avdelningar med samma WorkZone-id, och tomma fält i filen skriver inte över det som står i CitizenOne.",
+                "helpReimport": "Du ser först en förhandsgranskning. Importerar du igen uppdateras avdelningar med samma WorkZone-ID (som visas i WorkZone), och tomma fält i filen skriver inte över det som står i CitizenOne. Upphörda avdelningar importeras som inaktiva.",
                 "file": "Fil",
                 "fileHelp": "xlsx, xls eller csv, högst 5 MB.",
                 "badType": "Filen måste vara xlsx, xls eller csv.",
@@ -15262,7 +15265,10 @@
                 "apply": "Importera {count}",
                 "applyHelp": "Sparar de rader som skapas eller uppdateras i ett svep. En överhoppad rad ändrar ingenting.",
                 "done": "{count} avdelningar har importerats"
-            }
+            },
+            "eanAndCustomerNumber": "EAN / kundnr",
+            "inactive": "Inaktiv",
+            "inactiveHelp": "Avdelningen är inaktiv (upphörd i WorkZone) och kan inte väljas på nya avtalsperioder."
         },
         "contract": {
             "title": "Avtal",
