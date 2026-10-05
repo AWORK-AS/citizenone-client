@@ -16491,6 +16491,19 @@
             "add": "Legg til årsak"
         }
     },
+    "inquiryConversion": {
+        "rate": "Konverteringsrate",
+        "rateHint": "Vunnet av de avgjorte henvendelsene mottatt i perioden. Åpne henvendelser teller ikke før de er avgjort.",
+        "won": "Vunnet",
+        "lost": "Tapt",
+        "open": "Åpne",
+        "received": "Mottatt",
+        "byServiceType": "Per innsatstype",
+        "byMonth": "Per måned",
+        "serviceType": "Innsatstype",
+        "month": "Måned",
+        "noServiceType": "Uten innsatstype"
+    },
     "inquiryOffer": {
         "title": "Tilbud",
         "hint": "Foreløpig beregning, versjoner, utsending og kommunens svar.",

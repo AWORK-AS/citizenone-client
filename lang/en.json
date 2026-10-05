@@ -16587,6 +16587,19 @@
             "add": "Add reason"
         }
     },
+    "inquiryConversion": {
+        "rate": "Conversion rate",
+        "rateHint": "Won out of the decided inquiries received in the period. Open inquiries do not count until decided.",
+        "won": "Won",
+        "lost": "Lost",
+        "open": "Open",
+        "received": "Received",
+        "byServiceType": "By service type",
+        "byMonth": "By month",
+        "serviceType": "Service type",
+        "month": "Month",
+        "noServiceType": "No service type"
+    },
     "inquiryOffer": {
         "title": "Offer",
         "hint": "Preliminary calculation, versions, sending and the municipality's answer.",
