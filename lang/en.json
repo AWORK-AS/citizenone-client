@@ -15889,6 +15889,41 @@
         "deleteFailed": "The document could not be deleted",
         "dropHere": "Drop the files here"
     },
+    "inquiryParties": {
+        "title": "Parties",
+        "hint": "Who the case involves: caseworker, parents, school and your own professionals. They become contacts on the case when the inquiry is won.",
+        "add": "Add party",
+        "remove": "Remove party",
+        "empty": "There are no parties yet.",
+        "primary": "Primary party",
+        "primaryHint": "Who the case is primarily about",
+        "saveFailed": "The party could not be saved",
+        "kinds": {
+            "outside": "Outside party",
+            "employee": "Employee"
+        },
+        "types": {
+            "case_manager": "Caseworker",
+            "relatives": "Relative",
+            "external_contact": "Other outside",
+            "doctor": "Doctor",
+            "dentist": "Dentist",
+            "our_contact_person": "Our contact person"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "E.g. school or municipality",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "employee": "Employee",
+            "coordinatorRole": "Coordinator role",
+            "noRole": "None",
+            "isPrimary": "Primary party"
+        }
+    },
     "inquiryInvitations": {
         "title": "Consultants asked",
         "empty": "No consultants have been asked yet.",

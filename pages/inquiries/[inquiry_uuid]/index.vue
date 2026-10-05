@@ -93,6 +93,10 @@
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryOfferPanel :inquiryUuid="state.inquiry.uuid" @changed="onOfferChanged" />
                         </div>
+                        <!-- Who the case involves; they become the indsats' contacts when it is won. -->
+                        <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
+                            <ModulesUserInquiryPartiesPanel :inquiryUuid="state.inquiry.uuid" />
+                        </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryDocumentsPanel :inquiryUuid="state.inquiry.uuid" />
                         </div>
