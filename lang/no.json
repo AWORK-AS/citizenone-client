@@ -15563,6 +15563,13 @@
         "phone": "Telefon"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Trinnvurdering",
+            "hint": "Antall trinn konsulentene vurderes på. Profilen og matchingen viser så mange.",
+            "save": "Lagre",
+            "saveTooltip": "Lagre antall trinn for hele virksomheten",
+            "saved": "Antall trinn lagret"
+        },
         "title": "Konsulentkompetanser",
         "description": "Vedlikehold listene konsulentene matches på. En kompetanse er noe de kan, et kurs er noe de har tatt, og et emneord er noe de har erfaring med.",
         "add": "Legg til",

@@ -15563,6 +15563,13 @@
         "phone": "Telefon"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Stegbedömning",
+            "hint": "Antal steg konsulterna bedöms på. Profilen och matchningen visar så många.",
+            "save": "Spara",
+            "saveTooltip": "Spara antalet steg för hela företaget",
+            "saved": "Antal steg sparat"
+        },
         "title": "Konsultkompetenser",
         "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",
         "add": "Lägg till",

@@ -15652,6 +15652,13 @@
         "phone": "Telefon"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Trinvurdering",
+            "hint": "Antal trin konsulenterne vurderes på. Profilen og matchningen viser så mange.",
+            "save": "Gem",
+            "saveTooltip": "Gem antallet af trin for hele virksomheden",
+            "saved": "Antal trin gemt"
+        },
         "title": "Konsulentkompetencer",
         "description": "Vedligehold de lister konsulenterne matches på. En kompetence er noget de kan, et kursus er noget de har taget, og et emneord er noget de har erfaring med.",
         "add": "Tilføj",
