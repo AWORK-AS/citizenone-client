@@ -10790,7 +10790,8 @@
             "employmentOptions": "Ansettelsesvalg",
             "inquiryOffers": "Tilbud og priser",
             "customerDepartments": "Kunder og avdelinger",
-            "inquiryForms": "Henvendelsesskjemaer"
+            "inquiryForms": "Henvendelsesskjemaer",
+            "visitTypes": "Besøkstyper"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -16383,6 +16384,50 @@
             "citizen": "Barnet/ungdommen",
             "other": "Annet"
         }
+    },
+    "visitTypes": {
+        "title": "Besøkstyper",
+        "single": "Besøkstype",
+        "none": "Ingen",
+        "description": "Typene besøk konsulentene registrerer tid på, f.eks. hjemmebesøk, samvær eller møte. På hver innsats kan dere begrense hvilke besøkstyper som kan brukes.",
+        "add": "Legg til",
+        "addHint": "Legg til en besøkstype som kan velges ved tidsregistrering",
+        "empty": "Det er ingen besøkstyper ennå.",
+        "restrictedHint": "Innsatsen tillater bare disse besøkstypene.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Hjemmebesøk"
+        },
+        "actions": {
+            "switchOff": "Slå av besøkstypen",
+            "switchOn": "Slå på besøkstypen",
+            "rename": "Gi nytt navn",
+            "delete": "Slett"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Besøkstypen er slettet",
+            "deleteFailed": "Besøkstypen kunne ikke slettes"
+        }
+    },
+    "registrationRules": {
+        "title": "Registreringsregler",
+        "citizenHint": "Hva konsulentene kan registrere på denne innsatsen, etter avtalen med kommunen.",
+        "inquiryHint": "Avtalt med kommunen nå. Reglene følger med når henvendelsen blir en innsats.",
+        "edit": "Endre registreringsregler",
+        "visitTypes": "Tillatte besøkstyper",
+        "allVisitTypes": "Alle besøkstyper",
+        "noVisitTypes": "Ingen",
+        "mileage": "Kjøring",
+        "expenses": "Utlegg",
+        "allowed": "Tillatt",
+        "notAllowed": "Ikke tillatt",
+        "mileageAllowed": "Kjøring kan registreres",
+        "expensesAllowed": "Utlegg kan registreres",
+        "catalogueEmpty": "Det er ingen besøkstyper. Opprett dem under",
+        "saveHint": "Gjelder fra nå for nye registreringer",
+        "saved": "Registreringsreglene er lagret",
+        "saveFailed": "Reglene kunne ikke lagres"
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",

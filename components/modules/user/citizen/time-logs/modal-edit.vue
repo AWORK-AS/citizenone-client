@@ -66,6 +66,7 @@ async function updateTimeLog(timeLogDetails: any) {
             date_time_end: timeLogDetails.date_time_end,
             status: timeLogDetails.status,
             remarks: timeLogDetails.remarks,
+            visit_type_uuid: timeLogDetails.visit_type_uuid ?? null,
         }
         const response = await timeLogService.updateTimeLog(timeLogUuid, params)
         if (response?.data) {

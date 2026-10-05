@@ -10790,7 +10790,8 @@
             "employmentOptions": "Anställningsval",
             "inquiryOffers": "Offerter och priser",
             "customerDepartments": "Kunder och avdelningar",
-            "inquiryForms": "Förfrågningsformulär"
+            "inquiryForms": "Förfrågningsformulär",
+            "visitTypes": "Besökstyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -16383,6 +16384,50 @@
             "citizen": "Barnet/den unga",
             "other": "Annat"
         }
+    },
+    "visitTypes": {
+        "title": "Besökstyper",
+        "single": "Besökstyp",
+        "none": "Ingen",
+        "description": "De typer av besök konsulterna registrerar tid på, t.ex. hembesök, umgänge eller möte. På varje insats kan ni begränsa vilka besökstyper som får användas.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en besökstyp som kan väljas vid tidsregistrering",
+        "empty": "Det finns inga besökstyper ännu.",
+        "restrictedHint": "Insatsen tillåter bara dessa besökstyper.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Hembesök"
+        },
+        "actions": {
+            "switchOff": "Stäng av besökstypen",
+            "switchOn": "Slå på besökstypen",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Besökstypen är borttagen",
+            "deleteFailed": "Besökstypen kunde inte tas bort"
+        }
+    },
+    "registrationRules": {
+        "title": "Registreringsregler",
+        "citizenHint": "Vad konsulterna får registrera på den här insatsen, enligt avtalet med kommunen.",
+        "inquiryHint": "Avtalat med kommunen nu. Reglerna följer med när förfrågan blir en insats.",
+        "edit": "Ändra registreringsregler",
+        "visitTypes": "Tillåtna besökstyper",
+        "allVisitTypes": "Alla besökstyper",
+        "noVisitTypes": "Inga",
+        "mileage": "Körning",
+        "expenses": "Utlägg",
+        "allowed": "Tillåtet",
+        "notAllowed": "Inte tillåtet",
+        "mileageAllowed": "Körning får registreras",
+        "expensesAllowed": "Utlägg får registreras",
+        "catalogueEmpty": "Det finns inga besökstyper. Skapa dem under",
+        "saveHint": "Gäller från och med nu för nya registreringar",
+        "saved": "Registreringsreglerna är sparade",
+        "saveFailed": "Reglerna kunde inte sparas"
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov av rekrytering",
