@@ -15543,6 +15543,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Opret en ny kunde eller afdeling og vælg den her",
         "required": "Påkrævet",
         "appliesThroughout": "Gælder hele forløbet",
         "saving": "Gemmer...",

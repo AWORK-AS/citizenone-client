@@ -15454,6 +15454,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Skapa en ny kund eller avdelning och välj den här",
         "required": "Obligatoriskt",
         "appliesThroughout": "Gäller hela förloppet",
         "saving": "Sparar...",

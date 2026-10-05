@@ -15454,6 +15454,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Opprett en ny kunde eller avdeling og velg den her",
         "required": "Påkrevd",
         "appliesThroughout": "Gjelder hele forløpet",
         "saving": "Lagrer...",

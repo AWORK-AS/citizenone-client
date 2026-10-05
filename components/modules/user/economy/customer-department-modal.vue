@@ -236,14 +236,14 @@ async function save() {
     try {
         const d: any = props.department
 
-        if (d?.uuid) {
-            await socialWelfareService.updateCustomerDepartment(d.uuid, payload())
-        } else {
-            await socialWelfareService.saveCustomerDepartment(payload())
-        }
+        const response = d?.uuid
+            ? await socialWelfareService.updateCustomerDepartment(d.uuid, payload())
+            : await socialWelfareService.saveCustomerDepartment(payload())
 
         successAlert(`${t('alert.success')}!`, t('socialWelfare.customerDepartments.saved'))
-        emit('saved')
+        // The saved department, so a caller that opened this to create one can
+        // pick it straight away.
+        emit('saved', response?.data ?? null)
         emit('close')
     } catch (error: any) {
         state.error = error

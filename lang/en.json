@@ -15550,6 +15550,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Create a new customer or department and pick it here",
         "required": "Required",
         "appliesThroughout": "Applies throughout",
         "saving": "Saving...",
