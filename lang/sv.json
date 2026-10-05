@@ -10193,6 +10193,23 @@
             "employeeGroups": "Medarbetargrupper",
             "noEmployeeGroups": "Inga medarbetargrupper skapade än."
         },
+        "matrix": {
+            "title": "Behörighetsöversikt",
+            "note": "Översikten visar vad varje roll ger åtkomst till. Enskilda användare kan ha fått extra behörigheter eller fått behörigheter borttagna, och de undantagen visas inte här.",
+            "fullAccess": "Full åtkomst",
+            "fullAccessNote": "Roller på administratörsnivå har alla behörigheter, så deras kolumn är markerad hela vägen ner. Sidåtkomst visas som den är inställd på rollen.",
+            "exportCsv": "Exportera CSV",
+            "printPdf": "Skriv ut / PDF",
+            "print": "Skriv ut",
+            "permission": "Behörighet",
+            "page": "Sida",
+            "area": "Område",
+            "granted": "Beviljad",
+            "generated": "Genererad",
+            "company": "Företag",
+            "pdfAttribution": "Denna PDF genererades med CitizenOnes journalsystem.",
+            "fileName": "behorighetsoversikt"
+        },
         "newRole": "Ny roll",
         "permissions": {
             "createCitizen": "Skapa @:terms.citizen{''}",

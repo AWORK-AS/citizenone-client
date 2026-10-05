@@ -10198,6 +10198,23 @@
             "employeeGroups": "Employee groups",
             "noEmployeeGroups": "No employee groups created yet."
         },
+        "matrix": {
+            "title": "Permission overview",
+            "note": "The overview shows what each role grants. Individual users can be given extra permissions or have permissions removed, and those exceptions aren't shown here.",
+            "fullAccess": "Full access",
+            "fullAccessNote": "Roles at administrator level have every permission, so their column is ticked all the way down. Page access is shown as it is set on the role.",
+            "exportCsv": "Export CSV",
+            "printPdf": "Print / PDF",
+            "print": "Print",
+            "permission": "Permission",
+            "page": "Page",
+            "area": "Area",
+            "granted": "Granted",
+            "generated": "Generated",
+            "company": "Company",
+            "pdfAttribution": "This PDF was generated with CitizenOne's journal system.",
+            "fileName": "permission-overview"
+        },
         "newRole": "New role",
         "permissions": {
             "createCitizen": "Create @:terms.citizen{''}",
