@@ -13515,7 +13515,9 @@
                 "notice": "Notice deadline",
                 "dueOn": "Due",
                 "amount": "Amount excl. VAT",
-                "label": "Label"
+                "label": "Label",
+                "covers": "Covers",
+                "coversHelp": "The period the row counts in contract MRR: the amount is spread over the months it covers."
             },
             "plans": {
                 "monthly": "Monthly",
@@ -13552,7 +13554,7 @@
                 "backlog": "Remaining committed value: installments without a paid invoice.",
                 "subscriptions": "Licences and the Pro profile linked to the agreement apply for the whole binding and are not charged by card on top.",
                 "settledExternally": "Open installments due before this date are marked as settled and are never invoiced. Use it for customers who already paid through e-conomic.",
-                "renewalValue": "What the agreement costs per year after the binding, excl. VAT. Empty: contract value divided by the binding in months, times 12.",
+                "renewalValue": "Empty = calculated from the current list price of the linked licences at the time of renewal. A value entered here is a fixed price that replaces the list price for the coming renewals.",
                 "termMode": "Give the binding either as a number of months or as an end date.",
                 "endsOn": "The last day of the binding. The server works out the months, e.g. 2025-06-10 to 2028-09-01."
             },
@@ -13599,10 +13601,17 @@
                 "settledNote": "Settlement note",
                 "settledNotePlaceholder": "e.g. e-conomic voucher 297637275",
                 "renewalValue": "Annual value on renewal",
-                "renewalValuePlaceholder": "Default",
+                "renewalValuePlaceholder": "List price",
                 "endsOn": "End date",
                 "modeMonths": "Binding in months",
-                "modeEndDate": "End date"
+                "modeEndDate": "End date",
+                "coverage": "Covers from–to",
+                "coverageHelp": "The period controls how the row counts in contract MRR: the amount is spread over the months it covers and only counts while the period includes today. Empty = filled in by the system.",
+                "coversFrom": "Covers from",
+                "coversTo": "Covers to",
+                "addAddOn": "Add add-on",
+                "addAddOnHelp": "Adds a row for licences bought mid-binding: due today and covering today until the end of the binding, so it counts in contract MRR.",
+                "addOnLabel": "Add-on"
             },
             "detail": {
                 "title": "Agreement",
@@ -13726,6 +13735,20 @@
             "remainder": {
                 "chip": "Remainder on cancellation",
                 "help": "The gathered remaining amount, invoiced because the agreement was cancelled before the binding ended."
+            },
+            "renewal": {
+                "expected": "Expected renewal: {amount} DKK/year",
+                "expectedHelp": "When a new period starts, the list prices in force at that time are invoiced. The amount here is an estimate based on current prices and may change if prices change before then.",
+                "sources": {
+                    "list_price": "List price",
+                    "override": "Fixed price",
+                    "fallback": "Estimated"
+                },
+                "sourceHelp": {
+                    "list_price": "Calculated from the current list price of the linked licences. When a new period starts, the list prices in force at that time are invoiced, so the amount may change if prices change before then.",
+                    "override": "A fixed price set on the agreement replaces the list price for the coming renewals.",
+                    "fallback": "No licences are linked, so the value is estimated from the contract value."
+                }
             }
         },
         "metrics": {
