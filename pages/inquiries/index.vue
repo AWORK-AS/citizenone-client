@@ -40,7 +40,21 @@
                             <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('inquiryLost.report.open') }}
                         </FormButton>
-                        <Menu as="div" class="relative inline-block text-left z-20">
+                        <!-- One form needs no menu: the button opens it. -->
+                        <Tooltip v-if="offeredForms.length === 1" :text="formLabel(offeredForms[0], builtinNames)">
+                            <FormButton buttonStyle="action" @click="newInquiryOn(offeredForms[0])">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('inquiries.newInquiry') }}
+                            </FormButton>
+                        </Tooltip>
+                        <Tooltip v-else-if="offeredForms.length === 0 && state.formsLoaded"
+                            :text="$t('inquiryForms.noneActive')">
+                            <FormButton buttonStyle="action" :disabled="true">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('inquiries.newInquiry') }}
+                            </FormButton>
+                        </Tooltip>
+                        <Menu v-else as="div" class="relative inline-block text-left z-20">
                             <div>
                                 <MenuButton>
                                     <FormButton buttonStyle="action">
@@ -58,36 +72,16 @@
                                 leave-to-class="transform scale-95 opacity-0">
                                 <MenuItems
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                    <!-- The forms the company has switched on, in its own
+                                         order (Indstillinger -> Henvendelsesformularer). -->
                                     <div class="px-1 py-1">
-                                        <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                            ]" @click="shelterNewInquiry">
-                                                {{ shelterName }}
-                                            </button>
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                            <button :class="[
-                                                active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm',
-                                            ]" @click="crisisCenterNewInquiry">
-                                                {{ crisisCenterName }}
-                                            </button>
-                                        </MenuItem>
-                                    </div>
-
-                                    <!-- The company's own forms, when it has set any up.
-                                         The two built-in ones stay above them: shelters and
-                                         crisis centres work from those every day. -->
-                                    <div class="px-1 py-1" v-if="state.serviceTypes.length">
-                                        <MenuItem v-for="type in state.serviceTypes" :key="type.uuid"
+                                        <MenuItem v-for="form in offeredForms" :key="form.uuid || String(form.builtin)"
                                             v-slot="{ active }">
                                             <button :class="[
                                                 active && 'bg-gray-100',
-                                                'group flex w-full items-center rounded-md px-2 py-2.5 text-sm text-left',
-                                            ]" @click="serviceTypeNewInquiry(type)">
-                                                {{ type.label }}
+                                                'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left',
+                                            ]" @click="newInquiryOn(form)">
+                                                {{ formLabel(form, builtinNames) }}
                                             </button>
                                         </MenuItem>
                                     </div>
@@ -114,18 +108,12 @@
                                 <MenuItems
                                     class="absolute right-0 mt-2 min-w-44 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
                                     <div class="px-1 py-1">
-                                        <MenuItem v-slot="{ active }">
+                                        <MenuItem v-for="form in offeredForms" :key="form.uuid || String(form.builtin)"
+                                            v-slot="{ active }">
                                             <button
                                                 :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
-                                                @click="openExportModal('shelter')">
-                                                {{ shelterName }}
-                                            </button>
-                                        </MenuItem>
-                                        <MenuItem v-slot="{ active }">
-                                            <button
-                                                :class="[active && 'bg-gray-100', 'group flex w-full justify-start items-center rounded-md px-2 py-2.5 text-sm text-left']"
-                                                @click="openExportModal('crisis_center')">
-                                                {{ crisisCenterName }}
+                                                @click="openExportModal(form)">
+                                                {{ formLabel(form, builtinNames) }}
                                             </button>
                                         </MenuItem>
                                     </div>
@@ -317,8 +305,9 @@
                 </div>
             </div>
 
-            <ModulesUserInquiryModalNew :isModalOpen="state.modal.isAddInquiryOpen" :inquiry-type="state.inquiryTpe"
-                :serviceType="state.newInquiryServiceType"
+            <ModulesUserInquiryModalNew v-if="state.newInquiryForm" :key="state.newInquiryForm.uuid || String(state.newInquiryForm.builtin)"
+                :isModalOpen="state.modal.isAddInquiryOpen" :inquiry-type="state.newInquiryForm.inquiry_type"
+                :form="state.newInquiryForm.uuid ? state.newInquiryForm : undefined"
                 @close="state.modal.isAddInquiryOpen = false" @refreshInquiries="fetchInquiries" />
             <ModulesUserInquiryModalEdit :isModalOpen="state.modal.isEditInquiryOpen"
                 :selectedInquiry="state.selectedInquiry" @close="state.modal.isEditInquiryOpen = false"
@@ -350,7 +339,8 @@ definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', required
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
-import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
+import { inquiryFormService } from '@/components/api/user/InquiryFormService'
+import { activeForms, formLabel, type InquiryForm } from '@/composables/inquiryForms'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
 import { useDepartmentStore } from '@/store/department'
@@ -476,7 +466,17 @@ async function moveStage(inquiry: any, status: string, details: Record<string, a
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
 const crisisCenterName = computed(() => customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'))
 
-const exportModalTitle = computed(() => state.exportInquiryType === 'shelter' ? shelterName.value : crisisCenterName.value)
+const builtinNames = computed(() => ({ shelter: shelterName.value, crisisCenter: crisisCenterName.value }))
+const exportModalTitle = computed(() => formLabel(state.exportForm, builtinNames.value))
+
+// Until the company's forms have loaded, or when they could not be, the two
+// built-in forms as they always were: nobody is left without a way to take
+// an inquiry.
+const FALLBACK_FORMS: InquiryForm[] = [
+    { uuid: '', name: null, builtin: 'shelter', base: 'shelter', inquiry_type: 'shelter', core_fields: null as any, is_active: true, sort_order: 0 },
+    { uuid: '', name: null, builtin: 'crisis_center', base: 'crisis_center', inquiry_type: 'crisis_center', core_fields: null as any, is_active: true, sort_order: 1 },
+]
+const offeredForms = computed(() => state.formsLoaded ? activeForms(state.forms) : FALLBACK_FORMS)
 const exportDepartmentOptions = computed(() => [
     ...state.departments.map((d: any) => ({ value: d.uuid, label: d.name })),
 ])
@@ -518,10 +518,10 @@ const state = reactive({
         isUnassignedConvertedOpen: false,
     },
     selectedInquiry: {} as any,
-    inquiryTpe: '',
-    serviceTypes: [] as any[],
-    newInquiryServiceType: null as any,
-    exportInquiryType: '',
+    forms: [] as InquiryForm[],
+    formsLoaded: false,
+    newInquiryForm: null as InquiryForm | null,
+    exportForm: null as InquiryForm | null,
     pipelineStages: [] as any[],
     unassignedConvertedCount: 0,
 })
@@ -529,12 +529,10 @@ const state = reactive({
 onMounted(() => {
     fetchDepartments()
     fetchInquiries()
+    fetchForms()
     if (pipelineEnabled.value) {
         fetchPipelineStages()
         fetchUnassignedConvertedCount()
-        // The company's own inquiry forms. Behind the same flag as the rest of
-        // the pipeline: without it there are no service types to offer.
-        fetchServiceTypes()
     }
 })
 
@@ -654,35 +652,19 @@ async function convertInquiry() {
     state.isTableLoading = false
 }
 
-function shelterNewInquiry() {
-    state.newInquiryServiceType = null
-    state.inquiryTpe = 'shelter'
+function newInquiryOn(form: InquiryForm) {
+    state.newInquiryForm = form
     state.modal.isAddInquiryOpen = true
 }
 
-function crisisCenterNewInquiry() {
-    state.newInquiryServiceType = null
-    state.inquiryTpe = 'crisis_center'
-    state.modal.isAddInquiryOpen = true
-}
-
-/**
- * One of the company's own forms. The general built-in form carries it: it
- * holds every field the shelter form does not, and the service type decides
- * which of them are actually asked for.
- */
-function serviceTypeNewInquiry(type: any) {
-    state.newInquiryServiceType = type
-    state.inquiryTpe = 'crisis_center'
-    state.modal.isAddInquiryOpen = true
-}
-
-async function fetchServiceTypes() {
+async function fetchForms() {
     try {
-        const response = await inquiryServiceTypeService.getServiceTypes()
-        state.serviceTypes = (response?.data ?? []).filter((type: any) => type.is_active)
+        const response = await inquiryFormService.getForms()
+        state.forms = response?.data ?? []
+        state.formsLoaded = true
     } catch (_) {
-        state.serviceTypes = []
+        // Keep the built-in fallback rather than an empty menu.
+        state.formsLoaded = false
     }
 }
 
@@ -718,33 +700,41 @@ async function fetchDepartments() {
     }
 }
 
-function openExportModal(inquiryType: string) {
-    state.exportInquiryType = inquiryType
+function openExportModal(form: InquiryForm) {
+    state.exportForm = form
     state.modal.isExportDepartmentOpen = true
 }
 
 async function confirmExport(departmentUuid: string) {
     const dept = state.departments.find((d: any) => d.uuid === departmentUuid)
+    const form = state.exportForm
     await exportInquiries({
-        inquiry_type: state.exportInquiryType,
+        // A built-in form exports in its § 110/§ 109 shape; a company's own
+        // form by itself, with its own fields.
+        inquiry_type: form?.builtin ?? undefined,
+        inquiry_form_uuid: form && !form.builtin ? form.uuid : undefined,
+        label: formLabel(form, builtinNames.value),
         department: dept?.name,
         department_uuid: dept?.uuid,
     })
     state.modal.isExportDepartmentOpen = false
 }
 
-async function exportInquiries(params: { inquiry_type: string, department?: string, department_uuid?: string }) {
+async function exportInquiries(params: { inquiry_type?: string, inquiry_form_uuid?: string, label: string, department?: string, department_uuid?: string }) {
     state.error = {}
     state.isTableLoading = true
     try {
         const queryParams = {
-            inquiry_type: params.inquiry_type,
+            ...(params.inquiry_type ? { inquiry_type: params.inquiry_type } : {}),
+            ...(params.inquiry_form_uuid ? { inquiry_form_uuid: params.inquiry_form_uuid } : {}),
             department: params.department ?? departmentStore.getSelectedDepartmentName,
             department_uuid: params.department_uuid ?? departmentStore.getSelectedDepartment,
         }
         const response = await citizenInquiryService.exportInquiries(queryParams)
         if (response) {
-            let fileName = params.inquiry_type === 'shelter' ? t('inquiries.shelterInquiry') : t('inquiries.crisisCenterInquiry')
+            const fileName = params.inquiry_type === 'shelter'
+                ? t('inquiries.shelterInquiry')
+                : params.inquiry_type === 'crisis_center' ? t('inquiries.crisisCenterInquiry') : params.label
             saveAs(response, `${customPagesStore.getCustomPagesName?.citizens}-${fileName}`)
         }
     } catch (error: any) {

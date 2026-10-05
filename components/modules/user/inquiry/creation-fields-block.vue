@@ -121,6 +121,12 @@ const props = defineProps({
         required: false,
         default: () => ({}),
     },
+    // The form "Ny henvendelse" was opened on; its own fields are asked here.
+    formUuid: {
+        type: String,
+        required: false,
+        default: null,
+    },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -239,7 +245,7 @@ async function createJobcenter(field: any) {
 
 async function fetchFields() {
     try {
-        const response = await inquiryFieldService.getFieldsForCreation()
+        const response = await inquiryFieldService.getFieldsForCreation({ form_uuid: props.formUuid })
         state.fields = response?.data ?? []
     } catch (_) {
         state.fields = []

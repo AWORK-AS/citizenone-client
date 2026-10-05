@@ -1,5 +1,6 @@
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { canOpenPage } from '@/composables/pageAccess'
 
 export interface SettingsCatalogItem {
     /** Category the item sits in on the settings catalog page. */
@@ -32,6 +33,8 @@ export function useSettingsCatalog() {
         const isEmploymentServices = user?.company?.industry?.system_name === 'employment_services'
         const isSocialWelfare = user?.company?.industry?.system_name === 'social_welfare'
         const hasInquiries = !!user?.company?.inquiry_pipeline_enabled
+        // The forms are for every company that takes inquiries, pipeline or not.
+        const takesInquiries = canOpenPage(user, 'Inquiries')
         const hasTasks = !!user?.company?.tasks_workflow_enabled
         const hasSurveys = user?.is_surveys_active !== false
         const hasExtendedDutySchedule = !!user?.is_extended_duty_schedule_active
@@ -73,6 +76,7 @@ export function useSettingsCatalog() {
             item('journal', 'settings.tabs.journalContents', '/settings/journal-contents', ['settings-journal-contents']),
             item('journal', 'settings.tabs.journalNoteTags', '/settings/journal-note-tags', ['settings-journal-note-tags']),
             item('journal', 'settings.tabs.journalTitles', '/settings/journal-titles', ['settings-journal-titles']),
+            ...when(takesInquiries, item('citizens', 'settings.tabs.inquiryForms', '/settings/inquiry-forms', ['settings-inquiry-forms'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryPipelineStages', '/settings/inquiry-pipeline-stages', ['settings-inquiry-pipeline-stages'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryFields', '/settings/inquiry-fields', ['settings-inquiry-fields'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryServiceTypes', '/settings/inquiry-service-types', ['settings-inquiry-service-types'])),

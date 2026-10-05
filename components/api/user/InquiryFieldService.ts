@@ -27,8 +27,9 @@ class InquiryFieldService extends BaseAPIService {
     }
 
     // Stageless fields, asked for at creation - before an inquiry exists yet.
-    async getFieldsForCreation(): Promise<any> {
-        return await this.request(`/user/inquiry-field-definitions/for-creation`, 'GET')
+    // With a form, also the fields that belong to that form alone.
+    async getFieldsForCreation(params: { form_uuid?: string | null } = {}): Promise<any> {
+        return await this.request(`/user/inquiry-field-definitions/for-creation`, 'GET', params.form_uuid ? { form_uuid: params.form_uuid } : undefined)
     }
 
     async saveFields(inquiryUuid: string, answers: Record<string, any>): Promise<any> {
