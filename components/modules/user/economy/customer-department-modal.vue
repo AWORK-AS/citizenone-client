@@ -51,8 +51,18 @@
                             </div>
                             <div class="space-y-1">
                                 <FormLabel :label="$t('socialWelfare.customerDepartments.paymentTermsDays')" />
-                                <input type="number" min="0" max="365" class="co-cell-input w-full"
-                                    v-model="state.form.payment_terms_days" />
+                                <select class="co-cell-input w-full" v-model="state.form.payment_terms_days"
+                                    :aria-label="$t('socialWelfare.customerDepartments.paymentTermsDays')">
+                                    <option :value="''">{{ $t('socialWelfare.contract.noPaymentTerms') }}</option>
+                                    <option v-for="term in paymentTermOptions" :key="term.days" :value="term.days">
+                                        {{ term.label }}
+                                    </option>
+                                </select>
+                                <FormError :error="state.error?.errors?.payment_terms_days?.[0]" />
+                                <NuxtLink v-if="!state.paymentTerms.length" to="/settings/payment-terms"
+                                    class="text-[12px] text-primary hover:underline">
+                                    {{ $t('socialWelfare.contract.createPaymentTerms') }}
+                                </NuxtLink>
                             </div>
                             <div class="space-y-1">
                                 <FormLabel :label="$t('socialWelfare.customerDepartments.email')" />
@@ -101,6 +111,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import type { PaymentTerm } from '@/types/contract'
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -133,6 +144,7 @@ const state = reactive({
     error: {} as Error,
     isSaving: false,
     municipalities: [] as any[],
+    paymentTerms: [] as PaymentTerm[],
     form: emptyForm(),
 })
 
@@ -161,7 +173,30 @@ watch(() => props.isModalOpen, (open) => {
     } : emptyForm()
 
     if (!state.municipalities.length) fetchMunicipalities()
+    fetchPaymentTerms()
 })
+
+// A term the department already carries stays selectable even if the catalogue
+// has since lost it; the API allows an unchanged legacy value.
+const paymentTermOptions = computed(() => {
+    const options = state.paymentTerms.map(term => ({ days: term.days, label: term.display_label }))
+    const current = state.form.payment_terms_days
+
+    if (current !== '' && current !== null && !options.some(option => option.days === Number(current))) {
+        options.push({ days: Number(current), label: t('socialWelfare.contract.legacyTerms', { days: current }) })
+    }
+
+    return options
+})
+
+async function fetchPaymentTerms() {
+    try {
+        const response = await socialWelfareService.getPaymentTerms({ active_only: 1 })
+        state.paymentTerms = (response?.data ?? []).filter(item => item.is_active !== false)
+    } catch (error: any) {
+        // The department can still be saved without terms.
+    }
+}
 
 async function fetchMunicipalities() {
     try {

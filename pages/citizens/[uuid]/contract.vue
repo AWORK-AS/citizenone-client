@@ -82,6 +82,20 @@
                                         {{ termsOf(current) === null ? '-' : $t('socialWelfare.customerDepartments.days', { days: termsOf(current) }) }}
                                     </p>
                                 </div>
+                                <div>
+                                    <p class="text-xs text-slate-400">{{ $t('socialWelfare.contract.billingTiming') }}</p>
+                                    <p class="text-lg font-semibold text-slate-900">{{ timingLabel(current) }}</p>
+                                </div>
+                                <div>
+                                    <Tooltip :text="$t('socialWelfare.contract.specialLanguageHelp')" wrap position="top">
+                                        <p class="text-xs text-slate-400">{{ $t('socialWelfare.contract.specialLanguage') }}</p>
+                                    </Tooltip>
+                                    <p class="text-lg font-semibold text-slate-900">{{ specialLanguageOf(current) ? $t('yes') : $t('no') }}</p>
+                                </div>
+                                <div v-for="field in shownFields(current)" :key="field.field_uuid">
+                                    <p class="text-xs text-slate-400">{{ field.label }}</p>
+                                    <p class="text-lg font-semibold text-slate-900">{{ field.value }}</p>
+                                </div>
                             </div>
                         </div>
 
@@ -141,20 +155,35 @@
                                             </td>
                                             <td class="co-td text-slate-900 whitespace-nowrap">{{ priceLabel(period) }}</td>
                                             <td class="co-td text-slate-600 text-[13px]">
-                                                <p>{{ $t('socialWelfare.contract.contactHoursShort') }}: {{ formatHours(period.contact_hours) }}</p>
-                                                <p>{{ $t('socialWelfare.contract.adminHoursShort') }}: {{ formatHours(period.admin_hours) }}</p>
-                                                <p>{{ $t('socialWelfare.contract.transportHoursShort') }}: {{ formatHours(period.transport_hours) }}</p>
+                                                <template v-if="period.hours?.length">
+                                                    <p v-for="row in period.hours" :key="row.hour_type_uuid">
+                                                        {{ row.name }}: {{ formatHours(row.hours) }}
+                                                        <span class="text-[11px] text-slate-400">({{ $t(`socialWelfare.hourTypes.basis.${row.billing_basis}`) }})</span>
+                                                    </p>
+                                                </template>
+                                                <template v-else>
+                                                    <p>{{ $t('socialWelfare.contract.contactHoursShort') }}: {{ formatHours(period.contact_hours) }}</p>
+                                                    <p>{{ $t('socialWelfare.contract.adminHoursShort') }}: {{ formatHours(period.admin_hours) }}</p>
+                                                    <p>{{ $t('socialWelfare.contract.transportHoursShort') }}: {{ formatHours(period.transport_hours) }}</p>
+                                                </template>
                                                 <p class="text-slate-400">{{ intervalLabel(period.hours_interval) }}</p>
                                             </td>
-                                            <td class="co-td text-slate-600">{{ $t(`socialWelfare.contract.frequencies.${period.billing_frequency}`) }}</td>
+                                            <td class="co-td text-slate-600">
+                                                <p>{{ $t(`socialWelfare.contract.frequencies.${period.billing_frequency}`) }}</p>
+                                                <p class="text-[12px] text-slate-400">{{ timingLabel(period) }}</p>
+                                            </td>
                                             <td class="co-td text-slate-600 text-[13px]">
                                                 <p v-if="period.show_cpr_on_invoice">{{ $t('socialWelfare.contract.cpr') }}</p>
                                                 <p v-if="period.show_case_number_on_invoice">{{ $t('socialWelfare.contract.caseNumber') }}</p>
                                                 <p v-if="period.economic_customer_number">{{ $t('socialWelfare.contract.economicCustomerNumberShort') }} {{ period.economic_customer_number }}</p>
                                                 <p v-if="period.economic_product_number">{{ $t('socialWelfare.contract.economicProductNumberShort') }} {{ period.economic_product_number }}</p>
+                                                <p v-for="field in invoiceFields(period)" :key="field.field_uuid">{{ field.label }}: {{ field.value }}</p>
                                             </td>
                                             <td class="co-td text-slate-600 text-[13px]">
                                                 <p v-for="line in period.lines" :key="line.uuid">
+                                                    <span v-if="line.kind && line.kind !== 'custom'" class="co-badge text-[11px] mr-1">
+                                                        {{ $t(`socialWelfare.contract.presetKinds.${line.kind}`) }}
+                                                    </span>
                                                     {{ line.description }}: {{ formatAmount(line.amount) }}
                                                     <span class="text-slate-400">({{ $t(`socialWelfare.contract.recurrences.${line.recurrence}`) }})</span>
                                                 </p>
@@ -162,14 +191,18 @@
                                             </td>
                                             <td class="co-td">
                                                 <div v-if="canWrite" class="flex items-center justify-end gap-2">
-                                                    <button type="button" class="text-slate-400 hover:text-primary transition"
-                                                        :title="$t('edit')" @click="openEdit(period)">
-                                                        <Icon name="ph:pencil-simple" class="w-4 h-4" />
-                                                    </button>
-                                                    <button type="button" class="text-slate-400 hover:text-red-600 transition"
-                                                        :title="$t('delete')" @click="confirmDelete(period)">
-                                                        <Icon name="ph:trash" class="w-4 h-4" />
-                                                    </button>
+                                                    <Tooltip :text="$t('edit')" position="left">
+                                                        <button type="button" class="text-slate-400 hover:text-primary transition"
+                                                            :aria-label="$t('edit')" @click="openEdit(period)">
+                                                            <Icon name="ph:pencil-simple" class="w-4 h-4" />
+                                                        </button>
+                                                    </Tooltip>
+                                                    <Tooltip :text="$t('delete')" position="left">
+                                                        <button type="button" class="text-slate-400 hover:text-red-600 transition"
+                                                            :aria-label="$t('delete')" @click="confirmDelete(period)">
+                                                            <Icon name="ph:trash" class="w-4 h-4" />
+                                                        </button>
+                                                    </Tooltip>
                                                 </div>
                                             </td>
                                         </tr>
@@ -182,7 +215,7 @@
             </div>
 
             <ModulesUserCitizenContractPeriodModal :isModalOpen="state.isModalOpen" :citizenUuid="citizenUuid"
-                :citizen="state.citizen" :period="state.editing" :previous="previousForNew"
+                :citizen="state.citizen" :period="state.editing" :previous="previousForNew" :template="state.template"
                 :stays="state.stays" :departments="state.departments"
                 @close="state.isModalOpen = false" @saved="fetchContract" />
             <DialogConfirmation :isModalOpen="state.isDeleteOpen" :message="$t('socialWelfare.contract.confirmDelete')"
@@ -227,6 +260,7 @@ const state = reactive({
     fallback: [] as any[],
     stays: [] as any[],
     departments: [] as any[],
+    template: null as any,
     currentUuid: null as string | null,
     isModalOpen: false,
     isDeleteOpen: false,
@@ -264,6 +298,7 @@ async function fetchContract() {
         state.fallback = data.fallback_periods ?? []
         state.stays = data.stays ?? []
         state.currentUuid = data.current_period_uuid ?? null
+        state.template = data.new_period_template ?? null
     } catch (error: any) {
         state.error = error
     }
@@ -319,11 +354,36 @@ function intervalLabel(interval: string): string {
 function priceLabel(period: any): string {
     if (period.price === null || period.price === undefined) return '-'
 
-    const suffix = period.price_type === 'fixed'
-        ? t(`socialWelfare.contract.perFrequency.${period.billing_frequency}`)
-        : t('socialWelfare.contract.perHour')
+    let suffix = t('socialWelfare.contract.perHour')
+
+    if (period.price_type === 'fixed') suffix = t(`socialWelfare.contract.perFrequency.${period.billing_frequency}`)
+    if (period.price_type === 'one_off') suffix = t('socialWelfare.contract.onceOnly')
 
     return `${formatAmount(period.price)} ${suffix}`
+}
+
+function timingLabel(period: any): string {
+    return t(`socialWelfare.contract.billingTimings.${period?.billing_timing || 'in_arrears'}`)
+}
+
+// The flag is on the citizen; each period carries the same value read-only.
+function specialLanguageOf(period: any): boolean {
+    return !!(period?.has_special_language ?? state.citizen?.has_special_language)
+}
+
+// Only the custom fields that are meant for the contract, and only filled ones.
+function shownFields(period: any): any[] {
+    return (period?.custom_fields ?? []).filter((field: any) =>
+        field.show_on_contract && field.value !== null && field.value !== undefined && field.value !== ''
+    )
+}
+
+// The fields printed on the invoice line, which is a different choice from the
+// ones shown on the contract.
+function invoiceFields(period: any): any[] {
+    return (period?.custom_fields ?? []).filter((field: any) =>
+        field.show_on_invoice && field.value !== null && field.value !== undefined && field.value !== ''
+    )
 }
 
 function termsOf(period: any): number | null {
