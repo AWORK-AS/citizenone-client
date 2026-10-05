@@ -15631,6 +15631,8 @@
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
         "allowHalfSteps": "Tillad halve trin (fx 4,5)",
+        "wellbeingRuler": "Trivselslineal",
+        "wellbeingRulerHint": "Vises som trivselslinealen i journalnotater, og svaret bliver første punkt på borgerens trivselskurve, når sagen vindes.",
         "allForms": "Alle formularer"
     },
     "inquiryOrigin": {

@@ -15542,6 +15542,8 @@
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
         "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)",
+        "wellbeingRuler": "Trivsellinjal",
+        "wellbeingRulerHint": "Visas som trivsellinjalen i journalanteckningar, och svaret blir första punkten på brukarens trivselkurva när ärendet vinns.",
         "allForms": "Alla formulär"
     },
     "inquiryOrigin": {
