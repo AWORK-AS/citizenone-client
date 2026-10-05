@@ -11,6 +11,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import flatPickr from 'vue-flatpickr-component'
+import flatpickr from 'flatpickr'
 import 'flatpickr/dist/flatpickr.css'
 import { useI18n } from "vue-i18n"
 import { Danish } from 'flatpickr/dist/l10n/da.js'
@@ -33,6 +34,12 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // Shows the age in years in place of the week number, e.g. for birthdays
+    showAge: {
+        type: Boolean,
+        required: false,
+        default: false,
+    },
     modelValue: String,
     placeholder: {
         type: String,
@@ -46,6 +53,9 @@ const state = reactive({
         enableTime: false,
         // Updated dateFormat to include week number (w token for ISO week number)
         dateFormat: 'd. F Y (W)',
+        formatDate: props.showAge
+            ? (date: Date, _format: string, locale: any) => `${flatpickr.formatDate(date, 'd. F Y', locale)} (${moment().diff(date, 'years')})`
+            : undefined,
         disableMobile: true,
         locale: {
             firstDayOfWeek: 1, // Set Monday as the first day of the week
