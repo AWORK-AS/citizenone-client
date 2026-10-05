@@ -20,7 +20,11 @@
                             </div>
                             <div v-show="!state.renderFailed"
                                 class="flex-1 overflow-y-auto overflow-x-hidden p-8 w-full bg-transparent">
-                                <div ref="previewContainer" class="w-full flex justify-center"
+                                <!-- docx-preview draws each page as its own element straight
+                                     into this container. A row (plain flex) put the pages side
+                                     by side and overflow-x-hidden cut off all but the first, so
+                                     Memox saw one page of every document. A column stacks them. -->
+                                <div ref="previewContainer" class="w-full flex flex-col items-center gap-6"
                                     data-testid="document-preview-container"></div>
                             </div>
                         </div>
