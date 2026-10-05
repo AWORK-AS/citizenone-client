@@ -96,6 +96,9 @@
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryDocumentsPanel :inquiryUuid="state.inquiry.uuid" />
                         </div>
+                        <!-- Agreed with the municipality now, carried to the indsats when it is won. -->
+                        <ModulesUserRegistrationRulesPanel v-if="state.inquiry?.uuid" target="inquiry"
+                            :uuid="state.inquiry.uuid" :canEdit="canManageRules" />
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryNotesPanel :inquiryUuid="state.inquiry.uuid"
                                 :stages="state.stages" />
@@ -241,6 +244,9 @@ const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { tt } = useTerminology()
 const { formatDateToReadable } = useDatetimeFormatter()
+const { isAtLeast, can } = usePermissions()
+// Same gate as the API: Admin or the update permission.
+const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
 
 const inquiryUuid = String(route.params.inquiry_uuid)
 

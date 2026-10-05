@@ -36,6 +36,8 @@
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div class="mt-6 space-y-5">
+                        <!-- What the agreement lets a consultant register here. -->
+                        <ModulesUserRegistrationRulesPanel target="citizen" :uuid="citizenUuid" :canEdit="canManageRules" />
                         <!-- The terms that apply today, and who is billed -->
                         <div class="bg-white border border-surface-200 rounded-xl p-5 shadow-sm">
                             <div class="flex flex-wrap items-start justify-between gap-4">
@@ -213,6 +215,8 @@ const breadcrumbLinks = [
     { name: 'socialWelfare.contract.title', translate: true, href: `/citizens/${citizenUuid}/contract` },
 ]
 
+// Same gate as the API: Admin or the update permission.
+const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
 const canWrite = computed(() => isAtLeast('Admin') || can('create_citizen_economy') || can('update_citizen_economy'))
 
 const state = reactive({
