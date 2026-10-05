@@ -15352,6 +15352,8 @@
                 },
                 "warnings": "Warnings",
                 "warningsHelp": "The row is imported, but a value could not be used, e.g. an invalid EAN or e-mail.",
+                "inactiveCount": "Inactive",
+                "inactiveCountHelp": "Marked as ceased in WorkZone. Imported as inactive, so they cannot be picked on new contract periods.",
                 "errors": "Errors",
                 "errorsHelp": "Rows with errors are skipped.",
                 "termsWillBeAdded": "Payment terms that will be added to the list: {days} days.",

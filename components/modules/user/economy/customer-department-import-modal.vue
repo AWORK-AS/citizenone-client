@@ -161,6 +161,7 @@ const countCards = computed(() => {
         { key: 'create', label: t(`${prefix}.actions.create`), help: t(`${prefix}.actionHelp.create`), value: c?.create ?? 0, tone: 'text-green-700' },
         { key: 'update', label: t(`${prefix}.actions.update`), help: t(`${prefix}.actionHelp.update`), value: c?.update ?? 0, tone: 'text-slate-900' },
         { key: 'skip', label: t(`${prefix}.actions.skip`), help: t(`${prefix}.actionHelp.skip`), value: c?.skip ?? 0, tone: 'text-slate-500' },
+        { key: 'inactive', label: t(`${prefix}.inactiveCount`), help: t(`${prefix}.inactiveCountHelp`), value: c?.inactive ?? 0, tone: 'text-slate-500' },
         { key: 'warnings', label: t(`${prefix}.warnings`), help: t(`${prefix}.warningsHelp`), value: c?.warnings ?? 0, tone: (c?.warnings ?? 0) > 0 ? 'text-amber-700' : 'text-slate-900' },
         { key: 'errors', label: t(`${prefix}.errors`), help: t(`${prefix}.errorsHelp`), value: c?.errors ?? 0, tone: (c?.errors ?? 0) > 0 ? 'text-red-700' : 'text-slate-900' },
     ]

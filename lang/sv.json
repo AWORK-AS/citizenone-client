@@ -15256,6 +15256,8 @@
                 },
                 "warnings": "Varningar",
                 "warningsHelp": "Raden importeras, men ett värde kunde inte användas, t.ex. ett ogiltigt EAN eller en e-postadress.",
+                "inactiveCount": "Inaktiva",
+                "inactiveCountHelp": "Markerade som upphörda i WorkZone. Importeras som inaktiva, så att de inte kan väljas på nya kontraktsperioder.",
                 "errors": "Fel",
                 "errorsHelp": "Rader med fel hoppas över.",
                 "termsWillBeAdded": "Betalningsvillkor som läggs till i listan: {days} dagar.",

@@ -15345,6 +15345,8 @@
                 },
                 "warnings": "Advarsler",
                 "warningsHelp": "Rækken importeres, men en værdi kunne ikke bruges, f.eks. en ugyldig EAN eller mail.",
+                "inactiveCount": "Inaktive",
+                "inactiveCountHelp": "Markeret som ophørt i WorkZone. Importeres som inaktive, så de ikke kan vælges på nye kontraktperioder.",
                 "errors": "Fejl",
                 "errorsHelp": "Rækker med fejl springes over.",
                 "termsWillBeAdded": "Betalingsbetingelser, der oprettes på listen: {days} dage.",
