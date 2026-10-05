@@ -16655,44 +16655,11 @@
             "dueToday": "Deadline i dag"
         }
     },
-    "inquiryForms": {
-        "title": "Förfrågningsformulär",
-        "description": "Formulären man kan välja mellan under \"Ny förfrågan\". Stäng av dem ni inte använder, skapa egna och välj vilka fasta fält varje formulär frågar efter.",
-        "add": "Skapa formulär",
-        "addHint": "Ett nytt formulär frågar bara efter datum, avdelning, namn och personnummer. Välj resten efteråt.",
-        "builtin": "Inbyggt",
-        "builtinHint": "Följer registreringen av förfrågningar enligt danska serviceloven § 110 och § 109. Kan stängas av men inte tas bort.",
-        "serviceTypeHint": "Förfrågningar på det här formuläret får insatstypen vald i förväg.",
-        "fieldCount": "{count} fasta fält",
-        "noneActive": "Inga formulär är påslagna. Slå på ett under Inställningar → Förfrågningsformulär.",
-        "form": {
-            "name": "Namn",
-            "namePlaceholder": "T.ex. Remiss från kommunen",
-            "serviceType": "Insatstyp (valfri)",
-            "noServiceType": "Ingen"
-        },
-        "actions": {
-            "switchOff": "Stäng av formuläret",
-            "switchOn": "Slå på formuläret",
-            "fields": "Välj fasta fält",
-            "ownFields": "Egna fält på formuläret",
-            "rename": "Byt namn på formuläret",
-            "delete": "Ta bort formuläret"
-        },
-        "fields": {
-            "hint": "Avmarkera ett fält för att dölja det. Fält med hänglås kan inte döljas.",
-            "saved": "Fälten är sparade",
-            "locked": "Låst",
-            "lockedRegistration": "Används i registreringen av förfrågningar enligt § 110/§ 109 och kan därför inte döljas på det här formuläret.",
-            "lockedAlways": "Alla förfrågningar måste ha det här fältet."
-        },
-        "confirmation": {
-            "delete": "Är du säker på att du vill ta bort det här formuläret"
-        },
-        "alert": {
-            "saveFailed": "Kunde inte sparas",
-            "deleted": "Formuläret är borttaget",
-            "deleteFailed": "Formuläret kunde inte tas bort"
-        }
+    "documentTabs": {
+        "waiting": "Öppnar dokument…",
+        "blockedTitle": "Webbläsaren blockerade flikar",
+        "blocked": "{count} dokument öppnades inte eftersom webbläsaren blockerar popup-fönster. Tillåt popup-fönster för den här sidan och klicka igen. | {count} dokument öppnades inte eftersom webbläsaren blockerar popup-fönster. Tillåt popup-fönster för den här sidan och klicka igen.",
+        "failedTitle": "Dokumentet kunde inte hämtas",
+        "failed": "{count} dokument kunde inte hämtas. Försök igen. | {count} dokument kunde inte hämtas. Försök igen."
     }
 }

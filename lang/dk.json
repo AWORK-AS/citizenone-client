@@ -16744,44 +16744,11 @@
             "dueToday": "Frist i dag"
         }
     },
-    "inquiryForms": {
-        "title": "Henvendelsesformularer",
-        "description": "De formularer man kan vælge mellem under \"Ny henvendelse\". Slå dem fra, I ikke bruger, opret jeres egne, og vælg hvilke faste felter hver formular spørger om.",
-        "add": "Opret formular",
-        "addHint": "En ny formular spørger kun om dato, afdeling, navn og CPR. Vælg selv resten bagefter.",
-        "builtin": "Indbygget",
-        "builtinHint": "Følger registreringen af henvendelser efter servicelovens § 110 og § 109. Kan slås fra, men ikke slettes.",
-        "serviceTypeHint": "Henvendelser på denne formular får indsatstypen valgt på forhånd.",
-        "fieldCount": "{count} faste felter",
-        "noneActive": "Ingen formularer er slået til. Slå en til under Indstillinger → Henvendelsesformularer.",
-        "form": {
-            "name": "Navn",
-            "namePlaceholder": "Fx Henvisning fra kommune",
-            "serviceType": "Indsatstype (valgfri)",
-            "noServiceType": "Ingen"
-        },
-        "actions": {
-            "switchOff": "Slå formularen fra",
-            "switchOn": "Slå formularen til",
-            "fields": "Vælg faste felter",
-            "ownFields": "Egne felter på formularen",
-            "rename": "Omdøb formularen",
-            "delete": "Slet formularen"
-        },
-        "fields": {
-            "hint": "Fjern fluebenet for at skjule et felt. Felter med hængelås kan ikke skjules.",
-            "saved": "Felterne er gemt",
-            "locked": "Låst",
-            "lockedRegistration": "Bruges i registreringen af henvendelser efter § 110/§ 109 og kan derfor ikke skjules på denne formular.",
-            "lockedAlways": "Alle henvendelser skal have dette felt."
-        },
-        "confirmation": {
-            "delete": "Er du sikker på, at du vil slette denne formular"
-        },
-        "alert": {
-            "saveFailed": "Kunne ikke gemmes",
-            "deleted": "Formularen er slettet",
-            "deleteFailed": "Formularen kunne ikke slettes"
-        }
+    "documentTabs": {
+        "waiting": "Åbner dokument…",
+        "blockedTitle": "Browseren blokerede faner",
+        "blocked": "{count} dokument blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen. | {count} dokumenter blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen.",
+        "failedTitle": "Dokumentet kunne ikke hentes",
+        "failed": "{count} dokument kunne ikke hentes. Prøv igen. | {count} dokumenter kunne ikke hentes. Prøv igen."
     }
 }

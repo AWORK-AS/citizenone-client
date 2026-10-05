@@ -16751,44 +16751,11 @@
             "dueToday": "Due today"
         }
     },
-    "inquiryForms": {
-        "title": "Inquiry forms",
-        "description": "The forms to choose from under \"New inquiry\". Switch off the ones you do not use, create your own, and choose which built-in fields each form asks for.",
-        "add": "Create form",
-        "addHint": "A new form asks only for date, department, name and CPR. Choose the rest afterwards.",
-        "builtin": "Built-in",
-        "builtinHint": "Follows the registration of inquiries under sections 110 and 109 of the Danish Social Services Act. Can be switched off, not deleted.",
-        "serviceTypeHint": "Inquiries on this form get the service type chosen in advance.",
-        "fieldCount": "{count} built-in fields",
-        "noneActive": "No forms are switched on. Switch one on under Settings → Inquiry forms.",
-        "form": {
-            "name": "Name",
-            "namePlaceholder": "E.g. Referral from municipality",
-            "serviceType": "Service type (optional)",
-            "noServiceType": "None"
-        },
-        "actions": {
-            "switchOff": "Switch the form off",
-            "switchOn": "Switch the form on",
-            "fields": "Choose built-in fields",
-            "ownFields": "Own fields on the form",
-            "rename": "Rename the form",
-            "delete": "Delete the form"
-        },
-        "fields": {
-            "hint": "Untick a field to hide it. Fields with a lock cannot be hidden.",
-            "saved": "The fields are saved",
-            "locked": "Locked",
-            "lockedRegistration": "Used in the registration of inquiries under sections 110/109, so it cannot be hidden on this form.",
-            "lockedAlways": "Every inquiry needs this field."
-        },
-        "confirmation": {
-            "delete": "Are you sure you want to delete this form"
-        },
-        "alert": {
-            "saveFailed": "Could not be saved",
-            "deleted": "The form is deleted",
-            "deleteFailed": "The form could not be deleted"
-        }
+    "documentTabs": {
+        "waiting": "Opening document…",
+        "blockedTitle": "The browser blocked tabs",
+        "blocked": "{count} document was not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again. | {count} documents were not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again.",
+        "failedTitle": "The document could not be fetched",
+        "failed": "{count} document could not be fetched. Try again. | {count} documents could not be fetched. Try again."
     }
 }
