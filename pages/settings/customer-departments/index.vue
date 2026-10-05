@@ -12,25 +12,36 @@
             <div class="mt-8 space-y-5">
                 <div class="flex flex-wrap items-center justify-between gap-3">
                     <p class="text-sm text-slate-500 max-w-2xl">{{ $t('socialWelfare.customerDepartments.intro') }}</p>
-                    <FormButton buttonStyle="action" @click="openModal(null)">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('socialWelfare.customerDepartments.new') }}
-                    </FormButton>
+                    <div class="flex items-center gap-2">
+                        <Tooltip :text="$t('socialWelfare.customerDepartments.import.buttonHelp')" wrap position="bottom">
+                            <FormButton buttonStyle="action" @click="state.isImportOpen = true">
+                                <Icon name="ph:upload-simple" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('socialWelfare.customerDepartments.import.button') }}
+                            </FormButton>
+                        </Tooltip>
+                        <FormButton buttonStyle="action" @click="openModal(null)">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('socialWelfare.customerDepartments.new') }}
+                        </FormButton>
+                    </div>
                 </div>
 
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <div class="flex items-center gap-3">
-                    <input type="search" class="co-cell-input w-72" v-model="state.search"
-                        :placeholder="$t('socialWelfare.customerDepartments.search')" @keyup.enter="fetchDepartments" />
-                    <FormButton buttonStyle="action" @click="fetchDepartments">
-                        <Icon name="ph:magnifying-glass" class="h-4 w-4" />
-                    </FormButton>
+                    <Tooltip :text="$t('socialWelfare.customerDepartments.searchHelp')" wrap position="bottom">
+                        <input type="search" class="co-cell-input w-80" v-model="state.search"
+                            :aria-label="$t('socialWelfare.customerDepartments.search')"
+                            :placeholder="$t('socialWelfare.customerDepartments.search')" />
+                    </Tooltip>
+                    <p class="text-[13px] text-slate-400">
+                        {{ $t('socialWelfare.customerDepartments.shown', { shown: filtered.length, total: state.departments.length }) }}
+                    </p>
                 </div>
 
                 <LoadingSpinner :isActive="state.isLoading">
-                    <div v-if="!state.departments.length"
+                    <div v-if="!filtered.length"
                         class="bg-white border border-surface-200 rounded-xl p-12 text-center shadow-sm">
                         <Icon name="ph:buildings" class="w-12 h-12 text-slate-300 mx-auto mb-3" />
                         <p class="text-slate-400 text-sm">{{ $t('socialWelfare.customerDepartments.empty') }}</p>
@@ -50,7 +61,9 @@
                                 <table class="w-full">
                                     <thead class="border-b border-surface-200">
                                         <tr>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.externalId') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.name') }}</th>
+                                            <th class="co-th">{{ $t('socialWelfare.customerDepartments.municipalityRegion') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.address') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.eanNumber') }}</th>
                                             <th class="co-th">{{ $t('socialWelfare.customerDepartments.customerNumber') }}</th>
@@ -62,9 +75,13 @@
                                     <tbody>
                                         <tr v-for="department in customer.departments" :key="department.uuid"
                                             class="border-b border-surface-200 last:border-0">
+                                            <td class="co-td text-slate-500 tabular-nums">{{ department.external_id || '-' }}</td>
                                             <td class="co-td">
                                                 <p class="font-medium text-slate-900">{{ department.name }}</p>
                                                 <p v-if="department.email" class="text-[12px] text-slate-400">{{ department.email }}</p>
+                                            </td>
+                                            <td class="co-td text-slate-500 text-[13px]">
+                                                {{ [department.municipality_name, department.region].filter(Boolean).join(' · ') || '-' }}
                                             </td>
                                             <td class="co-td text-slate-500">{{ department.address || '-' }}</td>
                                             <td class="co-td text-slate-500 tabular-nums">{{ department.ean_number || '-' }}</td>
@@ -93,6 +110,8 @@
                 </LoadingSpinner>
             </div>
 
+            <ModulesUserEconomyCustomerDepartmentImportModal :isModalOpen="state.isImportOpen"
+                @close="state.isImportOpen = false" @imported="fetchDepartments" />
             <ModulesUserEconomyCustomerDepartmentModal :isModalOpen="state.isModalOpen" :department="state.selected"
                 @close="state.isModalOpen = false" @saved="fetchDepartments" />
             <DialogConfirmation :isModalOpen="state.isDeleteOpen"
@@ -104,6 +123,7 @@
 
 <script setup lang="ts">
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
+import { filterDepartments } from '@/composables/customerDepartment'
 import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -124,14 +144,17 @@ const state = reactive({
     isLoading: false,
     isModalOpen: false,
     isDeleteOpen: false,
+    isImportOpen: false,
     selected: null as any,
     search: '',
 })
 
+const filtered = computed(() => filterDepartments(state.departments, state.search))
+
 const grouped = computed(() => {
     const groups: Record<string, { label: string, departments: any[] }> = {}
 
-    for (const department of state.departments) {
+    for (const department of filtered.value) {
         const label = department.customer_label || ''
         groups[label] ??= { label, departments: [] }
         groups[label].departments.push(department)
@@ -154,7 +177,7 @@ async function fetchDepartments() {
     state.error = {} as Error
     state.isLoading = true
     try {
-        const response = await socialWelfareService.getCustomerDepartments(state.search ? { search: state.search } : {})
+        const response = await socialWelfareService.getCustomerDepartments({})
         state.departments = response?.data ?? []
     } catch (error: any) {
         state.error = error
