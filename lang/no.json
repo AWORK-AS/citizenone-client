@@ -16334,6 +16334,7 @@
         "location": "Lokasjon",
         "locationPlaceholder": "Adresse eller område, f.eks. Vesterbro",
         "postalCode": "Postnummer",
+        "reportingHint": "Følger med til borgeren når saken vinnes, og starter påminnelsen om rapportering.",
         "pending": "Plasseres på kartet om litt",
         "unavailable": "Ikke plassert på kartet: kartoppslag er ikke satt opp, så ingen avstand vises",
         "notFound": "Kunne ikke finnes på kartet. Sjekk adressen eller oppgi et postnummer",

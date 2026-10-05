@@ -41,6 +41,18 @@
             <Icon :name="props.inquiry?.location_geocoded ? 'ph:map-pin' : 'ph:clock'" class="size-3.5" />
             {{ locationStatus }}
         </p>
+        <!-- Agreed with the municipality while the case is an inquiry; becomes
+             the citizen's reporting requirement, and its reminder, when won. -->
+        <div class="mt-3 grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+            <div class="space-y-1">
+                <FormLabel for="inquiry_reporting_frequency" :label="$t('citizens.form.reportingFrequency')" />
+                <FormSelect id="inquiry_reporting_frequency" :options="reportingFrequencyOptions" :searchable="false"
+                    :modelValue="form.reporting_frequency"
+                    @update:modelValue="(value: any) => set('reporting_frequency', value)" />
+                <p class="text-[11px] text-slate-400">{{ $t('inquiryMatchNeeds.reportingHint') }}</p>
+                <FormError :error="props.error?.errors?.reporting_frequency?.[0]" />
+            </div>
+        </div>
     </section>
 </template>
 
@@ -61,7 +73,7 @@ const props = defineProps({
     },
 })
 
-// Emits the four fields as one object. Only emitted once something is touched,
+// Emits the fields as one object. Only emitted once something is touched,
 // so a save that never opened this block leaves the stored values alone.
 const emit = defineEmits(['update'])
 
@@ -74,6 +86,7 @@ const form = reactive({
     secondary_spoken_language_uuid: null as string | null,
     location_address: '',
     location_postal_code: '',
+    reporting_frequency: null as string | null,
 })
 
 function fromInquiry(inquiry: any) {
@@ -81,6 +94,7 @@ function fromInquiry(inquiry: any) {
     form.secondary_spoken_language_uuid = inquiry?.secondary_spoken_language?.uuid ?? null
     form.location_address = inquiry?.location_address ?? ''
     form.location_postal_code = inquiry?.location_postal_code ?? ''
+    form.reporting_frequency = inquiry?.reporting_frequency ?? null
 }
 
 fromInquiry(props.inquiry)
@@ -100,8 +114,20 @@ function set(key: keyof typeof form, value: any) {
         secondary_spoken_language_uuid: form.secondary_spoken_language_uuid,
         location_address: form.location_address?.trim() || null,
         location_postal_code: form.location_postal_code?.trim() || null,
+        reporting_frequency: form.reporting_frequency || null,
     })
 }
+
+// The same frequencies the citizen's reporting requirement takes, which is what
+// this becomes on conversion.
+const reportingFrequencyOptions = computed(() => [
+    { value: 'weekly', label: t('citizens.form.reportingOptions.weekly') },
+    { value: 'biweekly', label: t('citizens.form.reportingOptions.biweekly') },
+    { value: 'monthly', label: t('citizens.form.reportingOptions.monthly') },
+    { value: 'every_three_months', label: t('citizens.form.reportingOptions.everyThreeMonths') },
+    { value: 'every_six_months', label: t('citizens.form.reportingOptions.everySixMonths') },
+    { value: 'yearly', label: t('citizens.form.reportingOptions.yearly') },
+])
 
 const languageOptions = computed(() => languages.value.map((l: any) => ({ value: l.uuid, label: l.name })))
 const primaryOptions = computed(() => languageOptions.value)
