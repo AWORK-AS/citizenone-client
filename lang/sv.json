@@ -8433,7 +8433,10 @@
         "tenantId": "Microsoft Entra tenant-ID",
         "tenantHint": "Finns i Entra admin center under Översikt. Lämna tomt för att stänga av SSO.",
         "saveHint": "Gäller från nästa inloggning",
-        "saved": "Sparat"
+        "saved": "Sparat",
+        "needsApp": "Microsoft SSO är en gratis app i appbutiken och kräver Pro-profilen. Aktivera appen för att ange ert tenant-id.",
+        "openApp": "Gå till appen",
+        "openAppHint": "Öppnar Microsoft SSO i appbutiken, där en administratör kan aktivera den"
     },
     "logs": {
         "table": {

@@ -8433,7 +8433,10 @@
         "tenantId": "Microsoft Entra tenant ID",
         "tenantHint": "Found in the Entra admin center under Overview. Leave empty to switch SSO off.",
         "saveHint": "Applies from the next sign-in",
-        "saved": "Saved"
+        "saved": "Saved",
+        "needsApp": "Microsoft SSO is a free app in the app store and requires the Pro plan. Activate the app to enter your tenant id.",
+        "openApp": "Go to the app",
+        "openAppHint": "Opens Microsoft SSO in the app store, where an administrator can activate it"
     },
     "logs": {
         "table": {
