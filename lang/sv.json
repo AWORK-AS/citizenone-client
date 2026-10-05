@@ -2369,7 +2369,10 @@
                 "monthly": "Varje månad",
                 "weekly": "Varje vecka",
                 "yearly": "Årligen"
-            }
+            },
+            "hasSpecialLanguage": "Särskilt språk",
+            "hasSpecialLanguageDescription": "Markera om det behövs ett särskilt språk. Visas på avtalet.",
+            "hasSpecialLanguageTooltip": "Ja eller nej: om personen behöver ett särskilt språk. Används i avtalsöversikten."
         },
         "importCitizens": {
             "alert": {
@@ -14952,6 +14955,27 @@
             },
             "fees": "Betalningsavgift till CitizenOne",
             "feesHelp": "Debiteras på er egen CitizenOne-faktura."
+        },
+        "bulkSend": {
+            "selected": "{count} valda",
+            "send": "Skicka valda",
+            "sendHelp": "Bokför de valda fakturorna och köar dem för utskick via e-post. Fakturor utan mottagarens e-post, redan skickade och annullerade hoppas över.",
+            "clear": "Rensa markering",
+            "clearHelp": "Avmarkera alla fakturor",
+            "selectAll": "Markera alla fakturor i listan som kan skickas",
+            "selectRow": "Markera fakturan för utskick",
+            "confirm": "Skicka {count} fakturor via e-post? De bokförs och får fakturanummer direkt.",
+            "summary": "{queued} köade för utskick, {skipped} överhoppade",
+            "queuedHelp": "E-postmeddelandena skickas i bakgrunden. En faktura får status skickad när e-posten har gått iväg.",
+            "dismiss": "Stäng sammanfattningen",
+            "reasons": {
+                "not_found": "Fakturan hittades inte",
+                "forbidden": "Du har inte åtkomst till @:terms.citizen{''}",
+                "no_email": "Mottagaren saknar e-postadress",
+                "already_sent": "Fakturan har redan skickats",
+                "not_sendable": "En annullerad eller krediterad faktura kan inte skickas",
+                "error": "Fakturan kunde inte skickas"
+            }
         }
     },
     "invoiceTemplates": {
@@ -15102,10 +15126,19 @@
             "contractMode": {
                 "legacy": "Timmar till timpris",
                 "hourly": "Avtal: pris per timme",
-                "fixed": "Avtal: fast pris"
+                "fixed": "Avtal: fast pris",
+                "one_off": "Avtal: engångspris"
             },
-            "contractChangesInWindow": "Avtalet ändras under perioden. Det som gäller vid starten används.",
-            "customerNumber": "Kundnr"
+            "customerNumber": "Kundnr",
+            "segment": "Del {index} av {count}",
+            "segmentHelp": "Vistelsen byter avtalsperiod under perioden och är därför delad i flera rader. Varje rad faktureras enligt sin egen avtalsperiod.",
+            "contractWindow": "Avtalsperiod: {from} - {to}",
+            "alreadyInvoiced": "Redan fakturerad",
+            "invoicedNow": "Faktureras nu",
+            "helpAlreadyInvoiced": "Har redan fakturerats på en tidigare faktura och tas inte med igen.",
+            "helpInvoicedNow": "Är vald och kommer med på fakturan när du konverterar.",
+            "selectRow": "Markera raden för fakturering",
+            "includeLine": "Ta med avtalsraden på fakturan"
         },
         "customerDepartments": {
             "title": "Kunder och avdelningar",
@@ -15198,7 +15231,8 @@
             "priceType": "Prismodell",
             "priceTypes": {
                 "hourly": "Pris per levererad timme",
-                "fixed": "Fast pris per faktureringsperiod"
+                "fixed": "Fast pris per faktureringsperiod",
+                "one_off": "Engångspris"
             },
             "fixedPrice": "Fast pris",
             "hourlyPrice": "Timpris",
@@ -15223,7 +15257,61 @@
                 "one_off": "En gång",
                 "recurring": "Varje faktureringsperiod"
             },
-            "note": "Anteckning"
+            "note": "Anteckning",
+            "oneOffPrice": "Engångspris",
+            "onceOnly": "en gång",
+            "priceTypeHelp": "Hur avtalet avräknas: per levererad timme, med ett fast pris per faktureringsperiod eller med ett engångsbelopp.",
+            "priceTypeHelps": {
+                "hourly": "Varje levererad timme faktureras till timpriset.",
+                "fixed": "Det fasta priset faktureras för varje faktureringsperiod, oavsett hur många timmar som levereras. Levererade timmar står på fakturan till 0 kr.",
+                "one_off": "Priset faktureras en gång och aldrig igen. Levererade timmar står på fakturan till 0 kr. (ingår i engångspriset)."
+            },
+            "billingTiming": "Faktureringstidpunkt",
+            "billingTimings": {
+                "in_arrears": "I efterskott",
+                "in_advance": "I förskott"
+            },
+            "billingTimingHelp": "I efterskott faktureras för den period som gått. I förskott faktureras för den kommande faktureringsperioden. Gäller fast pris och återkommande rader. Levererade timmar faktureras alltid i efterskott.",
+            "billingTimingHelps": {
+                "in_arrears": "Fast pris och återkommande rader faktureras för den period som gått. Levererade timmar faktureras alltid i efterskott.",
+                "in_advance": "Fast pris och återkommande rader faktureras för den kommande faktureringsperioden, till och med slutet av nästa månad, kvartal, halvår eller år. Levererade timmar faktureras fortfarande i efterskott."
+            },
+            "hourTypes": "Timtyper",
+            "hourTypesHelp": "Välj de timtyper som är beviljade och ange timmar för var och en. Vad en typ faktureras efter bestäms under Inställningar.",
+            "noHourTypes": "Det finns inga timtyper än.",
+            "createHourTypes": "Skapa timtyper under Inställningar",
+            "hoursOfType": "Timmar: {name}",
+            "noPaymentTerms": "Inga betalningsvillkor valda",
+            "legacyTerms": "{days} dagar (finns inte i listan)",
+            "createPaymentTerms": "Skapa betalningsvillkor under Inställningar",
+            "customFields": "Avtalsfält",
+            "fieldOnContract": "Visas på avtalet",
+            "fieldOnInvoice": "Visas på fakturan",
+            "fieldHidden": "Visas varken på avtal eller faktura",
+            "presetLines": "Avgifter och fasta rader",
+            "presetKinds": {
+                "startup_fee": "Startavgift",
+                "room_rent": "Lokalhyra",
+                "status_report": "Statusrapport"
+            },
+            "presetHelps": {
+                "startup_fee": "En avgift som som utgångspunkt faktureras en gång vid start.",
+                "room_rent": "Hyra av lokal som som utgångspunkt faktureras varje faktureringsperiod.",
+                "status_report": "En avgift för en statusrapport som som utgångspunkt faktureras en gång."
+            },
+            "addLineHelp": "Lägg till en annan rad än startavgift, lokalhyra och statusrapport.",
+            "reviewIntro": "Den nya perioden är ifylld med föregående periods villkor. Granska dessa punkter innan du sparar:",
+            "reviewItems": {
+                "price": "Priset",
+                "granted_hours": "De beviljade timmarna",
+                "hours_split": "Fördelningen på timtyper"
+            },
+            "reviewConfirmHelp": "Perioden sparas först när du har bekräftat att villkoren fortfarande gäller.",
+            "showCprHelp": "Fakturaraden får med personnumret.",
+            "showCaseNumberHelp": "Fakturaraden får med både insatsnumret och ärendets journalnummer om de är registrerade.",
+            "specialLanguage": "Särskilt språk",
+            "specialLanguageHelp": "Registreras på själva profilen och kan inte ändras här.",
+            "reviewKept": "Oförändrat från föregående period: {items}."
         },
         "invoices": {
             "title": "Fakturor från uttaget",
@@ -15258,6 +15346,76 @@
                 "invoice_failed": "Utkastet kunde inte skapas i e-conomic",
                 "unknown_action": "Okänd åtgärd"
             }
+        },
+        "hourTypes": {
+            "title": "Timtyper",
+            "intro": "De typer av timmar en avtalsperiod kan bevilja: kontakttid, administration, transport och dina egna. Varje typ kan ha sitt eget artikelnummer.",
+            "new": "Ny timtyp",
+            "newHelp": "Skapa en ny timtyp som kan väljas på avtalsperioder.",
+            "edit": "Redigera timtyp",
+            "empty": "Det finns inga timtyper än.",
+            "basisTitle": "Vad faktureras efter?",
+            "basis": {
+                "delivered": "Levererade timmar",
+                "granted": "Beviljade timmar"
+            },
+            "basisHelp": {
+                "delivered": "Faktureras efter de timmar som registrerats som levererade under perioden.",
+                "granted": "Faktureras efter de beviljade timmarna (beviljade timmar gånger timpriset), oavsett hur många som levererats. Gäller när priset är per timme."
+            },
+            "name": "Namn",
+            "billingBasis": "Faktureras efter",
+            "productNumber": "Artikelnummer i e-conomic",
+            "sortOrder": "Ordning",
+            "isActive": "Aktiv",
+            "isActiveHelp": "En inaktiv timtyp kan inte väljas på nya perioder, men behålls på befintliga.",
+            "system": "System",
+            "systemHelp": "En systemtyp följer med från start. Den kan ändras men inte tas bort.",
+            "systemNotDeletable": "En systemtyp kan inte tas bort",
+            "saved": "Timtypen har sparats",
+            "deleted": "Timtypen har tagits bort",
+            "confirmDelete": "Ta bort timtypen? Den kan inte längre väljas på avtalsperioder."
+        },
+        "paymentTerms": {
+            "title": "Betalningsvillkor",
+            "intro": "De betalningsvillkor (antal dagar) som avtalsperioder och kunder kan välja mellan.",
+            "new": "Nytt betalningsvillkor",
+            "newHelp": "Skapa ett nytt betalningsvillkor som kan väljas på avtalsperioder och kundavdelningar.",
+            "edit": "Redigera betalningsvillkor",
+            "empty": "Det finns inga betalningsvillkor än.",
+            "days": "Antal dagar",
+            "label": "Text",
+            "labelPlaceholder": "Valfri, t.ex. Netto 30 dagar",
+            "sortOrder": "Ordning",
+            "isActive": "Aktiv",
+            "isActiveHelp": "Ett inaktivt villkor kan inte väljas på nya perioder eller avdelningar.",
+            "saved": "Betalningsvillkoret har sparats",
+            "deleted": "Betalningsvillkoret har tagits bort",
+            "confirmDelete": "Ta bort betalningsvillkoret? Perioder och avdelningar som redan använder det behåller sitt antal dagar."
+        },
+        "contractFields": {
+            "title": "Avtalsfält",
+            "intro": "Egna fält som fylls i på varje avtalsperiod, t.ex. ett ramavtalsnummer. Ett fält kan visas på avtalet, på fakturaraden eller på båda.",
+            "new": "Nytt avtalsfält",
+            "newHelp": "Skapa ett nytt fält som kan fyllas i på avtalsperioder.",
+            "edit": "Redigera avtalsfält",
+            "empty": "Det finns inga avtalsfält än.",
+            "label": "Namn",
+            "fieldType": "Typ",
+            "types": {
+                "text": "Text",
+                "number": "Tal"
+            },
+            "showOnContract": "Visa på avtalet",
+            "showOnContractHelp": "Värdet visas under avtalsfliken.",
+            "showOnInvoice": "Visa på fakturan",
+            "showOnInvoiceHelp": "Värdet skrivs inom parentes på fakturaraden tillsammans med fältets namn.",
+            "sortOrder": "Ordning",
+            "isActive": "Aktiv",
+            "isActiveHelp": "Ett inaktivt fält kan inte fyllas i på nya perioder, men värden på befintliga behålls.",
+            "saved": "Avtalsfältet har sparats",
+            "deleted": "Avtalsfältet har tagits bort",
+            "confirmDelete": "Ta bort avtalsfältet? Värden på befintliga perioder går förlorade."
         }
     },
     "inquiryPipelineStages": {

@@ -97,7 +97,7 @@
                             <p class="text-xs text-slate-400 uppercase tracking-wide">
                                 {{ $t('socialWelfare.billing.summaryInterventions') }}
                             </p>
-                            <p class="text-2xl font-bold text-slate-900 mt-1">{{ selectedRowCount }}</p>
+                            <p class="text-2xl font-bold text-slate-900 mt-1">{{ selectedInterventionCount }}</p>
                         </div>
                         <div class="bg-white border border-surface-200 rounded-xl p-4 shadow-sm">
                             <p class="text-xs text-slate-400 uppercase tracking-wide">
@@ -146,7 +146,7 @@
                                 </p>
                                 <p v-if="billToLine(group)" class="text-[12px] text-slate-500">{{ billToLine(group) }}</p>
                                 <p class="text-[13px] text-slate-400">
-                                    {{ group.rows.length }} {{ $t('socialWelfare.billing.citizens') }}
+                                    {{ distinctCitizens(group.rows) }} {{ $t('socialWelfare.billing.citizens') }}
                                     <span v-if="selectedRowsOf(group).length">
                                         · {{ $t('socialWelfare.billing.selectedOfRows', {
                                             selected: selectedRowsOf(group).length,
@@ -174,10 +174,12 @@
                                 <thead class="bg-white border-b border-surface-200">
                                     <tr>
                                         <th class="co-th w-10">
-                                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
-                                                :checked="allSelected(group)"
-                                                :title="$t('socialWelfare.billing.selectAll')"
-                                                @change="toggleGroup(group, ($event.target as HTMLInputElement).checked)" />
+                                            <Tooltip :text="$t('socialWelfare.billing.selectAll')" position="right">
+                                                <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                                    :checked="allSelected(group)"
+                                                    :aria-label="$t('socialWelfare.billing.selectAll')"
+                                                    @change="toggleGroup(group, ($event.target as HTMLInputElement).checked)" />
+                                            </Tooltip>
                                         </th>
                                         <th class="co-th w-8"></th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.citizen') }}</th>
@@ -210,27 +212,37 @@
                                     <tr class="border-b border-surface-200"
                                         :class="row.is_fully_invoiced ? 'opacity-60' : ''">
                                         <td class="co-td align-top">
-                                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
-                                                :disabled="!isBillable(row)" :checked="row.is_selected"
-                                                @change="row.is_selected = ($event.target as HTMLInputElement).checked" />
+                                            <Tooltip :text="$t('socialWelfare.billing.selectRow')" position="right">
+                                                <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                                    :aria-label="$t('socialWelfare.billing.selectRow')"
+                                                    :disabled="!isBillable(row)" :checked="row.is_selected"
+                                                    @change="row.is_selected = ($event.target as HTMLInputElement).checked" />
+                                            </Tooltip>
                                         </td>
                                         <td class="co-td align-top">
-                                            <button type="button" @click="toggleRow(row)"
-                                                class="text-slate-500 hover:text-slate-900 transition"
-                                                :aria-expanded="isExpanded(row)"
-                                                :title="$t('socialWelfare.billing.showRegistrations')">
-                                                <Icon :name="isExpanded(row) ? 'ph:caret-down' : 'ph:caret-right'"
-                                                    class="w-4 h-4" />
-                                            </button>
+                                            <Tooltip :text="$t('socialWelfare.billing.showRegistrations')" position="right">
+                                                <button type="button" @click="toggleRow(row)"
+                                                    class="text-slate-500 hover:text-slate-900 transition"
+                                                    :aria-expanded="isExpanded(row)"
+                                                    :aria-label="$t('socialWelfare.billing.showRegistrations')">
+                                                    <Icon :name="isExpanded(row) ? 'ph:caret-down' : 'ph:caret-right'"
+                                                        class="w-4 h-4" />
+                                                </button>
+                                            </Tooltip>
                                         </td>
                                         <td class="co-td">
                                             <p class="font-medium text-slate-900">{{ row.citizen_name }}</p>
-                                            <p v-if="row.is_fully_invoiced" class="co-badge co-badge-green text-[11px] mt-1 inline-block">
-                                                {{ $t('socialWelfare.billing.invoiced') }}
-                                            </p>
-                                            <p v-else-if="row.invoiced_hours > 0" class="text-[12px] text-slate-400 mt-1">
-                                                {{ $t('socialWelfare.billing.alreadyInvoicedHours', { hours: formatHours(row.invoiced_hours) }) }}
-                                            </p>
+                                            <Tooltip v-if="row.is_fully_invoiced" :text="$t('socialWelfare.billing.helpAlreadyInvoiced')" wrap position="top">
+                                                <span class="co-badge co-badge-green text-[11px] mt-1">{{ $t('socialWelfare.billing.alreadyInvoiced') }}</span>
+                                            </Tooltip>
+                                            <template v-else>
+                                                <p v-if="row.invoiced_hours > 0" class="text-[12px] text-slate-400 mt-1">
+                                                    {{ $t('socialWelfare.billing.alreadyInvoicedHours', { hours: formatHours(row.invoiced_hours) }) }}
+                                                </p>
+                                                <Tooltip v-if="row.is_selected && isBillable(row)" :text="$t('socialWelfare.billing.helpInvoicedNow')" wrap position="top">
+                                                    <span class="co-badge co-badge-blue text-[11px] mt-1">{{ $t('socialWelfare.billing.invoicedNow') }}</span>
+                                                </Tooltip>
+                                            </template>
                                         </td>
                                         <td class="co-td">
                                             <p class="text-slate-900">
@@ -242,9 +254,16 @@
                                                 {{ $t('socialWelfare.billing.contractMode.' + row.price_mode) }}
                                                 · {{ $t('socialWelfare.contract.frequencies.' + row.contract_period.billing_frequency) }}
                                             </p>
-                                            <p v-if="row.contract_period_changes_in_window" class="text-[11px] text-orange-600 mt-0.5">
-                                                {{ $t('socialWelfare.billing.contractChangesInWindow') }}
-                                            </p>
+                                            <!-- A stay that crosses a contract change is one row per
+                                                 contract period, each with its own window. -->
+                                            <div v-if="row.is_split" class="mt-1 space-y-0.5">
+                                                <Tooltip :text="$t('socialWelfare.billing.segmentHelp')" wrap position="top">
+                                                    <span class="co-badge co-badge-navy text-[11px]">{{ segmentLabel(row) }}</span>
+                                                </Tooltip>
+                                                <p v-if="row.contract_window" class="text-[11px] text-slate-500">
+                                                    {{ $t('socialWelfare.billing.contractWindow', { from: row.contract_window.from, to: row.contract_window.to || '...' }) }}
+                                                </p>
+                                            </div>
                                         </td>
                                         <td class="co-td text-slate-500">{{ row.section || '-' }}</td>
                                         <td class="co-td">
@@ -289,6 +308,7 @@
                                                 :text="$t('socialWelfare.billing.convertRow')" position="left">
                                                 <button type="button"
                                                     class="text-slate-400 hover:text-primary transition"
+                                                    :aria-label="$t('socialWelfare.billing.convertRow')"
                                                     @click="convertRow(group, row)">
                                                     <Icon name="ph:receipt" class="w-4 h-4" />
                                                 </button>
@@ -302,13 +322,24 @@
                                         class="border-b border-surface-200 bg-slate-50/40 text-[13px]"
                                         :class="line.is_billed ? 'opacity-60' : ''">
                                         <td class="co-td">
-                                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
-                                                :disabled="line.is_billed" v-model="line.is_included" />
+                                            <Tooltip :text="$t('socialWelfare.billing.includeLine')" position="right">
+                                                <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                                    :aria-label="$t('socialWelfare.billing.includeLine')"
+                                                    :disabled="line.is_billed" v-model="line.is_included" />
+                                            </Tooltip>
                                         </td>
                                         <td class="co-td"></td>
                                         <td class="co-td text-slate-600" colspan="3">
                                             {{ line.description }}
-                                            <span v-if="line.is_billed" class="text-[11px] text-green-700">({{ $t('socialWelfare.billing.invoiced') }})</span>
+                                            <Tooltip v-if="line.is_billed" :text="$t('socialWelfare.billing.helpAlreadyInvoiced')" wrap position="top">
+                                                <span class="co-badge co-badge-green text-[11px]">{{ $t('socialWelfare.billing.alreadyInvoiced') }}</span>
+                                            </Tooltip>
+                                            <Tooltip v-else-if="line.is_included" :text="$t('socialWelfare.billing.helpInvoicedNow')" wrap position="top">
+                                                <span class="co-badge co-badge-blue text-[11px]">{{ $t('socialWelfare.billing.invoicedNow') }}</span>
+                                            </Tooltip>
+                                            <p v-if="line.period_from" class="text-[11px] text-slate-400">
+                                                {{ line.period_from }} - {{ line.period_to }}
+                                            </p>
                                         </td>
                                         <td class="co-td text-slate-600">{{ formatHours(line.quantity) }}</td>
                                         <td class="co-td"></td>
@@ -402,11 +433,13 @@
                                             {{ formatAmount(extraAmount(extra)) }}
                                         </td>
                                         <td class="co-td text-right">
-                                            <button type="button" class="text-slate-400 hover:text-red-600 transition"
-                                                :title="$t('socialWelfare.billing.extraRemove')"
-                                                @click="group.extras.splice(index, 1)">
-                                                <Icon name="ph:trash" class="w-4 h-4" />
-                                            </button>
+                                            <Tooltip :text="$t('socialWelfare.billing.extraRemove')" position="left">
+                                                <button type="button" class="text-slate-400 hover:text-red-600 transition"
+                                                    :aria-label="$t('socialWelfare.billing.extraRemove')"
+                                                    @click="group.extras.splice(index, 1)">
+                                                    <Icon name="ph:trash" class="w-4 h-4" />
+                                                </button>
+                                            </Tooltip>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -485,6 +518,11 @@ function scrollToInvoices() {
     invoicesList.value?.$el?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
 }
 
+// Groups are split by payment terms, so a customer on two terms is two invoices.
+function termsOf(group: any): number | null {
+    return group.payment_terms_days ?? group.bill_to?.payment_terms_days ?? null
+}
+
 // Who the invoice goes to, as one line under the card title.
 function billToLine(group: any): string {
     const billTo = group.bill_to ?? {}
@@ -493,8 +531,8 @@ function billToLine(group: any): string {
         billTo.address,
         billTo.ean_number ? `EAN ${billTo.ean_number}` : null,
         billTo.customer_number ? `${t('socialWelfare.billing.customerNumber')} ${billTo.customer_number}` : null,
-        billTo.payment_terms_days !== null && billTo.payment_terms_days !== undefined
-            ? t('socialWelfare.customerDepartments.days', { days: billTo.payment_terms_days })
+        termsOf(group) !== null
+            ? t('socialWelfare.customerDepartments.days', { days: termsOf(group) })
             : null,
     ].filter(Boolean).join(' · ')
 }
@@ -542,10 +580,21 @@ watch(() => [state.filter.from_date, state.filter.to_date], () => {
 const expanded = ref<string[]>([])
 const registrations = ref<Record<string, any[]>>({})
 
-// A row is one stay, so a citizen can appear more than once and the uuid alone
-// is not a key.
+// A row is one stay inside one contract period, so a citizen can appear more
+// than once and the uuid alone is not a key. The API names the row; the old
+// citizen:stay pair is only the fallback for an answer without it.
 function rowKey(row: any): string {
-    return `${row.citizen_uuid}:${row.stay_uuid ?? 'none'}`
+    return row.row_key ?? `${row.citizen_uuid}:${row.stay_uuid ?? 'none'}`
+}
+
+// Where a stay is cut by a contract change, each piece is billed on its own
+// terms, so the pieces are told apart by which contract period they belong to.
+function segmentLabel(row: any): string {
+    return t('socialWelfare.billing.segment', {
+        // The API counts parts from 0.
+        index: Number(row.segment_index ?? 0) + 1,
+        count: row.segment_count,
+    })
 }
 
 function isExpanded(row: any): boolean {
@@ -575,8 +624,7 @@ async function toggleRow(row: any) {
         const response = await socialWelfareService.getBillingRegistrations({
             citizen_uuid: row.citizen_uuid,
             stay_uuid: row.stay_uuid ?? undefined,
-            from_date: state.filter.from_date,
-            to_date: state.filter.to_date,
+            ...registrationRange(row),
         })
         const data = response?.data ?? response ?? {}
         registrations.value = { ...registrations.value, [key]: data.rows ?? [] }
@@ -584,6 +632,16 @@ async function toggleRow(row: any) {
         state.error = error
         expanded.value = expanded.value.filter(k => k !== key)
     }
+}
+
+// A split row only owns its own piece of the stay, so its registrations are
+// fetched for that piece and not for the whole period.
+function registrationRange(row: any): { from_date: string, to_date: string } {
+    if (row.is_split && row.period_from && row.period_to) {
+        return { from_date: row.period_from, to_date: row.period_to }
+    }
+
+    return { from_date: state.filter.from_date, to_date: state.filter.to_date }
 }
 
 function dateOf(reg: any): string {
@@ -687,6 +745,17 @@ const grandTotal = computed(() =>
 
 const billableRowCount = computed(() =>
     state.groups.reduce((sum: number, g: any) => sum + billableRowsOf(g).length, 0)
+)
+
+// A stay split over several contract periods is several rows, but still one
+// intervention for one citizen.
+function distinctCitizens(rows: any[]): number {
+    return new Set(rows.map((row: any) => row.citizen_uuid)).size
+}
+
+const selectedInterventionCount = computed(() =>
+    new Set(state.groups.flatMap((g: any) =>
+        selectedRowsOf(g).map((row: any) => `${row.citizen_uuid}:${row.stay_uuid ?? 'none'}`))).size
 )
 
 const selectedRowCount = computed(() =>
@@ -800,7 +869,7 @@ function groupPayload(group: any, rows: any[]) {
         customer_department_uuid: billTo.customer_department_uuid || null,
         ean_number: billTo.ean_number || null,
         customer_number: billTo.customer_number || null,
-        payment_terms_days: billTo.payment_terms_days ?? null,
+        payment_terms_days: termsOf(group),
         note: group.note,
         lines: [
             ...rows.filter((row: any) => Number(row.used_hours) > 0).map((row: any) => ({
@@ -827,6 +896,9 @@ function groupPayload(group: any, rows: any[]) {
                 line_kind: line.kind,
                 contract_period_uuid: line.contract_period_uuid,
                 contract_line_uuid: line.contract_line_uuid ?? null,
+                // A granted-hours line belongs to one hour type; the API needs it to
+                // tell the types apart and not bill one of them twice.
+                contract_hour_type_uuid: line.contract_hour_type_uuid ?? null,
                 product_number: line.product_number ?? null,
             }))),
             ...extraLinesOf(group).map((extra: any) => ({
