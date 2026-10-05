@@ -10244,6 +10244,23 @@
             "employeeGroups": "Medarbejdergrupper",
             "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu."
         },
+        "matrix": {
+            "title": "Tilladelsesoversigt",
+            "note": "Oversigten viser, hvad hver rolle giver adgang til. Den enkelte bruger kan have fået ekstra tilladelser eller fået tilladelser frataget, og de undtagelser vises ikke her.",
+            "fullAccess": "Fuld adgang",
+            "fullAccessNote": "Roller på administratorniveau har alle tilladelser, så deres kolonne er markeret hele vejen ned. Sideadgange vises, som de er sat på rollen.",
+            "exportCsv": "Eksportér CSV",
+            "printPdf": "Udskriv / PDF",
+            "print": "Udskriv",
+            "permission": "Tilladelse",
+            "page": "Side",
+            "area": "Område",
+            "granted": "Tildelt",
+            "generated": "Genereret",
+            "company": "Virksomhed",
+            "pdfAttribution": "Denne PDF blev genereret med CitizenOnes journalsystem.",
+            "fileName": "tilladelsesoversigt"
+        },
         "newRole": "Ny rolle",
         "permissions": {
             "createCitizen": "Opret @:terms.citizen{''}",
@@ -16625,6 +16642,106 @@
             "noPlans": "Intet at vise fra dine borgeres planer lige nu.",
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
+        }
+    },
+    "whistleblower": {
+        "reportAnonymously": "Indberet anonymt",
+        "public": {
+            "title": "Whistleblower",
+            "language": "Sprog",
+            "notFoundTitle": "Linket virker ikke",
+            "notFound": "Linket kan være forældet, eller whistleblowerordningen kan være slået fra. Spørg din arbejdsplads om det aktuelle link.",
+            "heading": "Indberet et forhold til {company}",
+            "intro": "Brug formularen til at fortælle dem, der behandler whistleblowerindberetninger på din arbejdsplads, om noget, der er galt.",
+            "anonymousTitle": "Du er anonym",
+            "anonymousText": "Siden ved ikke, hvem du er, og din indberetning er ikke knyttet til din konto. Udelad oplysninger, der kan afsløre dig, medmindre du vil være kendt. Brug et privat browservindue eller din egen enhed for ekstra privatliv.",
+            "category": "Hvad drejer det sig om?",
+            "categoryPlaceholder": "Vælg en kategori",
+            "subject": "Emne",
+            "description": "Hvad er der sket?",
+            "descriptionPlaceholder": "Beskriv hvad der skete, hvornår og hvor, og hvem der var involveret.",
+            "includeContact": "Medtag mit navn eller mine kontaktoplysninger",
+            "includeContactHelp": "Valgfrit. Kun behandlerne kan se dem, og de gør det muligt at kontakte dig.",
+            "name": "Navn",
+            "contact": "E-mail eller telefon",
+            "send": "Send indberetning",
+            "sentTitle": "Din indberetning er sendt",
+            "sent": "Dem, der behandler whistleblowerindberetninger hos {company}, har fået besked.",
+            "reference": "Din reference",
+            "sentAnonymous": "Skriv referencen ned. Du har sendt indberetningen anonymt, så behandlerne kan ikke kontakte dig.",
+            "sentWithContact": "Skriv referencen ned. Behandlerne kan kontakte dig via de oplysninger, du har givet.",
+            "tooMany": "Der er sendt for mange indberetninger herfra. Prøv igen senere.",
+            "checkFields": "Tjek de markerede felter nedenfor.",
+            "sendFailed": "Indberetningen kunne ikke sendes. Prøv igen.",
+            "required": "Feltet skal udfyldes.",
+            "invalidField": "Tjek venligst dette felt."
+        },
+        "categories": {
+            "work_environment": "Arbejdsmiljø",
+            "harassment": "Chikane eller mobning",
+            "discrimination": "Diskrimination",
+            "citizen_safety": "Borgeres eller patienters sikkerhed",
+            "fraud_or_corruption": "Svindel eller korruption",
+            "data_protection": "Databeskyttelse",
+            "other": "Andet"
+        },
+        "statuses": {
+            "received": "Modtaget",
+            "acknowledged": "Kvitteret",
+            "investigating": "Under undersøgelse",
+            "closed": "Afsluttet"
+        },
+        "settings": {
+            "title": "Whistleblower",
+            "intro": "Giv medarbejderne en sikker måde at indberette noget, der er galt. Indberetninger sendes via et privat link uden login, så ingen kan se, hvem der har sendt dem. Kun de behandlere, du vælger, kan læse dem.",
+            "enable": "Slå whistleblowerordningen til",
+            "enableHelp": "Medarbejderne får et \"Indberet anonymt\"-link i menuen.",
+            "handlers": "Hvem modtager indberetningerne",
+            "handlersHelp": "Kun administratorer kan vælges, og kun dem, du vælger, kan læse indberetninger. En indberetning kan handle om en administrator, så ikke alle administratorer er med automatisk.",
+            "link": "Indberetningslink",
+            "linkHelp": "Alle med linket kan sende en indberetning, også personer uden for virksomheden som tidligere ansatte.",
+            "copy": "Kopiér",
+            "copied": "Kopieret",
+            "regenerateHelp": "Hvis linket er blevet delt for bredt, kan du lave et nyt. Det gamle link holder op med at virke.",
+            "regenerate": "Lav et nyt link",
+            "regenerateConfirmation": "Lav et nyt link? Det nuværende link holder op med at virke",
+            "saved": "Whistleblowerindstillingerne er gemt",
+            "regenerated": "Der er lavet et nyt link"
+        },
+        "inbox": {
+            "title": "Whistleblowerindberetninger",
+            "intro": "Indberetninger sendt via virksomhedens whistleblowerlink. De er anonyme, medmindre indberetteren har valgt at oplyse sit navn.",
+            "filter": "Filtrér efter status",
+            "all": "Alle",
+            "empty": "Ingen indberetninger.",
+            "acknowledgeOverdue": "Over 7 dage",
+            "open": "Åbn",
+            "columns": {
+                "reference": "Reference",
+                "subject": "Emne",
+                "status": "Status",
+                "received": "Modtaget"
+            }
+        },
+        "detail": {
+            "back": "Tilbage til indberetninger",
+            "receivedOn": "Modtaget {date}",
+            "anonymous": "Sendt anonymt",
+            "reporter": "Indberetter",
+            "status": "Status",
+            "updateStatus": "Opdatér status",
+            "deadlines": "Kvittér for modtagelsen inden 7 dage, og giv indberetteren feedback inden 3 måneder.",
+            "history": "Noter og historik",
+            "historyHelp": "Kun behandlere kan se dette.",
+            "formerHandler": "Tidligere behandler",
+            "statusChanged": "Status ændret fra {from} til {to}",
+            "addNote": "Tilføj en note",
+            "saveNote": "Gem note",
+            "statusSaved": "Status er opdateret"
+        },
+        "bell": {
+            "title": "Ny whistleblowerindberetning",
+            "description": "Reference {reference}"
         }
     },
     "documentViewer": {

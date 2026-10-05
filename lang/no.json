@@ -10239,6 +10239,23 @@
             "employeeGroups": "Medarbeidergrupper",
             "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå."
         },
+        "matrix": {
+            "title": "Tillatelsesoversikt",
+            "note": "Oversikten viser hva hver rolle gir tilgang til. Den enkelte brukeren kan ha fått ekstra tillatelser eller fått tillatelser fjernet, og disse unntakene vises ikke her.",
+            "fullAccess": "Full tilgang",
+            "fullAccessNote": "Roller på administratornivå har alle tillatelser, så kolonnen deres er krysset av hele veien ned. Sidetilgang vises slik den er satt på rollen.",
+            "exportCsv": "Eksporter CSV",
+            "printPdf": "Skriv ut / PDF",
+            "print": "Skriv ut",
+            "permission": "Tillatelse",
+            "page": "Side",
+            "area": "Område",
+            "granted": "Tildelt",
+            "generated": "Generert",
+            "company": "Virksomhet",
+            "pdfAttribution": "Denne PDF-en ble generert med CitizenOnes journalsystem.",
+            "fileName": "tillatelsesoversikt"
+        },
         "newRole": "Ny rolle",
         "permissions": {
             "createCitizen": "Opprett @:terms.citizen{''}",
@@ -16536,6 +16553,106 @@
             "noPlans": "Ingenting å vise fra innbyggernes planer akkurat nå.",
             "overdue": "Forfalt {date}",
             "dueToday": "Frist i dag"
+        }
+    },
+    "whistleblower": {
+        "reportAnonymously": "Varsle anonymt",
+        "public": {
+            "title": "Varsling",
+            "language": "Språk",
+            "notFoundTitle": "Lenken virker ikke",
+            "notFound": "Lenken kan være gammel, eller varslingsordningen kan være slått av. Spør arbeidsplassen din om den gjeldende lenken.",
+            "heading": "Varsle om et forhold til {company}",
+            "intro": "Bruk skjemaet til å fortelle dem som behandler varsler på arbeidsplassen din, om noe som er galt.",
+            "anonymousTitle": "Du er anonym",
+            "anonymousText": "Siden vet ikke hvem du er, og varselet ditt er ikke knyttet til kontoen din. Utelat opplysninger som kan avsløre deg, med mindre du vil være kjent. Bruk et privat nettleservindu eller din egen enhet for ekstra personvern.",
+            "category": "Hva gjelder det?",
+            "categoryPlaceholder": "Velg en kategori",
+            "subject": "Emne",
+            "description": "Hva har skjedd?",
+            "descriptionPlaceholder": "Beskriv hva som skjedde, når og hvor, og hvem som var involvert.",
+            "includeContact": "Ta med navnet mitt eller kontaktopplysningene mine",
+            "includeContactHelp": "Valgfritt. Bare behandlerne kan se dem, og de gjør det mulig å kontakte deg.",
+            "name": "Navn",
+            "contact": "E-post eller telefon",
+            "send": "Send varsel",
+            "sentTitle": "Varselet ditt er sendt",
+            "sent": "De som behandler varsler hos {company}, har fått beskjed.",
+            "reference": "Din referanse",
+            "sentAnonymous": "Skriv ned referansen. Du sendte varselet anonymt, så behandlerne kan ikke kontakte deg.",
+            "sentWithContact": "Skriv ned referansen. Behandlerne kan kontakte deg via opplysningene du ga.",
+            "tooMany": "Det er sendt for mange varsler herfra. Prøv igjen senere.",
+            "checkFields": "Sjekk feltene som er merket nedenfor.",
+            "sendFailed": "Varselet kunne ikke sendes. Prøv igjen.",
+            "required": "Feltet må fylles ut.",
+            "invalidField": "Sjekk dette feltet."
+        },
+        "categories": {
+            "work_environment": "Arbeidsmiljø",
+            "harassment": "Trakassering eller mobbing",
+            "discrimination": "Diskriminering",
+            "citizen_safety": "Brukeres eller pasienters sikkerhet",
+            "fraud_or_corruption": "Svindel eller korrupsjon",
+            "data_protection": "Personvern",
+            "other": "Annet"
+        },
+        "statuses": {
+            "received": "Mottatt",
+            "acknowledged": "Bekreftet",
+            "investigating": "Under undersøkelse",
+            "closed": "Avsluttet"
+        },
+        "settings": {
+            "title": "Varsling",
+            "intro": "Gi de ansatte en trygg måte å varsle om noe som er galt. Varsler sendes via en privat lenke uten innlogging, så ingen kan se hvem som sendte dem. Bare behandlerne du velger, kan lese dem.",
+            "enable": "Slå på varsling",
+            "enableHelp": "De ansatte får en «Varsle anonymt»-lenke i menyen.",
+            "handlers": "Hvem mottar varslene",
+            "handlersHelp": "Bare administratorer kan velges, og bare de du velger, kan lese varsler. Et varsel kan gjelde en administrator, så ikke alle administratorer er med automatisk.",
+            "link": "Varslingslenke",
+            "linkHelp": "Alle med lenken kan sende et varsel, også personer utenfor virksomheten som tidligere ansatte.",
+            "copy": "Kopier",
+            "copied": "Kopiert",
+            "regenerateHelp": "Hvis lenken er delt for bredt, kan du lage en ny. Den gamle lenken slutter å virke.",
+            "regenerate": "Lag en ny lenke",
+            "regenerateConfirmation": "Lage en ny lenke? Den nåværende lenken slutter å virke",
+            "saved": "Varslingsinnstillingene er lagret",
+            "regenerated": "En ny lenke er laget"
+        },
+        "inbox": {
+            "title": "Varsler",
+            "intro": "Varsler sendt via virksomhetens varslingslenke. De er anonyme med mindre varsleren valgte å oppgi navnet sitt.",
+            "filter": "Filtrer etter status",
+            "all": "Alle",
+            "empty": "Ingen varsler.",
+            "acknowledgeOverdue": "Over 7 dager",
+            "open": "Åpne",
+            "columns": {
+                "reference": "Referanse",
+                "subject": "Emne",
+                "status": "Status",
+                "received": "Mottatt"
+            }
+        },
+        "detail": {
+            "back": "Tilbake til varsler",
+            "receivedOn": "Mottatt {date}",
+            "anonymous": "Sendt anonymt",
+            "reporter": "Varsler",
+            "status": "Status",
+            "updateStatus": "Oppdater status",
+            "deadlines": "Bekreft mottak innen 7 dager, og gi varsleren tilbakemelding innen 3 måneder.",
+            "history": "Notater og historikk",
+            "historyHelp": "Bare behandlere kan se dette.",
+            "formerHandler": "Tidligere behandler",
+            "statusChanged": "Status endret fra {from} til {to}",
+            "addNote": "Legg til et notat",
+            "saveNote": "Lagre notat",
+            "statusSaved": "Statusen er oppdatert"
+        },
+        "bell": {
+            "title": "Nytt varsel",
+            "description": "Referanse {reference}"
         }
     },
     "documentViewer": {

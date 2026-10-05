@@ -10239,6 +10239,23 @@
             "employeeGroups": "Medarbetargrupper",
             "noEmployeeGroups": "Inga medarbetargrupper skapade än."
         },
+        "matrix": {
+            "title": "Behörighetsöversikt",
+            "note": "Översikten visar vad varje roll ger åtkomst till. Enskilda användare kan ha fått extra behörigheter eller fått behörigheter borttagna, och de undantagen visas inte här.",
+            "fullAccess": "Full åtkomst",
+            "fullAccessNote": "Roller på administratörsnivå har alla behörigheter, så deras kolumn är markerad hela vägen ner. Sidåtkomst visas som den är inställd på rollen.",
+            "exportCsv": "Exportera CSV",
+            "printPdf": "Skriv ut / PDF",
+            "print": "Skriv ut",
+            "permission": "Behörighet",
+            "page": "Sida",
+            "area": "Område",
+            "granted": "Beviljad",
+            "generated": "Genererad",
+            "company": "Företag",
+            "pdfAttribution": "Denna PDF genererades med CitizenOnes journalsystem.",
+            "fileName": "behorighetsoversikt"
+        },
         "newRole": "Ny roll",
         "permissions": {
             "createCitizen": "Skapa @:terms.citizen{''}",
@@ -16536,6 +16553,106 @@
             "noPlans": "Inget att visa från dina brukares planer just nu.",
             "overdue": "Försenad {date}",
             "dueToday": "Deadline i dag"
+        }
+    },
+    "whistleblower": {
+        "reportAnonymously": "Rapportera anonymt",
+        "public": {
+            "title": "Visselblåsning",
+            "language": "Språk",
+            "notFoundTitle": "Länken fungerar inte",
+            "notFound": "Länken kan vara gammal eller visselblåsarfunktionen kan vara avstängd. Fråga din arbetsplats efter den aktuella länken.",
+            "heading": "Rapportera ett missförhållande till {company}",
+            "intro": "Använd formuläret för att berätta för dem som hanterar visselblåsarrapporter på din arbetsplats om något som är fel.",
+            "anonymousTitle": "Du är anonym",
+            "anonymousText": "Sidan vet inte vem du är, och din rapport är inte kopplad till ditt konto. Utelämna uppgifter som kan avslöja dig, om du inte vill vara känd. Använd ett privat webbläsarfönster eller din egen enhet för extra integritet.",
+            "category": "Vad gäller det?",
+            "categoryPlaceholder": "Välj en kategori",
+            "subject": "Ämne",
+            "description": "Vad har hänt?",
+            "descriptionPlaceholder": "Beskriv vad som hände, när och var, och vilka som var inblandade.",
+            "includeContact": "Ta med mitt namn eller mina kontaktuppgifter",
+            "includeContactHelp": "Valfritt. Bara handläggarna kan se dem, och de gör det möjligt att kontakta dig.",
+            "name": "Namn",
+            "contact": "E-post eller telefon",
+            "send": "Skicka rapport",
+            "sentTitle": "Din rapport har skickats",
+            "sent": "De som hanterar visselblåsarrapporter hos {company} har fått besked.",
+            "reference": "Din referens",
+            "sentAnonymous": "Skriv ner referensen. Du skickade rapporten anonymt, så handläggarna kan inte kontakta dig.",
+            "sentWithContact": "Skriv ner referensen. Handläggarna kan kontakta dig via de uppgifter du lämnade.",
+            "tooMany": "För många rapporter har skickats härifrån. Försök igen senare.",
+            "checkFields": "Kontrollera de markerade fälten nedan.",
+            "sendFailed": "Rapporten kunde inte skickas. Försök igen.",
+            "required": "Fältet måste fyllas i.",
+            "invalidField": "Kontrollera det här fältet."
+        },
+        "categories": {
+            "work_environment": "Arbetsmiljö",
+            "harassment": "Trakasserier eller mobbning",
+            "discrimination": "Diskriminering",
+            "citizen_safety": "Brukares eller patienters säkerhet",
+            "fraud_or_corruption": "Bedrägeri eller korruption",
+            "data_protection": "Dataskydd",
+            "other": "Annat"
+        },
+        "statuses": {
+            "received": "Mottagen",
+            "acknowledged": "Bekräftad",
+            "investigating": "Utreds",
+            "closed": "Avslutad"
+        },
+        "settings": {
+            "title": "Visselblåsning",
+            "intro": "Ge personalen ett säkert sätt att rapportera något som är fel. Rapporter skickas via en privat länk utan inloggning, så ingen kan se vem som skickade dem. Bara de handläggare du väljer kan läsa dem.",
+            "enable": "Slå på visselblåsning",
+            "enableHelp": "Personalen får en länk \"Rapportera anonymt\" i menyn.",
+            "handlers": "Vem tar emot rapporterna",
+            "handlersHelp": "Bara administratörer kan väljas, och bara de du väljer kan läsa rapporter. En rapport kan gälla en administratör, så inte alla administratörer ingår automatiskt.",
+            "link": "Rapportlänk",
+            "linkHelp": "Alla med länken kan skicka en rapport, även personer utanför företaget som tidigare anställda.",
+            "copy": "Kopiera",
+            "copied": "Kopierad",
+            "regenerateHelp": "Om länken har delats för brett kan du skapa en ny. Den gamla länken slutar fungera.",
+            "regenerate": "Skapa en ny länk",
+            "regenerateConfirmation": "Skapa en ny länk? Den nuvarande länken slutar fungera",
+            "saved": "Visselblåsarinställningarna har sparats",
+            "regenerated": "En ny länk har skapats"
+        },
+        "inbox": {
+            "title": "Visselblåsarrapporter",
+            "intro": "Rapporter som skickats via företagets visselblåsarlänk. De är anonyma om inte rapportören valde att uppge sitt namn.",
+            "filter": "Filtrera efter status",
+            "all": "Alla",
+            "empty": "Inga rapporter.",
+            "acknowledgeOverdue": "Över 7 dagar",
+            "open": "Öppna",
+            "columns": {
+                "reference": "Referens",
+                "subject": "Ämne",
+                "status": "Status",
+                "received": "Mottagen"
+            }
+        },
+        "detail": {
+            "back": "Tillbaka till rapporter",
+            "receivedOn": "Mottagen {date}",
+            "anonymous": "Skickad anonymt",
+            "reporter": "Rapportör",
+            "status": "Status",
+            "updateStatus": "Uppdatera status",
+            "deadlines": "Bekräfta mottagandet inom 7 dagar, och ge rapportören återkoppling inom 3 månader.",
+            "history": "Anteckningar och historik",
+            "historyHelp": "Bara handläggare kan se detta.",
+            "formerHandler": "Tidigare handläggare",
+            "statusChanged": "Status ändrad från {from} till {to}",
+            "addNote": "Lägg till en anteckning",
+            "saveNote": "Spara anteckning",
+            "statusSaved": "Statusen har uppdaterats"
+        },
+        "bell": {
+            "title": "Ny visselblåsarrapport",
+            "description": "Referens {reference}"
         }
     },
     "documentViewer": {
