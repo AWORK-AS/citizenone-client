@@ -916,7 +916,8 @@
                 "delete": "Slet",
                 "deleteCitizen": "Slet @:terms.citizen{''}",
                 "deleteDocument": "Slet dokument",
-                "deleteEmployee": "Slet medarbejder"
+                "deleteEmployee": "Slet medarbejder",
+                "download": "Download"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
@@ -6862,7 +6863,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "download": "Download"
                 },
                 "file": "Fil",
                 "note": "Note"
@@ -16624,5 +16626,9 @@
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan ikke åbnes",
+        "notViewableText": "Denne filtype kan ikke vises i browseren, og din rolle må ikke downloade dokumenter."
     }
 }
