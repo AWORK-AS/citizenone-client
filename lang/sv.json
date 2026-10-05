@@ -15559,6 +15559,26 @@
         "email": "E-post",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Webbformulär",
+        "description": "Förfrågningar från ert eget webbformulär skapas automatiskt här. Formuläret skickar med en nyckel som bara kan skapa förfrågningar.",
+        "active": "Aktiv · nyckeln slutar på {last4}",
+        "inactive": "Inte uppsatt",
+        "generate": "Skapa nyckel",
+        "rotate": "Ny nyckel",
+        "generateHint": "Skapa en nyckel till ert webbformulär",
+        "rotateHint": "Gör en ny nyckel. Den gamla slutar fungera direkt.",
+        "revoke": "Stäng av",
+        "revokeHint": "Stäng av webbformuläret. Nyckeln slutar fungera.",
+        "copyNow": "Kopiera nyckeln nu. Den visas bara den här gången.",
+        "copy": "Kopiera nyckeln",
+        "copied": "Nyckeln är kopierad",
+        "howTo": "Så sätter ni upp formuläret",
+        "howToText": "Låt er webbplats skicka formuläret till adressen nedan med nyckeln i headern X-Inquiry-Key. Förfrågan dyker upp i pipelinen, märkt som från webbplatsen.",
+        "revoked": "Webbformuläret är avstängt",
+        "failed": "Det lyckades inte",
+        "fromWebsite": "Från webbplatsen"
+    },
     "consultantSkills": {
         "title": "Konsultkompetenser",
         "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",

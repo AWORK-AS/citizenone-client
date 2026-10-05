@@ -15655,6 +15655,26 @@
         "email": "Email",
         "phone": "Phone"
     },
+    "inquiryIntake": {
+        "title": "Website form",
+        "description": "Inquiries from your own website form are created here automatically. The form posts with a key that can only create inquiries.",
+        "active": "Active · key ends in {last4}",
+        "inactive": "Not set up",
+        "generate": "Create key",
+        "rotate": "New key",
+        "generateHint": "Create a key for your website form",
+        "rotateHint": "Make a new key. The old one stops working at once.",
+        "revoke": "Switch off",
+        "revokeHint": "Switch the website form off. The key stops working.",
+        "copyNow": "Copy the key now. It is shown only this once.",
+        "copy": "Copy the key",
+        "copied": "The key is copied",
+        "howTo": "How to set up the form",
+        "howToText": "Have your website send the form to the address below with the key in the X-Inquiry-Key header. The inquiry appears in the pipeline, marked as from the website.",
+        "revoked": "The website form is switched off",
+        "failed": "That did not work",
+        "fromWebsite": "From the website"
+    },
     "consultantSkills": {
         "title": "Consultant skills",
         "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",

@@ -15648,6 +15648,26 @@
         "email": "E-mail",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Webformular",
+        "description": "Henvendelser fra jeres egen hjemmesideformular oprettes automatisk her. Formularen sender med en nøgle, der kun kan oprette henvendelser.",
+        "active": "Aktiv · nøgle slutter på {last4}",
+        "inactive": "Ikke sat op",
+        "generate": "Opret nøgle",
+        "rotate": "Ny nøgle",
+        "generateHint": "Opret en nøgle til jeres hjemmesideformular",
+        "rotateHint": "Lav en ny nøgle. Den gamle holder op med at virke med det samme.",
+        "revoke": "Slå fra",
+        "revokeHint": "Slå webformularen fra. Nøglen holder op med at virke.",
+        "copyNow": "Kopiér nøglen nu. Den vises kun denne ene gang.",
+        "copy": "Kopiér nøglen",
+        "copied": "Nøglen er kopieret",
+        "howTo": "Sådan sættes formularen op",
+        "howToText": "Lad jeres hjemmeside sende formularen til adressen herunder med nøglen i headeren X-Inquiry-Key. Henvendelsen dukker op i pipelinen, markeret som fra hjemmesiden.",
+        "revoked": "Webformularen er slået fra",
+        "failed": "Det lykkedes ikke",
+        "fromWebsite": "Fra hjemmesiden"
+    },
     "consultantSkills": {
         "title": "Konsulentkompetencer",
         "description": "Vedligehold de lister konsulenterne matches på. En kompetence er noget de kan, et kursus er noget de har taget, og et emneord er noget de har erfaring med.",
