@@ -97,7 +97,7 @@
                             <p class="text-xs text-slate-400 uppercase tracking-wide">
                                 {{ $t('socialWelfare.billing.summaryInterventions') }}
                             </p>
-                            <p class="text-2xl font-bold text-slate-900 mt-1">{{ selectedRowCount }}</p>
+                            <p class="text-2xl font-bold text-slate-900 mt-1">{{ selectedInterventionCount }}</p>
                         </div>
                         <div class="bg-white border border-surface-200 rounded-xl p-4 shadow-sm">
                             <p class="text-xs text-slate-400 uppercase tracking-wide">
@@ -146,7 +146,7 @@
                                 </p>
                                 <p v-if="billToLine(group)" class="text-[12px] text-slate-500">{{ billToLine(group) }}</p>
                                 <p class="text-[13px] text-slate-400">
-                                    {{ group.rows.length }} {{ $t('socialWelfare.billing.citizens') }}
+                                    {{ distinctCitizens(group.rows) }} {{ $t('socialWelfare.billing.citizens') }}
                                     <span v-if="selectedRowsOf(group).length">
                                         · {{ $t('socialWelfare.billing.selectedOfRows', {
                                             selected: selectedRowsOf(group).length,
@@ -740,6 +740,17 @@ const grandTotal = computed(() =>
 
 const billableRowCount = computed(() =>
     state.groups.reduce((sum: number, g: any) => sum + billableRowsOf(g).length, 0)
+)
+
+// A stay split over several contract periods is several rows, but still one
+// intervention for one citizen.
+function distinctCitizens(rows: any[]): number {
+    return new Set(rows.map((row: any) => row.citizen_uuid)).size
+}
+
+const selectedInterventionCount = computed(() =>
+    new Set(state.groups.flatMap((g: any) =>
+        selectedRowsOf(g).map((row: any) => `${row.citizen_uuid}:${row.stay_uuid ?? 'none'}`))).size
 )
 
 const selectedRowCount = computed(() =>

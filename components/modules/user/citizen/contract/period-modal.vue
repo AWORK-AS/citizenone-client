@@ -669,7 +669,7 @@ async function save() {
         // Keeping the old terms is allowed; it is only said out loud.
         const kept: ReviewItem[] = saved?.data?.review?.unchanged ?? []
         const message = kept.length
-            ? `${t('socialWelfare.contract.saved')} ${t('socialWelfare.contract.reviewKept', {
+            ? `${t('socialWelfare.contract.saved')}. ${t('socialWelfare.contract.reviewKept', {
                 items: kept.map(item => t(`socialWelfare.contract.reviewItems.${item}`).toLowerCase()).join(', '),
             })}`
             : t('socialWelfare.contract.saved')

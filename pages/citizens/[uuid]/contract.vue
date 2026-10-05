@@ -175,8 +175,7 @@
                                                 <p v-if="period.show_case_number_on_invoice">{{ $t('socialWelfare.contract.caseNumber') }}</p>
                                                 <p v-if="period.economic_customer_number">{{ $t('socialWelfare.contract.economicCustomerNumberShort') }} {{ period.economic_customer_number }}</p>
                                                 <p v-if="period.economic_product_number">{{ $t('socialWelfare.contract.economicProductNumberShort') }} {{ period.economic_product_number }}</p>
-                                                <p v-if="specialLanguageOf(period)">{{ $t('socialWelfare.contract.specialLanguage') }}</p>
-                                                <p v-for="field in shownFields(period)" :key="field.field_uuid">{{ field.label }}: {{ field.value }}</p>
+                                                <p v-for="field in invoiceFields(period)" :key="field.field_uuid">{{ field.label }}: {{ field.value }}</p>
                                             </td>
                                             <td class="co-td text-slate-600 text-[13px]">
                                                 <p v-for="line in period.lines" :key="line.uuid">
@@ -372,6 +371,14 @@ function specialLanguageOf(period: any): boolean {
 function shownFields(period: any): any[] {
     return (period?.custom_fields ?? []).filter((field: any) =>
         field.show_on_contract && field.value !== null && field.value !== undefined && field.value !== ''
+    )
+}
+
+// The fields printed on the invoice line, which is a different choice from the
+// ones shown on the contract.
+function invoiceFields(period: any): any[] {
+    return (period?.custom_fields ?? []).filter((field: any) =>
+        field.show_on_invoice && field.value !== null && field.value !== undefined && field.value !== ''
     )
 }
 

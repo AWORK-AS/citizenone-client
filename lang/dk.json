@@ -15217,7 +15217,8 @@
             "contractMode": {
                 "legacy": "Timer til timepris",
                 "hourly": "Kontrakt: pris pr. time",
-                "fixed": "Kontrakt: fast pris"
+                "fixed": "Kontrakt: fast pris",
+                "one_off": "Kontrakt: engangspris"
             },
             "customerNumber": "Kundenr.",
             "segment": "Del {index} af {count}",
@@ -15398,7 +15399,7 @@
             },
             "reviewConfirmHelp": "Perioden gemmes først, når du har bekræftet, at vilkårene stadig gælder.",
             "showCprHelp": "Fakturalinjen får CPR-nummeret med.",
-            "showCaseNumberHelp": "Fakturalinjen får sagens journalnummer med, hvis det er registreret.",
+            "showCaseNumberHelp": "Fakturalinjen får både indsatsnummeret og sagens journalnummer med, hvis de er registreret.",
             "specialLanguage": "Særligt sprog",
             "specialLanguageHelp": "Registreres på selve profilen og kan ikke ændres her.",
             "reviewKept": "Uændret fra forrige periode: {items}."

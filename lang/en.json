@@ -15224,7 +15224,8 @@
             "contractMode": {
                 "legacy": "Hours at hourly rate",
                 "hourly": "Contract: price per hour",
-                "fixed": "Contract: fixed price"
+                "fixed": "Contract: fixed price",
+                "one_off": "Contract: one-off price"
             },
             "customerNumber": "Customer no.",
             "segment": "Part {index} of {count}",
@@ -15405,7 +15406,7 @@
             },
             "reviewConfirmHelp": "The period is only saved once you confirm the terms still apply.",
             "showCprHelp": "The invoice line includes the CPR number.",
-            "showCaseNumberHelp": "The invoice line includes the case journal number, if one is registered.",
+            "showCaseNumberHelp": "The invoice line includes both the case number and the case journal number, if they are registered.",
             "specialLanguage": "Special language",
             "specialLanguageHelp": "Registered on the profile itself and cannot be changed here.",
             "reviewKept": "Unchanged from the previous period: {items}."

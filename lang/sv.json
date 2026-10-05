@@ -15128,7 +15128,8 @@
             "contractMode": {
                 "legacy": "Timmar till timpris",
                 "hourly": "Avtal: pris per timme",
-                "fixed": "Avtal: fast pris"
+                "fixed": "Avtal: fast pris",
+                "one_off": "Avtal: engångspris"
             },
             "customerNumber": "Kundnr",
             "segment": "Del {index} av {count}",
@@ -15309,7 +15310,7 @@
             },
             "reviewConfirmHelp": "Perioden sparas först när du har bekräftat att villkoren fortfarande gäller.",
             "showCprHelp": "Fakturaraden får med personnumret.",
-            "showCaseNumberHelp": "Fakturaraden får med ärendets journalnummer om det är registrerat.",
+            "showCaseNumberHelp": "Fakturaraden får med både insatsnumret och ärendets journalnummer om de är registrerade.",
             "specialLanguage": "Särskilt språk",
             "specialLanguageHelp": "Registreras på själva profilen och kan inte ändras här.",
             "reviewKept": "Oförändrat från föregående period: {items}."
