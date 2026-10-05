@@ -10810,7 +10810,8 @@
             "employmentOptions": "Employment options",
             "inquiryOffers": "Offers and prices",
             "customerDepartments": "Customers and departments",
-            "inquiryForms": "Inquiry forms"
+            "inquiryForms": "Inquiry forms",
+            "visitTypes": "Visit types"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -15198,6 +15199,7 @@
             "presetLastMonth": "Last month",
             "presetThisYear": "This year",
             "agreedHours": "Agreed hours",
+            "grantedAmount": "Granted amount",
             "fromContract": "contract",
             "fromAllocation": "allocated",
             "noAgreedHours": "No agreement recorded",
@@ -15230,6 +15232,7 @@
             "helpPeriod": "The period decides which hour registrations are included: every registration starting inside it that has not been invoiced already. Hours invoiced once do not come back.",
             "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
             "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the @:terms.citizen{''}'s allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the @:terms.citizen{''} record.",
+            "helpGrantedAmount": "Granted hours times the hourly rate. Shown for comparison: the invoice uses the delivered hours. Empty for a fixed or one-off price.",
             "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send.",
             "invoicePer": "Invoice per",
             "invoicePerCustomer": "Customer/department",
@@ -16494,6 +16497,50 @@
             "citizen": "The child/young person",
             "other": "Other"
         }
+    },
+    "visitTypes": {
+        "title": "Visit types",
+        "single": "Visit type",
+        "none": "None",
+        "description": "The kinds of visit consultants register time on, e.g. home visit, contact visit or meeting. On each case you can limit which visit types may be used.",
+        "add": "Add",
+        "addHint": "Add a visit type that can be chosen when registering time",
+        "empty": "There are no visit types yet.",
+        "restrictedHint": "This case only allows these visit types.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Home visit"
+        },
+        "actions": {
+            "switchOff": "Switch the visit type off",
+            "switchOn": "Switch the visit type on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The visit type is deleted",
+            "deleteFailed": "The visit type could not be deleted"
+        }
+    },
+    "registrationRules": {
+        "title": "Registration rules",
+        "citizenHint": "What consultants may register on this case, under the agreement with the municipality.",
+        "inquiryHint": "Agreed with the municipality now. The rules carry over when the inquiry becomes a case.",
+        "edit": "Edit registration rules",
+        "visitTypes": "Allowed visit types",
+        "allVisitTypes": "All visit types",
+        "noVisitTypes": "None",
+        "mileage": "Mileage",
+        "expenses": "Expenses",
+        "allowed": "Allowed",
+        "notAllowed": "Not allowed",
+        "mileageAllowed": "Mileage may be registered",
+        "expensesAllowed": "Expenses may be registered",
+        "catalogueEmpty": "There are no visit types. Create them under",
+        "saveHint": "Applies to new registrations from now on",
+        "saved": "The registration rules are saved",
+        "saveFailed": "The rules could not be saved"
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Needs recruitment",
