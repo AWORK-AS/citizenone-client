@@ -16631,5 +16631,105 @@
             "overdue": "Overdue {date}",
             "dueToday": "Due today"
         }
+    },
+    "whistleblower": {
+        "reportAnonymously": "Report anonymously",
+        "public": {
+            "title": "Whistleblower",
+            "language": "Language",
+            "notFoundTitle": "This link does not work",
+            "notFound": "The link may be old or whistleblowing may be switched off. Ask your workplace for the current link.",
+            "heading": "Report a concern to {company}",
+            "intro": "Use this form to tell the people who handle whistleblower reports at your workplace about something that is wrong.",
+            "anonymousTitle": "You are anonymous",
+            "anonymousText": "This page does not know who you are, and your report is not linked to your account. Leave out details that would identify you unless you want to be known. For extra privacy, use a private browser window or your own device.",
+            "category": "What is it about?",
+            "categoryPlaceholder": "Choose a category",
+            "subject": "Subject",
+            "description": "What happened?",
+            "descriptionPlaceholder": "Describe what happened, when and where, and who was involved.",
+            "includeContact": "Include my name or contact details",
+            "includeContactHelp": "Optional. Only the handlers can see them, and they make it possible to contact you.",
+            "name": "Name",
+            "contact": "Email or phone",
+            "send": "Send report",
+            "sentTitle": "Your report has been sent",
+            "sent": "The people who handle whistleblower reports at {company} have been notified.",
+            "reference": "Your reference",
+            "sentAnonymous": "Write down the reference. You sent the report anonymously, so the handlers cannot contact you.",
+            "sentWithContact": "Write down the reference. The handlers may contact you using the details you gave.",
+            "tooMany": "Too many reports have been sent from here. Please try again later.",
+            "checkFields": "Please check the fields marked below.",
+            "sendFailed": "The report could not be sent. Please try again.",
+            "required": "This field is required.",
+            "invalidField": "Please check this field."
+        },
+        "categories": {
+            "work_environment": "Work environment",
+            "harassment": "Harassment or bullying",
+            "discrimination": "Discrimination",
+            "citizen_safety": "Safety of citizens or patients",
+            "fraud_or_corruption": "Fraud or corruption",
+            "data_protection": "Data protection",
+            "other": "Other"
+        },
+        "statuses": {
+            "received": "Received",
+            "acknowledged": "Acknowledged",
+            "investigating": "Investigating",
+            "closed": "Closed"
+        },
+        "settings": {
+            "title": "Whistleblower",
+            "intro": "Give staff a safe way to report something that is wrong. Reports are sent through a private link without signing in, so nobody can see who sent them. Only the handlers you choose can read them.",
+            "enable": "Turn on whistleblowing",
+            "enableHelp": "Staff get a \"Report anonymously\" link in the menu.",
+            "handlers": "Who receives the reports",
+            "handlersHelp": "Only Admins can be chosen, and only those you choose can read reports. A report may be about an admin, so not every admin is included automatically.",
+            "link": "Report link",
+            "linkHelp": "Anyone with this link can send a report, also people outside the company such as former employees.",
+            "copy": "Copy",
+            "copied": "Copied",
+            "regenerateHelp": "If the link has been shared too widely, make a new one. The old link stops working.",
+            "regenerate": "Make a new link",
+            "regenerateConfirmation": "Make a new link? The current link stops working",
+            "saved": "The whistleblower settings have been saved",
+            "regenerated": "A new link has been made"
+        },
+        "inbox": {
+            "title": "Whistleblower reports",
+            "intro": "Reports sent through the company's whistleblower link. They are anonymous unless the reporter chose to give their name.",
+            "filter": "Filter by status",
+            "all": "All",
+            "empty": "No reports.",
+            "acknowledgeOverdue": "Over 7 days",
+            "open": "Open",
+            "columns": {
+                "reference": "Reference",
+                "subject": "Subject",
+                "status": "Status",
+                "received": "Received"
+            }
+        },
+        "detail": {
+            "back": "Back to reports",
+            "receivedOn": "Received {date}",
+            "anonymous": "Sent anonymously",
+            "reporter": "Reporter",
+            "status": "Status",
+            "updateStatus": "Update status",
+            "deadlines": "Confirm receipt within 7 days, and give the reporter feedback within 3 months.",
+            "history": "Notes and history",
+            "historyHelp": "Only handlers can see this.",
+            "formerHandler": "Former handler",
+            "statusChanged": "Status changed from {from} to {to}",
+            "addNote": "Add a note",
+            "saveNote": "Save note",
+            "statusSaved": "The status has been updated"
+        },
+        "bell": {
+            "title": "New whistleblower report",
+            "description": "Reference {reference}"
+        }
     }
 }
