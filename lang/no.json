@@ -906,7 +906,8 @@
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
                 "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbeider"
+                "unarchiveEmployee": "Genåbn medarbeider",
+                "download": "Last ned"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
@@ -6818,7 +6819,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Slett",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "download": "Last ned"
                 },
                 "file": "Fil",
                 "note": "Note"
@@ -16508,5 +16510,9 @@
             "overdue": "Forfalt {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan ikke åpnes",
+        "notViewableText": "Denne filtypen kan ikke vises i nettleseren, og rollen din har ikke tilgang til å laste ned dokumenter."
     }
 }

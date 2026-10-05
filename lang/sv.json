@@ -906,7 +906,8 @@
                 "unarchive": "Återöppna",
                 "unarchiveCitizen": "Återöppna @:terms.citizen{''}",
                 "unarchiveDocument": "Återöppna dokument",
-                "unarchiveEmployee": "Återöppna anställd"
+                "unarchiveEmployee": "Återöppna anställd",
+                "download": "Ladda ner"
             },
             "belongsTo": "Tillhör",
             "date": "Datum",
@@ -6818,7 +6819,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Radera",
-                    "edit": "Redigera"
+                    "edit": "Redigera",
+                    "download": "Ladda ner"
                 },
                 "file": "Fil",
                 "note": "Anteckning"
@@ -16508,5 +16510,9 @@
             "overdue": "Försenad {date}",
             "dueToday": "Deadline i dag"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan inte öppnas",
+        "notViewableText": "Den här filtypen kan inte visas i webbläsaren, och din roll får inte ladda ner dokument."
     }
 }

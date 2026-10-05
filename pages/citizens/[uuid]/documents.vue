@@ -158,7 +158,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.download')"
-                                                v-if="document?.file_url">
+                                                v-if="document?.file_url && canDownloadDocuments">
                                                 <FormButton :aria-label="$t('citizens.documents.table.actions.download')" type="button" buttonStyle="primary"
                                                     @click="downloadFile(document)">
                                                     <Icon name="ph:download-simple" class="size-4" />
@@ -261,7 +261,7 @@
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
             <ModulesUserDocumentDocsFileModalPreview :isModalOpen="preview.isOpen"
-                :selectedDocument="preview.document" :loadFile="loadCitizenFile"
+                :selectedDocument="preview.document" :loadFile="loadCitizenFile" :canDownload="canDownloadDocuments"
                 @close="preview.isOpen = false" />
         </NuxtLayout>
     </div>
@@ -289,16 +289,18 @@ const preview = reactive({
 })
 
 function loadCitizenFile(document: any): Promise<Blob> {
-    return citizenDocumentService.downloadCitizenFile(document?.uuid)
+    return citizenDocumentService.viewCitizenFile(document?.uuid) as Promise<Blob>
 }
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+// Without download_documents a document can still be viewed, but not saved.
+const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 const router = useRouter()
 const route = useRoute()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
@@ -498,7 +500,7 @@ async function downloadFile(document: any) {
 // GDPR ask from the 2026-09-03 superbrugermøde: opening a document should not
 // force it to disk. Same authenticated download call as downloadFile, but the
 // blob is shown in a new tab instead of saved - no local copy is written.
-async function viewFile(document: any, allowPreview = true) {
+async function viewFile(document: any, allowPreview = true, warnIfBlocked = true) {
     if (allowPreview && canPreviewInApp(document)) {
         preview.document = document
         preview.isOpen = true
@@ -507,15 +509,24 @@ async function viewFile(document: any, allowPreview = true) {
 
     state.error = {}
     state.isTableLoading = true
+    let result
     try {
-        const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
+        const response = await citizenDocumentService.viewCitizenFile(document?.uuid)
         if (response) {
-            openOrSaveOriginal(response, documentFileName(document))
+            result = openOrSaveOriginal(response, documentFileName(document), canDownloadDocuments.value)
         }
     } catch (error: any) {
         state.error = error
     }
     state.isTableLoading = false
+    if (result === 'blocked' && warnIfBlocked) {
+        warnNotViewable()
+    }
+    return result
+}
+
+function warnNotViewable() {
+    warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
 }
 
 function onSelectionChange(rows: any[]) {
@@ -528,10 +539,14 @@ function onSelectionChange(rows: any[]) {
 async function openSelectedDocuments() {
     // "Select all" in the table header also grabs folder rows, which have no
     // file_url and nothing to view.
+    let blocked = false
     for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
-        await viewFile(document, false)
+        blocked = (await viewFile(document, false, false)) === 'blocked' || blocked
     }
     state.selectedDocuments = []
+    if (blocked) {
+        warnNotViewable()
+    }
 }
 
 function triggerFileInput() {

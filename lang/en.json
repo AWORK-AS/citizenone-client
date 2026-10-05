@@ -906,7 +906,8 @@
                 "unarchive": "Unarchive",
                 "unarchiveCitizen": "Unarchive @:terms.citizen{''}",
                 "unarchiveDocument": "Unarchive document",
-                "unarchiveEmployee": "Unarchive employee"
+                "unarchiveEmployee": "Unarchive employee",
+                "download": "Download"
             },
             "belongsTo": "Belongs to",
             "date": "Date",
@@ -6818,7 +6819,8 @@
                 "actions": {
                     "archive": "Archive",
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "download": "Download"
                 },
                 "file": "File",
                 "note": "Note"
@@ -16604,5 +16606,9 @@
             "overdue": "Overdue {date}",
             "dueToday": "Due today"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Can't open the file",
+        "notViewableText": "This file type can't be shown in the browser, and your role doesn't allow downloading documents."
     }
 }

@@ -32,7 +32,7 @@
                                     </td>
                                     <td width="25%">
                                         <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                            v-if="document?.file_url" @click="downloadFile(document)">
+                                            v-if="document?.file_url" @click="viewFile(document)">
                                             <Icon name="ph:file" class="size-6" />
                                             <span>{{ document?.name }}</span>
                                         </div>
@@ -59,6 +59,11 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
+                                            <FormButton v-if="document?.file_url && canDownloadDocuments" type="button"
+                                                buttonStyle="action" @click="downloadFile(document)">
+                                                <Icon name="ph:download-simple" class="size-4" />
+                                                {{ $t('archived.table.actions.download') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="confirmDocumentUnarchiving(document)">
                                                 <Icon name="mdi:archive-cancel-outline" class="size-4" />
@@ -85,13 +90,19 @@ import { documentService } from '@/components/api/user/DocumentService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
+import { documentBlobViewer, documentFileName } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
+const { openOrSaveOriginal } = documentBlobViewer()
+// Without download_documents a document can still be viewed, but not saved.
+const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -182,6 +193,20 @@ async function downloadFile(document: any) {
         const response = await documentService.downloadArchivedDocument(documentUuid)
         if (response) {
             saveAs(response, document?.name)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function viewFile(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await documentService.viewArchivedDocument(document?.uuid)
+        if (response && openOrSaveOriginal(response, documentFileName(document), canDownloadDocuments.value) === 'blocked') {
+            warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
         }
     } catch (error: any) {
         state.error = error

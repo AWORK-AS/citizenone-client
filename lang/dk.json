@@ -906,7 +906,8 @@
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
                 "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbejder"
+                "unarchiveEmployee": "Genåbn medarbejder",
+                "download": "Download"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
@@ -6818,7 +6819,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "download": "Download"
                 },
                 "file": "Fil",
                 "note": "Note"
@@ -16597,5 +16599,9 @@
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan ikke åbnes",
+        "notViewableText": "Denne filtype kan ikke vises i browseren, og din rolle må ikke downloade dokumenter."
     }
 }
