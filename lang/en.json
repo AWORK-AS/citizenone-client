@@ -882,7 +882,10 @@
         "billing": "Billing",
         "subscription": "Subscription",
         "couldNotStartConnection": "The connection could not be started. Try again.",
-        "couldNotStartPayment": "The payment could not be started. Try again."
+        "couldNotStartPayment": "The payment could not be started. Try again.",
+        "requiresPlan": "Requires {plan}",
+        "requiresPlanTooltip": "This app requires the {plan} plan. Click to see your subscription and upgrade.",
+        "upgradeToPlan": "Upgrade to {plan}"
     },
     "archived": {
         "alert": {
@@ -11499,7 +11502,10 @@
                 "addScreenshot": "Add screenshot",
                 "screenshotCaption": "Caption",
                 "uploadScreenshot": "Upload screenshot",
-                "uploadFailed": "The image could not be uploaded."
+                "uploadFailed": "The image could not be uploaded.",
+                "requiredPlan": "Required plan",
+                "requiredPlanNone": "None - anyone can activate",
+                "requiredPlanHint": "Only companies on this plan can activate the app."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",

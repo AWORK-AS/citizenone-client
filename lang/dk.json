@@ -882,7 +882,10 @@
         "billing": "Betaling",
         "subscription": "Abonnement",
         "couldNotStartConnection": "Forbindelsen kunne ikke startes. Prøv igen.",
-        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen."
+        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen.",
+        "requiresPlan": "Kræver {plan}",
+        "requiresPlanTooltip": "Appen kræver {plan}-profilen. Klik for at se jeres abonnement og opgradere.",
+        "upgradeToPlan": "Opgrader til {plan}"
     },
     "archived": {
         "alert": {
@@ -11499,7 +11502,10 @@
                 "addScreenshot": "Tilføj skærmbillede",
                 "screenshotCaption": "Billedtekst",
                 "uploadScreenshot": "Upload skærmbillede",
-                "uploadFailed": "Billedet kunne ikke uploades."
+                "uploadFailed": "Billedet kunne ikke uploades.",
+                "requiredPlan": "Kræver plan",
+                "requiredPlanNone": "Ingen - alle kan aktivere",
+                "requiredPlanHint": "Kun firmaer på denne plan kan aktivere appen."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
