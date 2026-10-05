@@ -15633,7 +15633,8 @@
             "consultant_skills_competence": "Consultant skills: competences",
             "consultant_skills_course": "Consultant skills: courses",
             "consultant_skills_topic": "Consultant skills: subject words",
-            "focus_areas_ics": "Focus areas (ICS, children and young people)"
+            "focus_areas_ics": "Focus areas (ICS, children and young people)",
+            "rooms": "Rooms"
         },
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
