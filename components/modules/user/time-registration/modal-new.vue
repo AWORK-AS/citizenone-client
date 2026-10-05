@@ -70,6 +70,7 @@ async function saveTimeLog(timeLogDetails: any) {
             citizen_uuid: timeLogDetails.citizen_uuid,
             status: timeLogDetails.status,
             remarks: timeLogDetails.remarks,
+            visit_type_uuid: timeLogDetails.visit_type_uuid ?? null,
         }
         const response = await timeLogService.saveTimeLog(params)
         if (response.data) {
