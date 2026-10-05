@@ -15,6 +15,11 @@ import {
     addMonthsClamped,
     buildAgreementPayload,
     bindingEndsOn,
+    canCreateEconomicDraft,
+    economicDraftActionKey,
+    economicStatus,
+    missingEconomicNumber,
+    parseEconomicCustomerNumber,
     buildAddOnInstallment,
     withDefaultCoverage,
     buildPresetInstallments,
@@ -350,5 +355,45 @@ describe('installment coverage', () => {
         assert.equal(body.installments[0].covers_from, '2026-07-12')
         assert.equal(body.installments[0].covers_to, '2030-07-12')
         assert.equal(body.installments[2].covers_from, '2027-03-01')
+    })
+})
+
+describe('e-conomic status', () => {
+    test('maps draft, booked and error, booked winning over the rest', () => {
+        assert.deepEqual(economicStatus({}), { kind: 'none', number: null, error: null })
+        assert.deepEqual(economicStatus(null), { kind: 'none', number: null, error: null })
+        assert.deepEqual(economicStatus({ economic_draft_number: 4711 }), { kind: 'draft', number: '4711', error: null })
+        assert.equal(economicStatus({ economic_draft_number: 4711, economic_invoice_number: 90001 }).kind, 'booked')
+        assert.equal(economicStatus({ economic_draft_number: 4711, economic_invoice_number: 90001 }).number, '90001')
+        const err = economicStatus({ economic_sync_error: 'Customer 12 not found' })
+        assert.equal(err.kind, 'error')
+        assert.equal(err.error, 'Customer 12 not found')
+        assert.equal(economicStatus({ economic_invoice_number: 90001, economic_sync_error: 'old' }).kind, 'booked')
+    })
+
+    test('the draft button shows for none and error only, and says retry after an error', () => {
+        assert.equal(canCreateEconomicDraft({}), true)
+        assert.equal(canCreateEconomicDraft({ economic_sync_error: 'x' }), true)
+        assert.equal(canCreateEconomicDraft({ economic_draft_number: 1 }), false)
+        assert.equal(canCreateEconomicDraft({ economic_invoice_number: 2 }), false)
+        assert.equal(canCreateEconomicDraft({ covered_by_agreement: true }), false)
+        assert.equal(canCreateEconomicDraft(null), false)
+        assert.equal(economicDraftActionKey({}), 'create')
+        assert.equal(economicDraftActionKey({ economic_sync_error: 'x' }), 'retry')
+    })
+
+    test('customer number is null or a positive integer', () => {
+        assert.equal(parseEconomicCustomerNumber(''), null)
+        assert.equal(parseEconomicCustomerNumber(null), null)
+        assert.equal(parseEconomicCustomerNumber('1042'), 1042)
+        assert.equal(parseEconomicCustomerNumber(12.5), null)
+        assert.equal(parseEconomicCustomerNumber(0), null)
+    })
+
+    test('warns only for a running agreement without a number', () => {
+        assert.equal(missingEconomicNumber({ economic_customer_number: null }, [{ status: 'active' }]), true)
+        assert.equal(missingEconomicNumber({ economic_customer_number: 1042 }, [{ status: 'active' }]), false)
+        assert.equal(missingEconomicNumber({ economic_customer_number: null }, [{ status: 'ended' }, { status: 'cancelled' }]), false)
+        assert.equal(missingEconomicNumber(null, [{ status: 'active' }]), false)
     })
 })

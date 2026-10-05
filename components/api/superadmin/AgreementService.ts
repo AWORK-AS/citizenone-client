@@ -75,6 +75,11 @@ class AgreementService extends BaseAPIService {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/payment`, 'POST', payload)
     }
 
+    /** Creates (or retries) the draft invoice in CitizenOne's e-conomic. Returns the invoice; 422 carries the reason. */
+    async createEconomicDraft(invoiceUuid: string): Promise<any> {
+        return await this.request(`/superadmin/invoices/${invoiceUuid}/economic-draft`, 'POST')
+    }
+
     async undoPayment(invoiceUuid: string): Promise<any> {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/payment`, 'DELETE')
     }

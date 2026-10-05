@@ -349,3 +349,60 @@ export function forecastBucketTotals(months: any[]): ForecastBucketTotals {
     }
     return totals
 }
+
+export type EconomicStatusKind = 'none' | 'draft' | 'booked' | 'error'
+
+export interface EconomicInvoiceFields {
+    economic_draft_number?: number | string | null
+    economic_invoice_number?: number | string | null
+    economic_sync_error?: string | null
+    covered_by_agreement?: boolean
+}
+
+/**
+ * Where an invoice stands in CitizenOne's own e-conomic. A booked number wins
+ * over everything, then a sync error, then a draft. Superadmin screens only.
+ */
+export function economicStatus(invoice: EconomicInvoiceFields | null | undefined): {
+    kind: EconomicStatusKind
+    number: string | null
+    error: string | null
+} {
+    const booked = invoice?.economic_invoice_number
+    const draft = invoice?.economic_draft_number
+    const error = invoice?.economic_sync_error
+    const has = (v: unknown) => v !== null && v !== undefined && v !== ''
+    if (has(booked)) return { kind: 'booked', number: String(booked), error: null }
+    if (has(error)) return { kind: 'error', number: has(draft) ? String(draft) : null, error: String(error) }
+    if (has(draft)) return { kind: 'draft', number: String(draft), error: null }
+    return { kind: 'none', number: null, error: null }
+}
+
+/** A draft can be created (or retried) while nothing is booked, and not for covered invoices. */
+export function canCreateEconomicDraft(invoice: EconomicInvoiceFields | null | undefined): boolean {
+    if (!invoice || invoice.covered_by_agreement) return false
+    const { kind } = economicStatus(invoice)
+    return kind === 'none' || kind === 'error'
+}
+
+/** i18n key suffix for the draft button: retry after an error. */
+export function economicDraftActionKey(invoice: EconomicInvoiceFields | null | undefined): 'create' | 'retry' {
+    return economicStatus(invoice).kind === 'error' ? 'retry' : 'create'
+}
+
+/** "e-conomic kundenummer" as sent to the API: empty is null, otherwise an integer. */
+export function parseEconomicCustomerNumber(value: unknown): number | null {
+    if (value === '' || value === null || value === undefined) return null
+    const n = Number(value)
+    return Number.isInteger(n) && n > 0 ? n : null
+}
+
+/** Warn when the company has a running agreement but no e-conomic customer number. */
+export function missingEconomicNumber(
+    company: { economic_customer_number?: number | string | null } | null | undefined,
+    agreements: Array<{ status: string }> | null | undefined,
+): boolean {
+    if (!company) return false
+    const hasNumber = company.economic_customer_number !== null && company.economic_customer_number !== undefined && company.economic_customer_number !== ''
+    return !hasNumber && (agreements ?? []).some((a) => a.status === 'active')
+}

@@ -16,6 +16,9 @@ export interface AgreementInstallmentInvoice {
     is_paid: boolean
     paid_at: string | null
     total_amount_incl_vat: number
+    economic_draft_number?: number | string | null
+    economic_invoice_number?: number | string | null
+    economic_sync_error?: string | null
 }
 
 export interface AgreementInstallment {
