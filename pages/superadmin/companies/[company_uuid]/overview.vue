@@ -62,6 +62,13 @@
                                                 <Icon name="ph:file-text" class="w-3.5 h-3.5" />
                                                 Manuel faktura
                                             </span>
+                                            <Tooltip v-else-if="state.company?.subscription?.payment_method === 'bank_transfer'"
+                                                :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
+                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                                                    <Icon name="ph:bank" class="w-3.5 h-3.5" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.payment.bankTransfer') }}
+                                                </span>
+                                            </Tooltip>
 
                                             <!-- Card payment status -->
                                             <span v-if="state.company?.subscription?.payment_method === 'card' && state.company?.subscription?.card_active === true"
