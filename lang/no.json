@@ -10790,7 +10790,8 @@
             "employmentOptions": "Ansettelsesvalg",
             "inquiryOffers": "Tilbud og priser",
             "customerDepartments": "Kunder og avdelinger",
-            "inquiryForms": "Henvendelsesskjemaer"
+            "inquiryForms": "Henvendelsesskjemaer",
+            "visitTypes": "Besøkstyper"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -15087,6 +15088,7 @@
             "presetLastMonth": "Forrige måned",
             "presetThisYear": "I år",
             "agreedHours": "Avtalte timer",
+            "grantedAmount": "Bevilget beløp",
             "fromContract": "kontrakt",
             "fromAllocation": "tildelt",
             "noAgreedHours": "Ingen avtale registrert",
@@ -15119,6 +15121,7 @@
             "helpPeriod": "Perioden bestemmer hvilke timeregistreringer som blir med: alle registreringer som starter i perioden, og som ikke allerede er fakturert. Timer som er fakturert én gang kommer ikke igjen.",
             "helpUsedHours": "Timene fra timeregistreringene bak raden. Du kan sette dem ned hvis kontrakten bare dekker en del, og resten avskrives da for perioden. Du kan ikke sette dem opp over det registrerte - bruk en diverse-linje til det som ikke er timer.",
             "helpAgreedHours": "Det leverte holdes opp mot kontrakttimene på tiltaket hvis de er fylt ut, ellers mot borgerens tildelte timer. Timene skaleres til radens periode, slik at et opphold som starter midt i måneden ikke ser underlevert ut. Kontrakttimer settes på oppholdet på borgerens stamkort.",
+            "helpGrantedAmount": "Bevilgede timer ganger timeprisen. Vises til sammenligning: fakturaen bruker de leverte timene. Tom ved fast pris og engangspris.",
             "helpConvert": "Omgjør de valgte tiltakene til én faktura per betalende kommune, diverse-linjer inkludert. Ikonet på raden lager en faktura med bare det ene tiltaket. Fakturaene ligger under Fakturering, klare til å sendes.",
             "invoicePer": "Faktura per",
             "invoicePerCustomer": "Kunde/avdeling",
@@ -16403,6 +16406,50 @@
             "citizen": "Barnet/ungdommen",
             "other": "Annet"
         }
+    },
+    "visitTypes": {
+        "title": "Besøkstyper",
+        "single": "Besøkstype",
+        "none": "Ingen",
+        "description": "Typene besøk konsulentene registrerer tid på, f.eks. hjemmebesøk, samvær eller møte. På hver innsats kan dere begrense hvilke besøkstyper som kan brukes.",
+        "add": "Legg til",
+        "addHint": "Legg til en besøkstype som kan velges ved tidsregistrering",
+        "empty": "Det er ingen besøkstyper ennå.",
+        "restrictedHint": "Innsatsen tillater bare disse besøkstypene.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Hjemmebesøk"
+        },
+        "actions": {
+            "switchOff": "Slå av besøkstypen",
+            "switchOn": "Slå på besøkstypen",
+            "rename": "Gi nytt navn",
+            "delete": "Slett"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Besøkstypen er slettet",
+            "deleteFailed": "Besøkstypen kunne ikke slettes"
+        }
+    },
+    "registrationRules": {
+        "title": "Registreringsregler",
+        "citizenHint": "Hva konsulentene kan registrere på denne innsatsen, etter avtalen med kommunen.",
+        "inquiryHint": "Avtalt med kommunen nå. Reglene følger med når henvendelsen blir en innsats.",
+        "edit": "Endre registreringsregler",
+        "visitTypes": "Tillatte besøkstyper",
+        "allVisitTypes": "Alle besøkstyper",
+        "noVisitTypes": "Ingen",
+        "mileage": "Kjøring",
+        "expenses": "Utlegg",
+        "allowed": "Tillatt",
+        "notAllowed": "Ikke tillatt",
+        "mileageAllowed": "Kjøring kan registreres",
+        "expensesAllowed": "Utlegg kan registreres",
+        "catalogueEmpty": "Det er ingen besøkstyper. Opprett dem under",
+        "saveHint": "Gjelder fra nå for nye registreringer",
+        "saved": "Registreringsreglene er lagret",
+        "saveFailed": "Reglene kunne ikke lagres"
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",

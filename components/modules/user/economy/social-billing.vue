@@ -202,6 +202,14 @@
                                             </span>
                                         </th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.rate') }}</th>
+                                        <th class="co-th">
+                                            <span class="inline-flex items-center gap-1">
+                                                {{ $t('socialWelfare.billing.grantedAmount') }}
+                                                <Tooltip :text="$t('socialWelfare.billing.helpGrantedAmount')" wrap>
+                                                    <Icon name="ph:info" class="w-3.5 h-3.5 text-slate-400 hover:text-primary transition" />
+                                                </Tooltip>
+                                            </span>
+                                        </th>
                                         <th class="co-th">{{ $t('socialWelfare.billing.contractPrice') }}</th>
                                         <th class="co-th text-right">{{ $t('socialWelfare.billing.amount') }}</th>
                                         <th class="co-th w-10"></th>
@@ -298,6 +306,9 @@
                                                 :disabled="row.is_fully_invoiced || row.price_mode === 'fixed'" v-model="row.hourly_rate" />
                                         </td>
                                         <td class="co-td text-slate-500">
+                                            {{ grantedAmount(row) === null ? '-' : formatAmount(grantedAmount(row) ?? 0) }}
+                                        </td>
+                                        <td class="co-td text-slate-500">
                                             {{ row.contract_price === null ? '-' : formatAmount(row.contract_price) }}
                                         </td>
                                         <td class="co-td text-right font-medium text-slate-900">
@@ -345,6 +356,7 @@
                                         <td class="co-td"></td>
                                         <td class="co-td text-slate-600">{{ formatAmount(line.price) }}</td>
                                         <td class="co-td"></td>
+                                        <td class="co-td"></td>
                                         <td class="co-td text-right text-slate-900">{{ formatAmount(line.amount) }}</td>
                                         <td class="co-td"></td>
                                     </tr>
@@ -352,7 +364,7 @@
                                     <!-- The line as it will read on the invoice, and the
                                          registrations the total was built from. -->
                                     <tr v-if="isExpanded(row)" class="border-b border-surface-200 bg-slate-50">
-                                        <td class="co-td" colspan="11">
+                                        <td class="co-td" colspan="12">
                                             <div class="space-y-3">
                                                 <div class="space-y-1 max-w-2xl">
                                                     <FormLabel :label="$t('socialWelfare.billing.lineDescription')" />
@@ -428,6 +440,7 @@
                                                 :placeholder="$t('socialWelfare.billing.extraPrice')"
                                                 v-model="extra.price" />
                                         </td>
+                                        <td class="co-td"></td>
                                         <td class="co-td"></td>
                                         <td class="co-td text-right font-medium text-slate-900">
                                             {{ formatAmount(extraAmount(extra)) }}
@@ -663,6 +676,15 @@ function rowAmount(row: any): number {
     const lines = includedContractLines(row).reduce((sum: number, line: any) => sum + Number(line.amount ?? 0), 0)
 
     return Math.round((hours * rate + lines) * 100) / 100
+}
+
+// What the grant is worth at the row's rate, next to what was delivered.
+// Only an hourly price has one: a fixed or one-off price is not per hour.
+function grantedAmount(row: any): number | null {
+    if (row.agreed_hours === null || row.agreed_hours === undefined) return null
+    if (row.price_mode === 'fixed' || row.price_mode === 'one_off') return null
+
+    return Math.round(Number(row.agreed_hours) * Number(row.hourly_rate ?? 0) * 100) / 100
 }
 
 // The contract's own lines that will go on the invoice with this row.
@@ -958,6 +980,7 @@ function exportToCsv() {
         t('socialWelfare.billing.usedHours'),
         t('socialWelfare.billing.agreedHours'),
         t('socialWelfare.billing.rate'),
+        t('socialWelfare.billing.grantedAmount'),
         t('socialWelfare.billing.contractPrice'),
         t('socialWelfare.billing.amount'),
         t('socialWelfare.billing.invoiced'),
@@ -973,6 +996,7 @@ function exportToCsv() {
             escape(formatHours(row.used_hours)),
             escape(formatHours(row.agreed_hours)),
             escape(formatAmount(row.hourly_rate)),
+            escape(grantedAmount(row) === null ? '' : formatAmount(grantedAmount(row) ?? 0)),
             escape(row.contract_price === null ? '' : formatAmount(row.contract_price)),
             escape(formatAmount(rowAmount(row))),
             escape(row.is_fully_invoiced ? t('socialWelfare.billing.invoiced') : t('socialWelfare.billing.notInvoiced')),
@@ -985,6 +1009,7 @@ function exportToCsv() {
             escape(formatHours(Number(extra.quantity))),
             '""',
             escape(formatAmount(extra.price)),
+            '""',
             '""',
             escape(formatAmount(extraAmount(extra))),
             escape(t('socialWelfare.billing.notInvoiced')),

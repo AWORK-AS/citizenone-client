@@ -10790,7 +10790,8 @@
             "employmentOptions": "Anställningsval",
             "inquiryOffers": "Offerter och priser",
             "customerDepartments": "Kunder och avdelningar",
-            "inquiryForms": "Förfrågningsformulär"
+            "inquiryForms": "Förfrågningsformulär",
+            "visitTypes": "Besökstyper"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -15087,6 +15088,7 @@
             "presetLastMonth": "Förra månaden",
             "presetThisYear": "I år",
             "agreedHours": "Avtalade timmar",
+            "grantedAmount": "Beviljat belopp",
             "fromContract": "kontrakt",
             "fromAllocation": "tilldelat",
             "noAgreedHours": "Inget avtal registrerat",
@@ -15119,6 +15121,7 @@
             "helpPeriod": "Perioden avgör vilka timregistreringar som kommer med: alla registreringar som börjar i perioden och som inte redan är fakturerade. Timmar som fakturerats en gång kommer inte tillbaka.",
             "helpUsedHours": "Timmarna från timregistreringarna bakom raden. Du kan sänka dem när kontraktet bara täcker en del, och resten skrivs då av för perioden. Du kan inte höja dem över det registrerade - använd en övrig rad för det som inte är timmar.",
             "helpAgreedHours": "Det levererade hålls upp mot kontraktstimmarna på insatsen om de är ifyllda, annars mot medborgarens tilldelade timmar. Timmarna skalas till radens period, så att en placering som börjar mitt i månaden inte ser underlevererad ut. Kontraktstimmar sätts på placeringen i medborgarens stamkort.",
+            "helpGrantedAmount": "Beviljade timmar gånger timpriset. Visas som jämförelse: fakturan använder de levererade timmarna. Tom vid fast pris och engångspris.",
             "helpConvert": "Omvandlar de valda insatserna till en faktura per betalande kommun, övriga rader inkluderade. Ikonen på raden skapar en faktura med bara den insatsen. Fakturorna ligger under Fakturering, klara att skickas.",
             "invoicePer": "Faktura per",
             "invoicePerCustomer": "Kund/avdelning",
@@ -16403,6 +16406,50 @@
             "citizen": "Barnet/den unga",
             "other": "Annat"
         }
+    },
+    "visitTypes": {
+        "title": "Besökstyper",
+        "single": "Besökstyp",
+        "none": "Ingen",
+        "description": "De typer av besök konsulterna registrerar tid på, t.ex. hembesök, umgänge eller möte. På varje insats kan ni begränsa vilka besökstyper som får användas.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en besökstyp som kan väljas vid tidsregistrering",
+        "empty": "Det finns inga besökstyper ännu.",
+        "restrictedHint": "Insatsen tillåter bara dessa besökstyper.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Hembesök"
+        },
+        "actions": {
+            "switchOff": "Stäng av besökstypen",
+            "switchOn": "Slå på besökstypen",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Besökstypen är borttagen",
+            "deleteFailed": "Besökstypen kunde inte tas bort"
+        }
+    },
+    "registrationRules": {
+        "title": "Registreringsregler",
+        "citizenHint": "Vad konsulterna får registrera på den här insatsen, enligt avtalet med kommunen.",
+        "inquiryHint": "Avtalat med kommunen nu. Reglerna följer med när förfrågan blir en insats.",
+        "edit": "Ändra registreringsregler",
+        "visitTypes": "Tillåtna besökstyper",
+        "allVisitTypes": "Alla besökstyper",
+        "noVisitTypes": "Inga",
+        "mileage": "Körning",
+        "expenses": "Utlägg",
+        "allowed": "Tillåtet",
+        "notAllowed": "Inte tillåtet",
+        "mileageAllowed": "Körning får registreras",
+        "expensesAllowed": "Utlägg får registreras",
+        "catalogueEmpty": "Det finns inga besökstyper. Skapa dem under",
+        "saveHint": "Gäller från och med nu för nya registreringar",
+        "saved": "Registreringsreglerna är sparade",
+        "saveFailed": "Reglerna kunde inte sparas"
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov av rekrytering",
