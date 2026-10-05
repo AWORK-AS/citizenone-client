@@ -518,6 +518,11 @@ function scrollToInvoices() {
     invoicesList.value?.$el?.scrollIntoView?.({ behavior: 'smooth', block: 'start' })
 }
 
+// Groups are split by payment terms, so a customer on two terms is two invoices.
+function termsOf(group: any): number | null {
+    return group.payment_terms_days ?? group.bill_to?.payment_terms_days ?? null
+}
+
 // Who the invoice goes to, as one line under the card title.
 function billToLine(group: any): string {
     const billTo = group.bill_to ?? {}
@@ -526,8 +531,8 @@ function billToLine(group: any): string {
         billTo.address,
         billTo.ean_number ? `EAN ${billTo.ean_number}` : null,
         billTo.customer_number ? `${t('socialWelfare.billing.customerNumber')} ${billTo.customer_number}` : null,
-        billTo.payment_terms_days !== null && billTo.payment_terms_days !== undefined
-            ? t('socialWelfare.customerDepartments.days', { days: billTo.payment_terms_days })
+        termsOf(group) !== null
+            ? t('socialWelfare.customerDepartments.days', { days: termsOf(group) })
             : null,
     ].filter(Boolean).join(' · ')
 }
@@ -864,7 +869,7 @@ function groupPayload(group: any, rows: any[]) {
         customer_department_uuid: billTo.customer_department_uuid || null,
         ean_number: billTo.ean_number || null,
         customer_number: billTo.customer_number || null,
-        payment_terms_days: billTo.payment_terms_days ?? null,
+        payment_terms_days: termsOf(group),
         note: group.note,
         lines: [
             ...rows.filter((row: any) => Number(row.used_hours) > 0).map((row: any) => ({
