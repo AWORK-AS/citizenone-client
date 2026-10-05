@@ -87,7 +87,7 @@
                         </div>
                     </div>
                 </section>
-                <section>
+                <section v-if="['vacant_place_available', 'in_shelter_target_group', 'fits_in_target_group', 'non_admission_reason', 'not_in_service_target_group_reason', 'referral_destination'].some(asksFor)">
                     <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.assessment') }}
                     </h3>
@@ -148,7 +148,7 @@
                         </div>
                     </div>
                 </section>
-                <section>
+                <section v-if="['outcome', 'purpose', 'notes', 'conversation_summary'].some(asksFor)">
                     <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.outcome') }}
                     </h3>
@@ -203,6 +203,7 @@
 </template>
 
 <script setup lang="ts">
+import { asksFor as asksForField } from '@/composables/inquiryForms'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -221,6 +222,13 @@ const props = defineProps({
     formType: {
         type: String,
         required: true,
+    },
+    // The form the inquiry is taken on. It decides which built-in fields are
+    // asked for; the service type only does for an inquiry from before forms.
+    form: {
+        type: Object,
+        required: false,
+        default: null,
     },
     // The kind of inquiry being taken. Decides which built-in fields the
     // form asks for; absent when one of the built-in forms is used directly.
@@ -242,9 +250,7 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
  * them - which is what every form did before the setting existed.
  */
 function asksFor(field: string): boolean {
-    const configured = props.serviceType?.core_fields
-
-    return !Array.isArray(configured) || configured.includes(field)
+    return asksForField(field, props.form as any, props.serviceType as any)
 }
 
 const { t, locale } = useI18n()
@@ -498,12 +504,18 @@ const rules = computed(() => {
             inquiry_date: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
-            inquirer_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            conversation_summary: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // A field the form does not show cannot be filled in, so it is not
+            // required: requiring it made the form impossible to send.
+            ...(asksFor('inquirer_name') ? {
+                inquirer_name: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            } : {}),
+            ...(asksFor('conversation_summary') ? {
+                conversation_summary: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            } : {}),
         },
     }
 })

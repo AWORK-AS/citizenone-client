@@ -10786,7 +10786,8 @@
             "taskRules": "Uppgiftsregler",
             "employmentOptions": "Anställningsval",
             "inquiryOffers": "Offerter och priser",
-            "customerDepartments": "Kunder och avdelningar"
+            "customerDepartments": "Kunder och avdelningar",
+            "inquiryForms": "Förfrågningsformulär"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -15343,7 +15344,9 @@
             "source": "Slå upp i",
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
             "serviceType": "Endast för insatstyp",
-            "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ."
+            "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ.",
+            "form": "Formulär",
+            "formHint": "Fältet frågas bara på det här formuläret."
         },
         "types": {
             "text": "Text",
@@ -15377,7 +15380,8 @@
         },
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
-        "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)"
+        "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)",
+        "allForms": "Alla formulär"
     },
     "inquiryOrigin": {
         "label": "Förfrågan kommer från",
@@ -15533,7 +15537,8 @@
         },
         "hint": "Avgör vilka typspecifika fält som efterfrågas.",
         "single": "Insatstyp",
-        "title": "Insatstyper"
+        "title": "Insatstyper",
+        "formsMoved": "Vilka fasta fält en förfrågan frågar efter väljs nu under Förfrågningsformulär."
     },
     "inquiryStageHistory": {
         "empty": "Förfrågan har inte bytt fas ännu.",
@@ -16490,6 +16495,46 @@
             "noPlans": "Inget att visa från dina brukares planer just nu.",
             "overdue": "Försenad {date}",
             "dueToday": "Deadline i dag"
+        }
+    },
+    "inquiryForms": {
+        "title": "Förfrågningsformulär",
+        "description": "Formulären man kan välja mellan under \"Ny förfrågan\". Stäng av dem ni inte använder, skapa egna och välj vilka fasta fält varje formulär frågar efter.",
+        "add": "Skapa formulär",
+        "addHint": "Ett nytt formulär frågar bara efter datum, avdelning, namn och personnummer. Välj resten efteråt.",
+        "builtin": "Inbyggt",
+        "builtinHint": "Följer registreringen av förfrågningar enligt danska serviceloven § 110 och § 109. Kan stängas av men inte tas bort.",
+        "serviceTypeHint": "Förfrågningar på det här formuläret får insatstypen vald i förväg.",
+        "fieldCount": "{count} fasta fält",
+        "noneActive": "Inga formulär är påslagna. Slå på ett under Inställningar → Förfrågningsformulär.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Remiss från kommunen",
+            "serviceType": "Insatstyp (valfri)",
+            "noServiceType": "Ingen"
+        },
+        "actions": {
+            "switchOff": "Stäng av formuläret",
+            "switchOn": "Slå på formuläret",
+            "fields": "Välj fasta fält",
+            "ownFields": "Egna fält på formuläret",
+            "rename": "Byt namn på formuläret",
+            "delete": "Ta bort formuläret"
+        },
+        "fields": {
+            "hint": "Avmarkera ett fält för att dölja det. Fält med hänglås kan inte döljas.",
+            "saved": "Fälten är sparade",
+            "locked": "Låst",
+            "lockedRegistration": "Används i registreringen av förfrågningar enligt § 110/§ 109 och kan därför inte döljas på det här formuläret.",
+            "lockedAlways": "Alla förfrågningar måste ha det här fältet."
+        },
+        "confirmation": {
+            "delete": "Är du säker på att du vill ta bort det här formuläret"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Formuläret är borttaget",
+            "deleteFailed": "Formuläret kunde inte tas bort"
         }
     }
 }

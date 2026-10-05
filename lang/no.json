@@ -10786,7 +10786,8 @@
             "taskRules": "Oppgaveregler",
             "employmentOptions": "Ansettelsesvalg",
             "inquiryOffers": "Tilbud og priser",
-            "customerDepartments": "Kunder og avdelinger"
+            "customerDepartments": "Kunder og avdelinger",
+            "inquiryForms": "Henvendelsesskjemaer"
         },
         "catalog": {
             "noSettingsMatch": "Ingen innstillinger matcher \"{search}\"."
@@ -15343,7 +15344,9 @@
             "source": "Slå opp i",
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
             "serviceType": "Bare for innsatstype",
-            "serviceTypeHint": "Velg en type hvis feltet bare skal spørres der. Ellers spørres det uansett type."
+            "serviceTypeHint": "Velg en type hvis feltet bare skal spørres der. Ellers spørres det uansett type.",
+            "form": "Skjema",
+            "formHint": "Feltet spørres bare på dette skjemaet."
         },
         "types": {
             "text": "Tekst",
@@ -15377,7 +15380,8 @@
         },
         "allServiceTypes": "Alle innsatstyper",
         "allowMultiple": "Tillat mer enn ett svar",
-        "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)"
+        "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)",
+        "allForms": "Alle skjemaer"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -15533,7 +15537,8 @@
         },
         "hint": "Bestemmer hvilke typespesifikke felter som spørres om.",
         "single": "Innsatstype",
-        "title": "Innsatstyper"
+        "title": "Innsatstyper",
+        "formsMoved": "Hvilke faste felt en henvendelse spør om, velges nå under Henvendelsesskjemaer."
     },
     "inquiryStageHistory": {
         "empty": "Henvendelsen har ikke byttet fase ennå.",
@@ -16490,6 +16495,46 @@
             "noPlans": "Ingenting å vise fra innbyggernes planer akkurat nå.",
             "overdue": "Forfalt {date}",
             "dueToday": "Frist i dag"
+        }
+    },
+    "inquiryForms": {
+        "title": "Henvendelsesskjemaer",
+        "description": "Skjemaene man kan velge mellom under \"Ny henvendelse\". Slå av dem dere ikke bruker, opprett deres egne, og velg hvilke faste felt hvert skjema spør om.",
+        "add": "Opprett skjema",
+        "addHint": "Et nytt skjema spør bare om dato, avdeling, navn og personnummer. Velg resten etterpå.",
+        "builtin": "Innebygd",
+        "builtinHint": "Følger registreringen av henvendelser etter den danske serviceloven § 110 og § 109. Kan slås av, men ikke slettes.",
+        "serviceTypeHint": "Henvendelser på dette skjemaet får innsatstypen valgt på forhånd.",
+        "fieldCount": "{count} faste felt",
+        "noneActive": "Ingen skjemaer er slått på. Slå på ett under Innstillinger → Henvendelsesskjemaer.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Henvisning fra kommunen",
+            "serviceType": "Innsatstype (valgfri)",
+            "noServiceType": "Ingen"
+        },
+        "actions": {
+            "switchOff": "Slå av skjemaet",
+            "switchOn": "Slå på skjemaet",
+            "fields": "Velg faste felt",
+            "ownFields": "Egne felt på skjemaet",
+            "rename": "Gi skjemaet nytt navn",
+            "delete": "Slett skjemaet"
+        },
+        "fields": {
+            "hint": "Fjern haken for å skjule et felt. Felt med hengelås kan ikke skjules.",
+            "saved": "Feltene er lagret",
+            "locked": "Låst",
+            "lockedRegistration": "Brukes i registreringen av henvendelser etter § 110/§ 109 og kan derfor ikke skjules på dette skjemaet.",
+            "lockedAlways": "Alle henvendelser må ha dette feltet."
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette dette skjemaet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Skjemaet er slettet",
+            "deleteFailed": "Skjemaet kunne ikke slettes"
         }
     }
 }

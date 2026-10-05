@@ -10791,7 +10791,8 @@
             "taskRules": "Opgaveregler",
             "employmentOptions": "Ansættelsesvalg",
             "inquiryOffers": "Tilbud og priser",
-            "customerDepartments": "Kunder og afdelinger"
+            "customerDepartments": "Kunder og afdelinger",
+            "inquiryForms": "Henvendelsesformularer"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -15432,7 +15433,9 @@
             "source": "Slå op i",
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
             "serviceType": "Kun for indsatstype",
-            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type."
+            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type.",
+            "form": "Formular",
+            "formHint": "Feltet spørges kun på denne formular."
         },
         "types": {
             "text": "Tekst",
@@ -15466,7 +15469,8 @@
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
-        "allowHalfSteps": "Tillad halve trin (fx 4,5)"
+        "allowHalfSteps": "Tillad halve trin (fx 4,5)",
+        "allForms": "Alle formularer"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -15622,7 +15626,8 @@
         },
         "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
         "single": "Indsatstype",
-        "title": "Indsatstyper"
+        "title": "Indsatstyper",
+        "formsMoved": "Hvilke faste felter en henvendelse spørger om, vælges nu under Henvendelsesformularer."
     },
     "inquiryStageHistory": {
         "empty": "Henvendelsen har ikke skiftet fase endnu.",
@@ -16579,6 +16584,46 @@
             "noPlans": "Intet at vise fra dine borgeres planer lige nu.",
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
+        }
+    },
+    "inquiryForms": {
+        "title": "Henvendelsesformularer",
+        "description": "De formularer man kan vælge mellem under \"Ny henvendelse\". Slå dem fra, I ikke bruger, opret jeres egne, og vælg hvilke faste felter hver formular spørger om.",
+        "add": "Opret formular",
+        "addHint": "En ny formular spørger kun om dato, afdeling, navn og CPR. Vælg selv resten bagefter.",
+        "builtin": "Indbygget",
+        "builtinHint": "Følger registreringen af henvendelser efter servicelovens § 110 og § 109. Kan slås fra, men ikke slettes.",
+        "serviceTypeHint": "Henvendelser på denne formular får indsatstypen valgt på forhånd.",
+        "fieldCount": "{count} faste felter",
+        "noneActive": "Ingen formularer er slået til. Slå en til under Indstillinger → Henvendelsesformularer.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Henvisning fra kommune",
+            "serviceType": "Indsatstype (valgfri)",
+            "noServiceType": "Ingen"
+        },
+        "actions": {
+            "switchOff": "Slå formularen fra",
+            "switchOn": "Slå formularen til",
+            "fields": "Vælg faste felter",
+            "ownFields": "Egne felter på formularen",
+            "rename": "Omdøb formularen",
+            "delete": "Slet formularen"
+        },
+        "fields": {
+            "hint": "Fjern fluebenet for at skjule et felt. Felter med hængelås kan ikke skjules.",
+            "saved": "Felterne er gemt",
+            "locked": "Låst",
+            "lockedRegistration": "Bruges i registreringen af henvendelser efter § 110/§ 109 og kan derfor ikke skjules på denne formular.",
+            "lockedAlways": "Alle henvendelser skal have dette felt."
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne formular"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Formularen er slettet",
+            "deleteFailed": "Formularen kunne ikke slettes"
         }
     }
 }
