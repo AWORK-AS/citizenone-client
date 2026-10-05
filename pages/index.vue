@@ -179,13 +179,13 @@
 				</div>
 
 				<div class="alt-links">
-					<!-- <div class="alt-row">
-						<a class="alt-link" @click="loginWithMicrosoft">Microsoft</a>
-						<div class="alt-dot"></div>
-						<a class="alt-link" @click="loginWithGoogle">Google</a>
-						<div class="alt-dot"></div>
-						<a class="alt-link" @click="loginWithSSO">SSO</a>
-					</div> -->
+					<!-- Single sign-on with the company's Microsoft account, when the
+					     company has set it up. Uses the email typed above. -->
+					<div class="alt-row">
+						<a class="alt-link" :title="$t('login.sso.hint')" @click="loginWithMicrosoft">
+							{{ $t('login.sso.microsoft') }}
+						</a>
+					</div>
 					<div class="signup-row">
 						{{ $t('login.form.dontHaveAnAccount') }}?
 						<a @click="navigateTo('/register')">
@@ -214,6 +214,7 @@
 
 <script setup lang="ts">
 import { authService } from '@/components/api/user/AuthService'
+import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useDepartmentStore } from '@/store/department'
@@ -278,6 +279,12 @@ onMounted(() => {
 		}
 		localStorage.setItem('_token', impersonateToken)
 		navigateTo('/overview')
+		return
+	}
+
+	const ssoCode = route.query.sso_code
+	if (typeof ssoCode === 'string' && ssoCode.length > 0) {
+		completeMicrosoftSso(ssoCode)
 		return
 	}
 
@@ -430,15 +437,49 @@ async function navigateToHomePage(link: any) {
 // }
 
 async function loginWithMicrosoft() {
+	const email = (state.formLogin.email ?? '').trim()
+	if (!email) {
+		state.error = { message: t('login.sso.enterEmail') } as Error
+		return
+	}
+
+	state.error = {}
 	state.isPageLoading = true
 	try {
-		const response = await authService.microsoftLogin()
+		const response = await authService.microsoftSso(email)
 		if (response?.data?.url) {
 			window.location.href = response.data.url
+			return
 		}
 	} catch (error: any) {
-		// state.error = 'Microsoft login fejlede.'
 		state.error = error
+	}
+	state.isPageLoading = false
+}
+
+/**
+ * Microsoft sends the browser back with a one-time code (never the token
+ * itself). It is swapped for a token, and the user is loaded as on any visit.
+ */
+async function completeMicrosoftSso(code: string) {
+	state.isPageLoading = true
+	try {
+		await navigateTo({ query: {} }, { replace: true })
+		const response = await authService.ssoExchange(code)
+		if (!response?.data?.token) throw response
+		await setSessionToken(response.data.token)
+		localStorage.removeItem("_original_token")
+		departmentStore.resetSelectedDepartment()
+		departmentStore.resetSelectedDepartmentColor()
+		departmentStore.resetSelectedDepartmentName()
+		const me = await userService.getUser()
+		userStore.setUser(me?.data)
+		userStore.setLanguage(me?.data?.language?.code)
+		language.locale.value = me?.data?.language?.code
+		navigateTo(resolvePostLoginRedirect(me?.data?.role, me?.data))
+		return
+	} catch (error: any) {
+		state.error = { message: error?.message ?? t('login.sso.failed') } as Error
 	}
 	state.isPageLoading = false
 }
@@ -455,19 +496,6 @@ async function loginWithGoogle() {
 	state.isPageLoading = false
 }
 
-async function loginWithSSO() {
-	const email = prompt('Indtast din arbejds-email til SSO:')
-	if (!email) return
-	state.isPageLoading = true
-	try {
-		const response = await authService.ssoRedirect(state.formLogin.email)
-		if (response?.data?.url) window.location.href = response.data.url
-	} catch (error: any) {
-		// state.error = 'SSO login fejlede.'
-		state.error = error
-	}
-	state.isPageLoading = false
-}
 
 </script>
 

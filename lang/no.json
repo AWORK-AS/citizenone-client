@@ -8418,7 +8418,22 @@
         "shiftsPlannedToday": "Vakter planlagt i dag",
         "signinToYourAccount": "Logg inn på din konto",
         "tagline": "Socialområdet · Plejesektoren · Helse",
-        "welcomeBack": "Velkommen tilbake"
+        "welcomeBack": "Velkommen tilbake",
+        "sso": {
+            "microsoft": "Logg inn med Microsoft",
+            "hint": "Bruk organisasjonens Microsoft-konto. Skriv jobb-e-posten over først.",
+            "enterEmail": "Skriv jobb-e-posten din, og velg så Logg inn med Microsoft.",
+            "failed": "Innlogging med Microsoft lyktes ikke. Prøv igjen."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "La medarbeiderne logge inn med organisasjonens Microsoft-konto. Bare innlogginger fra deres egen Microsoft Entra-tenant godtas.",
+        "unavailable": "Microsoft-innlogging er ikke slått på på serveren ennå. Kontakt support.",
+        "tenantId": "Microsoft Entra tenant-ID",
+        "tenantHint": "Finnes i Entra admin center under Oversikt. La feltet stå tomt for å slå av SSO.",
+        "saveHint": "Gjelder fra neste innlogging",
+        "saved": "Lagret"
     },
     "logs": {
         "table": {

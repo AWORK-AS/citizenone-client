@@ -8418,7 +8418,22 @@
         "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
         "tagline": "Journalsystem til social- og sundhedssektoren",
-        "welcomeBack": "Velkommen tilbage"
+        "welcomeBack": "Velkommen tilbage",
+        "sso": {
+            "microsoft": "Log ind med Microsoft",
+            "hint": "Brug din organisations Microsoft-konto. Skriv din arbejds-e-mail ovenfor først.",
+            "enterEmail": "Skriv din arbejds-e-mail, og vælg så Log ind med Microsoft.",
+            "failed": "Login med Microsoft lykkedes ikke. Prøv igen."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Lad medarbejderne logge ind med organisationens Microsoft-konto. Kun logins fra jeres egen Microsoft Entra-tenant accepteres.",
+        "unavailable": "Microsoft-login er ikke slået til på serveren endnu. Kontakt support.",
+        "tenantId": "Microsoft Entra tenant-id",
+        "tenantHint": "Findes i Entra admin center under Oversigt. Lad feltet stå tomt for at slå SSO fra.",
+        "saveHint": "Gælder fra næste login",
+        "saved": "Gemt"
     },
     "logs": {
         "table": {
