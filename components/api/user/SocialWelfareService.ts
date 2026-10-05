@@ -1,4 +1,5 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
+import type { ContractFieldDefinition, ContractHourType, DataEnvelope, PaymentTerm } from '@/types/contract'
 
 class SocialWelfareService extends BaseAPIService {
     // Revenue split across primary/secondary case workers (coordinators)
@@ -68,6 +69,57 @@ class SocialWelfareService extends BaseAPIService {
 
     async deleteContractPeriod(uuid: string): Promise<any> {
         return await this.request(`/user/social-welfare/contract-periods/${uuid}`, 'DELETE')
+    }
+
+    // Hour types a contract period grants hours in (contact, administration, transport and the company's own)
+    async getContractHourTypes(params: object = {}): Promise<DataEnvelope<ContractHourType[]>> {
+        return await this.request(`/user/social-welfare/contract-hour-types`, 'GET', params)
+    }
+
+    async saveContractHourType(payload: object): Promise<DataEnvelope<ContractHourType>> {
+        return await this.request(`/user/social-welfare/contract-hour-types`, 'POST', payload)
+    }
+
+    async updateContractHourType(uuid: string, payload: object): Promise<DataEnvelope<ContractHourType>> {
+        return await this.request(`/user/social-welfare/contract-hour-types/${uuid}`, 'PUT', payload)
+    }
+
+    async deleteContractHourType(uuid: string): Promise<{ message: string }> {
+        return await this.request(`/user/social-welfare/contract-hour-types/${uuid}`, 'DELETE')
+    }
+
+    // Payment terms (days and label) a period or a customer department picks from
+    async getPaymentTerms(params: object = {}): Promise<DataEnvelope<PaymentTerm[]>> {
+        return await this.request(`/user/social-welfare/payment-terms`, 'GET', params)
+    }
+
+    async savePaymentTerm(payload: object): Promise<DataEnvelope<PaymentTerm>> {
+        return await this.request(`/user/social-welfare/payment-terms`, 'POST', payload)
+    }
+
+    async updatePaymentTerm(uuid: string, payload: object): Promise<DataEnvelope<PaymentTerm>> {
+        return await this.request(`/user/social-welfare/payment-terms/${uuid}`, 'PUT', payload)
+    }
+
+    async deletePaymentTerm(uuid: string): Promise<{ message: string }> {
+        return await this.request(`/user/social-welfare/payment-terms/${uuid}`, 'DELETE')
+    }
+
+    // The company's own contract fields (a text or number on every period)
+    async getContractFieldDefinitions(params: object = {}): Promise<DataEnvelope<ContractFieldDefinition[]>> {
+        return await this.request(`/user/social-welfare/contract-field-definitions`, 'GET', params)
+    }
+
+    async saveContractFieldDefinition(payload: object): Promise<DataEnvelope<ContractFieldDefinition>> {
+        return await this.request(`/user/social-welfare/contract-field-definitions`, 'POST', payload)
+    }
+
+    async updateContractFieldDefinition(uuid: string, payload: object): Promise<DataEnvelope<ContractFieldDefinition>> {
+        return await this.request(`/user/social-welfare/contract-field-definitions/${uuid}`, 'PUT', payload)
+    }
+
+    async deleteContractFieldDefinition(uuid: string): Promise<{ message: string }> {
+        return await this.request(`/user/social-welfare/contract-field-definitions/${uuid}`, 'DELETE')
     }
 }
 
