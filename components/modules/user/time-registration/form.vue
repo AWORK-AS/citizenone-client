@@ -24,6 +24,10 @@
                 <FormError :error="v$?.formTimeLog?.citizen_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
             </div>
+            <ModulesUserVisitTypeSelect :citizenUuid="state.formTimeLog.citizen_uuid || undefined"
+                :modelValue="state.formTimeLog.visit_type_uuid ?? undefined"
+                @update:modelValue="(value: any) => state.formTimeLog.visit_type_uuid = value"
+                :error="props?.error?.errors?.visit_type_uuid?.[0] ?? ''" />
             <div class="space-y-1">
                 <FormLabel for="status" :label="$t('timeLogs.form.status.status')" />
                 <FormSelect id="status" name="status" :options="state.options.statuses"
@@ -85,6 +89,7 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         citizen_uuid: '',
+        visit_type_uuid: null as string | null,
         status: '',
         remarks: '',
     },
@@ -104,6 +109,7 @@ onMounted(() => {
         date_time_start: props.selectedTimeLog?.date_time_start,
         date_time_end: props.selectedTimeLog?.date_time_end,
         citizen_uuid: props.selectedTimeLog?.citizen?.uuid,
+        visit_type_uuid: props.selectedTimeLog?.visit_type?.uuid ?? null,
         status: props.selectedTimeLog?.status,
         remarks: props.selectedTimeLog?.remarks,
     }
@@ -115,6 +121,7 @@ watch(() => props.selectedTimeLog, (newValue: any) => {
             date_time_start: newValue?.date_time_start,
             date_time_end: newValue?.date_time_end,
             citizen_uuid: newValue?.citizen_uuid,
+            visit_type_uuid: newValue?.visit_type?.uuid ?? newValue?.visit_type_uuid ?? null,
             status: newValue?.status,
             remarks: newValue?.remarks,
         }
