@@ -4192,6 +4192,44 @@
         },
         "emptyFiltered": "No {citizens} match the filters."
     },
+    "dischargeReasons": {
+        "title": "Discharge reasons",
+        "single": "Discharge reason",
+        "none": "None",
+        "description": "Why a case ends, as a list you keep. Endings can then be counted per reason, e.g. for statistics and quality work. The free-text field stays as the explanation.",
+        "add": "Add",
+        "addHint": "Add a reason that can be chosen when a case ends",
+        "empty": "There are no reasons yet.",
+        "reportHint": "See how many cases ended per reason",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Goals reached"
+        },
+        "actions": {
+            "switchOff": "Switch the reason off",
+            "switchOn": "Switch the reason on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The reason is deleted",
+            "deleteFailed": "The reason could not be deleted"
+        },
+        "report": {
+            "title": "Ended cases",
+            "description": "Cases with an end date in the period, by discharge reason, and how long they lasted on average.",
+            "from": "From",
+            "to": "To",
+            "show": "Show",
+            "showHint": "Show endings in the period",
+            "endings": "{count} endings",
+            "empty": "No cases ended in the period.",
+            "noReason": "No reason",
+            "averageDays": "Avg {days} days",
+            "averageHint": "Average length from start to end"
+        }
+    },
     "client": {
         "appointments": "Appointments",
         "appointmentsTable": {
@@ -10756,6 +10794,7 @@
             "other": "Other",
             "profile": "Profile",
             "relationships": "Relationships",
+            "dischargeReasons": "Discharge reasons",
             "roles": "Roles",
             "rooms": "Rooms",
             "scheduleTags": "Schedule tags",
