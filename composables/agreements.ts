@@ -402,7 +402,8 @@ export function missingEconomicNumber(
     company: { economic_customer_number?: number | string | null } | null | undefined,
     agreements: Array<{ status: string }> | null | undefined,
 ): boolean {
-    if (!company) return false
-    const hasNumber = company.economic_customer_number !== null && company.economic_customer_number !== undefined && company.economic_customer_number !== ''
+    // An API that does not send the field yet (undefined) is not a missing number.
+    if (!company || company.economic_customer_number === undefined) return false
+    const hasNumber = company.economic_customer_number !== null && company.economic_customer_number !== ''
     return !hasNumber && (agreements ?? []).some((a) => a.status === 'active')
 }

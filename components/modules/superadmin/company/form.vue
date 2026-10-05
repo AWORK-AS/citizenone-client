@@ -54,6 +54,27 @@
                 <SuperadminFormError :error="error?.errors?.website?.[0]" />
             </div>
 
+            <!-- e-conomic customer number (update only): used when agreement installments are drafted in e-conomic -->
+            <div v-if="formType === 'update'" class="mb-4">
+                <div class="flex items-center gap-1">
+                    <SuperadminFormLabel :label="$t('superadmin.companies.form.economicCustomerNumber')" />
+                    <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
+                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                            :aria-label="$t('superadmin.companies.form.economicCustomerNumberHelp')" />
+                    </Tooltip>
+                </div>
+                <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap
+                    class="!block">
+                    <input class="co-input" type="number" min="1" step="1" inputmode="numeric"
+                        v-model="state.formCompany.economic_customer_number"
+                        :placeholder="$t('superadmin.companies.form.economicCustomerNumberPlaceholder')" />
+                </Tooltip>
+                <p class="text-[11px] text-[#8891A4] mt-1">
+                    {{ $t('superadmin.companies.form.economicCustomerNumberHelp') }}
+                </p>
+                <SuperadminFormError :error="error?.errors?.economic_customer_number?.[0]" />
+            </div>
+
             <!-- Industry -->
             <div class="mb-4">
                 <SuperadminFormLabel :label="$t('superadmin.companies.form.industry')" :required="true" />
@@ -207,6 +228,7 @@ import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
 import { useI18n } from 'vue-i18n'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, helpers, sameAs } from '@vuelidate/validators'
+import { parseEconomicCustomerNumber } from '@/composables/agreements'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -237,6 +259,7 @@ const state = reactive({
         phone: '',
         address: '',
         website: '',
+        economic_customer_number: '' as string | number | null,
         is_active: true,
         // create only
         firstname: '',
@@ -301,6 +324,7 @@ watch(() => props.selectedCompany, (company: any) => {
             cvr: company.cvr ?? '',
             phone: company.phone ?? '',
             website: company.website ?? '',
+            economic_customer_number: company.economic_customer_number ?? '',
             is_active: company.is_active ?? true,
         }
     }
@@ -360,6 +384,9 @@ function submitForm() {
             phone: state.formCompany.phone,
             website: state.formCompany.website,
             is_active: state.formCompany.is_active,
+        }
+        if (props.formType === 'update') {
+            payload.economic_customer_number = parseEconomicCustomerNumber(state.formCompany.economic_customer_number)
         }
         if (props.formType === 'create') {
             payload.address = state.formCompany.address

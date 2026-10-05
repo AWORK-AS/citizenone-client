@@ -395,5 +395,6 @@ describe('e-conomic status', () => {
         assert.equal(missingEconomicNumber({ economic_customer_number: 1042 }, [{ status: 'active' }]), false)
         assert.equal(missingEconomicNumber({ economic_customer_number: null }, [{ status: 'ended' }, { status: 'cancelled' }]), false)
         assert.equal(missingEconomicNumber(null, [{ status: 'active' }]), false)
+        assert.equal(missingEconomicNumber({}, [{ status: 'active' }]), false)
     })
 })
