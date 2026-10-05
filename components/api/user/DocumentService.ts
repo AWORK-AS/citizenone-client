@@ -45,6 +45,10 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/archived-documents/${documentUuid}/toggle-archive`, 'PUT')
     }
 
+    async permanentlyDeleteDocument(documentUuid: any): Promise<any> {
+        return await this.request(`/user/archived-documents/${documentUuid}/permanent-delete`, 'DELETE')
+    }
+
     async downloadArchivedDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/archived-documents/${documentUuid}/download`, 'GET')
     }

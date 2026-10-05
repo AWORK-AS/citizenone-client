@@ -64,6 +64,11 @@
                                                 <Icon name="mdi:archive-cancel-outline" class="size-4" />
                                                 {{ $t('archived.table.actions.unarchive') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger"
+                                                @click="confirmDocumentDeletion(document)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('archived.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -76,6 +81,9 @@
             <DialogConfirmation :isModalOpen="state.modal.isUnarchiveDocumentOpen"
                 :message="$t('archived.confirmation.unarchiveDocument') + '?'"
                 @close="state.modal.isUnarchiveDocumentOpen = false" @confirm="unarchiveDocument" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
+                :message="$t('archived.confirmation.deleteDocument')"
+                @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
         </NuxtLayout>
     </div>
 </template>
@@ -116,7 +124,8 @@ const state = reactive({
     isTableLoading: false,
     archivedDocuments: [] as any,
     modal: {
-        isUnarchiveDocumentOpen: false
+        isUnarchiveDocumentOpen: false,
+        isDeleteDocumentOpen: false,
     },
     selectedDocument: [] as any,
     sortData: {
@@ -204,6 +213,25 @@ async function unarchiveDocument() {
             successAlert(`${t('alert.success')}!`, `${t('archived.alert.documentSuccessfullyUnarchive')}.`)
             fetchArchivedDocuments()
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmDocumentDeletion(document: any) {
+    state.selectedDocument = document
+    state.modal.isDeleteDocumentOpen = true
+}
+
+async function deleteDocument() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const documentUuid = state.selectedDocument?.uuid
+        await documentService.permanentlyDeleteDocument(documentUuid)
+        successAlert(`${t('alert.success')}!`, `${t('archived.alert.documentSuccessfullyDeleted')}.`)
+        fetchArchivedDocuments()
     } catch (error: any) {
         state.error = error
     }
