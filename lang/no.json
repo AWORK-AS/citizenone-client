@@ -7945,6 +7945,9 @@
     "home": "Hjem",
     "imageFailedToLoad": "Bildet kunne ikke lastes",
     "inquiries": {
+        "board": {
+            "riskTooltip": "Risikovurdering fra henvendelsens felter. Den høyeste risikoen teller."
+        },
         "crisisCenterInquiry": "Krisecenter henvendelser",
         "editInquiry": "Rediger henvendelser",
         "exportInquiries": "Eksporter henvendelser",

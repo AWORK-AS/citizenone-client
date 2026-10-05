@@ -163,7 +163,7 @@
                                     @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
                                     @click="openInquiry(inq)"
                                     class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
-                                    :class="dragged?.uuid === inq.uuid ? 'opacity-40' : ''">
+                                    :class="[dragged?.uuid === inq.uuid ? 'opacity-40' : '', RISK_STYLES[inq.risk_level]?.edge]">
                                     <p class="text-[11px] font-bold text-secondary">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
@@ -171,6 +171,15 @@
                                         {{ inqTitle(inq) }}
                                     </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
+                                        <!-- The worst answer to the company's risk fields; the
+                                             card's left edge carries the same colour. -->
+                                        <Tooltip v-if="RISK_STYLES[inq.risk_level]" :text="$t('inquiries.board.riskTooltip')">
+                                            <span class="inline-flex items-center gap-1 rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
+                                                :class="RISK_STYLES[inq.risk_level].chip">
+                                                <span class="size-1.5 rounded-full" :class="RISK_STYLES[inq.risk_level].dot" />
+                                                {{ $t(RISK_STYLES[inq.risk_level].label) }}
+                                            </span>
+                                        </Tooltip>
                                         <span v-if="inq.origin"
                                             class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
                                             :class="inq.origin === 'authority'
@@ -401,6 +410,14 @@ function inquiriesByStage(slug: string) {
 function inqTitle(inq: any) {
     return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '-'
 }
+// Same green/yellow/red as the citizen's risk assessment, which a risk answer
+// becomes when the case is won.
+const RISK_STYLES: Record<string, { edge: string, chip: string, dot: string, label: string }> = {
+    'no risk': { edge: 'border-l-4 border-l-green-700', chip: 'bg-green-50 text-green-800', dot: 'bg-green-700', label: 'overview.riskAssessment.risk.noRisk' },
+    'increased risk': { edge: 'border-l-4 border-l-yellow-500', chip: 'bg-yellow-50 text-yellow-800', dot: 'bg-yellow-500', label: 'overview.riskAssessment.risk.increasedRisk' },
+    'acute increased risk': { edge: 'border-l-4 border-l-red-600', chip: 'bg-red-50 text-red-700', dot: 'bg-red-600', label: 'overview.riskAssessment.risk.acuteIncreasedRisk' },
+}
+
 function inqSource(inq: any) {
     return inq?.contacted_by || inq?.inquiry_type || ''
 }
