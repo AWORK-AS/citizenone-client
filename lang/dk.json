@@ -16311,6 +16311,50 @@
             "other": "Andet"
         }
     },
+    "visitTypes": {
+        "title": "Besøgstyper",
+        "single": "Besøgstype",
+        "none": "Ingen",
+        "description": "De slags besøg konsulenterne registrerer tid på, fx hjemmebesøg, samvær eller møde. På den enkelte indsats kan I begrænse, hvilke besøgstyper der må bruges.",
+        "add": "Tilføj",
+        "addHint": "Tilføj en besøgstype, som kan vælges ved tidsregistrering",
+        "empty": "Der er ingen besøgstyper endnu.",
+        "restrictedHint": "Indsatsen tillader kun disse besøgstyper.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Hjemmebesøg"
+        },
+        "actions": {
+            "switchOff": "Slå besøgstypen fra",
+            "switchOn": "Slå besøgstypen til",
+            "rename": "Omdøb",
+            "delete": "Slet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Besøgstypen er slettet",
+            "deleteFailed": "Besøgstypen kunne ikke slettes"
+        }
+    },
+    "registrationRules": {
+        "title": "Registreringsregler",
+        "citizenHint": "Hvad konsulenterne må registrere på denne indsats, efter aftalen med kommunen.",
+        "inquiryHint": "Aftalt med kommunen nu. Reglerne følger med, når henvendelsen bliver til en indsats.",
+        "edit": "Ret registreringsregler",
+        "visitTypes": "Tilladte besøgstyper",
+        "allVisitTypes": "Alle besøgstyper",
+        "noVisitTypes": "Ingen",
+        "mileage": "Kørsel",
+        "expenses": "Udlæg",
+        "allowed": "Tilladt",
+        "notAllowed": "Ikke tilladt",
+        "mileageAllowed": "Kørsel må registreres",
+        "expensesAllowed": "Udlæg må registreres",
+        "catalogueEmpty": "Der er ingen besøgstyper. Opret dem under",
+        "saveHint": "Gælder fra nu for nye registreringer",
+        "saved": "Registreringsreglerne er gemt",
+        "saveFailed": "Reglerne kunne ikke gemmes"
+    },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",
         "hint": "Slå til, når sagen mangler en konsulent. Rekrutteringsteamet får besked én gang.",
@@ -16581,49 +16625,5 @@
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
         }
-    },
-    "visitTypes": {
-        "title": "Besøgstyper",
-        "single": "Besøgstype",
-        "none": "Ingen",
-        "description": "De slags besøg konsulenterne registrerer tid på, fx hjemmebesøg, samvær eller møde. På den enkelte indsats kan I begrænse, hvilke besøgstyper der må bruges.",
-        "add": "Tilføj",
-        "addHint": "Tilføj en besøgstype, som kan vælges ved tidsregistrering",
-        "empty": "Der er ingen besøgstyper endnu.",
-        "restrictedHint": "Indsatsen tillader kun disse besøgstyper.",
-        "form": {
-            "name": "Navn",
-            "namePlaceholder": "Fx Hjemmebesøg"
-        },
-        "actions": {
-            "switchOff": "Slå besøgstypen fra",
-            "switchOn": "Slå besøgstypen til",
-            "rename": "Omdøb",
-            "delete": "Slet"
-        },
-        "alert": {
-            "saveFailed": "Kunne ikke gemmes",
-            "deleted": "Besøgstypen er slettet",
-            "deleteFailed": "Besøgstypen kunne ikke slettes"
-        }
-    },
-    "registrationRules": {
-        "title": "Registreringsregler",
-        "citizenHint": "Hvad konsulenterne må registrere på denne indsats, efter aftalen med kommunen.",
-        "inquiryHint": "Aftalt med kommunen nu. Reglerne følger med, når henvendelsen bliver til en indsats.",
-        "edit": "Ret registreringsregler",
-        "visitTypes": "Tilladte besøgstyper",
-        "allVisitTypes": "Alle besøgstyper",
-        "noVisitTypes": "Ingen",
-        "mileage": "Kørsel",
-        "expenses": "Udlæg",
-        "allowed": "Tilladt",
-        "notAllowed": "Ikke tilladt",
-        "mileageAllowed": "Kørsel må registreres",
-        "expensesAllowed": "Udlæg må registreres",
-        "catalogueEmpty": "Der er ingen besøgstyper. Opret dem under",
-        "saveHint": "Gælder fra nu for nye registreringer",
-        "saved": "Registreringsreglerne er gemt",
-        "saveFailed": "Reglerne kunne ikke gemmes"
     }
 }
