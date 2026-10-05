@@ -16587,5 +16587,12 @@
             "overdue": "Overdue {date}",
             "dueToday": "Due today"
         }
+    },
+    "documentTabs": {
+        "waiting": "Opening document…",
+        "blockedTitle": "The browser blocked tabs",
+        "blocked": "{count} document was not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again. | {count} documents were not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again.",
+        "failedTitle": "The document could not be fetched",
+        "failed": "{count} document could not be fetched. Try again. | {count} documents could not be fetched. Try again."
     }
 }

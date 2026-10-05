@@ -16491,5 +16491,12 @@
             "overdue": "Forfalt {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "documentTabs": {
+        "waiting": "Åpner dokument…",
+        "blockedTitle": "Nettleseren blokkerte faner",
+        "blocked": "{count} dokument ble ikke åpnet fordi nettleseren blokkerer popup-vinduer. Tillat popup-vinduer for denne siden, og klikk igjen. | {count} dokumenter ble ikke åpnet fordi nettleseren blokkerer popup-vinduer. Tillat popup-vinduer for denne siden, og klikk igjen.",
+        "failedTitle": "Dokumentet kunne ikke hentes",
+        "failed": "{count} dokument kunne ikke hentes. Prøv igjen. | {count} dokumenter kunne ikke hentes. Prøv igjen."
     }
 }

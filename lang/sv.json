@@ -16491,5 +16491,12 @@
             "overdue": "Försenad {date}",
             "dueToday": "Deadline i dag"
         }
+    },
+    "documentTabs": {
+        "waiting": "Öppnar dokument…",
+        "blockedTitle": "Webbläsaren blockerade flikar",
+        "blocked": "{count} dokument öppnades inte eftersom webbläsaren blockerar popup-fönster. Tillåt popup-fönster för den här sidan och klicka igen. | {count} dokument öppnades inte eftersom webbläsaren blockerar popup-fönster. Tillåt popup-fönster för den här sidan och klicka igen.",
+        "failedTitle": "Dokumentet kunde inte hämtas",
+        "failed": "{count} dokument kunde inte hämtas. Försök igen. | {count} dokument kunde inte hämtas. Försök igen."
     }
 }

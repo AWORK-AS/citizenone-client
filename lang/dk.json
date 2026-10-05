@@ -16580,5 +16580,12 @@
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "documentTabs": {
+        "waiting": "Åbner dokument…",
+        "blockedTitle": "Browseren blokerede faner",
+        "blocked": "{count} dokument blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen. | {count} dokumenter blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen.",
+        "failedTitle": "Dokumentet kunne ikke hentes",
+        "failed": "{count} dokument kunne ikke hentes. Prøv igen. | {count} dokumenter kunne ikke hentes. Prøv igen."
     }
 }
