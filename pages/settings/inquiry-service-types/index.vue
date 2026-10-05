@@ -18,6 +18,10 @@
 
                 <p class="max-w-2xl text-sm text-gray-500">
                     {{ $t('inquiryServiceTypes.description') }}
+                    <!-- Which built-in fields an inquiry asks for moved to the forms. -->
+                    <NuxtLink to="/settings/inquiry-forms" class="font-semibold text-primary hover:underline">
+                        {{ $t('inquiryServiceTypes.formsMoved') }}
+                    </NuxtLink>
                 </p>
 
                 <div class="rounded-lg border border-gray-200 bg-white">
@@ -103,13 +107,6 @@
                                         <Icon :name="type.is_active ? 'ph:eye' : 'ph:eye-slash'" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
-                                <Tooltip :text="$t('inquiryServiceTypes.fields.title')">
-                                    <FormButton type="button" buttonStyle="action"
-                                        :aria-label="$t('inquiryServiceTypes.fields.title')"
-                                        @click="toggleFields(type)">
-                                        <Icon name="ph:list-checks" class="size-4" />
-                                    </FormButton>
-                                </Tooltip>
                                 <FormButton type="button" buttonStyle="action" @click="startEdit(type)">
                                     <Icon name="ph:pencil-simple" class="size-4" />
                                 </FormButton>
@@ -119,33 +116,6 @@
                             </template>
                         </div>
 
-                        <!-- Which built-in fields this kind of inquiry asks for. All of
-                             them until somebody says otherwise, which is how every form
-                             behaved before the setting existed. -->
-                        <div v-if="state.fieldsFor === type.uuid" class="w-full rounded-md bg-gray-50 px-4 py-3">
-                            <p class="mb-2 text-xs text-gray-500">{{ $t('inquiryServiceTypes.fields.hint') }}</p>
-                            <div class="grid grid-cols-1 gap-x-6 gap-y-1.5 sm:grid-cols-2 lg:grid-cols-3">
-                                <label v-for="field in availableFields(type)" :key="field"
-                                    class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-                                    <input type="checkbox"
-                                        class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
-                                        :value="field" v-model="state.fieldSelection" />
-                                    {{ fieldLabel(field) }}
-                                </label>
-                            </div>
-                            <div class="mt-3 flex items-center gap-2">
-                                <FormButton type="button" buttonStyle="cancel" @click="state.fieldsFor = ''">
-                                    {{ $t('cancel') }}
-                                </FormButton>
-                                <FormButton type="button" buttonStyle="primary" @click="saveFields(type)">
-                                    {{ $t('save') }}
-                                </FormButton>
-                                <button type="button" class="text-xs text-gray-500 hover:text-gray-800"
-                                    @click="state.fieldSelection = [...availableFields(type)]">
-                                    {{ $t('inquiryServiceTypes.fields.selectAll') }}
-                                </button>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -183,8 +153,6 @@ const state = reactive({
     draft: { name: '', paragraph: '' },
     edit: { name: '', paragraph: '' },
     editing: '',
-    fieldsFor: '',
-    fieldSelection: [] as string[],
     isDeleteOpen: false,
     selected: null as any,
 })
@@ -213,76 +181,6 @@ async function add() {
         await fetchTypes()
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.errors?.name?.[0] ?? error?.message ?? t('inquiryServiceTypes.alert.saveFailed'))
-    }
-}
-
-/**
- * The built-in fields, labelled with the same strings the forms themselves use
- * rather than a second set that can drift away from them.
- */
-const CORE_FIELD_LABELS: Record<string, string> = {
-    inquiry_date: 'inquiries.form.dateOfInquiry',
-    department_uuid: 'department.department',
-    company_contact: 'inquiryContact.label',
-    inquirer_name: 'inquiries.form.inquirerName',
-    contacted_by: 'inquiries.form.crisisCenter.fields.contactedBy',
-
-    first_name: 'inquiries.form.firstname',
-    last_name: 'inquiries.form.lastname',
-    cpr: 'inquiries.form.cpr',
-    cpr_missing_reason: 'inquiries.form.shelter.fields.cprMissingReason',
-
-    purpose: 'inquiries.form.purpose',
-    outcome: 'inquiries.form.outcome',
-    conversation_summary: 'inquiries.form.conversationSummary',
-    notes: 'inquiries.form.notes',
-    topic: 'inquiries.form.crisisCenter.fields.topic',
-    guidance: 'inquiries.form.crisisCenter.fields.guidance',
-    assessment: 'inquiries.form.crisisCenter.fields.assessment',
-    assessment_reason: 'inquiries.form.crisisCenter.fields.notOfferedInterview',
-
-    received_visit: 'inquiries.form.crisisCenter.fields.receivedVisit',
-
-    in_shelter_target_group: 'inquiries.form.shelter.fields.inShelterTargetGroup',
-    fits_in_target_group: 'inquiries.form.shelter.fields.fitsInTargetGroup',
-    vacant_place_available: 'inquiries.form.shelter.fields.vacantPlaceAvailable',
-    non_admission_reason: 'inquiries.form.shelter.fields.nonAdmissionReason',
-    not_in_service_target_group_reason: 'inquiries.form.shelter.fields.notInServiceTargetGroupReason',
-    referral_destination: 'inquiries.form.shelter.fields.referralDestination',
-}
-
-function availableFields(type: any): string[] {
-    return type.available_core_fields ?? Object.keys(CORE_FIELD_LABELS)
-}
-
-function fieldLabel(field: string): string {
-    const key = CORE_FIELD_LABELS[field]
-
-    return key ? t(key) : field
-}
-
-function toggleFields(type: any) {
-    if (state.fieldsFor === type.uuid) {
-        state.fieldsFor = ''
-
-        return
-    }
-
-    state.fieldsFor = type.uuid
-    // Null means the form asks for everything, so that is what the boxes show.
-    state.fieldSelection = type.core_fields ?? [...availableFields(type)]
-}
-
-async function saveFields(type: any) {
-    try {
-        await inquiryServiceTypeService.updateServiceType(type.uuid, {
-            core_fields: [...state.fieldSelection],
-        })
-        state.fieldsFor = ''
-        await fetchTypes()
-        successAlert(`${t('alert.success')}!`, `${t('inquiryServiceTypes.fields.saved')}.`)
-    } catch (error: any) {
-        errorAlert(t('alert.warning'), error?.message ?? t('inquiryServiceTypes.alert.saveFailed'))
     }
 }
 

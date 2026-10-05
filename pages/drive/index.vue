@@ -544,7 +544,7 @@ import { documentBlobViewer, documentFileName, documentExtension, canPreviewInAp
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useOneDriveCache } from '@/composables/useOneDriveCache'
 
-const { openOrSaveOriginal } = documentBlobViewer()
+const { openInTabs } = documentBlobViewer()
 const oneDriveService = new OneDriveService()
 const runtimeConfig = useRuntimeConfig()
 
@@ -1381,31 +1381,26 @@ function onSelectionChange(rows: any[]) {
     state.selectedDocuments = rows
 }
 
-// Best-effort: browsers block more than a couple of window.open calls that
-// aren't the direct result of a click, so only the first few tabs are
-// guaranteed to open - the same limitation the citizen document list has.
 async function openSelectedDocuments() {
     // "Select all" in the table header also grabs folder rows, which have no
     // file_url and nothing to view.
-    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
-        await viewFile(document)
-    }
+    const documents = state.selectedDocuments.filter((d: any) => d?.file_url)
     state.selectedDocuments = []
+    await openDocuments(documents)
 }
 
 // GDPR ask from the 2026-09-03 superbrugermøde: opening a company document
 // should not force it to disk - formats the browser can show open in a tab.
 async function viewFile(document: any) {
+    await openDocuments([document])
+}
+
+// Called straight from the click, with nothing awaited first: the tabs are
+// taken inside the click, or the browser blocks them as pop-ups.
+async function openDocuments(documents: any[]) {
     state.error = {}
     state.isTableLoading = true
-    try {
-        const response = await fetchOriginalFile(document)
-        if (response) {
-            openOrSaveOriginal(response, documentFileName(document))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
+    await openInTabs(documents, fetchOriginalFile)
     state.isTableLoading = false
 }
 

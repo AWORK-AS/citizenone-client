@@ -118,7 +118,7 @@ import { documentBlobViewer, documentFileName, canPreviewInApp } from '@/composa
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
-const { openOrSaveOriginal } = documentBlobViewer()
+const { openInTabs } = documentBlobViewer()
 
 // Word files are previewed in the app from the stored original instead of a
 // blob: tab, which a browser cannot render and saved as a nameless, blank file.
@@ -248,17 +248,7 @@ async function viewFile(document: any, allowPreview = true) {
         return
     }
 
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
-        if (response) {
-            openOrSaveOriginal(response, documentFileName(document))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
+    await openDocuments([document])
 }
 
 function onSelectionChange(rows: any[]) {
@@ -266,10 +256,20 @@ function onSelectionChange(rows: any[]) {
 }
 
 async function openSelectedDocuments() {
-    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
-        await viewFile(document, false)
-    }
+    // "Select all" in the table header also grabs folder rows, which have no
+    // file_url and nothing to view.
+    const documents = state.selectedDocuments.filter((d: any) => d?.file_url)
     state.selectedDocuments = []
+    await openDocuments(documents)
+}
+
+// Called straight from the click, with nothing awaited first: the tabs are
+// taken inside the click, or the browser blocks them as pop-ups.
+async function openDocuments(documents: any[]) {
+    state.error = {}
+    state.isTableLoading = true
+    await openInTabs(documents, (document: any) => citizenDocumentService.downloadCitizenFile(document?.uuid))
+    state.isTableLoading = false
 }
 
 async function viewDirectory(document: any) {
