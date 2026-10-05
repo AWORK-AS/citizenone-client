@@ -54,7 +54,7 @@
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
-                        <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" />
+                        <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" showAge />
                         <p v-if="state.autoFilledFromSsn" class="flex items-center gap-x-1 text-xs text-tertiary">
                             <Icon name="ph:magic-wand" class="h-3.5 w-3.5" aria-hidden="true" />
                             {{ $t('citizens.form.autoFilledFromSsn') }}
