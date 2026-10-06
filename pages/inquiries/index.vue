@@ -419,6 +419,9 @@ const RISK_STYLES: Record<string, { edge: string, chip: string, dot: string, lab
 }
 
 function inqSource(inq: any) {
+    // Came in through the website form: say so rather than show a raw key.
+    if (inq?.source === 'website') return t('inquiryIntake.fromWebsite')
+
     return inq?.contacted_by || inq?.inquiry_type || ''
 }
 function inqInitials(inq: any) {

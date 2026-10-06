@@ -39,6 +39,14 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
      * to pay (996f11e9 on dev).
      */
     function requestActivation(app: any) {
+        // An app tied to a plan the company is not on (Microsoft SSO and
+        // Talentech need Pro) is refused by the backend; send them to upgrade.
+        if (app?.plan_eligible === false && !app?.user_activated) {
+            navigateTo('/subscription')
+
+            return
+        }
+
         activation.selectedApp = app
         activation.isTermsOpen = true
     }

@@ -56,8 +56,11 @@ export function documentBlobViewer() {
      * program that made them.
      *
      * Returns 'opened' when a tab showed it, 'saved' when it was downloaded.
+     * A user without the download_documents permission passes allowSave
+     * false: a file no tab can show is then left alone and 'blocked' comes
+     * back, so the caller can say why nothing opened.
      */
-    function openOrSaveOriginal(blob: Blob, fileName: string): 'opened' | 'saved' {
+    function openOrSaveOriginal(blob: Blob, fileName: string, allowSave = true): 'opened' | 'saved' | 'blocked' {
         if (canOpenInBrowser(blob, fileName)) {
             const typed = blob.type && blob.type !== 'application/octet-stream'
                 ? blob
@@ -65,6 +68,10 @@ export function documentBlobViewer() {
             if (openBlobInNewTab(typed)) {
                 return 'opened'
             }
+        }
+
+        if (!allowSave) {
+            return 'blocked'
         }
 
         saveAs(blob, fileName)

@@ -37,6 +37,12 @@ class CitizenDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/download`, 'GET')
     }
 
+    // Same file and access checks as downloadCitizenFile, but served inline and
+    // open to users without the download_documents permission.
+    async viewCitizenFile(citizenFileFolderUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/citizen-file-folders/${citizenFileFolderUuid}/view`, 'GET')
+    }
+
     async shareUnshareDocument(citizenFileFolderUuid: any): Promise<any> {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/share-file`, 'PUT')
     }

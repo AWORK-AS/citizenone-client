@@ -17,6 +17,8 @@ export function getSidebarNavItemLabel(item: any, t: (key: string) => string, cu
     if (item.name === 'DentalOverview') return t('sidebar.dentalOverview')
     if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
     if (item.name === 'Calendar') return t('sidebar.calendar')
+    if (item.name === 'WhistleblowerReports') return t('whistleblower.inbox.title')
+    if (item.name === 'ReportAnonymously') return t('whistleblower.reportAnonymously')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
     if (item.name === 'My availability') return t('sidebar.myAvailability')
     if (item.name === 'My shift evaluations') return t('sidebar.myShiftEvaluations')

@@ -79,6 +79,10 @@
                                     <tr v-for="(citizenProtocol, index) in state.citizenProtocols?.data" :key="index">
                                         <td width="50%">
                                             <span>{{ formatDateToReadable(citizenProtocol?.date) }}</span>
+                                            <span v-if="protocolTimeLabel(citizenProtocol)"
+                                                class="block text-xs text-gray-500 tabular-nums">
+                                                {{ protocolTimeLabel(citizenProtocol) }}
+                                            </span>
                                         </td>
                                         <td width="50%">
                                             <Badge
@@ -173,7 +177,9 @@ const state = reactive({
     selectedProtocol: [] as any,
     searchFilter: [] as any,
     sortData: {
-        sortField: 'id',
+        // Newest day first; the server then orders that day's entries by
+        // hour, so a per-hour protocol reads 08:00, 09:00, ... within a day.
+        sortField: 'date',
         sortOrder: 'descend',
     },
 })

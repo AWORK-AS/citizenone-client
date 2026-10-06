@@ -79,6 +79,13 @@
                                                 <Icon name="ph:file-text" class="w-3 h-3" />
                                                 {{ $t('superadmin.companies.accounts.manualInvoice') }}
                                             </span>
+                                            <Tooltip v-else-if="state.subscription?.data?.payment_method === 'bank_transfer'"
+                                                :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
+                                                <span class="co-badge co-badge-navy">
+                                                    <Icon name="ph:bank" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.payment.bankTransfer') }}
+                                                </span>
+                                            </Tooltip>
                                         </div>
                                     </div>
                                 </div>
@@ -460,6 +467,7 @@ const detailTabs = computed(() => [
     { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
     { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
     { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
+    { label: t('superadmin.companies.tabs.agreements'), href: `/superadmin/companies/${companyUuid}/agreements`, icon: 'ph:handshake' },
     { label: t('superadmin.companies.tabs.migration'), href: `/superadmin/companies/${companyUuid}/migration`, icon: 'ph:arrows-merge' },
     { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
 ])
@@ -686,7 +694,14 @@ async function impersonateCompany() {
         }
     } catch (error: any) {
         recoverFromFailedImpersonation()
-        state.error = error
+
+        // The company's admin was tried; the answer names them, so ask for
+        // access to that account instead of only showing the refusal.
+        if (error?.code === 'support_access_required' && error?.account?.uuid) {
+            askForAccess(error.account)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }
