@@ -15562,6 +15562,26 @@
         "email": "E-post",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Nettskjema",
+        "description": "Henvendelser fra deres eget nettsideskjema opprettes automatisk her. Skjemaet sender med en nøkkel som bare kan opprette henvendelser.",
+        "active": "Aktiv · nøkkelen slutter på {last4}",
+        "inactive": "Ikke satt opp",
+        "generate": "Opprett nøkkel",
+        "rotate": "Ny nøkkel",
+        "generateHint": "Opprett en nøkkel til nettsideskjemaet",
+        "rotateHint": "Lag en ny nøkkel. Den gamle slutter å virke med en gang.",
+        "revoke": "Slå av",
+        "revokeHint": "Slå av nettskjemaet. Nøkkelen slutter å virke.",
+        "copyNow": "Kopier nøkkelen nå. Den vises bare denne ene gangen.",
+        "copy": "Kopier nøkkelen",
+        "copied": "Nøkkelen er kopiert",
+        "howTo": "Slik settes skjemaet opp",
+        "howToText": "La nettsiden sende skjemaet til adressen under med nøkkelen i headeren X-Inquiry-Key. Henvendelsen dukker opp i pipelinen, merket som fra nettsiden.",
+        "revoked": "Nettskjemaet er slått av",
+        "failed": "Det lyktes ikke",
+        "fromWebsite": "Fra nettsiden"
+    },
     "consultantSkills": {
         "title": "Konsulentkompetanser",
         "description": "Vedlikehold listene konsulentene matches på. En kompetanse er noe de kan, et kurs er noe de har tatt, og et emneord er noe de har erfaring med.",
