@@ -8480,8 +8480,9 @@
         "sso": {
             "microsoft": "Sign in with Microsoft",
             "hint": "Use your organisation's Microsoft account. Type your work email above first.",
-            "enterEmail": "Type your work email, then choose Sign in with Microsoft.",
-            "failed": "Signing in with Microsoft did not work. Try again."
+            "enterEmail": "Type your work email above, then click again.",
+            "failed": "Signing in with Microsoft did not work. Try again.",
+            "redirecting": "Taking you to Microsoft…"
         }
     },
     "companySso": {
