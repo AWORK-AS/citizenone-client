@@ -11816,7 +11816,15 @@
                 "selectType": "Select type...",
                 "sendWelcomeEmail": "Send welcome email",
                 "sendWelcomeEmailDesc": "The administrator receives login instructions by email",
-                "settings": "Settings"
+                "settings": "Settings",
+                "economicCustomerNumber": "e-conomic customer number",
+                "economicCustomerNumberHelp": "The customer's number in CitizenOne's e-conomic. Only for A customers with an agreement. Without a number, agreement installments are not created as drafts.",
+                "economicCustomerNumberPlaceholder": "Optional",
+                "economicCustomerNumberSave": "Save number",
+                "economicCustomerNumberSaveHelp": "Saves the customer number. Requires access to finance.",
+                "economicCustomerNumberSaved": "The customer number was saved.",
+                "economicCustomerNumberInvalid": "The customer number must be a whole number above 0.",
+                "economicCustomerNumberTaken": "The number is already used by another company."
             },
             "importCompanies": {
                 "alert": {
@@ -12101,7 +12109,9 @@
                 "referral": "Referral",
                 "direct": "Direct",
                 "unknown": "Unknown"
-            }
+            },
+            "economicCustomerNumber": "e-conomic customer no. {number}",
+            "economicCustomerNumberNone": "No e-conomic customer no."
         },
         "coupons": {
             "active": "Active",
@@ -13669,7 +13679,18 @@
                 "coversTo": "Covers to",
                 "addAddOn": "Add add-on",
                 "addAddOnHelp": "Adds a row for licences bought mid-binding: due today and covering today until the end of the binding, so it counts in contract MRR.",
-                "addOnLabel": "Add-on"
+                "addOnLabel": "Add-on",
+                "productNumber": "Product no.",
+                "productNumberHelp": "Product number in e-conomic. Suggestions: 3174 User licence and 3176 Department licence, but you can type any product number.",
+                "productNumberPlaceholder": "E.g. 3174",
+                "quantity": "Quantity",
+                "quantityHelp": "Number of units on the invoice line. The amount is calculated as quantity × unit price.",
+                "unitPrice": "Unit price",
+                "unitPriceHelp": "Price per unit excl. VAT. The amount is calculated as quantity × unit price.",
+                "amountComputed": "The amount is calculated as quantity × unit price while both are filled in.",
+                "rateRowHelp": "Regular installments are invoiced as 1 pc. of the agreement on product 3185. Use Add add-on if the line needs a product number, quantity and unit price.",
+                "suggestUserLicense": "3174 User licence",
+                "suggestDepartmentLicense": "3176 Department licence"
             },
             "detail": {
                 "title": "Agreement",
@@ -13701,7 +13722,8 @@
                     "deal": "Licence",
                     "add_on_deal": "Add-on",
                     "application": "App"
-                }
+                },
+                "addOnLine": "Product {product} · {quantity} × {price}"
             },
             "notice": {
                 "passed": "Notice deadline passed {date}",
@@ -13807,6 +13829,41 @@
                     "override": "A fixed price set on the agreement replaces the list price for the coming renewals.",
                     "fallback": "No licences are linked, so the value is estimated from the contract value."
                 }
+            },
+            "economic": {
+                "state": {
+                    "pending": "Draft pending",
+                    "pendingHelp": "The draft has not been created in e-conomic yet.",
+                    "in_flight": "Creating draft…",
+                    "in_flightHelp": "The draft is being created in CitizenOne's e-conomic right now.",
+                    "created": "Draft {number}",
+                    "createdHelp": "The invoice is a draft in CitizenOne's e-conomic and has not been booked yet.",
+                    "unknown": "Awaiting reconciliation with e-conomic",
+                    "unknownHelp": "The answer from e-conomic never arrived. CitizenOne reconciles with e-conomic before creating a new draft.",
+                    "failed": "e-conomic error",
+                    "failedHelp": "Creating the invoice in e-conomic failed ({error}). You can try again.",
+                    "draft_missing": "The draft no longer exists in e-conomic",
+                    "draft_missingHelp": "The draft was deleted in e-conomic. You can create it again.",
+                    "booked": "Booked {number}",
+                    "bookedHelp": "The invoice has been booked in CitizenOne's e-conomic.",
+                    "paid": "Paid {number}",
+                    "paidHelp": "The invoice has been booked and paid in CitizenOne's e-conomic."
+                },
+                "create": "Create draft in e-conomic",
+                "retry": "Try again",
+                "createHelp": "Creates the invoice as a draft in CitizenOne's e-conomic. Agreement installments only, and the company needs an e-conomic customer number.",
+                "retryHelp": "Tries to create the draft in CitizenOne's e-conomic again after the error.",
+                "creating": "Creating draft…",
+                "creatingHelp": "The draft is created in the background. The page updates when e-conomic has answered.",
+                "recreate": "Create again",
+                "recreateHelp": "Creates a new draft, because the previous one was deleted in e-conomic.",
+                "recreateConfirmTitle": "Create the draft again?",
+                "recreateConfirmText": "The draft no longer exists in e-conomic. Only confirm if it was deleted on purpose. A new draft is created for the invoice.",
+                "created": "The draft was sent to e-conomic.",
+                "pollTimeout": "Creating the draft takes longer than expected. Refresh the page shortly to see the status.",
+                "syncedPayment": "Synced from e-conomic",
+                "syncedPaymentHelp": "The payment was registered automatically when e-conomic showed the invoice as paid.",
+                "missingNumber": "The customer has a running agreement but no e-conomic customer number. Agreement installments are not created as drafts in e-conomic until the number is filled in above."
             }
         },
         "metrics": {

@@ -17,6 +17,13 @@ class CompanyService extends BaseAPIService {
         return await this.request(`/superadmin/companies/${companyUuid}`, 'PUT', params)
     }
 
+    /** Dedicated endpoint (manage_financials). 422 when another company already uses the number. */
+    async updateEconomicCustomerNumber(companyUuid: any, economicCustomerNumber: number | null): Promise<any> {
+        return await this.request(`/superadmin/companies/${companyUuid}/economic-customer-number`, 'PUT', {
+            economic_customer_number: economicCustomerNumber,
+        })
+    }
+
     async activateDeactiveCompany(companyUuid: any, params: object): Promise<any> {
         return await this.request(`/superadmin/companies/${companyUuid}/update-status`, 'PUT', params)
     }
