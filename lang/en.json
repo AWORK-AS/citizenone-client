@@ -953,7 +953,7 @@
         "basedOn": "Based on",
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
         "waitingCount": "{count} waiting",
-        "rateLimitedToday": "Your organisation has reached its daily limit for AI requests. Try again tomorrow.",
+        "rateLimitedToday": "Today's included Cody answers are used. With extra capacity you can carry on today - otherwise it resets at midnight.",
         "limitBuyMore": "Buy more capacity",
         "limitAskAdmin": "Ask your administrator for more capacity.",
         "companyDataMissing": "Answered without access to your data. The search index has not been created yet.",
@@ -1038,7 +1038,7 @@
             }
         },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
-        "budgetSpent": "Your AI capacity is spent. Top up to continue.",
+        "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",
         "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
         "dictate": {
             "start": "Dictate",
@@ -1049,7 +1049,9 @@
                 "denied": "The browser is not allowed to use the microphone. Click the lock in the address bar and allow it.",
                 "missing": "No microphone found on this machine.",
                 "insecure": "Dictation needs a secure connection (https).",
-                "failed": "Could not transcribe the recording. Try again."
+                "failed": "Could not transcribe the recording. Try again.",
+                "limit": "Today's dictation or Cody answers are used. It resets at midnight.",
+                "budget": "Your extra capacity is spent. An administrator can top up under Settings → AI usage."
             }
         },
         "attachFile": "Attach file",
@@ -16889,7 +16891,7 @@
         "ofAllowance": "{used} of {allowance} answers",
         "allowanceExplainer": "Your daily room follows the number of AI licences you hold. It resets at midnight.",
         "balance": "Balance",
-        "balanceExplainer": "Prepaid capacity. It does not expire, and it is only drawn down when an answer is actually delivered.",
+        "balanceExplainer": "Only used for answers beyond what your licences cover each day - at the same price per answer as the licence. The balance does not expire.",
         "buyMore": "Buy more",
         "thisMonth": "This month",
         "feature": "Feature",
@@ -16951,7 +16953,18 @@
             "clear": "Use calculated limit",
             "saved": "Limit saved",
             "set": "You set it to {limit} requests per day.",
-            "derived": "Calculated limit: {limit} requests per day per employee."
+            "derived": "Calculated limit: {limit} requests per day per employee.",
+            "lifted": "While you have a balance, the calculated limit does not apply. A limit you set yourselves always does."
+        },
+        "beyondToday": "+{count} from balance",
+        "allowanceThenBalance": "After that, answers are drawn from your balance.",
+        "allowanceThenStop": "Once they are used, you can carry on with prepaid capacity.",
+        "monthExplainer": "What was drawn from the balance. Answers within the day's included amount cost nothing extra.",
+        "buyHint": "Buy prepaid capacity for days when you use Cody more than your licences cover",
+        "offer": {
+            "title": "Extra capacity for busy days",
+            "body": "When the day's included answers are used, staff can carry on with prepaid capacity. You only pay for what goes beyond your licences, and the balance does not expire.",
+            "cta": "Buy capacity"
         }
     },
     "inquiryMatchNeeds": {

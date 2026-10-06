@@ -953,7 +953,7 @@
         "basedOn": "Basert på",
         "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
         "waitingCount": "{count} venter",
-        "rateLimitedToday": "Organisasjonen deres har nådd dagens grense for AI-forespørsler. Prøv igjen i morgen.",
+        "rateLimitedToday": "Dagens inkluderte Cody-svar er brukt. Med ekstra kapasitet kan dere fortsette i dag - ellers nullstilles det ved midnatt.",
         "limitBuyMore": "Kjøp mer kapasitet",
         "limitAskAdmin": "Be administratoren din om mer kapasitet.",
         "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
@@ -1038,7 +1038,7 @@
             }
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator.",
-        "budgetSpent": "AI-kapasiteten deres er brukt opp. Fyll på for å fortsette.",
+        "budgetSpent": "Den ekstra kapasiteten er brukt, og dagens inkluderte svar er også brukt. Fyll på for å fortsette i dag.",
         "ownDailyLimit": "Du har brukt din egen dagsgrense for AI. Administratoren din kan heve den.",
         "dictate": {
             "start": "Diktér",
@@ -1049,7 +1049,9 @@
                 "denied": "Nettleseren har ikke lov til å bruke mikrofonen. Klikk på låsen i adressefeltet og tillat den.",
                 "missing": "Ingen mikrofon funnet på denne maskinen.",
                 "insecure": "Diktering krever en sikker tilkobling (https).",
-                "failed": "Kunne ikke skrive ned opptaket. Prøv igjen."
+                "failed": "Kunne ikke skrive ned opptaket. Prøv igjen.",
+                "limit": "Dagens diktering eller Cody-svar er brukt. Det nullstilles ved midnatt.",
+                "budget": "Den ekstra kapasiteten er brukt. En administrator kan fylle på under Innstillinger → AI-bruk."
             }
         },
         "attachFile": "Legg ved fil",
@@ -16793,7 +16795,7 @@
         "ofAllowance": "{used} av {allowance} svar",
         "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",
         "balance": "Saldo",
-        "balanceExplainer": "Forhåndsbetalt kapasitet. Den utløper ikke, og det trekkes kun fra den når et svar faktisk blir levert.",
+        "balanceExplainer": "Brukes bare til svar utover det lisensene deres dekker per dag - til samme pris per svar som lisensen. Saldoen utløper ikke.",
         "buyMore": "Kjøp mer",
         "thisMonth": "Denne måneden",
         "feature": "Funksjon",
@@ -16855,7 +16857,18 @@
             "clear": "Bruk utregnet grense",
             "saved": "Grensen er lagret",
             "set": "Dere satte den til {limit} kall per dag.",
-            "derived": "Utregnet grense: {limit} kall per dag per ansatt."
+            "derived": "Utregnet grense: {limit} kall per dag per ansatt.",
+            "lifted": "Mens dere har saldo, gjelder ikke den beregnede grensen. En grense dere setter selv, gjelder alltid."
+        },
+        "beyondToday": "+{count} fra saldo",
+        "allowanceThenBalance": "Deretter trekkes svarene fra saldoen deres.",
+        "allowanceThenStop": "Når de er brukt, kan dere fortsette med forhåndsbetalt kapasitet.",
+        "monthExplainer": "Det som er trukket fra saldoen. Svar innenfor dagens inkluderte antall koster ikke ekstra.",
+        "buyHint": "Kjøp forhåndsbetalt kapasitet til dager da dere bruker Cody mer enn lisensene dekker",
+        "offer": {
+            "title": "Ekstra kapasitet til travle dager",
+            "body": "Når dagens inkluderte svar er brukt, kan de ansatte fortsette med forhåndsbetalt kapasitet. Dere betaler bare for det som går utover lisensene, og saldoen utløper ikke.",
+            "cta": "Kjøp kapasitet"
         }
     },
     "inquiryMatchNeeds": {
