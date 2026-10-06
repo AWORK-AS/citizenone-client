@@ -33,10 +33,6 @@
                     </button>
                 </div>
 
-                <!-- Aftaletal (kontrakt-MRR/ARR, cash, backlog, udestående, bindinger).
-                     Vises kun når API'et sender dem. -->
-                <ModulesSuperadminAgreementMetrics :data="state.recurringRevenue" />
-
                 <!-- Row 1: 4 stat cards -->
                 <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                     <!-- Clients -->
@@ -404,7 +400,6 @@ const state = reactive({
     totalActiveLicenses: 0,
     unusedLicenses: 0,
     companyStorage: [] as any[],
-    recurringRevenue: null as any,
     recentCompanies: [] as any[],
     usersOnlineNow: 0,
     usersActiveToday: 0,
@@ -476,7 +471,6 @@ async function fetchDashboard() {
             state.totalActiveLicenses = response?.data?.total_active_licenses ?? 0
             state.unusedLicenses = response?.data?.unused_licenses ?? 0
             state.companyStorage = response?.data?.company_storage ?? []
-            state.recurringRevenue = response?.data?.recurring_revenue ?? null
             state.usersOnlineNow = response?.data?.users_online_now ?? 0
             state.usersActiveToday = response?.data?.users_active_today ?? 0
             state.companiesActiveToday = response?.data?.companies_active_today ?? 0
