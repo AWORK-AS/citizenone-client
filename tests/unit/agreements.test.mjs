@@ -16,8 +16,17 @@ import {
     buildAgreementPayload,
     bindingEndsOn,
     canCreateEconomicDraft,
+    canRecreateEconomicDraft,
     economicDraftActionKey,
+    economicDraftPayload,
     economicStatus,
+    economicSyncState,
+    shouldKeepPollingEconomic,
+    isEconomicSyncedPayment,
+    addOnAmount,
+    addOnAmountIsComputed,
+    addOnFields,
+    ECONOMIC_SYNC_STATES,
     missingEconomicNumber,
     parseEconomicCustomerNumber,
     buildAddOnInstallment,
@@ -358,28 +367,72 @@ describe('installment coverage', () => {
     })
 })
 
+const agreementInvoice = { type: 'agreement', linked_to_installment: true }
+
 describe('e-conomic status', () => {
-    test('maps draft, booked and error, booked winning over the rest', () => {
-        assert.deepEqual(economicStatus({}), { kind: 'none', number: null, error: null })
-        assert.deepEqual(economicStatus(null), { kind: 'none', number: null, error: null })
-        assert.deepEqual(economicStatus({ economic_draft_number: 4711 }), { kind: 'draft', number: '4711', error: null })
-        assert.equal(economicStatus({ economic_draft_number: 4711, economic_invoice_number: 90001 }).kind, 'booked')
-        assert.equal(economicStatus({ economic_draft_number: 4711, economic_invoice_number: 90001 }).number, '90001')
-        const err = economicStatus({ economic_sync_error: 'Customer 12 not found' })
-        assert.equal(err.kind, 'error')
-        assert.equal(err.error, 'Customer 12 not found')
-        assert.equal(economicStatus({ economic_invoice_number: 90001, economic_sync_error: 'old' }).kind, 'booked')
+    test('every sync state maps to a chip; unknown values and no state map to nothing', () => {
+        assert.deepEqual(ECONOMIC_SYNC_STATES, ['pending', 'in_flight', 'created', 'unknown', 'failed', 'draft_missing', 'booked', 'paid'])
+        for (const state of ECONOMIC_SYNC_STATES) {
+            const chip = economicStatus({ economic_sync_state: state })
+            assert.equal(chip.state, state)
+            assert.ok(chip.color && chip.icon)
+        }
+        assert.equal(economicStatus({}), null)
+        assert.equal(economicStatus(null), null)
+        assert.equal(economicStatus({ economic_sync_state: 'bogus' }), null)
+        assert.equal(economicSyncState({ economic_sync_state: 'bogus' }), null)
     })
 
-    test('the draft button shows for none and error only, and says retry after an error', () => {
-        assert.equal(canCreateEconomicDraft({}), true)
-        assert.equal(canCreateEconomicDraft({ economic_sync_error: 'x' }), true)
-        assert.equal(canCreateEconomicDraft({ economic_draft_number: 1 }), false)
-        assert.equal(canCreateEconomicDraft({ economic_invoice_number: 2 }), false)
-        assert.equal(canCreateEconomicDraft({ covered_by_agreement: true }), false)
+    test('shows the draft number until booked, then the booked number', () => {
+        const base = { economic_draft_number: 4711, economic_invoice_number: 90001 }
+        assert.equal(economicStatus({ ...base, economic_sync_state: 'created' }).number, '4711')
+        assert.equal(economicStatus({ ...base, economic_sync_state: 'booked' }).number, '90001')
+        assert.equal(economicStatus({ ...base, economic_sync_state: 'paid' }).number, '90001')
+        assert.equal(economicStatus({ economic_sync_state: 'in_flight' }).number, null)
+        assert.equal(economicStatus({ economic_sync_state: 'failed', economic_sync_error: 'http_422' }).error, 'http_422')
+    })
+
+    test('the draft button needs an agreement instalment invoice, and never shows for shop or card invoices', () => {
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice }), true)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, economic_sync_state: 'pending' }), true)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, economic_sync_state: 'failed' }), true)
+        for (const state of ['in_flight', 'created', 'unknown', 'draft_missing', 'booked', 'paid']) {
+            assert.equal(canCreateEconomicDraft({ ...agreementInvoice, economic_sync_state: state }), false, state)
+        }
+        for (const type of ['monthly', 'yearly', 'recurring', 'new', 'card', null, undefined]) {
+            assert.equal(canCreateEconomicDraft({ type, linked_to_installment: true }), false, String(type))
+        }
+        assert.equal(canCreateEconomicDraft({ type: 'agreement', linked_to_installment: false }), false)
+        assert.equal(canCreateEconomicDraft({ type: 'agreement' }), false)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, covered_by_agreement: true }), false)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, is_paid: true }), false)
         assert.equal(canCreateEconomicDraft(null), false)
-        assert.equal(economicDraftActionKey({}), 'create')
-        assert.equal(economicDraftActionKey({ economic_sync_error: 'x' }), 'retry')
+        assert.equal(economicDraftActionKey({ economic_sync_state: 'failed' }), 'retry')
+        assert.equal(economicDraftActionKey({ economic_sync_state: 'pending' }), 'create')
+    })
+
+    test('"create again" is for draft_missing only and sends recreate: true', () => {
+        assert.equal(canRecreateEconomicDraft({ ...agreementInvoice, economic_sync_state: 'draft_missing' }), true)
+        for (const state of ['pending', 'in_flight', 'created', 'unknown', 'failed', 'booked', 'paid']) {
+            assert.equal(canRecreateEconomicDraft({ ...agreementInvoice, economic_sync_state: state }), false, state)
+        }
+        assert.equal(canRecreateEconomicDraft({ type: 'monthly', linked_to_installment: true, economic_sync_state: 'draft_missing' }), false)
+        assert.deepEqual(economicDraftPayload(true), { recreate: true })
+        assert.equal(economicDraftPayload(false), undefined)
+    })
+
+    test('polls only while in flight, and gives up after the attempt budget', () => {
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'in_flight' }, 0), true)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'in_flight' }, 19), true)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'in_flight' }, 20), false)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'created' }, 0), false)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'failed' }, 0), false)
+    })
+
+    test('synced payments are recognised by paid_source', () => {
+        assert.equal(isEconomicSyncedPayment({ paid_source: 'economic_sync' }), true)
+        assert.equal(isEconomicSyncedPayment({ paid_source: 'manual' }), false)
+        assert.equal(isEconomicSyncedPayment({}), false)
     })
 
     test('customer number is null or a positive integer', () => {
@@ -396,5 +449,53 @@ describe('e-conomic status', () => {
         assert.equal(missingEconomicNumber({ economic_customer_number: null }, [{ status: 'ended' }, { status: 'cancelled' }]), false)
         assert.equal(missingEconomicNumber(null, [{ status: 'active' }]), false)
         assert.equal(missingEconomicNumber({}, [{ status: 'active' }]), false)
+    })
+})
+
+describe('add-on rows: product number, quantity, unit price', () => {
+    test('amount is quantity x unit price, rounded to oere, null until both are set', () => {
+        assert.equal(addOnAmount(10, 150), 1500)
+        assert.equal(addOnAmount('2.5', '99.99'), 249.98)
+        assert.equal(addOnAmount(3, 0.1), 0.3)
+        assert.equal(addOnAmount(1.5, 33.33), 50)
+        assert.equal(addOnAmount(10, ''), null)
+        assert.equal(addOnAmount(null, 150), null)
+        assert.equal(addOnAmount(undefined, undefined), null)
+    })
+
+    test('the amount is read-only only while both are set', () => {
+        assert.equal(addOnAmountIsComputed({ quantity: 5, unit_price: 100 }), true)
+        assert.equal(addOnAmountIsComputed({ quantity: 5, unit_price: '' }), false)
+        assert.equal(addOnAmountIsComputed({}), false)
+    })
+
+    test('fields are numbers or null', () => {
+        assert.deepEqual(addOnFields({ product_number: '3174', quantity: '5', unit_price: '100.5' }),
+            { product_number: 3174, quantity: 5, unit_price: 100.5 })
+        assert.deepEqual(addOnFields({ product_number: '', quantity: '', unit_price: null }),
+            { product_number: null, quantity: null, unit_price: null })
+        assert.equal(addOnFields({ product_number: 'abc' }).product_number, null)
+    })
+
+    test('the explicit installments[] carries the three fields on add-on rows only, with the computed amount', () => {
+        const form = {
+            name: 'A', starts_on: '2026-10-01', term_months: 36, term_mode: 'months', ends_on: '',
+            renewal_annual_value: '', notice_months: 3, auto_renews: true, billing_plan: 'installments',
+            prepaid_years: null, contract_value: 2000, fee_per_invoice: 295, payment_method: 'bank_transfer',
+            internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 30, remaining_count: 3, remaining_interval_months: 12 },
+            installmentsEdited: true, presetApplied: false,
+            installments: [
+                { due_on: '2026-10-01', amount: 500, label: 'Rate 1' },
+                { ...buildAddOnInstallment('2026-11-01', '2029-10-01'), product_number: '3174', quantity: 10, unit_price: 150, amount: 1 },
+            ],
+        }
+        const rows = buildAgreementPayload(form).installments
+        assert.equal('product_number' in rows[0], false)
+        assert.equal('quantity' in rows[0], false)
+        assert.equal(rows[1].product_number, 3174)
+        assert.equal(rows[1].quantity, 10)
+        assert.equal(rows[1].unit_price, 150)
+        assert.equal(rows[1].amount, 1500)
     })
 })
