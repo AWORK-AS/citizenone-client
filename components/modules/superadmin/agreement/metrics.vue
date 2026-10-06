@@ -16,7 +16,7 @@
                 </p>
             </div>
 
-            <!-- Cash MRR / ARR, next 12 months -->
+            <!-- Cash MRR. The 12-month total is the "Kontraheret, næste 12 mdr." card on Ledelse. -->
             <div class="co-metric-card" style="--accent:#42AED9">
                 <div class="flex items-center gap-1">
                     <p class="co-metric-label">{{ $t('superadmin.metrics.cashMrr') }}</p>
@@ -26,9 +26,6 @@
                     </Tooltip>
                 </div>
                 <p class="co-metric-value text-[#205E77]">{{ formatAmount(num(data.cash_mrr), 'DKK') }}</p>
-                <p class="co-metric-sub">
-                    {{ $t('superadmin.metrics.cashArr', { amount: formatAmount(num(data.cash_arr_next_12_months), 'DKK') }) }}
-                </p>
             </div>
 
             <!-- Backlog -->
