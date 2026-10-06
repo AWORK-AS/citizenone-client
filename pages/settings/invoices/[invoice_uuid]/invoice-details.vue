@@ -94,9 +94,8 @@
                             </Table>
                         </div>
                     </div>
-                    <p class="text-center mt-10 text-sm text-primary">
-                        {{ $t('invoiceDetails.thisInvoiceHasAlreadyBeenPaid') }}
-                    </p>
+                    <ModulesSuperadminAgreementInvoicePaymentNotice :invoice="state.invoice?.data"
+                        paidViaMethodKey="invoiceDetails.thisInvoiceHasAlreadyBeenPaid" />
                 </LoadingSpinner>
             </div>
         </NuxtLayout>
