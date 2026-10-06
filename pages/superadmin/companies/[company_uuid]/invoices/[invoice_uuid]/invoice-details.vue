@@ -26,6 +26,13 @@
                     </Tooltip>
                     <ModulesSuperadminAgreementEconomicStatus v-if="state.invoice?.data" :invoice="economicInvoice"
                         @updated="onEconomicUpdated" @failed="(error: any) => state.error = error" />
+                    <Tooltip v-if="state.invoice?.data?.is_paid && isEconomicSyncedPayment(state.invoice.data)"
+                        :text="$t('superadmin.agreements.economic.syncedPaymentHelp')" position="bottom" wrap>
+                        <span class="co-badge co-badge-gray">
+                            <Icon name="ph:arrows-clockwise" class="w-3 h-3" aria-hidden="true" />
+                            {{ $t('superadmin.agreements.economic.syncedPayment') }}
+                        </span>
+                    </Tooltip>
                     <Tooltip v-if="state.invoice?.data && !state.invoice.data.is_paid && !state.invoice.data.covered_by_agreement"
                         :text="$t('superadmin.agreements.payment.registerHelp')" position="bottom">
                         <FormButton buttonStyle="success" @click="state.isPaymentOpen = true">
@@ -129,6 +136,7 @@
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAlert } from '@/composables/alert'
+import { isEconomicSyncedPayment } from '@/composables/agreements'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
@@ -164,7 +172,9 @@ const economicInvoice = computed(() => ({ uuid: invoiceUuid, ...(state.invoice?.
 // The API answers with the invoice: replace the local state with it.
 async function onEconomicUpdated(updated: any) {
     state.error = {}
-    successAlert(`${language.t('alert.success')}!`, language.t('superadmin.agreements.economic.created'))
+    if (updated?.economic_sync_state === 'created') {
+        successAlert(`${language.t('alert.success')}!`, language.t('superadmin.agreements.economic.created'))
+    }
     if (updated && typeof updated === 'object' && updated.invoice_number) {
         state.invoice = { ...state.invoice, data: { ...state.invoice.data, ...updated } }
     } else {
