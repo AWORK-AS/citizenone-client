@@ -4982,7 +4982,8 @@
             "employeeMarkedUnavailable": "Denne medarbeideren har markert seg utilgjengelig på denne datoen",
             "sendEmailToEmployee": "Send e-post til den ansatte",
             "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
-            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen."
+            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
+            "compensatoryHours": "Avspaseringstimer brukt"
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
@@ -6536,7 +6537,12 @@
                 "created": "Opprettet",
                 "published": "Publisert",
                 "updated": "Oppdatert",
-                "deleted": "Slettet"
+                "deleted": "Slettet",
+                "compensatory_time_requested": "Avspasering forespurt",
+                "compensatory_time_approved": "Avspasering godkjent",
+                "compensatory_time_declined": "Avspasering avslått",
+                "compensatory_time_withdrawn": "Avspasering trukket tilbake",
+                "compensatory_time_reversed": "Avspasering reversert"
             }
         },
         "salaryDk_sync": "Synkroniser til Salary",

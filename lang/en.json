@@ -5037,7 +5037,8 @@
             "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date",
             "sendEmailToEmployee": "Send email to employee",
             "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
-            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app."
+            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
+            "compensatoryHours": "Compensatory hours used"
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -6591,7 +6592,12 @@
                 "created": "Created",
                 "published": "Published",
                 "updated": "Updated",
-                "deleted": "Deleted"
+                "deleted": "Deleted",
+                "compensatory_time_requested": "Compensatory time requested",
+                "compensatory_time_approved": "Compensatory time approved",
+                "compensatory_time_declined": "Compensatory time declined",
+                "compensatory_time_withdrawn": "Compensatory time withdrawn",
+                "compensatory_time_reversed": "Compensatory time reversed"
             }
         },
         "salaryDk_sync": "Sync to Salary",

@@ -716,6 +716,9 @@
                                                             <div class="absolute -left-3 -top-3 z-10 w-6 h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-sm"
                                                                 v-if="shift?.type?.system_name === 'vacation-leave'">🏖️
                                                             </div>
+                                                            <div class="absolute -left-3 -top-3 z-10 w-6 h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-sm"
+                                                                v-if="shift?.type?.system_name === 'compensatory-time'">⏳
+                                                            </div>
                                                             <div class="flex flex-col 2xl:flex-row 2xl:items-center 2xl:justify-between text-white cursor-pointer px-1.5 sm:px-2.5 pt-1.5 sm:pt-2.5 pb-1 sm:pb-2"
                                                                 @click="editSchedule(employee, employeeIndex, weekIndex, shift, shiftIndex)">
                                                                 <!-- Start time -->

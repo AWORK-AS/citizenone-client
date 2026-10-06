@@ -724,6 +724,11 @@
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
                                                 </div>
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                    style="font-size:0.875rem"
+                                                    v-if="shift?.type?.system_name === 'compensatory-time'">
+                                                    ⏳
+                                                </div>
                                                 <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
                                                     :text="$t('dutySchedules.lockedShiftTooltip')" position="top"
                                                     :wrap="true" class="absolute -top-3 -right-2 z-10">

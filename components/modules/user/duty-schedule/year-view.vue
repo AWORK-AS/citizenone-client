@@ -636,6 +636,11 @@
                                                         v-if="shift?.type?.system_name === 'vacation-leave'">
                                                         🏖️
                                                     </div>
+                                                    <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                        style="font-size:0.875rem"
+                                                        v-if="shift?.type?.system_name === 'compensatory-time'">
+                                                        ⏳
+                                                    </div>
                                                     <div v-if="isWorkedHolidayShift(shift)"
                                                         class="absolute left-5 -top-2 sm:-right-3 sm:-top-3 z-10">
                                                         <Tooltip :text="$t('dutySchedules.holidayWorkedTooltip')"
