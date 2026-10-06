@@ -3,8 +3,26 @@ import { useI18n } from 'vue-i18n'
 import { useAlert } from '@/composables/alert'
 import { canOpenInBrowser, mimeFromExtension, openDocumentsInTabs, type DocumentTabsResult } from '@/composables/documentTabs'
 
-// Word files the in-app viewer (docx-preview) can lay out from the original.
-const IN_APP_PREVIEW_EXTENSIONS = ['docx']
+// What the in-app viewer can draw, by extension. HTML and SVG are left out: a
+// blob: URL runs with this app's origin, so their scripts would run next to the
+// session. Anything not listed gets a "no preview" message.
+export type DocumentPreviewKind = 'pdf' | 'image' | 'text' | 'docx' | 'none'
+
+const PREVIEW_KINDS: Record<string, DocumentPreviewKind> = {
+    pdf: 'pdf',
+    png: 'image',
+    jpg: 'image',
+    jpeg: 'image',
+    gif: 'image',
+    webp: 'image',
+    bmp: 'image',
+    txt: 'text',
+    csv: 'text',
+    docx: 'docx',
+}
+
+const PREVIEW_KIND_MIME = /^(application\/pdf|image\/(png|jpe?g|gif|webp|bmp)|text\/(plain|csv))$/i
+const DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 
 export function documentExtension(document: any): string {
     // A OneDrive row's file_url is its webUrl (".../Doc.aspx?sourcedoc=..."),
@@ -30,8 +48,49 @@ export function documentFileName(document: any, fallback = 'dokument'): string {
     return `${name}.${extension}`
 }
 
+/**
+ * How the in-app viewer shows a document. The extension decides; the blob's
+ * type is only asked when the document has no extension at all, so a file
+ * named .pdf is never drawn as something else because of what the server said.
+ */
+export function documentPreviewKind(document: any, blob?: Blob | null): DocumentPreviewKind {
+    const extension = documentExtension(document)
+    if (extension) {
+        return PREVIEW_KINDS[extension] ?? 'none'
+    }
+
+    const type = (blob?.type || '').split(';')[0].trim().toLowerCase()
+    if (type === DOCX_MIME) {
+        return 'docx'
+    }
+    if (!PREVIEW_KIND_MIME.test(type)) {
+        return 'none'
+    }
+
+    return type === 'application/pdf' ? 'pdf' : type.startsWith('image/') ? 'image' : 'text'
+}
+
+// The original bytes retyped for the kind they are shown as, whatever type the
+// server sent, so an iframe or img can only ever treat them as that kind.
+export function blobForPreview(blob: Blob, document: any, kind: DocumentPreviewKind): Blob {
+    const type = kind === 'pdf'
+        ? 'application/pdf'
+        : kind === 'image'
+            ? imageMime(document, blob)
+            : 'text/plain'
+
+    return blob.type === type ? blob : new Blob([blob], { type })
+}
+
+// The image type its extension names, or the server's when it names none.
+function imageMime(document: any, blob: Blob): string {
+    const type = mimeFromExtension('.' + documentExtension(document))
+
+    return type === 'application/octet-stream' ? blob.type : type
+}
+
 export function canPreviewInApp(document: any): boolean {
-    return IN_APP_PREVIEW_EXTENSIONS.includes(documentExtension(document))
+    return documentPreviewKind(document) !== 'none'
 }
 
 // Opens an already-downloaded document Blob in a new browser tab instead of

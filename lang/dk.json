@@ -4615,7 +4615,15 @@
             "originalKeptNote": "Du ser en forhåndsvisning. Originalfilen er gemt uændret – hent den for at åbne den i Word med præcis samme skrifttyper og layout.",
             "downloadOriginal": "Hent original",
             "renderFailed": "Dokumentet kan ikke vises her. Filen er ikke ændret – hent originalen for at åbne den i Word.",
-            "oneDriveDownloadFailed": "Filen kunne ikke hentes fra OneDrive. Prøv igen, eller åbn den direkte i OneDrive."
+            "oneDriveDownloadFailed": "Filen kunne ikke hentes fra OneDrive. Prøv igen, eller åbn den direkte i OneDrive.",
+            "notAvailable": "Forhåndsvisning er ikke tilgængelig for denne filtype.",
+            "downloadToOpen": "Hent originalen for at åbne den på din computer.",
+            "noDownloadPermission": "Din rolle giver ikke adgang til at hente dokumenter.",
+            "cannotShow": "Dokumentet kan ikke vises her.",
+            "previewNote": "Du ser en forhåndsvisning. Skrifttyper og layout kan afvige en smule fra originalfilen.",
+            "previous": "Forrige dokument",
+            "next": "Næste dokument",
+            "position": "{current} af {total}"
         }
     },
     "dutySchedules": {

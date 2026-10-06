@@ -21,8 +21,10 @@ class EmployeeDocumentService extends BaseAPIService {
         return await this.request(`/user/employee-documents/${documentUuid}/archive`, 'PUT')
     }
 
-    async downloadDocument(documentUuid: any): Promise<any> {
-        return await this.request(`/user/employee-documents/${documentUuid}/download`, 'GET')
+    // As a blob whatever the file is: a plain request() hands text files back as
+    // a string, which saveAs and the viewer can't use.
+    async downloadDocument(documentUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/employee-documents/${documentUuid}/download`, 'GET')
     }
 
     async viewDocument(documentUuid: any): Promise<Blob | null> {

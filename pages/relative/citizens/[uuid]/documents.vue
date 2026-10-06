@@ -120,14 +120,14 @@ import type { Error } from '@/types'
 
 const { openInTabs } = documentBlobViewer()
 
-// Word files are previewed in the app from the stored original instead of a
-// blob: tab, which a browser cannot render and saved as a nameless, blank file.
+// PDFs, images, text and Word files open in the app's viewer from the stored
+// original; anything it can't draw is saved under its real name.
 const preview = reactive({
     isOpen: false,
     document: {} as any,
 })
 
-function loadCitizenFile(document: any): Promise<Blob> {
+function loadCitizenFile(document: any): Promise<Blob | null> {
     return citizenDocumentService.downloadCitizenFile(document?.uuid)
 }
 
