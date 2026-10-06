@@ -16,6 +16,13 @@ export interface AgreementInstallmentInvoice {
     is_paid: boolean
     paid_at: string | null
     total_amount_incl_vat: number
+    economic_draft_number?: number | string | null
+    economic_invoice_number?: number | string | null
+    economic_sync_state?: string | null
+    economic_sync_error?: string | null
+    type?: string | null
+    linked_to_installment?: boolean
+    paid_source?: string | null
 }
 
 export interface AgreementInstallment {
@@ -31,6 +38,9 @@ export interface AgreementInstallment {
     /** Period the row counts towards contract MRR; the backend fills it when null. */
     covers_from?: string | null
     covers_to?: string | null
+    product_number?: number | null
+    quantity?: number | null
+    unit_price?: number | null
 }
 
 /** A planned installment as sent to / returned by the API before it is saved. */
@@ -40,6 +50,11 @@ export interface InstallmentInput {
     label: string | null
     covers_from?: string | null
     covers_to?: string | null
+    /** Add-on (tilkoeb) row: shows product number, quantity and unit price. */
+    is_add_on?: boolean
+    product_number?: number | string | null
+    quantity?: number | string | null
+    unit_price?: number | string | null
 }
 
 export interface AgreementSubscription {

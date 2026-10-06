@@ -258,15 +258,22 @@
                                         </Tooltip>
                                         <span></span>
                                     </div>
-                                    <div v-for="(row, index) in form.installments" :key="index"
-                                        class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-center mb-2">
+                                    <div v-for="(row, index) in form.installments" :key="index" class="mb-2">
+                                    <div class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-center">
                                         <span class="text-[12px] text-[#8891A4] text-center">{{ index + 1 }}</span>
                                         <input class="co-cell-input" type="date" v-model="row.due_on"
                                             :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.dueOn')" />
-                                        <input class="co-cell-input" type="number" step="0.01" min="0"
-                                            v-model.number="row.amount" :disabled="row.locked" @input="markEdited"
-                                            :aria-label="$t('superadmin.agreements.table.amount')" />
+                                        <Tooltip :text="isAddOnRow(row)
+                                            ? $t('superadmin.agreements.form.amountComputed')
+                                            : $t('superadmin.agreements.form.rateRowHelp')" position="top" wrap class="!block">
+                                            <input class="co-cell-input w-full" type="number" step="0.01" min="0"
+                                                v-model.number="row.amount" :disabled="row.locked"
+                                                :readonly="addOnAmountIsComputed(row)"
+                                                :class="{ 'bg-[#F5F6F8] cursor-not-allowed': addOnAmountIsComputed(row) }"
+                                                @input="markEdited"
+                                                :aria-label="$t('superadmin.agreements.table.amount')" />
+                                        </Tooltip>
                                         <input class="co-cell-input" type="text" v-model="row.label"
                                             :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.label')" />
@@ -304,6 +311,58 @@
                                             </Tooltip>
                                         </div>
                                     </div>
+                                    <!-- Add-on (tilkoeb) rows: product number, quantity and unit price -->
+                                    <div v-if="isAddOnRow(row)"
+                                        class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-start mt-1">
+                                        <span></span>
+                                        <div>
+                                            <Tooltip :text="$t('superadmin.agreements.form.productNumberHelp')" position="top"
+                                                wrap class="!block">
+                                                <input class="co-cell-input w-full" type="number" min="1" step="1"
+                                                    inputmode="numeric" list="agreement-addon-products"
+                                                    v-model="row.product_number" :disabled="row.locked"
+                                                    :placeholder="$t('superadmin.agreements.form.productNumberPlaceholder')"
+                                                    @input="markEdited"
+                                                    :aria-label="$t('superadmin.agreements.form.productNumber')" />
+                                            </Tooltip>
+                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                                {{ $t('superadmin.agreements.form.productNumber') }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <Tooltip :text="$t('superadmin.agreements.form.quantityHelp')" position="top"
+                                                wrap class="!block">
+                                                <input class="co-cell-input w-full" type="number" min="0" step="0.01"
+                                                    v-model="row.quantity" :disabled="row.locked"
+                                                    @input="onAddOnInput(row)"
+                                                    :aria-label="$t('superadmin.agreements.form.quantity')" />
+                                            </Tooltip>
+                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                                {{ $t('superadmin.agreements.form.quantity') }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <Tooltip :text="$t('superadmin.agreements.form.unitPriceHelp')" position="top"
+                                                wrap class="!block">
+                                                <input class="co-cell-input w-full" type="number" min="0" step="0.01"
+                                                    v-model="row.unit_price" :disabled="row.locked"
+                                                    @input="onAddOnInput(row)"
+                                                    :aria-label="$t('superadmin.agreements.form.unitPrice')" />
+                                            </Tooltip>
+                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                                {{ $t('superadmin.agreements.form.unitPrice') }}
+                                            </span>
+                                        </div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    </div>
+
+                                    <datalist id="agreement-addon-products">
+                                        <option v-for="p in ADDON_PRODUCT_SUGGESTIONS" :key="p.number" :value="p.number">
+                                            {{ $t(`superadmin.agreements.form.suggest${p.key === 'userLicense' ? 'UserLicense' : 'DepartmentLicense'}`) }}
+                                        </option>
+                                    </datalist>
 
                                     <!-- Sum check -->
                                     <Tooltip :text="$t('superadmin.agreements.form.sumCheckHelp')" position="top" wrap>
@@ -414,6 +473,10 @@ import {
     buildAgreementPayload,
     bindingEndsOn,
     buildAddOnInstallment,
+    ADDON_PRODUCT_SUGGESTIONS,
+    addOnAmount,
+    addOnAmountIsComputed,
+    isAddOnRow,
     buildPresetInstallments,
     withDefaultCoverage,
     installmentsDifference,
@@ -521,6 +584,9 @@ function resetFromProps() {
                 label: row.label,
                 covers_from: row.covers_from ?? null,
                 covers_to: row.covers_to ?? null,
+                product_number: row.product_number ?? null,
+                quantity: row.quantity ?? null,
+                unit_price: row.unit_price ?? null,
                 // An installment that already has an invoice, or was settled
                 // outside CitizenOne, is history.
                 locked: !!row.invoice || !!row.settled_externally_at,
@@ -606,6 +672,13 @@ function addRow() {
         label: null,
     })
     markEdited()
+}
+
+// Antal x stykpris drives the amount while both are set.
+function onAddOnInput(row: Row) {
+    markEdited()
+    const amount = addOnAmount(row.quantity, row.unit_price)
+    if (amount !== null) row.amount = amount
 }
 
 function addAddOn() {

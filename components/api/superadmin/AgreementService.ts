@@ -75,6 +75,14 @@ class AgreementService extends BaseAPIService {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/payment`, 'POST', payload)
     }
 
+    /**
+     * Queues the draft invoice in CitizenOne's e-conomic. Answers 202 with the invoice in
+     * state `in_flight`; poll getInvoice for the outcome. `recreate` is only for draft_missing.
+     */
+    async createEconomicDraft(invoiceUuid: string, payload?: { recreate: true }): Promise<any> {
+        return await this.request(`/superadmin/invoices/${invoiceUuid}/economic-draft`, 'POST', payload)
+    }
+
     async undoPayment(invoiceUuid: string): Promise<any> {
         return await this.request(`/superadmin/invoices/${invoiceUuid}/payment`, 'DELETE')
     }

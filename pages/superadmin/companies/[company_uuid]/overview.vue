@@ -51,6 +51,16 @@
                                                 Inaktiv
                                             </span>
 
+                                            <!-- e-conomic customer number -->
+                                            <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
+                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-700">
+                                                    <Icon name="ph:hash" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ state.company?.economic_customer_number
+                                                        ? $t('superadmin.companies.economicCustomerNumber', { number: state.company.economic_customer_number })
+                                                        : $t('superadmin.companies.economicCustomerNumberNone') }}
+                                                </span>
+                                            </Tooltip>
+
                                             <!-- Billing type -->
                                             <span v-if="state.company?.subscription?.payment_method === 'card'"
                                                 class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">

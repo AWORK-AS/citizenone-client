@@ -11779,7 +11779,15 @@
                 "selectType": "Velg type...",
                 "sendWelcomeEmail": "Send velkomst-e-post",
                 "sendWelcomeEmailDesc": "Administratoren mottar påloggingsinstruksjoner på e-post",
-                "settings": "Innstillinger"
+                "settings": "Innstillinger",
+                "economicCustomerNumber": "e-conomic kundenummer",
+                "economicCustomerNumberHelp": "Kundens nummer i CitizenOnes e-conomic. Bare for A-kunder med en avtale. Uten nummer opprettes ikke avtaleratene som kladd.",
+                "economicCustomerNumberPlaceholder": "Valgfritt",
+                "economicCustomerNumberSave": "Lagre nummer",
+                "economicCustomerNumberSaveHelp": "Lagrer kundenummeret. Krever tilgang til økonomi.",
+                "economicCustomerNumberSaved": "Kundenummeret er lagret.",
+                "economicCustomerNumberInvalid": "Kundenummeret må være et helt tall over 0.",
+                "economicCustomerNumberTaken": "Nummeret brukes allerede av et annet selskap."
             },
             "importCompanies": {
                 "alert": {
@@ -12064,7 +12072,9 @@
                 "referral": "Henvisning",
                 "direct": "Direkte",
                 "unknown": "Ukjent"
-            }
+            },
+            "economicCustomerNumber": "e-conomic kundenr. {number}",
+            "economicCustomerNumberNone": "Ikke e-conomic kundenr."
         },
         "coupons": {
             "active": "Aktiv",
@@ -13573,7 +13583,18 @@
                 "coversTo": "Dekker til",
                 "addAddOn": "Legg til tilkjøp",
                 "addAddOnHelp": "Legger til en rad for lisenser kjøpt midt i bindingen: forfaller i dag og dekker fra i dag til bindingens slutt, slik at den teller med i kontraktens MRR.",
-                "addOnLabel": "Tilkjøp"
+                "addOnLabel": "Tilkjøp",
+                "productNumber": "Varenr.",
+                "productNumberHelp": "Varenummer i e-conomic. Forslag: 3174 Brukerlisens og 3176 Avdelingslisens, men du kan skrive et hvilket som helst varenummer.",
+                "productNumberPlaceholder": "F.eks. 3174",
+                "quantity": "Antall",
+                "quantityHelp": "Antall enheter på fakturalinjen. Beløpet beregnes som antall × stykkpris.",
+                "unitPrice": "Stykkpris",
+                "unitPriceHelp": "Pris per enhet eksl. mva. Beløpet beregnes som antall × stykkpris.",
+                "amountComputed": "Beløpet beregnes som antall × stykkpris så lenge begge er fylt ut.",
+                "rateRowHelp": "Vanlige rater faktureres som 1 stk. av avtalen på vare 3185. Bruk Legg til tilkjøp hvis linjen skal ha varenummer, antall og stykkpris.",
+                "suggestUserLicense": "3174 Brukerlisens",
+                "suggestDepartmentLicense": "3176 Avdelingslisens"
             },
             "detail": {
                 "title": "Avtale",
@@ -13605,7 +13626,8 @@
                     "deal": "Lisens",
                     "add_on_deal": "Tilleggskjøp",
                     "application": "App"
-                }
+                },
+                "addOnLine": "Vare {product} · {quantity} × {price}"
             },
             "notice": {
                 "passed": "Oppsigelsesfrist passert {date}",
@@ -13711,6 +13733,41 @@
                     "override": "En fast pris som er angitt på avtalen, erstatter listeprisen ved de kommende fornyelsene.",
                     "fallback": "Ingen lisenser er tilknyttet, så verdien er anslått ut fra avtaleverdien."
                 }
+            },
+            "economic": {
+                "state": {
+                    "pending": "Venter på kladd",
+                    "pendingHelp": "Kladden er ikke opprettet i e-conomic ennå.",
+                    "in_flight": "Oppretter kladd…",
+                    "in_flightHelp": "Kladden opprettes i CitizenOnes e-conomic akkurat nå.",
+                    "created": "Kladd {number}",
+                    "createdHelp": "Fakturaen ligger som kladd i CitizenOnes e-conomic og er ikke bokført ennå.",
+                    "unknown": "Venter på avstemming med e-conomic",
+                    "unknownHelp": "Svaret fra e-conomic uteble. CitizenOne avstemmer med e-conomic før en ny kladd opprettes.",
+                    "failed": "Feil i e-conomic",
+                    "failedHelp": "Opprettelsen i e-conomic mislyktes ({error}). Du kan prøve igjen.",
+                    "draft_missing": "Kladden finnes ikke lenger i e-conomic",
+                    "draft_missingHelp": "Kladden er slettet i e-conomic. Du kan opprette den på nytt.",
+                    "booked": "Bokført {number}",
+                    "bookedHelp": "Fakturaen er bokført i CitizenOnes e-conomic.",
+                    "paid": "Betalt {number}",
+                    "paidHelp": "Fakturaen er bokført og betalt i CitizenOnes e-conomic."
+                },
+                "create": "Opprett kladd i e-conomic",
+                "retry": "Prøv igjen",
+                "createHelp": "Oppretter fakturaen som kladd i CitizenOnes e-conomic. Bare for avtalerater, og selskapet må ha et e-conomic kundenummer.",
+                "retryHelp": "Prøver å opprette kladden i CitizenOnes e-conomic på nytt etter feilen.",
+                "creating": "Oppretter kladd…",
+                "creatingHelp": "Kladden opprettes i bakgrunnen. Siden oppdateres når e-conomic har svart.",
+                "recreate": "Opprett på nytt",
+                "recreateHelp": "Oppretter en ny kladd, fordi den forrige er slettet i e-conomic.",
+                "recreateConfirmTitle": "Opprette kladden på nytt?",
+                "recreateConfirmText": "Kladden finnes ikke lenger i e-conomic. Bekreft bare hvis den er slettet med vilje. Det opprettes en ny kladd for fakturaen.",
+                "created": "Kladden er sendt til e-conomic.",
+                "pollTimeout": "Opprettelsen tar lengre tid enn forventet. Oppdater siden om litt for å se status.",
+                "syncedPayment": "Synkronisert fra e-conomic",
+                "syncedPaymentHelp": "Betalingen ble registrert automatisk da e-conomic viste fakturaen som betalt.",
+                "missingNumber": "Kunden har en løpende avtale, men ikke noe e-conomic kundenummer. Avtalerater opprettes ikke som kladd i e-conomic før nummeret er fylt ut ovenfor."
             }
         },
         "metrics": {

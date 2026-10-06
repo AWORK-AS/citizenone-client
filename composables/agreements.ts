@@ -133,7 +133,10 @@ export function withDefaultCoverage<T extends { covers_from?: string | null; cov
 
 /** Add-on ("tilkoeb") bought mid-binding: due today, covers today until the binding ends. */
 export function buildAddOnInstallment(today: string, endsOn: string, label = 'Tilkøb'): InstallmentInput {
-    return { due_on: today, amount: 0, label, covers_from: today, covers_to: endsOn || null }
+    return {
+        due_on: today, amount: 0, label, covers_from: today, covers_to: endsOn || null,
+        is_add_on: true, product_number: null, quantity: null, unit_price: null,
+    }
 }
 
 export interface AgreementFormState {
@@ -203,6 +206,8 @@ export function buildAgreementPayload(form: AgreementFormState): AgreementPayloa
                 label: row.label ? row.label : null,
                 covers_from: row.covers_from || null,
                 covers_to: row.covers_to || null,
+                // Add-on rows: amount = quantity x unit price when both are set.
+                ...(isAddOnRow(row) ? addOnPayloadFields(row) : {}),
             }))
             : null,
     }
@@ -348,4 +353,178 @@ export function forecastBucketTotals(months: any[]): ForecastBucketTotals {
         totals.assumed_renewal += Number(month?.assumed_renewal ?? 0)
     }
     return totals
+}
+
+export type EconomicSyncState =
+    | 'pending' | 'in_flight' | 'created' | 'unknown' | 'failed' | 'draft_missing' | 'booked' | 'paid'
+
+export const ECONOMIC_SYNC_STATES: EconomicSyncState[] = [
+    'pending', 'in_flight', 'created', 'unknown', 'failed', 'draft_missing', 'booked', 'paid',
+]
+
+export interface EconomicInvoiceFields {
+    type?: string | null
+    /** Superadmin only: the invoice belongs to an agreement instalment. */
+    linked_to_installment?: boolean
+    economic_draft_number?: number | string | null
+    economic_invoice_number?: number | string | null
+    economic_sync_state?: string | null
+    economic_sync_error?: string | null
+    covered_by_agreement?: boolean
+    is_paid?: boolean
+    paid_source?: string | null
+}
+
+const SYNC_CHIP: Record<EconomicSyncState, { color: 'gray' | 'green' | 'red' | 'amber' | 'navy'; icon: string }> = {
+    pending: { color: 'gray', icon: 'ph:clock' },
+    in_flight: { color: 'navy', icon: 'ph:arrows-clockwise' },
+    created: { color: 'gray', icon: 'ph:file-dashed' },
+    unknown: { color: 'amber', icon: 'ph:question' },
+    failed: { color: 'red', icon: 'ph:warning' },
+    draft_missing: { color: 'red', icon: 'ph:file-x' },
+    booked: { color: 'green', icon: 'ph:check-circle' },
+    paid: { color: 'green', icon: 'ph:coins' },
+}
+
+/** The sync state of an invoice, or null when the API sent none (or one we do not know). */
+export function economicSyncState(invoice: EconomicInvoiceFields | null | undefined): EconomicSyncState | null {
+    const state = invoice?.economic_sync_state
+    return state && (ECONOMIC_SYNC_STATES as string[]).includes(state) ? (state as EconomicSyncState) : null
+}
+
+/**
+ * Chip for the e-conomic state of an invoice, or null when there is nothing to
+ * show. The number is the booked number for booked/paid, otherwise the draft
+ * number. The i18n keys are superadmin.agreements.economic.state.{state} and
+ * ...state.{state}Help. Superadmin screens only.
+ */
+export function economicStatus(invoice: EconomicInvoiceFields | null | undefined): {
+    state: EconomicSyncState
+    color: string
+    icon: string
+    number: string | null
+    error: string | null
+} | null {
+    const state = economicSyncState(invoice)
+    if (!state) return null
+    const has = (v: unknown) => v !== null && v !== undefined && v !== ''
+    const booked = state === 'booked' || state === 'paid'
+    const raw = booked ? invoice?.economic_invoice_number : invoice?.economic_draft_number
+    return {
+        state,
+        ...SYNC_CHIP[state],
+        number: has(raw) ? String(raw) : null,
+        error: has(invoice?.economic_sync_error) ? String(invoice?.economic_sync_error) : null,
+    }
+}
+
+/** Only agreement instalment invoices go to e-conomic, never shop or card invoices. */
+export function isEconomicEligible(invoice: EconomicInvoiceFields | null | undefined): boolean {
+    return !!invoice && invoice.type === 'agreement' && invoice.linked_to_installment === true && !invoice.covered_by_agreement
+}
+
+/** The "create draft" button: nothing created yet (no state, pending) or failed. */
+export function canCreateEconomicDraft(invoice: EconomicInvoiceFields | null | undefined): boolean {
+    if (!isEconomicEligible(invoice) || invoice?.is_paid) return false
+    const state = economicSyncState(invoice)
+    return state === null || state === 'pending' || state === 'failed'
+}
+
+/** "Opret igen" is only for a draft that no longer exists in e-conomic (needs {recreate: true}). */
+export function canRecreateEconomicDraft(invoice: EconomicInvoiceFields | null | undefined): boolean {
+    return isEconomicEligible(invoice) && economicSyncState(invoice) === 'draft_missing'
+}
+
+/** i18n key suffix for the draft button: retry after a failure. */
+export function economicDraftActionKey(invoice: EconomicInvoiceFields | null | undefined): 'create' | 'retry' {
+    return economicSyncState(invoice) === 'failed' ? 'retry' : 'create'
+}
+
+/** Body of the draft call: `{recreate: true}` only for a recreate, nothing otherwise. */
+export function economicDraftPayload(recreate: boolean): { recreate: true } | undefined {
+    return recreate ? { recreate: true } : undefined
+}
+
+/** Poll while the job runs: every few seconds, for about a minute. */
+export const ECONOMIC_POLL_INTERVAL_MS = 3000
+export const ECONOMIC_POLL_MAX_ATTEMPTS = 20
+
+export function shouldKeepPollingEconomic(invoice: EconomicInvoiceFields | null | undefined, attempt: number): boolean {
+    return economicSyncState(invoice) === 'in_flight' && attempt < ECONOMIC_POLL_MAX_ATTEMPTS
+}
+
+/** The payment on the invoice was registered by the daily e-conomic sync. */
+export function isEconomicSyncedPayment(invoice: EconomicInvoiceFields | null | undefined): boolean {
+    return invoice?.paid_source === 'economic_sync'
+}
+
+// ---- Add-on (tilkoeb) rows: product number, quantity and unit price ----
+
+export const ADDON_PRODUCT_SUGGESTIONS = [
+    { number: 3174, key: 'userLicense' },
+    { number: 3176, key: 'departmentLicense' },
+] as const
+
+const toNumberOrNull = (v: unknown): number | null => {
+    if (v === '' || v === null || v === undefined) return null
+    const n = Number(v)
+    return Number.isFinite(n) ? n : null
+}
+
+/** quantity x unit price, rounded to oere; null until both are set. */
+export function addOnAmount(quantity: unknown, unitPrice: unknown): number | null {
+    const q = toNumberOrNull(quantity)
+    const p = toNumberOrNull(unitPrice)
+    if (q === null || p === null) return null
+    return Math.round(Math.round(q * 100) * Math.round(p * 100) / 100) / 100
+}
+
+/** The amount field is read-only while quantity and unit price are both set. */
+export function addOnAmountIsComputed(row: { quantity?: unknown; unit_price?: unknown }): boolean {
+    return addOnAmount(row.quantity, row.unit_price) !== null
+}
+
+/** The fields added to an installment[] entry of an add-on row; the amount follows qty x price. */
+export function addOnPayloadFields(row: { amount?: unknown; product_number?: unknown; quantity?: unknown; unit_price?: unknown }) {
+    const f = addOnFields(row)
+    const computed = addOnAmount(f.quantity, f.unit_price)
+    return computed !== null ? { ...f, amount: computed } : f
+}
+
+/** Row fields as sent to the API: the three add-on fields, null when empty. */
+export function addOnFields(row: { product_number?: unknown; quantity?: unknown; unit_price?: unknown }): {
+    product_number: number | null
+    quantity: number | null
+    unit_price: number | null
+} {
+    const product = toNumberOrNull(row.product_number)
+    return {
+        product_number: product !== null && Number.isInteger(product) && product > 0 ? product : null,
+        quantity: toNumberOrNull(row.quantity),
+        unit_price: toNumberOrNull(row.unit_price),
+    }
+}
+
+/** Show the add-on fields on rows created with "Tilfoej tilkoeb", or rows that already carry them. */
+export function isAddOnRow(row: { is_add_on?: boolean; product_number?: unknown; quantity?: unknown; unit_price?: unknown }): boolean {
+    return !!row.is_add_on || addOnFields(row).product_number !== null
+        || toNumberOrNull(row.quantity) !== null || toNumberOrNull(row.unit_price) !== null
+}
+
+/** "e-conomic kundenummer" as sent to the API: empty is null, otherwise an integer. */
+export function parseEconomicCustomerNumber(value: unknown): number | null {
+    if (value === '' || value === null || value === undefined) return null
+    const n = Number(value)
+    return Number.isInteger(n) && n > 0 ? n : null
+}
+
+/** Warn when the company has a running agreement but no e-conomic customer number. */
+export function missingEconomicNumber(
+    company: { economic_customer_number?: number | string | null } | null | undefined,
+    agreements: Array<{ status: string }> | null | undefined,
+): boolean {
+    // An API that does not send the field yet (undefined) is not a missing number.
+    if (!company || company.economic_customer_number === undefined) return false
+    const hasNumber = company.economic_customer_number !== null && company.economic_customer_number !== ''
+    return !hasNumber && (agreements ?? []).some((a) => a.status === 'active')
 }
