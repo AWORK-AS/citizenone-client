@@ -8041,6 +8041,9 @@
     "home": "Home",
     "imageFailedToLoad": "Image failed to load",
     "inquiries": {
+        "board": {
+            "riskTooltip": "Risk assessment from the inquiry's fields. The highest risk counts."
+        },
         "crisisCenterInquiry": "Crisis center inquiry",
         "editInquiry": "Edit inquiry",
         "exportInquiries": "Export inquiries",

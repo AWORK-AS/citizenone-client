@@ -8041,6 +8041,9 @@
     "home": "Hjem",
     "imageFailedToLoad": "Billedet kunne ikke indlæses",
     "inquiries": {
+        "board": {
+            "riskTooltip": "Risikovurdering fra henvendelsens felter. Den højeste risiko tæller."
+        },
         "crisisCenterInquiry": "Krisecenter henvendelser",
         "editInquiry": "Rediger henvendelser",
         "exportInquiries": "Eksporter henvendelser",
