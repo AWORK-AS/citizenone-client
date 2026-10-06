@@ -61,6 +61,7 @@ describe('permissionGroup', () => {
     test('maps names to the areas the role form has always used', () => {
         assert.equal(permissionGroup('create_citizen_journal'), 'journal')
         assert.equal(permissionGroup('view_citizen_document'), 'journal')
+        assert.equal(permissionGroup('download_documents'), 'journal')
         assert.equal(permissionGroup('update_citizen_medicine'), 'health')
         assert.equal(permissionGroup('create_citizen_plan'), 'plan')
         assert.equal(permissionGroup('delete_calendar'), 'calendar')

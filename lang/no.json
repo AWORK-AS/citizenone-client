@@ -916,7 +916,8 @@
                 "delete": "Slett",
                 "deleteCitizen": "Slett @:terms.citizen{''}",
                 "deleteDocument": "Slett dokument",
-                "deleteEmployee": "Slett medarbeider"
+                "deleteEmployee": "Slett medarbeider",
+                "download": "Last ned"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
@@ -6862,7 +6863,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Slett",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "download": "Last ned"
                 },
                 "file": "Fil",
                 "note": "Note"
@@ -16951,5 +16953,9 @@
             "title": "Nytt varsel",
             "description": "Referanse {reference}"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan ikke åpnes",
+        "notViewableText": "Denne filtypen kan ikke vises i nettleseren, og rollen din har ikke tilgang til å laste ned dokumenter."
     }
 }

@@ -916,7 +916,8 @@
                 "delete": "Delete",
                 "deleteCitizen": "Delete @:terms.citizen{''}",
                 "deleteDocument": "Delete document",
-                "deleteEmployee": "Delete employee"
+                "deleteEmployee": "Delete employee",
+                "download": "Download"
             },
             "belongsTo": "Belongs to",
             "date": "Date",
@@ -6862,7 +6863,8 @@
                 "actions": {
                     "archive": "Archive",
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "download": "Download"
                 },
                 "file": "File",
                 "note": "Note"
@@ -17047,5 +17049,9 @@
             "title": "New whistleblower report",
             "description": "Reference {reference}"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Can't open the file",
+        "notViewableText": "This file type can't be shown in the browser, and your role doesn't allow downloading documents."
     }
 }

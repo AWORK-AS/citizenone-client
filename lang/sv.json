@@ -916,7 +916,8 @@
                 "delete": "Radera",
                 "deleteCitizen": "Radera @:terms.citizen{''}",
                 "deleteDocument": "Radera dokument",
-                "deleteEmployee": "Radera anställd"
+                "deleteEmployee": "Radera anställd",
+                "download": "Ladda ner"
             },
             "belongsTo": "Tillhör",
             "date": "Datum",
@@ -6862,7 +6863,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Radera",
-                    "edit": "Redigera"
+                    "edit": "Redigera",
+                    "download": "Ladda ner"
                 },
                 "file": "Fil",
                 "note": "Anteckning"
@@ -16951,5 +16953,9 @@
             "title": "Ny visselblåsarrapport",
             "description": "Referens {reference}"
         }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan inte öppnas",
+        "notViewableText": "Den här filtypen kan inte visas i webbläsaren, och din roll får inte ladda ner dokument."
     }
 }
