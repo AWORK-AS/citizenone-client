@@ -62,6 +62,13 @@
                                                 <Icon name="ph:file-text" class="w-3.5 h-3.5" />
                                                 Manuel faktura
                                             </span>
+                                            <Tooltip v-else-if="state.company?.subscription?.payment_method === 'bank_transfer'"
+                                                :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
+                                                <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-100 text-blue-700">
+                                                    <Icon name="ph:bank" class="w-3.5 h-3.5" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.payment.bankTransfer') }}
+                                                </span>
+                                            </Tooltip>
 
                                             <!-- Card payment status -->
                                             <span v-if="state.company?.subscription?.payment_method === 'card' && state.company?.subscription?.card_active === true"
@@ -273,6 +280,9 @@
                 </LoadingSpinner>
             </div>
 
+            <ModulesSuperadminSupportAccessRequestDialog :isOpen="supportAccess.isOpen"
+                :accountUuid="supportAccess.accountUuid" :accountName="supportAccess.accountName"
+                @close="supportAccess.isOpen = false" @requested="supportAccess.isOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -289,7 +299,10 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
+
+// Asking the customer for access, when they have not approved it yet.
+const supportAccess = reactive({ isOpen: false, accountUuid: null as string | null, accountName: '' })
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const router = useRouter()
@@ -425,8 +438,17 @@ async function impersonateCompany() {
             const appUrl = runtimeConfig.public.appUserUrl || '/'
             window.open(`${appUrl}?impersonate_token=${response.impersonation_token}`, '_blank')
         }
-    } catch (_) {
-        window.open(`/?company=${companyUuid}`, '_blank')
+    } catch (error: any) {
+        // Without the customer's approval the answer names the admin that was
+        // tried: open the request for that account. It used to open an empty
+        // tab, which left nowhere to send the request from.
+        if (error?.code === 'support_access_required' && error?.account?.uuid) {
+            supportAccess.accountUuid = error.account.uuid
+            supportAccess.accountName = [error.account.firstname, error.account.lastname].filter(Boolean).join(' ')
+            supportAccess.isOpen = true
+        } else {
+            errorAlert(t('alert.warning'), error?.message ?? '')
+        }
     }
 }
 

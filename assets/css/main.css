@@ -1292,6 +1292,14 @@ input.appearance-none.border-primary {
     color: #64748b;
 }
 
+/* Not a marketing badge: it says the app is closed to companies off the plan,
+   so it sits beside the one badge above instead of replacing it. */
+.app-badge-plan {
+    background: transparent;
+    border: 1px solid #0F4C75;
+    color: #0F4C75;
+}
+
 /* Journal @-mentions: a colleague tag reads as "@Name", a citizen tag shows
    only initials so a downloaded note never exposes a second citizen's name. */
 .co-mention {

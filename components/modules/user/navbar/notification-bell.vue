@@ -187,6 +187,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
     if (type.toLowerCase().includes('certificateexpiry')) return 'certificate_expiry'
+    if (type.toLowerCase().includes('whistleblowerreport')) return 'whistleblower'
     return 'other'
 }
 
@@ -199,6 +200,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
     certificate_expiry: { bg: 'bg-accent-orange/10', icon: 'ph:certificate', color: 'text-accent-orange' },
+    whistleblower: { bg: 'bg-primary/10', icon: 'ph:megaphone-simple', color: 'text-primary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -250,6 +252,7 @@ function splitPascalCase(str: string): string {
 function getNotifTitle(notif: any): string {
     const data = notif.data ?? {}
     if (getCategory(notif.type) === 'birthday') return t('bellNotification.birthday.title')
+    if (getCategory(notif.type) === 'whistleblower') return t('whistleblower.bell.title')
     if (data.notification_label) return data.notification_label
     if (data.subject) return data.subject
     const className = notif.type?.split('\\')?.pop() ?? ''
@@ -263,6 +266,9 @@ function getNotifDescription(notif: any): string {
     const data = notif.data ?? {}
     if (getCategory(notif.type) === 'birthday') {
         return `${data.content?.name ?? ''} · ${t('overview.birthdays.turns', { age: data.content?.age })}`.trim()
+    }
+    if (getCategory(notif.type) === 'whistleblower') {
+        return t('whistleblower.bell.description', { reference: data.content?.reference ?? '' })
     }
     if (getCategory(notif.type) === 'journal_mention') {
         return data.content?.citizen_name
@@ -494,7 +500,16 @@ async function handleNotifClick(notif: any) {
             state.isOpen = false
             navigateTo(`/citizens/${citizenUuid}/journals`)
         }
-    }    // A case that needs a consultant recruited: straight to the inquiry.
+    }
+    // A new whistleblower report: straight to it in the handlers' inbox.
+    if (getCategory(notif.type) === 'whistleblower') {
+        const reportUuid = notif.data?.content?.uuid
+        if (reportUuid) {
+            state.isOpen = false
+            navigateTo(`/whistleblower-reports/${reportUuid}`)
+        }
+    }
+    // A case that needs a consultant recruited: straight to the inquiry.
     if (getCategory(notif.type) === 'inquiry_recruitment') {
         const inquiryUuid = notif.data?.content?.inquiry_uuid
         if (inquiryUuid) {
