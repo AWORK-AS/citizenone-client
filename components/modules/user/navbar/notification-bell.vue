@@ -186,6 +186,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
+    if (type.toLowerCase().includes('certificateexpiry')) return 'certificate_expiry'
     return 'other'
 }
 
@@ -197,6 +198,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
+    certificate_expiry: { bg: 'bg-accent-orange/10', icon: 'ph:certificate', color: 'text-accent-orange' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -498,6 +500,16 @@ async function handleNotifClick(notif: any) {
         if (inquiryUuid) {
             state.isOpen = false
             navigateTo(`/inquiries/${inquiryUuid}`)
+        }
+    }
+    // A certificate about to expire: admins go to the certificate overview,
+    // which is Admin only. The holder has no page of their own documents, so
+    // for them the item is only marked read (above).
+    if (getCategory(notif.type) === 'certificate_expiry') {
+        const isAdmin = !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin')
+        if (isAdmin) {
+            state.isOpen = false
+            navigateTo('/employees/certificates')
         }
     }
 }
