@@ -261,6 +261,18 @@
             <SuperadminFormError :error="props.error?.errors?.category_id?.[0]" />
         </div>
 
+        <!-- Required plan -->
+        <div>
+            <SuperadminFormLabel :label="$t('superadmin.apps.form.requiredPlan')" />
+            <SuperadminFormSelectField v-model="state.form.required_plan">
+                <option value="">{{ $t('superadmin.apps.form.requiredPlanNone') }}</option>
+                <option value="Basis">Basis</option>
+                <option value="Pro">Pro</option>
+            </SuperadminFormSelectField>
+            <p class="mt-1 text-xs text-gray-500">{{ $t('superadmin.apps.form.requiredPlanHint') }}</p>
+            <SuperadminFormError :error="props.error?.errors?.required_plan?.[0]" />
+        </div>
+
         <!-- Link -->
         <div>
             <SuperadminFormLabel :label="$t('superadmin.apps.form.link')" />
@@ -381,6 +393,7 @@ const state = reactive({
         price: 0,
         publisher: '',
         released_at: '' as any,
+        required_plan: '',
         setup_fee: 0,
         sort_order: 0,
         tagline: '',
@@ -418,6 +431,7 @@ watch(() => props.selectedApp, (app: any) => {
             is_recommended: app.is_recommended ?? false,
             long_description: app.long_description ?? '',
             publisher: app.publisher ?? '',
+            required_plan: app.required_plan ?? '',
             released_at: app.released_at ? String(app.released_at).slice(0, 10) : '',
             tagline: app.tagline ?? '',
             version: app.version ?? '',
@@ -505,6 +519,7 @@ function reset() {
         price: 0,
         publisher: '',
         released_at: '',
+        required_plan: '',
         setup_fee: 0,
         sort_order: 0,
         tagline: '',
