@@ -14,6 +14,9 @@ import assert from 'node:assert/strict'
 import {
     addMonthsClamped,
     buildAgreementPayload,
+    bindingEndsOn,
+    buildAddOnInstallment,
+    withDefaultCoverage,
     buildPresetInstallments,
     forecastBucketTotals,
     installmentsDifference,
@@ -126,7 +129,7 @@ describe('buildAgreementPayload', () => {
         const body = buildAgreementPayload({ ...baseForm(), presetApplied: true, installmentsEdited: true, installments: rows })
         assert.equal(body.installment_preset, null)
         assert.equal(body.installments.length, 4)
-        assert.deepEqual(Object.keys(body.installments[0]).sort(), ['amount', 'due_on', 'label'])
+        assert.deepEqual(Object.keys(body.installments[0]).sort(), ['amount', 'covers_from', 'covers_to', 'due_on', 'label'])
     })
 
     test('other plans send neither a preset nor a list, and prepaid_years only for prepaid', () => {
@@ -296,5 +299,56 @@ describe('forecastBucketTotals', () => {
         ]
         assert.deepEqual(forecastBucketTotals(months), { contracted: 20, assumed: 10, installments: 100, assumed_renewal: 7 })
         assert.deepEqual(forecastBucketTotals(undefined), { contracted: 0, assumed: 0, installments: 0, assumed_renewal: 0 })
+    })
+})
+
+describe('installment coverage', () => {
+    const rows = [{ due_on: '2026-07-12', amount: 100, label: null }, { due_on: '2027-07-12', amount: 100, label: null }]
+
+    test('installments plan covers start to end of the binding', () => {
+        const out = withDefaultCoverage(rows, 'installments', '2026-07-12', '2030-07-12')
+        for (const row of out) {
+            assert.equal(row.covers_from, '2026-07-12')
+            assert.equal(row.covers_to, '2030-07-12')
+        }
+    })
+
+    test('other plans stay null so the backend fills them in', () => {
+        const out = withDefaultCoverage(rows, 'yearly', '2026-07-12', '2030-07-12')
+        assert.deepEqual(out.map((r) => [r.covers_from, r.covers_to]), [[null, null], [null, null]])
+    })
+
+    test('an explicit period is never overwritten', () => {
+        const out = withDefaultCoverage([{ ...rows[0], covers_from: '2027-01-01', covers_to: '2027-12-31' }], 'installments', '2026-07-12', '2030-07-12')
+        assert.equal(out[0].covers_from, '2027-01-01')
+        assert.equal(out[0].covers_to, '2027-12-31')
+    })
+
+    test('binding end follows months or the typed end date', () => {
+        assert.equal(bindingEndsOn({ starts_on: '2026-07-12', term_mode: 'months', ends_on: '', term_months: 48 }), '2030-07-12')
+        assert.equal(bindingEndsOn({ starts_on: '2026-07-12', term_mode: 'end_date', ends_on: '2029-01-31', term_months: 48 }), '2029-01-31')
+        assert.equal(bindingEndsOn({ starts_on: '', term_mode: 'months', ends_on: '', term_months: 48 }), '')
+    })
+
+    test('tilkoeb row is due today and covers today until the binding ends', () => {
+        const row = buildAddOnInstallment('2027-03-01', '2030-07-12')
+        assert.equal(row.due_on, '2027-03-01')
+        assert.equal(row.covers_from, '2027-03-01')
+        assert.equal(row.covers_to, '2030-07-12')
+        assert.equal(row.label, 'Tilkøb')
+    })
+
+    test('payload carries coverage in the explicit list', () => {
+        const form = {
+            name: 'x', starts_on: '2026-07-12', term_months: 48, term_mode: 'months', ends_on: '', renewal_annual_value: '',
+            notice_months: 3, auto_renews: true, billing_plan: 'installments', prepaid_years: null, contract_value: 200,
+            fee_per_invoice: 0, payment_method: 'bank_transfer', internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 0, remaining_count: 0, remaining_interval_months: 12 },
+            installments: [...rows, buildAddOnInstallment('2027-03-01', '2030-07-12')], installmentsEdited: true, presetApplied: false,
+        }
+        const body = buildAgreementPayload(form)
+        assert.equal(body.installments[0].covers_from, '2026-07-12')
+        assert.equal(body.installments[0].covers_to, '2030-07-12')
+        assert.equal(body.installments[2].covers_from, '2027-03-01')
     })
 })

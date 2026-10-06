@@ -13475,7 +13475,9 @@
                 "notice": "Uppsägningstid",
                 "dueOn": "Förfallodatum",
                 "amount": "Belopp exkl. moms",
-                "label": "Text"
+                "label": "Text",
+                "covers": "Täcker",
+                "coversHelp": "Perioden raden räknas i kontraktets MRR: beloppet fördelas över de månader den täcker."
             },
             "plans": {
                 "monthly": "Månadsvis",
@@ -13512,7 +13514,7 @@
                 "backlog": "Återstående bundet avtalsvärde: delbetalningar utan betald faktura.",
                 "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
                 "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
-                "renewalValue": "Vad avtalet kostar per år efter bindningen, exkl. moms. Tomt: avtalsvärde delat med bindningen i månader gånger 12.",
+                "renewalValue": "Tomt = beräknas utifrån gällande listpris för de kopplade licenserna vid förnyelsetillfället. Ett ifyllt värde är ett fast pris som ersätter listpriset vid kommande förnyelser.",
                 "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
                 "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
             },
@@ -13559,10 +13561,17 @@
                 "settledNote": "Anteckning om reglering",
                 "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275",
                 "renewalValue": "Årligt värde vid förnyelse",
-                "renewalValuePlaceholder": "Standard",
+                "renewalValuePlaceholder": "Listpris",
                 "endsOn": "Slutdatum",
                 "modeMonths": "Bindning i månader",
-                "modeEndDate": "Slutdatum"
+                "modeEndDate": "Slutdatum",
+                "coverage": "Täcker från–till",
+                "coverageHelp": "Perioden styr hur raden räknas i kontraktets MRR: beloppet fördelas över de månader raden täcker och räknas bara medan perioden omfattar idag. Tomt = fylls i av systemet.",
+                "coversFrom": "Täcker från",
+                "coversTo": "Täcker till",
+                "addAddOn": "Lägg till tillköp",
+                "addAddOnHelp": "Lägger till en rad för licenser som köpts mitt i bindningen: förfaller idag och täcker från idag till bindningens slut, så att den räknas i kontraktets MRR.",
+                "addOnLabel": "Tillköp"
             },
             "detail": {
                 "title": "Avtal",
@@ -13686,6 +13695,20 @@
             "remainder": {
                 "chip": "Restbelopp vid uppsägning",
                 "help": "Samlat restbelopp som fakturerats eftersom avtalet sades upp före bindningens slut."
+            },
+            "renewal": {
+                "expected": "Förväntad förnyelse: {amount} kr/år",
+                "expectedHelp": "När en ny period startar faktureras de listpriser som gäller vid den tidpunkten. Beloppet här är en uppskattning utifrån nuvarande priser och kan ändras om priserna ändras innan dess.",
+                "sources": {
+                    "list_price": "Listpris",
+                    "override": "Fast pris",
+                    "fallback": "Uppskattat"
+                },
+                "sourceHelp": {
+                    "list_price": "Beräknat utifrån gällande listpris för de kopplade licenserna. När en ny period startar faktureras de listpriser som gäller vid den tidpunkten, så beloppet kan ändras om priserna ändras innan dess.",
+                    "override": "Ett fast pris som anges på avtalet ersätter listpriset vid kommande förnyelser.",
+                    "fallback": "Inga licenser är kopplade, så värdet är uppskattat utifrån avtalsvärdet."
+                }
             }
         },
         "metrics": {

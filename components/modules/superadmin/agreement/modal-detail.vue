@@ -44,6 +44,25 @@
                             :autoRenews="state.agreement.auto_renews" />
                     </div>
 
+                    <div v-if="state.agreement.estimated_renewal_annual_value != null"
+                        class="flex flex-wrap items-center gap-2 text-[13px] text-[#1F2533]">
+                        <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>
+                            <span class="inline-flex items-center gap-1">
+                                {{ $t('superadmin.agreements.renewal.expected', {
+                                    amount: formatNumber(state.agreement.estimated_renewal_annual_value) }) }}
+                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                    :aria-label="$t('superadmin.agreements.renewal.expectedHelp')" />
+                            </span>
+                        </Tooltip>
+                        <Tooltip v-if="state.agreement.renewal_value_source"
+                            :text="$t(`superadmin.agreements.renewal.sourceHelp.${state.agreement.renewal_value_source}`)"
+                            position="top" wrap>
+                            <span class="co-badge" :class="state.agreement.renewal_value_source === 'fallback' ? 'co-badge-gray' : 'co-badge-navy'">
+                                {{ $t(`superadmin.agreements.renewal.sources.${state.agreement.renewal_value_source}`) }}
+                            </span>
+                        </Tooltip>
+                    </div>
+
                     <p v-if="state.agreement.internal_note"
                         class="text-[13px] text-[#5C6478] bg-[#F9FAFB] border border-[#EAECF0] rounded-lg px-3 py-2 whitespace-pre-wrap">
                         {{ state.agreement.internal_note }}
@@ -63,6 +82,15 @@
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.table.dueOn') }}</th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.table.label') }}</th>
                                     <th class="px-4 py-2 text-right">{{ $t('superadmin.agreements.table.amount') }}</th>
+                                    <th class="px-4 py-2">
+                                        <Tooltip :text="$t('superadmin.agreements.table.coversHelp')" position="top" wrap>
+                                            <span class="inline-flex items-center gap-1">
+                                                {{ $t('superadmin.agreements.table.covers') }}
+                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                                    :aria-label="$t('superadmin.agreements.table.coversHelp')" />
+                                            </span>
+                                        </Tooltip>
+                                    </th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.detail.invoice') }}</th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.detail.paid') }}</th>
                                 </tr>
@@ -83,6 +111,14 @@
                                         </Tooltip>
                                     </td>
                                     <td class="px-4 py-2 text-right font-medium">{{ formatAmount(row.amount, 'DKK') }}</td>
+                                    <td class="px-4 py-2 text-[#5C6478] whitespace-nowrap">
+                                        <template v-if="row.covers_from || row.covers_to">
+                                            {{ row.covers_from ? formatDateToReadable(row.covers_from) : '-' }}
+                                            &ndash;
+                                            {{ row.covers_to ? formatDateToReadable(row.covers_to) : '-' }}
+                                        </template>
+                                        <span v-else class="text-[#B4BBC7]">-</span>
+                                    </td>
                                     <td class="px-4 py-2">
                                         <Tooltip v-if="row.invoice" :text="$t('superadmin.agreements.detail.openInvoice')"
                                             position="top">
@@ -279,6 +315,7 @@ const emit = defineEmits(['close', 'edit', 'changed', 'deleted'])
 
 const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
+const formatNumber = (value: number) => new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(Number(value) || 0)
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({

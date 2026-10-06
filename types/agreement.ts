@@ -7,6 +7,7 @@
  */
 export type BillingPlan = 'monthly' | 'yearly' | 'prepaid_multi_year' | 'installments'
 export type AgreementPaymentMethod = 'bank_transfer' | 'card'
+export type RenewalValueSource = 'list_price' | 'override' | 'fallback'
 export type AgreementStatus = 'active' | 'ended' | 'cancelled'
 
 export interface AgreementInstallmentInvoice {
@@ -27,6 +28,9 @@ export interface AgreementInstallment {
     /** Settled outside CitizenOne (e.g. in e-conomic): never invoiced. */
     settled_externally_at: string | null
     settled_note: string | null
+    /** Period the row counts towards contract MRR; the backend fills it when null. */
+    covers_from?: string | null
+    covers_to?: string | null
 }
 
 /** A planned installment as sent to / returned by the API before it is saved. */
@@ -34,6 +38,8 @@ export interface InstallmentInput {
     due_on: string
     amount: number
     label: string | null
+    covers_from?: string | null
+    covers_to?: string | null
 }
 
 export interface AgreementSubscription {
@@ -96,6 +102,9 @@ export interface Agreement {
     cancelled_at: string | null
     internal_note: string | null
     renewal_annual_value: number | null
+    /** Where `estimated_renewal_annual_value` comes from. */
+    renewal_value_source?: RenewalValueSource
+    estimated_renewal_annual_value?: number | null
     renewals_count: number
     covered_invoices?: CoveredInvoice[]
     settled_externally_before?: string | null
