@@ -1,4 +1,6 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
+import type { ImportResult } from '@/types/customer-department'
+import type { ContractFieldDefinition, ContractHourType, DataEnvelope, PaymentTerm } from '@/types/contract'
 
 class SocialWelfareService extends BaseAPIService {
     // Revenue split across primary/secondary case workers (coordinators)
@@ -53,6 +55,16 @@ class SocialWelfareService extends BaseAPIService {
         return await this.request(`/user/social-welfare/customer-departments/${uuid}`, 'DELETE')
     }
 
+    // WorkZone export (xlsx or csv). A dry run only reports what would happen;
+    // dry_run=false writes it all in one transaction.
+    async importCustomerDepartments(file: File, dryRun: boolean): Promise<DataEnvelope<ImportResult>> {
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('dry_run', dryRun ? '1' : '0')
+
+        return await this.requestFormData(`/user/social-welfare/customer-departments/import`, formData)
+    }
+
     // The contract periods on one intervention, with the stays' fallback
     async getContractPeriods(citizenUuid: string): Promise<any> {
         return await this.request(`/user/social-welfare/citizens/${citizenUuid}/contract-periods`, 'GET')
@@ -68,6 +80,57 @@ class SocialWelfareService extends BaseAPIService {
 
     async deleteContractPeriod(uuid: string): Promise<any> {
         return await this.request(`/user/social-welfare/contract-periods/${uuid}`, 'DELETE')
+    }
+
+    // Hour types a contract period grants hours in (contact, administration, transport and the company's own)
+    async getContractHourTypes(params: object = {}): Promise<DataEnvelope<ContractHourType[]>> {
+        return await this.request(`/user/social-welfare/contract-hour-types`, 'GET', params)
+    }
+
+    async saveContractHourType(payload: object): Promise<DataEnvelope<ContractHourType>> {
+        return await this.request(`/user/social-welfare/contract-hour-types`, 'POST', payload)
+    }
+
+    async updateContractHourType(uuid: string, payload: object): Promise<DataEnvelope<ContractHourType>> {
+        return await this.request(`/user/social-welfare/contract-hour-types/${uuid}`, 'PUT', payload)
+    }
+
+    async deleteContractHourType(uuid: string): Promise<{ message: string }> {
+        return await this.request(`/user/social-welfare/contract-hour-types/${uuid}`, 'DELETE')
+    }
+
+    // Payment terms (days and label) a period or a customer department picks from
+    async getPaymentTerms(params: object = {}): Promise<DataEnvelope<PaymentTerm[]>> {
+        return await this.request(`/user/social-welfare/payment-terms`, 'GET', params)
+    }
+
+    async savePaymentTerm(payload: object): Promise<DataEnvelope<PaymentTerm>> {
+        return await this.request(`/user/social-welfare/payment-terms`, 'POST', payload)
+    }
+
+    async updatePaymentTerm(uuid: string, payload: object): Promise<DataEnvelope<PaymentTerm>> {
+        return await this.request(`/user/social-welfare/payment-terms/${uuid}`, 'PUT', payload)
+    }
+
+    async deletePaymentTerm(uuid: string): Promise<{ message: string }> {
+        return await this.request(`/user/social-welfare/payment-terms/${uuid}`, 'DELETE')
+    }
+
+    // The company's own contract fields (a text or number on every period)
+    async getContractFieldDefinitions(params: object = {}): Promise<DataEnvelope<ContractFieldDefinition[]>> {
+        return await this.request(`/user/social-welfare/contract-field-definitions`, 'GET', params)
+    }
+
+    async saveContractFieldDefinition(payload: object): Promise<DataEnvelope<ContractFieldDefinition>> {
+        return await this.request(`/user/social-welfare/contract-field-definitions`, 'POST', payload)
+    }
+
+    async updateContractFieldDefinition(uuid: string, payload: object): Promise<DataEnvelope<ContractFieldDefinition>> {
+        return await this.request(`/user/social-welfare/contract-field-definitions/${uuid}`, 'PUT', payload)
+    }
+
+    async deleteContractFieldDefinition(uuid: string): Promise<{ message: string }> {
+        return await this.request(`/user/social-welfare/contract-field-definitions/${uuid}`, 'DELETE')
     }
 }
 

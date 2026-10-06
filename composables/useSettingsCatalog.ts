@@ -1,5 +1,6 @@
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { canOpenPage } from '@/composables/pageAccess'
 
 export interface SettingsCatalogItem {
     /** Category the item sits in on the settings catalog page. */
@@ -32,6 +33,8 @@ export function useSettingsCatalog() {
         const isEmploymentServices = user?.company?.industry?.system_name === 'employment_services'
         const isSocialWelfare = user?.company?.industry?.system_name === 'social_welfare'
         const hasInquiries = !!user?.company?.inquiry_pipeline_enabled
+        // The forms are for every company that takes inquiries, pipeline or not.
+        const takesInquiries = canOpenPage(user, 'Inquiries')
         const hasTasks = !!user?.company?.tasks_workflow_enabled
         const hasSurveys = user?.is_surveys_active !== false
         const hasExtendedDutySchedule = !!user?.is_extended_duty_schedule_active
@@ -56,6 +59,9 @@ export function useSettingsCatalog() {
             item('communication', 'settings.tabs.messageTemplates', '/settings/message-templates', ['settings-message-templates']),
             item('access', 'settings.tabs.departments', '/settings/departments', ['settings-departments']),
             ...when(isSocialWelfare, item('citizens', 'settings.tabs.customerDepartments', '/settings/customer-departments', ['settings-customer-departments'])),
+            ...when(isSocialWelfare, item('citizens', 'settings.tabs.contractHourTypes', '/settings/contract-hour-types', ['settings-contract-hour-types'])),
+            ...when(isSocialWelfare, item('citizens', 'settings.tabs.paymentTerms', '/settings/payment-terms', ['settings-payment-terms'])),
+            ...when(isSocialWelfare, item('citizens', 'settings.tabs.contractFields', '/settings/contract-fields', ['settings-contract-fields'])),
             item('health', 'settings.tabs.diagnoses', '/settings/diagnoses', ['settings-diagnoses']),
             item('health', 'settings.tabs.dosageForms', '/settings/dosage-forms', ['settings-dosage-forms']),
             item('schedule', 'settings.tabs.dutyShiftRules', '/settings/duty-shift-rules', ['settings-duty-shift-rules']),
@@ -70,6 +76,7 @@ export function useSettingsCatalog() {
             item('journal', 'settings.tabs.journalContents', '/settings/journal-contents', ['settings-journal-contents']),
             item('journal', 'settings.tabs.journalNoteTags', '/settings/journal-note-tags', ['settings-journal-note-tags']),
             item('journal', 'settings.tabs.journalTitles', '/settings/journal-titles', ['settings-journal-titles']),
+            ...when(takesInquiries, item('citizens', 'settings.tabs.inquiryForms', '/settings/inquiry-forms', ['settings-inquiry-forms'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryPipelineStages', '/settings/inquiry-pipeline-stages', ['settings-inquiry-pipeline-stages'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryFields', '/settings/inquiry-fields', ['settings-inquiry-fields'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryServiceTypes', '/settings/inquiry-service-types', ['settings-inquiry-service-types'])),
@@ -83,6 +90,7 @@ export function useSettingsCatalog() {
             item('schedule', 'settings.tabs.normPeriods', '/settings/norm-periods', ['settings-norm-periods']),
             item('health', 'settings.tabs.nursingProfessionalRecordTemplates', '/settings/nursing-professional-record-templates', ['settings-nursing-professional-record-templates']),
             item('citizens', 'settings.tabs.relationships', '/settings/relationships', ['settings-relationships']),
+            item('citizens', 'settings.tabs.visitTypes', '/settings/visit-types', ['settings-visit-types']),
             ...when(isEmploymentServices, item('employment', 'settings.tabs.reportTemplates', '/settings/report-templates', ['settings-report-templates', 'settings-report-templates-new', 'settings-report-templates-uuid-edit'])),
             item('access', 'settings.tabs.roles', '/settings/roles', ['settings-roles']),
             item('booking', 'settings.tabs.rooms', '/settings/rooms', ['settings-rooms']),

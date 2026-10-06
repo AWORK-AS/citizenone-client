@@ -882,7 +882,10 @@
         "billing": "Billing",
         "subscription": "Subscription",
         "couldNotStartConnection": "The connection could not be started. Try again.",
-        "couldNotStartPayment": "The payment could not be started. Try again."
+        "couldNotStartPayment": "The payment could not be started. Try again.",
+        "requiresPlan": "Requires {plan}",
+        "requiresPlanTooltip": "This app requires the {plan} plan. Click to see your subscription and upgrade.",
+        "upgradeToPlan": "Upgrade to {plan}"
     },
     "archived": {
         "alert": {
@@ -2381,7 +2384,10 @@
                 "monthly": "Monthly",
                 "weekly": "Weekly",
                 "yearly": "Yearly"
-            }
+            },
+            "hasSpecialLanguage": "Special language",
+            "hasSpecialLanguageDescription": "Tick if a special language is needed. Shown on the contract.",
+            "hasSpecialLanguageTooltip": "Yes or no: whether the person needs a special language. Used in the contract overview."
         },
         "importCitizens": {
             "alert": {
@@ -8461,7 +8467,25 @@
         "shiftsPlannedToday": "Shifts planned today",
         "signinToYourAccount": "Sign in to your account",
         "tagline": "Social sector · Care sector · Healthcare",
-        "welcomeBack": "Welcome back"
+        "welcomeBack": "Welcome back",
+        "sso": {
+            "microsoft": "Sign in with Microsoft",
+            "hint": "Use your organisation's Microsoft account. Type your work email above first.",
+            "enterEmail": "Type your work email, then choose Sign in with Microsoft.",
+            "failed": "Signing in with Microsoft did not work. Try again."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Let employees sign in with the organisation's Microsoft account. Only sign-ins from your own Microsoft Entra tenant are accepted.",
+        "unavailable": "Microsoft sign-in is not switched on on the server yet. Contact support.",
+        "tenantId": "Microsoft Entra tenant ID",
+        "tenantHint": "Found in the Entra admin center under Overview. Leave empty to switch SSO off.",
+        "saveHint": "Applies from the next sign-in",
+        "saved": "Saved",
+        "needsApp": "Microsoft SSO is a free app in the app store and requires the Pro plan. Activate the app to enter your tenant id.",
+        "openApp": "Go to the app",
+        "openAppHint": "Opens Microsoft SSO in the app store, where an administrator can activate it"
     },
     "logs": {
         "table": {
@@ -10875,7 +10899,12 @@
             "taskRules": "Task rules",
             "employmentOptions": "Employment options",
             "inquiryOffers": "Offers and prices",
-            "customerDepartments": "Customers and departments"
+            "customerDepartments": "Customers and departments",
+            "inquiryForms": "Inquiry forms",
+            "visitTypes": "Visit types",
+            "contractHourTypes": "Hour types",
+            "paymentTerms": "Payment terms",
+            "contractFields": "Contract fields"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11578,7 +11607,10 @@
                 "addScreenshot": "Add screenshot",
                 "screenshotCaption": "Caption",
                 "uploadScreenshot": "Upload screenshot",
-                "uploadFailed": "The image could not be uploaded."
+                "uploadFailed": "The image could not be uploaded.",
+                "requiredPlan": "Required plan",
+                "requiredPlanNone": "None - anyone can activate",
+                "requiredPlanHint": "Only companies on this plan can activate the app."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",
@@ -15401,6 +15433,27 @@
             },
             "fees": "Payment fee to CitizenOne",
             "feesHelp": "Charged on your own CitizenOne invoice."
+        },
+        "bulkSend": {
+            "selected": "{count} selected",
+            "send": "Send selected",
+            "sendHelp": "Books the selected invoices and queues them to be e-mailed. Invoices without a recipient e-mail, ones already sent and cancelled ones are skipped.",
+            "clear": "Clear selection",
+            "clearHelp": "Untick all invoices",
+            "selectAll": "Select every invoice on the list that can be sent",
+            "selectRow": "Select the invoice for sending",
+            "confirm": "Send {count} invoices by e-mail? They are booked and get their invoice number right away.",
+            "summary": "{queued} queued for sending, {skipped} skipped",
+            "queuedHelp": "The e-mails go out in the background. An invoice becomes sent when its e-mail has gone.",
+            "dismiss": "Close the summary",
+            "reasons": {
+                "not_found": "The invoice was not found",
+                "forbidden": "You do not have access to the @:terms.citizen{''}",
+                "no_email": "The recipient has no e-mail address",
+                "already_sent": "The invoice has already been sent",
+                "not_sendable": "A cancelled or credited invoice cannot be sent",
+                "error": "The invoice could not be sent"
+            }
         }
     },
     "invoiceTemplates": {
@@ -15512,6 +15565,7 @@
             "presetLastMonth": "Last month",
             "presetThisYear": "This year",
             "agreedHours": "Agreed hours",
+            "grantedAmount": "Granted amount",
             "fromContract": "contract",
             "fromAllocation": "allocated",
             "noAgreedHours": "No agreement recorded",
@@ -15544,6 +15598,7 @@
             "helpPeriod": "The period decides which hour registrations are included: every registration starting inside it that has not been invoiced already. Hours invoiced once do not come back.",
             "helpUsedHours": "The hours from the registrations behind the row. You can lower them when the contract only covers part of the delivery, and the rest is written off for the period. You cannot raise them above what was recorded - use an extra line for what is not hours.",
             "helpAgreedHours": "Delivery is held up against the contracted hours on the placement when they are filled in, and against the @:terms.citizen{''}'s allocated hours otherwise. The hours are scaled to the row's period, so a placement starting mid-month does not look under-delivered. Contracted hours are set on the placement in the @:terms.citizen{''} record.",
+            "helpGrantedAmount": "Granted hours times the hourly rate. Shown for comparison: the invoice uses the delivered hours. Empty for a fixed or one-off price.",
             "helpConvert": "Turns the selected placements into one invoice per paying municipality, extra lines included. The icon on a row makes an invoice with that placement alone. The invoices land under Invoicing, ready to send.",
             "invoicePer": "Invoice per",
             "invoicePerCustomer": "Customer/department",
@@ -15551,17 +15606,26 @@
             "contractMode": {
                 "legacy": "Hours at hourly rate",
                 "hourly": "Contract: price per hour",
-                "fixed": "Contract: fixed price"
+                "fixed": "Contract: fixed price",
+                "one_off": "Contract: one-off price"
             },
-            "contractChangesInWindow": "The contract changes during the period. The one that applies at the start is used.",
-            "customerNumber": "Customer no."
+            "customerNumber": "Customer no.",
+            "segment": "Part {index} of {count}",
+            "segmentHelp": "The stay changes contract period within the period, so it is split into several rows. Each row is billed on its own contract period.",
+            "contractWindow": "Contract period: {from} - {to}",
+            "alreadyInvoiced": "Already invoiced",
+            "invoicedNow": "Invoiced now",
+            "helpAlreadyInvoiced": "Has already been invoiced on an earlier invoice and is not included again.",
+            "helpInvoicedNow": "Is selected and goes on the invoice when you convert.",
+            "selectRow": "Select the row for invoicing",
+            "includeLine": "Include the contract line on the invoice"
         },
         "customerDepartments": {
             "title": "Customers and departments",
             "intro": "The departments at your customers that invoices are sent to. A customer can have several departments, each with its own address, EAN number and terms.",
             "new": "New department",
             "edit": "Edit department",
-            "search": "Search by name, customer or EAN",
+            "search": "Search by name, customer, EAN, customer no. or WorkZone ID",
             "empty": "No departments have been created yet.",
             "noCustomer": "No customer",
             "municipality": "Municipality",
@@ -15569,7 +15633,7 @@
             "customerName": "Customer name",
             "customerNamePlaceholder": "E.g. a private customer",
             "name": "Department name",
-            "street": "Address",
+            "street": "Address 1",
             "postCode": "Postcode",
             "city": "City",
             "address": "Address",
@@ -15585,7 +15649,102 @@
             "isActive": "Active",
             "saved": "The department has been saved",
             "deleted": "The department has been deleted",
-            "confirmDelete": "Delete the department? Contracts and invoices that point to it keep their details."
+            "confirmDelete": "Delete the department? Contracts and invoices that point to it keep their details.",
+            "externalId": "WorkZone ID",
+            "addressLine2": "Address 2",
+            "addressType": "Address type",
+            "region": "Region",
+            "mobilePhone": "Mobile phone",
+            "customerGroup": "Customer group",
+            "customerDivision": "Customer division",
+            "hasSpecialContract": "Special contract",
+            "paymentTermsText": "Payment terms, full text",
+            "cooperationStatus": "Cooperation status",
+            "cooperationStatusDate": "Date of status",
+            "cooperationProtectionStart": "Protection start",
+            "cooperationProtectionEnd": "Protection end",
+            "municipalityRegion": "Municipality / region",
+            "searchHelp": "Filters the list as you type on name, customer, EAN, customer number, WorkZone ID and region.",
+            "shown": "Showing {shown} of {total}",
+            "sections": {
+                "stamdata": "Master data",
+                "economy": "Finance",
+                "terms": "Terms",
+                "cooperation": "Cooperation"
+            },
+            "help": {
+                "externalId": "The customer's ID as shown in WorkZone (the ID column of the export). Used to update the department when you import again.",
+                "customerName": "The customer, e.g. the municipality name. In WorkZone, Navn 1 is customer and department separated by a comma.",
+                "name": "The department name as it appears on the invoice.",
+                "street": "First address line.",
+                "addressLine2": "Second address line, e.g. floor or attention.",
+                "postCode": "Postcode.",
+                "city": "City.",
+                "addressType": "What kind of address it is, e.g. main address.",
+                "region": "The customer's region as text, e.g. Capital Region.",
+                "email": "Primary e-mail, where the invoice is sent.",
+                "phone": "Phone number.",
+                "mobilePhone": "Mobile phone number.",
+                "contactPerson": "Contact person at the customer. The import never touches it.",
+                "eanNumber": "The EAN number (13 digits) the e-invoice is sent to.",
+                "customerNumber": "The customer number as used in the accounting system.",
+                "customerGroup": "The customer group in WorkZone, e.g. 3.",
+                "customerDivision": "The customer's division in WorkZone, kept with its code, e.g. 1300, Jutland and Funen.",
+                "hasSpecialContract": "Tick if the customer has a special contract.",
+                "paymentTermsDays": "Number of days from the Payment terms list. Used on the invoice.",
+                "paymentTermsText": "The full payment terms text as written in the agreement.",
+                "priceRegulation": "The price regulation agreement.",
+                "noticeTerms": "Notice period.",
+                "cooperationStatus": "How far the cooperation has come, e.g. established closer cooperation.",
+                "cooperationStatusDate": "The date of the cooperation status.",
+                "cooperationProtectionStart": "When the protection starts. Filled in by hand, not in the WorkZone export.",
+                "cooperationProtectionEnd": "When the protection ends. Must not be before the start.",
+                "isActive": "An inactive department cannot be chosen on new contract periods."
+            },
+            "import": {
+                "title": "Import from WorkZone",
+                "button": "Import from WorkZone",
+                "buttonHelp": "Upload a file from WorkZone and see what would happen before anything is saved.",
+                "help": "Choose WorkZone's OData export of customers (Kommuner) as xlsx or csv. The first row must be column headers, and the Navn 1 column is required.",
+                "helpReimport": "You see a preview first. Importing again updates departments with the same WorkZone ID (as shown in WorkZone), and empty cells in the file do not overwrite what is in CitizenOne. Discontinued departments are imported as inactive.",
+                "file": "File",
+                "fileHelp": "xlsx, xls or csv, 5 MB at most.",
+                "badType": "The file must be xlsx, xls or csv.",
+                "tooBig": "The file is larger than 5 MB.",
+                "preview": "Preview",
+                "previewHelp": "Reads the file and shows what would be created, updated or skipped. Nothing is saved.",
+                "previewTitle": "Preview, nothing is saved yet",
+                "doneTitle": "The import is done",
+                "row": "Row",
+                "action": "Action",
+                "notes": "Notes",
+                "actions": {
+                    "create": "Create",
+                    "update": "Update",
+                    "skip": "Skip"
+                },
+                "actionHelp": {
+                    "create": "A new department that does not exist in CitizenOne.",
+                    "update": "Already exists, matched on WorkZone ID or EAN. Only filled-in cells overwrite.",
+                    "skip": "The row has errors and is not imported."
+                },
+                "warnings": "Warnings",
+                "warningsHelp": "The row is imported, but a value could not be used, e.g. an invalid EAN or e-mail.",
+                "inactiveCount": "Inactive",
+                "inactiveCountHelp": "Marked as ceased in WorkZone. Imported as inactive, so they cannot be picked on new contract periods.",
+                "errors": "Errors",
+                "errorsHelp": "Rows with errors are skipped.",
+                "termsWillBeAdded": "Payment terms that will be added to the list: {days} days.",
+                "termsAdded": "Payment terms that were added to the list: {days} days.",
+                "unmatchedMunicipalities": "Municipalities that were not recognised: {names}",
+                "ignoredColumns": "Columns that are not used: {names}",
+                "apply": "Import {count}",
+                "applyHelp": "Saves the rows that are created or updated in one go. A skipped row changes nothing.",
+                "done": "{count} departments have been imported"
+            },
+            "eanAndCustomerNumber": "EAN / customer no.",
+            "inactive": "Inactive",
+            "inactiveHelp": "The department is inactive (discontinued in WorkZone) and cannot be chosen on new contract periods."
         },
         "contract": {
             "title": "Contract",
@@ -15647,7 +15806,8 @@
             "priceType": "Pricing model",
             "priceTypes": {
                 "hourly": "Price per delivered hour",
-                "fixed": "Fixed price per billing period"
+                "fixed": "Fixed price per billing period",
+                "one_off": "One-off price"
             },
             "fixedPrice": "Fixed price",
             "hourlyPrice": "Hourly price",
@@ -15672,7 +15832,61 @@
                 "one_off": "Once",
                 "recurring": "Every billing period"
             },
-            "note": "Note"
+            "note": "Note",
+            "oneOffPrice": "One-off price",
+            "onceOnly": "once",
+            "priceTypeHelp": "How the contract is settled: per delivered hour, a fixed price per billing period, or a single amount.",
+            "priceTypeHelps": {
+                "hourly": "Every delivered hour is billed at the hourly price.",
+                "fixed": "The fixed price is billed for every billing period, however many hours are delivered. Delivered hours appear on the invoice at 0.",
+                "one_off": "The price is billed once and never again. Delivered hours appear on the invoice at 0 (included in the one-off price)."
+            },
+            "billingTiming": "Billing timing",
+            "billingTimings": {
+                "in_arrears": "In arrears",
+                "in_advance": "In advance"
+            },
+            "billingTimingHelp": "In arrears bills for the period that has passed. In advance bills for the coming billing period. Applies to the fixed price and recurring lines. Delivered hours are always billed in arrears.",
+            "billingTimingHelps": {
+                "in_arrears": "The fixed price and recurring lines are billed for the period that has passed. Delivered hours are always billed in arrears.",
+                "in_advance": "The fixed price and recurring lines are billed for the coming billing period, to the end of the next month, quarter, half year or year. Delivered hours are still billed in arrears."
+            },
+            "hourTypes": "Hour types",
+            "hourTypesHelp": "Pick the hour types that are granted and enter hours for each. What a type is billed on is set under Settings.",
+            "noHourTypes": "There are no hour types yet.",
+            "createHourTypes": "Create hour types under Settings",
+            "hoursOfType": "Hours: {name}",
+            "noPaymentTerms": "No payment terms chosen",
+            "legacyTerms": "{days} days (not on the list)",
+            "createPaymentTerms": "Create payment terms under Settings",
+            "customFields": "Contract fields",
+            "fieldOnContract": "Shown on the contract",
+            "fieldOnInvoice": "Shown on the invoice",
+            "fieldHidden": "Not shown on the contract or the invoice",
+            "presetLines": "Fees and standard lines",
+            "presetKinds": {
+                "startup_fee": "Start-up fee",
+                "room_rent": "Room rent",
+                "status_report": "Status report"
+            },
+            "presetHelps": {
+                "startup_fee": "A fee that is by default billed once at the start.",
+                "room_rent": "Rent for a room, by default billed every billing period.",
+                "status_report": "A fee for a status report, by default billed once."
+            },
+            "addLineHelp": "Add a line other than start-up fee, room rent or status report.",
+            "reviewIntro": "The new period is filled in with the previous period's terms. Review these before you save:",
+            "reviewItems": {
+                "price": "The price",
+                "granted_hours": "The granted hours",
+                "hours_split": "The split between hour types"
+            },
+            "reviewConfirmHelp": "The period is only saved once you confirm the terms still apply.",
+            "showCprHelp": "The invoice line includes the CPR number.",
+            "showCaseNumberHelp": "The invoice line includes both the case number and the case journal number, if they are registered.",
+            "specialLanguage": "Special language",
+            "specialLanguageHelp": "Registered on the profile itself and cannot be changed here.",
+            "reviewKept": "Unchanged from the previous period: {items}."
         },
         "invoices": {
             "title": "Invoices from the extraction",
@@ -15707,6 +15921,76 @@
                 "invoice_failed": "The draft could not be created in e-conomic",
                 "unknown_action": "Unknown action"
             }
+        },
+        "hourTypes": {
+            "title": "Hour types",
+            "intro": "The kinds of hours a contract period can grant: contact time, administration, transport and your own. Each type can have its own item number.",
+            "new": "New hour type",
+            "newHelp": "Create a new hour type that can be chosen on contract periods.",
+            "edit": "Edit hour type",
+            "empty": "There are no hour types yet.",
+            "basisTitle": "What is it billed on?",
+            "basis": {
+                "delivered": "Delivered hours",
+                "granted": "Granted hours"
+            },
+            "basisHelp": {
+                "delivered": "Billed on the hours registered as delivered in the period.",
+                "granted": "Billed on the granted hours (granted hours times the hourly price), however many were delivered. Applies when the price is per hour."
+            },
+            "name": "Name",
+            "billingBasis": "Billed on",
+            "productNumber": "Item number in e-conomic",
+            "sortOrder": "Order",
+            "isActive": "Active",
+            "isActiveHelp": "An inactive hour type cannot be chosen on new periods, but is kept on existing ones.",
+            "system": "System",
+            "systemHelp": "A system type comes with the setup. It can be edited but not deleted.",
+            "systemNotDeletable": "A system type cannot be deleted",
+            "saved": "The hour type has been saved",
+            "deleted": "The hour type has been deleted",
+            "confirmDelete": "Delete the hour type? It can no longer be chosen on contract periods."
+        },
+        "paymentTerms": {
+            "title": "Payment terms",
+            "intro": "The payment terms (number of days) that contract periods and customers can choose between.",
+            "new": "New payment term",
+            "newHelp": "Create a new payment term that can be chosen on contract periods and customer departments.",
+            "edit": "Edit payment term",
+            "empty": "There are no payment terms yet.",
+            "days": "Number of days",
+            "label": "Label",
+            "labelPlaceholder": "Optional, e.g. 30 days net",
+            "sortOrder": "Order",
+            "isActive": "Active",
+            "isActiveHelp": "An inactive term cannot be chosen on new periods or departments.",
+            "saved": "The payment term has been saved",
+            "deleted": "The payment term has been deleted",
+            "confirmDelete": "Delete the payment term? Periods and departments already using it keep their number of days."
+        },
+        "contractFields": {
+            "title": "Contract fields",
+            "intro": "Your own fields filled in on every contract period, for example a framework agreement number. A field can be shown on the contract, on the invoice line, or both.",
+            "new": "New contract field",
+            "newHelp": "Create a new field that can be filled in on contract periods.",
+            "edit": "Edit contract field",
+            "empty": "There are no contract fields yet.",
+            "label": "Name",
+            "fieldType": "Type",
+            "types": {
+                "text": "Text",
+                "number": "Number"
+            },
+            "showOnContract": "Show on the contract",
+            "showOnContractHelp": "The value is shown on the contract tab.",
+            "showOnInvoice": "Show on the invoice",
+            "showOnInvoiceHelp": "The value is written in brackets on the invoice line together with the field name.",
+            "sortOrder": "Order",
+            "isActive": "Active",
+            "isActiveHelp": "An inactive field cannot be filled in on new periods, but values on existing ones are kept.",
+            "saved": "The contract field has been saved",
+            "deleted": "The contract field has been deleted",
+            "confirmDelete": "Delete the contract field? Values on existing periods are lost."
         }
     },
     "inquiryPipelineStages": {
@@ -15793,7 +16077,9 @@
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
             "serviceType": "Only for service type",
-            "serviceTypeHint": "Pick a type if the field is only asked for there. Otherwise it is asked whatever the type is."
+            "serviceTypeHint": "Pick a type if the field is only asked for there. Otherwise it is asked whatever the type is.",
+            "form": "Form",
+            "formHint": "The field is asked only on this form."
         },
         "types": {
             "text": "Text",
@@ -15827,7 +16113,8 @@
         },
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
-        "allowHalfSteps": "Allow half steps (e.g. 4.5)"
+        "allowHalfSteps": "Allow half steps (e.g. 4.5)",
+        "allForms": "All forms"
     },
     "inquiryOrigin": {
         "label": "The inquiry comes from",
@@ -15846,6 +16133,26 @@
         "organisation": "Organisation",
         "email": "Email",
         "phone": "Phone"
+    },
+    "inquiryIntake": {
+        "title": "Website form",
+        "description": "Inquiries from your own website form are created here automatically. The form posts with a key that can only create inquiries.",
+        "active": "Active · key ends in {last4}",
+        "inactive": "Not set up",
+        "generate": "Create key",
+        "rotate": "New key",
+        "generateHint": "Create a key for your website form",
+        "rotateHint": "Make a new key. The old one stops working at once.",
+        "revoke": "Switch off",
+        "revokeHint": "Switch the website form off. The key stops working.",
+        "copyNow": "Copy the key now. It is shown only this once.",
+        "copy": "Copy the key",
+        "copied": "The key is copied",
+        "howTo": "How to set up the form",
+        "howToText": "Have your website send the form to the address below with the key in the X-Inquiry-Key header. The inquiry appears in the pipeline, marked as from the website.",
+        "revoked": "The website form is switched off",
+        "failed": "That did not work",
+        "fromWebsite": "From the website"
     },
     "consultantSkills": {
         "title": "Consultant skills",
@@ -15983,7 +16290,8 @@
         },
         "hint": "Decides which type-specific fields are asked for.",
         "single": "Service type",
-        "title": "Service types"
+        "title": "Service types",
+        "formsMoved": "Which built-in fields an inquiry asks for is now chosen under Inquiry forms."
     },
     "inquiryStageHistory": {
         "empty": "This inquiry has not changed stage yet.",
@@ -16079,6 +16387,41 @@
         "uploadFailed": "The document could not be uploaded",
         "deleteFailed": "The document could not be deleted",
         "dropHere": "Drop the files here"
+    },
+    "inquiryParties": {
+        "title": "Parties",
+        "hint": "Who the case involves: caseworker, parents, school and your own professionals. They become contacts on the case when the inquiry is won.",
+        "add": "Add party",
+        "remove": "Remove party",
+        "empty": "There are no parties yet.",
+        "primary": "Primary party",
+        "primaryHint": "Who the case is primarily about",
+        "saveFailed": "The party could not be saved",
+        "kinds": {
+            "outside": "Outside party",
+            "employee": "Employee"
+        },
+        "types": {
+            "case_manager": "Caseworker",
+            "relatives": "Relative",
+            "external_contact": "Other outside",
+            "doctor": "Doctor",
+            "dentist": "Dentist",
+            "our_contact_person": "Our contact person"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "E.g. school or municipality",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "employee": "Employee",
+            "coordinatorRole": "Coordinator role",
+            "noRole": "None",
+            "isPrimary": "Primary party"
+        }
     },
     "inquiryInvitations": {
         "title": "Consultants asked",
@@ -16671,6 +17014,50 @@
             "other": "Other"
         }
     },
+    "visitTypes": {
+        "title": "Visit types",
+        "single": "Visit type",
+        "none": "None",
+        "description": "The kinds of visit consultants register time on, e.g. home visit, contact visit or meeting. On each case you can limit which visit types may be used.",
+        "add": "Add",
+        "addHint": "Add a visit type that can be chosen when registering time",
+        "empty": "There are no visit types yet.",
+        "restrictedHint": "This case only allows these visit types.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Home visit"
+        },
+        "actions": {
+            "switchOff": "Switch the visit type off",
+            "switchOn": "Switch the visit type on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The visit type is deleted",
+            "deleteFailed": "The visit type could not be deleted"
+        }
+    },
+    "registrationRules": {
+        "title": "Registration rules",
+        "citizenHint": "What consultants may register on this case, under the agreement with the municipality.",
+        "inquiryHint": "Agreed with the municipality now. The rules carry over when the inquiry becomes a case.",
+        "edit": "Edit registration rules",
+        "visitTypes": "Allowed visit types",
+        "allVisitTypes": "All visit types",
+        "noVisitTypes": "None",
+        "mileage": "Mileage",
+        "expenses": "Expenses",
+        "allowed": "Allowed",
+        "notAllowed": "Not allowed",
+        "mileageAllowed": "Mileage may be registered",
+        "expensesAllowed": "Expenses may be registered",
+        "catalogueEmpty": "There are no visit types. Create them under",
+        "saveHint": "Applies to new registrations from now on",
+        "saved": "The registration rules are saved",
+        "saveFailed": "The rules could not be saved"
+    },
     "inquiryRecruitment": {
         "needsRecruitment": "Needs recruitment",
         "hint": "Turn on when the case lacks a consultant. The recruitment team is told once.",
@@ -16941,6 +17328,13 @@
             "overdue": "Overdue {date}",
             "dueToday": "Due today"
         }
+    },
+    "documentTabs": {
+        "waiting": "Opening document…",
+        "blockedTitle": "The browser blocked tabs",
+        "blocked": "{count} document was not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again. | {count} documents were not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again.",
+        "failedTitle": "The document could not be fetched",
+        "failed": "{count} document could not be fetched. Try again. | {count} documents could not be fetched. Try again."
     },
     "invoicePayment": {
         "paid": "This invoice has been paid.",

@@ -882,7 +882,10 @@
         "billing": "Betaling",
         "subscription": "Abonnement",
         "couldNotStartConnection": "Forbindelsen kunne ikke startes. Prøv igen.",
-        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen."
+        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen.",
+        "requiresPlan": "Kræver {plan}",
+        "requiresPlanTooltip": "Appen kræver {plan}-profilen. Klik for at se jeres abonnement og opgradere.",
+        "upgradeToPlan": "Opgrader til {plan}"
     },
     "archived": {
         "alert": {
@@ -2381,7 +2384,10 @@
                 "monthly": "Månedligt",
                 "weekly": "Ugentligt",
                 "yearly": "Årligt"
-            }
+            },
+            "hasSpecialLanguage": "Særligt sprog",
+            "hasSpecialLanguageDescription": "Markér, hvis der er behov for et særligt sprog. Vises på kontrakten.",
+            "hasSpecialLanguageTooltip": "Ja eller nej: om personen har brug for et særligt sprog. Bruges i kontraktoversigten."
         },
         "importCitizens": {
             "alert": {
@@ -8461,7 +8467,25 @@
         "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
         "tagline": "Journalsystem til social- og sundhedssektoren",
-        "welcomeBack": "Velkommen tilbage"
+        "welcomeBack": "Velkommen tilbage",
+        "sso": {
+            "microsoft": "Log ind med Microsoft",
+            "hint": "Brug din organisations Microsoft-konto. Skriv din arbejds-e-mail ovenfor først.",
+            "enterEmail": "Skriv din arbejds-e-mail, og vælg så Log ind med Microsoft.",
+            "failed": "Login med Microsoft lykkedes ikke. Prøv igen."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Lad medarbejderne logge ind med organisationens Microsoft-konto. Kun logins fra jeres egen Microsoft Entra-tenant accepteres.",
+        "unavailable": "Microsoft-login er ikke slået til på serveren endnu. Kontakt support.",
+        "tenantId": "Microsoft Entra tenant-id",
+        "tenantHint": "Findes i Entra admin center under Oversigt. Lad feltet stå tomt for at slå SSO fra.",
+        "saveHint": "Gælder fra næste login",
+        "saved": "Gemt",
+        "needsApp": "Microsoft SSO er en gratis app i app store'en og kræver Pro-profilen. Aktivér appen for at indtaste jeres tenant-id.",
+        "openApp": "Gå til appen",
+        "openAppHint": "Åbner Microsoft SSO i app store'en, hvor en administrator kan aktivere den"
     },
     "logs": {
         "table": {
@@ -10875,7 +10899,12 @@
             "taskRules": "Opgaveregler",
             "employmentOptions": "Ansættelsesvalg",
             "inquiryOffers": "Tilbud og priser",
-            "customerDepartments": "Kunder og afdelinger"
+            "customerDepartments": "Kunder og afdelinger",
+            "inquiryForms": "Henvendelsesformularer",
+            "visitTypes": "Besøgstyper",
+            "contractHourTypes": "Timetyper",
+            "paymentTerms": "Betalingsbetingelser",
+            "contractFields": "Kontraktfelter"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11578,7 +11607,10 @@
                 "addScreenshot": "Tilføj skærmbillede",
                 "screenshotCaption": "Billedtekst",
                 "uploadScreenshot": "Upload skærmbillede",
-                "uploadFailed": "Billedet kunne ikke uploades."
+                "uploadFailed": "Billedet kunne ikke uploades.",
+                "requiredPlan": "Kræver plan",
+                "requiredPlanNone": "Ingen - alle kan aktivere",
+                "requiredPlanHint": "Kun firmaer på denne plan kan aktivere appen."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
@@ -15396,6 +15428,27 @@
             },
             "fees": "Betalingsgebyr til CitizenOne",
             "feesHelp": "Opkræves på jeres egen CitizenOne-faktura."
+        },
+        "bulkSend": {
+            "selected": "{count} valgt",
+            "send": "Send valgte",
+            "sendHelp": "Bogfører de valgte fakturaer og sætter dem i kø til afsendelse på mail. Fakturaer uden modtagerens e-mail, allerede sendte og annullerede springes over.",
+            "clear": "Ryd markering",
+            "clearHelp": "Fjern markeringen fra alle fakturaer",
+            "selectAll": "Vælg alle fakturaer på listen, der kan sendes",
+            "selectRow": "Vælg fakturaen til afsendelse",
+            "confirm": "Send {count} fakturaer på mail? De bogføres og får fakturanummer med det samme.",
+            "summary": "{queued} sat i kø til afsendelse, {skipped} sprunget over",
+            "queuedHelp": "Mailene sendes i baggrunden. En faktura får status sendt, når mailen er afsendt.",
+            "dismiss": "Luk oversigten",
+            "reasons": {
+                "not_found": "Fakturaen blev ikke fundet",
+                "forbidden": "Du har ikke adgang til @:terms.citizen{''}",
+                "no_email": "Modtageren har ingen e-mailadresse",
+                "already_sent": "Fakturaen er allerede sendt",
+                "not_sendable": "En annulleret eller krediteret faktura kan ikke sendes",
+                "error": "Fakturaen kunne ikke sendes"
+            }
         }
     },
     "invoiceTemplates": {
@@ -15507,6 +15560,7 @@
             "presetLastMonth": "Sidste måned",
             "presetThisYear": "I år",
             "agreedHours": "Aftalte timer",
+            "grantedAmount": "Bevilget beløb",
             "fromContract": "kontrakt",
             "fromAllocation": "tildelt",
             "noAgreedHours": "Ingen aftale registreret",
@@ -15539,6 +15593,7 @@
             "helpPeriod": "Perioden bestemmer hvilke timeregistreringer der kommer med: alle registreringer der starter i perioden, og som ikke allerede er faktureret. Timer der er faktureret én gang dukker ikke op igen.",
             "helpUsedHours": "Timerne fra timeregistreringerne bag rækken. Du kan sætte dem ned, hvis kontrakten kun dækker en del, og resten afskrives så på perioden. Du kan ikke sætte dem op over det registrerede - brug en diverse-linje til det, der ikke er timer.",
             "helpAgreedHours": "Det leverede holdes op mod kontrakttimerne på indsatsen, hvis de er udfyldt, ellers mod @:terms.citizenDefinite{'s'} tildelte timer. Timerne skaleres til rækkens periode, så et ophold der starter midt i måneden ikke ser underleveret ud. Kontrakttimer sættes på opholdet under @:terms.citizenDefinite{'s'} stamkort.",
+            "helpGrantedAmount": "Bevilgede timer gange timeprisen. Vises til sammenligning: fakturaen bruger de leverede timer. Tom ved fast pris og engangspris.",
             "helpConvert": "Omdanner de valgte indsatser til én faktura pr. betalende kommune, inklusive diverse-linjer. Ikonet på rækken laver en faktura med kun den ene indsats. Fakturaerne lander under Fakturering, klar til at sende.",
             "invoicePer": "Faktura pr.",
             "invoicePerCustomer": "Kunde/afdeling",
@@ -15546,17 +15601,26 @@
             "contractMode": {
                 "legacy": "Timer til timepris",
                 "hourly": "Kontrakt: pris pr. time",
-                "fixed": "Kontrakt: fast pris"
+                "fixed": "Kontrakt: fast pris",
+                "one_off": "Kontrakt: engangspris"
             },
-            "contractChangesInWindow": "Kontrakten skifter i perioden. Den periode, der gælder ved start, bruges.",
-            "customerNumber": "Kundenr."
+            "customerNumber": "Kundenr.",
+            "segment": "Del {index} af {count}",
+            "segmentHelp": "Opholdet skifter kontraktperiode i perioden og er derfor delt i flere rækker. Hver række faktureres efter sin egen kontraktperiode.",
+            "contractWindow": "Kontraktperiode: {from} - {to}",
+            "alreadyInvoiced": "Allerede faktureret",
+            "invoicedNow": "Faktureres nu",
+            "helpAlreadyInvoiced": "Er allerede faktureret på en tidligere faktura og tages ikke med igen.",
+            "helpInvoicedNow": "Er valgt og kommer med på fakturaen, når du konverterer.",
+            "selectRow": "Vælg rækken til fakturering",
+            "includeLine": "Tag kontraktlinjen med på fakturaen"
         },
         "customerDepartments": {
             "title": "Kunder og afdelinger",
             "intro": "De afdelinger hos jeres kunder, som fakturaerne sendes til. En kunde kan have flere afdelinger, hver med egen adresse, EAN-nummer og betingelser.",
             "new": "Ny afdeling",
             "edit": "Rediger afdeling",
-            "search": "Søg på navn, kunde eller EAN",
+            "search": "Søg på navn, kunde, EAN, kundenr. eller WorkZone-ID",
             "empty": "Der er ikke oprettet nogen afdelinger endnu.",
             "noCustomer": "Uden kunde",
             "municipality": "Kommune",
@@ -15564,7 +15628,7 @@
             "customerName": "Kundens navn",
             "customerNamePlaceholder": "Fx en privat kunde",
             "name": "Afdelingens navn",
-            "street": "Adresse",
+            "street": "Adresse 1",
             "postCode": "Postnr.",
             "city": "By",
             "address": "Adresse",
@@ -15580,7 +15644,102 @@
             "isActive": "Aktiv",
             "saved": "Afdelingen er gemt",
             "deleted": "Afdelingen er slettet",
-            "confirmDelete": "Slet afdelingen? Kontrakter og fakturaer, der peger på den, beholder deres oplysninger."
+            "confirmDelete": "Slet afdelingen? Kontrakter og fakturaer, der peger på den, beholder deres oplysninger.",
+            "externalId": "WorkZone-ID",
+            "addressLine2": "Adresse 2",
+            "addressType": "Adressetype",
+            "region": "Region",
+            "mobilePhone": "Mobiltelefon",
+            "customerGroup": "Kundegruppe",
+            "customerDivision": "Kundeafdeling",
+            "hasSpecialContract": "Særkontrakt",
+            "paymentTermsText": "Betalingsbetingelser, fuld tekst",
+            "cooperationStatus": "Status på samarbejde",
+            "cooperationStatusDate": "Dato for status",
+            "cooperationProtectionStart": "Beskyttelse start",
+            "cooperationProtectionEnd": "Beskyttelse slut",
+            "municipalityRegion": "Kommune / region",
+            "searchHelp": "Filtrerer listen med det samme på navn, kunde, EAN, kundenummer, WorkZone-id og region.",
+            "shown": "Viser {shown} af {total}",
+            "sections": {
+                "stamdata": "Stamdata",
+                "economy": "Økonomi",
+                "terms": "Vilkår",
+                "cooperation": "Samarbejde"
+            },
+            "help": {
+                "externalId": "Kundens ID, som det vises i WorkZone (kolonnen ID i udtrækket). Bruges til at opdatere afdelingen, når du importerer igen.",
+                "customerName": "Kunden, f.eks. kommunens navn. Navn 1 i WorkZone er kunde og afdeling adskilt af komma.",
+                "name": "Afdelingens navn, som det står på fakturaen.",
+                "street": "Første adresselinje.",
+                "addressLine2": "Anden adresselinje, f.eks. etage eller att.",
+                "postCode": "Postnummer.",
+                "city": "By.",
+                "addressType": "Hvilken type adresse det er, f.eks. hovedadresse.",
+                "region": "Kundens region som tekst, f.eks. Hovedstaden.",
+                "email": "Primær e-mail, som fakturaen sendes til.",
+                "phone": "Telefonnummer.",
+                "mobilePhone": "Mobiltelefonnummer.",
+                "contactPerson": "Kontaktperson hos kunden. Røres ikke af importen.",
+                "eanNumber": "EAN-nummeret (13 cifre), som e-fakturaen sendes til.",
+                "customerNumber": "Kundenummeret, som det bruges i økonomisystemet.",
+                "customerGroup": "Kundegruppen i WorkZone, f.eks. 3.",
+                "customerDivision": "Kundens afdeling i WorkZone, gemt med sin kode, f.eks. 1300, Jylland og Fyn.",
+                "hasSpecialContract": "Sæt kryds, hvis kunden har en særlig kontrakt.",
+                "paymentTermsDays": "Antal dage fra listen under Betalingsbetingelser. Bruges på fakturaen.",
+                "paymentTermsText": "Den fulde tekst om betalingsbetingelser, som den står i aftalen.",
+                "priceRegulation": "Aftalen om prisregulering.",
+                "noticeTerms": "Opsigelsesvarsel.",
+                "cooperationStatus": "Hvor langt samarbejdet er, f.eks. etableret tættere samarbejde.",
+                "cooperationStatusDate": "Datoen for statussen på samarbejdet.",
+                "cooperationProtectionStart": "Hvornår beskyttelsen begynder. Udfyldes manuelt, findes ikke i WorkZone-udtrækket.",
+                "cooperationProtectionEnd": "Hvornår beskyttelsen slutter. Skal ikke ligge før starten.",
+                "isActive": "En inaktiv afdeling kan ikke vælges på nye kontraktperioder."
+            },
+            "import": {
+                "title": "Importér fra WorkZone",
+                "button": "Importér fra WorkZone",
+                "buttonHelp": "Upload en fil fra WorkZone og se, hvad der vil ske, før noget gemmes.",
+                "help": "Vælg WorkZones OData-udtræk af kommuner (Kommuner) som xlsx eller csv. Første række skal være kolonneoverskrifter, og kolonnen Navn 1 er påkrævet.",
+                "helpReimport": "Du ser først en forhåndsvisning. Importerer du igen, opdateres afdelinger med samme WorkZone-ID (som vist i WorkZone), og tomme felter i filen overskriver ikke det, der står i CitizenOne. Ophørte afdelinger importeres som inaktive.",
+                "file": "Fil",
+                "fileHelp": "xlsx, xls eller csv, højst 5 MB.",
+                "badType": "Filen skal være xlsx, xls eller csv.",
+                "tooBig": "Filen er større end 5 MB.",
+                "preview": "Forhåndsvis",
+                "previewHelp": "Læser filen og viser, hvad der vil blive oprettet, opdateret eller sprunget over. Der gemmes ingenting.",
+                "previewTitle": "Forhåndsvisning, intet er gemt endnu",
+                "doneTitle": "Importen er gennemført",
+                "row": "Række",
+                "action": "Handling",
+                "notes": "Bemærkninger",
+                "actions": {
+                    "create": "Oprettes",
+                    "update": "Opdateres",
+                    "skip": "Springes over"
+                },
+                "actionHelp": {
+                    "create": "Ny afdeling, som ikke findes i CitizenOne.",
+                    "update": "Findes allerede, matchet på WorkZone-id eller EAN. Kun udfyldte felter overskriver.",
+                    "skip": "Rækken har fejl og bliver ikke importeret."
+                },
+                "warnings": "Advarsler",
+                "warningsHelp": "Rækken importeres, men en værdi kunne ikke bruges, f.eks. en ugyldig EAN eller mail.",
+                "inactiveCount": "Inaktive",
+                "inactiveCountHelp": "Markeret som ophørt i WorkZone. Importeres som inaktive, så de ikke kan vælges på nye kontraktperioder.",
+                "errors": "Fejl",
+                "errorsHelp": "Rækker med fejl springes over.",
+                "termsWillBeAdded": "Betalingsbetingelser, der oprettes på listen: {days} dage.",
+                "termsAdded": "Betalingsbetingelser, der blev oprettet på listen: {days} dage.",
+                "unmatchedMunicipalities": "Kommuner, der ikke blev genkendt: {names}",
+                "ignoredColumns": "Kolonner, der ikke bruges: {names}",
+                "apply": "Importér {count}",
+                "applyHelp": "Gemmer de rækker, der oprettes eller opdateres, i ét hug. Springes en række over, ændres intet for den.",
+                "done": "{count} afdelinger er importeret"
+            },
+            "eanAndCustomerNumber": "EAN / kundenr.",
+            "inactive": "Inaktiv",
+            "inactiveHelp": "Afdelingen er inaktiv (ophørt i WorkZone) og kan ikke vælges på nye kontraktperioder."
         },
         "contract": {
             "title": "Kontrakt",
@@ -15642,7 +15801,8 @@
             "priceType": "Prismodel",
             "priceTypes": {
                 "hourly": "Pris pr. leveret time",
-                "fixed": "Fast pris pr. faktureringsperiode"
+                "fixed": "Fast pris pr. faktureringsperiode",
+                "one_off": "Engangspris"
             },
             "fixedPrice": "Fast pris",
             "hourlyPrice": "Timepris",
@@ -15667,7 +15827,61 @@
                 "one_off": "Én gang",
                 "recurring": "Hver faktureringsperiode"
             },
-            "note": "Note"
+            "note": "Note",
+            "oneOffPrice": "Engangspris",
+            "onceOnly": "én gang",
+            "priceTypeHelp": "Hvordan kontrakten afregnes: pr. leveret time, med en fast pris pr. faktureringsperiode eller med et engangsbeløb.",
+            "priceTypeHelps": {
+                "hourly": "Hver leveret time faktureres til timeprisen.",
+                "fixed": "Den faste pris faktureres for hver faktureringsperiode, uanset hvor mange timer der leveres. Leverede timer står på fakturaen til 0 kr.",
+                "one_off": "Prisen faktureres én gang og aldrig igen. Leverede timer står på fakturaen til 0 kr. (indeholdt i engangsprisen)."
+            },
+            "billingTiming": "Faktureringstidspunkt",
+            "billingTimings": {
+                "in_arrears": "Bagudrettet",
+                "in_advance": "Forudrettet"
+            },
+            "billingTimingHelp": "Bagudrettet fakturerer for den periode, der er gået. Forudrettet fakturerer for den kommende faktureringsperiode. Gælder fast pris og tilbagevendende linjer. Leverede timer faktureres altid bagud.",
+            "billingTimingHelps": {
+                "in_arrears": "Fast pris og tilbagevendende linjer faktureres for den periode, der er gået. Leverede timer faktureres altid bagud.",
+                "in_advance": "Fast pris og tilbagevendende linjer faktureres for den kommende faktureringsperiode, til og med udgangen af næste måned, kvartal, halvår eller år. Leverede timer faktureres stadig bagud."
+            },
+            "hourTypes": "Timetyper",
+            "hourTypesHelp": "Vælg de timetyper, der er bevilget, og angiv timer for hver. Hvad en type faktureres efter, bestemmes under Indstillinger.",
+            "noHourTypes": "Der er ingen timetyper endnu.",
+            "createHourTypes": "Opret timetyper under Indstillinger",
+            "hoursOfType": "Timer: {name}",
+            "noPaymentTerms": "Ingen betalingsbetingelser valgt",
+            "legacyTerms": "{days} dage (findes ikke på listen)",
+            "createPaymentTerms": "Opret betalingsbetingelser under Indstillinger",
+            "customFields": "Kontraktfelter",
+            "fieldOnContract": "Vises på kontrakten",
+            "fieldOnInvoice": "Vises på fakturaen",
+            "fieldHidden": "Vises hverken på kontrakt eller faktura",
+            "presetLines": "Gebyrer og faste linjer",
+            "presetKinds": {
+                "startup_fee": "Opstartsgebyr",
+                "room_rent": "Lokaleleje",
+                "status_report": "Statusrapport"
+            },
+            "presetHelps": {
+                "startup_fee": "Et gebyr, der som udgangspunkt faktureres én gang ved opstart.",
+                "room_rent": "Leje af lokale, der som udgangspunkt faktureres hver faktureringsperiode.",
+                "status_report": "Et gebyr for en statusrapport, der som udgangspunkt faktureres én gang."
+            },
+            "addLineHelp": "Tilføj en anden linje end opstartsgebyr, lokaleleje og statusrapport.",
+            "reviewIntro": "Den nye periode er udfyldt med den forrige periodes vilkår. Gennemgå disse punkter, før du gemmer:",
+            "reviewItems": {
+                "price": "Prisen",
+                "granted_hours": "De bevilgede timer",
+                "hours_split": "Fordelingen på timetyper"
+            },
+            "reviewConfirmHelp": "Perioden gemmes først, når du har bekræftet, at vilkårene stadig gælder.",
+            "showCprHelp": "Fakturalinjen får CPR-nummeret med.",
+            "showCaseNumberHelp": "Fakturalinjen får både indsatsnummeret og sagens journalnummer med, hvis de er registreret.",
+            "specialLanguage": "Særligt sprog",
+            "specialLanguageHelp": "Registreres på selve profilen og kan ikke ændres her.",
+            "reviewKept": "Uændret fra forrige periode: {items}."
         },
         "invoices": {
             "title": "Fakturaer fra udtrækket",
@@ -15702,6 +15916,76 @@
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
                 "unknown_action": "Ukendt handling"
             }
+        },
+        "hourTypes": {
+            "title": "Timetyper",
+            "intro": "De typer timer, en kontraktperiode kan bevilge: kontakttid, administration, transport og dine egne. Hver type kan have sit eget varenummer.",
+            "new": "Ny timetype",
+            "newHelp": "Opret en ny timetype, som kan vælges på kontraktperioder.",
+            "edit": "Rediger timetype",
+            "empty": "Der er ingen timetyper endnu.",
+            "basisTitle": "Hvad faktureres der efter?",
+            "basis": {
+                "delivered": "Leverede timer",
+                "granted": "Bevilgede timer"
+            },
+            "basisHelp": {
+                "delivered": "Faktureres efter de timer, der er registreret som leveret i perioden.",
+                "granted": "Faktureres efter de bevilgede timer (bevilgede timer gange timeprisen), uanset hvor mange der er leveret. Gælder, når prisen er pr. time."
+            },
+            "name": "Navn",
+            "billingBasis": "Faktureres efter",
+            "productNumber": "Varenummer i e-conomic",
+            "sortOrder": "Rækkefølge",
+            "isActive": "Aktiv",
+            "isActiveHelp": "En inaktiv timetype kan ikke vælges på nye perioder, men bevares på eksisterende.",
+            "system": "System",
+            "systemHelp": "En systemtype følger med fra start. Den kan rettes, men ikke slettes.",
+            "systemNotDeletable": "En systemtype kan ikke slettes",
+            "saved": "Timetypen er gemt",
+            "deleted": "Timetypen er slettet",
+            "confirmDelete": "Slet timetypen? Den kan ikke længere vælges på kontraktperioder."
+        },
+        "paymentTerms": {
+            "title": "Betalingsbetingelser",
+            "intro": "De betalingsbetingelser (antal dage), som kontraktperioder og kunder kan vælge imellem.",
+            "new": "Ny betalingsbetingelse",
+            "newHelp": "Opret en ny betalingsbetingelse, som kan vælges på kontraktperioder og kundeafdelinger.",
+            "edit": "Rediger betalingsbetingelse",
+            "empty": "Der er ingen betalingsbetingelser endnu.",
+            "days": "Antal dage",
+            "label": "Tekst",
+            "labelPlaceholder": "Valgfri, f.eks. Netto 30 dage",
+            "sortOrder": "Rækkefølge",
+            "isActive": "Aktiv",
+            "isActiveHelp": "En inaktiv betingelse kan ikke vælges på nye perioder eller afdelinger.",
+            "saved": "Betalingsbetingelsen er gemt",
+            "deleted": "Betalingsbetingelsen er slettet",
+            "confirmDelete": "Slet betalingsbetingelsen? Perioder og afdelinger, der allerede bruger den, beholder deres antal dage."
+        },
+        "contractFields": {
+            "title": "Kontraktfelter",
+            "intro": "Egne felter, der udfyldes på hver kontraktperiode, f.eks. et rammeaftalenummer. Et felt kan vises på kontrakten, på fakturalinjen eller begge steder.",
+            "new": "Nyt kontraktfelt",
+            "newHelp": "Opret et nyt felt, som kan udfyldes på kontraktperioder.",
+            "edit": "Rediger kontraktfelt",
+            "empty": "Der er ingen kontraktfelter endnu.",
+            "label": "Navn",
+            "fieldType": "Type",
+            "types": {
+                "text": "Tekst",
+                "number": "Tal"
+            },
+            "showOnContract": "Vis på kontrakten",
+            "showOnContractHelp": "Værdien vises under kontraktfanen.",
+            "showOnInvoice": "Vis på fakturaen",
+            "showOnInvoiceHelp": "Værdien skrives i parentes på fakturalinjen sammen med feltets navn.",
+            "sortOrder": "Rækkefølge",
+            "isActive": "Aktiv",
+            "isActiveHelp": "Et inaktivt felt kan ikke udfyldes på nye perioder, men værdier på eksisterende bevares.",
+            "saved": "Kontraktfeltet er gemt",
+            "deleted": "Kontraktfeltet er slettet",
+            "confirmDelete": "Slet kontraktfeltet? Værdier på eksisterende perioder går tabt."
         }
     },
     "inquiryPipelineStages": {
@@ -15788,7 +16072,9 @@
             "source": "Slå op i",
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
             "serviceType": "Kun for indsatstype",
-            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type."
+            "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type.",
+            "form": "Formular",
+            "formHint": "Feltet spørges kun på denne formular."
         },
         "types": {
             "text": "Tekst",
@@ -15822,7 +16108,8 @@
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",
-        "allowHalfSteps": "Tillad halve trin (fx 4,5)"
+        "allowHalfSteps": "Tillad halve trin (fx 4,5)",
+        "allForms": "Alle formularer"
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -15841,6 +16128,26 @@
         "organisation": "Organisation",
         "email": "E-mail",
         "phone": "Telefon"
+    },
+    "inquiryIntake": {
+        "title": "Webformular",
+        "description": "Henvendelser fra jeres egen hjemmesideformular oprettes automatisk her. Formularen sender med en nøgle, der kun kan oprette henvendelser.",
+        "active": "Aktiv · nøgle slutter på {last4}",
+        "inactive": "Ikke sat op",
+        "generate": "Opret nøgle",
+        "rotate": "Ny nøgle",
+        "generateHint": "Opret en nøgle til jeres hjemmesideformular",
+        "rotateHint": "Lav en ny nøgle. Den gamle holder op med at virke med det samme.",
+        "revoke": "Slå fra",
+        "revokeHint": "Slå webformularen fra. Nøglen holder op med at virke.",
+        "copyNow": "Kopiér nøglen nu. Den vises kun denne ene gang.",
+        "copy": "Kopiér nøglen",
+        "copied": "Nøglen er kopieret",
+        "howTo": "Sådan sættes formularen op",
+        "howToText": "Lad jeres hjemmeside sende formularen til adressen herunder med nøglen i headeren X-Inquiry-Key. Henvendelsen dukker op i pipelinen, markeret som fra hjemmesiden.",
+        "revoked": "Webformularen er slået fra",
+        "failed": "Det lykkedes ikke",
+        "fromWebsite": "Fra hjemmesiden"
     },
     "consultantSkills": {
         "title": "Konsulentkompetencer",
@@ -15978,7 +16285,8 @@
         },
         "hint": "Bestemmer hvilke typespecifikke felter der spørges om.",
         "single": "Indsatstype",
-        "title": "Indsatstyper"
+        "title": "Indsatstyper",
+        "formsMoved": "Hvilke faste felter en henvendelse spørger om, vælges nu under Henvendelsesformularer."
     },
     "inquiryStageHistory": {
         "empty": "Henvendelsen har ikke skiftet fase endnu.",
@@ -16074,6 +16382,41 @@
         "uploadFailed": "Dokumentet kunne ikke uploades",
         "deleteFailed": "Dokumentet kunne ikke slettes",
         "dropHere": "Slip filerne her"
+    },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Hvem sagen involverer: sagsbehandler, forældre, skole og jeres egne fagpersoner. De bliver kontakter på indsatsen, når henvendelsen vindes.",
+        "add": "Tilføj part",
+        "remove": "Fjern part",
+        "empty": "Der er ingen parter endnu.",
+        "primary": "Primær part",
+        "primaryHint": "Den eller dem sagen primært vedrører",
+        "saveFailed": "Parten kunne ikke gemmes",
+        "kinds": {
+            "outside": "Ekstern part",
+            "employee": "Medarbejder"
+        },
+        "types": {
+            "case_manager": "Sagsbehandler",
+            "relatives": "Pårørende",
+            "external_contact": "Anden ekstern",
+            "doctor": "Læge",
+            "dentist": "Tandlæge",
+            "our_contact_person": "Vores kontaktperson"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "Fx skole eller kommune",
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "email": "E-mail",
+            "phone": "Telefon",
+            "employee": "Medarbejder",
+            "coordinatorRole": "Koordinatorrolle",
+            "noRole": "Ingen",
+            "isPrimary": "Primær part"
+        }
     },
     "inquiryInvitations": {
         "title": "Konsulenter spurgt",
@@ -16666,6 +17009,50 @@
             "other": "Andet"
         }
     },
+    "visitTypes": {
+        "title": "Besøgstyper",
+        "single": "Besøgstype",
+        "none": "Ingen",
+        "description": "De slags besøg konsulenterne registrerer tid på, fx hjemmebesøg, samvær eller møde. På den enkelte indsats kan I begrænse, hvilke besøgstyper der må bruges.",
+        "add": "Tilføj",
+        "addHint": "Tilføj en besøgstype, som kan vælges ved tidsregistrering",
+        "empty": "Der er ingen besøgstyper endnu.",
+        "restrictedHint": "Indsatsen tillader kun disse besøgstyper.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Hjemmebesøg"
+        },
+        "actions": {
+            "switchOff": "Slå besøgstypen fra",
+            "switchOn": "Slå besøgstypen til",
+            "rename": "Omdøb",
+            "delete": "Slet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Besøgstypen er slettet",
+            "deleteFailed": "Besøgstypen kunne ikke slettes"
+        }
+    },
+    "registrationRules": {
+        "title": "Registreringsregler",
+        "citizenHint": "Hvad konsulenterne må registrere på denne indsats, efter aftalen med kommunen.",
+        "inquiryHint": "Aftalt med kommunen nu. Reglerne følger med, når henvendelsen bliver til en indsats.",
+        "edit": "Ret registreringsregler",
+        "visitTypes": "Tilladte besøgstyper",
+        "allVisitTypes": "Alle besøgstyper",
+        "noVisitTypes": "Ingen",
+        "mileage": "Kørsel",
+        "expenses": "Udlæg",
+        "allowed": "Tilladt",
+        "notAllowed": "Ikke tilladt",
+        "mileageAllowed": "Kørsel må registreres",
+        "expensesAllowed": "Udlæg må registreres",
+        "catalogueEmpty": "Der er ingen besøgstyper. Opret dem under",
+        "saveHint": "Gælder fra nu for nye registreringer",
+        "saved": "Registreringsreglerne er gemt",
+        "saveFailed": "Reglerne kunne ikke gemmes"
+    },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",
         "hint": "Slå til, når sagen mangler en konsulent. Rekrutteringsteamet får besked én gang.",
@@ -16936,6 +17323,13 @@
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
         }
+    },
+    "documentTabs": {
+        "waiting": "Åbner dokument…",
+        "blockedTitle": "Browseren blokerede faner",
+        "blocked": "{count} dokument blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen. | {count} dokumenter blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen.",
+        "failedTitle": "Dokumentet kunne ikke hentes",
+        "failed": "{count} dokument kunne ikke hentes. Prøv igen. | {count} dokumenter kunne ikke hentes. Prøv igen."
     },
     "invoicePayment": {
         "paid": "Denne faktura er betalt.",

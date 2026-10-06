@@ -9,9 +9,11 @@
                         :inquiry="props.selectedInquiry" @edit="state.isEditing = true"
                         @fieldsSaved="refreshInquiries" />
                     <ModulesUserInquiryModalCrisisCenterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
+                        :form="props.selectedInquiry.form ?? null"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="stopEditing" @submitForm="updateCrisisCenterInquiry" />
-                    <ModulesUserInquiryModalShelterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                    <ModulesUserInquiryModalShelterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry"
+                        :form="props.selectedInquiry.form ?? null" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="stopEditing" @submitForm="updateShelterInquiry" />
                     <!-- Neither form fits: the inquiry has no type, which happens to
                          imported rows and to anything created straight through the API.

@@ -1,4 +1,5 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
+import type { BulkSendSummary, DataEnvelope } from '@/types/contract'
 
 class CitizenInvoiceService extends BaseAPIService {
     async getReport(params: object): Promise<any> {
@@ -120,6 +121,12 @@ class CitizenInvoiceService extends BaseAPIService {
 
     async sendInvoice(uuid: string): Promise<any> {
         return await this.request(`/user/citizen-invoices/${uuid}/send`, 'POST')
+    }
+
+    // Books and e-mails several invoices at once; the answer says which were
+    // queued and which were skipped, and why.
+    async bulkSendInvoices(invoiceUuids: string[]): Promise<DataEnvelope<BulkSendSummary>> {
+        return await this.request(`/user/citizen-invoices/bulk-send`, 'POST', { invoice_uuids: invoiceUuids })
     }
 
     async createCreditNote(uuid: string, params: object = {}): Promise<any> {

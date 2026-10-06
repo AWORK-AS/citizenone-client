@@ -213,6 +213,21 @@
                         {{ $t('citizens.form.requiresInterpreterDescription') }}
                     </p>
                 </div>
+                <!-- Only the social-welfare contract uses it: a special-language
+                     citizen is billed differently, so the contract tab shows it. -->
+                <Tooltip v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare'"
+                    :text="$t('citizens.form.hasSpecialLanguageTooltip')" wrap position="top">
+                    <div class="w-fit cursor-pointer"
+                        @click="state.formCitizen.has_special_language = !state.formCitizen.has_special_language">
+                        <div class="flex items-center">
+                            <FormCheckbox id="has_special_language" :value="state.formCitizen.has_special_language" />
+                            {{ $t('citizens.form.hasSpecialLanguage') }}
+                        </div>
+                        <p class="ml-7 text-xs">
+                            {{ $t('citizens.form.hasSpecialLanguageDescription') }}
+                        </p>
+                    </div>
+                </Tooltip>
                 <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
@@ -1290,6 +1305,7 @@ const state = reactive({
         spoken_languages: [],
         primary_spoken_language: '',
         requires_interpreter: false,
+        has_special_language: false,
         diagnoses: [],
         medication_allergies: [],
         addictions: [],
@@ -1571,6 +1587,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
             spoken_languages: selectedCitizen.spoken_languages ?? [],
             primary_spoken_language: selectedCitizen.primary_spoken_language ?? '',
             requires_interpreter: selectedCitizen.requires_interpreter ?? false,
+            has_special_language: selectedCitizen.has_special_language ?? false,
             diagnoses: selectedCitizen.diagnoses,
             medication_allergies: selectedCitizen.medication_allergies,
             addictions: selectedCitizen.addictions,
