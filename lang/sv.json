@@ -16788,6 +16788,7 @@
         "title": "AI-användning",
         "loading": "Hämtar användning ...",
         "failed": "Användningen kunde inte hämtas just nu. Försök igen om en stund.",
+        "forbidden": "Du har inte åtkomst till AI-användningen. Be en administratör i ert företag om åtkomst.",
         "today": "I dag",
         "ofAllowance": "{used} av {allowance} svar",
         "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",

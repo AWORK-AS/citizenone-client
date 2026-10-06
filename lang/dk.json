@@ -16879,6 +16879,7 @@
         "title": "AI-forbrug",
         "loading": "Henter forbrug ...",
         "failed": "Forbruget kunne ikke hentes lige nu. Prøv igen om lidt.",
+        "forbidden": "Du har ikke adgang til AI-forbruget. Bed en administrator i jeres virksomhed om adgang.",
         "today": "I dag",
         "ofAllowance": "{used} af {allowance} svar",
         "allowanceExplainer": "Jeres daglige ramme følger antallet af AI-licenser, I har. Den nulstilles ved midnat.",

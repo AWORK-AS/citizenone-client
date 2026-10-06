@@ -16788,6 +16788,7 @@
         "title": "AI-bruk",
         "loading": "Henter bruk ...",
         "failed": "Bruken kunne ikke hentes akkurat nå. Prøv igjen om litt.",
+        "forbidden": "Du har ikke tilgang til AI-bruken. Be en administrator i virksomheten om tilgang.",
         "today": "I dag",
         "ofAllowance": "{used} av {allowance} svar",
         "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",

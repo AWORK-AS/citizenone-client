@@ -419,7 +419,10 @@ class BaseAPIService {
                         message: error.response._data?.message ?? 'Unauthorized',
                     })
                 case 403:
-                    throw new APIError(error.response._data)
+                    // Status kept so a screen can tell "you may not see this"
+                    // from "this broke" - the AI usage panel told admins to try
+                    // again later for a refusal that would never change.
+                    throw new APIError({ ...error.response._data, status: error.response.status })
                 case 500:
                     throw new APIError({
                         message: "Server error. Please try again. If the problem persists, contact your system administrator",
@@ -484,7 +487,10 @@ class BaseAPIService {
                         message: error.response._data?.message ?? 'Unauthorized',
                     })
                 case 403:
-                    throw new APIError(error.response._data)
+                    // Status kept so a screen can tell "you may not see this"
+                    // from "this broke" - the AI usage panel told admins to try
+                    // again later for a refusal that would never change.
+                    throw new APIError({ ...error.response._data, status: error.response.status })
                 case 500:
                     throw new APIError({
                         message: "Server error. Please try again. If the problem persists, contact your system administrator",
