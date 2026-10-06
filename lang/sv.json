@@ -10486,6 +10486,8 @@
     },
     "search": "Sök",
     "sections": {
+        "mirrored": "Följer insatstyp",
+        "mirroredTooltip": "Denna paragraf underhålls under Insatstyper. Ändra namn och paragraf där, så följer den med hit.",
         "addNewSection": "Lägg till ny paragraf",
         "alert": {
             "sectionSuccessfullyDeleted": "Paragraf raderad"
@@ -16169,6 +16171,7 @@
         "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
     },
     "inquiryServiceTypes": {
+        "fillsSections": "Insatstyperna här fyller också listan över paragrafer på brukarna. Ändra namn och paragraf på ett ställe.",
         "add": "Lägg till",
         "alert": {
             "deleted": "Insatstypen har tagits bort",

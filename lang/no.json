@@ -10486,6 +10486,8 @@
     },
     "search": "Søk",
     "sections": {
+        "mirrored": "Følger innsatstype",
+        "mirroredTooltip": "Denne paragrafen vedlikeholdes under Innsatstyper. Endre navn og paragraf der, så følger den med her.",
         "addNewSection": "Legg til ny paragraf",
         "alert": {
             "sectionSuccessfullyDeleted": "Paragraf slettet vellykket"
@@ -16169,6 +16171,7 @@
         "moveHint": "Framover krever at fasens påkrevde felter er fylt ut. Tilbake kan du alltid."
     },
     "inquiryServiceTypes": {
+        "fillsSections": "Innsatstypene her fyller også listen over paragrafer på borgerne. Endre navn og paragraf ett sted.",
         "add": "Legg til",
         "alert": {
             "deleted": "Innsatstypen er slettet",

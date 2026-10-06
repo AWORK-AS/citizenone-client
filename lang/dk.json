@@ -10491,6 +10491,8 @@
     },
     "search": "Søg",
     "sections": {
+        "mirrored": "Følger indsatstype",
+        "mirroredTooltip": "Denne paragraf vedligeholdes under Indsatstyper. Ret navn og paragraf dér, så følger den med her.",
         "addNewSection": "Tilføj ny paragraf",
         "alert": {
             "sectionSuccessfullyDeleted": "Paragraf slettet med succes"
@@ -16260,6 +16262,7 @@
         "moveHint": "Fremad kræver at fasens påkrævede felter er udfyldt. Tilbage kan du altid."
     },
     "inquiryServiceTypes": {
+        "fillsSections": "Indsatstyperne her fylder også listen over paragraffer på borgerne. Ret navn og paragraf ét sted.",
         "add": "Tilføj",
         "alert": {
             "deleted": "Indsatstypen er slettet",
