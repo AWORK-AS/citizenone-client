@@ -4615,7 +4615,15 @@
             "originalKeptNote": "Du ser en forhåndsvisning. Originalfilen er lagret uendret – last den ned for å åpne den i Word med nøyaktig samme skrifttyper og layout.",
             "downloadOriginal": "Last ned original",
             "renderFailed": "Dokumentet kan ikke vises her. Filen er ikke endret – last ned originalen for å åpne den i Word.",
-            "oneDriveDownloadFailed": "Filen kunne ikke hentes fra OneDrive. Prøv igjen, eller åpne den direkte i OneDrive."
+            "oneDriveDownloadFailed": "Filen kunne ikke hentes fra OneDrive. Prøv igjen, eller åpne den direkte i OneDrive.",
+            "notAvailable": "Forhåndsvisning er ikke tilgjengelig for denne filtypen.",
+            "downloadToOpen": "Last ned originalen for å åpne den på datamaskinen din.",
+            "noDownloadPermission": "Rollen din gir ikke tilgang til å laste ned dokumenter.",
+            "cannotShow": "Dokumentet kan ikke vises her.",
+            "previewNote": "Du ser en forhåndsvisning. Skrifttyper og layout kan avvike litt fra originalfilen.",
+            "previous": "Forrige dokument",
+            "next": "Neste dokument",
+            "position": "{current} av {total}"
         }
     },
     "dutySchedules": {
@@ -7177,6 +7185,7 @@
         "markAsCompleted": "Merk som fullført",
         "markAsNotCompleted": "Merk som ikke fullført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
+        "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Fullført",
             "notCompleted": "Ikke fullført"
@@ -14970,6 +14979,7 @@
     },
     "myDay": {
         "brief": {
+            "bookings_missing_note": "En avtale er ferdig uten et @:terms.journalNote{''} | {n} avtaler er ferdige uten et @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut innen en uke | {n} mål går ut innen en uke",
             "heading": "Krever din oppmerksomhet",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",

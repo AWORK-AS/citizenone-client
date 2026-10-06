@@ -34,7 +34,8 @@
     "test:pricing-nov2026": "node pricing-nov2026.mjs",
     "test:booking-app": "node booking-app.mjs",
     "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs",
-    "test:mail-pdf": "node mail-pdf.mjs"
+    "test:mail-pdf": "node mail-pdf.mjs",
+    "test:document-viewer": "node document-viewer.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

@@ -149,6 +149,8 @@
                                     <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
                                     {{ $t('events.status.notCompleted') }}
                                 </span>
+                                <ModulesUserMyCalendarLinkedNote :journal="event?.journal"
+                                    :citizenUuid="event?.citizen?.uuid" />
                             </div>
                             <p class="text-gray-900" v-if="event?.description">{{ event?.description }}</p>
                             <dl class="text-gray-500">

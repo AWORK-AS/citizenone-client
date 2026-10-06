@@ -245,7 +245,8 @@
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
             </div>
             <ModulesUserDocumentDocsFileModalPreview :isModalOpen="preview.isOpen"
-                :selectedDocument="preview.document" :loadFile="loadCitizenFile" :canDownload="canDownloadDocuments"
+                v-model:selectedDocument="preview.document" :documents="preview.documents"
+                :loadFile="loadCitizenFile" :downloadFile="downloadCitizenFile" :canDownload="canDownloadDocuments"
                 @close="preview.isOpen = false" />
         </NuxtLayout>
     </div>
@@ -259,26 +260,29 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
-import { documentBlobViewer, documentFileName, canPreviewInApp } from '@/composables/documentBlobViewer'
+import { documentFileName } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
-const { openOrSaveOriginal } = documentBlobViewer()
-
-// Word files are previewed in the app from the stored original instead of a
-// blob: tab, which a browser cannot render and saved as a nameless, blank file.
+// Documents open in the app's viewer from the stored original, never in a
+// browser tab. "Open selected" passes its documents to step through.
 const preview = reactive({
     isOpen: false,
     document: {} as any,
+    documents: [] as any[],
 })
 
-function loadCitizenFile(document: any): Promise<Blob> {
-    return citizenDocumentService.viewCitizenFile(document?.uuid) as Promise<Blob>
+function loadCitizenFile(document: any): Promise<Blob | null> {
+    return citizenDocumentService.viewCitizenFile(document?.uuid)
+}
+
+function downloadCitizenFile(document: any): Promise<Blob | null> {
+    return citizenDocumentService.downloadCitizenFile(document?.uuid)
 }
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert, warningAlert } = useAlert()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
@@ -423,48 +427,31 @@ async function downloadFile(document: any) {
     state.isTableLoading = false
 }
 
-async function viewFile(document: any, allowPreview = true, warnIfBlocked = true) {
-    if (allowPreview && canPreviewInApp(document)) {
-        preview.document = document
-        preview.isOpen = true
-        return
-    }
-
-    state.error = {}
-    state.isTableLoading = true
-    let result
-    try {
-        const response = await citizenDocumentService.viewCitizenFile(document?.uuid)
-        if (response) {
-            result = openOrSaveOriginal(response, documentFileName(document), canDownloadDocuments.value)
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
-    if (result === 'blocked' && warnIfBlocked) {
-        warnNotViewable()
-    }
-    return result
-}
-
-function warnNotViewable() {
-    warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
+// Opening a document never writes it to disk: it is shown in the app's viewer
+// from the view route, and only users with download_documents get a Download
+// button there.
+function viewFile(document: any) {
+    preview.document = document
+    preview.documents = []
+    preview.isOpen = true
 }
 
 function onSelectionChange(rows: any[]) {
     state.selectedDocuments = rows
 }
 
-async function openSelectedDocuments() {
-    let blocked = false
-    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
-        blocked = (await viewFile(document, false, false)) === 'blocked' || blocked
-    }
+// One viewer that steps through the selection, instead of a tab per document
+// that the browser's popup blocker cut short. "Select all" in the table header
+// also grabs folder rows, which have no file_url and nothing to view.
+function openSelectedDocuments() {
+    const documents = state.selectedDocuments.filter((d: any) => d?.file_url)
     state.selectedDocuments = []
-    if (blocked) {
-        warnNotViewable()
+    if (!documents.length) {
+        return
     }
+    preview.documents = documents
+    preview.document = documents[0]
+    preview.isOpen = true
 }
 
 function triggerFileInput() {

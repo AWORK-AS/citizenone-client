@@ -69,6 +69,9 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                     :message="$t('employees.documents.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
+                <ModulesUserDocumentDocsFileModalPreview :isModalOpen="preview.isOpen" :selectedDocument="preview.document"
+                    :loadFile="loadDocument" :downloadFile="downloadDocumentFile" :canDownload="canDownloadDocuments"
+                    @close="preview.isOpen = false" />
             </template>
         </Modal>
     </div>
@@ -79,7 +82,6 @@ import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentS
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
-import { documentBlobViewer, documentFileName } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -91,10 +93,9 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const router = useRouter()
-const { successAlert, warningAlert } = useAlert()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
-const { openOrSaveOriginal } = documentBlobViewer()
 // Without download_documents a document can still be viewed, but not saved.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
@@ -187,20 +188,24 @@ async function downloadDocument(document: any) {
     state.isTableLoading = false
 }
 
-// Opening a document shows it in a tab where the browser can; only users who
-// may download documents get other formats saved.
-async function viewDocument(document: any) {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await employeeDocumentService.viewDocument(document?.uuid)
-        if (response && openOrSaveOriginal(response, documentFileName(document), canDownloadDocuments.value) === 'blocked') {
-            warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
+// Opening a document shows it in the app's viewer, never in a browser tab or
+// on disk; only users with download_documents get a Download button there.
+const preview = reactive({
+    isOpen: false,
+    document: {} as any,
+})
+
+function viewDocument(document: any) {
+    preview.document = document
+    preview.isOpen = true
+}
+
+function loadDocument(document: any): Promise<Blob | null> {
+    return employeeDocumentService.viewDocument(document?.uuid)
+}
+
+function downloadDocumentFile(document: any): Promise<Blob | null> {
+    return employeeDocumentService.downloadDocument(document?.uuid)
 }
 
 function editDocument(document: any) {
