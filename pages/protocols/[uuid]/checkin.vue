@@ -50,9 +50,18 @@
                     <p class="text-[#8891A4] text-sm">{{ $t('attendance.noParticipantsToday') }}</p>
                 </div>
 
-                <!-- Participant cards -->
-                <div v-else class="space-y-3">
-                    <div v-for="participant in state.participants" :key="participant.uuid"
+                <!-- Participant cards, under a heading per hour for a per-hour
+                     protocol so each roll call is taken on its own. -->
+                <div v-else class="space-y-6">
+                  <section v-for="group in slotGroups" :key="group.key" class="space-y-3">
+                    <div v-if="group.label" class="flex items-center justify-between gap-3 px-1">
+                        <h2 class="text-[14px] font-semibold text-[#1F2533] tabular-nums">{{ group.label }}</h2>
+                        <span class="text-[12px] text-[#8891A4]">
+                            {{ group.attended }}/{{ group.participants.length }}
+                            {{ $t('protocols.table.status.attended').toLowerCase() }}
+                        </span>
+                    </div>
+                    <div v-for="participant in group.participants" :key="participant.uuid"
                         class="bg-white rounded-2xl border border-[#EAECF0] shadow-sm overflow-hidden transition-all"
                         :class="{
                             'border-[#2E9E33] bg-[#F6FBF6]': participant.status === 'attended',
@@ -111,6 +120,7 @@
                             </div>
                         </div>
                     </div>
+                  </section>
                 </div>
             </LoadingSpinner>
         </div>
@@ -161,6 +171,24 @@ const state = reactive({
 const attendedCount = computed(() => state.participants.filter(p => p.status === 'attended').length)
 const absentCount = computed(() => state.participants.filter(p => p.status === 'absent').length)
 const pendingCount = computed(() => state.participants.filter(p => !p.status).length)
+
+// One group per time slot for a per-hour protocol; a single unlabelled group
+// for a per-day one, so that page looks exactly as before.
+const slotGroups = computed(() => {
+    const groups = new Map<string, { key: string, label: string, participants: any[], attended: number }>()
+
+    for (const participant of [...state.participants].sort(compareProtocolEntries)) {
+        const key = participant.start_time ?? 'day'
+        if (!groups.has(key)) {
+            groups.set(key, { key, label: protocolTimeLabel(participant), participants: [], attended: 0 })
+        }
+        const group = groups.get(key)!
+        group.participants.push(participant)
+        if (participant.status === 'attended') group.attended++
+    }
+
+    return [...groups.values()]
+})
 
 onMounted(() => {
     fetchProtocol()

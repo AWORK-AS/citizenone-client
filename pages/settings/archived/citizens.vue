@@ -50,6 +50,11 @@
                                                 <Icon name="mdi:archive-cancel-outline" class="size-4" />
                                                 {{ $t('archived.table.actions.unarchive') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger"
+                                                @click="confirmCitizenDeletion(citizen)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('archived.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -62,6 +67,9 @@
             <DialogConfirmation :isModalOpen="state.modal.isUnarchiveCitizenOpen"
                 :message="$t('archived.confirmation.unarchiveCitizen') + '?'"
                 @close="state.modal.isUnarchiveCitizenOpen = false" @confirm="unarchiveCitizen" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteCitizenOpen"
+                :message="$t('archived.confirmation.deleteCitizen')"
+                @close="state.modal.isDeleteCitizenOpen = false" @confirm="deleteCitizen" />
         </NuxtLayout>
     </div>
 </template>
@@ -104,6 +112,7 @@ const state = reactive({
     archivedCitizens: [] as any,
     modal: {
         isUnarchiveCitizenOpen: false,
+        isDeleteCitizenOpen: false,
     },
     selectedCitizen: [] as any,
     sortData: {
@@ -183,6 +192,25 @@ async function unarchiveCitizen() {
             successAlert(`${t('alert.success')}!`, `${t('archived.alert.citizenSuccessfullyUnarchive')}.`)
             fetchArchivedCitizens()
         }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+function confirmCitizenDeletion(citizen: any) {
+    state.selectedCitizen = citizen
+    state.modal.isDeleteCitizenOpen = true
+}
+
+async function deleteCitizen() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const citizenUuid = state.selectedCitizen?.uuid
+        await citizenService.permanentlyDeleteCitizen(citizenUuid)
+        successAlert(`${t('alert.success')}!`, `${t('archived.alert.citizenSuccessfullyDeleted')}.`)
+        fetchArchivedCitizens()
     } catch (error: any) {
         state.error = error
     }
