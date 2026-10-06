@@ -39,6 +39,9 @@
                 </div>
 
                 <LoadingSpinner :isActive="state.isLoading">
+                    <!-- Conversion first: how many were won is the context for
+                         how many were lost and why. -->
+                    <ModulesUserInquiryConversionSummary :report="state.conversion" class="mb-5" />
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                         <div class="rounded-lg border border-gray-200 bg-white p-5">
                             <p class="text-xs font-semibold uppercase tracking-wide text-slate-400">
@@ -161,6 +164,7 @@ const state = reactive({
         to: isoDate(today),
     },
     report: {} as any,
+    conversion: null as any,
 })
 
 const byReason = computed(() => state.report?.by_reason ?? [])
@@ -186,8 +190,12 @@ async function fetchReport() {
         const params: Record<string, string> = {}
         if (state.filter.from) params.from = state.filter.from
         if (state.filter.to) params.to = state.filter.to
-        const response = await citizenInquiryService.getLostReport(params)
-        state.report = response?.data ?? {}
+        const [lost, conversion] = await Promise.all([
+            citizenInquiryService.getLostReport(params),
+            citizenInquiryService.getConversionReport(params),
+        ])
+        state.report = lost?.data ?? {}
+        state.conversion = conversion?.data ?? null
     } catch (error: any) {
         state.error = error
     }

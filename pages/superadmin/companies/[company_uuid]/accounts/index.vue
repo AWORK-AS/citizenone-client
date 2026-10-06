@@ -60,6 +60,16 @@
                                                 {{ $t('superadmin.companies.table.inactive') }}
                                             </span>
 
+                                            <!-- e-conomic customer number -->
+                                            <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
+                                                <span class="co-badge co-badge-gray">
+                                                    <Icon name="ph:hash" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ state.company?.data?.economic_customer_number
+                                                        ? $t('superadmin.companies.economicCustomerNumber', { number: state.company?.data.economic_customer_number })
+                                                        : $t('superadmin.companies.economicCustomerNumberNone') }}
+                                                </span>
+                                            </Tooltip>
+
                                             <!-- Plan badge -->
                                             <span v-if="state.subscription?.data?.deal?.name"
                                                 class="co-badge co-badge-navy">

@@ -48,6 +48,14 @@
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
+                    <ModulesSuperadminCompanyEconomicCustomerNumber :companyUuid="companyUuid"
+                        :number="state.company?.economic_customer_number ?? null"
+                        @saved="(n: any) => state.company = { ...(state.company ?? {}), economic_customer_number: n }" />
+                    <Tooltip v-if="showMissingNumber" :text="$t('superadmin.companies.form.economicCustomerNumberHelp')"
+                        position="top" wrap class="!block">
+                        <Alert type="warning" :text="$t('superadmin.agreements.economic.missingNumber')" />
+                    </Tooltip>
+
                     <div class="overflow-x-auto">
                     <div class="min-w-[1100px]">
                     <SuperadminTable :columnHeaders="columnHeaders" :data="{ data: state.agreements }"
@@ -142,7 +150,8 @@ import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { unwrapData } from '@/composables/agreements'
+import { missingEconomicNumber, unwrapData } from '@/composables/agreements'
+import { companyService } from '@/components/api/superadmin/CompanyService'
 import type { Agreement } from '@/types/agreement'
 import type { Error } from '@/types'
 
@@ -178,6 +187,7 @@ const columnHeaders = computed(() => [
 
 const state = reactive({
     agreements: [] as Agreement[],
+    company: null as any,
     isLoading: false,
     error: {} as Error,
     detail: { open: false, uuid: '' },
@@ -188,7 +198,22 @@ function statusClass(status: string) {
     return status === 'active' ? 'co-badge-green' : status === 'cancelled' ? 'co-badge-red' : status === 'ended' ? 'bg-[#FEF3C7] text-[#B45309]' : 'co-badge-gray'
 }
 
-onMounted(fetchAgreements)
+const showMissingNumber = computed(() => missingEconomicNumber(state.company, state.agreements))
+
+async function fetchCompany() {
+    try {
+        const response = await companyService.getCompany(companyUuid)
+        state.company = unwrapData(response)
+    } catch (_) {
+        // The header chip and the warning are extras: the list still works without them.
+        state.company = null
+    }
+}
+
+onMounted(() => {
+    fetchAgreements()
+    fetchCompany()
+})
 
 async function fetchAgreements() {
     state.error = {}

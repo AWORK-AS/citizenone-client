@@ -14,6 +14,23 @@ import assert from 'node:assert/strict'
 import {
     addMonthsClamped,
     buildAgreementPayload,
+    bindingEndsOn,
+    canCreateEconomicDraft,
+    canRecreateEconomicDraft,
+    economicDraftActionKey,
+    economicDraftPayload,
+    economicStatus,
+    economicSyncState,
+    shouldKeepPollingEconomic,
+    isEconomicSyncedPayment,
+    addOnAmount,
+    addOnAmountIsComputed,
+    addOnFields,
+    ECONOMIC_SYNC_STATES,
+    missingEconomicNumber,
+    parseEconomicCustomerNumber,
+    buildAddOnInstallment,
+    withDefaultCoverage,
     buildPresetInstallments,
     forecastBucketTotals,
     installmentsDifference,
@@ -126,7 +143,7 @@ describe('buildAgreementPayload', () => {
         const body = buildAgreementPayload({ ...baseForm(), presetApplied: true, installmentsEdited: true, installments: rows })
         assert.equal(body.installment_preset, null)
         assert.equal(body.installments.length, 4)
-        assert.deepEqual(Object.keys(body.installments[0]).sort(), ['amount', 'due_on', 'label'])
+        assert.deepEqual(Object.keys(body.installments[0]).sort(), ['amount', 'covers_from', 'covers_to', 'due_on', 'label'])
     })
 
     test('other plans send neither a preset nor a list, and prepaid_years only for prepaid', () => {
@@ -296,5 +313,189 @@ describe('forecastBucketTotals', () => {
         ]
         assert.deepEqual(forecastBucketTotals(months), { contracted: 20, assumed: 10, installments: 100, assumed_renewal: 7 })
         assert.deepEqual(forecastBucketTotals(undefined), { contracted: 0, assumed: 0, installments: 0, assumed_renewal: 0 })
+    })
+})
+
+describe('installment coverage', () => {
+    const rows = [{ due_on: '2026-07-12', amount: 100, label: null }, { due_on: '2027-07-12', amount: 100, label: null }]
+
+    test('installments plan covers start to end of the binding', () => {
+        const out = withDefaultCoverage(rows, 'installments', '2026-07-12', '2030-07-12')
+        for (const row of out) {
+            assert.equal(row.covers_from, '2026-07-12')
+            assert.equal(row.covers_to, '2030-07-12')
+        }
+    })
+
+    test('other plans stay null so the backend fills them in', () => {
+        const out = withDefaultCoverage(rows, 'yearly', '2026-07-12', '2030-07-12')
+        assert.deepEqual(out.map((r) => [r.covers_from, r.covers_to]), [[null, null], [null, null]])
+    })
+
+    test('an explicit period is never overwritten', () => {
+        const out = withDefaultCoverage([{ ...rows[0], covers_from: '2027-01-01', covers_to: '2027-12-31' }], 'installments', '2026-07-12', '2030-07-12')
+        assert.equal(out[0].covers_from, '2027-01-01')
+        assert.equal(out[0].covers_to, '2027-12-31')
+    })
+
+    test('binding end follows months or the typed end date', () => {
+        assert.equal(bindingEndsOn({ starts_on: '2026-07-12', term_mode: 'months', ends_on: '', term_months: 48 }), '2030-07-12')
+        assert.equal(bindingEndsOn({ starts_on: '2026-07-12', term_mode: 'end_date', ends_on: '2029-01-31', term_months: 48 }), '2029-01-31')
+        assert.equal(bindingEndsOn({ starts_on: '', term_mode: 'months', ends_on: '', term_months: 48 }), '')
+    })
+
+    test('tilkoeb row is due today and covers today until the binding ends', () => {
+        const row = buildAddOnInstallment('2027-03-01', '2030-07-12')
+        assert.equal(row.due_on, '2027-03-01')
+        assert.equal(row.covers_from, '2027-03-01')
+        assert.equal(row.covers_to, '2030-07-12')
+        assert.equal(row.label, 'Tilkøb')
+    })
+
+    test('payload carries coverage in the explicit list', () => {
+        const form = {
+            name: 'x', starts_on: '2026-07-12', term_months: 48, term_mode: 'months', ends_on: '', renewal_annual_value: '',
+            notice_months: 3, auto_renews: true, billing_plan: 'installments', prepaid_years: null, contract_value: 200,
+            fee_per_invoice: 0, payment_method: 'bank_transfer', internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 0, remaining_count: 0, remaining_interval_months: 12 },
+            installments: [...rows, buildAddOnInstallment('2027-03-01', '2030-07-12')], installmentsEdited: true, presetApplied: false,
+        }
+        const body = buildAgreementPayload(form)
+        assert.equal(body.installments[0].covers_from, '2026-07-12')
+        assert.equal(body.installments[0].covers_to, '2030-07-12')
+        assert.equal(body.installments[2].covers_from, '2027-03-01')
+    })
+})
+
+const agreementInvoice = { type: 'agreement', linked_to_installment: true }
+
+describe('e-conomic status', () => {
+    test('every sync state maps to a chip; unknown values and no state map to nothing', () => {
+        assert.deepEqual(ECONOMIC_SYNC_STATES, ['pending', 'in_flight', 'created', 'unknown', 'failed', 'draft_missing', 'booked', 'paid'])
+        for (const state of ECONOMIC_SYNC_STATES) {
+            const chip = economicStatus({ economic_sync_state: state })
+            assert.equal(chip.state, state)
+            assert.ok(chip.color && chip.icon)
+        }
+        assert.equal(economicStatus({}), null)
+        assert.equal(economicStatus(null), null)
+        assert.equal(economicStatus({ economic_sync_state: 'bogus' }), null)
+        assert.equal(economicSyncState({ economic_sync_state: 'bogus' }), null)
+    })
+
+    test('shows the draft number until booked, then the booked number', () => {
+        const base = { economic_draft_number: 4711, economic_invoice_number: 90001 }
+        assert.equal(economicStatus({ ...base, economic_sync_state: 'created' }).number, '4711')
+        assert.equal(economicStatus({ ...base, economic_sync_state: 'booked' }).number, '90001')
+        assert.equal(economicStatus({ ...base, economic_sync_state: 'paid' }).number, '90001')
+        assert.equal(economicStatus({ economic_sync_state: 'in_flight' }).number, null)
+        assert.equal(economicStatus({ economic_sync_state: 'failed', economic_sync_error: 'http_422' }).error, 'http_422')
+    })
+
+    test('the draft button needs an agreement instalment invoice, and never shows for shop or card invoices', () => {
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice }), true)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, economic_sync_state: 'pending' }), true)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, economic_sync_state: 'failed' }), true)
+        for (const state of ['in_flight', 'created', 'unknown', 'draft_missing', 'booked', 'paid']) {
+            assert.equal(canCreateEconomicDraft({ ...agreementInvoice, economic_sync_state: state }), false, state)
+        }
+        for (const type of ['monthly', 'yearly', 'recurring', 'new', 'card', null, undefined]) {
+            assert.equal(canCreateEconomicDraft({ type, linked_to_installment: true }), false, String(type))
+        }
+        assert.equal(canCreateEconomicDraft({ type: 'agreement', linked_to_installment: false }), false)
+        assert.equal(canCreateEconomicDraft({ type: 'agreement' }), false)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, covered_by_agreement: true }), false)
+        assert.equal(canCreateEconomicDraft({ ...agreementInvoice, is_paid: true }), false)
+        assert.equal(canCreateEconomicDraft(null), false)
+        assert.equal(economicDraftActionKey({ economic_sync_state: 'failed' }), 'retry')
+        assert.equal(economicDraftActionKey({ economic_sync_state: 'pending' }), 'create')
+    })
+
+    test('"create again" is for draft_missing only and sends recreate: true', () => {
+        assert.equal(canRecreateEconomicDraft({ ...agreementInvoice, economic_sync_state: 'draft_missing' }), true)
+        for (const state of ['pending', 'in_flight', 'created', 'unknown', 'failed', 'booked', 'paid']) {
+            assert.equal(canRecreateEconomicDraft({ ...agreementInvoice, economic_sync_state: state }), false, state)
+        }
+        assert.equal(canRecreateEconomicDraft({ type: 'monthly', linked_to_installment: true, economic_sync_state: 'draft_missing' }), false)
+        assert.deepEqual(economicDraftPayload(true), { recreate: true })
+        assert.equal(economicDraftPayload(false), undefined)
+    })
+
+    test('polls only while in flight, and gives up after the attempt budget', () => {
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'in_flight' }, 0), true)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'in_flight' }, 19), true)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'in_flight' }, 20), false)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'created' }, 0), false)
+        assert.equal(shouldKeepPollingEconomic({ economic_sync_state: 'failed' }, 0), false)
+    })
+
+    test('synced payments are recognised by paid_source', () => {
+        assert.equal(isEconomicSyncedPayment({ paid_source: 'economic_sync' }), true)
+        assert.equal(isEconomicSyncedPayment({ paid_source: 'manual' }), false)
+        assert.equal(isEconomicSyncedPayment({}), false)
+    })
+
+    test('customer number is null or a positive integer', () => {
+        assert.equal(parseEconomicCustomerNumber(''), null)
+        assert.equal(parseEconomicCustomerNumber(null), null)
+        assert.equal(parseEconomicCustomerNumber('1042'), 1042)
+        assert.equal(parseEconomicCustomerNumber(12.5), null)
+        assert.equal(parseEconomicCustomerNumber(0), null)
+    })
+
+    test('warns only for a running agreement without a number', () => {
+        assert.equal(missingEconomicNumber({ economic_customer_number: null }, [{ status: 'active' }]), true)
+        assert.equal(missingEconomicNumber({ economic_customer_number: 1042 }, [{ status: 'active' }]), false)
+        assert.equal(missingEconomicNumber({ economic_customer_number: null }, [{ status: 'ended' }, { status: 'cancelled' }]), false)
+        assert.equal(missingEconomicNumber(null, [{ status: 'active' }]), false)
+        assert.equal(missingEconomicNumber({}, [{ status: 'active' }]), false)
+    })
+})
+
+describe('add-on rows: product number, quantity, unit price', () => {
+    test('amount is quantity x unit price, rounded to oere, null until both are set', () => {
+        assert.equal(addOnAmount(10, 150), 1500)
+        assert.equal(addOnAmount('2.5', '99.99'), 249.98)
+        assert.equal(addOnAmount(3, 0.1), 0.3)
+        assert.equal(addOnAmount(1.5, 33.33), 50)
+        assert.equal(addOnAmount(10, ''), null)
+        assert.equal(addOnAmount(null, 150), null)
+        assert.equal(addOnAmount(undefined, undefined), null)
+    })
+
+    test('the amount is read-only only while both are set', () => {
+        assert.equal(addOnAmountIsComputed({ quantity: 5, unit_price: 100 }), true)
+        assert.equal(addOnAmountIsComputed({ quantity: 5, unit_price: '' }), false)
+        assert.equal(addOnAmountIsComputed({}), false)
+    })
+
+    test('fields are numbers or null', () => {
+        assert.deepEqual(addOnFields({ product_number: '3174', quantity: '5', unit_price: '100.5' }),
+            { product_number: 3174, quantity: 5, unit_price: 100.5 })
+        assert.deepEqual(addOnFields({ product_number: '', quantity: '', unit_price: null }),
+            { product_number: null, quantity: null, unit_price: null })
+        assert.equal(addOnFields({ product_number: 'abc' }).product_number, null)
+    })
+
+    test('the explicit installments[] carries the three fields on add-on rows only, with the computed amount', () => {
+        const form = {
+            name: 'A', starts_on: '2026-10-01', term_months: 36, term_mode: 'months', ends_on: '',
+            renewal_annual_value: '', notice_months: 3, auto_renews: true, billing_plan: 'installments',
+            prepaid_years: null, contract_value: 2000, fee_per_invoice: 295, payment_method: 'bank_transfer',
+            internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 30, remaining_count: 3, remaining_interval_months: 12 },
+            installmentsEdited: true, presetApplied: false,
+            installments: [
+                { due_on: '2026-10-01', amount: 500, label: 'Rate 1' },
+                { ...buildAddOnInstallment('2026-11-01', '2029-10-01'), product_number: '3174', quantity: 10, unit_price: 150, amount: 1 },
+            ],
+        }
+        const rows = buildAgreementPayload(form).installments
+        assert.equal('product_number' in rows[0], false)
+        assert.equal('quantity' in rows[0], false)
+        assert.equal(rows[1].product_number, 3174)
+        assert.equal(rows[1].quantity, 10)
+        assert.equal(rows[1].unit_price, 150)
+        assert.equal(rows[1].amount, 1500)
     })
 })

@@ -5,7 +5,7 @@
         </div>
 
         <div v-else-if="state.failed" class="rounded-lg border-1.5 border-gray-200 bg-white p-6 text-sm text-gray-600">
-            {{ $t('aiUsage.failed') }}
+            {{ state.forbidden ? $t('aiUsage.forbidden') : $t('aiUsage.failed') }}
         </div>
 
         <div v-else class="flex flex-col gap-y-6">
@@ -173,6 +173,8 @@ const { successAlert, errorAlert } = useAlert()
 const state = reactive({
     loading: true,
     failed: false,
+    // A refusal, not an outage: "try again shortly" would never come true.
+    forbidden: false,
     buying: false,
     savingLimit: false,
     // Left empty on purpose: the field shows the effective number as a
@@ -308,8 +310,9 @@ function apply(response: any) {
 async function load() {
     try {
         apply(await aiUsageService.overview())
-    } catch {
+    } catch (error: any) {
         state.failed = true
+        state.forbidden = error?.status === 403
     } finally {
         state.loading = false
     }

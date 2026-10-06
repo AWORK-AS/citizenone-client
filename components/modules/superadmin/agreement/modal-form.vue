@@ -223,30 +223,73 @@
                                         <p class="text-[13px] font-semibold text-[#1F2533]">
                                             {{ $t('superadmin.agreements.form.installmentList') }}
                                         </p>
-                                        <Tooltip :text="$t('superadmin.agreements.form.addInstallmentHelp')" position="left">
-                                            <FormButton type="button" buttonStyle="action" buttonSize="xs"
-                                                @click="addRow">
-                                                <Icon name="ph:plus" class="w-4 h-4" aria-hidden="true" />
-                                                {{ $t('superadmin.agreements.form.addInstallment') }}
-                                            </FormButton>
-                                        </Tooltip>
+                                        <div class="flex items-center gap-2">
+                                            <Tooltip :text="$t('superadmin.agreements.form.addAddOnHelp')" position="left" wrap>
+                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                    @click="addAddOn">
+                                                    <Icon name="ph:plus-circle" class="w-4 h-4" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.form.addAddOn') }}
+                                                </FormButton>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('superadmin.agreements.form.addInstallmentHelp')" position="left">
+                                                <FormButton type="button" buttonStyle="action" buttonSize="xs"
+                                                    @click="addRow">
+                                                    <Icon name="ph:plus" class="w-4 h-4" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.form.addInstallment') }}
+                                                </FormButton>
+                                            </Tooltip>
+                                        </div>
                                     </div>
                                     <p v-if="!form.installments.length" class="text-[12px] text-[#8891A4] py-2">
                                         {{ $t('superadmin.agreements.form.noInstallments') }}
                                     </p>
-                                    <div v-for="(row, index) in form.installments" :key="index"
-                                        class="grid grid-cols-12 gap-2 items-center mb-2">
-                                        <span class="col-span-1 text-[12px] text-[#8891A4] text-center">{{ index + 1 }}</span>
-                                        <input class="co-cell-input col-span-3" type="date" v-model="row.due_on"
+                                    <div v-if="form.installments.length"
+                                        class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-center mb-1 text-[11px] uppercase text-[#5C6478]">
+                                        <span></span>
+                                        <span>{{ $t('superadmin.agreements.table.dueOn') }}</span>
+                                        <span>{{ $t('superadmin.agreements.table.amount') }}</span>
+                                        <span>{{ $t('superadmin.agreements.table.label') }}</span>
+                                        <Tooltip :text="$t('superadmin.agreements.form.coverageHelp')" position="top" wrap>
+                                            <span class="inline-flex items-center gap-1">
+                                                {{ $t('superadmin.agreements.form.coverage') }}
+                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                                    :aria-label="$t('superadmin.agreements.form.coverageHelp')" />
+                                            </span>
+                                        </Tooltip>
+                                        <span></span>
+                                    </div>
+                                    <div v-for="(row, index) in form.installments" :key="index" class="mb-2">
+                                    <div class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-center">
+                                        <span class="text-[12px] text-[#8891A4] text-center">{{ index + 1 }}</span>
+                                        <input class="co-cell-input" type="date" v-model="row.due_on"
                                             :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.dueOn')" />
-                                        <input class="co-cell-input col-span-3" type="number" step="0.01" min="0"
-                                            v-model.number="row.amount" :disabled="row.locked" @input="markEdited"
-                                            :aria-label="$t('superadmin.agreements.table.amount')" />
-                                        <input class="co-cell-input col-span-3" type="text" v-model="row.label"
+                                        <Tooltip :text="isAddOnRow(row)
+                                            ? $t('superadmin.agreements.form.amountComputed')
+                                            : $t('superadmin.agreements.form.rateRowHelp')" position="top" wrap class="!block">
+                                            <input class="co-cell-input w-full" type="number" step="0.01" min="0"
+                                                v-model.number="row.amount" :disabled="row.locked"
+                                                :readonly="addOnAmountIsComputed(row)"
+                                                :class="{ 'bg-[#F5F6F8] cursor-not-allowed': addOnAmountIsComputed(row) }"
+                                                @input="markEdited"
+                                                :aria-label="$t('superadmin.agreements.table.amount')" />
+                                        </Tooltip>
+                                        <input class="co-cell-input" type="text" v-model="row.label"
                                             :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.label')" />
-                                        <div class="col-span-2 flex justify-end">
+                                        <Tooltip :text="$t('superadmin.agreements.form.coverageHelp')" position="top" wrap
+                                            class="!block">
+                                            <div class="flex items-center gap-1">
+                                                <input class="co-cell-input min-w-0" type="date" v-model="row.covers_from"
+                                                    :disabled="row.locked" @input="markEdited"
+                                                    :aria-label="$t('superadmin.agreements.form.coversFrom')" />
+                                                <span class="text-[#8891A4]">&ndash;</span>
+                                                <input class="co-cell-input min-w-0" type="date" v-model="row.covers_to"
+                                                    :disabled="row.locked" @input="markEdited"
+                                                    :aria-label="$t('superadmin.agreements.form.coversTo')" />
+                                            </div>
+                                        </Tooltip>
+                                        <div class="flex justify-end">
                                             <Tooltip v-if="row.settledAt" :text="settledTooltip(row)" position="left" wrap>
                                                 <span class="co-badge co-badge-gray">
                                                     <Icon name="ph:check-square" class="w-3 h-3" aria-hidden="true" />
@@ -268,6 +311,58 @@
                                             </Tooltip>
                                         </div>
                                     </div>
+                                    <!-- Add-on (tilkoeb) rows: product number, quantity and unit price -->
+                                    <div v-if="isAddOnRow(row)"
+                                        class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-start mt-1">
+                                        <span></span>
+                                        <div>
+                                            <Tooltip :text="$t('superadmin.agreements.form.productNumberHelp')" position="top"
+                                                wrap class="!block">
+                                                <input class="co-cell-input w-full" type="number" min="1" step="1"
+                                                    inputmode="numeric" list="agreement-addon-products"
+                                                    v-model="row.product_number" :disabled="row.locked"
+                                                    :placeholder="$t('superadmin.agreements.form.productNumberPlaceholder')"
+                                                    @input="markEdited"
+                                                    :aria-label="$t('superadmin.agreements.form.productNumber')" />
+                                            </Tooltip>
+                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                                {{ $t('superadmin.agreements.form.productNumber') }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <Tooltip :text="$t('superadmin.agreements.form.quantityHelp')" position="top"
+                                                wrap class="!block">
+                                                <input class="co-cell-input w-full" type="number" min="0" step="0.01"
+                                                    v-model="row.quantity" :disabled="row.locked"
+                                                    @input="onAddOnInput(row)"
+                                                    :aria-label="$t('superadmin.agreements.form.quantity')" />
+                                            </Tooltip>
+                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                                {{ $t('superadmin.agreements.form.quantity') }}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <Tooltip :text="$t('superadmin.agreements.form.unitPriceHelp')" position="top"
+                                                wrap class="!block">
+                                                <input class="co-cell-input w-full" type="number" min="0" step="0.01"
+                                                    v-model="row.unit_price" :disabled="row.locked"
+                                                    @input="onAddOnInput(row)"
+                                                    :aria-label="$t('superadmin.agreements.form.unitPrice')" />
+                                            </Tooltip>
+                                            <span class="text-[10px] uppercase text-[#5C6478]">
+                                                {{ $t('superadmin.agreements.form.unitPrice') }}
+                                            </span>
+                                        </div>
+                                        <span></span>
+                                        <span></span>
+                                    </div>
+                                    </div>
+
+                                    <datalist id="agreement-addon-products">
+                                        <option v-for="p in ADDON_PRODUCT_SUGGESTIONS" :key="p.number" :value="p.number">
+                                            {{ $t(`superadmin.agreements.form.suggest${p.key === 'userLicense' ? 'UserLicense' : 'DepartmentLicense'}`) }}
+                                        </option>
+                                    </datalist>
 
                                     <!-- Sum check -->
                                     <Tooltip :text="$t('superadmin.agreements.form.sumCheckHelp')" position="top" wrap>
@@ -376,7 +471,14 @@ import {
     AGREEMENT_TEMPLATES,
     type AgreementTemplate,
     buildAgreementPayload,
+    bindingEndsOn,
+    buildAddOnInstallment,
+    ADDON_PRODUCT_SUGGESTIONS,
+    addOnAmount,
+    addOnAmountIsComputed,
+    isAddOnRow,
     buildPresetInstallments,
+    withDefaultCoverage,
     installmentsDifference,
     installmentsMatchContract,
     installmentsSum,
@@ -480,6 +582,11 @@ function resetFromProps() {
                 due_on: row.due_on,
                 amount: row.amount,
                 label: row.label,
+                covers_from: row.covers_from ?? null,
+                covers_to: row.covers_to ?? null,
+                product_number: row.product_number ?? null,
+                quantity: row.quantity ?? null,
+                unit_price: row.unit_price ?? null,
                 // An installment that already has an invoice, or was settled
                 // outside CitizenOne, is history.
                 locked: !!row.invoice || !!row.settled_externally_at,
@@ -546,6 +653,7 @@ function applyPreset() {
     )
     form.presetApplied = true
     form.installmentsEdited = false
+    fillCoverage()
 }
 
 function settledTooltip(row: Row): string {
@@ -564,6 +672,36 @@ function addRow() {
         label: null,
     })
     markEdited()
+}
+
+// Antal x stykpris drives the amount while both are set.
+function onAddOnInput(row: Row) {
+    markEdited()
+    const amount = addOnAmount(row.quantity, row.unit_price)
+    if (amount !== null) row.amount = amount
+}
+
+function addAddOn() {
+    form.installments.push(buildAddOnInstallment(
+        moment().format('YYYY-MM-DD'),
+        bindingEndsOn(form),
+        t('superadmin.agreements.form.addOnLabel'),
+    ))
+    markEdited()
+}
+
+// Installments plan: rows cover the whole binding unless a period is set.
+watch(() => [form.billing_plan, form.starts_on, form.ends_on, form.term_months, form.term_mode, form.installments.length], () => {
+    if (form.billing_plan !== 'installments') return
+    fillCoverage()
+})
+
+function fillCoverage() {
+    const filled = withDefaultCoverage(form.installments, form.billing_plan, form.starts_on, bindingEndsOn(form))
+    filled.forEach((row, i) => {
+        form.installments[i].covers_from = row.covers_from
+        form.installments[i].covers_to = row.covers_to
+    })
 }
 
 function removeRow(index: number) {

@@ -39,6 +39,10 @@
         "tooManyToShow": "Viser {shown} av {total} henvendelser. Bruk listevisningen eller et avdelingsfilter for å se resten.",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
+            "myself": "Meg selv",
+            "assignSelected": "Tildel valgte saker",
+            "assignTooltip": "Sett den valgte medarbeideren på de valgte sakene",
+            "claimTooltip": "Sett deg selv på de valgte sakene",
             "title": "Konverterte, uavklarte saker",
             "empty": "Ingen konverterte saker venter på en saksbehandler.",
             "selectedOfTotal": "{selected} av {total} valgt",
@@ -4240,6 +4244,44 @@
         },
         "emptyFiltered": "Ingen {citizens} passer med filtrene."
     },
+    "dischargeReasons": {
+        "title": "Avslutningsårsaker",
+        "single": "Avslutningsårsak",
+        "none": "Ingen",
+        "description": "Hvorfor en innsats avsluttes, som en liste dere selv holder. Da kan avslutninger telles per årsak, f.eks. til statistikk og kvalitetsutvikling. Fritekstfeltet blir stående som utdyping.",
+        "add": "Legg til",
+        "addHint": "Legg til en årsak som kan velges når en innsats avsluttes",
+        "empty": "Det er ingen årsaker ennå.",
+        "reportHint": "Se hvor mange innsatser som er avsluttet per årsak",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Mål nådd"
+        },
+        "actions": {
+            "switchOff": "Slå av årsaken",
+            "switchOn": "Slå på årsaken",
+            "rename": "Gi nytt navn",
+            "delete": "Slett"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Årsaken er slettet",
+            "deleteFailed": "Årsaken kunne ikke slettes"
+        },
+        "report": {
+            "title": "Avsluttede innsatser",
+            "description": "Innsatser med sluttdato i perioden, fordelt på avslutningsårsak, og hvor lenge de varte i snitt.",
+            "from": "Fra",
+            "to": "Til",
+            "show": "Vis",
+            "showHint": "Vis avslutninger i perioden",
+            "endings": "{count} avslutninger",
+            "empty": "Ingen innsatser ble avsluttet i perioden.",
+            "noReason": "Uten årsak",
+            "averageDays": "Snitt {days} dager",
+            "averageHint": "Gjennomsnittlig varighet fra start til slutt"
+        }
+    },
     "client": {
         "appointments": "Avtaler",
         "appointmentsTable": {
@@ -8003,6 +8045,9 @@
     "home": "Hjem",
     "imageFailedToLoad": "Bildet kunne ikke lastes",
     "inquiries": {
+        "board": {
+            "riskTooltip": "Risikovurdering fra henvendelsens felter. Den høyeste risikoen teller."
+        },
         "crisisCenterInquiry": "Krisecenter henvendelser",
         "editInquiry": "Rediger henvendelser",
         "exportInquiries": "Eksporter henvendelser",
@@ -8480,8 +8525,9 @@
         "sso": {
             "microsoft": "Logg inn med Microsoft",
             "hint": "Bruk organisasjonens Microsoft-konto. Skriv jobb-e-posten over først.",
-            "enterEmail": "Skriv jobb-e-posten din, og velg så Logg inn med Microsoft.",
-            "failed": "Innlogging med Microsoft lyktes ikke. Prøv igjen."
+            "enterEmail": "Skriv jobb-e-posten din ovenfor, og klikk igjen.",
+            "failed": "Innlogging med Microsoft lyktes ikke. Prøv igjen.",
+            "redirecting": "Sender deg til Microsoft…"
         }
     },
     "companySso": {
@@ -10495,6 +10541,8 @@
     },
     "search": "Søk",
     "sections": {
+        "mirrored": "Følger innsatstype",
+        "mirroredTooltip": "Denne paragrafen vedlikeholdes under Innsatstyper. Endre navn og paragraf der, så følger den med her.",
         "addNewSection": "Legg til ny paragraf",
         "alert": {
             "sectionSuccessfullyDeleted": "Paragraf slettet vellykket"
@@ -10865,6 +10913,7 @@
             "other": "Annet",
             "profile": "Profil",
             "relationships": "Forhold",
+            "dischargeReasons": "Avslutningsårsaker",
             "roles": "Roller",
             "rooms": "Rom",
             "scheduleTags": "Vaktplan tagger",
@@ -11730,7 +11779,15 @@
                 "selectType": "Velg type...",
                 "sendWelcomeEmail": "Send velkomst-e-post",
                 "sendWelcomeEmailDesc": "Administratoren mottar påloggingsinstruksjoner på e-post",
-                "settings": "Innstillinger"
+                "settings": "Innstillinger",
+                "economicCustomerNumber": "e-conomic kundenummer",
+                "economicCustomerNumberHelp": "Kundens nummer i CitizenOnes e-conomic. Bare for A-kunder med en avtale. Uten nummer opprettes ikke avtaleratene som kladd.",
+                "economicCustomerNumberPlaceholder": "Valgfritt",
+                "economicCustomerNumberSave": "Lagre nummer",
+                "economicCustomerNumberSaveHelp": "Lagrer kundenummeret. Krever tilgang til økonomi.",
+                "economicCustomerNumberSaved": "Kundenummeret er lagret.",
+                "economicCustomerNumberInvalid": "Kundenummeret må være et helt tall over 0.",
+                "economicCustomerNumberTaken": "Nummeret brukes allerede av et annet selskap."
             },
             "importCompanies": {
                 "alert": {
@@ -12015,7 +12072,9 @@
                 "referral": "Henvisning",
                 "direct": "Direkte",
                 "unknown": "Ukjent"
-            }
+            },
+            "economicCustomerNumber": "e-conomic kundenr. {number}",
+            "economicCustomerNumberNone": "Ikke e-conomic kundenr."
         },
         "coupons": {
             "active": "Aktiv",
@@ -13428,7 +13487,9 @@
                 "notice": "Oppsigelsesfrist",
                 "dueOn": "Forfall",
                 "amount": "Beløp eksl. mva",
-                "label": "Tekst"
+                "label": "Tekst",
+                "covers": "Dekker",
+                "coversHelp": "Perioden raden teller med i kontraktens MRR: beløpet fordeles over månedene den dekker."
             },
             "plans": {
                 "monthly": "Månedlig",
@@ -13465,7 +13526,7 @@
                 "backlog": "Gjenstående bundet avtaleverdi: avdrag uten betalt faktura.",
                 "subscriptions": "Lisenser og Pro-profil koblet til avtalen gjelder hele bindingen og belastes ikke med kort i tillegg.",
                 "settledExternally": "Åpne avdrag som forfaller før denne datoen markeres som oppgjort og faktureres aldri. Bruk det for kunder som allerede har betalt via e-conomic.",
-                "renewalValue": "Hva avtalen koster per år etter bindingen, eksl. mva. Tom: avtaleverdi delt på bindingen i måneder ganger 12.",
+                "renewalValue": "Tom = beregnes ut fra gjeldende listepris for de tilknyttede lisensene på fornyelsestidspunktet. Fylles feltet ut, erstatter den faste prisen listeprisen ved de kommende fornyelsene.",
                 "termMode": "Oppgi bindingen enten som antall måneder eller som en sluttdato.",
                 "endsOn": "Bindingens siste dag. Antall måneder beregnes av serveren, f.eks. 2025-06-10 til 2028-09-01."
             },
@@ -13512,10 +13573,28 @@
                 "settledNote": "Notat om oppgjør",
                 "settledNotePlaceholder": "f.eks. e-conomic bilag 297637275",
                 "renewalValue": "Årlig verdi ved fornyelse",
-                "renewalValuePlaceholder": "Standard",
+                "renewalValuePlaceholder": "Listepris",
                 "endsOn": "Sluttdato",
                 "modeMonths": "Binding i måneder",
-                "modeEndDate": "Sluttdato"
+                "modeEndDate": "Sluttdato",
+                "coverage": "Dekker fra–til",
+                "coverageHelp": "Perioden styrer hvordan raden teller med i kontraktens MRR: beløpet fordeles over månedene raden dekker, og teller bare mens perioden omfatter i dag. Tom = fylles ut av systemet.",
+                "coversFrom": "Dekker fra",
+                "coversTo": "Dekker til",
+                "addAddOn": "Legg til tilkjøp",
+                "addAddOnHelp": "Legger til en rad for lisenser kjøpt midt i bindingen: forfaller i dag og dekker fra i dag til bindingens slutt, slik at den teller med i kontraktens MRR.",
+                "addOnLabel": "Tilkjøp",
+                "productNumber": "Varenr.",
+                "productNumberHelp": "Varenummer i e-conomic. Forslag: 3174 Brukerlisens og 3176 Avdelingslisens, men du kan skrive et hvilket som helst varenummer.",
+                "productNumberPlaceholder": "F.eks. 3174",
+                "quantity": "Antall",
+                "quantityHelp": "Antall enheter på fakturalinjen. Beløpet beregnes som antall × stykkpris.",
+                "unitPrice": "Stykkpris",
+                "unitPriceHelp": "Pris per enhet eksl. mva. Beløpet beregnes som antall × stykkpris.",
+                "amountComputed": "Beløpet beregnes som antall × stykkpris så lenge begge er fylt ut.",
+                "rateRowHelp": "Vanlige rater faktureres som 1 stk. av avtalen på vare 3185. Bruk Legg til tilkjøp hvis linjen skal ha varenummer, antall og stykkpris.",
+                "suggestUserLicense": "3174 Brukerlisens",
+                "suggestDepartmentLicense": "3176 Avdelingslisens"
             },
             "detail": {
                 "title": "Avtale",
@@ -13547,7 +13626,8 @@
                     "deal": "Lisens",
                     "add_on_deal": "Tilleggskjøp",
                     "application": "App"
-                }
+                },
+                "addOnLine": "Vare {product} · {quantity} × {price}"
             },
             "notice": {
                 "passed": "Oppsigelsesfrist passert {date}",
@@ -13639,6 +13719,55 @@
             "remainder": {
                 "chip": "Restbeløp ved oppsigelse",
                 "help": "Samlet restbeløp fakturert fordi avtalen ble sagt opp før bindingen utløp."
+            },
+            "renewal": {
+                "expected": "Forventet fornyelse: {amount} kr/år",
+                "expectedHelp": "Når en ny periode starter, faktureres de listeprisene som gjelder på det tidspunktet. Beløpet her er et anslag ut fra dagens priser og kan endres hvis prisene endres før den tid.",
+                "sources": {
+                    "list_price": "Listepris",
+                    "override": "Fast pris",
+                    "fallback": "Anslått"
+                },
+                "sourceHelp": {
+                    "list_price": "Beregnet ut fra gjeldende listepris for de tilknyttede lisensene. Når en ny periode starter, faktureres de listeprisene som gjelder på det tidspunktet, så beløpet kan endres hvis prisene endres før den tid.",
+                    "override": "En fast pris som er angitt på avtalen, erstatter listeprisen ved de kommende fornyelsene.",
+                    "fallback": "Ingen lisenser er tilknyttet, så verdien er anslått ut fra avtaleverdien."
+                }
+            },
+            "economic": {
+                "state": {
+                    "pending": "Venter på kladd",
+                    "pendingHelp": "Kladden er ikke opprettet i e-conomic ennå.",
+                    "in_flight": "Oppretter kladd…",
+                    "in_flightHelp": "Kladden opprettes i CitizenOnes e-conomic akkurat nå.",
+                    "created": "Kladd {number}",
+                    "createdHelp": "Fakturaen ligger som kladd i CitizenOnes e-conomic og er ikke bokført ennå.",
+                    "unknown": "Venter på avstemming med e-conomic",
+                    "unknownHelp": "Svaret fra e-conomic uteble. CitizenOne avstemmer med e-conomic før en ny kladd opprettes.",
+                    "failed": "Feil i e-conomic",
+                    "failedHelp": "Opprettelsen i e-conomic mislyktes ({error}). Du kan prøve igjen.",
+                    "draft_missing": "Kladden finnes ikke lenger i e-conomic",
+                    "draft_missingHelp": "Kladden er slettet i e-conomic. Du kan opprette den på nytt.",
+                    "booked": "Bokført {number}",
+                    "bookedHelp": "Fakturaen er bokført i CitizenOnes e-conomic.",
+                    "paid": "Betalt {number}",
+                    "paidHelp": "Fakturaen er bokført og betalt i CitizenOnes e-conomic."
+                },
+                "create": "Opprett kladd i e-conomic",
+                "retry": "Prøv igjen",
+                "createHelp": "Oppretter fakturaen som kladd i CitizenOnes e-conomic. Bare for avtalerater, og selskapet må ha et e-conomic kundenummer.",
+                "retryHelp": "Prøver å opprette kladden i CitizenOnes e-conomic på nytt etter feilen.",
+                "creating": "Oppretter kladd…",
+                "creatingHelp": "Kladden opprettes i bakgrunnen. Siden oppdateres når e-conomic har svart.",
+                "recreate": "Opprett på nytt",
+                "recreateHelp": "Oppretter en ny kladd, fordi den forrige er slettet i e-conomic.",
+                "recreateConfirmTitle": "Opprette kladden på nytt?",
+                "recreateConfirmText": "Kladden finnes ikke lenger i e-conomic. Bekreft bare hvis den er slettet med vilje. Det opprettes en ny kladd for fakturaen.",
+                "created": "Kladden er sendt til e-conomic.",
+                "pollTimeout": "Opprettelsen tar lengre tid enn forventet. Oppdater siden om litt for å se status.",
+                "syncedPayment": "Synkronisert fra e-conomic",
+                "syncedPaymentHelp": "Betalingen ble registrert automatisk da e-conomic viste fakturaen som betalt.",
+                "missingNumber": "Kunden har en løpende avtale, men ikke noe e-conomic kundenummer. Avtalerater opprettes ikke som kladd i e-conomic før nummeret er fylt ut ovenfor."
             }
         },
         "metrics": {
@@ -14978,6 +15107,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Vunne saker uten koordinator",
+        "unassignedWonCount": "1 sak venter | {count} saker venter",
+        "unassignedWonOpen": "Fordel saker",
+        "unassignedWonTooltip": "Se de vunne sakene som ingen står på ennå, og fordel dem",
         "brief": {
             "bookings_missing_note": "En avtale er ferdig uten et @:terms.journalNote{''} | {n} avtaler er ferdige uten et @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut innen en uke | {n} mål går ut innen en uke",
@@ -15940,6 +16073,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Opprett en ny kunde eller avdeling og velg den her",
         "required": "Påkrevd",
         "appliesThroughout": "Gjelder hele forløpet",
         "saving": "Lagrer...",
@@ -16023,11 +16157,14 @@
             "consultant_skills_competence": "Konsulentkompetanser: kompetanser",
             "consultant_skills_course": "Konsulentkompetanser: kurs",
             "consultant_skills_topic": "Konsulentkompetanser: emneord",
-            "focus_areas_ics": "Fokusområder (ICS, barn og unge)"
+            "focus_areas_ics": "Fokusområder (ICS, barn og unge)",
+            "rooms": "Rom og lokaler"
         },
         "allServiceTypes": "Alle innsatstyper",
         "allowMultiple": "Tillat mer enn ett svar",
         "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)",
+        "wellbeingRuler": "Trivselslinjal",
+        "wellbeingRulerHint": "Vises som trivselslinjalen i journalnotater, og svaret blir første punkt på borgerens trivselskurve når saken vinnes.",
         "allForms": "Alle skjemaer"
     },
     "inquiryOrigin": {
@@ -16069,6 +16206,13 @@
         "fromWebsite": "Fra nettsiden"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Trinnvurdering",
+            "hint": "Antall trinn konsulentene vurderes på. Profilen og matchingen viser så mange.",
+            "save": "Lagre",
+            "saveTooltip": "Lagre antall trinn for hele virksomheten",
+            "saved": "Antall trinn lagret"
+        },
         "title": "Konsulentkompetanser",
         "description": "Vedlikehold listene konsulentene matches på. En kompetanse er noe de kan, et kurs er noe de har tatt, og et emneord er noe de har erfaring med.",
         "add": "Legg til",
@@ -16179,6 +16323,7 @@
         "moveHint": "Framover krever at fasens påkrevde felter er fylt ut. Tilbake kan du alltid."
     },
     "inquiryServiceTypes": {
+        "fillsSections": "Innsatstypene her fyller også listen over paragrafer på borgerne. Endre navn og paragraf ett sted.",
         "add": "Legg til",
         "alert": {
             "deleted": "Innsatstypen er slettet",
@@ -16798,6 +16943,7 @@
         "title": "AI-bruk",
         "loading": "Henter bruk ...",
         "failed": "Bruken kunne ikke hentes akkurat nå. Prøv igjen om litt.",
+        "forbidden": "Du har ikke tilgang til AI-bruken. Be en administrator i virksomheten om tilgang.",
         "today": "I dag",
         "ofAllowance": "{used} av {allowance} svar",
         "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",
@@ -16875,6 +17021,7 @@
         "location": "Lokasjon",
         "locationPlaceholder": "Adresse eller område, f.eks. Vesterbro",
         "postalCode": "Postnummer",
+        "reportingHint": "Følger med til borgeren når saken vinnes, og starter påminnelsen om rapportering.",
         "pending": "Plasseres på kartet om litt",
         "unavailable": "Ikke plassert på kartet: kartoppslag er ikke satt opp, så ingen avstand vises",
         "notFound": "Kunne ikke finnes på kartet. Sjekk adressen eller oppgi et postnummer",
@@ -17031,6 +17178,19 @@
             "newReason": "Ny årsak",
             "add": "Legg til årsak"
         }
+    },
+    "inquiryConversion": {
+        "rate": "Konverteringsrate",
+        "rateHint": "Vunnet av de avgjorte henvendelsene mottatt i perioden. Åpne henvendelser teller ikke før de er avgjort.",
+        "won": "Vunnet",
+        "lost": "Tapt",
+        "open": "Åpne",
+        "received": "Mottatt",
+        "byServiceType": "Per innsatstype",
+        "byMonth": "Per måned",
+        "serviceType": "Innsatstype",
+        "month": "Måned",
+        "noServiceType": "Uten innsatstype"
     },
     "inquiryOffer": {
         "title": "Tilbud",

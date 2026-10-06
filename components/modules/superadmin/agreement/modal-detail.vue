@@ -44,6 +44,25 @@
                             :autoRenews="state.agreement.auto_renews" />
                     </div>
 
+                    <div v-if="state.agreement.estimated_renewal_annual_value != null"
+                        class="flex flex-wrap items-center gap-2 text-[13px] text-[#1F2533]">
+                        <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>
+                            <span class="inline-flex items-center gap-1">
+                                {{ $t('superadmin.agreements.renewal.expected', {
+                                    amount: formatNumber(state.agreement.estimated_renewal_annual_value) }) }}
+                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                    :aria-label="$t('superadmin.agreements.renewal.expectedHelp')" />
+                            </span>
+                        </Tooltip>
+                        <Tooltip v-if="state.agreement.renewal_value_source"
+                            :text="$t(`superadmin.agreements.renewal.sourceHelp.${state.agreement.renewal_value_source}`)"
+                            position="top" wrap>
+                            <span class="co-badge" :class="state.agreement.renewal_value_source === 'fallback' ? 'co-badge-gray' : 'co-badge-navy'">
+                                {{ $t(`superadmin.agreements.renewal.sources.${state.agreement.renewal_value_source}`) }}
+                            </span>
+                        </Tooltip>
+                    </div>
+
                     <p v-if="state.agreement.internal_note"
                         class="text-[13px] text-[#5C6478] bg-[#F9FAFB] border border-[#EAECF0] rounded-lg px-3 py-2 whitespace-pre-wrap">
                         {{ state.agreement.internal_note }}
@@ -63,6 +82,15 @@
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.table.dueOn') }}</th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.table.label') }}</th>
                                     <th class="px-4 py-2 text-right">{{ $t('superadmin.agreements.table.amount') }}</th>
+                                    <th class="px-4 py-2">
+                                        <Tooltip :text="$t('superadmin.agreements.table.coversHelp')" position="top" wrap>
+                                            <span class="inline-flex items-center gap-1">
+                                                {{ $t('superadmin.agreements.table.covers') }}
+                                                <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7]"
+                                                    :aria-label="$t('superadmin.agreements.table.coversHelp')" />
+                                            </span>
+                                        </Tooltip>
+                                    </th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.detail.invoice') }}</th>
                                     <th class="px-4 py-2">{{ $t('superadmin.agreements.detail.paid') }}</th>
                                 </tr>
@@ -81,16 +109,35 @@
                                                 {{ $t('superadmin.agreements.remainder.chip') }}
                                             </span>
                                         </Tooltip>
+                                        <p v-if="row.product_number || row.quantity != null || row.unit_price != null"
+                                            class="text-[11px] text-[#8891A4]">
+                                            {{ $t('superadmin.agreements.detail.addOnLine', {
+                                                product: row.product_number ?? '-',
+                                                quantity: row.quantity ?? '-',
+                                                price: row.unit_price != null ? formatAmount(row.unit_price, 'DKK') : '-',
+                                            }) }}
+                                        </p>
                                     </td>
                                     <td class="px-4 py-2 text-right font-medium">{{ formatAmount(row.amount, 'DKK') }}</td>
+                                    <td class="px-4 py-2 text-[#5C6478] whitespace-nowrap">
+                                        <template v-if="row.covers_from || row.covers_to">
+                                            {{ row.covers_from ? formatDateToReadable(row.covers_from) : '-' }}
+                                            &ndash;
+                                            {{ row.covers_to ? formatDateToReadable(row.covers_to) : '-' }}
+                                        </template>
+                                        <span v-else class="text-[#B4BBC7]">-</span>
+                                    </td>
                                     <td class="px-4 py-2">
-                                        <Tooltip v-if="row.invoice" :text="$t('superadmin.agreements.detail.openInvoice')"
-                                            position="top">
-                                            <NuxtLink class="font-mono text-[#205E77] hover:underline"
-                                                :to="`/superadmin/companies/${props.companyUuid}/invoices/${row.invoice.uuid}/invoice-details`">
-                                                #{{ row.invoice.invoice_number }}
-                                            </NuxtLink>
-                                        </Tooltip>
+                                        <div v-if="row.invoice" class="flex flex-wrap items-center gap-2">
+                                            <Tooltip :text="$t('superadmin.agreements.detail.openInvoice')" position="top">
+                                                <NuxtLink class="font-mono text-[#205E77] hover:underline"
+                                                    :to="`/superadmin/companies/${props.companyUuid}/invoices/${row.invoice.uuid}/invoice-details`">
+                                                    #{{ row.invoice.invoice_number }}
+                                                </NuxtLink>
+                                            </Tooltip>
+                                            <ModulesSuperadminAgreementEconomicStatus :invoice="row.invoice" installmentLinked
+                                                @updated="load" @failed="(error: any) => state.error = error" />
+                                        </div>
                                         <Tooltip v-else-if="row.settled_externally_at"
                                             :text="row.settled_note
                                                 ? $t('superadmin.agreements.settled.helpWithNote', { note: row.settled_note })
@@ -126,7 +173,15 @@
                                                         : $t('superadmin.invoices.table.paid') }}
                                                 </span>
                                             </Tooltip>
-                                            <Tooltip v-else :text="$t('superadmin.agreements.detail.unpaidHelp')"
+                                            <Tooltip v-if="row.invoice.is_paid && isEconomicSyncedPayment(row.invoice)"
+                                                :text="$t('superadmin.agreements.economic.syncedPaymentHelp')"
+                                                position="top" wrap>
+                                                <span class="co-badge co-badge-gray ml-1.5">
+                                                    <Icon name="ph:arrows-clockwise" class="w-3 h-3" aria-hidden="true" />
+                                                    {{ $t('superadmin.agreements.economic.syncedPayment') }}
+                                                </span>
+                                            </Tooltip>
+                                            <Tooltip v-else-if="!row.invoice.is_paid" :text="$t('superadmin.agreements.detail.unpaidHelp')"
                                                 position="top" wrap>
                                                 <span class="co-badge co-badge-red">
                                                     {{ $t('superadmin.invoices.table.unpaid') }}
@@ -266,7 +321,7 @@ import { useI18n } from 'vue-i18n'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { isCancellationRemainder, unwrapData } from '@/composables/agreements'
+import { isCancellationRemainder, isEconomicSyncedPayment, unwrapData } from '@/composables/agreements'
 import type { Agreement, LinkableSubscription } from '@/types/agreement'
 import type { Error } from '@/types'
 
@@ -279,6 +334,7 @@ const emit = defineEmits(['close', 'edit', 'changed', 'deleted'])
 
 const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
+const formatNumber = (value: number) => new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(Number(value) || 0)
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({

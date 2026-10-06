@@ -150,6 +150,7 @@ const state = reactive({
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
+            discharge_reason_uuid: null as string | null,
             consent_declarations: [],
             photo: false,
             parent_collaboration: false,
@@ -287,6 +288,7 @@ async function fetchCitizen() {
                     residence_before_uuid: response?.data?.stay_data?.residence_before_municipality?.uuid?.toString() ?? '',
                     residence_after_uuid: response?.data?.stay_data?.residence_after_municipality?.uuid?.toString() ?? '',
                     discharge_reason: response?.data?.stay_data?.discharge_reason ?? '',
+                    discharge_reason_uuid: response?.data?.stay_data?.discharge_reason_option?.uuid ?? null,
                     consent_declarations: response?.data?.stay_data?.consent_declarations ?? [],
                     photo: response?.data?.stay_data?.photo ?? false,
                     parent_collaboration: response?.data?.stay_data?.parent_collaboration ?? false,
@@ -462,6 +464,7 @@ async function updateCitizen(citizenDetails: any) {
             params.append('residence_after_uuid', citizenDetails.stayData.residence_after_uuid)
         }
         params.append('discharge_reason', citizenDetails.stayData.discharge_reason)
+        params.append('discharge_reason_uuid', citizenDetails.stayData.discharge_reason_uuid ?? '')
         params.append('consent_declarations', JSON.stringify(citizenDetails.stayData.consent_declarations))
         params.append('photo', citizenDetails.stayData.photo)
         params.append('parent_collaboration', citizenDetails.stayData.parent_collaboration)
