@@ -30,12 +30,12 @@
                         </div>
                     </div>
                     <div class="mt-6">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="grid grid-cols-1 gap-3" :class="{ 'md:grid-cols-2': canDownload }">
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                 {{ $t('close') }}
                             </FormButton>
-                            <FormButton type="button" buttonStyle="primary" class="w-full" @click="downloadOriginal"
-                                data-testid="document-preview-download">
+                            <FormButton v-if="canDownload" type="button" buttonStyle="primary" class="w-full"
+                                @click="downloadOriginal" data-testid="document-preview-download">
                                 {{ $t('drive.preview.downloadOriginal') }}
                             </FormButton>
                         </div>
@@ -64,10 +64,16 @@ const props = defineProps({
         required: true,
     },
     // Where the original bytes come from. Defaults to the company drive; the
-    // citizen, relative and OneDrive lists pass their own download call.
+    // citizen, relative and OneDrive lists pass their own call.
     loadFile: {
         type: Function as PropType<(document: any) => Promise<Blob>>,
         default: null,
+    },
+    // Staff pages pass whether the user may download documents. The relative
+    // portal leaves it at true: download_documents doesn't apply there.
+    canDownload: {
+        type: Boolean,
+        default: true,
     },
 })
 const previewContainer = ref<HTMLElement | null>(null)
@@ -100,7 +106,7 @@ async function fetchOriginal(): Promise<Blob> {
         return await props.loadFile(props.selectedDocument)
     }
 
-    return await documentService.downloadFile(props.selectedDocument?.uuid)
+    return await documentService.viewFile(props.selectedDocument?.uuid) as Blob
 }
 
 async function fetchDocument() {

@@ -882,7 +882,10 @@
         "billing": "Billing",
         "subscription": "Subscription",
         "couldNotStartConnection": "The connection could not be started. Try again.",
-        "couldNotStartPayment": "The payment could not be started. Try again."
+        "couldNotStartPayment": "The payment could not be started. Try again.",
+        "requiresPlan": "Requires {plan}",
+        "requiresPlanTooltip": "This app requires the {plan} plan. Click to see your subscription and upgrade.",
+        "upgradeToPlan": "Upgrade to {plan}"
     },
     "archived": {
         "alert": {
@@ -891,7 +894,10 @@
             "employeeSuccessfullyUnarchive": "Employee successfully unarchived",
             "goalSuccessfullyUnarchive": "Goal successfully unarchive",
             "planSuccessfullyUnarchive": "Plan successfully unarchive",
-            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive"
+            "subgoalSuccessfullyUnarchive": "Subgoal successfully unarchive",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} permanently deleted",
+            "documentSuccessfullyDeleted": "Document permanently deleted",
+            "employeeSuccessfullyDeleted": "Employee permanently deleted"
         },
         "confirmation": {
             "unarchiveCitizen": "Are you sure you want to unarchive this @:terms.citizen{''}",
@@ -899,14 +905,22 @@
             "unarchiveEmployee": "Are you sure you want to unarchive this employee",
             "unarchiveGoal": "Are you sure you want to unarchive this goal",
             "unarchivePlan": "Are you sure you want to unarchive this plan",
-            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal"
+            "unarchiveSubgoal": "Are you sure you want to unarchive this subgoal",
+            "deleteCitizen": "Are you sure you want to permanently delete this @:terms.citizen{''}? This action cannot be undone.",
+            "deleteDocument": "Are you sure you want to permanently delete this document? This action cannot be undone.",
+            "deleteEmployee": "Are you sure you want to permanently delete this employee? This action cannot be undone."
         },
         "table": {
             "actions": {
                 "unarchive": "Unarchive",
                 "unarchiveCitizen": "Unarchive @:terms.citizen{''}",
                 "unarchiveDocument": "Unarchive document",
-                "unarchiveEmployee": "Unarchive employee"
+                "unarchiveEmployee": "Unarchive employee",
+                "delete": "Delete",
+                "deleteCitizen": "Delete @:terms.citizen{''}",
+                "deleteDocument": "Delete document",
+                "deleteEmployee": "Delete employee",
+                "download": "Download"
             },
             "belongsTo": "Belongs to",
             "date": "Date",
@@ -1712,6 +1726,7 @@
                 "includeRiskAssessment": "Include risk assessment"
             },
             "editNote": "Edit note",
+            "viewNote": "View note",
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
@@ -3078,6 +3093,39 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
+            "checklists": {
+                "addItem": "Add item",
+                "checklists": "Checklists",
+                "editChecklist": "Edit checklist",
+                "editItem": "Edit item",
+                "empty": "No checklists yet",
+                "form": {
+                    "alert": {
+                        "checklistSuccessfullyAdded": "Checklist successfully added",
+                        "checklistSuccessfullyUpdated": "Checklist successfully updated"
+                    },
+                    "description": "Description",
+                    "title": "Title"
+                },
+                "newChecklist": "New checklist",
+                "newItem": "New item",
+                "noItems": "No items yet",
+                "progress": "{completed}/{total} completed",
+                "table": {
+                    "actions": {
+                        "delete": "Delete",
+                        "edit": "Edit"
+                    },
+                    "alert": {
+                        "checklistSuccessfullyDeleted": "Checklist successfully deleted",
+                        "itemSuccessfullyDeleted": "Item successfully deleted"
+                    },
+                    "confirmation": {
+                        "deleteChecklistConfirmation": "Are you sure you want to delete this checklist",
+                        "deleteItemConfirmation": "Are you sure you want to delete this item"
+                    }
+                }
+            },
             "consentCompetenceOrCapacity": {
                 "consentCompetenceOrCapacity": "Consent competence or capacity",
                 "editConsentCompetenceOrCapacity": "Edit consent competence or capacity",
@@ -6821,7 +6869,8 @@
                 "actions": {
                     "archive": "Archive",
                     "delete": "Delete",
-                    "edit": "Edit"
+                    "edit": "Edit",
+                    "download": "Download"
                 },
                 "file": "File",
                 "note": "Note"
@@ -8418,7 +8467,25 @@
         "shiftsPlannedToday": "Shifts planned today",
         "signinToYourAccount": "Sign in to your account",
         "tagline": "Social sector · Care sector · Healthcare",
-        "welcomeBack": "Welcome back"
+        "welcomeBack": "Welcome back",
+        "sso": {
+            "microsoft": "Sign in with Microsoft",
+            "hint": "Use your organisation's Microsoft account. Type your work email above first.",
+            "enterEmail": "Type your work email, then choose Sign in with Microsoft.",
+            "failed": "Signing in with Microsoft did not work. Try again."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Let employees sign in with the organisation's Microsoft account. Only sign-ins from your own Microsoft Entra tenant are accepted.",
+        "unavailable": "Microsoft sign-in is not switched on on the server yet. Contact support.",
+        "tenantId": "Microsoft Entra tenant ID",
+        "tenantHint": "Found in the Entra admin center under Overview. Leave empty to switch SSO off.",
+        "saveHint": "Applies from the next sign-in",
+        "saved": "Saved",
+        "needsApp": "Microsoft SSO is a free app in the app store and requires the Pro plan. Activate the app to enter your tenant id.",
+        "openApp": "Go to the app",
+        "openAppHint": "Opens Microsoft SSO in the app store, where an administrator can activate it"
     },
     "logs": {
         "table": {
@@ -9811,7 +9878,27 @@
             "selectDatesFirst": "Select start and end dates first",
             "startDate": "Start date",
             "weeklyOn": "On",
-            "yearlyInMonths": "In months"
+            "yearlyInMonths": "In months",
+            "recordingMode": "Record attendance",
+            "perDay": "Per day",
+            "perHour": "Per hour",
+            "recordingModeDayHelp": "One entry per citizen for each day.",
+            "recordingModeHourHelp": "One entry per citizen for each time slot on every day, so attendance can be recorded hour by hour.",
+            "timeSlots": "Time slots",
+            "timeSlotsHelp": "Fill in a slot for every hour in a range, or add slots one at a time.",
+            "fromHour": "From",
+            "toHour": "To",
+            "fillHourly": "Fill every hour",
+            "slotStart": "Start",
+            "slotEnd": "End",
+            "removeSlot": "Remove time slot",
+            "noTimeSlots": "No time slots yet.",
+            "addSlot": "Add time slot",
+            "errors": {
+                "timeSlotsRequired": "Add at least one time slot.",
+                "timeSlotEndAfterStart": "Each time slot must end after it starts.",
+                "timeSlotsOverlap": "Time slots must not overlap."
+            }
         },
         "checkIn": "Check in",
         "checkOut": "Check out",
@@ -9837,7 +9924,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Date",
-                "status": "Status"
+                "status": "Status",
+                "time": "Time"
             },
             "confirmation": {
                 "deleteConfirmation": "Are you sure you want to delete this protocol"
@@ -10200,6 +10288,23 @@
             "noPermissionsMatch": "No permissions match \"{search}\".",
             "employeeGroups": "Employee groups",
             "noEmployeeGroups": "No employee groups created yet."
+        },
+        "matrix": {
+            "title": "Permission overview",
+            "note": "The overview shows what each role grants. Individual users can be given extra permissions or have permissions removed, and those exceptions aren't shown here.",
+            "fullAccess": "Full access",
+            "fullAccessNote": "Roles at administrator level have every permission, so their column is ticked all the way down. Page access is shown as it is set on the role.",
+            "exportCsv": "Export CSV",
+            "printPdf": "Print / PDF",
+            "print": "Print",
+            "permission": "Permission",
+            "page": "Page",
+            "area": "Area",
+            "granted": "Granted",
+            "generated": "Generated",
+            "company": "Company",
+            "pdfAttribution": "This PDF was generated with CitizenOne's journal system.",
+            "fileName": "permission-overview"
         },
         "newRole": "New role",
         "permissions": {
@@ -10796,7 +10901,10 @@
             "inquiryOffers": "Offers and prices",
             "customerDepartments": "Customers and departments",
             "inquiryForms": "Inquiry forms",
-            "visitTypes": "Visit types"
+            "visitTypes": "Visit types",
+            "contractHourTypes": "Hour types",
+            "paymentTerms": "Payment terms",
+            "contractFields": "Contract fields"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11499,7 +11607,10 @@
                 "addScreenshot": "Add screenshot",
                 "screenshotCaption": "Caption",
                 "uploadScreenshot": "Upload screenshot",
-                "uploadFailed": "The image could not be uploaded."
+                "uploadFailed": "The image could not be uploaded.",
+                "requiredPlan": "Required plan",
+                "requiredPlanNone": "None - anyone can activate",
+                "requiredPlanHint": "Only companies on this plan can activate the app."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",
@@ -11821,7 +11932,8 @@
                 "active": "Active",
                 "inactive": "Inactive",
                 "paying": "Paying",
-                "migration": "Data migration"
+                "migration": "Data migration",
+                "agreements": "Agreements"
             },
             "totalClients": "{count} clients in total",
             "export": "Export",
@@ -13234,12 +13346,19 @@
                     "renewals": "Yearly renewals",
                     "cumulative": "Accumulated",
                     "contracted": "Contracted",
-                    "assumed": "Assumed renewal"
+                    "assumed": "Assumed renewal",
+                    "installments": "Installments (agreements)",
+                    "assumedRenewal": "Assumed renewal, agreements"
                 },
                 "renewalsIn": "Renewals in {month}",
                 "renewalsCount": "{count} customer(s)",
                 "noRenewals": "No annual renewals this month.",
-                "clickHint": "Click a bar to see which customers it is made of."
+                "clickHint": "Click a bar to see which customers it is made of.",
+                "help": {
+                    "installments": "Agreement installments placed on their due date. Agreed, not assumed.",
+                    "assumedRenewal": "Agreements that renew automatically after the binding, counted at yearly value. An assumption, not an agreement."
+                },
+                "installmentsIn": "Agreement installments and assumed renewals"
             },
             "noAccess": {
                 "title": "The report is management only",
@@ -13372,6 +13491,268 @@
                 "noteAdded": "The note has been added",
                 "columnsSaved": "The columns have been saved"
             }
+        },
+        "agreements": {
+            "title": "Agreements",
+            "subtitle": "Binding period, billing plan and contract value per customer.",
+            "new": "New agreement",
+            "newHelp": "Create an agreement with a binding period and billing plan for this customer.",
+            "empty": "No agreements yet",
+            "emptyHint": "Until an agreement exists the customer counts at the subscription price.",
+            "months": "{count} mo.",
+            "autoRenews": "auto-renews",
+            "perYear": "{amount} / year",
+            "saved": "The agreement was saved.",
+            "deleted": "The agreement was deleted.",
+            "table": {
+                "name": "Agreement",
+                "period": "Binding period",
+                "billingPlan": "Billing plan",
+                "contractValue": "Contract value",
+                "mrrArr": "Contract MRR / ARR",
+                "backlog": "Backlog",
+                "status": "Status",
+                "notice": "Notice deadline",
+                "dueOn": "Due",
+                "amount": "Amount excl. VAT",
+                "label": "Label"
+            },
+            "plans": {
+                "monthly": "Monthly",
+                "yearly": "Yearly",
+                "prepaid_multi_year": "Prepaid multi-year",
+                "installments": "Installments"
+            },
+            "statuses": {
+                "active": "Active",
+                "ended": "Ended",
+                "cancelled": "Cancelled"
+            },
+            "paymentMethods": {
+                "bank_transfer": "Bank transfer",
+                "card": "Card"
+            },
+            "internal": {
+                "title": "Internal information only.",
+                "body": "Agreements, bindings, contract value and internal notes are never shown to the customer. The customer only sees their invoices.",
+                "help": "This page is for superadmins only. Nothing here is exposed in the customer view."
+            },
+            "help": {
+                "termMonths": "Length of the binding period in months, e.g. 48.",
+                "noticeMonths": "How many months before the binding ends the customer must give notice.",
+                "autoRenews": "If on, the forecast assumes the agreement renews yearly after it ends.",
+                "contractValue": "Total value excl. VAT over the whole binding.",
+                "feePerInvoice": "Service fee excl. VAT added to every invoice.",
+                "billingPlan": "How the agreement is billed. The binding and the payment frequency are two different things.",
+                "preview": "Calculated by the server from the values you entered. Nothing is saved.",
+                "status": "Active: running now. Ended: the binding is over. Cancelled: the agreement was cancelled.",
+                "billingPlanBadge": "How the agreement is billed.",
+                "mrrArr": "Contract value divided by the binding in months (MRR), and times 12 (ARR).",
+                "invoiced": "Total of the invoices created for the agreement.",
+                "backlog": "Remaining committed value: installments without a paid invoice.",
+                "subscriptions": "Licences and the Pro profile linked to the agreement apply for the whole binding and are not charged by card on top.",
+                "settledExternally": "Open installments due before this date are marked as settled and are never invoiced. Use it for customers who already paid through e-conomic.",
+                "renewalValue": "What the agreement costs per year after the binding, excl. VAT. Empty: contract value divided by the binding in months, times 12.",
+                "termMode": "Give the binding either as a number of months or as an end date.",
+                "endsOn": "The last day of the binding. The server works out the months, e.g. 2025-06-10 to 2028-09-01."
+            },
+            "form": {
+                "createTitle": "New agreement",
+                "editTitle": "Edit agreement",
+                "name": "Name",
+                "namePlaceholder": "e.g. CitizenOne Pro incl. AI - 180 users",
+                "startsOn": "Start date",
+                "termMonths": "Binding (months)",
+                "noticeMonths": "Notice period (months)",
+                "autoRenews": "Renews automatically",
+                "contractValue": "Contract value excl. VAT",
+                "feePerInvoice": "Service fee per invoice",
+                "paymentMethod": "Payment method",
+                "internalNote": "Internal note",
+                "internalNotePlaceholder": "Visible to superadmins only",
+                "billingPlan": "Billing plan",
+                "prepaidYears": "Years per invoice",
+                "presetTitle": "Installment helper",
+                "presetHint": "E.g. 30 % upfront and the rest split evenly. You can edit the rows afterwards.",
+                "upfrontPercent": "Upfront (%)",
+                "remainingCount": "Number of later installments",
+                "remainingInterval": "Interval (months)",
+                "applyPreset": "Calculate installments",
+                "applyPresetHelp": "Replaces the list below with the installments from the helper.",
+                "presetLocked": "Some installments are already invoiced. They cannot change, so the helper is off.",
+                "installmentList": "Installments",
+                "addInstallment": "Add installment",
+                "addInstallmentHelp": "Add a row to the list.",
+                "noInstallments": "No installments yet. Use the helper or add a row.",
+                "lockedRow": "An invoice exists for this installment. It cannot be changed or removed.",
+                "removeInstallment": "Remove installment",
+                "sumCheckHelp": "The installments must add up to the contract value (tolerance 0.01).",
+                "sumOk": "Installments add up to {sum}",
+                "sumMismatch": "Installments add up to {sum}, the contract value is {value} (difference {diff})",
+                "previewTitle": "Schedule preview",
+                "previewEmpty": "Fill in start, binding and contract value to see the schedule.",
+                "save": "Save agreement",
+                "presetLabel": "Installment {n} of {total}",
+                "presetLabelUpfront": "Installment {n} of {total} - {percent} % upfront",
+                "settledTitle": "Settled outside CitizenOne before",
+                "settledBefore": "Settled before (date)",
+                "settledNote": "Settlement note",
+                "settledNotePlaceholder": "e.g. e-conomic voucher 297637275",
+                "renewalValue": "Annual value on renewal",
+                "renewalValuePlaceholder": "Default",
+                "endsOn": "End date",
+                "modeMonths": "Binding in months",
+                "modeEndDate": "End date"
+            },
+            "detail": {
+                "title": "Agreement",
+                "installments": "Installments and invoices",
+                "invoice": "Invoice",
+                "paid": "Paid",
+                "openInvoice": "Open the invoice",
+                "notInvoiced": "Not invoiced",
+                "notInvoicedHelp": "The invoice is created automatically on the due date.",
+                "paidHelp": "The invoice was paid on the date shown.",
+                "unpaidHelp": "The invoice exists but is not paid yet. Register the payment on the invoice.",
+                "subscriptions": "Linked subscriptions",
+                "noSubscriptions": "No subscriptions to link.",
+                "saveSubscriptions": "Save links",
+                "saveSubscriptionsHelp": "Saves which licences and Pro profile belong to the agreement.",
+                "mainSubscription": "Main subscription",
+                "cancel": "Cancel agreement",
+                "cancelHelp": "Marks the agreement as cancelled from the chosen date.",
+                "cancelDate": "Cancellation date",
+                "delete": "Delete",
+                "deleteHelp": "Only possible if no invoices have been created for the agreement.",
+                "deleteConfirm": "Delete the agreement",
+                "edit": "Edit",
+                "editHelp": "Change the terms and billing plan of the agreement.",
+                "openHelp": "See installments, invoices and linked subscriptions.",
+                "invoicedTotal": "Invoiced",
+                "linkedElsewhere": "Already linked to another agreement. Unlink it there first.",
+                "dealTypes": {
+                    "deal": "Licence",
+                    "add_on_deal": "Add-on",
+                    "application": "App"
+                }
+            },
+            "notice": {
+                "passed": "Notice deadline passed {date}",
+                "soon": "Notice deadline in {days} days",
+                "deadline": "Notice deadline {date}",
+                "help": "The last date the customer can give notice without the agreement renewing. After {date} it is too late.",
+                "passedRenews": "The deadline {date} has passed and the agreement renews automatically.",
+                "passedEnds": "The deadline {date} has passed. The agreement ends when the binding ends."
+            },
+            "payment": {
+                "title": "Register payment",
+                "intro": "Register that invoice {number} was paid outside CitizenOne, e.g. by bank transfer.",
+                "paidAt": "Paid on",
+                "paidAmount": "Amount paid",
+                "paidAmountHint": "Amount incl. VAT and fee.",
+                "note": "Payment note",
+                "notePlaceholder": "e.g. e-conomic voucher number",
+                "register": "Register payment",
+                "registerHelp": "Mark the invoice as paid with date, amount and voucher number.",
+                "registered": "The payment was registered.",
+                "undo": "Undo",
+                "undoHelp": "Remove the registered payment so the invoice is unpaid again.",
+                "undoConfirm": "Undo the registered payment",
+                "undone": "The payment was undone.",
+                "bankTransfer": "Bank transfer",
+                "bankTransferHelp": "The invoice is paid by bank transfer, not by card."
+            },
+            "companyList": {
+                "bindingUntil": "Binding until",
+                "mrr": "{amount} / mo."
+            },
+            "preview": {
+                "endsOn": "Ends {date}",
+                "endsOnHelp": "The end of the binding, calculated by the server.",
+                "noticeDeadline": "Notice deadline {date}",
+                "mrrArr": "Contract MRR {mrr} / ARR {arr}"
+            },
+            "settled": {
+                "chip": "Settled externally",
+                "help": "Settled outside CitizenOne. No invoice is created and the row cannot be changed.",
+                "helpWithNote": "Settled outside CitizenOne: {note}. No invoice is created and the row cannot be changed."
+            },
+            "linkInvoice": {
+                "action": "Link invoice",
+                "help": "Link an existing invoice to this installment instead of creating a new one.",
+                "title": "Link invoice to installment",
+                "intro": "Choose the invoice that belongs to installment {label} ({amount} excl. VAT).",
+                "invoice": "Invoice",
+                "choose": "Choose invoice",
+                "none": "The customer has no invoices yet."
+            },
+            "renewed": "Renewed {count} times",
+            "renewedHelp": "The agreement has renewed automatically, 12 months at a time, since the binding ended.",
+            "covered": {
+                "chip": "Covered by agreement",
+                "help": "This invoice records licences provided under the agreement and is not counted as revenue.",
+                "footer": "This invoice is covered by an agreement and is not to be paid.",
+                "title": "Invoices covered by the agreement",
+                "add": "Add",
+                "addHelp": "Choose invoices that record licences provided under the agreement.",
+                "addTitle": "Add covered invoices",
+                "addIntro": "Choose the invoices the agreement covers. They no longer count as revenue.",
+                "addSelected": "Add {count}",
+                "none": "No invoices are covered by the agreement.",
+                "noneToAdd": "No invoices to add.",
+                "remove": "Remove",
+                "removeHelp": "Remove the invoice from the agreement so it counts as an ordinary invoice again."
+            },
+            "templates": {
+                "title": "Template",
+                "a4": "A customer: 4 years, 4 yearly installments",
+                "a4Help": "4-year binding, 25 % upfront and 3 yearly installments. Bank transfer, service fee 295, 3 months notice, renews automatically.",
+                "memox": "A customer: 4 years, 30 % + 3 installments",
+                "memoxHelp": "4-year binding, 30 % upfront and the rest in 3 yearly installments. Bank transfer, service fee 295.",
+                "monthly": "Monthly, 12 months",
+                "monthlyHelp": "12-month binding with monthly payment by bank transfer.",
+                "empty": "Blank",
+                "emptyHelp": "Start with empty fields."
+            },
+            "cancel": {
+                "title": "Cancel the agreement",
+                "accelerate": "Invoice the remaining amount now",
+                "accelerateHelp": "Gathers all remaining installments into one invoice now. Off, the installments are invoiced as planned until the binding ends.",
+                "previewAccelerated": "The customer is invoiced {amount} excl. VAT now ({count} installments gathered)",
+                "previewAsPlanned": "The remaining installments are invoiced as planned until {date}",
+                "warning": "The cancellation cannot be undone. Once the invoice is created it cannot be taken back from here.",
+                "confirm": "Cancel agreement"
+            },
+            "remainder": {
+                "chip": "Remainder on cancellation",
+                "help": "The gathered remaining amount, invoiced because the agreement was cancelled before the binding ended."
+            }
+        },
+        "metrics": {
+            "contractMrr": "Contract MRR",
+            "contractArr": "Contract ARR {amount}",
+            "cashMrr": "Cash MRR",
+            "cashArr": "Cash ARR, next 12 months {amount}",
+            "backlog": "Remaining committed value",
+            "backlogSub": "Installments without a paid invoice",
+            "outstanding": "Outstanding",
+            "outstandingSub": "Invoiced and unpaid",
+            "bindingsEnding": "Bindings ending",
+            "bindingsWithin": "{count} agreement(s) end within {months} months",
+            "monthsShort": "{months} mo.",
+            "internalNote": "Agreement figures are internal and never shown to customers.",
+            "help": {
+                "contractMrr": "The value of the agreements spread over the binding, plus subscriptions without an agreement. The headline figure. ARR is this times 12.",
+                "cashMrr": "What is actually invoiced in the next 12 months (installments and scheduled charges) divided by 12.",
+                "backlog": "The sum of installments on active agreements whose invoice is not paid.",
+                "outstanding": "Agreement invoices that have been created but are not paid yet.",
+                "bindingsEnding": "Number of active agreements whose binding ends within 3, 6 and 12 months.",
+                "upcoming": "Active agreements sorted by end date. Click to open the customer's Agreements."
+            },
+            "upcomingTitle": "Next bindings to end",
+            "upcomingDates": "Ends {ends} - notice deadline {notice}",
+            "noAutoRenew": "No renewal",
+            "noAutoRenewHelp": "The agreement does not renew automatically and ends with the binding."
         }
     },
     "support": {
@@ -15244,7 +15625,7 @@
             "intro": "The departments at your customers that invoices are sent to. A customer can have several departments, each with its own address, EAN number and terms.",
             "new": "New department",
             "edit": "Edit department",
-            "search": "Search by name, customer or EAN",
+            "search": "Search by name, customer, EAN, customer no. or WorkZone ID",
             "empty": "No departments have been created yet.",
             "noCustomer": "No customer",
             "municipality": "Municipality",
@@ -15252,7 +15633,7 @@
             "customerName": "Customer name",
             "customerNamePlaceholder": "E.g. a private customer",
             "name": "Department name",
-            "street": "Address",
+            "street": "Address 1",
             "postCode": "Postcode",
             "city": "City",
             "address": "Address",
@@ -15268,7 +15649,102 @@
             "isActive": "Active",
             "saved": "The department has been saved",
             "deleted": "The department has been deleted",
-            "confirmDelete": "Delete the department? Contracts and invoices that point to it keep their details."
+            "confirmDelete": "Delete the department? Contracts and invoices that point to it keep their details.",
+            "externalId": "WorkZone ID",
+            "addressLine2": "Address 2",
+            "addressType": "Address type",
+            "region": "Region",
+            "mobilePhone": "Mobile phone",
+            "customerGroup": "Customer group",
+            "customerDivision": "Customer division",
+            "hasSpecialContract": "Special contract",
+            "paymentTermsText": "Payment terms, full text",
+            "cooperationStatus": "Cooperation status",
+            "cooperationStatusDate": "Date of status",
+            "cooperationProtectionStart": "Protection start",
+            "cooperationProtectionEnd": "Protection end",
+            "municipalityRegion": "Municipality / region",
+            "searchHelp": "Filters the list as you type on name, customer, EAN, customer number, WorkZone ID and region.",
+            "shown": "Showing {shown} of {total}",
+            "sections": {
+                "stamdata": "Master data",
+                "economy": "Finance",
+                "terms": "Terms",
+                "cooperation": "Cooperation"
+            },
+            "help": {
+                "externalId": "The customer's ID as shown in WorkZone (the ID column of the export). Used to update the department when you import again.",
+                "customerName": "The customer, e.g. the municipality name. In WorkZone, Navn 1 is customer and department separated by a comma.",
+                "name": "The department name as it appears on the invoice.",
+                "street": "First address line.",
+                "addressLine2": "Second address line, e.g. floor or attention.",
+                "postCode": "Postcode.",
+                "city": "City.",
+                "addressType": "What kind of address it is, e.g. main address.",
+                "region": "The customer's region as text, e.g. Capital Region.",
+                "email": "Primary e-mail, where the invoice is sent.",
+                "phone": "Phone number.",
+                "mobilePhone": "Mobile phone number.",
+                "contactPerson": "Contact person at the customer. The import never touches it.",
+                "eanNumber": "The EAN number (13 digits) the e-invoice is sent to.",
+                "customerNumber": "The customer number as used in the accounting system.",
+                "customerGroup": "The customer group in WorkZone, e.g. 3.",
+                "customerDivision": "The customer's division in WorkZone, kept with its code, e.g. 1300, Jutland and Funen.",
+                "hasSpecialContract": "Tick if the customer has a special contract.",
+                "paymentTermsDays": "Number of days from the Payment terms list. Used on the invoice.",
+                "paymentTermsText": "The full payment terms text as written in the agreement.",
+                "priceRegulation": "The price regulation agreement.",
+                "noticeTerms": "Notice period.",
+                "cooperationStatus": "How far the cooperation has come, e.g. established closer cooperation.",
+                "cooperationStatusDate": "The date of the cooperation status.",
+                "cooperationProtectionStart": "When the protection starts. Filled in by hand, not in the WorkZone export.",
+                "cooperationProtectionEnd": "When the protection ends. Must not be before the start.",
+                "isActive": "An inactive department cannot be chosen on new contract periods."
+            },
+            "import": {
+                "title": "Import from WorkZone",
+                "button": "Import from WorkZone",
+                "buttonHelp": "Upload a file from WorkZone and see what would happen before anything is saved.",
+                "help": "Choose WorkZone's OData export of customers (Kommuner) as xlsx or csv. The first row must be column headers, and the Navn 1 column is required.",
+                "helpReimport": "You see a preview first. Importing again updates departments with the same WorkZone ID (as shown in WorkZone), and empty cells in the file do not overwrite what is in CitizenOne. Discontinued departments are imported as inactive.",
+                "file": "File",
+                "fileHelp": "xlsx, xls or csv, 5 MB at most.",
+                "badType": "The file must be xlsx, xls or csv.",
+                "tooBig": "The file is larger than 5 MB.",
+                "preview": "Preview",
+                "previewHelp": "Reads the file and shows what would be created, updated or skipped. Nothing is saved.",
+                "previewTitle": "Preview, nothing is saved yet",
+                "doneTitle": "The import is done",
+                "row": "Row",
+                "action": "Action",
+                "notes": "Notes",
+                "actions": {
+                    "create": "Create",
+                    "update": "Update",
+                    "skip": "Skip"
+                },
+                "actionHelp": {
+                    "create": "A new department that does not exist in CitizenOne.",
+                    "update": "Already exists, matched on WorkZone ID or EAN. Only filled-in cells overwrite.",
+                    "skip": "The row has errors and is not imported."
+                },
+                "warnings": "Warnings",
+                "warningsHelp": "The row is imported, but a value could not be used, e.g. an invalid EAN or e-mail.",
+                "inactiveCount": "Inactive",
+                "inactiveCountHelp": "Marked as ceased in WorkZone. Imported as inactive, so they cannot be picked on new contract periods.",
+                "errors": "Errors",
+                "errorsHelp": "Rows with errors are skipped.",
+                "termsWillBeAdded": "Payment terms that will be added to the list: {days} days.",
+                "termsAdded": "Payment terms that were added to the list: {days} days.",
+                "unmatchedMunicipalities": "Municipalities that were not recognised: {names}",
+                "ignoredColumns": "Columns that are not used: {names}",
+                "apply": "Import {count}",
+                "applyHelp": "Saves the rows that are created or updated in one go. A skipped row changes nothing.",
+                "done": "{count} departments have been imported"
+            },
+            "eanAndCustomerNumber": "EAN / customer no.",
+            "inactive": "Inactive",
+            "inactiveHelp": "The department is inactive (discontinued in WorkZone) and cannot be chosen on new contract periods."
         },
         "contract": {
             "title": "Contract",
@@ -15658,6 +16134,26 @@
         "email": "Email",
         "phone": "Phone"
     },
+    "inquiryIntake": {
+        "title": "Website form",
+        "description": "Inquiries from your own website form are created here automatically. The form posts with a key that can only create inquiries.",
+        "active": "Active · key ends in {last4}",
+        "inactive": "Not set up",
+        "generate": "Create key",
+        "rotate": "New key",
+        "generateHint": "Create a key for your website form",
+        "rotateHint": "Make a new key. The old one stops working at once.",
+        "revoke": "Switch off",
+        "revokeHint": "Switch the website form off. The key stops working.",
+        "copyNow": "Copy the key now. It is shown only this once.",
+        "copy": "Copy the key",
+        "copied": "The key is copied",
+        "howTo": "How to set up the form",
+        "howToText": "Have your website send the form to the address below with the key in the X-Inquiry-Key header. The inquiry appears in the pipeline, marked as from the website.",
+        "revoked": "The website form is switched off",
+        "failed": "That did not work",
+        "fromWebsite": "From the website"
+    },
     "consultantSkills": {
         "title": "Consultant skills",
         "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",
@@ -15891,6 +16387,41 @@
         "uploadFailed": "The document could not be uploaded",
         "deleteFailed": "The document could not be deleted",
         "dropHere": "Drop the files here"
+    },
+    "inquiryParties": {
+        "title": "Parties",
+        "hint": "Who the case involves: caseworker, parents, school and your own professionals. They become contacts on the case when the inquiry is won.",
+        "add": "Add party",
+        "remove": "Remove party",
+        "empty": "There are no parties yet.",
+        "primary": "Primary party",
+        "primaryHint": "Who the case is primarily about",
+        "saveFailed": "The party could not be saved",
+        "kinds": {
+            "outside": "Outside party",
+            "employee": "Employee"
+        },
+        "types": {
+            "case_manager": "Caseworker",
+            "relatives": "Relative",
+            "external_contact": "Other outside",
+            "doctor": "Doctor",
+            "dentist": "Dentist",
+            "our_contact_person": "Our contact person"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "E.g. school or municipality",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "employee": "Employee",
+            "coordinatorRole": "Coordinator role",
+            "noRole": "None",
+            "isPrimary": "Primary party"
+        }
     },
     "inquiryInvitations": {
         "title": "Consultants asked",
@@ -16804,5 +17335,117 @@
         "blocked": "{count} document was not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again. | {count} documents were not opened because the browser blocks pop-ups. Allow pop-ups for this site and click again.",
         "failedTitle": "The document could not be fetched",
         "failed": "{count} document could not be fetched. Try again. | {count} documents could not be fetched. Try again."
+    },
+    "invoicePayment": {
+        "paid": "This invoice has been paid.",
+        "paidOn": "Paid on {date}",
+        "failed": "Payment of this invoice was rejected.",
+        "payByBankTransfer": "To be paid by bank transfer",
+        "unpaid": "This invoice has not been paid yet.",
+        "covered": "Included in your agreement"
+    },
+    "whistleblower": {
+        "reportAnonymously": "Report anonymously",
+        "public": {
+            "title": "Whistleblower",
+            "language": "Language",
+            "notFoundTitle": "This link does not work",
+            "notFound": "The link may be old or whistleblowing may be switched off. Ask your workplace for the current link.",
+            "heading": "Report a concern to {company}",
+            "intro": "Use this form to tell the people who handle whistleblower reports at your workplace about something that is wrong.",
+            "anonymousTitle": "You are anonymous",
+            "anonymousText": "This page does not know who you are, and your report is not linked to your account. Leave out details that would identify you unless you want to be known. For extra privacy, use a private browser window or your own device.",
+            "category": "What is it about?",
+            "categoryPlaceholder": "Choose a category",
+            "subject": "Subject",
+            "description": "What happened?",
+            "descriptionPlaceholder": "Describe what happened, when and where, and who was involved.",
+            "includeContact": "Include my name or contact details",
+            "includeContactHelp": "Optional. Only the handlers can see them, and they make it possible to contact you.",
+            "name": "Name",
+            "contact": "Email or phone",
+            "send": "Send report",
+            "sentTitle": "Your report has been sent",
+            "sent": "The people who handle whistleblower reports at {company} have been notified.",
+            "reference": "Your reference",
+            "sentAnonymous": "Write down the reference. You sent the report anonymously, so the handlers cannot contact you.",
+            "sentWithContact": "Write down the reference. The handlers may contact you using the details you gave.",
+            "tooMany": "Too many reports have been sent from here. Please try again later.",
+            "checkFields": "Please check the fields marked below.",
+            "sendFailed": "The report could not be sent. Please try again.",
+            "required": "This field is required.",
+            "invalidField": "Please check this field."
+        },
+        "categories": {
+            "work_environment": "Work environment",
+            "harassment": "Harassment or bullying",
+            "discrimination": "Discrimination",
+            "citizen_safety": "Safety of citizens or patients",
+            "fraud_or_corruption": "Fraud or corruption",
+            "data_protection": "Data protection",
+            "other": "Other"
+        },
+        "statuses": {
+            "received": "Received",
+            "acknowledged": "Acknowledged",
+            "investigating": "Investigating",
+            "closed": "Closed"
+        },
+        "settings": {
+            "title": "Whistleblower",
+            "intro": "Give staff a safe way to report something that is wrong. Reports are sent through a private link without signing in, so nobody can see who sent them. Only the handlers you choose can read them.",
+            "enable": "Turn on whistleblowing",
+            "enableHelp": "Staff get a \"Report anonymously\" link in the menu.",
+            "handlers": "Who receives the reports",
+            "handlersHelp": "Only Admins can be chosen, and only those you choose can read reports. A report may be about an admin, so not every admin is included automatically.",
+            "link": "Report link",
+            "linkHelp": "Anyone with this link can send a report, also people outside the company such as former employees.",
+            "copy": "Copy",
+            "copied": "Copied",
+            "regenerateHelp": "If the link has been shared too widely, make a new one. The old link stops working.",
+            "regenerate": "Make a new link",
+            "regenerateConfirmation": "Make a new link? The current link stops working",
+            "saved": "The whistleblower settings have been saved",
+            "regenerated": "A new link has been made"
+        },
+        "inbox": {
+            "title": "Whistleblower reports",
+            "intro": "Reports sent through the company's whistleblower link. They are anonymous unless the reporter chose to give their name.",
+            "filter": "Filter by status",
+            "all": "All",
+            "empty": "No reports.",
+            "acknowledgeOverdue": "Over 7 days",
+            "open": "Open",
+            "columns": {
+                "reference": "Reference",
+                "subject": "Subject",
+                "status": "Status",
+                "received": "Received"
+            }
+        },
+        "detail": {
+            "back": "Back to reports",
+            "receivedOn": "Received {date}",
+            "anonymous": "Sent anonymously",
+            "reporter": "Reporter",
+            "status": "Status",
+            "updateStatus": "Update status",
+            "deadlines": "Confirm receipt within 7 days, and give the reporter feedback within 3 months.",
+            "history": "Notes and history",
+            "historyHelp": "Only handlers can see this.",
+            "formerHandler": "Former handler",
+            "statusChanged": "Status changed from {from} to {to}",
+            "addNote": "Add a note",
+            "saveNote": "Save note",
+            "statusSaved": "The status has been updated"
+        },
+        "bell": {
+            "title": "New whistleblower report",
+            "description": "Reference {reference}"
+        }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Can't open the file",
+        "notViewableText": "This file type can't be shown in the browser, and your role doesn't allow downloading documents."
     }
 }

@@ -61,7 +61,7 @@
                             <FormLabel :label="$t('socialWelfare.contract.department')" />
                             <select class="co-cell-input w-full" v-model="state.form.customer_department_uuid">
                                 <option :value="null">{{ $t('socialWelfare.contract.noDepartment') }}</option>
-                                <option v-for="department in props.departments" :key="department.uuid" :value="department.uuid">
+                                <option v-for="department in departmentOptions" :key="department.uuid" :value="department.uuid">
                                     {{ [department.customer_label, department.name].filter(Boolean).join(', ') }}
                                 </option>
                             </select>
@@ -420,8 +420,18 @@ const state = reactive({
     customFields: {} as Record<string, any>,
 })
 
+// The active departments, plus the one an edited period already points at even
+// if it has since been made inactive, so saving does not silently drop it.
+const departmentOptions = computed(() => {
+    const current = props.period?.customer_department
+
+    return current && !props.departments.some((d: any) => d.uuid === current.uuid)
+        ? [...props.departments, current]
+        : props.departments
+})
+
 const selectedDepartment = computed(() =>
-    props.departments.find((d: any) => d.uuid === state.form.customer_department_uuid) ?? null
+    departmentOptions.value.find((d: any) => d.uuid === state.form.customer_department_uuid) ?? null
 )
 
 const priceLabel = computed(() => {

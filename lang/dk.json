@@ -882,7 +882,10 @@
         "billing": "Betaling",
         "subscription": "Abonnement",
         "couldNotStartConnection": "Forbindelsen kunne ikke startes. Prøv igen.",
-        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen."
+        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen.",
+        "requiresPlan": "Kræver {plan}",
+        "requiresPlanTooltip": "Appen kræver {plan}-profilen. Klik for at se jeres abonnement og opgradere.",
+        "upgradeToPlan": "Opgrader til {plan}"
     },
     "archived": {
         "alert": {
@@ -891,7 +894,10 @@
             "employeeSuccessfullyUnarchive": "Medarbejder genåbnet med succes",
             "goalSuccessfullyUnarchive": "Mål gendannet med succes",
             "planSuccessfullyUnarchive": "Plan gendannet med succes",
-            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes"
+            "subgoalSuccessfullyUnarchive": "Delmål gendannet med succes",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet permanent",
+            "documentSuccessfullyDeleted": "Dokument slettet permanent",
+            "employeeSuccessfullyDeleted": "Medarbejder slettet permanent"
         },
         "confirmation": {
             "unarchiveCitizen": "Er du sikker på, at du vil genåbne denne @:terms.citizen{''}",
@@ -899,14 +905,22 @@
             "unarchiveEmployee": "Er du sikker på, at du vil genåbne denne medarbejder",
             "unarchiveGoal": "Er du sikker på, at du vil gendanne dette mål",
             "unarchivePlan": "Er du sikker på, at du vil gendanne denne plan",
-            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål"
+            "unarchiveSubgoal": "Er du sikker på, at du vil gendanne dette delmål",
+            "deleteCitizen": "Er du sikker på, at du vil slette denne @:terms.citizen{''} permanent? Denne handling kan ikke fortrydes.",
+            "deleteDocument": "Er du sikker på, at du vil slette dette dokument permanent? Denne handling kan ikke fortrydes.",
+            "deleteEmployee": "Er du sikker på, at du vil slette denne medarbejder permanent? Denne handling kan ikke fortrydes."
         },
         "table": {
             "actions": {
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
                 "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbejder"
+                "unarchiveEmployee": "Genåbn medarbejder",
+                "delete": "Slet",
+                "deleteCitizen": "Slet @:terms.citizen{''}",
+                "deleteDocument": "Slet dokument",
+                "deleteEmployee": "Slet medarbejder",
+                "download": "Download"
             },
             "belongsTo": "Tilhører",
             "date": "Dato",
@@ -1712,6 +1726,7 @@
                 "includeRiskAssessment": "Inkluder risikovurdering"
             },
             "editNote": "Rediger notat",
+            "viewNote": "Se notat",
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
@@ -3078,6 +3093,39 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "checklists": {
+                "addItem": "Tilføj punkt",
+                "checklists": "Tjeklister",
+                "editChecklist": "Rediger tjekliste",
+                "editItem": "Rediger punkt",
+                "empty": "Ingen tjeklister endnu",
+                "form": {
+                    "alert": {
+                        "checklistSuccessfullyAdded": "Tjekliste tilføjet",
+                        "checklistSuccessfullyUpdated": "Tjekliste opdateret"
+                    },
+                    "description": "Beskrivelse",
+                    "title": "Titel"
+                },
+                "newChecklist": "Ny tjekliste",
+                "newItem": "Nyt punkt",
+                "noItems": "Ingen punkter endnu",
+                "progress": "{completed}/{total} fuldført",
+                "table": {
+                    "actions": {
+                        "delete": "Slet",
+                        "edit": "Rediger"
+                    },
+                    "alert": {
+                        "checklistSuccessfullyDeleted": "Tjekliste slettet",
+                        "itemSuccessfullyDeleted": "Punkt slettet"
+                    },
+                    "confirmation": {
+                        "deleteChecklistConfirmation": "Er du sikker på, at du vil slette denne tjekliste",
+                        "deleteItemConfirmation": "Er du sikker på, at du vil slette dette punkt"
+                    }
+                }
+            },
             "consentCompetenceOrCapacity": {
                 "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet",
                 "editConsentCompetenceOrCapacity": "Rediger samtykkekompetence eller kapacitet",
@@ -6821,7 +6869,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Slet",
-                    "edit": "Rediger"
+                    "edit": "Rediger",
+                    "download": "Download"
                 },
                 "file": "Fil",
                 "note": "Note"
@@ -8418,7 +8467,25 @@
         "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
         "tagline": "Journalsystem til social- og sundhedssektoren",
-        "welcomeBack": "Velkommen tilbage"
+        "welcomeBack": "Velkommen tilbage",
+        "sso": {
+            "microsoft": "Log ind med Microsoft",
+            "hint": "Brug din organisations Microsoft-konto. Skriv din arbejds-e-mail ovenfor først.",
+            "enterEmail": "Skriv din arbejds-e-mail, og vælg så Log ind med Microsoft.",
+            "failed": "Login med Microsoft lykkedes ikke. Prøv igen."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Lad medarbejderne logge ind med organisationens Microsoft-konto. Kun logins fra jeres egen Microsoft Entra-tenant accepteres.",
+        "unavailable": "Microsoft-login er ikke slået til på serveren endnu. Kontakt support.",
+        "tenantId": "Microsoft Entra tenant-id",
+        "tenantHint": "Findes i Entra admin center under Oversigt. Lad feltet stå tomt for at slå SSO fra.",
+        "saveHint": "Gælder fra næste login",
+        "saved": "Gemt",
+        "needsApp": "Microsoft SSO er en gratis app i app store'en og kræver Pro-profilen. Aktivér appen for at indtaste jeres tenant-id.",
+        "openApp": "Gå til appen",
+        "openAppHint": "Åbner Microsoft SSO i app store'en, hvor en administrator kan aktivere den"
     },
     "logs": {
         "table": {
@@ -9811,7 +9878,27 @@
             "selectDatesFirst": "Vælg start- og slutdato først",
             "startDate": "Startdato",
             "weeklyOn": "På",
-            "yearlyInMonths": "I måneder"
+            "yearlyInMonths": "I måneder",
+            "recordingMode": "Registrér fremmøde",
+            "perDay": "Pr. dag",
+            "perHour": "Pr. time",
+            "recordingModeDayHelp": "Én registrering pr. borger for hver dag.",
+            "recordingModeHourHelp": "Én registrering pr. borger for hvert tidsrum hver dag, så fremmøde kan registreres time for time.",
+            "timeSlots": "Tidsrum",
+            "timeSlotsHelp": "Udfyld et tidsrum for hver time i et interval, eller tilføj tidsrum ét ad gangen.",
+            "fromHour": "Fra",
+            "toHour": "Til",
+            "fillHourly": "Udfyld hver time",
+            "slotStart": "Start",
+            "slotEnd": "Slut",
+            "removeSlot": "Fjern tidsrum",
+            "noTimeSlots": "Ingen tidsrum endnu.",
+            "addSlot": "Tilføj tidsrum",
+            "errors": {
+                "timeSlotsRequired": "Tilføj mindst ét tidsrum.",
+                "timeSlotEndAfterStart": "Hvert tidsrum skal slutte efter det starter.",
+                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden."
+            }
         },
         "checkIn": "Tjek ind",
         "checkOut": "Tjek ud",
@@ -9837,7 +9924,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Dato",
-                "status": "Status"
+                "status": "Status",
+                "time": "Tidspunkt"
             },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne protokol"
@@ -10200,6 +10288,23 @@
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
             "employeeGroups": "Medarbejdergrupper",
             "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu."
+        },
+        "matrix": {
+            "title": "Tilladelsesoversigt",
+            "note": "Oversigten viser, hvad hver rolle giver adgang til. Den enkelte bruger kan have fået ekstra tilladelser eller fået tilladelser frataget, og de undtagelser vises ikke her.",
+            "fullAccess": "Fuld adgang",
+            "fullAccessNote": "Roller på administratorniveau har alle tilladelser, så deres kolonne er markeret hele vejen ned. Sideadgange vises, som de er sat på rollen.",
+            "exportCsv": "Eksportér CSV",
+            "printPdf": "Udskriv / PDF",
+            "print": "Udskriv",
+            "permission": "Tilladelse",
+            "page": "Side",
+            "area": "Område",
+            "granted": "Tildelt",
+            "generated": "Genereret",
+            "company": "Virksomhed",
+            "pdfAttribution": "Denne PDF blev genereret med CitizenOnes journalsystem.",
+            "fileName": "tilladelsesoversigt"
         },
         "newRole": "Ny rolle",
         "permissions": {
@@ -10796,7 +10901,10 @@
             "inquiryOffers": "Tilbud og priser",
             "customerDepartments": "Kunder og afdelinger",
             "inquiryForms": "Henvendelsesformularer",
-            "visitTypes": "Besøgstyper"
+            "visitTypes": "Besøgstyper",
+            "contractHourTypes": "Timetyper",
+            "paymentTerms": "Betalingsbetingelser",
+            "contractFields": "Kontraktfelter"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11499,7 +11607,10 @@
                 "addScreenshot": "Tilføj skærmbillede",
                 "screenshotCaption": "Billedtekst",
                 "uploadScreenshot": "Upload skærmbillede",
-                "uploadFailed": "Billedet kunne ikke uploades."
+                "uploadFailed": "Billedet kunne ikke uploades.",
+                "requiredPlan": "Kræver plan",
+                "requiredPlanNone": "Ingen - alle kan aktivere",
+                "requiredPlanHint": "Kun firmaer på denne plan kan aktivere appen."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
@@ -11821,7 +11932,8 @@
                 "active": "Aktive",
                 "inactive": "Inaktive",
                 "paying": "Betalende",
-                "migration": "Datamigrering"
+                "migration": "Datamigrering",
+                "agreements": "Aftaler"
             },
             "totalClients": "{count} klienter i alt",
             "export": "Eksporter",
@@ -13227,12 +13339,21 @@
                 "series": {
                     "recurring": "Månedlige opkrævninger",
                     "renewals": "Årsfornyelser",
-                    "cumulative": "Akkumuleret"
+                    "cumulative": "Akkumuleret",
+                    "installments": "Rater (aftaler)",
+                    "assumedRenewal": "Antaget fornyelse, aftaler",
+                    "contracted": "Aftalt",
+                    "assumed": "Antaget fornyelse"
                 },
                 "renewalsIn": "Fornyelser i {month}",
                 "renewalsCount": "{count} kunde(r)",
                 "noRenewals": "Ingen årsfornyelser i denne måned.",
-                "clickHint": "Klik på en søjle for at se hvilke kunder den består af."
+                "clickHint": "Klik på en søjle for at se hvilke kunder den består af.",
+                "help": {
+                    "installments": "Rater fra aftaler, placeret på forfaldsdatoen. Aftalt, ikke forudsat.",
+                    "assumedRenewal": "Aftaler der fornyes automatisk efter bindingen, regnet som årlig værdi. En antagelse, ikke en aftale."
+                },
+                "installmentsIn": "Aftalernes rater og antagne fornyelser"
             },
             "noAccess": {
                 "title": "Rapporten er forbeholdt ledelsen",
@@ -13365,6 +13486,268 @@
                 "noteAdded": "Noten er tilføjet",
                 "columnsSaved": "Kolonnerne er gemt"
             }
+        },
+        "agreements": {
+            "title": "Aftaler",
+            "subtitle": "Bindingsperiode, betalingsplan og aftaleværdi pr. kunde.",
+            "new": "Ny aftale",
+            "newHelp": "Opret en aftale med bindingsperiode og betalingsplan for denne kunde.",
+            "empty": "Ingen aftaler endnu",
+            "emptyHint": "Indtil der er en aftale, regnes kunden med abonnementets pris.",
+            "months": "{count} mdr.",
+            "autoRenews": "fornyes automatisk",
+            "perYear": "{amount} / år",
+            "saved": "Aftalen er gemt.",
+            "deleted": "Aftalen er slettet.",
+            "table": {
+                "name": "Aftale",
+                "period": "Binding",
+                "billingPlan": "Betalingsplan",
+                "contractValue": "Aftaleværdi",
+                "mrrArr": "Kontrakt-MRR / ARR",
+                "backlog": "Backlog",
+                "status": "Status",
+                "notice": "Opsigelsesfrist",
+                "dueOn": "Forfald",
+                "amount": "Beløb ekskl. moms",
+                "label": "Tekst"
+            },
+            "plans": {
+                "monthly": "Månedlig",
+                "yearly": "Årlig",
+                "prepaid_multi_year": "Flere år forud",
+                "installments": "Rater"
+            },
+            "statuses": {
+                "active": "Aktiv",
+                "ended": "Udløbet",
+                "cancelled": "Opsagt"
+            },
+            "paymentMethods": {
+                "bank_transfer": "Bankoverførsel",
+                "card": "Kort"
+            },
+            "internal": {
+                "title": "Kun intern information.",
+                "body": "Aftaler, bindinger, aftaleværdi og interne noter vises aldrig for kunden. Kunden ser kun sine fakturaer.",
+                "help": "Denne side er kun for superadmins. Intet herfra eksponeres i kundens visning."
+            },
+            "help": {
+                "termMonths": "Bindingsperiodens længde i måneder, fx 48.",
+                "noticeMonths": "Hvor mange måneder før bindingens udløb kunden senest skal have opsagt.",
+                "autoRenews": "Hvis slået til, fornyes aftalen med 12 måneder ad gangen, og prognosen antager fornyelsen.",
+                "contractValue": "Samlet værdi ekskl. moms over hele bindingen.",
+                "feePerInvoice": "Servicegebyr ekskl. moms, lagt oveni hver faktura.",
+                "billingPlan": "Hvordan aftalen opkræves. Bindingen og betalingsfrekvensen er to forskellige ting.",
+                "preview": "Beregnet af serveren ud fra de værdier, du har indtastet. Intet gemmes.",
+                "status": "Aktiv: løber nu. Udløbet: bindingen er slut og aftalen fornyes ikke. Opsagt: aftalen er opsagt.",
+                "billingPlanBadge": "Hvordan aftalen opkræves.",
+                "mrrArr": "Aftaleværdi delt med bindingen i måneder (MRR). ARR er MRR gange 12.",
+                "invoiced": "Samlet beløb på fakturaer der er dannet for aftalen.",
+                "backlog": "Resterende bundet aftaleværdi: rater uden betalt faktura.",
+                "subscriptions": "Licenser og Pro-profil, der er koblet til aftalen, gælder hele bindingen og opkræves ikke også med kort.",
+                "settledExternally": "Åbne rater der forfalder før denne dato markeres som afregnet og faktureres aldrig. Brug det til kunder der allerede har betalt via e-conomic.",
+                "renewalValue": "Hvad aftalen koster pr. år efter bindingen, ekskl. moms. Tom: aftaleværdi delt med bindingen i måneder gange 12.",
+                "termMode": "Angiv bindingen enten som et antal måneder eller som en slutdato.",
+                "endsOn": "Bindingens sidste dag. Antal måneder beregnes af serveren, fx 2025-06-10 til 2028-09-01."
+            },
+            "form": {
+                "createTitle": "Ny aftale",
+                "editTitle": "Rediger aftale",
+                "name": "Navn",
+                "namePlaceholder": "fx CitizenOne Pro inkl. AI - 180 brugere",
+                "startsOn": "Ikrafttræden",
+                "termMonths": "Binding (måneder)",
+                "noticeMonths": "Opsigelsesvarsel (måneder)",
+                "autoRenews": "Fornyes automatisk",
+                "contractValue": "Aftaleværdi ekskl. moms",
+                "feePerInvoice": "Servicegebyr pr. faktura",
+                "paymentMethod": "Betalingsmetode",
+                "internalNote": "Intern note",
+                "internalNotePlaceholder": "Kun synlig for superadmins",
+                "billingPlan": "Betalingsplan",
+                "prepaidYears": "År pr. opkrævning",
+                "presetTitle": "Ratehjælper",
+                "presetHint": "Fx 30 % ved opstart og resten fordelt ligeligt. Du kan rette rækkerne bagefter.",
+                "upfrontPercent": "Forud (%)",
+                "remainingCount": "Antal senere rater",
+                "remainingInterval": "Interval (måneder)",
+                "applyPreset": "Beregn rater",
+                "applyPresetHelp": "Erstatter listen nedenfor med raterne fra hjælperen.",
+                "presetLocked": "Der er allerede fakturerede rater. De kan ikke ændres, så hjælperen er slået fra.",
+                "installmentList": "Rater",
+                "addInstallment": "Tilføj rate",
+                "addInstallmentHelp": "Tilføj en række til listen.",
+                "noInstallments": "Ingen rater endnu. Brug hjælperen eller tilføj en række.",
+                "lockedRow": "Der er dannet en faktura for denne rate. Den kan ikke ændres eller slettes.",
+                "removeInstallment": "Fjern rate",
+                "sumCheckHelp": "Summen af raterne skal være lig med aftaleværdien (tolerance 0,01 kr.).",
+                "sumOk": "Raterne summer til {sum}",
+                "sumMismatch": "Raterne summer til {sum}, aftaleværdien er {value} (forskel {diff})",
+                "previewTitle": "Forhåndsvisning af plan",
+                "previewEmpty": "Udfyld start, binding og aftaleværdi for at se planen.",
+                "save": "Gem aftale",
+                "presetLabel": "Rate {n} af {total}",
+                "presetLabelUpfront": "Rate {n} af {total} - {percent} % ved opstart",
+                "settledTitle": "Afregnet uden for CitizenOne før",
+                "settledBefore": "Afregnet før (dato)",
+                "settledNote": "Note til afregning",
+                "settledNotePlaceholder": "fx e-conomic bilag 297637275",
+                "renewalValue": "Årlig værdi ved fornyelse",
+                "renewalValuePlaceholder": "Standard",
+                "endsOn": "Slutdato",
+                "modeMonths": "Binding i måneder",
+                "modeEndDate": "Slutdato"
+            },
+            "detail": {
+                "title": "Aftale",
+                "installments": "Rater og fakturaer",
+                "invoice": "Faktura",
+                "paid": "Betalt",
+                "openInvoice": "Åbn fakturaen",
+                "notInvoiced": "Ikke faktureret",
+                "notInvoicedHelp": "Fakturaen dannes automatisk på forfaldsdagen.",
+                "paidHelp": "Fakturaen er betalt på den viste dato.",
+                "unpaidHelp": "Fakturaen er dannet men endnu ikke betalt. Registrér betalingen på fakturaen.",
+                "subscriptions": "Koblede abonnementer",
+                "noSubscriptions": "Ingen abonnementer at koble.",
+                "saveSubscriptions": "Gem kobling",
+                "saveSubscriptionsHelp": "Gemmer hvilke licenser og Pro-profil der hører til aftalen.",
+                "mainSubscription": "Hovedabonnement",
+                "cancel": "Opsig aftalen",
+                "cancelHelp": "Markerer aftalen som opsagt fra den valgte dato.",
+                "cancelDate": "Opsigelsesdato",
+                "delete": "Slet",
+                "deleteHelp": "Kun muligt hvis der ikke er dannet fakturaer for aftalen.",
+                "deleteConfirm": "Slet aftalen",
+                "edit": "Rediger",
+                "editHelp": "Ret aftalens vilkår og betalingsplan.",
+                "openHelp": "Se rater, fakturaer og koblede abonnementer.",
+                "invoicedTotal": "Faktureret",
+                "linkedElsewhere": "Er allerede koblet til en anden aftale. Fjern koblingen dér først.",
+                "dealTypes": {
+                    "deal": "Licens",
+                    "add_on_deal": "Tilkøb",
+                    "application": "App"
+                }
+            },
+            "notice": {
+                "passed": "Opsigelsesfrist passeret {date}",
+                "soon": "Opsigelsesfrist om {days} dage",
+                "deadline": "Opsigelsesfrist {date}",
+                "help": "Seneste dato, hvor kunden kan opsige uden at aftalen fornyes. Efter {date} er det for sent.",
+                "passedRenews": "Fristen {date} er passeret, og aftalen fornyes automatisk.",
+                "passedEnds": "Fristen {date} er passeret. Aftalen slutter ved bindingens udløb."
+            },
+            "payment": {
+                "title": "Registrér betaling",
+                "intro": "Registrér at faktura {number} er betalt uden for CitizenOne, fx via bankoverførsel.",
+                "paidAt": "Betalt den",
+                "paidAmount": "Betalt beløb",
+                "paidAmountHint": "Beløb inkl. moms og gebyr.",
+                "note": "Betalingsnote",
+                "notePlaceholder": "fx e-conomic bilagsnummer",
+                "register": "Registrér betaling",
+                "registerHelp": "Markér fakturaen som betalt med dato, beløb og bilagsnummer.",
+                "registered": "Betalingen er registreret.",
+                "undo": "Fortryd",
+                "undoHelp": "Fjern den registrerede betaling, så fakturaen igen står som ubetalt.",
+                "undoConfirm": "Fortryd den registrerede betaling",
+                "undone": "Betalingen er fortrudt.",
+                "bankTransfer": "Bankoverførsel",
+                "bankTransferHelp": "Fakturaen betales med bankoverførsel og ikke med kort."
+            },
+            "companyList": {
+                "bindingUntil": "Binding til",
+                "mrr": "{amount} / md."
+            },
+            "preview": {
+                "endsOn": "Udløber {date}",
+                "endsOnHelp": "Bindingens slutdato, beregnet af serveren.",
+                "noticeDeadline": "Opsigelsesfrist {date}",
+                "mrrArr": "Kontrakt-MRR {mrr} / ARR {arr}"
+            },
+            "settled": {
+                "chip": "Afregnet eksternt",
+                "help": "Afregnet uden for CitizenOne. Fakturaen dannes ikke, og raden kan ikke ændres.",
+                "helpWithNote": "Afregnet uden for CitizenOne: {note}. Fakturaen dannes ikke, og raden kan ikke ændres."
+            },
+            "linkInvoice": {
+                "action": "Kobl faktura",
+                "help": "Kobl en eksisterende faktura til denne rate i stedet for at danne en ny.",
+                "title": "Kobl faktura til rate",
+                "intro": "Vælg den faktura der hører til raten {label} ({amount} ekskl. moms).",
+                "invoice": "Faktura",
+                "choose": "Vælg faktura",
+                "none": "Kunden har ingen fakturaer endnu."
+            },
+            "renewed": "Fornyet {count} gange",
+            "renewedHelp": "Aftalen er fornyet automatisk, 12 måneder ad gangen, siden bindingen udløb.",
+            "covered": {
+                "chip": "Dækket af aftale",
+                "help": "Fakturaen dokumenterer licenser leveret under aftalen og indgår ikke i omsætningen.",
+                "footer": "Denne faktura er dækket af en aftale og skal ikke betales.",
+                "title": "Fakturaer dækket af aftalen",
+                "add": "Tilføj",
+                "addHelp": "Vælg fakturaer der dokumenterer licenser leveret under aftalen.",
+                "addTitle": "Tilføj dækkede fakturaer",
+                "addIntro": "Vælg de fakturaer, aftalen dækker. De indgår ikke længere i omsætningen.",
+                "addSelected": "Tilføj {count}",
+                "none": "Ingen fakturaer er dækket af aftalen.",
+                "noneToAdd": "Ingen fakturaer at tilføje.",
+                "remove": "Fjern",
+                "removeHelp": "Fjern fakturaen fra aftalen, så den igen regnes som en almindelig faktura."
+            },
+            "templates": {
+                "title": "Skabelon",
+                "a4": "A-kunde: 4 år, 4 årlige rater",
+                "a4Help": "4 års binding, 25 % ved opstart og 3 årlige rater. Bankoverførsel, servicegebyr 295 kr., opsigelsesvarsel 3 mdr., fornyes automatisk.",
+                "memox": "A-kunde: 4 år, 30 % + 3 rater",
+                "memoxHelp": "4 års binding, 30 % ved opstart og resten fordelt på 3 årlige rater. Bankoverførsel, servicegebyr 295 kr.",
+                "monthly": "Månedlig, 12 mdr.",
+                "monthlyHelp": "12 måneders binding med månedlig betaling via bankoverførsel.",
+                "empty": "Tom",
+                "emptyHelp": "Start med tomme felter."
+            },
+            "cancel": {
+                "title": "Opsig aftalen",
+                "accelerate": "Fakturér resterende beløb nu",
+                "accelerateHelp": "Samler alle resterende rater i én faktura nu. Slået fra faktureres raterne som planlagt indtil bindingens udløb.",
+                "previewAccelerated": "Kunden faktureres {amount} ekskl. moms nu ({count} rater samles)",
+                "previewAsPlanned": "Resterende rater faktureres som planlagt til {date}",
+                "warning": "Opsigelsen kan ikke fortrydes. Er fakturaen først dannet, kan den ikke tages tilbage herfra.",
+                "confirm": "Opsig aftalen"
+            },
+            "remainder": {
+                "chip": "Restbeløb ved opsigelse",
+                "help": "Samlet restbeløb faktureret fordi aftalen blev opsagt før bindingens udløb."
+            }
+        },
+        "metrics": {
+            "contractMrr": "Kontrakt-MRR",
+            "contractArr": "Kontrakt-ARR {amount}",
+            "cashMrr": "Cash-MRR",
+            "cashArr": "Cash-ARR, næste 12 mdr. {amount}",
+            "backlog": "Resterende bundet aftaleværdi",
+            "backlogSub": "Rater uden betalt faktura",
+            "outstanding": "Udestående",
+            "outstandingSub": "Faktureret og ubetalt",
+            "bindingsEnding": "Bindinger der udløber",
+            "bindingsWithin": "{count} aftaler udløber inden for {months} mdr.",
+            "monthsShort": "{months} mdr.",
+            "internalNote": "Aftaletal er interne og vises aldrig for kunderne.",
+            "help": {
+                "contractMrr": "Aftalernes værdi fordelt over bindingen, plus abonnementer uden aftale. Hovedtallet. ARR er MRR gange 12.",
+                "cashMrr": "Det, der faktisk faktureres de næste 12 måneder (rater og planlagte opkrævninger), delt med 12.",
+                "backlog": "Summen af rater på aktive aftaler, hvor fakturaen ikke er betalt.",
+                "outstanding": "Fakturaer dannet for aftaler, men endnu ikke betalt.",
+                "bindingsEnding": "Antal aktive aftaler hvis binding udløber inden for 3, 6 og 12 måneder.",
+                "upcoming": "Aktive aftaler sorteret efter udløb. Klik for at åbne kundens Aftaler."
+            },
+            "upcomingTitle": "Næste bindinger der udløber",
+            "upcomingDates": "Udløber {ends} - opsigelsesfrist {notice}",
+            "noAutoRenew": "Fornyes ikke",
+            "noAutoRenewHelp": "Aftalen fornyes ikke automatisk og udløber ved bindingens slutning."
         }
     },
     "support": {
@@ -15237,7 +15620,7 @@
             "intro": "De afdelinger hos jeres kunder, som fakturaerne sendes til. En kunde kan have flere afdelinger, hver med egen adresse, EAN-nummer og betingelser.",
             "new": "Ny afdeling",
             "edit": "Rediger afdeling",
-            "search": "Søg på navn, kunde eller EAN",
+            "search": "Søg på navn, kunde, EAN, kundenr. eller WorkZone-ID",
             "empty": "Der er ikke oprettet nogen afdelinger endnu.",
             "noCustomer": "Uden kunde",
             "municipality": "Kommune",
@@ -15245,7 +15628,7 @@
             "customerName": "Kundens navn",
             "customerNamePlaceholder": "Fx en privat kunde",
             "name": "Afdelingens navn",
-            "street": "Adresse",
+            "street": "Adresse 1",
             "postCode": "Postnr.",
             "city": "By",
             "address": "Adresse",
@@ -15261,7 +15644,102 @@
             "isActive": "Aktiv",
             "saved": "Afdelingen er gemt",
             "deleted": "Afdelingen er slettet",
-            "confirmDelete": "Slet afdelingen? Kontrakter og fakturaer, der peger på den, beholder deres oplysninger."
+            "confirmDelete": "Slet afdelingen? Kontrakter og fakturaer, der peger på den, beholder deres oplysninger.",
+            "externalId": "WorkZone-ID",
+            "addressLine2": "Adresse 2",
+            "addressType": "Adressetype",
+            "region": "Region",
+            "mobilePhone": "Mobiltelefon",
+            "customerGroup": "Kundegruppe",
+            "customerDivision": "Kundeafdeling",
+            "hasSpecialContract": "Særkontrakt",
+            "paymentTermsText": "Betalingsbetingelser, fuld tekst",
+            "cooperationStatus": "Status på samarbejde",
+            "cooperationStatusDate": "Dato for status",
+            "cooperationProtectionStart": "Beskyttelse start",
+            "cooperationProtectionEnd": "Beskyttelse slut",
+            "municipalityRegion": "Kommune / region",
+            "searchHelp": "Filtrerer listen med det samme på navn, kunde, EAN, kundenummer, WorkZone-id og region.",
+            "shown": "Viser {shown} af {total}",
+            "sections": {
+                "stamdata": "Stamdata",
+                "economy": "Økonomi",
+                "terms": "Vilkår",
+                "cooperation": "Samarbejde"
+            },
+            "help": {
+                "externalId": "Kundens ID, som det vises i WorkZone (kolonnen ID i udtrækket). Bruges til at opdatere afdelingen, når du importerer igen.",
+                "customerName": "Kunden, f.eks. kommunens navn. Navn 1 i WorkZone er kunde og afdeling adskilt af komma.",
+                "name": "Afdelingens navn, som det står på fakturaen.",
+                "street": "Første adresselinje.",
+                "addressLine2": "Anden adresselinje, f.eks. etage eller att.",
+                "postCode": "Postnummer.",
+                "city": "By.",
+                "addressType": "Hvilken type adresse det er, f.eks. hovedadresse.",
+                "region": "Kundens region som tekst, f.eks. Hovedstaden.",
+                "email": "Primær e-mail, som fakturaen sendes til.",
+                "phone": "Telefonnummer.",
+                "mobilePhone": "Mobiltelefonnummer.",
+                "contactPerson": "Kontaktperson hos kunden. Røres ikke af importen.",
+                "eanNumber": "EAN-nummeret (13 cifre), som e-fakturaen sendes til.",
+                "customerNumber": "Kundenummeret, som det bruges i økonomisystemet.",
+                "customerGroup": "Kundegruppen i WorkZone, f.eks. 3.",
+                "customerDivision": "Kundens afdeling i WorkZone, gemt med sin kode, f.eks. 1300, Jylland og Fyn.",
+                "hasSpecialContract": "Sæt kryds, hvis kunden har en særlig kontrakt.",
+                "paymentTermsDays": "Antal dage fra listen under Betalingsbetingelser. Bruges på fakturaen.",
+                "paymentTermsText": "Den fulde tekst om betalingsbetingelser, som den står i aftalen.",
+                "priceRegulation": "Aftalen om prisregulering.",
+                "noticeTerms": "Opsigelsesvarsel.",
+                "cooperationStatus": "Hvor langt samarbejdet er, f.eks. etableret tættere samarbejde.",
+                "cooperationStatusDate": "Datoen for statussen på samarbejdet.",
+                "cooperationProtectionStart": "Hvornår beskyttelsen begynder. Udfyldes manuelt, findes ikke i WorkZone-udtrækket.",
+                "cooperationProtectionEnd": "Hvornår beskyttelsen slutter. Skal ikke ligge før starten.",
+                "isActive": "En inaktiv afdeling kan ikke vælges på nye kontraktperioder."
+            },
+            "import": {
+                "title": "Importér fra WorkZone",
+                "button": "Importér fra WorkZone",
+                "buttonHelp": "Upload en fil fra WorkZone og se, hvad der vil ske, før noget gemmes.",
+                "help": "Vælg WorkZones OData-udtræk af kommuner (Kommuner) som xlsx eller csv. Første række skal være kolonneoverskrifter, og kolonnen Navn 1 er påkrævet.",
+                "helpReimport": "Du ser først en forhåndsvisning. Importerer du igen, opdateres afdelinger med samme WorkZone-ID (som vist i WorkZone), og tomme felter i filen overskriver ikke det, der står i CitizenOne. Ophørte afdelinger importeres som inaktive.",
+                "file": "Fil",
+                "fileHelp": "xlsx, xls eller csv, højst 5 MB.",
+                "badType": "Filen skal være xlsx, xls eller csv.",
+                "tooBig": "Filen er større end 5 MB.",
+                "preview": "Forhåndsvis",
+                "previewHelp": "Læser filen og viser, hvad der vil blive oprettet, opdateret eller sprunget over. Der gemmes ingenting.",
+                "previewTitle": "Forhåndsvisning, intet er gemt endnu",
+                "doneTitle": "Importen er gennemført",
+                "row": "Række",
+                "action": "Handling",
+                "notes": "Bemærkninger",
+                "actions": {
+                    "create": "Oprettes",
+                    "update": "Opdateres",
+                    "skip": "Springes over"
+                },
+                "actionHelp": {
+                    "create": "Ny afdeling, som ikke findes i CitizenOne.",
+                    "update": "Findes allerede, matchet på WorkZone-id eller EAN. Kun udfyldte felter overskriver.",
+                    "skip": "Rækken har fejl og bliver ikke importeret."
+                },
+                "warnings": "Advarsler",
+                "warningsHelp": "Rækken importeres, men en værdi kunne ikke bruges, f.eks. en ugyldig EAN eller mail.",
+                "inactiveCount": "Inaktive",
+                "inactiveCountHelp": "Markeret som ophørt i WorkZone. Importeres som inaktive, så de ikke kan vælges på nye kontraktperioder.",
+                "errors": "Fejl",
+                "errorsHelp": "Rækker med fejl springes over.",
+                "termsWillBeAdded": "Betalingsbetingelser, der oprettes på listen: {days} dage.",
+                "termsAdded": "Betalingsbetingelser, der blev oprettet på listen: {days} dage.",
+                "unmatchedMunicipalities": "Kommuner, der ikke blev genkendt: {names}",
+                "ignoredColumns": "Kolonner, der ikke bruges: {names}",
+                "apply": "Importér {count}",
+                "applyHelp": "Gemmer de rækker, der oprettes eller opdateres, i ét hug. Springes en række over, ændres intet for den.",
+                "done": "{count} afdelinger er importeret"
+            },
+            "eanAndCustomerNumber": "EAN / kundenr.",
+            "inactive": "Inaktiv",
+            "inactiveHelp": "Afdelingen er inaktiv (ophørt i WorkZone) og kan ikke vælges på nye kontraktperioder."
         },
         "contract": {
             "title": "Kontrakt",
@@ -15651,6 +16129,26 @@
         "email": "E-mail",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Webformular",
+        "description": "Henvendelser fra jeres egen hjemmesideformular oprettes automatisk her. Formularen sender med en nøgle, der kun kan oprette henvendelser.",
+        "active": "Aktiv · nøgle slutter på {last4}",
+        "inactive": "Ikke sat op",
+        "generate": "Opret nøgle",
+        "rotate": "Ny nøgle",
+        "generateHint": "Opret en nøgle til jeres hjemmesideformular",
+        "rotateHint": "Lav en ny nøgle. Den gamle holder op med at virke med det samme.",
+        "revoke": "Slå fra",
+        "revokeHint": "Slå webformularen fra. Nøglen holder op med at virke.",
+        "copyNow": "Kopiér nøglen nu. Den vises kun denne ene gang.",
+        "copy": "Kopiér nøglen",
+        "copied": "Nøglen er kopieret",
+        "howTo": "Sådan sættes formularen op",
+        "howToText": "Lad jeres hjemmeside sende formularen til adressen herunder med nøglen i headeren X-Inquiry-Key. Henvendelsen dukker op i pipelinen, markeret som fra hjemmesiden.",
+        "revoked": "Webformularen er slået fra",
+        "failed": "Det lykkedes ikke",
+        "fromWebsite": "Fra hjemmesiden"
+    },
     "consultantSkills": {
         "title": "Konsulentkompetencer",
         "description": "Vedligehold de lister konsulenterne matches på. En kompetence er noget de kan, et kursus er noget de har taget, og et emneord er noget de har erfaring med.",
@@ -15884,6 +16382,41 @@
         "uploadFailed": "Dokumentet kunne ikke uploades",
         "deleteFailed": "Dokumentet kunne ikke slettes",
         "dropHere": "Slip filerne her"
+    },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Hvem sagen involverer: sagsbehandler, forældre, skole og jeres egne fagpersoner. De bliver kontakter på indsatsen, når henvendelsen vindes.",
+        "add": "Tilføj part",
+        "remove": "Fjern part",
+        "empty": "Der er ingen parter endnu.",
+        "primary": "Primær part",
+        "primaryHint": "Den eller dem sagen primært vedrører",
+        "saveFailed": "Parten kunne ikke gemmes",
+        "kinds": {
+            "outside": "Ekstern part",
+            "employee": "Medarbejder"
+        },
+        "types": {
+            "case_manager": "Sagsbehandler",
+            "relatives": "Pårørende",
+            "external_contact": "Anden ekstern",
+            "doctor": "Læge",
+            "dentist": "Tandlæge",
+            "our_contact_person": "Vores kontaktperson"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "Fx skole eller kommune",
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "email": "E-mail",
+            "phone": "Telefon",
+            "employee": "Medarbejder",
+            "coordinatorRole": "Koordinatorrolle",
+            "noRole": "Ingen",
+            "isPrimary": "Primær part"
+        }
     },
     "inquiryInvitations": {
         "title": "Konsulenter spurgt",
@@ -16797,5 +17330,117 @@
         "blocked": "{count} dokument blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen. | {count} dokumenter blev ikke åbnet, fordi browseren blokerer pop op-vinduer. Tillad pop op-vinduer for denne side, og klik igen.",
         "failedTitle": "Dokumentet kunne ikke hentes",
         "failed": "{count} dokument kunne ikke hentes. Prøv igen. | {count} dokumenter kunne ikke hentes. Prøv igen."
+    },
+    "invoicePayment": {
+        "paid": "Denne faktura er betalt.",
+        "paidOn": "Betalt d. {date}",
+        "failed": "Betalingen af denne faktura blev afvist.",
+        "payByBankTransfer": "Betales via bankoverførsel",
+        "unpaid": "Denne faktura er endnu ikke betalt.",
+        "covered": "Indgår i jeres aftale"
+    },
+    "whistleblower": {
+        "reportAnonymously": "Indberet anonymt",
+        "public": {
+            "title": "Whistleblower",
+            "language": "Sprog",
+            "notFoundTitle": "Linket virker ikke",
+            "notFound": "Linket kan være forældet, eller whistleblowerordningen kan være slået fra. Spørg din arbejdsplads om det aktuelle link.",
+            "heading": "Indberet et forhold til {company}",
+            "intro": "Brug formularen til at fortælle dem, der behandler whistleblowerindberetninger på din arbejdsplads, om noget, der er galt.",
+            "anonymousTitle": "Du er anonym",
+            "anonymousText": "Siden ved ikke, hvem du er, og din indberetning er ikke knyttet til din konto. Udelad oplysninger, der kan afsløre dig, medmindre du vil være kendt. Brug et privat browservindue eller din egen enhed for ekstra privatliv.",
+            "category": "Hvad drejer det sig om?",
+            "categoryPlaceholder": "Vælg en kategori",
+            "subject": "Emne",
+            "description": "Hvad er der sket?",
+            "descriptionPlaceholder": "Beskriv hvad der skete, hvornår og hvor, og hvem der var involveret.",
+            "includeContact": "Medtag mit navn eller mine kontaktoplysninger",
+            "includeContactHelp": "Valgfrit. Kun behandlerne kan se dem, og de gør det muligt at kontakte dig.",
+            "name": "Navn",
+            "contact": "E-mail eller telefon",
+            "send": "Send indberetning",
+            "sentTitle": "Din indberetning er sendt",
+            "sent": "Dem, der behandler whistleblowerindberetninger hos {company}, har fået besked.",
+            "reference": "Din reference",
+            "sentAnonymous": "Skriv referencen ned. Du har sendt indberetningen anonymt, så behandlerne kan ikke kontakte dig.",
+            "sentWithContact": "Skriv referencen ned. Behandlerne kan kontakte dig via de oplysninger, du har givet.",
+            "tooMany": "Der er sendt for mange indberetninger herfra. Prøv igen senere.",
+            "checkFields": "Tjek de markerede felter nedenfor.",
+            "sendFailed": "Indberetningen kunne ikke sendes. Prøv igen.",
+            "required": "Feltet skal udfyldes.",
+            "invalidField": "Tjek venligst dette felt."
+        },
+        "categories": {
+            "work_environment": "Arbejdsmiljø",
+            "harassment": "Chikane eller mobning",
+            "discrimination": "Diskrimination",
+            "citizen_safety": "Borgeres eller patienters sikkerhed",
+            "fraud_or_corruption": "Svindel eller korruption",
+            "data_protection": "Databeskyttelse",
+            "other": "Andet"
+        },
+        "statuses": {
+            "received": "Modtaget",
+            "acknowledged": "Kvitteret",
+            "investigating": "Under undersøgelse",
+            "closed": "Afsluttet"
+        },
+        "settings": {
+            "title": "Whistleblower",
+            "intro": "Giv medarbejderne en sikker måde at indberette noget, der er galt. Indberetninger sendes via et privat link uden login, så ingen kan se, hvem der har sendt dem. Kun de behandlere, du vælger, kan læse dem.",
+            "enable": "Slå whistleblowerordningen til",
+            "enableHelp": "Medarbejderne får et \"Indberet anonymt\"-link i menuen.",
+            "handlers": "Hvem modtager indberetningerne",
+            "handlersHelp": "Kun administratorer kan vælges, og kun dem, du vælger, kan læse indberetninger. En indberetning kan handle om en administrator, så ikke alle administratorer er med automatisk.",
+            "link": "Indberetningslink",
+            "linkHelp": "Alle med linket kan sende en indberetning, også personer uden for virksomheden som tidligere ansatte.",
+            "copy": "Kopiér",
+            "copied": "Kopieret",
+            "regenerateHelp": "Hvis linket er blevet delt for bredt, kan du lave et nyt. Det gamle link holder op med at virke.",
+            "regenerate": "Lav et nyt link",
+            "regenerateConfirmation": "Lav et nyt link? Det nuværende link holder op med at virke",
+            "saved": "Whistleblowerindstillingerne er gemt",
+            "regenerated": "Der er lavet et nyt link"
+        },
+        "inbox": {
+            "title": "Whistleblowerindberetninger",
+            "intro": "Indberetninger sendt via virksomhedens whistleblowerlink. De er anonyme, medmindre indberetteren har valgt at oplyse sit navn.",
+            "filter": "Filtrér efter status",
+            "all": "Alle",
+            "empty": "Ingen indberetninger.",
+            "acknowledgeOverdue": "Over 7 dage",
+            "open": "Åbn",
+            "columns": {
+                "reference": "Reference",
+                "subject": "Emne",
+                "status": "Status",
+                "received": "Modtaget"
+            }
+        },
+        "detail": {
+            "back": "Tilbage til indberetninger",
+            "receivedOn": "Modtaget {date}",
+            "anonymous": "Sendt anonymt",
+            "reporter": "Indberetter",
+            "status": "Status",
+            "updateStatus": "Opdatér status",
+            "deadlines": "Kvittér for modtagelsen inden 7 dage, og giv indberetteren feedback inden 3 måneder.",
+            "history": "Noter og historik",
+            "historyHelp": "Kun behandlere kan se dette.",
+            "formerHandler": "Tidligere behandler",
+            "statusChanged": "Status ændret fra {from} til {to}",
+            "addNote": "Tilføj en note",
+            "saveNote": "Gem note",
+            "statusSaved": "Status er opdateret"
+        },
+        "bell": {
+            "title": "Ny whistleblowerindberetning",
+            "description": "Reference {reference}"
+        }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan ikke åbnes",
+        "notViewableText": "Denne filtype kan ikke vises i browseren, og din rolle må ikke downloade dokumenter."
     }
 }

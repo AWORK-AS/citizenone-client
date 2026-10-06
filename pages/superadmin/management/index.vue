@@ -39,8 +39,10 @@
                         <div class="flex items-start justify-between">
                             <div>
                                 <div class="flex items-center gap-1">
-                                    <p class="co-stat-label">{{ $t('superadmin.dashboard.adoption.mrr') }}</p>
-                                    <Tooltip :text="$t('superadmin.dashboard.adoption.help.mrr')"
+                                    <p class="co-stat-label">
+                                        {{ hasContractFigures ? $t('superadmin.metrics.contractMrr') : $t('superadmin.dashboard.adoption.mrr') }}
+                                    </p>
+                                    <Tooltip :text="hasContractFigures ? $t('superadmin.metrics.help.contractMrr') : $t('superadmin.dashboard.adoption.help.mrr')"
                                         position="bottom" wrap>
                                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]" />
                                     </Tooltip>
@@ -49,7 +51,7 @@
                                     {{ formatAmount(state.recurringRevenue.mrr, 'DKK') }}
                                 </p>
                                 <p class="co-stat-sub">
-                                    {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.arr, 'DKK') }) }}
+                                    {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.contract_arr ?? state.recurringRevenue.arr, 'DKK') }) }}
                                 </p>
 
                                 <div v-if="state.recurringRevenue.cmrr !== undefined"
@@ -133,6 +135,10 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Aftaletal: kontrakt-MRR/ARR er hovedtallet ovenfor; her kommer
+                     cash-tallene, backlog, udestående og bindinger der udløber. -->
+                <ModulesSuperadminAgreementMetrics :data="state.recurringRevenue" :showHeadline="false" showUpcoming />
 
                 <!-- Hvem pengene kommer fra.
                      En rangeret liste og ikke en graf: ti navngivne kunder med et
@@ -311,6 +317,9 @@ function formatDay(value?: string | null) {
     return value ? moment(value).format('D. MMM YYYY') : '—'
 }
 
+
+const hasContractFigures = computed(() => state.recurringRevenue?.contract_mrr !== undefined
+    && state.recurringRevenue?.contract_mrr !== null)
 
 const notCollectingAmount = computed(() => {
     const r = state.recurringRevenue

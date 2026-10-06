@@ -1365,6 +1365,16 @@ function generateSidebarLinks(user: any) {
         nav.push({ name: 'Tasks', href: '/tasks', icon: 'ph:kanban', group: 'organisation', activeRouteNames: ['tasks'] })
     }
 
+    // Whistleblower: the handlers' inbox, and for everyone the company's public
+    // report link. The link opens in its own tab, where nothing is sent signed
+    // in (see PublicWhistleblowerClient).
+    if (user?.is_whistleblower_handler) {
+        nav.push({ name: 'WhistleblowerReports', href: '/whistleblower-reports', icon: 'ph:shield-check', group: 'organisation', activeRouteNames: ['whistleblower-reports'] })
+    }
+    if (user?.company?.whistleblower_enabled && user?.company?.whistleblower_token) {
+        nav.push({ name: 'ReportAnonymously', href: `/whistleblower/${user.company.whistleblower_token}`, icon: 'ph:user-circle-dashed', group: 'organisation', activeRouteNames: [], external: true })
+    }
+
     if (userHasLeadsActive) {
         nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', group: 'organisation', activeRouteNames: ['leads'] })
     }
