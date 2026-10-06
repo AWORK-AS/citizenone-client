@@ -39,6 +39,10 @@
         "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten.",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
+            "myself": "Mig selv",
+            "assignSelected": "Tildel valgte sager",
+            "assignTooltip": "Sæt den valgte medarbejder på de valgte sager",
+            "claimTooltip": "Sæt dig selv på de valgte sager",
             "title": "Konverterede, uafklarede sager",
             "empty": "Ingen konverterede sager venter på en sagsbehandler.",
             "selectedOfTotal": "{selected} af {total} valgt",
@@ -14677,6 +14681,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Vundne sager uden koordinator",
+        "unassignedWonCount": "1 sag venter | {count} sager venter",
+        "unassignedWonOpen": "Fordel sager",
+        "unassignedWonTooltip": "Se de vundne sager, som ingen står på endnu, og fordel dem",
         "brief": {
             "goals_running_out": "Et mål udløber inden for en uge | {n} mål udløber inden for en uge",
             "heading": "Kræver din opmærksomhed",

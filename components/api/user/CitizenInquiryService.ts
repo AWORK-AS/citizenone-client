@@ -49,8 +49,12 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/unassigned/converted`, 'GET')
     }
 
-    async assignSelf(inquiryUuids: string[]): Promise<any> {
-        return await this.request(`/user/citizen-inquiries/assign/self`, 'POST', { inquiry_uuids: inquiryUuids })
+    // Without an employee the caller takes the cases; a leader can name someone else.
+    async assignSelf(inquiryUuids: string[], employeeUuid: string | null = null): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/assign/self`, 'POST', {
+            inquiry_uuids: inquiryUuids,
+            ...(employeeUuid ? { employee_uuid: employeeUuid } : {}),
+        })
     }
 
     // Crisis Center inquiry specific endpoints

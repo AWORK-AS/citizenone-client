@@ -39,6 +39,10 @@
         "tooManyToShow": "Viser {shown} av {total} henvendelser. Bruk listevisningen eller et avdelingsfilter for å se resten.",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
+            "myself": "Meg selv",
+            "assignSelected": "Tildel valgte saker",
+            "assignTooltip": "Sett den valgte medarbeideren på de valgte sakene",
+            "claimTooltip": "Sett deg selv på de valgte sakene",
             "title": "Konverterte, uavklarte saker",
             "empty": "Ingen konverterte saker venter på en saksbehandler.",
             "selectedOfTotal": "{selected} av {total} valgt",
@@ -14588,6 +14592,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Vunne saker uten koordinator",
+        "unassignedWonCount": "1 sak venter | {count} saker venter",
+        "unassignedWonOpen": "Fordel saker",
+        "unassignedWonTooltip": "Se de vunne sakene som ingen står på ennå, og fordel dem",
         "brief": {
             "goals_running_out": "Ett mål går ut innen en uke | {n} mål går ut innen en uke",
             "heading": "Krever din oppmerksomhet",
