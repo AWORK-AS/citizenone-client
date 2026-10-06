@@ -178,14 +178,23 @@
 					<div class="or-line"></div>
 				</div>
 
+				<!-- Single sign-on with the company's Microsoft account, when the
+				     company has set it up. Uses the email typed above. -->
+				<Tooltip class="ms-wrap" :text="$t('login.sso.hint')" wrap>
+					<button class="btn-microsoft" type="button" :disabled="state.isPageLoading"
+						:aria-label="$t('login.sso.hint')" @click="loginWithMicrosoft">
+						<svg class="ms-logo" width="18" height="18" viewBox="0 0 21 21" aria-hidden="true">
+							<rect x="1" y="1" width="9" height="9" fill="#F25022" />
+							<rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
+							<rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
+							<rect x="11" y="11" width="9" height="9" fill="#FFB900" />
+						</svg>
+						{{ state.isSsoRedirecting ? $t('login.sso.redirecting') : $t('login.sso.microsoft') }}
+					</button>
+				</Tooltip>
+				<p v-if="state.ssoNeedsEmail" class="ms-hint" role="status">{{ $t('login.sso.enterEmail') }}</p>
+
 				<div class="alt-links">
-					<!-- Single sign-on with the company's Microsoft account, when the
-					     company has set it up. Uses the email typed above. -->
-					<div class="alt-row">
-						<a class="alt-link" :title="$t('login.sso.hint')" @click="loginWithMicrosoft">
-							{{ $t('login.sso.microsoft') }}
-						</a>
-					</div>
 					<div class="signup-row">
 						{{ $t('login.form.dontHaveAnAccount') }}?
 						<a @click="navigateTo('/register')">
@@ -251,6 +260,15 @@ const state = reactive({
 	},
 	rememberMe: false,
 	showPassword: false,
+	isSsoRedirecting: false,
+	ssoNeedsEmail: false,
+})
+
+// The SSO hint is a pointer, not an error: it goes as soon as there is an email.
+watch(() => state.formLogin.email, (email) => {
+	if (email) {
+		state.ssoNeedsEmail = false
+	}
 })
 
 const rules = computed(() => {
@@ -439,12 +457,17 @@ async function navigateToHomePage(link: any) {
 async function loginWithMicrosoft() {
 	const email = (state.formLogin.email ?? '').trim()
 	if (!email) {
-		state.error = { message: t('login.sso.enterEmail') } as Error
+		// Not a failure - the person just has not typed their email yet, so
+		// take them to the field instead of showing a red alert.
+		state.ssoNeedsEmail = true
+		document.getElementById('co-email')?.focus()
 		return
 	}
 
 	state.error = {}
+	state.ssoNeedsEmail = false
 	state.isPageLoading = true
+	state.isSsoRedirecting = true
 	try {
 		const response = await authService.microsoftSso(email)
 		if (response?.data?.url) {
@@ -455,6 +478,7 @@ async function loginWithMicrosoft() {
 		state.error = error
 	}
 	state.isPageLoading = false
+	state.isSsoRedirecting = false
 }
 
 /**
@@ -1085,7 +1109,61 @@ async function loginWithGoogle() {
 	white-space: nowrap;
 }
 
+/* Sign in with Microsoft: a white button with the Microsoft logo, as
+   Microsoft's own branding guidance asks, so it reads as the second way in
+   rather than as small print. */
+.ms-wrap,
+.ms-wrap > div {
+	display: block;
+	width: 100%;
+}
+
+.btn-microsoft {
+	width: 100%;
+	height: 46px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	background: #fff;
+	color: #1a2332;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	font-size: 15px;
+	font-weight: 600;
+	font-family: inherit;
+	cursor: pointer;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-microsoft:hover:not(:disabled) {
+	background: #f8fafc;
+	border-color: #94a3b8;
+}
+
+.btn-microsoft:focus-visible {
+	outline: 2px solid #0F4C75;
+	outline-offset: 2px;
+}
+
+.btn-microsoft:disabled {
+	opacity: 0.65;
+	cursor: not-allowed;
+}
+
+.ms-logo {
+	flex: none;
+}
+
+.ms-hint {
+	font-size: 13px;
+	color: #475569;
+	text-align: center;
+	margin: 8px 0 0;
+}
+
 .alt-links {
+	margin-top: 16px;
 	display: flex;
 	flex-direction: column;
 	align-items: center;

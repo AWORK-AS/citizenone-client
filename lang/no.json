@@ -8480,8 +8480,9 @@
         "sso": {
             "microsoft": "Logg inn med Microsoft",
             "hint": "Bruk organisasjonens Microsoft-konto. Skriv jobb-e-posten over først.",
-            "enterEmail": "Skriv jobb-e-posten din, og velg så Logg inn med Microsoft.",
-            "failed": "Innlogging med Microsoft lyktes ikke. Prøv igjen."
+            "enterEmail": "Skriv jobb-e-posten din ovenfor, og klikk igjen.",
+            "failed": "Innlogging med Microsoft lyktes ikke. Prøv igjen.",
+            "redirecting": "Sender deg til Microsoft…"
         }
     },
     "companySso": {
