@@ -2,6 +2,9 @@
 
     <Head>
         <Title>{{ $t('register.register') }} - {{ runtimeConfig?.public?.appName }}</Title>
+        <!-- The website links here with ?industry=…&facility_type=… prefilled, and Google
+             indexed each variant separately. One page, one address. -->
+        <Link rel="canonical" :href="canonicalUrl" />
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
@@ -256,6 +259,8 @@
 </template>
 
 <script setup lang="ts">
+// Same origin as the page, so the app on another market's domain points at itself.
+const canonicalUrl = `${useRequestURL().origin}/register`
 import { signupSourceFromQuery } from '@/composables/signupSource'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'

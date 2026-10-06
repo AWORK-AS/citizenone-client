@@ -52,9 +52,22 @@
                                     <span v-else class="co-badge co-badge-blue">
                                         {{ $t('superadmin.invoices.table.new') }}
                                     </span>
+                                    <Tooltip v-if="invoice?.invoice_type === 'bank_transfer'"
+                                        :text="$t('superadmin.agreements.payment.bankTransferHelp')" position="top" wrap>
+                                        <span class="co-badge co-badge-navy ml-1.5">
+                                            <Icon name="ph:bank" class="w-3 h-3" aria-hidden="true" />
+                                            {{ $t('superadmin.agreements.payment.bankTransfer') }}
+                                        </span>
+                                    </Tooltip>
                                 </td>
                                 <td class="co-td">
-                                    <span v-if="invoice?.is_paid" class="co-badge co-badge-green">
+                                    <Tooltip v-if="invoice?.covered_by_agreement" :text="$t('superadmin.agreements.covered.help')" position="top" wrap>
+                                        <span class="co-badge co-badge-navy">
+                                            <Icon name="ph:handshake" class="w-3 h-3" aria-hidden="true" />
+                                            {{ $t('superadmin.agreements.covered.chip') }}
+                                        </span>
+                                    </Tooltip>
+                                    <span v-else-if="invoice?.is_paid" class="co-badge co-badge-green">
                                         <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
                                         {{ $t('superadmin.invoices.table.paid') }}
                                     </span>
@@ -77,11 +90,27 @@
                                             <Icon name="ph:eye" class="w-3.5 h-3.5" />
                                             {{ $t('superadmin.invoices.table.actions.view') }}
                                         </SuperadminTableButton>
-                                        <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type"
+                                        <SuperadminTableButton v-if="!invoice?.is_paid && !invoice?.invoice_type && !invoice?.covered_by_agreement"
                                             buttonStyle="success" @click="confirmMarkInvoiceAsPaid(invoice)">
                                             <Icon name="ph:check" class="w-3.5 h-3.5" />
                                             {{ $t('superadmin.invoices.table.actions.markAsPaid') }}
                                         </SuperadminTableButton>
+                                        <Tooltip v-if="!invoice?.is_paid && !invoice?.covered_by_agreement"
+                                            :text="$t('superadmin.agreements.payment.registerHelp')" position="top">
+                                            <SuperadminTableButton buttonStyle="success"
+                                                @click="openRegisterPayment(invoice)">
+                                                <Icon name="ph:bank" class="w-3.5 h-3.5" aria-hidden="true" />
+                                                {{ $t('superadmin.agreements.payment.register') }}
+                                            </SuperadminTableButton>
+                                        </Tooltip>
+                                        <Tooltip v-if="invoice?.is_paid && invoice?.paid_at"
+                                            :text="$t('superadmin.agreements.payment.undoHelp')" position="top">
+                                            <SuperadminTableButton buttonStyle="danger"
+                                                @click="confirmUndoPayment(invoice)">
+                                                <Icon name="ph:arrow-counter-clockwise" class="w-3.5 h-3.5" aria-hidden="true" />
+                                                {{ $t('superadmin.agreements.payment.undo') }}
+                                            </SuperadminTableButton>
+                                        </Tooltip>
                                     </div>
                                 </td>
                             </tr>
@@ -89,6 +118,12 @@
                     </SuperadminTable>
                     <Pagination :data="state.invoices" @previous="previous" @next="next" />
                 </div>
+                <ModulesSuperadminAgreementModalPayment :isModalOpen="state.modal.isPaymentOpen"
+                    :invoice="state.selectedInvoice" @close="state.modal.isPaymentOpen = false"
+                    @saved="onPaymentSaved" />
+                <DialogConfirmation :isModalOpen="state.modal.isUndoPaymentOpen"
+                    :message="$t('superadmin.agreements.payment.undoConfirm') + '?'"
+                    @close="state.modal.isUndoPaymentOpen = false" @confirm="undoPayment" />
                 <DialogConfirmation :isModalOpen="state.modal.isMarkAsPaidConfirmationOpen"
                     :message="$t('superadmin.invoices.table.confirmation.markAsPaidConfirmation') + '?'"
                     @close="state.modal.isMarkAsPaidConfirmationOpen = false" @confirm="markInvoiceAsPaid" />
@@ -100,6 +135,7 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
+import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
@@ -122,6 +158,7 @@ const detailTabs = computed(() => [
     { label: t('superadmin.sidebar.licenses'), href: `/superadmin/companies/${companyUuid}/license-overview`, icon: 'ph:key' },
     { label: t('superadmin.sidebar.apps'), href: `/superadmin/companies/${companyUuid}/apps`, icon: 'ph:squares-four' },
     { label: t('superadmin.sidebar.invoices'), href: `/superadmin/companies/${companyUuid}/invoices`, icon: 'ph:invoice' },
+    { label: t('superadmin.companies.tabs.agreements'), href: `/superadmin/companies/${companyUuid}/agreements`, icon: 'ph:handshake' },
     { label: t('superadmin.companies.tabs.migration'), href: `/superadmin/companies/${companyUuid}/migration`, icon: 'ph:arrows-merge' },
     { label: t('superadmin.companies.table.actions.edit'), href: `/superadmin/companies/${companyUuid}/edit`, icon: 'ph:pencil-simple' },
 ])
@@ -143,6 +180,8 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isMarkAsPaidConfirmationOpen: false,
+        isPaymentOpen: false,
+        isUndoPaymentOpen: false,
     },
     selectedInvoice: {} as any,
     sortData: {
@@ -205,6 +244,35 @@ function debouncedSearch() {
 function confirmMarkInvoiceAsPaid(invoice: any) {
     state.selectedInvoice = invoice
     state.modal.isMarkAsPaidConfirmationOpen = true
+}
+
+function openRegisterPayment(invoice: any) {
+    state.selectedInvoice = invoice
+    state.modal.isPaymentOpen = true
+}
+
+async function onPaymentSaved() {
+    state.modal.isPaymentOpen = false
+    successAlert(`${t('alert.success')}!`, t('superadmin.agreements.payment.registered'))
+    await fetchInvoices()
+}
+
+function confirmUndoPayment(invoice: any) {
+    state.selectedInvoice = invoice
+    state.modal.isUndoPaymentOpen = true
+}
+
+async function undoPayment() {
+    state.error = {}
+    try {
+        await agreementService.undoPayment(state.selectedInvoice.uuid)
+        successAlert(`${t('alert.success')}!`, t('superadmin.agreements.payment.undone'))
+        state.modal.isUndoPaymentOpen = false
+        await fetchInvoices()
+    } catch (error: any) {
+        state.modal.isUndoPaymentOpen = false
+        state.error = error
+    }
 }
 
 async function markInvoiceAsPaid() {

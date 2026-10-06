@@ -13,7 +13,11 @@
             <template #header>{{ $t('roles.roles') }}</template>
 
             <div class="mt-8">
-                <div class="flex justify-end items-center mb-5">
+                <div class="flex justify-end items-center flex-wrap gap-2 mb-5">
+                    <FormButton buttonStyle="secondary" @click="navigateTo('/settings/roles/matrix')">
+                        <Icon name="ph:table" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('roles.matrix.title') }}
+                    </FormButton>
                     <FormButton buttonStyle="action" @click="navigateTo('/settings/roles/new')">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('roles.addNewRole') }}

@@ -157,8 +157,8 @@
             <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
-                :selectedJournal="state.selectedJournal" @close="closeEditJournalModal"
-                @refreshJournal="fetchJournals" />
+                :selectedJournal="state.selectedJournal" :readonly="state.selectedJournalReadonly"
+                @close="closeEditJournalModal" @refreshJournal="fetchJournals" />
             <ModulesUserCitizenJournalModalDownload :isModalOpen="state.modal.isDownloadJournalOpen"
                 @close="state.modal.isDownloadJournalOpen = false" />
             <ModulesUserCitizenJournalModalDeletedLogs :isModalOpen="state.modal.isDeletedJournalHistoriesOpen"
@@ -234,6 +234,7 @@ const state = reactive({
         isRecordHistoryOpen: false,
     },
     selectedJournal: [] as any,
+    selectedJournalReadonly: false,
     isWellbeingRulerEnabled: false,
     isWellbeingOpen: false,
     wellbeingChartKey: 0,
@@ -280,7 +281,29 @@ onMounted(() => {
     }
 
     fetchJournals()
+
+    const journalUuid = router.currentRoute.value.query.open_journal as string
+    if (journalUuid) {
+        openJournalFromQuery(journalUuid)
+    }
 })
+
+async function openJournalFromQuery(journalUuid: string) {
+    try {
+        const response = await journalService.getJournal(journalUuid)
+        if (response?.data) {
+            state.selectedJournal = response.data
+            state.selectedJournalReadonly = response.data.is_editable === false
+            state.modal.isEditJournalOpen = true
+        }
+    } catch (error: any) {
+        state.error = error
+    } finally {
+        // Drop the param so a refresh, or closing the modal, doesn't reopen it.
+        const { open_journal, ...rest } = router.currentRoute.value.query
+        router.replace({ query: rest })
+    }
+}
 
 watch(() => state.filter.date_range, (dates: any) => {
     state.dataFilter.start_date = dates?.[0]
@@ -391,6 +414,7 @@ function next() {
 
 function editJournal(journal: any) {
     state.selectedJournal = journal
+    state.selectedJournalReadonly = false
     state.modal.isEditJournalOpen = true
 }
 
@@ -407,6 +431,7 @@ function moveJournal(journal: any) {
 function closeEditJournalModal() {
     state.modal.isEditJournalOpen = false
     state.selectedJournal = []
+    state.selectedJournalReadonly = false
 }
 
 function onJournalFavoriteUpdated(updatedJournal: any) {

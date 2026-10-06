@@ -167,6 +167,17 @@
                                 </div>
                                 <span v-else class="text-[#8891A4] text-[13px]">—</span>
                             </td>
+                            <td v-if="hasAgreementData" class="co-td">
+                                <div v-if="company?.binding_ends_on" class="min-w-[130px]">
+                                    <p class="text-[13px] text-[#1F2533]">{{ formatDay(company.binding_ends_on) }}</p>
+                                    <Tooltip :text="$t('superadmin.agreements.help.mrrArr')" position="top" wrap>
+                                        <p class="text-[11px] text-[#8891A4]">
+                                            {{ $t('superadmin.agreements.companyList.mrr', { amount: formatAmount(company.contract_mrr ?? 0, 'DKK') }) }}
+                                        </p>
+                                    </Tooltip>
+                                </div>
+                                <span v-else class="text-[#8891A4] text-[13px]">—</span>
+                            </td>
                             <td v-if="hasPaymentData" class="co-td">
                                 <div v-if="company?.next_payment_at" class="min-w-[130px]">
                                     <p class="text-[13px] text-[#1F2533]">
@@ -214,6 +225,7 @@
 </template>
 
 <script setup lang="ts">
+import type { ComputedRef } from 'vue'
 import moment from 'moment'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -234,6 +246,11 @@ const { formatAmount } = useAmountFormatter()
  * absent rather than null without `view_financials`, so one row is enough to
  * tell - and an empty list is nothing to show a column for either way.
  */
+// Agreement figures only come with `view_financials`, like the payment data.
+const hasAgreementData: ComputedRef<boolean> = computed(() =>
+    (state.companies?.data ?? []).some((company: any) => company?.binding_ends_on !== undefined)
+)
+
 const hasPaymentData = computed(() =>
     (state.companies?.data ?? []).some((company: any) => company?.next_payment_at !== undefined)
 )
@@ -264,6 +281,7 @@ const state = reactive({
         // Future payments are only in the response for a superadmin with
         // `view_financials`, so the column comes and goes with the data rather
         // than standing there empty for everybody else.
+        ...(hasAgreementData.value ? [{ key: 'binding_ends_on', name: t('superadmin.agreements.companyList.bindingUntil') }] : []),
         ...(hasPaymentData.value ? [{ key: 'next_payment', name: t('superadmin.companies.table.nextPayment') }] : []),
         { key: 'actions', name: '' },
     ]),
