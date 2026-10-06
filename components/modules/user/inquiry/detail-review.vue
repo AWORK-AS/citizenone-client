@@ -140,6 +140,11 @@ function contactSummary(contact: any) {
     return [name, contact.company_name, contact.email, contact.phone].filter(Boolean).join(' · ')
 }
 
+// 'every_three_months' -> 'everyThreeMonths', the key citizens.form uses.
+function reportingKey(value: string) {
+    return value.replace(/_([a-z])/g, (_, c) => c.toUpperCase())
+}
+
 function names(list: any) {
     return (list ?? []).map((item: any) => item?.name).filter(Boolean).join(', ')
 }
@@ -222,6 +227,10 @@ const sections = computed(() => {
                     label: t('inquiryMatchNeeds.location'),
                     value: [inq.location_address, inq.location_postal_code].filter(Boolean).join(', '),
                     wide: true,
+                },
+                {
+                    label: t('citizens.form.reportingFrequency'),
+                    value: inq.reporting_frequency ? t('citizens.form.reportingOptions.' + reportingKey(inq.reporting_frequency)) : '',
                 },
             ],
         },

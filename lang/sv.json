@@ -16915,6 +16915,7 @@
         "location": "Plats",
         "locationPlaceholder": "Adress eller område, t.ex. Vesterbro",
         "postalCode": "Postnummer",
+        "reportingHint": "Följer med till brukaren när ärendet vinns och startar påminnelsen om rapportering.",
         "pending": "Placeras på kartan om en stund",
         "unavailable": "Inte placerad på kartan: kartuppslag är inte konfigurerat, så inget avstånd visas",
         "notFound": "Kunde inte hittas på kartan. Kontrollera adressen eller ange ett postnummer",

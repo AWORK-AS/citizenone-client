@@ -17011,6 +17011,7 @@
         "location": "Location",
         "locationPlaceholder": "Address or area, e.g. Vesterbro",
         "postalCode": "Postal code",
+        "reportingHint": "Carried to the citizen when the case is won, and starts the reporting reminder.",
         "pending": "Being placed on the map",
         "unavailable": "Not placed on the map: map lookup is not set up, so no distance is shown",
         "notFound": "Could not be found on the map. Check the address or add a postal code",
