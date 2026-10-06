@@ -75,6 +75,7 @@ export function useSettingsNav() {
             // reader's own profile. One entry: the four pages carry a tab row.
             item('settings.groups.billing', '/settings/subscription', ['settings-subscription', 'settings-license-overview', 'settings-storage', 'settings-invoices', 'settings-ai-usage']),
             item('settings.tabs.import', '/settings/import', ['settings-import']),
+            item('whistleblower.settings.title', '/settings/whistleblower', ['settings-whistleblower']),
             dailyOverview,
         ]
         if (isEmploymentServices) {

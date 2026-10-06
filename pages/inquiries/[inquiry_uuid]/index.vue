@@ -93,6 +93,10 @@
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryOfferPanel :inquiryUuid="state.inquiry.uuid" @changed="onOfferChanged" />
                         </div>
+                        <!-- Who the case involves; they become the indsats' contacts when it is won. -->
+                        <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
+                            <ModulesUserInquiryPartiesPanel :inquiryUuid="state.inquiry.uuid" />
+                        </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryDocumentsPanel :inquiryUuid="state.inquiry.uuid" />
                         </div>
@@ -290,6 +294,7 @@ const subline = computed(() => [
         ? formLabel(state.inquiry.form, { shelter: shelterName.value, crisisCenter: crisisCenterName.value })
         : state.inquiry?.inquiry_type === 'shelter' ? shelterName.value : crisisCenterName.value,
     state.inquiry?.origin ? t('inquiryOrigin.' + state.inquiry.origin) : '',
+    state.inquiry?.source === 'website' ? t('inquiryIntake.fromWebsite') : '',
     state.inquiry?.inquiry_date ? formatDateToReadable(state.inquiry.inquiry_date) : '',
     state.inquiry?.inquirer_name,
 ].filter(Boolean).join(' · '))

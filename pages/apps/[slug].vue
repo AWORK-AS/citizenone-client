@@ -71,6 +71,14 @@
                                 class="w-full cursor-not-allowed justify-center" v-else-if="app.user_activated" disabled>
                                 {{ $t('apps.activated') }}
                             </FormButton>
+                            <Tooltip v-else-if="app.plan_eligible === false" class="w-full [&>div]:w-full" wrap
+                                :text="$t('apps.requiresPlanTooltip', { plan: app.required_plan })">
+                                <FormButton type="button" buttonStyle="action" class="w-full justify-center"
+                                    :aria-label="$t('apps.requiresPlanTooltip', { plan: app.required_plan })"
+                                    @click="navigateTo('/subscription')">
+                                    {{ $t('apps.upgradeToPlan', { plan: app.required_plan }) }}
+                                </FormButton>
+                            </Tooltip>
                             <FormButton type="button" buttonStyle="app-order-now" class="w-full justify-center" v-else
                                 @click="requestActivation(app)">
                                 {{ app.is_one_time_fee ? $t('apps.orderNow') : $t('apps.activate') }}

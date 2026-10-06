@@ -5,8 +5,14 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/login`, 'POST', params)
     }
     
-    async microsoftLogin(): Promise<any> {
-        return await this.request(`/auth/ad/login`, 'GET')
+    // Microsoft single sign-on, through the company's own Entra tenant.
+    async microsoftSso(email: string): Promise<any> {
+        return await this.request(`/auth/sso/microsoft`, 'GET', { email })
+    }
+
+    // The one-time code the SSO callback hands back, for a login token.
+    async ssoExchange(code: string): Promise<any> {
+        return await this.request(`/auth/sso/exchange`, 'POST', { code })
     }
   
     async googleLogin(): Promise<any> {
@@ -47,9 +53,6 @@ class AuthService extends BaseAPIService {
 
     async verifyEmail(token: any): Promise<any> {
         return await this.request(`/auth/verify-email/${token}`, 'POST')
-    }
-    async ssoRedirect(email: string): Promise<any> {
-        return await this.request(`/auth/sso/redirect`, 'POST', { email })
     }
 
     async verifyIpOtp(params: object): Promise<any> {
