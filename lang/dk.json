@@ -7128,6 +7128,7 @@
         "markAsCompleted": "Markér som gennemført",
         "markAsNotCompleted": "Markér som ikke gennemført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
+        "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Gennemført",
             "notCompleted": "Ikke gennemført"

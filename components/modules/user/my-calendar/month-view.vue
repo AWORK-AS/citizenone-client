@@ -382,6 +382,8 @@
                                     <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
                                     {{ $t('events.status.notCompleted') }}
                                 </span>
+                                <ModulesUserMyCalendarLinkedNote :journal="myCalendarEvent?.journal"
+                                    :citizenUuid="myCalendarEvent?.citizen?.uuid" />
                             </div>
                             <div class="flex gap-x-2">
                                 <dt class="flex mt-1">
