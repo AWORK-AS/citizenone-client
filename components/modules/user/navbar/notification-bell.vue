@@ -186,6 +186,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
+    if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
     return 'other'
 }
 
@@ -197,6 +198,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
+    booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -430,6 +432,25 @@ async function handleNotifClick(notif: any) {
         if (employeeUuid) {
             navigateTo(`/schedules?shiftRequestEmployee=${employeeUuid}`)
         }
+        return
+    }
+    // A booking that ended without a journal note: the note is written from
+    // the booking, so go to the calendar.
+    if (getCategory(notif.type) === 'booking_missing_note') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        navigateTo('/calendar')
         return
     }
     if (getCategory(notif.type) === 'survey') {
