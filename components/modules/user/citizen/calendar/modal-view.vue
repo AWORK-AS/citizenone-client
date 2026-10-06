@@ -16,7 +16,7 @@
                                 {{ props.selectedSchedule?.user?.firstname }}
                                 {{ props.selectedSchedule?.user?.lastname }}
                             </h3>
-                            <div class="flex items-center gap-x-2">
+                            <div class="flex items-center gap-x-2 flex-wrap">
                                 <dt class="flex items-center">
                                     <span class="sr-only">Title</span>
                                     <Icon name="ph:clipboard" class="h-4 w-4 text-gray-400" aria-hidden="true" />
@@ -24,6 +24,8 @@
                                 <dd class="font-semibold text-gray-900 xl:pr-0">
                                     {{ props.selectedSchedule?.title }}
                                 </dd>
+                                <ModulesUserMyCalendarLinkedNote :journal="props.selectedSchedule?.journal"
+                                    :citizenUuid="props.selectedSchedule?.citizen_uuid" />
                             </div>
                             <div class="flex gap-x-2">
                                 <dt class="flex mt-1">

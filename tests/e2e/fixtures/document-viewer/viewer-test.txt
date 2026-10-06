@@ -1,0 +1,2 @@
+Viewer test TXT (Windows-1252): blåbærgrød, Ærø, Øster
+<b>not bold</b>

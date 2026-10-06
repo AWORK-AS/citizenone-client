@@ -4615,7 +4615,15 @@
             "originalKeptNote": "Du ser en förhandsvisning. Originalfilen är sparad oförändrad – ladda ner den för att öppna den i Word med exakt samma typsnitt och layout.",
             "downloadOriginal": "Ladda ner original",
             "renderFailed": "Dokumentet kan inte visas här. Filen har inte ändrats – ladda ner originalet för att öppna det i Word.",
-            "oneDriveDownloadFailed": "Filen kunde inte hämtas från OneDrive. Försök igen eller öppna den direkt i OneDrive."
+            "oneDriveDownloadFailed": "Filen kunde inte hämtas från OneDrive. Försök igen eller öppna den direkt i OneDrive.",
+            "notAvailable": "Förhandsvisning är inte tillgänglig för den här filtypen.",
+            "downloadToOpen": "Ladda ner originalet för att öppna det på din dator.",
+            "noDownloadPermission": "Din roll tillåter inte att du laddar ner dokument.",
+            "cannotShow": "Dokumentet kan inte visas här.",
+            "previewNote": "Du ser en förhandsvisning. Typsnitt och layout kan skilja sig något från originalfilen.",
+            "previous": "Föregående dokument",
+            "next": "Nästa dokument",
+            "position": "{current} av {total}"
         }
     },
     "dutySchedules": {
@@ -7177,6 +7185,7 @@
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
+        "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
@@ -14970,6 +14979,7 @@
     },
     "myDay": {
         "brief": {
+            "bookings_missing_note": "En bokning har avslutats utan en @:terms.journalNote{''} | {n} bokningar har avslutats utan en @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
             "heading": "Kräver din uppmärksamhet",
             "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",

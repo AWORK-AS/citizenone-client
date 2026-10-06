@@ -180,6 +180,8 @@
                                                 :class="myCalendarEvent?.completion_status === 'completed' ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
                                                 {{ myCalendarEvent?.title }}
                                             </span>
+                                            <Icon v-if="myCalendarEvent?.journal_id" name="ph:notebook"
+                                                class="h-3 w-3 flex-none text-primary" :title="$t('events.linkedNote', { title: myCalendarEvent?.journal?.title ?? '' })" />
                                             <Icon v-if="myCalendarEvent?.completion_status === 'completed'"
                                                 name="ph:check-circle-fill" class="h-3 w-3 flex-none text-green-500" />
                                             <Icon v-else-if="isOverdue(myCalendarEvent)"
@@ -382,6 +384,8 @@
                                     <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
                                     {{ $t('events.status.notCompleted') }}
                                 </span>
+                                <ModulesUserMyCalendarLinkedNote :journal="myCalendarEvent?.journal"
+                                    :citizenUuid="myCalendarEvent?.citizen?.uuid" />
                             </div>
                             <div class="flex gap-x-2">
                                 <dt class="flex mt-1">
@@ -533,6 +537,12 @@
                 <p class="mt-1 text-xs tabular-nums text-gray-500">
                     {{ state.preview.event?.time_start }} – {{ state.preview.event?.time_end }}
                 </p>
+                <!-- Not a link: the preview ignores the pointer. Click the booking to open it. -->
+                <span v-if="state.preview.event?.journal"
+                    class="mt-1.5 inline-flex max-w-full items-center gap-x-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                    <Icon name="ph:notebook" class="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+                    <span class="truncate">{{ $t('events.linkedNote', { title: state.preview.event.journal.title }) }}</span>
+                </span>
                 <p v-if="state.preview.event?.unit?.name" class="mt-1 flex items-center gap-x-1 text-xs text-gray-500">
                     <Icon name="ph:map-pin" class="h-3.5 w-3.5 text-gray-400" />{{ state.preview.event?.unit?.name }}
                 </p>
