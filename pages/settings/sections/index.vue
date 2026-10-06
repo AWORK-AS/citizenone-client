@@ -32,7 +32,18 @@
                                         <span>{{ section?.label ?? section?.name }}</span>
                                     </td>
                                     <td width="30%">
-                                        <div class="flex items-end justify-end gap-2">
+                                        <!-- Kept by a service type: changed under Indsatstyper, where
+                                             an edit here would only be overwritten. -->
+                                        <div v-if="section?.is_mirrored" class="flex items-center justify-end">
+                                            <Tooltip :text="$t('sections.mirroredTooltip')">
+                                                <NuxtLink to="/settings/inquiry-service-types"
+                                                    class="inline-flex items-center gap-1.5 text-xs font-medium text-gray-500 hover:text-gray-800">
+                                                    <Icon name="ph:lock-simple" class="size-4" />
+                                                    {{ $t('sections.mirrored') }}
+                                                </NuxtLink>
+                                            </Tooltip>
+                                        </div>
+                                        <div v-else class="flex items-end justify-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/sections/${section.uuid}/edit`)">
                                                 <Icon name="ph:pencil-simple" class="size-4" />

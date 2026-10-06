@@ -23,6 +23,10 @@
                         {{ $t('inquiryServiceTypes.formsMoved') }}
                     </NuxtLink>
                 </p>
+                <p class="max-w-2xl flex items-center gap-1.5 text-xs text-gray-500">
+                    <Icon name="ph:link-simple" class="size-3.5" />
+                    {{ $t('inquiryServiceTypes.fillsSections') }}
+                </p>
 
                 <div class="rounded-lg border border-gray-200 bg-white">
                     <div class="flex flex-wrap items-end gap-3 border-b border-gray-100 px-4 py-3">
