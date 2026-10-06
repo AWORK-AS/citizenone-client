@@ -89,6 +89,9 @@
             <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                 :message="$t('archived.confirmation.deleteDocument')"
                 @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
+            <ModulesUserDocumentDocsFileModalPreview :isModalOpen="preview.isOpen" :selectedDocument="preview.document"
+                :loadFile="loadArchivedDocument" :downloadFile="downloadArchivedDocument"
+                :canDownload="canDownloadDocuments" @close="preview.isOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -99,16 +102,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
-import { documentBlobViewer, documentFileName } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { successAlert, warningAlert } = useAlert()
+const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
-const { openOrSaveOriginal } = documentBlobViewer()
 // Without download_documents a document can still be viewed, but not saved.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 let currentTablePage = 1
@@ -209,18 +210,24 @@ async function downloadFile(document: any) {
     state.isTableLoading = false
 }
 
-async function viewFile(document: any) {
-    state.error = {}
-    state.isTableLoading = true
-    try {
-        const response = await documentService.viewArchivedDocument(document?.uuid)
-        if (response && openOrSaveOriginal(response, documentFileName(document), canDownloadDocuments.value) === 'blocked') {
-            warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    state.isTableLoading = false
+// Opening a document shows it in the app's viewer, never in a browser tab or
+// on disk; only users with download_documents get a Download button there.
+const preview = reactive({
+    isOpen: false,
+    document: {} as any,
+})
+
+function viewFile(document: any) {
+    preview.document = document
+    preview.isOpen = true
+}
+
+function loadArchivedDocument(document: any): Promise<Blob | null> {
+    return documentService.viewArchivedDocument(document?.uuid)
+}
+
+function downloadArchivedDocument(document: any): Promise<Blob | null> {
+    return documentService.downloadArchivedDocument(document?.uuid)
 }
 
 function confirmDocumentUnarchiving(document: any) {

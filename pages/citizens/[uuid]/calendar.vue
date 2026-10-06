@@ -284,6 +284,10 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
         end: selectedCalendarEvent.date_time_end,
         is_private: selectedCalendarEvent.is_private ? true : false,
         is_recurring: selectedCalendarEvent.is_recurring ? true : false,
+        unit: selectedCalendarEvent.unit,
+        completion_status: selectedCalendarEvent.completion_status,
+        journal: selectedCalendarEvent.journal,
+        citizen_uuid: citizenUuid,
     }
     state.modal.isViewEventOpen = true
 }

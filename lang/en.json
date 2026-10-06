@@ -4615,7 +4615,15 @@
             "originalKeptNote": "You are viewing a preview. The original file is stored unchanged – download it to open it in Word with exactly the same fonts and layout.",
             "downloadOriginal": "Download original",
             "renderFailed": "This document cannot be shown here. The file has not been changed – download the original to open it in Word.",
-            "oneDriveDownloadFailed": "The file could not be fetched from OneDrive. Try again, or open it directly in OneDrive."
+            "oneDriveDownloadFailed": "The file could not be fetched from OneDrive. Try again, or open it directly in OneDrive.",
+            "notAvailable": "Preview isn't available for this file type.",
+            "downloadToOpen": "Download the original to open it on your computer.",
+            "noDownloadPermission": "Your role doesn't allow downloading documents.",
+            "cannotShow": "This document cannot be shown here.",
+            "previewNote": "You are viewing a preview. Fonts and layout can differ slightly from the original file.",
+            "previous": "Previous document",
+            "next": "Next document",
+            "position": "{current} of {total}"
         }
     },
     "dutySchedules": {
@@ -7177,6 +7185,7 @@
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
+        "linkedNote": "Linked @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"
@@ -15068,6 +15077,7 @@
     },
     "myDay": {
         "brief": {
+            "bookings_missing_note": "One booking has ended without a @:terms.journalNote{''} | {n} bookings have ended without a @:terms.journalNote{''}",
             "goals_running_out": "One goal is due within a week | {n} goals are due within a week",
             "heading": "Needs your attention",
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",

@@ -3,7 +3,11 @@
         <Modal size="xs" :title="$t('events.editEvent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <div class="flex justify-end">
+                    <div class="flex items-center justify-end gap-x-2">
+                        <div class="mr-auto min-w-0">
+                            <ModulesUserMyCalendarLinkedNote :journal="props.selectedSchedule?.journal"
+                                :citizenUuid="props.selectedSchedule?.citizen?.uuid" />
+                        </div>
                         <FormButton type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
                             {{ $t('events.delete') }}
                         </FormButton>
