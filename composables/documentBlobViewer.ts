@@ -7,8 +7,25 @@ const BROWSER_VIEWABLE_MIME = /^(application\/pdf|image\/(png|jpe?g|gif|webp|bmp
 
 const BROWSER_VIEWABLE_EXTENSIONS = ['pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp', 'txt', 'mp3', 'wav', 'mp4', 'webm']
 
-// Word files the in-app viewer (docx-preview) can lay out from the original.
-const IN_APP_PREVIEW_EXTENSIONS = ['docx']
+// What the in-app viewer can draw, by extension. HTML and SVG are left out for
+// the same reason as above. Anything not listed gets a "no preview" message.
+export type DocumentPreviewKind = 'pdf' | 'image' | 'text' | 'docx' | 'none'
+
+const PREVIEW_KINDS: Record<string, DocumentPreviewKind> = {
+    pdf: 'pdf',
+    png: 'image',
+    jpg: 'image',
+    jpeg: 'image',
+    gif: 'image',
+    webp: 'image',
+    bmp: 'image',
+    txt: 'text',
+    csv: 'text',
+    docx: 'docx',
+}
+
+const PREVIEW_KIND_MIME = /^(application\/pdf|image\/(png|jpe?g|gif|webp|bmp)|text\/(plain|csv))$/i
+const DOCX_MIME = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
 
 export function documentExtension(document: any): string {
     // A OneDrive row's file_url is its webUrl (".../Doc.aspx?sourcedoc=..."),
@@ -34,8 +51,42 @@ export function documentFileName(document: any, fallback = 'dokument'): string {
     return `${name}.${extension}`
 }
 
+/**
+ * How the in-app viewer shows a document. The extension decides; the blob's
+ * type is only asked when the document has no extension at all, so a file
+ * named .pdf is never drawn as something else because of what the server said.
+ */
+export function documentPreviewKind(document: any, blob?: Blob | null): DocumentPreviewKind {
+    const extension = documentExtension(document)
+    if (extension) {
+        return PREVIEW_KINDS[extension] ?? 'none'
+    }
+
+    const type = (blob?.type || '').split(';')[0].trim().toLowerCase()
+    if (type === DOCX_MIME) {
+        return 'docx'
+    }
+    if (!PREVIEW_KIND_MIME.test(type)) {
+        return 'none'
+    }
+
+    return type === 'application/pdf' ? 'pdf' : type.startsWith('image/') ? 'image' : 'text'
+}
+
+// The original bytes retyped for the kind they are shown as, whatever type the
+// server sent, so an iframe or img can only ever treat them as that kind.
+export function blobForPreview(blob: Blob, document: any, kind: DocumentPreviewKind): Blob {
+    const type = kind === 'pdf'
+        ? 'application/pdf'
+        : kind === 'image'
+            ? (MIME_BY_EXTENSION[documentExtension(document)] ?? blob.type)
+            : 'text/plain'
+
+    return blob.type === type ? blob : new Blob([blob], { type })
+}
+
 export function canPreviewInApp(document: any): boolean {
-    return IN_APP_PREVIEW_EXTENSIONS.includes(documentExtension(document))
+    return documentPreviewKind(document) !== 'none'
 }
 
 // Opens an already-downloaded document Blob in a new browser tab instead of
@@ -99,22 +150,23 @@ export function documentBlobViewer() {
     }
 }
 
+const MIME_BY_EXTENSION: Record<string, string> = {
+    pdf: 'application/pdf',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    gif: 'image/gif',
+    webp: 'image/webp',
+    bmp: 'image/bmp',
+    txt: 'text/plain',
+    mp3: 'audio/mpeg',
+    wav: 'audio/wav',
+    mp4: 'video/mp4',
+    webm: 'video/webm',
+}
+
 function mimeFromExtension(fileName: string): string {
     const extension = fileName.includes('.') ? (fileName.split('.').pop() || '').toLowerCase() : ''
-    const types: Record<string, string> = {
-        pdf: 'application/pdf',
-        png: 'image/png',
-        jpg: 'image/jpeg',
-        jpeg: 'image/jpeg',
-        gif: 'image/gif',
-        webp: 'image/webp',
-        bmp: 'image/bmp',
-        txt: 'text/plain',
-        mp3: 'audio/mpeg',
-        wav: 'audio/wav',
-        mp4: 'video/mp4',
-        webm: 'video/webm',
-    }
 
-    return types[extension] || 'application/octet-stream'
+    return MIME_BY_EXTENSION[extension] || 'application/octet-stream'
 }

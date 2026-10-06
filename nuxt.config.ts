@@ -16,7 +16,8 @@ const contentSecurityPolicy = [
   "connect-src 'self' https:",
   // The last three carry release-note videos, which are linked rather than
   // uploaded; without them the embed breaks the day this policy is enforced.
-  "frame-src 'self' https://www.googletagmanager.com https://login.microsoftonline.com https://www.youtube.com https://player.vimeo.com https://www.loom.com",
+  // blob: is the in-app document viewer's PDF frame.
+  "frame-src 'self' blob: https://www.googletagmanager.com https://login.microsoftonline.com https://www.youtube.com https://player.vimeo.com https://www.loom.com",
   "frame-ancestors 'none'",
   "object-src 'none'",
   "base-uri 'self'",

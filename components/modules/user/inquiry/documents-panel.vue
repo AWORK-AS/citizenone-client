@@ -40,10 +40,13 @@
             class="flex flex-wrap items-center gap-3 border-t border-surface-100 py-2.5">
             <Icon name="ph:file-text" class="size-5 shrink-0 text-slate-400" />
             <div class="min-w-0 flex-1">
-                <a :href="doc.file_url" target="_blank" rel="noopener"
-                    class="block truncate text-[13px] font-semibold text-secondary hover:underline">
+                <!-- Opens in the app's viewer through the API, not the stored
+                     file's public address. -->
+                <button type="button" @click="openDocument(doc)"
+                    class="block max-w-full truncate text-left text-[13px] font-semibold text-secondary hover:underline"
+                    data-testid="inquiry-document-open">
                     {{ doc.name }}
-                </a>
+                </button>
                 <p class="text-[11px] text-slate-400">
                     {{ [readableSize(doc.size), uploaderName(doc), formatDateToReadable(doc.created_at)].filter(Boolean).join(' · ') }}
                 </p>
@@ -62,6 +65,9 @@
 
         <DialogConfirmation :isModalOpen="state.isDeleteOpen" :message="$t('inquiryDocuments.confirmDelete') + '?'"
             @close="state.isDeleteOpen = false" @confirm="remove" />
+        <ModulesUserDocumentDocsFileModalPreview :isModalOpen="preview.isOpen" :selectedDocument="preview.document"
+            :loadFile="loadDocument" :downloadFile="downloadDocument" :canDownload="canDownloadDocuments"
+            @close="preview.isOpen = false" />
     </div>
 </template>
 
@@ -69,6 +75,7 @@
 import { inquiryDocumentService } from '@/components/api/user/InquiryDocumentService'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 
 const { errorAlert } = useAlert()
@@ -98,6 +105,28 @@ const state = reactive({
 })
 
 const canManage = computed(() => (userStore.getUser?.roles?.[0]?.level ?? 0) >= 60)
+
+const { isAtLeast, can } = usePermissions()
+// Without download_documents a document can still be viewed, but not saved.
+const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
+
+const preview = reactive({
+    isOpen: false,
+    document: {} as any,
+})
+
+function openDocument(doc: any) {
+    preview.document = doc
+    preview.isOpen = true
+}
+
+function loadDocument(doc: any): Promise<Blob | null> {
+    return inquiryDocumentService.viewDocument(doc?.uuid)
+}
+
+function downloadDocument(doc: any): Promise<Blob | null> {
+    return inquiryDocumentService.downloadDocument(doc?.uuid)
+}
 
 onMounted(() => {
     fetchDocuments()
