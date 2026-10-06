@@ -690,6 +690,8 @@
                         </div>
                     </div>
                 </div>
+
+                <ModulesUserSettingsCompanySso v-if="isAtLeast('Admin')" />
             </LoadingSpinner>
         </NuxtLayout>
     </div>

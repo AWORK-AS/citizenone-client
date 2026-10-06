@@ -8418,7 +8418,25 @@
         "shiftsPlannedToday": "Shifts planned today",
         "signinToYourAccount": "Sign in to your account",
         "tagline": "Social sector · Care sector · Healthcare",
-        "welcomeBack": "Welcome back"
+        "welcomeBack": "Welcome back",
+        "sso": {
+            "microsoft": "Sign in with Microsoft",
+            "hint": "Use your organisation's Microsoft account. Type your work email above first.",
+            "enterEmail": "Type your work email, then choose Sign in with Microsoft.",
+            "failed": "Signing in with Microsoft did not work. Try again."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Let employees sign in with the organisation's Microsoft account. Only sign-ins from your own Microsoft Entra tenant are accepted.",
+        "unavailable": "Microsoft sign-in is not switched on on the server yet. Contact support.",
+        "tenantId": "Microsoft Entra tenant ID",
+        "tenantHint": "Found in the Entra admin center under Overview. Leave empty to switch SSO off.",
+        "saveHint": "Applies from the next sign-in",
+        "saved": "Saved",
+        "needsApp": "Microsoft SSO is a free app in the app store and requires the Pro plan. Activate the app to enter your tenant id.",
+        "openApp": "Go to the app",
+        "openAppHint": "Opens Microsoft SSO in the app store, where an administrator can activate it"
     },
     "logs": {
         "table": {
