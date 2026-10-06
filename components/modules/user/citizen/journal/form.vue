@@ -4,7 +4,7 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
-        <div class="space-y-3">
+        <div class="space-y-3" :class="{ 'pointer-events-none select-text opacity-90': props.readonly }">
             <div v-if="state.isAutoSaving" class="flex items-center gap-x-1">
                 <Icon name="ph:spinner" class="w-5 h-5 spin" />
                 <div>
@@ -448,7 +448,7 @@
                 <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">
                     {{ $t('cancel') }}
                 </FormButton>
-                <FormButton type="submit" buttonStyle="primary" class="w-full">
+                <FormButton v-if="!props.readonly" type="submit" buttonStyle="primary" class="w-full">
                     {{ props.formType === 'create' ? $t('save') : $t('update') }}
                 </FormButton>
             </div>
@@ -554,6 +554,10 @@ const props = defineProps({
     selectedJournal: {
         type: Object,
         required: true,
+    },
+    readonly: {
+        type: Boolean,
+        default: false,
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected'])
@@ -1074,6 +1078,8 @@ watch(() => state.formJournal, () => {
     // Guard 2: ignore programmatic + initial editor sync changes
     if (suppressChangeTracking) return
 
+    if (props.readonly) return
+
     // Only mark changes for update form
     if (props.formType === 'update') {
         state.hasChanges = true
@@ -1084,6 +1090,7 @@ watch(() => state.formJournal, () => {
 watch(() => state.hasChanges, (hasChanges) => {
     if (!isInitialized) return
     if (suppressChangeTracking) return
+    if (props.readonly) return
 
     if (hasChanges && props.formType === 'update') {
         state.isAutoSaving = true

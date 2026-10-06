@@ -13,7 +13,7 @@
             <div v-for="(citizen, citizenIndex) in state.citizens?.data" :key="citizenIndex">
                 <div v-for="(journal, journalIndex) in citizen?.citizen_journals" :key="journalIndex"
                     class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
-                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)" v-if="props?.viewAll">
+                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals${journal?.uuid ? '?open_journal=' + journal.uuid : ''}`)" v-if="props?.viewAll">
                     <div class="flex gap-x-2">
                         <img :src="citizen?.image ?? avatarUrl(`${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`)"
                             :class="[
@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div v-else class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-50"
-                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals`)">
+                    @click="navigateTo(`/citizens/${citizen?.uuid}/journals${citizen?.citizen_journal?.uuid ? '?open_journal=' + citizen.citizen_journal.uuid : ''}`)">
                     <div class="flex gap-x-2">
                         <img :src="citizen?.image ?? avatarUrl(`${citizen?.firstname + ' ' + (citizen?.lastname ?? '')}`)"
                             :class="[
