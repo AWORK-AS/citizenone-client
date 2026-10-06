@@ -12290,6 +12290,11 @@
                     "whoLeft": "Hvem der forsvandt",
                     "recordingSince": "Måles fra {date}. Der skal to målinger til at vise en bevægelse.",
                     "notRecordedYet": "Måling pr. kunde er endnu ikke begyndt. Den starter med næste natlige kørsel."
+                },
+                "concentration": {
+                    "title": "Hvor pengene kommer fra",
+                    "hint": "De ti største står for {top} % af MRR. Den største alene for {largest} %. {count} betalende kunder i alt.",
+                    "empty": "Ingen løbende aftaler endnu."
                 }
             }
         },
