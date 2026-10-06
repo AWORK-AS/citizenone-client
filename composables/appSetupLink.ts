@@ -10,6 +10,7 @@ const APP_LINKS: Record<string, AppDestination> = {
     // Integrations
     'economic': { path: '/settings/economic' },
     'power-bi': { path: '/settings/power-bi' },
+    'microsoft-sso': { path: '/settings/company' },
     // Portal apps: who has a login, and what each audience may see
     'relative-access': { path: '/settings/portal-access' },
     'third-party-access': { path: '/settings/portal-access' },

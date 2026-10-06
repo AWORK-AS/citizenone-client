@@ -882,7 +882,10 @@
         "billing": "Billing",
         "subscription": "Subscription",
         "couldNotStartConnection": "The connection could not be started. Try again.",
-        "couldNotStartPayment": "The payment could not be started. Try again."
+        "couldNotStartPayment": "The payment could not be started. Try again.",
+        "requiresPlan": "Requires {plan}",
+        "requiresPlanTooltip": "This app requires the {plan} plan. Click to see your subscription and upgrade.",
+        "upgradeToPlan": "Upgrade to {plan}"
     },
     "archived": {
         "alert": {
@@ -8418,7 +8421,25 @@
         "shiftsPlannedToday": "Shifts planned today",
         "signinToYourAccount": "Sign in to your account",
         "tagline": "Social sector · Care sector · Healthcare",
-        "welcomeBack": "Welcome back"
+        "welcomeBack": "Welcome back",
+        "sso": {
+            "microsoft": "Sign in with Microsoft",
+            "hint": "Use your organisation's Microsoft account. Type your work email above first.",
+            "enterEmail": "Type your work email, then choose Sign in with Microsoft.",
+            "failed": "Signing in with Microsoft did not work. Try again."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Let employees sign in with the organisation's Microsoft account. Only sign-ins from your own Microsoft Entra tenant are accepted.",
+        "unavailable": "Microsoft sign-in is not switched on on the server yet. Contact support.",
+        "tenantId": "Microsoft Entra tenant ID",
+        "tenantHint": "Found in the Entra admin center under Overview. Leave empty to switch SSO off.",
+        "saveHint": "Applies from the next sign-in",
+        "saved": "Saved",
+        "needsApp": "Microsoft SSO is a free app in the app store and requires the Pro plan. Activate the app to enter your tenant id.",
+        "openApp": "Go to the app",
+        "openAppHint": "Opens Microsoft SSO in the app store, where an administrator can activate it"
     },
     "logs": {
         "table": {
@@ -10201,6 +10222,23 @@
             "employeeGroups": "Employee groups",
             "noEmployeeGroups": "No employee groups created yet."
         },
+        "matrix": {
+            "title": "Permission overview",
+            "note": "The overview shows what each role grants. Individual users can be given extra permissions or have permissions removed, and those exceptions aren't shown here.",
+            "fullAccess": "Full access",
+            "fullAccessNote": "Roles at administrator level have every permission, so their column is ticked all the way down. Page access is shown as it is set on the role.",
+            "exportCsv": "Export CSV",
+            "printPdf": "Print / PDF",
+            "print": "Print",
+            "permission": "Permission",
+            "page": "Page",
+            "area": "Area",
+            "granted": "Granted",
+            "generated": "Generated",
+            "company": "Company",
+            "pdfAttribution": "This PDF was generated with CitizenOne's journal system.",
+            "fileName": "permission-overview"
+        },
         "newRole": "New role",
         "permissions": {
             "createCitizen": "Create @:terms.citizen{''}",
@@ -10796,7 +10834,10 @@
             "inquiryOffers": "Offers and prices",
             "customerDepartments": "Customers and departments",
             "inquiryForms": "Inquiry forms",
-            "visitTypes": "Visit types"
+            "visitTypes": "Visit types",
+            "contractHourTypes": "Hour types",
+            "paymentTerms": "Payment terms",
+            "contractFields": "Contract fields"
         },
         "catalog": {
             "noSettingsMatch": "No settings match \"{search}\"."
@@ -11499,7 +11540,10 @@
                 "addScreenshot": "Add screenshot",
                 "screenshotCaption": "Caption",
                 "uploadScreenshot": "Upload screenshot",
-                "uploadFailed": "The image could not be uploaded."
+                "uploadFailed": "The image could not be uploaded.",
+                "requiredPlan": "Required plan",
+                "requiredPlanNone": "None - anyone can activate",
+                "requiredPlanHint": "Only companies on this plan can activate the app."
             },
             "colName": "Name",
             "attachToCompany": "Assign to company",
@@ -15292,7 +15336,7 @@
                 "cooperation": "Cooperation"
             },
             "help": {
-                "externalId": "The customer's id in WorkZone. Used to update the department when you import again.",
+                "externalId": "The customer's ID as shown in WorkZone (the ID column of the export). Used to update the department when you import again.",
                 "customerName": "The customer, e.g. the municipality name. In WorkZone, Navn 1 is customer and department separated by a comma.",
                 "name": "The department name as it appears on the invoice.",
                 "street": "First address line.",
@@ -15325,7 +15369,7 @@
                 "button": "Import from WorkZone",
                 "buttonHelp": "Upload a file from WorkZone and see what would happen before anything is saved.",
                 "help": "Choose WorkZone's OData export of customers (Kommuner) as xlsx or csv. The first row must be column headers, and the Navn 1 column is required.",
-                "helpReimport": "You see a preview first. Importing again updates departments with the same WorkZone ID, and empty cells in the file do not overwrite what is in CitizenOne.",
+                "helpReimport": "You see a preview first. Importing again updates departments with the same WorkZone ID (as shown in WorkZone), and empty cells in the file do not overwrite what is in CitizenOne. Discontinued departments are imported as inactive.",
                 "file": "File",
                 "fileHelp": "xlsx, xls or csv, 5 MB at most.",
                 "badType": "The file must be xlsx, xls or csv.",
@@ -15349,6 +15393,8 @@
                 },
                 "warnings": "Warnings",
                 "warningsHelp": "The row is imported, but a value could not be used, e.g. an invalid EAN or e-mail.",
+                "inactiveCount": "Inactive",
+                "inactiveCountHelp": "Marked as ceased in WorkZone. Imported as inactive, so they cannot be picked on new contract periods.",
                 "errors": "Errors",
                 "errorsHelp": "Rows with errors are skipped.",
                 "termsWillBeAdded": "Payment terms that will be added to the list: {days} days.",
@@ -15358,7 +15404,10 @@
                 "apply": "Import {count}",
                 "applyHelp": "Saves the rows that are created or updated in one go. A skipped row changes nothing.",
                 "done": "{count} departments have been imported"
-            }
+            },
+            "eanAndCustomerNumber": "EAN / customer no.",
+            "inactive": "Inactive",
+            "inactiveHelp": "The department is inactive (discontinued in WorkZone) and cannot be chosen on new contract periods."
         },
         "contract": {
             "title": "Contract",
@@ -15748,6 +15797,26 @@
         "email": "Email",
         "phone": "Phone"
     },
+    "inquiryIntake": {
+        "title": "Website form",
+        "description": "Inquiries from your own website form are created here automatically. The form posts with a key that can only create inquiries.",
+        "active": "Active · key ends in {last4}",
+        "inactive": "Not set up",
+        "generate": "Create key",
+        "rotate": "New key",
+        "generateHint": "Create a key for your website form",
+        "rotateHint": "Make a new key. The old one stops working at once.",
+        "revoke": "Switch off",
+        "revokeHint": "Switch the website form off. The key stops working.",
+        "copyNow": "Copy the key now. It is shown only this once.",
+        "copy": "Copy the key",
+        "copied": "The key is copied",
+        "howTo": "How to set up the form",
+        "howToText": "Have your website send the form to the address below with the key in the X-Inquiry-Key header. The inquiry appears in the pipeline, marked as from the website.",
+        "revoked": "The website form is switched off",
+        "failed": "That did not work",
+        "fromWebsite": "From the website"
+    },
     "consultantSkills": {
         "title": "Consultant skills",
         "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",
@@ -15981,6 +16050,41 @@
         "uploadFailed": "The document could not be uploaded",
         "deleteFailed": "The document could not be deleted",
         "dropHere": "Drop the files here"
+    },
+    "inquiryParties": {
+        "title": "Parties",
+        "hint": "Who the case involves: caseworker, parents, school and your own professionals. They become contacts on the case when the inquiry is won.",
+        "add": "Add party",
+        "remove": "Remove party",
+        "empty": "There are no parties yet.",
+        "primary": "Primary party",
+        "primaryHint": "Who the case is primarily about",
+        "saveFailed": "The party could not be saved",
+        "kinds": {
+            "outside": "Outside party",
+            "employee": "Employee"
+        },
+        "types": {
+            "case_manager": "Caseworker",
+            "relatives": "Relative",
+            "external_contact": "Other outside",
+            "doctor": "Doctor",
+            "dentist": "Dentist",
+            "our_contact_person": "Our contact person"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "E.g. school or municipality",
+            "firstname": "First name",
+            "lastname": "Last name",
+            "email": "Email",
+            "phone": "Phone",
+            "employee": "Employee",
+            "coordinatorRole": "Coordinator role",
+            "noRole": "None",
+            "isPrimary": "Primary party"
+        }
     },
     "inquiryInvitations": {
         "title": "Consultants asked",

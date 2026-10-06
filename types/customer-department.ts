@@ -21,7 +21,7 @@ export interface ImportRow {
 export interface ImportResult {
     dry_run: boolean
     rows: ImportRow[]
-    counts: { rows: number, create: number, update: number, skip: number, warnings: number, errors: number }
+    counts: { rows: number, create: number, update: number, skip: number, inactive?: number, warnings: number, errors: number }
     payment_terms_added: number[]
     unmatched_municipalities: string[]
     ignored_columns: string[]

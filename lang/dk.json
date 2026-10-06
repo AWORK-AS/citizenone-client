@@ -882,7 +882,10 @@
         "billing": "Betaling",
         "subscription": "Abonnement",
         "couldNotStartConnection": "Forbindelsen kunne ikke startes. Prøv igen.",
-        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen."
+        "couldNotStartPayment": "Betalingen kunne ikke startes. Prøv igen.",
+        "requiresPlan": "Kræver {plan}",
+        "requiresPlanTooltip": "Appen kræver {plan}-profilen. Klik for at se jeres abonnement og opgradere.",
+        "upgradeToPlan": "Opgrader til {plan}"
     },
     "archived": {
         "alert": {
@@ -8418,7 +8421,25 @@
         "shiftsPlannedToday": "Vagter planlagt i dag",
         "signinToYourAccount": "Log ind på din konto",
         "tagline": "Journalsystem til social- og sundhedssektoren",
-        "welcomeBack": "Velkommen tilbage"
+        "welcomeBack": "Velkommen tilbage",
+        "sso": {
+            "microsoft": "Log ind med Microsoft",
+            "hint": "Brug din organisations Microsoft-konto. Skriv din arbejds-e-mail ovenfor først.",
+            "enterEmail": "Skriv din arbejds-e-mail, og vælg så Log ind med Microsoft.",
+            "failed": "Login med Microsoft lykkedes ikke. Prøv igen."
+        }
+    },
+    "companySso": {
+        "title": "Single sign-on (Microsoft)",
+        "description": "Lad medarbejderne logge ind med organisationens Microsoft-konto. Kun logins fra jeres egen Microsoft Entra-tenant accepteres.",
+        "unavailable": "Microsoft-login er ikke slået til på serveren endnu. Kontakt support.",
+        "tenantId": "Microsoft Entra tenant-id",
+        "tenantHint": "Findes i Entra admin center under Oversigt. Lad feltet stå tomt for at slå SSO fra.",
+        "saveHint": "Gælder fra næste login",
+        "saved": "Gemt",
+        "needsApp": "Microsoft SSO er en gratis app i app store'en og kræver Pro-profilen. Aktivér appen for at indtaste jeres tenant-id.",
+        "openApp": "Gå til appen",
+        "openAppHint": "Åbner Microsoft SSO i app store'en, hvor en administrator kan aktivere den"
     },
     "logs": {
         "table": {
@@ -10201,6 +10222,23 @@
             "employeeGroups": "Medarbejdergrupper",
             "noEmployeeGroups": "Ingen medarbejdergrupper oprettet endnu."
         },
+        "matrix": {
+            "title": "Tilladelsesoversigt",
+            "note": "Oversigten viser, hvad hver rolle giver adgang til. Den enkelte bruger kan have fået ekstra tilladelser eller fået tilladelser frataget, og de undtagelser vises ikke her.",
+            "fullAccess": "Fuld adgang",
+            "fullAccessNote": "Roller på administratorniveau har alle tilladelser, så deres kolonne er markeret hele vejen ned. Sideadgange vises, som de er sat på rollen.",
+            "exportCsv": "Eksportér CSV",
+            "printPdf": "Udskriv / PDF",
+            "print": "Udskriv",
+            "permission": "Tilladelse",
+            "page": "Side",
+            "area": "Område",
+            "granted": "Tildelt",
+            "generated": "Genereret",
+            "company": "Virksomhed",
+            "pdfAttribution": "Denne PDF blev genereret med CitizenOnes journalsystem.",
+            "fileName": "tilladelsesoversigt"
+        },
         "newRole": "Ny rolle",
         "permissions": {
             "createCitizen": "Opret @:terms.citizen{''}",
@@ -10796,7 +10834,10 @@
             "inquiryOffers": "Tilbud og priser",
             "customerDepartments": "Kunder og afdelinger",
             "inquiryForms": "Henvendelsesformularer",
-            "visitTypes": "Besøgstyper"
+            "visitTypes": "Besøgstyper",
+            "contractHourTypes": "Timetyper",
+            "paymentTerms": "Betalingsbetingelser",
+            "contractFields": "Kontraktfelter"
         },
         "catalog": {
             "noSettingsMatch": "Ingen indstillinger matcher \"{search}\"."
@@ -11499,7 +11540,10 @@
                 "addScreenshot": "Tilføj skærmbillede",
                 "screenshotCaption": "Billedtekst",
                 "uploadScreenshot": "Upload skærmbillede",
-                "uploadFailed": "Billedet kunne ikke uploades."
+                "uploadFailed": "Billedet kunne ikke uploades.",
+                "requiredPlan": "Kræver plan",
+                "requiredPlanNone": "Ingen - alle kan aktivere",
+                "requiredPlanHint": "Kun firmaer på denne plan kan aktivere appen."
             },
             "colName": "Navn",
             "attachToCompany": "Tildel til virksomhed",
@@ -15237,7 +15281,7 @@
             "intro": "De afdelinger hos jeres kunder, som fakturaerne sendes til. En kunde kan have flere afdelinger, hver med egen adresse, EAN-nummer og betingelser.",
             "new": "Ny afdeling",
             "edit": "Rediger afdeling",
-            "search": "Søg på navn, kunde, EAN, kundenr. eller WorkZone-id",
+            "search": "Søg på navn, kunde, EAN, kundenr. eller WorkZone-ID",
             "empty": "Der er ikke oprettet nogen afdelinger endnu.",
             "noCustomer": "Uden kunde",
             "municipality": "Kommune",
@@ -15262,7 +15306,7 @@
             "saved": "Afdelingen er gemt",
             "deleted": "Afdelingen er slettet",
             "confirmDelete": "Slet afdelingen? Kontrakter og fakturaer, der peger på den, beholder deres oplysninger.",
-            "externalId": "WorkZone-id",
+            "externalId": "WorkZone-ID",
             "addressLine2": "Adresse 2",
             "addressType": "Adressetype",
             "region": "Region",
@@ -15285,7 +15329,7 @@
                 "cooperation": "Samarbejde"
             },
             "help": {
-                "externalId": "Kundens id i WorkZone. Bruges til at opdatere afdelingen, når du importerer igen.",
+                "externalId": "Kundens ID, som det vises i WorkZone (kolonnen ID i udtrækket). Bruges til at opdatere afdelingen, når du importerer igen.",
                 "customerName": "Kunden, f.eks. kommunens navn. Navn 1 i WorkZone er kunde og afdeling adskilt af komma.",
                 "name": "Afdelingens navn, som det står på fakturaen.",
                 "street": "Første adresselinje.",
@@ -15318,7 +15362,7 @@
                 "button": "Importér fra WorkZone",
                 "buttonHelp": "Upload en fil fra WorkZone og se, hvad der vil ske, før noget gemmes.",
                 "help": "Vælg WorkZones OData-udtræk af kommuner (Kommuner) som xlsx eller csv. Første række skal være kolonneoverskrifter, og kolonnen Navn 1 er påkrævet.",
-                "helpReimport": "Du ser først en forhåndsvisning. Importerer du igen, opdateres afdelinger med samme WorkZone-id, og tomme felter i filen overskriver ikke det, der står i CitizenOne.",
+                "helpReimport": "Du ser først en forhåndsvisning. Importerer du igen, opdateres afdelinger med samme WorkZone-ID (som vist i WorkZone), og tomme felter i filen overskriver ikke det, der står i CitizenOne. Ophørte afdelinger importeres som inaktive.",
                 "file": "Fil",
                 "fileHelp": "xlsx, xls eller csv, højst 5 MB.",
                 "badType": "Filen skal være xlsx, xls eller csv.",
@@ -15342,6 +15386,8 @@
                 },
                 "warnings": "Advarsler",
                 "warningsHelp": "Rækken importeres, men en værdi kunne ikke bruges, f.eks. en ugyldig EAN eller mail.",
+                "inactiveCount": "Inaktive",
+                "inactiveCountHelp": "Markeret som ophørt i WorkZone. Importeres som inaktive, så de ikke kan vælges på nye kontraktperioder.",
                 "errors": "Fejl",
                 "errorsHelp": "Rækker med fejl springes over.",
                 "termsWillBeAdded": "Betalingsbetingelser, der oprettes på listen: {days} dage.",
@@ -15351,7 +15397,10 @@
                 "apply": "Importér {count}",
                 "applyHelp": "Gemmer de rækker, der oprettes eller opdateres, i ét hug. Springes en række over, ændres intet for den.",
                 "done": "{count} afdelinger er importeret"
-            }
+            },
+            "eanAndCustomerNumber": "EAN / kundenr.",
+            "inactive": "Inaktiv",
+            "inactiveHelp": "Afdelingen er inaktiv (ophørt i WorkZone) og kan ikke vælges på nye kontraktperioder."
         },
         "contract": {
             "title": "Kontrakt",
@@ -15741,6 +15790,26 @@
         "email": "E-mail",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Webformular",
+        "description": "Henvendelser fra jeres egen hjemmesideformular oprettes automatisk her. Formularen sender med en nøgle, der kun kan oprette henvendelser.",
+        "active": "Aktiv · nøgle slutter på {last4}",
+        "inactive": "Ikke sat op",
+        "generate": "Opret nøgle",
+        "rotate": "Ny nøgle",
+        "generateHint": "Opret en nøgle til jeres hjemmesideformular",
+        "rotateHint": "Lav en ny nøgle. Den gamle holder op med at virke med det samme.",
+        "revoke": "Slå fra",
+        "revokeHint": "Slå webformularen fra. Nøglen holder op med at virke.",
+        "copyNow": "Kopiér nøglen nu. Den vises kun denne ene gang.",
+        "copy": "Kopiér nøglen",
+        "copied": "Nøglen er kopieret",
+        "howTo": "Sådan sættes formularen op",
+        "howToText": "Lad jeres hjemmeside sende formularen til adressen herunder med nøglen i headeren X-Inquiry-Key. Henvendelsen dukker op i pipelinen, markeret som fra hjemmesiden.",
+        "revoked": "Webformularen er slået fra",
+        "failed": "Det lykkedes ikke",
+        "fromWebsite": "Fra hjemmesiden"
+    },
     "consultantSkills": {
         "title": "Konsulentkompetencer",
         "description": "Vedligehold de lister konsulenterne matches på. En kompetence er noget de kan, et kursus er noget de har taget, og et emneord er noget de har erfaring med.",
@@ -15974,6 +16043,41 @@
         "uploadFailed": "Dokumentet kunne ikke uploades",
         "deleteFailed": "Dokumentet kunne ikke slettes",
         "dropHere": "Slip filerne her"
+    },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Hvem sagen involverer: sagsbehandler, forældre, skole og jeres egne fagpersoner. De bliver kontakter på indsatsen, når henvendelsen vindes.",
+        "add": "Tilføj part",
+        "remove": "Fjern part",
+        "empty": "Der er ingen parter endnu.",
+        "primary": "Primær part",
+        "primaryHint": "Den eller dem sagen primært vedrører",
+        "saveFailed": "Parten kunne ikke gemmes",
+        "kinds": {
+            "outside": "Ekstern part",
+            "employee": "Medarbejder"
+        },
+        "types": {
+            "case_manager": "Sagsbehandler",
+            "relatives": "Pårørende",
+            "external_contact": "Anden ekstern",
+            "doctor": "Læge",
+            "dentist": "Tandlæge",
+            "our_contact_person": "Vores kontaktperson"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "Fx skole eller kommune",
+            "firstname": "Fornavn",
+            "lastname": "Efternavn",
+            "email": "E-mail",
+            "phone": "Telefon",
+            "employee": "Medarbejder",
+            "coordinatorRole": "Koordinatorrolle",
+            "noRole": "Ingen",
+            "isPrimary": "Primær part"
+        }
     },
     "inquiryInvitations": {
         "title": "Konsulenter spurgt",

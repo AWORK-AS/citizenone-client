@@ -27,6 +27,10 @@
                 <p class="mt-0.5 truncate text-xs text-gray-500">{{ byline }}</p>
             </div>
 
+            <Tooltip v-if="props.app?.required_plan" class="relative z-10" wrap
+                :text="$t('apps.requiresPlanTooltip', { plan: props.app.required_plan })">
+                <span class="app-badge app-badge-plan">{{ $t('apps.requiresPlan', { plan: props.app.required_plan }) }}</span>
+            </Tooltip>
             <span v-if="badge" :class="['app-badge', `app-badge-${badge.tone}`]">
                 {{ badge.key === 'apps.badge.discount' ? $t(badge.key, { percent: price.discountPercent }) : $t(badge.key) }}
             </span>
@@ -77,6 +81,14 @@
                 v-else-if="props.app?.user_activated" disabled>
                 {{ $t('apps.activated') }}
             </FormButton>
+            <Tooltip v-else-if="needsPlan" class="w-full [&>div]:w-full" wrap
+                :text="$t('apps.requiresPlanTooltip', { plan: props.app?.required_plan })">
+                <FormButton type="button" buttonStyle="action" class="w-full"
+                    :aria-label="$t('apps.requiresPlanTooltip', { plan: props.app?.required_plan })"
+                    @click="navigateTo('/subscription')">
+                    {{ $t('apps.upgradeToPlan', { plan: props.app?.required_plan }) }}
+                </FormButton>
+            </Tooltip>
             <FormButton type="button" buttonStyle="app-order-now" class="w-full" v-else
                 @click="emit('activate', props.app)">
                 {{ props.app?.is_one_time_fee ? $t('apps.orderNow') : $t('apps.activate') }}
@@ -104,6 +116,8 @@ const appIcon = computed(() => appIconFor(props.app).icon)
 const useIconTile = computed(() => appIconFor(props.app).useTile)
 const price = computed(() => appPrice(props.app))
 const badge = computed(() => appBadgeFor(props.app))
+// The backend refuses activation too; this only saves a click that would fail.
+const needsPlan = computed(() => props.app?.plan_eligible === false)
 
 // Apps that arrived before slugs were introduced fall back to their uuid, so a
 // card never links nowhere.

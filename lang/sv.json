@@ -882,7 +882,10 @@
         "billing": "Betalning",
         "subscription": "Abonnemang",
         "couldNotStartConnection": "Anslutningen kunde inte startas. Försök igen.",
-        "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen."
+        "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen.",
+        "requiresPlan": "Kräver {plan}",
+        "requiresPlanTooltip": "Appen kräver {plan}-profilen. Klicka för att se ert abonnemang och uppgradera.",
+        "upgradeToPlan": "Uppgradera till {plan}"
     },
     "archived": {
         "alert": {
@@ -8418,7 +8421,25 @@
         "shiftsPlannedToday": "Pass planlagt idag",
         "signinToYourAccount": "Logga in på din konto",
         "tagline": "Socialområdet · Plejesektoren · Hälsa",
-        "welcomeBack": "Välkommen tillbaka"
+        "welcomeBack": "Välkommen tillbaka",
+        "sso": {
+            "microsoft": "Logga in med Microsoft",
+            "hint": "Använd organisationens Microsoft-konto. Skriv din jobbmejl ovan först.",
+            "enterEmail": "Skriv din jobbmejl och välj sedan Logga in med Microsoft.",
+            "failed": "Inloggningen med Microsoft lyckades inte. Försök igen."
+        }
+    },
+    "companySso": {
+        "title": "Enkel inloggning (Microsoft)",
+        "description": "Låt medarbetarna logga in med organisationens Microsoft-konto. Bara inloggningar från er egen Microsoft Entra-tenant godtas.",
+        "unavailable": "Microsoft-inloggning är inte påslagen på servern ännu. Kontakta support.",
+        "tenantId": "Microsoft Entra tenant-ID",
+        "tenantHint": "Finns i Entra admin center under Översikt. Lämna tomt för att stänga av SSO.",
+        "saveHint": "Gäller från nästa inloggning",
+        "saved": "Sparat",
+        "needsApp": "Microsoft SSO är en gratis app i appbutiken och kräver Pro-profilen. Aktivera appen för att ange ert tenant-id.",
+        "openApp": "Gå till appen",
+        "openAppHint": "Öppnar Microsoft SSO i appbutiken, där en administratör kan aktivera den"
     },
     "logs": {
         "table": {
@@ -10196,6 +10217,23 @@
             "employeeGroups": "Medarbetargrupper",
             "noEmployeeGroups": "Inga medarbetargrupper skapade än."
         },
+        "matrix": {
+            "title": "Behörighetsöversikt",
+            "note": "Översikten visar vad varje roll ger åtkomst till. Enskilda användare kan ha fått extra behörigheter eller fått behörigheter borttagna, och de undantagen visas inte här.",
+            "fullAccess": "Full åtkomst",
+            "fullAccessNote": "Roller på administratörsnivå har alla behörigheter, så deras kolumn är markerad hela vägen ner. Sidåtkomst visas som den är inställd på rollen.",
+            "exportCsv": "Exportera CSV",
+            "printPdf": "Skriv ut / PDF",
+            "print": "Skriv ut",
+            "permission": "Behörighet",
+            "page": "Sida",
+            "area": "Område",
+            "granted": "Beviljad",
+            "generated": "Genererad",
+            "company": "Företag",
+            "pdfAttribution": "Denna PDF genererades med CitizenOnes journalsystem.",
+            "fileName": "behorighetsoversikt"
+        },
         "newRole": "Ny roll",
         "permissions": {
             "createCitizen": "Skapa @:terms.citizen{''}",
@@ -10791,7 +10829,10 @@
             "inquiryOffers": "Offerter och priser",
             "customerDepartments": "Kunder och avdelningar",
             "inquiryForms": "Förfrågningsformulär",
-            "visitTypes": "Besökstyper"
+            "visitTypes": "Besökstyper",
+            "contractHourTypes": "Timtyper",
+            "paymentTerms": "Betalningsvillkor",
+            "contractFields": "Avtalsfält"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11462,7 +11503,10 @@
                 "addScreenshot": "Lägg till skärmbild",
                 "screenshotCaption": "Bildtext",
                 "uploadScreenshot": "Ladda upp skärmbild",
-                "uploadFailed": "Bilden kunde inte laddas upp."
+                "uploadFailed": "Bilden kunde inte laddas upp.",
+                "requiredPlan": "Kräver plan",
+                "requiredPlanNone": "Ingen - alla kan aktivera",
+                "requiredPlanHint": "Endast företag på denna plan kan aktivera appen."
             },
             "colName": "Namn",
             "attachToCompany": "Tilldela till företag",
@@ -15148,7 +15192,7 @@
             "intro": "Avdelningarna hos era kunder som fakturorna skickas till. En kund kan ha flera avdelningar, var och en med egen adress, EAN-nummer och villkor.",
             "new": "Ny avdelning",
             "edit": "Redigera avdelning",
-            "search": "Sök på namn, kund, EAN, kundnr eller WorkZone-id",
+            "search": "Sök på namn, kund, EAN, kundnr eller WorkZone-ID",
             "empty": "Inga avdelningar har skapats ännu.",
             "noCustomer": "Utan kund",
             "municipality": "Kommun",
@@ -15173,7 +15217,7 @@
             "saved": "Avdelningen har sparats",
             "deleted": "Avdelningen har raderats",
             "confirmDelete": "Radera avdelningen? Avtal och fakturor som pekar på den behåller sina uppgifter.",
-            "externalId": "WorkZone-id",
+            "externalId": "WorkZone-ID",
             "addressLine2": "Adress 2",
             "addressType": "Adresstyp",
             "region": "Region",
@@ -15196,7 +15240,7 @@
                 "cooperation": "Samarbete"
             },
             "help": {
-                "externalId": "Kundens id i WorkZone. Används för att uppdatera avdelningen när du importerar igen.",
+                "externalId": "Kundens ID, som den visas i WorkZone (kolumnen ID i exporten). Används för att uppdatera avdelningen när du importerar igen.",
                 "customerName": "Kunden, t.ex. kommunens namn. Navn 1 i WorkZone är kund och avdelning åtskilda av komma.",
                 "name": "Avdelningens namn, som det står på fakturan.",
                 "street": "Första adressraden.",
@@ -15229,7 +15273,7 @@
                 "button": "Importera från WorkZone",
                 "buttonHelp": "Ladda upp en fil från WorkZone och se vad som skulle hända innan något sparas.",
                 "help": "Välj WorkZones OData-export av kommuner (Kommuner) som xlsx eller csv. Första raden måste vara kolumnrubriker, och kolumnen Navn 1 krävs.",
-                "helpReimport": "Du ser först en förhandsgranskning. Importerar du igen uppdateras avdelningar med samma WorkZone-id, och tomma fält i filen skriver inte över det som står i CitizenOne.",
+                "helpReimport": "Du ser först en förhandsgranskning. Importerar du igen uppdateras avdelningar med samma WorkZone-ID (som visas i WorkZone), och tomma fält i filen skriver inte över det som står i CitizenOne. Upphörda avdelningar importeras som inaktiva.",
                 "file": "Fil",
                 "fileHelp": "xlsx, xls eller csv, högst 5 MB.",
                 "badType": "Filen måste vara xlsx, xls eller csv.",
@@ -15253,6 +15297,8 @@
                 },
                 "warnings": "Varningar",
                 "warningsHelp": "Raden importeras, men ett värde kunde inte användas, t.ex. ett ogiltigt EAN eller en e-postadress.",
+                "inactiveCount": "Inaktiva",
+                "inactiveCountHelp": "Markerade som upphörda i WorkZone. Importeras som inaktiva, så att de inte kan väljas på nya kontraktsperioder.",
                 "errors": "Fel",
                 "errorsHelp": "Rader med fel hoppas över.",
                 "termsWillBeAdded": "Betalningsvillkor som läggs till i listan: {days} dagar.",
@@ -15262,7 +15308,10 @@
                 "apply": "Importera {count}",
                 "applyHelp": "Sparar de rader som skapas eller uppdateras i ett svep. En överhoppad rad ändrar ingenting.",
                 "done": "{count} avdelningar har importerats"
-            }
+            },
+            "eanAndCustomerNumber": "EAN / kundnr",
+            "inactive": "Inaktiv",
+            "inactiveHelp": "Avdelningen är inaktiv (upphörd i WorkZone) och kan inte väljas på nya avtalsperioder."
         },
         "contract": {
             "title": "Avtal",
@@ -15652,6 +15701,26 @@
         "email": "E-post",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Webbformulär",
+        "description": "Förfrågningar från ert eget webbformulär skapas automatiskt här. Formuläret skickar med en nyckel som bara kan skapa förfrågningar.",
+        "active": "Aktiv · nyckeln slutar på {last4}",
+        "inactive": "Inte uppsatt",
+        "generate": "Skapa nyckel",
+        "rotate": "Ny nyckel",
+        "generateHint": "Skapa en nyckel till ert webbformulär",
+        "rotateHint": "Gör en ny nyckel. Den gamla slutar fungera direkt.",
+        "revoke": "Stäng av",
+        "revokeHint": "Stäng av webbformuläret. Nyckeln slutar fungera.",
+        "copyNow": "Kopiera nyckeln nu. Den visas bara den här gången.",
+        "copy": "Kopiera nyckeln",
+        "copied": "Nyckeln är kopierad",
+        "howTo": "Så sätter ni upp formuläret",
+        "howToText": "Låt er webbplats skicka formuläret till adressen nedan med nyckeln i headern X-Inquiry-Key. Förfrågan dyker upp i pipelinen, märkt som från webbplatsen.",
+        "revoked": "Webbformuläret är avstängt",
+        "failed": "Det lyckades inte",
+        "fromWebsite": "Från webbplatsen"
+    },
     "consultantSkills": {
         "title": "Konsultkompetenser",
         "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",
@@ -15885,6 +15954,41 @@
         "uploadFailed": "Dokumentet kunde inte laddas upp",
         "deleteFailed": "Dokumentet kunde inte tas bort",
         "dropHere": "Släpp filerna här"
+    },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Vilka ärendet involverar: handläggare, föräldrar, skola och era egna yrkespersoner. De blir kontakter på insatsen när förfrågan vinns.",
+        "add": "Lägg till part",
+        "remove": "Ta bort part",
+        "empty": "Det finns inga parter ännu.",
+        "primary": "Primär part",
+        "primaryHint": "Den eller dem ärendet främst gäller",
+        "saveFailed": "Parten kunde inte sparas",
+        "kinds": {
+            "outside": "Extern part",
+            "employee": "Medarbetare"
+        },
+        "types": {
+            "case_manager": "Handläggare",
+            "relatives": "Anhörig",
+            "external_contact": "Annan extern",
+            "doctor": "Läkare",
+            "dentist": "Tandläkare",
+            "our_contact_person": "Vår kontaktperson"
+        },
+        "form": {
+            "type": "Typ",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "T.ex. skola eller kommun",
+            "firstname": "Förnamn",
+            "lastname": "Efternamn",
+            "email": "E-post",
+            "phone": "Telefon",
+            "employee": "Medarbetare",
+            "coordinatorRole": "Koordinatorroll",
+            "noRole": "Ingen",
+            "isPrimary": "Primär part"
+        }
     },
     "inquiryInvitations": {
         "title": "Konsulter tillfrågade",
