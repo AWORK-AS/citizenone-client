@@ -16066,7 +16066,8 @@
             "consultant_skills_competence": "Konsulentkompetanser: kompetanser",
             "consultant_skills_course": "Konsulentkompetanser: kurs",
             "consultant_skills_topic": "Konsulentkompetanser: emneord",
-            "focus_areas_ics": "Fokusområder (ICS, barn og unge)"
+            "focus_areas_ics": "Fokusområder (ICS, barn og unge)",
+            "rooms": "Rom og lokaler"
         },
         "allServiceTypes": "Alle innsatstyper",
         "allowMultiple": "Tillat mer enn ett svar",

@@ -16157,7 +16157,8 @@
             "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
             "consultant_skills_course": "Konsulentkompetencer: kurser",
             "consultant_skills_topic": "Konsulentkompetencer: emneord",
-            "focus_areas_ics": "Fokusområder (ICS, børn og unge)"
+            "focus_areas_ics": "Fokusområder (ICS, børn og unge)",
+            "rooms": "Værelser og lokaler"
         },
         "allServiceTypes": "Alle indsatstyper",
         "allowMultiple": "Tillad mere end ét svar",

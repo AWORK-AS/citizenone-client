@@ -285,8 +285,14 @@ const LOOKUP_SOURCES = [
     'municipalities', 'regions', 'departments', 'company_contacts',
     'spoken_languages', 'consultant_skills', 'consultant_skills_competence', 'consultant_skills_course',
     'consultant_skills_topic', 'inquiry_service_types', 'employees',
-    'jobcenters', 'focus_areas', 'focus_areas_ics',
+    'jobcenters', 'customer_departments', 'focus_areas', 'focus_areas_ics', 'rooms',
 ]
+// A company that renamed its Rooms page (Memox: "Lokaler") sees its own name.
+function sourceLabel(source: string) {
+    const roomsName = source === 'rooms' ? customPagesStore.getCustomPagesName?.rooms : ''
+    return roomsName || t('inquiryFieldSettings.sources.' + source)
+}
+
 const CHOICE_TYPES = ['select', 'multiselect']
 
 function emptyForm() {
@@ -334,7 +340,7 @@ const stageOptions = computed(() => [
 const isChoiceType = computed(() => CHOICE_TYPES.includes(state.form.type))
 
 const sourceOptions = computed(() =>
-    LOOKUP_SOURCES.map((source) => ({ value: source, label: t('inquiryFieldSettings.sources.' + source) }))
+    LOOKUP_SOURCES.map((source) => ({ value: source, label: sourceLabel(source) }))
 )
 
 const serviceTypeOptions = computed(() => [
