@@ -138,6 +138,7 @@ import { permissionService } from '@/components/api/user/PermissionService'
 import { pageService } from '@/components/api/user/PageService'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 import { getPermissionLabel } from '@/composables/usePermissions'
+import { PERMISSION_GROUP_ORDER, permissionGroup, permissionGroupLabel } from '@/composables/permissionGroups'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -294,42 +295,10 @@ const employeeGroupOptions = computed(() => {
 })
 
 // --- Permission grouping -------------------------------------------------
-function upperFirst(value: string): string {
-    return value ? value.charAt(0).toUpperCase() + value.slice(1) : value
-}
-
-const groupOrder = ['citizen', 'journal', 'health', 'plan', 'calendar', 'economy', 'contact', 'reports', 'other']
-const groupLabels: Record<string, Record<string, string>> = {
-    citizen: { dk: '{Citizen}', en: '{Citizen}', no: '{Citizen}', sv: '{Citizen}' },
-    journal: { dk: 'Journal & dokumenter', en: 'Journals & documents', no: 'Journal & dokumenter', sv: 'Journal & dokument' },
-    health: { dk: 'Helbred & medicin', en: 'Health & medicine', no: 'Helse & medisin', sv: 'Hälsa & medicin' },
-    plan: { dk: 'Planer & mål', en: 'Plans & goals', no: 'Planer & mål', sv: 'Planer & mål' },
-    calendar: { dk: 'Kalender & vagtplan', en: 'Calendar & scheduling', no: 'Kalender & vaktplan', sv: 'Kalender & schema' },
-    economy: { dk: 'Økonomi', en: 'Economy', no: 'Økonomi', sv: 'Ekonomi' },
-    contact: { dk: 'Kontakter & pårørende', en: 'Contacts & relatives', no: 'Kontakter & pårørende', sv: 'Kontakter & anhöriga' },
-    reports: { dk: 'Henvisninger & rapporter', en: 'Referrals & reports', no: 'Henvisninger & rapporter', sv: 'Hänvisningar & rapporter' },
-    other: { dk: 'Andet', en: 'Other', no: 'Annet', sv: 'Övrigt' },
-}
-const citizenLevel = new Set(['create_citizen', 'update_citizen', 'link_citizen', 'manage_citizen_period', 'manage_employer_info'])
-
-function permGroup(name: string): string {
-    if (/citizen_journal|citizen_document/.test(name)) return 'journal'
-    if (/citizen_health|citizen_medicine|nursing_professional_record_template|treatment_template/.test(name)) return 'health'
-    if (/citizen_plan/.test(name)) return 'plan'
-    if (/citizen_calendar|schedule/.test(name) || name === 'delete_calendar') return 'calendar'
-    if (/citizen_economy/.test(name)) return 'economy'
-    if (/citizen_contact|citizen_children/.test(name)) return 'contact'
-    if (/referral|report/.test(name)) return 'reports'
-    if (citizenLevel.has(name)) return 'citizen'
-    return 'other'
-}
-function groupLabel(key: string): string {
-    const byLocale = groupLabels[key] || {}
-    const label = byLocale[locale.value] || byLocale.en || key
-
-    // The citizen word is the company's own, so it comes from i18n and not from the map above.
-    return label.replace('{Citizen}', upperFirst(t('terms.citizen')))
-}
+// Shared with Settings → Roles → Permission overview, so both group the same way.
+const groupOrder = PERMISSION_GROUP_ORDER
+const permGroup = permissionGroup
+const groupLabel = (key: string) => permissionGroupLabel(key, locale.value, t('terms.citizen'))
 
 const allPermissionUuids = computed(() => state.permissions.map((p: any) => p.uuid))
 

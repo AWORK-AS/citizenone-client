@@ -1,10 +1,13 @@
 <template>
     <div>
-        <Modal size="lg" :title="$t('citizens.citizenJournals.editNote')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="lg"
+            :title="props.readonly ? $t('citizens.citizenJournals.viewNote') : $t('citizens.citizenJournals.editNote')"
+            :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenJournalForm formType="update" :selectedJournal="props.selectedJournal"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :readonly="props.readonly" :error="state.error"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateJournal" />
                 </LoadingSpinner>
             </template>
@@ -33,6 +36,10 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    readonly: {
+        type: Boolean,
+        default: false,
+    },
 })
 const emit = defineEmits(['close', 'refreshJournal'])
 
@@ -50,6 +57,7 @@ function refreshJournal() {
 }
 
 async function updateJournal(journalDetails: any) {
+    if (props.readonly) return
     state.error = {}
     state.isPageLoading = true
     try {

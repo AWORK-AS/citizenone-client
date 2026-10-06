@@ -91,6 +91,7 @@ export function useSettingsCatalog() {
             item('health', 'settings.tabs.nursingProfessionalRecordTemplates', '/settings/nursing-professional-record-templates', ['settings-nursing-professional-record-templates']),
             item('citizens', 'settings.tabs.relationships', '/settings/relationships', ['settings-relationships']),
             item('citizens', 'settings.tabs.dischargeReasons', '/settings/discharge-reasons', ['settings-discharge-reasons', 'reports-discharge-reasons']),
+            item('citizens', 'settings.tabs.visitTypes', '/settings/visit-types', ['settings-visit-types']),
             ...when(isEmploymentServices, item('employment', 'settings.tabs.reportTemplates', '/settings/report-templates', ['settings-report-templates', 'settings-report-templates-new', 'settings-report-templates-uuid-edit'])),
             item('access', 'settings.tabs.roles', '/settings/roles', ['settings-roles']),
             item('booking', 'settings.tabs.rooms', '/settings/rooms', ['settings-rooms']),

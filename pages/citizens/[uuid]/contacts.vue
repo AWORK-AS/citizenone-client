@@ -70,6 +70,9 @@
                                         <Badge type="info" class="w-fit mt-1 ml-1" v-if="contact?.company_contact_id">
                                             <p class="text-xxs px-2">{{ $t('addressBook.addressBook') }}</p>
                                         </Badge>
+                                        <Badge type="primary" class="w-fit mt-1 ml-1" v-if="contact?.is_primary_party">
+                                            <p class="text-xxs px-2">{{ $t('inquiryParties.primary') }}</p>
+                                        </Badge>
                                         <Badge type="active" class="w-fit mt-1 ml-1" v-if="contact?.coordinator_role">
                                             <p class="text-xxs px-2">
                                                 {{ contact.coordinator_role === 'primary'

@@ -1,4 +1,5 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
+import type { ImportResult } from '@/types/customer-department'
 import type { ContractFieldDefinition, ContractHourType, DataEnvelope, PaymentTerm } from '@/types/contract'
 
 class SocialWelfareService extends BaseAPIService {
@@ -52,6 +53,16 @@ class SocialWelfareService extends BaseAPIService {
 
     async deleteCustomerDepartment(uuid: string): Promise<any> {
         return await this.request(`/user/social-welfare/customer-departments/${uuid}`, 'DELETE')
+    }
+
+    // WorkZone export (xlsx or csv). A dry run only reports what would happen;
+    // dry_run=false writes it all in one transaction.
+    async importCustomerDepartments(file: File, dryRun: boolean): Promise<DataEnvelope<ImportResult>> {
+        const formData = new FormData()
+        formData.append('file', file)
+        formData.append('dry_run', dryRun ? '1' : '0')
+
+        return await this.requestFormData(`/user/social-welfare/customer-departments/import`, formData)
     }
 
     // The contract periods on one intervention, with the stays' fallback

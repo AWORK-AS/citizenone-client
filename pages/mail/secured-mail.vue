@@ -206,6 +206,45 @@
                                                         </div>
                                                     </div>
                                                     <div v-safe-html="state.selectedEmail?.message" />
+                                                    <div class="flex flex-wrap items-center gap-2">
+                                                        <div v-for="(attachment, attachmentIndex) in state.selectedEmail?.attachments"
+                                                            :key="attachmentIndex" class="border border-gray-200 rounded-sm">
+                                                            <div class="cursor-pointer flex items-center gap-x-2 p-2"
+                                                                @click="downloadAttachment(attachment?.file_url)">
+                                                                <div class="flex items-center" v-if="isPdf(attachment?.file_name)">
+                                                                    <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                                <div class="flex items-center"
+                                                                    v-else-if="isWord(attachment?.file_name)">
+                                                                    <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                                <div class="flex items-center"
+                                                                    v-else-if="isExcel(attachment?.file_name)">
+                                                                    <Icon name="ph:file-xls" class="h-5 w-5 text-green-600"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                                <div class="flex items-center"
+                                                                    v-else-if="isPpt(attachment?.file_name)">
+                                                                    <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                                <div class="flex items-center"
+                                                                    v-else-if="isImage(attachment?.file_name)">
+                                                                    <Icon name="ph:file-image" class="h-5 w-5 text-yellow-600"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                                <div class="flex items-center" v-else>
+                                                                    <Icon name="ph:file" class="h-5 w-5 text-gray-600"
+                                                                        aria-hidden="true" />
+                                                                </div>
+                                                                <p class="text-xs">
+                                                                    {{ attachment?.file_name }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                     <p class="flex items-center gap-x-1 text-xs">
                                                         <span>
                                                             {{ $t('mail.secured.sent.sentWith') }}
