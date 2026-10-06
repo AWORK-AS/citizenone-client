@@ -78,7 +78,15 @@
                             </p>
                             <ckeditor :editor="editor" v-model="state.formJournal.content"
                                 :config="editorConfig"></ckeditor>
+                            <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                             <FormError :error="state.error?.errors?.content?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
+                            <FormSelectMultiple id="mentioned_colleagues" :options="state.options.colleagues"
+                                :placeholder="$t('citizens.citizenJournals.form.notifyColleaguesPlaceholder')"
+                                v-model="state.formJournal.mentioned_user_uuids" />
+                            <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.form.notifyColleaguesHint') }}</p>
                         </div>
                         <div class="space-y-1">
                             <FormLabel for="journal_note_tags"
@@ -168,6 +176,8 @@
 import moment from 'moment'
 import ClassicEditor from '@/utils/editor'
 import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
+import { Mention } from 'ckeditor5'
+import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { journalNotePlanGoalSubgoalUuid } from '@/utils/journal-plan-link'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
@@ -176,6 +186,8 @@ import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { journalTitleService } from '@/components/api/user/JournalTitleService'
+import { userService } from '@/components/api/user/UserService'
+import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useAlert } from '@/composables/alert'
@@ -186,6 +198,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const departmentStore = useDepartmentStore() as any
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 
 const props = defineProps({
     isModalOpen: {
@@ -211,8 +224,10 @@ const editorConfig = ref({
             { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
         ]
     },
-    extraPlugins: [AutoCapitalize],
-})
+    extraPlugins: [Mention, MentionCustomization, AutoCapitalize],
+    // @ tags a colleague (notified) or a citizen (initials only), as in the journal.
+    mention: mentionConfig(),
+}) as any
 
 const state = reactive({
     isPageLoading: false,
@@ -234,6 +249,7 @@ const state = reactive({
         assessment: null as any,
         note: '',
         risk_assessment_tags: [] as string[],
+        mentioned_user_uuids: [] as string[],
     },
     options: {
         scores: [
@@ -256,6 +272,7 @@ const state = reactive({
         journal_titles: [] as any[],
         journal_note_tags: [] as any[],
         risk_assessment_tags: [] as any[],
+        colleagues: [] as any[],
     },
 })
 
@@ -263,7 +280,12 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
     if (newValue && props.selectedEvent) {
         resetForm()
         state.formJournal.title = props.selectedEvent.title || ''
+        // The note is about the visit, so it is dated when the booking started.
+        if (props.selectedEvent.date_time_start) {
+            state.formJournal.date = moment(props.selectedEvent.date_time_start).format('YYYY-MM-DD')
+        }
         resolveCitizenUuid()
+        fetchColleagues()
         if (state.citizenUuid) {
             fetchPlans()
             fetchSingleGoals()
@@ -298,6 +320,7 @@ function resetForm() {
         assessment: null,
         note: '',
         risk_assessment_tags: [],
+        mentioned_user_uuids: [],
     }
     seen.plan = ''
     seen.goal = ''
@@ -446,6 +469,23 @@ async function fetchJournalTitles() {
     }
 }
 
+async function fetchColleagues() {
+    if (state.options.colleagues.length) return
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        const list = Array.isArray(response) ? response : (response?.data ?? [])
+        const currentUuid = userStore.getUser?.uuid
+        state.options.colleagues = list
+            .filter((item: any) => item?.uuid && item.uuid !== currentUuid)
+            .map((item: any) => ({
+                value: item.uuid,
+                label: `${item.firstname} ${item.lastname ?? ''}`.trim(),
+            }))
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
 async function saveJournal() {
     state.error = {}
     state.isPageLoading = true
@@ -471,6 +511,7 @@ async function saveJournal() {
             copy_journal_note_to_plan_or_goal_or_subgoal: state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
             assessment: state.formJournal.assessment,
             risk_assessment_tags_uuid: state.formJournal.risk_assessment_tags,
+            mentioned_user_uuids: state.formJournal.mentioned_user_uuids ?? [],
         }
         if (state.formJournal.assessment !== null) {
             params.note = state.formJournal.note

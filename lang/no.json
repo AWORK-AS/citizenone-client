@@ -7177,6 +7177,7 @@
         "markAsCompleted": "Merk som fullført",
         "markAsNotCompleted": "Merk som ikke fullført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
+        "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Fullført",
             "notCompleted": "Ikke fullført"

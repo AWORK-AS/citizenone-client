@@ -7177,6 +7177,7 @@
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
+        "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"

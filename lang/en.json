@@ -7177,6 +7177,7 @@
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
+        "linkedNote": "Linked @:terms.journalNote{''}: {title}",
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"
