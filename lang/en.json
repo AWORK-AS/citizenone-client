@@ -16209,6 +16209,13 @@
         "fromWebsite": "From the website"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Step assessment",
+            "hint": "How many steps consultants are assessed on. The profile and the match show this many.",
+            "save": "Save",
+            "saveTooltip": "Save the number of steps for the whole company",
+            "saved": "Number of steps saved"
+        },
         "title": "Consultant skills",
         "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",
         "add": "Add",

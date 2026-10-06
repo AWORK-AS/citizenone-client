@@ -20,6 +20,29 @@
                     {{ $t('consultantSkills.description') }}
                 </p>
 
+                <!-- How many steps the consultant step assessment has. The profile
+                     and the match show this many buttons. -->
+                <div v-if="isAtLeast('Admin')" class="rounded-lg border border-gray-200 bg-white px-4 py-3">
+                    <div class="flex flex-wrap items-end gap-3">
+                        <div>
+                            <p class="text-sm font-semibold text-gray-900">{{ $t('consultantSkills.steps.title') }}</p>
+                            <p class="text-xs text-gray-400">{{ $t('consultantSkills.steps.hint') }}</p>
+                        </div>
+                        <div class="ml-auto flex items-end gap-2">
+                            <div class="w-28">
+                                <FormSelect id="consultant-step-count" :options="stepCountOptions" :searchable="false"
+                                    v-model="state.stepCount" />
+                            </div>
+                            <Tooltip :text="$t('consultantSkills.steps.saveTooltip')">
+                                <FormButton type="button" buttonStyle="action" :disabled="state.stepCount === savedStepCount"
+                                    @click="saveStepCount">
+                                    {{ $t('consultantSkills.steps.save') }}
+                                </FormButton>
+                            </Tooltip>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- One card per catalogue: a formal competence, a course taken,
                      and a subject the consultant has experience with. -->
                 <div v-for="type in TYPES" :key="type" class="rounded-lg border border-gray-200 bg-white">
@@ -132,6 +155,9 @@
 
 <script setup lang="ts">
 import { consultantSkillService } from '@/components/api/user/ConsultantSkillService'
+import { companyService } from '@/components/api/user/CompanyService'
+import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -141,6 +167,16 @@ const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 
 const TYPES = ['competence', 'course', 'topic']
+
+const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
+
+// Same default and bounds as the profile and match pages read it with.
+const savedStepCount = computed(() => {
+    const max = Number(userStore.getUser?.company?.onboarding_preferences?.consultant_step_count)
+    return Number.isInteger(max) && max >= 1 && max <= 10 ? max : 5
+})
+const stepCountOptions = Array.from({ length: 10 }, (_, i) => ({ value: i + 1, label: String(i + 1) }))
 
 const breadcrumbLinks = [
     {
@@ -161,7 +197,23 @@ const state = reactive({
     pasting: '',
     pasteText: '',
     pasteKey: 0,
+    stepCount: 5,
 })
+
+watch(savedStepCount, (value) => { state.stepCount = value }, { immediate: true })
+
+async function saveStepCount() {
+    try {
+        const response = await companyService.updateConsultantStepCount({ consultant_step_count: state.stepCount })
+        const user = userStore.getUser
+        if (user?.company && response?.data) {
+            userStore.setUser({ ...user, company: { ...user.company, onboarding_preferences: response.data.onboarding_preferences } })
+        }
+        successAlert(t('alert.success'), t('consultantSkills.steps.saved'))
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.errors?.consultant_step_count?.[0] ?? error?.message ?? t('consultantSkills.alert.saveFailed'))
+    }
+}
 
 // One name per line; the server trims and skips repeats, this only counts.
 const pastedNames = computed(() => state.pasteText.split(/\r?\n/).map(line => line.trim()).filter(Boolean))
