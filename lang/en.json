@@ -16169,6 +16169,8 @@
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
         "allowHalfSteps": "Allow half steps (e.g. 4.5)",
+        "wellbeingRuler": "Wellbeing ruler",
+        "wellbeingRulerHint": "Shown as the wellbeing ruler in journal notes, and the answer becomes the first point on the citizen's wellbeing curve when the case is won.",
         "allForms": "All forms"
     },
     "inquiryOrigin": {

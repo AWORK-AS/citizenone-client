@@ -16073,6 +16073,8 @@
         "allServiceTypes": "Alle innsatstyper",
         "allowMultiple": "Tillat mer enn ett svar",
         "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)",
+        "wellbeingRuler": "Trivselslinjal",
+        "wellbeingRulerHint": "Vises som trivselslinjalen i journalnotater, og svaret blir første punkt på borgerens trivselskurve når saken vinnes.",
         "allForms": "Alle skjemaer"
     },
     "inquiryOrigin": {
