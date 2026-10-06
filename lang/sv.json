@@ -15796,6 +15796,41 @@
         "deleteFailed": "Dokumentet kunde inte tas bort",
         "dropHere": "Släpp filerna här"
     },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Vilka ärendet involverar: handläggare, föräldrar, skola och era egna yrkespersoner. De blir kontakter på insatsen när förfrågan vinns.",
+        "add": "Lägg till part",
+        "remove": "Ta bort part",
+        "empty": "Det finns inga parter ännu.",
+        "primary": "Primär part",
+        "primaryHint": "Den eller dem ärendet främst gäller",
+        "saveFailed": "Parten kunde inte sparas",
+        "kinds": {
+            "outside": "Extern part",
+            "employee": "Medarbetare"
+        },
+        "types": {
+            "case_manager": "Handläggare",
+            "relatives": "Anhörig",
+            "external_contact": "Annan extern",
+            "doctor": "Läkare",
+            "dentist": "Tandläkare",
+            "our_contact_person": "Vår kontaktperson"
+        },
+        "form": {
+            "type": "Typ",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "T.ex. skola eller kommun",
+            "firstname": "Förnamn",
+            "lastname": "Efternamn",
+            "email": "E-post",
+            "phone": "Telefon",
+            "employee": "Medarbetare",
+            "coordinatorRole": "Koordinatorroll",
+            "noRole": "Ingen",
+            "isPrimary": "Primär part"
+        }
+    },
     "inquiryInvitations": {
         "title": "Konsulter tillfrågade",
         "empty": "Inga konsulter är tillfrågade än.",

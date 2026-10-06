@@ -15796,6 +15796,41 @@
         "deleteFailed": "Dokumentet kunne ikke slettes",
         "dropHere": "Slipp filene her"
     },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Hvem saken involverer: saksbehandler, foreldre, skole og deres egne fagpersoner. De blir kontakter på innsatsen når henvendelsen vinnes.",
+        "add": "Legg til part",
+        "remove": "Fjern part",
+        "empty": "Det er ingen parter ennå.",
+        "primary": "Primær part",
+        "primaryHint": "Den eller de saken primært gjelder",
+        "saveFailed": "Parten kunne ikke lagres",
+        "kinds": {
+            "outside": "Ekstern part",
+            "employee": "Medarbeider"
+        },
+        "types": {
+            "case_manager": "Saksbehandler",
+            "relatives": "Pårørende",
+            "external_contact": "Annen ekstern",
+            "doctor": "Lege",
+            "dentist": "Tannlege",
+            "our_contact_person": "Vår kontaktperson"
+        },
+        "form": {
+            "type": "Type",
+            "organisation": "Organisasjon",
+            "organisationPlaceholder": "F.eks. skole eller kommune",
+            "firstname": "Fornavn",
+            "lastname": "Etternavn",
+            "email": "E-post",
+            "phone": "Telefon",
+            "employee": "Medarbeider",
+            "coordinatorRole": "Koordinatorrolle",
+            "noRole": "Ingen",
+            "isPrimary": "Primær part"
+        }
+    },
     "inquiryInvitations": {
         "title": "Konsulenter spurt",
         "empty": "Ingen konsulenter er spurt ennå.",
