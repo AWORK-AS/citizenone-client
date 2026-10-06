@@ -14971,6 +14971,7 @@
     },
     "myDay": {
         "brief": {
+            "bookings_missing_note": "En avtale er ferdig uten et @:terms.journalNote{''} | {n} avtaler er ferdige uten et @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut innen en uke | {n} mål går ut innen en uke",
             "heading": "Krever din oppmerksomhet",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
