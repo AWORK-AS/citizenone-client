@@ -45,12 +45,26 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/archived-documents/${documentUuid}/toggle-archive`, 'PUT')
     }
 
+    async permanentlyDeleteDocument(documentUuid: any): Promise<any> {
+        return await this.request(`/user/archived-documents/${documentUuid}/permanent-delete`, 'DELETE')
+    }
+
     async downloadArchivedDocument(documentUuid: any): Promise<any> {
         return await this.request(`/user/archived-documents/${documentUuid}/download`, 'GET')
     }
 
+    async viewArchivedDocument(documentUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/archived-documents/${documentUuid}/view`, 'GET')
+    }
+
     async downloadFile(documentUuid: any): Promise<any> {
         return await this.request(`/user/company-file-folders/${documentUuid}/download`, 'GET')
+    }
+
+    // Same file and access checks as downloadFile, but served inline and open
+    // to users without the download_documents permission.
+    async viewFile(documentUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/company-file-folders/${documentUuid}/view`, 'GET')
     }
 
     async downloadPdf(documentUuid: any, params?: object): Promise<any> {
