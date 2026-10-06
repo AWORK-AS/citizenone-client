@@ -273,6 +273,9 @@
                 </LoadingSpinner>
             </div>
 
+            <ModulesSuperadminSupportAccessRequestDialog :isOpen="supportAccess.isOpen"
+                :accountUuid="supportAccess.accountUuid" :accountName="supportAccess.accountName"
+                @close="supportAccess.isOpen = false" @requested="supportAccess.isOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -289,7 +292,10 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
+
+// Asking the customer for access, when they have not approved it yet.
+const supportAccess = reactive({ isOpen: false, accountUuid: null as string | null, accountName: '' })
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const router = useRouter()
@@ -425,8 +431,17 @@ async function impersonateCompany() {
             const appUrl = runtimeConfig.public.appUserUrl || '/'
             window.open(`${appUrl}?impersonate_token=${response.impersonation_token}`, '_blank')
         }
-    } catch (_) {
-        window.open(`/?company=${companyUuid}`, '_blank')
+    } catch (error: any) {
+        // Without the customer's approval the answer names the admin that was
+        // tried: open the request for that account. It used to open an empty
+        // tab, which left nowhere to send the request from.
+        if (error?.code === 'support_access_required' && error?.account?.uuid) {
+            supportAccess.accountUuid = error.account.uuid
+            supportAccess.accountName = [error.account.firstname, error.account.lastname].filter(Boolean).join(' ')
+            supportAccess.isOpen = true
+        } else {
+            errorAlert(t('alert.warning'), error?.message ?? '')
+        }
     }
 }
 

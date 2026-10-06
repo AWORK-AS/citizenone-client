@@ -686,7 +686,14 @@ async function impersonateCompany() {
         }
     } catch (error: any) {
         recoverFromFailedImpersonation()
-        state.error = error
+
+        // The company's admin was tried; the answer names them, so ask for
+        // access to that account instead of only showing the refusal.
+        if (error?.code === 'support_access_required' && error?.account?.uuid) {
+            askForAccess(error.account)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }
