@@ -55,6 +55,11 @@
                                                 <Icon name="mdi:archive-cancel-outline" class="size-4" />
                                                 {{ $t('archived.table.actions.unarchive') }}
                                             </FormButton>
+                                            <FormButton type="button" buttonStyle="danger"
+                                                @click="confirmEmployeeDeletion(employee)">
+                                                <Icon name="ph:trash" class="size-4" />
+                                                {{ $t('archived.table.actions.delete') }}
+                                            </FormButton>
                                         </div>
                                     </td>
                                 </tr>
@@ -67,6 +72,9 @@
             <DialogConfirmation :isModalOpen="state.modal.isUnarchiveEmployeeOpen"
                 :message="$t('archived.confirmation.unarchiveEmployee') + '?'"
                 @close="state.modal.isUnarchiveEmployeeOpen = false" @confirm="unarchiveEmployee" />
+            <DialogConfirmation :isModalOpen="state.modal.isDeleteEmployeeOpen"
+                :message="$t('archived.confirmation.deleteEmployee')"
+                @close="state.modal.isDeleteEmployeeOpen = false" @confirm="deleteEmployee" />
         </NuxtLayout>
     </div>
 </template>
@@ -110,6 +118,7 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isUnarchiveEmployeeOpen: false,
+        isDeleteEmployeeOpen: false,
     },
     selectedEmployee: [] as any,
     sortData: {
@@ -196,6 +205,25 @@ async function unarchiveEmployee() {
         } else if (error?.message === 'Du har ingen tilgængelige brugerlicenser til at oprette en ny medarbejder.') {
             navigateTo(`/subscription?error=${error?.message}`)
         }
+    }
+    state.isTableLoading = false
+}
+
+function confirmEmployeeDeletion(employee: any) {
+    state.selectedEmployee = employee
+    state.modal.isDeleteEmployeeOpen = true
+}
+
+async function deleteEmployee() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const employeeUuid = state.selectedEmployee?.uuid
+        await employeeService.permanentlyDeleteEmployee(employeeUuid)
+        successAlert(`${t('alert.success')}!`, `${t('archived.alert.employeeSuccessfullyDeleted')}.`)
+        fetchArchivedEmployees()
+    } catch (error: any) {
+        state.error = error
     }
     state.isTableLoading = false
 }

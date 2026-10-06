@@ -169,6 +169,8 @@
                         </div>
                     </div>
                 </div>
+                <!-- Inquiries from the company's own website form. -->
+                <ModulesUserInquiryWebsiteFormKey v-if="isAtLeast('Admin')" />
             </div>
 
             <DialogConfirmation :isModalOpen="state.isDeleteOpen"

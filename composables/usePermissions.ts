@@ -23,7 +23,7 @@ const ROLE_LEVELS: Record<string, number> = {
  * svarer 403. Med den koster en ny rettighed i backenden en linje her - og gør den ikke
  * det, opfører den sig som før, altså som en almindelig rettighed.
  */
-const PANEL_PERMISSIONS = new Set([
+export const PANEL_PERMISSIONS = new Set([
     'access_superadmin',
     'view_dashboard',
     'view_companies',

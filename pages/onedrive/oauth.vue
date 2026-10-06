@@ -10,6 +10,9 @@
 <script setup lang="ts">
 import { useRouter, useRoute } from 'vue-router'
 import { ref, onMounted } from 'vue'
+
+// An OAuth return page; nothing here should be in a search index.
+useHead({ meta: [{ name: 'robots', content: 'noindex, nofollow' }] })
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 
