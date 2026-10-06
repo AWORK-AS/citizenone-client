@@ -17072,6 +17072,19 @@
             "add": "Lägg till orsak"
         }
     },
+    "inquiryConversion": {
+        "rate": "Konverteringsgrad",
+        "rateHint": "Vunna av de avgjorda förfrågningarna som kom in under perioden. Öppna förfrågningar räknas inte förrän de är avgjorda.",
+        "won": "Vunna",
+        "lost": "Förlorade",
+        "open": "Öppna",
+        "received": "Mottagna",
+        "byServiceType": "Per insatstyp",
+        "byMonth": "Per månad",
+        "serviceType": "Insatstyp",
+        "month": "Månad",
+        "noServiceType": "Utan insatstyp"
+    },
     "inquiryOffer": {
         "title": "Offert",
         "hint": "Preliminär beräkning, versioner, utskick och kommunens svar.",

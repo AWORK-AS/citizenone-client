@@ -36,6 +36,11 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/reports/lost`, 'GET', params)
     }
 
+    // Won, lost and still open among the inquiries received in a period.
+    async getConversionReport(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/reports/conversion`, 'GET', params)
+    }
+
     async deleteInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'DELETE')
     }

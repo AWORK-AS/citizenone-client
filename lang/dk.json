@@ -17163,6 +17163,19 @@
             "add": "Tilføj årsag"
         }
     },
+    "inquiryConversion": {
+        "rate": "Konverteringsrate",
+        "rateHint": "Vundne ud af de afgjorte henvendelser modtaget i perioden. Åbne henvendelser tæller ikke med, før de er afgjort.",
+        "won": "Vundet",
+        "lost": "Tabt",
+        "open": "Åbne",
+        "received": "Modtaget",
+        "byServiceType": "Per indsatstype",
+        "byMonth": "Per måned",
+        "serviceType": "Indsatstype",
+        "month": "Måned",
+        "noServiceType": "Uden indsatstype"
+    },
     "inquiryOffer": {
         "title": "Tilbud",
         "hint": "Foreløbig beregning, versioner, afsendelse og kommunens svar.",
