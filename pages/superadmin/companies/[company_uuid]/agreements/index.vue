@@ -48,16 +48,9 @@
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <div class="flex flex-wrap items-center gap-2">
-                        <Tooltip :text="$t('superadmin.companies.form.economicCustomerNumberHelp')" position="top" wrap>
-                            <span class="co-badge co-badge-gray">
-                                <Icon name="ph:hash" class="w-3 h-3" aria-hidden="true" />
-                                {{ state.company?.economic_customer_number
-                                    ? $t('superadmin.companies.economicCustomerNumber', { number: state.company.economic_customer_number })
-                                    : $t('superadmin.companies.economicCustomerNumberNone') }}
-                            </span>
-                        </Tooltip>
-                    </div>
+                    <ModulesSuperadminCompanyEconomicCustomerNumber :companyUuid="companyUuid"
+                        :number="state.company?.economic_customer_number ?? null"
+                        @saved="(n: any) => state.company = { ...(state.company ?? {}), economic_customer_number: n }" />
                     <Tooltip v-if="showMissingNumber" :text="$t('superadmin.companies.form.economicCustomerNumberHelp')"
                         position="top" wrap class="!block">
                         <Alert type="warning" :text="$t('superadmin.agreements.economic.missingNumber')" />

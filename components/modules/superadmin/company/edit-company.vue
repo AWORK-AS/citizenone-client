@@ -55,7 +55,6 @@ async function updateCompany(formData: Record<string, any>) {
             name: formData.name,
             phone: formData.phone,
             website: formData.website,
-            economic_customer_number: formData.economic_customer_number,
         } as any
         const response = await companyService.updateCompany(companyUuid, params)
         if (response?.data) {

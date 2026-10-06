@@ -11781,8 +11781,13 @@
                 "sendWelcomeEmailDesc": "Administratören får inloggningsinstruktioner via e-post",
                 "settings": "Inställningar",
                 "economicCustomerNumber": "e-conomic kundnummer",
-                "economicCustomerNumberHelp": "Kundens nummer i CitizenOnes e-conomic. Utan nummer skapas inte avtalsraterna som utkast i e-conomic.",
-                "economicCustomerNumberPlaceholder": "Valfritt"
+                "economicCustomerNumberHelp": "Kundens nummer i CitizenOnes e-conomic. Endast för A-kunder med ett avtal. Utan nummer skapas avtalsdelbetalningar inte som utkast.",
+                "economicCustomerNumberPlaceholder": "Valfritt",
+                "economicCustomerNumberSave": "Spara nummer",
+                "economicCustomerNumberSaveHelp": "Sparar kundnumret. Kräver åtkomst till ekonomi.",
+                "economicCustomerNumberSaved": "Kundnumret har sparats.",
+                "economicCustomerNumberInvalid": "Kundnumret måste vara ett heltal över 0.",
+                "economicCustomerNumberTaken": "Numret används redan av ett annat företag."
             },
             "importCompanies": {
                 "alert": {
@@ -13578,7 +13583,18 @@
                 "coversTo": "Täcker till",
                 "addAddOn": "Lägg till tillköp",
                 "addAddOnHelp": "Lägger till en rad för licenser som köpts mitt i bindningen: förfaller idag och täcker från idag till bindningens slut, så att den räknas i kontraktets MRR.",
-                "addOnLabel": "Tillköp"
+                "addOnLabel": "Tillköp",
+                "productNumber": "Artikelnr.",
+                "productNumberHelp": "Artikelnummer i e-conomic. Förslag: 3174 Användarlicens och 3176 Avdelningslicens, men du kan skriva vilket artikelnummer som helst.",
+                "productNumberPlaceholder": "T.ex. 3174",
+                "quantity": "Antal",
+                "quantityHelp": "Antal enheter på fakturaraden. Beloppet beräknas som antal × styckpris.",
+                "unitPrice": "Styckpris",
+                "unitPriceHelp": "Pris per enhet exkl. moms. Beloppet beräknas som antal × styckpris.",
+                "amountComputed": "Beloppet beräknas som antal × styckpris så länge båda är ifyllda.",
+                "rateRowHelp": "Vanliga delbetalningar faktureras som 1 st. av avtalet på artikel 3185. Använd Lägg till tillköp om raden ska ha artikelnummer, antal och styckpris.",
+                "suggestUserLicense": "3174 Användarlicens",
+                "suggestDepartmentLicense": "3176 Avdelningslicens"
             },
             "detail": {
                 "title": "Avtal",
@@ -13610,7 +13626,8 @@
                     "deal": "Licens",
                     "add_on_deal": "Tillägg",
                     "application": "App"
-                }
+                },
+                "addOnLine": "Artikel {product} · {quantity} × {price}"
             },
             "notice": {
                 "passed": "Uppsägningstiden passerade {date}",
@@ -13718,18 +13735,39 @@
                 }
             },
             "economic": {
-                "draft": "Utkast {number}",
-                "booked": "Bokförd {number}",
-                "error": "Fel i e-conomic",
-                "draftHelp": "Fakturan ligger som utkast i CitizenOnes e-conomic och är inte bokförd ännu.",
-                "bookedHelp": "Fakturan är bokförd i CitizenOnes e-conomic.",
-                "errorHelp": "Skapandet i e-conomic misslyckades: {error}",
+                "state": {
+                    "pending": "Väntar på utkast",
+                    "pendingHelp": "Utkastet har inte skapats i e-conomic än.",
+                    "in_flight": "Skapar utkast…",
+                    "in_flightHelp": "Utkastet skapas i CitizenOnes e-conomic just nu.",
+                    "created": "Utkast {number}",
+                    "createdHelp": "Fakturan ligger som utkast i CitizenOnes e-conomic och är inte bokförd än.",
+                    "unknown": "Väntar på avstämning med e-conomic",
+                    "unknownHelp": "Svaret från e-conomic uteblev. CitizenOne stämmer av med e-conomic innan ett nytt utkast skapas.",
+                    "failed": "Fel i e-conomic",
+                    "failedHelp": "Skapandet i e-conomic misslyckades ({error}). Du kan försöka igen.",
+                    "draft_missing": "Utkastet finns inte längre i e-conomic",
+                    "draft_missingHelp": "Utkastet har raderats i e-conomic. Du kan skapa det igen.",
+                    "booked": "Bokförd {number}",
+                    "bookedHelp": "Fakturan är bokförd i CitizenOnes e-conomic.",
+                    "paid": "Betald {number}",
+                    "paidHelp": "Fakturan är bokförd och betald i CitizenOnes e-conomic."
+                },
                 "create": "Skapa utkast i e-conomic",
                 "retry": "Försök igen",
-                "createHelp": "Skapar fakturan som utkast i CitizenOnes e-conomic. Kräver att företaget har ett e-conomic kundnummer.",
+                "createHelp": "Skapar fakturan som utkast i CitizenOnes e-conomic. Endast för avtalsdelbetalningar, och företaget måste ha ett e-conomic-kundnummer.",
                 "retryHelp": "Försöker skapa utkastet i CitizenOnes e-conomic igen efter felet.",
-                "created": "Utkastet har skapats i e-conomic.",
-                "missingNumber": "Kunden har ett löpande avtal men inget e-conomic kundnummer. Avtalsrater skapas inte som utkast i e-conomic förrän numret fyllts i under Redigera."
+                "creating": "Skapar utkast…",
+                "creatingHelp": "Utkastet skapas i bakgrunden. Sidan uppdateras när e-conomic har svarat.",
+                "recreate": "Skapa igen",
+                "recreateHelp": "Skapar ett nytt utkast, eftersom det förra har raderats i e-conomic.",
+                "recreateConfirmTitle": "Skapa utkastet igen?",
+                "recreateConfirmText": "Utkastet finns inte längre i e-conomic. Bekräfta bara om det raderades med avsikt. Ett nytt utkast skapas för fakturan.",
+                "created": "Utkastet har skickats till e-conomic.",
+                "pollTimeout": "Skapandet tar längre tid än väntat. Uppdatera sidan strax för att se status.",
+                "syncedPayment": "Synkroniserad från e-conomic",
+                "syncedPaymentHelp": "Betalningen registrerades automatiskt när e-conomic visade fakturan som betald.",
+                "missingNumber": "Kunden har ett löpande avtal men inget e-conomic-kundnummer. Avtalsdelbetalningar skapas inte som utkast i e-conomic förrän numret är ifyllt ovan."
             }
         },
         "metrics": {
