@@ -882,7 +882,10 @@
         "billing": "Betalning",
         "subscription": "Abonnemang",
         "couldNotStartConnection": "Anslutningen kunde inte startas. Försök igen.",
-        "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen."
+        "couldNotStartPayment": "Betalningen kunde inte startas. Försök igen.",
+        "requiresPlan": "Kräver {plan}",
+        "requiresPlanTooltip": "Appen kräver {plan}-profilen. Klicka för att se ert abonnemang och uppgradera.",
+        "upgradeToPlan": "Uppgradera till {plan}"
     },
     "archived": {
         "alert": {
@@ -891,7 +894,10 @@
             "employeeSuccessfullyUnarchive": "Anställd genåbnet",
             "goalSuccessfullyUnarchive": "Mål gendannet",
             "planSuccessfullyUnarchive": "Plan gendannet",
-            "subgoalSuccessfullyUnarchive": "Delmål gendannet"
+            "subgoalSuccessfullyUnarchive": "Delmål gendannet",
+            "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} permanent raderad",
+            "documentSuccessfullyDeleted": "Dokument permanent raderat",
+            "employeeSuccessfullyDeleted": "Anställd permanent raderad"
         },
         "confirmation": {
             "unarchiveCitizen": "Är du säker på att du vill genåbne denna @:terms.citizen{''}",
@@ -899,14 +905,22 @@
             "unarchiveEmployee": "Är du säker på att du vill genåbne denna anställd",
             "unarchiveGoal": "Är du säker på att du vill gendanne detta mål",
             "unarchivePlan": "Är du säker på att du vill gendanne denna plan",
-            "unarchiveSubgoal": "Är du säker på att du vill gendanne detta delmål"
+            "unarchiveSubgoal": "Är du säker på att du vill gendanne detta delmål",
+            "deleteCitizen": "Är du säker på att du vill radera denna @:terms.citizen{''} permanent? Denna åtgärd kan inte ångras.",
+            "deleteDocument": "Är du säker på att du vill radera detta dokument permanent? Denna åtgärd kan inte ångras.",
+            "deleteEmployee": "Är du säker på att du vill radera denna anställd permanent? Denna åtgärd kan inte ångras."
         },
         "table": {
             "actions": {
                 "unarchive": "Återöppna",
                 "unarchiveCitizen": "Återöppna @:terms.citizen{''}",
                 "unarchiveDocument": "Återöppna dokument",
-                "unarchiveEmployee": "Återöppna anställd"
+                "unarchiveEmployee": "Återöppna anställd",
+                "delete": "Radera",
+                "deleteCitizen": "Radera @:terms.citizen{''}",
+                "deleteDocument": "Radera dokument",
+                "deleteEmployee": "Radera anställd",
+                "download": "Ladda ner"
             },
             "belongsTo": "Tillhör",
             "date": "Datum",
@@ -1712,6 +1726,7 @@
                 "includeRiskAssessment": "Inkluder riskbedömning"
             },
             "editNote": "Redigera anteckning",
+            "viewNote": "Visa anteckning",
             "filter": {
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
@@ -3078,6 +3093,39 @@
             "noJournalToDisplay": "Inga journal att visa"
         },
         "nursingAreas": {
+            "checklists": {
+                "addItem": "Lägg till punkt",
+                "checklists": "Checklistor",
+                "editChecklist": "Redigera checklista",
+                "editItem": "Redigera punkt",
+                "empty": "Inga checklistor än",
+                "form": {
+                    "alert": {
+                        "checklistSuccessfullyAdded": "Checklista tillagd",
+                        "checklistSuccessfullyUpdated": "Checklista uppdaterad"
+                    },
+                    "description": "Beskrivning",
+                    "title": "Titel"
+                },
+                "newChecklist": "Ny checklista",
+                "newItem": "Ny punkt",
+                "noItems": "Inga punkter än",
+                "progress": "{completed}/{total} slutförda",
+                "table": {
+                    "actions": {
+                        "delete": "Ta bort",
+                        "edit": "Redigera"
+                    },
+                    "alert": {
+                        "checklistSuccessfullyDeleted": "Checklista borttagen",
+                        "itemSuccessfullyDeleted": "Punkt borttagen"
+                    },
+                    "confirmation": {
+                        "deleteChecklistConfirmation": "Är du säker på att du vill ta bort denna checklista",
+                        "deleteItemConfirmation": "Är du säker på att du vill ta bort denna punkt"
+                    }
+                }
+            },
             "consentCompetenceOrCapacity": {
                 "consentCompetenceOrCapacity": "Samtykkekompetence eller kapacitet",
                 "editConsentCompetenceOrCapacity": "Redigera samtykkekompetence eller kapacitet",
@@ -6821,7 +6869,8 @@
                 "actions": {
                     "archive": "Arkiv",
                     "delete": "Radera",
-                    "edit": "Redigera"
+                    "edit": "Redigera",
+                    "download": "Ladda ner"
                 },
                 "file": "Fil",
                 "note": "Anteckning"
@@ -8418,7 +8467,25 @@
         "shiftsPlannedToday": "Pass planlagt idag",
         "signinToYourAccount": "Logga in på din konto",
         "tagline": "Socialområdet · Plejesektoren · Hälsa",
-        "welcomeBack": "Välkommen tillbaka"
+        "welcomeBack": "Välkommen tillbaka",
+        "sso": {
+            "microsoft": "Logga in med Microsoft",
+            "hint": "Använd organisationens Microsoft-konto. Skriv din jobbmejl ovan först.",
+            "enterEmail": "Skriv din jobbmejl och välj sedan Logga in med Microsoft.",
+            "failed": "Inloggningen med Microsoft lyckades inte. Försök igen."
+        }
+    },
+    "companySso": {
+        "title": "Enkel inloggning (Microsoft)",
+        "description": "Låt medarbetarna logga in med organisationens Microsoft-konto. Bara inloggningar från er egen Microsoft Entra-tenant godtas.",
+        "unavailable": "Microsoft-inloggning är inte påslagen på servern ännu. Kontakta support.",
+        "tenantId": "Microsoft Entra tenant-ID",
+        "tenantHint": "Finns i Entra admin center under Översikt. Lämna tomt för att stänga av SSO.",
+        "saveHint": "Gäller från nästa inloggning",
+        "saved": "Sparat",
+        "needsApp": "Microsoft SSO är en gratis app i appbutiken och kräver Pro-profilen. Aktivera appen för att ange ert tenant-id.",
+        "openApp": "Gå till appen",
+        "openAppHint": "Öppnar Microsoft SSO i appbutiken, där en administratör kan aktivera den"
     },
     "logs": {
         "table": {
@@ -9806,7 +9873,27 @@
             "selectDatesFirst": "Välj start- och slutdatum först",
             "startDate": "Startdatum",
             "weeklyOn": "På",
-            "yearlyInMonths": "I månader"
+            "yearlyInMonths": "I månader",
+            "recordingMode": "Registrera närvaro",
+            "perDay": "Per dag",
+            "perHour": "Per timme",
+            "recordingModeDayHelp": "En registrering per brukare för varje dag.",
+            "recordingModeHourHelp": "En registrering per brukare för varje tidsintervall varje dag, så att närvaro kan registreras timme för timme.",
+            "timeSlots": "Tidsintervall",
+            "timeSlotsHelp": "Fyll i ett tidsintervall för varje timme i ett spann, eller lägg till dem ett i taget.",
+            "fromHour": "Från",
+            "toHour": "Till",
+            "fillHourly": "Fyll i varje timme",
+            "slotStart": "Start",
+            "slotEnd": "Slut",
+            "removeSlot": "Ta bort tidsintervall",
+            "noTimeSlots": "Inga tidsintervall ännu.",
+            "addSlot": "Lägg till tidsintervall",
+            "errors": {
+                "timeSlotsRequired": "Lägg till minst ett tidsintervall.",
+                "timeSlotEndAfterStart": "Varje tidsintervall måste sluta efter att det börjar.",
+                "timeSlotsOverlap": "Tidsintervallen får inte överlappa varandra."
+            }
         },
         "checkIn": "Checka in",
         "checkOut": "Checka ut",
@@ -9832,7 +9919,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Datum",
-                "status": "Status"
+                "status": "Status",
+                "time": "Tid"
             },
             "confirmation": {
                 "deleteConfirmation": "Är du säker på att du vill radera denna protokoll"
@@ -10195,6 +10283,23 @@
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
             "employeeGroups": "Medarbetargrupper",
             "noEmployeeGroups": "Inga medarbetargrupper skapade än."
+        },
+        "matrix": {
+            "title": "Behörighetsöversikt",
+            "note": "Översikten visar vad varje roll ger åtkomst till. Enskilda användare kan ha fått extra behörigheter eller fått behörigheter borttagna, och de undantagen visas inte här.",
+            "fullAccess": "Full åtkomst",
+            "fullAccessNote": "Roller på administratörsnivå har alla behörigheter, så deras kolumn är markerad hela vägen ner. Sidåtkomst visas som den är inställd på rollen.",
+            "exportCsv": "Exportera CSV",
+            "printPdf": "Skriv ut / PDF",
+            "print": "Skriv ut",
+            "permission": "Behörighet",
+            "page": "Sida",
+            "area": "Område",
+            "granted": "Beviljad",
+            "generated": "Genererad",
+            "company": "Företag",
+            "pdfAttribution": "Denna PDF genererades med CitizenOnes journalsystem.",
+            "fileName": "behorighetsoversikt"
         },
         "newRole": "Ny roll",
         "permissions": {
@@ -10791,7 +10896,10 @@
             "inquiryOffers": "Offerter och priser",
             "customerDepartments": "Kunder och avdelningar",
             "inquiryForms": "Förfrågningsformulär",
-            "visitTypes": "Besökstyper"
+            "visitTypes": "Besökstyper",
+            "contractHourTypes": "Timtyper",
+            "paymentTerms": "Betalningsvillkor",
+            "contractFields": "Avtalsfält"
         },
         "catalog": {
             "noSettingsMatch": "Inga inställningar matchar \"{search}\"."
@@ -11462,7 +11570,10 @@
                 "addScreenshot": "Lägg till skärmbild",
                 "screenshotCaption": "Bildtext",
                 "uploadScreenshot": "Ladda upp skärmbild",
-                "uploadFailed": "Bilden kunde inte laddas upp."
+                "uploadFailed": "Bilden kunde inte laddas upp.",
+                "requiredPlan": "Kräver plan",
+                "requiredPlanNone": "Ingen - alla kan aktivera",
+                "requiredPlanHint": "Endast företag på denna plan kan aktivera appen."
             },
             "colName": "Namn",
             "attachToCompany": "Tilldela till företag",
@@ -11784,7 +11895,8 @@
                 "active": "Aktiva",
                 "inactive": "Inaktiva",
                 "paying": "Betalande",
-                "migration": "Datamigrering"
+                "migration": "Datamigrering",
+                "agreements": "Avtal"
             },
             "totalClients": "klienter totalt",
             "export": "Exportera",
@@ -13138,12 +13250,19 @@
                     "renewals": "Årsförnyelser",
                     "cumulative": "Ackumulerat",
                     "contracted": "Avtalat",
-                    "assumed": "Förutsatt förnyelse"
+                    "assumed": "Förutsatt förnyelse",
+                    "installments": "Delbetalningar (avtal)",
+                    "assumedRenewal": "Antagen förnyelse, avtal"
                 },
                 "renewalsIn": "Förnyelser i {month}",
                 "renewalsCount": "{count} kund(er)",
                 "noRenewals": "Inga årsförnyelser den här månaden.",
-                "clickHint": "Klicka på en stapel för att se vilka kunder den består av."
+                "clickHint": "Klicka på en stapel för att se vilka kunder den består av.",
+                "help": {
+                    "installments": "Delbetalningar från avtal, placerade på förfallodatumet. Avtalat, inte antaget.",
+                    "assumedRenewal": "Avtal som förnyas automatiskt efter bindningen, räknat som årligt värde. Ett antagande, inte ett avtal."
+                },
+                "installmentsIn": "Avtalens delbetalningar och antagna förnyelser"
             },
             "noAccess": {
                 "title": "Rapporten är endast för ledningen",
@@ -13276,6 +13395,268 @@
                 "noteAdded": "Anteckningen har lagts till",
                 "columnsSaved": "Kolumnerna har sparats"
             }
+        },
+        "agreements": {
+            "title": "Avtal",
+            "subtitle": "Bindningstid, betalningsplan och avtalsvärde per kund.",
+            "new": "Nytt avtal",
+            "newHelp": "Skapa ett avtal med bindningstid och betalningsplan för den här kunden.",
+            "empty": "Inga avtal ännu",
+            "emptyHint": "Kunden räknas med abonnemangspriset tills ett avtal skapas.",
+            "months": "{count} mån.",
+            "autoRenews": "förnyas automatiskt",
+            "perYear": "{amount} / år",
+            "saved": "Avtalet har sparats.",
+            "deleted": "Avtalet har raderats.",
+            "table": {
+                "name": "Avtal",
+                "period": "Bindning",
+                "billingPlan": "Betalningsplan",
+                "contractValue": "Avtalsvärde",
+                "mrrArr": "Kontrakt-MRR / ARR",
+                "backlog": "Backlog",
+                "status": "Status",
+                "notice": "Uppsägningstid",
+                "dueOn": "Förfallodatum",
+                "amount": "Belopp exkl. moms",
+                "label": "Text"
+            },
+            "plans": {
+                "monthly": "Månadsvis",
+                "yearly": "Årlig",
+                "prepaid_multi_year": "Flera år i förskott",
+                "installments": "Delbetalningar"
+            },
+            "statuses": {
+                "active": "Aktiv",
+                "ended": "Avslutat",
+                "cancelled": "Uppsagt"
+            },
+            "paymentMethods": {
+                "bank_transfer": "Banköverföring",
+                "card": "Kort"
+            },
+            "internal": {
+                "title": "Endast intern information.",
+                "body": "Avtal, bindningar, avtalsvärde och interna anteckningar visas aldrig för kunden. Kunden ser bara sina fakturor.",
+                "help": "Den här sidan är endast för superadmins. Inget här visas i kundens vy."
+            },
+            "help": {
+                "termMonths": "Bindningstidens längd i månader, t.ex. 48.",
+                "noticeMonths": "Hur många månader före bindningens slut kunden måste ha sagt upp.",
+                "autoRenews": "Om på antar prognosen att avtalet förnyas årligen efter slutdatum.",
+                "contractValue": "Totalt värde exkl. moms över hela bindningen.",
+                "feePerInvoice": "Serviceavgift exkl. moms som läggs på varje faktura.",
+                "billingPlan": "Hur avtalet faktureras. Bindningen och betalningsfrekvensen är två olika saker.",
+                "preview": "Beräknat av servern utifrån värdena du angett. Inget sparas.",
+                "status": "Aktiv: pågår nu. Avslutat: bindningen är slut. Uppsagt: avtalet är uppsagt.",
+                "billingPlanBadge": "Hur avtalet faktureras.",
+                "mrrArr": "Avtalsvärde delat med bindningen i månader (MRR), och gånger 12 (ARR).",
+                "invoiced": "Totalt belopp på fakturor som skapats för avtalet.",
+                "backlog": "Återstående bundet avtalsvärde: delbetalningar utan betald faktura.",
+                "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
+                "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
+                "renewalValue": "Vad avtalet kostar per år efter bindningen, exkl. moms. Tomt: avtalsvärde delat med bindningen i månader gånger 12.",
+                "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
+                "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
+            },
+            "form": {
+                "createTitle": "Nytt avtal",
+                "editTitle": "Redigera avtal",
+                "name": "Namn",
+                "namePlaceholder": "t.ex. CitizenOne Pro inkl. AI - 180 användare",
+                "startsOn": "Ikraftträdande",
+                "termMonths": "Bindning (månader)",
+                "noticeMonths": "Uppsägningstid (månader)",
+                "autoRenews": "Förnyas automatiskt",
+                "contractValue": "Avtalsvärde exkl. moms",
+                "feePerInvoice": "Serviceavgift per faktura",
+                "paymentMethod": "Betalningsmetod",
+                "internalNote": "Intern anteckning",
+                "internalNotePlaceholder": "Endast synlig för superadmins",
+                "billingPlan": "Betalningsplan",
+                "prepaidYears": "År per fakturering",
+                "presetTitle": "Delbetalningshjälp",
+                "presetHint": "T.ex. 30 % vid start och resten fördelat lika. Du kan ändra raderna efteråt.",
+                "upfrontPercent": "Förskott (%)",
+                "remainingCount": "Antal senare delbetalningar",
+                "remainingInterval": "Intervall (månader)",
+                "applyPreset": "Beräkna delbetalningar",
+                "applyPresetHelp": "Ersätter listan nedan med delbetalningarna från hjälpen.",
+                "presetLocked": "Vissa delbetalningar är redan fakturerade. De kan inte ändras, så hjälpen är avstängd.",
+                "installmentList": "Delbetalningar",
+                "addInstallment": "Lägg till delbetalning",
+                "addInstallmentHelp": "Lägg till en rad i listan.",
+                "noInstallments": "Inga delbetalningar ännu. Använd hjälpen eller lägg till en rad.",
+                "lockedRow": "En faktura har skapats för den här delbetalningen. Den kan inte ändras eller tas bort.",
+                "removeInstallment": "Ta bort delbetalning",
+                "sumCheckHelp": "Summan av delbetalningarna måste motsvara avtalsvärdet (tolerans 0,01).",
+                "sumOk": "Delbetalningarna summerar till {sum}",
+                "sumMismatch": "Delbetalningarna summerar till {sum}, avtalsvärdet är {value} (skillnad {diff})",
+                "previewTitle": "Förhandsvisning av plan",
+                "previewEmpty": "Fyll i start, bindning och avtalsvärde för att se planen.",
+                "save": "Spara avtal",
+                "presetLabel": "Delbetalning {n} av {total}",
+                "presetLabelUpfront": "Delbetalning {n} av {total} - {percent} % vid start",
+                "settledTitle": "Reglerat utanför CitizenOne före",
+                "settledBefore": "Reglerat före (datum)",
+                "settledNote": "Anteckning om reglering",
+                "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275",
+                "renewalValue": "Årligt värde vid förnyelse",
+                "renewalValuePlaceholder": "Standard",
+                "endsOn": "Slutdatum",
+                "modeMonths": "Bindning i månader",
+                "modeEndDate": "Slutdatum"
+            },
+            "detail": {
+                "title": "Avtal",
+                "installments": "Delbetalningar och fakturor",
+                "invoice": "Faktura",
+                "paid": "Betald",
+                "openInvoice": "Öppna fakturan",
+                "notInvoiced": "Ej fakturerad",
+                "notInvoicedHelp": "Fakturan skapas automatiskt på förfallodagen.",
+                "paidHelp": "Fakturan betaldes på det visade datumet.",
+                "unpaidHelp": "Fakturan finns men är inte betald ännu. Registrera betalningen på fakturan.",
+                "subscriptions": "Kopplade abonnemang",
+                "noSubscriptions": "Inga abonnemang att koppla.",
+                "saveSubscriptions": "Spara koppling",
+                "saveSubscriptionsHelp": "Sparar vilka licenser och vilken Pro-profil som hör till avtalet.",
+                "mainSubscription": "Huvudabonnemang",
+                "cancel": "Säg upp avtalet",
+                "cancelHelp": "Markerar avtalet som uppsagt från valt datum.",
+                "cancelDate": "Uppsägningsdatum",
+                "delete": "Radera",
+                "deleteHelp": "Endast möjligt om inga fakturor har skapats för avtalet.",
+                "deleteConfirm": "Radera avtalet",
+                "edit": "Redigera",
+                "editHelp": "Ändra avtalets villkor och betalningsplan.",
+                "openHelp": "Se delbetalningar, fakturor och kopplade abonnemang.",
+                "invoicedTotal": "Fakturerat",
+                "linkedElsewhere": "Är redan kopplad till ett annat avtal. Ta bort kopplingen där först.",
+                "dealTypes": {
+                    "deal": "Licens",
+                    "add_on_deal": "Tillägg",
+                    "application": "App"
+                }
+            },
+            "notice": {
+                "passed": "Uppsägningstiden passerade {date}",
+                "soon": "Uppsägningstid om {days} dagar",
+                "deadline": "Uppsägningstid {date}",
+                "help": "Sista datum kunden kan säga upp utan att avtalet förnyas. Efter {date} är det för sent.",
+                "passedRenews": "Tidsfristen {date} har passerat och avtalet förnyas automatiskt.",
+                "passedEnds": "Tidsfristen {date} har passerat. Avtalet upphör när bindningen går ut."
+            },
+            "payment": {
+                "title": "Registrera betalning",
+                "intro": "Registrera att faktura {number} har betalats utanför CitizenOne, t.ex. via banköverföring.",
+                "paidAt": "Betald den",
+                "paidAmount": "Betalt belopp",
+                "paidAmountHint": "Belopp inkl. moms och avgift.",
+                "note": "Betalningsanteckning",
+                "notePlaceholder": "t.ex. e-conomic verifikationsnummer",
+                "register": "Registrera betalning",
+                "registerHelp": "Markera fakturan som betald med datum, belopp och verifikationsnummer.",
+                "registered": "Betalningen har registrerats.",
+                "undo": "Ångra",
+                "undoHelp": "Ta bort den registrerade betalningen så att fakturan åter står som obetald.",
+                "undoConfirm": "Ångra den registrerade betalningen",
+                "undone": "Betalningen har ångrats.",
+                "bankTransfer": "Banköverföring",
+                "bankTransferHelp": "Fakturan betalas via banköverföring och inte med kort."
+            },
+            "companyList": {
+                "bindingUntil": "Bindning till",
+                "mrr": "{amount} / mån."
+            },
+            "preview": {
+                "endsOn": "Slutar {date}",
+                "endsOnHelp": "Bindningens slutdatum, beräknat av servern.",
+                "noticeDeadline": "Uppsägningstid {date}",
+                "mrrArr": "Kontrakt-MRR {mrr} / ARR {arr}"
+            },
+            "settled": {
+                "chip": "Reglerat externt",
+                "help": "Reglerat utanför CitizenOne. Ingen faktura skapas och raden kan inte ändras.",
+                "helpWithNote": "Reglerat utanför CitizenOne: {note}. Ingen faktura skapas och raden kan inte ändras."
+            },
+            "linkInvoice": {
+                "action": "Koppla faktura",
+                "help": "Koppla en befintlig faktura till den här delbetalningen i stället för att skapa en ny.",
+                "title": "Koppla faktura till delbetalning",
+                "intro": "Välj fakturan som hör till delbetalningen {label} ({amount} exkl. moms).",
+                "invoice": "Faktura",
+                "choose": "Välj faktura",
+                "none": "Kunden har inga fakturor ännu."
+            },
+            "renewed": "Förnyat {count} gånger",
+            "renewedHelp": "Avtalet har förnyats automatiskt, 12 månader i taget, sedan bindningen gick ut.",
+            "covered": {
+                "chip": "Täckt av avtal",
+                "help": "Fakturan dokumenterar licenser som levererats under avtalet och räknas inte som intäkt.",
+                "footer": "Den här fakturan täcks av ett avtal och ska inte betalas.",
+                "title": "Fakturor som täcks av avtalet",
+                "add": "Lägg till",
+                "addHelp": "Välj fakturor som dokumenterar licenser som levererats under avtalet.",
+                "addTitle": "Lägg till täckta fakturor",
+                "addIntro": "Välj fakturorna som avtalet täcker. De räknas inte längre som intäkt.",
+                "addSelected": "Lägg till {count}",
+                "none": "Inga fakturor täcks av avtalet.",
+                "noneToAdd": "Inga fakturor att lägga till.",
+                "remove": "Ta bort",
+                "removeHelp": "Ta bort fakturan från avtalet så att den åter räknas som en vanlig faktura."
+            },
+            "templates": {
+                "title": "Mall",
+                "a4": "A-kund: 4 år, 4 årliga delbetalningar",
+                "a4Help": "4 års bindning, 25 % vid start och 3 årliga delbetalningar. Banköverföring, serviceavgift 295 kr., uppsägningstid 3 mån., förnyas automatiskt.",
+                "memox": "A-kund: 4 år, 30 % + 3 delbetalningar",
+                "memoxHelp": "4 års bindning, 30 % vid start och resten fördelat på 3 årliga delbetalningar. Banköverföring, serviceavgift 295 kr.",
+                "monthly": "Månadsvis, 12 mån.",
+                "monthlyHelp": "12 månaders bindning med månadsbetalning via banköverföring.",
+                "empty": "Tom",
+                "emptyHelp": "Börja med tomma fält."
+            },
+            "cancel": {
+                "title": "Säg upp avtalet",
+                "accelerate": "Fakturera återstående belopp nu",
+                "accelerateHelp": "Samlar alla återstående delbetalningar i en faktura nu. Avstängt faktureras delbetalningarna som planerat tills bindningen går ut.",
+                "previewAccelerated": "Kunden faktureras {amount} exkl. moms nu ({count} delbetalningar samlas)",
+                "previewAsPlanned": "Återstående delbetalningar faktureras som planerat till {date}",
+                "warning": "Uppsägningen kan inte ångras. När fakturan väl skapats kan den inte tas tillbaka härifrån.",
+                "confirm": "Säg upp avtalet"
+            },
+            "remainder": {
+                "chip": "Restbelopp vid uppsägning",
+                "help": "Samlat restbelopp som fakturerats eftersom avtalet sades upp före bindningens slut."
+            }
+        },
+        "metrics": {
+            "contractMrr": "Kontrakt-MRR",
+            "contractArr": "Kontrakt-ARR {amount}",
+            "cashMrr": "Cash-MRR",
+            "cashArr": "Cash-ARR, nästa 12 mån. {amount}",
+            "backlog": "Återstående bundet avtalsvärde",
+            "backlogSub": "Delbetalningar utan betald faktura",
+            "outstanding": "Utestående",
+            "outstandingSub": "Fakturerat och obetalt",
+            "bindingsEnding": "Bindningar som löper ut",
+            "bindingsWithin": "{count} avtal löper ut inom {months} mån.",
+            "monthsShort": "{months} mån.",
+            "internalNote": "Avtalssiffror är interna och visas aldrig för kunderna.",
+            "help": {
+                "contractMrr": "Avtalens värde fördelat över bindningen, plus abonnemang utan avtal. Huvudsiffran. ARR är detta gånger 12.",
+                "cashMrr": "Det som faktiskt faktureras de närmaste 12 månaderna (delbetalningar och planerade debiteringar) delat med 12.",
+                "backlog": "Summan av delbetalningar på aktiva avtal där fakturan inte är betald.",
+                "outstanding": "Avtalsfakturor som skapats men ännu inte betalats.",
+                "bindingsEnding": "Antal aktiva avtal vars bindning löper ut inom 3, 6 och 12 månader.",
+                "upcoming": "Aktiva avtal sorterade efter slutdatum. Klicka för att öppna kundens Avtal."
+            },
+            "upcomingTitle": "Nästa bindningar som löper ut",
+            "upcomingDates": "Slutar {ends} - uppsägningstid {notice}",
+            "noAutoRenew": "Förnyas inte",
+            "noAutoRenewHelp": "Avtalet förnyas inte automatiskt och upphör när bindningen går ut."
         }
     },
     "support": {
@@ -15148,7 +15529,7 @@
             "intro": "Avdelningarna hos era kunder som fakturorna skickas till. En kund kan ha flera avdelningar, var och en med egen adress, EAN-nummer och villkor.",
             "new": "Ny avdelning",
             "edit": "Redigera avdelning",
-            "search": "Sök på namn, kund eller EAN",
+            "search": "Sök på namn, kund, EAN, kundnr eller WorkZone-ID",
             "empty": "Inga avdelningar har skapats ännu.",
             "noCustomer": "Utan kund",
             "municipality": "Kommun",
@@ -15156,7 +15537,7 @@
             "customerName": "Kundens namn",
             "customerNamePlaceholder": "T.ex. en privat kund",
             "name": "Avdelningens namn",
-            "street": "Adress",
+            "street": "Adress 1",
             "postCode": "Postnr",
             "city": "Ort",
             "address": "Adress",
@@ -15172,7 +15553,102 @@
             "isActive": "Aktiv",
             "saved": "Avdelningen har sparats",
             "deleted": "Avdelningen har raderats",
-            "confirmDelete": "Radera avdelningen? Avtal och fakturor som pekar på den behåller sina uppgifter."
+            "confirmDelete": "Radera avdelningen? Avtal och fakturor som pekar på den behåller sina uppgifter.",
+            "externalId": "WorkZone-ID",
+            "addressLine2": "Adress 2",
+            "addressType": "Adresstyp",
+            "region": "Region",
+            "mobilePhone": "Mobiltelefon",
+            "customerGroup": "Kundgrupp",
+            "customerDivision": "Kundavdelning",
+            "hasSpecialContract": "Särskilt avtal",
+            "paymentTermsText": "Betalningsvillkor, fullständig text",
+            "cooperationStatus": "Status på samarbete",
+            "cooperationStatusDate": "Datum för status",
+            "cooperationProtectionStart": "Skydd start",
+            "cooperationProtectionEnd": "Skydd slut",
+            "municipalityRegion": "Kommun / region",
+            "searchHelp": "Filtrerar listan direkt på namn, kund, EAN, kundnummer, WorkZone-id och region.",
+            "shown": "Visar {shown} av {total}",
+            "sections": {
+                "stamdata": "Stamdata",
+                "economy": "Ekonomi",
+                "terms": "Villkor",
+                "cooperation": "Samarbete"
+            },
+            "help": {
+                "externalId": "Kundens ID, som den visas i WorkZone (kolumnen ID i exporten). Används för att uppdatera avdelningen när du importerar igen.",
+                "customerName": "Kunden, t.ex. kommunens namn. Navn 1 i WorkZone är kund och avdelning åtskilda av komma.",
+                "name": "Avdelningens namn, som det står på fakturan.",
+                "street": "Första adressraden.",
+                "addressLine2": "Andra adressraden, t.ex. våning eller att.",
+                "postCode": "Postnummer.",
+                "city": "Ort.",
+                "addressType": "Vilken typ av adress det är, t.ex. huvudadress.",
+                "region": "Kundens region som text, t.ex. Hovedstaden.",
+                "email": "Primär e-post, dit fakturan skickas.",
+                "phone": "Telefonnummer.",
+                "mobilePhone": "Mobiltelefonnummer.",
+                "contactPerson": "Kontaktperson hos kunden. Rörs inte av importen.",
+                "eanNumber": "EAN-numret (13 siffror) som e-fakturan skickas till.",
+                "customerNumber": "Kundnumret, som det används i ekonomisystemet.",
+                "customerGroup": "Kundgruppen i WorkZone, t.ex. 3.",
+                "customerDivision": "Kundens avdelning i WorkZone, sparad med sin kod, t.ex. 1300, Jylland och Fyn.",
+                "hasSpecialContract": "Kryssa i om kunden har ett särskilt avtal.",
+                "paymentTermsDays": "Antal dagar från listan under Betalningsvillkor. Används på fakturan.",
+                "paymentTermsText": "Hela texten om betalningsvillkor, som den står i avtalet.",
+                "priceRegulation": "Avtalet om prisreglering.",
+                "noticeTerms": "Uppsägningstid.",
+                "cooperationStatus": "Hur långt samarbetet har kommit, t.ex. etablerat närmare samarbete.",
+                "cooperationStatusDate": "Datumet för status på samarbetet.",
+                "cooperationProtectionStart": "När skyddet börjar. Fylls i manuellt, finns inte i WorkZone-exporten.",
+                "cooperationProtectionEnd": "När skyddet slutar. Får inte ligga före starten.",
+                "isActive": "En inaktiv avdelning kan inte väljas på nya avtalsperioder."
+            },
+            "import": {
+                "title": "Importera från WorkZone",
+                "button": "Importera från WorkZone",
+                "buttonHelp": "Ladda upp en fil från WorkZone och se vad som skulle hända innan något sparas.",
+                "help": "Välj WorkZones OData-export av kommuner (Kommuner) som xlsx eller csv. Första raden måste vara kolumnrubriker, och kolumnen Navn 1 krävs.",
+                "helpReimport": "Du ser först en förhandsgranskning. Importerar du igen uppdateras avdelningar med samma WorkZone-ID (som visas i WorkZone), och tomma fält i filen skriver inte över det som står i CitizenOne. Upphörda avdelningar importeras som inaktiva.",
+                "file": "Fil",
+                "fileHelp": "xlsx, xls eller csv, högst 5 MB.",
+                "badType": "Filen måste vara xlsx, xls eller csv.",
+                "tooBig": "Filen är större än 5 MB.",
+                "preview": "Förhandsgranska",
+                "previewHelp": "Läser filen och visar vad som skulle skapas, uppdateras eller hoppas över. Inget sparas.",
+                "previewTitle": "Förhandsgranskning, inget är sparat än",
+                "doneTitle": "Importen är genomförd",
+                "row": "Rad",
+                "action": "Åtgärd",
+                "notes": "Anmärkningar",
+                "actions": {
+                    "create": "Skapas",
+                    "update": "Uppdateras",
+                    "skip": "Hoppas över"
+                },
+                "actionHelp": {
+                    "create": "Ny avdelning som inte finns i CitizenOne.",
+                    "update": "Finns redan, matchad på WorkZone-id eller EAN. Bara ifyllda fält skriver över.",
+                    "skip": "Raden har fel och importeras inte."
+                },
+                "warnings": "Varningar",
+                "warningsHelp": "Raden importeras, men ett värde kunde inte användas, t.ex. ett ogiltigt EAN eller en e-postadress.",
+                "inactiveCount": "Inaktiva",
+                "inactiveCountHelp": "Markerade som upphörda i WorkZone. Importeras som inaktiva, så att de inte kan väljas på nya kontraktsperioder.",
+                "errors": "Fel",
+                "errorsHelp": "Rader med fel hoppas över.",
+                "termsWillBeAdded": "Betalningsvillkor som läggs till i listan: {days} dagar.",
+                "termsAdded": "Betalningsvillkor som lades till i listan: {days} dagar.",
+                "unmatchedMunicipalities": "Kommuner som inte kändes igen: {names}",
+                "ignoredColumns": "Kolumner som inte används: {names}",
+                "apply": "Importera {count}",
+                "applyHelp": "Sparar de rader som skapas eller uppdateras i ett svep. En överhoppad rad ändrar ingenting.",
+                "done": "{count} avdelningar har importerats"
+            },
+            "eanAndCustomerNumber": "EAN / kundnr",
+            "inactive": "Inaktiv",
+            "inactiveHelp": "Avdelningen är inaktiv (upphörd i WorkZone) och kan inte väljas på nya avtalsperioder."
         },
         "contract": {
             "title": "Avtal",
@@ -15564,6 +16040,26 @@
         "email": "E-post",
         "phone": "Telefon"
     },
+    "inquiryIntake": {
+        "title": "Webbformulär",
+        "description": "Förfrågningar från ert eget webbformulär skapas automatiskt här. Formuläret skickar med en nyckel som bara kan skapa förfrågningar.",
+        "active": "Aktiv · nyckeln slutar på {last4}",
+        "inactive": "Inte uppsatt",
+        "generate": "Skapa nyckel",
+        "rotate": "Ny nyckel",
+        "generateHint": "Skapa en nyckel till ert webbformulär",
+        "rotateHint": "Gör en ny nyckel. Den gamla slutar fungera direkt.",
+        "revoke": "Stäng av",
+        "revokeHint": "Stäng av webbformuläret. Nyckeln slutar fungera.",
+        "copyNow": "Kopiera nyckeln nu. Den visas bara den här gången.",
+        "copy": "Kopiera nyckeln",
+        "copied": "Nyckeln är kopierad",
+        "howTo": "Så sätter ni upp formuläret",
+        "howToText": "Låt er webbplats skicka formuläret till adressen nedan med nyckeln i headern X-Inquiry-Key. Förfrågan dyker upp i pipelinen, märkt som från webbplatsen.",
+        "revoked": "Webbformuläret är avstängt",
+        "failed": "Det lyckades inte",
+        "fromWebsite": "Från webbplatsen"
+    },
     "consultantSkills": {
         "title": "Konsultkompetenser",
         "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",
@@ -15797,6 +16293,41 @@
         "uploadFailed": "Dokumentet kunde inte laddas upp",
         "deleteFailed": "Dokumentet kunde inte tas bort",
         "dropHere": "Släpp filerna här"
+    },
+    "inquiryParties": {
+        "title": "Parter",
+        "hint": "Vilka ärendet involverar: handläggare, föräldrar, skola och era egna yrkespersoner. De blir kontakter på insatsen när förfrågan vinns.",
+        "add": "Lägg till part",
+        "remove": "Ta bort part",
+        "empty": "Det finns inga parter ännu.",
+        "primary": "Primär part",
+        "primaryHint": "Den eller dem ärendet främst gäller",
+        "saveFailed": "Parten kunde inte sparas",
+        "kinds": {
+            "outside": "Extern part",
+            "employee": "Medarbetare"
+        },
+        "types": {
+            "case_manager": "Handläggare",
+            "relatives": "Anhörig",
+            "external_contact": "Annan extern",
+            "doctor": "Läkare",
+            "dentist": "Tandläkare",
+            "our_contact_person": "Vår kontaktperson"
+        },
+        "form": {
+            "type": "Typ",
+            "organisation": "Organisation",
+            "organisationPlaceholder": "T.ex. skola eller kommun",
+            "firstname": "Förnamn",
+            "lastname": "Efternamn",
+            "email": "E-post",
+            "phone": "Telefon",
+            "employee": "Medarbetare",
+            "coordinatorRole": "Koordinatorroll",
+            "noRole": "Ingen",
+            "isPrimary": "Primär part"
+        }
     },
     "inquiryInvitations": {
         "title": "Konsulter tillfrågade",
@@ -16710,5 +17241,117 @@
         "blocked": "{count} dokument öppnades inte eftersom webbläsaren blockerar popup-fönster. Tillåt popup-fönster för den här sidan och klicka igen. | {count} dokument öppnades inte eftersom webbläsaren blockerar popup-fönster. Tillåt popup-fönster för den här sidan och klicka igen.",
         "failedTitle": "Dokumentet kunde inte hämtas",
         "failed": "{count} dokument kunde inte hämtas. Försök igen. | {count} dokument kunde inte hämtas. Försök igen."
+    },
+    "invoicePayment": {
+        "paid": "Den här fakturan är betald.",
+        "paidOn": "Betald {date}",
+        "failed": "Betalningen av den här fakturan avvisades.",
+        "payByBankTransfer": "Betalas via banköverföring",
+        "unpaid": "Den här fakturan är inte betald ännu.",
+        "covered": "Ingår i ert avtal"
+    },
+    "whistleblower": {
+        "reportAnonymously": "Rapportera anonymt",
+        "public": {
+            "title": "Visselblåsning",
+            "language": "Språk",
+            "notFoundTitle": "Länken fungerar inte",
+            "notFound": "Länken kan vara gammal eller visselblåsarfunktionen kan vara avstängd. Fråga din arbetsplats efter den aktuella länken.",
+            "heading": "Rapportera ett missförhållande till {company}",
+            "intro": "Använd formuläret för att berätta för dem som hanterar visselblåsarrapporter på din arbetsplats om något som är fel.",
+            "anonymousTitle": "Du är anonym",
+            "anonymousText": "Sidan vet inte vem du är, och din rapport är inte kopplad till ditt konto. Utelämna uppgifter som kan avslöja dig, om du inte vill vara känd. Använd ett privat webbläsarfönster eller din egen enhet för extra integritet.",
+            "category": "Vad gäller det?",
+            "categoryPlaceholder": "Välj en kategori",
+            "subject": "Ämne",
+            "description": "Vad har hänt?",
+            "descriptionPlaceholder": "Beskriv vad som hände, när och var, och vilka som var inblandade.",
+            "includeContact": "Ta med mitt namn eller mina kontaktuppgifter",
+            "includeContactHelp": "Valfritt. Bara handläggarna kan se dem, och de gör det möjligt att kontakta dig.",
+            "name": "Namn",
+            "contact": "E-post eller telefon",
+            "send": "Skicka rapport",
+            "sentTitle": "Din rapport har skickats",
+            "sent": "De som hanterar visselblåsarrapporter hos {company} har fått besked.",
+            "reference": "Din referens",
+            "sentAnonymous": "Skriv ner referensen. Du skickade rapporten anonymt, så handläggarna kan inte kontakta dig.",
+            "sentWithContact": "Skriv ner referensen. Handläggarna kan kontakta dig via de uppgifter du lämnade.",
+            "tooMany": "För många rapporter har skickats härifrån. Försök igen senare.",
+            "checkFields": "Kontrollera de markerade fälten nedan.",
+            "sendFailed": "Rapporten kunde inte skickas. Försök igen.",
+            "required": "Fältet måste fyllas i.",
+            "invalidField": "Kontrollera det här fältet."
+        },
+        "categories": {
+            "work_environment": "Arbetsmiljö",
+            "harassment": "Trakasserier eller mobbning",
+            "discrimination": "Diskriminering",
+            "citizen_safety": "Brukares eller patienters säkerhet",
+            "fraud_or_corruption": "Bedrägeri eller korruption",
+            "data_protection": "Dataskydd",
+            "other": "Annat"
+        },
+        "statuses": {
+            "received": "Mottagen",
+            "acknowledged": "Bekräftad",
+            "investigating": "Utreds",
+            "closed": "Avslutad"
+        },
+        "settings": {
+            "title": "Visselblåsning",
+            "intro": "Ge personalen ett säkert sätt att rapportera något som är fel. Rapporter skickas via en privat länk utan inloggning, så ingen kan se vem som skickade dem. Bara de handläggare du väljer kan läsa dem.",
+            "enable": "Slå på visselblåsning",
+            "enableHelp": "Personalen får en länk \"Rapportera anonymt\" i menyn.",
+            "handlers": "Vem tar emot rapporterna",
+            "handlersHelp": "Bara administratörer kan väljas, och bara de du väljer kan läsa rapporter. En rapport kan gälla en administratör, så inte alla administratörer ingår automatiskt.",
+            "link": "Rapportlänk",
+            "linkHelp": "Alla med länken kan skicka en rapport, även personer utanför företaget som tidigare anställda.",
+            "copy": "Kopiera",
+            "copied": "Kopierad",
+            "regenerateHelp": "Om länken har delats för brett kan du skapa en ny. Den gamla länken slutar fungera.",
+            "regenerate": "Skapa en ny länk",
+            "regenerateConfirmation": "Skapa en ny länk? Den nuvarande länken slutar fungera",
+            "saved": "Visselblåsarinställningarna har sparats",
+            "regenerated": "En ny länk har skapats"
+        },
+        "inbox": {
+            "title": "Visselblåsarrapporter",
+            "intro": "Rapporter som skickats via företagets visselblåsarlänk. De är anonyma om inte rapportören valde att uppge sitt namn.",
+            "filter": "Filtrera efter status",
+            "all": "Alla",
+            "empty": "Inga rapporter.",
+            "acknowledgeOverdue": "Över 7 dagar",
+            "open": "Öppna",
+            "columns": {
+                "reference": "Referens",
+                "subject": "Ämne",
+                "status": "Status",
+                "received": "Mottagen"
+            }
+        },
+        "detail": {
+            "back": "Tillbaka till rapporter",
+            "receivedOn": "Mottagen {date}",
+            "anonymous": "Skickad anonymt",
+            "reporter": "Rapportör",
+            "status": "Status",
+            "updateStatus": "Uppdatera status",
+            "deadlines": "Bekräfta mottagandet inom 7 dagar, och ge rapportören återkoppling inom 3 månader.",
+            "history": "Anteckningar och historik",
+            "historyHelp": "Bara handläggare kan se detta.",
+            "formerHandler": "Tidigare handläggare",
+            "statusChanged": "Status ändrad från {from} till {to}",
+            "addNote": "Lägg till en anteckning",
+            "saveNote": "Spara anteckning",
+            "statusSaved": "Statusen har uppdaterats"
+        },
+        "bell": {
+            "title": "Ny visselblåsarrapport",
+            "description": "Referens {reference}"
+        }
+    },
+    "documentViewer": {
+        "notViewableTitle": "Filen kan inte öppnas",
+        "notViewableText": "Den här filtypen kan inte visas i webbläsaren, och din roll får inte ladda ner dokument."
     }
 }

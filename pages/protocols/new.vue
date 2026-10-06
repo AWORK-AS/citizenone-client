@@ -71,6 +71,11 @@ async function saveProtocol(protocolDetails: any) {
             end_date: protocolDetails.end_date,
             citizen_ids: protocolDetails.citizens,
             exclude_weekends: protocolDetails.exclude_weekends,
+            recording_mode: protocolDetails.recording_mode,
+        }
+
+        if (protocolDetails.recording_mode === 'hour') {
+            params.time_slots = protocolDetails.time_slots
         }
 
         if (protocolDetails.is_recurring) {

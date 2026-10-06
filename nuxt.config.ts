@@ -187,6 +187,15 @@ export default defineNuxtConfig({
     '/fst-forgot-password': {
       redirect: { to: '/forgot-password', statusCode: 301 },
     },
+    // OAuth callbacks are reached from Microsoft's redirect and Google indexed one
+    // (app.citizenone.dk/mail/auth/microsoft/callback, 388 impressions in 6 months).
+    // The header merges with the security headers above.
+    '/mail/auth/**': {
+      headers: { 'X-Robots-Tag': 'noindex, nofollow' },
+    },
+    '/onedrive/**': {
+      headers: { 'X-Robots-Tag': 'noindex, nofollow' },
+    },
     '/.well-known/apple-app-site-association': {
       headers: { 'content-type': 'application/json' },
     },
