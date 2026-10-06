@@ -106,6 +106,36 @@ export function installmentsMatchContract(rows: Array<{ amount: number | string 
     return Math.abs(toCents(contractValue) - sumCents) <= SUM_TOLERANCE_CENTS
 }
 
+/** End of the binding as the form sees it: the typed end date, or start + term. */
+export function bindingEndsOn(form: { starts_on: string; term_mode: 'months' | 'end_date'; ends_on: string; term_months: number | string }): string {
+    if (form.term_mode === 'end_date') return form.ends_on || ''
+    const months = Math.floor(Number(form.term_months) || 0)
+    return form.starts_on && months > 0 ? addMonthsClamped(form.starts_on, months) : ''
+}
+
+/**
+ * Coverage defaults. Rows in the "installments" plan cover the whole binding
+ * (start to end); other plans stay null so the backend fills them in. A value
+ * that is already set is never overwritten.
+ */
+export function withDefaultCoverage<T extends { covers_from?: string | null; covers_to?: string | null }>(
+    rows: T[],
+    plan: string,
+    startsOn: string,
+    endsOn: string,
+): T[] {
+    return rows.map((row) => {
+        const from = row.covers_from || (plan === 'installments' && startsOn ? startsOn : null)
+        const to = row.covers_to || (plan === 'installments' && endsOn ? endsOn : null)
+        return { ...row, covers_from: from, covers_to: to }
+    })
+}
+
+/** Add-on ("tilkoeb") bought mid-binding: due today, covers today until the binding ends. */
+export function buildAddOnInstallment(today: string, endsOn: string, label = 'Tilkøb'): InstallmentInput {
+    return { due_on: today, amount: 0, label, covers_from: today, covers_to: endsOn || null }
+}
+
 export interface AgreementFormState {
     name: string
     starts_on: string
@@ -167,10 +197,12 @@ export function buildAgreementPayload(form: AgreementFormState): AgreementPayloa
             }
             : null,
         installments: useExplicit
-            ? form.installments.map((row) => ({
+            ? withDefaultCoverage(form.installments, form.billing_plan, form.starts_on, bindingEndsOn(form)).map((row) => ({
                 due_on: row.due_on,
                 amount: Number(row.amount),
                 label: row.label ? row.label : null,
+                covers_from: row.covers_from || null,
+                covers_to: row.covers_to || null,
             }))
             : null,
     }

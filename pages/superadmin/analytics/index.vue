@@ -81,10 +81,6 @@
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <!-- Aftaletal: kontrakt-MRR/ARR som hovedtal, cash næste 12 mdr.,
-                     backlog, udestående og bindinger der udløber. -->
-                <ModulesSuperadminAgreementMetrics v-if="hasFinancials" :data="state.recurringRevenue" />
-
                 <!-- Totals for the chosen range -->
                 <div class="grid grid-cols-2 gap-4"
                     :class="hasFinancials ? 'lg:grid-cols-5' : 'lg:grid-cols-4'">
@@ -360,7 +356,6 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
-import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import { forecastBucketTotals } from '@/composables/agreements'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { usePermissions } from '@/composables/usePermissions'
@@ -398,7 +393,6 @@ const state = reactive({
     // and must not be refetched every time somebody moves the date range.
     forecast: null as any,
     // `recurring_revenue` from the management overview: the agreement figures.
-    recurringRevenue: null as any,
     forecastYears: 3,
     isForecastLoading: false,
 })
@@ -736,18 +730,7 @@ function onRangeChanged() {
 onMounted(() => {
     fetchTrends()
     fetchForecast()
-    fetchAgreementFigures()
 })
-
-async function fetchAgreementFigures() {
-    try {
-        const response = await dashboardService.getManagementOverview({})
-        state.recurringRevenue = response?.data?.recurring_revenue ?? null
-    } catch (_) {
-        // Behind a different permission than the report: no figures, no error.
-        state.recurringRevenue = null
-    }
-}
 
 function selectForecastYears(years: number) {
     if (state.forecastYears === years) return

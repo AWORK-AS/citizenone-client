@@ -81,7 +81,13 @@
                              sideways too: a Word page is wider than a phone. -->
                         <div v-show="state.kind === 'docx' && !state.renderFailed"
                             class="min-h-0 flex-1 overflow-auto bg-gray-800/70 p-4 sm:p-8">
-                            <div ref="previewContainer" class="flex w-full justify-center"
+                            <!-- docx-preview draws each page as its own element straight into
+                                 this container. As a row the pages sat side by side, and centring
+                                 pushed the first ones off the left edge where they cannot be
+                                 scrolled to (Memox 01.10: "kun én side vises"). A column stacks them,
+                                 and auto margins centre a page only while it fits: on a phone
+                                 they drop to 0, so the page starts at the left and scrolls. -->
+                            <div ref="previewContainer" class="flex w-full flex-col gap-6 [&>*]:mx-auto"
                                 data-testid="document-preview-container"></div>
                         </div>
 

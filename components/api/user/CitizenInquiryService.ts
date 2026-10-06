@@ -36,6 +36,11 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/reports/lost`, 'GET', params)
     }
 
+    // Won, lost and still open among the inquiries received in a period.
+    async getConversionReport(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/reports/conversion`, 'GET', params)
+    }
+
     async deleteInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'DELETE')
     }
@@ -49,8 +54,12 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/unassigned/converted`, 'GET')
     }
 
-    async assignSelf(inquiryUuids: string[]): Promise<any> {
-        return await this.request(`/user/citizen-inquiries/assign/self`, 'POST', { inquiry_uuids: inquiryUuids })
+    // Without an employee the caller takes the cases; a leader can name someone else.
+    async assignSelf(inquiryUuids: string[], employeeUuid: string | null = null): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/assign/self`, 'POST', {
+            inquiry_uuids: inquiryUuids,
+            ...(employeeUuid ? { employee_uuid: employeeUuid } : {}),
+        })
     }
 
     // Crisis Center inquiry specific endpoints

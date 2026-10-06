@@ -9,6 +9,10 @@ class CompanyService extends BaseAPIService {
         return await this.request(`/user/company/onboarding-preferences`, 'PUT', params)
     }
 
+    async updateConsultantStepCount(params: object): Promise<any> {
+        return await this.request(`/user/company/consultant-step-count`, 'PUT', params)
+    }
+
     async getCompanyModules(): Promise<any> {
         return await this.request(`/user/company/modules`, 'GET')
     }

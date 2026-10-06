@@ -21,7 +21,25 @@
 
                     <!-- Scale: the whole range visible, so picking 4 of 5 needs no
                          guessing about what the ends mean. -->
-                    <div v-if="field.type === 'scale'" class="flex flex-wrap gap-1.5">
+                    <!-- A trivselslineal looks like the ruler in a journal note: one
+                         bar, the whole range, halves between the marks. -->
+                    <div v-if="field.type === 'scale' && field.options?.wellbeing"
+                        class="flex rounded-sm border border-gray-300 overflow-hidden" role="group" :aria-label="field.label">
+                        <button v-for="step in scaleSteps(field)" :key="step" type="button"
+                            class="grow py-1.5 border-r border-gray-200 last:border-r-0 transition-colors"
+                            :class="[
+                                Number.isInteger(step) ? 'text-xs' : 'text-[10px]',
+                                Number(draft[field.uuid]) === step && draft[field.uuid] !== null
+                                    ? 'text-white font-semibold bg-secondary'
+                                    : Number.isInteger(step) ? 'text-gray-600 hover:bg-gray-100' : 'text-gray-400 hover:bg-gray-100',
+                            ]"
+                            :aria-pressed="Number(draft[field.uuid]) === step"
+                            @click="setValue(field, String(draft[field.uuid]) === String(step) ? null : step)">
+                            {{ formatStep(step) }}
+                        </button>
+                    </div>
+
+                    <div v-else-if="field.type === 'scale'" class="flex flex-wrap gap-1.5">
                         <button v-for="step in scaleSteps(field)" :key="step" type="button"
                             class="size-9 rounded-lg border text-[13px] font-bold transition-colors"
                             :class="String(draft[field.uuid]) === String(step)
@@ -67,6 +85,17 @@
 
                         <FormSelect v-else :modelValue="draft[field.uuid] ?? null" :options="lookupOptions(field)"
                             @update:modelValue="(value: any) => setValue(field, value)" />
+
+                        <!-- A customer department not in the register yet is created
+                             here and picked, instead of leaving the inquiry for settings. -->
+                        <Tooltip v-if="field.options?.source === 'customer_departments'"
+                            :text="$t('inquiryFields.newCustomerDepartmentTooltip')">
+                            <button type="button" class="mt-1 inline-flex items-center gap-1 text-[12px] font-semibold text-secondary hover:underline"
+                                @click="openNewDepartment(field)">
+                                <Icon name="ph:plus" class="size-3.5" />
+                                {{ $t('socialWelfare.customerDepartments.new') }}
+                            </button>
+                        </Tooltip>
 
                         <!-- A special language carries a surcharge on the offer, so it is
                              said where it is chosen. -->
@@ -116,6 +145,10 @@
             </FormButton>
         </div>
     </div>
+    <!-- Always mounted: the modal fills its form and loads municipalities when
+         isModalOpen turns true, which it never sees if created already open. -->
+    <ModulesUserEconomyCustomerDepartmentModal :isModalOpen="!!newDepartmentFor"
+        @close="newDepartmentFor = null" @saved="departmentCreated" />
 </template>
 
 <script setup lang="ts">
@@ -125,7 +158,7 @@ import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
 
 const { successAlert, errorAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = defineProps({
     inquiryUuid: {
@@ -186,6 +219,27 @@ function lookupOptions(field: any) {
     }))
 }
 
+// The lookup field a new customer department is being created for.
+const newDepartmentFor = ref<any>(null)
+
+function openNewDepartment(field: any) {
+    newDepartmentFor.value = field
+}
+
+// Reloads the options so the new department is listed, keeping what has been
+// typed but not saved, then picks it (added to the list on a multiple field).
+async function departmentCreated(department: any) {
+    const field = newDepartmentFor.value
+    if (!field || !department?.uuid) return
+
+    const unsaved = { ...draft.value }
+    await fetchFields()
+    draft.value = { ...draft.value, ...unsaved }
+
+    const current = draft.value[field.uuid]
+    setValue(field, field.options?.multiple ? [...(current ?? []), department.uuid] : department.uuid)
+}
+
 function specialChosen(field: any): string[] {
     const chosen = ([] as any[]).concat(draft.value[field.uuid] ?? [])
 
@@ -196,6 +250,13 @@ function specialChosen(field: any): string[] {
 
 function choiceOptions(field: any) {
     return (field.options?.choices ?? []).map((choice: string) => ({ value: choice, label: choice }))
+}
+
+// 4.5 reads as 4,5 everywhere but English, as on the journal note's ruler.
+const stepFormatter = computed(() => new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK'))
+
+function formatStep(step: number) {
+    return stepFormatter.value.format(step)
 }
 
 function scaleSteps(field: any) {

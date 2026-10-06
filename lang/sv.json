@@ -39,6 +39,10 @@
         "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
+            "myself": "Mig själv",
+            "assignSelected": "Tilldela valda ärenden",
+            "assignTooltip": "Sätt den valda medarbetaren på de valda ärendena",
+            "claimTooltip": "Sätt dig själv på de valda ärendena",
             "title": "Konverterade, otilldelade ärenden",
             "empty": "Inga konverterade ärenden väntar på en handläggare.",
             "selectedOfTotal": "{selected} av {total} valda",
@@ -4240,6 +4244,44 @@
         },
         "emptyFiltered": "Inga {citizens} matchar filtren."
     },
+    "dischargeReasons": {
+        "title": "Avslutningsorsaker",
+        "single": "Avslutningsorsak",
+        "none": "Ingen",
+        "description": "Varför en insats avslutas, som en lista ni själva håller. Då kan avslut räknas per orsak, t.ex. för statistik och kvalitetsarbete. Fritextfältet finns kvar som förklaring.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en orsak som kan väljas när en insats avslutas",
+        "empty": "Det finns inga orsaker ännu.",
+        "reportHint": "Se hur många insatser som avslutats per orsak",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Mål uppnått"
+        },
+        "actions": {
+            "switchOff": "Stäng av orsaken",
+            "switchOn": "Slå på orsaken",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Orsaken är borttagen",
+            "deleteFailed": "Orsaken kunde inte tas bort"
+        },
+        "report": {
+            "title": "Avslutade insatser",
+            "description": "Insatser med slutdatum i perioden, fördelade på avslutningsorsak, och hur länge de varade i snitt.",
+            "from": "Från",
+            "to": "Till",
+            "show": "Visa",
+            "showHint": "Visa avslut i perioden",
+            "endings": "{count} avslut",
+            "empty": "Inga insatser avslutades i perioden.",
+            "noReason": "Utan orsak",
+            "averageDays": "Snitt {days} dagar",
+            "averageHint": "Genomsnittlig längd från start till slut"
+        }
+    },
     "client": {
         "appointments": "Möten",
         "appointmentsTable": {
@@ -8003,6 +8045,9 @@
     "home": "Hjem",
     "imageFailedToLoad": "Bilden kunde inte indläses",
     "inquiries": {
+        "board": {
+            "riskTooltip": "Riskbedömning från förfrågans fält. Den högsta risken räknas."
+        },
         "crisisCenterInquiry": "Krishem förfrågningar",
         "editInquiry": "Redigera förfrågningar",
         "exportInquiries": "Exportera förfrågningar",
@@ -8480,8 +8525,9 @@
         "sso": {
             "microsoft": "Logga in med Microsoft",
             "hint": "Använd organisationens Microsoft-konto. Skriv din jobbmejl ovan först.",
-            "enterEmail": "Skriv din jobbmejl och välj sedan Logga in med Microsoft.",
-            "failed": "Inloggningen med Microsoft lyckades inte. Försök igen."
+            "enterEmail": "Skriv din jobbmejl ovan och klicka igen.",
+            "failed": "Inloggningen med Microsoft lyckades inte. Försök igen.",
+            "redirecting": "Skickar dig till Microsoft…"
         }
     },
     "companySso": {
@@ -10495,6 +10541,8 @@
     },
     "search": "Sök",
     "sections": {
+        "mirrored": "Följer insatstyp",
+        "mirroredTooltip": "Denna paragraf underhålls under Insatstyper. Ändra namn och paragraf där, så följer den med hit.",
         "addNewSection": "Lägg till ny paragraf",
         "alert": {
             "sectionSuccessfullyDeleted": "Paragraf raderad"
@@ -10865,6 +10913,7 @@
             "other": "Annat",
             "profile": "Profil",
             "relationships": "Förhållande",
+            "dischargeReasons": "Avslutningsorsaker",
             "roles": "Roller",
             "rooms": "Rum",
             "scheduleTags": "Tjänsteschema etiketter",
@@ -13428,7 +13477,9 @@
                 "notice": "Uppsägningstid",
                 "dueOn": "Förfallodatum",
                 "amount": "Belopp exkl. moms",
-                "label": "Text"
+                "label": "Text",
+                "covers": "Täcker",
+                "coversHelp": "Perioden raden räknas i kontraktets MRR: beloppet fördelas över de månader den täcker."
             },
             "plans": {
                 "monthly": "Månadsvis",
@@ -13465,7 +13516,7 @@
                 "backlog": "Återstående bundet avtalsvärde: delbetalningar utan betald faktura.",
                 "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
                 "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
-                "renewalValue": "Vad avtalet kostar per år efter bindningen, exkl. moms. Tomt: avtalsvärde delat med bindningen i månader gånger 12.",
+                "renewalValue": "Tomt = beräknas utifrån gällande listpris för de kopplade licenserna vid förnyelsetillfället. Ett ifyllt värde är ett fast pris som ersätter listpriset vid kommande förnyelser.",
                 "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
                 "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
             },
@@ -13512,10 +13563,17 @@
                 "settledNote": "Anteckning om reglering",
                 "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275",
                 "renewalValue": "Årligt värde vid förnyelse",
-                "renewalValuePlaceholder": "Standard",
+                "renewalValuePlaceholder": "Listpris",
                 "endsOn": "Slutdatum",
                 "modeMonths": "Bindning i månader",
-                "modeEndDate": "Slutdatum"
+                "modeEndDate": "Slutdatum",
+                "coverage": "Täcker från–till",
+                "coverageHelp": "Perioden styr hur raden räknas i kontraktets MRR: beloppet fördelas över de månader raden täcker och räknas bara medan perioden omfattar idag. Tomt = fylls i av systemet.",
+                "coversFrom": "Täcker från",
+                "coversTo": "Täcker till",
+                "addAddOn": "Lägg till tillköp",
+                "addAddOnHelp": "Lägger till en rad för licenser som köpts mitt i bindningen: förfaller idag och täcker från idag till bindningens slut, så att den räknas i kontraktets MRR.",
+                "addOnLabel": "Tillköp"
             },
             "detail": {
                 "title": "Avtal",
@@ -13639,6 +13697,20 @@
             "remainder": {
                 "chip": "Restbelopp vid uppsägning",
                 "help": "Samlat restbelopp som fakturerats eftersom avtalet sades upp före bindningens slut."
+            },
+            "renewal": {
+                "expected": "Förväntad förnyelse: {amount} kr/år",
+                "expectedHelp": "När en ny period startar faktureras de listpriser som gäller vid den tidpunkten. Beloppet här är en uppskattning utifrån nuvarande priser och kan ändras om priserna ändras innan dess.",
+                "sources": {
+                    "list_price": "Listpris",
+                    "override": "Fast pris",
+                    "fallback": "Uppskattat"
+                },
+                "sourceHelp": {
+                    "list_price": "Beräknat utifrån gällande listpris för de kopplade licenserna. När en ny period startar faktureras de listpriser som gäller vid den tidpunkten, så beloppet kan ändras om priserna ändras innan dess.",
+                    "override": "Ett fast pris som anges på avtalet ersätter listpriset vid kommande förnyelser.",
+                    "fallback": "Inga licenser är kopplade, så värdet är uppskattat utifrån avtalsvärdet."
+                }
             }
         },
         "metrics": {
@@ -14978,6 +15050,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Vunna ärenden utan koordinator",
+        "unassignedWonCount": "1 ärende väntar | {count} ärenden väntar",
+        "unassignedWonOpen": "Fördela ärenden",
+        "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
             "bookings_missing_note": "En bokning har avslutats utan en @:terms.journalNote{''} | {n} bokningar har avslutats utan en @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
@@ -15940,6 +16016,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Skapa en ny kund eller avdelning och välj den här",
         "required": "Obligatoriskt",
         "appliesThroughout": "Gäller hela förloppet",
         "saving": "Sparar...",
@@ -16023,11 +16100,14 @@
             "consultant_skills_competence": "Konsultkompetenser: kompetenser",
             "consultant_skills_course": "Konsultkompetenser: kurser",
             "consultant_skills_topic": "Konsultkompetenser: ämnesord",
-            "focus_areas_ics": "Fokusområden (ICS, barn och unga)"
+            "focus_areas_ics": "Fokusområden (ICS, barn och unga)",
+            "rooms": "Rum och lokaler"
         },
         "allServiceTypes": "Alla insatstyper",
         "allowMultiple": "Tillåt mer än ett svar",
         "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)",
+        "wellbeingRuler": "Trivsellinjal",
+        "wellbeingRulerHint": "Visas som trivsellinjalen i journalanteckningar, och svaret blir första punkten på brukarens trivselkurva när ärendet vinns.",
         "allForms": "Alla formulär"
     },
     "inquiryOrigin": {
@@ -16069,6 +16149,13 @@
         "fromWebsite": "Från webbplatsen"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Stegbedömning",
+            "hint": "Antal steg konsulterna bedöms på. Profilen och matchningen visar så många.",
+            "save": "Spara",
+            "saveTooltip": "Spara antalet steg för hela företaget",
+            "saved": "Antal steg sparat"
+        },
         "title": "Konsultkompetenser",
         "description": "Underhåll de listor konsulterna matchas på. En kompetens är något de kan, en kurs är något de har gått, och ett ämnesord är något de har erfarenhet av.",
         "add": "Lägg till",
@@ -16179,6 +16266,7 @@
         "moveHint": "Framåt kräver att fasens obligatoriska fält är ifyllda. Bakåt går alltid."
     },
     "inquiryServiceTypes": {
+        "fillsSections": "Insatstyperna här fyller också listan över paragrafer på brukarna. Ändra namn och paragraf på ett ställe.",
         "add": "Lägg till",
         "alert": {
             "deleted": "Insatstypen har tagits bort",
@@ -16798,6 +16886,7 @@
         "title": "AI-användning",
         "loading": "Hämtar användning ...",
         "failed": "Användningen kunde inte hämtas just nu. Försök igen om en stund.",
+        "forbidden": "Du har inte åtkomst till AI-användningen. Be en administratör i ert företag om åtkomst.",
         "today": "I dag",
         "ofAllowance": "{used} av {allowance} svar",
         "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",
@@ -16875,6 +16964,7 @@
         "location": "Plats",
         "locationPlaceholder": "Adress eller område, t.ex. Vesterbro",
         "postalCode": "Postnummer",
+        "reportingHint": "Följer med till brukaren när ärendet vinns och startar påminnelsen om rapportering.",
         "pending": "Placeras på kartan om en stund",
         "unavailable": "Inte placerad på kartan: kartuppslag är inte konfigurerat, så inget avstånd visas",
         "notFound": "Kunde inte hittas på kartan. Kontrollera adressen eller ange ett postnummer",
@@ -17031,6 +17121,19 @@
             "newReason": "Ny orsak",
             "add": "Lägg till orsak"
         }
+    },
+    "inquiryConversion": {
+        "rate": "Konverteringsgrad",
+        "rateHint": "Vunna av de avgjorda förfrågningarna som kom in under perioden. Öppna förfrågningar räknas inte förrän de är avgjorda.",
+        "won": "Vunna",
+        "lost": "Förlorade",
+        "open": "Öppna",
+        "received": "Mottagna",
+        "byServiceType": "Per insatstyp",
+        "byMonth": "Per månad",
+        "serviceType": "Insatstyp",
+        "month": "Månad",
+        "noServiceType": "Utan insatstyp"
     },
     "inquiryOffer": {
         "title": "Offert",

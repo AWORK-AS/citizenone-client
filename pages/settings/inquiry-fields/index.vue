@@ -210,6 +210,15 @@
                                 <FormCheckbox :value="state.form.allow_half" />
                                 <span class="text-sm">{{ $t('inquiryFieldSettings.allowHalfSteps') }}</span>
                             </div>
+                            <!-- Shown as the journal note's ruler, and the answer becomes the
+                                 first point on the citizen's wellbeing curve when won. -->
+                            <Tooltip :text="$t('inquiryFieldSettings.wellbeingRulerHint')">
+                                <div class="mt-2 flex w-fit cursor-pointer items-center gap-2"
+                                    @click="state.form.wellbeing = !state.form.wellbeing">
+                                    <FormCheckbox :value="state.form.wellbeing" />
+                                    <span class="text-sm">{{ $t('inquiryFieldSettings.wellbeingRuler') }}</span>
+                                </div>
+                            </Tooltip>
                         </div>
 
                         <div>
@@ -285,8 +294,14 @@ const LOOKUP_SOURCES = [
     'municipalities', 'regions', 'departments', 'company_contacts',
     'spoken_languages', 'consultant_skills', 'consultant_skills_competence', 'consultant_skills_course',
     'consultant_skills_topic', 'inquiry_service_types', 'employees',
-    'jobcenters', 'focus_areas', 'focus_areas_ics',
+    'jobcenters', 'customer_departments', 'focus_areas', 'focus_areas_ics', 'rooms',
 ]
+// A company that renamed its Rooms page (Memox: "Lokaler") sees its own name.
+function sourceLabel(source: string) {
+    const roomsName = source === 'rooms' ? customPagesStore.getCustomPagesName?.rooms : ''
+    return roomsName || t('inquiryFieldSettings.sources.' + source)
+}
+
 const CHOICE_TYPES = ['select', 'multiselect']
 
 function emptyForm() {
@@ -300,6 +315,7 @@ function emptyForm() {
         min: '1',
         max: '5',
         allow_half: false,
+        wellbeing: false,
         source: 'municipalities',
         multiple: false,
         service_type_uuid: null as string | null,
@@ -334,7 +350,7 @@ const stageOptions = computed(() => [
 const isChoiceType = computed(() => CHOICE_TYPES.includes(state.form.type))
 
 const sourceOptions = computed(() =>
-    LOOKUP_SOURCES.map((source) => ({ value: source, label: t('inquiryFieldSettings.sources.' + source) }))
+    LOOKUP_SOURCES.map((source) => ({ value: source, label: sourceLabel(source) }))
 )
 
 const serviceTypeOptions = computed(() => [
@@ -461,6 +477,7 @@ function openEdit(field: any) {
         min: String(field.options?.min ?? 1),
         max: String(field.options?.max ?? 5),
         allow_half: !!field.options?.allow_half,
+        wellbeing: !!field.options?.wellbeing,
         source: field.options?.source ?? 'municipalities',
         multiple: !!field.options?.multiple,
         service_type_uuid: field.service_type?.uuid ?? null,
@@ -503,6 +520,7 @@ function payload() {
             min: Number(state.form.min) || 1,
             max: Number(state.form.max) || 5,
             allow_half: state.form.allow_half,
+            wellbeing: state.form.wellbeing,
         }
     }
 

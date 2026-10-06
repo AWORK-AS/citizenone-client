@@ -39,6 +39,10 @@
         "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
+            "myself": "Myself",
+            "assignSelected": "Assign selected cases",
+            "assignTooltip": "Put the chosen employee on the selected cases",
+            "claimTooltip": "Put yourself on the selected cases",
             "title": "Converted, unassigned cases",
             "empty": "No converted cases are waiting for a caseworker.",
             "selectedOfTotal": "{selected} of {total} selected",
@@ -4240,6 +4244,44 @@
         },
         "emptyFiltered": "No {citizens} match the filters."
     },
+    "dischargeReasons": {
+        "title": "Discharge reasons",
+        "single": "Discharge reason",
+        "none": "None",
+        "description": "Why a case ends, as a list you keep. Endings can then be counted per reason, e.g. for statistics and quality work. The free-text field stays as the explanation.",
+        "add": "Add",
+        "addHint": "Add a reason that can be chosen when a case ends",
+        "empty": "There are no reasons yet.",
+        "reportHint": "See how many cases ended per reason",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Goals reached"
+        },
+        "actions": {
+            "switchOff": "Switch the reason off",
+            "switchOn": "Switch the reason on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The reason is deleted",
+            "deleteFailed": "The reason could not be deleted"
+        },
+        "report": {
+            "title": "Ended cases",
+            "description": "Cases with an end date in the period, by discharge reason, and how long they lasted on average.",
+            "from": "From",
+            "to": "To",
+            "show": "Show",
+            "showHint": "Show endings in the period",
+            "endings": "{count} endings",
+            "empty": "No cases ended in the period.",
+            "noReason": "No reason",
+            "averageDays": "Avg {days} days",
+            "averageHint": "Average length from start to end"
+        }
+    },
     "client": {
         "appointments": "Appointments",
         "appointmentsTable": {
@@ -8003,6 +8045,9 @@
     "home": "Home",
     "imageFailedToLoad": "Image failed to load",
     "inquiries": {
+        "board": {
+            "riskTooltip": "Risk assessment from the inquiry's fields. The highest risk counts."
+        },
         "crisisCenterInquiry": "Crisis center inquiry",
         "editInquiry": "Edit inquiry",
         "exportInquiries": "Export inquiries",
@@ -8480,8 +8525,9 @@
         "sso": {
             "microsoft": "Sign in with Microsoft",
             "hint": "Use your organisation's Microsoft account. Type your work email above first.",
-            "enterEmail": "Type your work email, then choose Sign in with Microsoft.",
-            "failed": "Signing in with Microsoft did not work. Try again."
+            "enterEmail": "Type your work email above, then click again.",
+            "failed": "Signing in with Microsoft did not work. Try again.",
+            "redirecting": "Taking you to Microsoft…"
         }
     },
     "companySso": {
@@ -10500,6 +10546,8 @@
     },
     "search": "Search",
     "sections": {
+        "mirrored": "Follows a service type",
+        "mirroredTooltip": "This paragraph is kept under Service types. Change the name and paragraph there, and it follows here.",
         "addNewSection": "Add new section",
         "alert": {
             "sectionSuccessfullyDeleted": "Section successfully deleted"
@@ -10870,6 +10918,7 @@
             "other": "Other",
             "profile": "Profile",
             "relationships": "Relationships",
+            "dischargeReasons": "Discharge reasons",
             "roles": "Roles",
             "rooms": "Rooms",
             "scheduleTags": "Schedule tags",
@@ -13524,7 +13573,9 @@
                 "notice": "Notice deadline",
                 "dueOn": "Due",
                 "amount": "Amount excl. VAT",
-                "label": "Label"
+                "label": "Label",
+                "covers": "Covers",
+                "coversHelp": "The period the row counts in contract MRR: the amount is spread over the months it covers."
             },
             "plans": {
                 "monthly": "Monthly",
@@ -13561,7 +13612,7 @@
                 "backlog": "Remaining committed value: installments without a paid invoice.",
                 "subscriptions": "Licences and the Pro profile linked to the agreement apply for the whole binding and are not charged by card on top.",
                 "settledExternally": "Open installments due before this date are marked as settled and are never invoiced. Use it for customers who already paid through e-conomic.",
-                "renewalValue": "What the agreement costs per year after the binding, excl. VAT. Empty: contract value divided by the binding in months, times 12.",
+                "renewalValue": "Empty = calculated from the current list price of the linked licences at the time of renewal. A value entered here is a fixed price that replaces the list price for the coming renewals.",
                 "termMode": "Give the binding either as a number of months or as an end date.",
                 "endsOn": "The last day of the binding. The server works out the months, e.g. 2025-06-10 to 2028-09-01."
             },
@@ -13608,10 +13659,17 @@
                 "settledNote": "Settlement note",
                 "settledNotePlaceholder": "e.g. e-conomic voucher 297637275",
                 "renewalValue": "Annual value on renewal",
-                "renewalValuePlaceholder": "Default",
+                "renewalValuePlaceholder": "List price",
                 "endsOn": "End date",
                 "modeMonths": "Binding in months",
-                "modeEndDate": "End date"
+                "modeEndDate": "End date",
+                "coverage": "Covers from–to",
+                "coverageHelp": "The period controls how the row counts in contract MRR: the amount is spread over the months it covers and only counts while the period includes today. Empty = filled in by the system.",
+                "coversFrom": "Covers from",
+                "coversTo": "Covers to",
+                "addAddOn": "Add add-on",
+                "addAddOnHelp": "Adds a row for licences bought mid-binding: due today and covering today until the end of the binding, so it counts in contract MRR.",
+                "addOnLabel": "Add-on"
             },
             "detail": {
                 "title": "Agreement",
@@ -13735,6 +13793,20 @@
             "remainder": {
                 "chip": "Remainder on cancellation",
                 "help": "The gathered remaining amount, invoiced because the agreement was cancelled before the binding ended."
+            },
+            "renewal": {
+                "expected": "Expected renewal: {amount} DKK/year",
+                "expectedHelp": "When a new period starts, the list prices in force at that time are invoiced. The amount here is an estimate based on current prices and may change if prices change before then.",
+                "sources": {
+                    "list_price": "List price",
+                    "override": "Fixed price",
+                    "fallback": "Estimated"
+                },
+                "sourceHelp": {
+                    "list_price": "Calculated from the current list price of the linked licences. When a new period starts, the list prices in force at that time are invoiced, so the amount may change if prices change before then.",
+                    "override": "A fixed price set on the agreement replaces the list price for the coming renewals.",
+                    "fallback": "No licences are linked, so the value is estimated from the contract value."
+                }
             }
         },
         "metrics": {
@@ -15074,6 +15146,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Won cases without a coordinator",
+        "unassignedWonCount": "1 case waiting | {count} cases waiting",
+        "unassignedWonOpen": "Assign cases",
+        "unassignedWonTooltip": "See the won cases nobody is on yet, and hand them out",
         "brief": {
             "bookings_missing_note": "One booking has ended without a @:terms.journalNote{''} | {n} bookings have ended without a @:terms.journalNote{''}",
             "goals_running_out": "One goal is due within a week | {n} goals are due within a week",
@@ -16036,6 +16112,7 @@
         }
     },
     "inquiryFields": {
+        "newCustomerDepartmentTooltip": "Create a new customer or department and pick it here",
         "required": "Required",
         "appliesThroughout": "Applies throughout",
         "saving": "Saving...",
@@ -16119,11 +16196,14 @@
             "consultant_skills_competence": "Consultant skills: competences",
             "consultant_skills_course": "Consultant skills: courses",
             "consultant_skills_topic": "Consultant skills: subject words",
-            "focus_areas_ics": "Focus areas (ICS, children and young people)"
+            "focus_areas_ics": "Focus areas (ICS, children and young people)",
+            "rooms": "Rooms"
         },
         "allServiceTypes": "All service types",
         "allowMultiple": "Allow more than one answer",
         "allowHalfSteps": "Allow half steps (e.g. 4.5)",
+        "wellbeingRuler": "Wellbeing ruler",
+        "wellbeingRulerHint": "Shown as the wellbeing ruler in journal notes, and the answer becomes the first point on the citizen's wellbeing curve when the case is won.",
         "allForms": "All forms"
     },
     "inquiryOrigin": {
@@ -16165,6 +16245,13 @@
         "fromWebsite": "From the website"
     },
     "consultantSkills": {
+        "steps": {
+            "title": "Step assessment",
+            "hint": "How many steps consultants are assessed on. The profile and the match show this many.",
+            "save": "Save",
+            "saveTooltip": "Save the number of steps for the whole company",
+            "saved": "Number of steps saved"
+        },
         "title": "Consultant skills",
         "description": "Maintain the lists consultants are matched on. A competence is something they can do, a course is something they have taken, and a subject is something they have experience with.",
         "add": "Add",
@@ -16275,6 +16362,7 @@
         "moveHint": "Moving forward needs the stage’s required fields filled in. Back is always allowed."
     },
     "inquiryServiceTypes": {
+        "fillsSections": "These service types also fill the list of paragraphs on citizens. Change the name and paragraph in one place.",
         "add": "Add",
         "alert": {
             "deleted": "The service type was deleted",
@@ -16894,6 +16982,7 @@
         "title": "AI usage",
         "loading": "Loading usage ...",
         "failed": "Usage could not be loaded right now. Try again shortly.",
+        "forbidden": "You don't have access to AI usage. Ask an administrator in your company for access.",
         "today": "Today",
         "ofAllowance": "{used} of {allowance} answers",
         "allowanceExplainer": "Your daily room follows the number of AI licences you hold. It resets at midnight.",
@@ -16971,6 +17060,7 @@
         "location": "Location",
         "locationPlaceholder": "Address or area, e.g. Vesterbro",
         "postalCode": "Postal code",
+        "reportingHint": "Carried to the citizen when the case is won, and starts the reporting reminder.",
         "pending": "Being placed on the map",
         "unavailable": "Not placed on the map: map lookup is not set up, so no distance is shown",
         "notFound": "Could not be found on the map. Check the address or add a postal code",
@@ -17127,6 +17217,19 @@
             "newReason": "New reason",
             "add": "Add reason"
         }
+    },
+    "inquiryConversion": {
+        "rate": "Conversion rate",
+        "rateHint": "Won out of the decided inquiries received in the period. Open inquiries do not count until decided.",
+        "won": "Won",
+        "lost": "Lost",
+        "open": "Open",
+        "received": "Received",
+        "byServiceType": "By service type",
+        "byMonth": "By month",
+        "serviceType": "Service type",
+        "month": "Month",
+        "noServiceType": "No service type"
     },
     "inquiryOffer": {
         "title": "Offer",
