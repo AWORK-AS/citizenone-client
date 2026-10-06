@@ -905,3 +905,41 @@ php artisan tinker --execute='
 Everything else the test creates during a run (Drive files/folder, the
 citizen-linked email and its document, the cached mail attachment file) is
 deleted in its own `finally` block by exact id/uuid - never a bulk reset.
+
+### `document-viewer` — CITIZE-92 5b in-app viewer; run once with and once without `download_documents`
+
+Every place a staff user opens a document (citizen and drive documents, an
+employee document type, archived documents, inquiry documents) must show it in
+the in-app viewer, never a browser tab. The script asks the API whether the
+staff user may download and expects the viewer's Download button and Chrome's
+PDF toolbar (`#toolbar=0`) to follow, so run it twice: toggle "Download
+documents" on the staff user's role between runs.
+
+It uploads its own fixtures (`fixtures/document-viewer/`) to the citizen and the
+inquiry and deletes them in `finally`. HTML, SVG, PPTX and extension-less rows
+can't be uploaded, so they are faked into the citizen list with
+`page.route` and answered with hostile bytes; the test fails if any of them is
+rendered. It also checks that every `blob:` URL the viewer showed is revoked
+when it closes.
+
+Needs: the inquiry's company has the `inquiry-pipeline` app (for the API) plus
+its `inquiry_pipeline_enabled` flag and the Inquiries module page (for the
+client); the employee has an employment contract with a PDF or image (opened as
+the admin, the only role that sees employee documents); and (optionally) a
+relative with a shared PDF. For a dev company without inquiries (here company
+1), turn them on before the run and off again after:
+
+```bash
+php artisan tinker --execute='$a = App\Models\Application::where("generic_name","inquiry-pipeline")->first(); App\Models\UserSubscription::create(["company_id"=>1,"user_id"=>null,"license"=>"DEV-INQ-".Str::upper(Str::random(8)),"deal_type"=>App\Models\Application::class,"deal_id"=>$a->id,"type"=>"included","is_active"=>1,"is_taken"=>0]); $c = App\Models\Company::find(1); $c->pages()->syncWithoutDetaching([App\Models\Page::where("name","Inquiries")->value("id")]); $c->inquiry_pipeline_enabled = true; $c->save();'
+# afterwards
+php artisan tinker --execute='App\Models\UserSubscription::where("company_id",1)->where("license","like","DEV-INQ-%")->delete(); $c = App\Models\Company::find(1); $c->pages()->detach(App\Models\Page::where("name","Inquiries")->value("id")); $c->inquiry_pipeline_enabled = false; $c->save();'
+```
+
+```bash
+cd tests/e2e
+CO_TOKEN='<admin-token>' CO_STAFF_TOKEN='<staff-token>' CO_CITIZEN_UUID='<uuid>' \
+  CO_INQUIRY_UUID='<uuid>' CO_EMPLOYEE_UUID='<user-uuid>' \
+  CO_RELATIVE_TOKEN='<relative-contact-token>' CO_RELATIVE_CITIZEN_UUID='<uuid>' \
+  npm run test:document-viewer
+```
+

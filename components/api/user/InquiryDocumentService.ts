@@ -20,6 +20,17 @@ class InquiryDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/documents/from-mail`, 'POST', params)
     }
 
+    // Through the API rather than the stored file's public address, so opening
+    // a document goes through the same checks as listing them.
+    async viewDocument(documentUuid: string): Promise<Blob | null> {
+        return await this.requestBlob(`/user/inquiry-documents/${documentUuid}/view`, 'GET')
+    }
+
+    // Needs the download_documents permission; the server answers 403 without it.
+    async downloadDocument(documentUuid: string): Promise<Blob | null> {
+        return await this.requestBlob(`/user/inquiry-documents/${documentUuid}/download`, 'GET')
+    }
+
     async deleteDocument(documentUuid: string): Promise<any> {
         return await this.request(`/user/inquiry-documents/${documentUuid}`, 'DELETE')
     }

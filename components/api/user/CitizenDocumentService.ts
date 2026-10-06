@@ -33,8 +33,10 @@ class CitizenDocumentService extends BaseAPIService {
         return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}`, 'DELETE')
     }
 
-    async downloadCitizenFile(citizenFileFolderUuid: any): Promise<any> {
-        return await this.request(`/user/citizen-file-folders/${citizenFileFolderUuid}/download`, 'GET')
+    // As a blob whatever the file is: a plain request() hands text files back as
+    // a string, which saveAs and the viewer can't use.
+    async downloadCitizenFile(citizenFileFolderUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/citizen-file-folders/${citizenFileFolderUuid}/download`, 'GET')
     }
 
     // Same file and access checks as downloadCitizenFile, but served inline and
