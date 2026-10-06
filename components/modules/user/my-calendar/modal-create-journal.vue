@@ -280,6 +280,10 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
     if (newValue && props.selectedEvent) {
         resetForm()
         state.formJournal.title = props.selectedEvent.title || ''
+        // The note is about the visit, so it is dated when the booking started.
+        if (props.selectedEvent.date_time_start) {
+            state.formJournal.date = moment(props.selectedEvent.date_time_start).format('YYYY-MM-DD')
+        }
         resolveCitizenUuid()
         fetchColleagues()
         if (state.citizenUuid) {

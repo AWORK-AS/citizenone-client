@@ -55,6 +55,9 @@
                             <span class="flex items-center gap-x-1">
                                 <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
                                 <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>
+                                <!-- A journal note has been written from this booking. -->
+                                <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
+                                    :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
                             </span>
                             <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
                                 {{ ev.timeLabel }}
@@ -152,6 +155,7 @@ const laidOut = computed(() => {
                     raw: c.raw,
                     title: c.raw.title,
                     completed: c.raw.completion_status === 'completed',
+                    hasNote: !!c.raw.journal_id,
                     isNow: isNow(c.raw),
                     colorClass: colorClass(c.raw.type),
                     timeLabel: `${moment(c.raw.date_time_start).format('HH:mm')} – ${moment(c.raw.date_time_end).format('HH:mm')}`,
