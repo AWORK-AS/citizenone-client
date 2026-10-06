@@ -20,7 +20,7 @@
                                     <tr v-for="(document, index) in state.documents?.data" :key="index">
                                         <td width="30%">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
-                                                v-if="document?.file_url" @click="downloadDocument(document)">
+                                                v-if="document?.file_url" @click="viewDocument(document)">
                                                 <Icon name="ph:file" class="size-6" />
                                                 <span>{{ document?.name }}</span>
                                             </div>
@@ -30,6 +30,11 @@
                                         </td>
                                         <td width="30%">
                                             <div class="flex items-end gap-2">
+                                                <FormButton v-if="document?.file_url && canDownloadDocuments" type="button"
+                                                    buttonStyle="action" @click="downloadDocument(document)">
+                                                    <Icon name="ph:download-simple" class="size-4" />
+                                                    {{ $t('employees.documents.table.actions.download') }}
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="editDocument(document)">
                                                     <Icon name="ph:pencil-simple" class="size-4" />
@@ -74,6 +79,8 @@
 import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
+import { documentBlobViewer, documentFileName } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -85,8 +92,12 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const router = useRouter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
+const { openOrSaveOriginal } = documentBlobViewer()
+// Without download_documents a document can still be viewed, but not saved.
+const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 let currentTablePage = 1
 
@@ -170,6 +181,22 @@ async function downloadDocument(document: any) {
         const response = await employeeDocumentService.downloadDocument(documentUuid)
         if (response) {
             saveAs(response, document?.name)
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+// Opening a document shows it in a tab where the browser can; only users who
+// may download documents get other formats saved.
+async function viewDocument(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await employeeDocumentService.viewDocument(document?.uuid)
+        if (response && openOrSaveOriginal(response, documentFileName(document), canDownloadDocuments.value) === 'blocked') {
+            warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
         }
     } catch (error: any) {
         state.error = error

@@ -32,7 +32,7 @@ function upperFirst(value: string): string {
 }
 
 export function permissionGroup(name: string): string {
-    if (/citizen_journal|citizen_document/.test(name)) return 'journal'
+    if (/citizen_journal|citizen_document/.test(name) || name === 'download_documents') return 'journal'
     if (/citizen_health|citizen_medicine|nursing_professional_record_template|treatment_template/.test(name)) return 'health'
     if (/citizen_plan/.test(name)) return 'plan'
     if (/citizen_calendar|schedule/.test(name) || name === 'delete_calendar') return 'calendar'

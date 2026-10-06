@@ -172,14 +172,16 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
+import { documentBlobViewer } from '@/composables/documentBlobViewer'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
+const { openOrSaveOriginal } = documentBlobViewer()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 let currentTablePage = 1
@@ -296,9 +298,18 @@ function goToPage(page: number) {
 async function downloadOriginal(document: any) {
     state.error = {}
     try {
-        const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
-        if (response) {
-            saveAs(response, document?.name)
+        if (isAtLeast('Admin') || can('download_documents')) {
+            const response = await citizenDocumentService.downloadCitizenFile(document?.uuid)
+            if (response) {
+                saveAs(response, document?.name)
+            }
+            return
+        }
+
+        // Without download_documents the original can only be shown in a tab.
+        const response = await citizenDocumentService.viewCitizenFile(document?.uuid)
+        if (response && openOrSaveOriginal(response, document?.name, false) === 'blocked') {
+            warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
         }
     } catch (error: any) {
         state.error = error

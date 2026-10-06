@@ -74,6 +74,9 @@
                 <thead>
                     <tr class="border-b-2 border-[#1F2533]">
                         <th class="text-left py-2 pr-4 font-semibold text-[#1F2533]">#</th>
+                        <th v-if="hasTimes" class="text-left py-2 pr-4 font-semibold text-[#1F2533]">
+                            {{ $t('protocols.table.citizens.time') }}
+                        </th>
                         <th class="text-left py-2 pr-4 font-semibold text-[#1F2533]">
                             {{ $t('attendance.citizen') }}
                         </th>
@@ -92,6 +95,9 @@
                     <tr v-for="(row, i) in state.rows" :key="row.uuid" class="border-b border-[#EAECF0]"
                         :class="i % 2 === 0 ? 'bg-white' : 'bg-[#F9FAFB] print:bg-white'">
                         <td class="py-3 pr-4 text-[#8891A4]">{{ i + 1 }}</td>
+                        <td v-if="hasTimes" class="py-3 pr-4 text-[#1F2533] tabular-nums whitespace-nowrap">
+                            {{ protocolTimeLabel(row) }}
+                        </td>
                         <td class="py-3 pr-4 font-medium text-[#1F2533]">
                             {{ participantName(row) }}
                         </td>
@@ -119,6 +125,7 @@
                         <tr v-for="n in (20 - state.rows.length)" :key="`empty-${n}`"
                             class="border-b border-[#EAECF0] print:table-row hidden">
                             <td class="py-3 pr-4 text-[#8891A4]">{{ state.rows.length + n }}</td>
+                            <td v-if="hasTimes" class="py-3 pr-4"></td>
                             <td class="py-3 pr-4"></td>
                             <td class="py-3 pr-4"></td>
                             <td class="py-3"></td>
@@ -192,13 +199,16 @@ async function fetchProtocol() {
     } catch { /* silent */ }
 }
 
+// A per-hour protocol prints one row per citizen per hour, so the hour gets a column.
+const hasTimes = computed(() => state.rows.some((row: any) => row.start_time))
+
 async function fetchParticipants() {
     state.isLoading = true
     try {
         const params: any = { page_limit: 'all' }
         if (state.filter.date) params.date = state.filter.date
         const r = await protocolService.getCitizenProtocols(protocolUuid, params)
-        state.rows = r?.data ?? r ?? []
+        state.rows = [...(r?.data ?? r ?? [])].sort(compareProtocolEntries)
     } catch (error: any) {
         state.error = error
     }

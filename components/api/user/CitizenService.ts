@@ -29,6 +29,10 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizens/archived/list`, 'GET', params)
     }
 
+    async permanentlyDeleteCitizen(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/permanent-delete`, 'DELETE')
+    }
+
     async getAllCitizens(params: object): Promise<any> {
         return await this.request(`/user/citizens/all/list`, 'GET', params)
     }

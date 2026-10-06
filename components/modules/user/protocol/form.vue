@@ -28,6 +28,82 @@
                     <FormError :error="props?.error?.errors?.end_date?.[0]" />
                 </div>
             </div>
+            <!-- Task 339: record once a day, or once per time slot on each day.
+                 Fixed at creation: the entries are generated from it. -->
+            <div class="space-y-2" v-if="props.formType === 'create'">
+                <FormLabel for="recording_mode" :label="$t('protocols.form.recordingMode')" />
+                <div>
+                <div class="inline-flex rounded-lg bg-gray-100 p-0.5" id="recording_mode" role="radiogroup">
+                    <button type="button" v-for="option in recordingModes" :key="option.value"
+                        role="radio" :aria-checked="state.formProtocol.recording_mode === option.value"
+                        @click="state.formProtocol.recording_mode = option.value" :class="[
+                            'rounded-md px-4 py-1.5 text-sm font-medium transition',
+                            state.formProtocol.recording_mode === option.value
+                                ? 'bg-primary text-white shadow-sm'
+                                : 'text-gray-500 hover:text-gray-700'
+                        ]">
+                        {{ option.label }}
+                    </button>
+                </div>
+                </div>
+                <p class="text-xs text-gray-500">
+                    {{ state.formProtocol.recording_mode === 'hour'
+                        ? $t('protocols.form.recordingModeHourHelp')
+                        : $t('protocols.form.recordingModeDayHelp') }}
+                </p>
+            </div>
+
+            <div class="space-y-3 border border-gray-200 rounded-2xl p-4"
+                v-if="props.formType === 'create' && state.formProtocol.recording_mode === 'hour'">
+                <div>
+                    <p class="text-sm font-medium text-gray-900">{{ $t('protocols.form.timeSlots') }}</p>
+                    <p class="text-xs text-gray-500">{{ $t('protocols.form.timeSlotsHelp') }}</p>
+                </div>
+
+                <!-- Quick fill: one slot per hour across a range. -->
+                <div class="grid grid-cols-1 sm:grid-cols-[1fr_1fr_auto] gap-3 items-end">
+                    <div class="space-y-1">
+                        <FormLabel for="slot_range_from" :label="$t('protocols.form.fromHour')" />
+                        <FormTimeField id="slot_range_from" name="slot_range_from"
+                            v-model:value="state.slotRange.from" placeholder="08:00" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="slot_range_to" :label="$t('protocols.form.toHour')" />
+                        <FormTimeField id="slot_range_to" name="slot_range_to"
+                            v-model:value="state.slotRange.to" placeholder="16:00" />
+                    </div>
+                    <FormButton type="button" buttonStyle="action" @click="fillHourlySlots"
+                        :disabled="!canFillHourlySlots">
+                        {{ $t('protocols.form.fillHourly') }}
+                    </FormButton>
+                </div>
+
+                <ul class="space-y-2" v-if="state.formProtocol.time_slots.length">
+                    <li v-for="(slot, index) in state.formProtocol.time_slots" :key="index"
+                        class="grid grid-cols-[1fr_auto_1fr_auto] gap-2 items-center">
+                        <FormTimeField :id="`slot_start_${index}`" :name="`slot_start_${index}`"
+                            v-model:value="slot.start_time" :placeholder="$t('protocols.form.slotStart')" />
+                        <span class="text-gray-400">&ndash;</span>
+                        <FormTimeField :id="`slot_end_${index}`" :name="`slot_end_${index}`"
+                            v-model:value="slot.end_time" :placeholder="$t('protocols.form.slotEnd')" />
+                        <button type="button" @click="state.formProtocol.time_slots.splice(index, 1)"
+                            :aria-label="$t('protocols.form.removeSlot')"
+                            class="rounded-full p-2 text-gray-400 transition hover:bg-gray-100 hover:text-red-600">
+                            <Icon name="ph:trash" class="size-4" />
+                        </button>
+                    </li>
+                </ul>
+                <p class="text-sm text-gray-500" v-else>{{ $t('protocols.form.noTimeSlots') }}</p>
+
+                <button type="button" @click="addSlot"
+                    class="inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+                    <Icon name="ph:plus" class="size-4" />
+                    {{ $t('protocols.form.addSlot') }}
+                </button>
+                <FormError :error="slotError" />
+                <FormError :error="props?.error?.errors?.time_slots?.[0]" />
+            </div>
+
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="citizens" :label="$t('protocols.form.citizens')" />
                 <FormSelectMultiple id="citizens" name="citizens" :options="state.citizenOptions"
@@ -216,6 +292,8 @@ const state = reactive({
         end_date: '',
         citizens: [],
         exclude_weekends: false,
+        recording_mode: 'day' as 'day' | 'hour',
+        time_slots: [] as { start_time: string, end_time: string }[],
         is_recurring: false,
         recurring: 'every_week',
         recurring_until: '',
@@ -231,6 +309,8 @@ const state = reactive({
         yearly_on_the_sequence: 'first',
         yearly_on_the_day: 'monday',
     },
+    slotRange: { from: '08:00', to: '16:00' },
+    submitted: false,
     options: {
         recurringPresets: [] as any[],
         frequencies: [] as any[],
@@ -240,6 +320,64 @@ const state = reactive({
         onTheDays: [] as any[],
         months: [] as any[],
     },
+})
+
+const recordingModes = computed(() => [
+    { value: 'day' as const, label: t('protocols.form.perDay') },
+    { value: 'hour' as const, label: t('protocols.form.perHour') },
+])
+
+const toMinutes = (time: string) => {
+    const [hours, minutes] = (time || '').split(':').map(Number)
+    return Number.isFinite(hours) && Number.isFinite(minutes) ? hours * 60 + minutes : NaN
+}
+
+const toTime = (minutes: number) =>
+    `${String(Math.floor(minutes / 60)).padStart(2, '0')}:${String(minutes % 60).padStart(2, '0')}`
+
+const canFillHourlySlots = computed(() =>
+    toMinutes(state.slotRange.to) - toMinutes(state.slotRange.from) >= 60)
+
+// One slot per whole hour from "from" to "to"; a part-hour left at the end is
+// dropped rather than turned into a short slot nobody asked for.
+function fillHourlySlots() {
+    const from = toMinutes(state.slotRange.from)
+    const to = toMinutes(state.slotRange.to)
+    const slots = []
+
+    for (let start = from; start + 60 <= to; start += 60) {
+        slots.push({ start_time: toTime(start), end_time: toTime(start + 60) })
+    }
+
+    state.formProtocol.time_slots = slots
+}
+
+// A new slot starts where the last one ended, so adding hours is one tap each.
+function addSlot() {
+    const last = state.formProtocol.time_slots[state.formProtocol.time_slots.length - 1]
+    const start = last ? toMinutes(last.end_time) : toMinutes(state.slotRange.from)
+    const safeStart = Number.isFinite(start) && start + 60 <= 24 * 60 ? start : 8 * 60
+
+    state.formProtocol.time_slots.push({ start_time: toTime(safeStart), end_time: toTime(safeStart + 60) })
+}
+
+// The server checks the same rules; checking here saves a round trip.
+const slotError = computed(() => {
+    if (state.formProtocol.recording_mode !== 'hour' || !state.submitted) return ''
+
+    const slots = [...state.formProtocol.time_slots]
+        .filter((slot) => slot.start_time && slot.end_time)
+        .sort((a, b) => toMinutes(a.start_time) - toMinutes(b.start_time))
+
+    if (slots.length === 0) return t('protocols.form.errors.timeSlotsRequired')
+    if (slots.some((slot) => toMinutes(slot.end_time) <= toMinutes(slot.start_time))) {
+        return t('protocols.form.errors.timeSlotEndAfterStart')
+    }
+    if (slots.some((slot, i) => i > 0 && toMinutes(slot.start_time) < toMinutes(slots[i - 1].end_time))) {
+        return t('protocols.form.errors.timeSlotsOverlap')
+    }
+
+    return ''
 })
 
 function buildOptions() {
@@ -367,8 +505,9 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
+    state.submitted = true
     v$.value.$validate()
-    if (!v$.value.$error) {
+    if (!v$.value.$error && !slotError.value) {
         emit('submitForm', state.formProtocol)
     }
 }

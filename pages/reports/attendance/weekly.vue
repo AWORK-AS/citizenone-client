@@ -82,7 +82,15 @@
                                     <td v-for="day in weekDays" :key="day.date"
                                         class="co-td text-center"
                                         :class="day.isToday ? 'bg-[#F0F8FC]' : ''">
-                                        <span v-if="row.days?.[day.date] === 'attended'"
+                                        <!-- Several entries that day (a per-hour protocol): how
+                                             many hours were attended, each hour in the tooltip. -->
+                                        <span v-if="(row.day_slots?.[day.date]?.length ?? 0) > 1"
+                                            class="inline-flex items-center justify-center min-w-7 h-7 px-2 rounded-full text-[12px] font-bold tabular-nums"
+                                            :class="slotSummaryClass(row.day_slots[day.date])"
+                                            :title="slotSummaryTitle(row.day_slots[day.date])">
+                                            {{ attendedSlots(row.day_slots[day.date]) }}/{{ row.day_slots[day.date].length }}
+                                        </span>
+                                        <span v-else-if="row.days?.[day.date] === 'attended'"
                                             class="inline-flex items-center justify-center w-7 h-7 rounded-full bg-[#EDF7EE] text-[#2E9E33] text-[12px] font-bold">
                                             ✓
                                         </span>
@@ -149,6 +157,27 @@ const weekLabel = computed(() => {
     const week = currentWeekStart.value.isoWeek()
     return `${t('attendance.week')} ${week} · ${start} – ${end}`
 })
+
+const attendedSlots = (slots: any[]) => slots.filter((slot) => slot.status === 'attended').length
+
+// Green when every hour was attended, red when none was, amber in between.
+function slotSummaryClass(slots: any[]) {
+    const attended = attendedSlots(slots)
+    if (attended === slots.length) return 'bg-[#EDF7EE] text-[#2E9E33]'
+    if (attended === 0 && slots.some((slot) => slot.status === 'absent')) return 'bg-[#FFF0F0] text-[#CC3B2D]'
+    return 'bg-[#FFF7E6] text-[#B45309]'
+}
+
+function slotSummaryTitle(slots: any[]) {
+    return slots.map((slot) => {
+        const status = slot.status === 'attended'
+            ? t('protocols.table.status.attended')
+            : slot.status === 'absent'
+                ? `${t('protocols.table.status.absent')}${slot.absence_reason ? ` (${slot.absence_reason})` : ''}`
+                : '—'
+        return `${protocolTimeLabel(slot)}: ${status}`
+    }).join('\n')
+}
 
 function prevWeek() { currentWeekStart.value = currentWeekStart.value.clone().subtract(1, 'week') }
 function nextWeek() { currentWeekStart.value = currentWeekStart.value.clone().add(1, 'week') }
