@@ -677,6 +677,8 @@
                         <FormError :error="props?.error?.errors?.residence_after_uuid?.[0]" />
                     </div>
                 </div>
+                <ModulesUserCitizenDischargeReasonSelect v-model="state.formCitizen.stayData.discharge_reason_uuid"
+                    :error="props?.error?.errors?.discharge_reason_uuid?.[0]" />
                 <div class="space-y-1">
                     <FormLabel for="discharge_reason" :label="$t('citizens.form.stayData.dischargeReason')" />
                     <FormTextField id="discharge_reason" name="discharge_reason"
@@ -1362,6 +1364,7 @@ const state = reactive({
             residence_before_uuid: '',
             residence_after_uuid: '',
             discharge_reason: '',
+            discharge_reason_uuid: null as string | null,
             consent_declarations: [] as { consent_declaration_type_id: number, value: boolean }[],
             photo: false,
             parent_collaboration: false,
@@ -1640,6 +1643,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 residence_before_uuid: selectedCitizen.stayData?.residence_before_uuid || '',
                 residence_after_uuid: selectedCitizen.stayData?.residence_after_uuid || '',
                 discharge_reason: selectedCitizen.stayData?.discharge_reason || '',
+                discharge_reason_uuid: selectedCitizen.stayData?.discharge_reason_uuid ?? null,
                 consent_declarations: selectedCitizen.stayData?.consent_declarations ?? [],
                 photo: selectedCitizen.stayData?.photo ?? false,
                 parent_collaboration: selectedCitizen.stayData?.parent_collaboration ?? false,

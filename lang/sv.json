@@ -4240,6 +4240,44 @@
         },
         "emptyFiltered": "Inga {citizens} matchar filtren."
     },
+    "dischargeReasons": {
+        "title": "Avslutningsorsaker",
+        "single": "Avslutningsorsak",
+        "none": "Ingen",
+        "description": "Varför en insats avslutas, som en lista ni själva håller. Då kan avslut räknas per orsak, t.ex. för statistik och kvalitetsarbete. Fritextfältet finns kvar som förklaring.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en orsak som kan väljas när en insats avslutas",
+        "empty": "Det finns inga orsaker ännu.",
+        "reportHint": "Se hur många insatser som avslutats per orsak",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Mål uppnått"
+        },
+        "actions": {
+            "switchOff": "Stäng av orsaken",
+            "switchOn": "Slå på orsaken",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Orsaken är borttagen",
+            "deleteFailed": "Orsaken kunde inte tas bort"
+        },
+        "report": {
+            "title": "Avslutade insatser",
+            "description": "Insatser med slutdatum i perioden, fördelade på avslutningsorsak, och hur länge de varade i snitt.",
+            "from": "Från",
+            "to": "Till",
+            "show": "Visa",
+            "showHint": "Visa avslut i perioden",
+            "endings": "{count} avslut",
+            "empty": "Inga insatser avslutades i perioden.",
+            "noReason": "Utan orsak",
+            "averageDays": "Snitt {days} dagar",
+            "averageHint": "Genomsnittlig längd från start till slut"
+        }
+    },
     "client": {
         "appointments": "Möten",
         "appointmentsTable": {
@@ -10866,6 +10904,7 @@
             "other": "Annat",
             "profile": "Profil",
             "relationships": "Förhållande",
+            "dischargeReasons": "Avslutningsorsaker",
             "roles": "Roller",
             "rooms": "Rum",
             "scheduleTags": "Tjänsteschema etiketter",

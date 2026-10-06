@@ -4240,6 +4240,44 @@
         },
         "emptyFiltered": "Ingen {citizens} matcher filtrene."
     },
+    "dischargeReasons": {
+        "title": "Afslutningsårsager",
+        "single": "Afslutningsårsag",
+        "none": "Ingen",
+        "description": "Hvorfor en indsats slutter, som en liste I selv holder. Så kan afslutninger tælles per årsag, fx til statistik og kvalitetsudvikling. Fritekstfeltet bliver stående som uddybning.",
+        "add": "Tilføj",
+        "addHint": "Tilføj en årsag, der kan vælges når en indsats afsluttes",
+        "empty": "Der er ingen årsager endnu.",
+        "reportHint": "Se hvor mange indsatser der er afsluttet per årsag",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Mål nået"
+        },
+        "actions": {
+            "switchOff": "Slå årsagen fra",
+            "switchOn": "Slå årsagen til",
+            "rename": "Omdøb",
+            "delete": "Slet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Årsagen er slettet",
+            "deleteFailed": "Årsagen kunne ikke slettes"
+        },
+        "report": {
+            "title": "Afsluttede indsatser",
+            "description": "Indsatser med slutdato i perioden, fordelt på afslutningsårsag, og hvor længe de varede i gennemsnit.",
+            "from": "Fra",
+            "to": "Til",
+            "show": "Vis",
+            "showHint": "Vis afslutninger i perioden",
+            "endings": "{count} afslutninger",
+            "empty": "Ingen indsatser er afsluttet i perioden.",
+            "noReason": "Uden årsag",
+            "averageDays": "Ø {days} dage",
+            "averageHint": "Gennemsnitlig varighed fra start til slut"
+        }
+    },
     "client": {
         "appointments": "Aftaler",
         "appointmentsTable": {
@@ -10871,6 +10909,7 @@
             "other": "Andet",
             "profile": "Profil",
             "relationships": "Forhold",
+            "dischargeReasons": "Afslutningsårsager",
             "roles": "Roller",
             "rooms": "Værelser",
             "scheduleTags": "Vagtplan tags",

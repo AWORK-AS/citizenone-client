@@ -4240,6 +4240,44 @@
         },
         "emptyFiltered": "Ingen {citizens} passer med filtrene."
     },
+    "dischargeReasons": {
+        "title": "Avslutningsårsaker",
+        "single": "Avslutningsårsak",
+        "none": "Ingen",
+        "description": "Hvorfor en innsats avsluttes, som en liste dere selv holder. Da kan avslutninger telles per årsak, f.eks. til statistikk og kvalitetsutvikling. Fritekstfeltet blir stående som utdyping.",
+        "add": "Legg til",
+        "addHint": "Legg til en årsak som kan velges når en innsats avsluttes",
+        "empty": "Det er ingen årsaker ennå.",
+        "reportHint": "Se hvor mange innsatser som er avsluttet per årsak",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Mål nådd"
+        },
+        "actions": {
+            "switchOff": "Slå av årsaken",
+            "switchOn": "Slå på årsaken",
+            "rename": "Gi nytt navn",
+            "delete": "Slett"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Årsaken er slettet",
+            "deleteFailed": "Årsaken kunne ikke slettes"
+        },
+        "report": {
+            "title": "Avsluttede innsatser",
+            "description": "Innsatser med sluttdato i perioden, fordelt på avslutningsårsak, og hvor lenge de varte i snitt.",
+            "from": "Fra",
+            "to": "Til",
+            "show": "Vis",
+            "showHint": "Vis avslutninger i perioden",
+            "endings": "{count} avslutninger",
+            "empty": "Ingen innsatser ble avsluttet i perioden.",
+            "noReason": "Uten årsak",
+            "averageDays": "Snitt {days} dager",
+            "averageHint": "Gjennomsnittlig varighet fra start til slutt"
+        }
+    },
     "client": {
         "appointments": "Avtaler",
         "appointmentsTable": {
@@ -10866,6 +10904,7 @@
             "other": "Annet",
             "profile": "Profil",
             "relationships": "Forhold",
+            "dischargeReasons": "Avslutningsårsaker",
             "roles": "Roller",
             "rooms": "Rom",
             "scheduleTags": "Vaktplan tagger",
