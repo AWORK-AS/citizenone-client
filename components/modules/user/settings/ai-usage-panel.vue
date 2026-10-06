@@ -15,7 +15,10 @@
                 <div class="flex items-baseline justify-between gap-x-4">
                     <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.today') }}</h3>
                     <p class="text-sm tabular-nums text-gray-600">
-                        {{ $t('aiUsage.ofAllowance', { used: state.data.used_today, allowance: state.data.daily_allowance }) }}
+                        {{ $t('aiUsage.ofAllowance', { used: includedToday, allowance: state.data.daily_allowance }) }}
+                        <span v-if="beyondToday > 0" class="text-gray-900">
+                            · {{ $t('aiUsage.beyondToday', { count: beyondToday }) }}
+                        </span>
                     </p>
                 </div>
 
@@ -25,11 +28,15 @@
                         :style="{ width: `${Math.min(100, todayShare * 100)}%` }" />
                 </div>
 
-                <p class="mt-3 text-xs text-gray-500">{{ $t('aiUsage.allowanceExplainer') }}</p>
+                <p class="mt-3 text-xs text-gray-500">
+                    {{ $t('aiUsage.allowanceExplainer') }}
+                    {{ hasBalance ? $t('aiUsage.allowanceThenBalance') : $t('aiUsage.allowanceThenStop') }}
+                </p>
             </section>
 
-            <!-- Only for companies that bought capacity. Showing an empty
-                 balance to everyone else would read as a problem they have. -->
+            <!-- The balance once there is one; before that, the offer. This used
+                 to show only after a first purchase, which left a customer who had
+                 never bought with no way to buy from the page about buying. -->
             <section v-if="state.data.budget_enabled" class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
                 <div class="flex flex-wrap items-baseline justify-between gap-4">
                     <div>
@@ -38,12 +45,28 @@
                             {{ kr(state.data.balance_kroner) }}
                         </p>
                     </div>
-                    <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="buyMore">
-                        {{ $t('aiUsage.buyMore') }}
-                    </FormButton>
+                    <Tooltip :text="$t('aiUsage.buyHint')" wrap>
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="buyMore">
+                            {{ $t('aiUsage.buyMore') }}
+                        </FormButton>
+                    </Tooltip>
                 </div>
 
                 <p class="mt-3 text-xs text-gray-500">{{ $t('aiUsage.balanceExplainer') }}</p>
+            </section>
+
+            <section v-else class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div class="min-w-0 flex-1">
+                        <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.offer.title') }}</h3>
+                        <p class="mt-1 text-sm text-gray-600">{{ $t('aiUsage.offer.body') }}</p>
+                    </div>
+                    <Tooltip :text="$t('aiUsage.buyHint')" wrap>
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="buyMore">
+                            {{ $t('aiUsage.offer.cta') }}
+                        </FormButton>
+                    </Tooltip>
+                </div>
             </section>
 
             <section class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
@@ -53,6 +76,7 @@
                         {{ kr(state.data.month_charged_kroner) }}
                     </p>
                 </div>
+                <p class="mt-1 text-xs text-gray-500">{{ $t('aiUsage.monthExplainer') }}</p>
 
                 <!-- A bar per day, including the quiet ones. Dropping empty days
                      would make a busy Tuesday look like steady spending. -->
@@ -131,7 +155,10 @@
                             {{ $t('aiUsage.userLimit.clear') }}
                         </button>
                     </div>
-                    <p class="mt-2 text-xs text-gray-400">
+                    <p v-if="state.data.user_daily_limit?.lifted" class="mt-2 text-xs text-gray-400">
+                        {{ $t('aiUsage.userLimit.lifted') }}
+                    </p>
+                    <p v-else class="mt-2 text-xs text-gray-400">
                         {{ state.data.user_daily_limit?.configured
                             ? $t('aiUsage.userLimit.set', { limit: state.data.user_daily_limit.configured })
                             : $t('aiUsage.userLimit.derived', { limit: state.data.user_daily_limit?.effective ?? 0 }) }}
@@ -168,6 +195,8 @@ import { aiUsageService } from '@/components/api/user/AiUsageService'
 import { useAlert } from '@/composables/alert'
 
 const { t, locale } = useI18n()
+const route = useRoute()
+const router = useRouter()
 const { successAlert, errorAlert } = useAlert()
 
 const state = reactive({
@@ -252,9 +281,17 @@ async function clearUserLimit() {
     state.savingLimit = false
 }
 
+const hasBalance = computed(() => !!state.data.budget_enabled && Number(state.data.balance_kroner) > 0)
+
+// The included part of today, and what went past it onto the balance. One
+// number used to cover both, so "95 of 80" read as an error rather than as
+// fifteen answers the balance paid for.
+const includedToday = computed(() => Math.min(Number(state.data.used_today) || 0, Number(state.data.daily_allowance) || 0))
+const beyondToday = computed(() => Math.max(0, (Number(state.data.used_today) || 0) - (Number(state.data.daily_allowance) || 0)))
+
 const todayShare = computed(() => {
     const allowance = Number(state.data.daily_allowance) || 0
-    return allowance > 0 ? Number(state.data.used_today) / allowance : 0
+    return allowance > 0 ? includedToday.value / allowance : 0
 })
 
 const peakDay = computed(() => Math.max(
@@ -310,6 +347,13 @@ function apply(response: any) {
 async function load() {
     try {
         apply(await aiUsageService.overview())
+
+        // Cody's "buy more" lands here with ?buy=1, so the person who hit the
+        // limit goes straight to the purchase instead of hunting for it.
+        if (route.query.buy && state.data.topup_app?.uuid) {
+            state.buying = true
+            router.replace({ query: { ...route.query, buy: undefined } })
+        }
     } catch (error: any) {
         state.failed = true
         state.forbidden = error?.status === 403

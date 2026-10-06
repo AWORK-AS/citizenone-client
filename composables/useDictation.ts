@@ -23,7 +23,7 @@ export function useDictation(onTranscript: (text: string) => void) {
     const isTranscribing = ref(false)
     // Named rather than boolean: "no microphone" and "you said no" are fixed
     // in different places, and a single message for both is a dead end.
-    const error = ref<'insecure' | 'denied' | 'missing' | 'failed' | null>(null)
+    const error = ref<'insecure' | 'denied' | 'missing' | 'failed' | 'limit' | 'budget' | null>(null)
 
     let recorder: MediaRecorder | null = null
     let chunks: Blob[] = []
@@ -104,8 +104,12 @@ export function useDictation(onTranscript: (text: string) => void) {
             const transcript = (response?.data?.text ?? '').trim()
 
             if (transcript) onTranscript(transcript)
-        } catch {
-            error.value = 'failed'
+        } catch (problem: any) {
+            // A limit is not a failure: "try again" would not help, and the
+            // person needs to know the day's dictation or the balance ran out.
+            error.value = problem?.status === 402 ? 'budget'
+                : problem?.status === 429 ? 'limit'
+                    : 'failed'
         }
         isTranscribing.value = false
     }

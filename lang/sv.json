@@ -957,7 +957,7 @@
         "basedOn": "Baserat på",
         "rateLimited": "Du har ställt många frågor just nu. Försök igen om {minutes} min.",
         "waitingCount": "{count} väntar",
-        "rateLimitedToday": "Er organisation har nått dagens gräns för AI-förfrågningar. Försök igen i morgon.",
+        "rateLimitedToday": "Dagens inkluderade Cody-svar är använda. Med extra kapacitet kan ni fortsätta i dag - annars nollställs det vid midnatt.",
         "limitBuyMore": "Köp mer kapacitet",
         "limitAskAdmin": "Be din administratör om mer kapacitet.",
         "companyDataMissing": "Svaret gavs utan åtkomst till er data. Sökindexet har inte skapats ännu.",
@@ -1042,7 +1042,7 @@
             }
         },
         "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
-        "budgetSpent": "Er AI-kapacitet är förbrukad. Fyll på för att fortsätta.",
+        "budgetSpent": "Er extra kapacitet är slut, och dagens inkluderade svar är också använda. Fyll på för att fortsätta i dag.",
         "ownDailyLimit": "Du har använt din egen dagsgräns för AI. Din administratör kan höja den.",
         "dictate": {
             "start": "Diktera",
@@ -1053,7 +1053,9 @@
                 "denied": "Webbläsaren får inte använda mikrofonen. Klicka på låset i adressfältet och tillåt den.",
                 "missing": "Ingen mikrofon hittades på den här maskinen.",
                 "insecure": "Diktering kräver en säker anslutning (https).",
-                "failed": "Kunde inte skriva ner inspelningen. Försök igen."
+                "failed": "Kunde inte skriva ner inspelningen. Försök igen.",
+                "limit": "Dagens diktering eller Cody-svar är använda. Det nollställs vid midnatt.",
+                "budget": "Er extra kapacitet är slut. En administratör kan fylla på under Inställningar → AI-användning."
             }
         },
         "attachFile": "Bifoga fil",
@@ -16948,7 +16950,7 @@
         "ofAllowance": "{used} av {allowance} svar",
         "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",
         "balance": "Saldo",
-        "balanceExplainer": "Förbetald kapacitet. Den upphör inte att gälla, och den dras bara ned när ett svar faktiskt levereras.",
+        "balanceExplainer": "Används bara för svar utöver det era licenser täcker per dag - till samma pris per svar som licensen. Saldot förfaller inte.",
         "buyMore": "Köp mer",
         "thisMonth": "Denna månad",
         "feature": "Funktion",
@@ -17010,7 +17012,18 @@
             "clear": "Använd beräknad gräns",
             "saved": "Gränsen är sparad",
             "set": "Ni satte den till {limit} anrop per dag.",
-            "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare."
+            "derived": "Beräknad gräns: {limit} anrop per dag och medarbetare.",
+            "lifted": "Så länge ni har saldo gäller inte den beräknade gränsen. En gräns ni själva sätter gäller alltid."
+        },
+        "beyondToday": "+{count} från saldot",
+        "allowanceThenBalance": "Därefter dras svaren från ert saldo.",
+        "allowanceThenStop": "När de är använda kan ni fortsätta med förbetald kapacitet.",
+        "monthExplainer": "Det som har dragits från saldot. Svar inom dagens inkluderade antal kostar inget extra.",
+        "buyHint": "Köp förbetald kapacitet för dagar då ni använder Cody mer än licenserna täcker",
+        "offer": {
+            "title": "Extra kapacitet för hektiska dagar",
+            "body": "När dagens inkluderade svar är använda kan medarbetarna fortsätta med förbetald kapacitet. Ni betalar bara för det som går utöver licenserna, och saldot förfaller inte.",
+            "cta": "Köp kapacitet"
         }
     },
     "inquiryMatchNeeds": {
