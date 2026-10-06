@@ -10217,6 +10217,23 @@
             "employeeGroups": "Medarbeidergrupper",
             "noEmployeeGroups": "Ingen medarbeidergrupper opprettet ennå."
         },
+        "matrix": {
+            "title": "Tillatelsesoversikt",
+            "note": "Oversikten viser hva hver rolle gir tilgang til. Den enkelte brukeren kan ha fått ekstra tillatelser eller fått tillatelser fjernet, og disse unntakene vises ikke her.",
+            "fullAccess": "Full tilgang",
+            "fullAccessNote": "Roller på administratornivå har alle tillatelser, så kolonnen deres er krysset av hele veien ned. Sidetilgang vises slik den er satt på rollen.",
+            "exportCsv": "Eksporter CSV",
+            "printPdf": "Skriv ut / PDF",
+            "print": "Skriv ut",
+            "permission": "Tillatelse",
+            "page": "Side",
+            "area": "Område",
+            "granted": "Tildelt",
+            "generated": "Generert",
+            "company": "Virksomhet",
+            "pdfAttribution": "Denne PDF-en ble generert med CitizenOnes journalsystem.",
+            "fileName": "tillatelsesoversikt"
+        },
         "newRole": "Ny rolle",
         "permissions": {
             "createCitizen": "Opprett @:terms.citizen{''}",
