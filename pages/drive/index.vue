@@ -486,7 +486,8 @@
                         @close="state.modal.isEditDocumentFileWarningOpen = false"
                         @refreshDocuments="handleRefreshDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
-                        :selectedDocument="state.selectedDocument" :loadFile="fetchOriginalFile"
+                        v-model:selectedDocument="state.selectedDocument" :documents="state.previewDocuments"
+                        :loadFile="fetchOriginalFile" :downloadFile="downloadOriginalFile"
                         :canDownload="canDownloadDocument(state.selectedDocument)"
                         @close="state.modal.isViewDocumentOpen = false" />
                     <DialogConfirmation :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
@@ -625,7 +626,7 @@ async function handleOneDriveButtonClick() {
 }
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert, errorAlert, warningAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
 // Without download_documents a company document can still be viewed, but not
@@ -785,7 +786,8 @@ const state = reactive({
         isOneDriveFolderStructureOpen: false,
     },
     selectedDocument: {} as any,
-    previewDocumentData: null as ArrayBuffer | null,
+    // What "Open selected" hands the viewer to step through.
+    previewDocuments: [] as any[],
     docsFields: {
         name: '',
         content: ''
@@ -1328,22 +1330,24 @@ async function handleSearch(value: any) {
     }
 }
 
-// Every path here works on the untouched original. Word files get the in-app
-// preview; PDFs and images open in a tab; anything else a browser cannot show
-// (older .doc, Excel, PowerPoint, ...) is saved under its real name so it
-// opens in the program that made it - never converted to PDF on the way.
+// Every path here works on the untouched original, never converted to PDF on
+// the way. CitizenOne files always open in the in-app viewer, which says so
+// itself when a format can't be shown. A OneDrive file it can't draw is still
+// opened in a tab or saved, as before.
 function viewDownloadDocument(document: any) {
-    if (canPreviewInApp(document)) {
-        state.selectedDocument = document
-        state.modal.isViewDocumentOpen = true
-    } else {
-        viewFile(document)
+    if (document?.is_onedrive && !canPreviewInApp(document)) {
+        viewOneDriveFile(document)
+        return
     }
+
+    state.selectedDocument = document
+    state.previewDocuments = []
+    state.modal.isViewDocumentOpen = true
 }
 
 // Viewing goes through the view route, which needs no download_documents;
 // saving a copy goes through download, which the API refuses without it.
-async function fetchOriginalFile(document: any, purpose: 'view' | 'download' = 'view'): Promise<Blob> {
+async function fetchOriginalFile(document: any, purpose: 'view' | 'download' = 'view'): Promise<Blob | null> {
     if (document?.is_onedrive) {
         try {
             return await oneDriveService.downloadOriginalFile(document.uuid)
@@ -1354,7 +1358,11 @@ async function fetchOriginalFile(document: any, purpose: 'view' | 'download' = '
 
     return purpose === 'download'
         ? await documentService.downloadFile(document?.uuid)
-        : await documentService.viewFile(document?.uuid) as Blob
+        : await documentService.viewFile(document?.uuid)
+}
+
+function downloadOriginalFile(document: any): Promise<Blob | null> {
+    return fetchOriginalFile(document, 'download')
 }
 
 // Selection is only offered where a row is a file this system holds: Google
@@ -1392,45 +1400,35 @@ function onSelectionChange(rows: any[]) {
     state.selectedDocuments = rows
 }
 
-// Best-effort: browsers block more than a couple of window.open calls that
-// aren't the direct result of a click, so only the first few tabs are
-// guaranteed to open - the same limitation the citizen document list has.
-async function openSelectedDocuments() {
-    // "Select all" in the table header also grabs folder rows, which have no
-    // file_url and nothing to view.
-    let blocked = false
-    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
-        blocked = (await viewFile(document, false)) === 'blocked' || blocked
-    }
+// One viewer that steps through the selection, the same as the citizen
+// document list, instead of a tab per document that the browser's popup
+// blocker cut short. "Select all" in the table header also grabs folder rows,
+// which have no file_url and nothing to view.
+function openSelectedDocuments() {
+    const documents = state.selectedDocuments.filter((d: any) => d?.file_url)
     state.selectedDocuments = []
-    if (blocked) {
-        warnNotViewable()
+    if (!documents.length) {
+        return
     }
+    state.previewDocuments = documents
+    state.selectedDocument = documents[0]
+    state.modal.isViewDocumentOpen = true
 }
 
-// GDPR ask from the 2026-09-03 superbrugermøde: opening a company document
-// should not force it to disk - formats the browser can show open in a tab.
-async function viewFile(document: any, warnIfBlocked = true) {
+// OneDrive files aren't covered by download_documents, so one the viewer
+// can't draw opens in a tab where the browser can show it, or is saved.
+async function viewOneDriveFile(document: any) {
     state.error = {}
     state.isTableLoading = true
-    let result
     try {
         const response = await fetchOriginalFile(document)
         if (response) {
-            result = openOrSaveOriginal(response, documentFileName(document), canDownloadDocument(document))
+            openOrSaveOriginal(response, documentFileName(document), canDownloadDocument(document))
         }
     } catch (error: any) {
         state.error = error
     }
     state.isTableLoading = false
-    if (result === 'blocked' && warnIfBlocked) {
-        warnNotViewable()
-    }
-    return result
-}
-
-function warnNotViewable() {
-    warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
 }
 
 function openDownloadDocumentPdfDialog(document: any) {
