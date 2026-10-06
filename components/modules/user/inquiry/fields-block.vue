@@ -68,6 +68,17 @@
                         <FormSelect v-else :modelValue="draft[field.uuid] ?? null" :options="lookupOptions(field)"
                             @update:modelValue="(value: any) => setValue(field, value)" />
 
+                        <!-- A customer department not in the register yet is created
+                             here and picked, instead of leaving the inquiry for settings. -->
+                        <Tooltip v-if="field.options?.source === 'customer_departments'"
+                            :text="$t('inquiryFields.newCustomerDepartmentTooltip')">
+                            <button type="button" class="mt-1 inline-flex items-center gap-1 text-[12px] font-semibold text-secondary hover:underline"
+                                @click="openNewDepartment(field)">
+                                <Icon name="ph:plus" class="size-3.5" />
+                                {{ $t('socialWelfare.customerDepartments.new') }}
+                            </button>
+                        </Tooltip>
+
                         <!-- A special language carries a surcharge on the offer, so it is
                              said where it is chosen. -->
                         <p v-if="specialChosen(field).length"
@@ -116,6 +127,10 @@
             </FormButton>
         </div>
     </div>
+    <!-- Always mounted: the modal fills its form and loads municipalities when
+         isModalOpen turns true, which it never sees if created already open. -->
+    <ModulesUserEconomyCustomerDepartmentModal :isModalOpen="!!newDepartmentFor"
+        @close="newDepartmentFor = null" @saved="departmentCreated" />
 </template>
 
 <script setup lang="ts">
@@ -184,6 +199,27 @@ function lookupOptions(field: any) {
         value: option.uuid,
         label: option.is_special ? `${option.label} (${t('inquiryOffer.specialLanguage').toLowerCase()})` : option.label,
     }))
+}
+
+// The lookup field a new customer department is being created for.
+const newDepartmentFor = ref<any>(null)
+
+function openNewDepartment(field: any) {
+    newDepartmentFor.value = field
+}
+
+// Reloads the options so the new department is listed, keeping what has been
+// typed but not saved, then picks it (added to the list on a multiple field).
+async function departmentCreated(department: any) {
+    const field = newDepartmentFor.value
+    if (!field || !department?.uuid) return
+
+    const unsaved = { ...draft.value }
+    await fetchFields()
+    draft.value = { ...draft.value, ...unsaved }
+
+    const current = draft.value[field.uuid]
+    setValue(field, field.options?.multiple ? [...(current ?? []), department.uuid] : department.uuid)
 }
 
 function specialChosen(field: any): string[] {
