@@ -17115,7 +17115,8 @@
             "title": "Ekstra kapacitet til travle dage",
             "body": "Når dagens inkluderede svar er brugt, kan medarbejderne fortsætte på forudbetalt kapacitet. I betaler kun for det, der går ud over licenserne, og saldoen udløber ikke.",
             "cta": "Køb kapacitet"
-        }
+        },
+        "priceExample": "Et svar ud over det inkluderede koster ca. {perAnswer} - det samme som i licensen, hvor {seat} om måneden giver {answers} svar om dagen. Eksempel: Bruger I {extra} svar mere end inkluderet hver dag, koster det ca. {monthly} om måneden."
     },
     "inquiryMatchNeeds": {
         "heading": "Match: sprog og sted",

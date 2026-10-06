@@ -17120,7 +17120,8 @@
             "title": "Extra capacity for busy days",
             "body": "When the day's included answers are used, staff can carry on with prepaid capacity. You only pay for what goes beyond your licences, and the balance does not expire.",
             "cta": "Buy capacity"
-        }
+        },
+        "priceExample": "An answer beyond the included amount costs about {perAnswer} - the same as in the licence, where {seat} a month gives {answers} answers a day. Example: if you use {extra} answers more than included every day, it costs about {monthly} a month."
     },
     "inquiryMatchNeeds": {
         "heading": "Match: language and location",

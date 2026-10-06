@@ -17024,7 +17024,8 @@
             "title": "Extra kapacitet för hektiska dagar",
             "body": "När dagens inkluderade svar är använda kan medarbetarna fortsätta med förbetald kapacitet. Ni betalar bara för det som går utöver licenserna, och saldot förfaller inte.",
             "cta": "Köp kapacitet"
-        }
+        },
+        "priceExample": "Ett svar utöver det inkluderade kostar ca {perAnswer} - samma som i licensen, där {seat} i månaden ger {answers} svar om dagen. Exempel: Använder ni {extra} svar mer än inkluderat varje dag kostar det ca {monthly} i månaden."
     },
     "inquiryMatchNeeds": {
         "heading": "Match: språk och plats",

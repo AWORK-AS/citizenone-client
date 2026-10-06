@@ -40,7 +40,12 @@
             <section v-if="state.data.budget_enabled" class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
                 <div class="flex flex-wrap items-baseline justify-between gap-4">
                     <div>
-                        <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.balance') }}</h3>
+                        <h3 class="flex items-center gap-x-1.5 text-sm font-semibold text-gray-900">
+                            {{ $t('aiUsage.balance') }}
+                            <Tooltip v-if="priceExample" :text="priceExample" wrap>
+                            <Icon name="ph:info" class="h-4 w-4 text-gray-400 hover:text-primary" :aria-label="priceExample" />
+                        </Tooltip>
+                        </h3>
                         <p class="mt-1 text-3xl font-semibold tabular-nums text-gray-900">
                             {{ kr(state.data.balance_kroner) }}
                         </p>
@@ -58,7 +63,12 @@
             <section v-else class="rounded-lg border-1.5 border-gray-200 bg-white p-6">
                 <div class="flex flex-wrap items-center justify-between gap-4">
                     <div class="min-w-0 flex-1">
-                        <h3 class="text-sm font-semibold text-gray-900">{{ $t('aiUsage.offer.title') }}</h3>
+                        <h3 class="flex items-center gap-x-1.5 text-sm font-semibold text-gray-900">
+                            {{ $t('aiUsage.offer.title') }}
+                            <Tooltip v-if="priceExample" :text="priceExample" wrap>
+                            <Icon name="ph:info" class="h-4 w-4 text-gray-400 hover:text-primary" :aria-label="priceExample" />
+                        </Tooltip>
+                        </h3>
                         <p class="mt-1 text-sm text-gray-600">{{ $t('aiUsage.offer.body') }}</p>
                     </div>
                     <Tooltip :text="$t('aiUsage.buyHint')" wrap>
@@ -221,6 +231,7 @@ const state = reactive({
         daily: [] as any[],
         topups: [] as any[],
         topup_app: null as any,
+        pricing: null as any,
         auto_reload: null as any,
     },
 })
@@ -289,6 +300,24 @@ const hasBalance = computed(() => !!state.data.budget_enabled && Number(state.da
 const includedToday = computed(() => Math.min(Number(state.data.used_today) || 0, Number(state.data.daily_allowance) || 0))
 const beyondToday = computed(() => Math.max(0, (Number(state.data.used_today) || 0) - (Number(state.data.daily_allowance) || 0)))
 
+// A worked example in the customer's own prices: an extra answer costs what one
+// costs inside the licence, and "100 more a day" turns a rate of a few øre into
+// a monthly figure a manager can hold up against the licence price.
+const EXAMPLE_EXTRA_PER_DAY = 100
+
+const priceExample = computed(() => {
+    const pricing = state.data.pricing
+    if (!pricing?.per_answer_kroner) return ''
+
+    return t('aiUsage.priceExample', {
+        perAnswer: kr(pricing.per_answer_kroner, 2),
+        seat: kr(pricing.seat_monthly_kroner, 0),
+        answers: pricing.answers_per_seat_per_day,
+        extra: EXAMPLE_EXTRA_PER_DAY,
+        monthly: kr(pricing.per_answer_kroner * EXAMPLE_EXTRA_PER_DAY * 30, 0),
+    })
+})
+
 const todayShare = computed(() => {
     const allowance = Number(state.data.daily_allowance) || 0
     return allowance > 0 ? includedToday.value / allowance : 0
@@ -306,11 +335,12 @@ function barHeight(kroner: number) {
     return kroner > 0 ? Math.max(2, share * 100) : 0
 }
 
-function kr(value: number) {
+function kr(value: number, digits = 2) {
     return new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK', {
         style: 'currency',
         currency: 'DKK',
-        maximumFractionDigits: 2,
+        minimumFractionDigits: digits === 0 ? 0 : undefined,
+        maximumFractionDigits: digits,
     }).format(Number(value) || 0)
 }
 
