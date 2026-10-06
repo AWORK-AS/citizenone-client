@@ -9852,7 +9852,27 @@
             "selectDatesFirst": "Vælg start- og slutdato først",
             "startDate": "Startdato",
             "weeklyOn": "På",
-            "yearlyInMonths": "I måneder"
+            "yearlyInMonths": "I måneder",
+            "recordingMode": "Registrér fremmøde",
+            "perDay": "Pr. dag",
+            "perHour": "Pr. time",
+            "recordingModeDayHelp": "Én registrering pr. borger for hver dag.",
+            "recordingModeHourHelp": "Én registrering pr. borger for hvert tidsrum hver dag, så fremmøde kan registreres time for time.",
+            "timeSlots": "Tidsrum",
+            "timeSlotsHelp": "Udfyld et tidsrum for hver time i et interval, eller tilføj tidsrum ét ad gangen.",
+            "fromHour": "Fra",
+            "toHour": "Til",
+            "fillHourly": "Udfyld hver time",
+            "slotStart": "Start",
+            "slotEnd": "Slut",
+            "removeSlot": "Fjern tidsrum",
+            "noTimeSlots": "Ingen tidsrum endnu.",
+            "addSlot": "Tilføj tidsrum",
+            "errors": {
+                "timeSlotsRequired": "Tilføj mindst ét tidsrum.",
+                "timeSlotEndAfterStart": "Hvert tidsrum skal slutte efter det starter.",
+                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden."
+            }
         },
         "checkIn": "Tjek ind",
         "checkOut": "Tjek ud",
@@ -9878,7 +9898,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Dato",
-                "status": "Status"
+                "status": "Status",
+                "time": "Tidspunkt"
             },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på, at du vil slette denne protokol"

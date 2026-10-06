@@ -9852,7 +9852,27 @@
             "selectDatesFirst": "Select start and end dates first",
             "startDate": "Start date",
             "weeklyOn": "On",
-            "yearlyInMonths": "In months"
+            "yearlyInMonths": "In months",
+            "recordingMode": "Record attendance",
+            "perDay": "Per day",
+            "perHour": "Per hour",
+            "recordingModeDayHelp": "One entry per citizen for each day.",
+            "recordingModeHourHelp": "One entry per citizen for each time slot on every day, so attendance can be recorded hour by hour.",
+            "timeSlots": "Time slots",
+            "timeSlotsHelp": "Fill in a slot for every hour in a range, or add slots one at a time.",
+            "fromHour": "From",
+            "toHour": "To",
+            "fillHourly": "Fill every hour",
+            "slotStart": "Start",
+            "slotEnd": "End",
+            "removeSlot": "Remove time slot",
+            "noTimeSlots": "No time slots yet.",
+            "addSlot": "Add time slot",
+            "errors": {
+                "timeSlotsRequired": "Add at least one time slot.",
+                "timeSlotEndAfterStart": "Each time slot must end after it starts.",
+                "timeSlotsOverlap": "Time slots must not overlap."
+            }
         },
         "checkIn": "Check in",
         "checkOut": "Check out",
@@ -9878,7 +9898,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Date",
-                "status": "Status"
+                "status": "Status",
+                "time": "Time"
             },
             "confirmation": {
                 "deleteConfirmation": "Are you sure you want to delete this protocol"

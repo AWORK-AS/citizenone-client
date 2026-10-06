@@ -9847,7 +9847,27 @@
             "selectDatesFirst": "Velg start- og sluttdato først",
             "startDate": "Startdato",
             "weeklyOn": "På",
-            "yearlyInMonths": "I måneder"
+            "yearlyInMonths": "I måneder",
+            "recordingMode": "Registrer oppmøte",
+            "perDay": "Per dag",
+            "perHour": "Per time",
+            "recordingModeDayHelp": "Én registrering per borger for hver dag.",
+            "recordingModeHourHelp": "Én registrering per borger for hvert tidsrom hver dag, slik at oppmøte kan registreres time for time.",
+            "timeSlots": "Tidsrom",
+            "timeSlotsHelp": "Fyll inn et tidsrom for hver time i et intervall, eller legg til tidsrom ett om gangen.",
+            "fromHour": "Fra",
+            "toHour": "Til",
+            "fillHourly": "Fyll inn hver time",
+            "slotStart": "Start",
+            "slotEnd": "Slutt",
+            "removeSlot": "Fjern tidsrom",
+            "noTimeSlots": "Ingen tidsrom ennå.",
+            "addSlot": "Legg til tidsrom",
+            "errors": {
+                "timeSlotsRequired": "Legg til minst ett tidsrom.",
+                "timeSlotEndAfterStart": "Hvert tidsrom må slutte etter at det starter.",
+                "timeSlotsOverlap": "Tidsrommene kan ikke overlappe hverandre."
+            }
         },
         "checkIn": "Sjekk inn",
         "checkOut": "Sjekk ut",
@@ -9873,7 +9893,8 @@
             "citizens": {
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "date": "Dato",
-                "status": "Status"
+                "status": "Status",
+                "time": "Tidspunkt"
             },
             "confirmation": {
                 "deleteConfirmation": "Er du sikker på at du vil slette denne protokoll"
