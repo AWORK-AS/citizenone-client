@@ -39,6 +39,10 @@
         "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
+            "myself": "Mig själv",
+            "assignSelected": "Tilldela valda ärenden",
+            "assignTooltip": "Sätt den valda medarbetaren på de valda ärendena",
+            "claimTooltip": "Sätt dig själv på de valda ärendena",
             "title": "Konverterade, otilldelade ärenden",
             "empty": "Inga konverterade ärenden väntar på en handläggare.",
             "selectedOfTotal": "{selected} av {total} valda",
@@ -15021,6 +15025,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Vunna ärenden utan koordinator",
+        "unassignedWonCount": "1 ärende väntar | {count} ärenden väntar",
+        "unassignedWonOpen": "Fördela ärenden",
+        "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
             "bookings_missing_note": "En bokning har avslutats utan en @:terms.journalNote{''} | {n} bokningar har avslutats utan en @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",

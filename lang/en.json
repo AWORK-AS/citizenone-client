@@ -39,6 +39,10 @@
         "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
+            "myself": "Myself",
+            "assignSelected": "Assign selected cases",
+            "assignTooltip": "Put the chosen employee on the selected cases",
+            "claimTooltip": "Put yourself on the selected cases",
             "title": "Converted, unassigned cases",
             "empty": "No converted cases are waiting for a caseworker.",
             "selectedOfTotal": "{selected} of {total} selected",
@@ -15117,6 +15121,10 @@
         }
     },
     "myDay": {
+        "unassignedWon": "Won cases without a coordinator",
+        "unassignedWonCount": "1 case waiting | {count} cases waiting",
+        "unassignedWonOpen": "Assign cases",
+        "unassignedWonTooltip": "See the won cases nobody is on yet, and hand them out",
         "brief": {
             "bookings_missing_note": "One booking has ended without a @:terms.journalNote{''} | {n} bookings have ended without a @:terms.journalNote{''}",
             "goals_running_out": "One goal is due within a week | {n} goals are due within a week",

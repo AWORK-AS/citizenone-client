@@ -14,10 +14,23 @@
                         <p class="text-[13px] text-slate-500">
                             {{ $t('inquiryPipeline.unassignedConverted.selectedOfTotal', { selected: selectedCount, total: state.items.length }) }}
                         </p>
-                        <FormButton buttonStyle="primary" :disabled="selectedCount === 0 || state.isClaiming"
-                            @click="claimSelected">
-                            {{ $t('inquiryPipeline.unassignedConverted.claimSelected') }}
-                        </FormButton>
+                        <div class="flex items-end gap-2">
+                            <!-- A leader hands the cases out; everyone else takes them. -->
+                            <div v-if="isAtLeast('Manager')" class="w-56">
+                                <FormSelect id="assign-to" :options="assigneeOptions" v-model="state.assignTo"
+                                    :placeholder="$t('inquiryPipeline.unassignedConverted.myself')" />
+                            </div>
+                            <Tooltip :text="state.assignTo
+                                ? $t('inquiryPipeline.unassignedConverted.assignTooltip')
+                                : $t('inquiryPipeline.unassignedConverted.claimTooltip')">
+                                <FormButton buttonStyle="primary" :disabled="selectedCount === 0 || state.isClaiming"
+                                    @click="claimSelected">
+                                    {{ state.assignTo
+                                        ? $t('inquiryPipeline.unassignedConverted.assignSelected')
+                                        : $t('inquiryPipeline.unassignedConverted.claimSelected') }}
+                                </FormButton>
+                            </Tooltip>
+                        </div>
                     </div>
 
                     <div class="overflow-x-auto">
@@ -56,6 +69,8 @@
 
 <script setup lang="ts">
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
+import { userService } from '@/components/api/user/UserService'
+import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -77,10 +92,36 @@ const state = reactive({
     isLoading: false,
     isClaiming: false,
     error: {} as Error,
+    // Empty means the person opening this takes the cases.
+    assignTo: null as string | null,
+    employees: [] as any[],
 })
 
+const { isAtLeast } = usePermissions()
+
+const assigneeOptions = computed(() => [
+    { value: null, label: t('inquiryPipeline.unassignedConverted.myself') },
+    ...state.employees,
+])
+
+async function fetchEmployees() {
+    if (!isAtLeast('Manager') || state.employees.length) return
+    try {
+        const response = await userService.getAllUsersWithoutAllUsersOption()
+        state.employees = (response?.data ?? []).map((user: any) => ({
+            value: user?.uuid,
+            label: `${user?.firstname ?? ''} ${user?.lastname ?? ''}`.trim(),
+        }))
+    } catch (_) {
+        state.employees = []
+    }
+}
+
 watch(() => props.isModalOpen, (isOpen) => {
-    if (isOpen) fetchItems()
+    if (isOpen) {
+        fetchItems()
+        fetchEmployees()
+    }
 })
 
 const selectedCount = computed(() => state.items.filter((item) => item.is_selected).length)
@@ -109,8 +150,9 @@ async function claimSelected() {
     state.isClaiming = true
     state.error = {}
     try {
-        await citizenInquiryService.assignSelf(uuids)
-        successAlert(`${t('alert.success')}!`, t('inquiryPipeline.unassignedConverted.claimed', { count: uuids.length }))
+        const response = await citizenInquiryService.assignSelf(uuids, state.assignTo)
+        // The server names who now has them, which says more than a count.
+        successAlert(`${t('alert.success')}!`, response?.message ?? t('inquiryPipeline.unassignedConverted.claimed', { count: uuids.length }))
         await fetchItems()
         emit('claimed')
     } catch (error: any) {

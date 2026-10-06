@@ -223,6 +223,24 @@
                             </div>
                         </section>
 
+                        <!-- Won cases nobody is on yet: a leader hands them out from
+                             here, the start of the day being when that gets done. -->
+                        <section v-if="unassignedWon > 0" :id="`card-won`"
+                            class="rounded-xl bg-white ring-1 ring-gray-200 p-5 lg:col-span-2">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <Icon name="ph:briefcase" class="size-5 text-tertiary" />
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="font-semibold text-gray-900">{{ $t('myDay.unassignedWon') }}</h3>
+                                    <p class="text-xs text-gray-500">{{ $t('myDay.unassignedWonCount', { count: unassignedWon }) }}</p>
+                                </div>
+                                <Tooltip :text="$t('myDay.unassignedWonTooltip')">
+                                    <FormButton type="button" buttonStyle="action" @click="state.unassignedWonOpen = true">
+                                        {{ $t('myDay.unassignedWonOpen') }}
+                                    </FormButton>
+                                </Tooltip>
+                            </div>
+                        </section>
+
                         <!-- Who is carrying what, and what is on nobody. Read here
                              rather than by opening every case, which is how a team
                              works out who covers for somebody away. -->
@@ -252,6 +270,9 @@
                     </div>
                 </LoadingSpinner>
 
+                <ModulesUserInquiryModalUnassignedConverted :isModalOpen="state.unassignedWonOpen"
+                    @close="state.unassignedWonOpen = false" @claimed="fetchUnassignedWon" />
+
                 <ModulesUserRemindersModalNew :isModalOpen="state.newTaskOpen"
                     @close="state.newTaskOpen = false" @refreshReminders="onTaskCreated" />
                 <ModulesUserRemindersModalView :isModalOpen="state.viewReminderOpen"
@@ -274,6 +295,7 @@ import { useDepartmentStore } from '@/store/department'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
+import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { reminderService } from '@/components/api/user/ReminderService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useAssistantStore, describeBriefItem, type BriefItem } from '@/store/assistant'
@@ -308,6 +330,8 @@ const today = moment().format('YYYY-MM-DD')
 const state = reactive({
     isLoading: false,
     distribution: { coordinators: [] as any[], unassigned: 0 },
+    unassignedWon: 0,
+    unassignedWonOpen: false,
     shifts: [] as any[],
     events: [] as any[],
     meds: [] as any[],
@@ -501,7 +525,26 @@ onMounted(() => {
     fetchAll()
     fetchBrief()
     fetchDistribution()
+    fetchUnassignedWon()
 })
+
+const unassignedWon = computed(() => state.unassignedWon)
+
+// Only where the inquiry pipeline is on and the user may read inquiries;
+// anyone else would get a refusal, and a card they cannot act on.
+async function fetchUnassignedWon() {
+    const user = userStore.getUser
+    const canSee = !!user?.company?.inquiry_pipeline_enabled
+        && !!user?.pages?.some((page: any) => page.name === 'Inquiries')
+    if (!canSee) return
+
+    try {
+        const response = await citizenInquiryService.getUnassignedConverted()
+        state.unassignedWon = (response?.data ?? []).length
+    } catch (_) {
+        state.unassignedWon = 0
+    }
+}
 
 const distribution = computed(() => state.distribution)
 
