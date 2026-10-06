@@ -346,7 +346,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.downloadOriginal')"
-                                                v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
+                                                v-if="document.type === 'file' && (state.isInsideOneDrive || (state.viewMode === 'local' && canDownloadDocuments))">
                                                 <FormButton :aria-label="$t('drive.table.actions.downloadOriginal')" type="button" buttonStyle="action"
                                                     data-testid="drive-download-original"
                                                     @click="downloadFile(document)">
@@ -354,7 +354,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.downloadPDF')"
-                                                v-if="document.type === 'file' && (state.isInsideOneDrive || state.viewMode === 'local')">
+                                                v-if="document.type === 'file' && (state.isInsideOneDrive || (state.viewMode === 'local' && canDownloadDocuments))">
                                                 <FormButton :aria-label="$t('drive.table.actions.downloadPDF')" type="button" buttonStyle="action"
                                                     @click="openDownloadDocumentPdfDialog(document)">
                                                     <Icon name="ph:file-pdf" class="size-4" />
@@ -487,6 +487,7 @@
                         @refreshDocuments="handleRefreshDocuments" />
                     <ModulesUserDocumentDocsFileModalPreview :isModalOpen="state.modal.isViewDocumentOpen"
                         :selectedDocument="state.selectedDocument" :loadFile="fetchOriginalFile"
+                        :canDownload="canDownloadDocument(state.selectedDocument)"
                         @close="state.modal.isViewDocumentOpen = false" />
                     <DialogConfirmation :isModalOpen="state.modal.isDownloadDialogConfirmationOpen"
                         :message="$t('drive.confirmation.downloadWithCompanyLogoConfirmation') + '? ' + $t('drive.confirmation.companyLogoLayoutHint')"
@@ -544,7 +545,7 @@ import { documentBlobViewer, documentFileName, documentExtension, canPreviewInAp
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useOneDriveCache } from '@/composables/useOneDriveCache'
 
-const { openInTabs } = documentBlobViewer()
+const { openOrSaveOriginal } = documentBlobViewer()
 const oneDriveService = new OneDriveService()
 const runtimeConfig = useRuntimeConfig()
 
@@ -624,9 +625,15 @@ async function handleOneDriveButtonClick() {
 }
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
-const { successAlert, errorAlert } = useAlert()
+const { successAlert, errorAlert, warningAlert } = useAlert()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+// Without download_documents a company document can still be viewed, but not
+// saved. OneDrive files go through the user's own OneDrive and aren't covered.
+const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
+function canDownloadDocument(document: any): boolean {
+    return !!document?.is_onedrive || canDownloadDocuments.value
+}
 const { t } = useI18n()
 const router = useRouter()
 const documentFile = ref(null) as any
@@ -1334,7 +1341,9 @@ function viewDownloadDocument(document: any) {
     }
 }
 
-async function fetchOriginalFile(document: any): Promise<Blob> {
+// Viewing goes through the view route, which needs no download_documents;
+// saving a copy goes through download, which the API refuses without it.
+async function fetchOriginalFile(document: any, purpose: 'view' | 'download' = 'view'): Promise<Blob> {
     if (document?.is_onedrive) {
         try {
             return await oneDriveService.downloadOriginalFile(document.uuid)
@@ -1343,7 +1352,9 @@ async function fetchOriginalFile(document: any): Promise<Blob> {
         }
     }
 
-    return await documentService.downloadFile(document?.uuid)
+    return purpose === 'download'
+        ? await documentService.downloadFile(document?.uuid)
+        : await documentService.viewFile(document?.uuid) as Blob
 }
 
 // Selection is only offered where a row is a file this system holds: Google
@@ -1384,24 +1395,39 @@ function onSelectionChange(rows: any[]) {
 async function openSelectedDocuments() {
     // "Select all" in the table header also grabs folder rows, which have no
     // file_url and nothing to view.
-    const documents = state.selectedDocuments.filter((d: any) => d?.file_url)
+    let blocked = false
+    for (const document of state.selectedDocuments.filter((d: any) => d?.file_url)) {
+        blocked = (await viewFile(document, false)) === 'blocked' || blocked
+    }
     state.selectedDocuments = []
-    await openDocuments(documents)
+    if (blocked) {
+        warnNotViewable()
+    }
 }
 
 // GDPR ask from the 2026-09-03 superbrugermøde: opening a company document
 // should not force it to disk - formats the browser can show open in a tab.
-async function viewFile(document: any) {
-    await openDocuments([document])
-}
-
-// Called straight from the click, with nothing awaited first: the tabs are
-// taken inside the click, or the browser blocks them as pop-ups.
-async function openDocuments(documents: any[]) {
+async function viewFile(document: any, warnIfBlocked = true) {
     state.error = {}
     state.isTableLoading = true
-    await openInTabs(documents, fetchOriginalFile)
+    let result
+    try {
+        const response = await fetchOriginalFile(document)
+        if (response) {
+            result = openOrSaveOriginal(response, documentFileName(document), canDownloadDocument(document))
+        }
+    } catch (error: any) {
+        state.error = error
+    }
     state.isTableLoading = false
+    if (result === 'blocked' && warnIfBlocked) {
+        warnNotViewable()
+    }
+    return result
+}
+
+function warnNotViewable() {
+    warningAlert(t('documentViewer.notViewableTitle'), t('documentViewer.notViewableText'))
 }
 
 function openDownloadDocumentPdfDialog(document: any) {
@@ -1438,7 +1464,7 @@ async function downloadFile(document: any) {
     state.error = {}
     state.isTableLoading = true
     try {
-        const response = await fetchOriginalFile(document)
+        const response = await fetchOriginalFile(document, 'download')
         if (response) {
             saveAs(response, documentFileName(document))
         }

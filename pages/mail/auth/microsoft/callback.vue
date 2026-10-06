@@ -4,6 +4,9 @@
 
             <Head>
                 <Title>{{ $t('mail.authentication.verifyingAccount') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <!-- The app is client-rendered, so the header in nuxt.config only helps when the
+                     server answers; this covers a crawler that renders the page. -->
+                <Meta name="robots" content="noindex, nofollow" />
             </Head>
 
             <template #header>{{ $t('mail.authentication.verifyingAccount') }}</template>
