@@ -30,7 +30,7 @@
                                     class="bg-white rounded-2xl border border-primary/30 px-5 py-4 flex items-center justify-between gap-4 shadow-sm">
                                     <div class="space-y-1.5">
                                         <p class="font-semibold text-gray-900">{{ protocol.protocol?.name }}</p>
-                                        <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}</p>
+                                        <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}<span v-if="protocolTimeLabel(protocol)" class="tabular-nums"> · {{ protocolTimeLabel(protocol) }}</span></p>
                                         <span :class="statusClass(protocol.status)"
                                             class="inline-block text-xs font-medium px-2.5 py-0.5 rounded-full">
                                             {{ statusLabel(protocol.status) }}
@@ -64,7 +64,7 @@
                                     class="bg-white rounded-2xl border border-gray-200 px-5 py-4 flex items-center justify-between gap-4">
                                     <div class="space-y-1.5">
                                         <p class="font-semibold text-gray-900">{{ protocol.protocol?.name }}</p>
-                                        <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}</p>
+                                        <p class="text-sm text-gray-500">{{ formatDateToReadable(protocol.date) }}<span v-if="protocolTimeLabel(protocol)" class="tabular-nums"> · {{ protocolTimeLabel(protocol) }}</span></p>
                                         <span :class="statusClass(protocol.status)"
                                             class="inline-block text-xs font-medium px-2.5 py-0.5 rounded-full">
                                             {{ statusLabel(protocol.status) }}
@@ -92,6 +92,7 @@
 </template>
 
 <script setup lang="ts">
+import moment from 'moment'
 import { citizenProtocolService } from '@/components/api/citizen/ProtocolService'
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
@@ -113,7 +114,8 @@ const state = reactive({
     currentPage: 1,
 })
 
-const todayProtocols = computed(() => state.protocols.filter((p: any) => p.date === today))
+const todayProtocols = computed(() =>
+    state.protocols.filter((p: any) => p.date === today).sort(compareProtocolEntries))
 const otherProtocols = computed(() => state.protocols.filter((p: any) => p.date !== today))
 const totalPages = computed(() => Math.max(1, Math.ceil(otherProtocols.value.length / perPage)))
 const paginatedOthers = computed(() => {
@@ -125,7 +127,9 @@ onMounted(() => {
     fetchProtocols()
 })
 
-const today = new Date().toISOString().slice(0, 10)
+// The citizen's own calendar day: toISOString is UTC, which in Denmark showed
+// yesterday's activities until 01:00/02:00.
+const today = moment().format('YYYY-MM-DD')
 
 async function fetchProtocols() {
     state.error = {}

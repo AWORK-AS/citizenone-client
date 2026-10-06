@@ -57,6 +57,11 @@
                                     class="rounded-full bg-[#eee9fb] px-2 py-px text-[11px] font-semibold text-[#6b54c9]">
                                     {{ field.service_type.label }}
                                 </span>
+                                <Tooltip v-if="field.form" :text="$t('inquiryFieldSettings.form.formHint')">
+                                    <span class="rounded-full bg-primary/10 px-2 py-px text-[11px] font-semibold text-primary">
+                                        {{ formLabel(field.form, builtinNames) }}
+                                    </span>
+                                </Tooltip>
                                 <span v-if="field.is_required"
                                     class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
                                     {{ $t('inquiryFields.required') }}
@@ -169,6 +174,15 @@
                             </p>
                         </div>
 
+                        <div>
+                            <FormLabel for="field-form" :label="$t('inquiryFieldSettings.form.form')" />
+                            <FormSelect id="field-form" v-model="state.form.form_uuid"
+                                :options="formOptions" :searchable="false" />
+                            <p class="mt-1 text-[11px] text-gray-400">
+                                {{ $t('inquiryFieldSettings.form.formHint') }}
+                            </p>
+                        </div>
+
                         <div v-if="isChoiceType">
                             <FormLabel for="field-choices" :label="$t('inquiryFieldSettings.form.choices')" />
                             <FormTextArea id="field-choices" name="field-choices" v-model="state.form.choicesText"
@@ -246,13 +260,17 @@ definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', required
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
+import { inquiryFormService } from '@/components/api/user/InquiryFormService'
+import { formLabel } from '@/composables/inquiryForms'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { useCustomPagesStore } from '@/store/custom-pages'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const customPagesStore = useCustomPagesStore() as any
 
 const breadcrumbLinks = [
     {
@@ -285,6 +303,7 @@ function emptyForm() {
         source: 'municipalities',
         multiple: false,
         service_type_uuid: null as string | null,
+        form_uuid: null as string | null,
         is_required: false,
         is_active: true,
     }
@@ -296,6 +315,7 @@ const state = reactive({
     fields: [] as any[],
     stages: [] as any[],
     serviceTypes: [] as any[],
+    forms: [] as any[],
     isDeleteOpen: false,
     isFormOpen: false,
     selectedField: null as any,
@@ -322,6 +342,21 @@ const serviceTypeOptions = computed(() => [
     ...state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label })),
 ])
 
+const builtinNames = computed(() => ({
+    shelter: customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'),
+    crisisCenter: customPagesStore.getCustomPagesName?.crisisCenter || t('inquiries.form.options.inquiryType.crisisCenter'),
+}))
+
+const formOptions = computed(() => [
+    { value: null, label: t('inquiryFieldSettings.allForms') },
+    ...state.forms.map((form: any) => ({ value: form.uuid, label: formLabel(form, builtinNames.value) })),
+])
+
+// Opened from a form on Henvendelsesformularer: show that form's fields, and
+// put a new field on it.
+const route = useRoute()
+const formFilter = computed(() => ((route.query as Record<string, any>).form as string) || null)
+
 const canSubmit = computed(() => {
     if (!state.form.label.trim()) return false
     // A choice field with no choices cannot be answered, so the server refuses
@@ -336,8 +371,11 @@ const canSubmit = computed(() => {
 
 // One group per stage in board order, plus the fields that apply throughout.
 const groups = computed(() => {
+    const shown = formFilter.value
+        ? state.fields.filter((field: any) => !field.form || field.form.uuid === formFilter.value)
+        : state.fields
     const byStage = (uuid: string | null) =>
-        state.fields.filter((field: any) => (field.stage?.uuid ?? null) === uuid)
+        shown.filter((field: any) => (field.stage?.uuid ?? null) === uuid)
 
     return [
         {
@@ -358,8 +396,18 @@ const groups = computed(() => {
 onMounted(() => {
     fetchStages()
     fetchServiceTypes()
+    fetchForms()
     fetchFields()
 })
+
+async function fetchForms() {
+    try {
+        const response = await inquiryFormService.getForms()
+        state.forms = response?.data ?? []
+    } catch (_) {
+        state.forms = []
+    }
+}
 
 async function fetchServiceTypes() {
     try {
@@ -397,7 +445,7 @@ async function fetchFields() {
 }
 
 function openNew() {
-    state.form = emptyForm()
+    state.form = { ...emptyForm(), form_uuid: formFilter.value }
     state.formError = {}
     state.isFormOpen = true
 }
@@ -416,6 +464,7 @@ function openEdit(field: any) {
         source: field.options?.source ?? 'municipalities',
         multiple: !!field.options?.multiple,
         service_type_uuid: field.service_type?.uuid ?? null,
+        form_uuid: field.form?.uuid ?? null,
         is_required: !!field.is_required,
         is_active: !!field.is_active,
     }
@@ -443,6 +492,7 @@ function payload() {
     }
 
     body.service_type_uuid = state.form.service_type_uuid
+    body.form_uuid = state.form.form_uuid
 
     if (isChoiceType.value) {
         body.options = { choices: parsedChoices() }

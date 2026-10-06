@@ -85,6 +85,7 @@ export const PAGE_SETTINGS: Record<string, string[]> = {
     'surveys': ['/settings/journal-titles'],
     'tasks': ['/settings/task-types', '/settings/task-rules'],
     'inquiries': [
+        '/settings/inquiry-forms',
         '/settings/inquiry-pipeline-stages',
         '/settings/inquiry-fields',
         '/settings/inquiry-service-types',

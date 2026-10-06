@@ -17,6 +17,27 @@
                     <span>{{ $t('back') }}</span>
                 </NuxtLink>
                 <div class="flex items-center gap-x-2 justify-end">
+                    <Tooltip v-if="state.invoice?.data?.covered_by_agreement"
+                        :text="$t('superadmin.agreements.covered.help')" position="bottom" wrap>
+                        <span class="co-badge co-badge-navy">
+                            <Icon name="ph:handshake" class="w-3 h-3" aria-hidden="true" />
+                            {{ $t('superadmin.agreements.covered.chip') }}
+                        </span>
+                    </Tooltip>
+                    <Tooltip v-if="state.invoice?.data && !state.invoice.data.is_paid && !state.invoice.data.covered_by_agreement"
+                        :text="$t('superadmin.agreements.payment.registerHelp')" position="bottom">
+                        <FormButton buttonStyle="success" @click="state.isPaymentOpen = true">
+                            <Icon name="ph:bank" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('superadmin.agreements.payment.register') }}
+                        </FormButton>
+                    </Tooltip>
+                    <Tooltip v-if="state.invoice?.data?.is_paid && state.invoice.data.paid_at && !state.invoice.data.covered_by_agreement"
+                        :text="$t('superadmin.agreements.payment.undoHelp')" position="bottom">
+                        <FormButton buttonStyle="danger" @click="state.isUndoOpen = true">
+                            <Icon name="ph:arrow-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('superadmin.agreements.payment.undo') }}
+                        </FormButton>
+                    </Tooltip>
                     <FormButton buttonStyle="action" @click="downloadInvoiceDetails">
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('superadmin.invoiceDetails.download') }}
@@ -89,16 +110,23 @@
                         </Table>
                     </div>
                 </div>
-                <p class="text-center mt-10 text-sm text-primary">
-                    {{ $t('superadmin.invoiceDetails.thisInvoiceHasAlreadyBeenPaid') }}
-                </p>
+                <ModulesSuperadminAgreementInvoicePaymentNotice :invoice="state.invoice?.data"
+                    paidViaMethodKey="superadmin.invoiceDetails.thisInvoiceHasAlreadyBeenPaid"
+                    coveredKey="superadmin.agreements.covered.footer" />
             </LoadingSpinner>
+            <ModulesSuperadminAgreementModalPayment :isModalOpen="state.isPaymentOpen"
+                :invoice="state.invoice?.data" @close="state.isPaymentOpen = false" @saved="onPaymentSaved" />
+            <DialogConfirmation :isModalOpen="state.isUndoOpen"
+                :message="$t('superadmin.agreements.payment.undoConfirm') + '?'"
+                @close="state.isUndoOpen = false" @confirm="undoPayment" />
         </NuxtLayout>
     </div>
 </template>
 
 <script setup lang="ts">
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
+import { agreementService } from '@/components/api/superadmin/AgreementService'
+import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
@@ -109,6 +137,7 @@ const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const language = useI18n()
+const { successAlert } = useAlert()
 const router = useRouter()
 const invoiceUuid = router?.currentRoute?.value?.params?.invoice_uuid
 
@@ -123,6 +152,8 @@ const state = reactive({
     error: {} as Error,
     invoice: [] as any,
     isPageLoading: false,
+    isPaymentOpen: false,
+    isUndoOpen: false,
 })
 
 onMounted(() => {
@@ -147,6 +178,25 @@ async function fetchInvoice() {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function onPaymentSaved() {
+    state.isPaymentOpen = false
+    successAlert(`${language.t('alert.success')}!`, language.t('superadmin.agreements.payment.registered'))
+    await fetchInvoice()
+}
+
+async function undoPayment() {
+    state.error = {}
+    try {
+        await agreementService.undoPayment(invoiceUuid as string)
+        successAlert(`${language.t('alert.success')}!`, language.t('superadmin.agreements.payment.undone'))
+        state.isUndoOpen = false
+        await fetchInvoice()
+    } catch (error: any) {
+        state.isUndoOpen = false
+        state.error = error
+    }
 }
 
 async function downloadInvoiceDetails() {

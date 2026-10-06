@@ -92,6 +92,14 @@
                                             v-if="hasSocialSecurityNumberAccess()">
                                             {{ state.selectedCitizen?.data?.social_security_number }}
                                         </p>
+                                        <!-- Only customers who came from another system have one,
+                                             so the line is left out rather than shown empty. -->
+                                        <Tooltip v-if="state.selectedCitizen?.data?.case_number"
+                                            :text="$t('citizens.form.caseNumberHint')" class="w-fit">
+                                            <p class="mt-0.5 text-sm text-slate-500 tabular-nums">
+                                                {{ $t('citizens.table.caseNumber') }}: {{ state.selectedCitizen.data.case_number }}
+                                            </p>
+                                        </Tooltip>
                                     </div>
                                     <div>
                                         <LoadingSpinner :isActive="state.isPageLoading">

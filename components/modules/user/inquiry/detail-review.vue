@@ -51,6 +51,7 @@
 </template>
 
 <script setup lang="ts">
+import { formLabel } from '@/composables/inquiryForms'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
@@ -158,7 +159,10 @@ const headline = computed(() =>
 )
 
 const subline = computed(() => [
-    isShelter.value ? shelterName.value : crisisCenterName.value,
+    // The form it was taken on; an inquiry from before forms by its type.
+    props.inquiry?.form
+        ? formLabel(props.inquiry.form, { shelter: shelterName.value, crisisCenter: crisisCenterName.value })
+        : isShelter.value ? shelterName.value : crisisCenterName.value,
     props.inquiry?.inquiry_date ? formatDateToReadable(props.inquiry.inquiry_date) : '',
     names(props.inquiry?.departments),
 ].filter(Boolean).join(' · '))

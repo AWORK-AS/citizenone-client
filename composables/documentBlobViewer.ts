@@ -1,14 +1,11 @@
 import { saveAs } from 'file-saver'
+import { useI18n } from 'vue-i18n'
+import { useAlert } from '@/composables/alert'
+import { canOpenInBrowser, mimeFromExtension, openDocumentsInTabs, type DocumentTabsResult } from '@/composables/documentTabs'
 
-// Types a browser tab renders faithfully from the original bytes. HTML and SVG
-// are left out on purpose: a blob: URL runs with this app's origin, so opening
-// an uploaded page or SVG in a tab would run its scripts next to the session.
-const BROWSER_VIEWABLE_MIME = /^(application\/pdf|image\/(png|jpe?g|gif|webp|bmp)|text\/plain|audio\/|video\/)/i
-
-const BROWSER_VIEWABLE_EXTENSIONS = ['pdf', 'png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp', 'txt', 'mp3', 'wav', 'mp4', 'webm']
-
-// What the in-app viewer can draw, by extension. HTML and SVG are left out for
-// the same reason as above. Anything not listed gets a "no preview" message.
+// What the in-app viewer can draw, by extension. HTML and SVG are left out: a
+// blob: URL runs with this app's origin, so their scripts would run next to the
+// session. Anything not listed gets a "no preview" message.
 export type DocumentPreviewKind = 'pdf' | 'image' | 'text' | 'docx' | 'none'
 
 const PREVIEW_KINDS: Record<string, DocumentPreviewKind> = {
@@ -79,10 +76,17 @@ export function blobForPreview(blob: Blob, document: any, kind: DocumentPreviewK
     const type = kind === 'pdf'
         ? 'application/pdf'
         : kind === 'image'
-            ? (MIME_BY_EXTENSION[documentExtension(document)] ?? blob.type)
+            ? imageMime(document, blob)
             : 'text/plain'
 
     return blob.type === type ? blob : new Blob([blob], { type })
+}
+
+// The image type its extension names, or the server's when it names none.
+function imageMime(document: any, blob: Blob): string {
+    const type = mimeFromExtension('.' + documentExtension(document))
+
+    return type === 'application/octet-stream' ? blob.type : type
 }
 
 export function canPreviewInApp(document: any): boolean {
@@ -93,17 +97,8 @@ export function canPreviewInApp(document: any): boolean {
 // saving it to disk (file-saver's saveAs). The object URL is revoked after a
 // short delay so the tab has time to load it before the memory is freed.
 export function documentBlobViewer() {
-    function canOpenInBrowser(blob: Blob, fileName = ''): boolean {
-        if (blob?.type && BROWSER_VIEWABLE_MIME.test(blob.type)) {
-            return true
-        }
-
-        // An empty or generic type says nothing either way; fall back to the name.
-        const genericType = !blob?.type || blob.type === 'application/octet-stream'
-        const extension = fileName.includes('.') ? (fileName.split('.').pop() || '').toLowerCase() : ''
-
-        return genericType && BROWSER_VIEWABLE_EXTENSIONS.includes(extension)
-    }
+    const { t } = useI18n()
+    const { warningAlert, errorAlert } = useAlert()
 
     function openBlobInNewTab(blob: Blob): boolean {
         const url = URL.createObjectURL(blob)
@@ -143,30 +138,33 @@ export function documentBlobViewer() {
         return 'saved'
     }
 
+    /**
+     * Opens documents in tabs of their own, saving the formats a browser cannot
+     * show. Call it straight from the click handler, without awaiting anything
+     * first, or the browser blocks the tabs as pop-ups.
+     */
+    async function openInTabs<T>(documents: T[], load: (document: T) => Promise<Blob | null | undefined>): Promise<DocumentTabsResult> {
+        const result = await openDocumentsInTabs(documents, {
+            load,
+            fileName: (document) => documentFileName(document),
+            save: (blob, fileName) => saveAs(blob, fileName),
+            waitingText: t('documentTabs.waiting'),
+        })
+
+        if (result.blocked) {
+            warningAlert(t('documentTabs.blockedTitle'), t('documentTabs.blocked', { count: result.blocked }, result.blocked))
+        }
+        if (result.failed) {
+            errorAlert(t('documentTabs.failedTitle'), t('documentTabs.failed', { count: result.failed }, result.failed))
+        }
+
+        return result
+    }
+
     return {
         canOpenInBrowser,
         openBlobInNewTab,
         openOrSaveOriginal,
+        openInTabs,
     }
-}
-
-const MIME_BY_EXTENSION: Record<string, string> = {
-    pdf: 'application/pdf',
-    png: 'image/png',
-    jpg: 'image/jpeg',
-    jpeg: 'image/jpeg',
-    gif: 'image/gif',
-    webp: 'image/webp',
-    bmp: 'image/bmp',
-    txt: 'text/plain',
-    mp3: 'audio/mpeg',
-    wav: 'audio/wav',
-    mp4: 'video/mp4',
-    webm: 'video/webm',
-}
-
-function mimeFromExtension(fileName: string): string {
-    const extension = fileName.includes('.') ? (fileName.split('.').pop() || '').toLowerCase() : ''
-
-    return MIME_BY_EXTENSION[extension] || 'application/octet-stream'
 }
