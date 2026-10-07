@@ -1543,7 +1543,12 @@ function toggleDictation() {
 }
 
 watch(dictation.error, (problem) => {
-    if (problem) state.error = { message: t('citizens.citizenJournals.form.micError') } as any
+    if (!problem) return
+    state.error = {
+        message: problem === 'limit' || problem === 'budget'
+            ? t(`assistants.dictate.errors.${problem}`)
+            : t('citizens.citizenJournals.form.micError'),
+    } as any
 })
 
 // While this form is open the assistant may hand its answer straight into the
