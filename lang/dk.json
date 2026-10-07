@@ -5051,6 +5051,10 @@
             "employmentStatus": "Ansættelsesstatus",
             "tags": "Tags",
             "filterDate": "Filtrer dato",
+            "jobTitles": "Stillingsbetegnelser",
+            "sortBy": "Sortér efter",
+            "sortByJobTitle": "Stillingsbetegnelse",
+            "sortByName": "Navn",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",
             "timeTo": "Tid til"
@@ -5600,6 +5604,8 @@
         "showEmployeesWorkingToday": "Vis medarbejdere, der arbejder i dag",
         "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
         "sort": {
+            "firstShiftActive": "Sorteret efter hvem der møder først denne dag. Klik for at slå fra",
+            "sortByFirstShift": "Sortér efter hvem der møder først denne dag",
             "sortNamesInAscendingOrder": "Sorter navne i stigende rækkefølge",
             "sortNamesInDescendingOrder": "Sorter navne i faldende rækkefølge"
         },
@@ -10711,6 +10717,7 @@
                 "interventionNotificationHours": "Varslingstimer for indsats",
                 "employmentWeeklyHours": "Ugentlige arbejdstimer (fakturering for beskæftigelsesindsats)",
                 "employmentWeeklyHoursHint": "Bruges til at omregne timepriser til en ugentlig pris. Lad stå tomt for at bruge standarden på 37 timer/uge.",
+                "dutyScheduleSortFirstShift": "Sortér vagtplanen efter hvem der møder først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktivér afspadsering",
                 "lockPastSchedules": "Lås tidligere vagtplaner",

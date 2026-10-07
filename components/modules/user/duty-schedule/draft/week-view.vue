@@ -283,6 +283,9 @@
                                                 {{ day.date }}
                                             </span>
                                         </span>
+                                        <ModulesUserDutyScheduleDaySortButton
+                                            :active="activeFirstShiftDate === day.fullDate.format('YYYY-MM-DD')"
+                                            @toggle="toggleFirstShiftSort(day.fullDate.format('YYYY-MM-DD'))" />
                                         <div v-if="getSlotCount(day.longName) > 0"
                                             class="absolute top-2 left-24 text-xxs flex items-center justify-center w-5 h-5 bg-red-400 text-white rounded-full">
                                             {{
@@ -291,8 +294,11 @@
                                         </div>
                                     </Tooltip>
                                     <div v-for="day in weekDays" :key="day.date"
-                                        class="flex items-center justify-center py-4 border-0.5"
+                                        class="relative flex items-center justify-center py-4 border-0.5"
                                         v-if="!isAtLeast('Admin')">
+                                        <ModulesUserDutyScheduleDaySortButton
+                                            :active="activeFirstShiftDate === day.fullDate.format('YYYY-MM-DD')"
+                                            @toggle="toggleFirstShiftSort(day.fullDate.format('YYYY-MM-DD'))" />
                                         <span class="flex gap-x-1 text-sm">
                                             <span v-if="day.longName === 'Mon'">
                                                 {{ $t('calendar.week.short.Monday') }}
@@ -410,7 +416,7 @@
                                                         '-mt-1 ml-10'
                                                     ]">
                                                         <p class="text-xxs">
-                                                            {{ employee?.employee_detail?.job?.title }}
+                                                            {{ employeeJobTitles(employee) }}
                                                         </p>
                                                         <div class="text-xxs">
                                                             {{ $t('departments.departments') }}:
@@ -962,6 +968,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
+import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -1019,6 +1026,7 @@ const state = reactive({
         employment_status: [],
         employee_uuids: [],
         schedule_tag_uuids: [],
+        job_title_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1091,6 +1099,8 @@ const state = reactive({
     sortData: {
         sortField: 'firstname',
         sortOrder: 'ascend',
+        // undefined follows the company default, null is turned off, a date is the picked day
+        firstShiftDate: undefined as string | null | undefined,
     },
     isRemoveShift: false,
     isUpdateShift: false,
@@ -1331,8 +1341,14 @@ async function fetchDraftDutySchedule() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         } as any
+        if (activeFirstShiftDate.value) {
+            params.sort_by_first_shift_date = activeFirstShiftDate.value
+        }
         if (state.filter.department_uuids?.length > 0) {
             params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.job_title_uuids?.length > 0) {
+            params.job_title_uuids = Array(state.filter.job_title_uuids)
         }
         if (state.filter.employment_status) {
             params.employment_status = Array(state.filter.employment_status)
@@ -2012,8 +2028,24 @@ function setFilter(filter: any) {
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
     state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
+    state.filter.job_title_uuids = filter.job_title_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
+    state.sortData.sortField = filter.sort_by === 'job_title' ? 'job_title' : 'firstname'
+    fetchDraftDutySchedule()
+}
+
+// The day whose "who starts first" order is active in the visible week, if any.
+const activeFirstShiftDate = computed(() => resolveFirstShiftDate(
+    state.sortData.firstShiftDate,
+    moment(currentDate.value).startOf('isoWeek'),
+    moment(currentDate.value).endOf('isoWeek'),
+    userStore.getUser?.company,
+))
+
+function toggleFirstShiftSort(date: string) {
+    state.sortData.firstShiftDate = activeFirstShiftDate.value === date ? null : date
+    draftDutyScheduleStore.setCurrentPageNumber(1)
     fetchDraftDutySchedule()
 }
 

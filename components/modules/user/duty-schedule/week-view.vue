@@ -239,6 +239,9 @@
                                                 aria-hidden="true" />
                                         </button>
                                     </Tooltip>
+                                    <ModulesUserDutyScheduleDaySortButton
+                                        :active="activeFirstShiftDate === day.fullDate.format('YYYY-MM-DD')"
+                                        @toggle="toggleFirstShiftSort(day.fullDate.format('YYYY-MM-DD'))" />
                                     <div v-if="getSlotCount(day.longName) > 0"
                                         class="slot-badge absolute top-2 right-2 bg-primary font-bold shadow-sm">
                                         {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
@@ -296,6 +299,9 @@
                                                 aria-hidden="true" />
                                         </button>
                                     </Tooltip>
+                                    <ModulesUserDutyScheduleDaySortButton
+                                        :active="activeFirstShiftDate === day.fullDate.format('YYYY-MM-DD')"
+                                        @toggle="toggleFirstShiftSort(day.fullDate.format('YYYY-MM-DD'))" />
                                     <span v-if="getHolidayForDay(day.longName)"
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
@@ -491,7 +497,7 @@
                                                     '-mt-1 ml-[38px] sm:ml-14'
                                                 ]">
                                                     <p class="text-xxs">
-                                                        {{ employee?.employee_detail?.job?.title }}
+                                                        {{ employeeJobTitles(employee) }}
                                                     </p>
                                                     <div class="text-xxs">
                                                         {{ $t('departments.departments') }}:
@@ -1555,6 +1561,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
+import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -1670,6 +1677,7 @@ const state = reactive({
         employment_status: [],
         employee_uuids: [],
         schedule_tag_uuids: [],
+        job_title_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1767,6 +1775,8 @@ const state = reactive({
     sortData: {
         sortField: 'firstname',
         sortOrder: 'ascend',
+        // undefined follows the company default, null is turned off, a date is the picked day
+        firstShiftDate: undefined as string | null | undefined,
     },
     isUpdateShift: false,
     viewShift: {
@@ -1795,9 +1805,24 @@ const activeFilterCount = computed(() => {
     if (f.department_uuids?.length) n++
     if (f.employment_status?.length) n++
     if (f.employee_uuids?.length) n++
+    if (f.job_title_uuids?.length) n++
     if (f.time_from && f.time_to) n++
     return n
 })
+
+// The day whose "who starts first" order is active in the visible week, if any.
+const activeFirstShiftDate = computed(() => resolveFirstShiftDate(
+    state.sortData.firstShiftDate,
+    moment(currentDate.value).startOf('isoWeek'),
+    moment(currentDate.value).endOf('isoWeek'),
+    userStore.getUser?.company,
+))
+
+function toggleFirstShiftSort(date: string) {
+    state.sortData.firstShiftDate = activeFirstShiftDate.value === date ? null : date
+    dutyScheduleStore.setCurrentPageNumber(1)
+    fetchDutySchedule()
+}
 
 const hasCreatePermission = computed(() => {
     return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'create_schedule')
@@ -2132,8 +2157,14 @@ async function fetchDutySchedule() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         } as any
+        if (activeFirstShiftDate.value) {
+            params.sort_by_first_shift_date = activeFirstShiftDate.value
+        }
         if (state.filter.department_uuids?.length > 0) {
             params.department_uuids = Array(state.filter.department_uuids)
+        }
+        if (state.filter.job_title_uuids?.length > 0) {
+            params.job_title_uuids = Array(state.filter.job_title_uuids)
         }
         if (state.filter.employment_status) {
             params.employment_status = Array(state.filter.employment_status)
@@ -2191,8 +2222,10 @@ function setFilter(filter: any) {
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
     state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
+    state.filter.job_title_uuids = filter.job_title_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
+    state.sortData.sortField = filter.sort_by === 'job_title' ? 'job_title' : 'firstname'
     emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }
