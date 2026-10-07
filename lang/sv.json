@@ -7121,6 +7121,10 @@
             "inactive": "Inaktiv"
         },
         "emptyFiltered": "Inga medarbetare matchar filtren.",
+        "seesNoCitizens": {
+            "badge": "Ser inga @:terms.citizens{''}",
+            "warning": "Ser inga @:terms.citizens{''}: är inte med i någon avdelning, är inte kontaktperson för någon @:terms.citizen{''} och är inte med i någon medarbetargrupp. Lägg till en avdelning eller tilldela @:terms.citizens{''}."
+        },
         "bulkEdit": {
             "action": "Redigera valda",
             "addToCurrent": "Lägg till de nuvarande",
