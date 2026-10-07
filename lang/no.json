@@ -5480,6 +5480,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Vaktplan",
+            "embed": {
+                "absent": "Fraværende",
+                "codeCopied": "Kopiert",
+                "copyCode": "Kopier kode",
+                "description": "Vis vaktplanen på deres egen nettside, for eksempel intranettet. Alle som kan se siden, kan se vaktplanen uten passord. Den viser navn, stillinger og vakttider. Notater, borgere og årsaken til fravær vises aldri.",
+                "disable": "Slå av innbygging",
+                "disableHelp": "Vaktplanen forsvinner fra alle nettsider den er bygget inn på. Slår du den på igjen, får du en ny kode.",
+                "disabled": "Innbygging slått av",
+                "embed": "Bygg inn",
+                "embedCode": "Innbyggingskode",
+                "embedCodeHelp": "Lim inn koden på nettsiden der vaktplanen skal vises.",
+                "embedded": "Innebygd",
+                "enable": "Slå på innbygging",
+                "enabled": "Innbygging slått på",
+                "nextWeek": "Neste uke",
+                "noShifts": "Ingen vakter denne uken",
+                "openPreview": "Åpne forhåndsvisning",
+                "previousWeek": "Forrige uke",
+                "title": "Bygg inn på nettside",
+                "unavailable": "Vaktplanen er ikke tilgjengelig.",
+                "unavailableHelp": "Det kan skyldes at:",
+                "unavailableReasonOff": "innbyggingen er slått av",
+                "unavailableReasonNewCode": "vaktplanen har fått en ny innbyggingskode som ennå ikke er lagt inn på denne siden",
+                "unavailableReasonExpired": "den delte lenken har utløpt eller er slettet",
+                "unavailableContact": "Kontakt den som har ansvaret for vaktplanen."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Vaktplan ble delt vellykket",
