@@ -89,11 +89,13 @@ import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { patientMessageService as messageService } from '@/components/api/patient/MessageService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 const breadcrumbLinks = [
     {
         name: 'messages.messages',
@@ -185,6 +187,7 @@ async function fetchChats() {
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!(await confirmChatText(state.formChat.subject, state.formChat.message))) return
         state.isPageLoading = true
         try {
             const receivers = userStore.getUser?.company?.group_chat_enabled ?

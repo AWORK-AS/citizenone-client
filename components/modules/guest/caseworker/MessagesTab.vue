@@ -160,10 +160,12 @@ att, ai
 import type { PropType } from "vue";
 import { caseworkerService } from "@/components/api/guest/CaseworkerService";
 import { useI18n } from "vue-i18n";
+import { useChatCprWarning } from "@/composables/chatCprWarning";
 
 defineOptions({ name: "ModulesGuestCaseworkerMessagesTab" });
 
 const { t } = useI18n();
+const { confirmChatText } = useChatCprWarning();
 
 const props = defineProps({
     messages: {
@@ -259,6 +261,7 @@ async function downloadAttachment(attachment: any) {
 
 async function sendMessage() {
     if (!messageText.value.trim() && !selectedFiles.value.length) return;
+    if (!(await confirmChatText(messageText.value))) return;
 
     try {
         if (selectedFiles.value.length) {
