@@ -16808,17 +16808,80 @@
         "sent": "Sendt",
         "answered": "Besvart",
         "withdraw": "Trekk tilbake",
-        "withdrawConfirm": "Skjemaet fjernes fra pasientportalen. Er du sikker?",
+        "withdrawConfirm": "Skjemaet trekkes tilbake, og pasienten kan ikke lenger besvare det. Er du sikker?",
         "withdrawnAlert": "Skjemaet er trukket tilbake",
         "journalNotice": "Svarene legges automatisk i pasientens journal.",
         "status": {
             "answered": "Besvart",
-            "waiting": "Venter på svar"
+            "waiting": "Venter på svar",
+            "opened": "Åpnet",
+            "expired": "Lenken har utløpt"
         },
         "empty": {
             "title": "Ingen skjemaer sendt ennå",
             "text": "Send et skjema som pasienten fyller ut hjemmefra. Svarene havner i journalen."
-        }
+        },
+        "sendBy": "Send via",
+        "delivery": {
+            "portal": "Pasientportal",
+            "email": "E-post",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "Pasienten får en lenke og åpner skjemaet med fødselsdatoen sin. Lenken er gyldig i 14 dager. Svarene legges i journalen og lagres som PDF i dokumentene.",
+        "email": "E-postadresse",
+        "phone": "Telefonnummer",
+        "birthdayMissing": "Pasienten har ingen fødselsdato registrert. Legg den til i pasientens opplysninger før du sender en lenke: pasienten bruker den til å åpne skjemaet.",
+        "sentAlertLink": "Lenken ble sendt til pasienten",
+        "resend": "Send lenke på nytt",
+        "resentAlert": "En ny lenke ble sendt. Den gamle lenken virker ikke lenger.",
+        "expires": "Lenken utløper",
+        "openDocuments": "Se PDF i dokumenter",
+        "consentTemplate": {
+            "create": "Ingen samtykkeerklæring ennå? Opprett en fra malen vår",
+            "created": "Samtykkeerklæringen ble opprettet. Du kan redigere den under Skjemaer.",
+            "title": "Samtykkeerklæring",
+            "description": "Fylles ut før timen din",
+            "fields": {
+                "intro": "Fyll ut skjemaet før timen din. Svarene dine deles bare med klinikken.",
+                "aboutYou": "Om deg",
+                "fullName": "Fullt navn",
+                "birthday": "Fødselsdato",
+                "phone": "Telefonnummer",
+                "treatment": "Behandlingen",
+                "treatmentDescription": "Behandling og plassering på kroppen",
+                "appointmentDate": "Dato for timen",
+                "health": "Helsen din",
+                "adult": "Er du 18 år eller eldre?",
+                "conditions": "Gjelder noe av dette deg?",
+                "conditionsDetails": "Hvis du har krysset av ovenfor eller bruker medisiner, fortell oss mer",
+                "consent": "Samtykke",
+                "risks": "Behandlingen er permanent. Som ved all behandling som bryter huden, er det risiko for infeksjon, allergisk reaksjon og arr. Hvordan resultatet ser ut og holder seg, avhenger av huden din og av hvordan du steller området etterpå.",
+                "confirmRisks": "Informasjon og risiko",
+                "confirmAftercare": "Etterbehandling",
+                "confirmTruthful": "Helsespørsmål",
+                "photos": "Kan vi ta bilder av resultatet til porteføljen vår og sosiale medier?",
+                "signature": "Signatur: skriv fullt navn"
+            },
+            "options": {
+                "yes": "Ja",
+                "no": "Nei",
+                "allergies": "Allergi (for eksempel lateks, nikkel, fargepigmenter eller bedøvelse)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsi",
+                "heart": "Hjertesykdom eller høyt blodtrykk",
+                "bloodThinners": "Blodfortynnende medisiner",
+                "skin": "Hudsykdom eller irritasjon der behandlingen skal være",
+                "pregnant": "Gravid eller ammende",
+                "alcohol": "Alkohol eller rusmidler de siste 24 timene",
+                "understoodRisks": "Jeg har lest og forstått informasjonen om behandlingen og risikoen",
+                "understoodAftercare": "Jeg har fått vite hvordan jeg skal stelle området etterpå",
+                "truthful": "Jeg har svart sannferdig på helsespørsmålene, og jeg samtykker til behandlingen"
+            }
+        },
+        "viewAnswers": "Se svar",
+        "ipAddress": "IP-adresse",
+        "sentVia": "Sendt via",
+        "portalUnavailable": "Pasientportalen kan ikke velges: pasienten har ikke tilgang til portalen. Slå på systemtilgang i pasientens opplysninger for å sende skjemaer dit."
     },
     "pageSettings": {
         "title": "Innstillinger for denne siden",
@@ -17535,5 +17598,42 @@
     "documentViewer": {
         "notViewableTitle": "Filen kan ikke åpnes",
         "notViewableText": "Denne filtypen kan ikke vises i nettleseren, og rollen din har ikke tilgang til å laste ned dokumenter."
+    },
+    "publicForm": {
+        "title": "Skjema",
+        "unlock": {
+            "heading": "{company} har sendt deg et skjema",
+            "intro": "For å beskytte opplysningene dine må du oppgi fødselsdatoen din for å åpne skjemaet.",
+            "birthday": "Fødselsdato",
+            "open": "Åpne skjemaet"
+        },
+        "fill": {
+            "notice": "Svarene dine sendes til {company} og lagres i journalen din der.",
+            "send": "Send"
+        },
+        "done": {
+            "title": "Takk",
+            "text": "Svarene dine er sendt til {company}. Du kan lukke siden."
+        },
+        "closed": {
+            "notFound": {
+                "title": "Lenken er ikke gyldig",
+                "text": "Sjekk at du åpnet hele lenken, eller kontakt klinikken for å få en ny."
+            },
+            "completed": {
+                "title": "Skjemaet er allerede besvart",
+                "text": "Takk. Det er ikke mer å gjøre."
+            },
+            "expired": {
+                "title": "Lenken har utløpt",
+                "text": "Kontakt klinikken for å få en ny lenke."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "Fødselsdatoen stemmer ikke. Sjekk den og prøv igjen.",
+            "locked": "For mange forsøk. Prøv igjen om 30 minutter.",
+            "required": "Svar på spørsmålene merket med *.",
+            "failed": "Noe gikk galt. Prøv igjen."
+        }
     }
 }

@@ -16899,17 +16899,80 @@
         "sent": "Sendt",
         "answered": "Besvaret",
         "withdraw": "Træk tilbage",
-        "withdrawConfirm": "Formularen fjernes fra patientens portal. Er du sikker?",
+        "withdrawConfirm": "Formularen trækkes tilbage, og patienten kan ikke længere besvare den. Er du sikker?",
         "withdrawnAlert": "Formularen er trukket tilbage",
         "journalNotice": "Besvarelser lægges automatisk i patientens journal.",
         "status": {
             "answered": "Besvaret",
-            "waiting": "Afventer svar"
+            "waiting": "Afventer svar",
+            "opened": "Åbnet",
+            "expired": "Linket er udløbet"
         },
         "empty": {
             "title": "Ingen formularer sendt endnu",
             "text": "Send en formular, som patienten udfylder hjemmefra. Besvarelsen lander i journalen."
-        }
+        },
+        "sendBy": "Send via",
+        "delivery": {
+            "portal": "Patientportal",
+            "email": "E-mail",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "Patienten får et link og åbner formularen med sin fødselsdato. Linket er gyldigt i 14 dage. Svarene lægges i journalen og gemmes som PDF i dokumenterne.",
+        "email": "E-mailadresse",
+        "phone": "Telefonnummer",
+        "birthdayMissing": "Patienten har ingen fødselsdato registreret. Tilføj den på patientens stamdata, før du sender et link: patienten bruger den til at åbne formularen.",
+        "sentAlertLink": "Linket blev sendt til patienten",
+        "resend": "Send link igen",
+        "resentAlert": "Et nyt link blev sendt. Det gamle link virker ikke længere.",
+        "expires": "Linket udløber",
+        "openDocuments": "Se PDF i dokumenter",
+        "consentTemplate": {
+            "create": "Ingen samtykkeerklæring endnu? Opret en ud fra vores skabelon",
+            "created": "Samtykkeerklæringen blev oprettet. Du kan redigere den under Formularer.",
+            "title": "Samtykkeerklæring",
+            "description": "Udfyldes før din tid",
+            "fields": {
+                "intro": "Udfyld venligst formularen før din tid. Dine svar deles kun med klinikken.",
+                "aboutYou": "Om dig",
+                "fullName": "Fulde navn",
+                "birthday": "Fødselsdato",
+                "phone": "Telefonnummer",
+                "treatment": "Behandlingen",
+                "treatmentDescription": "Behandling og placering på kroppen",
+                "appointmentDate": "Dato for din tid",
+                "health": "Dit helbred",
+                "adult": "Er du fyldt 18 år?",
+                "conditions": "Gælder noget af dette for dig?",
+                "conditionsDetails": "Hvis du har sat kryds ovenfor eller tager medicin, så fortæl os mere",
+                "consent": "Samtykke",
+                "risks": "Behandlingen er permanent. Som ved al behandling, der gennembryder huden, er der risiko for infektion, allergisk reaktion og ar. Hvordan resultatet ser ud og holder, afhænger af din hud og af, hvordan du passer på området bagefter.",
+                "confirmRisks": "Information og risici",
+                "confirmAftercare": "Efterbehandling",
+                "confirmTruthful": "Helbredsspørgsmål",
+                "photos": "Må vi tage billeder af resultatet til vores portfolio og sociale medier?",
+                "signature": "Underskrift: skriv dit fulde navn"
+            },
+            "options": {
+                "yes": "Ja",
+                "no": "Nej",
+                "allergies": "Allergi (for eksempel latex, nikkel, farvepigmenter eller bedøvelse)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsi",
+                "heart": "Hjertesygdom eller forhøjet blodtryk",
+                "bloodThinners": "Blodfortyndende medicin",
+                "skin": "Hudsygdom eller irritation der, hvor behandlingen skal være",
+                "pregnant": "Gravid eller ammende",
+                "alcohol": "Alkohol eller stoffer inden for de seneste 24 timer",
+                "understoodRisks": "Jeg har læst og forstået informationen om behandlingen og dens risici",
+                "understoodAftercare": "Jeg er blevet informeret om, hvordan jeg passer på området bagefter",
+                "truthful": "Jeg har besvaret helbredsspørgsmålene sandfærdigt, og jeg giver samtykke til behandlingen"
+            }
+        },
+        "viewAnswers": "Se svar",
+        "ipAddress": "IP-adresse",
+        "sentVia": "Sendt via",
+        "portalUnavailable": "Patientportalen kan ikke vælges: patienten har ikke adgang til portalen. Slå systemadgang til i patientens stamdata for at sende formularer dertil."
     },
     "pageSettings": {
         "title": "Indstillinger for denne side",
@@ -17626,5 +17689,42 @@
     "documentViewer": {
         "notViewableTitle": "Filen kan ikke åbnes",
         "notViewableText": "Denne filtype kan ikke vises i browseren, og din rolle må ikke downloade dokumenter."
+    },
+    "publicForm": {
+        "title": "Formular",
+        "unlock": {
+            "heading": "{company} har sendt dig en formular",
+            "intro": "For at beskytte dine oplysninger skal du angive din fødselsdato for at åbne formularen.",
+            "birthday": "Fødselsdato",
+            "open": "Åbn formularen"
+        },
+        "fill": {
+            "notice": "Dine svar sendes til {company} og gemmes i din journal der.",
+            "send": "Send"
+        },
+        "done": {
+            "title": "Tak",
+            "text": "Dine svar er sendt til {company}. Du kan lukke siden."
+        },
+        "closed": {
+            "notFound": {
+                "title": "Linket er ikke gyldigt",
+                "text": "Tjek, at du har åbnet hele linket, eller kontakt klinikken for at få et nyt."
+            },
+            "completed": {
+                "title": "Formularen er allerede besvaret",
+                "text": "Tak. Der er ikke mere at gøre."
+            },
+            "expired": {
+                "title": "Linket er udløbet",
+                "text": "Kontakt klinikken for at få et nyt link."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "Fødselsdatoen passer ikke. Tjek den, og prøv igen.",
+            "locked": "For mange forsøg. Prøv igen om 30 minutter.",
+            "required": "Besvar spørgsmålene markeret med *.",
+            "failed": "Noget gik galt. Prøv igen."
+        }
     }
 }

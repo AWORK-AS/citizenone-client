@@ -41,6 +41,11 @@ class FormService extends BaseAPIService {
     async withdrawFormAssignment(uuid: string): Promise<any> {
         return await this.request(`/user/form-assignments/${uuid}`, 'DELETE')
     }
+
+    // A new link for a form sent by email or SMS; the old link stops working.
+    async resendFormLink(uuid: string, params: object = {}): Promise<any> {
+        return await this.request(`/user/form-assignments/${uuid}/resend`, 'POST', params)
+    }
 }
 
 export const formService = new FormService()
