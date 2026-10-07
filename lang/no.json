@@ -7121,6 +7121,10 @@
             "inactive": "Inaktiv"
         },
         "emptyFiltered": "Ingen medarbeidere passer med filtrene.",
+        "seesNoCitizens": {
+            "badge": "Ser ingen @:terms.citizens{''}",
+            "warning": "Ser ingen @:terms.citizens{''}: er ikke i en avdeling, er ikke kontaktperson for noen @:terms.citizen{''} og er ikke i en medarbeidergruppe. Legg til en avdeling eller tildel @:terms.citizens{''}."
+        },
         "bulkEdit": {
             "action": "Rediger valgte",
             "addToCurrent": "Legg til de nåværende",

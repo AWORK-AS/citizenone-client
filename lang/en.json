@@ -7121,6 +7121,10 @@
             "inactive": "Inactive"
         },
         "emptyFiltered": "No employees match the filters.",
+        "seesNoCitizens": {
+            "badge": "Sees no @:terms.citizens{''}",
+            "warning": "Sees no @:terms.citizens{''}: not in a department, not a contact person for any @:terms.citizen{''}, and not in an employee group. Add a department or assign @:terms.citizens{''}."
+        },
         "bulkEdit": {
             "action": "Edit selected",
             "addToCurrent": "Add to the current ones",
