@@ -1613,6 +1613,10 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "notFoundOrNoAccess": {
+            "title": "@.capitalize:terms.citizen{''} not found",
+            "message": "This @:terms.citizen{''} doesn't exist, or you don't have access to them."
+        },
         "developmentGraph": {
             "title": "Development Graph",
             "absence": "Absence",
@@ -7121,6 +7125,10 @@
             "inactive": "Inactive"
         },
         "emptyFiltered": "No employees match the filters.",
+        "seesNoCitizens": {
+            "badge": "Sees no @:terms.citizens{''}",
+            "warning": "Sees no @:terms.citizens{''}: not in a department, not a contact person for any @:terms.citizen{''}, and not in an employee group. Add a department or assign @:terms.citizens{''}."
+        },
         "bulkEdit": {
             "action": "Edit selected",
             "addToCurrent": "Add to the current ones",
@@ -8870,6 +8878,12 @@
         }
     },
     "messages": {
+        "cprWarning": {
+            "title": "Check before sending",
+            "message": "This message seems to contain a CPR number. Chat isn't meant for sensitive personal data.",
+            "editMessage": "Edit message",
+            "sendAnyway": "Send anyway"
+        },
         "actions": {
             "delete": "Delete",
             "edit": "Edit",

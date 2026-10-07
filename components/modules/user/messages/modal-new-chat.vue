@@ -91,6 +91,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import type { Error } from '@/types'
 import { userService } from '@/components/api/user/UserService'
 import { useDepartmentStore } from '@/store/department'
@@ -104,6 +105,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close', 'chatCreated'])
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const router = useRouter()
@@ -259,6 +261,7 @@ async function fetchEmployeeGroups() {
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!(await confirmChatText(state.formChat.subject, state.formChat.message))) return
         state.isSending = true
         try {
             const receivers = userStore.getUser?.company?.group_chat_enabled ?

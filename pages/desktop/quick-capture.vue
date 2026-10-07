@@ -74,10 +74,12 @@ import { journalService } from '@/components/api/user/JournalService'
 import { messageService } from '@/components/api/user/MessageService'
 import { useDepartmentStore } from '@/store/department'
 import { useI18n } from 'vue-i18n'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 
 definePageMeta({ layout: false })
 
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 const departmentStore = useDepartmentStore()
 const tab = ref<'note' | 'message'>('note')
 const citizenOptions = ref<any[]>([])
@@ -114,6 +116,7 @@ async function save() {
                 error.value = t('desktopQuickCapture.missingMessageFields')
                 return
             }
+            if (!(await confirmChatText(message.subject || note.title, message.body))) return
             await messageService.sendMessageViaReceiverUuid({
                 subject: message.subject || note.title,
                 message: message.body,

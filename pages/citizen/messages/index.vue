@@ -86,6 +86,7 @@ import { required, helpers } from '@vuelidate/validators'
 import { messageService } from '@/components/api/citizen/MessageService'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -93,6 +94,7 @@ const router = useRouter()
 const userStore = useUserStore() as any
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 const breadcrumbLinks = [
     {
         name: 'messages.messages',
@@ -178,6 +180,7 @@ async function fetchChats() {
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!(await confirmChatText(state.formChat.subject, state.formChat.message))) return
         state.isPageLoading = true
         try {
             const params = {

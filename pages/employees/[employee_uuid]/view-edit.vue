@@ -27,6 +27,8 @@
                     </div>
                     <Alert type="danger" :text="state.archiveError?.message" class="mb-3"
                         v-if="state.archiveError?.message && state.archiveError.message.length > 0" />
+                    <Alert type="warning" :text="$t('employees.seesNoCitizens.warning')" class="mb-3"
+                        v-if="state.seesNoCitizens" />
                     <ModulesUserEmployeeForm formType="update" :selectedEmployee="state.formEmployee"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateEmployee" />
@@ -121,6 +123,7 @@ const state = reactive({
         },
     } as EmployeeForm,
     isPageLoading: false,
+    seesNoCitizens: false,
     modal: {
         isArchiveEmployeeOpen: false,
     },
@@ -136,6 +139,7 @@ async function fetchEmployee() {
     try {
         const response = await employeeService.getEmployee(employeeUuid)
         if (response) {
+            state.seesNoCitizens = response?.data?.sees_no_citizens ?? false
             state.formEmployee = {
                 profile_image: response?.data?.profile_image ?? '',
                 firstname: response?.data?.firstname ?? '',

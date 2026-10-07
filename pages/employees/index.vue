@@ -142,6 +142,12 @@
                                             <span>
                                                 {{ employee?.firstname }} {{ employee?.lastname }}
                                             </span>
+                                            <Tooltip v-if="employee?.sees_no_citizens" :text="$t('employees.seesNoCitizens.warning')" wrap>
+                                                <Badge type="pending" class="flex items-center gap-1 whitespace-nowrap">
+                                                    <Icon name="ph:warning" class="size-3" />
+                                                    {{ $t('employees.seesNoCitizens.badge') }}
+                                                </Badge>
+                                            </Tooltip>
                                         </div>
                                     </td>
                                     <td width="20%">

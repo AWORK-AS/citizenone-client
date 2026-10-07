@@ -241,6 +241,7 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import pusher from '@/services/pusher'
 import { messageService } from '@/components/api/citizen/MessageService'
 import { useUserStore } from '@/store/user'
@@ -249,6 +250,7 @@ import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatDateTimeToReadable } = useDatetimeFormatter()
+const { confirmChatText } = useChatCprWarning()
 const userStore = useUserStore() as any
 const router = useRouter()
 const chatUuid = router?.currentRoute?.value?.params?.chat_uuid
@@ -380,6 +382,7 @@ async function readChat() {
 
 async function sendMessage() {
     if (state.message !== '') {
+        if (!(await confirmChatText(state.message))) return
         state.isChatHistoryDividerLoading = true
         try {
             const params = {

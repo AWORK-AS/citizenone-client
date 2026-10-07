@@ -390,6 +390,9 @@ class BaseAPIService {
                             : { ...error.response._data, errorId: BaseAPIService.errorIdOf(error) }
                     )
                 case 404:
+                    // With the status, a page can tell "not found or no access"
+                    // (e.g. a citizen opened by link) from a failed request.
+                    throw new APIError({ ...error.response._data, status: 404 })
                 case 422:
                     throw new APIError(error.response._data)
                 case 429:

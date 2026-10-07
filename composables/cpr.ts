@@ -52,5 +52,21 @@ export function useDanishCpr() {
         }
     }
 
-    return { parse }
+    /**
+     * True when free text holds something that reads as a full CPR number:
+     * DDMMYY-SSSS, DDMMYYSSSS or DDMMYY SSSS with a date that exists, and not
+     * part of a longer run of digits. No modulus-11 check - numbers issued
+     * since 2007 do not always pass it.
+     */
+    function containsCpr(text?: string | null): boolean {
+        if (!text) return false
+
+        for (const match of text.matchAll(/(^|\D)(\d{6})[- ]?(\d{4})(?!\d)/g)) {
+            if (parse(match[2] + match[3])) return true
+        }
+
+        return false
+    }
+
+    return { parse, containsCpr }
 }

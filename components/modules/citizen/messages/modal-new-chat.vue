@@ -57,6 +57,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -73,6 +74,7 @@ const props = defineProps({
 const messageService = props.portal === 'patient' ? patientMessageService : citizenMessageService
 const emit = defineEmits(['close'])
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 const userStore = useUserStore() as any
 const router = useRouter()
 const userUuid = router?.currentRoute?.value?.query?.user_uuid
@@ -150,6 +152,7 @@ async function fetchAllAvailableChatUsers() {
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!(await confirmChatText(state.formChat.subject, state.formChat.message))) return
         state.isPageLoading = true
         try {
             const receivers = userStore.getUser?.company?.group_chat_enabled ?
