@@ -28,6 +28,8 @@ import {
     addOnCoversFromAfterDueOn,
     groupSubscriptions,
     subscriptionAgreementView,
+    renewalTermMonths,
+    renewalSummary,
     groupSelection,
     toggleGroupLinks,
     setGroupsLinked,
@@ -655,5 +657,52 @@ describe('subscription card: agreement blocks', () => {
         })
         assert.equal(view.agreement, null)
         assert.deepEqual(view.runningAgreements, [{ uuid: 'r1', name: 'Rammeaftale', starts_on: '2026-01-01', ends_on: '2027-12-31' }])
+    })
+})
+
+describe('renewal period and invoicing', () => {
+    const form = (extra) => ({
+        name: 'x', starts_on: '2026-07-12', term_months: 48, term_mode: 'months', ends_on: '',
+        renewal_annual_value: '', notice_months: 3, auto_renews: true, billing_plan: 'yearly',
+        prepaid_years: null, contract_value: 1000, fee_per_invoice: 0, payment_method: 'invoice',
+        internal_note: '', settled_externally_before: '', settled_note: '',
+        preset: { upfront_percent: 0, remaining_count: 0, remaining_interval_months: 12 },
+        installments: [], installmentsEdited: false, ...extra,
+    })
+
+    test('the payload carries renewal_term_months and renewal_billing', () => {
+        const p = buildAgreementPayload(form({ renewal_term_months: 36, renewal_billing: 'upfront' }))
+        assert.equal(p.renewal_term_months, 36)
+        assert.equal(p.renewal_billing, 'upfront')
+    })
+
+    test('empty fields are sent as null (12 months, follows the payment plan)', () => {
+        const p = buildAgreementPayload(form({ renewal_term_months: '', renewal_billing: '' }))
+        assert.equal(p.renewal_term_months, null)
+        assert.equal(p.renewal_billing, null)
+        const old = buildAgreementPayload(form({}))
+        assert.equal(old.renewal_term_months, null)
+        assert.equal(old.renewal_billing, null)
+    })
+
+    test('term strings are parsed and nonsense becomes null', () => {
+        assert.equal(renewalTermMonths('48'), 48)
+        for (const bad of ['', null, undefined, 0, -12, 1.5, 'abc']) assert.equal(renewalTermMonths(bad), null)
+    })
+
+    test('summary defaults to 12 months and the payment plan', () => {
+        assert.deepEqual(renewalSummary({}), { months: 12, billing: 'plan' })
+        assert.deepEqual(renewalSummary({ renewal_term_months: 36, renewal_billing: 'upfront' }), { months: 36, billing: 'upfront' })
+    })
+
+    test('the subscription card reads the renewal fields', () => {
+        const view = subscriptionAgreementView({ agreement: {
+            uuid: 'a', name: 'X', renewal_term_months: 36, renewal_billing: 'yearly', estimated_renewal_period_value: '20844',
+        } })
+        assert.equal(view.agreement.renewal_term_months, 36)
+        assert.equal(view.agreement.renewal_billing, 'yearly')
+        assert.equal(view.agreement.estimated_renewal_period_value, 20844)
+        const bad = subscriptionAgreementView({ agreement: { uuid: 'a', name: 'X', renewal_billing: 'weekly' } })
+        assert.equal(bad.agreement.renewal_billing, null)
     })
 })

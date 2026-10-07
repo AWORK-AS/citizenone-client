@@ -13557,6 +13557,7 @@
                 "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
                 "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
                 "renewalValue": "Tomt = beräknas utifrån gällande listpris för de kopplade licenserna vid förnyelsetillfället. Ett ifyllt värde är ett fast pris som ersätter listpriset vid kommande förnyelser.",
+                "renewalTerm": "När bindningen löper ut förnyas avtalet för denna period till gällande listpris. T.ex. 36 mån. samlat = en faktura för 3 år på förnyelsedagen.",
                 "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
                 "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
             },
@@ -13604,6 +13605,9 @@
                 "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275",
                 "renewalValue": "Årligt värde vid förnyelse",
                 "renewalValuePlaceholder": "Listpris",
+                "renewalTerm": "Förnyelseperiod (månader)",
+                "renewalBilling": "Faktureras vid förnyelse",
+                "renewalTermQuickHelp": "Sätt förnyelseperioden till {months} månader.",
                 "endsOn": "Slutdatum",
                 "modeMonths": "Bindning i månader",
                 "modeEndDate": "Slutdatum",
@@ -13766,6 +13770,10 @@
             "renewal": {
                 "expected": "Förväntad förnyelse: {amount} kr/år",
                 "expectedHelp": "När en ny period startar faktureras de listpriser som gäller vid den tidpunkten. Beloppet här är en uppskattning utifrån nuvarande priser och kan ändras om priserna ändras innan dess.",
+                "renewsFor": "Förnyas för {term} mån. · {billing}",
+                "periodExpected": "Förväntat för perioden: {amount} kr.",
+                "periodExpectedHelp": "Uppskattat belopp för hela förnyelseperioden till dagens listpriser. Kan ändras om priserna ändras före dess.",
+                "billing": {"upfront": "Samlat vid förnyelse", "yearly": "Årligen", "monthly": "Månadsvis", "plan": "Som betalningsplanen"},
                 "sources": {
                     "list_price": "Listpris",
                     "override": "Fast pris",

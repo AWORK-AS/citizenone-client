@@ -44,6 +44,12 @@
                             :autoRenews="state.agreement.auto_renews" />
                     </div>
 
+                    <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap class="!block">
+                        <p class="text-[13px] text-[#1F2533]">
+                            {{ $t('superadmin.agreements.renewal.renewsFor', { term: renewalInfo.months, billing: $t(`superadmin.agreements.renewal.billing.${renewalInfo.billing}`) }) }}
+                        </p>
+                    </Tooltip>
+
                     <div v-if="state.agreement.estimated_renewal_annual_value != null"
                         class="flex flex-wrap items-center gap-2 text-[13px] text-[#1F2533]">
                         <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>
@@ -60,6 +66,10 @@
                             <span class="co-badge" :class="state.agreement.renewal_value_source === 'fallback' ? 'co-badge-gray' : 'co-badge-navy'">
                                 {{ $t(`superadmin.agreements.renewal.sources.${state.agreement.renewal_value_source}`) }}
                             </span>
+                        </Tooltip>
+                        <Tooltip v-if="state.agreement.estimated_renewal_period_value != null"
+                            :text="$t('superadmin.agreements.renewal.periodExpectedHelp')" position="top" wrap>
+                            <span>{{ $t('superadmin.agreements.renewal.periodExpected', { amount: formatNumber(state.agreement.estimated_renewal_period_value) }) }}</span>
                         </Tooltip>
                     </div>
 
@@ -376,7 +386,7 @@ import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import {
-    groupSelection, groupSubscriptions, isCancellationRemainder, isEconomicSyncedPayment, setGroupsLinked,
+    groupSelection, groupSubscriptions, isCancellationRemainder, isEconomicSyncedPayment, renewalSummary, setGroupsLinked,
     toggleGroupLinks, unwrapData,
 } from '@/composables/agreements'
 import type { Agreement, LinkableSubscription } from '@/types/agreement'
@@ -406,6 +416,8 @@ const state = reactive({
     linkTarget: null as any,
     isCoverOpen: false,
 })
+
+const renewalInfo = computed(() => renewalSummary(state.agreement ?? {}))
 
 const cards = computed(() => {
     const a = state.agreement

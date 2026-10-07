@@ -111,6 +111,43 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-1">
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalTerm')" />
+                                    <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                            :aria-label="$t('superadmin.agreements.help.renewalTerm')" />
+                                    </Tooltip>
+                                </div>
+                                <input class="co-input" type="number" min="1" step="1" v-model="form.renewal_term_months"
+                                    placeholder="12" />
+                                <div class="flex items-center gap-1.5 mt-1.5">
+                                    <Tooltip v-for="months in [12, 36, 48]" :key="months"
+                                        :text="$t('superadmin.agreements.form.renewalTermQuickHelp', { months })"
+                                        position="top" wrap>
+                                        <button type="button" class="co-badge co-badge-gray cursor-pointer"
+                                            :class="Number(form.renewal_term_months) === months ? 'co-badge-navy' : ''"
+                                            @click="form.renewal_term_months = months">
+                                            {{ months }}
+                                        </button>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalBilling')" />
+                                    <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                            :aria-label="$t('superadmin.agreements.help.renewalTerm')" />
+                                    </Tooltip>
+                                </div>
+                                <SuperadminFormSelectField v-model="form.renewal_billing">
+                                    <option value="upfront">{{ $t('superadmin.agreements.renewal.billing.upfront') }}</option>
+                                    <option value="yearly">{{ $t('superadmin.agreements.renewal.billing.yearly') }}</option>
+                                    <option value="monthly">{{ $t('superadmin.agreements.renewal.billing.monthly') }}</option>
+                                    <option value="">{{ $t('superadmin.agreements.renewal.billing.plan') }}</option>
+                                </SuperadminFormSelectField>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.feePerInvoice')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.feePerInvoice')" position="top" wrap>
                                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
@@ -532,6 +569,8 @@ function blankForm(): AgreementFormState & { installments: Row[] } {
         term_mode: 'months',
         ends_on: '',
         renewal_annual_value: '',
+        renewal_term_months: '',
+        renewal_billing: '',
         notice_months: 3,
         auto_renews: true,
         billing_plan: 'yearly',
@@ -582,6 +621,8 @@ function resetFromProps() {
         starts_on: a.starts_on,
         term_months: a.term_months,
         renewal_annual_value: a.renewal_annual_value ?? '',
+        renewal_term_months: a.renewal_term_months ?? '',
+        renewal_billing: a.renewal_billing ?? '',
         notice_months: a.notice_months,
         auto_renews: a.auto_renews,
         billing_plan: a.billing_plan,

@@ -229,6 +229,23 @@ function setLinks(uuids: string[], linked: string[], on: boolean): string[] {
     return linked.filter((uuid) => !drop.has(uuid))
 }
 
+/** The renewal period field: empty or invalid is null (the backend reads null as 12). */
+export function renewalTermMonths(value: unknown): number | null {
+    const n = toNumberOrNull(value)
+    return n !== null && Number.isInteger(n) && n > 0 ? n : null
+}
+
+/** Months and invoicing of a renewal as the screens show them; null months means 12. */
+export function renewalSummary(agreement: {
+    renewal_term_months?: number | null
+    renewal_billing?: 'upfront' | 'yearly' | 'monthly' | null
+}): { months: number; billing: 'upfront' | 'yearly' | 'monthly' | 'plan' } {
+    return {
+        months: renewalTermMonths(agreement.renewal_term_months) ?? 12,
+        billing: agreement.renewal_billing ?? 'plan',
+    }
+}
+
 export interface AgreementFormState {
     name: string
     starts_on: string
@@ -237,6 +254,10 @@ export interface AgreementFormState {
     term_mode: 'months' | 'end_date'
     ends_on: string
     renewal_annual_value: number | string
+    /** '' = 12 (the backend default). */
+    renewal_term_months?: number | string
+    /** '' = follow the payment plan. */
+    renewal_billing?: '' | 'upfront' | 'yearly' | 'monthly'
     notice_months: number | string
     auto_renews: boolean
     billing_plan: AgreementPayload['billing_plan']
@@ -277,6 +298,8 @@ export function buildAgreementPayload(form: AgreementFormState): AgreementPayloa
         renewal_annual_value: form.renewal_annual_value === '' || form.renewal_annual_value === null
             ? null
             : Number(form.renewal_annual_value),
+        renewal_term_months: renewalTermMonths(form.renewal_term_months),
+        renewal_billing: form.renewal_billing ? form.renewal_billing : null,
         fee_per_invoice: Number(form.fee_per_invoice) || 0,
         payment_method: form.payment_method,
         internal_note: form.internal_note?.trim() ? form.internal_note.trim() : null,
@@ -646,6 +669,9 @@ export function subscriptionAgreementView(data: any): {
             contract_arr: raw.contract_arr ?? null,
             estimated_renewal_annual_value: toNumberOrNull(raw.estimated_renewal_annual_value),
             renewal_value_source: textOrNull(raw.renewal_value_source),
+            renewal_term_months: renewalTermMonths(raw.renewal_term_months),
+            renewal_billing: ['upfront', 'yearly', 'monthly'].includes(raw.renewal_billing) ? raw.renewal_billing : null,
+            estimated_renewal_period_value: toNumberOrNull(raw.estimated_renewal_period_value),
             status: textOrNull(raw.status),
         }
         : null

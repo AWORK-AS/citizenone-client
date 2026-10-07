@@ -118,6 +118,11 @@
                                                     {{ $t('superadmin.companies.contract.agrListPrice', { price: formatAmount(listPrice, 'DKK'), unit: listPriceUnit, date: formatDate(agreement.ends_on) }) }}
                                                 </p>
                                             </Tooltip>
+                                            <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap class="!block">
+                                                <p class="text-sm text-gray-500">
+                                                    {{ $t('superadmin.agreements.renewal.renewsFor', { term: agreementRenewal.months, billing: $t(`superadmin.agreements.renewal.billing.${agreementRenewal.billing}`) }) }}
+                                                </p>
+                                            </Tooltip>
                                             <div v-if="canViewFinancials && agreement.estimated_renewal_annual_value != null"
                                                 class="flex flex-wrap items-center gap-2 text-sm text-gray-900">
                                                 <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>
@@ -129,6 +134,10 @@
                                                     <span class="co-badge" :class="agreement.renewal_value_source === 'fallback' ? 'co-badge-gray' : 'co-badge-navy'">
                                                         {{ $t(`superadmin.agreements.renewal.sources.${agreement.renewal_value_source}`) }}
                                                     </span>
+                                                </Tooltip>
+                                                <Tooltip v-if="agreement.estimated_renewal_period_value != null"
+                                                    :text="$t('superadmin.agreements.renewal.periodExpectedHelp')" position="top" wrap>
+                                                    <span>{{ $t('superadmin.agreements.renewal.periodExpected', { amount: formatNumber(agreement.estimated_renewal_period_value) }) }}</span>
                                                 </Tooltip>
                                             </div>
                                         </div>
@@ -867,7 +876,7 @@ import { storagePackageService } from '@/components/api/superadmin/StoragePackag
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
-import { subscriptionAgreementView } from '@/composables/agreements'
+import { renewalSummary, subscriptionAgreementView } from '@/composables/agreements'
 import { useI18n } from 'vue-i18n'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import type { Error } from '@/types'
@@ -997,6 +1006,7 @@ const contract = computed(() => state.subscriptions?.data?.contract ?? null)
 // Superadmin-only blocks on the subscriptions response; absent on an older API.
 const agreementView = computed(() => subscriptionAgreementView(state.subscriptions?.data))
 const agreement = computed(() => agreementView.value.agreement)
+const agreementRenewal = computed(() => renewalSummary(agreement.value ?? {}))
 const runningAgreement = computed(() => agreementView.value.runningAgreements[0] ?? null)
 const agreementsHref = `/superadmin/companies/${companyUuid}/agreements`
 const isMonthlyType = computed(() => ['monthly', 'custom_monthly'].includes(state.subscriptions?.data?.type))

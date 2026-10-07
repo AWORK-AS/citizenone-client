@@ -100,6 +100,9 @@ export interface CoveredInvoice {
     created_at?: string
 }
 
+/** How the renewal is invoiced; null follows the payment plan. */
+export type RenewalBilling = 'upfront' | 'yearly' | 'monthly'
+
 export interface Agreement {
     uuid: string
     company_uuid: string
@@ -122,6 +125,10 @@ export interface Agreement {
     /** Where `estimated_renewal_annual_value` comes from. */
     renewal_value_source?: RenewalValueSource
     estimated_renewal_annual_value?: number | null
+    /** Months a renewal runs for; null means 12. */
+    renewal_term_months?: number | null
+    renewal_billing?: RenewalBilling | null
+    estimated_renewal_period_value?: number | null
     renewals_count: number
     covered_invoices?: CoveredInvoice[]
     settled_externally_before?: string | null
@@ -149,6 +156,8 @@ export interface AgreementPayload {
     prepaid_years: number | null
     contract_value: number
     renewal_annual_value: number | null
+    renewal_term_months: number | null
+    renewal_billing: RenewalBilling | null
     fee_per_invoice: number
     payment_method: AgreementPaymentMethod
     internal_note: string | null
@@ -184,6 +193,9 @@ export interface SubscriptionAgreement {
     contract_mrr: number | string | null
     contract_arr: number | string | null
     estimated_renewal_annual_value: number | string | null
+    renewal_term_months: number | null
+    renewal_billing: RenewalBilling | null
+    estimated_renewal_period_value: number | null
     renewal_value_source: string | null
     status: string | null
 }

@@ -13653,6 +13653,7 @@
                 "subscriptions": "Licenser og Pro-profil, der er koblet til aftalen, gælder hele bindingen og opkræves ikke også med kort.",
                 "settledExternally": "Åbne rater der forfalder før denne dato markeres som afregnet og faktureres aldrig. Brug det til kunder der allerede har betalt via e-conomic.",
                 "renewalValue": "Tom = beregnes ud fra gældende listepris for de tilknyttede licenser på fornyelsestidspunktet. Udfyldes feltet, erstatter den faste pris listeprisen ved de kommende fornyelser.",
+                "renewalTerm": "Når bindingen udløber, fornyes aftalen for denne periode til den gældende listepris. Fx 36 mdr. samlet = én faktura for 3 år på fornyelsesdatoen.",
                 "termMode": "Angiv bindingen enten som et antal måneder eller som en slutdato.",
                 "endsOn": "Bindingens sidste dag. Antal måneder beregnes af serveren, fx 2025-06-10 til 2028-09-01."
             },
@@ -13700,6 +13701,9 @@
                 "settledNotePlaceholder": "fx e-conomic bilag 297637275",
                 "renewalValue": "Årlig værdi ved fornyelse",
                 "renewalValuePlaceholder": "Listepris",
+                "renewalTerm": "Fornyelsesperiode (måneder)",
+                "renewalBilling": "Opkræves ved fornyelse",
+                "renewalTermQuickHelp": "Sæt fornyelsesperioden til {months} måneder.",
                 "endsOn": "Slutdato",
                 "modeMonths": "Binding i måneder",
                 "modeEndDate": "Slutdato",
@@ -13862,6 +13866,10 @@
             "renewal": {
                 "expected": "Forventet fornyelse: {amount} kr./år",
                 "expectedHelp": "Når en ny periode starter, faktureres de listepriser, der gælder på det tidspunkt. Beløbet her er et skøn ud fra de nuværende priser og kan ændre sig, hvis priserne ændres inden da.",
+                "renewsFor": "Fornyes for {term} mdr. · {billing}",
+                "periodExpected": "Forventet for perioden: {amount} kr.",
+                "periodExpectedHelp": "Skønnet beløb for hele fornyelsesperioden til de nuværende listepriser. Kan ændre sig, hvis priserne ændres inden da.",
+                "billing": {"upfront": "Samlet ved fornyelse", "yearly": "Årligt", "monthly": "Månedligt", "plan": "Som betalingsplanen"},
                 "sources": {
                     "list_price": "Listepris",
                     "override": "Fast pris",
