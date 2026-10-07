@@ -7715,6 +7715,18 @@
         "title": "Formularfeltkonfiguration"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Delad",
+            "fromCommunityBadge": "Från CitizenOne-gemenskapen",
+            "chooseFrom": "Välj från",
+            "ourTemplates": "Våra mallar",
+            "pickerHint": "Mallar delade av andra organisationer i CitizenOne. Den du väljer kopieras till era mallar, där du kan redigera den.",
+            "pickerEmpty": "Inga mallar har delats på ditt språk ännu.",
+            "searchTemplates": "Sök bland mallar…",
+            "optionLabel": "CitizenOne-gemenskapen",
+            "share": "Dela med CitizenOne-gemenskapen",
+            "shareHint": "En kopia av mallen, som den är när du sparar, blir tillgänglig för alla CitizenOne-företag med samma språk. Senare ändringar delas inte. Se till att mallen inte innehåller personuppgifter."
+        },
         "addNewQuestion": "Lägg till nytt fråga",
         "addOption": "Lägg till mulighed",
         "alert": {

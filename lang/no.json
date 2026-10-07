@@ -7715,6 +7715,18 @@
         "title": "Skjemafeltkonfigurasjon"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Delt",
+            "fromCommunityBadge": "Fra CitizenOne-fellesskapet",
+            "chooseFrom": "Velg fra",
+            "ourTemplates": "Våre maler",
+            "pickerHint": "Maler delt av andre organisasjoner i CitizenOne. Den du velger, kopieres til deres maler, der du kan redigere den.",
+            "pickerEmpty": "Det er ennå ikke delt maler på ditt språk.",
+            "searchTemplates": "Søk i maler…",
+            "optionLabel": "CitizenOne-fellesskapet",
+            "share": "Del med CitizenOne-fellesskapet",
+            "shareHint": "En kopi av malen, slik den er når du lagrer, blir tilgjengelig for alle CitizenOne-virksomheter med samme språk. Senere endringer deles ikke. Sørg for at malen ikke inneholder personopplysninger."
+        },
         "addNewQuestion": "Legg til nytt spørgsmål",
         "addOption": "Legg til mulighet",
         "alert": {

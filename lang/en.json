@@ -7715,6 +7715,18 @@
         "title": "Form Field Configuration"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Shared",
+            "fromCommunityBadge": "From CitizenOne community",
+            "chooseFrom": "Choose from",
+            "ourTemplates": "Our templates",
+            "pickerHint": "Templates shared by other CitizenOne organisations. The one you pick is copied to your templates, where you can edit it.",
+            "pickerEmpty": "No templates have been shared in your language yet.",
+            "searchTemplates": "Search templates…",
+            "optionLabel": "CitizenOne community",
+            "share": "Share with CitizenOne community",
+            "shareHint": "A copy of this template, as it is when you save, becomes available to all CitizenOne companies using the same language. Later changes are not shared. Make sure the template contains no personal data."
+        },
         "addNewQuestion": "Add new question",
         "addOption": "Add option",
         "alert": {
