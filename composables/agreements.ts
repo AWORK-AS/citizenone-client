@@ -135,8 +135,26 @@ export function withDefaultCoverage<T extends { covers_from?: string | null; cov
 export function buildAddOnInstallment(today: string, endsOn: string, label = 'Tilkøb'): InstallmentInput {
     return {
         due_on: today, amount: 0, label, covers_from: today, covers_to: endsOn || null,
-        is_add_on: true, product_number: null, quantity: null, unit_price: null,
+        is_add_on: true, covers_from_manual: false, product_number: null, quantity: null, unit_price: null,
     }
+}
+
+/**
+ * Where an add-on row's "covers from" should sit after its due date changed.
+ * It follows the due date until the user types a value of their own, and it is
+ * never later than the due date (an add-on cannot start covering after it is
+ * invoiced). Other rows are returned untouched.
+ */
+export function addOnCoversFromAfterDueOn(row: {
+    is_add_on?: boolean
+    due_on?: string | null
+    covers_from?: string | null
+    covers_from_manual?: boolean
+}): string | null {
+    const current = row.covers_from || null
+    if (!row.is_add_on || !row.due_on) return current
+    if (!row.covers_from_manual || !current) return row.due_on
+    return current > row.due_on ? row.due_on : current
 }
 
 export interface AgreementFormState {

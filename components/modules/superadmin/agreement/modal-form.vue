@@ -244,7 +244,7 @@
                                         {{ $t('superadmin.agreements.form.noInstallments') }}
                                     </p>
                                     <div v-if="form.installments.length"
-                                        class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-center mb-1 text-[11px] uppercase text-[#5C6478]">
+                                        class="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_3rem] gap-2 items-center mb-1 text-[11px] uppercase text-[#5C6478]">
                                         <span></span>
                                         <span>{{ $t('superadmin.agreements.table.dueOn') }}</span>
                                         <span>{{ $t('superadmin.agreements.table.amount') }}</span>
@@ -259,18 +259,25 @@
                                         <span></span>
                                     </div>
                                     <div v-for="(row, index) in form.installments" :key="index" class="mb-2">
-                                    <div class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-center">
+                                    <div class="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_3rem] gap-2 items-center">
                                         <span class="text-[12px] text-[#8891A4] text-center">{{ index + 1 }}</span>
                                         <input class="co-cell-input" type="date" v-model="row.due_on"
-                                            :disabled="row.locked" @input="markEdited"
+                                            :disabled="row.locked" @input="onDueOnInput(row)"
                                             :aria-label="$t('superadmin.agreements.table.dueOn')" />
+                                        <!-- w-full as well as !block: the Tooltip root is inline-block, and an
+                                             input with w-full inside a shrink-to-fit box collapses to ~40px. -->
                                         <Tooltip :text="isAddOnRow(row)
                                             ? $t('superadmin.agreements.form.amountComputed')
-                                            : $t('superadmin.agreements.form.rateRowHelp')" position="top" wrap class="!block">
-                                            <input class="co-cell-input w-full" type="number" step="0.01" min="0"
+                                            : $t('superadmin.agreements.form.rateRowHelp')" position="top" wrap
+                                            class="!block w-full min-w-0">
+                                            <!-- Computed from antal x stykpris: shown formatted, not editable. -->
+                                            <input v-if="addOnAmountIsComputed(row)"
+                                                class="co-cell-input w-full min-w-0 bg-[#F5F6F8] cursor-not-allowed tabular-nums text-right"
+                                                type="text" readonly :disabled="row.locked"
+                                                :value="formatPlainAmount(row.amount)"
+                                                :aria-label="$t('superadmin.agreements.table.amount')" />
+                                            <input v-else class="co-cell-input w-full min-w-0" type="number" step="0.01" min="0"
                                                 v-model.number="row.amount" :disabled="row.locked"
-                                                :readonly="addOnAmountIsComputed(row)"
-                                                :class="{ 'bg-[#F5F6F8] cursor-not-allowed': addOnAmountIsComputed(row) }"
                                                 @input="markEdited"
                                                 :aria-label="$t('superadmin.agreements.table.amount')" />
                                         </Tooltip>
@@ -281,7 +288,7 @@
                                             class="!block">
                                             <div class="flex items-center gap-1">
                                                 <input class="co-cell-input min-w-0" type="date" v-model="row.covers_from"
-                                                    :disabled="row.locked" @input="markEdited"
+                                                    :disabled="row.locked" @input="row.covers_from_manual = true; markEdited()"
                                                     :aria-label="$t('superadmin.agreements.form.coversFrom')" />
                                                 <span class="text-[#8891A4]">&ndash;</span>
                                                 <input class="co-cell-input min-w-0" type="date" v-model="row.covers_to"
@@ -313,7 +320,7 @@
                                     </div>
                                     <!-- Add-on (tilkoeb) rows: product number, quantity and unit price -->
                                     <div v-if="isAddOnRow(row)"
-                                        class="grid grid-cols-[1.5rem_1fr_1fr_1fr_2fr_3rem] gap-2 items-start mt-1">
+                                        class="grid grid-cols-[1.5rem_minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_minmax(0,2fr)_3rem] gap-2 items-start mt-1">
                                         <span></span>
                                         <div>
                                             <Tooltip :text="$t('superadmin.agreements.form.productNumberHelp')" position="top"
@@ -476,6 +483,7 @@ import {
     ADDON_PRODUCT_SUGGESTIONS,
     addOnAmount,
     addOnAmountIsComputed,
+    addOnCoversFromAfterDueOn,
     isAddOnRow,
     buildPresetInstallments,
     withDefaultCoverage,
@@ -502,6 +510,10 @@ const emit = defineEmits(['close', 'saved'])
 const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
+
+// 12355.2 -> 12.355,20 (the same grouping the rest of the screen uses).
+const formatPlainAmount = (value: unknown) =>
+    new Intl.NumberFormat('da-DK', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(Number(value) || 0)
 
 const plans: BillingPlan[] = ['monthly', 'yearly', 'prepaid_multi_year', 'installments']
 
@@ -587,6 +599,8 @@ function resetFromProps() {
                 product_number: row.product_number ?? null,
                 quantity: row.quantity ?? null,
                 unit_price: row.unit_price ?? null,
+                // A saved add-on keeps the period it was saved with, but never starts after its due date.
+                ...(isAddOnRow(row) ? { is_add_on: true, covers_from_manual: true } : {}),
                 // An installment that already has an invoice, or was settled
                 // outside CitizenOne, is history.
                 locked: !!row.invoice || !!row.settled_externally_at,
@@ -679,6 +693,12 @@ function onAddOnInput(row: Row) {
     markEdited()
     const amount = addOnAmount(row.quantity, row.unit_price)
     if (amount !== null) row.amount = amount
+}
+
+// An add-on's "covers from" follows its due date until it is typed by hand.
+function onDueOnInput(row: Row) {
+    markEdited()
+    row.covers_from = addOnCoversFromAfterDueOn(row)
 }
 
 function addAddOn() {

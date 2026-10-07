@@ -25,6 +25,7 @@ import {
     isEconomicSyncedPayment,
     addOnAmount,
     addOnAmountIsComputed,
+    addOnCoversFromAfterDueOn,
     addOnFields,
     ECONOMIC_SYNC_STATES,
     missingEconomicNumber,
@@ -497,5 +498,42 @@ describe('add-on rows: product number, quantity, unit price', () => {
         assert.equal(rows[1].quantity, 10)
         assert.equal(rows[1].unit_price, 150)
         assert.equal(rows[1].amount, 1500)
+    })
+})
+
+describe('add-on covers_from follows due_on', () => {
+    const fresh = () => buildAddOnInstallment('2026-10-07', '2027-12-31')
+
+    test('a fresh add-on follows a changed due date', () => {
+        const row = { ...fresh(), due_on: '2025-08-22' }
+        assert.equal(addOnCoversFromAfterDueOn(row), '2025-08-22')
+    })
+
+    test('once typed by hand it stops following', () => {
+        const row = { ...fresh(), due_on: '2025-08-22', covers_from: '2025-06-01', covers_from_manual: true }
+        assert.equal(addOnCoversFromAfterDueOn(row), '2025-06-01')
+    })
+
+    test('a hand-typed covers_from is never later than the due date', () => {
+        const row = { ...fresh(), due_on: '2025-08-22', covers_from: '2025-09-15', covers_from_manual: true }
+        assert.equal(addOnCoversFromAfterDueOn(row), '2025-08-22')
+    })
+
+    test('other rows are untouched', () => {
+        assert.equal(addOnCoversFromAfterDueOn({ due_on: '2025-08-22', covers_from: '2026-01-01' }), '2026-01-01')
+    })
+
+    test('the UI flag is not part of the API payload', () => {
+        const form = {
+            name: 'x', starts_on: '2025-01-01', term_months: 12, term_mode: 'months', ends_on: '',
+            renewal_annual_value: '', notice_months: 3, auto_renews: true, billing_plan: 'installments',
+            prepaid_years: null, contract_value: 0, fee_per_invoice: 0, payment_method: 'invoice',
+            internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 0, remaining_count: 0, remaining_interval_months: 12 },
+            installments: [{ ...fresh(), covers_from_manual: true }], installmentsEdited: true,
+        }
+        const row = buildAgreementPayload(form).installments[0]
+        assert.equal('covers_from_manual' in row, false)
+        assert.equal('is_add_on' in row, false)
     })
 })

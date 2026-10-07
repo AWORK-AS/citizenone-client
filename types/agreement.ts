@@ -52,6 +52,8 @@ export interface InstallmentInput {
     covers_to?: string | null
     /** Add-on (tilkoeb) row: shows product number, quantity and unit price. */
     is_add_on?: boolean
+    /** UI only, never sent: the user typed covers_from, so it stops following due_on. */
+    covers_from_manual?: boolean
     product_number?: number | string | null
     quantity?: number | string | null
     unit_price?: number | string | null
