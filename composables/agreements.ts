@@ -8,6 +8,7 @@ import type {
     AgreementPayload,
     InstallmentInput,
     InstallmentPreset,
+    LinkableSubscription,
     SchedulePreview,
 } from '@/types/agreement'
 
@@ -135,8 +136,95 @@ export function withDefaultCoverage<T extends { covers_from?: string | null; cov
 export function buildAddOnInstallment(today: string, endsOn: string, label = 'Tilkøb'): InstallmentInput {
     return {
         due_on: today, amount: 0, label, covers_from: today, covers_to: endsOn || null,
-        is_add_on: true, product_number: null, quantity: null, unit_price: null,
+        is_add_on: true, covers_from_manual: false, product_number: null, quantity: null, unit_price: null,
     }
+}
+
+/**
+ * Where an add-on row's "covers from" should sit after its due date changed.
+ * It follows the due date until the user types a value of their own, and it is
+ * never later than the due date (an add-on cannot start covering after it is
+ * invoiced). Other rows are returned untouched.
+ */
+export function addOnCoversFromAfterDueOn(row: {
+    is_add_on?: boolean
+    due_on?: string | null
+    covers_from?: string | null
+    covers_from_manual?: boolean
+}): string | null {
+    const current = row.covers_from || null
+    if (!row.is_add_on || !row.due_on) return current
+    if (!row.covers_from_manual || !current) return row.due_on
+    return current > row.due_on ? row.due_on : current
+}
+
+export interface SubscriptionGroup<T extends LinkableSubscription = LinkableSubscription> {
+    key: string
+    label: string
+    deal_type: LinkableSubscription['deal_type']
+    items: T[]
+    /** uuids that can be toggled from this agreement (not linked to another one). */
+    selectable: string[]
+    /** How many sit on another agreement: shown, never toggled by the group. */
+    elsewhere: number
+}
+
+export type TriState = 'none' | 'some' | 'all'
+
+function isLinkedToOtherAgreement(option: LinkableSubscription, agreementUuid: string | null | undefined): boolean {
+    return !!option.company_agreement_uuid && option.company_agreement_uuid !== agreementUuid
+}
+
+const DEAL_ORDER = ['deal', 'add_on_deal', 'application']
+const dealRank = (type: string) => { const i = DEAL_ORDER.indexOf(type); return i === -1 ? DEAL_ORDER.length : i }
+
+/** One group per product (label + deal type), by label then deal type, licences by user name. */
+export function groupSubscriptions<T extends LinkableSubscription>(
+    options: T[],
+    agreementUuid: string | null | undefined,
+): SubscriptionGroup<T>[] {
+    const groups = new Map<string, SubscriptionGroup<T>>()
+    for (const option of options) {
+        const dealType = option.deal_type ?? 'deal'
+        const key = `${option.label}|${dealType}`
+        let group = groups.get(key)
+        if (!group) {
+            group = { key, label: option.label, deal_type: dealType, items: [], selectable: [], elsewhere: 0 }
+            groups.set(key, group)
+        }
+        group.items.push(option)
+        if (isLinkedToOtherAgreement(option, agreementUuid)) group.elsewhere++
+        else group.selectable.push(option.uuid)
+    }
+    const collator = new Intl.Collator('da', { sensitivity: 'base', numeric: true })
+    return [...groups.values()]
+        .map((g) => ({ ...g, items: [...g.items].sort((a, b) => collator.compare(a.user_name ?? '', b.user_name ?? '')) }))
+        .sort((a, b) => collator.compare(a.label, b.label) || dealRank(a.deal_type) - dealRank(b.deal_type))
+}
+
+/** Checked / total of the toggleable licences in a group and the tri-state of its checkbox. */
+export function groupSelection(group: { selectable: string[] }, linked: string[]): { checked: number; total: number; state: TriState } {
+    const set = new Set(linked)
+    const checked = group.selectable.filter((uuid) => set.has(uuid)).length
+    const total = group.selectable.length
+    return { checked, total, state: checked === 0 ? 'none' : checked === total ? 'all' : 'some' }
+}
+
+/** Group checkbox click: everything on unless it already is, then everything off. Others are kept. */
+export function toggleGroupLinks(group: { selectable: string[] }, linked: string[]): string[] {
+    const { state } = groupSelection(group, linked)
+    return setLinks(group.selectable, linked, state !== 'all')
+}
+
+/** "Vaelg alle" / "Fravaelg alle" over several groups. */
+export function setGroupsLinked(groups: { selectable: string[] }[], linked: string[], on: boolean): string[] {
+    return setLinks(groups.flatMap((g) => g.selectable), linked, on)
+}
+
+function setLinks(uuids: string[], linked: string[], on: boolean): string[] {
+    if (on) return [...new Set([...linked, ...uuids])]
+    const drop = new Set(uuids)
+    return linked.filter((uuid) => !drop.has(uuid))
 }
 
 export interface AgreementFormState {
