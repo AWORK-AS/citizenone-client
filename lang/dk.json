@@ -957,7 +957,7 @@
         "basedOn": "Baseret på",
         "rateLimited": "Du har stillet mange spørgsmål lige nu. Prøv igen om {minutes} min.",
         "waitingCount": "{count} ting venter",
-        "rateLimitedToday": "Jeres organisation har nået dagens grænse for AI-forespørgsler. Prøv igen i morgen.",
+        "rateLimitedToday": "Dagens inkluderede Cody-svar er brugt. Med ekstra kapacitet kan I fortsætte i dag - ellers nulstilles det ved midnat.",
         "limitBuyMore": "Køb mere kapacitet",
         "limitAskAdmin": "Bed din administrator om mere kapacitet.",
         "companyDataMissing": "Svaret er givet uden adgang til jeres data. Søgeindekset er ikke oprettet endnu.",
@@ -1042,7 +1042,7 @@
             }
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator.",
-        "budgetSpent": "Jeres AI-kapacitet er brugt op. Tank op for at fortsætte.",
+        "budgetSpent": "Jeres ekstra kapacitet er brugt, og dagens inkluderede svar er også brugt. Fyld op for at fortsætte i dag.",
         "ownDailyLimit": "Du har brugt din egen dagsgrænse for AI. Din administrator kan hæve den.",
         "dictate": {
             "start": "Diktér",
@@ -1053,7 +1053,9 @@
                 "denied": "Browseren må ikke bruge mikrofonen. Klik på låsen i adressefeltet og tillad mikrofon.",
                 "missing": "Ingen mikrofon fundet på denne maskine.",
                 "insecure": "Diktering kræver en sikker forbindelse (https).",
-                "failed": "Kunne ikke skrive optagelsen ned. Prøv igen."
+                "failed": "Kunne ikke skrive optagelsen ned. Prøv igen.",
+                "limit": "Dagens diktering eller Cody-svar er brugt. Det nulstilles ved midnat.",
+                "budget": "Jeres ekstra kapacitet er brugt. En administrator kan fylde op under Indstillinger → AI-forbrug."
             }
         },
         "attachFile": "Vedhæft fil",
@@ -17039,7 +17041,7 @@
         "ofAllowance": "{used} af {allowance} svar",
         "allowanceExplainer": "Jeres daglige ramme følger antallet af AI-licenser, I har. Den nulstilles ved midnat.",
         "balance": "Saldo",
-        "balanceExplainer": "Forudbetalt kapacitet. Den udløber ikke, og der trækkes kun fra den når et svar rent faktisk bliver leveret.",
+        "balanceExplainer": "Bruges kun til svar ud over det, jeres licenser dækker om dagen - til samme pris pr. svar som licensen. Saldoen udløber ikke.",
         "buyMore": "Køb mere",
         "thisMonth": "Denne måned",
         "feature": "Funktion",
@@ -17101,8 +17103,20 @@
             "clear": "Brug beregnet grænse",
             "saved": "Grænsen er gemt",
             "set": "I sat den til {limit} kald om dagen.",
-            "derived": "Beregnet grænse: {limit} kald om dagen pr. medarbejder."
-        }
+            "derived": "Beregnet grænse: {limit} kald om dagen pr. medarbejder.",
+            "lifted": "Mens I har saldo, gælder den beregnede grænse ikke. En grænse, I selv sætter, gælder altid."
+        },
+        "beyondToday": "+{count} fra saldo",
+        "allowanceThenBalance": "Derefter trækkes svarene fra jeres saldo.",
+        "allowanceThenStop": "Når de er brugt, kan I fortsætte på forudbetalt kapacitet.",
+        "monthExplainer": "Det, der er trukket fra saldoen. Svar inden for dagens inkluderede antal koster ikke ekstra.",
+        "buyHint": "Køb forudbetalt kapacitet til dage, hvor I bruger Cody mere end licenserne dækker",
+        "offer": {
+            "title": "Ekstra kapacitet til travle dage",
+            "body": "Når dagens inkluderede svar er brugt, kan medarbejderne fortsætte på forudbetalt kapacitet. I betaler kun for det, der går ud over licenserne, og saldoen udløber ikke.",
+            "cta": "Køb kapacitet"
+        },
+        "priceExample": "Et svar ud over det inkluderede koster ca. {perAnswer} - det samme som i licensen, hvor {seat} om måneden giver {answers} svar om dagen. Eksempel: Bruger I {extra} svar mere end inkluderet hver dag, koster det ca. {monthly} om måneden."
     },
     "inquiryMatchNeeds": {
         "heading": "Match: sprog og sted",

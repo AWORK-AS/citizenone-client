@@ -105,7 +105,13 @@ const KNOWN_CARDS = ['task', 'journal_note', 'shift_day', 'milo']
 
 export function createCodyChat() {
     const { t } = useI18n()
-    const { can } = usePermissions()
+    const { can, isAtLeast } = usePermissions()
+
+    // Who may buy capacity: the company's admin, or a role given manage_licenses.
+    // Mirrors User::managesAiCapacity() on the server. manage_licenses alone was
+    // only ever on the Superadmin role, so a customer's admin was told to ask
+    // their administrator - themselves.
+    const canBuyCapacity = () => isAtLeast('Admin') || can('manage_licenses')
     const { errorAlert } = useAlert()
     const citizenStore = useCitizenStore() as any
     const route = useRoute()
@@ -540,7 +546,7 @@ export function createCodyChat() {
             return {
                 message: error?.message ?? t('assistants.budgetSpent'),
                 isDaily: true,
-                canBuy: can('manage_licenses') || error?.can_manage_licenses === true,
+                canBuy: canBuyCapacity() || error?.can_manage_licenses === true,
             }
         }
 
@@ -572,7 +578,8 @@ export function createCodyChat() {
                 // streaming path does not always carry the body through, and a button
                 // that appears or not depending on which request path answered is worse
                 // than one decided by what the user is actually allowed to do.
-                canBuy: can('manage_licenses') || error?.can_manage_licenses === true,
+                // The company's admin counts: the server's gate is the same.
+                canBuy: canBuyCapacity() || error?.can_manage_licenses === true,
             }
         }
 

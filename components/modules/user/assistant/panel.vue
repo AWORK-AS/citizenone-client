@@ -59,15 +59,17 @@
                 <Alert type="danger" :text="state?.error?.message" class="mx-4 mt-3"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <!-- The daily ceiling is the one limit a person can act on: capacity
-                     follows seats, so more seats mean more of it. Someone without the
+                <!-- The daily ceiling is the one limit a person can act on: prepaid
+                     capacity carries the company past it for the rest of the day. Someone without the
                      licence permission is told who to ask rather than shown a button
                      that would refuse them on arrival. -->
                 <div v-if="state.error?.isDaily" class="mx-4 -mt-1 mb-1 flex items-center">
-                    <button v-if="state.error?.canBuy" type="button" @click="goToApps"
-                        class="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90">
-                        {{ $t('assistants.limitBuyMore') }}
-                    </button>
+                    <Tooltip v-if="state.error?.canBuy" :text="$t('aiUsage.buyHint')" wrap>
+                        <button type="button" @click="goToApps"
+                            class="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90">
+                            {{ $t('assistants.limitBuyMore') }}
+                        </button>
+                    </Tooltip>
                     <span v-else class="text-sm text-gray-600">
                         {{ $t('assistants.limitAskAdmin') }}
                     </span>
@@ -167,9 +169,11 @@ function syncChatBubbleOffset(isOpen: boolean) {
 // Capacity follows the seats a company holds, so the App Store is where more of
 // it is bought. Closing the panel first means the user lands on the page rather
 // than behind the overlay.
+// Straight to the purchase dialog on the usage page. The app store was the
+// old destination, and the capacity product is not easy to find there.
 function goToApps() {
     closePanel()
-    navigateTo('/apps')
+    navigateTo({ path: '/settings/ai-usage', query: { buy: '1' } })
 }
 
 onMounted(() => {

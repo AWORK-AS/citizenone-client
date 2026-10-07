@@ -403,6 +403,10 @@ class BaseAPIService {
                         status: error.response.status,
                         retryAfter: BaseAPIService.retryAfterSecondsOf(error),
                     })
+                case 402:
+                    // A spent AI balance. It fell to the default case and became
+                    // "something went wrong", so Cody could not offer the top-up.
+                    throw new APIError({ ...error.response._data, status: error.response.status })
                 case 409:
                     // Some 409s carry a business-rule flag alongside the message (e.g.
                     // pouring_empty) that a caller needs to branch on rather than just
@@ -475,8 +479,12 @@ class BaseAPIService {
                 case 404:
                 case 409:
                 case 422:
-                case 429:
                     throw new APIError(error.response._data)
+                case 402:
+                case 429:
+                    // A spent AI balance or a daily ceiling. Dictation goes through
+                    // here, and without the status it could only say "failed".
+                    throw new APIError({ ...error.response._data, status: error.response.status })
                 case 401:
                     if (BaseAPIService.isSessionExpired(error.response._data)) {
                         this.revokeAccess()
