@@ -196,7 +196,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupCommunication') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 4</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ communicationCount }} / 5</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.communication }" />
                             </span>
                         </button>
@@ -236,6 +236,14 @@
                                 <p>
                                     {{ $t('settings.company.form.relativeChat') }}
                                 </p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.chat_cpr_warning_enabled"
+                                        @toggleSwitch="state.formCompany.chat_cpr_warning_enabled = !state.formCompany.chat_cpr_warning_enabled" :label="$t('settings.company.form.chatCprWarning')" />
+                                    <p>{{ $t('settings.company.form.chatCprWarning') }}</p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.chatCprWarningHint') }}.</p>
                             </div>
                         </div>
                         <div v-if="state.formCompany.relative_chat_enabled"
@@ -577,7 +585,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 3</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 5</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
                             </span>
                         </button>
@@ -609,6 +617,22 @@
                                 <p>
                                     Social- og Boligstyrelsen
                                 </p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.missing_note_reminder_enabled"
+                                        @toggleSwitch="state.formCompany.missing_note_reminder_enabled = !state.formCompany.missing_note_reminder_enabled" :label="$t('settings.company.form.missingNoteReminder')" />
+                                    <p>{{ $t('settings.company.form.missingNoteReminder') }}</p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.missingNoteReminderHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.booking_note_notifications_enabled"
+                                        @toggleSwitch="state.formCompany.booking_note_notifications_enabled = !state.formCompany.booking_note_notifications_enabled" :label="$t('settings.company.form.bookingNoteNotifications')" />
+                                    <p>{{ $t('settings.company.form.bookingNoteNotifications') }}</p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.bookingNoteNotificationsHint') }}.</p>
                             </div>
                         </div>
                         </div>
@@ -854,7 +878,7 @@ const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: 
     total + audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key)).length, 0))
 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
-const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled].filter(Boolean).length)
+const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled, state.formCompany.chat_cpr_warning_enabled].filter(Boolean).length)
 const plansCount = computed(() => [
     state.formCompany.plans_enabled,
     state.formCompany.goals_enabled,
@@ -864,7 +888,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen].filter(Boolean).length)
+const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -934,6 +958,9 @@ const state = reactive({
         relative_chat_management_enabled: true,
         relative_chat_contact_persons_enabled: true,
         patient_chat_inbox_enabled: false,
+        chat_cpr_warning_enabled: false,
+        missing_note_reminder_enabled: false,
+        booking_note_notifications_enabled: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
@@ -1052,6 +1079,9 @@ watch(() => userStore.getUser, (newValue: any) => {
             relative_chat_management_enabled: newValue?.company?.relative_chat_management_enabled ? true : false,
             relative_chat_contact_persons_enabled: newValue?.company?.relative_chat_contact_persons_enabled ? true : false,
             patient_chat_inbox_enabled: newValue?.company?.patient_chat_inbox_enabled ? true : false,
+            chat_cpr_warning_enabled: newValue?.company?.chat_cpr_warning_enabled === true,
+            missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
+            booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
@@ -1264,6 +1294,9 @@ async function submitForm() {
                 relative_chat_management_enabled: state.formCompany.relative_chat_management_enabled,
                 relative_chat_contact_persons_enabled: state.formCompany.relative_chat_contact_persons_enabled,
                 patient_chat_inbox_enabled: state.formCompany.patient_chat_inbox_enabled,
+                chat_cpr_warning_enabled: state.formCompany.chat_cpr_warning_enabled,
+                missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
+                booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
