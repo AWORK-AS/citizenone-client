@@ -9,6 +9,8 @@ import type {
     InstallmentInput,
     InstallmentPreset,
     LinkableSubscription,
+    RunningAgreement,
+    SubscriptionAgreement,
     SchedulePreview,
 } from '@/types/agreement'
 
@@ -615,4 +617,46 @@ export function missingEconomicNumber(
     if (!company || company.economic_customer_number === undefined) return false
     const hasNumber = company.economic_customer_number !== null && company.economic_customer_number !== ''
     return !hasNumber && (agreements ?? []).some((a) => a.status === 'active')
+}
+
+const textOrNull = (v: unknown): string | null => (typeof v === 'string' && v !== '' ? v : null)
+
+/**
+ * What the subscriptions response says about the company's agreement. Both blocks
+ * are optional (older API, or no agreement): everything missing comes back as
+ * null / [] so the card falls back to the plain subscription view.
+ */
+export function subscriptionAgreementView(data: any): {
+    agreement: SubscriptionAgreement | null
+    runningAgreements: RunningAgreement[]
+} {
+    const raw = data?.agreement
+    const agreement: SubscriptionAgreement | null = raw && typeof raw === 'object' && (raw.uuid || raw.name)
+        ? {
+            uuid: String(raw.uuid ?? ''),
+            name: String(raw.name ?? ''),
+            starts_on: textOrNull(raw.starts_on),
+            ends_on: textOrNull(raw.ends_on),
+            term_months: toNumberOrNull(raw.term_months),
+            notice_deadline: textOrNull(raw.notice_deadline),
+            auto_renews: !!raw.auto_renews,
+            billing_plan: textOrNull(raw.billing_plan),
+            contract_value: raw.contract_value ?? null,
+            contract_mrr: raw.contract_mrr ?? null,
+            contract_arr: raw.contract_arr ?? null,
+            estimated_renewal_annual_value: toNumberOrNull(raw.estimated_renewal_annual_value),
+            renewal_value_source: textOrNull(raw.renewal_value_source),
+            status: textOrNull(raw.status),
+        }
+        : null
+
+    const running = Array.isArray(data?.running_agreements) ? data.running_agreements : []
+    const runningAgreements: RunningAgreement[] = running
+        .filter((r: any) => r && typeof r === 'object' && (r.uuid || r.name))
+        .map((r: any) => ({
+            uuid: String(r.uuid ?? ''), name: String(r.name ?? ''),
+            starts_on: textOrNull(r.starts_on), ends_on: textOrNull(r.ends_on),
+        }))
+
+    return { agreement, runningAgreements }
 }

@@ -169,3 +169,28 @@ export interface BindingsEnding {
     within_6_months: number
     within_12_months: number
 }
+
+/** The superadmin-only `agreement` block on GET /superadmin/companies/{uuid}/subscriptions. */
+export interface SubscriptionAgreement {
+    uuid: string
+    name: string
+    starts_on: string | null
+    ends_on: string | null
+    term_months: number | null
+    notice_deadline: string | null
+    auto_renews: boolean
+    billing_plan: string | null
+    contract_value: number | string | null
+    contract_mrr: number | string | null
+    contract_arr: number | string | null
+    estimated_renewal_annual_value: number | string | null
+    renewal_value_source: string | null
+    status: string | null
+}
+
+export interface RunningAgreement {
+    uuid: string
+    name: string
+    starts_on: string | null
+    ends_on: string | null
+}

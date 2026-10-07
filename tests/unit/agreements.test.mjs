@@ -27,6 +27,7 @@ import {
     addOnAmountIsComputed,
     addOnCoversFromAfterDueOn,
     groupSubscriptions,
+    subscriptionAgreementView,
     groupSelection,
     toggleGroupLinks,
     setGroupsLinked,
@@ -614,5 +615,45 @@ describe('coverage on locked rows', () => {
         assert.equal(row.covers_to, '2026-12-31')
         assert.equal('locked' in row, false)
         assert.equal('covers_from_manual' in row, false)
+    })
+})
+
+describe('subscription card: agreement blocks', () => {
+    const agreement = {
+        uuid: 'a1', name: 'Fireaarsaftale', starts_on: '2026-07-12', ends_on: '2030-07-12', term_months: 48,
+        notice_deadline: '2030-04-12', auto_renews: true, billing_plan: 'yearly', contract_value: 100,
+        contract_mrr: 10, contract_arr: 120, estimated_renewal_annual_value: '6948', renewal_value_source: 'list', status: 'active',
+    }
+
+    test('reads the agreement block and normalises the numbers', () => {
+        const view = subscriptionAgreementView({ agreement, running_agreements: [] })
+        assert.equal(view.agreement.name, 'Fireaarsaftale')
+        assert.equal(view.agreement.term_months, 48)
+        assert.equal(view.agreement.estimated_renewal_annual_value, 6948)
+        assert.equal(view.agreement.ends_on, '2030-07-12')
+        assert.deepEqual(view.runningAgreements, [])
+    })
+
+    test('absent blocks give the plain view', () => {
+        for (const data of [undefined, null, {}, { agreement: null }, { agreement: {} }, { running_agreements: 'x' }]) {
+            const view = subscriptionAgreementView(data)
+            assert.equal(view.agreement, null)
+            assert.deepEqual(view.runningAgreements, [])
+        }
+    })
+
+    test('missing optional fields come back null, not undefined', () => {
+        const view = subscriptionAgreementView({ agreement: { uuid: 'a1', name: 'X' } })
+        assert.equal(view.agreement.notice_deadline, null)
+        assert.equal(view.agreement.estimated_renewal_annual_value, null)
+        assert.equal(view.agreement.term_months, null)
+    })
+
+    test('running agreements list is kept when the subscription is not linked', () => {
+        const view = subscriptionAgreementView({
+            running_agreements: [{ uuid: 'r1', name: 'Rammeaftale', starts_on: '2026-01-01', ends_on: '2027-12-31' }, null, {}],
+        })
+        assert.equal(view.agreement, null)
+        assert.deepEqual(view.runningAgreements, [{ uuid: 'r1', name: 'Rammeaftale', starts_on: '2026-01-01', ends_on: '2027-12-31' }])
     })
 })
