@@ -3,6 +3,8 @@
 		<NuxtPage />
 		<!-- `classes` names the element the toast rules in main.css style. -->
 		<notifications class="mt-24" classes="co-toast" />
+		<!-- Asked by every chat composer before a message that seems to hold a CPR number. -->
+		<DialogCprWarning />
 	</NuxtLayout>
 </template>
 

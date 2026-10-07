@@ -57,11 +57,13 @@
 <script setup lang="ts">
 import { messageService } from '@/components/api/relative/MessageService'
 import { useUserStore } from '@/store/user'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 
 const state = reactive({
     error: {} as Error,
@@ -159,6 +161,8 @@ async function sendMessage() {
 
         return
     }
+
+    if (!(await confirmChatText(state.message))) return
 
     state.isSending = true
     try {

@@ -8870,6 +8870,12 @@
         }
     },
     "messages": {
+        "cprWarning": {
+            "title": "Check before sending",
+            "message": "This message seems to contain a CPR number. Chat isn't meant for sensitive personal data.",
+            "editMessage": "Edit message",
+            "sendAnyway": "Send anyway"
+        },
         "actions": {
             "delete": "Delete",
             "edit": "Edit",

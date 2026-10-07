@@ -8870,6 +8870,12 @@
         }
     },
     "messages": {
+        "cprWarning": {
+            "title": "Tjek før du sender",
+            "message": "Beskeden ser ud til at indeholde et CPR-nummer. Chatten er ikke beregnet til følsomme personoplysninger.",
+            "editMessage": "Ret besked",
+            "sendAnyway": "Send alligevel"
+        },
         "actions": {
             "delete": "Slet",
             "edit": "Rediger",
