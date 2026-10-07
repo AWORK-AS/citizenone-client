@@ -14082,7 +14082,14 @@
     },
     "timeRegistration": {
         "checkIn": "Checka in",
-        "checkOut": "Checka ut"
+        "checkOut": "Checka ut",
+        "shiftEndPrompt": {
+            "title": "Passet är slut",
+            "question": "Arbetar du fortfarande?",
+            "message": "Ditt pass slutade kl. {time}.",
+            "yes": "Ja, jag arbetar fortfarande",
+            "no": "Nej, stoppa timern"
+        }
     },
     "units": {
         "addNewUnit": "Lägg till ny enhet",

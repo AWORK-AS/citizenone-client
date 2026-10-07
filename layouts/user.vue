@@ -9,6 +9,10 @@
         <!-- Desktop only: re-authentication lock after idle/screen-lock -->
         <DesktopLockOverlay />
 
+        <!-- "Are you still working?" when the shift ends. Mounted once: the clock widget below is
+             rendered several times (mobile drawer, desktop header, rail) and would repeat it. -->
+        <ModulesUserTimeRegistrationModalShiftEnd v-if="userStore.getUser?.checkin_enabled" />
+
         <!-- Mobile sidebar -->
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
