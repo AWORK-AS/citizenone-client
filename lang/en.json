@@ -1613,6 +1613,10 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "notFoundOrNoAccess": {
+            "title": "@.capitalize:terms.citizen{''} not found",
+            "message": "This @:terms.citizen{''} doesn't exist, or you don't have access to them."
+        },
         "developmentGraph": {
             "title": "Development Graph",
             "absence": "Absence",
