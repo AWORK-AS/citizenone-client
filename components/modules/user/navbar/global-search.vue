@@ -156,6 +156,7 @@ import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useCommandPalette } from '@/composables/useCommandPalette'
+import { canOpenPage } from '@/composables/pageAccess'
 
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
@@ -303,8 +304,9 @@ function runAction(action: MergedAction) {
 const citizenName = (item: any) => [item.citizen?.firstname, item.citizen?.lastname].filter(Boolean).join(' ')
 
 function getFirstCitizenPage(citizenUuid: string): string {
-    const pages: any[] = userStore.getUser?.pages ?? []
-    const has = (name: string) => pages.some((p: any) => p.name === name)
+    // The company's module choice as well as the user's pages, so a result never
+    // lands on a module the company has switched off.
+    const has = (name: string) => canOpenPage(userStore.getUser, name)
     if (has('Journals')) return `/citizens/${citizenUuid}/journals`
     if (has('Medicine card')) return `/citizens/${citizenUuid}/medicine-journals`
     if (has('Plans and goals')) return `/citizens/${citizenUuid}/plans-and-goals/all`
