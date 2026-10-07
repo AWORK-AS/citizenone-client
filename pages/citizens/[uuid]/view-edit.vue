@@ -50,6 +50,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useNumberFormatter } from '@/composables/numberFormatter'
@@ -57,6 +58,7 @@ import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
 const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
@@ -284,8 +286,10 @@ async function fetchCitizen() {
     } catch (error: any) {
         state.error = error
         // Unknown, or outside what this user may see: no empty form to edit.
+        // The saved language, as this can come back before the layout sets it.
         if (error?.status === 404) {
-            warningAlert(t('citizens.notFoundOrNoAccess.title'), t('citizens.notFoundOrNoAccess.message'))
+            const options = { locale: userStore.getLanguage || undefined }
+            warningAlert(t('citizens.notFoundOrNoAccess.title', {}, options), t('citizens.notFoundOrNoAccess.message', {}, options))
             navigateTo('/citizens', { replace: true })
         }
     }

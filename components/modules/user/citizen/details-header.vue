@@ -795,8 +795,11 @@ async function fetchCitizen() {
         state.error = error
         // Unknown, or outside the departments and assignments this user may
         // see (e.g. opened from an old link). Say so instead of an empty page.
+        // On a fresh load this answer can beat the layout's user fetch, which
+        // is what switches the app to the user's language, so use the one saved.
         if (error?.status === 404) {
-            warningAlert(t('citizens.notFoundOrNoAccess.title'), t('citizens.notFoundOrNoAccess.message'))
+            const options = { locale: userStore.getLanguage || undefined }
+            warningAlert(t('citizens.notFoundOrNoAccess.title', {}, options), t('citizens.notFoundOrNoAccess.message', {}, options))
             navigateTo('/citizens', { replace: true })
         }
     }
