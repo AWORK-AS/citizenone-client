@@ -249,20 +249,74 @@
                         <p v-if="!subscriptionOptions.length" class="text-[12px] text-[#8891A4]">
                             {{ $t('superadmin.agreements.detail.noSubscriptions') }}
                         </p>
-                        <Tooltip v-for="option in subscriptionOptions" :key="option.uuid"
-                            :text="$t('superadmin.agreements.detail.linkedElsewhere')" :disabled="!isLinkedElsewhere(option)"
-                            position="top" wrap class="!block">
-                            <label class="flex items-center gap-2 text-sm"
-                                :class="isLinkedElsewhere(option) ? 'text-[#8891A4] cursor-not-allowed' : 'text-[#1F2533] cursor-pointer'">
-                                <input type="checkbox" class="rounded border-[#D5D9E2]" :value="option.uuid"
-                                    :disabled="isLinkedElsewhere(option)" v-model="state.linked" />
-                                <span>{{ option.label }}</span>
+                        <div v-if="subscriptionOptions.length" class="flex flex-wrap items-center justify-between gap-2">
+                            <Tooltip :text="$t('superadmin.agreements.detail.subsSummaryHelp')" position="top" wrap>
+                                <p class="text-[12px] text-[#5C6478]" aria-live="polite">
+                                    {{ $t('superadmin.agreements.detail.subsSummary', { checked: totalSelection.checked, total: totalSelection.total }) }}
+                                </p>
+                            </Tooltip>
+                            <div class="flex items-center gap-2">
+                                <Tooltip :text="$t('superadmin.agreements.detail.subsSelectAllHelp')" position="top" wrap>
+                                    <SuperadminTableButton :disabled="totalSelection.state === 'all'" @click="setAllLinked(true)">
+                                        {{ $t('superadmin.agreements.detail.subsSelectAll') }}
+                                    </SuperadminTableButton>
+                                </Tooltip>
+                                <Tooltip :text="$t('superadmin.agreements.detail.subsDeselectAllHelp')" position="top" wrap>
+                                    <SuperadminTableButton :disabled="totalSelection.checked === 0" @click="setAllLinked(false)">
+                                        {{ $t('superadmin.agreements.detail.subsDeselectAll') }}
+                                    </SuperadminTableButton>
+                                </Tooltip>
+                            </div>
+                        </div>
+                        <div v-for="group in subscriptionGroups" :key="group.key"
+                            class="border border-[#EAECF0] rounded-lg" data-testid="subscription-group">
+                            <div class="flex items-center gap-2 px-3 py-2">
+                                <Tooltip :text="$t('superadmin.agreements.detail.subsGroupToggleHelp')" position="top" wrap>
+                                    <input type="checkbox" class="rounded border-[#D5D9E2]"
+                                        :checked="selectionOf(group).state === 'all'"
+                                        :indeterminate="selectionOf(group).state === 'some'"
+                                        :disabled="!group.selectable.length"
+                                        :aria-label="group.label" @change="toggleGroup(group)" />
+                                </Tooltip>
+                                <span class="text-sm font-medium text-[#1F2533]">{{ group.label }}</span>
                                 <span class="co-badge co-badge-gray">
-                                    {{ $t(`superadmin.agreements.detail.dealTypes.${option.deal_type ?? 'deal'}`) }}
+                                    {{ $t(`superadmin.agreements.detail.dealTypes.${group.deal_type ?? 'deal'}`) }}
                                 </span>
-                                <span v-if="option.user_name" class="text-[12px] text-[#8891A4]">{{ option.user_name }}</span>
-                            </label>
-                        </Tooltip>
+                                <span class="text-[12px] text-[#5C6478]">
+                                    {{ $t('superadmin.agreements.detail.subsGroupCount', { checked: selectionOf(group).checked, total: selectionOf(group).total }) }}
+                                    <template v-if="group.elsewhere"> · {{ $t('superadmin.agreements.detail.subsGroupElsewhere', { count: group.elsewhere }) }}</template>
+                                </span>
+                                <span class="grow"></span>
+                                <Tooltip :text="state.expanded[group.key]
+                                    ? $t('superadmin.agreements.detail.subsGroupCollapseHelp')
+                                    : $t('superadmin.agreements.detail.subsGroupExpandHelp')" position="left" wrap>
+                                    <button type="button" class="p-1 rounded hover:bg-[#F5F6F8] text-[#5C6478]"
+                                        :aria-expanded="!!state.expanded[group.key]"
+                                        :aria-label="state.expanded[group.key]
+                                            ? $t('superadmin.agreements.detail.subsGroupCollapseHelp')
+                                            : $t('superadmin.agreements.detail.subsGroupExpandHelp')"
+                                        @click="state.expanded[group.key] = !state.expanded[group.key]">
+                                        <Icon :name="state.expanded[group.key] ? 'ph:caret-up' : 'ph:caret-down'"
+                                            class="w-4 h-4" aria-hidden="true" />
+                                    </button>
+                                </Tooltip>
+                            </div>
+                            <div v-if="state.expanded[group.key]"
+                                class="border-t border-[#EAECF0] max-h-72 overflow-y-auto px-3 py-1">
+                                <Tooltip v-for="option in group.items" :key="option.uuid"
+                                    :text="isLinkedElsewhere(option)
+                                        ? $t('superadmin.agreements.detail.linkedElsewhere')
+                                        : $t('superadmin.agreements.detail.subsLicenceToggleHelp')"
+                                    position="top" wrap class="!block w-full">
+                                    <label class="flex items-center gap-2 text-sm py-1"
+                                        :class="isLinkedElsewhere(option) ? 'text-[#8891A4] cursor-not-allowed' : 'text-[#1F2533] cursor-pointer'">
+                                        <input type="checkbox" class="rounded border-[#D5D9E2]" :value="option.uuid"
+                                            :disabled="isLinkedElsewhere(option)" v-model="state.linked" />
+                                        <span>{{ option.user_name || option.label }}</span>
+                                    </label>
+                                </Tooltip>
+                            </div>
+                        </div>
                         <Tooltip :text="$t('superadmin.agreements.detail.saveSubscriptionsHelp')" position="top" wrap>
                             <FormButton type="button" buttonStyle="action" :disabled="!linkedChanged"
                                 @click="saveSubscriptions">
@@ -321,7 +375,10 @@ import { useI18n } from 'vue-i18n'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
-import { isCancellationRemainder, isEconomicSyncedPayment, unwrapData } from '@/composables/agreements'
+import {
+    groupSelection, groupSubscriptions, isCancellationRemainder, isEconomicSyncedPayment, setGroupsLinked,
+    toggleGroupLinks, unwrapData,
+} from '@/composables/agreements'
 import type { Agreement, LinkableSubscription } from '@/types/agreement'
 import type { Error } from '@/types'
 
@@ -342,6 +399,7 @@ const state = reactive({
     isLoading: false,
     error: {} as Error,
     linked: [] as string[],
+    expanded: {} as Record<string, boolean>,
     candidates: [] as LinkableSubscription[],
     cancel: { open: false },
     isDeleteOpen: false,
@@ -374,6 +432,20 @@ function isLinkedElsewhere(option: LinkableSubscription): boolean {
     return !!option.company_agreement_uuid && option.company_agreement_uuid !== state.agreement?.uuid
 }
 
+// One row per product instead of one per licence (a customer can have hundreds).
+const subscriptionGroups = computed(() => groupSubscriptions(subscriptionOptions.value, state.agreement?.uuid))
+const selectionOf = (group: { selectable: string[] }) => groupSelection(group, state.linked)
+const totalSelection = computed(() =>
+    groupSelection({ selectable: subscriptionGroups.value.flatMap((g) => g.selectable) }, state.linked))
+
+function toggleGroup(group: { selectable: string[] }) {
+    state.linked = toggleGroupLinks(group, state.linked)
+}
+
+function setAllLinked(on: boolean) {
+    state.linked = setGroupsLinked(subscriptionGroups.value, state.linked, on)
+}
+
 const linkedChanged = computed(() => {
     const original = (state.agreement?.subscriptions ?? []).map((s) => s.uuid).sort().join(',')
     return original !== [...state.linked].sort().join(',')
@@ -402,6 +474,7 @@ async function load() {
 
 async function loadCandidates() {
     state.candidates = []
+    state.expanded = {}
     try {
         const list = unwrapData<LinkableSubscription[]>(await agreementService.getLinkableSubscriptions(props.companyUuid))
         state.candidates = Array.isArray(list) ? list : []
