@@ -1147,7 +1147,15 @@ input.appearance-none.border-primary {
 [class*="fixed"][class*="inset-0"] {
     z-index: 60 !important;
 }
-[role="dialog"] { z-index: 61 !important; }
+/*
+ * A dialog must sit above every fixed layout chrome. The "Modal altid over topbar" rule
+ * further up gives anything whose class list contains both "fixed" and "z-50" a z-index
+ * of 100, and that matches the superadmin sidebar (`lg:fixed ... lg:z-50`). The dialog
+ * was 61, so the sidebar painted over the left edge of the modal and was never dimmed by
+ * the backdrop. 105 clears the sidebar (100) and stays below the hover card (110), the
+ * toast (120) and the tour guide (130).
+ */
+[role="dialog"] { z-index: 105 !important; }
 
 /* Sikr dropdown stadig over sidebar men under modal */
 [role='listbox'],[role='menu'] { z-index: 55 !important; }
