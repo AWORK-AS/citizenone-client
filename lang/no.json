@@ -13558,6 +13558,7 @@
                 "settledExternally": "Åpne avdrag som forfaller før denne datoen markeres som oppgjort og faktureres aldri. Bruk det for kunder som allerede har betalt via e-conomic.",
                 "renewalValue": "Tom = beregnes ut fra gjeldende listepris for de tilknyttede lisensene på fornyelsestidspunktet. Fylles feltet ut, erstatter den faste prisen listeprisen ved de kommende fornyelsene.",
                 "renewalTerm": "Når bindingen utløper, fornyes avtalen for denne perioden til gjeldende listepris. F.eks. 36 mnd. samlet = én faktura for 3 år på fornyelsesdatoen.",
+                "renewalBilling": "Avtalen forlenges ved fornyelse, men det opprettes ingen fakturaer før rateplanen for den nye perioden er lagt inn. Dere får beskjed fra oppsigelsesfristen.",
                 "termMode": "Oppgi bindingen enten som antall måneder eller som en sluttdato.",
                 "endsOn": "Bindingens siste dag. Antall måneder beregnes av serveren, f.eks. 2025-06-10 til 2028-09-01."
             },
@@ -13773,7 +13774,14 @@
                 "renewsFor": "Fornyes for {term} mnd. · {billing}",
                 "periodExpected": "Forventet for perioden: {amount} kr.",
                 "periodExpectedHelp": "Anslått beløp for hele fornyelsesperioden til dagens listepriser. Kan endre seg hvis prisene endres før det.",
-                "billing": {"upfront": "Samlet ved fornyelse", "yearly": "Årlig", "monthly": "Månedlig", "plan": "Som betalingsplanen"},
+                "planMissing": "Rateplan mangler for fornyelse",
+                "planMissingHelp": "Avtalen fornyes, men rateplanen for den nye perioden er ikke lagt inn. Det opprettes ingen fakturaer før den er der.",
+                "planMissingHelpDue": "Avtalen fornyes, men rateplanen for den nye perioden er ikke lagt inn. Det opprettes ingen fakturaer før den er der. Må være på plass til {date}.",
+                "addPlan": "Legg til rateplan for ny periode",
+                "addPlanHelp": "Åpner avtalen med rateplanen som en liste og en tom rad på fornyelsesdatoen.",
+                "mrrEstimated": "anslått",
+                "mrrEstimatedHelp": "Kontrakt-MRR inneholder en fornyelse uten rateplan og er derfor et anslag ut fra listeprisene.",
+                "billing": {"by_agreement": "Avtales med salget", "upfront": "Samlet ved fornyelse", "yearly": "Årlig", "monthly": "Månedlig", "plan": "Som betalingsplanen"},
                 "sources": {
                     "list_price": "Listepris",
                     "override": "Fast pris",
@@ -13840,6 +13848,7 @@
                 "backlog": "Summen av avdrag på aktive avtaler der fakturaen ikke er betalt.",
                 "outstanding": "Fakturaer for avtaler som er opprettet, men ikke betalt ennå.",
                 "bindingsEnding": "Antall aktive avtaler hvor bindingen utløper innen 3, 6 og 12 måneder.",
+                "renewalsWithoutPlan": "{count} fornyelser mangler en rateplan. Det opprettes ingen fakturaer for dem før planen er lagt inn.",
                 "upcoming": "Aktive avtaler sortert etter utløp. Klikk for å åpne kundens Avtaler."
             },
             "upcomingTitle": "Neste bindinger som utløper",

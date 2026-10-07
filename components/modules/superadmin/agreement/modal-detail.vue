@@ -14,6 +14,7 @@
                             <div class="rounded-xl border border-[#EAECF0] bg-white p-3 w-full text-left">
                                 <p class="text-[11px] text-[#8891A4]">{{ card.label }}</p>
                                 <p class="text-[17px] font-semibold text-[#1F2533]">{{ card.value }}</p>
+                                <ModulesSuperadminAgreementMrrEstimatedChip v-if="card.key === 'mrr' && contractMrrIsEstimated(state.agreement)" />
                             </div>
                         </Tooltip>
                     </div>
@@ -40,6 +41,8 @@
                                 {{ $t('superadmin.agreements.renewed', { count: state.agreement.renewals_count }) }}
                             </span>
                         </Tooltip>
+                        <ModulesSuperadminAgreementRenewalPlanChip v-if="renewalPlanMissing(state.agreement)"
+                            :due="state.agreement.renewal_plan_due ?? null" />
                         <ModulesSuperadminAgreementNoticeBadge :deadline="state.agreement.notice_deadline"
                             :autoRenews="state.agreement.auto_renews" />
                     </div>
@@ -354,6 +357,13 @@
                                     {{ $t('superadmin.agreements.detail.delete') }}
                                 </FormButton>
                             </Tooltip>
+                            <Tooltip v-if="renewalPlanMissing(state.agreement)"
+                                :text="$t('superadmin.agreements.renewal.addPlanHelp')" position="top" wrap>
+                                <FormButton type="button" buttonStyle="action" @click="$emit('addRenewalPlan', state.agreement)">
+                                    <Icon name="ph:calendar-plus" class="w-4 h-4" aria-hidden="true" />
+                                    {{ $t('superadmin.agreements.renewal.addPlan') }}
+                                </FormButton>
+                            </Tooltip>
                             <Tooltip :text="$t('superadmin.agreements.detail.editHelp')" position="top">
                                 <FormButton type="button" buttonStyle="primary" @click="$emit('edit', state.agreement)">
                                     <Icon name="ph:pencil-simple" class="w-4 h-4" aria-hidden="true" />
@@ -386,7 +396,7 @@ import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import {
-    groupSelection, groupSubscriptions, isCancellationRemainder, isEconomicSyncedPayment, renewalSummary, setGroupsLinked,
+    contractMrrIsEstimated, groupSelection, groupSubscriptions, isCancellationRemainder, isEconomicSyncedPayment, renewalPlanMissing, renewalSummary, setGroupsLinked,
     toggleGroupLinks, unwrapData,
 } from '@/composables/agreements'
 import type { Agreement, LinkableSubscription } from '@/types/agreement'
@@ -397,7 +407,7 @@ const props = defineProps({
     companyUuid: { type: String, required: true },
     agreementUuid: { type: String, default: '' },
 })
-const emit = defineEmits(['close', 'edit', 'changed', 'deleted'])
+const emit = defineEmits(['close', 'edit', 'addRenewalPlan', 'changed', 'deleted'])
 
 const { t } = useI18n()
 const { formatAmount } = useAmountFormatter()

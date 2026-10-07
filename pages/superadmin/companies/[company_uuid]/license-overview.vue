@@ -123,6 +123,8 @@
                                                     {{ $t('superadmin.agreements.renewal.renewsFor', { term: agreementRenewal.months, billing: $t(`superadmin.agreements.renewal.billing.${agreementRenewal.billing}`) }) }}
                                                 </p>
                                             </Tooltip>
+                                            <ModulesSuperadminAgreementRenewalPlanChip v-if="agreement.renewal_plan_missing"
+                                                :due="agreement.renewal_plan_due" />
                                             <div v-if="canViewFinancials && agreement.estimated_renewal_annual_value != null"
                                                 class="flex flex-wrap items-center gap-2 text-sm text-gray-900">
                                                 <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>

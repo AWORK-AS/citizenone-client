@@ -29,6 +29,10 @@ import {
     groupSubscriptions,
     subscriptionAgreementView,
     renewalTermMonths,
+    renewalPlanMissing,
+    contractMrrIsEstimated,
+    renewalsWithoutPlan,
+    renewalPlanInstallment,
     renewalSummary,
     groupSelection,
     toggleGroupLinks,
@@ -704,5 +708,45 @@ describe('renewal period and invoicing', () => {
         assert.equal(view.agreement.estimated_renewal_period_value, 20844)
         const bad = subscriptionAgreementView({ agreement: { uuid: 'a', name: 'X', renewal_billing: 'weekly' } })
         assert.equal(bad.agreement.renewal_billing, null)
+    })
+})
+
+describe('renewals without a plan', () => {
+    test('only a literal true marks a plan as missing or MRR as estimated', () => {
+        assert.equal(renewalPlanMissing({ renewal_plan_missing: true }), true)
+        for (const v of [false, 'true', 1, null, undefined]) assert.equal(renewalPlanMissing({ renewal_plan_missing: v }), false)
+        assert.equal(renewalPlanMissing(null), false)
+        assert.equal(contractMrrIsEstimated({ contract_mrr_estimated: true }), true)
+        assert.equal(contractMrrIsEstimated({}), false)
+    })
+
+    test('renewals_without_plan is a count, absent or junk is 0', () => {
+        assert.equal(renewalsWithoutPlan({ renewals_without_plan: 3 }), 3)
+        assert.equal(renewalsWithoutPlan({ renewals_without_plan: '4' }), 4)
+        for (const v of [0, -1, null, undefined, 'x']) assert.equal(renewalsWithoutPlan({ renewals_without_plan: v }), 0)
+        assert.equal(renewalsWithoutPlan(null), 0)
+    })
+
+    test('the prefilled row sits on the renewal date, falling back to the end date', () => {
+        assert.deepEqual(renewalPlanInstallment({ renewal_plan_due: '2030-07-12', ends_on: '2030-07-11' }),
+            { due_on: '2030-07-12', amount: 0, label: null, covers_from: '2030-07-12', covers_to: null })
+        assert.equal(renewalPlanInstallment({ ends_on: '2030-07-11' }).due_on, '2030-07-11')
+    })
+
+    test('by_agreement is a valid renewal billing in payload, summary and card mapping', () => {
+        const p = buildAgreementPayload({
+            name: 'x', starts_on: '2026-07-12', term_months: 48, term_mode: 'months', ends_on: '',
+            renewal_annual_value: '', renewal_term_months: 36, renewal_billing: 'by_agreement', notice_months: 3,
+            auto_renews: true, billing_plan: 'yearly', prepaid_years: null, contract_value: 1, fee_per_invoice: 0,
+            payment_method: 'invoice', internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 0, remaining_count: 0, remaining_interval_months: 12 }, installments: [], installmentsEdited: false,
+        })
+        assert.equal(p.renewal_billing, 'by_agreement')
+        assert.equal(renewalSummary({ renewal_billing: 'by_agreement' }).billing, 'by_agreement')
+        const view = subscriptionAgreementView({ agreement: { uuid: 'a', name: 'X', renewal_billing: 'by_agreement', renewal_plan_missing: true, renewal_plan_due: '2030-07-12', contract_mrr_estimated: true } })
+        assert.equal(view.agreement.renewal_billing, 'by_agreement')
+        assert.equal(view.agreement.renewal_plan_missing, true)
+        assert.equal(view.agreement.renewal_plan_due, '2030-07-12')
+        assert.equal(view.agreement.contract_mrr_estimated, true)
     })
 })

@@ -238,8 +238,8 @@ export function renewalTermMonths(value: unknown): number | null {
 /** Months and invoicing of a renewal as the screens show them; null months means 12. */
 export function renewalSummary(agreement: {
     renewal_term_months?: number | null
-    renewal_billing?: 'upfront' | 'yearly' | 'monthly' | null
-}): { months: number; billing: 'upfront' | 'yearly' | 'monthly' | 'plan' } {
+    renewal_billing?: 'upfront' | 'yearly' | 'monthly' | 'by_agreement' | null
+}): { months: number; billing: 'upfront' | 'yearly' | 'monthly' | 'by_agreement' | 'plan' } {
     return {
         months: renewalTermMonths(agreement.renewal_term_months) ?? 12,
         billing: agreement.renewal_billing ?? 'plan',
@@ -257,7 +257,7 @@ export interface AgreementFormState {
     /** '' = 12 (the backend default). */
     renewal_term_months?: number | string
     /** '' = follow the payment plan. */
-    renewal_billing?: '' | 'upfront' | 'yearly' | 'monthly'
+    renewal_billing?: '' | 'upfront' | 'yearly' | 'monthly' | 'by_agreement'
     notice_months: number | string
     auto_renews: boolean
     billing_plan: AgreementPayload['billing_plan']
@@ -670,7 +670,10 @@ export function subscriptionAgreementView(data: any): {
             estimated_renewal_annual_value: toNumberOrNull(raw.estimated_renewal_annual_value),
             renewal_value_source: textOrNull(raw.renewal_value_source),
             renewal_term_months: renewalTermMonths(raw.renewal_term_months),
-            renewal_billing: ['upfront', 'yearly', 'monthly'].includes(raw.renewal_billing) ? raw.renewal_billing : null,
+            renewal_billing: ['upfront', 'yearly', 'monthly', 'by_agreement'].includes(raw.renewal_billing) ? raw.renewal_billing : null,
+            renewal_plan_missing: raw.renewal_plan_missing === true,
+            renewal_plan_due: textOrNull(raw.renewal_plan_due),
+            contract_mrr_estimated: raw.contract_mrr_estimated === true,
             estimated_renewal_period_value: toNumberOrNull(raw.estimated_renewal_period_value),
             status: textOrNull(raw.status),
         }
@@ -685,4 +688,29 @@ export function subscriptionAgreementView(data: any): {
         }))
 
     return { agreement, runningAgreements }
+}
+
+/** Amber "rateplan mangler" state of an agreement or a Ledelse row; only a literal true counts. */
+export function renewalPlanMissing(row: { renewal_plan_missing?: unknown } | null | undefined): boolean {
+    return row?.renewal_plan_missing === true
+}
+
+/** Contract MRR that includes a renewal without a plan is an estimate. */
+export function contractMrrIsEstimated(row: { contract_mrr_estimated?: unknown } | null | undefined): boolean {
+    return row?.contract_mrr_estimated === true
+}
+
+/** recurring_revenue.renewals_without_plan as a whole number >= 0 (absent on an older API). */
+export function renewalsWithoutPlan(recurringRevenue: { renewals_without_plan?: unknown } | null | undefined): number {
+    const n = toNumberOrNull(recurringRevenue?.renewals_without_plan)
+    return n !== null && n > 0 ? Math.floor(n) : 0
+}
+
+/**
+ * The empty installment the "Tilfoej rateplan for ny periode" button opens the form with:
+ * due on the renewal date (renewal_plan_due, else the day the binding ends), covering from then.
+ */
+export function renewalPlanInstallment(agreement: { renewal_plan_due?: string | null; ends_on?: string | null }): InstallmentInput {
+    const due = agreement.renewal_plan_due || agreement.ends_on || ''
+    return { due_on: due, amount: 0, label: null, covers_from: due || null, covers_to: null }
 }

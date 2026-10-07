@@ -13654,6 +13654,7 @@
                 "settledExternally": "Open installments due before this date are marked as settled and are never invoiced. Use it for customers who already paid through e-conomic.",
                 "renewalValue": "Empty = calculated from the current list price of the linked licences at the time of renewal. A value entered here is a fixed price that replaces the list price for the coming renewals.",
                 "renewalTerm": "When the binding ends, the agreement renews for this period at the current list price. E.g. 36 months upfront = one invoice for 3 years on the renewal date.",
+                "renewalBilling": "The agreement is extended at renewal, but no invoices are created until the installment plan for the new period has been entered. You are notified from the notice deadline.",
                 "termMode": "Give the binding either as a number of months or as an end date.",
                 "endsOn": "The last day of the binding. The server works out the months, e.g. 2025-06-10 to 2028-09-01."
             },
@@ -13869,7 +13870,14 @@
                 "renewsFor": "Renews for {term} mo. · {billing}",
                 "periodExpected": "Expected for the period: {amount} kr.",
                 "periodExpectedHelp": "Estimated amount for the whole renewal period at today's list prices. May change if prices change before then.",
-                "billing": {"upfront": "Upfront at renewal", "yearly": "Yearly", "monthly": "Monthly", "plan": "As the payment plan"},
+                "planMissing": "Installment plan missing for renewal",
+                "planMissingHelp": "The agreement renews, but the installment plan for the new period has not been entered. No invoices are created until it is.",
+                "planMissingHelpDue": "The agreement renews, but the installment plan for the new period has not been entered. No invoices are created until it is. Needed by {date}.",
+                "addPlan": "Add installment plan for new period",
+                "addPlanHelp": "Opens the agreement with the installments as a list and an empty row on the renewal date.",
+                "mrrEstimated": "estimated",
+                "mrrEstimatedHelp": "Contract MRR includes a renewal without an installment plan, so it is an estimate from list prices.",
+                "billing": {"by_agreement": "Agreed with the sale", "upfront": "Upfront at renewal", "yearly": "Yearly", "monthly": "Monthly", "plan": "As the payment plan"},
                 "sources": {
                     "list_price": "List price",
                     "override": "Fixed price",
@@ -13936,6 +13944,7 @@
                 "backlog": "The sum of installments on active agreements whose invoice is not paid.",
                 "outstanding": "Agreement invoices that have been created but are not paid yet.",
                 "bindingsEnding": "Number of active agreements whose binding ends within 3, 6 and 12 months.",
+                "renewalsWithoutPlan": "{count} renewals lack an installment plan. No invoices are created for them until the plan is entered.",
                 "upcoming": "Active agreements sorted by end date. Click to open the customer's Agreements."
             },
             "upcomingTitle": "Next bindings to end",

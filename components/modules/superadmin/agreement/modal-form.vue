@@ -134,15 +134,16 @@
                             <div>
                                 <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalBilling')" />
-                                    <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap>
+                                    <Tooltip :text="$t('superadmin.agreements.help.renewalBilling')" position="top" wrap>
                                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
-                                            :aria-label="$t('superadmin.agreements.help.renewalTerm')" />
+                                            :aria-label="$t('superadmin.agreements.help.renewalBilling')" />
                                     </Tooltip>
                                 </div>
                                 <SuperadminFormSelectField v-model="form.renewal_billing">
                                     <option value="upfront">{{ $t('superadmin.agreements.renewal.billing.upfront') }}</option>
                                     <option value="yearly">{{ $t('superadmin.agreements.renewal.billing.yearly') }}</option>
                                     <option value="monthly">{{ $t('superadmin.agreements.renewal.billing.monthly') }}</option>
+                                    <option value="by_agreement">{{ $t('superadmin.agreements.renewal.billing.by_agreement') }}</option>
                                     <option value="">{{ $t('superadmin.agreements.renewal.billing.plan') }}</option>
                                 </SuperadminFormSelectField>
                             </div>
@@ -524,6 +525,7 @@ import {
     addOnAmount,
     addOnAmountIsComputed,
     addOnCoversFromAfterDueOn,
+    renewalPlanInstallment,
     isAddOnRow,
     buildPresetInstallments,
     withDefaultCoverage,
@@ -544,6 +546,8 @@ const props = defineProps({
     companyUuid: { type: String, required: true },
     /** Present when editing. */
     agreement: { type: Object as () => Agreement | null, default: null },
+    /** Open on the explicit installment list with an empty row on the renewal date. */
+    addRenewalPlan: { type: Boolean, default: false },
 })
 const emit = defineEmits(['close', 'saved'])
 
@@ -633,7 +637,7 @@ function resetFromProps() {
         internal_note: a.internal_note ?? '',
         settled_externally_before: a.settled_externally_before ?? '',
         settled_note: a.settled_note ?? '',
-        installments: a.billing_plan === 'installments'
+        installments: a.billing_plan === 'installments' || props.addRenewalPlan
             ? (a.installments ?? []).map((row) => ({
                 due_on: row.due_on,
                 amount: row.amount,
@@ -653,6 +657,11 @@ function resetFromProps() {
             }))
             : [],
     })
+    if (props.addRenewalPlan) {
+        form.billing_plan = 'installments'
+        form.installments.push(renewalPlanInstallment(a) as Row)
+        form.installmentsEdited = true
+    }
 }
 
 watch(() => props.isModalOpen, (open: boolean) => { if (open) resetFromProps() })

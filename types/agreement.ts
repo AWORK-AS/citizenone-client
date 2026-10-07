@@ -101,7 +101,7 @@ export interface CoveredInvoice {
 }
 
 /** How the renewal is invoiced; null follows the payment plan. */
-export type RenewalBilling = 'upfront' | 'yearly' | 'monthly'
+export type RenewalBilling = 'upfront' | 'yearly' | 'monthly' | 'by_agreement'
 
 export interface Agreement {
     uuid: string
@@ -129,6 +129,11 @@ export interface Agreement {
     renewal_term_months?: number | null
     renewal_billing?: RenewalBilling | null
     estimated_renewal_period_value?: number | null
+    /** A renewal is agreed but its installment plan is not entered yet (renewal_billing 'by_agreement'). */
+    renewal_plan_missing?: boolean
+    renewal_plan_due?: string | null
+    /** Contract MRR includes a renewal that is not planned yet. */
+    contract_mrr_estimated?: boolean
     renewals_count: number
     covered_invoices?: CoveredInvoice[]
     settled_externally_before?: string | null

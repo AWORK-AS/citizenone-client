@@ -13558,6 +13558,7 @@
                 "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
                 "renewalValue": "Tomt = beräknas utifrån gällande listpris för de kopplade licenserna vid förnyelsetillfället. Ett ifyllt värde är ett fast pris som ersätter listpriset vid kommande förnyelser.",
                 "renewalTerm": "När bindningen löper ut förnyas avtalet för denna period till gällande listpris. T.ex. 36 mån. samlat = en faktura för 3 år på förnyelsedagen.",
+                "renewalBilling": "Avtalet förlängs vid förnyelse, men inga fakturor skapas förrän avbetalningsplanen för den nya perioden är inlagd. Ni får besked från uppsägningsfristen.",
                 "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
                 "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
             },
@@ -13773,7 +13774,14 @@
                 "renewsFor": "Förnyas för {term} mån. · {billing}",
                 "periodExpected": "Förväntat för perioden: {amount} kr.",
                 "periodExpectedHelp": "Uppskattat belopp för hela förnyelseperioden till dagens listpriser. Kan ändras om priserna ändras före dess.",
-                "billing": {"upfront": "Samlat vid förnyelse", "yearly": "Årligen", "monthly": "Månadsvis", "plan": "Som betalningsplanen"},
+                "planMissing": "Avbetalningsplan saknas för förnyelse",
+                "planMissingHelp": "Avtalet förnyas, men avbetalningsplanen för den nya perioden är inte inlagd. Inga fakturor skapas förrän den finns.",
+                "planMissingHelpDue": "Avtalet förnyas, men avbetalningsplanen för den nya perioden är inte inlagd. Inga fakturor skapas förrän den finns. Måste vara på plats till {date}.",
+                "addPlan": "Lägg till avbetalningsplan för ny period",
+                "addPlanHelp": "Öppnar avtalet med planen som en lista och en tom rad på förnyelsedagen.",
+                "mrrEstimated": "uppskattad",
+                "mrrEstimatedHelp": "Kontrakts-MRR innehåller en förnyelse utan avbetalningsplan och är därför en uppskattning från listpriserna.",
+                "billing": {"by_agreement": "Avtalas vid försäljning", "upfront": "Samlat vid förnyelse", "yearly": "Årligen", "monthly": "Månadsvis", "plan": "Som betalningsplanen"},
                 "sources": {
                     "list_price": "Listpris",
                     "override": "Fast pris",
@@ -13840,6 +13848,7 @@
                 "backlog": "Summan av delbetalningar på aktiva avtal där fakturan inte är betald.",
                 "outstanding": "Avtalsfakturor som skapats men ännu inte betalats.",
                 "bindingsEnding": "Antal aktiva avtal vars bindning löper ut inom 3, 6 och 12 månader.",
+                "renewalsWithoutPlan": "{count} förnyelser saknar avbetalningsplan. Inga fakturor skapas för dem förrän planen är inlagd.",
                 "upcoming": "Aktiva avtal sorterade efter slutdatum. Klicka för att öppna kundens Avtal."
             },
             "upcomingTitle": "Nästa bindningar som löper ut",
