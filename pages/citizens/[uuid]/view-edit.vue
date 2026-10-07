@@ -57,7 +57,7 @@ import type { CitizenForm, Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
 const language = useI18n()
 const { parseLocaleNumber } = useNumberFormatter()
@@ -283,6 +283,11 @@ async function fetchCitizen() {
         }
     } catch (error: any) {
         state.error = error
+        // Unknown, or outside what this user may see: no empty form to edit.
+        if (error?.status === 404) {
+            warningAlert(t('citizens.notFoundOrNoAccess.title'), t('citizens.notFoundOrNoAccess.message'))
+            navigateTo('/citizens', { replace: true })
+        }
     }
     state.isPageLoading = false
 }

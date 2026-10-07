@@ -492,6 +492,7 @@ import { useIsDesktopApp, reportRecentDesktopItem, openInNewDesktopWindow } from
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useTerminology } from '@/composables/useTerminology'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
+import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -501,6 +502,7 @@ const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { t } = useI18n()
 const { term } = useTerminology()
+const { warningAlert } = useAlert()
 const customPagesStore = useCustomPagesStore() as any
 const citizenStore = useCitizenStore() as any
 const userStore = useUserStore() as any
@@ -791,6 +793,12 @@ async function fetchCitizen() {
         }
     } catch (error: any) {
         state.error = error
+        // Unknown, or outside the departments and assignments this user may
+        // see (e.g. opened from an old link). Say so instead of an empty page.
+        if (error?.status === 404) {
+            warningAlert(t('citizens.notFoundOrNoAccess.title'), t('citizens.notFoundOrNoAccess.message'))
+            navigateTo('/citizens', { replace: true })
+        }
     }
     state.isPageLoading = false
 }

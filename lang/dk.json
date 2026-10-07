@@ -1613,6 +1613,10 @@
     "chooseFile": "Vælg fil",
     "chooseFiles": "Vælg fil(er)",
     "citizens": {
+        "notFoundOrNoAccess": {
+            "title": "@.capitalize:terms.citizen{''} ikke fundet",
+            "message": "@.capitalize:terms.citizenDefinite{''} findes ikke, eller du har ikke adgang."
+        },
         "developmentGraph": {
             "title": "Udviklingsdiagram",
             "absence": "Fravær",
