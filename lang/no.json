@@ -1613,6 +1613,10 @@
     "chooseFile": "Velg fil",
     "chooseFiles": "Velg fil(er)",
     "citizens": {
+        "notFoundOrNoAccess": {
+            "title": "@.capitalize:terms.citizen{''} ikke funnet",
+            "message": "@.capitalize:terms.citizenDefinite{''} finnes ikke, eller du har ikke tilgang."
+        },
         "developmentGraph": {
             "title": "Utviklingsdiagram",
             "absence": "Fravær",
@@ -7121,6 +7125,10 @@
             "inactive": "Inaktiv"
         },
         "emptyFiltered": "Ingen medarbeidere passer med filtrene.",
+        "seesNoCitizens": {
+            "badge": "Ser ingen @:terms.citizens{''}",
+            "warning": "Ser ingen @:terms.citizens{''}: er ikke i en avdeling, er ikke kontaktperson for noen @:terms.citizen{''} og er ikke i en medarbeidergruppe. Legg til en avdeling eller tildel @:terms.citizens{''}."
+        },
         "bulkEdit": {
             "action": "Rediger valgte",
             "addToCurrent": "Legg til de nåværende",
@@ -8870,6 +8878,12 @@
         }
     },
     "messages": {
+        "cprWarning": {
+            "title": "Sjekk før du sender",
+            "message": "Meldingen ser ut til å inneholde et CPR-nummer. Chatten er ikke ment for sensitive personopplysninger.",
+            "editMessage": "Rediger melding",
+            "sendAnyway": "Send likevel"
+        },
         "actions": {
             "delete": "Slett",
             "edit": "Rediger",

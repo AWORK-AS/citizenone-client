@@ -327,6 +327,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
 import { useAlert } from '@/composables/alert'
 import { useContinuity } from '@/composables/useContinuity'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import { useIsDesktopApp, openInNewDesktopWindow } from '@/composables/useIsDesktopApp'
 import { useUserStore } from '@/store/user'
 import { saveAs } from 'file-saver'
@@ -336,6 +337,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { reportContinuity } = useContinuity()
+const { confirmChatText } = useChatCprWarning()
 const isDesktopApp = useIsDesktopApp()
 const userStore = useUserStore() as any
 const router = useRouter()
@@ -661,6 +663,7 @@ async function readChat() {
 
 async function sendMessage() {
     if (state.message.trim() !== '') {
+        if (!(await confirmChatText(state.message))) return
         state.isChatHistoryDividerLoading = true
         try {
             const params = { message: state.message, chat_uuid: chatUuid }

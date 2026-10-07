@@ -22,6 +22,8 @@
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-6">
+                        <Alert type="warning" :text="$t('employees.seesNoCitizens.warning')"
+                            v-if="state.seesNoCitizens" />
                         <div class="flex gap-x-3 justify-end mb-6" v-if="isAtLeast('Admin')">
                             <div class="flex justify-end">
                                 <FormButton type="button" buttonStyle="primary"
@@ -563,6 +565,7 @@ const state = reactive({
         },
     } as any,
     isPageLoading: false,
+    seesNoCitizens: false,
 })
 
 // Which languages the employee speaks, mother tongue first.
@@ -580,6 +583,7 @@ async function fetchEmployee() {
     try {
         const response = await employeeService.getEmployee(employeeUuid)
         if (response) {
+            state.seesNoCitizens = response?.data?.sees_no_citizens ?? false
             let concatenatedDepartments = ''
             let concatenatedJobSpecialties = ''
             let concatenatedJobTitles = ''

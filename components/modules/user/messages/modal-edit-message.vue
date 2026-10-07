@@ -32,6 +32,7 @@ import { messageService } from '@/components/api/user/MessageService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -48,6 +49,7 @@ const props = defineProps({
 const emit = defineEmits(['close', 'updateMessage'])
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 
 const state = reactive({
     error: {} as Error,
@@ -82,6 +84,7 @@ function closeModal() {
 async function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!(await confirmChatText(state.formMessage.message))) return
         state.isPageLoading = true
         try {
             const chatMessageUuid = props.selectedChat?.uuid

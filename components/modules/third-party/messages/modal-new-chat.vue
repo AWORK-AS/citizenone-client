@@ -72,6 +72,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
+import { useChatCprWarning } from '@/composables/chatCprWarning'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -82,6 +83,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['close'])
 const { t } = useI18n()
+const { confirmChatText } = useChatCprWarning()
 const userStore = useUserStore() as any
 
 const state = reactive({
@@ -157,6 +159,7 @@ async function fetchRecipients() {
 async function sendMessage() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        if (!(await confirmChatText(state.formChat.subject, state.formChat.message))) return
         state.isPageLoading = true
         try {
             const params = {
