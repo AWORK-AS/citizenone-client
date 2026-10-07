@@ -714,3 +714,20 @@ export function renewalPlanInstallment(agreement: { renewal_plan_due?: string | 
     const due = agreement.renewal_plan_due || agreement.ends_on || ''
     return { due_on: due, amount: 0, label: null, covers_from: due || null, covers_to: null }
 }
+
+/**
+ * The customer's own user resource carries one flag about a company agreement,
+ * `user_subscription.under_agreement`. Only a literal true switches the pages to
+ * "CitizenOne Elite"; null (no subscription), absent or anything else leaves them unchanged.
+ */
+export function isUnderAgreement(subscription: { under_agreement?: unknown } | null | undefined): boolean {
+    return subscription?.under_agreement === true
+}
+
+/** "used of total" for the Elite card; null while the counts are not loaded. */
+export function licenceUsage(counts: { used?: unknown; unused?: unknown } | null | undefined): { used: number; total: number } | null {
+    const used = toNumberOrNull(counts?.used)
+    const unused = toNumberOrNull(counts?.unused)
+    if (used === null || unused === null) return null
+    return { used, total: used + unused }
+}

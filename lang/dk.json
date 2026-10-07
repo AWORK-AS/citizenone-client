@@ -11474,6 +11474,7 @@
             "remove": "Fjern"
         },
         "currentSubscription": "Nuværende abonnement",
+        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Jeres abonnement er en specificeret aftale med CitizenOne.", "agreementText": "Specificeret aftale – priser og vilkår følger jeres aftale med CitizenOne.", "usage": "{used} af {total} {label} i brug", "contact": "Kontakt os", "contactHelp": "Skriv til CitizenOne om jeres aftale, priser eller ændringer."},
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "admin": "Admin",

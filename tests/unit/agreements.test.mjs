@@ -33,6 +33,8 @@ import {
     contractMrrIsEstimated,
     renewalsWithoutPlan,
     renewalPlanInstallment,
+    isUnderAgreement,
+    licenceUsage,
     renewalSummary,
     groupSelection,
     toggleGroupLinks,
@@ -748,5 +750,22 @@ describe('renewals without a plan', () => {
         assert.equal(view.agreement.renewal_plan_missing, true)
         assert.equal(view.agreement.renewal_plan_due, '2030-07-12')
         assert.equal(view.agreement.contract_mrr_estimated, true)
+    })
+})
+
+describe('CitizenOne Elite on the customer pages', () => {
+    test('only a literal true under_agreement switches the card', () => {
+        assert.equal(isUnderAgreement({ under_agreement: true }), true)
+        for (const v of [false, 'true', 1, null, undefined]) assert.equal(isUnderAgreement({ under_agreement: v }), false)
+        assert.equal(isUnderAgreement(null), false)
+        assert.equal(isUnderAgreement(undefined), false)
+        assert.equal(isUnderAgreement({}), false)
+    })
+
+    test('licence usage is used of used+unused, null until both counts are known', () => {
+        assert.deepEqual(licenceUsage({ used: 12, unused: 8 }), { used: 12, total: 20 })
+        assert.deepEqual(licenceUsage({ used: '3', unused: '0' }), { used: 3, total: 3 })
+        assert.equal(licenceUsage(undefined), null)
+        assert.equal(licenceUsage({ used: 1 }), null)
     })
 })

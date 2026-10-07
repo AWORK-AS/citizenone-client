@@ -11474,6 +11474,7 @@
             "remove": "Remove"
         },
         "currentSubscription": "Current subscription",
+        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Your subscription is a specified agreement with CitizenOne.", "agreementText": "Specified agreement – prices and terms follow your agreement with CitizenOne.", "usage": "{used} of {total} {label} in use", "contact": "Contact us", "contactHelp": "Write to CitizenOne about your agreement, prices or changes."},
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",
             "admin": "Admin",

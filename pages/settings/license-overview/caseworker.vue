@@ -43,7 +43,8 @@
                         <h3 class="py-3 text-sm font-semibold">
                             {{ $t('subscription.currentSubscription') }}
                         </h3>
-                        <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
+                        <ModulesUserSubscriptionEliteCard v-if="isUnderAgreement(userStore.getUser?.user_subscription)" />
+                        <div v-else class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                             <div class="flex items-center justify-between gap-x-4">
                                 <h3 class="text-base font-semibold leading-7 text-tertiary">
                                     {{ userStore.getUser?.user_subscription?.deal?.name }}
@@ -214,6 +215,7 @@
 </template>
 
 <script setup lang="ts">
+import { isUnderAgreement } from '@/composables/agreements'
 import { licenseService } from '@/components/api/user/LicenseService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
