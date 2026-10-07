@@ -3657,7 +3657,9 @@
                     },
                     "date": "Datum",
                     "getFromPreviousStatus": "Hämta data från föregående status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Omsorgsområde",
+                    "careAreaInherited": "Ärvs från hälsoärendet"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statusar",
@@ -3722,7 +3724,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Behandlingens titel"
             },
-            "treatments": "Behandlingar"
+            "treatments": "Behandlingar",
+            "template": {
+                "observation": "Observation",
+                "assessment": "Bedömning",
+                "plan": "Plan",
+                "followUp": "Uppföljning"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -14127,7 +14135,8 @@
     "validation": {
         "invalidNumber": "Ogiltigt nummer",
         "invalidEmailAddress": "Ogiltig e-postadress",
-        "thisFieldIsRequired": "Detta fält är obligatorisk"
+        "thisFieldIsRequired": "Detta fält är obligatorisk",
+        "pleaseCompleteTemplate": "Fyll i mallen"
     },
     "verifyEmail": {
         "emailVerified": "Email verifierad",
@@ -14233,7 +14242,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Mall sparad",
                 "templateSuccessfullyUpdated": "Mall uppdaterad"
-            }
+            },
+            "descriptionTemplate": "Mall för ärendebeskrivning",
+            "descriptionTemplateHint": "Fylls i beskrivningen när ett hälsoärende skapas med denna mall.",
+            "statusTemplate": "Mall för statusuppdatering",
+            "statusTemplateHint": "Fylls i när en statusuppdatering skapas på ett hälsoärende med denna mall."
         },
         "table": {
             "name": "Namn",
