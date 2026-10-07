@@ -5271,6 +5271,8 @@
                 "amountRequired": "Ange ett antal timmar större än 0",
                 "button": "Registrera utbetalning",
                 "confirmation": "Är du säker på att du vill registrera en utbetalning av {amount} timmar till {employee}?",
+                "date": "Utbetalningsdatum",
+                "dateHint": "Välj datumet då timmarna betalades ut. Utbetalningen räknas i den månaden.",
                 "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
                 "register": "Registrera utbetalning",
                 "title": "Registrera utbetalning"

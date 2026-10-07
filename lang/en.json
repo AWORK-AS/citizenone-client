@@ -5326,6 +5326,8 @@
                 "amountRequired": "Enter a number of hours greater than 0",
                 "button": "Register payout",
                 "confirmation": "Are you sure you want to register a payout of {amount} hours for {employee}?",
+                "date": "Payout date",
+                "dateHint": "Choose the date the hours were paid out. The payout counts in that month.",
                 "noAccountAssigned": "This employee has no active time account to register a payout against.",
                 "register": "Register payout",
                 "title": "Register payout"

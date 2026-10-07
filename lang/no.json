@@ -5271,6 +5271,8 @@
                 "amountRequired": "Angi et antall timer større enn 0",
                 "button": "Registrer utbetaling",
                 "confirmation": "Er du sikker på at du vil registrere en utbetaling av {amount} timer til {employee}?",
+                "date": "Utbetalingsdato",
+                "dateHint": "Velg datoen timene ble utbetalt. Utbetalingen teller med i den måneden.",
                 "noAccountAssigned": "Denne ansatte har ingen aktiv timekonto å registrere en utbetaling på.",
                 "register": "Registrer utbetaling",
                 "title": "Registrer utbetaling"
