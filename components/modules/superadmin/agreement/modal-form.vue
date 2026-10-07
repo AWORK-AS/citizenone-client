@@ -284,15 +284,18 @@
                                         <input class="co-cell-input" type="text" v-model="row.label"
                                             :disabled="row.locked" @input="markEdited"
                                             :aria-label="$t('superadmin.agreements.table.label')" />
-                                        <Tooltip :text="$t('superadmin.agreements.form.coverageHelp')" position="top" wrap
+                                        <Tooltip :text="row.locked
+                                            ? $t('superadmin.agreements.form.coverageLockedHelp')
+                                            : $t('superadmin.agreements.form.coverageHelp')" position="top" wrap
                                             class="!block">
+                                            <!-- Stays editable on an invoiced or settled row: the period only drives contract MRR. -->
                                             <div class="flex items-center gap-1">
                                                 <input class="co-cell-input min-w-0" type="date" v-model="row.covers_from"
-                                                    :disabled="row.locked" @input="row.covers_from_manual = true; markEdited()"
+                                                     @input="row.covers_from_manual = true; markEdited()"
                                                     :aria-label="$t('superadmin.agreements.form.coversFrom')" />
                                                 <span class="text-[#8891A4]">&ndash;</span>
                                                 <input class="co-cell-input min-w-0" type="date" v-model="row.covers_to"
-                                                    :disabled="row.locked" @input="markEdited"
+                                                     @input="markEdited"
                                                     :aria-label="$t('superadmin.agreements.form.coversTo')" />
                                             </div>
                                         </Tooltip>

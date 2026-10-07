@@ -26,6 +26,10 @@ import {
     addOnAmount,
     addOnAmountIsComputed,
     addOnCoversFromAfterDueOn,
+    groupSubscriptions,
+    groupSelection,
+    toggleGroupLinks,
+    setGroupsLinked,
     addOnFields,
     ECONOMIC_SYNC_STATES,
     missingEconomicNumber,
@@ -535,5 +539,80 @@ describe('add-on covers_from follows due_on', () => {
         const row = buildAgreementPayload(form).installments[0]
         assert.equal('covers_from_manual' in row, false)
         assert.equal('is_add_on' in row, false)
+    })
+})
+
+describe('linkable subscriptions grouped by product', () => {
+    const sub = (i, label, deal_type, other = null, name = `Medarbejder ${i}`) =>
+        ({ uuid: `s${i}`, type: 'license', label, deal_type, user_name: name, company_agreement_uuid: other })
+    const options = [
+        sub(1, 'Extra User', 'add_on_deal'), sub(2, 'Extra User', 'add_on_deal'), sub(3, 'Extra User', 'add_on_deal', 'other'),
+        sub(4, 'Pro', 'deal'), sub(5, 'Extra User', 'deal'),
+    ]
+
+    test('groups on label and deal type, sorted, with other-agreement rows kept out of selectable', () => {
+        const groups = groupSubscriptions(options, 'mine')
+        assert.deepEqual(groups.map((g) => g.key), ['Extra User|deal', 'Extra User|add_on_deal', 'Pro|deal'])
+        const addOn = groups[1]
+        assert.equal(addOn.items.length, 3)
+        assert.deepEqual(addOn.selectable, ['s1', 's2'])
+        assert.equal(addOn.elsewhere, 1)
+    })
+
+    test('rows linked to this agreement stay selectable', () => {
+        const groups = groupSubscriptions([sub(1, 'Pro', 'deal', 'mine')], 'mine')
+        assert.deepEqual(groups[0].selectable, ['s1'])
+        assert.equal(groups[0].elsewhere, 0)
+    })
+
+    test('tri-state: none, some, all', () => {
+        const [, addOn] = groupSubscriptions(options, 'mine')
+        assert.deepEqual(groupSelection(addOn, []), { checked: 0, total: 2, state: 'none' })
+        assert.deepEqual(groupSelection(addOn, ['s1']), { checked: 1, total: 2, state: 'some' })
+        assert.deepEqual(groupSelection(addOn, ['s1', 's2']), { checked: 2, total: 2, state: 'all' })
+    })
+
+    test('group toggle: on from none or some, off from all, other links kept', () => {
+        const [, addOn] = groupSubscriptions(options, 'mine')
+        assert.deepEqual(toggleGroupLinks(addOn, ['s4']).sort(), ['s1', 's2', 's4'])
+        assert.deepEqual(toggleGroupLinks(addOn, ['s1']).sort(), ['s1', 's2'])
+        assert.deepEqual(toggleGroupLinks(addOn, ['s1', 's2', 's4']), ['s4'])
+    })
+
+    test('select all / deselect all never touch another agreement\'s licences', () => {
+        const groups = groupSubscriptions(options, 'mine')
+        assert.deepEqual(setGroupsLinked(groups, [], true).sort(), ['s1', 's2', 's4', 's5'])
+        assert.deepEqual(setGroupsLinked(groups, ['s1', 's2', 's4', 's5'], false), [])
+    })
+
+    test('hundreds of licences: one linked array with every uuid, no duplicates', () => {
+        const many = Array.from({ length: 372 }, (_, i) => sub(i, 'Extra User', 'add_on_deal'))
+        const groups = groupSubscriptions(many, 'mine')
+        const linked = toggleGroupLinks(groups[0], [])
+        assert.equal(linked.length, 372)
+        assert.equal(new Set(linked).size, 372)
+        assert.equal(groupSelection(groups[0], linked).state, 'all')
+    })
+})
+
+describe('coverage on locked rows', () => {
+    test('an edited covers_from on an invoiced row is sent, the UI-only fields are not', () => {
+        const form = {
+            name: 'x', starts_on: '2025-01-01', term_months: 12, term_mode: 'months', ends_on: '',
+            renewal_annual_value: '', notice_months: 3, auto_renews: true, billing_plan: 'installments',
+            prepaid_years: null, contract_value: 0, fee_per_invoice: 0, payment_method: 'invoice',
+            internal_note: '', settled_externally_before: '', settled_note: '',
+            preset: { upfront_percent: 0, remaining_count: 0, remaining_interval_months: 12 },
+            installments: [{
+                due_on: '2025-08-22', amount: 100, label: 'Tilkøb', covers_from: '2025-08-22', covers_to: '2026-12-31',
+                locked: true, settledAt: null, covers_from_manual: true,
+            }],
+            installmentsEdited: true,
+        }
+        const row = buildAgreementPayload(form).installments[0]
+        assert.equal(row.covers_from, '2025-08-22')
+        assert.equal(row.covers_to, '2026-12-31')
+        assert.equal('locked' in row, false)
+        assert.equal('covers_from_manual' in row, false)
     })
 })
