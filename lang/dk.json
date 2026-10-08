@@ -3661,7 +3661,9 @@
                     },
                     "date": "Dato",
                     "getFromPreviousStatus": "Hent data fra forrige status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Indsatsområde",
+                    "careAreaInherited": "Arves fra sundhedssagen"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statusser",
@@ -3726,7 +3728,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Behandlingens titel"
             },
-            "treatments": "Behandlinger"
+            "treatments": "Behandlinger",
+            "template": {
+                "observation": "Observation",
+                "assessment": "Vurdering",
+                "plan": "Plan",
+                "followUp": "Opfølgning"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -14284,7 +14292,8 @@
     "validation": {
         "invalidNumber": "Ugyldigt nummer",
         "invalidEmailAddress": "Ugyldig e-mailadresse",
-        "thisFieldIsRequired": "Dette felt er påkrævet"
+        "thisFieldIsRequired": "Dette felt er påkrævet",
+        "pleaseCompleteTemplate": "Udfyld venligst skabelonen"
     },
     "verifyEmail": {
         "emailVerified": "Email verificeret",
@@ -14390,7 +14399,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Skabelon gemt",
                 "templateSuccessfullyUpdated": "Skabelon opdateret"
-            }
+            },
+            "descriptionTemplate": "Skabelon til sagsbeskrivelse",
+            "descriptionTemplateHint": "Udfyldes i beskrivelsen, når en sundhedssag oprettes med denne skabelon.",
+            "statusTemplate": "Skabelon til statusopdatering",
+            "statusTemplateHint": "Udfyldes, når der oprettes en statusopdatering på en sundhedssag med denne skabelon."
         },
         "table": {
             "name": "Navn",

@@ -65,6 +65,8 @@ const state = reactive({
         area_type: 'optional',
         score: 'optional',
         description: 'optional',
+        description_template: '',
+        status_template: '',
     },
     isPageLoading: false,
 })
@@ -87,6 +89,8 @@ async function fetchTemplate() {
                 area_type: d.area_type ?? 'optional',
                 score: d.score ?? 'optional',
                 description: d.description ?? 'optional',
+                description_template: d.description_template ?? '',
+                status_template: d.status_template ?? '',
             }
         }
     } catch (error: any) {
@@ -106,6 +110,8 @@ async function updateTemplate(templateDetails: any) {
             area_type: templateDetails.area_type,
             score: templateDetails.score,
             description: templateDetails.description,
+            description_template: templateDetails.description_template,
+            status_template: templateDetails.status_template,
         }
         const response = await treatmentTemplateService.updateTemplate(templateUuid, params)
         if (response?.data) {

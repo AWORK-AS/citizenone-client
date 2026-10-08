@@ -3661,7 +3661,9 @@
                     },
                     "date": "Dato",
                     "getFromPreviousStatus": "Hent data fra forrige status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Omsorgsområde",
+                    "careAreaInherited": "Arves fra helsesaken"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statuser",
@@ -3726,7 +3728,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Behandlingens tittel"
             },
-            "treatments": "Behandlinger"
+            "treatments": "Behandlinger",
+            "template": {
+                "observation": "Observasjon",
+                "assessment": "Vurdering",
+                "plan": "Plan",
+                "followUp": "Oppfølging"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -14188,7 +14196,8 @@
     "validation": {
         "invalidNumber": "Ugyldig nummer",
         "invalidEmailAddress": "Ugyldig e-postadresse",
-        "thisFieldIsRequired": "Dette felt er påkrevd"
+        "thisFieldIsRequired": "Dette felt er påkrevd",
+        "pleaseCompleteTemplate": "Fyll ut malen"
     },
     "verifyEmail": {
         "emailVerified": "E-post verificeret",
@@ -14294,7 +14303,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Mal lagret",
                 "templateSuccessfullyUpdated": "Mal oppdatert"
-            }
+            },
+            "descriptionTemplate": "Mal for saksbeskrivelse",
+            "descriptionTemplateHint": "Fylles inn i beskrivelsen når en helsesak opprettes med denne malen.",
+            "statusTemplate": "Mal for statusoppdatering",
+            "statusTemplateHint": "Fylles inn når en statusoppdatering opprettes på en helsesak med denne malen."
         },
         "table": {
             "name": "Navn",

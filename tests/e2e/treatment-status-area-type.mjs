@@ -3,10 +3,10 @@
  *
  * Covers two changes:
  *  - The status's "Date" field now defaults to today instead of being blank.
- *  - The "Area type" field is removed from the "New status" form entirely -
- *    a new status always inherits the parent treatment's area type, both
- *    visually (no picker shown) and server-side (the API forces it even if
- *    a caller tries to send a different one).
+ *  - The care area is shown read-only (no picker) - a status always inherits
+ *    the parent treatment's care area, server-side too (the API forces it on
+ *    create and edit, and an edit that omits it does not wipe it).
+ *  - The body is pre-filled with the O/A/P/F template and cannot be saved unchanged.
  *
  * Setup/cleanup use the real API directly (create treatment + status before,
  * delete both after) so the test is self-restoring and can be re-run safely.
@@ -90,7 +90,13 @@ try {
 
   // 4) Assert the Area type field is gone, and the Date field defaults to today.
   const bodyText = await page.locator('body').innerText()
-  ok('Area type field/label is not shown in the "New status" form', !/Area type|Områdetype/.test(bodyText))
+  const careArea = page.getByTestId('status-care-area')
+  ok('Care area is shown read-only in the "New status" form', (await careArea.count()) === 1 && (await page.locator('select#area_type').count()) === 0)
+  ok('Care area shown is the parent treatment's (Musculoskeletal system)', /Musculoskeletal|Bevægeapparat|Muskel/i.test(await careArea.innerText()))
+
+  // The body is pre-filled with the O/A/P/F skeleton, so saving it untouched must be blocked.
+  await page.getByRole('button', { name: /^(Save|Gem)$/ }).click()
+  ok('Saving the unchanged template skeleton is blocked', await page.getByText(/Please complete the template|Udfyld venligst skabelonen/).count() > 0)
 
   // flatpickr renders the picked date as visible text (e.g. "31. August 2026 (36)"),
   // not a plain input value, so assert against the rendered day-of-month instead.
@@ -99,6 +105,7 @@ try {
 
   // 5) Fill in the required "Status" rich text field and save.
   await page.locator('.ck-editor__editable').first().click()
+  await page.keyboard.press('Control+End')
   await page.keyboard.type('E2E status note')
 
   const [postResponse] = await Promise.all([
@@ -115,6 +122,12 @@ try {
   ok('Created status date defaults to today', postJson?.data?.date === TODAY)
 
   await page.screenshot({ path: `${SHOT}/treatment-status-02-created.png`, fullPage: true })
+
+  // 6b) An edit that omits area_type (as the mobile app does) must not wipe the care area.
+  const editRes = await api('PUT', `/statuses/${statusUuid}`, { status: 'E2E edited', date: TODAY })
+  ok('Edit without area_type keeps the care area', editRes.json?.data?.area_type === TREATMENT_AREA_TYPE)
+  const spoofEdit = await api('PUT', `/statuses/${statusUuid}`, { status: 'E2E edited', date: TODAY, area_type: 'sexuality' })
+  ok('Edit cannot change the care area', spoofEdit.json?.data?.area_type === TREATMENT_AREA_TYPE)
 
   // 7) Confirm the API rejects/overrides an attempt to set a mismatched area type directly.
   const spoofRes = await api('POST', '/statuses', {

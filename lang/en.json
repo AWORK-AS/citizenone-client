@@ -3661,7 +3661,9 @@
                     },
                     "date": "Date",
                     "getFromPreviousStatus": "Get data from previous status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Care area",
+                    "careAreaInherited": "Inherited from the health case"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -3726,7 +3728,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Title of the treatment"
             },
-            "treatments": "Treatments"
+            "treatments": "Treatments",
+            "template": {
+                "observation": "Observation",
+                "assessment": "Assessment",
+                "plan": "Plan",
+                "followUp": "Follow-up"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -14284,7 +14292,8 @@
     "validation": {
         "invalidNumber": "Invalid number",
         "invalidEmailAddress": "Invalid email address",
-        "thisFieldIsRequired": "This field is required"
+        "thisFieldIsRequired": "This field is required",
+        "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
         "emailVerified": "Email verified",
@@ -14390,7 +14399,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Template successfully saved",
                 "templateSuccessfullyUpdated": "Template successfully updated"
-            }
+            },
+            "descriptionTemplate": "Health case description template",
+            "descriptionTemplateHint": "Pre-filled in the description when a health case is created with this template.",
+            "statusTemplate": "Status update template",
+            "statusTemplateHint": "Pre-filled when a status update is created on a health case with this template."
         },
         "table": {
             "name": "Name",
