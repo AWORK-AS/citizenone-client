@@ -10357,6 +10357,17 @@
         "strongPasswordSub": "Använd minst 8 tegn med tal och symboler",
         "strongPasswordTitle": "Skapa en stark lösenord"
     },
+    "citizenVisibility": {
+        "notice": "Du är inte kopplad till någon avdelning, @:terms.citizens{''} eller medarbetargrupp, så du kan inte se några @:terms.citizens{''} ännu. Kontakta din chef.",
+        "noticeHelp": "Medarbetare ser @:terms.citizens{''} i sina egna avdelningar, @:terms.citizens{''} de har tilldelats och @:terms.citizens{''} via sina medarbetargrupper. Din chef kan lägga till dig i en avdelning eller tilldela dig @:terms.citizens{''}.",
+        "noticeHelpLabel": "Varför kan jag inte se några @:terms.citizens{''}?",
+        "levelAll": "Ser alla @:terms.citizens{''} i företaget",
+        "levelLimited": "Ser bara @:terms.citizens{''} i egna avdelningar, tilldelade och via medarbetargrupper (eller alla, om företaget inte använder avdelningar)",
+        "levelHelp": "Nivån avgör vilka @:terms.citizens{''} rollen kan se. @:roles.table.manager och högre ser alla @:terms.citizens{''} i företaget. @:roles.table.regular ser bara @:terms.citizens{''} i egna avdelningar, tilldelade och via medarbetargrupper. Om företaget inte använder avdelningar ser alla samtliga @:terms.citizens{''}.",
+        "levelHelpLabel": "Vad betyder nivån?",
+        "badgeAll": "Alla @:terms.citizens{''}",
+        "badgeLimited": "Egna @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Lägg till ny roll",
         "alert": {

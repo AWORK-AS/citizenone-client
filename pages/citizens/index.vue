@@ -35,6 +35,7 @@
             </template>
 
             <div>
+                <VisibilityNoCitizensNotice />
                 <div
                     class="flex justify-between items-start flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
                     <div class="flex items-center gap-x-3">

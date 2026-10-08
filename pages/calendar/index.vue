@@ -139,6 +139,7 @@
                                     <FormSelectMultiple id="citizens_uuid" name="citizens_uuid"
                                         :options="state.options.citizens" v-model="state.formCalendar.citizens_uuid"
                                         @change="changeCitizensUuid" />
+                                    <VisibilityNoCitizensNotice compact />
                                 </div>
                                 <div @click.stop>
                                     <FormLabel for="users_uuid" :label="$t('calendar.employees')" />
