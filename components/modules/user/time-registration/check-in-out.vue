@@ -93,6 +93,9 @@ watch(() => userStore.getUser, (newValue: any) => {
         }
         if (userStore.getIsLoggedIn) {
             startTimer()
+        } else {
+            // Stopped elsewhere (shift-end answer, another tab or device, auto-stop).
+            stopTimer()
         }
     }
 })
@@ -183,6 +186,7 @@ async function toggleLogin() {
                 }
                 startTimer()
             }
+            await refreshUser()
         } else {
             let location
             let address = ''
@@ -212,6 +216,7 @@ async function toggleLogin() {
                 }
                 stopTimer()
             }
+            await refreshUser()
         }
     } catch (error: any) {
         state.error = error
@@ -219,6 +224,19 @@ async function toggleLogin() {
         stopTimer()
     }
     state.isPageLoading = false
+}
+
+// The user carries the shift-end fields the "are you still working?" prompt waits on, and they
+// only exist once the server has linked the new timer to its shift.
+async function refreshUser() {
+    try {
+        const response = await userService.getUser()
+        if (response?.data) {
+            userStore.setUser(response.data)
+        }
+    } catch {
+        // The widget keeps working; the next page load picks the fields up.
+    }
 }
 
 const startTimer = (): void => {

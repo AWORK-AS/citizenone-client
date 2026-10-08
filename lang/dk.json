@@ -14254,7 +14254,14 @@
     },
     "timeRegistration": {
         "checkIn": "Tjek ind",
-        "checkOut": "Tjek ud"
+        "checkOut": "Tjek ud",
+        "shiftEndPrompt": {
+            "title": "Vagten er slut",
+            "question": "Arbejder du stadig?",
+            "message": "Din vagt sluttede kl. {time}.",
+            "yes": "Ja, jeg arbejder stadig",
+            "no": "Nej, stop timeren"
+        }
     },
     "units": {
         "addNewUnit": "Tilføj ny enhed",

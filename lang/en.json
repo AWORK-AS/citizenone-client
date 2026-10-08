@@ -14254,7 +14254,14 @@
     },
     "timeRegistration": {
         "checkIn": "Check in",
-        "checkOut": "Check out"
+        "checkOut": "Check out",
+        "shiftEndPrompt": {
+            "title": "Shift ended",
+            "question": "Are you still working?",
+            "message": "Your shift ended at {time}.",
+            "yes": "Yes, still working",
+            "no": "No, stop timer"
+        }
     },
     "units": {
         "addNewUnit": "Add new unit",

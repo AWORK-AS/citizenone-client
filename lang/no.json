@@ -14158,7 +14158,14 @@
     },
     "timeRegistration": {
         "checkIn": "Sjekk inn",
-        "checkOut": "Sjekk ut"
+        "checkOut": "Sjekk ut",
+        "shiftEndPrompt": {
+            "title": "Vakten er over",
+            "question": "Jobber du fortsatt?",
+            "message": "Vakten din sluttet kl. {time}.",
+            "yes": "Ja, jeg jobber fortsatt",
+            "no": "Nei, stopp timeren"
+        }
     },
     "units": {
         "addNewUnit": "Legg til ny enhed",
