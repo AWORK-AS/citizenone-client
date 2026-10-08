@@ -92,6 +92,7 @@
                                 </td>
                                 <td class="co-td text-[13px] text-[#1F2533] text-right whitespace-nowrap">
                                     {{ formatAmount(agreement.contract_mrr, 'DKK') }}
+                                    <ModulesSuperadminAgreementMrrEstimatedChip v-if="contractMrrIsEstimated(agreement)" class="ml-1" />
                                     <span class="block text-[11px] text-[#8891A4]">
                                         {{ $t('superadmin.agreements.perYear', { amount: formatAmount(agreement.contract_arr, 'DKK') }) }}
                                     </span>
@@ -105,6 +106,8 @@
                                             {{ $t(`superadmin.agreements.statuses.${agreement.status}`) }}
                                         </span>
                                     </Tooltip>
+                                    <ModulesSuperadminAgreementRenewalPlanChip v-if="renewalPlanMissing(agreement)"
+                                        :due="agreement.renewal_plan_due ?? null" class="mt-1" />
                                 </td>
                                 <td class="co-td">
                                     <ModulesSuperadminAgreementNoticeBadge
@@ -135,10 +138,10 @@
                 </div>
 
                 <ModulesSuperadminAgreementModalDetail :isModalOpen="state.detail.open" :companyUuid="companyUuid"
-                    :agreementUuid="state.detail.uuid" @close="state.detail.open = false" @edit="openEdit"
+                    :agreementUuid="state.detail.uuid" @close="state.detail.open = false" @edit="openEdit" @addRenewalPlan="(a: Agreement) => openEdit(a, true)"
                     @changed="fetchAgreements" @deleted="onDeleted" />
                 <ModulesSuperadminAgreementModalForm :isModalOpen="state.form.open" :companyUuid="companyUuid"
-                    :agreement="state.form.agreement" @close="state.form.open = false" @saved="onSaved" />
+                    :agreement="state.form.agreement" :addRenewalPlan="state.form.addRenewalPlan" @close="state.form.open = false" @saved="onSaved" />
             </div>
         </NuxtLayout>
     </div>
@@ -150,7 +153,7 @@ import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { missingEconomicNumber, unwrapData } from '@/composables/agreements'
+import { contractMrrIsEstimated, missingEconomicNumber, renewalPlanMissing, unwrapData } from '@/composables/agreements'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import type { Agreement } from '@/types/agreement'
 import type { Error } from '@/types'
@@ -191,7 +194,7 @@ const state = reactive({
     isLoading: false,
     error: {} as Error,
     detail: { open: false, uuid: '' },
-    form: { open: false, agreement: null as Agreement | null },
+    form: { open: false, agreement: null as Agreement | null, addRenewalPlan: false },
 })
 
 function statusClass(status: string) {
@@ -239,8 +242,9 @@ function openCreate() {
 
 // The list may carry a lighter resource than the detail, so the form always
 // starts from the full agreement (installments with their invoices).
-async function openEdit(agreement: Agreement) {
+async function openEdit(agreement: Agreement, addRenewalPlan = false) {
     state.detail.open = false
+    state.form.addRenewalPlan = addRenewalPlan
     state.error = {}
     try {
         state.form.agreement = Array.isArray(agreement.installments)

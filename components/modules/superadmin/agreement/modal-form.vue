@@ -111,6 +111,44 @@
                             </div>
                             <div>
                                 <div class="flex items-center gap-1">
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalTerm')" />
+                                    <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                            :aria-label="$t('superadmin.agreements.help.renewalTerm')" />
+                                    </Tooltip>
+                                </div>
+                                <input class="co-input" type="number" min="1" step="1" v-model="form.renewal_term_months"
+                                    placeholder="12" />
+                                <div class="flex items-center gap-1.5 mt-1.5">
+                                    <Tooltip v-for="months in [12, 36, 48]" :key="months"
+                                        :text="$t('superadmin.agreements.form.renewalTermQuickHelp', { months })"
+                                        position="top" wrap>
+                                        <button type="button" class="co-badge co-badge-gray cursor-pointer"
+                                            :class="Number(form.renewal_term_months) === months ? 'co-badge-navy' : ''"
+                                            @click="form.renewal_term_months = months">
+                                            {{ months }}
+                                        </button>
+                                    </Tooltip>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1">
+                                    <SuperadminFormLabel :label="$t('superadmin.agreements.form.renewalBilling')" />
+                                    <Tooltip :text="$t('superadmin.agreements.help.renewalBilling')" position="top" wrap>
+                                        <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
+                                            :aria-label="$t('superadmin.agreements.help.renewalBilling')" />
+                                    </Tooltip>
+                                </div>
+                                <SuperadminFormSelectField v-model="form.renewal_billing">
+                                    <option value="upfront">{{ $t('superadmin.agreements.renewal.billing.upfront') }}</option>
+                                    <option value="yearly">{{ $t('superadmin.agreements.renewal.billing.yearly') }}</option>
+                                    <option value="monthly">{{ $t('superadmin.agreements.renewal.billing.monthly') }}</option>
+                                    <option value="by_agreement">{{ $t('superadmin.agreements.renewal.billing.by_agreement') }}</option>
+                                    <option value="">{{ $t('superadmin.agreements.renewal.billing.plan') }}</option>
+                                </SuperadminFormSelectField>
+                            </div>
+                            <div>
+                                <div class="flex items-center gap-1">
                                     <SuperadminFormLabel :label="$t('superadmin.agreements.form.feePerInvoice')" />
                                     <Tooltip :text="$t('superadmin.agreements.help.feePerInvoice')" position="top" wrap>
                                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] mb-[5px]"
@@ -487,6 +525,7 @@ import {
     addOnAmount,
     addOnAmountIsComputed,
     addOnCoversFromAfterDueOn,
+    renewalPlanInstallment,
     isAddOnRow,
     buildPresetInstallments,
     withDefaultCoverage,
@@ -507,6 +546,8 @@ const props = defineProps({
     companyUuid: { type: String, required: true },
     /** Present when editing. */
     agreement: { type: Object as () => Agreement | null, default: null },
+    /** Open on the explicit installment list with an empty row on the renewal date. */
+    addRenewalPlan: { type: Boolean, default: false },
 })
 const emit = defineEmits(['close', 'saved'])
 
@@ -532,6 +573,8 @@ function blankForm(): AgreementFormState & { installments: Row[] } {
         term_mode: 'months',
         ends_on: '',
         renewal_annual_value: '',
+        renewal_term_months: '',
+        renewal_billing: '',
         notice_months: 3,
         auto_renews: true,
         billing_plan: 'yearly',
@@ -582,6 +625,8 @@ function resetFromProps() {
         starts_on: a.starts_on,
         term_months: a.term_months,
         renewal_annual_value: a.renewal_annual_value ?? '',
+        renewal_term_months: a.renewal_term_months ?? '',
+        renewal_billing: a.renewal_billing ?? '',
         notice_months: a.notice_months,
         auto_renews: a.auto_renews,
         billing_plan: a.billing_plan,
@@ -592,7 +637,7 @@ function resetFromProps() {
         internal_note: a.internal_note ?? '',
         settled_externally_before: a.settled_externally_before ?? '',
         settled_note: a.settled_note ?? '',
-        installments: a.billing_plan === 'installments'
+        installments: a.billing_plan === 'installments' || props.addRenewalPlan
             ? (a.installments ?? []).map((row) => ({
                 due_on: row.due_on,
                 amount: row.amount,
@@ -612,6 +657,11 @@ function resetFromProps() {
             }))
             : [],
     })
+    if (props.addRenewalPlan) {
+        form.billing_plan = 'installments'
+        form.installments.push(renewalPlanInstallment(a) as Row)
+        form.installmentsEdited = true
+    }
 }
 
 watch(() => props.isModalOpen, (open: boolean) => { if (open) resetFromProps() })
