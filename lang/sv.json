@@ -5008,6 +5008,10 @@
             "employmentStatus": "Anställningsstatus",
             "tags": "Taggar",
             "filterDate": "Filtrera datum",
+            "jobTitles": "Befattningar",
+            "sortBy": "Sortera efter",
+            "sortByJobTitle": "Befattning",
+            "sortByName": "Namn",
             "filterDateAndTime": "Filtrera datum och tid",
             "timeFrom": "Tid från",
             "timeTo": "Tid till"
@@ -5557,6 +5561,8 @@
         "showEmployeesWorkingToday": "Visa anställda, där arbetar idag",
         "showTheDistributionOfShiftTypes": "Visa vagttypers fordeling",
         "sort": {
+            "firstShiftActive": "Sorterat efter vem som börjar först denna dag. Klicka för att stänga av",
+            "sortByFirstShift": "Sortera efter vem som börjar först denna dag",
             "sortNamesInAscendingOrder": "Sortera navne i stigande räkkefölge",
             "sortNamesInDescendingOrder": "Sortera navne i fallande räkkefölge"
         },
@@ -10728,6 +10734,7 @@
                 "interventionNotificationHours": "Varslingstimer för insats",
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
+                "dutyScheduleSortFirstShift": "Sortera schemat efter vem som börjar först (i stället för alfabetiskt)",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "compensatoryTimeEnabled": "Aktivera kompensationsledighet",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",

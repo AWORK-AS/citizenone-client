@@ -5063,6 +5063,10 @@
             "employmentStatus": "Employment status",
             "tags": "Tags",
             "filterDate": "Filter date",
+            "jobTitles": "Job titles",
+            "sortBy": "Sort by",
+            "sortByJobTitle": "Job title",
+            "sortByName": "Name",
             "filterDateAndTime": "Filter date and time",
             "timeFrom": "Time from",
             "timeTo": "Time to"
@@ -5612,6 +5616,8 @@
         "showEmployeesWorkingToday": "Show employees working today",
         "showTheDistributionOfShiftTypes": "Show the distribution of shift types",
         "sort": {
+            "firstShiftActive": "Sorted by who starts first this day. Click to turn off",
+            "sortByFirstShift": "Sort by who starts first this day",
             "sortNamesInAscendingOrder": "Sort names in ascending order",
             "sortNamesInDescendingOrder": "Sort names in descending order"
         },
@@ -10733,6 +10739,7 @@
                 "interventionNotificationHours": "Intervention notification hours",
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
+                "dutyScheduleSortFirstShift": "Sort the duty schedule by who starts first (instead of alphabetically)",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "compensatoryTimeEnabled": "Enable compensatory time requests",
                 "lockPastSchedules": "Lock past schedules",
