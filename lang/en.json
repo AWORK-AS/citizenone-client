@@ -7185,6 +7185,12 @@
         "calendar": "Calendar",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Show shifts",
+        "loadFailed": {
+            "title": "The calendar couldn't be loaded",
+            "message": "Your events aren't gone. We just couldn't fetch them right now. Try again in a moment.",
+            "retry": "Try again",
+            "retryHelp": "Loads the calendar again for the period you're looking at."
+        },
         "shiftLabel": "Shift",
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this event",
