@@ -12,8 +12,10 @@
 
             <template #header>{{ $t('events.calendar') }}</template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
-                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                <Tooltip :text="$t('helpGuide.askMiloGeneral')" position="left">
+                    <button type="button" :aria-label="$t('helpGuide.askMiloGeneral')" class="rounded-md hover:bg-slate-100 p-0.5" @click="askMilo()">
+                        <Icon name="ph:question" class="size-6 text-gray-700" aria-hidden="true" />
+                    </button>
                 </Tooltip>
             </template>
 
@@ -250,9 +252,6 @@
                 @duplicateEvent="duplicateMyCalendarEvent"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
 
-            <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
-                :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourCalendarOpen = false" />
 
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
                 @close="state.modal.isSubscribeOpen = false" />
@@ -331,7 +330,6 @@ const state = reactive({
         isAddEventForEmployeeOpen: false,
         isDeleteScheduleOpen: false,
         isEditEventOpen: false,
-        isGuidedTourCalendarOpen: false,
         isFilterCalendarOpen: false,
         isSubscribeOpen: false,
         isEventJournalPromptOpen: false,
@@ -497,9 +495,6 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
-function openGuidedTour() {
-    state.modal.isGuidedTourCalendarOpen = true
-}
 
 async function fetchAllCitizens() {
     try {
@@ -844,4 +839,11 @@ watchEffect(() => {
     ])
 })
 onUnmounted(() => clearPageCommands())
+
+// Help here is Milo, answering from the help-desk articles. The "?" used to
+// open a video tour recorded on the 2025 interface; it was also a tooltip
+// with a click handler rather than a button, so a keyboard could not reach it.
+function askMilo() {
+    useObiyenChat().revealAndOpenChat()
+}
 </script>

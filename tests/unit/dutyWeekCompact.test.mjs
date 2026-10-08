@@ -54,6 +54,17 @@ describe('a one-time notice says the schedule changed', () => {
     })
 })
 
+describe('the "?" on calendar, overview, citizens and employees asks Milo', () => {
+    for (const page of ['pages/calendar/index.vue', 'pages/overview/index.vue', 'pages/citizens/index.vue', 'pages/employees/index.vue']) {
+        test(`${page}: a real button with a general tooltip, no 2025 video`, () => {
+            const src = read(page)
+            assert.match(src, /<button type="button" :aria-label="\$t\('helpGuide\.askMiloGeneral'\)"[^>]*@click="askMilo\(\)">/)
+            assert.doesNotMatch(src, /openGuidedTour|ModulesUserGuidedTourModal/)
+            assert.doesNotMatch(src, /askMiloTooltip/) // that one says "the duty schedule"
+        })
+    }
+})
+
 describe('the guided tour has no duty-schedule video', () => {
     // The step showed a recording of the 2025 interface.
     test('calendar leads to employees and back', () => {

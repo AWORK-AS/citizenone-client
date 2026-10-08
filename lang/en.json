@@ -8100,6 +8100,7 @@
         "scheduleTitle": "Help & Guide - Schedule",
         "askMilo": "Ask Milo",
         "askMiloTooltip": "Ask Milo about the duty schedule",
+        "askMiloGeneral": "Ask Milo if you need help",
         "title": "Help & Guide"
     },
     "hideAll": "Hide all",
