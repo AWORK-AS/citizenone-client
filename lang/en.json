@@ -10827,7 +10827,8 @@
                 "portalSectionForms": "Forms",
                 "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
-                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them."
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
+                "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {

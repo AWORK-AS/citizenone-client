@@ -10822,7 +10822,8 @@
                 "portalSectionForms": "Formulär",
                 "portalSectionPriceEstimates": "Kostnadsförslag",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
-                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem."
+                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
+                "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {

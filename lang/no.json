@@ -10822,7 +10822,8 @@
                 "portalSectionForms": "Skjemaer",
                 "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewForms": "Pasienten fyller ut skjemaene dere sender, f.eks. før et besøk.",
-                "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem."
+                "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem.",
+                "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
