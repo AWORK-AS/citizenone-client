@@ -1429,11 +1429,13 @@
                                                             +{{ hiddenShiftCount(employee, weekIndex as string, week?.shifts) }}
                                                         </button>
                                                     </Tooltip>
-                                                    <button v-else-if="isCellExpanded(employee, weekIndex as string)" type="button"
-                                                        class="relative z-20 w-full text-primary text-xs hover:text-primary-700 py-0.5"
+                                                    <Tooltip v-else-if="isCellExpanded(employee, weekIndex as string)" class="!block w-full [&>div]:w-full" :text="$t('dutySchedules.showFewerShifts')">
+                                                    <button type="button" :aria-label="$t('dutySchedules.showFewerShifts')"
+                                                        class="relative z-20 w-full block text-primary text-xs hover:text-primary-700 py-0.5"
                                                         @click.stop="toggleCell(employee, weekIndex as string)">
                                                         {{ $t('showLess') }}
                                                     </button>
+                                                    </Tooltip>
                                                     <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
                                                         :daysData="week" :employee="employee"
                                                         @error="(error: any) => state.error = error" />

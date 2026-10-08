@@ -177,6 +177,7 @@
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 :date="state.activityLogDate"
                 @close="state.modal.isActivityLogsOpen = false; state.activityLogDate = null" />
+            <ModulesUserDutyScheduleNoticeOptimized />
             <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
                 @close="state.modal.isViewSharedDutyScheduleOpen = false" />
             <ModulesUserDutyScheduleModalDanlonSync

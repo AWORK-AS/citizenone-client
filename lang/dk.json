@@ -4706,6 +4706,15 @@
             "shifts": "{count} vagter"
         },
         "moreShifts": "{count} vagter mere – klik for at vise alle",
+        "optimizedNotice": {
+            "title": "Vagtplanen er blevet lettere at overskue",
+            "compact": "Vagterne fylder mindre, og en dag viser de første vagter – tryk +N for resten.",
+            "groups": "På Alle afdelinger er medarbejderne delt op i afdelinger, med din egen øverst.",
+            "tooltips": "Hold musen over en knap for at se, hvad den gør.",
+            "dismiss": "Forstået",
+            "dismissTooltip": "Luk beskeden – den vises ikke igen"
+        },
+        "showFewerShifts": "Vis kun de første vagter",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
             "hint": "Enter for at gemme · Esc for at annullere"

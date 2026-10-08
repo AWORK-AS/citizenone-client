@@ -33,6 +33,27 @@ describe('month, half year and year cap a day at three shifts', () => {
     }
 })
 
+describe('a one-time notice says the schedule changed', () => {
+    const notice = read('components/modules/user/duty-schedule/notice-optimized.vue')
+
+    test('shows once per person, then never again', () => {
+        assert.match(notice, /c1:duty-optimized-notice:\$\{VERSION\}:\$\{userStore\.getUser\?\.uuid/)
+        assert.match(notice, /visible\.value = !localStorage\.getItem\(storageKey\.value\)/)
+        assert.match(notice, /localStorage\.setItem\(storageKey\.value/)
+    })
+
+    test('is mounted on the duty schedule and offers Milo', () => {
+        assert.match(page, /<ModulesUserDutyScheduleNoticeOptimized \/>/)
+        assert.match(notice, /useObiyenChat\(\)\.revealAndOpenChat\(\)/)
+    })
+
+    test('"show less" has a tooltip in every view', () => {
+        for (const view of ['week-view', 'month-view', 'half-year-view', 'year-view']) {
+            assert.match(read(`components/modules/user/duty-schedule/${view}.vue`), /:text="\$t\('dutySchedules\.showFewerShifts'\)"/, view)
+        }
+    })
+})
+
 describe('help on the duty schedule is Milo', () => {
     // vagtplan-guide.html described the 2025 interface; Milo answers from the
     // help-desk articles instead.

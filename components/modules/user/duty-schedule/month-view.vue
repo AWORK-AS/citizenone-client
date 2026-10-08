@@ -924,11 +924,13 @@
                                                 +{{ hiddenShiftCount(day) }}
                                             </button>
                                         </Tooltip>
-                                        <button v-else-if="isDayExpanded(day)" type="button"
-                                            class="relative z-20 w-full text-primary text-xs hover:text-primary-700 py-0.5"
+                                        <Tooltip v-else-if="isDayExpanded(day)" class="!block w-full [&>div]:w-full" :text="$t('dutySchedules.showFewerShifts')">
+                                        <button type="button" :aria-label="$t('dutySchedules.showFewerShifts')"
+                                            class="relative z-20 w-full block text-primary text-xs hover:text-primary-700 py-0.5"
                                             @click.stop="toggleDay(day)">
                                             {{ $t('showLess') }}
                                         </button>
+                                        </Tooltip>
                                     </div>
                                 </template>
                                 <template v-else>

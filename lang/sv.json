@@ -4706,6 +4706,15 @@
             "shifts": "{count} pass"
         },
         "moreShifts": "{count} pass till – klicka för att visa alla",
+        "optimizedNotice": {
+            "title": "Schemat har blivit lättare att överblicka",
+            "compact": "Passen tar mindre plats, och en dag visar de första – klicka på +N för resten.",
+            "groups": "På Alla avdelningar är personalen uppdelad på avdelningar, med din egen överst.",
+            "tooltips": "Håll muspekaren över en knapp för att se vad den gör.",
+            "dismiss": "Uppfattat",
+            "dismissTooltip": "Stäng meddelandet – det visas inte igen"
+        },
+        "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
             "hint": "Enter för att spara · Esc för att avbryta"

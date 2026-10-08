@@ -4706,6 +4706,15 @@
             "shifts": "{count} shifts"
         },
         "moreShifts": "{count} more shifts – click to show all",
+        "optimizedNotice": {
+            "title": "The duty schedule is easier to read",
+            "compact": "Shifts take less room, and a day shows the first few – click +N for the rest.",
+            "groups": "On All departments, staff are grouped by department, with yours first.",
+            "tooltips": "Hover over a button to see what it does.",
+            "dismiss": "Got it",
+            "dismissTooltip": "Close this message – it will not show again"
+        },
+        "showFewerShifts": "Show only the first shifts",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"
