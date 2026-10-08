@@ -40,12 +40,27 @@ const props = defineProps({
         required: false,
         default: false,
     },
+    // Optional bounds as YYYY-MM-DD; days outside them cannot be picked.
+    minDate: {
+        type: String,
+        required: false,
+    },
+    maxDate: {
+        type: String,
+        required: false,
+    },
     modelValue: String,
     placeholder: {
         type: String,
         required: true,
     },
 })
+
+// Bounds as Date objects: flatpickr reads a string bound with this field's
+// display format ('d. F Y (W)'), which turns '2026-10-22' into nonsense.
+function localDay(value?: string): Date | null {
+    return value ? moment(value, 'YYYY-MM-DD').toDate() : null
+}
 
 const state = reactive({
     dateValue: props.modelValue ? new Date(props.modelValue) : '',
@@ -61,8 +76,9 @@ const state = reactive({
             firstDayOfWeek: 1, // Set Monday as the first day of the week
         },
         weekNumbers: true,
-        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : null, // Disable previous weeks if enabled
-    }
+        minDate: props.disablePreviousWeeks ? moment().startOf('isoWeek').toDate() : localDay(props.minDate), // Disable previous weeks if enabled
+        maxDate: localDay(props.maxDate),
+    } as any
 })
 
 const language = useI18n()

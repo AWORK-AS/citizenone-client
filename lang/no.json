@@ -1,4 +1,19 @@
 {
+    "guestDocuments": {
+        "title": "Delte dokumenter",
+        "enterPassword": "Skriv inn passordet du har fått av avsenderen for å åpne dokumentene.",
+        "password": "Passord",
+        "unlock": "Åpne",
+        "lock": "Lukk",
+        "sharedBy": "Delt av {name}, {company}",
+        "linkExpires": "Lenken virker til {date}",
+        "folderPath": "Mappesti",
+        "view": "Vis",
+        "download": "Last ned",
+        "empty": "Mappen er tom.",
+        "changeLanguage": "Bytt språk",
+        "somethingWentWrong": "Noe gikk galt. Prøv igjen."
+    },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
         "filters": {
@@ -2066,6 +2081,49 @@
                 "template": "Mal",
                 "useTemplate": "Bruk mal"
             },
+            "sendLink": {
+                "title": "Send lenke på e-post",
+                "fileIntro": "Mottakeren kan se og laste ned denne filen.",
+                "folderIntro": "Mottakeren kan se og laste ned alt i denne mappen, også undermapper.",
+                "recipients": "Mottakere",
+                "recipientsPlaceholder": "Skriv en e-postadresse og trykk Enter",
+                "recipientsHelp": "Opptil 10 mottakere.",
+                "password": "Passord",
+                "confirmPassword": "Bekreft passord",
+                "passwordHelp": "Passordet står ikke i e-posten. Gi det til mottakeren på en annen måte, f.eks. på telefon eller SMS.",
+                "expiresAt": "Lenken utløper",
+                "emailLanguage": "Språk i e-posten",
+                "message": "Melding (valgfri)",
+                "messagePlaceholder": "Skriv en melding til mottakeren",
+                "send": "Send lenke",
+                "sent": "Lenken er sendt",
+                "sentLinks": "Sendte lenker",
+                "sentLinksIntro": "Lenker sendt på e-post fra disse dokumentene. Tilbakekall en lenke for å stenge den med en gang.",
+                "document": "Dokument",
+                "sentTo": "Sendt til",
+                "sentBy": "Sendt av",
+                "expires": "Utløper",
+                "active": "Aktiv",
+                "expired": "Utløpt",
+                "copyLink": "Kopier lenke",
+                "linkCopied": "Lenken er kopiert",
+                "revoke": "Tilbakekall lenke",
+                "revokeConfirmation": "Tilbakekalle lenken? Mottakerne kan da ikke åpne den",
+                "revoked": "Lenken er tilbakekalt",
+                "languages": {
+                    "dk": "Dansk",
+                    "en": "Engelsk",
+                    "no": "Norsk",
+                    "sv": "Svensk"
+                },
+                "alert": {
+                    "recipientRequired": "Legg til minst én e-postadresse",
+                    "tooManyRecipients": "Du kan sende til maks 10 mottakere",
+                    "passwordMin": "Bruk minst 8 tegn",
+                    "passwordMismatch": "Passordene er ikke like",
+                    "expiryRange": "Velg en dato mellom i dag og om ett år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Tilgang",
@@ -2075,6 +2133,7 @@
                     "edit": "Rediger",
                     "move": "Flytt",
                     "openSelected": "Åpne valgte",
+                    "sendLink": "Send lenke på e-post",
                     "share": "Del",
                     "statuses": "Statuser",
                     "unshare": "Fjern deling",
