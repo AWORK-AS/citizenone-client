@@ -1,7 +1,8 @@
 // plugins/obiyen-chat.client.ts
 
 export default defineNuxtPlugin(() => {
-    if (process.client) {
+    // No support chat inside the duty schedule embedded on a customer's website.
+    if (process.client && !window.location.pathname.startsWith('/embed/duty-schedules/')) {
         const d = document
         const s = d.createElement("script")
         s.src = "https://appserver.obiyen.com/browser-ui/chat-widget-loader.js"

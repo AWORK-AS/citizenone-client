@@ -5550,6 +5550,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Duty schedule",
+            "embed": {
+                "absent": "Absent",
+                "codeCopied": "Copied",
+                "copyCode": "Copy code",
+                "description": "Show this duty schedule on your own website, for example your intranet. Anyone who can see that page can see the schedule, without a password. It shows names, job titles and shift times. Notes, citizens and the reason for an absence are never shown.",
+                "disable": "Turn off embedding",
+                "disableHelp": "The duty schedule disappears from every website it is embedded on. If you turn it on again, you get a new code.",
+                "disabled": "Embedding turned off",
+                "embed": "Embed",
+                "embedCode": "Embed code",
+                "embedCodeHelp": "Paste this code into your website where the duty schedule should appear.",
+                "embedded": "Embedded",
+                "enable": "Turn on embedding",
+                "enabled": "Embedding turned on",
+                "nextWeek": "Next week",
+                "noShifts": "No shifts this week",
+                "openPreview": "Open preview",
+                "previousWeek": "Previous week",
+                "title": "Embed on website",
+                "unavailable": "This duty schedule is not available.",
+                "unavailableHelp": "This can happen if:",
+                "unavailableReasonOff": "embedding has been turned off",
+                "unavailableReasonNewCode": "the schedule has a new embed code that has not been added to this page yet",
+                "unavailableReasonExpired": "the shared link has expired or been deleted",
+                "unavailableContact": "Contact the person who manages your duty schedule."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",

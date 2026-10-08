@@ -5495,6 +5495,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Tjänsteschema",
+            "embed": {
+                "absent": "Frånvarande",
+                "codeCopied": "Kopierad",
+                "copyCode": "Kopiera kod",
+                "description": "Visa tjänsteschemat på er egen webbplats, till exempel intranätet. Alla som kan se sidan kan se schemat utan lösenord. Det visar namn, befattningar och passtider. Anteckningar, brukare och orsaken till frånvaro visas aldrig.",
+                "disable": "Stäng av inbäddning",
+                "disableHelp": "Schemat försvinner från alla webbplatser där det är inbäddat. Slår du på det igen får du en ny kod.",
+                "disabled": "Inbäddning avstängd",
+                "embed": "Bädda in",
+                "embedCode": "Inbäddningskod",
+                "embedCodeHelp": "Klistra in koden på webbplatsen där schemat ska visas.",
+                "embedded": "Inbäddat",
+                "enable": "Slå på inbäddning",
+                "enabled": "Inbäddning påslagen",
+                "nextWeek": "Nästa vecka",
+                "noShifts": "Inga pass den här veckan",
+                "openPreview": "Öppna förhandsvisning",
+                "previousWeek": "Föregående vecka",
+                "title": "Bädda in på webbplats",
+                "unavailable": "Schemat är inte tillgängligt.",
+                "unavailableHelp": "Det kan bero på att:",
+                "unavailableReasonOff": "inbäddningen har stängts av",
+                "unavailableReasonNewCode": "schemat har fått en ny inbäddningskod som ännu inte lagts in på den här sidan",
+                "unavailableReasonExpired": "den delade länken har gått ut eller tagits bort",
+                "unavailableContact": "Kontakta den som ansvarar för ert schema."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Tjänsteschema har delats",
