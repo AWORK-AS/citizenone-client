@@ -467,7 +467,7 @@
                                                         </Tooltip>
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.compensatoryTimeRequests.compensatoryTimeRequests')"
-                                                            v-if="userStore.getUser?.company?.compensatory_time_enabled && (isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid))">
+                                                            v-if="userStore.getUser?.company?.compensatory_time_enabled && (isAtLeast('Admin') || can('approve_compensatory_time_request') || userStore.getUser?.uuid === employee?.uuid)">
                                                             <button :aria-label="$t('dutySchedules.compensatoryTimeRequests.compensatoryTimeRequests')"
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
                                                                 @click="viewCompensatoryTimeRequests(employee)">
@@ -1110,6 +1110,10 @@
                                                         <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
+                                                        </div>
+                                                        <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
+                                                            v-if="shift?.type?.system_name === 'compensatory-time'">
+                                                            ⏳
                                                         </div>
                                                         <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
                                                             :text="$t('dutySchedules.lockedShiftTooltip')" position="top"

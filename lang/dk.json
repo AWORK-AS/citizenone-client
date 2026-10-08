@@ -5097,7 +5097,8 @@
             "employeeMarkedUnavailable": "Denne medarbejder har markeret sig utilgængelig på denne dato",
             "sendEmailToEmployee": "Send e-mail til medarbejderen",
             "sendEmailToEmployeeTimesChanged": "Vagtens dato eller tidspunkt er ændret, så det anbefales at sende en e-mail.",
-            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uændret, så en e-mail er som regel ikke nødvendig. Medarbejderen får stadig en notifikation i appen."
+            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uændret, så en e-mail er som regel ikke nødvendig. Medarbejderen får stadig en notifikation i appen.",
+            "compensatoryHours": "Afspadseringstimer brugt"
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbejdet)",
@@ -6655,7 +6656,12 @@
                 "created": "Oprettet",
                 "published": "Publiceret",
                 "updated": "Opdateret",
-                "deleted": "Slettet"
+                "deleted": "Slettet",
+                "compensatory_time_requested": "Afspadsering anmodet",
+                "compensatory_time_approved": "Afspadsering godkendt",
+                "compensatory_time_declined": "Afspadsering afvist",
+                "compensatory_time_withdrawn": "Afspadsering trukket tilbage",
+                "compensatory_time_reversed": "Afspadsering fortrudt"
             }
         },
         "salaryDk_sync": "Synkroniser til Salary",

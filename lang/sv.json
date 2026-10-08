@@ -5042,7 +5042,8 @@
             "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum",
             "sendEmailToEmployee": "Skicka e-post till medarbetaren",
             "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
-            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen."
+            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen.",
+            "compensatoryHours": "Kompensationstimmar använda"
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -6600,7 +6601,12 @@
                 "created": "Skapad",
                 "published": "Publicerad",
                 "updated": "Uppdaterad",
-                "deleted": "Raderad"
+                "deleted": "Raderad",
+                "compensatory_time_requested": "Kompensationsledighet begärd",
+                "compensatory_time_approved": "Kompensationsledighet godkänd",
+                "compensatory_time_declined": "Kompensationsledighet avslagen",
+                "compensatory_time_withdrawn": "Kompensationsledighet återkallad",
+                "compensatory_time_reversed": "Kompensationsledighet återställd"
             }
         },
         "salaryDk_sync": "Synkronisera till Salary",
