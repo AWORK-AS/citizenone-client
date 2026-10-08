@@ -1442,6 +1442,19 @@
         "featured": "Featured"
     },
     "calendar": {
+        "shortcuts": {
+            "view": "{view} (press {key})",
+            "today": "Go to today (press T)",
+            "previous": "Previous (press ←)",
+            "next": "Next (press →)",
+            "newEvent": "New event for yourself (press N)"
+        },
+        "filters": {
+            "active": "Active filters",
+            "remove": "Remove filter: {label}",
+            "clear": "Clear filters",
+            "clearHelp": "Removes every citizen, employee, group and tag filter"
+        },
         "participants": "Participants",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
@@ -7244,6 +7257,10 @@
         "markAsNotCompleted": "Mark as not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
         "linkedNote": "Linked @:terms.journalNote{''}: {title}",
+        "noteNudge": {
+            "label": "Note missing",
+            "help": "The booking has ended but no journal note has been written yet. Click to write it."
+        },
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"

@@ -41,22 +41,28 @@
                 </span>
                 </div>
                 <div class="flex items-center gap-x-2">
-                    <button type="button" @click="setToday()"
-                        class="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-medium text-gray-600 shadow-sm hover:bg-gray-50 transition-colors">
-                        {{ $t('goToToday') }}
-                    </button>
+                    <Tooltip :text="$t('calendar.shortcuts.today')" position="bottom">
+                        <button type="button" @click="setToday()"
+                            class="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-medium text-gray-600 shadow-sm hover:bg-gray-50 transition-colors">
+                            {{ $t('goToToday') }}
+                        </button>
+                    </Tooltip>
                     <div class="inline-flex items-center rounded-full border border-gray-200 bg-white shadow-sm">
-                        <button @click="previousWeek()" type="button"
-                            class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
-                            <span class="sr-only">Previous week</span>
-                            <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
-                        </button>
+                        <Tooltip :text="$t('calendar.shortcuts.previous')" position="bottom">
+                            <button @click="previousWeek()" type="button"
+                                class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                                <span class="sr-only">Previous week</span>
+                                <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
                         <span class="h-4 w-px bg-gray-200"></span>
-                        <button @click="nextWeek()" type="button"
-                            class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
-                            <span class="sr-only">Next week</span>
-                            <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
-                        </button>
+                        <Tooltip :text="$t('calendar.shortcuts.next')" position="bottom">
+                            <button @click="nextWeek()" type="button"
+                                class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                                <span class="sr-only">Next week</span>
+                                <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
                     </div>
                     <div class="hidden">
                         <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
@@ -67,7 +73,8 @@
 
             <!-- Desktop: 7-day week grid -->
             <div class="hidden lg:block">
-                <TimeGrid :days="timeGridDays" @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay"
+                <TimeGrid :days="timeGridDays" :noteNudge="!props.readOnly" @createJournal="openCreateJournal"
+                    @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay"
                     @slotDblClick="(date) => { if (!props.readOnly) $emit('createEvent', date) }" />
             </div>
 
@@ -151,6 +158,7 @@
                                 </span>
                                 <ModulesUserMyCalendarLinkedNote :journal="event?.journal"
                                     :citizenUuid="event?.citizen?.uuid" />
+                                <ModulesUserMyCalendarNoteNudge v-if="!props.readOnly" :event="event" @create="openCreateJournal" />
                             </div>
                             <p class="text-gray-900" v-if="event?.description">{{ event?.description }}</p>
                             <dl class="text-gray-500">
