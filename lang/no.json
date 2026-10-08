@@ -4697,6 +4697,14 @@
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
+        "groups": {
+            "collapse": "Skjul avdelingen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} ansatte",
+            "expand": "Vis avdelingen",
+            "noDepartment": "Uten avdeling",
+            "shifts": "{count} vakter"
+        },
         "moreShifts": "{count} vakter til – klikk for å vise alle",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",

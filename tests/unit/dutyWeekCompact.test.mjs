@@ -37,6 +37,38 @@ describe('the week grid stays compact', () => {
         assert.doesNotMatch(page, /<span class="hidden md:inline">\{\{ \$t\('dutySchedules\.showTheDistributionOfShiftTypes'\)/)
     })
 
+    test('"All departments" groups rows by department without moving their index', () => {
+        // Rows are reordered at fetch time, before expandedRecords and the
+        // copy/paste state index into them.
+        assert.match(week, /if \(Array\.isArray\(response\.data\)\) response\.data = orderByDepartmentGroup\(response\.data\)\s*\n\s*state\.weeklySchedules = response/)
+        assert.match(week, /return !selected\?\.uuid \|\| selected\.uuid === 'all-departments'/)
+        assert.match(week, /v-if="isGroupingActive && groupStartsAt\(employeeIndex as number\)"/)
+        assert.match(week, /v-if="!isGroupingActive \|\| !isGroupCollapsed\(groupOf\(employee\)\)"/)
+    })
+
+    test('a folded group still shows each day\'s shifts and conflicts, and is a real button', () => {
+        assert.match(week, /dutySchedules\.groups\.shifts/)
+        assert.match(week, /dutySchedules\.groups\.conflicts/)
+        assert.match(week, /role="button" tabindex="0"/)
+        assert.match(week, /:aria-expanded="!isGroupCollapsed\(groupOf\(employee\)\)"/)
+    })
+
+    test('the viewer\'s own departments open by default, and the choice is remembered', () => {
+        assert.match(week, /return own\.size > 0 && !own\.has\(name\)/)
+        const store = read('store/duty-schedule.js')
+        assert.match(store, /persist: true/)
+        assert.match(store, /departmentGroupsOpen: \{\}/)
+    })
+
+    test('"moreShifts" and the group strings exist in all four languages', () => {
+        for (const lang of ['dk', 'en', 'no', 'sv']) {
+            const json = JSON.parse(read(`lang/${lang}.json`))
+            for (const key of ['expand', 'collapse', 'noDepartment', 'employees', 'shifts', 'conflicts']) {
+                assert.ok(json.dutySchedules.groups?.[key], `${lang}: dutySchedules.groups.${key}`)
+            }
+        }
+    })
+
     test('"moreShifts" exists in all four languages', () => {
         for (const lang of ['dk', 'en', 'no', 'sv']) {
             const json = JSON.parse(read(`lang/${lang}.json`))

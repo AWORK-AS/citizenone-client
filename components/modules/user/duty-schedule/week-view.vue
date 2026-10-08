@@ -369,9 +369,51 @@
                                     !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && !isPastWeek() && 'cursor-copy relative group',
                                     !isWeeklyScheduleCopied(weekNumber) && !isAllWeeklyScheduleCopiedEmpty() && isPastWeek() && 'cursor-not-allowed'
                                 ]">
-                                <div v-for="(employee, employeeIndex) in state.weeklySchedules?.data"
-                                    :key="employeeIndex" class="grid grid-cols-9"
-                                    v-if="!isWeeklyScheduleCopied(weekNumber)">
+                                <template v-if="!isWeeklyScheduleCopied(weekNumber)">
+                                <template v-for="(employee, employeeIndex) in state.weeklySchedules?.data"
+                                    :key="employeeIndex">
+                                <!-- Department group header, on "All departments" only. Rows are
+                                     ordered by group at fetch time, so employeeIndex - which the
+                                     copy/paste and "show more" state is keyed on - is unchanged. -->
+                                <div v-if="isGroupingActive && groupStartsAt(employeeIndex as number)"
+                                    class="grid grid-cols-9 bg-gray-50 border-y border-gray-200 cursor-pointer select-none hover:bg-gray-100 transition-colors"
+                                    role="button" tabindex="0"
+                                    :aria-expanded="!isGroupCollapsed(groupOf(employee))"
+                                    @click.stop="toggleGroup(groupOf(employee))"
+                                    @keydown.enter.prevent.stop="toggleGroup(groupOf(employee))"
+                                    @keydown.space.prevent.stop="toggleGroup(groupOf(employee))">
+                                    <div class="col-span-2 border-r border-gray-100 px-3 py-2 min-w-0">
+                                        <Tooltip :text="isGroupCollapsed(groupOf(employee)) ? $t('dutySchedules.groups.expand') : $t('dutySchedules.groups.collapse')"
+                                            class="!flex w-full">
+                                            <div class="flex items-center gap-2 min-w-0 w-full">
+                                                <Icon :name="isGroupCollapsed(groupOf(employee)) ? 'heroicons:chevron-right' : 'heroicons:chevron-down'"
+                                                    class="h-4 w-4 flex-shrink-0 text-gray-500" aria-hidden="true" />
+                                                <span class="text-sm font-semibold text-gray-900 truncate">
+                                                    {{ groupOf(employee) || $t('dutySchedules.groups.noDepartment') }}
+                                                </span>
+                                                <span class="ml-auto flex-shrink-0 text-xs text-gray-500">
+                                                    {{ $t('dutySchedules.groups.employees', { count: groupStats[groupOf(employee)]?.employees ?? 0 }) }}
+                                                </span>
+                                            </div>
+                                        </Tooltip>
+                                    </div>
+                                    <div v-for="day in WEEK_DAY_KEYS" :key="day"
+                                        class="px-2 py-2 flex items-center justify-center gap-2 text-xs text-gray-600 border-l border-gray-100">
+                                        <span v-if="groupStats[groupOf(employee)]?.shifts[day]">
+                                            {{ $t('dutySchedules.groups.shifts', { count: groupStats[groupOf(employee)].shifts[day] }) }}
+                                        </span>
+                                        <Tooltip v-if="groupStats[groupOf(employee)]?.conflicts[day]"
+                                            :text="$t('dutySchedules.groups.conflicts', { count: groupStats[groupOf(employee)].conflicts[day] })">
+                                            <span class="inline-flex items-center gap-0.5 font-semibold text-red-600"
+                                                :aria-label="$t('dutySchedules.groups.conflicts', { count: groupStats[groupOf(employee)].conflicts[day] })">
+                                                <Icon name="ph:warning" class="h-3.5 w-3.5" aria-hidden="true" />
+                                                {{ groupStats[groupOf(employee)].conflicts[day] }}
+                                            </span>
+                                        </Tooltip>
+                                    </div>
+                                </div>
+                                <div class="grid grid-cols-9"
+                                    v-if="!isGroupingActive || !isGroupCollapsed(groupOf(employee))">
                                     <div class="col-span-9 flex flex-col items-center space-y-2 py-8 cursor-pointer border-1.5 border-dashed border-gray-700"
                                         @click="stopCopying()"
                                         v-if="isCopiedWeek() && isEmployeeWeeklyScheduleCopied() && isEmployeeSelectedAsWeeklyScheduleSource(employee)">
@@ -1422,6 +1464,8 @@
                                         </div>
                                     </div>
                                 </div>
+                                </template>
+                                </template>
                                 <div class="flex flex-col items-center space-y-2 mt-3 cursor-pointer" v-else
                                     @click="stopCopying()">
                                     <p class="text-center text-sm pt-5">
@@ -2098,6 +2142,89 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
     return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
 }
 
+// ── Department groups ─────────────────────────────────────────────────────────
+// On "All departments" a company like Memox is hundreds of rows in one list.
+// Grouped by department, with the viewer's own departments first and open and
+// the rest folded to one line each - a header that still says how many shifts
+// and conflicts each day holds, so a folded group hides nothing that needs a
+// person. Open/closed is remembered per department.
+const WEEK_DAY_KEYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
+
+const isAllDepartmentsSelected = computed(() => {
+    const selected: any = departmentStore.getSelectedDepartment
+    return !selected?.uuid || selected.uuid === 'all-departments'
+})
+
+// An employee in several departments sits under the first alphabetically -
+// once, so a row is never shown (and counted) twice.
+function groupOf(employee: any): string {
+    const names = (employee?.departments ?? [])
+        .map((department: any) => department?.name)
+        .filter(Boolean)
+        .sort((a: string, b: string) => a.localeCompare(b))
+    return names[0] ?? ''
+}
+
+function ownDepartmentNames(rows: any[]): Set<string> {
+    const me = rows.find((row: any) => row?.uuid && row.uuid === userStore.getUser?.uuid)
+    return new Set((me?.departments ?? []).map((department: any) => department?.name).filter(Boolean))
+}
+
+function groupingApplies(rows: any[]) {
+    return isAllDepartmentsSelected.value
+        && !(state.filter.department_uuids?.length > 0)
+        && new Set(rows.map(groupOf)).size > 1
+}
+
+// Stable, so the backend's order (pinned self first, then by name) holds
+// inside each group.
+function orderByDepartmentGroup(rows: any[]) {
+    if (!groupingApplies(rows)) return rows
+    const own = ownDepartmentNames(rows)
+    const rank = (name: string) => (name === '' ? 2 : own.has(name) ? 0 : 1)
+    return [...rows].sort((a: any, b: any) => {
+        const ga = groupOf(a)
+        const gb = groupOf(b)
+        return rank(ga) - rank(gb) || ga.localeCompare(gb)
+    })
+}
+
+const isGroupingActive = computed(() => groupingApplies(state.weeklySchedules?.data ?? []))
+
+const groupStats = computed(() => {
+    const stats: Record<string, { employees: number, shifts: Record<string, number>, conflicts: Record<string, number> }> = {}
+    for (const employee of state.weeklySchedules?.data ?? []) {
+        const name = groupOf(employee)
+        stats[name] ??= { employees: 0, shifts: {}, conflicts: {} }
+        stats[name].employees++
+        for (const day of WEEK_DAY_KEYS) {
+            const shifts = employee?.weeks?.[day]?.shifts ?? []
+            stats[name].shifts[day] = (stats[name].shifts[day] ?? 0) + shifts.length
+            stats[name].conflicts[day] = (stats[name].conflicts[day] ?? 0)
+                + shifts.filter((shift: any) => shift?.is_conflict).length
+        }
+    }
+    return stats
+})
+
+function groupStartsAt(index: number) {
+    const rows = state.weeklySchedules?.data ?? []
+    return index === 0 || groupOf(rows[index]) !== groupOf(rows[index - 1])
+}
+
+function isGroupCollapsed(name: string) {
+    const remembered = dutyScheduleStore.getDepartmentGroupOpen(name)
+    if (remembered !== undefined) return !remembered
+    // Never chosen: open your own departments, fold the rest. Someone in no
+    // department (an owner, an admin) sees everything open.
+    const own = ownDepartmentNames(state.weeklySchedules?.data ?? [])
+    return own.size > 0 && !own.has(name)
+}
+
+function toggleGroup(name: string) {
+    dutyScheduleStore.setDepartmentGroupOpen(name, isGroupCollapsed(name))
+}
+
 // A cell shows this many shifts, then "+N". One employee with twelve shifts on a
 // day made their row 1543px tall - two screens of scrolling for one cell.
 const MAX_VISIBLE_SHIFTS = 2
@@ -2187,6 +2314,7 @@ async function fetchDutySchedule() {
         }
         const response = await dutyScheduleService.getDutySchedules(params)
         if (response) {
+            if (Array.isArray(response.data)) response.data = orderByDepartmentGroup(response.data)
             state.weeklySchedules = response
             state.employeeHoursStats = {}
             state.employeeHoursStatsLoading = {}

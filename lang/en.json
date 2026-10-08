@@ -4697,6 +4697,14 @@
     },
     "dutySchedules": {
         "allDay": "All day",
+        "groups": {
+            "collapse": "Collapse department",
+            "conflicts": "{count} conflicts",
+            "employees": "{count} staff",
+            "expand": "Expand department",
+            "noDepartment": "No department",
+            "shifts": "{count} shifts"
+        },
         "moreShifts": "{count} more shifts – click to show all",
         "quickEditTime": {
             "tooltip": "Click to edit the time",

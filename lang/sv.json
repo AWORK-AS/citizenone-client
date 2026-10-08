@@ -4697,6 +4697,14 @@
     },
     "dutySchedules": {
         "allDay": "Hela dagen",
+        "groups": {
+            "collapse": "Fäll ihop avdelningen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} anst.",
+            "expand": "Fäll ut avdelningen",
+            "noDepartment": "Utan avdelning",
+            "shifts": "{count} pass"
+        },
         "moreShifts": "{count} pass till – klicka för att visa alla",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",

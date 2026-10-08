@@ -4697,6 +4697,14 @@
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
+        "groups": {
+            "collapse": "Fold afdelingen sammen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} medarb.",
+            "expand": "Fold afdelingen ud",
+            "noDepartment": "Uden afdeling",
+            "shifts": "{count} vagter"
+        },
         "moreShifts": "{count} vagter mere – klik for at vise alle",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
