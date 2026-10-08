@@ -1,4 +1,20 @@
 {
+    "comingFunctions": {
+        "title": "Kommende funksjoner",
+        "intro": "Her kan du se hva vi jobber med, og hva som kommer i CitizenOne. Savner du noe? Send oss et ønske.",
+        "sendWish": "Send et ønske",
+        "empty": "Det er ingen kommende funksjoner å vise akkurat nå.",
+        "sections": {
+            "in_progress": "Pågår",
+            "planned": "Planlagt",
+            "released": "Nylig lansert"
+        },
+        "status": {
+            "in_progress": "Pågår",
+            "planned": "Planlagt",
+            "released": "Lansert"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
         "filters": {
@@ -9256,6 +9272,8 @@
         "logout": "Logg ut",
         "notifications": "Varsler",
         "procedures": "Prosedyrer",
+        "newWishes": "Nye ønsker",
+        "comingFunctions": "Kommende funksjoner",
         "reminders": "Påminnelser",
         "settings": "Innstillinger",
         "subscription": "Abonnement",
@@ -11574,6 +11592,34 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Veikart",
+            "intro": "Funksjonene alle brukere ser under \"Kommende funksjoner\" i profilmenyen. Bare publiserte punkter vises.",
+            "newItem": "Nytt punkt",
+            "editItem": "Rediger punkt",
+            "noItems": "Ingen punkter med denne statusen.",
+            "dragHint": "Dra punktene for å endre rekkefølgen brukerne ser dem i.",
+            "published": "Publisert",
+            "draft": "Utkast",
+            "publish": "Publiser",
+            "unpublish": "Avpubliser",
+            "deleteConfirm": "Er du sikker på at du vil slette dette punktet?",
+            "visibleToEveryone": "Synlig for alle bransjer",
+            "visibleToIndustries": "Bare synlig for de valgte bransjene",
+            "releasedOn": "Lansert {date}",
+            "form": {
+                "title": "Tittel",
+                "description": "Beskrivelse",
+                "descriptionHint": "Skriv til brukerne: hva funksjonen gjør, og hvordan den hjelper dem.",
+                "status": "Status",
+                "expectedPeriod": "Forventet",
+                "expectedPeriodPlaceholder": "F.eks. Q2 2027 eller april 2027",
+                "industries": "Bransjer",
+                "industriesHint": "La feltet stå tomt for å vise punktet for alle bransjer.",
+                "published": "Vis for brukerne",
+                "publishedHint": "Utkast er bare synlige her i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
@@ -12741,6 +12787,7 @@
             "labelImage": "Bilde"
         },
         "sidebar": {
+            "roadmap": "Veikart",
             "apps": "Apper",
             "appCategories": "App-kategorier",
             "companies": "Virksomheter",
