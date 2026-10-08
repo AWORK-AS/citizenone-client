@@ -249,11 +249,8 @@
                 <p class="text-xs text-[#8891A4] ml-5">{{ $t('sms.form.sendSmsNotificationHint') }}</p>
             </div>
             <div class="space-y-1" v-if="props.selectedSchedule?.is_recurring">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formSchedule.apply_changes_to_future_events = !state.formSchedule.apply_changes_to_future_events">
-                    <FormCheckbox :value="state.formSchedule.apply_changes_to_future_events" />
-                    {{ $t('events.form.applyChangesToFutureEvents') }}
-                </div>
+                <ModulesUserMyCalendarRecurringScope v-model="state.formSchedule.apply_to"
+                    :label="$t('events.recurringScope.editLabel')" />
             </div>
         </div>
         <div class="mt-6">
@@ -336,7 +333,7 @@ const state = reactive({
         calendar_tag_uuid: [] as any,
         send_invitation: false,
         send_sms_notification: false,
-        apply_changes_to_future_events: false,
+        apply_to: 'this',
         recurring: {
             is_recurring: true,
             recurring: '',
@@ -474,7 +471,7 @@ onMounted(() => {
         calendar_tag_uuid: [],
         send_invitation: props.selectedSchedule.send_invitation,
         send_sms_notification: props.selectedSchedule.send_sms_notification ?? false,
-        apply_changes_to_future_events: false,
+        apply_to: 'this',
         recurring: {
             is_recurring: true,
             recurring: props.selectedSchedule?.recurring_type || '',

@@ -292,7 +292,10 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
     state.modal.isViewEventOpen = true
 }
 
-async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture?: boolean) {
+// `scope` is this / this_and_following / all (task #133); older emitters pass a
+// boolean "delete future events".
+async function deleteMyCalendarEvent(selectedCalendarEvent: any, scope: string | boolean = 'this') {
+    const deleteScope = typeof scope === 'boolean' ? (scope ? 'this_and_following' : 'this') : scope
     state.error = {}
     state.isPageLoading = true
     state.modal.isViewEventOpen = false
@@ -300,7 +303,8 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture?
         const scheduleUuid = selectedCalendarEvent?.uuid
         const params = {
             citizen_uuid: citizenUuid,
-            is_delete_future: isDeleteFuture,
+            delete_scope: deleteScope,
+            is_delete_future: deleteScope !== 'this',
         }
         const response = await citizenService.deleteCitizenCalendarEvent(scheduleUuid, params)
         if (response) {

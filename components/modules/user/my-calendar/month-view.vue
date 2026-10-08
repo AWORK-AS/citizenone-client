@@ -186,6 +186,9 @@
                                                 :class="myCalendarEvent?.completion_status === 'completed' ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
                                                 {{ myCalendarEvent?.title }}
                                             </span>
+                                            <!-- Part of a repeating plan (task #133). -->
+                                            <Icon v-if="myCalendarEvent?.is_recurring" name="ph:repeat"
+                                                class="h-3 w-3 flex-none text-gray-400" :title="$t('events.recurringScope.repeating')" />
                                             <Icon v-if="myCalendarEvent?.journal_id" name="ph:notebook"
                                                 class="h-3 w-3 flex-none text-primary" :title="$t('events.linkedNote', { title: myCalendarEvent?.journal?.title ?? '' })" />
                                             <ModulesUserMyCalendarNoteNudge v-if="!props.readOnly" compact

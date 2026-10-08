@@ -7230,6 +7230,14 @@
         "somethingWentWrong": "Vi har registreret denne feil. Du behøver ikke at gøre noe. Vi vender tilbake til dig raskst muligt"
     },
     "events": {
+        "recurringScope": {
+            "editLabel": "Bruk endringene på",
+            "deleteLabel": "Slett",
+            "this": "Bare denne hendelsen",
+            "thisAndFollowing": "Denne og de følgende hendelsene",
+            "all": "Alle hendelser i serien",
+            "repeating": "Gjentakende hendelse"
+        },
         "onlineMeeting": {
             "toggle": "Nettmøte",
             "linkLabel": "Møtelenke",

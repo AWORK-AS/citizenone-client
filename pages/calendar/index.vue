@@ -731,13 +731,19 @@ function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.modal.isEditEventOpen = true
 }
 
-async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture: boolean) {
+// `scope` is this / this_and_following / all (task #133); older emitters pass a
+// boolean "delete future events".
+async function deleteMyCalendarEvent(selectedCalendarEvent: any, scope: string | boolean = 'this') {
+    const deleteScope = typeof scope === 'boolean' ? (scope ? 'this_and_following' : 'this') : scope
     state.error = {}
     state.isPageLoading = true
     state.modal.isEditEventOpen = false
     try {
         const scheduleUuid = selectedCalendarEvent?.uuid
-        const response = await myCalendarService.deleteSchedule(scheduleUuid, { is_delete_future: isDeleteFuture })
+        const response = await myCalendarService.deleteSchedule(scheduleUuid, {
+            delete_scope: deleteScope,
+            is_delete_future: deleteScope !== 'this',
+        })
         if (response) {
             successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyDeleted')}.`)
             await fetchMyCalendarEvents()

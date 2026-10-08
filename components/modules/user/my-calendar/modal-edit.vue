@@ -83,7 +83,7 @@ async function updateSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             is_online_meeting: scheduleDetails.is_online_meeting,
             meeting_url: scheduleDetails.meeting_url,
-            apply_changes_to_future_events: scheduleDetails.apply_changes_to_future_events,
+            apply_to: scheduleDetails.apply_to ?? 'this',
         } as any
 
         if (scheduleDetails.recurring.recurring) {
