@@ -14,6 +14,25 @@ const read = (p) => readFileSync(new URL(`../../${p}`, import.meta.url), 'utf8')
 const week = read('components/modules/user/duty-schedule/week-view.vue')
 const page = read('pages/schedules/index.vue')
 
+describe('month, half year and year cap a day at three shifts', () => {
+    // Measured at 1440x782 with seven employees, production -> now:
+    // month 8,518 -> 2,418px, half year 26,533 -> 8,819px, year 67,307 -> 19,180px.
+    for (const view of ['month-view', 'half-year-view', 'year-view']) {
+        const src = read(`components/modules/user/duty-schedule/${view}.vue`)
+        test(`${view}: a capped prefix per employee, "+N" for the day`, () => {
+            assert.match(src, /const MAX_DAY_SHIFTS = 3/)
+            assert.match(src, /\.slice\(0, visibleShiftCount\(/)
+            assert.match(src, /\$t\('dutySchedules\.moreShifts', \{ count: hiddenShiftCount\(/)
+            assert.match(src, /let budget = MAX_DAY_SHIFTS - 1/)
+        })
+        test(`${view}: a compact toolbar with tooltips`, () => {
+            assert.doesNotMatch(src, /bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1/)
+            assert.match(src, /<Tooltip v-if="hasManageFavoritesAccess"/)
+            assert.match(src, /<Tooltip :text="\$t\('entriesPerPage'\)">/)
+        })
+    }
+})
+
 describe('the week grid stays compact', () => {
     test('a crowded cell shows a capped prefix and a "+N"', () => {
         assert.match(week, /const MAX_VISIBLE_SHIFTS = 2/)
