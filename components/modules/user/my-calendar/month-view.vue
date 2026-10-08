@@ -175,7 +175,9 @@
                                             @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @click.stop="editMyCalendarEvent(myCalendarEvent)">
-                                            <span class="h-1.5 w-1.5 flex-none rounded-full" :class="[
+                                            <span class="h-1.5 w-1.5 flex-none rounded-full"
+                                                :style="!isNow(myCalendarEvent) && eventTagColor(myCalendarEvent) ? { backgroundColor: eventTagColor(myCalendarEvent) } : undefined"
+                                                :class="[
                                                 isNow(myCalendarEvent) ? 'bg-red-500 motion-safe:animate-pulse' : [
                                                     myCalendarEvent?.type === 'citizens' && 'bg-amber-500',
                                                     myCalendarEvent?.type === 'employees' && 'bg-green-600',
@@ -335,7 +337,7 @@
                         !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'employees' && 'border-green-700',
                         !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'my_self' && 'border-primary',
                         'pl-4 border-l-4'
-                    ]">
+                    ]" :style="!myCalendarEvent?.is_shift && eventTagColor(myCalendarEvent) ? { borderLeftColor: eventTagColor(myCalendarEvent) } : undefined">
                     <div v-if="myCalendarEvent?.is_shift" class="relative py-4">
                         <div class="flex items-center gap-x-2 flex-wrap">
                             <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
@@ -567,6 +569,7 @@
 </template>
 
 <script setup lang="ts">
+import { eventTagColor, tintColor } from '@/composables/calendarEventPresentation'
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'

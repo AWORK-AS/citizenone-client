@@ -3,7 +3,7 @@
         <Modal size="sm" :title="$t('events.newEvent')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserMyCalendarMyselfForm formType="create" :selectedSchedule="state.formSchedule"
+                    <ModulesUserMyCalendarMyselfForm formType="create" :selectedSchedule="state.formSchedule" :duplicateOf="props.duplicateOf"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveSchedule" />
                 </LoadingSpinner>
@@ -15,6 +15,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
+import { duplicateFields } from '@/composables/calendarEventPresentation'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -35,10 +36,22 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    // "Duplicate" on an existing event: the new one starts from it.
+    duplicateOf: {
+        type: Object,
+        default: null,
+    },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])
 
 watch(() => props.isModalOpen, (open: boolean) => {
+    if (open && props.duplicateOf) {
+        // Same day and time as the original, same length; the user moves it.
+        const start = moment(props.duplicateOf.date_time_start)
+        state.formSchedule.date_time_start = start.format('YYYY-MM-DD HH:mm')
+        state.formSchedule.date_time_end = start.clone().add(duplicateFields(props.duplicateOf).durationMinutes, 'minutes').format('YYYY-MM-DD HH:mm')
+        return
+    }
     if (!open) return
     const baseDate = props.selectedDate || moment().format('YYYY-MM-DD')
     state.formSchedule.date_time_start = moment(baseDate).startOf('day').format('YYYY-MM-DD HH:mm')

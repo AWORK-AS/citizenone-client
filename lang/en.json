@@ -1442,6 +1442,14 @@
         "featured": "Featured"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Duplicate",
+            "help": "Creates a new event with the same title, description, participants and tags. You choose the date and time."
+        },
+        "onlyMine": {
+            "label": "Only mine",
+            "help": "Shows only events you own or are invited to"
+        },
         "shortcuts": {
             "view": "{view} (press {key})",
             "today": "Go to today (press T)",
