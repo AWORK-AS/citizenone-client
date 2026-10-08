@@ -7737,6 +7737,18 @@
         "title": "Formularfeltkonfiguration"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Delt",
+            "fromCommunityBadge": "Fra CitizenOne-fællesskabet",
+            "chooseFrom": "Vælg fra",
+            "ourTemplates": "Vores skabeloner",
+            "pickerHint": "Skabeloner delt af andre organisationer i CitizenOne. Den du vælger, kopieres til jeres skabeloner, hvor du kan redigere den.",
+            "pickerEmpty": "Der er endnu ikke delt skabeloner på dit sprog.",
+            "searchTemplates": "Søg i skabeloner…",
+            "optionLabel": "CitizenOne-fællesskabet",
+            "share": "Del med CitizenOne-fællesskabet",
+            "shareHint": "En kopi af skabelonen, som den er når du gemmer, bliver tilgængelig for alle CitizenOne-virksomheder med samme sprog. Senere ændringer deles ikke. Sørg for at skabelonen ikke indeholder personoplysninger."
+        },
         "addNewQuestion": "Tilføj nyt spørgsmål",
         "addOption": "Tilføj mulighed",
         "alert": {

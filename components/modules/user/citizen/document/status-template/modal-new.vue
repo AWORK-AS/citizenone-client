@@ -7,8 +7,13 @@
                     <form @submit.prevent="submitForm()" id="formTemplate">
                         <div class="space-y-3">
                             <div class="space-y-1">
+                                <TemplateSourcePicker v-model="state.formSource"
+                                    :communityCount="state.options.communityForms.length" />
+                            </div>
+                            <div class="space-y-1">
                                 <FormLabel for="form" :label="$t('citizens.documents.createTemplate.form.form')" />
-                                <FormSelect id="form" :options="state.options.forms"
+                                <FormSelect id="form" :placeholder="$t('forms.community.searchTemplates')"
+                                    :options="state.formSource === 'community' ? state.options.communityForms : state.options.forms"
                                     v-model="state.formTemplate.form_uuid" />
                                 <FormError :error="v$?.formTemplate?.form_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.form_uuid?.[0]" />
@@ -78,6 +83,8 @@
 <script setup lang="ts">
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
 import { formService } from '@/components/api/user/FormService'
+import TemplateSourcePicker from '@/components/modules/user/document/status-template/source-picker.vue'
+import { fetchCommunityTemplateOptions, isCommunityTemplateValue, resolvePickedFormUuid } from '@/composables/useCommunityFormTemplates'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
@@ -111,8 +118,11 @@ const state = reactive({
     modal: {
         isRespondOpen: false,
     },
+    // 'own' lists the company's forms, 'community' the templates shared by other organisations
+    formSource: 'own',
     options: {
         forms: [],
+        communityForms: [] as any[],
         folders: [],
         plans: [],
         goals: [],
@@ -132,6 +142,7 @@ function refreshDocuments() {
 }
 
 function resetForm() {
+    state.formSource = 'own'
     state.formTemplate = {
         folder_uuid: '',
         form_uuid: '',
@@ -144,7 +155,8 @@ function resetForm() {
 }
 
 watch(() => state.formTemplate.form_uuid, async (formUuid: any) => {
-    if (formUuid) {
+    // A community template has no follow-up until it is imported, and an import never copies one.
+    if (formUuid && !isCommunityTemplateValue(formUuid)) {
         try {
             const response = await formService.getForm(formUuid)
             state.selectedFormHasFollowUp = !!response?.data?.is_follow_up_enabled
@@ -183,6 +195,10 @@ const rules = computed(() => {
 
 const v$ = useVuelidate(rules, state)
 
+watch(() => state.formSource, () => {
+    state.formTemplate.form_uuid = ''
+})
+
 async function fetchAllFolders() {
     state.error = {}
     state.isPageLoading = true
@@ -218,6 +234,13 @@ async function fetchAllForms() {
                 })
             )
             state.options.forms = options
+            // Templates shared with the CitizenOne community, listed when that source is picked.
+            try {
+                state.options.communityForms = await fetchCommunityTemplateOptions()
+            } catch {
+                // The company's own forms stay usable without them.
+                state.options.communityForms = []
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -312,6 +335,23 @@ async function fetchAllSubgoalsPerGoal(goalUuid: any) {
 async function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
+        // A community template is copied into the company first; the report is
+        // then filled in on the company's own copy like any other form.
+        if (isCommunityTemplateValue(state.formTemplate.form_uuid)) {
+            state.isPageLoading = true
+            try {
+                const importedUuid = await resolvePickedFormUuid(state.formTemplate.form_uuid)
+                await fetchAllForms()
+                state.formSource = 'own'
+                await nextTick()
+                state.formTemplate.form_uuid = importedUuid
+            } catch (error: any) {
+                state.error = error
+                state.isPageLoading = false
+                return
+            }
+            state.isPageLoading = false
+        }
         state.modal.isRespondOpen = true
     }
 }
