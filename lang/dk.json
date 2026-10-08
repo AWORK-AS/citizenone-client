@@ -7185,6 +7185,12 @@
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Vis vagter",
+        "loadFailed": {
+            "title": "Kalenderen kunne ikke hentes",
+            "message": "Dine aftaler er ikke væk. Vi kunne bare ikke hente dem lige nu. Prøv igen om et øjeblik.",
+            "retry": "Prøv igen",
+            "retryHelp": "Henter kalenderen igen for den periode, du kigger på."
+        },
         "shiftLabel": "Vagt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed",

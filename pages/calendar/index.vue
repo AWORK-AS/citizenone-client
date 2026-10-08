@@ -156,7 +156,21 @@
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <LoadingSpinner :isActive="state.isPageLoading">
+                <!-- A failed load says so, in place of the grid: an empty
+                     calendar with no explanation reads as "everything is gone". -->
+                <div v-if="state.eventsLoadFailed && !state.isEventsLoading" role="alert"
+                    class="flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-12 text-center">
+                    <Icon name="ph:calendar-x" class="mb-4 h-12 w-12 text-gray-400" aria-hidden="true" />
+                    <p class="text-base font-semibold text-gray-900">{{ $t('events.loadFailed.title') }}</p>
+                    <p class="mt-1 max-w-md text-sm text-gray-500">{{ $t('events.loadFailed.message') }}</p>
+                    <Tooltip :text="$t('events.loadFailed.retryHelp')" position="bottom" class="mt-6">
+                        <FormButton buttonStyle="action" @click="fetchMyCalendarEvents">
+                            <Icon name="ph:arrow-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('events.loadFailed.retry') }}
+                        </FormButton>
+                    </Tooltip>
+                </div>
+                <LoadingSpinner v-else :isActive="state.isEventsLoading || state.isPageLoading">
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
@@ -264,6 +278,11 @@ const state = reactive({
         employee_group_uuid: [] as any,
     },
     isPageLoading: false,
+    // The events have their own flag: the citizen, employee and group lists
+    // load beside them and used to clear the shared one first, so the grid
+    // showed empty with no spinner while the events were still on their way.
+    isEventsLoading: false,
+    eventsLoadFailed: false,
     showShifts: false,
     modal: {
         isAddEventForMyselfOpen: false,
@@ -341,12 +360,7 @@ onMounted(() => {
     fetchCalendarTags()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
-        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
-        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-        state.selectedDate = {
-            end_date: lastDayOfMonth,
-            start_date: firstDayOfMonth,
-        }
+        state.selectedDate = monthGridRange(moment())
     } else if (calendarStore.getCalendarView === 'week') {
         state.calendarView = 'week'
         const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
@@ -357,12 +371,7 @@ onMounted(() => {
         }
     } else if (calendarStore.getCalendarView === 'month') {
         state.calendarView = 'month'
-        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
-        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-        state.selectedDate = {
-            end_date: lastDayOfMonth,
-            start_date: firstDayOfMonth,
-        }
+        state.selectedDate = monthGridRange(moment())
     }
     fetchMyCalendarEvents()
 })
@@ -391,8 +400,6 @@ function openGuidedTour() {
 }
 
 async function fetchAllCitizens() {
-    state.error = {}
-    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName
@@ -411,12 +418,9 @@ async function fetchAllCitizens() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllUsers() {
-    state.error = {}
-    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName
@@ -435,12 +439,9 @@ async function fetchAllUsers() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllEmployeeGroups() {
-    state.error = {}
-    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName
@@ -459,7 +460,6 @@ async function fetchAllEmployeeGroups() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchCalendarTags() {
@@ -500,9 +500,14 @@ function changeEmployeeGroupUuid(employeeGroupUuid: any) {
     fetchMyCalendarEvents()
 }
 
+// Only the newest request may write: paging quickly through months, or
+// changing a filter mid-load, let an older answer land last and show the
+// wrong period (and merge one request's shifts into another's events).
+let eventsRequestId = 0
+
 async function fetchMyCalendarEvents() {
-    state.error = {}
-    state.isPageLoading = true
+    const requestId = ++eventsRequestId
+    state.isEventsLoading = true
     try {
         const params = {} as any
         params.department = departmentStore.getSelectedDepartmentName
@@ -513,12 +518,6 @@ async function fetchMyCalendarEvents() {
                 start_date: moment().format('Y-M-D'),
                 end_date: moment().format('Y-M-D'),
             })
-        }
-        if (state.selectedYear) {
-            params.year = state.selectedYear
-        }
-        if (state.selectedMonth !== '') {
-            params.month = (state.selectedMonth + 1)
         }
         if (state.formCalendar.citizens_uuid) {
             params.citizen_uuid = Array(state.formCalendar.citizens_uuid)
@@ -534,28 +533,29 @@ async function fetchMyCalendarEvents() {
             params.tags_uuid = JSON.stringify(state.filter.tags_uuid)
         }
 
-        const response = await myCalendarService.getSchedules(params)
-        if (response.data) {
-            state.myCalendarEvents = response
-        }
+        const [response, shiftsResponse] = await Promise.all([
+            myCalendarService.getSchedules(params),
+            state.showShifts ? myCalendarService.getCalendarShifts(params) : Promise.resolve(null),
+        ])
+        if (requestId !== eventsRequestId) return
 
-        if (state.showShifts) {
-            const shiftsResponse = await myCalendarService.getCalendarShifts(params)
-            if (shiftsResponse?.data?.length && state.myCalendarEvents?.data) {
-                const shifts = shiftsResponse.data.map((shift: any) => ({
-                    ...shift,
-                    is_shift: true,
-                }))
-                state.myCalendarEvents = {
-                    ...state.myCalendarEvents,
-                    data: [...state.myCalendarEvents.data, ...shifts],
-                }
-            }
+        const shifts = (shiftsResponse?.data ?? []).map((shift: any) => ({ ...shift, is_shift: true }))
+        state.myCalendarEvents = {
+            ...response,
+            data: [...(response?.data ?? []), ...shifts],
         }
+        state.eventsLoadFailed = false
     } catch (error: any) {
-        state.error = { message: error.message }
+        if (requestId !== eventsRequestId) return
+        // Not the previous period's events with a banner over them: say the
+        // load failed and offer to retry.
+        state.myCalendarEvents = { data: [], holidays: [] }
+        state.eventsLoadFailed = true
+    } finally {
+        if (requestId === eventsRequestId) {
+            state.isEventsLoading = false
+        }
     }
-    state.isPageLoading = false
 }
 
 const viewOptions = [
@@ -585,10 +585,7 @@ function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {
         state.calendarView = viewStyle
         calendarStore.setCalendarView(viewStyle)
-        state.selectedDate = {
-            end_date: moment().endOf('month').format('Y-M-D'),
-            start_date: moment().startOf('month').format('Y-M-D'),
-        }
+        state.selectedDate = monthGridRange(moment())
         state.selectedYear = ''
         state.selectedMonth = ''
         if (viewStyle === 'week') {
@@ -599,12 +596,7 @@ function setCalendarView(viewStyle: any) {
                 start_date: firstDayOfWeek,
             }
         } else if (viewStyle === 'month') {
-            const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
-            const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-            state.selectedDate = {
-                end_date: lastDayOfMonth,
-                start_date: firstDayOfMonth,
-            }
+            state.selectedDate = monthGridRange(moment())
         }
     }
 }
@@ -629,13 +621,25 @@ function changeDatePerWeek(date: any) {
     fetchMyCalendarEvents()
 }
 
-function changeMonthYear(year: any, month: any) {
-    state.selectedDate = {
-        end_date: '',
-        start_date: '',
+// Day and month views both page by month. Ask for the whole grid they draw,
+// Monday before the 1st to Sunday after the last, as a date range: the shifts
+// overlay only reads the range (with month/year it fell back to today), and a
+// range finds events that cross into the month from the one before.
+function monthGridRange(day: moment.Moment) {
+    return {
+        start_date: day.clone().startOf('month').startOf('isoWeek').format('Y-M-D'),
+        end_date: day.clone().endOf('month').endOf('isoWeek').format('Y-M-D'),
     }
+}
+
+function changeMonthYear(year: any, month: any) {
+    const range = monthGridRange(moment([Number(year), Number(month)]))
     state.selectedYear = year
     state.selectedMonth = month
+    // The day view reports its month on every day click; the range is the
+    // same, so there is nothing new to fetch.
+    if (range.start_date === state.selectedDate.start_date && range.end_date === state.selectedDate.end_date) return
+    state.selectedDate = range
     fetchMyCalendarEvents()
 }
 
@@ -657,8 +661,8 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture:
         const scheduleUuid = selectedCalendarEvent?.uuid
         const response = await myCalendarService.deleteSchedule(scheduleUuid, { is_delete_future: isDeleteFuture })
         if (response) {
-            fetchMyCalendarEvents()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyDeleted')}.`)
+            await fetchMyCalendarEvents()
         }
     } catch (error: any) {
         state.error = error

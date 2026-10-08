@@ -7185,6 +7185,12 @@
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Visa pass",
+        "loadFailed": {
+            "title": "Kalendern kunde inte laddas",
+            "message": "Dina händelser är inte borta. Vi kunde bara inte hämta dem just nu. Försök igen om en stund.",
+            "retry": "Försök igen",
+            "retryHelp": "Laddar kalendern igen för perioden du tittar på."
+        },
         "shiftLabel": "Pass",
         "confirmation": {
             "deleteConfirmation": "Är du säker på att du vill radera denna händelse",

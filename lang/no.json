@@ -7185,6 +7185,12 @@
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Vis vakter",
+        "loadFailed": {
+            "title": "Kalenderen kunne ikke lastes",
+            "message": "Avtalene dine er ikke borte. Vi klarte bare ikke å hente dem akkurat nå. Prøv igjen om et øyeblikk.",
+            "retry": "Prøv igjen",
+            "retryHelp": "Laster kalenderen på nytt for perioden du ser på."
+        },
         "shiftLabel": "Vakt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på at du vil slette denne arrangement",
