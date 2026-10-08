@@ -107,6 +107,15 @@
                             {{ $t('filter') }}
                         </span>
                     </button>
+                    <Tooltip :text="$t('calendar.onlyMine.help')" position="bottom">
+                        <div class="flex items-center gap-x-2">
+                            <FormSwitch :value="onlyMine" @toggleSwitch="toggleOnlyMine" />
+                            <span class="inline-flex items-center gap-x-1 text-sm text-gray-700">
+                                <Icon name="ph:user-focus" class="h-4 w-4 text-primary" aria-hidden="true" />
+                                {{ $t('calendar.onlyMine.label') }}
+                            </span>
+                        </div>
+                    </Tooltip>
                     <div class="flex items-center gap-x-2">
                         <FormSwitch :value="state.showShifts"
                             @toggleSwitch="state.showShifts = !state.showShifts" />
@@ -229,15 +238,16 @@
             <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
                 @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
-                :selectedDate="state.newEventPresetDate"
+                :selectedDate="state.newEventPresetDate" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+            <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
+            <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
 
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
+                @duplicateEvent="duplicateMyCalendarEvent"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
 
             <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
@@ -277,6 +287,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
+import { duplicateFields } from '@/composables/calendarEventPresentation'
 // import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
@@ -329,6 +340,8 @@ const state = reactive({
     },
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     newEventPresetDate: '',
+    // The event "Duplicate" was clicked on; the new-event modals start from it.
+    duplicateOf: null as any,
     myCalendarEvents: [] as any,
     selectedDate: {
         end_date: '',
@@ -412,6 +425,25 @@ function removeFilterChip(chip: FilterChip) {
     if (chip.kind === 'employee') state.formCalendar.users_uuid = without(state.formCalendar.users_uuid)
     if (chip.kind === 'group') state.formCalendar.employee_group_uuid = without(state.formCalendar.employee_group_uuid)
     if (chip.kind === 'tag') state.filter.tags_uuid = without(state.filter.tags_uuid)
+    fetchMyCalendarEvents()
+}
+
+// "Only my events": the employee filter set to me alone, nothing else.
+// It is the same filter the participants menu sets, so its chip shows too.
+const onlyMine = computed(() => {
+    const me = userStore.getUser?.uuid
+    const users = state.formCalendar.users_uuid as string[]
+    return !!me && users.length === 1 && users[0] === me
+        && !(state.formCalendar.citizens_uuid as string[]).length
+        && !(state.formCalendar.employee_group_uuid as string[]).length
+})
+
+function toggleOnlyMine() {
+    const me = userStore.getUser?.uuid
+    if (!me) return
+    state.formCalendar.users_uuid = (onlyMine.value ? [] : [me]) as any
+    state.formCalendar.citizens_uuid = []
+    state.formCalendar.employee_group_uuid = []
     fetchMyCalendarEvents()
 }
 
@@ -726,6 +758,20 @@ function openCreateEventModal(date: string) {
     state.newEventPresetDate = date
     state.modal.isAddEventForMyselfOpen = true
 }
+
+function duplicateMyCalendarEvent(event: any) {
+    const type = duplicateFields(event).type
+    state.modal.isEditEventOpen = false
+    state.newEventPresetDate = ''
+    state.duplicateOf = event
+    if (type === 'citizens') state.modal.isAddEventForCitizenOpen = true
+    else if (type === 'employees') state.modal.isAddEventForEmployeeOpen = true
+    else state.modal.isAddEventForMyselfOpen = true
+}
+
+// A duplicate is a one-off: once its modal closes, "New event" starts empty again.
+watch(() => [state.modal.isAddEventForMyselfOpen, state.modal.isAddEventForCitizenOpen, state.modal.isAddEventForEmployeeOpen],
+    (open) => { if (!open.some(Boolean)) state.duplicateOf = null })
 
 function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule = selectedCalendarEvent

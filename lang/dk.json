@@ -1442,6 +1442,14 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Dupliker",
+            "help": "Opretter en ny aftale med samme titel, beskrivelse, deltagere og etiketter. Du vælger selv dato og tid."
+        },
+        "onlyMine": {
+            "label": "Kun mine",
+            "help": "Viser kun aftaler, du ejer eller er inviteret til"
+        },
         "shortcuts": {
             "view": "{view} (tast {key})",
             "today": "Gå til i dag (tast T)",

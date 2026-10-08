@@ -50,7 +50,7 @@
                             :aria-label="ev.title"
                             class="group/ev absolute overflow-hidden rounded-md border-l-2 px-1.5 py-0.5 text-left transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                             :class="[ev.colorClass, ev.completed && 'opacity-70', ev.isNow && 'ring-1 ring-inset ring-red-400']"
-                            :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width }"
+                            :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width, ...ev.tagStyle }"
                             @click.stop="$emit('eventClick', ev.raw)">
                             <span class="flex items-center gap-x-1">
                                 <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { eventTagColor, tintColor } from '@/composables/calendarEventPresentation'
 import moment from 'moment'
 
 const props = defineProps({
@@ -129,6 +130,11 @@ function colorClass(type: string) {
     return 'border-amber-500 bg-amber-500/10 text-amber-900 hover:bg-amber-500/[0.18]'
 }
 
+function tagStyle(e: any) {
+    const color = eventTagColor(e)
+    return color ? { borderLeftColor: color, backgroundColor: tintColor(color) } : {}
+}
+
 function isNow(e: any) {
     return nowTick.value.isBetween(moment(e.date_time_start), moment(e.date_time_end), null, '[)')
 }
@@ -163,6 +169,8 @@ const laidOut = computed(() => {
                     hasNote: !!c.raw.journal_id,
                     isNow: isNow(c.raw),
                     colorClass: colorClass(c.raw.type),
+                    // The first tag's colour, when the customer gave it one: scan by colour.
+                    tagStyle: tagStyle(c.raw),
                     timeLabel: `${moment(c.raw.date_time_start).format('HH:mm')} – ${moment(c.raw.date_time_end).format('HH:mm')}`,
                     top: c.startMin / 60 * hourHeight,
                     height: Math.max(22, (c.endMin - c.startMin) / 60 * hourHeight - 2),

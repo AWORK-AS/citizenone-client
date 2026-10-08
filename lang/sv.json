@@ -1442,6 +1442,14 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Duplicera",
+            "help": "Skapar en ny händelse med samma titel, beskrivning, deltagare och etiketter. Du väljer själv datum och tid."
+        },
+        "onlyMine": {
+            "label": "Bara mina",
+            "help": "Visar bara händelser du äger eller är inbjuden till"
+        },
         "shortcuts": {
             "view": "{view} (tryck {key})",
             "today": "Gå till idag (tryck T)",
