@@ -27,6 +27,7 @@
                     <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.completionStatistics.title') }}
                 </FormButton>
+                <Tooltip :text="$t('calendar.shortcuts.newEvent')" position="top">
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
@@ -76,6 +77,7 @@
                         </MenuItems>
                     </transition>
                 </Menu>
+                </Tooltip>
                 <FormButton buttonStyle="action" @click="subscribe">
                     <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe.label') }}
@@ -85,15 +87,18 @@
             <div class="grid lg:grid-cols-6 gap-3">
                 <div class="flex items-center gap-x-4 lg:col-span-3">
                     <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
-                        <button type="button" v-for="opt in viewOptions" :key="opt.value"
-                            @click="selectView(opt.value)" :class="[
-                                state.calendarView === opt.value
-                                    ? 'bg-white text-gray-900 shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-800',
-                                'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
-                            ]">
-                            {{ $t(opt.label) }}
-                        </button>
+                        <Tooltip v-for="opt in viewOptions" :key="opt.value" position="bottom"
+                            :text="$t('calendar.shortcuts.view', { view: $t(opt.label), key: opt.key })">
+                            <button type="button"
+                                @click="selectView(opt.value)" :class="[
+                                    state.calendarView === opt.value
+                                        ? 'bg-white text-gray-900 shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-800',
+                                    'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
+                                ]">
+                                {{ $t(opt.label) }}
+                            </button>
+                        </Tooltip>
                     </div>
                     <button v-if="state.options.calendarTags.length" class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
@@ -150,6 +155,30 @@
                             </MenuItems>
                         </transition>
                     </Menu>
+                </div>
+                <!-- What is narrowing the calendar right now, removable one by one:
+                     a filter left on (a tag after a department switch hides the
+                     filter button) used to make the calendar look half empty. -->
+                <div v-if="activeFilterChips.length" class="lg:col-span-6 flex flex-wrap items-center gap-2"
+                    :aria-label="$t('calendar.filters.active')">
+                    <span v-for="chip in activeFilterChips" :key="`${chip.kind}-${chip.uuid}`"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-primary/10 py-0.5 pl-2.5 pr-1 text-xs font-medium text-primary">
+                        <Icon :name="chip.icon" class="h-3.5 w-3.5" aria-hidden="true" />
+                        {{ chip.label }}
+                        <Tooltip :text="$t('calendar.filters.remove', { label: chip.label })" position="top">
+                            <button type="button" :aria-label="$t('calendar.filters.remove', { label: chip.label })"
+                                class="flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary/20"
+                                @click="removeFilterChip(chip)">
+                                <Icon name="ph:x" class="h-3 w-3" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
+                    </span>
+                    <Tooltip :text="$t('calendar.filters.clearHelp')" position="top">
+                        <button type="button" class="text-xs font-medium text-gray-500 underline-offset-2 hover:text-gray-800 hover:underline"
+                            @click="clearAllFilters">
+                            {{ $t('calendar.filters.clear') }}
+                        </button>
+                    </Tooltip>
                 </div>
             </div>
 
@@ -333,6 +362,46 @@ const activeParticipantFilterCount = computed(() => {
         state.formCalendar.employee_group_uuid,
     ].filter((selection: any) => Array.isArray(selection) && selection.length > 0).length
 })
+
+type FilterChip = { kind: 'citizen' | 'employee' | 'group' | 'tag', uuid: string, label: string, icon: string }
+
+const activeFilterChips = computed<FilterChip[]>(() => {
+    const labelOf = (options: any[], uuid: string) => options.find((o: any) => o.value === uuid)?.label ?? ''
+    const chips: FilterChip[] = []
+    for (const uuid of state.formCalendar.citizens_uuid as string[]) {
+        chips.push({ kind: 'citizen', uuid, label: labelOf(state.options.citizens, uuid), icon: 'heroicons:user-group' })
+    }
+    for (const uuid of state.formCalendar.users_uuid as string[]) {
+        chips.push({ kind: 'employee', uuid, label: labelOf(state.options.users, uuid), icon: 'ph:user' })
+    }
+    for (const uuid of state.formCalendar.employee_group_uuid as string[]) {
+        chips.push({ kind: 'group', uuid, label: labelOf(state.options.employeeGroups, uuid), icon: 'ph:users-three' })
+    }
+    for (const uuid of (state.filter.tags_uuid ?? []) as string[]) {
+        const tag = state.options.calendarTags.find((t: any) => t.uuid === uuid)
+        chips.push({ kind: 'tag', uuid, label: tag?.tag ?? '', icon: 'ph:tag' })
+    }
+    // A selection whose option isn't loaded (yet) still narrows the calendar,
+    // so it gets a chip too, under a placeholder rather than a blank.
+    return chips.map(chip => ({ ...chip, label: chip.label || '…' }))
+})
+
+function removeFilterChip(chip: FilterChip) {
+    const without = (list: any) => (list ?? []).filter((uuid: string) => uuid !== chip.uuid)
+    if (chip.kind === 'citizen') state.formCalendar.citizens_uuid = without(state.formCalendar.citizens_uuid)
+    if (chip.kind === 'employee') state.formCalendar.users_uuid = without(state.formCalendar.users_uuid)
+    if (chip.kind === 'group') state.formCalendar.employee_group_uuid = without(state.formCalendar.employee_group_uuid)
+    if (chip.kind === 'tag') state.filter.tags_uuid = without(state.filter.tags_uuid)
+    fetchMyCalendarEvents()
+}
+
+function clearAllFilters() {
+    state.formCalendar.citizens_uuid = []
+    state.formCalendar.users_uuid = []
+    state.formCalendar.employee_group_uuid = []
+    state.filter.tags_uuid = []
+    fetchMyCalendarEvents()
+}
 
 onMounted(() => {
     fetchAllCitizens()
@@ -559,9 +628,9 @@ async function fetchMyCalendarEvents() {
 }
 
 const viewOptions = [
-    { value: 'default', label: 'calendar.view.day' },
-    { value: 'week', label: 'calendar.view.week' },
-    { value: 'month', label: 'calendar.view.month' },
+    { value: 'default', label: 'calendar.view.day', key: 'D' },
+    { value: 'week', label: 'calendar.view.week', key: 'W' },
+    { value: 'month', label: 'calendar.view.month', key: 'M' },
 ]
 
 function selectView(viewStyle: any) {
@@ -577,6 +646,15 @@ function onViewKey(e: KeyboardEvent) {
     if (e.key === 'd' || e.key === 'D') selectView('default')
     else if (e.key === 'u' || e.key === 'U' || e.key === 'w' || e.key === 'W') selectView('week')
     else if (e.key === 'm' || e.key === 'M') selectView('month')
+    else if ((e.key === 'n' || e.key === 'N') && !anyModalOpen()) {
+        e.preventDefault()
+        state.newEventPresetDate = ''
+        state.modal.isAddEventForMyselfOpen = true
+    }
+}
+
+function anyModalOpen() {
+    return Object.values(state.modal).some(Boolean)
 }
 onMounted(() => window.addEventListener('keydown', onViewKey))
 onUnmounted(() => window.removeEventListener('keydown', onViewKey))

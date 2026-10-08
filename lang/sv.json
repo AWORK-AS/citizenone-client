@@ -1442,6 +1442,19 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "shortcuts": {
+            "view": "{view} (tryck {key})",
+            "today": "Gå till idag (tryck T)",
+            "previous": "Föregående (tryck ←)",
+            "next": "Nästa (tryck →)",
+            "newEvent": "Ny händelse för dig själv (tryck N)"
+        },
+        "filters": {
+            "active": "Aktiva filter",
+            "remove": "Ta bort filtret: {label}",
+            "clear": "Rensa filter",
+            "clearHelp": "Tar bort alla filter på brukare, anställda, grupper och etiketter"
+        },
         "participants": "Deltagare",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
@@ -7238,6 +7251,10 @@
         "markAsNotCompleted": "Markera som inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
         "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
+        "noteNudge": {
+            "label": "Anteckning saknas",
+            "help": "Bokningen är slut men ingen journalanteckning har skrivits än. Klicka för att skriva den."
+        },
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
