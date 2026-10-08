@@ -268,7 +268,13 @@
                                 </div>
                                 <div>
                                     <p class="text-xs text-gray-500">Pris</p>
-                                    <p class="font-semibold text-gray-900 mt-0.5">
+                                    <Tooltip v-if="subscriptionAgreement" :text="$t('superadmin.companies.contract.agrAgreementChipHelp')"
+                                        position="top" wrap>
+                                        <p class="font-semibold text-gray-900 mt-0.5">
+                                            {{ $t('superadmin.companies.contract.agrAgreementName', { name: subscriptionAgreement.name }) }}
+                                        </p>
+                                    </Tooltip>
+                                    <p v-else class="font-semibold text-gray-900 mt-0.5">
                                         {{ ['monthly', 'custom_monthly'].includes(state.subscription?.data?.type)
                                             ? formatAmount(state.subscription?.data?.deal?.monthly_price ?? 0, 'DKK')
                                             : formatAmount(state.subscription?.data?.deal?.yearly_price ?? 0, 'DKK') }}
@@ -302,6 +308,7 @@ import { companyService } from '@/components/api/superadmin/CompanyService'
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { industryService } from '@/components/api/superadmin/IndustryService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { subscriptionAgreementView } from '@/composables/agreements'
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
@@ -317,6 +324,8 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
+
+const subscriptionAgreement = computed(() => subscriptionAgreementView(state.subscription?.data).agreement)
 
 const state = reactive({
     company: null as any,
