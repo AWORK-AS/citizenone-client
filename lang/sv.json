@@ -11039,6 +11039,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
@@ -11120,6 +11121,29 @@
             "how1": "Klicka “Anslut till e-conomic”.",
             "how2": "Godkänn åtkomsten i e-conomic (App Connect).",
             "how3": "Du skickas tillbaka hit. Därefter kan fakturor skickas till e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Skicka fakturor från CitizenOne till Dinero som bokföringsunderlag.",
+            "adminOnly": "Endast administratörer kan hantera Dinero-anslutningen.",
+            "notPurchased": "Dinero-appen är inte aktiverad ännu. Aktivera den under Appar för att ansluta.",
+            "goToApps": "Gå till Appar",
+            "connection": "Anslutning",
+            "connected": "Ansluten",
+            "notConnected": "Inte ansluten",
+            "connect": "Anslut",
+            "disconnect": "Koppla från",
+            "confirmDisconnect": "Koppla från Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Client ID som Dinero utfärdade till er",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Client Secret som Dinero utfärdade till er",
+            "apiKeyLabel": "Dinero API-nyckel",
+            "apiKeyPlaceholder": "Klistra in API-nyckeln från din Dinero-organisation",
+            "howTitle": "Så här ansluter du",
+            "how1": "Gå till Inställningar → Integrationer i Dinero och begär en personlig integration för att få ett Client ID, en Client Secret och en API-nyckel för organisationen.",
+            "how2": "Klistra in alla tre här och klicka på “Anslut”.",
+            "how3": "När anslutningen är klar kan fakturor skickas till Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11252,6 +11276,10 @@
             "economic": {
                 "title": "Vad gör e-conomic?",
                 "body": "Skicka fakturor och underlag vidare till ert bokföringssystem, så att siffrorna bara skrivs in en gång."
+            },
+            "dinero": {
+                "title": "Vad gör Dinero?",
+                "body": "Skicka fakturor vidare till Dinero som bokföringsunderlag, så att siffrorna bara skrivs in en gång."
             },
             "fst": {
                 "title": "Vad är FindSocialeTilbud.dk?",
@@ -16104,6 +16132,7 @@
             "recipientPlaceholder": "Mottagare (annars avdelningens e-post)",
             "sendEmail": "Skicka via e-post",
             "pushEconomic": "Skicka till e-conomic som utkast",
+            "pushDinero": "Skicka till Dinero som underlag",
             "empty": "Inga fakturor i den här vyn.",
             "number": "Fakturanr",
             "billTo": "Mottagare",
@@ -16123,6 +16152,9 @@
                 "invoice_not_found": "Fakturan hittades inte",
                 "customer_failed": "Kunden kunde inte skapas i e-conomic",
                 "invoice_failed": "Utkastet kunde inte skapas i e-conomic",
+                "dinero_not_connected": "Dinero är inte anslutet",
+                "dinero_invoice_not_found": "Fakturan hittades inte",
+                "dinero_voucher_failed": "Underlaget kunde inte skapas i Dinero",
                 "unknown_action": "Okänd åtgärd"
             }
         },

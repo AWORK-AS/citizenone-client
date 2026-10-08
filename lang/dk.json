@@ -11044,6 +11044,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egne links",
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
@@ -11125,6 +11126,29 @@
             "how1": "Klik “Forbind til e-conomic”.",
             "how2": "Godkend adgangen i e-conomic (App Connect).",
             "how3": "Du sendes tilbage hertil. Herefter kan fakturaer sendes til e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send fakturaer fra CitizenOne til Dinero som bogføringsbilag.",
+            "adminOnly": "Kun administratorer kan administrere Dinero-forbindelsen.",
+            "notPurchased": "Dinero-app’en er ikke aktiveret endnu. Aktivér den under Apps for at forbinde.",
+            "goToApps": "Gå til Apps",
+            "connection": "Forbindelse",
+            "connected": "Forbundet",
+            "notConnected": "Ikke forbundet",
+            "connect": "Forbind",
+            "disconnect": "Afbryd",
+            "confirmDisconnect": "Afbryd forbindelsen til Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Det Client ID, Dinero har udstedt til jer",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Den Client Secret, Dinero har udstedt til jer",
+            "apiKeyLabel": "Dinero API-nøgle",
+            "apiKeyPlaceholder": "Indsæt API-nøglen fra din Dinero-organisation",
+            "howTitle": "Sådan forbinder du",
+            "how1": "Gå til Indstillinger → Integrationer i Dinero, og anmod om en personlig integration for at få et Client ID, en Client Secret og en API-nøgle til organisationen.",
+            "how2": "Indsæt alle tre her, og klik “Forbind”.",
+            "how3": "Når forbindelsen er oprettet, kan fakturaer sendes til Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11257,6 +11281,10 @@
             "economic": {
                 "title": "Hvad gør e-conomic?",
                 "body": "Send fakturaer og bilag videre til jeres regnskabssystem, så tallene kun tastes ét sted."
+            },
+            "dinero": {
+                "title": "Hvad gør Dinero?",
+                "body": "Send fakturaer videre til Dinero som bogføringsbilag, så tallene kun tastes ét sted."
             },
             "fst": {
                 "title": "Hvad er FindSocialeTilbud.dk?",
@@ -16200,6 +16228,7 @@
             "recipientPlaceholder": "Modtager (ellers afdelingens e-mail)",
             "sendEmail": "Send på e-mail",
             "pushEconomic": "Send til e-conomic som kladde",
+            "pushDinero": "Send til Dinero som bilag",
             "empty": "Ingen fakturaer i denne visning.",
             "number": "Fakturanr.",
             "billTo": "Modtager",
@@ -16219,6 +16248,9 @@
                 "invoice_not_found": "Fakturaen blev ikke fundet",
                 "customer_failed": "Kunden kunne ikke oprettes i e-conomic",
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
+                "dinero_not_connected": "Dinero er ikke forbundet",
+                "dinero_invoice_not_found": "Fakturaen blev ikke fundet",
+                "dinero_voucher_failed": "Bilaget kunne ikke oprettes i Dinero",
                 "unknown_action": "Ukendt handling"
             }
         },

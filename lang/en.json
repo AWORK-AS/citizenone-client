@@ -11044,6 +11044,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
@@ -11125,6 +11126,29 @@
             "how1": "Click “Connect to e-conomic”.",
             "how2": "Approve access in e-conomic (App Connect).",
             "how3": "You are returned here. Invoices can then be sent to e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send invoices from CitizenOne to Dinero as bookkeeping vouchers.",
+            "adminOnly": "Only administrators can manage the Dinero connection.",
+            "notPurchased": "The Dinero app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "The Client ID Dinero issued you",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "The Client Secret Dinero issued you",
+            "apiKeyLabel": "Dinero API key",
+            "apiKeyPlaceholder": "Paste the API key from your Dinero organization",
+            "howTitle": "How to connect",
+            "how1": "In Dinero, go to Settings → Integrations and request a personal integration to get a Client ID, Client Secret and API key for this organization.",
+            "how2": "Paste all three here and click “Connect”.",
+            "how3": "Once connected, invoices can be sent to Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk integration",
@@ -11257,6 +11281,10 @@
             "economic": {
                 "title": "What does e-conomic do?",
                 "body": "Send invoices and vouchers on to your accounting system, so the figures are only typed once."
+            },
+            "dinero": {
+                "title": "What does Dinero do?",
+                "body": "Send invoices on to Dinero as bookkeeping vouchers, so the figures are only typed once."
             },
             "fst": {
                 "title": "What is FindSocialeTilbud.dk?",
@@ -16200,6 +16228,7 @@
             "recipientPlaceholder": "Recipient (otherwise the department e-mail)",
             "sendEmail": "Send by e-mail",
             "pushEconomic": "Send to e-conomic as draft",
+            "pushDinero": "Send to Dinero as voucher",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -16219,6 +16248,9 @@
                 "invoice_not_found": "The invoice was not found",
                 "customer_failed": "The customer could not be created in e-conomic",
                 "invoice_failed": "The draft could not be created in e-conomic",
+                "dinero_not_connected": "Dinero is not connected",
+                "dinero_invoice_not_found": "The invoice was not found",
+                "dinero_voucher_failed": "The voucher could not be created in Dinero",
                 "unknown_action": "Unknown action"
             }
         },
