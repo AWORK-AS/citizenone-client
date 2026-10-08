@@ -10362,6 +10362,17 @@
         "strongPasswordSub": "Use at least 8 characters with numbers and symbols",
         "strongPasswordTitle": "Create a strong password"
     },
+    "citizenVisibility": {
+        "notice": "You are not linked to any department, @:terms.citizens{''} or employee group, so you cannot see any @:terms.citizens{''} yet. Please contact your manager.",
+        "noticeHelp": "Staff see @:terms.citizens{''} in their own departments, @:terms.citizens{''} assigned to them, and @:terms.citizens{''} through their employee groups. Your manager can add you to a department or assign @:terms.citizens{''} to you.",
+        "noticeHelpLabel": "Why can I not see any @:terms.citizens{''}?",
+        "levelAll": "Sees every @:terms.citizen{''} in the company",
+        "levelLimited": "Sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups (or all, if the company does not use departments)",
+        "levelHelp": "The level decides which @:terms.citizens{''} the role can see. @:roles.table.manager and above see every @:terms.citizen{''} in the company. @:roles.table.regular sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups. If the company does not use departments, everyone sees all @:terms.citizens{''}.",
+        "levelHelpLabel": "What does the level mean?",
+        "badgeAll": "All @:terms.citizens{''}",
+        "badgeLimited": "Own @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Add new role",
         "alert": {

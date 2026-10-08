@@ -10362,6 +10362,17 @@
         "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
         "strongPasswordTitle": "Opret en stærk adgangskode"
     },
+    "citizenVisibility": {
+        "notice": "Du er ikke tilknyttet nogen afdeling, @:terms.citizens{''} eller medarbejdergruppe, så du kan ikke se nogen @:terms.citizens{''} endnu. Kontakt din leder.",
+        "noticeHelp": "Medarbejdere ser @:terms.citizens{''} i deres egne afdelinger, @:terms.citizens{''} de er tildelt, og @:terms.citizens{''} via deres medarbejdergrupper. Din leder kan tilføje dig til en afdeling eller tildele dig @:terms.citizens{''}.",
+        "noticeHelpLabel": "Hvorfor kan jeg ikke se nogen @:terms.citizens{''}?",
+        "levelAll": "Ser alle @:terms.citizens{''} i virksomheden",
+        "levelLimited": "Ser kun @:terms.citizens{''} i egne afdelinger, tildelte og via medarbejdergrupper (eller alle, hvis virksomheden ikke bruger afdelinger)",
+        "levelHelp": "Niveauet bestemmer, hvilke @:terms.citizens{''} rollen kan se. @:roles.table.manager og derover ser alle @:terms.citizens{''} i virksomheden. @:roles.table.regular ser kun @:terms.citizens{''} i egne afdelinger, tildelte og via medarbejdergrupper. Bruger virksomheden ikke afdelinger, ser alle medarbejdere alle @:terms.citizens{''}.",
+        "levelHelpLabel": "Hvad betyder niveauet?",
+        "badgeAll": "Alle @:terms.citizens{''}",
+        "badgeLimited": "Egne @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Tilføj ny rolle",
         "alert": {
