@@ -2303,6 +2303,12 @@ async function fetchDutySchedule() {
         if (state.filter.department_uuids?.length > 0) {
             params.department_uuids = Array(state.filter.department_uuids)
         }
+        // Whole department groups per page, in the order they are drawn (the
+        // backend ignores this where it does not know it, and then the page in
+        // view is grouped on its own).
+        if (isAllDepartmentsSelected.value && !(state.filter.department_uuids?.length > 0)) {
+            params.group_by_department = true
+        }
         if (state.filter.employment_status) {
             params.employment_status = Array(state.filter.employment_status)
         }

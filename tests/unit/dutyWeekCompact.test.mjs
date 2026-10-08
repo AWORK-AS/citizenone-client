@@ -46,6 +46,10 @@ describe('the week grid stays compact', () => {
         assert.match(week, /v-if="!isGroupingActive \|\| !isGroupCollapsed\(groupOf\(employee\)\)"/)
     })
 
+    test('asks the backend for whole groups per page', () => {
+        assert.match(week, /params\.group_by_department = true/)
+    })
+
     test('a folded group still shows each day\'s shifts and conflicts, and is a real button', () => {
         assert.match(week, /dutySchedules\.groups\.shifts/)
         assert.match(week, /dutySchedules\.groups\.conflicts/)
