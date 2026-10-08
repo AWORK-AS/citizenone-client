@@ -1229,8 +1229,11 @@
                                                         <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
                                                             :text="shiftHoursTooltip(shift)"
                                                             position="left" :wrap="true">
+                                                            <!-- Opens the shift too: on a compact card the times fill the
+                                                                 top line, and a click on a time is a quick edit. -->
                                                             <div
-                                                                class="flex items-center gap-1 px-1.5 sm:px-2 pb-1 cursor-help">
+                                                                class="flex items-center gap-1 px-1.5 sm:px-2 pb-1 cursor-pointer"
+                                                                @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                                 <Icon name="ph:clock" class="w-3 h-3 flex-shrink-0"
                                                                     style="color:rgba(255,255,255,0.7)" />
                                                                 <span
@@ -2139,7 +2142,10 @@ function calculateMarginTop(schedules: any, weekIndex: string, shiftIndex: numbe
         }
     }
 
-    return overlapCount > 0 ? 3.625 + (overlapCount - 1) * 3.125 : 0
+    // One compact card per multi-day shift above, with a citizen chip (66px)
+    // plus its 6px gap. The old 3.625rem was set for cards 107-133px tall,
+    // so on production the next day's card covered the multi-day one.
+    return overlapCount * 4.5
 }
 
 // ── Department groups ─────────────────────────────────────────────────────────
@@ -3299,6 +3305,15 @@ function cancelQuickEditTime() {
 function confirmQuickEditTime(shift: any) {
     const { employeeIndex, weekIndex, shiftIndex, field, value } = state.quickEditTime
     if (employeeIndex === null || shiftIndex === null || !field || !value) {
+        cancelQuickEditTime()
+        return
+    }
+
+    // Closing the picker confirms, so opening a time and clicking away used to
+    // send an update with the same time - a write and a change-log line for
+    // nothing.
+    const current = moment(field === 'start' ? shift?.date_time_start : shift?.date_time_end).format('HH:mm')
+    if (value === current) {
         cancelQuickEditTime()
         return
     }

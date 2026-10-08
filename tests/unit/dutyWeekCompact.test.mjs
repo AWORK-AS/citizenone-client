@@ -69,6 +69,20 @@ describe('the week grid stays compact', () => {
         }
     })
 
+    test('a multi-day shift leaves room for a compact card, so the next day does not cover it', () => {
+        // 3.625rem was set for 107-133px cards; on production the next day's
+        // card overlapped the multi-day one.
+        assert.match(week, /return overlapCount \* 4\.5/)
+    })
+
+    test('closing a quick edit without a change sends nothing', () => {
+        assert.match(week, /if \(value === current\) \{\s*cancelQuickEditTime\(\)\s*return\s*\}/)
+    })
+
+    test('the hours line opens the shift, since the times are a quick edit', () => {
+        assert.match(week, /class="flex items-center gap-1 px-1\.5 sm:px-2 pb-1 cursor-pointer"\s*@click="\(\(hasUpdatePermission/)
+    })
+
     test('"moreShifts" exists in all four languages', () => {
         for (const lang of ['dk', 'en', 'no', 'sv']) {
             const json = JSON.parse(read(`lang/${lang}.json`))
