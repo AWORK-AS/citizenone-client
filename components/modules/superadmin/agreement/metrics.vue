@@ -64,6 +64,13 @@
                         <Icon name="ph:info" class="w-3.5 h-3.5 text-[#B4BBC7] hover:text-[#5C6478]"
                             :aria-label="$t('superadmin.metrics.help.bindingsEnding')" />
                     </Tooltip>
+                    <Tooltip v-if="withoutPlan > 0" :text="$t('superadmin.metrics.help.renewalsWithoutPlan', { count: withoutPlan })"
+                        position="bottom" wrap>
+                        <span class="co-badge bg-[#FEF3C7] text-[#B45309]" data-testid="renewals-without-plan">
+                            <Icon name="ph:warning" class="w-3 h-3" aria-hidden="true" />
+                            {{ withoutPlan }}
+                        </span>
+                    </Tooltip>
                 </div>
                 <div class="mt-2 flex items-center gap-2">
                     <Tooltip v-for="bucket in bindingBuckets" :key="bucket.key"
@@ -102,6 +109,7 @@
                     </p>
                 </div>
                 <div class="flex items-center gap-2 shrink-0">
+                    <ModulesSuperadminAgreementRenewalPlanChip v-if="renewalPlanMissing(row)" />
                     <Tooltip :text="row.auto_renews ? $t('superadmin.agreements.help.autoRenews') : $t('superadmin.metrics.noAutoRenewHelp')"
                         position="top" wrap>
                         <span class="co-badge" :class="row.auto_renews ? 'co-badge-navy' : 'co-badge-gray'">
@@ -125,6 +133,7 @@
 <script setup lang="ts">
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { renewalPlanMissing, renewalsWithoutPlan } from '@/composables/agreements'
 import type { BindingsEnding } from '@/types/agreement'
 
 /**
@@ -149,6 +158,8 @@ function num(value: any): number {
     const n = Number(value)
     return Number.isFinite(n) ? n : 0
 }
+
+const withoutPlan = computed(() => renewalsWithoutPlan(props.data))
 
 const upcoming = computed<any[]>(() => (props.data?.bindings_ending?.upcoming ?? []).slice(0, 8))
 

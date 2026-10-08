@@ -9,6 +9,8 @@ import type {
     InstallmentInput,
     InstallmentPreset,
     LinkableSubscription,
+    RunningAgreement,
+    SubscriptionAgreement,
     SchedulePreview,
 } from '@/types/agreement'
 
@@ -227,6 +229,23 @@ function setLinks(uuids: string[], linked: string[], on: boolean): string[] {
     return linked.filter((uuid) => !drop.has(uuid))
 }
 
+/** The renewal period field: empty or invalid is null (the backend reads null as 12). */
+export function renewalTermMonths(value: unknown): number | null {
+    const n = toNumberOrNull(value)
+    return n !== null && Number.isInteger(n) && n > 0 ? n : null
+}
+
+/** Months and invoicing of a renewal as the screens show them; null months means 12. */
+export function renewalSummary(agreement: {
+    renewal_term_months?: number | null
+    renewal_billing?: 'upfront' | 'yearly' | 'monthly' | 'by_agreement' | null
+}): { months: number; billing: 'upfront' | 'yearly' | 'monthly' | 'by_agreement' | 'plan' } {
+    return {
+        months: renewalTermMonths(agreement.renewal_term_months) ?? 12,
+        billing: agreement.renewal_billing ?? 'plan',
+    }
+}
+
 export interface AgreementFormState {
     name: string
     starts_on: string
@@ -235,6 +254,10 @@ export interface AgreementFormState {
     term_mode: 'months' | 'end_date'
     ends_on: string
     renewal_annual_value: number | string
+    /** '' = 12 (the backend default). */
+    renewal_term_months?: number | string
+    /** '' = follow the payment plan. */
+    renewal_billing?: '' | 'upfront' | 'yearly' | 'monthly' | 'by_agreement'
     notice_months: number | string
     auto_renews: boolean
     billing_plan: AgreementPayload['billing_plan']
@@ -275,6 +298,8 @@ export function buildAgreementPayload(form: AgreementFormState): AgreementPayloa
         renewal_annual_value: form.renewal_annual_value === '' || form.renewal_annual_value === null
             ? null
             : Number(form.renewal_annual_value),
+        renewal_term_months: renewalTermMonths(form.renewal_term_months),
+        renewal_billing: form.renewal_billing ? form.renewal_billing : null,
         fee_per_invoice: Number(form.fee_per_invoice) || 0,
         payment_method: form.payment_method,
         internal_note: form.internal_note?.trim() ? form.internal_note.trim() : null,
@@ -615,4 +640,94 @@ export function missingEconomicNumber(
     if (!company || company.economic_customer_number === undefined) return false
     const hasNumber = company.economic_customer_number !== null && company.economic_customer_number !== ''
     return !hasNumber && (agreements ?? []).some((a) => a.status === 'active')
+}
+
+const textOrNull = (v: unknown): string | null => (typeof v === 'string' && v !== '' ? v : null)
+
+/**
+ * What the subscriptions response says about the company's agreement. Both blocks
+ * are optional (older API, or no agreement): everything missing comes back as
+ * null / [] so the card falls back to the plain subscription view.
+ */
+export function subscriptionAgreementView(data: any): {
+    agreement: SubscriptionAgreement | null
+    runningAgreements: RunningAgreement[]
+} {
+    const raw = data?.agreement
+    const agreement: SubscriptionAgreement | null = raw && typeof raw === 'object' && (raw.uuid || raw.name)
+        ? {
+            uuid: String(raw.uuid ?? ''),
+            name: String(raw.name ?? ''),
+            starts_on: textOrNull(raw.starts_on),
+            ends_on: textOrNull(raw.ends_on),
+            term_months: toNumberOrNull(raw.term_months),
+            notice_deadline: textOrNull(raw.notice_deadline),
+            auto_renews: !!raw.auto_renews,
+            billing_plan: textOrNull(raw.billing_plan),
+            contract_value: raw.contract_value ?? null,
+            contract_mrr: raw.contract_mrr ?? null,
+            contract_arr: raw.contract_arr ?? null,
+            estimated_renewal_annual_value: toNumberOrNull(raw.estimated_renewal_annual_value),
+            renewal_value_source: textOrNull(raw.renewal_value_source),
+            renewal_term_months: renewalTermMonths(raw.renewal_term_months),
+            renewal_billing: ['upfront', 'yearly', 'monthly', 'by_agreement'].includes(raw.renewal_billing) ? raw.renewal_billing : null,
+            renewal_plan_missing: raw.renewal_plan_missing === true,
+            renewal_plan_due: textOrNull(raw.renewal_plan_due),
+            contract_mrr_estimated: raw.contract_mrr_estimated === true,
+            estimated_renewal_period_value: toNumberOrNull(raw.estimated_renewal_period_value),
+            status: textOrNull(raw.status),
+        }
+        : null
+
+    const running = Array.isArray(data?.running_agreements) ? data.running_agreements : []
+    const runningAgreements: RunningAgreement[] = running
+        .filter((r: any) => r && typeof r === 'object' && (r.uuid || r.name))
+        .map((r: any) => ({
+            uuid: String(r.uuid ?? ''), name: String(r.name ?? ''),
+            starts_on: textOrNull(r.starts_on), ends_on: textOrNull(r.ends_on),
+        }))
+
+    return { agreement, runningAgreements }
+}
+
+/** Amber "rateplan mangler" state of an agreement or a Ledelse row; only a literal true counts. */
+export function renewalPlanMissing(row: { renewal_plan_missing?: unknown } | null | undefined): boolean {
+    return row?.renewal_plan_missing === true
+}
+
+/** Contract MRR that includes a renewal without a plan is an estimate. */
+export function contractMrrIsEstimated(row: { contract_mrr_estimated?: unknown } | null | undefined): boolean {
+    return row?.contract_mrr_estimated === true
+}
+
+/** recurring_revenue.renewals_without_plan as a whole number >= 0 (absent on an older API). */
+export function renewalsWithoutPlan(recurringRevenue: { renewals_without_plan?: unknown } | null | undefined): number {
+    const n = toNumberOrNull(recurringRevenue?.renewals_without_plan)
+    return n !== null && n > 0 ? Math.floor(n) : 0
+}
+
+/**
+ * The empty installment the "Tilfoej rateplan for ny periode" button opens the form with:
+ * due on the renewal date (renewal_plan_due, else the day the binding ends), covering from then.
+ */
+export function renewalPlanInstallment(agreement: { renewal_plan_due?: string | null; ends_on?: string | null }): InstallmentInput {
+    const due = agreement.renewal_plan_due || agreement.ends_on || ''
+    return { due_on: due, amount: 0, label: null, covers_from: due || null, covers_to: null }
+}
+
+/**
+ * The customer's own user resource carries one flag about a company agreement,
+ * `user_subscription.under_agreement`. Only a literal true switches the pages to
+ * "CitizenOne Elite"; null (no subscription), absent or anything else leaves them unchanged.
+ */
+export function isUnderAgreement(subscription: { under_agreement?: unknown } | null | undefined): boolean {
+    return subscription?.under_agreement === true
+}
+
+/** "used of total" for the Elite card; null while the counts are not loaded. */
+export function licenceUsage(counts: { used?: unknown; unused?: unknown } | null | undefined): { used: number; total: number } | null {
+    const used = toNumberOrNull(counts?.used)
+    const unused = toNumberOrNull(counts?.unused)
+    if (used === null || unused === null) return null
+    return { used, total: used + unused }
 }
