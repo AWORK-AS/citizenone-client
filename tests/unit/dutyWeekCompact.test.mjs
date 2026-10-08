@@ -65,6 +65,37 @@ describe('the "?" on calendar, overview, citizens and employees asks Milo', () =
     }
 })
 
+describe('Milo opens with questions about the page', () => {
+    // insight-server #445: window.ObiyenChat.suggest replaces the website's
+    // pricing and demo suggestions for a customer asking from inside the product.
+    const chat = read('composables/useObiyenChat.ts')
+
+    test('suggest waits on the queue before the widget loads and is skipped by an older widget', () => {
+        assert.match(chat, /if \(typeof w\.suggest === 'function'\) w\.suggest\(questions\)/)
+        assert.match(chat, /else if \(Array\.isArray\(w\.q\)\) w\.q\.push\(\['suggest', questions\]\)/)
+    })
+
+    test('leaving a page gives Milo his defaults back', () => {
+        assert.match(read('plugins/obiyen-chat.client.ts'), /if \(to\.path !== from\.path\) useObiyenChat\(\)\.suggest\(\[\]\)/)
+    })
+
+    const pages = {
+        'pages/schedules/index.vue': 'schedules', 'pages/calendar/index.vue': 'calendar', 'pages/overview/index.vue': 'overview',
+        'pages/citizens/index.vue': 'citizens', 'pages/employees/index.vue': 'employees',
+    }
+    for (const [page, key] of Object.entries(pages)) {
+        test(`${page} asks about ${key}, in all four languages`, () => {
+            const src = read(page)
+            assert.ok(src.includes("askAbout(['q1', 'q2', 'q3'].map((q) =>"), page)
+            assert.ok(src.includes(`helpGuide.miloQuestions.${key}.`), page)
+            for (const lang of ['dk', 'en', 'no', 'sv']) {
+                const q = JSON.parse(read(`lang/${lang}.json`)).helpGuide.miloQuestions[key]
+                assert.ok(q.q1 && q.q2 && q.q3, `${lang}.${key}`)
+            }
+        })
+    }
+})
+
 describe('the guided tour has no duty-schedule video', () => {
     // The step showed a recording of the 2025 interface.
     test('calendar leads to employees and back', () => {
@@ -85,7 +116,7 @@ describe('help on the duty schedule is Milo', () => {
     for (const page of ['pages/schedules/index.vue', 'pages/schedules/draft/index.vue', 'pages/schedules/draft/templates/index.vue', 'pages/schedules/draft/published/index.vue']) {
         test(`${page} asks Milo and no longer frames the old guide`, () => {
             const src = read(page)
-            assert.match(src, /useObiyenChat\(\)\.revealAndOpenChat\(\)/)
+            assert.match(src, /useObiyenChat\(\)\.askAbout\(/)
             assert.match(src, /\$t\('helpGuide\.askMiloTooltip'\)/)
             assert.doesNotMatch(src, /<iframe src="\/vagtplan-guide\.html"/)
         })

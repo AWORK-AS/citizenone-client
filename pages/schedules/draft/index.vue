@@ -221,7 +221,8 @@ function reloadPage() {
 
 // Help on the duty schedule is Milo, answering from the help-desk articles.
 // The static vagtplan-guide.html it replaces described a 2025 interface.
+const i18nForMilo = useI18n()
 function askMilo() {
-    useObiyenChat().revealAndOpenChat()
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => i18nForMilo.t(`helpGuide.miloQuestions.schedules.${q}`)))
 }
 </script>

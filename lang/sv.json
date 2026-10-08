@@ -8101,6 +8101,33 @@
         "askMilo": "Fråga Milo",
         "askMiloTooltip": "Fråga Milo om schemat",
         "askMiloGeneral": "Fråga Milo om du behöver hjälp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hur kopierar jag en vecka till nästa vecka?",
+                "q2": "Vad betyder +N på en dag?",
+                "q3": "Hur godkänner jag ett passbyte?"
+            },
+            "calendar": {
+                "q1": "Hur skapar jag en återkommande bokning?",
+                "q2": "Hur visar jag bara mina egna bokningar?",
+                "q3": "Hur tar jag bort resten av en serie?"
+            },
+            "overview": {
+                "q1": "Hur väljer jag vilka rutor jag ser?",
+                "q2": "Varför är vissa rutor låsta?",
+                "q3": "Vad är passöversikten?"
+            },
+            "citizens": {
+                "q1": "Hur skapar jag en ny {citizen}?",
+                "q2": "Hur arkiverar jag en {citizen}?",
+                "q3": "Hur hittar jag en {citizen} med personnummer?"
+            },
+            "employees": {
+                "q1": "Hur bjuder jag in en ny anställd?",
+                "q2": "Hur arkiverar jag en anställd?",
+                "q3": "Hur ger jag en anställd tillgång till en avdelning?"
+            }
+        },
         "title": "Hjälp & Guide"
     },
     "hideAll": "Dölj alla",

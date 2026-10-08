@@ -1343,6 +1343,6 @@ onUnmounted(() => clearPageCommands())
 // open a video tour recorded on the 2025 interface; it was also a tooltip
 // with a click handler rather than a button, so a keyboard could not reach it.
 function askMilo() {
-    useObiyenChat().revealAndOpenChat()
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => tt(`helpGuide.miloQuestions.citizens.${q}`)))
 }
 </script>

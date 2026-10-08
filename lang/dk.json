@@ -8101,6 +8101,33 @@
         "askMilo": "Spørg Milo",
         "askMiloTooltip": "Spørg Milo om vagtplanen",
         "askMiloGeneral": "Spørg Milo, hvis du har brug for hjælp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hvordan kopierer jeg en uge til næste uge?",
+                "q2": "Hvad betyder +N på en dag?",
+                "q3": "Hvordan godkender jeg et vagtbytte?"
+            },
+            "calendar": {
+                "q1": "Hvordan opretter jeg en aftale, der gentager sig?",
+                "q2": "Hvordan viser jeg kun mine egne aftaler?",
+                "q3": "Hvordan sletter jeg resten af en serie?"
+            },
+            "overview": {
+                "q1": "Hvordan vælger jeg, hvilke bokse jeg ser?",
+                "q2": "Hvorfor er nogle bokse låst?",
+                "q3": "Hvad er Vagtoverblik?"
+            },
+            "citizens": {
+                "q1": "Hvordan opretter jeg en ny {citizen}?",
+                "q2": "Hvordan arkiverer jeg en {citizen}?",
+                "q3": "Hvordan finder jeg en {citizen} ud fra CPR-nummer?"
+            },
+            "employees": {
+                "q1": "Hvordan inviterer jeg en ny medarbejder?",
+                "q2": "Hvordan arkiverer jeg en medarbejder?",
+                "q3": "Hvordan giver jeg en medarbejder adgang til en afdeling?"
+            }
+        },
         "title": "Hjælp & Guide"
     },
     "hideAll": "Skjul alle",

@@ -843,7 +843,8 @@ onUnmounted(() => clearPageCommands())
 // Help here is Milo, answering from the help-desk articles. The "?" used to
 // open a video tour recorded on the 2025 interface; it was also a tooltip
 // with a click handler rather than a button, so a keyboard could not reach it.
+const i18nForMilo = useI18n()
 function askMilo() {
-    useObiyenChat().revealAndOpenChat()
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => i18nForMilo.t(`helpGuide.miloQuestions.calendar.${q}`)))
 }
 </script>

@@ -8101,6 +8101,33 @@
         "askMilo": "Spør Milo",
         "askMiloTooltip": "Spør Milo om vaktplanen",
         "askMiloGeneral": "Spør Milo hvis du trenger hjelp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hvordan kopierer jeg en uke til neste uke?",
+                "q2": "Hva betyr +N på en dag?",
+                "q3": "Hvordan godkjenner jeg et vaktbytte?"
+            },
+            "calendar": {
+                "q1": "Hvordan oppretter jeg en avtale som gjentas?",
+                "q2": "Hvordan viser jeg bare mine egne avtaler?",
+                "q3": "Hvordan sletter jeg resten av en serie?"
+            },
+            "overview": {
+                "q1": "Hvordan velger jeg hvilke bokser jeg ser?",
+                "q2": "Hvorfor er noen bokser låst?",
+                "q3": "Hva er vaktoversikten?"
+            },
+            "citizens": {
+                "q1": "Hvordan oppretter jeg en ny {citizen}?",
+                "q2": "Hvordan arkiverer jeg en {citizen}?",
+                "q3": "Hvordan finner jeg en {citizen} med personnummer?"
+            },
+            "employees": {
+                "q1": "Hvordan inviterer jeg en ny ansatt?",
+                "q2": "Hvordan arkiverer jeg en ansatt?",
+                "q3": "Hvordan gir jeg en ansatt tilgang til en avdeling?"
+            }
+        },
         "title": "Hjelp & Guide"
     },
     "hideAll": "Skjul alle",
