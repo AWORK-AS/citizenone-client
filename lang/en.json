@@ -8089,6 +8089,8 @@
     "guidedTour": "Guided tour",
     "helpGuide": {
         "scheduleTitle": "Help & Guide - Schedule",
+        "askMilo": "Ask Milo",
+        "askMiloTooltip": "Ask Milo about the duty schedule",
         "title": "Help & Guide"
     },
     "hideAll": "Hide all",

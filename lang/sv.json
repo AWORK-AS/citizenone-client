@@ -8089,6 +8089,8 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjälp & Guide - Tjänsteschema",
+        "askMilo": "Fråga Milo",
+        "askMiloTooltip": "Fråga Milo om schemat",
         "title": "Hjälp & Guide"
     },
     "hideAll": "Dölj alla",

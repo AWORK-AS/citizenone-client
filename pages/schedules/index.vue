@@ -132,55 +132,15 @@
                                 <Icon name="ph:clock-counter-clockwise" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
-                        <Tooltip :text="$t('helpGuide.title')">
-                            <button :aria-label="$t('helpGuide.title')"
+                        <Tooltip :text="$t('helpGuide.askMiloTooltip')">
+                            <button :aria-label="$t('helpGuide.askMiloTooltip')"
                                 class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
-                                onclick="document.getElementById('help-modal-udgivet').style.display='flex'">
-                                <Icon name="ph:book-open" class="size-4.5" aria-hidden="true" />
-                            </button>
-                        </Tooltip>
-                        <Tooltip :text="$t('guidedTour')">
-                            <button :aria-label="$t('guidedTour')"
-                                class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
-                                @click="openGuidedTour()">
+                                @click="askMilo()">
                                 <Icon name="ph:question" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
                     </div>
 
-                    <!-- Teleported out: the toolbar row is sticky, and a positioned sticky
-                         ancestor would trap this overlay below the navbar's stacking context. -->
-                    <Teleport to="body">
-                    <div id="help-modal-udgivet"
-                        style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,43,70,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;"
-                        onclick="if(event.target===this)this.style.display='none'">
-                        <div
-                            style="background:white;border-radius:20px;width:90vw;max-width:1100px;height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,0.35);">
-                            <div
-                                style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
-                                <div style="display:flex;align-items:center;gap:10px;">
-                                    <svg style="width:20px;height:20px;color:#0f4c75" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                    </svg>
-                                    <span style="font-weight:600;color:#0f2b46;font-size:15px;">{{
-                                        $t('helpGuide.scheduleTitle') }}</span>
-                                </div>
-                                <button onclick="document.getElementById('help-modal-udgivet').style.display='none'"
-                                    style="padding:8px;border-radius:8px;border:none;background:#f1f5f9;cursor:pointer;display:flex;align-items:center;color:#64748b;">
-                                    <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <iframe src="/vagtplan-guide.html" style="flex:1;border:none;width:100%;"
-                                :title="$t('helpGuide.title')"></iframe>
-                        </div>
-                    </div>
-                    </Teleport>
                 </div>
             </template>
 
@@ -219,9 +179,6 @@
                 @close="state.modal.isActivityLogsOpen = false; state.activityLogDate = null" />
             <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
                 @close="state.modal.isViewSharedDutyScheduleOpen = false" />
-            <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
-                :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
             <ModulesUserDutyScheduleModalDanlonSync
                 :isModalOpen="state.modal.isDanlonSyncOpen"
                 :scheduleEmployees="weekViewRef?.getScheduleEmployees() ?? []"
@@ -735,7 +692,6 @@ const state = reactive({
     modal: {
         isActivityLogsOpen: false,
         isDownloadOpen: false,
-        isGuidedTourDutyScheduleOpen: false,
         isShowDistributionOfShiftTypes: false,
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
@@ -971,9 +927,6 @@ function openDutySchedulesActivityLogs(date: string | null = null) {
     state.modal.isActivityLogsOpen = true
 }
 
-function openGuidedTour() {
-    state.modal.isGuidedTourDutyScheduleOpen = true
-}
 
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
@@ -1703,5 +1656,11 @@ async function executeSyncToZenegy() {
     // } else {
     //     errorAlert(t('alert.error'), t('dutySchedules.zenegy_sync_failed'))
     // }
+}
+
+// Help on the duty schedule is Milo, answering from the help-desk articles.
+// The static vagtplan-guide.html it replaces described a 2025 interface.
+function askMilo() {
+    useObiyenChat().revealAndOpenChat()
 }
 </script>

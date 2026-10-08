@@ -8089,6 +8089,8 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjælp & Guide - Vagtplan",
+        "askMilo": "Spørg Milo",
+        "askMiloTooltip": "Spørg Milo om vagtplanen",
         "title": "Hjælp & Guide"
     },
     "hideAll": "Skjul alle",

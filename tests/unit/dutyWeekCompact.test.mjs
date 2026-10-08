@@ -33,6 +33,19 @@ describe('month, half year and year cap a day at three shifts', () => {
     }
 })
 
+describe('help on the duty schedule is Milo', () => {
+    // vagtplan-guide.html described the 2025 interface; Milo answers from the
+    // help-desk articles instead.
+    for (const page of ['pages/schedules/index.vue', 'pages/schedules/draft/index.vue', 'pages/schedules/draft/templates/index.vue', 'pages/schedules/draft/published/index.vue']) {
+        test(`${page} asks Milo and no longer frames the old guide`, () => {
+            const src = read(page)
+            assert.match(src, /useObiyenChat\(\)\.revealAndOpenChat\(\)/)
+            assert.match(src, /\$t\('helpGuide\.askMiloTooltip'\)/)
+            assert.doesNotMatch(src, /<iframe src="\/vagtplan-guide\.html"/)
+        })
+    }
+})
+
 describe('the week grid stays compact', () => {
     test('a crowded cell shows a capped prefix and a "+N"', () => {
         assert.match(week, /const MAX_VISIBLE_SHIFTS = 2/)
