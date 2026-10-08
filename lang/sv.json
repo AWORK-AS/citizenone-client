@@ -5275,6 +5275,8 @@
                 "amountRequired": "Ange ett antal timmar större än 0",
                 "button": "Registrera utbetalning",
                 "confirmation": "Är du säker på att du vill registrera en utbetalning av {amount} timmar till {employee}?",
+                "date": "Utbetalningsdatum",
+                "dateHint": "Välj datumet då timmarna betalades ut. Utbetalningen räknas i den månaden.",
                 "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
                 "register": "Registrera utbetalning",
                 "title": "Registrera utbetalning"
@@ -16867,17 +16869,80 @@
         "sent": "Skickat",
         "answered": "Besvarat",
         "withdraw": "Dra tillbaka",
-        "withdrawConfirm": "Formuläret tas bort från patientportalen. Är du säker?",
+        "withdrawConfirm": "Formuläret dras tillbaka och patienten kan inte längre besvara det. Är du säker?",
         "withdrawnAlert": "Formuläret är tillbakadraget",
         "journalNotice": "Svaren läggs automatiskt i patientens journal.",
         "status": {
             "answered": "Besvarat",
-            "waiting": "Väntar på svar"
+            "waiting": "Väntar på svar",
+            "opened": "Öppnad",
+            "expired": "Länken har gått ut"
         },
         "empty": {
             "title": "Inga formulär skickade än",
             "text": "Skicka ett formulär som patienten fyller i hemifrån. Svaren hamnar i journalen."
-        }
+        },
+        "sendBy": "Skicka via",
+        "delivery": {
+            "portal": "Patientportal",
+            "email": "E-post",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "Patienten får en länk och öppnar formuläret med sitt födelsedatum. Länken är giltig i 14 dagar. Svaren läggs i journalen och sparas som PDF i dokumenten.",
+        "email": "E-postadress",
+        "phone": "Telefonnummer",
+        "birthdayMissing": "Patienten har inget födelsedatum registrerat. Lägg till det i patientens uppgifter innan du skickar en länk: patienten använder det för att öppna formuläret.",
+        "sentAlertLink": "Länken skickades till patienten",
+        "resend": "Skicka länk igen",
+        "resentAlert": "En ny länk skickades. Den gamla länken fungerar inte längre.",
+        "expires": "Länken går ut",
+        "openDocuments": "Se PDF i dokument",
+        "consentTemplate": {
+            "create": "Ingen samtyckesblankett än? Skapa en från vår mall",
+            "created": "Samtyckesblanketten skapades. Du kan redigera den under Formulär.",
+            "title": "Samtyckesblankett",
+            "description": "Fylls i före ditt besök",
+            "fields": {
+                "intro": "Fyll i formuläret före ditt besök. Dina svar delas bara med kliniken.",
+                "aboutYou": "Om dig",
+                "fullName": "Fullständigt namn",
+                "birthday": "Födelsedatum",
+                "phone": "Telefonnummer",
+                "treatment": "Behandlingen",
+                "treatmentDescription": "Behandling och placering på kroppen",
+                "appointmentDate": "Datum för besöket",
+                "health": "Din hälsa",
+                "adult": "Är du 18 år eller äldre?",
+                "conditions": "Gäller något av detta dig?",
+                "conditionsDetails": "Om du har kryssat i något ovan eller tar mediciner, berätta mer",
+                "consent": "Samtycke",
+                "risks": "Behandlingen är permanent. Som vid all behandling som bryter huden finns det risk för infektion, allergisk reaktion och ärr. Hur resultatet ser ut och håller beror på din hud och på hur du sköter området efteråt.",
+                "confirmRisks": "Information och risker",
+                "confirmAftercare": "Eftervård",
+                "confirmTruthful": "Hälsofrågor",
+                "photos": "Får vi fotografera resultatet för vår portfolio och sociala medier?",
+                "signature": "Underskrift: skriv ditt fullständiga namn"
+            },
+            "options": {
+                "yes": "Ja",
+                "no": "Nej",
+                "allergies": "Allergi (till exempel latex, nickel, färgpigment eller bedövning)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsi",
+                "heart": "Hjärtsjukdom eller högt blodtryck",
+                "bloodThinners": "Blodförtunnande läkemedel",
+                "skin": "Hudsjukdom eller irritation där behandlingen ska göras",
+                "pregnant": "Gravid eller ammar",
+                "alcohol": "Alkohol eller droger de senaste 24 timmarna",
+                "understoodRisks": "Jag har läst och förstått informationen om behandlingen och dess risker",
+                "understoodAftercare": "Jag har fått veta hur jag sköter området efteråt",
+                "truthful": "Jag har besvarat hälsofrågorna sanningsenligt och jag samtycker till behandlingen"
+            }
+        },
+        "viewAnswers": "Visa svar",
+        "ipAddress": "IP-adress",
+        "sentVia": "Skickat via",
+        "portalUnavailable": "Patientportalen kan inte väljas: patienten har ingen åtkomst till portalen. Slå på systemåtkomst i patientens uppgifter för att skicka formulär dit."
     },
     "pageSettings": {
         "title": "Inställningar för den här sidan",
@@ -17594,5 +17659,42 @@
     "documentViewer": {
         "notViewableTitle": "Filen kan inte öppnas",
         "notViewableText": "Den här filtypen kan inte visas i webbläsaren, och din roll får inte ladda ner dokument."
+    },
+    "publicForm": {
+        "title": "Formulär",
+        "unlock": {
+            "heading": "{company} har skickat ett formulär till dig",
+            "intro": "För att skydda dina uppgifter anger du ditt födelsedatum för att öppna formuläret.",
+            "birthday": "Födelsedatum",
+            "open": "Öppna formuläret"
+        },
+        "fill": {
+            "notice": "Dina svar skickas till {company} och sparas i din journal där.",
+            "send": "Skicka"
+        },
+        "done": {
+            "title": "Tack",
+            "text": "Dina svar har skickats till {company}. Du kan stänga sidan."
+        },
+        "closed": {
+            "notFound": {
+                "title": "Länken är inte giltig",
+                "text": "Kontrollera att du öppnade hela länken, eller kontakta kliniken för att få en ny."
+            },
+            "completed": {
+                "title": "Formuläret är redan besvarat",
+                "text": "Tack. Det finns inget mer att göra."
+            },
+            "expired": {
+                "title": "Länken har gått ut",
+                "text": "Kontakta kliniken för att få en ny länk."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "Födelsedatumet stämmer inte. Kontrollera det och försök igen.",
+            "locked": "För många försök. Försök igen om 30 minuter.",
+            "required": "Besvara frågorna markerade med *.",
+            "failed": "Något gick fel. Försök igen."
+        }
     }
 }
