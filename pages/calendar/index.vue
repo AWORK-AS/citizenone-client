@@ -27,6 +27,7 @@
                     <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.completionStatistics.title') }}
                 </FormButton>
+                <Tooltip :text="$t('calendar.shortcuts.newEvent')" position="top">
                 <Menu as="div" class="relative inline-block text-left z-20">
                     <div>
                         <MenuButton>
@@ -76,6 +77,7 @@
                         </MenuItems>
                     </transition>
                 </Menu>
+                </Tooltip>
                 <FormButton buttonStyle="action" @click="subscribe">
                     <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe.label') }}
@@ -85,15 +87,18 @@
             <div class="grid lg:grid-cols-6 gap-3">
                 <div class="flex items-center gap-x-4 lg:col-span-3">
                     <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
-                        <button type="button" v-for="opt in viewOptions" :key="opt.value"
-                            @click="selectView(opt.value)" :class="[
-                                state.calendarView === opt.value
-                                    ? 'bg-white text-gray-900 shadow-sm'
-                                    : 'text-gray-500 hover:text-gray-800',
-                                'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
-                            ]">
-                            {{ $t(opt.label) }}
-                        </button>
+                        <Tooltip v-for="opt in viewOptions" :key="opt.value" position="bottom"
+                            :text="$t('calendar.shortcuts.view', { view: $t(opt.label), key: opt.key })">
+                            <button type="button"
+                                @click="selectView(opt.value)" :class="[
+                                    state.calendarView === opt.value
+                                        ? 'bg-white text-gray-900 shadow-sm'
+                                        : 'text-gray-500 hover:text-gray-800',
+                                    'rounded-md px-4 py-1.5 text-xs font-semibold transition active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50'
+                                ]">
+                                {{ $t(opt.label) }}
+                            </button>
+                        </Tooltip>
                     </div>
                     <button v-if="state.options.calendarTags.length" class="flex items-center gap-x-1 text-sm text-primary group"
                         @click="state.modal.isFilterCalendarOpen = true">
@@ -151,12 +156,50 @@
                         </transition>
                     </Menu>
                 </div>
+                <!-- What is narrowing the calendar right now, removable one by one:
+                     a filter left on (a tag after a department switch hides the
+                     filter button) used to make the calendar look half empty. -->
+                <div v-if="activeFilterChips.length" class="lg:col-span-6 flex flex-wrap items-center gap-2"
+                    :aria-label="$t('calendar.filters.active')">
+                    <span v-for="chip in activeFilterChips" :key="`${chip.kind}-${chip.uuid}`"
+                        class="inline-flex items-center gap-x-1 rounded-full bg-primary/10 py-0.5 pl-2.5 pr-1 text-xs font-medium text-primary">
+                        <Icon :name="chip.icon" class="h-3.5 w-3.5" aria-hidden="true" />
+                        {{ chip.label }}
+                        <Tooltip :text="$t('calendar.filters.remove', { label: chip.label })" position="top">
+                            <button type="button" :aria-label="$t('calendar.filters.remove', { label: chip.label })"
+                                class="flex h-4 w-4 items-center justify-center rounded-full hover:bg-primary/20"
+                                @click="removeFilterChip(chip)">
+                                <Icon name="ph:x" class="h-3 w-3" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
+                    </span>
+                    <Tooltip :text="$t('calendar.filters.clearHelp')" position="top">
+                        <button type="button" class="text-xs font-medium text-gray-500 underline-offset-2 hover:text-gray-800 hover:underline"
+                            @click="clearAllFilters">
+                            {{ $t('calendar.filters.clear') }}
+                        </button>
+                    </Tooltip>
+                </div>
             </div>
 
             <div class="mt-5 space-y-5">
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
-                <LoadingSpinner :isActive="state.isPageLoading">
+                <!-- A failed load says so, in place of the grid: an empty
+                     calendar with no explanation reads as "everything is gone". -->
+                <div v-if="state.eventsLoadFailed && !state.isEventsLoading" role="alert"
+                    class="flex flex-col items-center justify-center rounded-xl border border-gray-200 bg-white px-6 py-12 text-center">
+                    <Icon name="ph:calendar-x" class="mb-4 h-12 w-12 text-gray-400" aria-hidden="true" />
+                    <p class="text-base font-semibold text-gray-900">{{ $t('events.loadFailed.title') }}</p>
+                    <p class="mt-1 max-w-md text-sm text-gray-500">{{ $t('events.loadFailed.message') }}</p>
+                    <Tooltip :text="$t('events.loadFailed.retryHelp')" position="bottom" class="mt-6">
+                        <FormButton buttonStyle="action" @click="fetchMyCalendarEvents">
+                            <Icon name="ph:arrow-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('events.loadFailed.retry') }}
+                        </FormButton>
+                    </Tooltip>
+                </div>
+                <LoadingSpinner v-else :isActive="state.isEventsLoading || state.isPageLoading">
                     <ModulesUserMyCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                         @changeMonthYear="changeMonthYear" @editMyCalendarEvent="editMyCalendarEvent"
                         @openEventDeletionModal="state.modal.isDeleteScheduleOpen = true"
@@ -264,6 +307,11 @@ const state = reactive({
         employee_group_uuid: [] as any,
     },
     isPageLoading: false,
+    // The events have their own flag: the citizen, employee and group lists
+    // load beside them and used to clear the shared one first, so the grid
+    // showed empty with no spinner while the events were still on their way.
+    isEventsLoading: false,
+    eventsLoadFailed: false,
     showShifts: false,
     modal: {
         isAddEventForMyselfOpen: false,
@@ -334,6 +382,46 @@ const activeParticipantFilterCount = computed(() => {
     ].filter((selection: any) => Array.isArray(selection) && selection.length > 0).length
 })
 
+type FilterChip = { kind: 'citizen' | 'employee' | 'group' | 'tag', uuid: string, label: string, icon: string }
+
+const activeFilterChips = computed<FilterChip[]>(() => {
+    const labelOf = (options: any[], uuid: string) => options.find((o: any) => o.value === uuid)?.label ?? ''
+    const chips: FilterChip[] = []
+    for (const uuid of state.formCalendar.citizens_uuid as string[]) {
+        chips.push({ kind: 'citizen', uuid, label: labelOf(state.options.citizens, uuid), icon: 'heroicons:user-group' })
+    }
+    for (const uuid of state.formCalendar.users_uuid as string[]) {
+        chips.push({ kind: 'employee', uuid, label: labelOf(state.options.users, uuid), icon: 'ph:user' })
+    }
+    for (const uuid of state.formCalendar.employee_group_uuid as string[]) {
+        chips.push({ kind: 'group', uuid, label: labelOf(state.options.employeeGroups, uuid), icon: 'ph:users-three' })
+    }
+    for (const uuid of (state.filter.tags_uuid ?? []) as string[]) {
+        const tag = state.options.calendarTags.find((t: any) => t.uuid === uuid)
+        chips.push({ kind: 'tag', uuid, label: tag?.tag ?? '', icon: 'ph:tag' })
+    }
+    // A selection whose option isn't loaded (yet) still narrows the calendar,
+    // so it gets a chip too, under a placeholder rather than a blank.
+    return chips.map(chip => ({ ...chip, label: chip.label || '…' }))
+})
+
+function removeFilterChip(chip: FilterChip) {
+    const without = (list: any) => (list ?? []).filter((uuid: string) => uuid !== chip.uuid)
+    if (chip.kind === 'citizen') state.formCalendar.citizens_uuid = without(state.formCalendar.citizens_uuid)
+    if (chip.kind === 'employee') state.formCalendar.users_uuid = without(state.formCalendar.users_uuid)
+    if (chip.kind === 'group') state.formCalendar.employee_group_uuid = without(state.formCalendar.employee_group_uuid)
+    if (chip.kind === 'tag') state.filter.tags_uuid = without(state.filter.tags_uuid)
+    fetchMyCalendarEvents()
+}
+
+function clearAllFilters() {
+    state.formCalendar.citizens_uuid = []
+    state.formCalendar.users_uuid = []
+    state.formCalendar.employee_group_uuid = []
+    state.filter.tags_uuid = []
+    fetchMyCalendarEvents()
+}
+
 onMounted(() => {
     fetchAllCitizens()
     fetchAllUsers()
@@ -341,12 +429,7 @@ onMounted(() => {
     fetchCalendarTags()
     if (calendarStore.getCalendarView === 'default') {
         state.calendarView = 'default'
-        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
-        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-        state.selectedDate = {
-            end_date: lastDayOfMonth,
-            start_date: firstDayOfMonth,
-        }
+        state.selectedDate = monthGridRange(moment())
     } else if (calendarStore.getCalendarView === 'week') {
         state.calendarView = 'week'
         const firstDayOfWeek = moment().startOf('isoWeek').format('Y-M-D')
@@ -357,12 +440,7 @@ onMounted(() => {
         }
     } else if (calendarStore.getCalendarView === 'month') {
         state.calendarView = 'month'
-        const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
-        const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-        state.selectedDate = {
-            end_date: lastDayOfMonth,
-            start_date: firstDayOfMonth,
-        }
+        state.selectedDate = monthGridRange(moment())
     }
     fetchMyCalendarEvents()
 })
@@ -391,8 +469,6 @@ function openGuidedTour() {
 }
 
 async function fetchAllCitizens() {
-    state.error = {}
-    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName
@@ -411,12 +487,9 @@ async function fetchAllCitizens() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllUsers() {
-    state.error = {}
-    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName
@@ -435,12 +508,9 @@ async function fetchAllUsers() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchAllEmployeeGroups() {
-    state.error = {}
-    state.isPageLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName
@@ -459,7 +529,6 @@ async function fetchAllEmployeeGroups() {
     } catch (error: any) {
         state.error = error
     }
-    state.isPageLoading = false
 }
 
 async function fetchCalendarTags() {
@@ -500,9 +569,14 @@ function changeEmployeeGroupUuid(employeeGroupUuid: any) {
     fetchMyCalendarEvents()
 }
 
+// Only the newest request may write: paging quickly through months, or
+// changing a filter mid-load, let an older answer land last and show the
+// wrong period (and merge one request's shifts into another's events).
+let eventsRequestId = 0
+
 async function fetchMyCalendarEvents() {
-    state.error = {}
-    state.isPageLoading = true
+    const requestId = ++eventsRequestId
+    state.isEventsLoading = true
     try {
         const params = {} as any
         params.department = departmentStore.getSelectedDepartmentName
@@ -513,12 +587,6 @@ async function fetchMyCalendarEvents() {
                 start_date: moment().format('Y-M-D'),
                 end_date: moment().format('Y-M-D'),
             })
-        }
-        if (state.selectedYear) {
-            params.year = state.selectedYear
-        }
-        if (state.selectedMonth !== '') {
-            params.month = (state.selectedMonth + 1)
         }
         if (state.formCalendar.citizens_uuid) {
             params.citizen_uuid = Array(state.formCalendar.citizens_uuid)
@@ -534,34 +602,35 @@ async function fetchMyCalendarEvents() {
             params.tags_uuid = JSON.stringify(state.filter.tags_uuid)
         }
 
-        const response = await myCalendarService.getSchedules(params)
-        if (response.data) {
-            state.myCalendarEvents = response
-        }
+        const [response, shiftsResponse] = await Promise.all([
+            myCalendarService.getSchedules(params),
+            state.showShifts ? myCalendarService.getCalendarShifts(params) : Promise.resolve(null),
+        ])
+        if (requestId !== eventsRequestId) return
 
-        if (state.showShifts) {
-            const shiftsResponse = await myCalendarService.getCalendarShifts(params)
-            if (shiftsResponse?.data?.length && state.myCalendarEvents?.data) {
-                const shifts = shiftsResponse.data.map((shift: any) => ({
-                    ...shift,
-                    is_shift: true,
-                }))
-                state.myCalendarEvents = {
-                    ...state.myCalendarEvents,
-                    data: [...state.myCalendarEvents.data, ...shifts],
-                }
-            }
+        const shifts = (shiftsResponse?.data ?? []).map((shift: any) => ({ ...shift, is_shift: true }))
+        state.myCalendarEvents = {
+            ...response,
+            data: [...(response?.data ?? []), ...shifts],
         }
+        state.eventsLoadFailed = false
     } catch (error: any) {
-        state.error = { message: error.message }
+        if (requestId !== eventsRequestId) return
+        // Not the previous period's events with a banner over them: say the
+        // load failed and offer to retry.
+        state.myCalendarEvents = { data: [], holidays: [] }
+        state.eventsLoadFailed = true
+    } finally {
+        if (requestId === eventsRequestId) {
+            state.isEventsLoading = false
+        }
     }
-    state.isPageLoading = false
 }
 
 const viewOptions = [
-    { value: 'default', label: 'calendar.view.day' },
-    { value: 'week', label: 'calendar.view.week' },
-    { value: 'month', label: 'calendar.view.month' },
+    { value: 'default', label: 'calendar.view.day', key: 'D' },
+    { value: 'week', label: 'calendar.view.week', key: 'W' },
+    { value: 'month', label: 'calendar.view.month', key: 'M' },
 ]
 
 function selectView(viewStyle: any) {
@@ -577,6 +646,15 @@ function onViewKey(e: KeyboardEvent) {
     if (e.key === 'd' || e.key === 'D') selectView('default')
     else if (e.key === 'u' || e.key === 'U' || e.key === 'w' || e.key === 'W') selectView('week')
     else if (e.key === 'm' || e.key === 'M') selectView('month')
+    else if ((e.key === 'n' || e.key === 'N') && !anyModalOpen()) {
+        e.preventDefault()
+        state.newEventPresetDate = ''
+        state.modal.isAddEventForMyselfOpen = true
+    }
+}
+
+function anyModalOpen() {
+    return Object.values(state.modal).some(Boolean)
 }
 onMounted(() => window.addEventListener('keydown', onViewKey))
 onUnmounted(() => window.removeEventListener('keydown', onViewKey))
@@ -585,10 +663,7 @@ function setCalendarView(viewStyle: any) {
     if (state.calendarView !== viewStyle) {
         state.calendarView = viewStyle
         calendarStore.setCalendarView(viewStyle)
-        state.selectedDate = {
-            end_date: moment().endOf('month').format('Y-M-D'),
-            start_date: moment().startOf('month').format('Y-M-D'),
-        }
+        state.selectedDate = monthGridRange(moment())
         state.selectedYear = ''
         state.selectedMonth = ''
         if (viewStyle === 'week') {
@@ -599,12 +674,7 @@ function setCalendarView(viewStyle: any) {
                 start_date: firstDayOfWeek,
             }
         } else if (viewStyle === 'month') {
-            const firstDayOfMonth = moment().startOf('month').format('Y-M-D')
-            const lastDayOfMonth = moment().endOf('month').format('Y-M-D')
-            state.selectedDate = {
-                end_date: lastDayOfMonth,
-                start_date: firstDayOfMonth,
-            }
+            state.selectedDate = monthGridRange(moment())
         }
     }
 }
@@ -629,13 +699,25 @@ function changeDatePerWeek(date: any) {
     fetchMyCalendarEvents()
 }
 
-function changeMonthYear(year: any, month: any) {
-    state.selectedDate = {
-        end_date: '',
-        start_date: '',
+// Day and month views both page by month. Ask for the whole grid they draw,
+// Monday before the 1st to Sunday after the last, as a date range: the shifts
+// overlay only reads the range (with month/year it fell back to today), and a
+// range finds events that cross into the month from the one before.
+function monthGridRange(day: moment.Moment) {
+    return {
+        start_date: day.clone().startOf('month').startOf('isoWeek').format('Y-M-D'),
+        end_date: day.clone().endOf('month').endOf('isoWeek').format('Y-M-D'),
     }
+}
+
+function changeMonthYear(year: any, month: any) {
+    const range = monthGridRange(moment([Number(year), Number(month)]))
     state.selectedYear = year
     state.selectedMonth = month
+    // The day view reports its month on every day click; the range is the
+    // same, so there is nothing new to fetch.
+    if (range.start_date === state.selectedDate.start_date && range.end_date === state.selectedDate.end_date) return
+    state.selectedDate = range
     fetchMyCalendarEvents()
 }
 
@@ -657,8 +739,8 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, isDeleteFuture:
         const scheduleUuid = selectedCalendarEvent?.uuid
         const response = await myCalendarService.deleteSchedule(scheduleUuid, { is_delete_future: isDeleteFuture })
         if (response) {
-            fetchMyCalendarEvents()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyDeleted')}.`)
+            await fetchMyCalendarEvents()
         }
     } catch (error: any) {
         state.error = error

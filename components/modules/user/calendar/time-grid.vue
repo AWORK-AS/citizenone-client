@@ -58,6 +58,9 @@
                                 <!-- A journal note has been written from this booking. -->
                                 <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
                                     :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
+                                <!-- Ended without its note: write it from here. -->
+                                <ModulesUserMyCalendarNoteNudge v-if="props.noteNudge" compact :event="ev.raw"
+                                    @create="$emit('createJournal', ev.raw)" />
                             </span>
                             <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
                                 {{ ev.timeLabel }}
@@ -77,8 +80,10 @@ const props = defineProps({
     // Each day: { date:'YYYY-MM-DD', fullDate, isToday, weekdayLabel, dayNumber, events:[raw...] }
     days: { type: Array as any, required: true },
     showHeader: { type: Boolean, default: true },
+    // Show the "note missing" badge on citizen bookings (my calendar only).
+    noteNudge: { type: Boolean, default: false },
 })
-defineEmits(['eventClick', 'dayClick', 'slotDblClick'])
+defineEmits(['eventClick', 'dayClick', 'slotDblClick', 'createJournal'])
 
 const hourHeight = 48
 const hours = Array.from({ length: 24 }, (_, i) => i)

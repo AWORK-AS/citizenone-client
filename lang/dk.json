@@ -1442,6 +1442,19 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "shortcuts": {
+            "view": "{view} (tast {key})",
+            "today": "Gå til i dag (tast T)",
+            "previous": "Forrige (tast ←)",
+            "next": "Næste (tast →)",
+            "newEvent": "Ny aftale til dig selv (tast N)"
+        },
+        "filters": {
+            "active": "Aktive filtre",
+            "remove": "Fjern filteret: {label}",
+            "clear": "Nulstil filtre",
+            "clearHelp": "Fjerner alle filtre på borgere, medarbejdere, grupper og etiketter"
+        },
         "participants": "Deltagere",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
@@ -7185,6 +7198,12 @@
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Vis vagter",
+        "loadFailed": {
+            "title": "Kalenderen kunne ikke hentes",
+            "message": "Dine aftaler er ikke væk. Vi kunne bare ikke hente dem lige nu. Prøv igen om et øjeblik.",
+            "retry": "Prøv igen",
+            "retryHelp": "Henter kalenderen igen for den periode, du kigger på."
+        },
         "shiftLabel": "Vagt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på, at du vil slette denne begivenhed",
@@ -7238,6 +7257,10 @@
         "markAsNotCompleted": "Markér som ikke gennemført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
+        "noteNudge": {
+            "label": "Mangler notat",
+            "help": "Bookingen er slut, men der er ikke skrevet et journalnotat endnu. Klik for at skrive det."
+        },
         "status": {
             "completed": "Gennemført",
             "notCompleted": "Ikke gennemført"
