@@ -10701,6 +10701,8 @@
                 "missingNoteReminderHint": "När en bokning för en medborgare har avslutats utan en anteckning får bokningens ägare en påminnelse och ser den i Min dag. Endast bokningar som slutar efter att detta slagits på",
                 "bookingNoteNotifications": "Meddela om anteckningar skapade från en bokning",
                 "bookingNoteNotificationsHint": "En anteckning skapad från en bokning i kalendern meddelar medborgarens avdelningar och de kollegor som är taggade i den, som en anteckning skriven i journalen",
+                "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
+                "certificateReminderAllRecipientsHint": "Påminnelser om ett intyg som går ut skickas via e-post och i klockan till alla administratörer och till den medarbetare intyget tillhör. När det är avstängt får en administratör e-postmeddelandet",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
                 "groupPortalAccess": "Portalåtkomst",
                 "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",

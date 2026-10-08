@@ -10701,6 +10701,8 @@
                 "missingNoteReminderHint": "Når en innbyggeravtale er ferdig uten et notat, får eieren av avtalen en påminnelse og ser den i Min dag. Bare avtaler som slutter etter at dette er slått på",
                 "bookingNoteNotifications": "Varsle om notater opprettet fra en avtale",
                 "bookingNoteNotificationsHint": "Et notat opprettet fra en avtale i kalenderen varsler innbyggerens avdelinger og kollegene som er tagget i det, som et notat skrevet i journalen",
+                "certificateReminderAllRecipients": "Påminnelser om attester til alle administratorer og den ansatte",
+                "certificateReminderAllRecipientsHint": "Påminnelser om en attest som utløper, sendes på e-post og i bjella til alle administratorer og til den ansatte attesten tilhører. Når det er slått av, får én administrator e-posten",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
                 "groupPortalAccess": "Portaltilgang",
                 "portalAccessHint": "Velg hva pårørende, tredjeparter og innbyggere kan se i sin egen portal",

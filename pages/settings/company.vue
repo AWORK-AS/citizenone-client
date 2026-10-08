@@ -585,7 +585,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 5</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 6</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
                             </span>
                         </button>
@@ -633,6 +633,14 @@
                                     <p>{{ $t('settings.company.form.bookingNoteNotifications') }}</p>
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.bookingNoteNotificationsHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.certificate_reminder_all_recipients_enabled"
+                                        @toggleSwitch="state.formCompany.certificate_reminder_all_recipients_enabled = !state.formCompany.certificate_reminder_all_recipients_enabled" :label="$t('settings.company.form.certificateReminderAllRecipients')" />
+                                    <p>{{ $t('settings.company.form.certificateReminderAllRecipients') }}</p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.certificateReminderAllRecipientsHint') }}.</p>
                             </div>
                         </div>
                         </div>
@@ -888,7 +896,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled].filter(Boolean).length)
+const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -961,6 +969,7 @@ const state = reactive({
         chat_cpr_warning_enabled: false,
         missing_note_reminder_enabled: false,
         booking_note_notifications_enabled: false,
+        certificate_reminder_all_recipients_enabled: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
@@ -1082,6 +1091,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             chat_cpr_warning_enabled: newValue?.company?.chat_cpr_warning_enabled === true,
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
+            certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
@@ -1297,6 +1307,7 @@ async function submitForm() {
                 chat_cpr_warning_enabled: state.formCompany.chat_cpr_warning_enabled,
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
+                certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,

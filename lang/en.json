@@ -10706,6 +10706,8 @@
                 "missingNoteReminderHint": "When a citizen booking has ended without a note, the owner of the booking gets a reminder and sees it in My day. Only bookings that end after this is switched on",
                 "bookingNoteNotifications": "Notify about notes created from a booking",
                 "bookingNoteNotificationsHint": "A note created from a booking in the calendar notifies the citizen's departments and the colleagues tagged in it, like a note written in the journal",
+                "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
+                "certificateReminderAllRecipientsHint": "Reminders about an expiring certificate go by email and in the bell to every admin and to the employee it belongs to. When off, one admin gets the email",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",

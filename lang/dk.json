@@ -10706,6 +10706,8 @@
                 "missingNoteReminderHint": "Når en borgeraftale er slut uden et notat, får ejeren af aftalen en påmindelse og ser den i Min dag. Kun aftaler, der slutter efter, at dette er slået til",
                 "bookingNoteNotifications": "Giv besked om notater oprettet fra en aftale",
                 "bookingNoteNotificationsHint": "Et notat oprettet fra en aftale i kalenderen giver besked til borgerens afdelinger og de kolleger, der er tagget i det, ligesom et notat skrevet i journalen",
+                "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
+                "certificateReminderAllRecipientsHint": "Påmindelser om en attest, der udløber, sendes på mail og i klokken til alle administratorer og til den medarbejder, attesten tilhører. Når det er slået fra, får én administrator mailen",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
                 "groupPortalAccess": "Portaladgang",
                 "portalAccessHint": "Vælg hvad pårørende, tredjeparter og @:terms.citizens{''} kan se i deres egen portal",
