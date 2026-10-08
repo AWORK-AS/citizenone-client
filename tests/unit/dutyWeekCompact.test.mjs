@@ -54,6 +54,20 @@ describe('a one-time notice says the schedule changed', () => {
     })
 })
 
+describe('the guided tour has no duty-schedule video', () => {
+    // The step showed a recording of the 2025 interface.
+    test('calendar leads to employees and back', () => {
+        assert.match(read('components/modules/user/guided-tour/modal-calendar.vue'), /emit\('next', 'employees'\)/)
+        assert.match(read('components/modules/user/guided-tour/modal-employees.vue'), /emit\('back', 'calendar'\)/)
+    })
+
+    test('no tour host still opens the duty-schedule step', () => {
+        for (const host of ['layouts/user.vue', 'components/modules/user/support/slide-over.vue']) {
+            assert.doesNotMatch(read(host), /ModulesUserGuidedTourModalDutySchedule|isGuidedTourDutyScheduleOpen/, host)
+        }
+    })
+})
+
 describe('help on the duty schedule is Milo', () => {
     // vagtplan-guide.html described the 2025 interface; Milo answers from the
     // help-desk articles instead.
