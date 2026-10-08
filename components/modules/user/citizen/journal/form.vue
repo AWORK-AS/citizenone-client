@@ -1408,6 +1408,7 @@ class NoteUploadAdapter {
 }
 
 async function fetchAllPlans() {
+    if (!citizenUuid) return
     state.error = {}
     emit('isPageLoading', true)
     try {
@@ -1822,7 +1823,7 @@ async function fetchAllGoalsForRiskAssessment(planUuid: any = null) {
         let response = {} as any
         if (planUuid) {
             response = await goalService.getAllGoalsPerPlan(planUuid)
-        } else {
+        } else if (citizenUuid) {
             response = await goalService.getAllGoalsPerCitizen(citizenUuid)
         }
         if (response.data) {
