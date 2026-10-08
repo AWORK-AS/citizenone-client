@@ -4697,6 +4697,7 @@
     },
     "dutySchedules": {
         "allDay": "All day",
+        "moreShifts": "{count} more shifts – click to show all",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"

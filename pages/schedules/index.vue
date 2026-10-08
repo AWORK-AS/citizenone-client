@@ -30,7 +30,7 @@
                 <div class="flex items-center gap-2 flex-wrap">
 
                     <div id="schedule-date-picker-target" class="flex items-center"></div>
-                    <div class="hidden lg:block h-5 w-px bg-slate-200" />
+                    <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- View Toggle (moved from below) -->
                     <div class="flex items-center bg-surface-100 rounded-lg p-0.5 mr-2">
@@ -56,34 +56,47 @@
                         </button>
                     </div>
 
-                    <div class="hidden lg:block h-5 w-px bg-slate-200" />
+                    <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- Shift Types legend — surfaced as a clear button so the colour key is discoverable -->
-                    <button
-                        @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm">
-                        <Icon name="ph:palette" class="h-3.5 w-3.5" aria-hidden="true" />
-                        <span class="hidden md:inline">{{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}</span>
-                    </button>
+                    <!-- Labels from 2xl only: below that this row wrapped to two lines and,
+                         with the filter rows, pushed the grid 436px down a 782px window. -->
+                    <Tooltip :text="$t('dutySchedules.showTheDistributionOfShiftTypes')">
+                        <button :aria-label="$t('dutySchedules.showTheDistributionOfShiftTypes')"
+                            @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
+                            class="inline-flex items-center gap-1.5 px-2.5 2xl:px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm h-[32px]">
+                            <Icon name="ph:palette" class="h-3.5 w-3.5" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}</span>
+                        </button>
+                    </Tooltip>
 
-                    <div class="hidden lg:block h-5 w-px bg-slate-200" />
+                    <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- Compact Action Buttons -->
-                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="navigateTo('/schedules/draft')" v-if="isAtLeast('Admin')">
-                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('dutySchedules.draft.pageTitle') }}</span>
-                    </FormButton>
-                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="state.modal.isDownloadOpen = true">
-                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('dutySchedules.download.download') }}</span>
-                    </FormButton>
-                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="state.modal.isSubscribeOpen = true">
-                        <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
-                    </FormButton>
+                    <Tooltip :text="$t('dutySchedules.draft.pageTitle')" v-if="isAtLeast('Admin')">
+                        <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-2.5 2xl:!px-3 !text-xs !h-[32px]"
+                            :aria-label="$t('dutySchedules.draft.pageTitle')"
+                            @click="navigateTo('/schedules/draft')">
+                            <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.draft.pageTitle') }}</span>
+                        </FormButton>
+                    </Tooltip>
+                    <Tooltip :text="$t('dutySchedules.download.download')">
+                        <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-2.5 2xl:!px-3 !text-xs !h-[32px]"
+                            :aria-label="$t('dutySchedules.download.download')"
+                            @click="state.modal.isDownloadOpen = true">
+                            <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.download.download') }}</span>
+                        </FormButton>
+                    </Tooltip>
+                    <Tooltip :text="$t('events.subscribe.addToCalendar')">
+                        <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-2.5 2xl:!px-3 !text-xs !h-[32px]"
+                            :aria-label="$t('events.subscribe.addToCalendar')"
+                            @click="state.modal.isSubscribeOpen = true">
+                            <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
+                        </FormButton>
+                    </Tooltip>
                     <FormButton v-if="state.isZenegyPurchased" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
@@ -119,6 +132,13 @@
                                 <Icon name="ph:clock-counter-clockwise" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
+                        <Tooltip :text="$t('helpGuide.title')">
+                            <button :aria-label="$t('helpGuide.title')"
+                                class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
+                                onclick="document.getElementById('help-modal-udgivet').style.display='flex'">
+                                <Icon name="ph:book-open" class="size-4.5" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
                         <Tooltip :text="$t('guidedTour')">
                             <button :aria-label="$t('guidedTour')"
                                 class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
@@ -127,15 +147,7 @@
                             </button>
                         </Tooltip>
                     </div>
-                    <div class="w-px h-4 bg-slate-200 mx-1"></div>
-                    <button onclick="document.getElementById('help-modal-udgivet').style.display='flex'"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ $t('helpGuide.title') }}
-                    </button>
+
                     <!-- Teleported out: the toolbar row is sticky, and a positioned sticky
                          ancestor would trap this overlay below the navbar's stacking context. -->
                     <Teleport to="body">

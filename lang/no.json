@@ -4697,6 +4697,7 @@
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
+        "moreShifts": "{count} vakter til – klikk for å vise alle",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",
             "hint": "Enter for å lagre · Esc for å avbryte"
