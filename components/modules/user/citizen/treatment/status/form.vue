@@ -15,11 +15,13 @@
                 <FormError :error="v$?.formStatus?.date?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date?.[0]" />
             </div>
-            <div class="space-y-1" v-if="props.formType === 'update'">
-                <FormLabel for="area_type" :label="$t('citizens.treatments.statuses.areaTypes.areaType')" />
-                <FormSelect id="area_type" :options="state.options.area_types" v-model="state.formStatus.area_type" />
-                <FormError :error="v$?.formStatus?.area_type?.$errors[0]?.$message.toString()" />
-                <FormError :error="props?.error?.errors?.area_type?.[0]" />
+            <div class="space-y-1" v-if="careAreaText">
+                <FormLabel for="area_type" :label="$t('citizens.treatments.statuses.form.careArea')" />
+                <p id="area_type" data-testid="status-care-area"
+                    class="rounded-md bg-gray-50 border border-gray-200 px-3 py-2 text-sm text-gray-700">
+                    {{ careAreaText }}
+                </p>
+                <p class="text-xs text-gray-500">{{ $t('citizens.treatments.statuses.form.careAreaInherited') }}</p>
             </div>
             <div class="space-y-1">
                 <FormLabel for="score" :label="$t('citizens.treatments.statuses.form.currentLevels.currentLevel')" />
@@ -55,6 +57,8 @@ import ClassicEditor from '@/utils/editor'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { careAreaLabel } from '@/composables/careAreaOptions'
+import { defaultCareNoteTemplate, isUnfilledTemplate } from '@/composables/careNoteTemplate'
 
 const props = defineProps({
     error: {
@@ -68,6 +72,16 @@ const props = defineProps({
     selectedStatus: {
         type: Object,
         required: true,
+    },
+    careArea: {
+        type: String,
+        required: false,
+        default: '',
+    },
+    statusTemplate: {
+        type: String,
+        required: false,
+        default: '',
     },
 })
 const emit = defineEmits(['closeModal', 'submitForm', 'fetchPreviousStatus'])
@@ -90,28 +104,16 @@ const editorStatusConfig = ref({
     height: 500  // Set the editor height here
 }) as any
 
+// The care area belongs to the health case; it is shown read-only and never sent.
+const careAreaText = computed(() => careAreaLabel(props.careArea || props.selectedStatus?.area_type, t))
+
 const state = reactive({
     formStatus: {
         date: '',
-        area_type: '',
         score: '',
         status: '',
     },
     options: {
-        area_types: [
-            { value: 'functional_level', label: `${t('citizens.treatments.form.areaTypes.functionalLevel')}` },
-            { value: 'musculoskeletal_system', label: `${t('citizens.treatments.form.areaTypes.musculoskeletalSystem')}` },
-            { value: 'nutrition', label: `${t('citizens.treatments.form.areaTypes.nutrition')}` },
-            { value: 'skin_and_mucous_membranes', label: `${t('citizens.treatments.form.areaTypes.skinAndMucousMembranes')}` },
-            { value: 'communication', label: `${t('citizens.treatments.form.areaTypes.communication')}` },
-            { value: 'psychosocial_conditions', label: `${t('citizens.treatments.form.areaTypes.psychosocialConditions')}` },
-            { value: 'respiration_and_circulation', label: `${t('citizens.treatments.form.areaTypes.respirationAndCirculation')}` },
-            { value: 'sexuality', label: `${t('citizens.treatments.form.areaTypes.sexuality')}` },
-            { value: 'pain_and_sensory_impressions', label: `${t('citizens.treatments.form.areaTypes.painAndSensoryImpressions')}` },
-            { value: 'sleep_and_rest', label: `${t('citizens.treatments.form.areaTypes.sleepAndRest')}` },
-            { value: 'knowledge_and_development', label: `${t('citizens.treatments.form.areaTypes.knowledgeAndDevelopment')}` },
-            { value: 'excretion_of_waste', label: `${t('citizens.treatments.form.areaTypes.excretionOfWaste')}` },
-        ],
         scores: [
             { value: 1, label: `1. ${t('citizens.treatments.statuses.form.currentLevels.minorChallenges')}` },
             { value: 2, label: `2. ${t('citizens.treatments.statuses.form.currentLevels.moderateChallenges')}` },
@@ -125,7 +127,6 @@ const state = reactive({
 onMounted(() => {
     state.formStatus = {
         date: props.selectedStatus.date,
-        area_type: props.selectedStatus.area_type,
         score: props.selectedStatus.score,
         status: props.selectedStatus.status,
     }
@@ -135,7 +136,6 @@ watch(() => props.selectedStatus, (newValue: any) => {
     if (newValue != null) {
         state.formStatus = {
             date: newValue.date,
-            area_type: newValue.area_type,
             score: newValue.score,
             status: newValue.status,
         }
@@ -150,6 +150,11 @@ const rules = computed(() => {
             },
             status: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                template: helpers.withMessage(
+                    () => `${t('validation.pleaseCompleteTemplate')}.`,
+                    (value: string) => props.formType !== 'create'
+                        || !isUnfilledTemplate(value, props.statusTemplate || defaultCareNoteTemplate(t)),
+                ),
             },
         },
     }

@@ -3682,7 +3682,9 @@
                     },
                     "date": "Dato",
                     "getFromPreviousStatus": "Hent data fra forrige status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Omsorgsområde",
+                    "careAreaInherited": "Arves fra helsesaken"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statuser",
@@ -3747,7 +3749,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Behandlingens tittel"
             },
-            "treatments": "Behandlinger"
+            "treatments": "Behandlinger",
+            "template": {
+                "observation": "Observasjon",
+                "assessment": "Vurdering",
+                "plan": "Plan",
+                "followUp": "Oppfølging"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -5039,6 +5047,10 @@
             "employmentStatus": "Ansættelsesstatus",
             "tags": "Tags",
             "filterDate": "Filtrer dato",
+            "jobTitles": "Stillingstitler",
+            "sortBy": "Sorter etter",
+            "sortByJobTitle": "Stillingstittel",
+            "sortByName": "Navn",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",
             "timeTo": "Tid til"
@@ -5069,7 +5081,8 @@
             "employeeMarkedUnavailable": "Denne medarbeideren har markert seg utilgjengelig på denne datoen",
             "sendEmailToEmployee": "Send e-post til den ansatte",
             "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
-            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen."
+            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
+            "compensatoryHours": "Avspaseringstimer brukt"
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
@@ -5314,6 +5327,8 @@
                 "amountRequired": "Angi et antall timer større enn 0",
                 "button": "Registrer utbetaling",
                 "confirmation": "Er du sikker på at du vil registrere en utbetaling av {amount} timer til {employee}?",
+                "date": "Utbetalingsdato",
+                "dateHint": "Velg datoen timene ble utbetalt. Utbetalingen teller med i den måneden.",
                 "noAccountAssigned": "Denne ansatte har ingen aktiv timekonto å registrere en utbetaling på.",
                 "register": "Registrer utbetaling",
                 "title": "Registrer utbetaling"
@@ -5519,6 +5534,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Vaktplan",
+            "embed": {
+                "absent": "Fraværende",
+                "codeCopied": "Kopiert",
+                "copyCode": "Kopier kode",
+                "description": "Vis vaktplanen på deres egen nettside, for eksempel intranettet. Alle som kan se siden, kan se vaktplanen uten passord. Den viser navn, stillinger og vakttider. Notater, borgere og årsaken til fravær vises aldri.",
+                "disable": "Slå av innbygging",
+                "disableHelp": "Vaktplanen forsvinner fra alle nettsider den er bygget inn på. Slår du den på igjen, får du en ny kode.",
+                "disabled": "Innbygging slått av",
+                "embed": "Bygg inn",
+                "embedCode": "Innbyggingskode",
+                "embedCodeHelp": "Lim inn koden på nettsiden der vaktplanen skal vises.",
+                "embedded": "Innebygd",
+                "enable": "Slå på innbygging",
+                "enabled": "Innbygging slått på",
+                "nextWeek": "Neste uke",
+                "noShifts": "Ingen vakter denne uken",
+                "openPreview": "Åpne forhåndsvisning",
+                "previousWeek": "Forrige uke",
+                "title": "Bygg inn på nettside",
+                "unavailable": "Vaktplanen er ikke tilgjengelig.",
+                "unavailableHelp": "Det kan skyldes at:",
+                "unavailableReasonOff": "innbyggingen er slått av",
+                "unavailableReasonNewCode": "vaktplanen har fått en ny innbyggingskode som ennå ikke er lagt inn på denne siden",
+                "unavailableReasonExpired": "den delte lenken har utløpt eller er slettet",
+                "unavailableContact": "Kontakt den som har ansvaret for vaktplanen."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Vaktplan ble delt vellykket",
@@ -5586,6 +5627,8 @@
         "showEmployeesWorkingToday": "Vis medarbeidere, der arbeider i dag",
         "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
         "sort": {
+            "firstShiftActive": "Sortert etter hvem som møter først denne dagen. Klikk for å slå av",
+            "sortByFirstShift": "Sorter etter hvem som møter først denne dagen",
             "sortNamesInAscendingOrder": "Sorter navne i stigende rekkefølge",
             "sortNamesInDescendingOrder": "Sorter navne i faldende rekkefølge"
         },
@@ -6623,7 +6666,12 @@
                 "created": "Opprettet",
                 "published": "Publisert",
                 "updated": "Oppdatert",
-                "deleted": "Slettet"
+                "deleted": "Slettet",
+                "compensatory_time_requested": "Avspasering forespurt",
+                "compensatory_time_approved": "Avspasering godkjent",
+                "compensatory_time_declined": "Avspasering avslått",
+                "compensatory_time_withdrawn": "Avspasering trukket tilbake",
+                "compensatory_time_reversed": "Avspasering reversert"
             }
         },
         "salaryDk_sync": "Synkroniser til Salary",
@@ -7770,6 +7818,18 @@
         "title": "Skjemafeltkonfigurasjon"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Delt",
+            "fromCommunityBadge": "Fra CitizenOne-fellesskapet",
+            "chooseFrom": "Velg fra",
+            "ourTemplates": "Våre maler",
+            "pickerHint": "Maler delt av andre organisasjoner i CitizenOne. Den du velger, kopieres til deres maler, der du kan redigere den.",
+            "pickerEmpty": "Det er ennå ikke delt maler på ditt språk.",
+            "searchTemplates": "Søk i maler…",
+            "optionLabel": "CitizenOne-fellesskapet",
+            "share": "Del med CitizenOne-fellesskapet",
+            "shareHint": "En kopi av malen, slik den er når du lagrer, blir tilgjengelig for alle CitizenOne-virksomheter med samme språk. Senere endringer deles ikke. Sørg for at malen ikke inneholder personopplysninger."
+        },
         "addNewQuestion": "Legg til nytt spørgsmål",
         "addOption": "Legg til mulighet",
         "alert": {
@@ -10808,6 +10868,7 @@
                 "interventionNotificationHours": "Varslingstimer for innsats",
                 "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
+                "dutyScheduleSortFirstShift": "Sorter vaktplanen etter hvem som møter først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktiver avspasering",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
@@ -14231,7 +14292,14 @@
     },
     "timeRegistration": {
         "checkIn": "Sjekk inn",
-        "checkOut": "Sjekk ut"
+        "checkOut": "Sjekk ut",
+        "shiftEndPrompt": {
+            "title": "Vakten er over",
+            "question": "Jobber du fortsatt?",
+            "message": "Vakten din sluttet kl. {time}.",
+            "yes": "Ja, jeg jobber fortsatt",
+            "no": "Nei, stopp timeren"
+        }
     },
     "units": {
         "addNewUnit": "Legg til ny enhed",
@@ -14276,7 +14344,8 @@
     "validation": {
         "invalidNumber": "Ugyldig nummer",
         "invalidEmailAddress": "Ugyldig e-postadresse",
-        "thisFieldIsRequired": "Dette felt er påkrevd"
+        "thisFieldIsRequired": "Dette felt er påkrevd",
+        "pleaseCompleteTemplate": "Fyll ut malen"
     },
     "verifyEmail": {
         "emailVerified": "E-post verificeret",
@@ -14382,7 +14451,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Mal lagret",
                 "templateSuccessfullyUpdated": "Mal oppdatert"
-            }
+            },
+            "descriptionTemplate": "Mal for saksbeskrivelse",
+            "descriptionTemplateHint": "Fylles inn i beskrivelsen når en helsesak opprettes med denne malen.",
+            "statusTemplate": "Mal for statusoppdatering",
+            "statusTemplateHint": "Fylles inn når en statusoppdatering opprettes på en helsesak med denne malen."
         },
         "table": {
             "name": "Navn",
@@ -16957,17 +17030,80 @@
         "sent": "Sendt",
         "answered": "Besvart",
         "withdraw": "Trekk tilbake",
-        "withdrawConfirm": "Skjemaet fjernes fra pasientportalen. Er du sikker?",
+        "withdrawConfirm": "Skjemaet trekkes tilbake, og pasienten kan ikke lenger besvare det. Er du sikker?",
         "withdrawnAlert": "Skjemaet er trukket tilbake",
         "journalNotice": "Svarene legges automatisk i pasientens journal.",
         "status": {
             "answered": "Besvart",
-            "waiting": "Venter på svar"
+            "waiting": "Venter på svar",
+            "opened": "Åpnet",
+            "expired": "Lenken har utløpt"
         },
         "empty": {
             "title": "Ingen skjemaer sendt ennå",
             "text": "Send et skjema som pasienten fyller ut hjemmefra. Svarene havner i journalen."
-        }
+        },
+        "sendBy": "Send via",
+        "delivery": {
+            "portal": "Pasientportal",
+            "email": "E-post",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "Pasienten får en lenke og åpner skjemaet med fødselsdatoen sin. Lenken er gyldig i 14 dager. Svarene legges i journalen og lagres som PDF i dokumentene.",
+        "email": "E-postadresse",
+        "phone": "Telefonnummer",
+        "birthdayMissing": "Pasienten har ingen fødselsdato registrert. Legg den til i pasientens opplysninger før du sender en lenke: pasienten bruker den til å åpne skjemaet.",
+        "sentAlertLink": "Lenken ble sendt til pasienten",
+        "resend": "Send lenke på nytt",
+        "resentAlert": "En ny lenke ble sendt. Den gamle lenken virker ikke lenger.",
+        "expires": "Lenken utløper",
+        "openDocuments": "Se PDF i dokumenter",
+        "consentTemplate": {
+            "create": "Ingen samtykkeerklæring ennå? Opprett en fra malen vår",
+            "created": "Samtykkeerklæringen ble opprettet. Du kan redigere den under Skjemaer.",
+            "title": "Samtykkeerklæring",
+            "description": "Fylles ut før timen din",
+            "fields": {
+                "intro": "Fyll ut skjemaet før timen din. Svarene dine deles bare med klinikken.",
+                "aboutYou": "Om deg",
+                "fullName": "Fullt navn",
+                "birthday": "Fødselsdato",
+                "phone": "Telefonnummer",
+                "treatment": "Behandlingen",
+                "treatmentDescription": "Behandling og plassering på kroppen",
+                "appointmentDate": "Dato for timen",
+                "health": "Helsen din",
+                "adult": "Er du 18 år eller eldre?",
+                "conditions": "Gjelder noe av dette deg?",
+                "conditionsDetails": "Hvis du har krysset av ovenfor eller bruker medisiner, fortell oss mer",
+                "consent": "Samtykke",
+                "risks": "Behandlingen er permanent. Som ved all behandling som bryter huden, er det risiko for infeksjon, allergisk reaksjon og arr. Hvordan resultatet ser ut og holder seg, avhenger av huden din og av hvordan du steller området etterpå.",
+                "confirmRisks": "Informasjon og risiko",
+                "confirmAftercare": "Etterbehandling",
+                "confirmTruthful": "Helsespørsmål",
+                "photos": "Kan vi ta bilder av resultatet til porteføljen vår og sosiale medier?",
+                "signature": "Signatur: skriv fullt navn"
+            },
+            "options": {
+                "yes": "Ja",
+                "no": "Nei",
+                "allergies": "Allergi (for eksempel lateks, nikkel, fargepigmenter eller bedøvelse)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsi",
+                "heart": "Hjertesykdom eller høyt blodtrykk",
+                "bloodThinners": "Blodfortynnende medisiner",
+                "skin": "Hudsykdom eller irritasjon der behandlingen skal være",
+                "pregnant": "Gravid eller ammende",
+                "alcohol": "Alkohol eller rusmidler de siste 24 timene",
+                "understoodRisks": "Jeg har lest og forstått informasjonen om behandlingen og risikoen",
+                "understoodAftercare": "Jeg har fått vite hvordan jeg skal stelle området etterpå",
+                "truthful": "Jeg har svart sannferdig på helsespørsmålene, og jeg samtykker til behandlingen"
+            }
+        },
+        "viewAnswers": "Se svar",
+        "ipAddress": "IP-adresse",
+        "sentVia": "Sendt via",
+        "portalUnavailable": "Pasientportalen kan ikke velges: pasienten har ikke tilgang til portalen. Slå på systemtilgang i pasientens opplysninger for å sende skjemaer dit."
     },
     "pageSettings": {
         "title": "Innstillinger for denne siden",
@@ -17684,5 +17820,42 @@
     "documentViewer": {
         "notViewableTitle": "Filen kan ikke åpnes",
         "notViewableText": "Denne filtypen kan ikke vises i nettleseren, og rollen din har ikke tilgang til å laste ned dokumenter."
+    },
+    "publicForm": {
+        "title": "Skjema",
+        "unlock": {
+            "heading": "{company} har sendt deg et skjema",
+            "intro": "For å beskytte opplysningene dine må du oppgi fødselsdatoen din for å åpne skjemaet.",
+            "birthday": "Fødselsdato",
+            "open": "Åpne skjemaet"
+        },
+        "fill": {
+            "notice": "Svarene dine sendes til {company} og lagres i journalen din der.",
+            "send": "Send"
+        },
+        "done": {
+            "title": "Takk",
+            "text": "Svarene dine er sendt til {company}. Du kan lukke siden."
+        },
+        "closed": {
+            "notFound": {
+                "title": "Lenken er ikke gyldig",
+                "text": "Sjekk at du åpnet hele lenken, eller kontakt klinikken for å få en ny."
+            },
+            "completed": {
+                "title": "Skjemaet er allerede besvart",
+                "text": "Takk. Det er ikke mer å gjøre."
+            },
+            "expired": {
+                "title": "Lenken har utløpt",
+                "text": "Kontakt klinikken for å få en ny lenke."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "Fødselsdatoen stemmer ikke. Sjekk den og prøv igjen.",
+            "locked": "For mange forsøk. Prøv igjen om 30 minutter.",
+            "required": "Svar på spørsmålene merket med *.",
+            "failed": "Noe gikk galt. Prøv igjen."
+        }
     }
 }

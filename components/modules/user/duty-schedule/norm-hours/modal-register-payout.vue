@@ -24,6 +24,14 @@
                             <FormError :error="state.amountError" />
                         </div>
 
+                        <div class="space-y-1">
+                            <FormLabel for="payout_date" :label="$t('dutySchedules.normHours.payout.date')" />
+                            <FormDateField id="payout_date" name="payout_date"
+                                :placeholder="$t('dutySchedules.normHours.payout.date')"
+                                v-model="state.formData.date" />
+                            <p class="text-xs text-gray-500">{{ $t('dutySchedules.normHours.payout.dateHint') }}</p>
+                        </div>
+
                         <div class="mt-6">
                             <FormButton type="button" class="w-full" buttonStyle="primary"
                                 :disabled="state.options.accounts.length === 0" @click="handleSubmit">
@@ -44,6 +52,7 @@
 
 <script setup lang="ts">
 import { reactive, computed } from 'vue'
+import moment from 'moment'
 import { timeAccountService } from '@/components/api/user/TimeAccountService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -72,6 +81,7 @@ const state = reactive({
     formData: {
         time_account_uuid: '',
         amount: '',
+        date: '',
     },
     options: {
         accounts: [] as any[],
@@ -98,6 +108,7 @@ watch(() => props.isModalOpen, async (isModalOpen: boolean) => {
         state.amountError = ''
         state.formData.amount = ''
         state.formData.time_account_uuid = ''
+        state.formData.date = moment().format('YYYY-MM-DD')
         await fetchAssignedAccounts()
     }
 })
@@ -148,6 +159,7 @@ async function submitPayout() {
         const params = {
             user_uuid: props.selectedEmployee?.uuid,
             amount: Number(state.formData.amount),
+            date: state.formData.date || undefined,
         }
         const response = await timeAccountService.registerPayout(state.formData.time_account_uuid, params)
         if (response?.data) {

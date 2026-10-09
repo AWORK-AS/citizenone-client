@@ -25,11 +25,15 @@ const documentLanguage = computed<string>(() => {
 	return tags[locale.value] ?? 'da'
 })
 
+// The duty schedule embedded on a customer's website sits in their page, so
+// our cookie banner must not pop up inside it.
+const isEmbeddedDutySchedule = useRoute().path.startsWith('/embed/duty-schedules/')
+
 useHead({
 	htmlAttrs: {
 		lang: documentLanguage,
 	},
-	script: [
+	script: isEmbeddedDutySchedule ? [] : [
 		{
 			id: "awork-cmp",
 			src: runtimeConfig.public.cmp,

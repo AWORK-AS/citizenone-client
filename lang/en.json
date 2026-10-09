@@ -3682,7 +3682,9 @@
                     },
                     "date": "Date",
                     "getFromPreviousStatus": "Get data from previous status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Care area",
+                    "careAreaInherited": "Inherited from the health case"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -3747,7 +3749,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Title of the treatment"
             },
-            "treatments": "Treatments"
+            "treatments": "Treatments",
+            "template": {
+                "observation": "Observation",
+                "assessment": "Assessment",
+                "plan": "Plan",
+                "followUp": "Follow-up"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -5094,6 +5102,10 @@
             "employmentStatus": "Employment status",
             "tags": "Tags",
             "filterDate": "Filter date",
+            "jobTitles": "Job titles",
+            "sortBy": "Sort by",
+            "sortByJobTitle": "Job title",
+            "sortByName": "Name",
             "filterDateAndTime": "Filter date and time",
             "timeFrom": "Time from",
             "timeTo": "Time to"
@@ -5124,7 +5136,8 @@
             "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date",
             "sendEmailToEmployee": "Send email to employee",
             "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
-            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app."
+            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
+            "compensatoryHours": "Compensatory hours used"
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -5369,6 +5382,8 @@
                 "amountRequired": "Enter a number of hours greater than 0",
                 "button": "Register payout",
                 "confirmation": "Are you sure you want to register a payout of {amount} hours for {employee}?",
+                "date": "Payout date",
+                "dateHint": "Choose the date the hours were paid out. The payout counts in that month.",
                 "noAccountAssigned": "This employee has no active time account to register a payout against.",
                 "register": "Register payout",
                 "title": "Register payout"
@@ -5574,6 +5589,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Duty schedule",
+            "embed": {
+                "absent": "Absent",
+                "codeCopied": "Copied",
+                "copyCode": "Copy code",
+                "description": "Show this duty schedule on your own website, for example your intranet. Anyone who can see that page can see the schedule, without a password. It shows names, job titles and shift times. Notes, citizens and the reason for an absence are never shown.",
+                "disable": "Turn off embedding",
+                "disableHelp": "The duty schedule disappears from every website it is embedded on. If you turn it on again, you get a new code.",
+                "disabled": "Embedding turned off",
+                "embed": "Embed",
+                "embedCode": "Embed code",
+                "embedCodeHelp": "Paste this code into your website where the duty schedule should appear.",
+                "embedded": "Embedded",
+                "enable": "Turn on embedding",
+                "enabled": "Embedding turned on",
+                "nextWeek": "Next week",
+                "noShifts": "No shifts this week",
+                "openPreview": "Open preview",
+                "previousWeek": "Previous week",
+                "title": "Embed on website",
+                "unavailable": "This duty schedule is not available.",
+                "unavailableHelp": "This can happen if:",
+                "unavailableReasonOff": "embedding has been turned off",
+                "unavailableReasonNewCode": "the schedule has a new embed code that has not been added to this page yet",
+                "unavailableReasonExpired": "the shared link has expired or been deleted",
+                "unavailableContact": "Contact the person who manages your duty schedule."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
@@ -5641,6 +5682,8 @@
         "showEmployeesWorkingToday": "Show employees working today",
         "showTheDistributionOfShiftTypes": "Show the distribution of shift types",
         "sort": {
+            "firstShiftActive": "Sorted by who starts first this day. Click to turn off",
+            "sortByFirstShift": "Sort by who starts first this day",
             "sortNamesInAscendingOrder": "Sort names in ascending order",
             "sortNamesInDescendingOrder": "Sort names in descending order"
         },
@@ -6678,7 +6721,12 @@
                 "created": "Created",
                 "published": "Published",
                 "updated": "Updated",
-                "deleted": "Deleted"
+                "deleted": "Deleted",
+                "compensatory_time_requested": "Compensatory time requested",
+                "compensatory_time_approved": "Compensatory time approved",
+                "compensatory_time_declined": "Compensatory time declined",
+                "compensatory_time_withdrawn": "Compensatory time withdrawn",
+                "compensatory_time_reversed": "Compensatory time reversed"
             }
         },
         "salaryDk_sync": "Sync to Salary",
@@ -7770,6 +7818,18 @@
         "title": "Form Field Configuration"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Shared",
+            "fromCommunityBadge": "From CitizenOne community",
+            "chooseFrom": "Choose from",
+            "ourTemplates": "Our templates",
+            "pickerHint": "Templates shared by other CitizenOne organisations. The one you pick is copied to your templates, where you can edit it.",
+            "pickerEmpty": "No templates have been shared in your language yet.",
+            "searchTemplates": "Search templates…",
+            "optionLabel": "CitizenOne community",
+            "share": "Share with CitizenOne community",
+            "shareHint": "A copy of this template, as it is when you save, becomes available to all CitizenOne companies using the same language. Later changes are not shared. Make sure the template contains no personal data."
+        },
         "addNewQuestion": "Add new question",
         "addOption": "Add option",
         "alert": {
@@ -10813,6 +10873,7 @@
                 "interventionNotificationHours": "Intervention notification hours",
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
+                "dutyScheduleSortFirstShift": "Sort the duty schedule by who starts first (instead of alphabetically)",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "compensatoryTimeEnabled": "Enable compensatory time requests",
                 "lockPastSchedules": "Lock past schedules",
@@ -14327,7 +14388,14 @@
     },
     "timeRegistration": {
         "checkIn": "Check in",
-        "checkOut": "Check out"
+        "checkOut": "Check out",
+        "shiftEndPrompt": {
+            "title": "Shift ended",
+            "question": "Are you still working?",
+            "message": "Your shift ended at {time}.",
+            "yes": "Yes, still working",
+            "no": "No, stop timer"
+        }
     },
     "units": {
         "addNewUnit": "Add new unit",
@@ -14372,7 +14440,8 @@
     "validation": {
         "invalidNumber": "Invalid number",
         "invalidEmailAddress": "Invalid email address",
-        "thisFieldIsRequired": "This field is required"
+        "thisFieldIsRequired": "This field is required",
+        "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
         "emailVerified": "Email verified",
@@ -14478,7 +14547,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Template successfully saved",
                 "templateSuccessfullyUpdated": "Template successfully updated"
-            }
+            },
+            "descriptionTemplate": "Health case description template",
+            "descriptionTemplateHint": "Pre-filled in the description when a health case is created with this template.",
+            "statusTemplate": "Status update template",
+            "statusTemplateHint": "Pre-filled when a status update is created on a health case with this template."
         },
         "table": {
             "name": "Name",
@@ -17053,17 +17126,80 @@
         "sent": "Sent",
         "answered": "Answered",
         "withdraw": "Withdraw",
-        "withdrawConfirm": "The form is removed from the patient portal. Are you sure?",
+        "withdrawConfirm": "The form is withdrawn and the patient can no longer answer it. Are you sure?",
         "withdrawnAlert": "The form was withdrawn",
         "journalNotice": "Answers are placed in the patient journal automatically.",
         "status": {
             "answered": "Answered",
-            "waiting": "Waiting"
+            "waiting": "Waiting",
+            "opened": "Opened",
+            "expired": "Link expired"
         },
         "empty": {
             "title": "No forms sent yet",
             "text": "Send a form for the patient to fill in at home. The answers land in the journal."
-        }
+        },
+        "sendBy": "Send by",
+        "delivery": {
+            "portal": "Patient portal",
+            "email": "Email",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "The patient gets a link and opens the form with their date of birth. The link is valid for 14 days. The answers are placed in the journal and saved as a PDF in the documents.",
+        "email": "Email address",
+        "phone": "Phone number",
+        "birthdayMissing": "The patient has no date of birth on file. Add it to the patient's details before sending a link: the patient uses it to open the form.",
+        "sentAlertLink": "The link was sent to the patient",
+        "resend": "Resend link",
+        "resentAlert": "A new link was sent. The old link no longer works.",
+        "expires": "Link expires",
+        "openDocuments": "See PDF in documents",
+        "consentTemplate": {
+            "create": "No consent form yet? Create one from our template",
+            "created": "The consent form was created. You can edit it under Forms.",
+            "title": "Consent form",
+            "description": "Fill in before your appointment",
+            "fields": {
+                "intro": "Please fill in this form before your appointment. Your answers are only shared with the clinic.",
+                "aboutYou": "About you",
+                "fullName": "Full name",
+                "birthday": "Date of birth",
+                "phone": "Phone number",
+                "treatment": "The treatment",
+                "treatmentDescription": "Treatment and placement on the body",
+                "appointmentDate": "Date of appointment",
+                "health": "Your health",
+                "adult": "Are you 18 years or older?",
+                "conditions": "Do any of these apply to you?",
+                "conditionsDetails": "If you ticked anything above, or take any medicine, tell us more",
+                "consent": "Consent",
+                "risks": "The treatment is permanent. As with any treatment that breaks the skin, there is a risk of infection, allergic reaction and scarring. How the result looks and lasts depends on your skin and on how you look after it afterwards.",
+                "confirmRisks": "Information and risks",
+                "confirmAftercare": "Aftercare",
+                "confirmTruthful": "Health questions",
+                "photos": "May we take photos of the result for our portfolio and social media?",
+                "signature": "Signature: type your full name"
+            },
+            "options": {
+                "yes": "Yes",
+                "no": "No",
+                "allergies": "Allergies (for example latex, nickel, colour pigments or anaesthetics)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsy",
+                "heart": "Heart disease or high blood pressure",
+                "bloodThinners": "Blood-thinning medicine",
+                "skin": "Skin disease or irritation where the treatment will be",
+                "pregnant": "Pregnant or breastfeeding",
+                "alcohol": "Alcohol or drugs within the last 24 hours",
+                "understoodRisks": "I have read and understood the information about the treatment and its risks",
+                "understoodAftercare": "I have been told how to look after the area afterwards",
+                "truthful": "I have answered the health questions truthfully, and I consent to the treatment"
+            }
+        },
+        "viewAnswers": "View answers",
+        "ipAddress": "IP address",
+        "sentVia": "Sent via",
+        "portalUnavailable": "Patient portal is not available: the patient has no access to the portal. Turn on system access in the patient's details to send forms there."
     },
     "pageSettings": {
         "title": "Settings for this page",
@@ -17780,5 +17916,42 @@
     "documentViewer": {
         "notViewableTitle": "Can't open the file",
         "notViewableText": "This file type can't be shown in the browser, and your role doesn't allow downloading documents."
+    },
+    "publicForm": {
+        "title": "Form",
+        "unlock": {
+            "heading": "{company} has sent you a form",
+            "intro": "To protect your information, enter your date of birth to open the form.",
+            "birthday": "Date of birth",
+            "open": "Open the form"
+        },
+        "fill": {
+            "notice": "Your answers are sent to {company} and kept in your record there.",
+            "send": "Send"
+        },
+        "done": {
+            "title": "Thank you",
+            "text": "Your answers have been sent to {company}. You can close this page."
+        },
+        "closed": {
+            "notFound": {
+                "title": "The link is not valid",
+                "text": "Check that you opened the whole link, or contact the clinic for a new one."
+            },
+            "completed": {
+                "title": "The form has already been answered",
+                "text": "Thank you. There is nothing more to do."
+            },
+            "expired": {
+                "title": "The link has expired",
+                "text": "Contact the clinic to get a new link."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "The date of birth does not match. Check it and try again.",
+            "locked": "Too many attempts. Try again in 30 minutes.",
+            "required": "Answer the questions marked with *.",
+            "failed": "Something went wrong. Try again."
+        }
     }
 }

@@ -25,6 +25,16 @@ class FormService extends BaseAPIService {
         return await this.request(`/user/forms/all/list`, 'GET')
     }
 
+    /** Templates shared by other CitizenOne companies that this company can still import. */
+    async getCommunityTemplates(): Promise<any> {
+        return await this.request(`/user/community-form-templates`, 'GET')
+    }
+
+    /** Copies a community template into the company as its own form. */
+    async importCommunityTemplate(templateUuid: string): Promise<any> {
+        return await this.request(`/user/community-form-templates/${templateUuid}/import`, 'POST')
+    }
+
     /** Renders the template as the document it will produce, including unsaved edits. */
     async previewForm(params: object): Promise<Blob | null> {
         return await this.requestBlob(`/user/forms/preview`, 'POST', params)
@@ -40,6 +50,11 @@ class FormService extends BaseAPIService {
 
     async withdrawFormAssignment(uuid: string): Promise<any> {
         return await this.request(`/user/form-assignments/${uuid}`, 'DELETE')
+    }
+
+    // A new link for a form sent by email or SMS; the old link stops working.
+    async resendFormLink(uuid: string, params: object = {}): Promise<any> {
+        return await this.request(`/user/form-assignments/${uuid}/resend`, 'POST', params)
     }
 }
 

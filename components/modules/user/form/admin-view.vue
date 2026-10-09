@@ -21,6 +21,16 @@
                                     @click="navigateTo(`/forms/${form.uuid}/edit`)">
                                     {{ form?.title }}
                                 </button>
+                                <span v-if="form?.is_shared_with_community"
+                                    class="ml-2 inline-flex items-center gap-1 rounded-full bg-primary/10 px-2 py-0.5 text-xs font-medium text-primary">
+                                    <Icon name="ph:share-network" class="h-3 w-3" aria-hidden="true" />
+                                    {{ $t('forms.community.sharedBadge') }}
+                                </span>
+                                <span v-if="form?.is_from_community"
+                                    class="ml-2 inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-700">
+                                    <Icon name="ph:users-three" class="h-3 w-3" aria-hidden="true" />
+                                    {{ $t('forms.community.fromCommunityBadge') }}
+                                </span>
                             </td>
                             <td width="50%">
                                 <p>{{ form?.description }}</p>

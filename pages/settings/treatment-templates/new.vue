@@ -63,6 +63,8 @@ const state = reactive({
         area_type: 'optional',
         score: 'optional',
         description: 'optional',
+        description_template: '',
+        status_template: '',
     },
     isPageLoading: false,
 })
@@ -78,6 +80,8 @@ async function saveTemplate(templateDetails: any) {
             area_type: templateDetails.area_type,
             score: templateDetails.score,
             description: templateDetails.description,
+            description_template: templateDetails.description_template,
+            status_template: templateDetails.status_template,
         }
         const response = await treatmentTemplateService.saveTemplate(params)
         if (response?.data) {
