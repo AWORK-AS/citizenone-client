@@ -1,14 +1,10 @@
 import { useUserStore } from '@/store/user'
+import { roleThreshold } from '@/composables/roleLevels'
 
 export function getPermissionLabel(permission: any, locale: string): string {
     return permission?.[`${locale}_name`] || permission?.name?.replace(/_/g, ' ') || ''
 }
 
-const ROLE_LEVELS: Record<string, number> = {
-    Admin: 80,
-    Manager: 50,
-    User: 20,
-}
 
 /**
  * Superadmin-panelets områder, som backendens `App\Support\SuperadminPermissions` har dem.
@@ -60,7 +56,7 @@ export function usePermissions() {
     }
 
     function isAtLeast(roleName: string): boolean {
-        const threshold = ROLE_LEVELS[roleName] ?? 0
+        const threshold = roleThreshold(roleName)
         return maxRoleLevel() >= threshold
     }
 
