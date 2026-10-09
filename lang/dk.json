@@ -14,6 +14,22 @@
         "changeLanguage": "Skift sprog",
         "somethingWentWrong": "Noget gik galt. Prøv igen."
     },
+    "comingFunctions": {
+        "title": "Kommende funktioner",
+        "intro": "Her kan du se, hvad vi arbejder på, og hvad der kommer i CitizenOne. Mangler du noget? Send os et ønske.",
+        "sendWish": "Send et ønske",
+        "empty": "Der er ingen kommende funktioner at vise lige nu.",
+        "sections": {
+            "in_progress": "I gang",
+            "planned": "Planlagt",
+            "released": "Netop udgivet"
+        },
+        "status": {
+            "in_progress": "I gang",
+            "planned": "Planlagt",
+            "released": "Udgivet"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
         "filters": {
@@ -9371,6 +9387,8 @@
         "logout": "Log ud",
         "notifications": "Notifikationer",
         "procedures": "Procedurer",
+        "newWishes": "Nye ønsker",
+        "comingFunctions": "Kommende funktioner",
         "reminders": "Påmindelser",
         "settings": "Indstillinger",
         "subscription": "Abonnement",
@@ -11737,6 +11755,34 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "De funktioner alle brugere ser under \"Kommende funktioner\" i profilmenuen. Kun publicerede punkter vises.",
+            "newItem": "Nyt punkt",
+            "editItem": "Rediger punkt",
+            "noItems": "Ingen punkter med denne status.",
+            "dragHint": "Træk punkterne for at ændre rækkefølgen, brugerne ser dem i.",
+            "published": "Publiceret",
+            "draft": "Kladde",
+            "publish": "Publicer",
+            "unpublish": "Afpublicer",
+            "deleteConfirm": "Er du sikker på, at du vil slette dette punkt?",
+            "visibleToEveryone": "Synlig for alle brancher",
+            "visibleToIndustries": "Kun synlig for de valgte brancher",
+            "releasedOn": "Udgivet {date}",
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivelse",
+                "descriptionHint": "Skriv til brugerne: hvad funktionen gør, og hvordan den hjælper dem.",
+                "status": "Status",
+                "expectedPeriod": "Forventet",
+                "expectedPeriodPlaceholder": "F.eks. Q2 2027 eller april 2027",
+                "industries": "Brancher",
+                "industriesHint": "Lad feltet være tomt for at vise punktet for alle brancher.",
+                "published": "Vis for brugerne",
+                "publishedHint": "Kladder er kun synlige her i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
@@ -12904,6 +12950,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App-kategorier",
             "companies": "Virksomheder",

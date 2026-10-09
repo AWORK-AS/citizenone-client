@@ -14,6 +14,22 @@
         "changeLanguage": "Byt språk",
         "somethingWentWrong": "Något gick fel. Försök igen."
     },
+    "comingFunctions": {
+        "title": "Kommande funktioner",
+        "intro": "Här kan du se vad vi arbetar med och vad som kommer i CitizenOne. Saknar du något? Skicka ett önskemål till oss.",
+        "sendWish": "Skicka ett önskemål",
+        "empty": "Det finns inga kommande funktioner att visa just nu.",
+        "sections": {
+            "in_progress": "Pågår",
+            "planned": "Planerad",
+            "released": "Nyligen lanserad"
+        },
+        "status": {
+            "in_progress": "Pågår",
+            "planned": "Planerad",
+            "released": "Lanserad"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Exportera",
         "filters": {
@@ -9371,6 +9387,8 @@
         "logout": "Logga ut",
         "notifications": "Notiser",
         "procedures": "Procedurer",
+        "newWishes": "Nya önskemål",
+        "comingFunctions": "Kommande funktioner",
         "reminders": "Påminnelser",
         "settings": "Inställningar",
         "subscription": "Prenumeration",
@@ -11700,6 +11718,34 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Färdplan",
+            "intro": "Funktionerna alla användare ser under \"Kommande funktioner\" i profilmenyn. Endast publicerade punkter visas.",
+            "newItem": "Ny punkt",
+            "editItem": "Redigera punkt",
+            "noItems": "Inga punkter med denna status.",
+            "dragHint": "Dra punkterna för att ändra ordningen användarna ser dem i.",
+            "published": "Publicerad",
+            "draft": "Utkast",
+            "publish": "Publicera",
+            "unpublish": "Avpublicera",
+            "deleteConfirm": "Är du säker på att du vill radera denna punkt?",
+            "visibleToEveryone": "Synlig för alla branscher",
+            "visibleToIndustries": "Endast synlig för de valda branscherna",
+            "releasedOn": "Lanserad {date}",
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivning",
+                "descriptionHint": "Skriv till användarna: vad funktionen gör och hur den hjälper dem.",
+                "status": "Status",
+                "expectedPeriod": "Förväntad",
+                "expectedPeriodPlaceholder": "T.ex. Q2 2027 eller april 2027",
+                "industries": "Branscher",
+                "industriesHint": "Lämna tomt för att visa punkten för alla branscher.",
+                "published": "Visa för användarna",
+                "publishedHint": "Utkast syns bara här i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Konton",
             "alert": {
@@ -12867,6 +12913,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "roadmap": "Färdplan",
             "apps": "Apps",
             "appCategories": "App-kategorier",
             "companies": "Företag",

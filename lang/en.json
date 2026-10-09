@@ -14,6 +14,22 @@
         "changeLanguage": "Change language",
         "somethingWentWrong": "Something went wrong. Please try again."
     },
+    "comingFunctions": {
+        "title": "Coming functions",
+        "intro": "Here you can see what we're working on and what's coming next in CitizenOne. Missing something? Send us a wish.",
+        "sendWish": "Send a wish",
+        "empty": "There are no coming functions to show right now.",
+        "sections": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Recently released"
+        },
+        "status": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Released"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Export",
         "filters": {
@@ -9371,6 +9387,8 @@
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "newWishes": "New wishes",
+        "comingFunctions": "Coming functions",
         "reminders": "Reminders",
         "settings": "Settings",
         "subscription": "Subscription",
@@ -11737,6 +11755,34 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "The functions all users see under \"Coming functions\" in the profile menu. Only published items are shown.",
+            "newItem": "New item",
+            "editItem": "Edit item",
+            "noItems": "No items with this status.",
+            "dragHint": "Drag the items to change the order users see them in.",
+            "published": "Published",
+            "draft": "Draft",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "deleteConfirm": "Are you sure you want to delete this item?",
+            "visibleToEveryone": "Visible to all industries",
+            "visibleToIndustries": "Only visible to the selected industries",
+            "releasedOn": "Released {date}",
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "descriptionHint": "Write for users: what the function does and how it helps them.",
+                "status": "Status",
+                "expectedPeriod": "Expected",
+                "expectedPeriodPlaceholder": "E.g. Q2 2027 or April 2027",
+                "industries": "Industries",
+                "industriesHint": "Leave empty to show the item to all industries.",
+                "published": "Show to users",
+                "publishedHint": "Drafts are only visible here in superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Accounts",
             "alert": {
@@ -12904,6 +12950,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App categories",
             "companies": "Companies",
