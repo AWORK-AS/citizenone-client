@@ -237,13 +237,12 @@
                                     {{ $t('settings.company.form.relativeChat') }}
                                 </p>
                             </div>
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-x-2">
-                                    <FormSwitch :value="state.formCompany.chat_cpr_warning_enabled"
-                                        @toggleSwitch="state.formCompany.chat_cpr_warning_enabled = !state.formCompany.chat_cpr_warning_enabled" :label="$t('settings.company.form.chatCprWarning')" />
-                                    <p>{{ $t('settings.company.form.chatCprWarning') }}</p>
-                                </div>
-                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.chatCprWarningHint') }}.</p>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.chat_cpr_warning_enabled"
+                                    @toggleSwitch="state.formCompany.chat_cpr_warning_enabled = !state.formCompany.chat_cpr_warning_enabled" :label="$t('settings.company.form.chatCprWarning')" />
+                                <p>
+                                    {{ $t('settings.company.form.chatCprWarning') }}
+                                </p>
                             </div>
                         </div>
                         <div v-if="state.formCompany.relative_chat_enabled"
@@ -645,29 +644,26 @@
                                     Social- og Boligstyrelsen
                                 </p>
                             </div>
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-x-2">
-                                    <FormSwitch :value="state.formCompany.missing_note_reminder_enabled"
-                                        @toggleSwitch="state.formCompany.missing_note_reminder_enabled = !state.formCompany.missing_note_reminder_enabled" :label="$t('settings.company.form.missingNoteReminder')" />
-                                    <p>{{ $t('settings.company.form.missingNoteReminder') }}</p>
-                                </div>
-                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.missingNoteReminderHint') }}.</p>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.missing_note_reminder_enabled"
+                                    @toggleSwitch="state.formCompany.missing_note_reminder_enabled = !state.formCompany.missing_note_reminder_enabled" :label="$t('settings.company.form.missingNoteReminder')" />
+                                <p>
+                                    {{ $t('settings.company.form.missingNoteReminder') }}
+                                </p>
                             </div>
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-x-2">
-                                    <FormSwitch :value="state.formCompany.booking_note_notifications_enabled"
-                                        @toggleSwitch="state.formCompany.booking_note_notifications_enabled = !state.formCompany.booking_note_notifications_enabled" :label="$t('settings.company.form.bookingNoteNotifications')" />
-                                    <p>{{ $t('settings.company.form.bookingNoteNotifications') }}</p>
-                                </div>
-                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.bookingNoteNotificationsHint') }}.</p>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.booking_note_notifications_enabled"
+                                    @toggleSwitch="state.formCompany.booking_note_notifications_enabled = !state.formCompany.booking_note_notifications_enabled" :label="$t('settings.company.form.bookingNoteNotifications')" />
+                                <p>
+                                    {{ $t('settings.company.form.bookingNoteNotifications') }}
+                                </p>
                             </div>
-                            <div class="space-y-1">
-                                <div class="flex items-center gap-x-2">
-                                    <FormSwitch :value="state.formCompany.certificate_reminder_all_recipients_enabled"
-                                        @toggleSwitch="state.formCompany.certificate_reminder_all_recipients_enabled = !state.formCompany.certificate_reminder_all_recipients_enabled" :label="$t('settings.company.form.certificateReminderAllRecipients')" />
-                                    <p>{{ $t('settings.company.form.certificateReminderAllRecipients') }}</p>
-                                </div>
-                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.certificateReminderAllRecipientsHint') }}.</p>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.certificate_reminder_all_recipients_enabled"
+                                    @toggleSwitch="state.formCompany.certificate_reminder_all_recipients_enabled = !state.formCompany.certificate_reminder_all_recipients_enabled" :label="$t('settings.company.form.certificateReminderAllRecipients')" />
+                                <p>
+                                    {{ $t('settings.company.form.certificateReminderAllRecipients') }}
+                                </p>
                             </div>
                         </div>
                         </div>
