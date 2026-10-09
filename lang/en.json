@@ -946,6 +946,10 @@
             "deleteEmployee": "Are you sure you want to permanently delete this employee? This action cannot be undone."
         },
         "table": {
+            "lastWorkingDay": "Last working day",
+            "canBeDeletedFrom": "Can be deleted from",
+            "canBeDeleted": "Can be deleted",
+            "readyForDeletion": "Ready for deletion",
             "actions": {
                 "unarchive": "Unarchive",
                 "unarchiveCitizen": "Unarchive @:terms.citizen{''}",
@@ -7153,7 +7157,9 @@
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job titles",
                 "salaryID": "Salary ID",
-                "terminationDate": "Termination date",
+                "terminationDate": "Last working day",
+                "terminationDateHint": "We'll remind administrators when this employee's data can be deleted (5 years after this date).",
+                "terminationBeforeEmployment": "The last working day cannot be before the employment date",
                 "vacationDays": "Vacation days",
                 "weeklyNormHours": "Weekly norm hours",
                 "weeks": "Weeks",

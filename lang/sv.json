@@ -946,6 +946,10 @@
             "deleteEmployee": "Är du säker på att du vill radera denna anställd permanent? Denna åtgärd kan inte ångras."
         },
         "table": {
+            "lastWorkingDay": "Sista arbetsdag",
+            "canBeDeletedFrom": "Kan raderas från",
+            "canBeDeleted": "Kan raderas",
+            "readyForDeletion": "Redo för radering",
             "actions": {
                 "unarchive": "Återöppna",
                 "unarchiveCitizen": "Återöppna @:terms.citizen{''}",
@@ -7153,7 +7157,9 @@
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtitlar",
                 "salaryID": "Lön-ID",
-                "terminationDate": "Opsigelsesdato",
+                "terminationDate": "Sista arbetsdag",
+                "terminationDateHint": "Vi påminner administratörer när den anställdes uppgifter kan raderas (5 år efter detta datum).",
+                "terminationBeforeEmployment": "Sista arbetsdagen får inte ligga före anställningsdatumet",
                 "vacationDays": "Feriedage",
                 "weeklyNormHours": "Ugentlige normtimer",
                 "weeks": "Veckor",
