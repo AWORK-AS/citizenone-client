@@ -9046,6 +9046,8 @@
         "directMessage": "Direkte meddelande",
         "editMessage": "Redigera meddelande",
         "openInNewWindow": "Öppna i nytt fönster",
+        "openCitizenJournal": "Öppna journal för {name}",
+        "openCitizenProfile": "Öppna profil för {name}",
         "groupChat": {
             "add": "Lägg till",
             "addUser": "Lägg till användare",
