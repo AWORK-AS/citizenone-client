@@ -11,14 +11,26 @@
             <div class="absolute w-[380px] max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-2xl p-6 transition-all duration-200"
                 :style="popoverStyle" v-if="currentStep">
                 <div class="flex items-start gap-x-3">
-                    <div class="w-10 h-10 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
+                    <!-- Milo's welcome tour: the bubble speaks as Milo -->
+                    <div v-if="mascot" aria-hidden="true"
+                        class="w-10 h-10 shrink-0 rounded-full bg-primary text-white flex items-center justify-center text-base font-semibold">
+                        M
+                    </div>
+                    <div v-else class="w-10 h-10 shrink-0 rounded-full bg-primary/10 flex items-center justify-center">
                         <Icon :name="currentStep.icon" class="h-5 w-5 text-primary" aria-hidden="true" />
                     </div>
                     <div class="grow">
-                        <h3 class="text-base font-semibold text-gray-900">{{ $t(currentStep.titleKey) }}</h3>
+                        <h3 v-if="mascot" class="text-base font-semibold text-gray-900">{{ $t('welcomeTour.name') }}</h3>
+                        <h3 v-else class="text-base font-semibold text-gray-900">{{ $t(currentStep.titleKey) }}</h3>
                         <p class="mt-1 text-sm text-gray-600">{{ $t(currentStep.textKey) }}</p>
                     </div>
-                    <button type="button" class="shrink-0 text-gray-400 hover:text-gray-600" @click="close">
+                    <Tooltip v-if="mascot" :text="$t('welcomeTour.skipHelp')" position="left">
+                        <button type="button" class="shrink-0 text-gray-400 hover:text-gray-600"
+                            :aria-label="$t('welcomeTour.skip')" @click="close(false)">
+                            <Icon name="heroicons:x-mark" class="h-5 w-5" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
+                    <button v-else type="button" class="shrink-0 text-gray-400 hover:text-gray-600" @click="close(false)">
                         <Icon name="heroicons:x-mark" class="h-5 w-5" aria-hidden="true" />
                     </button>
                 </div>
@@ -31,14 +43,19 @@
                     </div>
                     <div class="flex gap-x-2">
                         <FormButton v-if="state.stepIndex > 0" buttonStyle="cancel" class="w-fit px-4"
-                            @click="goTo(state.stepIndex - 1)">
+                            @click="goTo(state.stepIndex - 1, -1)">
                             {{ $t('back') }}
                         </FormButton>
                         <FormButton v-if="state.stepIndex < steps.length - 1" buttonStyle="primary" class="w-fit px-4"
-                            @click="goTo(state.stepIndex + 1)">
+                            @click="goTo(state.stepIndex + 1, 1)">
                             {{ $t('next') }}
                         </FormButton>
-                        <FormButton v-else buttonStyle="primary" class="w-fit px-4" @click="close">
+                        <Tooltip v-else-if="mascot" :text="$t('welcomeTour.finishHelp')" position="top">
+                            <FormButton buttonStyle="primary" class="w-fit px-4" @click="close(true)">
+                                {{ $t('welcomeTour.finish') }}
+                            </FormButton>
+                        </Tooltip>
+                        <FormButton v-else buttonStyle="primary" class="w-fit px-4" @click="close(true)">
                             {{ $t('appTours.getStarted') }}
                         </FormButton>
                     </div>
@@ -49,18 +66,38 @@
 </template>
 
 <script setup lang="ts">
+import type { PropType } from 'vue'
 import { useAppTours } from '@/composables/useAppTours'
 
 const props = defineProps({
     appKey: {
         type: String,
-        required: true,
+        default: '',
+    },
+    // Steps handed in by the caller instead of looked up by appKey (Milo's
+    // welcome tour). These may name a `route` and are skipped when their target
+    // never shows up.
+    customSteps: {
+        type: Array as PropType<any[] | null>,
+        default: null,
+    },
+    // The bubble speaks as Milo: name and an "M" avatar, text only.
+    mascot: {
+        type: Boolean,
+        default: false,
+    },
+    // Where to resume after the layout was rebuilt by a page change.
+    startIndex: {
+        type: Number,
+        default: 0,
     },
 })
 
-const emit = defineEmits(['close'])
+// close(true) = reached the end, close(false) = dismissed.
+const emit = defineEmits<{ (e: 'close', finished: boolean): void, (e: 'step', index: number): void }>()
 
 const { getTour } = useAppTours()
+const router = useRouter()
 
 const POPOVER_WIDTH = 380
 const POPOVER_HEIGHT_ESTIMATE = 190
@@ -68,7 +105,7 @@ const SPOTLIGHT_PADDING = 8
 const EDGE_MARGIN = 16
 
 const state = reactive({
-    stepIndex: 0,
+    stepIndex: props.startIndex,
     targetRect: null as { top: number, left: number, width: number, height: number } | null,
 })
 
@@ -77,7 +114,9 @@ const state = reactive({
 let retryTimers: ReturnType<typeof setTimeout>[] = []
 let stopped = false
 
-const steps = computed(() => getTour(props.appKey)?.steps ?? [])
+const steps = computed<any[]>(() => props.customSteps ?? getTour(props.appKey)?.steps ?? [])
+const skipMissing = computed(() => !!props.customSteps)
+let direction = 1
 const currentStep = computed(() => steps.value[state.stepIndex])
 const isOpen = computed(() => steps.value.length > 0)
 
@@ -111,6 +150,16 @@ const popoverStyle = computed(() => {
     return { bottom: `${viewportHeight - rect.top + 20}px`, left: `${left}px` }
 })
 
+// The first match that is actually on screen: the sidebar renders once for the
+// desktop rail and once for the mobile drawer, and only one of them has a size.
+function findTarget(selector: string): HTMLElement | null {
+    const all = Array.from(document.querySelectorAll(selector)) as HTMLElement[]
+    return all.find((el) => {
+        const rect = el.getBoundingClientRect()
+        return rect.width > 0 && rect.height > 0
+    }) ?? null
+}
+
 // Reposition against the current target without scrolling the page. Keeps the
 // previous rect if the element is briefly gone so the spotlight never flickers.
 function reposition() {
@@ -120,7 +169,7 @@ function reposition() {
         state.targetRect = null
         return
     }
-    const element = document.querySelector(selector) as HTMLElement | null
+    const element = findTarget(selector)
     if (!element) return
     const rect = element.getBoundingClientRect()
     if (rect.width > 0 && rect.height > 0) {
@@ -133,12 +182,14 @@ function reposition() {
 function focusStep() {
     clearRetries()
     state.targetRect = null
+    const route = currentStep.value?.route
+    if (route && router.currentRoute.value.path !== route) navigateTo(route)
     const selector = currentStep.value?.selector
     if (!selector) return
 
     const tryFocus = (doScroll: boolean) => {
         if (stopped) return
-        const element = document.querySelector(selector) as HTMLElement | null
+        const element = findTarget(selector)
         if (element) {
             if (doScroll) element.scrollIntoView({ block: 'center', behavior: 'smooth' })
             reposition()
@@ -150,6 +201,21 @@ function focusStep() {
     ;[150, 400, 800, 1500, 2500].forEach((delay) => {
         retryTimers.push(setTimeout(() => tryFocus(!state.targetRect), delay))
     })
+    // A target that never appears (module off, no permission, small screen)
+    // must not leave the user staring at a dim page.
+    if (skipMissing.value) {
+        retryTimers.push(setTimeout(() => {
+            if (stopped || state.targetRect) return
+            skipStep()
+        }, 3200))
+    }
+}
+
+function skipStep() {
+    const next = state.stepIndex + direction
+    if (next >= 0 && next < steps.value.length) goTo(next, direction)
+    else if (direction > 0) close(true)
+    else goTo(Math.min(1, steps.value.length - 1), 1)
 }
 
 function clearRetries() {
@@ -157,14 +223,19 @@ function clearRetries() {
     retryTimers = []
 }
 
-function goTo(index: number) {
+function goTo(index: number, dir = 1) {
+    direction = dir
     state.stepIndex = index
+    emit('step', index)
     focusStep()
 }
 
-watch([() => props.appKey, isOpen], () => {
+// A different app's tour starts from its first step.
+watch(() => props.appKey, () => { state.stepIndex = props.startIndex })
+
+watch(isOpen, () => {
     if (!isOpen.value) return
-    state.stepIndex = 0
+    if (state.stepIndex >= steps.value.length) state.stepIndex = 0
     nextTick(focusStep)
 }, { immediate: true })
 
@@ -181,7 +252,7 @@ onUnmounted(() => {
     window.removeEventListener('scroll', reposition, true)
 })
 
-function close() {
-    emit('close')
+function close(finished = false) {
+    emit('close', finished)
 }
 </script>

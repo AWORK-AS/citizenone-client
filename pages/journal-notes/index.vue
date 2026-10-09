@@ -28,7 +28,7 @@
                                 </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton :aria-label="$t('citizens.citizenJournals.newNote')" buttonStyle="action" @click="state.modal.isAddJournalOpen = true">
+                                <FormButton :aria-label="$t('citizens.citizenJournals.newNote')" buttonStyle="action" data-tour="journal-note-new" @click="state.modal.isAddJournalOpen = true">
                                     <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('journalNotes.newNote') }}
                                 </FormButton>

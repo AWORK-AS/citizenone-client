@@ -224,6 +224,7 @@
 <script setup lang="ts">
 import { authService } from '@/components/api/user/AuthService'
 import { userService } from '@/components/api/user/UserService'
+import { isFirstSession } from '@/composables/welcomeTour'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useDepartmentStore } from '@/store/department'
@@ -345,10 +346,11 @@ function animateAssets() {
 // Where a staff member starts after signing in. The general overview assumes the
 // company already has data in it, so the very first session goes somewhere with
 // something to do instead: Discover for an admin, who sets the company up, and
-// My day for everyone else. The is_first_login flag is left for the guided tour
-// in layouts/user.vue to clear, so the welcome tour still runs.
+// My day for everyone else. Whether it is a first session comes from the welcome
+// tour state (tours_seen), or from is_first_login on a backend that predates it;
+// the guided tour in layouts/user.vue is what ends it.
 function staffLandingRoute(user: any) {
-	if (!user?.is_first_login) return '/overview'
+	if (!isFirstSession(user)) return '/overview'
 
 	return user?.role === 'Admin' ? '/discover' : '/my-day'
 }
@@ -395,7 +397,7 @@ async function login() {
 					// override only applies where resolvePostLoginRedirect() would
 					// otherwise have fallen back to the plain staff default.
 					const target = resolvePostLoginRedirect(response.data.user?.role, response.data.user)
-					if (target === '/overview' && response.data.user?.is_first_login) {
+					if (target === '/overview' && isFirstSession(response.data.user)) {
 						navigateTo(staffLandingRoute(response.data.user))
 					} else {
 						navigateTo(target)

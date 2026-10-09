@@ -2,6 +2,9 @@
 // pages append ?tour=<key> to the app's setup route and the user layout opens
 // the tour guide for any registered key. Add an entry here (plus i18n texts
 // under appTours.<key>) to give the next app a tour.
+//
+// Milo's welcome tour reuses the same guide component with steps built in
+// composables/welcomeTour.ts (see useWelcomeTour.ts), so there is one engine.
 
 export interface AppTourStep {
     icon: string
@@ -9,6 +12,8 @@ export interface AppTourStep {
     textKey: string
     // CSS selector of the element to spotlight; without one the step is centered
     selector?: string
+    // Page the target lives on; the guide navigates there first (welcome tour)
+    route?: string
 }
 
 export interface AppTour {
