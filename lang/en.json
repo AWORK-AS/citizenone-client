@@ -9575,6 +9575,7 @@
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
                 "nextShift": "Next shift",
+                "onDutyToday": "On duty today",
                 "plansAndGoals": "Plans and goals",
                 "riskAssessment": "Risk assessment",
                 "scheduleSlots": "Schedule slots",
@@ -9674,6 +9675,20 @@
             "viewSchedule": "Open duty schedule",
             "reminderInfo": "In the mobile app you get a push reminder 2 hours before the shift starts.",
             "onlyDifferent": "This shift is in a different department than the one you usually work in."
+        },
+        "onDuty": {
+            "title": "Who is on duty today?",
+            "none": "Nobody is on the duty schedule this day.",
+            "onDutyCount": "{count} on duty",
+            "workingNowCount": "{count} working now",
+            "absentCount": "{count} absent",
+            "absent": "Absent",
+            "now": "Now",
+            "wholeCompany": "Whole company",
+            "yesterday": "Yesterday",
+            "goToToday": "Go to today",
+            "onlyYou": "You can only see your own shifts. Ask your manager if you should see your colleagues.",
+            "onlyYourDepartments": "You see colleagues in your own departments."
         },
         "myDailyEvents": "My daily events",
         "news": "News",

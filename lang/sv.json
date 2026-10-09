@@ -9570,6 +9570,7 @@
                 "medicineDeviationStatistics": "Medicin avvikit",
                 "myDailyEvents": "Mina daglige händelser",
                 "nextShift": "Nästa pass",
+                "onDutyToday": "I tjänst i dag",
                 "plansAndGoals": "Planer och mål",
                 "riskAssessment": "Riskbedömning",
                 "scheduleSlots": "Udbyd pass",
@@ -9669,6 +9670,20 @@
             "viewSchedule": "Öppna schemat",
             "reminderInfo": "I mobilappen får du en push-notis 2 timmar innan passet börjar.",
             "onlyDifferent": "Det här passet är på en annan avdelning än den du vanligtvis arbetar på."
+        },
+        "onDuty": {
+            "title": "Vem är i tjänst i dag?",
+            "none": "Ingen står på schemat den här dagen.",
+            "onDutyCount": "{count} i tjänst",
+            "workingNowCount": "{count} arbetar nu",
+            "absentCount": "{count} frånvarande",
+            "absent": "Frånvarande",
+            "now": "Nu",
+            "wholeCompany": "Hela företaget",
+            "yesterday": "I går",
+            "goToToday": "Gå till i dag",
+            "onlyYou": "Du kan bara se dina egna pass. Fråga din chef om du ska kunna se dina kollegor.",
+            "onlyYourDepartments": "Du ser kollegor på dina egna avdelningar."
         },
         "myDailyEvents": "Mina daglige händelser",
         "news": "Nyheter",
