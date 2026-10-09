@@ -10171,6 +10171,11 @@
             "perHour": "Per hour",
             "recordingModeDayHelp": "One entry per citizen for each day.",
             "recordingModeHourHelp": "One entry per citizen for each time slot on every day, so attendance can be recorded hour by hour.",
+            "clipCard": "Clip card",
+            "recordingModeClipHelp": "Each citizen gets a card with a number of clips. Use a clip on any day between the start and end date when the citizen is present.",
+            "clipCount": "Number of clips",
+            "clipCountPlaceholder": "e.g. 10",
+            "clipCountHelp": "Each citizen on the protocol gets their own card with this many clips. It can't be changed later.",
             "timeSlots": "Time slots",
             "timeSlotsHelp": "Fill in a slot for every hour in a range, or add slots one at a time.",
             "fromHour": "From",
@@ -10184,7 +10189,8 @@
             "errors": {
                 "timeSlotsRequired": "Add at least one time slot.",
                 "timeSlotEndAfterStart": "Each time slot must end after it starts.",
-                "timeSlotsOverlap": "Time slots must not overlap."
+                "timeSlotsOverlap": "Time slots must not overlap.",
+                "clipCountBetween": "Enter a whole number between 1 and 500."
             }
         },
         "checkIn": "Check in",
@@ -10193,6 +10199,29 @@
         "today": "Today",
         "other": "Other",
         "noTodayEntries": "No protocol entries for today",
+        "clipCard": {
+            "summary": "{clips} clips per citizen · Valid {start} – {end}",
+            "clipsLeft": "{remaining} of {total} clips left",
+            "clipsUsedBadge": "Clips used: {used}",
+            "useClip": "Use clip",
+            "history": "History",
+            "hideHistory": "Hide history",
+            "lastUsed": "Last used {date} at {time}",
+            "notUsedYet": "Not used yet",
+            "usedUp": "Card used up",
+            "noUses": "No clips used yet.",
+            "usedOn": "Used {date} at {time}",
+            "undo": "Undo",
+            "undoConfirmation": "Undo this clip? It goes back on the card.",
+            "clipUsed": "Clip used for {name}. {remaining} left.",
+            "clipUndone": "Clip undone. {remaining} left.",
+            "notStarted": "This clip card can be used from {date}.",
+            "expired": "This clip card expired on {date}. Clips can no longer be used.",
+            "noCards": "No citizens on this clip card.",
+            "searchCitizen": "Search citizen",
+            "myClipCards": "My clip cards",
+            "validPeriod": "Valid {start} – {end}"
+        },
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {

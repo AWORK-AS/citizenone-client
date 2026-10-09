@@ -78,7 +78,13 @@ async function saveProtocol(protocolDetails: any) {
             params.time_slots = protocolDetails.time_slots
         }
 
-        if (protocolDetails.is_recurring) {
+        // Task 136: a clip card has no days to repeat or skip.
+        if (protocolDetails.recording_mode === 'clip') {
+            params.clip_count = Number(protocolDetails.clip_count)
+            params.exclude_weekends = false
+        }
+
+        if (protocolDetails.is_recurring && protocolDetails.recording_mode !== 'clip') {
             params.is_recurring = true
             params.recurring = protocolDetails.recurring
             params.recurring_until = protocolDetails.recurring_until
