@@ -40,10 +40,21 @@
                     <div class="space-y-1">
                         <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
                         <FormTextField id="social_security_number" name="social_security_number"
-                            :placeholder="$t('citizens.form.ssnPlaceholder')" :maxLength="10"
+                            :placeholder="$t('citizens.form.ssnPlaceholder')" :maxLength="11"
                             v-model="formattedSocialSecurityNumber" @input="updateSocialSecurityNumber" />
                         <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
+                        <!-- Only a hint against creating a duplicate: saving is never blocked. -->
+                        <p v-if="state.cprMatch?.exists" role="status"
+                            class="flex items-start gap-1.5 rounded-md bg-amber-50 px-2 py-1.5 text-xs text-amber-800">
+                            <Icon name="ph:warning-circle" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                            <span v-if="state.cprMatch.visible">
+                                {{ $t(state.cprMatch.is_archived ? 'citizens.form.cprExistsArchived' : 'citizens.form.cprExists', { name: cprMatchName }) }}
+                                <NuxtLink :to="`/citizens/${state.cprMatch.uuid}/journals`" target="_blank"
+                                    class="font-medium underline hover:text-amber-900">{{ $t('citizens.form.cprExistsOpen') }}</NuxtLink>
+                            </span>
+                            <span v-else>{{ $t('citizens.form.cprExistsHidden') }}</span>
+                        </p>
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="case_number" :label="$t('citizens.form.caseNumber')" />
@@ -1195,6 +1206,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useGenders } from '@/composables/genders'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDanishCpr } from '@/composables/cpr'
+import { citizenService } from '@/components/api/user/CitizenService'
 import { useTerminology } from '@/composables/useTerminology'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import type { Error } from '@/types'
@@ -1283,6 +1295,10 @@ const state = reactive({
     // Same, tracked separately for gender: birthday and gender are corrected
     // independently, so one being edited by hand must not re-lock the other.
     genderAutoFilledFromSsn: false,
+    // The citizen that already has the CPR number typed on a new citizen, from
+    // checkCprAlreadyExists(): { exists, visible, uuid?, firstname?, lastname?,
+    // is_archived? }, or null.
+    cprMatch: null as any,
     error: {} as Error,
     formCitizen: {
         image: '',
@@ -2182,14 +2198,55 @@ const formattedSocialSecurityNumber = computed<string>({
         return ssn
     },
     set(value: string) {
-        state.formCitizen.social_security_number = value.replace(/-/g, '')
+        state.formCitizen.social_security_number = cprWithoutDash(value)
     }
 })
 
+// The field allows 11 characters so a CPR number typed with its dash
+// (ddmmyy-xxxx) fits; at 10 the last digit was cut off. Only the dash is taken
+// out, never anything else: a stored number longer than 10 digits (a foreign
+// one) must survive an edit unchanged.
+function cprWithoutDash(value: string): string {
+    return value.replace(/-/g, '')
+}
+
 function updateSocialSecurityNumber(event: Event) {
     const target = event.target as HTMLInputElement
-    state.formCitizen.social_security_number = target.value.replace(/-/g, '')
+    state.formCitizen.social_security_number = cprWithoutDash(target.value)
     autoFillFromSocialSecurityNumber()
+    checkCprAlreadyExists()
+}
+
+// The CPR number last looked up, so an answer that arrives after the number was
+// changed again is dropped instead of shown under the new one.
+let cprLookupFor = ''
+
+const cprMatchName = computed(() =>
+    `${state.cprMatch?.firstname ?? ''} ${state.cprMatch?.lastname ?? ''}`.trim()
+)
+
+/**
+ * On a new citizen, a complete CPR number is looked up in the company, and a
+ * citizen who already has it is named under the field with a link, so staff
+ * open that record instead of creating a second one. Nothing is filled in and
+ * saving is never blocked; a failed lookup just shows nothing.
+ */
+async function checkCprAlreadyExists() {
+    state.cprMatch = null
+
+    const cpr = state.formCitizen.social_security_number
+    if (props.formType !== 'create' || !parseCpr(cpr)) {
+        cprLookupFor = ''
+        return
+    }
+
+    cprLookupFor = cpr
+    try {
+        const response = await citizenService.findCitizenByCpr(cpr)
+        if (cprLookupFor === cpr) state.cprMatch = response?.data ?? null
+    } catch {
+        // Without the warning the form works exactly as before.
+    }
 }
 
 // Set while autoFillFromSocialSecurityNumber() is writing a field itself, so the
