@@ -11055,7 +11055,8 @@
                 "portalSectionForms": "Formularer",
                 "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
-                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem."
+                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
+                "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
