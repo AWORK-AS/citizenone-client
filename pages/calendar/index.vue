@@ -12,8 +12,10 @@
 
             <template #header>{{ $t('events.calendar') }}</template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
-                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                <Tooltip :text="$t('helpGuide.askMiloGeneral')" position="left">
+                    <button type="button" :aria-label="$t('helpGuide.askMiloGeneral')" class="rounded-md hover:bg-slate-100 p-0.5" @click="askMilo()">
+                        <Icon name="ph:question" class="size-6 text-gray-700" aria-hidden="true" />
+                    </button>
                 </Tooltip>
             </template>
 
@@ -107,6 +109,15 @@
                             {{ $t('filter') }}
                         </span>
                     </button>
+                    <Tooltip :text="$t('calendar.onlyMine.help')" position="bottom">
+                        <div class="flex items-center gap-x-2">
+                            <FormSwitch :value="onlyMine" @toggleSwitch="toggleOnlyMine" />
+                            <span class="inline-flex items-center gap-x-1 text-sm text-gray-700">
+                                <Icon name="ph:user-focus" class="h-4 w-4 text-primary" aria-hidden="true" />
+                                {{ $t('calendar.onlyMine.label') }}
+                            </span>
+                        </div>
+                    </Tooltip>
                     <div class="flex items-center gap-x-2">
                         <FormSwitch :value="state.showShifts"
                             @toggleSwitch="state.showShifts = !state.showShifts" />
@@ -139,6 +150,7 @@
                                     <FormSelectMultiple id="citizens_uuid" name="citizens_uuid"
                                         :options="state.options.citizens" v-model="state.formCalendar.citizens_uuid"
                                         @change="changeCitizensUuid" />
+                                    <VisibilityNoCitizensNotice compact />
                                 </div>
                                 <div @click.stop>
                                     <FormLabel for="users_uuid" :label="$t('calendar.employees')" />
@@ -228,20 +240,18 @@
             <ModulesUserCitizenCalendarModalFilter :isModalOpen="state.modal.isFilterCalendarOpen"
                 @close="state.modal.isFilterCalendarOpen = false" @setFilter="setFilter" />
             <ModulesUserMyCalendarMyselfModalNew :isModalOpen="state.modal.isAddEventForMyselfOpen"
-                :selectedDate="state.newEventPresetDate"
+                :selectedDate="state.newEventPresetDate" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
+            <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
-            <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen"
+            <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
 
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
+                @duplicateEvent="duplicateMyCalendarEvent"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
 
-            <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
-                :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourCalendarOpen = false" />
 
             <ModulesUserMyCalendarModalSubscribe :isModalOpen="state.modal.isSubscribeOpen"
                 @close="state.modal.isSubscribeOpen = false" />
@@ -276,6 +286,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
+import { duplicateFields } from '@/composables/calendarEventPresentation'
 // import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
@@ -319,7 +330,6 @@ const state = reactive({
         isAddEventForEmployeeOpen: false,
         isDeleteScheduleOpen: false,
         isEditEventOpen: false,
-        isGuidedTourCalendarOpen: false,
         isFilterCalendarOpen: false,
         isSubscribeOpen: false,
         isEventJournalPromptOpen: false,
@@ -328,6 +338,8 @@ const state = reactive({
     },
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     newEventPresetDate: '',
+    // The event "Duplicate" was clicked on; the new-event modals start from it.
+    duplicateOf: null as any,
     myCalendarEvents: [] as any,
     selectedDate: {
         end_date: '',
@@ -414,6 +426,25 @@ function removeFilterChip(chip: FilterChip) {
     fetchMyCalendarEvents()
 }
 
+// "Only my events": the employee filter set to me alone, nothing else.
+// It is the same filter the participants menu sets, so its chip shows too.
+const onlyMine = computed(() => {
+    const me = userStore.getUser?.uuid
+    const users = state.formCalendar.users_uuid as string[]
+    return !!me && users.length === 1 && users[0] === me
+        && !(state.formCalendar.citizens_uuid as string[]).length
+        && !(state.formCalendar.employee_group_uuid as string[]).length
+})
+
+function toggleOnlyMine() {
+    const me = userStore.getUser?.uuid
+    if (!me) return
+    state.formCalendar.users_uuid = (onlyMine.value ? [] : [me]) as any
+    state.formCalendar.citizens_uuid = []
+    state.formCalendar.employee_group_uuid = []
+    fetchMyCalendarEvents()
+}
+
 function clearAllFilters() {
     state.formCalendar.citizens_uuid = []
     state.formCalendar.users_uuid = []
@@ -464,9 +495,6 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
     }
 })
 
-function openGuidedTour() {
-    state.modal.isGuidedTourCalendarOpen = true
-}
 
 async function fetchAllCitizens() {
     try {
@@ -726,6 +754,20 @@ function openCreateEventModal(date: string) {
     state.modal.isAddEventForMyselfOpen = true
 }
 
+function duplicateMyCalendarEvent(event: any) {
+    const type = duplicateFields(event).type
+    state.modal.isEditEventOpen = false
+    state.newEventPresetDate = ''
+    state.duplicateOf = event
+    if (type === 'citizens') state.modal.isAddEventForCitizenOpen = true
+    else if (type === 'employees') state.modal.isAddEventForEmployeeOpen = true
+    else state.modal.isAddEventForMyselfOpen = true
+}
+
+// A duplicate is a one-off: once its modal closes, "New event" starts empty again.
+watch(() => [state.modal.isAddEventForMyselfOpen, state.modal.isAddEventForCitizenOpen, state.modal.isAddEventForEmployeeOpen],
+    (open) => { if (!open.some(Boolean)) state.duplicateOf = null })
+
 function editMyCalendarEvent(selectedCalendarEvent: any) {
     state.selectedSchedule = selectedCalendarEvent
     state.modal.isEditEventOpen = true
@@ -797,4 +839,12 @@ watchEffect(() => {
     ])
 })
 onUnmounted(() => clearPageCommands())
+
+// Help here is Milo, answering from the help-desk articles. The "?" used to
+// open a video tour recorded on the 2025 interface; it was also a tooltip
+// with a click handler rather than a button, so a keyboard could not reach it.
+const i18nForMilo = useI18n()
+function askMilo() {
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => i18nForMilo.t(`helpGuide.miloQuestions.calendar.${q}`)))
+}
 </script>

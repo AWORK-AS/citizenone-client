@@ -34,11 +34,6 @@
                 <div class="flex flex-wrap items-center justify-between gap-2 py-1">
                     <!-- Left: Year label + toggle -->
                     <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
-                            <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
-                                {{ currentYear }}
-                            </h3>
-                        </div>
                         <div class="hidden lg:block h-4 w-px bg-slate-200" />
                         <label class="flex items-center gap-2 cursor-pointer">
                             <FormSwitch :value="dutyScheduleStore.getShowEmployeesWorkingToday"
@@ -52,11 +47,13 @@
                     <!-- Right: Filter / Sort / Entries / Search -->
                     <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
                         <!-- Filter -->
-                        <button v-if="hasManageFavoritesAccess" class="flex items-center gap-x-1 text-sm text-primary group"
+                        <Tooltip v-if="hasManageFavoritesAccess" :text="$t('dutySchedules.favorites.manageFavorites')">
+                            <button :aria-label="$t('dutySchedules.favorites.manageFavorites')" class="flex items-center gap-x-1 text-sm text-primary group"
                             @click="state.modal.isManageFavoritesOpen = true">
                             <Icon name="mdi:star-outline" class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                            <span class="group-hover:text-primary-700">{{ $t('dutySchedules.favorites.manageFavorites') }}</span>
+                            <span class="hidden 2xl:inline group-hover:text-primary-700">{{ $t('dutySchedules.favorites.manageFavorites') }}</span>
                         </button>
+                        </Tooltip>
                         <button class="flex items-center gap-x-1 text-sm text-primary group"
                             @click="state.modal.isFilterDutyScheduleOpen = true">
                             <Icon name="ic:outline-filter-list"
@@ -81,10 +78,11 @@
                         </Tooltip>
 
                         <!-- Entries per page -->
-                        <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
+                        <Tooltip :text="$t('entriesPerPage')">
+                        <div class="bg-white border border-gray-200 rounded-md px-2 h-8 flex items-center text-xs text-gray-600">
                             <div class="flex items-center gap-x-1">
-                                <span>{{ $t('entriesPerPage') }}:</span>
-                                <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                <Icon name="ph:rows" class="h-4 w-4" aria-hidden="true" />
+                                <select class="focus:outline-none bg-transparent text-xs" :aria-label="$t('entriesPerPage')" @change="changePageLength"
                                     id="yearPageLength">
                                     <option value="10" :selected="dutyScheduleStore.getCurrentPageLength === '10'">10
                                     </option>
@@ -111,10 +109,11 @@
                                 </select>
                             </div>
                         </div>
+                        </Tooltip>
 
                         <!-- Search -->
                         <div
-                            class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-8 [&_button]:!h-8 [&_form]:!h-8 [&_input]:!text-xs">
                             <TableSearch type="duty-schedule" @search="handleSearch"
                                 :placeholder="$t('dutySchedules.findEmployee')" />
                         </div>
@@ -606,9 +605,9 @@
                                                         </div>
                                                     </Teleport>
                                                 </div>
-                                                <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(getShiftsForEmployeeDay(monthMeta.key, employee.uuid, moment(day).format('YYYY-MM-DD')))"
+                                                <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(getShiftsForEmployeeDay(monthMeta.key, employee.uuid, moment(day).format('YYYY-MM-DD'))).slice(0, visibleShiftCount(monthMeta.key, day, employeeIndex as number))"
                                                     :key="'s-' + monthMeta.key + '-' + employeeIndex + '-' + shiftIndex"
-                                                    :class="['rounded-xl relative cursor-pointer !mt-4 overflow-visible shadow-sm hover:shadow-md transition-all', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
+                                                    :class="['rounded-xl relative cursor-pointer !mt-2 overflow-visible shadow-sm hover:shadow-md transition-all', shift.is_conflict ? 'ring-2 ring-red-400' : '']"
                                                     :style="{ backgroundColor: shift?.type?.color }"
                                                     @click.stop="editSchedule(employee, employeeIndex as number, shift)">
 
@@ -767,6 +766,23 @@
                                                     </div>
                                                 </div>
                                             </template>
+                                            <!-- A day shows MAX_DAY_SHIFTS across everyone, then "+N". -->
+                                            <Tooltip v-if="hiddenShiftCount(monthMeta.key, day) > 0" class="!block w-full [&>div]:w-full"
+                                                :text="$t('dutySchedules.moreShifts', { count: hiddenShiftCount(monthMeta.key, day) })">
+                                                <button type="button"
+                                                    :aria-label="$t('dutySchedules.moreShifts', { count: hiddenShiftCount(monthMeta.key, day) })"
+                                                    class="relative z-20 w-full rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold py-1"
+                                                    @click.stop="toggleDay(monthMeta.key, day)">
+                                                    +{{ hiddenShiftCount(monthMeta.key, day) }}
+                                                </button>
+                                            </Tooltip>
+                                            <Tooltip v-else-if="isDayExpanded(monthMeta.key, day)" class="!block w-full [&>div]:w-full" :text="$t('dutySchedules.showFewerShifts')">
+                                            <button type="button" :aria-label="$t('dutySchedules.showFewerShifts')"
+                                                class="relative z-20 w-full block text-primary text-xs hover:text-primary-700 py-0.5"
+                                                @click.stop="toggleDay(monthMeta.key, day)">
+                                                {{ $t('showLess') }}
+                                            </button>
+                                            </Tooltip>
                                         </div>
                                     </template>
                                     <template v-else>
@@ -954,6 +970,8 @@ function isCurrentMonth(monthMeta: any) {
 // State
 // ============================================================
 const state = reactive({
+    // Days opened past the shift cap, keyed `${monthKey}|YYYY-MM-DD`.
+    expandedDays: {} as Record<string, boolean>,
     copy: {
         selectedEmployeeDailySchedule: {} as any,
         selectedWeek: null as any,
@@ -1073,6 +1091,59 @@ const filteredEmployeesForModal = computed(() => {
 // ============================================================
 // Data helpers
 // ============================================================
+// ── Day shift cap ─────────────────────────────────────────────────────────────
+// A day cell lists every employee's shifts: with seven test employees the half
+// year was 26,533px - 34 screens. A day shows this many across everyone, then
+// "+N". Counted once per render for every day of every month.
+const MAX_DAY_SHIFTS = 3
+
+const dayCapKey = (monthKey: string, day: any) => `${monthKey}|${moment(day).format('YYYY-MM-DD')}`
+
+function isDayExpanded(monthKey: string, day: any) {
+    return !!state.expandedDays[dayCapKey(monthKey, day)]
+}
+
+function toggleDay(monthKey: string, day: any) {
+    const key = dayCapKey(monthKey, day)
+    state.expandedDays[key] = !state.expandedDays[key]
+}
+
+// Per month and day: how many of each employee's shifts to show, in render
+// order - always a prefix, so shiftIndex keeps meaning the same shift.
+const visibleCountsByDay = computed(() => {
+    const result: Record<string, { counts: number[], hidden: number }> = {}
+    Object.entries(state.monthDataMap ?? {}).forEach(([monthKey, month]: [string, any]) => {
+        const rows = month?.data ?? []
+        const dates = new Set<string>()
+        rows.forEach((row: any) => Object.keys(row?.days ?? {}).forEach((date) => dates.add(date)))
+        dates.forEach((date) => {
+            const key = `${monthKey}|${date}`
+            const lengths = rows.map((row: any) => row?.days?.[date]?.shifts?.length ?? 0)
+            const total = lengths.reduce((sum: number, n: number) => sum + n, 0)
+            if (state.expandedDays[key] || total <= MAX_DAY_SHIFTS) {
+                result[key] = { counts: lengths, hidden: 0 }
+                return
+            }
+            let budget = MAX_DAY_SHIFTS - 1
+            const counts = lengths.map((n: number) => {
+                const shown = Math.min(n, budget)
+                budget -= shown
+                return shown
+            })
+            result[key] = { counts, hidden: total - counts.reduce((sum: number, n: number) => sum + n, 0) }
+        })
+    })
+    return result
+})
+
+function visibleShiftCount(monthKey: string, day: any, employeeIndex: number) {
+    return visibleCountsByDay.value[dayCapKey(monthKey, day)]?.counts[employeeIndex] ?? Infinity
+}
+
+function hiddenShiftCount(monthKey: string, day: any) {
+    return visibleCountsByDay.value[dayCapKey(monthKey, day)]?.hidden ?? 0
+}
+
 function getMonthEmployees(monthKey: string): any[] {
     return state.monthDataMap[monthKey]?.data ?? []
 }

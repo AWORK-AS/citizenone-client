@@ -1442,6 +1442,14 @@
         "featured": "Featured"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Duplicate",
+            "help": "Creates a new event with the same title, description, participants and tags. You choose the date and time."
+        },
+        "onlyMine": {
+            "label": "Only mine",
+            "help": "Shows only events you own or are invited to"
+        },
         "shortcuts": {
             "view": "{view} (press {key})",
             "today": "Go to today (press T)",
@@ -4697,6 +4705,24 @@
     },
     "dutySchedules": {
         "allDay": "All day",
+        "groups": {
+            "collapse": "Collapse department",
+            "conflicts": "{count} conflicts",
+            "employees": "{count} staff",
+            "expand": "Expand department",
+            "noDepartment": "No department",
+            "shifts": "{count} shifts"
+        },
+        "moreShifts": "{count} more shifts – click to show all",
+        "optimizedNotice": {
+            "title": "The duty schedule is easier to read",
+            "compact": "Shifts take less room, and a day shows the first few – click +N for the rest.",
+            "groups": "On All departments, staff are grouped by department, with yours first.",
+            "tooltips": "Hover over a button to see what it does.",
+            "dismiss": "Got it",
+            "dismissTooltip": "Close this message – it will not show again"
+        },
+        "showFewerShifts": "Show only the first shifts",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"
@@ -8132,6 +8158,36 @@
     "guidedTour": "Guided tour",
     "helpGuide": {
         "scheduleTitle": "Help & Guide - Schedule",
+        "askMilo": "Ask Milo",
+        "askMiloTooltip": "Ask Milo about the duty schedule",
+        "askMiloGeneral": "Ask Milo if you need help",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "How do I copy a week to the next week?",
+                "q2": "What does +N on a day mean?",
+                "q3": "How do I approve a shift swap?"
+            },
+            "calendar": {
+                "q1": "How do I create a recurring appointment?",
+                "q2": "How do I show only my own appointments?",
+                "q3": "How do I delete the rest of a series?"
+            },
+            "overview": {
+                "q1": "How do I choose which boxes I see?",
+                "q2": "Why are some boxes locked?",
+                "q3": "What is the shift summary?"
+            },
+            "citizens": {
+                "q1": "How do I create a new {citizen}?",
+                "q2": "How do I archive a {citizen}?",
+                "q3": "How do I find a {citizen} by CPR number?"
+            },
+            "employees": {
+                "q1": "How do I invite a new employee?",
+                "q2": "How do I archive an employee?",
+                "q3": "How do I give an employee access to a department?"
+            }
+        },
         "title": "Help & Guide"
     },
     "hideAll": "Hide all",
@@ -10421,6 +10477,17 @@
         "resetPassword": "Reset password",
         "strongPasswordSub": "Use at least 8 characters with numbers and symbols",
         "strongPasswordTitle": "Create a strong password"
+    },
+    "citizenVisibility": {
+        "notice": "You are not linked to any department, @:terms.citizens{''} or employee group, so you cannot see any @:terms.citizens{''} yet. Please contact your manager.",
+        "noticeHelp": "Staff see @:terms.citizens{''} in their own departments, @:terms.citizens{''} assigned to them, and @:terms.citizens{''} through their employee groups. Your manager can add you to a department or assign @:terms.citizens{''} to you.",
+        "noticeHelpLabel": "Why can I not see any @:terms.citizens{''}?",
+        "levelAll": "Sees every @:terms.citizen{''} in the company",
+        "levelLimited": "Sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups (or all, if the company does not use departments)",
+        "levelHelp": "The level decides which @:terms.citizens{''} the role can see. @:roles.table.manager and above see every @:terms.citizen{''} in the company. @:roles.table.regular sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups. If the company does not use departments, everyone sees all @:terms.citizens{''}.",
+        "levelHelpLabel": "What does the level mean?",
+        "badgeAll": "All @:terms.citizens{''}",
+        "badgeLimited": "Own @:terms.citizens{''}"
     },
     "roles": {
         "addNewRole": "Add new role",

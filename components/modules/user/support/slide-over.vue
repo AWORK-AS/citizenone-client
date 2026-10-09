@@ -131,10 +131,6 @@
                                     :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
                                     @close="state.modal.isGuidedTourCalendarOpen = false" @back="handleBackGuidedTour"
                                     @next="handleNextGuidedTour" />
-                                <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
-                                    :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="true"
-                                    @close="state.modal.isGuidedTourDutyScheduleOpen = false"
-                                    @back="handleBackGuidedTour" @next="handleNextGuidedTour" />
                                 <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
                                     :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
                                     @close="state.modal.isGuidedTourEmployeesOpen = false" @back="handleBackGuidedTour"
@@ -172,7 +168,6 @@ const state = reactive({
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
-        isGuidedTourDutyScheduleOpen: false,
         isGuidedTourEmployeesOpen: false,
         isGuidedTourEndOpen: false,
         isGuidedTourWelcomeOpen: false,
@@ -196,13 +191,11 @@ function handleBackGuidedTour(back: any) {
         state.modal.isGuidedTourCalendarOpen = false
         state.modal.isGuidedTourCitizensOverviewOpen = true
     }
+    // The duty-schedule step showed a video of the 2025 interface; the tour
+    // goes from the calendar straight to employees.
     if (back === 'calendar') {
-        state.modal.isGuidedTourDutyScheduleOpen = false
-        state.modal.isGuidedTourCalendarOpen = true
-    }
-    if (back === 'duty-schedule') {
         state.modal.isGuidedTourEmployeesOpen = false
-        state.modal.isGuidedTourDutyScheduleOpen = true
+        state.modal.isGuidedTourCalendarOpen = true
     }
     if (back === 'employees') {
         state.modal.isGuidedTourEndOpen = false
@@ -223,12 +216,8 @@ function handleNextGuidedTour(next: any) {
         state.modal.isGuidedTourCitizensOverviewOpen = false
         state.modal.isGuidedTourCalendarOpen = true
     }
-    if (next === 'duty-schedule') {
-        state.modal.isGuidedTourCalendarOpen = false
-        state.modal.isGuidedTourDutyScheduleOpen = true
-    }
     if (next === 'employees') {
-        state.modal.isGuidedTourDutyScheduleOpen = false
+        state.modal.isGuidedTourCalendarOpen = false
         state.modal.isGuidedTourEmployeesOpen = true
     }
     if (next === 'end') {
