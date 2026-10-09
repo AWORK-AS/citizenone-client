@@ -2278,6 +2278,7 @@
             "selectedLocation": "Selected Location",
             "autoFilledFromSsn": "Filled in from the CPR number",
             "selectGender": "Select gender",
+            "selectOrTypeGender": "Select or type a gender",
             "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
             "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
@@ -5537,6 +5538,7 @@
             },
             "numberOfShifts": "Number of shifts",
             "offerNewTime": "Offer new time",
+            "offeredShiftsOnDay": "Offered shifts you can take: {count}",
             "opportunityForAShift": "Opportunity for a shift",
             "scheduleSlots": "Schedule slots",
             "table": {

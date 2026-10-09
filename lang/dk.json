@@ -2278,6 +2278,7 @@
             "selectedLocation": "Valgt placering",
             "autoFilledFromSsn": "Udfyldt ud fra CPR",
             "selectGender": "Vælg køn",
+            "selectOrTypeGender": "Vælg eller skriv et køn",
             "spokenLanguages": "Sprog @:terms.citizenDefinite{''} taler",
             "spokenLanguagesDescription": "Vælg de sprog, @:terms.citizenDefinite{''} kan tale. Det er ikke det samme som systemets sprog.",
             "ssnPlaceholder": "ddmmåå-xxxx",
@@ -5537,6 +5538,7 @@
             },
             "numberOfShifts": "Antal vagter",
             "offerNewTime": "Udbyd nye vagter",
+            "offeredShiftsOnDay": "Udbudte vagter, du kan tage: {count}",
             "opportunityForAShift": "Mulighed for en vagt",
             "scheduleSlots": "Udbyd vagter",
             "table": {

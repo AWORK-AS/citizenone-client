@@ -4,6 +4,7 @@
         :canClear="props.canClear" :canDeselect="props.canDeselect" :no-options-text="$t('theListIsEmpty')"
         :noResultsText="$t('noResultFound')"
         :appendToBody="props.appendToBody"
+        :createOption="props.createOption"
         :modelValue="props.modelValue" @update:modelValue="$emit('update:modelValue', $event)" />
 </template>
 
@@ -26,6 +27,12 @@ const props = defineProps({
     canDeselect: {
         type: Boolean,
         default: true
+    },
+    // Lets the user type a value that is not in the list and pick it, e.g. a
+    // new gender. Off unless asked for, so every other dropdown is unchanged.
+    createOption: {
+        type: Boolean,
+        default: false
     },
     modelValue: {
         default: null

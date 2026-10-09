@@ -2278,6 +2278,7 @@
             "selectedLocation": "Vald placering",
             "autoFilledFromSsn": "Ifyllt från CPR-numret",
             "selectGender": "Välj kön",
+            "selectOrTypeGender": "Välj eller skriv ett kön",
             "spokenLanguages": "Språk medborgaren talar",
             "spokenLanguagesDescription": "Välj de språk medborgaren kan tala. Det är inte samma sak som systemets språk.",
             "ssnPlaceholder": "ddmmåå-xxxx",
@@ -5482,6 +5483,7 @@
             },
             "numberOfShifts": "Antal pass",
             "offerNewTime": "Udbyd nya pass",
+            "offeredShiftsOnDay": "Utlysta pass du kan ta: {count}",
             "opportunityForAShift": "Mulighed för en pass",
             "scheduleSlots": "Udbyd pass",
             "table": {

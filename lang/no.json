@@ -2278,6 +2278,7 @@
             "selectedLocation": "Valgt plassering",
             "autoFilledFromSsn": "Fylt ut fra CPR-nummeret",
             "selectGender": "Velg kjønn",
+            "selectOrTypeGender": "Velg eller skriv et kjønn",
             "spokenLanguages": "Språk borgeren snakker",
             "spokenLanguagesDescription": "Velg språkene borgeren kan snakke. Dette er ikke det samme som systemspråket.",
             "ssnPlaceholder": "ddmmåå-xxxx",
@@ -5482,6 +5483,7 @@
             },
             "numberOfShifts": "Antall vakter",
             "offerNewTime": "Udbyd nye vakter",
+            "offeredShiftsOnDay": "Utlyste vakter du kan ta: {count}",
             "opportunityForAShift": "Mulighet for en vakt",
             "scheduleSlots": "Udbyd vakter",
             "table": {
