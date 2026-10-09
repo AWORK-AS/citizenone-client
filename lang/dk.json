@@ -10723,6 +10723,8 @@
                 "relativeChatContactPersons": "Pårørende kan skrive til @:terms.citizenDefinite{'s'} tilknyttede kontaktpersoner",
                 "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
                 "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
+                "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
+                "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
                 "groupPortalAccess": "Portaladgang",
                 "portalAccessHint": "Vælg hvad pårørende, tredjeparter og @:terms.citizens{''} kan se i deres egen portal",
