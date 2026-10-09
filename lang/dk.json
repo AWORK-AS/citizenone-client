@@ -946,6 +946,10 @@
             "deleteEmployee": "Er du sikker på, at du vil slette denne medarbejder permanent? Denne handling kan ikke fortrydes."
         },
         "table": {
+            "lastWorkingDay": "Fratrædelsesdato",
+            "canBeDeletedFrom": "Kan slettes fra",
+            "canBeDeleted": "Kan slettes",
+            "readyForDeletion": "Klar til sletning",
             "actions": {
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
@@ -7153,7 +7157,9 @@
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitler",
                 "salaryID": "Løn-ID",
-                "terminationDate": "Opsigelsesdato",
+                "terminationDate": "Fratrædelsesdato",
+                "terminationDateHint": "Vi minder administratorer om, hvornår medarbejderens oplysninger kan slettes (5 år efter denne dato).",
+                "terminationBeforeEmployment": "Fratrædelsesdatoen må ikke ligge før ansættelsesdatoen",
                 "vacationDays": "Feriedage",
                 "weeklyNormHours": "Ugentlige normtimer",
                 "weeks": "Uger",

@@ -946,6 +946,10 @@
             "deleteEmployee": "Er du sikker på at du vil slette denne medarbeideren permanent? Denne handlingen kan ikke angres."
         },
         "table": {
+            "lastWorkingDay": "Siste arbeidsdag",
+            "canBeDeletedFrom": "Kan slettes fra",
+            "canBeDeleted": "Kan slettes",
+            "readyForDeletion": "Klar for sletting",
             "actions": {
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
@@ -7153,7 +7157,9 @@
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobbtitler",
                 "salaryID": "Løn-ID",
-                "terminationDate": "Opsigelsesdato",
+                "terminationDate": "Siste arbeidsdag",
+                "terminationDateHint": "Vi minner administratorer på når den ansattes opplysninger kan slettes (5 år etter denne datoen).",
+                "terminationBeforeEmployment": "Siste arbeidsdag kan ikke være før ansettelsesdatoen",
                 "vacationDays": "Feriedager",
                 "weeklyNormHours": "Ukentlige normtimer",
                 "weeks": "Uker",
