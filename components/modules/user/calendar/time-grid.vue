@@ -50,7 +50,7 @@
                             :aria-label="ev.title"
                             class="group/ev absolute overflow-hidden rounded-md border-l-2 px-1.5 py-0.5 text-left transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                             :class="[ev.colorClass, ev.completed && 'opacity-70', ev.isNow && 'ring-1 ring-inset ring-red-400']"
-                            :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width }"
+                            :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width, ...ev.tagStyle }"
                             @click.stop="$emit('eventClick', ev.raw)">
                             <span class="flex items-center gap-x-1">
                                 <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
@@ -58,6 +58,9 @@
                                 <!-- A journal note has been written from this booking. -->
                                 <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
                                     :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
+                                <!-- Ended without its note: write it from here. -->
+                                <ModulesUserMyCalendarNoteNudge v-if="props.noteNudge" compact :event="ev.raw"
+                                    @create="$emit('createJournal', ev.raw)" />
                             </span>
                             <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
                                 {{ ev.timeLabel }}
@@ -71,14 +74,17 @@
 </template>
 
 <script setup lang="ts">
+import { eventTagColor, tintColor } from '@/composables/calendarEventPresentation'
 import moment from 'moment'
 
 const props = defineProps({
     // Each day: { date:'YYYY-MM-DD', fullDate, isToday, weekdayLabel, dayNumber, events:[raw...] }
     days: { type: Array as any, required: true },
     showHeader: { type: Boolean, default: true },
+    // Show the "note missing" badge on citizen bookings (my calendar only).
+    noteNudge: { type: Boolean, default: false },
 })
-defineEmits(['eventClick', 'dayClick', 'slotDblClick'])
+defineEmits(['eventClick', 'dayClick', 'slotDblClick', 'createJournal'])
 
 const hourHeight = 48
 const hours = Array.from({ length: 24 }, (_, i) => i)
@@ -124,6 +130,11 @@ function colorClass(type: string) {
     return 'border-amber-500 bg-amber-500/10 text-amber-900 hover:bg-amber-500/[0.18]'
 }
 
+function tagStyle(e: any) {
+    const color = eventTagColor(e)
+    return color ? { borderLeftColor: color, backgroundColor: tintColor(color) } : {}
+}
+
 function isNow(e: any) {
     return nowTick.value.isBetween(moment(e.date_time_start), moment(e.date_time_end), null, '[)')
 }
@@ -158,6 +169,8 @@ const laidOut = computed(() => {
                     hasNote: !!c.raw.journal_id,
                     isNow: isNow(c.raw),
                     colorClass: colorClass(c.raw.type),
+                    // The first tag's colour, when the customer gave it one: scan by colour.
+                    tagStyle: tagStyle(c.raw),
                     timeLabel: `${moment(c.raw.date_time_start).format('HH:mm')} – ${moment(c.raw.date_time_end).format('HH:mm')}`,
                     top: c.startMin / 60 * hourHeight,
                     height: Math.max(22, (c.endMin - c.startMin) / 60 * hourHeight - 2),

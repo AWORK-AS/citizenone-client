@@ -55,7 +55,6 @@ async function updateStatus(statusDetails: any) {
 
         let params = {
             date: statusDetails.date,
-            area_type: statusDetails.area_type,
             score: statusDetails.score,
             status: statusDetails.status,
         }

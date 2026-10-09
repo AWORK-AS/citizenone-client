@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Shared documents",
+        "enterPassword": "Enter the password you received from the sender to open the documents.",
+        "password": "Password",
+        "unlock": "Open",
+        "lock": "Close",
+        "sharedBy": "Shared by {name}, {company}",
+        "linkExpires": "The link works until {date}",
+        "folderPath": "Folder path",
+        "view": "View",
+        "download": "Download",
+        "empty": "This folder is empty.",
+        "changeLanguage": "Change language",
+        "somethingWentWrong": "Something went wrong. Please try again."
+    },
+    "comingFunctions": {
+        "title": "Coming functions",
+        "intro": "Here you can see what we're working on and what's coming next in CitizenOne. Missing something? Send us a wish.",
+        "sendWish": "Send a wish",
+        "empty": "There are no coming functions to show right now.",
+        "sections": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Recently released"
+        },
+        "status": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Released"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Export",
         "filters": {
@@ -1442,6 +1473,27 @@
         "featured": "Featured"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Duplicate",
+            "help": "Creates a new event with the same title, description, participants and tags. You choose the date and time."
+        },
+        "onlyMine": {
+            "label": "Only mine",
+            "help": "Shows only events you own or are invited to"
+        },
+        "shortcuts": {
+            "view": "{view} (press {key})",
+            "today": "Go to today (press T)",
+            "previous": "Previous (press ←)",
+            "next": "Next (press →)",
+            "newEvent": "New event for yourself (press N)"
+        },
+        "filters": {
+            "active": "Active filters",
+            "remove": "Remove filter: {label}",
+            "clear": "Clear filters",
+            "clearHelp": "Removes every citizen, employee, group and tag filter"
+        },
         "participants": "Participants",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
@@ -2066,6 +2118,49 @@
                 "template": "Template",
                 "useTemplate": "Use template"
             },
+            "sendLink": {
+                "title": "Send link by email",
+                "fileIntro": "The recipient can view and download this file.",
+                "folderIntro": "The recipient can view and download everything in this folder, including subfolders.",
+                "recipients": "Recipients",
+                "recipientsPlaceholder": "Type an email address and press Enter",
+                "recipientsHelp": "Up to 10 recipients.",
+                "password": "Password",
+                "confirmPassword": "Confirm password",
+                "passwordHelp": "The password is not included in the email. Give it to the recipient another way, e.g. by phone or text message.",
+                "expiresAt": "Link expires",
+                "emailLanguage": "Email language",
+                "message": "Message (optional)",
+                "messagePlaceholder": "Write a message to the recipient",
+                "send": "Send link",
+                "sent": "The link has been sent",
+                "sentLinks": "Sent links",
+                "sentLinksIntro": "Links sent by email from these documents. Revoke a link to stop it working straight away.",
+                "document": "Document",
+                "sentTo": "Sent to",
+                "sentBy": "Sent by",
+                "expires": "Expires",
+                "active": "Active",
+                "expired": "Expired",
+                "copyLink": "Copy link",
+                "linkCopied": "Link copied",
+                "revoke": "Revoke link",
+                "revokeConfirmation": "Revoke this link? The recipients will no longer be able to open it",
+                "revoked": "The link has been revoked",
+                "languages": {
+                    "dk": "Danish",
+                    "en": "English",
+                    "no": "Norwegian",
+                    "sv": "Swedish"
+                },
+                "alert": {
+                    "recipientRequired": "Add at least one email address",
+                    "tooManyRecipients": "You can send to at most 10 recipients",
+                    "passwordMin": "Use at least 8 characters",
+                    "passwordMismatch": "The passwords do not match",
+                    "expiryRange": "Choose a date between today and one year from now"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Access",
@@ -2075,6 +2170,7 @@
                     "edit": "Edit",
                     "move": "Move",
                     "openSelected": "Open selected",
+                    "sendLink": "Send link by email",
                     "share": "Share",
                     "statuses": "Statuses",
                     "unshare": "Unshare",
@@ -3661,7 +3757,9 @@
                     },
                     "date": "Date",
                     "getFromPreviousStatus": "Get data from previous status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Care area",
+                    "careAreaInherited": "Inherited from the health case"
                 },
                 "newStatus": "New status",
                 "statuses": "Statuses",
@@ -3726,7 +3824,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Title of the treatment"
             },
-            "treatments": "Treatments"
+            "treatments": "Treatments",
+            "template": {
+                "observation": "Observation",
+                "assessment": "Assessment",
+                "plan": "Plan",
+                "followUp": "Follow-up"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -4676,6 +4780,24 @@
     },
     "dutySchedules": {
         "allDay": "All day",
+        "groups": {
+            "collapse": "Collapse department",
+            "conflicts": "{count} conflicts",
+            "employees": "{count} staff",
+            "expand": "Expand department",
+            "noDepartment": "No department",
+            "shifts": "{count} shifts"
+        },
+        "moreShifts": "{count} more shifts – click to show all",
+        "optimizedNotice": {
+            "title": "The duty schedule is easier to read",
+            "compact": "Shifts take less room, and a day shows the first few – click +N for the rest.",
+            "groups": "On All departments, staff are grouped by department, with yours first.",
+            "tooltips": "Hover over a button to see what it does.",
+            "dismiss": "Got it",
+            "dismissTooltip": "Close this message – it will not show again"
+        },
+        "showFewerShifts": "Show only the first shifts",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"
@@ -5055,6 +5177,10 @@
             "employmentStatus": "Employment status",
             "tags": "Tags",
             "filterDate": "Filter date",
+            "jobTitles": "Job titles",
+            "sortBy": "Sort by",
+            "sortByJobTitle": "Job title",
+            "sortByName": "Name",
             "filterDateAndTime": "Filter date and time",
             "timeFrom": "Time from",
             "timeTo": "Time to"
@@ -5085,7 +5211,8 @@
             "employeeMarkedUnavailable": "This employee has marked themselves unavailable for this date",
             "sendEmailToEmployee": "Send email to employee",
             "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
-            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app."
+            "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
+            "compensatoryHours": "Compensatory hours used"
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",
@@ -5330,6 +5457,8 @@
                 "amountRequired": "Enter a number of hours greater than 0",
                 "button": "Register payout",
                 "confirmation": "Are you sure you want to register a payout of {amount} hours for {employee}?",
+                "date": "Payout date",
+                "dateHint": "Choose the date the hours were paid out. The payout counts in that month.",
                 "noAccountAssigned": "This employee has no active time account to register a payout against.",
                 "register": "Register payout",
                 "title": "Register payout"
@@ -5535,6 +5664,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Duty schedule",
+            "embed": {
+                "absent": "Absent",
+                "codeCopied": "Copied",
+                "copyCode": "Copy code",
+                "description": "Show this duty schedule on your own website, for example your intranet. Anyone who can see that page can see the schedule, without a password. It shows names, job titles and shift times. Notes, citizens and the reason for an absence are never shown.",
+                "disable": "Turn off embedding",
+                "disableHelp": "The duty schedule disappears from every website it is embedded on. If you turn it on again, you get a new code.",
+                "disabled": "Embedding turned off",
+                "embed": "Embed",
+                "embedCode": "Embed code",
+                "embedCodeHelp": "Paste this code into your website where the duty schedule should appear.",
+                "embedded": "Embedded",
+                "enable": "Turn on embedding",
+                "enabled": "Embedding turned on",
+                "nextWeek": "Next week",
+                "noShifts": "No shifts this week",
+                "openPreview": "Open preview",
+                "previousWeek": "Previous week",
+                "title": "Embed on website",
+                "unavailable": "This duty schedule is not available.",
+                "unavailableHelp": "This can happen if:",
+                "unavailableReasonOff": "embedding has been turned off",
+                "unavailableReasonNewCode": "the schedule has a new embed code that has not been added to this page yet",
+                "unavailableReasonExpired": "the shared link has expired or been deleted",
+                "unavailableContact": "Contact the person who manages your duty schedule."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Duty schedule successfully shared",
@@ -5602,6 +5757,8 @@
         "showEmployeesWorkingToday": "Show employees working today",
         "showTheDistributionOfShiftTypes": "Show the distribution of shift types",
         "sort": {
+            "firstShiftActive": "Sorted by who starts first this day. Click to turn off",
+            "sortByFirstShift": "Sort by who starts first this day",
             "sortNamesInAscendingOrder": "Sort names in ascending order",
             "sortNamesInDescendingOrder": "Sort names in descending order"
         },
@@ -6639,7 +6796,12 @@
                 "created": "Created",
                 "published": "Published",
                 "updated": "Updated",
-                "deleted": "Deleted"
+                "deleted": "Deleted",
+                "compensatory_time_requested": "Compensatory time requested",
+                "compensatory_time_approved": "Compensatory time approved",
+                "compensatory_time_declined": "Compensatory time declined",
+                "compensatory_time_withdrawn": "Compensatory time withdrawn",
+                "compensatory_time_reversed": "Compensatory time reversed"
             }
         },
         "salaryDk_sync": "Sync to Salary",
@@ -7185,6 +7347,12 @@
         "calendar": "Calendar",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Show shifts",
+        "loadFailed": {
+            "title": "The calendar couldn't be loaded",
+            "message": "Your events aren't gone. We just couldn't fetch them right now. Try again in a moment.",
+            "retry": "Try again",
+            "retryHelp": "Loads the calendar again for the period you're looking at."
+        },
         "shiftLabel": "Shift",
         "confirmation": {
             "deleteConfirmation": "Are you sure you want to delete this event",
@@ -7238,6 +7406,10 @@
         "markAsNotCompleted": "Mark as not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
         "linkedNote": "Linked @:terms.journalNote{''}: {title}",
+        "noteNudge": {
+            "label": "Note missing",
+            "help": "The booking has ended but no journal note has been written yet. Click to write it."
+        },
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"
@@ -7721,6 +7893,18 @@
         "title": "Form Field Configuration"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Shared",
+            "fromCommunityBadge": "From CitizenOne community",
+            "chooseFrom": "Choose from",
+            "ourTemplates": "Our templates",
+            "pickerHint": "Templates shared by other CitizenOne organisations. The one you pick is copied to your templates, where you can edit it.",
+            "pickerEmpty": "No templates have been shared in your language yet.",
+            "searchTemplates": "Search templates…",
+            "optionLabel": "CitizenOne community",
+            "share": "Share with CitizenOne community",
+            "shareHint": "A copy of this template, as it is when you save, becomes available to all CitizenOne companies using the same language. Later changes are not shared. Make sure the template contains no personal data."
+        },
         "addNewQuestion": "Add new question",
         "addOption": "Add option",
         "alert": {
@@ -8049,6 +8233,36 @@
     "guidedTour": "Guided tour",
     "helpGuide": {
         "scheduleTitle": "Help & Guide - Schedule",
+        "askMilo": "Ask Milo",
+        "askMiloTooltip": "Ask Milo about the duty schedule",
+        "askMiloGeneral": "Ask Milo if you need help",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "How do I copy a week to the next week?",
+                "q2": "What does +N on a day mean?",
+                "q3": "How do I approve a shift swap?"
+            },
+            "calendar": {
+                "q1": "How do I create a recurring appointment?",
+                "q2": "How do I show only my own appointments?",
+                "q3": "How do I delete the rest of a series?"
+            },
+            "overview": {
+                "q1": "How do I choose which boxes I see?",
+                "q2": "Why are some boxes locked?",
+                "q3": "What is the shift summary?"
+            },
+            "citizens": {
+                "q1": "How do I create a new {citizen}?",
+                "q2": "How do I archive a {citizen}?",
+                "q3": "How do I find a {citizen} by CPR number?"
+            },
+            "employees": {
+                "q1": "How do I invite a new employee?",
+                "q2": "How do I archive an employee?",
+                "q3": "How do I give an employee access to a department?"
+            }
+        },
         "title": "Help & Guide"
     },
     "hideAll": "Hide all",
@@ -9173,6 +9387,8 @@
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "newWishes": "New wishes",
+        "comingFunctions": "Coming functions",
         "reminders": "Reminders",
         "settings": "Settings",
         "subscription": "Subscription",
@@ -10339,6 +10555,17 @@
         "strongPasswordSub": "Use at least 8 characters with numbers and symbols",
         "strongPasswordTitle": "Create a strong password"
     },
+    "citizenVisibility": {
+        "notice": "You are not linked to any department, @:terms.citizens{''} or employee group, so you cannot see any @:terms.citizens{''} yet. Please contact your manager.",
+        "noticeHelp": "Staff see @:terms.citizens{''} in their own departments, @:terms.citizens{''} assigned to them, and @:terms.citizens{''} through their employee groups. Your manager can add you to a department or assign @:terms.citizens{''} to you.",
+        "noticeHelpLabel": "Why can I not see any @:terms.citizens{''}?",
+        "levelAll": "Sees every @:terms.citizen{''} in the company",
+        "levelLimited": "Sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups (or all, if the company does not use departments)",
+        "levelHelp": "The level decides which @:terms.citizens{''} the role can see. @:roles.table.manager and above see every @:terms.citizen{''} in the company. @:roles.table.regular sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups. If the company does not use departments, everyone sees all @:terms.citizens{''}.",
+        "levelHelpLabel": "What does the level mean?",
+        "badgeAll": "All @:terms.citizens{''}",
+        "badgeLimited": "Own @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Add new role",
         "alert": {
@@ -10708,6 +10935,8 @@
                 "bookingNoteNotificationsHint": "A @:terms.journalNote{''} created from a booking in the calendar notifies @:terms.citizenDefinite{''}'s departments and the colleagues tagged in it, like other @:terms.journalNotes{''}",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
                 "certificateReminderAllRecipientsHint": "Reminders about an expiring certificate go by email and in the bell to every admin and to the employee it belongs to. When off, one admin gets the email",
+                "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
+                "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
@@ -10731,6 +10960,7 @@
                 "interventionNotificationHours": "Intervention notification hours",
                 "employmentWeeklyHours": "Weekly work hours (Employment Services billing)",
                 "employmentWeeklyHoursHint": "Used to convert hourly billing rates into a weekly price. Leave blank to use the default of 37 hours/week.",
+                "dutyScheduleSortFirstShift": "Sort the duty schedule by who starts first (instead of alphabetically)",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "compensatoryTimeEnabled": "Enable compensatory time requests",
                 "lockPastSchedules": "Lock past schedules",
@@ -10835,7 +11065,8 @@
                 "portalSectionForms": "Forms",
                 "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
-                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them."
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
+                "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -10968,6 +11199,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
@@ -11049,6 +11281,29 @@
             "how1": "Click “Connect to e-conomic”.",
             "how2": "Approve access in e-conomic (App Connect).",
             "how3": "You are returned here. Invoices can then be sent to e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send invoices from CitizenOne to Dinero as bookkeeping vouchers.",
+            "adminOnly": "Only administrators can manage the Dinero connection.",
+            "notPurchased": "The Dinero app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "The Client ID Dinero issued you",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "The Client Secret Dinero issued you",
+            "apiKeyLabel": "Dinero API key",
+            "apiKeyPlaceholder": "Paste the API key from your Dinero organization",
+            "howTitle": "How to connect",
+            "how1": "In Dinero, go to Settings → Integrations and request a personal integration to get a Client ID, Client Secret and API key for this organization.",
+            "how2": "Paste all three here and click “Connect”.",
+            "how3": "Once connected, invoices can be sent to Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk integration",
@@ -11181,6 +11436,10 @@
             "economic": {
                 "title": "What does e-conomic do?",
                 "body": "Send invoices and vouchers on to your accounting system, so the figures are only typed once."
+            },
+            "dinero": {
+                "title": "What does Dinero do?",
+                "body": "Send invoices on to Dinero as bookkeeping vouchers, so the figures are only typed once."
             },
             "fst": {
                 "title": "What is FindSocialeTilbud.dk?",
@@ -11535,6 +11794,34 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "The functions all users see under \"Coming functions\" in the profile menu. Only published items are shown.",
+            "newItem": "New item",
+            "editItem": "Edit item",
+            "noItems": "No items with this status.",
+            "dragHint": "Drag the items to change the order users see them in.",
+            "published": "Published",
+            "draft": "Draft",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "deleteConfirm": "Are you sure you want to delete this item?",
+            "visibleToEveryone": "Visible to all industries",
+            "visibleToIndustries": "Only visible to the selected industries",
+            "releasedOn": "Released {date}",
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "descriptionHint": "Write for users: what the function does and how it helps them.",
+                "status": "Status",
+                "expectedPeriod": "Expected",
+                "expectedPeriodPlaceholder": "E.g. Q2 2027 or April 2027",
+                "industries": "Industries",
+                "industriesHint": "Leave empty to show the item to all industries.",
+                "published": "Show to users",
+                "publishedHint": "Drafts are only visible here in superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Accounts",
             "alert": {
@@ -12702,6 +12989,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App categories",
             "companies": "Companies",
@@ -14245,7 +14533,14 @@
     },
     "timeRegistration": {
         "checkIn": "Check in",
-        "checkOut": "Check out"
+        "checkOut": "Check out",
+        "shiftEndPrompt": {
+            "title": "Shift ended",
+            "question": "Are you still working?",
+            "message": "Your shift ended at {time}.",
+            "yes": "Yes, still working",
+            "no": "No, stop timer"
+        }
     },
     "units": {
         "addNewUnit": "Add new unit",
@@ -14290,7 +14585,8 @@
     "validation": {
         "invalidNumber": "Invalid number",
         "invalidEmailAddress": "Invalid email address",
-        "thisFieldIsRequired": "This field is required"
+        "thisFieldIsRequired": "This field is required",
+        "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
         "emailVerified": "Email verified",
@@ -14396,7 +14692,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Template successfully saved",
                 "templateSuccessfullyUpdated": "Template successfully updated"
-            }
+            },
+            "descriptionTemplate": "Health case description template",
+            "descriptionTemplateHint": "Pre-filled in the description when a health case is created with this template.",
+            "statusTemplate": "Status update template",
+            "statusTemplateHint": "Pre-filled when a status update is created on a health case with this template."
         },
         "table": {
             "name": "Name",
@@ -16112,6 +16412,7 @@
             "recipientPlaceholder": "Recipient (otherwise the department e-mail)",
             "sendEmail": "Send by e-mail",
             "pushEconomic": "Send to e-conomic as draft",
+            "pushDinero": "Send to Dinero as voucher",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -16131,6 +16432,9 @@
                 "invoice_not_found": "The invoice was not found",
                 "customer_failed": "The customer could not be created in e-conomic",
                 "invoice_failed": "The draft could not be created in e-conomic",
+                "dinero_not_connected": "Dinero is not connected",
+                "dinero_invoice_not_found": "The invoice was not found",
+                "dinero_voucher_failed": "The voucher could not be created in Dinero",
                 "unknown_action": "Unknown action"
             }
         },
@@ -16971,17 +17275,80 @@
         "sent": "Sent",
         "answered": "Answered",
         "withdraw": "Withdraw",
-        "withdrawConfirm": "The form is removed from the patient portal. Are you sure?",
+        "withdrawConfirm": "The form is withdrawn and the patient can no longer answer it. Are you sure?",
         "withdrawnAlert": "The form was withdrawn",
         "journalNotice": "Answers are placed in the patient journal automatically.",
         "status": {
             "answered": "Answered",
-            "waiting": "Waiting"
+            "waiting": "Waiting",
+            "opened": "Opened",
+            "expired": "Link expired"
         },
         "empty": {
             "title": "No forms sent yet",
             "text": "Send a form for the patient to fill in at home. The answers land in the journal."
-        }
+        },
+        "sendBy": "Send by",
+        "delivery": {
+            "portal": "Patient portal",
+            "email": "Email",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "The patient gets a link and opens the form with their date of birth. The link is valid for 14 days. The answers are placed in the journal and saved as a PDF in the documents.",
+        "email": "Email address",
+        "phone": "Phone number",
+        "birthdayMissing": "The patient has no date of birth on file. Add it to the patient's details before sending a link: the patient uses it to open the form.",
+        "sentAlertLink": "The link was sent to the patient",
+        "resend": "Resend link",
+        "resentAlert": "A new link was sent. The old link no longer works.",
+        "expires": "Link expires",
+        "openDocuments": "See PDF in documents",
+        "consentTemplate": {
+            "create": "No consent form yet? Create one from our template",
+            "created": "The consent form was created. You can edit it under Forms.",
+            "title": "Consent form",
+            "description": "Fill in before your appointment",
+            "fields": {
+                "intro": "Please fill in this form before your appointment. Your answers are only shared with the clinic.",
+                "aboutYou": "About you",
+                "fullName": "Full name",
+                "birthday": "Date of birth",
+                "phone": "Phone number",
+                "treatment": "The treatment",
+                "treatmentDescription": "Treatment and placement on the body",
+                "appointmentDate": "Date of appointment",
+                "health": "Your health",
+                "adult": "Are you 18 years or older?",
+                "conditions": "Do any of these apply to you?",
+                "conditionsDetails": "If you ticked anything above, or take any medicine, tell us more",
+                "consent": "Consent",
+                "risks": "The treatment is permanent. As with any treatment that breaks the skin, there is a risk of infection, allergic reaction and scarring. How the result looks and lasts depends on your skin and on how you look after it afterwards.",
+                "confirmRisks": "Information and risks",
+                "confirmAftercare": "Aftercare",
+                "confirmTruthful": "Health questions",
+                "photos": "May we take photos of the result for our portfolio and social media?",
+                "signature": "Signature: type your full name"
+            },
+            "options": {
+                "yes": "Yes",
+                "no": "No",
+                "allergies": "Allergies (for example latex, nickel, colour pigments or anaesthetics)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsy",
+                "heart": "Heart disease or high blood pressure",
+                "bloodThinners": "Blood-thinning medicine",
+                "skin": "Skin disease or irritation where the treatment will be",
+                "pregnant": "Pregnant or breastfeeding",
+                "alcohol": "Alcohol or drugs within the last 24 hours",
+                "understoodRisks": "I have read and understood the information about the treatment and its risks",
+                "understoodAftercare": "I have been told how to look after the area afterwards",
+                "truthful": "I have answered the health questions truthfully, and I consent to the treatment"
+            }
+        },
+        "viewAnswers": "View answers",
+        "ipAddress": "IP address",
+        "sentVia": "Sent via",
+        "portalUnavailable": "Patient portal is not available: the patient has no access to the portal. Turn on system access in the patient's details to send forms there."
     },
     "pageSettings": {
         "title": "Settings for this page",
@@ -17698,5 +18065,42 @@
     "documentViewer": {
         "notViewableTitle": "Can't open the file",
         "notViewableText": "This file type can't be shown in the browser, and your role doesn't allow downloading documents."
+    },
+    "publicForm": {
+        "title": "Form",
+        "unlock": {
+            "heading": "{company} has sent you a form",
+            "intro": "To protect your information, enter your date of birth to open the form.",
+            "birthday": "Date of birth",
+            "open": "Open the form"
+        },
+        "fill": {
+            "notice": "Your answers are sent to {company} and kept in your record there.",
+            "send": "Send"
+        },
+        "done": {
+            "title": "Thank you",
+            "text": "Your answers have been sent to {company}. You can close this page."
+        },
+        "closed": {
+            "notFound": {
+                "title": "The link is not valid",
+                "text": "Check that you opened the whole link, or contact the clinic for a new one."
+            },
+            "completed": {
+                "title": "The form has already been answered",
+                "text": "Thank you. There is nothing more to do."
+            },
+            "expired": {
+                "title": "The link has expired",
+                "text": "Contact the clinic to get a new link."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "The date of birth does not match. Check it and try again.",
+            "locked": "Too many attempts. Try again in 30 minutes.",
+            "required": "Answer the questions marked with *.",
+            "failed": "Something went wrong. Try again."
+        }
     }
 }

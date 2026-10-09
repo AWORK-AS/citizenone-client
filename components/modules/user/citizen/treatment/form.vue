@@ -147,6 +147,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { treatmentTemplateService } from '@/components/api/user/TreatmentTemplateService'
+import { careAreaOptions } from '@/composables/careAreaOptions'
+import { defaultCareNoteTemplate, isUnfilledTemplate } from '@/composables/careNoteTemplate'
 
 const props = defineProps({
     error: {
@@ -206,20 +208,7 @@ const state = reactive({
     } as any,
     templates: [] as any[],
     options: {
-        area_types: [
-            { value: 'functional_level', label: `${t('citizens.treatments.form.areaTypes.functionalLevel')}` },
-            { value: 'musculoskeletal_system', label: `${t('citizens.treatments.form.areaTypes.musculoskeletalSystem')}` },
-            { value: 'nutrition', label: `${t('citizens.treatments.form.areaTypes.nutrition')}` },
-            { value: 'skin_and_mucous_membranes', label: `${t('citizens.treatments.form.areaTypes.skinAndMucousMembranes')}` },
-            { value: 'communication', label: `${t('citizens.treatments.form.areaTypes.communication')}` },
-            { value: 'psychosocial_conditions', label: `${t('citizens.treatments.form.areaTypes.psychosocialConditions')}` },
-            { value: 'respiration_and_circulation', label: `${t('citizens.treatments.form.areaTypes.respirationAndCirculation')}` },
-            { value: 'sexuality', label: `${t('citizens.treatments.form.areaTypes.sexuality')}` },
-            { value: 'pain_and_sensory_impressions', label: `${t('citizens.treatments.form.areaTypes.painAndSensoryImpressions')}` },
-            { value: 'sleep_and_rest', label: `${t('citizens.treatments.form.areaTypes.sleepAndRest')}` },
-            { value: 'knowledge_and_development', label: `${t('citizens.treatments.form.areaTypes.knowledgeAndDevelopment')}` },
-            { value: 'excretion_of_waste', label: `${t('citizens.treatments.form.areaTypes.excretionOfWaste')}` },
-        ],
+        area_types: careAreaOptions(t),
         scores: [
             { value: 1, label: `1. ${t('citizens.treatments.form.expectedLevels.minorChallenges')}` },
             { value: 2, label: `2. ${t('citizens.treatments.form.expectedLevels.moderateChallenges')}` },
@@ -240,6 +229,26 @@ const templateOptions = computed(() => [
     { value: '', label: t('citizens.treatments.form.selectTemplate') },
     ...state.templates.map((tpl: any) => ({ value: tpl.uuid, label: tpl.name })),
 ])
+
+// Description skeleton to start from: the template's own text, else the built-in O/A/P/F default.
+function activeDescriptionTemplate(): string {
+    return activeTemplate.value?.description_template || defaultCareNoteTemplate(t)
+}
+
+// Only fill the description when it is empty or still holds the last auto-inserted
+// template, so a user's own text is never overwritten when they switch templates.
+let lastAppliedDescriptionTemplate = ''
+function applyDescriptionTemplate() {
+    if (props.formType !== 'create') return
+    const template = activeDescriptionTemplate()
+    const current = state.formTreatment.description ?? ''
+    if (current.trim() === '' || current === lastAppliedDescriptionTemplate) {
+        state.formTreatment.description = template
+        lastAppliedDescriptionTemplate = template
+    }
+}
+
+watch(activeTemplate, () => applyDescriptionTemplate())
 
 // Returns 'required' | 'optional' | null for a given field key
 function getFieldConfig(field: string): string | null {
@@ -266,6 +275,7 @@ onMounted(async () => {
     } else {
         state.formTreatment.is_completed = false
     }
+    applyDescriptionTemplate()
 })
 
 watch(() => props.selectedTreatment, (newValue: any) => {
@@ -307,6 +317,17 @@ function fieldRule(field: string) {
     return {}
 }
 
+function descriptionRule() {
+    const rule: Record<string, any> = fieldRule('description')
+    if (props.formType === 'create' && getFieldConfig('description') === 'required') {
+        rule.template = helpers.withMessage(
+            () => `${t('validation.pleaseCompleteTemplate')}.`,
+            (value: string) => !isUnfilledTemplate(value, activeDescriptionTemplate()),
+        )
+    }
+    return rule
+}
+
 // name is always required unless a template marks it optional; same for completion_date
 function alwaysOrTemplateRule(field: string, templateKey: string) {
     const config = getFieldConfig(templateKey)
@@ -325,7 +346,7 @@ const rules = computed(() => {
                 date_completed: { required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required) },
                 area_type: fieldRule('area_type'),
                 score: fieldRule('score'),
-                description: fieldRule('description'),
+                description: descriptionRule(),
             },
         }
     } else {
@@ -335,7 +356,7 @@ const rules = computed(() => {
                 completion_date: alwaysOrTemplateRule('completion_date', 'completion_date'),
                 area_type: fieldRule('area_type'),
                 score: fieldRule('score'),
-                description: fieldRule('description'),
+                description: descriptionRule(),
             },
         }
     }

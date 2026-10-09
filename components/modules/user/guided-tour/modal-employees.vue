@@ -193,7 +193,7 @@ function navigateToSubscription() {
 }
 
 function handleBack() {
-    emit('back', 'duty-schedule')
+    emit('back', 'calendar')
 }
 
 function handleNext() {

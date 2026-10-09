@@ -24,6 +24,11 @@ const contentSecurityPolicy = [
   "form-action 'self'",
 ].join('; ')
 
+// The duty schedule a company embeds on its own website is the one page meant
+// to sit in another site's <iframe>. server/middleware/embed-framing.ts drops
+// X-Frame-Options for it, since a route rule can only add headers.
+const embedContentSecurityPolicy = contentSecurityPolicy.replace("frame-ancestors 'none'", 'frame-ancestors *')
+
 const securityHeaders = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'SAMEORIGIN',
@@ -70,9 +75,10 @@ export default defineNuxtConfig({
           async: true,
           defer: true,
         },
-        // Google Tag Manager
+        // Google Tag Manager. Not inside the duty schedule embedded on a
+        // customer's website: their visitors are not ours to track.
         {
-          innerHTML: `(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THK4R7KD');`,
+          innerHTML: `if(!location.pathname.startsWith('/embed/duty-schedules/'))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THK4R7KD');`,
           tagPosition: 'head',
         },
       ],
@@ -173,6 +179,9 @@ export default defineNuxtConfig({
     // Audit C-07: security headers on every route.
     '/**': {
       headers: securityHeaders,
+    },
+    '/embed/duty-schedules/**': {
+      headers: { 'Content-Security-Policy-Report-Only': embedContentSecurityPolicy },
     },
     '/fst-register': {
       redirect: { to: '/register', statusCode: 301 },

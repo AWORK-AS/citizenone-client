@@ -345,6 +345,19 @@
                                         {{ $t('settings.company.form.patientChatInboxHint') }}.
                                     </p>
                                 </div>
+                                <!-- A clinic with no phone to call keeps its contact details out of the portal (AW-2026-6183). -->
+                                <div v-if="audience.key === 'patient'"
+                                    class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-1">
+                                    <div class="flex items-center gap-x-2">
+                                        <FormSwitch :value="state.formCompany.patient_portal_hide_clinic_contact"
+                                            @toggleSwitch="state.formCompany.patient_portal_hide_clinic_contact = !state.formCompany.patient_portal_hide_clinic_contact"
+                                            :label="$t('settings.company.form.patientHideClinicContact')" />
+                                        <p>{{ $t('settings.company.form.patientHideClinicContact') }}</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $t('settings.company.form.patientHideClinicContactHint') }}.
+                                    </p>
+                                </div>
                             </div>
                             <ModulesUserSettingsModalPortalPreview :isModalOpen="portalPreview.isOpen"
                                 :audience="portalPreview.audience"
@@ -489,6 +502,13 @@
                                 </p>
                             </div>
                             <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.duty_schedule_default_sort === 'first_shift'"
+                                    @toggleSwitch="state.formCompany.duty_schedule_default_sort = state.formCompany.duty_schedule_default_sort === 'first_shift' ? 'alphabetical' : 'first_shift'" :label="$t('settings.company.form.dutyScheduleSortFirstShift')" />
+                                <p>
+                                    {{ $t('settings.company.form.dutyScheduleSortFirstShift') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.compensatory_time_enabled"
                                     @toggleSwitch="state.formCompany.compensatory_time_enabled = !state.formCompany.compensatory_time_enabled" />
                                 <p>
@@ -585,7 +605,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 6</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 7</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
                             </span>
                         </button>
@@ -602,6 +622,13 @@
                                     v-if="isAtLeast('Admin') || can('update_form_field_config')">
                                     ({{ $t('journalFormConfig.navLabel') }})
                                 </NuxtLink>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.one_journal_note_per_day_enabled"
+                                    @toggleSwitch="state.formCompany.one_journal_note_per_day_enabled = !state.formCompany.one_journal_note_per_day_enabled" :label="$t('settings.company.form.oneJournalNotePerDay')" />
+                                <p>
+                                    {{ $t('settings.company.form.oneJournalNotePerDay') }}
+                                </p>
                             </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.register_transport_enabled"
@@ -895,8 +922,8 @@ const plansCount = computed(() => [
     state.formCompany.edit_goals_enabled,
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
-const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled].filter(Boolean).length)
+const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
+const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -970,6 +997,7 @@ const state = reactive({
         missing_note_reminder_enabled: false,
         booking_note_notifications_enabled: false,
         certificate_reminder_all_recipients_enabled: false,
+        patient_portal_hide_clinic_contact: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
@@ -982,9 +1010,11 @@ const state = reactive({
         lock_shifts_before_date: '' as string,
         transfer_norm_hours_enabled: false,
         is_sort_by_status: false,
+        duty_schedule_default_sort: 'alphabetical',
         compensatory_time_enabled: false,
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
+        one_journal_note_per_day_enabled: false,
         logo: null as File | null,
         should_delete_logo: false,
         register_transport_enabled: false,
@@ -1092,6 +1122,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
+            patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
@@ -1107,9 +1138,11 @@ watch(() => userStore.getUser, (newValue: any) => {
             lock_shifts_before_date: newValue?.company?.lock_shifts_before_date ?? '',
             transfer_norm_hours_enabled: newValue?.company?.transfer_norm_hours_enabled ? true : false,
             is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
+            duty_schedule_default_sort: newValue?.company?.duty_schedule_default_sort ?? 'alphabetical',
             compensatory_time_enabled: newValue?.company?.compensatory_time_enabled ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
+            one_journal_note_per_day_enabled: newValue?.company?.one_journal_note_per_day_enabled ? true : false,
             register_transport_enabled: newValue?.company?.register_transport_enabled ? true : false,
             warning_13_hour_shift_enabled: newValue?.company?.warning_13_hour_shift_enabled !== false,
             warning_11_hour_rest_enabled: newValue?.company?.warning_11_hour_rest_enabled !== false,
@@ -1308,6 +1341,7 @@ async function submitForm() {
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
+                patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
@@ -1323,9 +1357,11 @@ async function submitForm() {
                 lock_shifts_before_date: state.formCompany.is_lock_past_schedules ? (state.formCompany.lock_shifts_before_date || null) : null,
                 transfer_norm_hours_enabled: state.formCompany.transfer_norm_hours_enabled,
                 is_sort_by_status: state.formCompany.is_sort_by_status,
+                duty_schedule_default_sort: state.formCompany.duty_schedule_default_sort,
                 compensatory_time_enabled: state.formCompany.compensatory_time_enabled,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
+                one_journal_note_per_day_enabled: state.formCompany.one_journal_note_per_day_enabled,
                 register_transport_enabled: state.formCompany.register_transport_enabled,
                 warning_13_hour_shift_enabled: state.formCompany.warning_13_hour_shift_enabled,
                 warning_11_hour_rest_enabled: state.formCompany.warning_11_hour_rest_enabled,

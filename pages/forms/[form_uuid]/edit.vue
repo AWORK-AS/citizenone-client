@@ -107,6 +107,7 @@ async function fetchForm() {
                 follow_up_duration: response.data?.follow_up_duration ?? '',
                 show_citizen_profile_data: response.data?.show_citizen_profile_data ?? true,
                 citizen_profile_fields: response.data?.citizen_profile_fields ?? ['citizen_name'],
+                share_with_community: Boolean(response.data?.is_shared_with_community),
                 fields: [],
             }
             response?.data?.form_fields?.forEach((field: any) => {
@@ -136,6 +137,7 @@ async function updateForm(formDetails: any) {
             follow_up_duration: formDetails.follow_up_duration,
             show_citizen_profile_data: formDetails.show_citizen_profile_data,
             citizen_profile_fields: formDetails.citizen_profile_fields,
+            share_with_community: formDetails.share_with_community,
             is_active: true,
         }
         const response = await formService.updateForm(formUuid, params)
