@@ -17,6 +17,15 @@
                             class="rounded-full bg-[#fdf3df] px-2 py-px text-[10px] font-bold text-[#8a6208]">
                             {{ $t('inquiryFields.required') }}
                         </span>
+                        <!-- A scale or risk answer that has changed keeps its earlier
+                             answers, so how the case developed is read where it is
+                             answered. One answer has nothing earlier to show. -->
+                        <button v-if="answerHistory(field).length > 1" type="button"
+                            class="ml-auto inline-flex items-center gap-1 text-[11px] font-semibold text-secondary hover:underline"
+                            :aria-expanded="!!openHistory[field.uuid]" @click="toggleHistory(field)">
+                            <Icon name="ph:clock-counter-clockwise" class="size-3.5" />
+                            {{ $t('inquiryFields.history.previousAnswers') }}
+                        </button>
                     </div>
 
                     <!-- Scale: the whole range visible, so picking 4 of 5 needs no
@@ -128,6 +137,32 @@
                         :placeholder="numericPlaceholder(field)" :modelValue="asText(draft[field.uuid])"
                         @update:modelValue="(value: any) => setValue(field, value)" />
 
+                    <!-- Newest first; the first answer ever given is the baseline. -->
+                    <ul v-if="openHistory[field.uuid] && answerHistory(field).length > 1"
+                        class="mt-2 space-y-1 rounded-lg border border-surface-200 bg-surface-50 px-3 py-2">
+                        <li v-for="entry in answerHistory(field)" :key="entry.uuid"
+                            class="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[12px]">
+                            <span class="inline-flex items-center gap-1.5 font-semibold text-slate-700">
+                                <template v-if="entry.value === null || entry.value === undefined">
+                                    {{ $t('inquiryFields.history.cleared') }}
+                                </template>
+                                <template v-else-if="field.type === 'risk'">
+                                    <span class="size-2 rounded-full" :class="riskLevel(entry.value)?.bg" />
+                                    {{ riskLevel(entry.value)?.label ?? entry.value }}
+                                </template>
+                                <template v-else>{{ formatStep(Number(entry.value)) }}</template>
+                            </span>
+                            <span v-if="entry.is_baseline"
+                                class="rounded-full bg-surface-200 px-2 py-px text-[10px] font-bold text-slate-600">
+                                {{ $t('inquiryFields.history.baseline') }}
+                            </span>
+                            <span class="text-[11px] text-slate-400">
+                                {{ formatDateTimeToReadable(entry.recorded_at) }}
+                                · {{ entry.user_name ?? $t('inquiryFields.history.unknownUser') }}
+                            </span>
+                        </li>
+                    </ul>
+
                     <p v-if="field.help_text" class="mt-1 text-[11px] text-slate-400">
                         {{ field.help_text }}
                     </p>
@@ -159,6 +194,7 @@ import { useI18n } from 'vue-i18n'
 
 const { successAlert, errorAlert } = useAlert()
 const { t, locale } = useI18n()
+const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const props = defineProps({
     inquiryUuid: {
@@ -206,6 +242,23 @@ function normalisedDraft(source: Record<string, any>) {
 
         return carry
     }, {})
+}
+
+// Which fields have their earlier answers open.
+const openHistory = ref<Record<string, boolean>>({})
+
+// A scale or risk field's answers, newest first. A response without them reads
+// as none, so the link just doesn't show.
+function answerHistory(field: any): any[] {
+    return Array.isArray(field.answer_history) ? field.answer_history : []
+}
+
+function toggleHistory(field: any) {
+    openHistory.value = { ...openHistory.value, [field.uuid]: !openHistory.value[field.uuid] }
+}
+
+function riskLevel(value: string) {
+    return RISK_LEVELS.value.find((level) => level.value === value)
 }
 
 function isWide(field: any) {

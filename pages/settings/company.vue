@@ -230,6 +230,13 @@
                                     {{ $t('inquiryPipeline.enableLabel') }}
                                 </p>
                             </div>
+                            <div v-if="hasInquiryPipelineApp" class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.inquiry_answer_history_to_citizen_enabled"
+                                    @toggleSwitch="state.formCompany.inquiry_answer_history_to_citizen_enabled = !state.formCompany.inquiry_answer_history_to_citizen_enabled" :label="$t('settings.company.form.inquiryAnswerHistoryToCitizen')" />
+                                <p>
+                                    {{ $t('settings.company.form.inquiryAnswerHistoryToCitizen') }}
+                                </p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.relative_chat_enabled"
                                     @toggleSwitch="state.formCompany.relative_chat_enabled = !state.formCompany.relative_chat_enabled" :label="$t('settings.company.form.relativeChat')" />
@@ -965,6 +972,7 @@ const state = reactive({
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
+        inquiry_answer_history_to_citizen_enabled: false,
         intervention_checkin_enabled: false,
         change_password_enabled: false,
         plans_enabled: false,
@@ -1086,6 +1094,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
+            // Missing (an older backend) reads as off.
+            inquiry_answer_history_to_citizen_enabled: newValue?.company?.inquiry_answer_history_to_citizen_enabled === true,
             intervention_checkin_enabled: newValue?.company?.intervention_checkin_enabled ? true : false,
             change_password_enabled: newValue?.company?.change_password_enabled ? true : false,
             plans_enabled: newValue?.company?.employee_create_plans_enabled ? true : false,
@@ -1301,6 +1311,7 @@ async function submitForm() {
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,
+                inquiry_answer_history_to_citizen_enabled: state.formCompany.inquiry_answer_history_to_citizen_enabled,
                 intervention_checkin_enabled: state.formCompany.intervention_checkin_enabled,
                 change_password_enabled: state.formCompany.change_password_enabled,
                 employee_create_plans_enabled: state.formCompany.plans_enabled,

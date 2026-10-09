@@ -10912,6 +10912,7 @@
                 "allowPlans": "Allow employees to create plans",
                 "allowSubGoals": "Allow employees to create subgoals",
                 "checkinOut": "Check in/out",
+                "inquiryAnswerHistoryToCitizen": "When an inquiry is converted, carry earlier scale answers and the baseline to the @:terms.citizen{''}",
                 "chooseNotificationDepartments": "Choose which departments you want notifications from",
                 "citizensDisplay": "@.capitalize:terms.citizen{''}'s display",
                 "city": "City",
@@ -16542,6 +16543,12 @@
         "createNew": "Create new",
         "jobcenterName": "Jobcenter name",
         "add": "Add",
+        "history": {
+            "previousAnswers": "Previous answers",
+            "baseline": "Baseline",
+            "cleared": "Cleared",
+            "unknownUser": "Unknown user"
+        },
         "alert": {
             "saved": "The fields were saved",
             "saveFailed": "The fields could not be saved"

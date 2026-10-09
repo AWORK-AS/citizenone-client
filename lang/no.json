@@ -10907,6 +10907,7 @@
                 "allowPlans": "Tillat medarbeidere at opprette planer",
                 "allowSubGoals": "Tillat medarbeidere at opprette delmål",
                 "checkinOut": "Sjekk inn/ut",
+                "inquiryAnswerHistoryToCitizen": "Når en henvendelse konverteres, overføres tidligere svar på skalaer og baseline til @:terms.citizen{''}",
                 "chooseNotificationDepartments": "Velg hvilke avdelinger du vil motta varsler fra",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
                 "city": "By",
@@ -16446,6 +16447,12 @@
         "createNew": "Opprett ny",
         "jobcenterName": "Jobbsenterets navn",
         "add": "Legg til",
+        "history": {
+            "previousAnswers": "Tidligere svar",
+            "baseline": "Baseline",
+            "cleared": "Fjernet",
+            "unknownUser": "Ukjent bruker"
+        },
         "alert": {
             "saved": "Feltene er lagret",
             "saveFailed": "Feltene kunne ikke lagres"

@@ -10907,6 +10907,7 @@
                 "allowPlans": "Tillåt anställda att skapa planer",
                 "allowSubGoals": "Tillåt anställda att skapa delmål",
                 "checkinOut": "Check in/ut",
+                "inquiryAnswerHistoryToCitizen": "När en förfrågan konverteras förs tidigare svar på skalor och baslinjen över till @:terms.citizen{''}",
                 "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
                 "city": "Stad",
@@ -16446,6 +16447,12 @@
         "createNew": "Skapa ny",
         "jobcenterName": "Arbetsförmedlingens namn",
         "add": "Lägg till",
+        "history": {
+            "previousAnswers": "Tidigare svar",
+            "baseline": "Baslinje",
+            "cleared": "Rensat",
+            "unknownUser": "Okänd användare"
+        },
         "alert": {
             "saved": "Fälten har sparats",
             "saveFailed": "Fälten kunde inte sparas"
