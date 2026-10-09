@@ -1,4 +1,19 @@
 {
+    "guestDocuments": {
+        "title": "Shared documents",
+        "enterPassword": "Enter the password you received from the sender to open the documents.",
+        "password": "Password",
+        "unlock": "Open",
+        "lock": "Close",
+        "sharedBy": "Shared by {name}, {company}",
+        "linkExpires": "The link works until {date}",
+        "folderPath": "Folder path",
+        "view": "View",
+        "download": "Download",
+        "empty": "This folder is empty.",
+        "changeLanguage": "Change language",
+        "somethingWentWrong": "Something went wrong. Please try again."
+    },
     "compensatoryPayoutsReport": {
         "export": "Export",
         "filters": {
@@ -2087,6 +2102,49 @@
                 "template": "Template",
                 "useTemplate": "Use template"
             },
+            "sendLink": {
+                "title": "Send link by email",
+                "fileIntro": "The recipient can view and download this file.",
+                "folderIntro": "The recipient can view and download everything in this folder, including subfolders.",
+                "recipients": "Recipients",
+                "recipientsPlaceholder": "Type an email address and press Enter",
+                "recipientsHelp": "Up to 10 recipients.",
+                "password": "Password",
+                "confirmPassword": "Confirm password",
+                "passwordHelp": "The password is not included in the email. Give it to the recipient another way, e.g. by phone or text message.",
+                "expiresAt": "Link expires",
+                "emailLanguage": "Email language",
+                "message": "Message (optional)",
+                "messagePlaceholder": "Write a message to the recipient",
+                "send": "Send link",
+                "sent": "The link has been sent",
+                "sentLinks": "Sent links",
+                "sentLinksIntro": "Links sent by email from these documents. Revoke a link to stop it working straight away.",
+                "document": "Document",
+                "sentTo": "Sent to",
+                "sentBy": "Sent by",
+                "expires": "Expires",
+                "active": "Active",
+                "expired": "Expired",
+                "copyLink": "Copy link",
+                "linkCopied": "Link copied",
+                "revoke": "Revoke link",
+                "revokeConfirmation": "Revoke this link? The recipients will no longer be able to open it",
+                "revoked": "The link has been revoked",
+                "languages": {
+                    "dk": "Danish",
+                    "en": "English",
+                    "no": "Norwegian",
+                    "sv": "Swedish"
+                },
+                "alert": {
+                    "recipientRequired": "Add at least one email address",
+                    "tooManyRecipients": "You can send to at most 10 recipients",
+                    "passwordMin": "Use at least 8 characters",
+                    "passwordMismatch": "The passwords do not match",
+                    "expiryRange": "Choose a date between today and one year from now"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Access",
@@ -2096,6 +2154,7 @@
                     "edit": "Edit",
                     "move": "Move",
                     "openSelected": "Open selected",
+                    "sendLink": "Send link by email",
                     "share": "Share",
                     "statuses": "Statuses",
                     "unshare": "Unshare",

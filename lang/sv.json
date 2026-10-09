@@ -1,4 +1,19 @@
 {
+    "guestDocuments": {
+        "title": "Delade dokument",
+        "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
+        "password": "Lösenord",
+        "unlock": "Öppna",
+        "lock": "Stäng",
+        "sharedBy": "Delat av {name}, {company}",
+        "linkExpires": "Länken fungerar till {date}",
+        "folderPath": "Mappsökväg",
+        "view": "Visa",
+        "download": "Ladda ner",
+        "empty": "Mappen är tom.",
+        "changeLanguage": "Byt språk",
+        "somethingWentWrong": "Något gick fel. Försök igen."
+    },
     "compensatoryPayoutsReport": {
         "export": "Exportera",
         "filters": {
@@ -2087,6 +2102,49 @@
                 "template": "Mall",
                 "useTemplate": "Använd mall"
             },
+            "sendLink": {
+                "title": "Skicka länk via e-post",
+                "fileIntro": "Mottagaren kan visa och ladda ner den här filen.",
+                "folderIntro": "Mottagaren kan visa och ladda ner allt i den här mappen, även undermappar.",
+                "recipients": "Mottagare",
+                "recipientsPlaceholder": "Skriv en e-postadress och tryck på Enter",
+                "recipientsHelp": "Upp till 10 mottagare.",
+                "password": "Lösenord",
+                "confirmPassword": "Bekräfta lösenord",
+                "passwordHelp": "Lösenordet står inte i mejlet. Ge det till mottagaren på annat sätt, t.ex. per telefon eller sms.",
+                "expiresAt": "Länken går ut",
+                "emailLanguage": "Språk i mejlet",
+                "message": "Meddelande (valfritt)",
+                "messagePlaceholder": "Skriv ett meddelande till mottagaren",
+                "send": "Skicka länk",
+                "sent": "Länken har skickats",
+                "sentLinks": "Skickade länkar",
+                "sentLinksIntro": "Länkar som skickats via e-post från de här dokumenten. Återkalla en länk för att stänga den direkt.",
+                "document": "Dokument",
+                "sentTo": "Skickad till",
+                "sentBy": "Skickad av",
+                "expires": "Går ut",
+                "active": "Aktiv",
+                "expired": "Utgången",
+                "copyLink": "Kopiera länk",
+                "linkCopied": "Länken har kopierats",
+                "revoke": "Återkalla länk",
+                "revokeConfirmation": "Återkalla länken? Mottagarna kan då inte längre öppna den",
+                "revoked": "Länken har återkallats",
+                "languages": {
+                    "dk": "Danska",
+                    "en": "Engelska",
+                    "no": "Norska",
+                    "sv": "Svenska"
+                },
+                "alert": {
+                    "recipientRequired": "Lägg till minst en e-postadress",
+                    "tooManyRecipients": "Du kan skicka till högst 10 mottagare",
+                    "passwordMin": "Använd minst 8 tecken",
+                    "passwordMismatch": "Lösenorden matchar inte",
+                    "expiryRange": "Välj ett datum mellan i dag och om ett år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Åtkomst",
@@ -2096,6 +2154,7 @@
                     "edit": "Redigera",
                     "move": "Flytta",
                     "openSelected": "Öppna valda",
+                    "sendLink": "Skicka länk via e-post",
                     "share": "Dela",
                     "statuses": "Statusar",
                     "unshare": "Ta bort delning",
