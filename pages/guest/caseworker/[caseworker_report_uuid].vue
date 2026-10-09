@@ -136,7 +136,8 @@
                         <div v-show="state.activeTab === 'messages'">
                             <ModulesGuestCaseworkerMessagesTab :messages="state.messages"
                                 :caseworkerUuid="sharedCaseworkerUuid" :headerName="chatHeaderName" :companyName="state.dashboard?.config?.company?.name || ''
-                                    " @refresh="fetchMessages" @messageSent="fetchMessages" />
+                                    " :cprWarningEnabled="isChatCprWarningOn(state.dashboard?.config?.company)"
+                                @refresh="fetchMessages" @messageSent="fetchMessages" />
                         </div>
                     </div>
                 </div>
@@ -151,6 +152,7 @@
 <script setup lang="ts">
 import { caseworkerService } from "@/components/api/guest/CaseworkerService"
 import { useAlert } from "@/composables/alert"
+import { isChatCprWarningOn } from "@/composables/chatCprWarning"
 import { useUserStore } from "@/store/user"
 import { useI18n } from "vue-i18n"
 import pusher from "@/services/pusher"
