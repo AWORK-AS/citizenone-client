@@ -10177,6 +10177,19 @@
     },
     "proceed": "Fortsæt",
     "protocols": {
+        "attendanceExport": {
+            "button": "Download fremmøde",
+            "title": "Download fremmøde",
+            "help": "Én Excel-fil med fremmøde og fravær pr. borger og pr. afdeling, rangeret, samt alle registreringer. En borger i flere afdelinger tælles med i hver af dem.",
+            "period": "Periode",
+            "thisMonth": "Denne måned",
+            "lastMonth": "Sidste måned",
+            "thisYear": "I år",
+            "departments": "Afdelinger",
+            "allDepartmentsHint": "Lad feltet være tomt for at tage alle afdelinger med.",
+            "protocols": "Protokoller",
+            "download": "Download"
+        },
         "download": "Download",
         "editProtocol": "Rediger protokol",
         "form": {

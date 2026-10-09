@@ -5,6 +5,11 @@ class ProtocolService extends BaseAPIService {
         return await this.request(`/user/protocols`, 'GET', params)
     }
 
+    // Name and uuid of every protocol, for pickers.
+    async getProtocolList(): Promise<any> {
+        return await this.request(`/user/protocols/all/list`, 'GET')
+    }
+
     async getProtocol(protocolUuid: any): Promise<any> {
         return await this.request(`/user/protocols/${protocolUuid}`, 'GET')
     }
