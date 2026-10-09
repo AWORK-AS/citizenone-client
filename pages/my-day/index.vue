@@ -365,12 +365,18 @@ const showDutyScheduleLink = computed(() => {
         !!userStore.getUser?.pages?.some((p: any) => p.name === 'Duty Schedule')
 })
 
-// Same two conditions as the /overview page's doses-due card: the page has to
-// be granted, and the module has to be kept in the company's own module choices.
-// A company that turned medicine off still saw this card since it wasn't gated.
+// The page has to be granted, and medicine must not be switched off in either
+// place a company can do that: Settings -> Company -> Modules (module_pages)
+// or the onboarding wizard (onboarding_preferences). Both are checked because
+// neither covers the other: Settings never writes the onboarding flag, and an
+// empty module_pages reads as "every module on" even after onboarding said no.
+// The onboarding flag alone left this card showing after medicine was switched
+// off in Settings; module_pages alone would show it to a company that said no
+// during onboarding.
 const hasMedicineModule = computed(() => {
     const hasPage = userStore.getUser?.pages?.some((page: any) => page.name === 'Medicine card')
-    return hasPage && userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
+    return hasPage && hasModule('Medicine card')
+        && userStore.getUser?.company?.onboarding_preferences?.modules?.medicin !== false
 })
 
 const firstName = computed(() => userStore.getUser?.firstname ?? '')

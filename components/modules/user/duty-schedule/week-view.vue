@@ -255,6 +255,8 @@
                                 <div v-for="(day, dayIndex) in weekDays" :key="day.date"
                                     :class="['relative flex flex-col items-center justify-center py-2 sm:py-3 pb-5 sm:pb-6 border-0.5', isToday(day.fullDate) && 'bg-blue-50 border-x-2 border-t-2 border-blue-400']"
                                     v-if="!hasScheduleManageAccess">
+                                    <ModulesUserDutyScheduleScheduleSlotsOfferedShiftsIcon
+                                        :count="getMyOfferedSlotCount(day.longName)" />
                                     <span class="flex gap-x-1 text-sm">
                                         <span v-if="day.longName === 'Mon'">
                                             {{ $t('calendar.week.short.Monday') }}
@@ -2463,6 +2465,16 @@ function getSlotCount(dayName: string) {
     } as any
     const key = dayMap[dayName]
     return state.weeklySchedules?.week_data?.[key]?.total_slots || 0
+}
+
+// Offered shifts on a day that the logged-in employee can take. Read from
+// their own row, which the API filters by eligibility, not from the
+// department-wide count managers see.
+function getMyOfferedSlotCount(dayName: string) {
+    const key = ({ Mon: 'monday', Tue: 'tuesday', Wed: 'wednesday', Thu: 'thursday', Fri: 'friday', Sat: 'saturday', Sun: 'sunday' } as any)[dayName]
+    const me = (state.weeklySchedules?.data ?? []).find((employee: any) => employee?.uuid === userStore.getUser?.uuid)
+
+    return me?.weeks?.[key]?.slots?.length || 0
 }
 
 function toggleShowHideAllShifts() {

@@ -1156,6 +1156,12 @@ input.appearance-none.border-primary {
  * toast (120) and the tour guide (130).
  */
 [role="dialog"] { z-index: 105 !important; }
+/*
+ * A select with appendToBody renders its option list straight under <body>, outside the
+ * dialog, at the library's z-index of 100 - so inside a modal (105) the list opened behind
+ * it and the select looked empty. 106 keeps it above the dialog and below the hover card.
+ */
+body > .multiselect-dropdown { z-index: 106 !important; }
 
 /* Sikr dropdown stadig over sidebar men under modal */
 [role='listbox'],[role='menu'] { z-index: 55 !important; }

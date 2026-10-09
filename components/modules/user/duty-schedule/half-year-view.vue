@@ -476,6 +476,8 @@
                                         'relative px-2 py-3 border-r border-gray-200 last:border-r-0 text-center min-w-[120px]'
                                     ]">
                                         <template v-if="day !== null">
+                                            <ModulesUserDutyScheduleScheduleSlotsOfferedShiftsIcon
+                                                :count="getMyOfferedSlotCountForDay(monthMeta.key, day)" />
                                             <div class="flex flex-col items-center gap-0.5">
                                                 <div class="flex items-center gap-1.5">
                                                     <span :class="[
@@ -1341,6 +1343,14 @@ function isNonWorkedHolidayCell(day: any, monthKey: string, employeeUuid: string
 // ============================================================
 // Schedule slot helpers
 // ============================================================
+// Offered shifts on a day that the logged-in employee can take. Read from
+// their own row, which the API filters by eligibility, not from the
+// department-wide count managers see.
+function getMyOfferedSlotCountForDay(monthKey: string, day: any): number {
+    const me = getMonthEmployees(monthKey).find((employee: any) => employee?.uuid === userStore.getUser?.uuid)
+    return me?.days?.[moment(day).format('YYYY-MM-DD')]?.slots?.length || 0
+}
+
 function getSlotCountForDay(day: any): number {
     const dateKey = moment(day).format('YYYY-MM-DD')
     return periodData.value?.month_data?.[dateKey]?.total_slots || 0
