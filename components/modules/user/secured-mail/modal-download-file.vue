@@ -110,6 +110,13 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // The name the sender gave the file. Secure-mail attachments are stored under
+    // a hashed name, so the URL alone would save the file as that hash.
+    selectedAttachmentName: {
+        type: String,
+        required: false,
+        default: '',
+    },
 })
 const emit = defineEmits(['close'])
 const { t } = useI18n()
@@ -267,6 +274,9 @@ async function downloadAttachment() {
             const params = {
                 file_url: props?.selectedAttachment
             } as any
+            if (props.selectedAttachmentName) {
+                params.file_name = props.selectedAttachmentName
+            }
             if (state.formDownload.citizen_folder_uuid) {
                 params.citizen_folder_uuid = state.formDownload.citizen_folder_uuid
             }
@@ -276,7 +286,7 @@ async function downloadAttachment() {
             const response = await securedMailService.downloadAttachment(params)
             if (response) {
                 if (state.formDownload.fileOption === 'Download file to my computer') {
-                    saveAs(response, props?.selectedAttachment?.split('/').pop())
+                    saveAs(response, props.selectedAttachmentName || props?.selectedAttachment?.split('/').pop())
                 } else if (state.formDownload.fileOption === 'Download file to citizen\'s folder') {
                     successAlert(`${t('alert.success')}!`, `${t('mail.downloadFile.alert.fileSuccessfullyDownloadedToCitizensFolder')}.`)
                 } if (state.formDownload.fileOption === 'Download file to organization\'s folder') {
