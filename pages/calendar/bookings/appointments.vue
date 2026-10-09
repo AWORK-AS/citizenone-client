@@ -140,11 +140,28 @@ const breadcrumbLinks = [
     { name: 'calendar.tabs.appointments', translate: true, href: '/calendar/bookings/appointments' },
 ]
 
+const route = useRoute()
+
+// A booking notification opens the page on the day that was booked
+// (`?from=&to=`), which can be further out than the usual 30 days from today.
+function queryDate(value: unknown): string | null {
+    return typeof value === 'string' && moment(value, 'YYYY-MM-DD', true).isValid() ? value : null
+}
+
+function requestedRange(): { from: string, to: string } {
+    const from = queryDate(route.query.from) ?? moment().format('YYYY-MM-DD')
+    const to = queryDate(route.query.to)
+
+    return {
+        from,
+        to: to && to >= from ? to : moment(from).add(30, 'days').format('YYYY-MM-DD'),
+    }
+}
+
 const state = reactive({
     appointments: [] as any[],
     colleagues: [] as any[],
-    from: moment().format('YYYY-MM-DD'),
-    to: moment().add(30, 'days').format('YYYY-MM-DD'),
+    ...requestedRange(),
     selected: null as any,
     colleagueUuid: null as string | null,
     isHandoverOpen: false,
@@ -240,6 +257,12 @@ async function handOver() {
         state.isSaving = false
     }
 }
+
+// Clicking another booking notification while the page is open.
+watch([() => route.query.from, () => route.query.to], () => {
+    Object.assign(state, requestedRange())
+    load()
+})
 
 onMounted(async () => {
     await Promise.all([load(), loadColleagues()])
