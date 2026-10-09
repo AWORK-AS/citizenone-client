@@ -347,7 +347,7 @@
                                 enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
                                 leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint && !showCmdkTip"
+                                <div v-if="showCmdkHint && !showCmdkTip && !welcomeTour.active"
                                     class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
                                     <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
                                     <div class="relative flex items-start gap-2.5 px-3.5 py-3">
@@ -681,7 +681,7 @@
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
                  each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && !medicineToastVisible"
+            <div v-if="showCmdkTip && !medicineToastVisible && !welcomeTour.active"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div

@@ -9,7 +9,7 @@
 
             <!-- Popover anchored to the target (or centered without one) -->
             <div class="absolute w-[380px] max-w-[calc(100vw-2rem)] bg-white rounded-xl shadow-2xl p-6 transition-all duration-200"
-                :style="popoverStyle" v-if="currentStep">
+                :style="popoverStyle" v-if="currentStep && !state.waiting">
                 <div class="flex items-start gap-x-3">
                     <!-- Milo's welcome tour: the bubble speaks as Milo -->
                     <div v-if="mascot" aria-hidden="true"
@@ -107,6 +107,9 @@ const EDGE_MARGIN = 16
 const state = reactive({
     stepIndex: props.startIndex,
     targetRect: null as { top: number, left: number, width: number, height: number } | null,
+    // A welcome-tour step whose target has not rendered yet: show the dim page
+    // without the bubble, so the words never sit over the page they don't describe.
+    waiting: false,
 })
 
 // Retry timers for a target that renders after the page settles, plus the
@@ -174,17 +177,30 @@ function reposition() {
     const rect = element.getBoundingClientRect()
     if (rect.width > 0 && rect.height > 0) {
         state.targetRect = { top: rect.top, left: rect.left, width: rect.width, height: rect.height }
+        state.waiting = false
     }
 }
 
 // Called on step change: scroll the target into view once, then reposition and
 // keep retrying for a while in case it renders after an API round-trip.
-function focusStep() {
+// Bumped on every step change, so a navigation that resolves after the user
+// has moved on doesn't start timers for a step that is no longer showing.
+let focusToken = 0
+
+async function focusStep() {
     clearRetries()
     state.targetRect = null
-    const route = currentStep.value?.route
-    if (route && router.currentRoute.value.path !== route) navigateTo(route)
+    const token = ++focusToken
     const selector = currentStep.value?.selector
+    state.waiting = !!selector && skipMissing.value
+    // The wait for the target starts once the page is there: a cold page can
+    // take seconds to load, and counting from the click skipped steps whose
+    // target was simply still on its way.
+    const route = currentStep.value?.route
+    if (route && router.currentRoute.value.path !== route) {
+        try { await navigateTo(route) } catch (e) { /* the skip timer below handles it */ }
+        if (stopped || token !== focusToken) return
+    }
     if (!selector) return
 
     const tryFocus = (doScroll: boolean) => {

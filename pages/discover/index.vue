@@ -365,6 +365,19 @@ function groupEnabled(group: any) {
     return group.module ? modules[group.module] !== false : true
 }
 
+// What the backend says is done (GET /user/onboarding/checklist). It wins
+// where it has an answer for a step; everywhere else, and when the request
+// fails, the browser-side checks decide as before. Declared before the
+// computeds below: the `allDone` watcher runs immediately and reads it.
+const checklist = ref<ChecklistResponse | null>(null)
+
+async function fetchChecklist() {
+    try {
+        const response: any = await userService.getOnboardingChecklist()
+        checklist.value = response?.steps ? response : (response?.data ?? null)
+    } catch (e) { /* an older backend has no checklist: keep the local checks */ }
+}
+
 const visibleGroups = computed(() => journey.value.filter(g =>
     groupEnabled(g) && (!g.adminOnly || isAdmin.value)
 ))
@@ -376,18 +389,6 @@ const allDone = computed(() => totalSteps.value > 0 && totalDone.value === total
 // Once the whole journey is done, graduate the Discover tab away.
 const { markCompleted } = useDiscoverDone()
 watch(allDone, (done) => { if (done) markCompleted() }, { immediate: true })
-
-// What the backend says is done (GET /user/onboarding/checklist). It wins
-// where it has an answer for a step; everywhere else, and when the request
-// fails, the browser-side checks above decide as before.
-const checklist = ref<ChecklistResponse | null>(null)
-
-async function fetchChecklist() {
-    try {
-        const response: any = await userService.getOnboardingChecklist()
-        checklist.value = response?.steps ? response : (response?.data ?? null)
-    } catch (e) { /* an older backend has no checklist: keep the local checks */ }
-}
 
 function stepDone(step: any) {
     const fromBackend = checklistDone(checklist.value, step.key)
