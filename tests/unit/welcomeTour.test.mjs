@@ -164,6 +164,14 @@ describe('restartRoute', () => {
         assert.equal(restartRoute({}, false), 'staff')
         assert.equal(restartRoute({ company: { industry: { system_name: 'dental' } } }, true), 'clinic_admin')
         assert.equal(restartRoute({ company: { industry: { system_name: 'social_welfare' } } }, true), 'care_home_admin')
+        assert.equal(restartRoute({ company: { industry: { system_name: 'x', en_name: 'Social welfare services' } } }, true), 'care_home_admin')
         assert.equal(restartRoute({ tour_route: null }, true), 'care_home_admin')
+        assert.equal(restartRoute({ company: { industry: null } }, true), 'care_home_admin')
+    })
+    test('a non-dental, non-social-welfare industry is a clinic', () => {
+        assert.equal(restartRoute({ company: { industry: { system_name: 'physio', en_name: 'Physiotherapy' } } }, true), 'clinic_admin')
+    })
+    test('below Manager is staff whatever the industry', () => {
+        assert.equal(restartRoute({ company: { industry: { system_name: 'dental' } } }, false), 'staff')
     })
 })

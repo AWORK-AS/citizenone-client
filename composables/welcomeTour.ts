@@ -156,8 +156,13 @@ export function checklistDone(checklist: ChecklistResponse | null | undefined, d
  * tour_route wins; without one (old backend, or a user it has no route for)
  * it is derived from what the client knows, the same split the backend uses.
  */
-export function restartRoute(user: any, isAdmin: boolean): TourRoute {
+export function restartRoute(user: any, isManagerOrAbove: boolean): TourRoute {
     if (isTourRoute(user?.tour_route)) return user.tour_route
-    if (!isAdmin) return 'staff'
-    return user?.company?.industry?.system_name === 'dental' ? 'clinic_admin' : 'care_home_admin'
+    // The backend gives the admin routes from Manager (level 50) up.
+    if (!isManagerOrAbove) return 'staff'
+    const industry = user?.company?.industry
+    const careHome = !industry
+        || industry.system_name === 'social_welfare'
+        || industry.en_name === 'Social welfare services'
+    return careHome ? 'care_home_admin' : 'clinic_admin'
 }

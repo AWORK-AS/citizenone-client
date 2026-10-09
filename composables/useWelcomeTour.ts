@@ -53,7 +53,7 @@ export function useWelcomeTour() {
 
     /** "Vis mig rundt": plays the tour whether or not it has been seen. */
     function restart() {
-        const route = restartRoute(userStore.getUser, isAtLeast('Admin'))
+        const route = restartRoute(userStore.getUser, isAtLeast('Manager'))
         tour.value = { active: true, route, index: 0, launched: true, restart: true }
     }
 
