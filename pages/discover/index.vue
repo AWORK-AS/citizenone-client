@@ -16,7 +16,7 @@
             </template>
 
             <!-- Welcome -->
-            <div
+            <div data-tour="discover-header"
                 class="mt-4 rounded-2xl bg-gradient-to-br from-primary to-[#1b6d8a] text-white p-6 md:p-8 relative overflow-hidden">
                 <div class="relative z-10 flex items-center justify-between gap-x-6">
                     <div class="max-w-2xl">
@@ -36,6 +36,13 @@
                                 <Icon name="ph:sliders-horizontal" class="h-4 w-4" />
                                 {{ $t('discover.whatDoYouNeed') }}
                             </button>
+                            <Tooltip :text="$t('welcomeTour.restartHelp')" position="bottom">
+                                <button type="button" @click="restartWelcomeTour"
+                                    class="inline-flex items-center gap-x-2 rounded-lg bg-white/15 hover:bg-white/25 px-3.5 py-2 text-sm font-medium transition-colors">
+                                    <Icon name="ph:path" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('welcomeTour.restart') }}
+                                </button>
+                            </Tooltip>
                             <span class="text-sm text-white/70">
                                 {{ $t('discover.stepsProgress', {
                                     done: totalDone,
@@ -281,6 +288,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
+import { checklistDone, type ChecklistResponse } from '@/composables/welcomeTour'
 
 const runtimeConfig = useRuntimeConfig()
 const isDesktopApp = useIsDesktopApp()
@@ -357,6 +365,19 @@ function groupEnabled(group: any) {
     return group.module ? modules[group.module] !== false : true
 }
 
+// What the backend says is done (GET /user/onboarding/checklist). It wins
+// where it has an answer for a step; everywhere else, and when the request
+// fails, the browser-side checks decide as before. Declared before the
+// computeds below: the `allDone` watcher runs immediately and reads it.
+const checklist = ref<ChecklistResponse | null>(null)
+
+async function fetchChecklist() {
+    try {
+        const response: any = await userService.getOnboardingChecklist()
+        checklist.value = response?.steps ? response : (response?.data ?? null)
+    } catch (e) { /* an older backend has no checklist: keep the local checks */ }
+}
+
 const visibleGroups = computed(() => journey.value.filter(g =>
     groupEnabled(g) && (!g.adminOnly || isAdmin.value)
 ))
@@ -370,8 +391,12 @@ const { markCompleted } = useDiscoverDone()
 watch(allDone, (done) => { if (done) markCompleted() }, { immediate: true })
 
 function stepDone(step: any) {
+    const fromBackend = checklistDone(checklist.value, step.key)
+    if (fromBackend !== null) return fromBackend
     return !!(step.doneKey && state.done[step.doneKey])
 }
+
+const { restart: restartWelcomeTour } = useWelcomeTour()
 function groupDone(group: any) {
     return group.steps.filter((s: any) => stepDone(s)).length
 }
@@ -474,5 +499,6 @@ onMounted(async () => {
     } catch (e) { }
 
     fetchDemoDataStatus()
+    fetchChecklist()
 })
 </script>

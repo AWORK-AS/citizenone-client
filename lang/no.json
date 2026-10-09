@@ -15424,6 +15424,35 @@
             "enterAnswer": "Skriv svaret ditt"
         }
     },
+    "welcomeTour": {
+        "name": "Milo",
+        "skip": "Hopp over omvisningen",
+        "skipHelp": "Lukk omvisningen. Du kan starte den på nytt fra Kom i gang.",
+        "finish": "Ferdig",
+        "finishHelp": "Avslutt omvisningen",
+        "restart": "Vis meg rundt",
+        "restartHelp": "Start Milos omvisning på nytt",
+        "careHome": {
+            "citizens": "Her bor @:terms.citizens{''} deres. Journal, planer, mål og dokumenter samles på hver @:terms.citizen{''}.",
+            "colleagues": "Inviter kollegene dine. Rollen styrer hvilke @:terms.citizens{''} de kan se.",
+            "today": "Her starter vakten: hvem som er på, hva som skal skje og hvilken medisin som skal gis.",
+            "journal": "Journalnotatet skrives her, helst rett etter at det har skjedd.",
+            "end": "Resten finner du i sjekklisten. Og du kan alltid spørre meg her."
+        },
+        "clinic": {
+            "calendar": "Her ligger timene dine. Legg inn arbeidstidene dine først.",
+            "booking": "Opprett tjenestene dine med varighet og pris, og slå på online booking.",
+            "clients": "Hver @:terms.citizen{''} har sin egen journal, og notatet skrives etter behandlingen.",
+            "invoices": "Fakturaen sendes direkte herfra.",
+            "end": "Resten finner du i sjekklisten. Spør meg hvis du står fast."
+        },
+        "staff": {
+            "welcome": "Velkommen. Jeg viser deg det viktigste på under ett minutt.",
+            "day": "Her ser du dagen din. Trykk på en bruker eller klient for å skrive notatet.",
+            "messages": "Skriv til kollegene dine her.",
+            "end": "Og du kan alltid spørre meg her."
+        }
+    },
     "appTours": {
         "getStarted": "Kom i gang",
         "surveys": {

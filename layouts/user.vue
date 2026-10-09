@@ -132,7 +132,7 @@
                                 <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                        :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
+                                        :data-tour="SIDEBAR_TOUR_KEYS[item.name] ?? null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
                                         <img v-if="item.image" :src="item.image" :alt="item.name"
                                             class="h-5 w-5 shrink-0" />
@@ -248,7 +248,7 @@
                         <li v-for="item in activeContextGroup?.items || []" :key="item.name">
                             <div @click="openNavItem(item)"
                                 :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null">
+                                :data-tour="SIDEBAR_TOUR_KEYS[item.name] ?? null">
                                 <img v-if="item.image" :src="item.image" :alt="item.name" class="h-5 w-5 shrink-0" />
                                 <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                 <span class="whitespace-nowrap overflow-hidden">{{ getNavItemLabel(item) }}</span>
@@ -347,7 +347,7 @@
                                 enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
                                 leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint && !showCmdkTip"
+                                <div v-if="showCmdkHint && !showCmdkTip && !welcomeTour.active"
                                     class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
                                     <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
                                     <div class="relative flex items-start gap-2.5 px-3.5 py-3">
@@ -640,6 +640,9 @@
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
+        <!-- Milo's welcome tour. Its position lives in useWelcomeTour, since this layout is rebuilt on every page change. -->
+        <ModulesUserAppTourGuide v-if="welcomeTour.active && welcomeSteps.length" mascot :customSteps="welcomeSteps"
+            :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
@@ -678,7 +681,7 @@
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
                  each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && !medicineToastVisible"
+            <div v-if="showCmdkTip && !medicineToastVisible && !welcomeTour.active"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -1582,7 +1585,22 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
     if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
 }
 
-function guidedUserTourModalVisibility() { if (userStore.getUser?.is_first_login) state.modal.isGuidedTourWelcomeOpen = true }
+// The Milo spotlight tour when the backend sends tours_seen; otherwise (an
+// older backend) the modal sequence exactly as before.
+const { tour: welcomeTour, steps: welcomeSteps, startIfDue: startWelcomeTourIfDue, setIndex: setWelcomeStep, close: closeWelcomeTour } = useWelcomeTour()
+
+// Sidebar items the welcome tour points at.
+const SIDEBAR_TOUR_KEYS: Record<string, string> = {
+    Citizens: 'sidebar-citizens',
+    Overview: 'sidebar-overview',
+    Calendar: 'sidebar-calendar',
+    Messages: 'sidebar-messages',
+    Invoicing: 'sidebar-invoicing',
+}
+
+function guidedUserTourModalVisibility() {
+    if (startWelcomeTourIfDue(userStore.getUser) === 'legacy') state.modal.isGuidedTourWelcomeOpen = true
+}
 
 // Post-purchase app tours: the app store's success pages link to the app's
 // setup route with ?tour=<generic_name>; any registered tour opens here.
