@@ -79,6 +79,14 @@
                     <span class="text-sm text-gray-700">{{ option.label }}</span>
                 </div>
             </div>
+            <div v-if="isAdmin" class="pt-2 space-y-1">
+                <div class="flex items-center gap-x-3 cursor-pointer w-fit"
+                    @click="state.form.share_with_community = !state.form.share_with_community">
+                    <FormCheckbox :value="state.form.share_with_community" />
+                    <span class="text-sm font-medium text-gray-700">{{ $t('forms.community.share') }}</span>
+                </div>
+                <p class="text-xs text-gray-500 ml-8">{{ $t('forms.community.shareHint') }}</p>
+            </div>
         </div>
 
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
@@ -921,6 +929,7 @@ const state = reactive({
         citizen_profile_fields: ['citizen_name'] as string[],
         layout_mode: 'classic',
         show_numbering: true,
+        share_with_community: false,
     },
     showFieldsAdder: true,
     isPreviewing: false,
@@ -1028,6 +1037,9 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         }
         if (selectedForm.citizen_profile_fields) {
             state.form.citizen_profile_fields = selectedForm.citizen_profile_fields
+        }
+        if (selectedForm.share_with_community !== undefined) {
+            state.form.share_with_community = selectedForm.share_with_community
         }
     }
 }, { immediate: true })

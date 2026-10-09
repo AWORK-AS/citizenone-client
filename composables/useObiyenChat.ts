@@ -145,6 +145,25 @@ export function useObiyenChat() {
         }
     }
 
+    /**
+     * Questions about the page the person is on, shown under Milo's greeting
+     * in place of the website's pricing and demo questions
+     * (window.ObiyenChat.suggest, insight-server #445). Before the widget has
+     * loaded the call waits on its queue; a widget without suggest ignores it.
+     */
+    function suggest(questions: string[]) {
+        const w = (window as any).ObiyenChat
+        if (!w) return
+        if (typeof w.suggest === 'function') w.suggest(questions)
+        else if (Array.isArray(w.q)) w.q.push(['suggest', questions])
+    }
+
+    /** "?" on a page: open Milo with that page's questions. */
+    function askAbout(questions: string[]) {
+        suggest(questions)
+        revealAndOpenChat()
+    }
+
     function resetOnLogout() {
         // The next person on this browser is a different user, and must not
         // inherit this one's signature.
@@ -153,5 +172,5 @@ export function useObiyenChat() {
         hideBubble()
     }
 
-    return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, setSideOffset, resetOnLogout }
+    return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, suggest, askAbout, setSideOffset, resetOnLogout }
 }

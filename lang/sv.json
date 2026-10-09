@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Delade dokument",
+        "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
+        "password": "Lösenord",
+        "unlock": "Öppna",
+        "lock": "Stäng",
+        "sharedBy": "Delat av {name}, {company}",
+        "linkExpires": "Länken fungerar till {date}",
+        "folderPath": "Mappsökväg",
+        "view": "Visa",
+        "download": "Ladda ner",
+        "empty": "Mappen är tom.",
+        "changeLanguage": "Byt språk",
+        "somethingWentWrong": "Något gick fel. Försök igen."
+    },
+    "comingFunctions": {
+        "title": "Kommande funktioner",
+        "intro": "Här kan du se vad vi arbetar med och vad som kommer i CitizenOne. Saknar du något? Skicka ett önskemål till oss.",
+        "sendWish": "Skicka ett önskemål",
+        "empty": "Det finns inga kommande funktioner att visa just nu.",
+        "sections": {
+            "in_progress": "Pågår",
+            "planned": "Planerad",
+            "released": "Nyligen lanserad"
+        },
+        "status": {
+            "in_progress": "Pågår",
+            "planned": "Planerad",
+            "released": "Lanserad"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Exportera",
         "filters": {
@@ -1442,6 +1473,27 @@
         "featured": "Framhävd"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Duplicera",
+            "help": "Skapar en ny händelse med samma titel, beskrivning, deltagare och etiketter. Du väljer själv datum och tid."
+        },
+        "onlyMine": {
+            "label": "Bara mina",
+            "help": "Visar bara händelser du äger eller är inbjuden till"
+        },
+        "shortcuts": {
+            "view": "{view} (tryck {key})",
+            "today": "Gå till idag (tryck T)",
+            "previous": "Föregående (tryck ←)",
+            "next": "Nästa (tryck →)",
+            "newEvent": "Ny händelse för dig själv (tryck N)"
+        },
+        "filters": {
+            "active": "Aktiva filter",
+            "remove": "Ta bort filtret: {label}",
+            "clear": "Rensa filter",
+            "clearHelp": "Tar bort alla filter på brukare, anställda, grupper och etiketter"
+        },
         "participants": "Deltagare",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
@@ -2066,6 +2118,49 @@
                 "template": "Mall",
                 "useTemplate": "Använd mall"
             },
+            "sendLink": {
+                "title": "Skicka länk via e-post",
+                "fileIntro": "Mottagaren kan visa och ladda ner den här filen.",
+                "folderIntro": "Mottagaren kan visa och ladda ner allt i den här mappen, även undermappar.",
+                "recipients": "Mottagare",
+                "recipientsPlaceholder": "Skriv en e-postadress och tryck på Enter",
+                "recipientsHelp": "Upp till 10 mottagare.",
+                "password": "Lösenord",
+                "confirmPassword": "Bekräfta lösenord",
+                "passwordHelp": "Lösenordet står inte i mejlet. Ge det till mottagaren på annat sätt, t.ex. per telefon eller sms.",
+                "expiresAt": "Länken går ut",
+                "emailLanguage": "Språk i mejlet",
+                "message": "Meddelande (valfritt)",
+                "messagePlaceholder": "Skriv ett meddelande till mottagaren",
+                "send": "Skicka länk",
+                "sent": "Länken har skickats",
+                "sentLinks": "Skickade länkar",
+                "sentLinksIntro": "Länkar som skickats via e-post från de här dokumenten. Återkalla en länk för att stänga den direkt.",
+                "document": "Dokument",
+                "sentTo": "Skickad till",
+                "sentBy": "Skickad av",
+                "expires": "Går ut",
+                "active": "Aktiv",
+                "expired": "Utgången",
+                "copyLink": "Kopiera länk",
+                "linkCopied": "Länken har kopierats",
+                "revoke": "Återkalla länk",
+                "revokeConfirmation": "Återkalla länken? Mottagarna kan då inte längre öppna den",
+                "revoked": "Länken har återkallats",
+                "languages": {
+                    "dk": "Danska",
+                    "en": "Engelska",
+                    "no": "Norska",
+                    "sv": "Svenska"
+                },
+                "alert": {
+                    "recipientRequired": "Lägg till minst en e-postadress",
+                    "tooManyRecipients": "Du kan skicka till högst 10 mottagare",
+                    "passwordMin": "Använd minst 8 tecken",
+                    "passwordMismatch": "Lösenorden matchar inte",
+                    "expiryRange": "Välj ett datum mellan i dag och om ett år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Åtkomst",
@@ -2075,6 +2170,7 @@
                     "edit": "Redigera",
                     "move": "Flytta",
                     "openSelected": "Öppna valda",
+                    "sendLink": "Skicka länk via e-post",
                     "share": "Dela",
                     "statuses": "Statusar",
                     "unshare": "Ta bort delning",
@@ -3661,7 +3757,9 @@
                     },
                     "date": "Datum",
                     "getFromPreviousStatus": "Hämta data från föregående status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Omsorgsområde",
+                    "careAreaInherited": "Ärvs från hälsoärendet"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statusar",
@@ -3726,7 +3824,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Behandlingens titel"
             },
-            "treatments": "Behandlingar"
+            "treatments": "Behandlingar",
+            "template": {
+                "observation": "Observation",
+                "assessment": "Bedömning",
+                "plan": "Plan",
+                "followUp": "Uppföljning"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -4676,6 +4780,24 @@
     },
     "dutySchedules": {
         "allDay": "Hela dagen",
+        "groups": {
+            "collapse": "Fäll ihop avdelningen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} anst.",
+            "expand": "Fäll ut avdelningen",
+            "noDepartment": "Utan avdelning",
+            "shifts": "{count} pass"
+        },
+        "moreShifts": "{count} pass till – klicka för att visa alla",
+        "optimizedNotice": {
+            "title": "Schemat har blivit lättare att överblicka",
+            "compact": "Passen tar mindre plats, och en dag visar de första – klicka på +N för resten.",
+            "groups": "På Alla avdelningar är personalen uppdelad på avdelningar, med din egen överst.",
+            "tooltips": "Håll muspekaren över en knapp för att se vad den gör.",
+            "dismiss": "Uppfattat",
+            "dismissTooltip": "Stäng meddelandet – det visas inte igen"
+        },
+        "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
             "hint": "Enter för att spara · Esc för att avbryta"
@@ -5000,6 +5122,10 @@
             "employmentStatus": "Anställningsstatus",
             "tags": "Taggar",
             "filterDate": "Filtrera datum",
+            "jobTitles": "Befattningar",
+            "sortBy": "Sortera efter",
+            "sortByJobTitle": "Befattning",
+            "sortByName": "Namn",
             "filterDateAndTime": "Filtrera datum och tid",
             "timeFrom": "Tid från",
             "timeTo": "Tid till"
@@ -5030,7 +5156,8 @@
             "employeeMarkedUnavailable": "Denna medarbetare har markerat sig otillgänglig detta datum",
             "sendEmailToEmployee": "Skicka e-post till medarbetaren",
             "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
-            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen."
+            "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen.",
+            "compensatoryHours": "Kompensationstimmar använda"
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
@@ -5275,6 +5402,8 @@
                 "amountRequired": "Ange ett antal timmar större än 0",
                 "button": "Registrera utbetalning",
                 "confirmation": "Är du säker på att du vill registrera en utbetalning av {amount} timmar till {employee}?",
+                "date": "Utbetalningsdatum",
+                "dateHint": "Välj datumet då timmarna betalades ut. Utbetalningen räknas i den månaden.",
                 "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
                 "register": "Registrera utbetalning",
                 "title": "Registrera utbetalning"
@@ -5480,6 +5609,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Tjänsteschema",
+            "embed": {
+                "absent": "Frånvarande",
+                "codeCopied": "Kopierad",
+                "copyCode": "Kopiera kod",
+                "description": "Visa tjänsteschemat på er egen webbplats, till exempel intranätet. Alla som kan se sidan kan se schemat utan lösenord. Det visar namn, befattningar och passtider. Anteckningar, brukare och orsaken till frånvaro visas aldrig.",
+                "disable": "Stäng av inbäddning",
+                "disableHelp": "Schemat försvinner från alla webbplatser där det är inbäddat. Slår du på det igen får du en ny kod.",
+                "disabled": "Inbäddning avstängd",
+                "embed": "Bädda in",
+                "embedCode": "Inbäddningskod",
+                "embedCodeHelp": "Klistra in koden på webbplatsen där schemat ska visas.",
+                "embedded": "Inbäddat",
+                "enable": "Slå på inbäddning",
+                "enabled": "Inbäddning påslagen",
+                "nextWeek": "Nästa vecka",
+                "noShifts": "Inga pass den här veckan",
+                "openPreview": "Öppna förhandsvisning",
+                "previousWeek": "Föregående vecka",
+                "title": "Bädda in på webbplats",
+                "unavailable": "Schemat är inte tillgängligt.",
+                "unavailableHelp": "Det kan bero på att:",
+                "unavailableReasonOff": "inbäddningen har stängts av",
+                "unavailableReasonNewCode": "schemat har fått en ny inbäddningskod som ännu inte lagts in på den här sidan",
+                "unavailableReasonExpired": "den delade länken har gått ut eller tagits bort",
+                "unavailableContact": "Kontakta den som ansvarar för ert schema."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Tjänsteschema har delats",
@@ -5547,6 +5702,8 @@
         "showEmployeesWorkingToday": "Visa anställda, där arbetar idag",
         "showTheDistributionOfShiftTypes": "Visa vagttypers fordeling",
         "sort": {
+            "firstShiftActive": "Sorterat efter vem som börjar först denna dag. Klicka för att stänga av",
+            "sortByFirstShift": "Sortera efter vem som börjar först denna dag",
             "sortNamesInAscendingOrder": "Sortera navne i stigande räkkefölge",
             "sortNamesInDescendingOrder": "Sortera navne i fallande räkkefölge"
         },
@@ -6584,7 +6741,12 @@
                 "created": "Skapad",
                 "published": "Publicerad",
                 "updated": "Uppdaterad",
-                "deleted": "Raderad"
+                "deleted": "Raderad",
+                "compensatory_time_requested": "Kompensationsledighet begärd",
+                "compensatory_time_approved": "Kompensationsledighet godkänd",
+                "compensatory_time_declined": "Kompensationsledighet avslagen",
+                "compensatory_time_withdrawn": "Kompensationsledighet återkallad",
+                "compensatory_time_reversed": "Kompensationsledighet återställd"
             }
         },
         "salaryDk_sync": "Synkronisera till Salary",
@@ -7185,6 +7347,12 @@
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Visa pass",
+        "loadFailed": {
+            "title": "Kalendern kunde inte laddas",
+            "message": "Dina händelser är inte borta. Vi kunde bara inte hämta dem just nu. Försök igen om en stund.",
+            "retry": "Försök igen",
+            "retryHelp": "Laddar kalendern igen för perioden du tittar på."
+        },
         "shiftLabel": "Pass",
         "confirmation": {
             "deleteConfirmation": "Är du säker på att du vill radera denna händelse",
@@ -7238,6 +7406,10 @@
         "markAsNotCompleted": "Markera som inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
         "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
+        "noteNudge": {
+            "label": "Anteckning saknas",
+            "help": "Bokningen är slut men ingen journalanteckning har skrivits än. Klicka för att skriva den."
+        },
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
@@ -7721,6 +7893,18 @@
         "title": "Formularfeltkonfiguration"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Delad",
+            "fromCommunityBadge": "Från CitizenOne-gemenskapen",
+            "chooseFrom": "Välj från",
+            "ourTemplates": "Våra mallar",
+            "pickerHint": "Mallar delade av andra organisationer i CitizenOne. Den du väljer kopieras till era mallar, där du kan redigera den.",
+            "pickerEmpty": "Inga mallar har delats på ditt språk ännu.",
+            "searchTemplates": "Sök bland mallar…",
+            "optionLabel": "CitizenOne-gemenskapen",
+            "share": "Dela med CitizenOne-gemenskapen",
+            "shareHint": "En kopia av mallen, som den är när du sparar, blir tillgänglig för alla CitizenOne-företag med samma språk. Senare ändringar delas inte. Se till att mallen inte innehåller personuppgifter."
+        },
         "addNewQuestion": "Lägg till nytt fråga",
         "addOption": "Lägg till mulighed",
         "alert": {
@@ -8049,6 +8233,36 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjälp & Guide - Tjänsteschema",
+        "askMilo": "Fråga Milo",
+        "askMiloTooltip": "Fråga Milo om schemat",
+        "askMiloGeneral": "Fråga Milo om du behöver hjälp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hur kopierar jag en vecka till nästa vecka?",
+                "q2": "Vad betyder +N på en dag?",
+                "q3": "Hur godkänner jag ett passbyte?"
+            },
+            "calendar": {
+                "q1": "Hur skapar jag en återkommande bokning?",
+                "q2": "Hur visar jag bara mina egna bokningar?",
+                "q3": "Hur tar jag bort resten av en serie?"
+            },
+            "overview": {
+                "q1": "Hur väljer jag vilka rutor jag ser?",
+                "q2": "Varför är vissa rutor låsta?",
+                "q3": "Vad är passöversikten?"
+            },
+            "citizens": {
+                "q1": "Hur skapar jag en ny {citizen}?",
+                "q2": "Hur arkiverar jag en {citizen}?",
+                "q3": "Hur hittar jag en {citizen} med personnummer?"
+            },
+            "employees": {
+                "q1": "Hur bjuder jag in en ny anställd?",
+                "q2": "Hur arkiverar jag en anställd?",
+                "q3": "Hur ger jag en anställd tillgång till en avdelning?"
+            }
+        },
         "title": "Hjälp & Guide"
     },
     "hideAll": "Dölj alla",
@@ -9173,6 +9387,8 @@
         "logout": "Logga ut",
         "notifications": "Notiser",
         "procedures": "Procedurer",
+        "newWishes": "Nya önskemål",
+        "comingFunctions": "Kommande funktioner",
         "reminders": "Påminnelser",
         "settings": "Inställningar",
         "subscription": "Prenumeration",
@@ -10334,6 +10550,17 @@
         "strongPasswordSub": "Använd minst 8 tegn med tal och symboler",
         "strongPasswordTitle": "Skapa en stark lösenord"
     },
+    "citizenVisibility": {
+        "notice": "Du är inte kopplad till någon avdelning, @:terms.citizens{''} eller medarbetargrupp, så du kan inte se några @:terms.citizens{''} ännu. Kontakta din chef.",
+        "noticeHelp": "Medarbetare ser @:terms.citizens{''} i sina egna avdelningar, @:terms.citizens{''} de har tilldelats och @:terms.citizens{''} via sina medarbetargrupper. Din chef kan lägga till dig i en avdelning eller tilldela dig @:terms.citizens{''}.",
+        "noticeHelpLabel": "Varför kan jag inte se några @:terms.citizens{''}?",
+        "levelAll": "Ser alla @:terms.citizens{''} i företaget",
+        "levelLimited": "Ser bara @:terms.citizens{''} i egna avdelningar, tilldelade och via medarbetargrupper (eller alla, om företaget inte använder avdelningar)",
+        "levelHelp": "Nivån avgör vilka @:terms.citizens{''} rollen kan se. @:roles.table.manager och högre ser alla @:terms.citizens{''} i företaget. @:roles.table.regular ser bara @:terms.citizens{''} i egna avdelningar, tilldelade och via medarbetargrupper. Om företaget inte använder avdelningar ser alla samtliga @:terms.citizens{''}.",
+        "levelHelpLabel": "Vad betyder nivån?",
+        "badgeAll": "Alla @:terms.citizens{''}",
+        "badgeLimited": "Egna @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Lägg till ny roll",
         "alert": {
@@ -10695,6 +10922,8 @@
                 "relativeChatContactPersons": "Anhöriga kan skriva till medborgarens tilldelade kontaktpersoner",
                 "patientChatInbox": "Patienter skriver till hela kliniken (gemensam inkorg)",
                 "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
+                "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
+                "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
                 "groupPortalAccess": "Portalåtkomst",
                 "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",
@@ -10718,6 +10947,7 @@
                 "interventionNotificationHours": "Varslingstimer för insats",
                 "employmentWeeklyHours": "Veckoarbetstimmar (fakturering för arbetsmarknadsinsats)",
                 "employmentWeeklyHoursHint": "Används för att omvandla timpriser till ett veckopris. Lämna tomt för att använda standardvärdet 37 timmar/vecka.",
+                "dutyScheduleSortFirstShift": "Sortera schemat efter vem som börjar först (i stället för alfabetiskt)",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "compensatoryTimeEnabled": "Aktivera kompensationsledighet",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
@@ -10822,7 +11052,8 @@
                 "portalSectionForms": "Formulär",
                 "portalSectionPriceEstimates": "Kostnadsförslag",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
-                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem."
+                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
+                "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -10955,6 +11186,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
@@ -11036,6 +11268,29 @@
             "how1": "Klicka “Anslut till e-conomic”.",
             "how2": "Godkänn åtkomsten i e-conomic (App Connect).",
             "how3": "Du skickas tillbaka hit. Därefter kan fakturor skickas till e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Skicka fakturor från CitizenOne till Dinero som bokföringsunderlag.",
+            "adminOnly": "Endast administratörer kan hantera Dinero-anslutningen.",
+            "notPurchased": "Dinero-appen är inte aktiverad ännu. Aktivera den under Appar för att ansluta.",
+            "goToApps": "Gå till Appar",
+            "connection": "Anslutning",
+            "connected": "Ansluten",
+            "notConnected": "Inte ansluten",
+            "connect": "Anslut",
+            "disconnect": "Koppla från",
+            "confirmDisconnect": "Koppla från Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Client ID som Dinero utfärdade till er",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Client Secret som Dinero utfärdade till er",
+            "apiKeyLabel": "Dinero API-nyckel",
+            "apiKeyPlaceholder": "Klistra in API-nyckeln från din Dinero-organisation",
+            "howTitle": "Så här ansluter du",
+            "how1": "Gå till Inställningar → Integrationer i Dinero och begär en personlig integration för att få ett Client ID, en Client Secret och en API-nyckel för organisationen.",
+            "how2": "Klistra in alla tre här och klicka på “Anslut”.",
+            "how3": "När anslutningen är klar kan fakturor skickas till Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11168,6 +11423,10 @@
             "economic": {
                 "title": "Vad gör e-conomic?",
                 "body": "Skicka fakturor och underlag vidare till ert bokföringssystem, så att siffrorna bara skrivs in en gång."
+            },
+            "dinero": {
+                "title": "Vad gör Dinero?",
+                "body": "Skicka fakturor vidare till Dinero som bokföringsunderlag, så att siffrorna bara skrivs in en gång."
             },
             "fst": {
                 "title": "Vad är FindSocialeTilbud.dk?",
@@ -11437,6 +11696,7 @@
             "remove": "Ta bort"
         },
         "currentSubscription": "Nuvarande prenumeration",
+        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Er prenumeration är ett specificerat avtal med CitizenOne.", "agreementText": "Specificerat avtal – priser och villkor följer ert avtal med CitizenOne.", "usage": "{used} av {total} {label} används", "contact": "Kontakta oss", "contactHelp": "Skriv till CitizenOne om avtalet, priserna eller ändringar."},
         "deal": {
             "additionalPurchaseFor": "tilköb extra för",
             "admin": "Admin",
@@ -11489,6 +11749,34 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Färdplan",
+            "intro": "Funktionerna alla användare ser under \"Kommande funktioner\" i profilmenyn. Endast publicerade punkter visas.",
+            "newItem": "Ny punkt",
+            "editItem": "Redigera punkt",
+            "noItems": "Inga punkter med denna status.",
+            "dragHint": "Dra punkterna för att ändra ordningen användarna ser dem i.",
+            "published": "Publicerad",
+            "draft": "Utkast",
+            "publish": "Publicera",
+            "unpublish": "Avpublicera",
+            "deleteConfirm": "Är du säker på att du vill radera denna punkt?",
+            "visibleToEveryone": "Synlig för alla branscher",
+            "visibleToIndustries": "Endast synlig för de valda branscherna",
+            "releasedOn": "Lanserad {date}",
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivning",
+                "descriptionHint": "Skriv till användarna: vad funktionen gör och hur den hjälper dem.",
+                "status": "Status",
+                "expectedPeriod": "Förväntad",
+                "expectedPeriodPlaceholder": "T.ex. Q2 2027 eller april 2027",
+                "industries": "Branscher",
+                "industriesHint": "Lämna tomt för att visa punkten för alla branscher.",
+                "published": "Visa för användarna",
+                "publishedHint": "Utkast syns bara här i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Konton",
             "alert": {
@@ -12069,6 +12357,20 @@
                 "months": "{count} månader",
                 "tcv": "Totalt avtalsvärde (TCV)",
                 "tcvHint": "Grundpaket och tillägg, var och en gånger sin löptid. Exkl. moms.",
+                "agrAgreementName": "Ingår i avtal: {name}",
+                "agrAgreementChip": "Avtal",
+                "agrAgreementChipHelp": "Prenumerationen omfattas av ett avtal. Priser och bindning följer avtalet, inte prenumerationens eget pris.",
+                "agrListPrice": "Listpris {price}/{unit} – gäller från förnyelse {date}",
+                "agrListPriceHelp": "Avtalet har låst priset under avtalsperioden. Listpriset gäller först när avtalet förnyas.",
+                "agrAgreementPeriod": "{from} – {to} ({months} mån.)",
+                "agrAgreementPeriodHelp": "Avtalets start, slut och längd.",
+                "agrNoticeDeadline": "Uppsägningsfrist {date}",
+                "agrNoticeDeadlineHelp": "Sista datum avtalet kan sägas upp så att det inte förnyas automatiskt.",
+                "agrManagedOnAgreementHelp": "Bindning och uppsägning hanteras på avtalet. Klicka för att öppna företagets avtal.",
+                "agrEditSubscriptionCoveredHelp": "Prenumerationen omfattas av ett avtal. Ett planbyte ändrar inte avtalets priser eller bindning - ändra dem på avtalet.",
+                "agrRunningAgreement": "Företaget har ett avtal: {name} ({from}–{to})",
+                "agrRunningAgreementLink": "Se avtal",
+                "agrRunningAgreementHelp": "Huvudprenumerationen är inte kopplad till avtalet. Öppna avtalen för att koppla den.",
                 "cancelledAt": "Uppsägning mottagen",
                 "endsAt": "Upphör",
                 "cancelledHint": "Prognosen räknar inte med den här kunden efter slutdatumet.",
@@ -12642,6 +12944,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "roadmap": "Färdplan",
             "apps": "Apps",
             "appCategories": "App-kategorier",
             "companies": "Företag",
@@ -13543,6 +13846,8 @@
                 "subscriptions": "Licenser och Pro-profil kopplade till avtalet gäller hela bindningen och debiteras inte med kort utöver det.",
                 "settledExternally": "Öppna delbetalningar som förfaller före detta datum markeras som reglerade och faktureras aldrig. Använd det för kunder som redan betalat via e-conomic.",
                 "renewalValue": "Tomt = beräknas utifrån gällande listpris för de kopplade licenserna vid förnyelsetillfället. Ett ifyllt värde är ett fast pris som ersätter listpriset vid kommande förnyelser.",
+                "renewalTerm": "När bindningen löper ut förnyas avtalet för denna period till gällande listpris. T.ex. 36 mån. samlat = en faktura för 3 år på förnyelsedagen.",
+                "renewalBilling": "Avtalet förlängs vid förnyelse, men inga fakturor skapas förrän avbetalningsplanen för den nya perioden är inlagd. Ni får besked från uppsägningsfristen.",
                 "termMode": "Ange bindningen antingen som ett antal månader eller som ett slutdatum.",
                 "endsOn": "Bindningens sista dag. Antalet månader beräknas av servern, t.ex. 2025-06-10 till 2028-09-01."
             },
@@ -13590,6 +13895,9 @@
                 "settledNotePlaceholder": "t.ex. e-conomic verifikation 297637275",
                 "renewalValue": "Årligt värde vid förnyelse",
                 "renewalValuePlaceholder": "Listpris",
+                "renewalTerm": "Förnyelseperiod (månader)",
+                "renewalBilling": "Faktureras vid förnyelse",
+                "renewalTermQuickHelp": "Sätt förnyelseperioden till {months} månader.",
                 "endsOn": "Slutdatum",
                 "modeMonths": "Bindning i månader",
                 "modeEndDate": "Slutdatum",
@@ -13752,6 +14060,17 @@
             "renewal": {
                 "expected": "Förväntad förnyelse: {amount} kr/år",
                 "expectedHelp": "När en ny period startar faktureras de listpriser som gäller vid den tidpunkten. Beloppet här är en uppskattning utifrån nuvarande priser och kan ändras om priserna ändras innan dess.",
+                "renewsFor": "Förnyas för {term} mån. · {billing}",
+                "periodExpected": "Förväntat för perioden: {amount} kr.",
+                "periodExpectedHelp": "Uppskattat belopp för hela förnyelseperioden till dagens listpriser. Kan ändras om priserna ändras före dess.",
+                "planMissing": "Avbetalningsplan saknas för förnyelse",
+                "planMissingHelp": "Avtalet förnyas, men avbetalningsplanen för den nya perioden är inte inlagd. Inga fakturor skapas förrän den finns.",
+                "planMissingHelpDue": "Avtalet förnyas, men avbetalningsplanen för den nya perioden är inte inlagd. Inga fakturor skapas förrän den finns. Måste vara på plats till {date}.",
+                "addPlan": "Lägg till avbetalningsplan för ny period",
+                "addPlanHelp": "Öppnar avtalet med planen som en lista och en tom rad på förnyelsedagen.",
+                "mrrEstimated": "uppskattad",
+                "mrrEstimatedHelp": "Kontrakts-MRR innehåller en förnyelse utan avbetalningsplan och är därför en uppskattning från listpriserna.",
+                "billing": {"by_agreement": "Avtalas vid försäljning", "upfront": "Samlat vid förnyelse", "yearly": "Årligen", "monthly": "Månadsvis", "plan": "Som betalningsplanen"},
                 "sources": {
                     "list_price": "Listpris",
                     "override": "Fast pris",
@@ -13818,6 +14137,7 @@
                 "backlog": "Summan av delbetalningar på aktiva avtal där fakturan inte är betald.",
                 "outstanding": "Avtalsfakturor som skapats men ännu inte betalats.",
                 "bindingsEnding": "Antal aktiva avtal vars bindning löper ut inom 3, 6 och 12 månader.",
+                "renewalsWithoutPlan": "{count} förnyelser saknar avbetalningsplan. Inga fakturor skapas för dem förrän planen är inlagd.",
                 "upcoming": "Aktiva avtal sorterade efter slutdatum. Klicka för att öppna kundens Avtal."
             },
             "upcomingTitle": "Nästa bindningar som löper ut",
@@ -14109,7 +14429,14 @@
     },
     "timeRegistration": {
         "checkIn": "Checka in",
-        "checkOut": "Checka ut"
+        "checkOut": "Checka ut",
+        "shiftEndPrompt": {
+            "title": "Passet är slut",
+            "question": "Arbetar du fortfarande?",
+            "message": "Ditt pass slutade kl. {time}.",
+            "yes": "Ja, jag arbetar fortfarande",
+            "no": "Nej, stoppa timern"
+        }
     },
     "units": {
         "addNewUnit": "Lägg till ny enhet",
@@ -14154,7 +14481,8 @@
     "validation": {
         "invalidNumber": "Ogiltigt nummer",
         "invalidEmailAddress": "Ogiltig e-postadress",
-        "thisFieldIsRequired": "Detta fält är obligatorisk"
+        "thisFieldIsRequired": "Detta fält är obligatorisk",
+        "pleaseCompleteTemplate": "Fyll i mallen"
     },
     "verifyEmail": {
         "emailVerified": "Email verifierad",
@@ -14260,7 +14588,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Mall sparad",
                 "templateSuccessfullyUpdated": "Mall uppdaterad"
-            }
+            },
+            "descriptionTemplate": "Mall för ärendebeskrivning",
+            "descriptionTemplateHint": "Fylls i beskrivningen när ett hälsoärende skapas med denna mall.",
+            "statusTemplate": "Mall för statusuppdatering",
+            "statusTemplateHint": "Fylls i när en statusuppdatering skapas på ett hälsoärende med denna mall."
         },
         "table": {
             "name": "Namn",
@@ -15976,6 +16308,7 @@
             "recipientPlaceholder": "Mottagare (annars avdelningens e-post)",
             "sendEmail": "Skicka via e-post",
             "pushEconomic": "Skicka till e-conomic som utkast",
+            "pushDinero": "Skicka till Dinero som underlag",
             "empty": "Inga fakturor i den här vyn.",
             "number": "Fakturanr",
             "billTo": "Mottagare",
@@ -15995,6 +16328,9 @@
                 "invoice_not_found": "Fakturan hittades inte",
                 "customer_failed": "Kunden kunde inte skapas i e-conomic",
                 "invoice_failed": "Utkastet kunde inte skapas i e-conomic",
+                "dinero_not_connected": "Dinero är inte anslutet",
+                "dinero_invoice_not_found": "Fakturan hittades inte",
+                "dinero_voucher_failed": "Underlaget kunde inte skapas i Dinero",
                 "unknown_action": "Okänd åtgärd"
             }
         },
@@ -16835,17 +17171,80 @@
         "sent": "Skickat",
         "answered": "Besvarat",
         "withdraw": "Dra tillbaka",
-        "withdrawConfirm": "Formuläret tas bort från patientportalen. Är du säker?",
+        "withdrawConfirm": "Formuläret dras tillbaka och patienten kan inte längre besvara det. Är du säker?",
         "withdrawnAlert": "Formuläret är tillbakadraget",
         "journalNotice": "Svaren läggs automatiskt i patientens journal.",
         "status": {
             "answered": "Besvarat",
-            "waiting": "Väntar på svar"
+            "waiting": "Väntar på svar",
+            "opened": "Öppnad",
+            "expired": "Länken har gått ut"
         },
         "empty": {
             "title": "Inga formulär skickade än",
             "text": "Skicka ett formulär som patienten fyller i hemifrån. Svaren hamnar i journalen."
-        }
+        },
+        "sendBy": "Skicka via",
+        "delivery": {
+            "portal": "Patientportal",
+            "email": "E-post",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "Patienten får en länk och öppnar formuläret med sitt födelsedatum. Länken är giltig i 14 dagar. Svaren läggs i journalen och sparas som PDF i dokumenten.",
+        "email": "E-postadress",
+        "phone": "Telefonnummer",
+        "birthdayMissing": "Patienten har inget födelsedatum registrerat. Lägg till det i patientens uppgifter innan du skickar en länk: patienten använder det för att öppna formuläret.",
+        "sentAlertLink": "Länken skickades till patienten",
+        "resend": "Skicka länk igen",
+        "resentAlert": "En ny länk skickades. Den gamla länken fungerar inte längre.",
+        "expires": "Länken går ut",
+        "openDocuments": "Se PDF i dokument",
+        "consentTemplate": {
+            "create": "Ingen samtyckesblankett än? Skapa en från vår mall",
+            "created": "Samtyckesblanketten skapades. Du kan redigera den under Formulär.",
+            "title": "Samtyckesblankett",
+            "description": "Fylls i före ditt besök",
+            "fields": {
+                "intro": "Fyll i formuläret före ditt besök. Dina svar delas bara med kliniken.",
+                "aboutYou": "Om dig",
+                "fullName": "Fullständigt namn",
+                "birthday": "Födelsedatum",
+                "phone": "Telefonnummer",
+                "treatment": "Behandlingen",
+                "treatmentDescription": "Behandling och placering på kroppen",
+                "appointmentDate": "Datum för besöket",
+                "health": "Din hälsa",
+                "adult": "Är du 18 år eller äldre?",
+                "conditions": "Gäller något av detta dig?",
+                "conditionsDetails": "Om du har kryssat i något ovan eller tar mediciner, berätta mer",
+                "consent": "Samtycke",
+                "risks": "Behandlingen är permanent. Som vid all behandling som bryter huden finns det risk för infektion, allergisk reaktion och ärr. Hur resultatet ser ut och håller beror på din hud och på hur du sköter området efteråt.",
+                "confirmRisks": "Information och risker",
+                "confirmAftercare": "Eftervård",
+                "confirmTruthful": "Hälsofrågor",
+                "photos": "Får vi fotografera resultatet för vår portfolio och sociala medier?",
+                "signature": "Underskrift: skriv ditt fullständiga namn"
+            },
+            "options": {
+                "yes": "Ja",
+                "no": "Nej",
+                "allergies": "Allergi (till exempel latex, nickel, färgpigment eller bedövning)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsi",
+                "heart": "Hjärtsjukdom eller högt blodtryck",
+                "bloodThinners": "Blodförtunnande läkemedel",
+                "skin": "Hudsjukdom eller irritation där behandlingen ska göras",
+                "pregnant": "Gravid eller ammar",
+                "alcohol": "Alkohol eller droger de senaste 24 timmarna",
+                "understoodRisks": "Jag har läst och förstått informationen om behandlingen och dess risker",
+                "understoodAftercare": "Jag har fått veta hur jag sköter området efteråt",
+                "truthful": "Jag har besvarat hälsofrågorna sanningsenligt och jag samtycker till behandlingen"
+            }
+        },
+        "viewAnswers": "Visa svar",
+        "ipAddress": "IP-adress",
+        "sentVia": "Skickat via",
+        "portalUnavailable": "Patientportalen kan inte väljas: patienten har ingen åtkomst till portalen. Slå på systemåtkomst i patientens uppgifter för att skicka formulär dit."
     },
     "pageSettings": {
         "title": "Inställningar för den här sidan",
@@ -17562,5 +17961,42 @@
     "documentViewer": {
         "notViewableTitle": "Filen kan inte öppnas",
         "notViewableText": "Den här filtypen kan inte visas i webbläsaren, och din roll får inte ladda ner dokument."
+    },
+    "publicForm": {
+        "title": "Formulär",
+        "unlock": {
+            "heading": "{company} har skickat ett formulär till dig",
+            "intro": "För att skydda dina uppgifter anger du ditt födelsedatum för att öppna formuläret.",
+            "birthday": "Födelsedatum",
+            "open": "Öppna formuläret"
+        },
+        "fill": {
+            "notice": "Dina svar skickas till {company} och sparas i din journal där.",
+            "send": "Skicka"
+        },
+        "done": {
+            "title": "Tack",
+            "text": "Dina svar har skickats till {company}. Du kan stänga sidan."
+        },
+        "closed": {
+            "notFound": {
+                "title": "Länken är inte giltig",
+                "text": "Kontrollera att du öppnade hela länken, eller kontakta kliniken för att få en ny."
+            },
+            "completed": {
+                "title": "Formuläret är redan besvarat",
+                "text": "Tack. Det finns inget mer att göra."
+            },
+            "expired": {
+                "title": "Länken har gått ut",
+                "text": "Kontakta kliniken för att få en ny länk."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "Födelsedatumet stämmer inte. Kontrollera det och försök igen.",
+            "locked": "För många försök. Försök igen om 30 minuter.",
+            "required": "Besvara frågorna markerade med *.",
+            "failed": "Något gick fel. Försök igen."
+        }
     }
 }

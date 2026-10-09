@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Delte dokumenter",
+        "enterPassword": "Skriv inn passordet du har fått av avsenderen for å åpne dokumentene.",
+        "password": "Passord",
+        "unlock": "Åpne",
+        "lock": "Lukk",
+        "sharedBy": "Delt av {name}, {company}",
+        "linkExpires": "Lenken virker til {date}",
+        "folderPath": "Mappesti",
+        "view": "Vis",
+        "download": "Last ned",
+        "empty": "Mappen er tom.",
+        "changeLanguage": "Bytt språk",
+        "somethingWentWrong": "Noe gikk galt. Prøv igjen."
+    },
+    "comingFunctions": {
+        "title": "Kommende funksjoner",
+        "intro": "Her kan du se hva vi jobber med, og hva som kommer i CitizenOne. Savner du noe? Send oss et ønske.",
+        "sendWish": "Send et ønske",
+        "empty": "Det er ingen kommende funksjoner å vise akkurat nå.",
+        "sections": {
+            "in_progress": "Pågår",
+            "planned": "Planlagt",
+            "released": "Nylig lansert"
+        },
+        "status": {
+            "in_progress": "Pågår",
+            "planned": "Planlagt",
+            "released": "Lansert"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
         "filters": {
@@ -1442,6 +1473,27 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Dupliser",
+            "help": "Oppretter en ny avtale med samme tittel, beskrivelse, deltakere og etiketter. Du velger selv dato og tid."
+        },
+        "onlyMine": {
+            "label": "Bare mine",
+            "help": "Viser bare avtaler du eier eller er invitert til"
+        },
+        "shortcuts": {
+            "view": "{view} (trykk {key})",
+            "today": "Gå til i dag (trykk T)",
+            "previous": "Forrige (trykk ←)",
+            "next": "Neste (trykk →)",
+            "newEvent": "Ny avtale for deg selv (trykk N)"
+        },
+        "filters": {
+            "active": "Aktive filtre",
+            "remove": "Fjern filteret: {label}",
+            "clear": "Nullstill filtre",
+            "clearHelp": "Fjerner alle filtre på beboere, ansatte, grupper og etiketter"
+        },
         "participants": "Deltakere",
         "citizens": "@.capitalize:terms.citizens{''}",
         "days": {
@@ -2066,6 +2118,49 @@
                 "template": "Mal",
                 "useTemplate": "Bruk mal"
             },
+            "sendLink": {
+                "title": "Send lenke på e-post",
+                "fileIntro": "Mottakeren kan se og laste ned denne filen.",
+                "folderIntro": "Mottakeren kan se og laste ned alt i denne mappen, også undermapper.",
+                "recipients": "Mottakere",
+                "recipientsPlaceholder": "Skriv en e-postadresse og trykk Enter",
+                "recipientsHelp": "Opptil 10 mottakere.",
+                "password": "Passord",
+                "confirmPassword": "Bekreft passord",
+                "passwordHelp": "Passordet står ikke i e-posten. Gi det til mottakeren på en annen måte, f.eks. på telefon eller SMS.",
+                "expiresAt": "Lenken utløper",
+                "emailLanguage": "Språk i e-posten",
+                "message": "Melding (valgfri)",
+                "messagePlaceholder": "Skriv en melding til mottakeren",
+                "send": "Send lenke",
+                "sent": "Lenken er sendt",
+                "sentLinks": "Sendte lenker",
+                "sentLinksIntro": "Lenker sendt på e-post fra disse dokumentene. Tilbakekall en lenke for å stenge den med en gang.",
+                "document": "Dokument",
+                "sentTo": "Sendt til",
+                "sentBy": "Sendt av",
+                "expires": "Utløper",
+                "active": "Aktiv",
+                "expired": "Utløpt",
+                "copyLink": "Kopier lenke",
+                "linkCopied": "Lenken er kopiert",
+                "revoke": "Tilbakekall lenke",
+                "revokeConfirmation": "Tilbakekalle lenken? Mottakerne kan da ikke åpne den",
+                "revoked": "Lenken er tilbakekalt",
+                "languages": {
+                    "dk": "Dansk",
+                    "en": "Engelsk",
+                    "no": "Norsk",
+                    "sv": "Svensk"
+                },
+                "alert": {
+                    "recipientRequired": "Legg til minst én e-postadresse",
+                    "tooManyRecipients": "Du kan sende til maks 10 mottakere",
+                    "passwordMin": "Bruk minst 8 tegn",
+                    "passwordMismatch": "Passordene er ikke like",
+                    "expiryRange": "Velg en dato mellom i dag og om ett år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Tilgang",
@@ -2075,6 +2170,7 @@
                     "edit": "Rediger",
                     "move": "Flytt",
                     "openSelected": "Åpne valgte",
+                    "sendLink": "Send lenke på e-post",
                     "share": "Del",
                     "statuses": "Statuser",
                     "unshare": "Fjern deling",
@@ -3661,7 +3757,9 @@
                     },
                     "date": "Dato",
                     "getFromPreviousStatus": "Hent data fra forrige status",
-                    "status": "Status"
+                    "status": "Status",
+                    "careArea": "Omsorgsområde",
+                    "careAreaInherited": "Arves fra helsesaken"
                 },
                 "newStatus": "Ny status",
                 "statuses": "Statuser",
@@ -3726,7 +3824,13 @@
                 "score": "Score",
                 "titleOfTheTreatment": "Behandlingens tittel"
             },
-            "treatments": "Behandlinger"
+            "treatments": "Behandlinger",
+            "template": {
+                "observation": "Observasjon",
+                "assessment": "Vurdering",
+                "plan": "Plan",
+                "followUp": "Oppfølging"
+            }
         },
         "useOfForce": {
             "alert": {
@@ -4676,6 +4780,24 @@
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
+        "groups": {
+            "collapse": "Skjul avdelingen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} ansatte",
+            "expand": "Vis avdelingen",
+            "noDepartment": "Uten avdeling",
+            "shifts": "{count} vakter"
+        },
+        "moreShifts": "{count} vakter til – klikk for å vise alle",
+        "optimizedNotice": {
+            "title": "Vaktplanen er blitt lettere å lese",
+            "compact": "Vaktene tar mindre plass, og en dag viser de første – trykk +N for resten.",
+            "groups": "På Alle avdelinger er de ansatte delt inn i avdelinger, med din egen øverst.",
+            "tooltips": "Hold musen over en knapp for å se hva den gjør.",
+            "dismiss": "Skjønner",
+            "dismissTooltip": "Lukk meldingen – den vises ikke igjen"
+        },
+        "showFewerShifts": "Vis bare de første vaktene",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",
             "hint": "Enter for å lagre · Esc for å avbryte"
@@ -5000,6 +5122,10 @@
             "employmentStatus": "Ansættelsesstatus",
             "tags": "Tags",
             "filterDate": "Filtrer dato",
+            "jobTitles": "Stillingstitler",
+            "sortBy": "Sorter etter",
+            "sortByJobTitle": "Stillingstittel",
+            "sortByName": "Navn",
             "filterDateAndTime": "Filtrer dato og tid",
             "timeFrom": "Tid fra",
             "timeTo": "Tid til"
@@ -5030,7 +5156,8 @@
             "employeeMarkedUnavailable": "Denne medarbeideren har markert seg utilgjengelig på denne datoen",
             "sendEmailToEmployee": "Send e-post til den ansatte",
             "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
-            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen."
+            "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
+            "compensatoryHours": "Avspaseringstimer brukt"
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
@@ -5275,6 +5402,8 @@
                 "amountRequired": "Angi et antall timer større enn 0",
                 "button": "Registrer utbetaling",
                 "confirmation": "Er du sikker på at du vil registrere en utbetaling av {amount} timer til {employee}?",
+                "date": "Utbetalingsdato",
+                "dateHint": "Velg datoen timene ble utbetalt. Utbetalingen teller med i den måneden.",
                 "noAccountAssigned": "Denne ansatte har ingen aktiv timekonto å registrere en utbetaling på.",
                 "register": "Registrer utbetaling",
                 "title": "Registrer utbetaling"
@@ -5480,6 +5609,32 @@
         },
         "shareDutySchedule": {
             "dutySchedule": "Vaktplan",
+            "embed": {
+                "absent": "Fraværende",
+                "codeCopied": "Kopiert",
+                "copyCode": "Kopier kode",
+                "description": "Vis vaktplanen på deres egen nettside, for eksempel intranettet. Alle som kan se siden, kan se vaktplanen uten passord. Den viser navn, stillinger og vakttider. Notater, borgere og årsaken til fravær vises aldri.",
+                "disable": "Slå av innbygging",
+                "disableHelp": "Vaktplanen forsvinner fra alle nettsider den er bygget inn på. Slår du den på igjen, får du en ny kode.",
+                "disabled": "Innbygging slått av",
+                "embed": "Bygg inn",
+                "embedCode": "Innbyggingskode",
+                "embedCodeHelp": "Lim inn koden på nettsiden der vaktplanen skal vises.",
+                "embedded": "Innebygd",
+                "enable": "Slå på innbygging",
+                "enabled": "Innbygging slått på",
+                "nextWeek": "Neste uke",
+                "noShifts": "Ingen vakter denne uken",
+                "openPreview": "Åpne forhåndsvisning",
+                "previousWeek": "Forrige uke",
+                "title": "Bygg inn på nettside",
+                "unavailable": "Vaktplanen er ikke tilgjengelig.",
+                "unavailableHelp": "Det kan skyldes at:",
+                "unavailableReasonOff": "innbyggingen er slått av",
+                "unavailableReasonNewCode": "vaktplanen har fått en ny innbyggingskode som ennå ikke er lagt inn på denne siden",
+                "unavailableReasonExpired": "den delte lenken har utløpt eller er slettet",
+                "unavailableContact": "Kontakt den som har ansvaret for vaktplanen."
+            },
             "form": {
                 "alert": {
                     "dutyScheduleSuccessfullyShared": "Vaktplan ble delt vellykket",
@@ -5547,6 +5702,8 @@
         "showEmployeesWorkingToday": "Vis medarbeidere, der arbeider i dag",
         "showTheDistributionOfShiftTypes": "Vis vagttypers fordeling",
         "sort": {
+            "firstShiftActive": "Sortert etter hvem som møter først denne dagen. Klikk for å slå av",
+            "sortByFirstShift": "Sorter etter hvem som møter først denne dagen",
             "sortNamesInAscendingOrder": "Sorter navne i stigende rekkefølge",
             "sortNamesInDescendingOrder": "Sorter navne i faldende rekkefølge"
         },
@@ -6584,7 +6741,12 @@
                 "created": "Opprettet",
                 "published": "Publisert",
                 "updated": "Oppdatert",
-                "deleted": "Slettet"
+                "deleted": "Slettet",
+                "compensatory_time_requested": "Avspasering forespurt",
+                "compensatory_time_approved": "Avspasering godkjent",
+                "compensatory_time_declined": "Avspasering avslått",
+                "compensatory_time_withdrawn": "Avspasering trukket tilbake",
+                "compensatory_time_reversed": "Avspasering reversert"
             }
         },
         "salaryDk_sync": "Synkroniser til Salary",
@@ -7185,6 +7347,12 @@
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
         "showShifts": "Vis vakter",
+        "loadFailed": {
+            "title": "Kalenderen kunne ikke lastes",
+            "message": "Avtalene dine er ikke borte. Vi klarte bare ikke å hente dem akkurat nå. Prøv igjen om et øyeblikk.",
+            "retry": "Prøv igjen",
+            "retryHelp": "Laster kalenderen på nytt for perioden du ser på."
+        },
         "shiftLabel": "Vakt",
         "confirmation": {
             "deleteConfirmation": "Er du sikker på at du vil slette denne arrangement",
@@ -7238,6 +7406,10 @@
         "markAsNotCompleted": "Merk som ikke fullført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
+        "noteNudge": {
+            "label": "Mangler notat",
+            "help": "Bookingen er over, men det er ikke skrevet et journalnotat ennå. Klikk for å skrive det."
+        },
         "status": {
             "completed": "Fullført",
             "notCompleted": "Ikke fullført"
@@ -7721,6 +7893,18 @@
         "title": "Skjemafeltkonfigurasjon"
     },
     "forms": {
+        "community": {
+            "sharedBadge": "Delt",
+            "fromCommunityBadge": "Fra CitizenOne-fellesskapet",
+            "chooseFrom": "Velg fra",
+            "ourTemplates": "Våre maler",
+            "pickerHint": "Maler delt av andre organisasjoner i CitizenOne. Den du velger, kopieres til deres maler, der du kan redigere den.",
+            "pickerEmpty": "Det er ennå ikke delt maler på ditt språk.",
+            "searchTemplates": "Søk i maler…",
+            "optionLabel": "CitizenOne-fellesskapet",
+            "share": "Del med CitizenOne-fellesskapet",
+            "shareHint": "En kopi av malen, slik den er når du lagrer, blir tilgjengelig for alle CitizenOne-virksomheter med samme språk. Senere endringer deles ikke. Sørg for at malen ikke inneholder personopplysninger."
+        },
         "addNewQuestion": "Legg til nytt spørgsmål",
         "addOption": "Legg til mulighet",
         "alert": {
@@ -8049,6 +8233,36 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjelp & Guide - Vaktplan",
+        "askMilo": "Spør Milo",
+        "askMiloTooltip": "Spør Milo om vaktplanen",
+        "askMiloGeneral": "Spør Milo hvis du trenger hjelp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hvordan kopierer jeg en uke til neste uke?",
+                "q2": "Hva betyr +N på en dag?",
+                "q3": "Hvordan godkjenner jeg et vaktbytte?"
+            },
+            "calendar": {
+                "q1": "Hvordan oppretter jeg en avtale som gjentas?",
+                "q2": "Hvordan viser jeg bare mine egne avtaler?",
+                "q3": "Hvordan sletter jeg resten av en serie?"
+            },
+            "overview": {
+                "q1": "Hvordan velger jeg hvilke bokser jeg ser?",
+                "q2": "Hvorfor er noen bokser låst?",
+                "q3": "Hva er vaktoversikten?"
+            },
+            "citizens": {
+                "q1": "Hvordan oppretter jeg en ny {citizen}?",
+                "q2": "Hvordan arkiverer jeg en {citizen}?",
+                "q3": "Hvordan finner jeg en {citizen} med personnummer?"
+            },
+            "employees": {
+                "q1": "Hvordan inviterer jeg en ny ansatt?",
+                "q2": "Hvordan arkiverer jeg en ansatt?",
+                "q3": "Hvordan gir jeg en ansatt tilgang til en avdeling?"
+            }
+        },
         "title": "Hjelp & Guide"
     },
     "hideAll": "Skjul alle",
@@ -9173,6 +9387,8 @@
         "logout": "Logg ut",
         "notifications": "Varsler",
         "procedures": "Prosedyrer",
+        "newWishes": "Nye ønsker",
+        "comingFunctions": "Kommende funksjoner",
         "reminders": "Påminnelser",
         "settings": "Innstillinger",
         "subscription": "Abonnement",
@@ -10334,6 +10550,17 @@
         "strongPasswordSub": "Bruk minst 8 tegn med tal og symboler",
         "strongPasswordTitle": "Opprett en stærk passord"
     },
+    "citizenVisibility": {
+        "notice": "Du er ikke knyttet til noen avdeling, @:terms.citizens{''} eller ansattgruppe, så du kan ikke se noen @:terms.citizens{''} ennå. Kontakt lederen din.",
+        "noticeHelp": "Ansatte ser @:terms.citizens{''} i sine egne avdelinger, @:terms.citizens{''} de er tildelt, og @:terms.citizens{''} via sine ansattgrupper. Lederen din kan legge deg til en avdeling eller tildele deg @:terms.citizens{''}.",
+        "noticeHelpLabel": "Hvorfor kan jeg ikke se noen @:terms.citizens{''}?",
+        "levelAll": "Ser alle @:terms.citizens{''} i virksomheten",
+        "levelLimited": "Ser bare @:terms.citizens{''} i egne avdelinger, tildelte og via ansattgrupper (eller alle, hvis virksomheten ikke bruker avdelinger)",
+        "levelHelp": "Nivået bestemmer hvilke @:terms.citizens{''} rollen kan se. @:roles.table.manager og høyere ser alle @:terms.citizens{''} i virksomheten. @:roles.table.regular ser bare @:terms.citizens{''} i egne avdelinger, tildelte og via ansattgrupper. Bruker virksomheten ikke avdelinger, ser alle ansatte alle @:terms.citizens{''}.",
+        "levelHelpLabel": "Hva betyr nivået?",
+        "badgeAll": "Alle @:terms.citizens{''}",
+        "badgeLimited": "Egne @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Legg til ny rolle",
         "alert": {
@@ -10695,6 +10922,8 @@
                 "relativeChatContactPersons": "Pårørende kan skrive til innbyggerens tilknyttede kontaktpersoner",
                 "patientChatInbox": "Pasienter skriver til hele klinikken (felles innboks)",
                 "patientChatInboxHint": "Pasientene kan ikke velge en bestemt ansatt. Alle aktive ansatte ser meldingen og kan svare",
+                "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
+                "patientHideClinicContactHint": "Pasientene ser bare klinikkens navn. Adresse og telefon står fortsatt på fakturaene deres",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
                 "groupPortalAccess": "Portaltilgang",
                 "portalAccessHint": "Velg hva pårørende, tredjeparter og innbyggere kan se i sin egen portal",
@@ -10718,6 +10947,7 @@
                 "interventionNotificationHours": "Varslingstimer for innsats",
                 "employmentWeeklyHours": "Ukentlige arbeidstimer (fakturering for sysselsettingsinnsats)",
                 "employmentWeeklyHoursHint": "Brukes til å omregne timepriser til en ukentlig pris. La stå tomt for å bruke standarden på 37 timer/uke.",
+                "dutyScheduleSortFirstShift": "Sorter vaktplanen etter hvem som møter først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktiver avspasering",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
@@ -10822,7 +11052,8 @@
                 "portalSectionForms": "Skjemaer",
                 "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewForms": "Pasienten fyller ut skjemaene dere sender, f.eks. før et besøk.",
-                "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem."
+                "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem.",
+                "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -10955,6 +11186,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egne lenker",
             "messageTemplates": "Meldingsmaler",
             "timelineEventTypes": "Tidslinjetyper",
@@ -11036,6 +11268,29 @@
             "how1": "Klikk “Koble til e-conomic”.",
             "how2": "Godkjenn tilgangen i e-conomic (App Connect).",
             "how3": "Du sendes tilbake hit. Deretter kan fakturaer sendes til e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send fakturaer fra CitizenOne til Dinero som bilag.",
+            "adminOnly": "Bare administratorer kan administrere Dinero-tilkoblingen.",
+            "notPurchased": "Dinero-appen er ikke aktivert ennå. Aktiver den under Apps for å koble til.",
+            "goToApps": "Gå til Apps",
+            "connection": "Tilkobling",
+            "connected": "Tilkoblet",
+            "notConnected": "Ikke tilkoblet",
+            "connect": "Koble til",
+            "disconnect": "Koble fra",
+            "confirmDisconnect": "Koble fra Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Client ID-en Dinero utstedte til dere",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Client Secret-en Dinero utstedte til dere",
+            "apiKeyLabel": "Dinero API-nøkkel",
+            "apiKeyPlaceholder": "Lim inn API-nøkkelen fra din Dinero-organisasjon",
+            "howTitle": "Slik kobler du til",
+            "how1": "Gå til Innstillinger → Integrasjoner i Dinero, og be om en personlig integrasjon for å få en Client ID, Client Secret og API-nøkkel for organisasjonen.",
+            "how2": "Lim inn alle tre her, og klikk “Koble til”.",
+            "how3": "Når tilkoblingen er opprettet, kan fakturaer sendes til Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11168,6 +11423,10 @@
             "economic": {
                 "title": "Hva gjør e-conomic?",
                 "body": "Send fakturaer og bilag videre til regnskapssystemet, slik at tallene bare tastes ett sted."
+            },
+            "dinero": {
+                "title": "Hva gjør Dinero?",
+                "body": "Send fakturaer videre til Dinero som bilag, slik at tallene bare tastes ett sted."
             },
             "fst": {
                 "title": "Hva er FindSocialeTilbud.dk?",
@@ -11437,6 +11696,7 @@
             "remove": "Fjern"
         },
         "currentSubscription": "Nåværende abonnement",
+        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Abonnementet deres er en spesifisert avtale med CitizenOne.", "agreementText": "Spesifisert avtale – priser og vilkår følger avtalen deres med CitizenOne.", "usage": "{used} av {total} {label} i bruk", "contact": "Kontakt oss", "contactHelp": "Skriv til CitizenOne om avtalen, prisene eller endringer."},
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "admin": "Admin",
@@ -11489,6 +11749,34 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Veikart",
+            "intro": "Funksjonene alle brukere ser under \"Kommende funksjoner\" i profilmenyen. Bare publiserte punkter vises.",
+            "newItem": "Nytt punkt",
+            "editItem": "Rediger punkt",
+            "noItems": "Ingen punkter med denne statusen.",
+            "dragHint": "Dra punktene for å endre rekkefølgen brukerne ser dem i.",
+            "published": "Publisert",
+            "draft": "Utkast",
+            "publish": "Publiser",
+            "unpublish": "Avpubliser",
+            "deleteConfirm": "Er du sikker på at du vil slette dette punktet?",
+            "visibleToEveryone": "Synlig for alle bransjer",
+            "visibleToIndustries": "Bare synlig for de valgte bransjene",
+            "releasedOn": "Lansert {date}",
+            "form": {
+                "title": "Tittel",
+                "description": "Beskrivelse",
+                "descriptionHint": "Skriv til brukerne: hva funksjonen gjør, og hvordan den hjelper dem.",
+                "status": "Status",
+                "expectedPeriod": "Forventet",
+                "expectedPeriodPlaceholder": "F.eks. Q2 2027 eller april 2027",
+                "industries": "Bransjer",
+                "industriesHint": "La feltet stå tomt for å vise punktet for alle bransjer.",
+                "published": "Vis for brukerne",
+                "publishedHint": "Utkast er bare synlige her i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
@@ -12069,6 +12357,20 @@
                 "months": "{count} måneder",
                 "tcv": "Samlet avtaleverdi (TCV)",
                 "tcvHint": "Grunnpakke og tillegg, hver ganger sin løpetid. Ekskl. mva.",
+                "agrAgreementName": "Inngår i avtale: {name}",
+                "agrAgreementChip": "Avtale",
+                "agrAgreementChipHelp": "Abonnementet er dekket av en avtale. Priser og binding følger avtalen, ikke abonnementets egen pris.",
+                "agrListPrice": "Listepris {price}/{unit} – gjelder fra fornyelse {date}",
+                "agrListPriceHelp": "Avtalen har låst prisen i avtaleperioden. Listeprisen gjelder først når avtalen fornyes.",
+                "agrAgreementPeriod": "{from} – {to} ({months} mnd.)",
+                "agrAgreementPeriodHelp": "Avtalens start, slutt og lengde.",
+                "agrNoticeDeadline": "Oppsigelsesfrist {date}",
+                "agrNoticeDeadlineHelp": "Siste dato avtalen kan sies opp slik at den ikke fornyes automatisk.",
+                "agrManagedOnAgreementHelp": "Binding og oppsigelse styres på avtalen. Klikk for å åpne virksomhetens avtaler.",
+                "agrEditSubscriptionCoveredHelp": "Abonnementet er dekket av en avtale. Et planbytte endrer ikke avtalens priser eller binding - rett dem på avtalen.",
+                "agrRunningAgreement": "Virksomheten har en avtale: {name} ({from}–{to})",
+                "agrRunningAgreementLink": "Se avtaler",
+                "agrRunningAgreementHelp": "Hovedabonnementet er ikke koblet til avtalen. Åpne avtalene for å koble det.",
                 "cancelledAt": "Oppsigelse mottatt",
                 "endsAt": "Opphører",
                 "cancelledHint": "Prognosen regner ikke med denne kunden etter opphørsdatoen.",
@@ -12642,6 +12944,7 @@
             "labelImage": "Bilde"
         },
         "sidebar": {
+            "roadmap": "Veikart",
             "apps": "Apper",
             "appCategories": "App-kategorier",
             "companies": "Virksomheter",
@@ -13543,6 +13846,8 @@
                 "subscriptions": "Lisenser og Pro-profil koblet til avtalen gjelder hele bindingen og belastes ikke med kort i tillegg.",
                 "settledExternally": "Åpne avdrag som forfaller før denne datoen markeres som oppgjort og faktureres aldri. Bruk det for kunder som allerede har betalt via e-conomic.",
                 "renewalValue": "Tom = beregnes ut fra gjeldende listepris for de tilknyttede lisensene på fornyelsestidspunktet. Fylles feltet ut, erstatter den faste prisen listeprisen ved de kommende fornyelsene.",
+                "renewalTerm": "Når bindingen utløper, fornyes avtalen for denne perioden til gjeldende listepris. F.eks. 36 mnd. samlet = én faktura for 3 år på fornyelsesdatoen.",
+                "renewalBilling": "Avtalen forlenges ved fornyelse, men det opprettes ingen fakturaer før rateplanen for den nye perioden er lagt inn. Dere får beskjed fra oppsigelsesfristen.",
                 "termMode": "Oppgi bindingen enten som antall måneder eller som en sluttdato.",
                 "endsOn": "Bindingens siste dag. Antall måneder beregnes av serveren, f.eks. 2025-06-10 til 2028-09-01."
             },
@@ -13590,6 +13895,9 @@
                 "settledNotePlaceholder": "f.eks. e-conomic bilag 297637275",
                 "renewalValue": "Årlig verdi ved fornyelse",
                 "renewalValuePlaceholder": "Listepris",
+                "renewalTerm": "Fornyelsesperiode (måneder)",
+                "renewalBilling": "Faktureres ved fornyelse",
+                "renewalTermQuickHelp": "Sett fornyelsesperioden til {months} måneder.",
                 "endsOn": "Sluttdato",
                 "modeMonths": "Binding i måneder",
                 "modeEndDate": "Sluttdato",
@@ -13752,6 +14060,17 @@
             "renewal": {
                 "expected": "Forventet fornyelse: {amount} kr/år",
                 "expectedHelp": "Når en ny periode starter, faktureres de listeprisene som gjelder på det tidspunktet. Beløpet her er et anslag ut fra dagens priser og kan endres hvis prisene endres før den tid.",
+                "renewsFor": "Fornyes for {term} mnd. · {billing}",
+                "periodExpected": "Forventet for perioden: {amount} kr.",
+                "periodExpectedHelp": "Anslått beløp for hele fornyelsesperioden til dagens listepriser. Kan endre seg hvis prisene endres før det.",
+                "planMissing": "Rateplan mangler for fornyelse",
+                "planMissingHelp": "Avtalen fornyes, men rateplanen for den nye perioden er ikke lagt inn. Det opprettes ingen fakturaer før den er der.",
+                "planMissingHelpDue": "Avtalen fornyes, men rateplanen for den nye perioden er ikke lagt inn. Det opprettes ingen fakturaer før den er der. Må være på plass til {date}.",
+                "addPlan": "Legg til rateplan for ny periode",
+                "addPlanHelp": "Åpner avtalen med rateplanen som en liste og en tom rad på fornyelsesdatoen.",
+                "mrrEstimated": "anslått",
+                "mrrEstimatedHelp": "Kontrakt-MRR inneholder en fornyelse uten rateplan og er derfor et anslag ut fra listeprisene.",
+                "billing": {"by_agreement": "Avtales med salget", "upfront": "Samlet ved fornyelse", "yearly": "Årlig", "monthly": "Månedlig", "plan": "Som betalingsplanen"},
                 "sources": {
                     "list_price": "Listepris",
                     "override": "Fast pris",
@@ -13818,6 +14137,7 @@
                 "backlog": "Summen av avdrag på aktive avtaler der fakturaen ikke er betalt.",
                 "outstanding": "Fakturaer for avtaler som er opprettet, men ikke betalt ennå.",
                 "bindingsEnding": "Antall aktive avtaler hvor bindingen utløper innen 3, 6 og 12 måneder.",
+                "renewalsWithoutPlan": "{count} fornyelser mangler en rateplan. Det opprettes ingen fakturaer for dem før planen er lagt inn.",
                 "upcoming": "Aktive avtaler sortert etter utløp. Klikk for å åpne kundens Avtaler."
             },
             "upcomingTitle": "Neste bindinger som utløper",
@@ -14109,7 +14429,14 @@
     },
     "timeRegistration": {
         "checkIn": "Sjekk inn",
-        "checkOut": "Sjekk ut"
+        "checkOut": "Sjekk ut",
+        "shiftEndPrompt": {
+            "title": "Vakten er over",
+            "question": "Jobber du fortsatt?",
+            "message": "Vakten din sluttet kl. {time}.",
+            "yes": "Ja, jeg jobber fortsatt",
+            "no": "Nei, stopp timeren"
+        }
     },
     "units": {
         "addNewUnit": "Legg til ny enhed",
@@ -14154,7 +14481,8 @@
     "validation": {
         "invalidNumber": "Ugyldig nummer",
         "invalidEmailAddress": "Ugyldig e-postadresse",
-        "thisFieldIsRequired": "Dette felt er påkrevd"
+        "thisFieldIsRequired": "Dette felt er påkrevd",
+        "pleaseCompleteTemplate": "Fyll ut malen"
     },
     "verifyEmail": {
         "emailVerified": "E-post verificeret",
@@ -14260,7 +14588,11 @@
             "alert": {
                 "newTemplateSuccessfullySaved": "Mal lagret",
                 "templateSuccessfullyUpdated": "Mal oppdatert"
-            }
+            },
+            "descriptionTemplate": "Mal for saksbeskrivelse",
+            "descriptionTemplateHint": "Fylles inn i beskrivelsen når en helsesak opprettes med denne malen.",
+            "statusTemplate": "Mal for statusoppdatering",
+            "statusTemplateHint": "Fylles inn når en statusoppdatering opprettes på en helsesak med denne malen."
         },
         "table": {
             "name": "Navn",
@@ -15976,6 +16308,7 @@
             "recipientPlaceholder": "Mottaker (ellers avdelingens e-post)",
             "sendEmail": "Send på e-post",
             "pushEconomic": "Send til e-conomic som utkast",
+            "pushDinero": "Send til Dinero som bilag",
             "empty": "Ingen fakturaer i denne visningen.",
             "number": "Fakturanr.",
             "billTo": "Mottaker",
@@ -15995,6 +16328,9 @@
                 "invoice_not_found": "Fakturaen ble ikke funnet",
                 "customer_failed": "Kunden kunne ikke opprettes i e-conomic",
                 "invoice_failed": "Utkastet kunne ikke opprettes i e-conomic",
+                "dinero_not_connected": "Dinero er ikke tilkoblet",
+                "dinero_invoice_not_found": "Fakturaen ble ikke funnet",
+                "dinero_voucher_failed": "Bilaget kunne ikke opprettes i Dinero",
                 "unknown_action": "Ukjent handling"
             }
         },
@@ -16835,17 +17171,80 @@
         "sent": "Sendt",
         "answered": "Besvart",
         "withdraw": "Trekk tilbake",
-        "withdrawConfirm": "Skjemaet fjernes fra pasientportalen. Er du sikker?",
+        "withdrawConfirm": "Skjemaet trekkes tilbake, og pasienten kan ikke lenger besvare det. Er du sikker?",
         "withdrawnAlert": "Skjemaet er trukket tilbake",
         "journalNotice": "Svarene legges automatisk i pasientens journal.",
         "status": {
             "answered": "Besvart",
-            "waiting": "Venter på svar"
+            "waiting": "Venter på svar",
+            "opened": "Åpnet",
+            "expired": "Lenken har utløpt"
         },
         "empty": {
             "title": "Ingen skjemaer sendt ennå",
             "text": "Send et skjema som pasienten fyller ut hjemmefra. Svarene havner i journalen."
-        }
+        },
+        "sendBy": "Send via",
+        "delivery": {
+            "portal": "Pasientportal",
+            "email": "E-post",
+            "sms": "SMS"
+        },
+        "sendHelpLink": "Pasienten får en lenke og åpner skjemaet med fødselsdatoen sin. Lenken er gyldig i 14 dager. Svarene legges i journalen og lagres som PDF i dokumentene.",
+        "email": "E-postadresse",
+        "phone": "Telefonnummer",
+        "birthdayMissing": "Pasienten har ingen fødselsdato registrert. Legg den til i pasientens opplysninger før du sender en lenke: pasienten bruker den til å åpne skjemaet.",
+        "sentAlertLink": "Lenken ble sendt til pasienten",
+        "resend": "Send lenke på nytt",
+        "resentAlert": "En ny lenke ble sendt. Den gamle lenken virker ikke lenger.",
+        "expires": "Lenken utløper",
+        "openDocuments": "Se PDF i dokumenter",
+        "consentTemplate": {
+            "create": "Ingen samtykkeerklæring ennå? Opprett en fra malen vår",
+            "created": "Samtykkeerklæringen ble opprettet. Du kan redigere den under Skjemaer.",
+            "title": "Samtykkeerklæring",
+            "description": "Fylles ut før timen din",
+            "fields": {
+                "intro": "Fyll ut skjemaet før timen din. Svarene dine deles bare med klinikken.",
+                "aboutYou": "Om deg",
+                "fullName": "Fullt navn",
+                "birthday": "Fødselsdato",
+                "phone": "Telefonnummer",
+                "treatment": "Behandlingen",
+                "treatmentDescription": "Behandling og plassering på kroppen",
+                "appointmentDate": "Dato for timen",
+                "health": "Helsen din",
+                "adult": "Er du 18 år eller eldre?",
+                "conditions": "Gjelder noe av dette deg?",
+                "conditionsDetails": "Hvis du har krysset av ovenfor eller bruker medisiner, fortell oss mer",
+                "consent": "Samtykke",
+                "risks": "Behandlingen er permanent. Som ved all behandling som bryter huden, er det risiko for infeksjon, allergisk reaksjon og arr. Hvordan resultatet ser ut og holder seg, avhenger av huden din og av hvordan du steller området etterpå.",
+                "confirmRisks": "Informasjon og risiko",
+                "confirmAftercare": "Etterbehandling",
+                "confirmTruthful": "Helsespørsmål",
+                "photos": "Kan vi ta bilder av resultatet til porteføljen vår og sosiale medier?",
+                "signature": "Signatur: skriv fullt navn"
+            },
+            "options": {
+                "yes": "Ja",
+                "no": "Nei",
+                "allergies": "Allergi (for eksempel lateks, nikkel, fargepigmenter eller bedøvelse)",
+                "diabetes": "Diabetes",
+                "epilepsy": "Epilepsi",
+                "heart": "Hjertesykdom eller høyt blodtrykk",
+                "bloodThinners": "Blodfortynnende medisiner",
+                "skin": "Hudsykdom eller irritasjon der behandlingen skal være",
+                "pregnant": "Gravid eller ammende",
+                "alcohol": "Alkohol eller rusmidler de siste 24 timene",
+                "understoodRisks": "Jeg har lest og forstått informasjonen om behandlingen og risikoen",
+                "understoodAftercare": "Jeg har fått vite hvordan jeg skal stelle området etterpå",
+                "truthful": "Jeg har svart sannferdig på helsespørsmålene, og jeg samtykker til behandlingen"
+            }
+        },
+        "viewAnswers": "Se svar",
+        "ipAddress": "IP-adresse",
+        "sentVia": "Sendt via",
+        "portalUnavailable": "Pasientportalen kan ikke velges: pasienten har ikke tilgang til portalen. Slå på systemtilgang i pasientens opplysninger for å sende skjemaer dit."
     },
     "pageSettings": {
         "title": "Innstillinger for denne siden",
@@ -17562,5 +17961,42 @@
     "documentViewer": {
         "notViewableTitle": "Filen kan ikke åpnes",
         "notViewableText": "Denne filtypen kan ikke vises i nettleseren, og rollen din har ikke tilgang til å laste ned dokumenter."
+    },
+    "publicForm": {
+        "title": "Skjema",
+        "unlock": {
+            "heading": "{company} har sendt deg et skjema",
+            "intro": "For å beskytte opplysningene dine må du oppgi fødselsdatoen din for å åpne skjemaet.",
+            "birthday": "Fødselsdato",
+            "open": "Åpne skjemaet"
+        },
+        "fill": {
+            "notice": "Svarene dine sendes til {company} og lagres i journalen din der.",
+            "send": "Send"
+        },
+        "done": {
+            "title": "Takk",
+            "text": "Svarene dine er sendt til {company}. Du kan lukke siden."
+        },
+        "closed": {
+            "notFound": {
+                "title": "Lenken er ikke gyldig",
+                "text": "Sjekk at du åpnet hele lenken, eller kontakt klinikken for å få en ny."
+            },
+            "completed": {
+                "title": "Skjemaet er allerede besvart",
+                "text": "Takk. Det er ikke mer å gjøre."
+            },
+            "expired": {
+                "title": "Lenken har utløpt",
+                "text": "Kontakt klinikken for å få en ny lenke."
+            }
+        },
+        "errors": {
+            "wrongBirthday": "Fødselsdatoen stemmer ikke. Sjekk den og prøv igjen.",
+            "locked": "For mange forsøk. Prøv igjen om 30 minutter.",
+            "required": "Svar på spørsmålene merket med *.",
+            "failed": "Noe gikk galt. Prøv igjen."
+        }
     }
 }

@@ -41,22 +41,28 @@
                 </span>
                 </div>
                 <div class="flex items-center gap-x-2">
-                    <button type="button" @click="setToday()"
-                        class="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-medium text-gray-600 shadow-sm hover:bg-gray-50 transition-colors">
-                        {{ $t('goToToday') }}
-                    </button>
+                    <Tooltip :text="$t('calendar.shortcuts.today')" position="bottom">
+                        <button type="button" @click="setToday()"
+                            class="rounded-full border border-gray-200 bg-white px-3.5 py-1.5 text-xs font-medium text-gray-600 shadow-sm hover:bg-gray-50 transition-colors">
+                            {{ $t('goToToday') }}
+                        </button>
+                    </Tooltip>
                     <div class="inline-flex items-center rounded-full border border-gray-200 bg-white shadow-sm">
-                        <button type="button" @click="previousMonth()"
-                            class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
-                            <span class="sr-only">Previous month</span>
-                            <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
-                        </button>
+                        <Tooltip :text="$t('calendar.shortcuts.previous')" position="bottom">
+                            <button type="button" @click="previousMonth()"
+                                class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                                <span class="sr-only">Previous month</span>
+                                <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
                         <span class="h-4 w-px bg-gray-200"></span>
-                        <button type="button" @click="nextMonth()"
-                            class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
-                            <span class="sr-only">Next month</span>
-                            <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
-                        </button>
+                        <Tooltip :text="$t('calendar.shortcuts.next')" position="bottom">
+                            <button type="button" @click="nextMonth()"
+                                class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                                <span class="sr-only">Next month</span>
+                                <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
                     </div>
                     <div class="hidden">
                         <FormDateField id="date" name="date" :placeholder="$t('dutySchedules.form.date')"
@@ -169,7 +175,9 @@
                                             @keydown.enter.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @keydown.space.prevent="editMyCalendarEvent(myCalendarEvent)"
                                             @click.stop="editMyCalendarEvent(myCalendarEvent)">
-                                            <span class="h-1.5 w-1.5 flex-none rounded-full" :class="[
+                                            <span class="h-1.5 w-1.5 flex-none rounded-full"
+                                                :style="!isNow(myCalendarEvent) && eventTagColor(myCalendarEvent) ? { backgroundColor: eventTagColor(myCalendarEvent) } : undefined"
+                                                :class="[
                                                 isNow(myCalendarEvent) ? 'bg-red-500 motion-safe:animate-pulse' : [
                                                     myCalendarEvent?.type === 'citizens' && 'bg-amber-500',
                                                     myCalendarEvent?.type === 'employees' && 'bg-green-600',
@@ -182,6 +190,8 @@
                                             </span>
                                             <Icon v-if="myCalendarEvent?.journal_id" name="ph:notebook"
                                                 class="h-3 w-3 flex-none text-primary" :title="$t('events.linkedNote', { title: myCalendarEvent?.journal?.title ?? '' })" />
+                                            <ModulesUserMyCalendarNoteNudge v-if="!props.readOnly" compact
+                                                :event="myCalendarEvent" @create="openCreateJournal" />
                                             <Icon v-if="myCalendarEvent?.completion_status === 'completed'"
                                                 name="ph:check-circle-fill" class="h-3 w-3 flex-none text-green-500" />
                                             <Icon v-else-if="isOverdue(myCalendarEvent)"
@@ -327,7 +337,7 @@
                         !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'employees' && 'border-green-700',
                         !myCalendarEvent?.is_shift && myCalendarEvent?.type === 'my_self' && 'border-primary',
                         'pl-4 border-l-4'
-                    ]">
+                    ]" :style="!myCalendarEvent?.is_shift && eventTagColor(myCalendarEvent) ? { borderLeftColor: eventTagColor(myCalendarEvent) } : undefined">
                     <div v-if="myCalendarEvent?.is_shift" class="relative py-4">
                         <div class="flex items-center gap-x-2 flex-wrap">
                             <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
@@ -386,6 +396,7 @@
                                 </span>
                                 <ModulesUserMyCalendarLinkedNote :journal="myCalendarEvent?.journal"
                                     :citizenUuid="myCalendarEvent?.citizen?.uuid" />
+                                <ModulesUserMyCalendarNoteNudge v-if="!props.readOnly" :event="myCalendarEvent" @create="openCreateJournal" />
                             </div>
                             <div class="flex gap-x-2">
                                 <dt class="flex mt-1">
@@ -558,6 +569,7 @@
 </template>
 
 <script setup lang="ts">
+import { eventTagColor, tintColor } from '@/composables/calendarEventPresentation'
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'

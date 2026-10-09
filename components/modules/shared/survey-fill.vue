@@ -1,10 +1,24 @@
 <template>
     <div class="space-y-8">
         <div v-for="(question, qi) in visibleQuestions" :key="question.uuid" class="space-y-3">
-            <div class="bg-gray-100 rounded-md border-t-2 border-primary">
+            <!-- Text the patient reads rather than answers, such as the risks a consent form explains. -->
+            <template v-if="isLayout(question)">
+                <h2 v-if="def(question)?.type === 'heading'" class="text-lg font-semibold text-gray-900">
+                    {{ def(question)?.value }}
+                </h2>
+                <h3 v-else-if="def(question)?.type === 'subheading'" class="text-base font-semibold text-gray-900">
+                    {{ def(question)?.value }}
+                </h3>
+                <p v-else-if="def(question)?.type === 'guidance'"
+                    class="text-sm text-gray-700 whitespace-pre-line rounded-md bg-primary/5 border border-primary/20 p-4">
+                    {{ def(question)?.value }}
+                </p>
+                <p v-else class="text-sm text-gray-700 whitespace-pre-line">{{ def(question)?.value }}</p>
+            </template>
+            <div v-else class="bg-gray-100 rounded-md border-t-2 border-primary">
                 <div class="p-5 space-y-3">
                     <div class="flex gap-x-3">
-                        <div>{{ qi + 1 }}.</div>
+                        <div>{{ numberOf(question, qi) }}.</div>
                         <div class="grow space-y-3">
                             <h3>
                                 {{ def(question)?.value }}
@@ -73,10 +87,25 @@
 const props = defineProps({
     questions: { type: Array as any, required: true },
     answers: { type: Object as any, required: true },
+    // Also show headings and paragraphs between the questions. Off by default, so surveys and
+    // portal forms render exactly as before.
+    withLayout: { type: Boolean, default: false },
 })
+
+const LAYOUT_TYPES = ['heading', 'subheading', 'paragraph', 'guidance']
 
 // Only questions we can render/answer (all current types are supported).
 const visibleQuestions = computed(() => props.questions ?? [])
+
+function isLayout(question: any) {
+    return props.withLayout && LAYOUT_TYPES.includes(def(question)?.type)
+}
+
+// Questions are numbered among themselves; a heading or paragraph does not take a number.
+function numberOf(question: any, index: number) {
+    if (!props.withLayout) return index + 1
+    return visibleQuestions.value.slice(0, index + 1).filter((q: any) => !isLayout(q)).length
+}
 
 function def(question: any) {
     const q = question?.question ?? question

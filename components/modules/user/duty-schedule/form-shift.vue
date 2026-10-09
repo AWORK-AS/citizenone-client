@@ -164,6 +164,12 @@
                     <span class="text-gray-600">{{ $t('dutySchedules.form.hours') }}</span>
                     <span class="font-semibold">{{ props.selectedShift.hours }}</span>
                 </div>
+                <!-- Afspadsering: 0 worked hours above, the hours it took off the balance here -->
+                <div class="rounded-lg bg-gray-50 px-3 py-2 text-sm flex justify-between items-center"
+                    v-if="props.formType === 'update' && props.selectedShift?.compensatory_hours !== null && props.selectedShift?.compensatory_hours !== undefined">
+                    <span class="text-gray-600">{{ $t('dutySchedules.form.compensatoryHours') }}</span>
+                    <span class="font-semibold">{{ props.selectedShift.compensatory_hours }}</span>
+                </div>
                 <div class="rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-sm flex items-start gap-2"
                     v-if="state.selectedEmployeeUnavailability">
                     <Icon name="ph:warning-circle" class="size-5 text-red-500 shrink-0 mt-0.5" aria-hidden="true" />

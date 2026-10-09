@@ -112,6 +112,11 @@ function dotClass(action: string) {
         published: "bg-primary",
         updated: "bg-amber-500",
         deleted: "bg-red-500",
+        compensatory_time_requested: "bg-amber-500",
+        compensatory_time_approved: "bg-green-500",
+        compensatory_time_declined: "bg-red-500",
+        compensatory_time_withdrawn: "bg-gray-400",
+        compensatory_time_reversed: "bg-red-500",
     }
     return map[action] ?? "bg-gray-400"
 }
@@ -126,6 +131,8 @@ function changeText(change: any) {
     const field = change?.label ?? change?.field ?? ""
     const from = change?.old ?? change?.from
     const to = change?.new ?? change?.to
+    // A value with nothing before it, e.g. the reason given when declining
+    if (from === undefined && to !== undefined) return `${field}: ${to}`
     if (from !== undefined || to !== undefined) {
         return `${field}: ${from ?? "-"} -> ${to ?? "-"}`
     }

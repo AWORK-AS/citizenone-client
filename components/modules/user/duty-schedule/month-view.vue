@@ -49,23 +49,6 @@
             <div class="mb-2">
                 <div class="flex flex-wrap items-center justify-between gap-2 py-1">
                     <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
-                        <div class="bg-blue-50 ring-1 ring-blue-200 rounded-lg px-3 py-1">
-                            <h3 class="text-sm font-semibold leading-6 text-gray-900 text-center">
-                                <span v-if="month === 'January'">{{ $t('calendar.month.January') }}</span>
-                                <span v-if="month === 'February'">{{ $t('calendar.month.February') }}</span>
-                                <span v-if="month === 'March'">{{ $t('calendar.month.March') }}</span>
-                                <span v-if="month === 'April'">{{ $t('calendar.month.April') }}</span>
-                                <span v-if="month === 'May'">{{ $t('calendar.month.May') }}</span>
-                                <span v-if="month === 'June'">{{ $t('calendar.month.June') }}</span>
-                                <span v-if="month === 'July'">{{ $t('calendar.month.July') }}</span>
-                                <span v-if="month === 'August'">{{ $t('calendar.month.August') }}</span>
-                                <span v-if="month === 'September'">{{ $t('calendar.month.September') }}</span>
-                                <span v-if="month === 'October'">{{ $t('calendar.month.October') }}</span>
-                                <span v-if="month === 'November'">{{ $t('calendar.month.November') }}</span>
-                                <span v-if="month === 'December'">{{ $t('calendar.month.December') }}</span>
-                                {{ year }}
-                            </h3>
-                        </div>
                         <label v-if="false" class="flex items-center gap-2 cursor-pointer">
                             <FormSwitch :value="userStore.getUser?.is_schedule_pinned ? true : false"
                                 @toggleSwitch="pinSelfToTopOfSchedule()" />
@@ -113,13 +96,13 @@
                                 {{ $t('filter') }}
                             </span>
                         </button>
-                        <button v-if="hasManageFavoritesAccess" class="flex items-center gap-x-1 text-sm text-primary group"
+                        <Tooltip v-if="hasManageFavoritesAccess" :text="$t('dutySchedules.favorites.manageFavorites')">
+                            <button :aria-label="$t('dutySchedules.favorites.manageFavorites')" class="flex items-center gap-x-1 text-sm text-primary group"
                             @click="state.modal.isManageFavoritesOpen = true">
                             <Icon name="mdi:star-outline" class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                            <span class="group-hover:text-primary-700">
-                                {{ $t('dutySchedules.favorites.manageFavorites') }}
-                            </span>
+                            <span class="hidden 2xl:inline group-hover:text-primary-700">{{ $t('dutySchedules.favorites.manageFavorites') }}</span>
                         </button>
+                        </Tooltip>
 
                         <Tooltip :text="state.sortData.sortOrder === 'ascend'
                             ? $t('dutySchedules.sort.sortNamesInDescendingOrder')
@@ -138,10 +121,11 @@
                             </button>
                         </Tooltip>
 
-                        <div class="bg-white border border-gray-200 rounded-md px-3 py-2">
+                        <Tooltip :text="$t('entriesPerPage')">
+                        <div class="bg-white border border-gray-200 rounded-md px-2 h-8 flex items-center text-xs text-gray-600">
                             <div class="flex items-center gap-x-1">
-                                <span>{{ $t('entriesPerPage') }}:</span>
-                                <select class="focus:outline-none bg-transparent" @change="changePageLength"
+                                <Icon name="ph:rows" class="h-4 w-4" aria-hidden="true" />
+                                <select class="focus:outline-none bg-transparent text-xs" :aria-label="$t('entriesPerPage')" @change="changePageLength"
                                     id="citizensPageLength">
                                     <option value="10" :selected="dutyScheduleStore.getCurrentPageLength === '10'">
                                         10
@@ -179,8 +163,9 @@
                                 </select>
                             </div>
                         </div>
+                        </Tooltip>
                         <div
-                            class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-[38px] [&_button]:!h-[38px] [&_form]:!h-[38px]">
+                            class="flex-1 sm:flex-none sm:w-auto xl:min-w-[160px] [&_input]:!h-8 [&_button]:!h-8 [&_form]:!h-8 [&_input]:!text-xs">
                             <TableSearch type="duty-schedule" @search="handleSearch"
                                 :placeholder="$t('dutySchedules.findEmployee')" />
                         </div>
@@ -240,8 +225,8 @@
                                     <p class="text-sm font-semibold text-gray-900">
                                         {{ employee?.firstname }} {{ employee?.lastname }}
                                     </p>
-                                    <p class="text-xxs text-gray-500" v-if="employee?.employee_detail?.job?.title">
-                                        {{ employee?.employee_detail?.job?.title }}
+                                    <p class="text-xxs text-gray-500" v-if="employeeJobTitles(employee)">
+                                        {{ employeeJobTitles(employee) }}
                                     </p>
                                 </div>
                                 <div class="ml-auto flex gap-1">
@@ -653,7 +638,7 @@
                                         </div>
                                     </div>
                                     <!-- Shifts for all employees that day -->
-                                    <div class="space-y-3">
+                                    <div class="space-y-1.5">
                                         <template v-for="(employee, employeeIndex) in state.monthlySchedules?.data"
                                             :key="'emp-' + employeeIndex">
                                             <ModulesUserDutyScheduleScheduleSlotsRequestAvailableSlots
@@ -694,9 +679,9 @@
                                                     </div>
                                                 </Teleport>
                                             </div>
-                                            <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts)"
+                                            <div v-for="(shift, shiftIndex) in sortMultiDayShiftsFirst(state.monthlySchedules?.data?.[employeeIndex]?.days?.[moment(day).format('YYYY-MM-DD')]?.shifts).slice(0, visibleShiftCount(day, employeeIndex as number))"
                                                 :key="'s-' + employeeIndex + '-' + shiftIndex"
-                                                :class="['rounded-lg relative cursor-pointer !mt-4 overflow-visible transition-shadow', shift.is_conflict ? 'ring-2 ring-red-400' : '', isShiftLocked(shift?.date_time_start) && 'opacity-60', isSpanHighlighted(shift) && 'outline outline-2 outline-offset-2 outline-primary-400 shadow-lg']"
+                                                :class="['rounded-lg relative cursor-pointer !mt-2 overflow-visible transition-shadow', shift.is_conflict ? 'ring-2 ring-red-400' : '', isShiftLocked(shift?.date_time_start) && 'opacity-60', isSpanHighlighted(shift) && 'outline outline-2 outline-offset-2 outline-primary-400 shadow-lg']"
                                                 :draggable="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)"
                                                 :style="{ backgroundColor: shift?.type?.color }"
                                                 @click.stop="(hasScheduleManageAccess && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, shift) : viewSchedule(employeeIndex as number, shift)"
@@ -723,6 +708,11 @@
                                                     style="font-size:0.875rem"
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
+                                                </div>
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                    style="font-size:0.875rem"
+                                                    v-if="shift?.type?.system_name === 'compensatory-time'">
+                                                    ⏳
                                                 </div>
                                                 <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
                                                     :text="$t('dutySchedules.lockedShiftTooltip')" position="top"
@@ -826,8 +816,6 @@
                                                         </span>
                                                     </div>
                                                 </Tooltip>
-                                                <div class="mx-2 border-t mb-1"
-                                                    style="border-color:rgba(255,255,255,0.25)"></div>
 
                                                 <div class="flex items-center gap-2 px-2 pb-1.5">
                                                     <img :src="employee?.profile_image ?? avatarUrl(`${employee?.firstname}+${employee?.lastname}`)"
@@ -929,6 +917,25 @@
                                                 </div>
                                             </Tooltip>
                                         </template>
+                                        <!-- A day shows MAX_DAY_SHIFTS across everyone, then "+N".
+                                             With every employee's shifts stacked in one cell, a busy
+                                             company's month was eleven screens tall. -->
+                                        <Tooltip v-if="hiddenShiftCount(day) > 0" class="!block w-full [&>div]:w-full"
+                                            :text="$t('dutySchedules.moreShifts', { count: hiddenShiftCount(day) })">
+                                            <button type="button"
+                                                :aria-label="$t('dutySchedules.moreShifts', { count: hiddenShiftCount(day) })"
+                                                class="relative z-20 w-full rounded-lg border border-gray-200 bg-white hover:bg-gray-50 text-gray-700 text-xs font-semibold py-1"
+                                                @click.stop="toggleDay(day)">
+                                                +{{ hiddenShiftCount(day) }}
+                                            </button>
+                                        </Tooltip>
+                                        <Tooltip v-else-if="isDayExpanded(day)" class="!block w-full [&>div]:w-full" :text="$t('dutySchedules.showFewerShifts')">
+                                        <button type="button" :aria-label="$t('dutySchedules.showFewerShifts')"
+                                            class="relative z-20 w-full block text-primary text-xs hover:text-primary-700 py-0.5"
+                                            @click.stop="toggleDay(day)">
+                                            {{ $t('showLess') }}
+                                        </button>
+                                        </Tooltip>
                                     </div>
                                 </template>
                                 <template v-else>
@@ -1060,6 +1067,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
+import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -1212,6 +1220,8 @@ const state = reactive({
     selectedDate: moment().format('YYYY-MM-DD'),
     hoveredEmployee: null as number | null,
     showAllShifts: false,
+    // Days opened past the shift cap, keyed YYYY-MM-DD.
+    expandedDays: {} as Record<string, boolean>,
     showAllShiftTypes: false,
     showEmployeesWorkingToday: false,
     shiftPercentage: {} as any,
@@ -1413,6 +1423,9 @@ async function fetchDutySchedule() {
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
         if (state.filter.schedule_tag_uuids?.length > 0) params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
+        if (state.filter.job_title_uuids?.length > 0) params.job_title_uuids = Array(state.filter.job_title_uuids)
+        const firstShiftDate = resolveFirstShiftDate(undefined, start, end, userStore.getUser?.company)
+        if (firstShiftDate) params.sort_by_first_shift_date = firstShiftDate
         if (state.filter.time_from) params.time_from = state.filter.time_from
         if (state.filter.time_to) params.time_to = state.filter.time_to
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)
@@ -1490,6 +1503,57 @@ function shiftHoursTooltip(shift: any) {
     return shiftDisplayHours(shift) !== shift?.hours
         ? `${total} · ${language.t('dutySchedules.viewSchedule.hoursThisDay')}: ${shift.hours}`
         : total
+}
+
+// ── Day shift cap ─────────────────────────────────────────────────────────────
+// A day cell lists every employee's shifts, so in a company with many staff a
+// day was dozens of cards and the month eleven screens tall. A day shows this
+// many across everyone, then "+N". Counted once per render for every day.
+const MAX_DAY_SHIFTS = 3
+
+const dayKey = (day: any) => moment(day).format('YYYY-MM-DD')
+
+function isDayExpanded(day: any) {
+    return !!state.expandedDays[dayKey(day)]
+}
+
+function toggleDay(day: any) {
+    const key = dayKey(day)
+    state.expandedDays[key] = !state.expandedDays[key]
+}
+
+// Per day: how many of each employee's shifts to show, in render order. Always
+// a prefix of that employee's sorted list, so shiftIndex keeps meaning the
+// same shift for edit and drag.
+const visibleCountsByDay = computed(() => {
+    const result: Record<string, { counts: number[], hidden: number }> = {}
+    const rows = state.monthlySchedules?.data ?? []
+    const keys = new Set<string>()
+    rows.forEach((row: any) => Object.keys(row?.days ?? {}).forEach((key) => keys.add(key)))
+    keys.forEach((key) => {
+        const lengths = rows.map((row: any) => row?.days?.[key]?.shifts?.length ?? 0)
+        const total = lengths.reduce((sum: number, n: number) => sum + n, 0)
+        if (state.expandedDays[key] || total <= MAX_DAY_SHIFTS) {
+            result[key] = { counts: lengths, hidden: 0 }
+            return
+        }
+        let budget = MAX_DAY_SHIFTS - 1
+        const counts = lengths.map((n: number) => {
+            const shown = Math.min(n, budget)
+            budget -= shown
+            return shown
+        })
+        result[key] = { counts, hidden: total - counts.reduce((sum: number, n: number) => sum + n, 0) }
+    })
+    return result
+})
+
+function visibleShiftCount(day: any, employeeIndex: number) {
+    return visibleCountsByDay.value[dayKey(day)]?.counts[employeeIndex] ?? Infinity
+}
+
+function hiddenShiftCount(day: any) {
+    return visibleCountsByDay.value[dayKey(day)]?.hidden ?? 0
 }
 
 function sortMultiDayShiftsFirst(shifts: any) {
@@ -2134,6 +2198,7 @@ function sortDutySchedule() {
 
 function setFilter(filter: any) {
     state.filter = filter
+    state.sortData.sortField = filter?.sort_by === 'job_title' ? 'job_title' : 'firstname'
     state.modal.isFilterDutyScheduleOpen = false
     emit('setDutyScheduleCurrentFilter', filter)
     fetchDutySchedule()

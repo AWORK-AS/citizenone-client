@@ -21,17 +21,21 @@
                             {{ year }}
                         </h3>
                         <div class="inline-flex items-center rounded-full border border-gray-200 bg-white shadow-sm">
-                            <button type="button" @click="previousMonth"
-                                class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
-                                <span class="sr-only">Previous month</span>
-                                <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
-                            </button>
+                            <Tooltip :text="$t('calendar.shortcuts.previous')" position="bottom">
+                                <button type="button" @click="previousMonth"
+                                    class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-l-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <span class="sr-only">Previous month</span>
+                                    <Icon name="heroicons:chevron-left" class="h-4 w-4" aria-hidden="true" />
+                                </button>
+                            </Tooltip>
                             <span class="h-3.5 w-px bg-gray-200"></span>
-                            <button type="button" @click="nextMonth"
-                                class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
-                                <span class="sr-only">Next month</span>
-                                <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
-                            </button>
+                            <Tooltip :text="$t('calendar.shortcuts.next')" position="bottom">
+                                <button type="button" @click="nextMonth"
+                                    class="flex h-7 w-7 flex-shrink-0 items-center justify-center rounded-r-full text-gray-400 hover:text-gray-700 hover:bg-gray-50 transition-colors">
+                                    <span class="sr-only">Next month</span>
+                                    <Icon name="heroicons:chevron-right" class="h-4 w-4" aria-hidden="true" />
+                                </button>
+                            </Tooltip>
                         </div>
                     </div>
                     <div class="mt-4 grid grid-cols-7 text-[11px] font-semibold uppercase tracking-wide leading-6 text-gray-400">
@@ -97,7 +101,8 @@
                     </div>
                 </div>
 
-                <TimeGrid :days="dayGridDays" :showHeader="false" @eventClick="editMyCalendarEvent" />
+                <TimeGrid :days="dayGridDays" :showHeader="false" :noteNudge="!props.readOnly"
+                    @createJournal="openCreateJournal" @eventClick="editMyCalendarEvent" />
             </div>
         </div>
         <ModulesUserMyCalendarModalShowAllInvitees :isModalOpen="state.modal.isShowAllInviteesOpen"

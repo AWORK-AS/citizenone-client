@@ -71,11 +71,23 @@
                                                 {{ state?.subscriptions?.data?.deal?.name }}
                                             </h3>
                                             <div v-if="canManageLicenses" class="flex items-center gap-x-2">
-                                                <button v-if="state?.subscriptions?.data?.type === 'custom_yearly'"
+                                                <!-- Binding is the agreement's job when there is one. -->
+                                                <Tooltip v-if="agreement && state?.subscriptions?.data?.type === 'custom_yearly'"
+                                                    :text="$t('superadmin.companies.contract.agrManagedOnAgreementHelp')" position="top" wrap>
+                                                    <NuxtLink :to="agreementsHref" class="co-action-btn">
+                                                        {{ $t('superadmin.companies.licenseOverview.editTerm.editTerm') }}
+                                                    </NuxtLink>
+                                                </Tooltip>
+                                                <button v-else-if="state?.subscriptions?.data?.type === 'custom_yearly'"
                                                     class="co-action-btn" @click="openEditTermModal(state.subscriptions.data)">
                                                     {{ $t('superadmin.companies.licenseOverview.editTerm.editTerm') }}
                                                 </button>
-                                                <button class="co-action-btn" @click="openEditSubscriptionModal">
+                                                <Tooltip v-if="agreement" :text="$t('superadmin.companies.contract.agrEditSubscriptionCoveredHelp')" position="top" wrap>
+                                                    <button class="co-action-btn" @click="openEditSubscriptionModal">
+                                                        {{ $t('superadmin.companies.licenseOverview.editSubscription.editSubscription') }}
+                                                    </button>
+                                                </Tooltip>
+                                                <button v-else class="co-action-btn" @click="openEditSubscriptionModal">
                                                     {{ $t('superadmin.companies.licenseOverview.editSubscription.editSubscription') }}
                                                 </button>
                                             </div>
@@ -92,7 +104,46 @@
                                                 }} 🤝
                                             </span>
                                         </p>
-                                        <p class="mt-4 flex items-baseline gap-x-2" v-if="canViewFinancials">
+                                        <!-- Covered by an agreement: the agreement fixes the price, the list
+                                             price only applies from renewal. -->
+                                        <div v-if="agreement" class="mt-4 space-y-1.5">
+                                            <p class="flex flex-wrap items-center gap-x-2 text-base font-semibold text-gray-900">
+                                                <span>{{ $t('superadmin.companies.contract.agrAgreementName', { name: agreement.name }) }}</span>
+                                                <Tooltip :text="$t('superadmin.companies.contract.agrAgreementChipHelp')" position="top" wrap>
+                                                    <span class="co-badge co-badge-navy">{{ $t('superadmin.companies.contract.agrAgreementChip') }}</span>
+                                                </Tooltip>
+                                            </p>
+                                            <Tooltip v-if="canViewFinancials" :text="$t('superadmin.companies.contract.agrListPriceHelp')" position="top" wrap class="!block">
+                                                <p class="text-sm text-gray-500">
+                                                    {{ $t('superadmin.companies.contract.agrListPrice', { price: formatAmount(listPrice, 'DKK'), unit: listPriceUnit, date: formatDate(agreement.ends_on) }) }}
+                                                </p>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap class="!block">
+                                                <p class="text-sm text-gray-500">
+                                                    {{ $t('superadmin.agreements.renewal.renewsFor', { term: agreementRenewal.months, billing: $t(`superadmin.agreements.renewal.billing.${agreementRenewal.billing}`) }) }}
+                                                </p>
+                                            </Tooltip>
+                                            <ModulesSuperadminAgreementRenewalPlanChip v-if="agreement.renewal_plan_missing"
+                                                :due="agreement.renewal_plan_due" />
+                                            <div v-if="canViewFinancials && agreement.estimated_renewal_annual_value != null"
+                                                class="flex flex-wrap items-center gap-2 text-sm text-gray-900">
+                                                <Tooltip :text="$t('superadmin.agreements.renewal.expectedHelp')" position="top" wrap>
+                                                    <span>{{ $t('superadmin.agreements.renewal.expected', { amount: formatNumber(agreement.estimated_renewal_annual_value) }) }}</span>
+                                                </Tooltip>
+                                                <Tooltip v-if="agreement.renewal_value_source"
+                                                    :text="$t(`superadmin.agreements.renewal.sourceHelp.${agreement.renewal_value_source}`)"
+                                                    position="top" wrap>
+                                                    <span class="co-badge" :class="agreement.renewal_value_source === 'fallback' ? 'co-badge-gray' : 'co-badge-navy'">
+                                                        {{ $t(`superadmin.agreements.renewal.sources.${agreement.renewal_value_source}`) }}
+                                                    </span>
+                                                </Tooltip>
+                                                <Tooltip v-if="agreement.estimated_renewal_period_value != null"
+                                                    :text="$t('superadmin.agreements.renewal.periodExpectedHelp')" position="top" wrap>
+                                                    <span>{{ $t('superadmin.agreements.renewal.periodExpected', { amount: formatNumber(agreement.estimated_renewal_period_value) }) }}</span>
+                                                </Tooltip>
+                                            </div>
+                                        </div>
+                                        <p class="mt-4 flex items-baseline gap-x-2" v-else-if="canViewFinancials">
                                             <span class="text-3xl font-bold tracking-tight text-gray-900">
                                                 {{ ['monthly', 'custom_monthly'].includes(state?.subscriptions?.data?.type) ?
                                                     formatAmount(state?.subscriptions?.data?.deal?.monthly_price ?? 0, 'DKK')
@@ -168,9 +219,19 @@
                                              løber, hvornår den fornyes, og hvad den er værd.
                                              Fornyelse er adskilt fra "Næste betaling" med
                                              vilje - de to datoer er ikke det samme. -->
-                                        <dl v-if="contract"
+                                        <Tooltip v-if="!agreement && runningAgreement" :text="$t('superadmin.companies.contract.agrRunningAgreementHelp')" position="top" wrap
+                                            class="!block w-full">
+                                            <p class="mt-6 rounded-md bg-sky-50 px-3 py-2 text-xs text-sky-900">
+                                                {{ $t('superadmin.companies.contract.agrRunningAgreement', { name: runningAgreement.name, from: formatDate(runningAgreement.starts_on), to: formatDate(runningAgreement.ends_on) }) }}
+                                                <NuxtLink :to="agreementsHref" class="underline font-medium ml-1">
+                                                    {{ $t('superadmin.companies.contract.agrRunningAgreementLink') }}
+                                                </NuxtLink>
+                                            </p>
+                                        </Tooltip>
+
+                                        <dl v-if="contract || agreement"
                                             class="mt-8 border-t border-gray-200 pt-6 space-y-3 text-sm">
-                                            <div class="flex items-baseline justify-between gap-x-4">
+                                            <div v-if="!agreement" class="flex items-baseline justify-between gap-x-4">
                                                 <dt class="text-gray-500">
                                                     {{ $t('superadmin.companies.contract.startedAt') }}
                                                 </dt>
@@ -178,7 +239,7 @@
                                                     {{ formatDate(contract.started_at) }}
                                                 </dd>
                                             </div>
-                                            <div class="flex items-baseline justify-between gap-x-4">
+                                            <div v-if="!agreement" class="flex items-baseline justify-between gap-x-4">
                                                 <dt class="text-gray-500">
                                                     {{ $t('superadmin.companies.contract.term') }}
                                                 </dt>
@@ -186,7 +247,7 @@
                                                     {{ $t('superadmin.companies.contract.months', { count: contract.term_months }) }}
                                                 </dd>
                                             </div>
-                                            <div class="flex items-baseline justify-between gap-x-4">
+                                            <div v-if="!agreement" class="flex items-baseline justify-between gap-x-4">
                                                 <dt class="text-gray-500">
                                                     {{ $t('superadmin.companies.contract.renewsAt') }}
                                                 </dt>
@@ -194,7 +255,28 @@
                                                     {{ formatDate(contract.renews_at) }}
                                                 </dd>
                                             </div>
-                                            <div v-if="canViewFinancials"
+                                            <template v-if="agreement">
+                                                <div class="flex items-baseline justify-between gap-x-4">
+                                                    <dt class="text-gray-500">{{ $t('superadmin.companies.contract.term') }}</dt>
+                                                    <dd class="font-medium text-gray-900 text-right">
+                                                        <Tooltip :text="$t('superadmin.companies.contract.agrAgreementPeriodHelp')" position="top" wrap>
+                                                            <span>{{ $t('superadmin.companies.contract.agrAgreementPeriod', { from: formatDate(agreement.starts_on), to: formatDate(agreement.ends_on), months: agreement.term_months ?? '–' }) }}</span>
+                                                        </Tooltip>
+                                                    </dd>
+                                                </div>
+                                                <div class="flex items-baseline justify-between gap-x-4">
+                                                    <dt class="text-gray-500">{{ $t('superadmin.companies.contract.renewsAt') }}</dt>
+                                                    <dd class="font-medium text-gray-900 text-right">
+                                                        {{ formatDate(agreement.ends_on) }}
+                                                        <Tooltip v-if="agreement.notice_deadline" :text="$t('superadmin.companies.contract.agrNoticeDeadlineHelp')" position="top" wrap class="!block">
+                                                            <span class="block text-xs font-normal text-gray-500">
+                                                                {{ $t('superadmin.companies.contract.agrNoticeDeadline', { date: formatDate(agreement.notice_deadline) }) }}
+                                                            </span>
+                                                        </Tooltip>
+                                                    </dd>
+                                                </div>
+                                            </template>
+                                            <div v-if="contract && canViewFinancials"
                                                 class="flex items-baseline justify-between gap-x-4 border-t border-gray-100 pt-3">
                                                 <dt class="text-gray-500">
                                                     {{ $t('superadmin.companies.contract.tcv') }}
@@ -203,14 +285,14 @@
                                                     {{ formatAmount(contract.total_contract_value, contract.currency) }}
                                                 </dd>
                                             </div>
-                                            <p v-if="canViewFinancials" class="text-xs text-gray-400">
+                                            <p v-if="contract && canViewFinancials" class="text-xs text-gray-400">
                                                 {{ $t('superadmin.companies.contract.tcvHint') }}
                                             </p>
 
                                             <!-- Opsigelsen. Kun når der er en: et tomt
                                                  "Opsagt: —" på hver kunde ville gøre
                                                  den tilstand der betyder noget usynlig. -->
-                                            <template v-if="contract.is_cancelled">
+                                            <template v-if="contract?.is_cancelled">
                                                 <div class="flex items-baseline justify-between gap-x-4 border-t border-gray-100 pt-3">
                                                     <dt class="text-amber-700">
                                                         {{ $t('superadmin.companies.contract.cancelledAt') }}
@@ -232,7 +314,14 @@
                                                 </p>
                                             </template>
 
-                                            <button v-if="canManageCompanies" type="button" @click="openCancellation"
+                                            <Tooltip v-if="canManageCompanies && agreement" :text="$t('superadmin.companies.contract.agrManagedOnAgreementHelp')" position="top" wrap>
+                                                <NuxtLink :to="agreementsHref" class="text-xs text-primary hover:underline pt-1 inline-block">
+                                                    {{ contract?.is_cancelled
+                                                        ? $t('superadmin.companies.contract.editCancellation')
+                                                        : $t('superadmin.companies.contract.recordCancellation') }}
+                                                </NuxtLink>
+                                            </Tooltip>
+                                            <button v-else-if="canManageCompanies && contract" type="button" @click="openCancellation"
                                                 class="text-xs text-primary hover:underline pt-1">
                                                 {{ contract.is_cancelled
                                                     ? $t('superadmin.companies.contract.editCancellation')
@@ -789,6 +878,7 @@ import { storagePackageService } from '@/components/api/superadmin/StoragePackag
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
+import { renewalSummary, subscriptionAgreementView } from '@/composables/agreements'
 import { useI18n } from 'vue-i18n'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import type { Error } from '@/types'
@@ -914,6 +1004,22 @@ const state = reactive({
 // samme tal som alle andre steder - og TCV er ikke noget klienten selv gætter
 // sig til ud fra en pris den kan se.
 const contract = computed(() => state.subscriptions?.data?.contract ?? null)
+
+// Superadmin-only blocks on the subscriptions response; absent on an older API.
+const agreementView = computed(() => subscriptionAgreementView(state.subscriptions?.data))
+const agreement = computed(() => agreementView.value.agreement)
+const agreementRenewal = computed(() => renewalSummary(agreement.value ?? {}))
+const runningAgreement = computed(() => agreementView.value.runningAgreements[0] ?? null)
+const agreementsHref = `/superadmin/companies/${companyUuid}/agreements`
+const isMonthlyType = computed(() => ['monthly', 'custom_monthly'].includes(state.subscriptions?.data?.type))
+const listPrice = computed(() => isMonthlyType.value
+    ? state.subscriptions?.data?.deal?.monthly_price ?? 0
+    : state.subscriptions?.data?.deal?.yearly_price ?? 0)
+const listPriceUnit = computed(() => (isMonthlyType.value
+    ? t('superadmin.companies.subscriptions.deal.month')
+    : t('superadmin.companies.subscriptions.deal.year')).toLowerCase())
+const formatNumber = (value: unknown) =>
+    new Intl.NumberFormat('da-DK', { maximumFractionDigits: 0 }).format(Number(value) || 0)
 
 const canManageCompanies = computed(() => can('manage_companies'))
 

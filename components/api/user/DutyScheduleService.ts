@@ -96,6 +96,14 @@ class DutyScheduleService extends BaseAPIService {
     async deleteSharedDutySchedules(sharedSchedulesUuid: any): Promise<any> {
         return await this.request(`/user/duty-schedules/share/schedules/${sharedSchedulesUuid}`, 'DELETE')
     }
+
+    async enableSharedDutyScheduleEmbed(sharedSchedulesUuid: string): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules/${sharedSchedulesUuid}/embed`, 'POST')
+    }
+
+    async disableSharedDutyScheduleEmbed(sharedSchedulesUuid: string): Promise<any> {
+        return await this.request(`/user/duty-schedules/share/schedules/${sharedSchedulesUuid}/embed`, 'DELETE')
+    }
 }
 
 export const dutyScheduleService = new DutyScheduleService()
