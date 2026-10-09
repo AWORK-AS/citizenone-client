@@ -27,5 +27,12 @@ export default defineNuxtPlugin(() => {
             }
         }, 250)
         setTimeout(() => clearInterval(interval), 30000)
+
+        // A page's own questions belong to that page: leaving it gives Milo
+        // his defaults back, so the calendar's "?" never shows the duty
+        // schedule's questions.
+        useRouter().afterEach((to, from) => {
+            if (to.path !== from.path) useObiyenChat().suggest([])
+        })
     }
 })

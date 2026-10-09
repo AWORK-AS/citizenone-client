@@ -12,8 +12,10 @@
 
             <template #header>{{ $t('employees.employees') }}</template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
-                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                <Tooltip :text="$t('helpGuide.askMiloGeneral')" position="left">
+                    <button type="button" :aria-label="$t('helpGuide.askMiloGeneral')" class="rounded-md hover:bg-slate-100 p-0.5" @click="askMilo()">
+                        <Icon name="ph:question" class="size-6 text-gray-700" aria-hidden="true" />
+                    </button>
                 </Tooltip>
             </template>
 
@@ -247,9 +249,6 @@
             <ModulesUserEmployeeModalImport :isModalOpen="state.modal.isImportEmployeesOpen"
                 @close="state.modal.isImportEmployeesOpen = false" />
 
-            <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
-                :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourEmployeesOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -302,7 +301,6 @@ const state = reactive({
         isInviteEmployeeOpen: false,
         isGiveAIAccessOpen: false,
         isGiveBookingAccessOpen: false,
-        isGuidedTourEmployeesOpen: false,
         isBulkEditOpen: false,
     },
     selectedEmployee: {} as any,
@@ -344,9 +342,6 @@ onMounted(() => {
     fetchEmployees()
 })
 
-function openGuidedTour() {
-    state.modal.isGuidedTourEmployeesOpen = true
-}
 
 async function fetchEmployees() {
     state.error = {}
@@ -531,5 +526,13 @@ async function exportEmployees() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+// Help here is Milo, answering from the help-desk articles. The "?" used to
+// open a video tour recorded on the 2025 interface; it was also a tooltip
+// with a click handler rather than a button, so a keyboard could not reach it.
+const i18nForMilo = useI18n()
+function askMilo() {
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => i18nForMilo.t(`helpGuide.miloQuestions.employees.${q}`)))
 }
 </script>

@@ -1442,6 +1442,14 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Dupliker",
+            "help": "Opretter en ny aftale med samme titel, beskrivelse, deltagere og etiketter. Du vælger selv dato og tid."
+        },
+        "onlyMine": {
+            "label": "Kun mine",
+            "help": "Viser kun aftaler, du ejer eller er inviteret til"
+        },
         "shortcuts": {
             "view": "{view} (tast {key})",
             "today": "Gå til i dag (tast T)",
@@ -4689,6 +4697,24 @@
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
+        "groups": {
+            "collapse": "Fold afdelingen sammen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} medarb.",
+            "expand": "Fold afdelingen ud",
+            "noDepartment": "Uden afdeling",
+            "shifts": "{count} vagter"
+        },
+        "moreShifts": "{count} vagter mere – klik for at vise alle",
+        "optimizedNotice": {
+            "title": "Vagtplanen er blevet lettere at overskue",
+            "compact": "Vagterne fylder mindre, og en dag viser de første vagter – tryk +N for resten.",
+            "groups": "På Alle afdelinger er medarbejderne delt op i afdelinger, med din egen øverst.",
+            "tooltips": "Hold musen over en knap for at se, hvad den gør.",
+            "dismiss": "Forstået",
+            "dismissTooltip": "Luk beskeden – den vises ikke igen"
+        },
+        "showFewerShifts": "Vis kun de første vagter",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
             "hint": "Enter for at gemme · Esc for at annullere"
@@ -8072,6 +8098,36 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjælp & Guide - Vagtplan",
+        "askMilo": "Spørg Milo",
+        "askMiloTooltip": "Spørg Milo om vagtplanen",
+        "askMiloGeneral": "Spørg Milo, hvis du har brug for hjælp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hvordan kopierer jeg en uge til næste uge?",
+                "q2": "Hvad betyder +N på en dag?",
+                "q3": "Hvordan godkender jeg et vagtbytte?"
+            },
+            "calendar": {
+                "q1": "Hvordan opretter jeg en aftale, der gentager sig?",
+                "q2": "Hvordan viser jeg kun mine egne aftaler?",
+                "q3": "Hvordan sletter jeg resten af en serie?"
+            },
+            "overview": {
+                "q1": "Hvordan vælger jeg, hvilke bokse jeg ser?",
+                "q2": "Hvorfor er nogle bokse låst?",
+                "q3": "Hvad er Vagtoverblik?"
+            },
+            "citizens": {
+                "q1": "Hvordan opretter jeg en ny {citizen}?",
+                "q2": "Hvordan arkiverer jeg en {citizen}?",
+                "q3": "Hvordan finder jeg en {citizen} ud fra CPR-nummer?"
+            },
+            "employees": {
+                "q1": "Hvordan inviterer jeg en ny medarbejder?",
+                "q2": "Hvordan arkiverer jeg en medarbejder?",
+                "q3": "Hvordan giver jeg en medarbejder adgang til en afdeling?"
+            }
+        },
         "title": "Hjælp & Guide"
     },
     "hideAll": "Skjul alle",
@@ -10361,6 +10417,17 @@
         "resetPassword": "Nulstil adgangskode",
         "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
         "strongPasswordTitle": "Opret en stærk adgangskode"
+    },
+    "citizenVisibility": {
+        "notice": "Du er ikke tilknyttet nogen afdeling, @:terms.citizens{''} eller medarbejdergruppe, så du kan ikke se nogen @:terms.citizens{''} endnu. Kontakt din leder.",
+        "noticeHelp": "Medarbejdere ser @:terms.citizens{''} i deres egne afdelinger, @:terms.citizens{''} de er tildelt, og @:terms.citizens{''} via deres medarbejdergrupper. Din leder kan tilføje dig til en afdeling eller tildele dig @:terms.citizens{''}.",
+        "noticeHelpLabel": "Hvorfor kan jeg ikke se nogen @:terms.citizens{''}?",
+        "levelAll": "Ser alle @:terms.citizens{''} i virksomheden",
+        "levelLimited": "Ser kun @:terms.citizens{''} i egne afdelinger, tildelte og via medarbejdergrupper (eller alle, hvis virksomheden ikke bruger afdelinger)",
+        "levelHelp": "Niveauet bestemmer, hvilke @:terms.citizens{''} rollen kan se. @:roles.table.manager og derover ser alle @:terms.citizens{''} i virksomheden. @:roles.table.regular ser kun @:terms.citizens{''} i egne afdelinger, tildelte og via medarbejdergrupper. Bruger virksomheden ikke afdelinger, ser alle medarbejdere alle @:terms.citizens{''}.",
+        "levelHelpLabel": "Hvad betyder niveauet?",
+        "badgeAll": "Alle @:terms.citizens{''}",
+        "badgeLimited": "Egne @:terms.citizens{''}"
     },
     "roles": {
         "addNewRole": "Tilføj ny rolle",
