@@ -8236,7 +8236,13 @@
         "askMilo": "Ask Milo",
         "askMiloTooltip": "Ask Milo about the duty schedule",
         "askMiloGeneral": "Ask Milo if you need help",
+        "miloHelpLabel": "Help",
         "miloQuestions": {
+            "inApp": {
+                "q1": "How do I write a journal note?",
+                "q2": "How do I give a colleague access to a department?",
+                "q3": "How do I contact support?"
+            },
             "schedules": {
                 "q1": "How do I copy a week to the next week?",
                 "q2": "What does +N on a day mean?",
