@@ -337,6 +337,19 @@
                                         {{ $t('settings.company.form.patientChatInboxHint') }}.
                                     </p>
                                 </div>
+                                <!-- A clinic with no phone to call keeps its contact details out of the portal (AW-2026-6183). -->
+                                <div v-if="audience.key === 'patient'"
+                                    class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-1">
+                                    <div class="flex items-center gap-x-2">
+                                        <FormSwitch :value="state.formCompany.patient_portal_hide_clinic_contact"
+                                            @toggleSwitch="state.formCompany.patient_portal_hide_clinic_contact = !state.formCompany.patient_portal_hide_clinic_contact"
+                                            :label="$t('settings.company.form.patientHideClinicContact')" />
+                                        <p>{{ $t('settings.company.form.patientHideClinicContact') }}</p>
+                                    </div>
+                                    <p class="text-xs text-gray-500">
+                                        {{ $t('settings.company.form.patientHideClinicContactHint') }}.
+                                    </p>
+                                </div>
                             </div>
                             <ModulesUserSettingsModalPortalPreview :isModalOpen="portalPreview.isOpen"
                                 :audience="portalPreview.audience"
@@ -948,6 +961,7 @@ const state = reactive({
         relative_chat_management_enabled: true,
         relative_chat_contact_persons_enabled: true,
         patient_chat_inbox_enabled: false,
+        patient_portal_hide_clinic_contact: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
@@ -1068,6 +1082,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             relative_chat_management_enabled: newValue?.company?.relative_chat_management_enabled ? true : false,
             relative_chat_contact_persons_enabled: newValue?.company?.relative_chat_contact_persons_enabled ? true : false,
             patient_chat_inbox_enabled: newValue?.company?.patient_chat_inbox_enabled ? true : false,
+            patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
@@ -1282,6 +1297,7 @@ async function submitForm() {
                 relative_chat_management_enabled: state.formCompany.relative_chat_management_enabled,
                 relative_chat_contact_persons_enabled: state.formCompany.relative_chat_contact_persons_enabled,
                 patient_chat_inbox_enabled: state.formCompany.patient_chat_inbox_enabled,
+                patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,

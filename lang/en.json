@@ -10927,6 +10927,8 @@
                 "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
+                "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
+                "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
