@@ -151,13 +151,13 @@ export function useObiyenChat() {
      * (window.ObiyenChat.suggest, insight-server #445). Before the widget has
      * loaded the call waits on its queue; a widget without suggest ignores it.
      */
-    function suggest(questions: string[]) {
+    function suggest(questions: string[], label?: string) {
         // Before the loader has arrived, queue onto the stub it replays
         // (the widget's documented pre-load queue); dropping the call here
         // left the website's suggestions on the first page of every visit.
         const w = ((window as any).ObiyenChat ||= { q: [] })
-        if (typeof w.suggest === 'function') w.suggest(questions)
-        else if (Array.isArray(w.q)) w.q.push(['suggest', questions])
+        if (typeof w.suggest === 'function') w.suggest(questions, label)
+        else if (Array.isArray(w.q)) w.q.push(['suggest', questions, label])
     }
 
     /**
@@ -167,7 +167,7 @@ export function useObiyenChat() {
      * set when the app starts and again on every page change.
      */
     function suggestInApp(t: (key: string) => string) {
-        suggest(['q1', 'q2', 'q3'].map((q) => t(`helpGuide.miloQuestions.inApp.${q}`)))
+        suggest(['q1', 'q2', 'q3'].map((q) => t(`helpGuide.miloQuestions.inApp.${q}`)), t('helpGuide.miloHelpLabel'))
     }
 
     /** "?" on a page: open Milo with that page's questions. */

@@ -8236,6 +8236,7 @@
         "askMilo": "Spør Milo",
         "askMiloTooltip": "Spør Milo om vaktplanen",
         "askMiloGeneral": "Spør Milo hvis du trenger hjelp",
+        "miloHelpLabel": "Hjelp",
         "miloQuestions": {
             "inApp": {
                 "q1": "Hvordan skriver jeg et journalnotat?",
