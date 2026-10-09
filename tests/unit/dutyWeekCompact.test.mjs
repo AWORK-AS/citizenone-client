@@ -71,12 +71,26 @@ describe('Milo opens with questions about the page', () => {
     const chat = read('composables/useObiyenChat.ts')
 
     test('suggest waits on the queue before the widget loads and is skipped by an older widget', () => {
-        assert.match(chat, /if \(typeof w\.suggest === 'function'\) w\.suggest\(questions\)/)
-        assert.match(chat, /else if \(Array\.isArray\(w\.q\)\) w\.q\.push\(\['suggest', questions\]\)/)
+        assert.match(chat, /const w = \(\(window as any\)\.ObiyenChat \|\|= \{ q: \[\] \}\)/)
+        assert.match(chat, /if \(typeof w\.suggest === 'function'\) w\.suggest\(questions, label\)/)
+        assert.match(chat, /else if \(Array\.isArray\(w\.q\)\) w\.q\.push\(\['suggest', questions, label\]\)/)
     })
 
-    test('leaving a page gives Milo his defaults back', () => {
-        assert.match(read('plugins/obiyen-chat.client.ts'), /if \(to\.path !== from\.path\) useObiyenChat\(\)\.suggest\(\[\]\)/)
+    test('in the app Milo suggests support questions, not the website\'s pricing and demo ones', () => {
+        const plugin = read('plugins/obiyen-chat.client.ts')
+        assert.match(plugin, /nuxtApp\.hook\('app:mounted', \(\) => \{\n\s*suggestInApp\(\)/)
+        assert.match(plugin, /\(nuxtApp as any\)\.\$i18nGlobal/) // plugins/i18n.ts provides it; there is no $i18n
+        assert.match(plugin, /if \(to\.path !== from\.path\) suggestInApp\(\)/)
+        // Discreet: never opens on its own inside the app.
+        assert.match(plugin, /s\.setAttribute\("data-proactive", "off"\)/)
+        assert.match(chat, /t\('helpGuide\.miloHelpLabel'\)/)
+        // It must never be able to stop the app from starting.
+        assert.match(plugin, /if \(!i18n\?\.t\) return/)
+        assert.match(plugin, /\} catch \{ \/\* leave Milo's defaults \*\/ \}/)
+        for (const lang of ['dk', 'en', 'no', 'sv']) {
+            const q = JSON.parse(read(`lang/${lang}.json`)).helpGuide.miloQuestions.inApp
+            assert.ok(q.q1 && q.q2 && q.q3, lang)
+        }
     })
 
     const pages = {

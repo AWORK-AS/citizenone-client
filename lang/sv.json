@@ -8236,7 +8236,13 @@
         "askMilo": "Fråga Milo",
         "askMiloTooltip": "Fråga Milo om schemat",
         "askMiloGeneral": "Fråga Milo om du behöver hjälp",
+        "miloHelpLabel": "Hjälp",
         "miloQuestions": {
+            "inApp": {
+                "q1": "Hur skriver jag en journalanteckning?",
+                "q2": "Hur ger jag en kollega tillgång till en avdelning?",
+                "q3": "Hur kontaktar jag supporten?"
+            },
             "schedules": {
                 "q1": "Hur kopierar jag en vecka till nästa vecka?",
                 "q2": "Vad betyder +N på en dag?",
