@@ -66,8 +66,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="gender" :label="$t('citizens.form.gender')" />
-                        <FormSelect id="gender" :options="state.options.genders"
-                            :placeholder="$t('citizens.form.selectGender')" v-model="state.formCitizen.gender" />
+                        <FormSelect id="gender" :options="genderOptions(state.formCitizen.gender)" :createOption="true"
+                            :placeholder="$t('citizens.form.selectOrTypeGender')" v-model="state.formCitizen.gender" />
                         <FormError :error="v$?.formCitizen?.gender?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.gender?.[0]" />
                     </div>
@@ -1192,6 +1192,7 @@ import { spokenLanguageService } from '@/components/api/user/SpokenLanguageServi
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useGenders } from '@/composables/genders'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDanishCpr } from '@/composables/cpr'
 import { useTerminology } from '@/composables/useTerminology'
@@ -1207,6 +1208,7 @@ import { journalService } from '@/components/api/user/JournalService'
 const userStore = useUserStore() as any
 const { industryHasFeature } = useIndustryFeatures()
 const { t } = useI18n()
+const { genderOptions } = useGenders()
 const { term } = useTerminology()
 const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 const { formatPrice } = useNumberFormatter()
