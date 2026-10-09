@@ -15176,6 +15176,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statuses and journal notes",
+            "hint": "Delete old statuses, and optionally the journal notes behind them, automatically. Checked every day: anything older than 365 days is deleted.",
+            "statusSwitch": "Delete statuses in treatments and goals after 365 days",
+            "statusSwitchHint": "Statuses on plans, goals, sub-goals and treatments, including the copies of journal notes on goals.",
+            "journalSwitch": "Also delete the journal notes themselves",
+            "journalSwitchHint": "Only notes linked to a goal. Medical record notes, drafts and notes not linked to a goal are never deleted.",
+            "previewOn": "{statuses} statuses will be deleted from {date}.",
+            "previewOff": "If you switch this on, {statuses} statuses would be deleted today.",
+            "previewJournals": "{journals} journal notes would also be deleted.",
+            "lessHistory": "Lists, graphs, the development overview and PDF exports will show less history after this. It cannot be undone.",
+            "nextRun": "Next deletion: daily; first run {date}.",
+            "confirmEnable": "This permanently deletes statuses (and journal notes, if selected) older than 365 days and cannot be undone. The first deletion runs on {date}. You can switch it off before then."
+        },
         "retention": {
             "title": "GDPR Data Retention",
             "retentionPeriod": "Retention period",
@@ -15201,6 +15215,9 @@
             "deletionCancelled": "Scheduled deletion cancelled"
         },
         "deletionLog": {
+            "statusJournalRun": "Statuses and journal notes",
+            "statusJournalCounts": "{statuses} statuses, {journals} notes (before {date})",
+            "triggerStatusJournal": "Statuses and notes (automatic)",
             "title": "Deletion log",
             "fromDate": "From date",
             "toDate": "To date",

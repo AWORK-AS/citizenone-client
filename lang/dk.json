@@ -15176,6 +15176,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statusser og journalnotater",
+            "hint": "Slet gamle statusser, og om ønsket de journalnotater, der ligger bag dem, automatisk. Tjekkes hver dag: alt ældre end 365 dage slettes.",
+            "statusSwitch": "Slet statusser i behandlinger og mål efter 365 dage",
+            "statusSwitchHint": "Statusser på planer, mål, delmål og behandlinger, inklusive kopier af journalnotater på mål.",
+            "journalSwitch": "Slet også selve journalnotaterne",
+            "journalSwitchHint": "Kun notater, der er knyttet til et mål. Lægejournalnotater, kladder og notater uden målknytning slettes aldrig.",
+            "previewOn": "{statuses} statusser slettes fra {date}.",
+            "previewOff": "Hvis du slår det til, ville {statuses} statusser blive slettet i dag.",
+            "previewJournals": "{journals} journalnotater ville også blive slettet.",
+            "lessHistory": "Lister, grafer, udviklingsoversigt og PDF-udtræk viser mindre historik herefter. Det kan ikke fortrydes.",
+            "nextRun": "Næste sletning: dagligt; første kørsel {date}.",
+            "confirmEnable": "Dette sletter permanent statusser (og journalnotater, hvis valgt) ældre end 365 dage og kan ikke fortrydes. Den første sletning sker den {date}. Du kan slå det fra inden da."
+        },
         "retention": {
             "title": "GDPR Dataopbevaring",
             "retentionPeriod": "Opbevaringsperiode",
@@ -15201,6 +15215,9 @@
             "deletionCancelled": "Planlagt sletning annulleret"
         },
         "deletionLog": {
+            "statusJournalRun": "Statusser og journalnotater",
+            "statusJournalCounts": "{statuses} statusser, {journals} notater (før {date})",
+            "triggerStatusJournal": "Statusser og notater (automatisk)",
             "title": "Sletningslog",
             "fromDate": "Fra dato",
             "toDate": "Til dato",

@@ -15080,6 +15080,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statusar och journalanteckningar",
+            "hint": "Radera gamla statusar, och vid behov journalanteckningarna bakom dem, automatiskt. Kontrolleras varje dag: allt äldre än 365 dagar raderas.",
+            "statusSwitch": "Radera statusar i behandlingar och mål efter 365 dagar",
+            "statusSwitchHint": "Statusar på planer, mål, delmål och behandlingar, inklusive kopior av journalanteckningar på mål.",
+            "journalSwitch": "Radera även själva journalanteckningarna",
+            "journalSwitchHint": "Bara anteckningar kopplade till ett mål. Läkarjournalanteckningar, utkast och anteckningar utan målkoppling raderas aldrig.",
+            "previewOn": "{statuses} statusar raderas från {date}.",
+            "previewOff": "Om du slår på detta skulle {statuses} statusar raderas i dag.",
+            "previewJournals": "{journals} journalanteckningar skulle också raderas.",
+            "lessHistory": "Listor, grafer, utvecklingsöversikt och PDF-utdrag visar mindre historik efter detta. Det kan inte ångras.",
+            "nextRun": "Nästa radering: dagligen; första körning {date}.",
+            "confirmEnable": "Detta raderar permanent statusar (och journalanteckningar, om valt) äldre än 365 dagar och kan inte ångras. Den första raderingen sker {date}. Du kan stänga av det före dess."
+        },
         "retention": {
             "title": "GDPR Datalagring",
             "retentionPeriod": "Lagringsperiod",
@@ -15105,6 +15119,9 @@
             "deletionCancelled": "Schemalagd radering avbruten"
         },
         "deletionLog": {
+            "statusJournalRun": "Statusar och journalanteckningar",
+            "statusJournalCounts": "{statuses} statusar, {journals} anteckningar (före {date})",
+            "triggerStatusJournal": "Statusar och anteckningar (automatisk)",
             "title": "Raderingslogg",
             "fromDate": "Från datum",
             "toDate": "Till datum",

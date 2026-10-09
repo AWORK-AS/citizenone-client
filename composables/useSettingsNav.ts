@@ -77,10 +77,12 @@ export function useSettingsNav() {
             item('settings.tabs.import', '/settings/import', ['settings-import']),
             item('whistleblower.settings.title', '/settings/whistleblower', ['settings-whistleblower']),
             dailyOverview,
+            // Every sector: the status/journal retention rule lives here. The page shows the citizen
+            // retention part only to employment services.
+            item('settings.tabs.gdprRetention', '/settings/gdpr-retention', ['settings-gdpr-retention']),
         ]
         if (isEmploymentServices) {
             company.push(
-                item('settings.tabs.gdprRetention', '/settings/gdpr-retention', ['settings-gdpr-retention']),
                 item('settings.tabs.smsNotifications', '/settings/sms-notifications', ['settings-sms-notifications']),
             )
         }

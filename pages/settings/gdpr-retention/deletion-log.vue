@@ -70,20 +70,24 @@
                                     <tr v-for="row in state.rows" :key="row.uuid"
                                         class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
                                         <td class="co-td text-[13px] font-medium text-[#1F2533]">
-                                            {{ row.citizen_name }}
+                                            {{ row.trigger === 'status_journal_retention' ? $t('gdpr.deletionLog.statusJournalRun') : row.citizen_name }}
                                         </td>
                                         <td class="co-td text-[13px] text-[#5C6478]">
                                             {{ formatDateTimeToReadable(row.deleted_at) }}
                                         </td>
                                         <td class="co-td text-[13px] text-[#5C6478]">
-                                            {{ row.retention_months }} {{ $t('gdpr.retention.monthsShort') }}
+                                            <template v-if="row.trigger === 'status_journal_retention'">
+                                                {{ $t('gdpr.deletionLog.statusJournalCounts', { statuses: row.statuses_deleted ?? 0, journals: row.journals_deleted ?? 0, date: formatDateToReadable(row.cutoff_date) }) }}
+                                            </template>
+                                            <template v-else>{{ row.retention_months }} {{ $t('gdpr.retention.monthsShort') }}</template>
                                         </td>
                                         <td class="co-td">
                                             <span class="co-badge text-[11px]"
-                                                :class="row.trigger === 'system' ? 'co-badge-navy' : 'co-badge-gray'">
-                                                <Icon :name="row.trigger === 'system' ? 'ph:robot' : 'ph:user'"
+                                                :class="row.trigger === 'user' ? 'co-badge-gray' : 'co-badge-navy'">
+                                                <Icon :name="row.trigger === 'user' ? 'ph:user' : 'ph:robot'"
                                                     class="w-3 h-3" />
                                                 {{ row.trigger === 'system' ? $t('gdpr.deletionLog.triggerSystem') :
+                                                row.trigger === 'status_journal_retention' ? $t('gdpr.deletionLog.triggerStatusJournal') :
                                                 $t('gdpr.deletionLog.triggerUser') }}
                                             </span>
                                         </td>
@@ -120,7 +124,6 @@
 import { gdprService } from '@/components/api/user/GdprService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -128,12 +131,10 @@ const runtimeConfig = useRuntimeConfig()
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const userStore = useUserStore() as any
 
+// Every sector: the status/journal retention runs are logged here too. Only employment services
+// have citizen deletions, so the citizen rows (and their restore action) appear for them alone.
 onMounted(() => {
-    if (userStore.getUser?.company?.industry?.system_name !== 'employment_services') {
-        navigateTo('/overview')
-    }
     fetchLog()
 })
 
@@ -146,6 +147,7 @@ const triggerOptions = computed(() => [
     { value: '', label: t('gdpr.deletionLog.allTriggers') },
     { value: 'system', label: t('gdpr.deletionLog.triggerSystem') },
     { value: 'user', label: t('gdpr.deletionLog.triggerUser') },
+    { value: 'status_journal_retention', label: t('gdpr.deletionLog.triggerStatusJournal') },
 ])
 
 let currentPage = 1
