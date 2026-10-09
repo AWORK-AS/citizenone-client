@@ -29,10 +29,29 @@ export default defineNuxtPlugin(() => {
         setTimeout(() => clearInterval(interval), 30000)
 
         // A page's own questions belong to that page: leaving it gives Milo
-        // his defaults back, so the calendar's "?" never shows the duty
-        // schedule's questions.
+        // the in-app support questions back (not the website's pricing and
+        // demo ones), so the calendar's "?" never shows the duty schedule's.
+        // The app's vue-i18n instance is provided as $i18nGlobal
+        // (plugins/i18n.ts). The first set waits for the app to mount, and is
+        // repeated when the locale changes: it starts as 'en' and becomes the
+        // user's language once they are loaded. Best-effort: a failure here may
+        // cost Milo his suggestions, never the app its start (an earlier
+        // version took the whole app down with "reading 't'").
+        const nuxtApp = useNuxtApp()
+        const suggestInApp = () => {
+            try {
+                const i18n = (nuxtApp as any).$i18nGlobal
+                if (!i18n?.t) return
+                useObiyenChat().suggestInApp((key: string) => String(i18n.t(key)))
+            } catch { /* leave Milo's defaults */ }
+        }
+        nuxtApp.hook('app:mounted', () => {
+            suggestInApp()
+            const locale = (nuxtApp as any).$i18nGlobal?.locale
+            if (locale && typeof locale === 'object' && 'value' in locale) watch(locale, suggestInApp)
+        })
         useRouter().afterEach((to, from) => {
-            if (to.path !== from.path) useObiyenChat().suggest([])
+            if (to.path !== from.path) suggestInApp()
         })
     }
 })

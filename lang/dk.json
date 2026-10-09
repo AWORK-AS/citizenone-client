@@ -8102,6 +8102,11 @@
         "askMiloTooltip": "Spørg Milo om vagtplanen",
         "askMiloGeneral": "Spørg Milo, hvis du har brug for hjælp",
         "miloQuestions": {
+            "inApp": {
+                "q1": "Hvordan skriver jeg et journalnotat?",
+                "q2": "Hvordan giver jeg en kollega adgang til en afdeling?",
+                "q3": "Hvordan kontakter jeg supporten?"
+            },
             "schedules": {
                 "q1": "Hvordan kopierer jeg en uge til næste uge?",
                 "q2": "Hvad betyder +N på en dag?",
