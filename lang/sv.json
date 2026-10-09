@@ -4697,6 +4697,24 @@
     },
     "dutySchedules": {
         "allDay": "Hela dagen",
+        "groups": {
+            "collapse": "Fäll ihop avdelningen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} anst.",
+            "expand": "Fäll ut avdelningen",
+            "noDepartment": "Utan avdelning",
+            "shifts": "{count} pass"
+        },
+        "moreShifts": "{count} pass till – klicka för att visa alla",
+        "optimizedNotice": {
+            "title": "Schemat har blivit lättare att överblicka",
+            "compact": "Passen tar mindre plats, och en dag visar de första – klicka på +N för resten.",
+            "groups": "På Alla avdelningar är personalen uppdelad på avdelningar, med din egen överst.",
+            "tooltips": "Håll muspekaren över en knapp för att se vad den gör.",
+            "dismiss": "Uppfattat",
+            "dismissTooltip": "Stäng meddelandet – det visas inte igen"
+        },
+        "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
             "hint": "Enter för att spara · Esc för att avbryta"
@@ -8080,6 +8098,36 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjälp & Guide - Tjänsteschema",
+        "askMilo": "Fråga Milo",
+        "askMiloTooltip": "Fråga Milo om schemat",
+        "askMiloGeneral": "Fråga Milo om du behöver hjälp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hur kopierar jag en vecka till nästa vecka?",
+                "q2": "Vad betyder +N på en dag?",
+                "q3": "Hur godkänner jag ett passbyte?"
+            },
+            "calendar": {
+                "q1": "Hur skapar jag en återkommande bokning?",
+                "q2": "Hur visar jag bara mina egna bokningar?",
+                "q3": "Hur tar jag bort resten av en serie?"
+            },
+            "overview": {
+                "q1": "Hur väljer jag vilka rutor jag ser?",
+                "q2": "Varför är vissa rutor låsta?",
+                "q3": "Vad är passöversikten?"
+            },
+            "citizens": {
+                "q1": "Hur skapar jag en ny {citizen}?",
+                "q2": "Hur arkiverar jag en {citizen}?",
+                "q3": "Hur hittar jag en {citizen} med personnummer?"
+            },
+            "employees": {
+                "q1": "Hur bjuder jag in en ny anställd?",
+                "q2": "Hur arkiverar jag en anställd?",
+                "q3": "Hur ger jag en anställd tillgång till en avdelning?"
+            }
+        },
         "title": "Hjälp & Guide"
     },
     "hideAll": "Dölj alla",

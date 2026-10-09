@@ -4697,6 +4697,24 @@
     },
     "dutySchedules": {
         "allDay": "Hele dagen",
+        "groups": {
+            "collapse": "Fold afdelingen sammen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} medarb.",
+            "expand": "Fold afdelingen ud",
+            "noDepartment": "Uden afdeling",
+            "shifts": "{count} vagter"
+        },
+        "moreShifts": "{count} vagter mere – klik for at vise alle",
+        "optimizedNotice": {
+            "title": "Vagtplanen er blevet lettere at overskue",
+            "compact": "Vagterne fylder mindre, og en dag viser de første vagter – tryk +N for resten.",
+            "groups": "På Alle afdelinger er medarbejderne delt op i afdelinger, med din egen øverst.",
+            "tooltips": "Hold musen over en knap for at se, hvad den gør.",
+            "dismiss": "Forstået",
+            "dismissTooltip": "Luk beskeden – den vises ikke igen"
+        },
+        "showFewerShifts": "Vis kun de første vagter",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
             "hint": "Enter for at gemme · Esc for at annullere"
@@ -8080,6 +8098,36 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjælp & Guide - Vagtplan",
+        "askMilo": "Spørg Milo",
+        "askMiloTooltip": "Spørg Milo om vagtplanen",
+        "askMiloGeneral": "Spørg Milo, hvis du har brug for hjælp",
+        "miloQuestions": {
+            "schedules": {
+                "q1": "Hvordan kopierer jeg en uge til næste uge?",
+                "q2": "Hvad betyder +N på en dag?",
+                "q3": "Hvordan godkender jeg et vagtbytte?"
+            },
+            "calendar": {
+                "q1": "Hvordan opretter jeg en aftale, der gentager sig?",
+                "q2": "Hvordan viser jeg kun mine egne aftaler?",
+                "q3": "Hvordan sletter jeg resten af en serie?"
+            },
+            "overview": {
+                "q1": "Hvordan vælger jeg, hvilke bokse jeg ser?",
+                "q2": "Hvorfor er nogle bokse låst?",
+                "q3": "Hvad er Vagtoverblik?"
+            },
+            "citizens": {
+                "q1": "Hvordan opretter jeg en ny {citizen}?",
+                "q2": "Hvordan arkiverer jeg en {citizen}?",
+                "q3": "Hvordan finder jeg en {citizen} ud fra CPR-nummer?"
+            },
+            "employees": {
+                "q1": "Hvordan inviterer jeg en ny medarbejder?",
+                "q2": "Hvordan arkiverer jeg en medarbejder?",
+                "q3": "Hvordan giver jeg en medarbejder adgang til en afdeling?"
+            }
+        },
         "title": "Hjælp & Guide"
     },
     "hideAll": "Skjul alle",
