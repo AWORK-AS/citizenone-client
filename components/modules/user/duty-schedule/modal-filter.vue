@@ -17,6 +17,16 @@
                                 :loading="state.isPageLoading" v-model="state.formFilter.employee_uuids" />
                         </div>
                         <div class="space-y-1">
+                            <FormLabel for="job_title_uuids" :label="$t('dutySchedules.filter.jobTitles')" />
+                            <FormSelectMultiple id="job_title_uuids" :options="state.options.jobTitles"
+                                :loading="state.isPageLoading" v-model="state.formFilter.job_title_uuids" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="sort_by" :label="$t('dutySchedules.filter.sortBy')" />
+                            <FormSelect id="sort_by" name="sort_by" :options="state.options.sortBy"
+                                v-model="state.formFilter.sort_by" />
+                        </div>
+                        <div class="space-y-1">
                             <FormLabel for="employment_status" :label="$t('dutySchedules.filter.employmentStatus')" />
                             <FormSelectMultiple id="employment_status" :options="state.options.employment_status"
                                 v-model="state.formFilter.employment_status" />
@@ -83,6 +93,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { userService } from '@/components/api/user/UserService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { scheduleTagService } from '@/components/api/user/ScheduleTagService'
+import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { useI18n } from "vue-i18n"
 import { EMPLOYMENT_STATUS_LABELS, builtInOptions } from '@/utils/employmentOptions'
 import type { Error } from '@/types'
@@ -106,6 +117,8 @@ const state = reactive({
         employment_status: [],
         employee_uuids: [],
         schedule_tag_uuids: [],
+        job_title_uuids: [],
+        sort_by: 'name',
         time_from: '',
         time_to: '',
     },
@@ -114,6 +127,11 @@ const state = reactive({
         departments: [],
         employees: [],
         tags: [],
+        jobTitles: [],
+        sortBy: [
+            { value: 'name', label: t('dutySchedules.filter.sortByName') },
+            { value: 'job_title', label: t('dutySchedules.filter.sortByJobTitle') },
+        ],
         employment_status: builtInOptions(EMPLOYMENT_STATUS_LABELS, t),
     }
 })
@@ -142,6 +160,7 @@ async function fetchFilterOptions() {
         fetchAllDepartments(),
         fetchAllUsers(),
         fetchAllScheduleTags(),
+        fetchAllJobTitles(),
     ])
     const failure = results.find((result) => result.status === 'rejected') as PromiseRejectedResult | undefined
     if (failure) {
@@ -192,6 +211,16 @@ async function fetchAllScheduleTags() {
             })
         )
         state.options.tags = options
+    }
+}
+
+async function fetchAllJobTitles() {
+    const response = await jobTitleService.getAllJobTitles()
+    if (response?.data) {
+        state.options.jobTitles = response.data.map((jobTitle: any) => ({
+            value: jobTitle?.uuid,
+            label: jobTitle?.title,
+        }))
     }
 }
 

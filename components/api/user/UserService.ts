@@ -21,6 +21,14 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/time-logs/time/out`, 'PUT', params)
     }
 
+    async shiftEndStatus(): Promise<any> {
+        return await this.request(`/user/time-logs/shift-end/status`, 'GET')
+    }
+
+    async shiftEndResponse(params: object): Promise<any> {
+        return await this.request(`/user/time-logs/shift-end/response`, 'POST', params)
+    }
+
     async updateUser(params: object): Promise<any> {
         return await this.request(`/user/update`, 'POST', params)
     }

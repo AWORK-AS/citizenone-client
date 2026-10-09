@@ -52,6 +52,22 @@
                     </table>
                 </div>
             </div>
+
+            <div class="space-y-1">
+                <FormLabel for="description_template" :label="$t('treatmentTemplates.form.descriptionTemplate')" />
+                <p class="text-xs text-gray-500">{{ $t('treatmentTemplates.form.descriptionTemplateHint') }}</p>
+                <ckeditor :editor="editor" v-model="state.formTemplate.description_template" :config="editorConfig">
+                </ckeditor>
+                <FormError :error="props?.error?.errors?.description_template?.[0]" />
+            </div>
+
+            <div class="space-y-1">
+                <FormLabel for="status_template" :label="$t('treatmentTemplates.form.statusTemplate')" />
+                <p class="text-xs text-gray-500">{{ $t('treatmentTemplates.form.statusTemplateHint') }}</p>
+                <ckeditor :editor="editor" v-model="state.formTemplate.status_template" :config="editorConfig">
+                </ckeditor>
+                <FormError :error="props?.error?.errors?.status_template?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -68,6 +84,8 @@
 </template>
 
 <script setup lang="ts">
+import ClassicEditor from '@/utils/editor'
+import { defaultCareNoteTemplate } from '@/composables/careNoteTemplate'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -88,6 +106,11 @@ const props = defineProps({
 })
 const emit = defineEmits(['submitForm'])
 const { t } = useI18n()
+const editor = ref(ClassicEditor)
+const editorConfig = ref({
+    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
+    height: 300,
+}) as any
 
 const templateFields = computed(() => [
     { key: 'area_type', label: t('citizens.treatments.form.areaTypes.areaType') },
@@ -105,11 +128,17 @@ const state = reactive({
         area_type: 'optional' as string,
         score: 'optional' as string,
         description: 'optional' as string,
+        description_template: '' as string,
+        status_template: '' as string,
     } as Record<string, string>,
 })
 
 onMounted(() => {
     syncFromProps(props.selectedTemplate)
+    if (props.formType === 'create') {
+        state.formTemplate.description_template ||= defaultCareNoteTemplate(t)
+        state.formTemplate.status_template ||= defaultCareNoteTemplate(t)
+    }
 })
 
 watch(() => props.selectedTemplate, (newValue: any) => {
@@ -126,6 +155,8 @@ function syncFromProps(tpl: any) {
         area_type: tpl.area_type ?? 'optional',
         score: tpl.score ?? 'optional',
         description: tpl.description ?? 'optional',
+        description_template: tpl.description_template ?? '',
+        status_template: tpl.status_template ?? '',
     }
 }
 

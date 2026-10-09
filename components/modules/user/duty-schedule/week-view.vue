@@ -230,6 +230,9 @@
                                                 aria-hidden="true" />
                                         </button>
                                     </Tooltip>
+                                    <ModulesUserDutyScheduleDaySortButton
+                                        :active="activeFirstShiftDate === day.fullDate.format('YYYY-MM-DD')"
+                                        @toggle="toggleFirstShiftSort(day.fullDate.format('YYYY-MM-DD'))" />
                                     <div v-if="getSlotCount(day.longName) > 0"
                                         class="slot-badge absolute top-2 right-2 bg-primary font-bold shadow-sm">
                                         {{ getSlotCount(day.longName) > 99 ? '99+' : getSlotCount(day.longName) }}
@@ -287,6 +290,9 @@
                                                 aria-hidden="true" />
                                         </button>
                                     </Tooltip>
+                                    <ModulesUserDutyScheduleDaySortButton
+                                        :active="activeFirstShiftDate === day.fullDate.format('YYYY-MM-DD')"
+                                        @toggle="toggleFirstShiftSort(day.fullDate.format('YYYY-MM-DD'))" />
                                     <span v-if="getHolidayForDay(day.longName)"
                                         class="absolute bottom-1 left-0 right-0 text-center px-0.5">
                                         <span
@@ -504,7 +510,7 @@
                                                         </Tooltip>
                                                         <Tooltip position="right"
                                                             :text="$t('dutySchedules.compensatoryTimeRequests.compensatoryTimeRequests')"
-                                                            v-if="userStore.getUser?.company?.compensatory_time_enabled && (isAtLeast('Admin') || (!isAtLeast('Admin') && userStore.getUser?.uuid === employee?.uuid))">
+                                                            v-if="userStore.getUser?.company?.compensatory_time_enabled && (isAtLeast('Admin') || can('approve_compensatory_time_request') || userStore.getUser?.uuid === employee?.uuid)">
                                                             <button :aria-label="$t('dutySchedules.compensatoryTimeRequests.compensatoryTimeRequests')"
                                                                 class="bg-gray-100 w-6 h-6 sm:w-7 sm:h-7 text-sm text-gray-500 rounded-lg hover:bg-blue-50 hover:text-blue-600 flex items-center justify-center transition-colors relative"
                                                                 @click="viewCompensatoryTimeRequests(employee)">
@@ -534,7 +540,7 @@
                                                     'mt-1 ml-10'
                                                 ]">
                                                     <p class="text-xxs">
-                                                        {{ employee?.employee_detail?.job?.title }}
+                                                        {{ employeeJobTitles(employee) }}
                                                     </p>
                                                     <div class="text-xxs">
                                                         {{ $t('departments.departments') }}:
@@ -1137,6 +1143,10 @@
                                                             v-if="shift?.type?.system_name === 'vacation-leave'">
                                                             🏖️
                                                         </div>
+                                                        <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
+                                                            v-if="shift?.type?.system_name === 'compensatory-time'">
+                                                            ⏳
+                                                        </div>
                                                         <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
                                                             :text="$t('dutySchedules.lockedShiftTooltip')" position="top"
                                                             :wrap="true" class="absolute -right-2 -top-2 sm:-right-3 sm:-top-3 z-10">
@@ -1609,6 +1619,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
+import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -1722,6 +1733,7 @@ const state = reactive({
         employment_status: [],
         employee_uuids: [],
         schedule_tag_uuids: [],
+        job_title_uuids: [],
         time_from: '',
         time_to: '',
     },
@@ -1821,6 +1833,8 @@ const state = reactive({
     sortData: {
         sortField: 'firstname',
         sortOrder: 'ascend',
+        // undefined follows the company default, null is turned off, a date is the picked day
+        firstShiftDate: undefined as string | null | undefined,
     },
     isUpdateShift: false,
     viewShift: {
@@ -1849,9 +1863,24 @@ const activeFilterCount = computed(() => {
     if (f.department_uuids?.length) n++
     if (f.employment_status?.length) n++
     if (f.employee_uuids?.length) n++
+    if (f.job_title_uuids?.length) n++
     if (f.time_from && f.time_to) n++
     return n
 })
+
+// The day whose "who starts first" order is active in the visible week, if any.
+const activeFirstShiftDate = computed(() => resolveFirstShiftDate(
+    state.sortData.firstShiftDate,
+    moment(currentDate.value).startOf('isoWeek'),
+    moment(currentDate.value).endOf('isoWeek'),
+    userStore.getUser?.company,
+))
+
+function toggleFirstShiftSort(date: string) {
+    state.sortData.firstShiftDate = activeFirstShiftDate.value === date ? null : date
+    dutyScheduleStore.setCurrentPageNumber(1)
+    fetchDutySchedule()
+}
 
 const hasCreatePermission = computed(() => {
     return !!userStore.user?.permissions?.find((permission: any) => permission.name === 'create_schedule')
@@ -2302,6 +2331,9 @@ async function fetchDutySchedule() {
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
         } as any
+        if (activeFirstShiftDate.value) {
+            params.sort_by_first_shift_date = activeFirstShiftDate.value
+        }
         if (state.filter.department_uuids?.length > 0) {
             params.department_uuids = Array(state.filter.department_uuids)
         }
@@ -2310,6 +2342,9 @@ async function fetchDutySchedule() {
         // view is grouped on its own).
         if (isAllDepartmentsSelected.value && !(state.filter.department_uuids?.length > 0)) {
             params.group_by_department = true
+        }
+        if (state.filter.job_title_uuids?.length > 0) {
+            params.job_title_uuids = Array(state.filter.job_title_uuids)
         }
         if (state.filter.employment_status) {
             params.employment_status = Array(state.filter.employment_status)
@@ -2368,8 +2403,10 @@ function setFilter(filter: any) {
     state.filter.employment_status = filter.employment_status
     state.filter.employee_uuids = filter.employee_uuids
     state.filter.schedule_tag_uuids = filter.schedule_tag_uuids ?? []
+    state.filter.job_title_uuids = filter.job_title_uuids ?? []
     state.filter.time_from = filter.time_from ?? ''
     state.filter.time_to = filter.time_to ?? ''
+    state.sortData.sortField = filter.sort_by === 'job_title' ? 'job_title' : 'firstname'
     emit('setDutyScheduleCurrentFilter', state.filter)
     fetchDutySchedule()
 }

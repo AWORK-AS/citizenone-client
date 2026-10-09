@@ -26,6 +26,9 @@
                                                 `${runtimeConfig.public.appBaseURL}/guest/duty-schedules/${shared_schedule?.uuid}`
                                             }}
                                         </p>
+                                        <Badge type="active" class="inline-block mt-1" v-if="shared_schedule?.embed_token">
+                                            {{ $t('dutySchedules.shareDutySchedule.embed.embedded') }}
+                                        </Badge>
                                     </td>
                                     <td width="35%">
                                         <div class="text-xs flex flex-wrap gap-1">
@@ -38,6 +41,11 @@
                                     </td>
                                     <td width="30%">
                                         <div class="flex items-end justify-end gap-2">
+                                            <FormButton type="button" buttonStyle="white"
+                                                @click="openEmbed(shared_schedule)">
+                                                <Icon name="ph:code" class="size-4" />
+                                                {{ $t('dutySchedules.shareDutySchedule.embed.embed') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="danger"
                                                 @click="deleteSharedDutyScheduleConfirmation(shared_schedule)">
                                                 <Icon name="ph:trash" class="size-4" />
@@ -54,6 +62,10 @@
 
                 <ModulesUserDutyScheduleShareModalShare :isModalOpen="state.modal.isShareDutySchedulesOpen"
                     @close="state.modal.isShareDutySchedulesOpen = false"
+                    @refreshSharedDutySchedules="fetchSharedDutySchedules" />
+                <ModulesUserDutyScheduleShareModalEmbed :isModalOpen="state.modal.isEmbedOpen"
+                    :sharedSchedule="state.selectedSharedDutySchedule"
+                    @close="state.modal.isEmbedOpen = false"
                     @refreshSharedDutySchedules="fetchSharedDutySchedules" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteSharedJournalLink"
                     :message="$t('dutySchedules.shareDutySchedule.table.confirmation.deleteLinkConfirmation') + '?'"
@@ -97,6 +109,7 @@ const state = reactive({
     shared_schedules: [] as any,
     isTableLoading: false,
     modal: {
+        isEmbedOpen: false,
         isShareDutySchedulesOpen: false,
         isDeleteSharedJournalLink: false,
     },
@@ -160,6 +173,11 @@ function handleSearch(value: any) {
     currentTablePage = 1
     state.dataFilter.search = value?.[0] == '' ? [] : value
     fetchSharedDutySchedules()
+}
+
+function openEmbed(sharedDutySchedule: any) {
+    state.selectedSharedDutySchedule = sharedDutySchedule
+    state.modal.isEmbedOpen = true
 }
 
 function deleteSharedDutyScheduleConfirmation(sharedDutySchedule: any) {

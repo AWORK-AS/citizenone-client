@@ -15,6 +15,7 @@ const { t, locale } = useI18n()
 const { term } = useTerminology()
 const { errorAlert } = useAlert()
 const { industryHasFeature } = useIndustryFeatures()
+const permissions = usePermissions()
 
 const state = reactive({
     tabs: [] as any[],
@@ -64,9 +65,10 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             routeNames: ['citizens-uuid-tooth-chart'],
         })
     }
-    // Forms sent to the patient to fill in themselves. Only where there is a portal to send
-    // them to; a clinic without it would get a tab that cannot do anything.
-    if (isDental && newValue?.has_patient_app) {
+    // Forms sent to the patient to fill in themselves: in the portal where the clinic has one,
+    // otherwise as a link by email or SMS. So any clinic can use it - a tattoo studio's consent
+    // form was the case - for whoever may send forms.
+    if ((isDental && newValue?.has_patient_app) || permissions.isAtLeast('Admin') || permissions.can('manage_status_reports')) {
         tabs.push({
             name: 'citizens.tabs.patientForms', icon: 'ph:note-pencil', isTranslateName: true,
             href: `/citizens/${citizenUuid}/patient-forms`,

@@ -225,8 +225,8 @@
                                     <p class="text-sm font-semibold text-gray-900">
                                         {{ employee?.firstname }} {{ employee?.lastname }}
                                     </p>
-                                    <p class="text-xxs text-gray-500" v-if="employee?.employee_detail?.job?.title">
-                                        {{ employee?.employee_detail?.job?.title }}
+                                    <p class="text-xxs text-gray-500" v-if="employeeJobTitles(employee)">
+                                        {{ employeeJobTitles(employee) }}
                                     </p>
                                 </div>
                                 <div class="ml-auto flex gap-1">
@@ -709,6 +709,11 @@
                                                     v-if="shift?.type?.system_name === 'vacation-leave'">
                                                     🏖️
                                                 </div>
+                                                <div class="absolute -top-3 -left-2 z-10 w-6 h-6 rounded-full bg-white border border-gray-200 flex items-center justify-center"
+                                                    style="font-size:0.875rem"
+                                                    v-if="shift?.type?.system_name === 'compensatory-time'">
+                                                    ⏳
+                                                </div>
                                                 <Tooltip v-if="isShiftLocked(shift?.date_time_start)"
                                                     :text="$t('dutySchedules.lockedShiftTooltip')" position="top"
                                                     :wrap="true" class="absolute -top-3 -right-2 z-10">
@@ -1062,6 +1067,7 @@ import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useScheduleLock } from '@/composables/useScheduleLock'
 import { calculateWeeklyNormHours } from '@/composables/normHours'
+import { employeeJobTitles, resolveFirstShiftDate } from '@/utils/scheduleSort'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -1417,6 +1423,9 @@ async function fetchDutySchedule() {
         if (state.filter.employment_status) params.employment_status = Array(state.filter.employment_status)
         if (state.filter.employee_uuids?.length > 0) params.employee_uuids = Array(state.filter.employee_uuids)
         if (state.filter.schedule_tag_uuids?.length > 0) params.schedule_tag_uuids = Array(state.filter.schedule_tag_uuids)
+        if (state.filter.job_title_uuids?.length > 0) params.job_title_uuids = Array(state.filter.job_title_uuids)
+        const firstShiftDate = resolveFirstShiftDate(undefined, start, end, userStore.getUser?.company)
+        if (firstShiftDate) params.sort_by_first_shift_date = firstShiftDate
         if (state.filter.time_from) params.time_from = state.filter.time_from
         if (state.filter.time_to) params.time_to = state.filter.time_to
         const response = await dutyScheduleService.getDutySchedulesMonthView(params)
@@ -2189,6 +2198,7 @@ function sortDutySchedule() {
 
 function setFilter(filter: any) {
     state.filter = filter
+    state.sortData.sortField = filter?.sort_by === 'job_title' ? 'job_title' : 'firstname'
     state.modal.isFilterDutyScheduleOpen = false
     emit('setDutyScheduleCurrentFilter', filter)
     fetchDutySchedule()

@@ -93,7 +93,10 @@ const state = reactive({
     },
 })
 
+// The backend debits the shift's weighted hours (what it counts toward the balance),
+// so show that figure; the raw duration is only a fallback when it's missing.
 const computedHours = computed(() => {
+    if (typeof props.schedule?.hours === 'number') return props.schedule.hours
     const start = props.schedule?.date_time_start
     const end = props.schedule?.date_time_end
     if (!start || !end) return 0

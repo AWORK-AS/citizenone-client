@@ -9,6 +9,10 @@
         <!-- Desktop only: re-authentication lock after idle/screen-lock -->
         <DesktopLockOverlay />
 
+        <!-- "Are you still working?" when the shift ends. Mounted once: the clock widget below is
+             rendered several times (mobile drawer, desktop header, rail) and would repeat it. -->
+        <ModulesUserTimeRegistrationModalShiftEnd v-if="userStore.getUser?.checkin_enabled" />
+
         <!-- Mobile sidebar -->
         <TransitionRoot as="template" :show="sidebarOpen">
             <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
@@ -529,6 +533,20 @@
                                                 $t('navbar.procedures') }}
                                         </div>
                                     </MenuItem>
+                                    <MenuItem>
+                                        <div @click="state.modal.isContactUsOpen = true"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:shooting-star" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.newWishes') }}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div @click="navigateTo('/coming-functions')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:map-trifold" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.comingFunctions') }}
+                                        </div>
+                                    </MenuItem>
                                     <div class="border-t border-surface-100 mt-1 pt-1">
                                         <MenuItem>
                                             <div @click="logout()"
@@ -609,6 +627,8 @@
         </div>
 
         <!-- All modals -->
+        <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+            @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
         <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
@@ -1062,6 +1082,7 @@ const state = reactive({
     modal: {
         is2faRequiredOpen: false,
         isCheckinReminderOpen: false,
+        isContactUsOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,

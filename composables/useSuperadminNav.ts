@@ -53,6 +53,7 @@ export const superadminNav: SuperadminNavGroups = {
         { name: 'Industries', label: 'superadmin.sidebar.industries', href: '/superadmin/industries', icon: 'ph:buildings', permission: 'view_content', routes: ['superadmin-industries'] },
         { name: 'EmailTemplates', label: 'superadmin.sidebar.emailTemplates', href: '/superadmin/email-templates', icon: 'ph:envelope-simple', permission: 'view_content', routes: ['superadmin-email-templates'] },
         { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', permission: 'view_content', routes: ['superadmin-release-notes'] },
+        { name: 'Roadmap', label: 'superadmin.sidebar.roadmap', href: '/superadmin/roadmap', icon: 'ph:map-trifold', permission: 'view_content', routes: ['superadmin-roadmap'] },
     ],
 }
 
