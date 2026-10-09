@@ -8236,7 +8236,13 @@
         "askMilo": "Spør Milo",
         "askMiloTooltip": "Spør Milo om vaktplanen",
         "askMiloGeneral": "Spør Milo hvis du trenger hjelp",
+        "miloHelpLabel": "Hjelp",
         "miloQuestions": {
+            "inApp": {
+                "q1": "Hvordan skriver jeg et journalnotat?",
+                "q2": "Hvordan gir jeg en kollega tilgang til en avdeling?",
+                "q3": "Hvordan kontakter jeg support?"
+            },
             "schedules": {
                 "q1": "Hvordan kopierer jeg en uke til neste uke?",
                 "q2": "Hva betyr +N på en dag?",
