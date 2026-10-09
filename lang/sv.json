@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Delade dokument",
+        "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
+        "password": "Lösenord",
+        "unlock": "Öppna",
+        "lock": "Stäng",
+        "sharedBy": "Delat av {name}, {company}",
+        "linkExpires": "Länken fungerar till {date}",
+        "folderPath": "Mappsökväg",
+        "view": "Visa",
+        "download": "Ladda ner",
+        "empty": "Mappen är tom.",
+        "changeLanguage": "Byt språk",
+        "somethingWentWrong": "Något gick fel. Försök igen."
+    },
+    "comingFunctions": {
+        "title": "Kommande funktioner",
+        "intro": "Här kan du se vad vi arbetar med och vad som kommer i CitizenOne. Saknar du något? Skicka ett önskemål till oss.",
+        "sendWish": "Skicka ett önskemål",
+        "empty": "Det finns inga kommande funktioner att visa just nu.",
+        "sections": {
+            "in_progress": "Pågår",
+            "planned": "Planerad",
+            "released": "Nyligen lanserad"
+        },
+        "status": {
+            "in_progress": "Pågår",
+            "planned": "Planerad",
+            "released": "Lanserad"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Exportera",
         "filters": {
@@ -2087,6 +2118,49 @@
                 "template": "Mall",
                 "useTemplate": "Använd mall"
             },
+            "sendLink": {
+                "title": "Skicka länk via e-post",
+                "fileIntro": "Mottagaren kan visa och ladda ner den här filen.",
+                "folderIntro": "Mottagaren kan visa och ladda ner allt i den här mappen, även undermappar.",
+                "recipients": "Mottagare",
+                "recipientsPlaceholder": "Skriv en e-postadress och tryck på Enter",
+                "recipientsHelp": "Upp till 10 mottagare.",
+                "password": "Lösenord",
+                "confirmPassword": "Bekräfta lösenord",
+                "passwordHelp": "Lösenordet står inte i mejlet. Ge det till mottagaren på annat sätt, t.ex. per telefon eller sms.",
+                "expiresAt": "Länken går ut",
+                "emailLanguage": "Språk i mejlet",
+                "message": "Meddelande (valfritt)",
+                "messagePlaceholder": "Skriv ett meddelande till mottagaren",
+                "send": "Skicka länk",
+                "sent": "Länken har skickats",
+                "sentLinks": "Skickade länkar",
+                "sentLinksIntro": "Länkar som skickats via e-post från de här dokumenten. Återkalla en länk för att stänga den direkt.",
+                "document": "Dokument",
+                "sentTo": "Skickad till",
+                "sentBy": "Skickad av",
+                "expires": "Går ut",
+                "active": "Aktiv",
+                "expired": "Utgången",
+                "copyLink": "Kopiera länk",
+                "linkCopied": "Länken har kopierats",
+                "revoke": "Återkalla länk",
+                "revokeConfirmation": "Återkalla länken? Mottagarna kan då inte längre öppna den",
+                "revoked": "Länken har återkallats",
+                "languages": {
+                    "dk": "Danska",
+                    "en": "Engelska",
+                    "no": "Norska",
+                    "sv": "Svenska"
+                },
+                "alert": {
+                    "recipientRequired": "Lägg till minst en e-postadress",
+                    "tooManyRecipients": "Du kan skicka till högst 10 mottagare",
+                    "passwordMin": "Använd minst 8 tecken",
+                    "passwordMismatch": "Lösenorden matchar inte",
+                    "expiryRange": "Välj ett datum mellan i dag och om ett år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Åtkomst",
@@ -2096,6 +2170,7 @@
                     "edit": "Redigera",
                     "move": "Flytta",
                     "openSelected": "Öppna valda",
+                    "sendLink": "Skicka länk via e-post",
                     "share": "Dela",
                     "statuses": "Statusar",
                     "unshare": "Ta bort delning",
@@ -9312,6 +9387,8 @@
         "logout": "Logga ut",
         "notifications": "Notiser",
         "procedures": "Procedurer",
+        "newWishes": "Nya önskemål",
+        "comingFunctions": "Kommande funktioner",
         "reminders": "Påminnelser",
         "settings": "Inställningar",
         "subscription": "Prenumeration",
@@ -10845,6 +10922,8 @@
                 "relativeChatContactPersons": "Anhöriga kan skriva till medborgarens tilldelade kontaktpersoner",
                 "patientChatInbox": "Patienter skriver till hela kliniken (gemensam inkorg)",
                 "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
+                "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
+                "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
                 "groupPortalAccess": "Portalåtkomst",
                 "portalAccessHint": "Välj vad anhöriga, tredjeparter och medborgare kan se i sin egen portal",
@@ -10973,7 +11052,8 @@
                 "portalSectionForms": "Formulär",
                 "portalSectionPriceEstimates": "Kostnadsförslag",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
-                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem."
+                "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
+                "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -11106,6 +11186,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
@@ -11187,6 +11268,29 @@
             "how1": "Klicka “Anslut till e-conomic”.",
             "how2": "Godkänn åtkomsten i e-conomic (App Connect).",
             "how3": "Du skickas tillbaka hit. Därefter kan fakturor skickas till e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Skicka fakturor från CitizenOne till Dinero som bokföringsunderlag.",
+            "adminOnly": "Endast administratörer kan hantera Dinero-anslutningen.",
+            "notPurchased": "Dinero-appen är inte aktiverad ännu. Aktivera den under Appar för att ansluta.",
+            "goToApps": "Gå till Appar",
+            "connection": "Anslutning",
+            "connected": "Ansluten",
+            "notConnected": "Inte ansluten",
+            "connect": "Anslut",
+            "disconnect": "Koppla från",
+            "confirmDisconnect": "Koppla från Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Client ID som Dinero utfärdade till er",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Client Secret som Dinero utfärdade till er",
+            "apiKeyLabel": "Dinero API-nyckel",
+            "apiKeyPlaceholder": "Klistra in API-nyckeln från din Dinero-organisation",
+            "howTitle": "Så här ansluter du",
+            "how1": "Gå till Inställningar → Integrationer i Dinero och begär en personlig integration för att få ett Client ID, en Client Secret och en API-nyckel för organisationen.",
+            "how2": "Klistra in alla tre här och klicka på “Anslut”.",
+            "how3": "När anslutningen är klar kan fakturor skickas till Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11319,6 +11423,10 @@
             "economic": {
                 "title": "Vad gör e-conomic?",
                 "body": "Skicka fakturor och underlag vidare till ert bokföringssystem, så att siffrorna bara skrivs in en gång."
+            },
+            "dinero": {
+                "title": "Vad gör Dinero?",
+                "body": "Skicka fakturor vidare till Dinero som bokföringsunderlag, så att siffrorna bara skrivs in en gång."
             },
             "fst": {
                 "title": "Vad är FindSocialeTilbud.dk?",
@@ -11641,6 +11749,34 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Färdplan",
+            "intro": "Funktionerna alla användare ser under \"Kommande funktioner\" i profilmenyn. Endast publicerade punkter visas.",
+            "newItem": "Ny punkt",
+            "editItem": "Redigera punkt",
+            "noItems": "Inga punkter med denna status.",
+            "dragHint": "Dra punkterna för att ändra ordningen användarna ser dem i.",
+            "published": "Publicerad",
+            "draft": "Utkast",
+            "publish": "Publicera",
+            "unpublish": "Avpublicera",
+            "deleteConfirm": "Är du säker på att du vill radera denna punkt?",
+            "visibleToEveryone": "Synlig för alla branscher",
+            "visibleToIndustries": "Endast synlig för de valda branscherna",
+            "releasedOn": "Lanserad {date}",
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivning",
+                "descriptionHint": "Skriv till användarna: vad funktionen gör och hur den hjälper dem.",
+                "status": "Status",
+                "expectedPeriod": "Förväntad",
+                "expectedPeriodPlaceholder": "T.ex. Q2 2027 eller april 2027",
+                "industries": "Branscher",
+                "industriesHint": "Lämna tomt för att visa punkten för alla branscher.",
+                "published": "Visa för användarna",
+                "publishedHint": "Utkast syns bara här i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Konton",
             "alert": {
@@ -12808,6 +12944,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "roadmap": "Färdplan",
             "apps": "Apps",
             "appCategories": "App-kategorier",
             "companies": "Företag",
@@ -16171,6 +16308,7 @@
             "recipientPlaceholder": "Mottagare (annars avdelningens e-post)",
             "sendEmail": "Skicka via e-post",
             "pushEconomic": "Skicka till e-conomic som utkast",
+            "pushDinero": "Skicka till Dinero som underlag",
             "empty": "Inga fakturor i den här vyn.",
             "number": "Fakturanr",
             "billTo": "Mottagare",
@@ -16190,6 +16328,9 @@
                 "invoice_not_found": "Fakturan hittades inte",
                 "customer_failed": "Kunden kunde inte skapas i e-conomic",
                 "invoice_failed": "Utkastet kunde inte skapas i e-conomic",
+                "dinero_not_connected": "Dinero är inte anslutet",
+                "dinero_invoice_not_found": "Fakturan hittades inte",
+                "dinero_voucher_failed": "Underlaget kunde inte skapas i Dinero",
                 "unknown_action": "Okänd åtgärd"
             }
         },

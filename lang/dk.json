@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Delte dokumenter",
+        "enterPassword": "Indtast den adgangskode, du har fået af afsenderen, for at åbne dokumenterne.",
+        "password": "Adgangskode",
+        "unlock": "Åbn",
+        "lock": "Luk",
+        "sharedBy": "Delt af {name}, {company}",
+        "linkExpires": "Linket virker indtil {date}",
+        "folderPath": "Mappesti",
+        "view": "Vis",
+        "download": "Download",
+        "empty": "Mappen er tom.",
+        "changeLanguage": "Skift sprog",
+        "somethingWentWrong": "Noget gik galt. Prøv igen."
+    },
+    "comingFunctions": {
+        "title": "Kommende funktioner",
+        "intro": "Her kan du se, hvad vi arbejder på, og hvad der kommer i CitizenOne. Mangler du noget? Send os et ønske.",
+        "sendWish": "Send et ønske",
+        "empty": "Der er ingen kommende funktioner at vise lige nu.",
+        "sections": {
+            "in_progress": "I gang",
+            "planned": "Planlagt",
+            "released": "Netop udgivet"
+        },
+        "status": {
+            "in_progress": "I gang",
+            "planned": "Planlagt",
+            "released": "Udgivet"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
         "filters": {
@@ -2087,6 +2118,49 @@
                 "template": "Skabelon",
                 "useTemplate": "Brug skabelon"
             },
+            "sendLink": {
+                "title": "Send link på e-mail",
+                "fileIntro": "Modtageren kan se og downloade denne fil.",
+                "folderIntro": "Modtageren kan se og downloade alt i denne mappe, også undermapper.",
+                "recipients": "Modtagere",
+                "recipientsPlaceholder": "Skriv en e-mailadresse, og tryk Enter",
+                "recipientsHelp": "Op til 10 modtagere.",
+                "password": "Adgangskode",
+                "confirmPassword": "Bekræft adgangskode",
+                "passwordHelp": "Adgangskoden står ikke i e-mailen. Giv den til modtageren på en anden måde, fx på telefon eller sms.",
+                "expiresAt": "Linket udløber",
+                "emailLanguage": "Sprog i e-mailen",
+                "message": "Besked (valgfri)",
+                "messagePlaceholder": "Skriv en besked til modtageren",
+                "send": "Send link",
+                "sent": "Linket er sendt",
+                "sentLinks": "Sendte links",
+                "sentLinksIntro": "Links sendt på e-mail fra disse dokumenter. Tilbagekald et link for at lukke det med det samme.",
+                "document": "Dokument",
+                "sentTo": "Sendt til",
+                "sentBy": "Sendt af",
+                "expires": "Udløber",
+                "active": "Aktiv",
+                "expired": "Udløbet",
+                "copyLink": "Kopiér link",
+                "linkCopied": "Linket er kopieret",
+                "revoke": "Tilbagekald link",
+                "revokeConfirmation": "Tilbagekald linket? Modtagerne kan derefter ikke åbne det",
+                "revoked": "Linket er tilbagekaldt",
+                "languages": {
+                    "dk": "Dansk",
+                    "en": "Engelsk",
+                    "no": "Norsk",
+                    "sv": "Svensk"
+                },
+                "alert": {
+                    "recipientRequired": "Tilføj mindst én e-mailadresse",
+                    "tooManyRecipients": "Du kan højst sende til 10 modtagere",
+                    "passwordMin": "Brug mindst 8 tegn",
+                    "passwordMismatch": "Adgangskoderne er ikke ens",
+                    "expiryRange": "Vælg en dato mellem i dag og om et år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Adgang",
@@ -2096,6 +2170,7 @@
                     "edit": "Rediger",
                     "move": "Flyt",
                     "openSelected": "Åbn valgte",
+                    "sendLink": "Send link på e-mail",
                     "share": "Del",
                     "statuses": "Statusser",
                     "unshare": "Fjern deling",
@@ -9312,6 +9387,8 @@
         "logout": "Log ud",
         "notifications": "Notifikationer",
         "procedures": "Procedurer",
+        "newWishes": "Nye ønsker",
+        "comingFunctions": "Kommende funktioner",
         "reminders": "Påmindelser",
         "settings": "Indstillinger",
         "subscription": "Abonnement",
@@ -10850,6 +10927,8 @@
                 "relativeChatContactPersons": "Pårørende kan skrive til @:terms.citizenDefinite{'s'} tilknyttede kontaktpersoner",
                 "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
                 "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
+                "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
+                "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
                 "groupPortalAccess": "Portaladgang",
                 "portalAccessHint": "Vælg hvad pårørende, tredjeparter og @:terms.citizens{''} kan se i deres egen portal",
@@ -10978,7 +11057,8 @@
                 "portalSectionForms": "Formularer",
                 "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
-                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem."
+                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
+                "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -11111,6 +11191,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egne links",
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
@@ -11192,6 +11273,29 @@
             "how1": "Klik “Forbind til e-conomic”.",
             "how2": "Godkend adgangen i e-conomic (App Connect).",
             "how3": "Du sendes tilbage hertil. Herefter kan fakturaer sendes til e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send fakturaer fra CitizenOne til Dinero som bogføringsbilag.",
+            "adminOnly": "Kun administratorer kan administrere Dinero-forbindelsen.",
+            "notPurchased": "Dinero-app’en er ikke aktiveret endnu. Aktivér den under Apps for at forbinde.",
+            "goToApps": "Gå til Apps",
+            "connection": "Forbindelse",
+            "connected": "Forbundet",
+            "notConnected": "Ikke forbundet",
+            "connect": "Forbind",
+            "disconnect": "Afbryd",
+            "confirmDisconnect": "Afbryd forbindelsen til Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Det Client ID, Dinero har udstedt til jer",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Den Client Secret, Dinero har udstedt til jer",
+            "apiKeyLabel": "Dinero API-nøgle",
+            "apiKeyPlaceholder": "Indsæt API-nøglen fra din Dinero-organisation",
+            "howTitle": "Sådan forbinder du",
+            "how1": "Gå til Indstillinger → Integrationer i Dinero, og anmod om en personlig integration for at få et Client ID, en Client Secret og en API-nøgle til organisationen.",
+            "how2": "Indsæt alle tre her, og klik “Forbind”.",
+            "how3": "Når forbindelsen er oprettet, kan fakturaer sendes til Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11324,6 +11428,10 @@
             "economic": {
                 "title": "Hvad gør e-conomic?",
                 "body": "Send fakturaer og bilag videre til jeres regnskabssystem, så tallene kun tastes ét sted."
+            },
+            "dinero": {
+                "title": "Hvad gør Dinero?",
+                "body": "Send fakturaer videre til Dinero som bogføringsbilag, så tallene kun tastes ét sted."
             },
             "fst": {
                 "title": "Hvad er FindSocialeTilbud.dk?",
@@ -11678,6 +11786,34 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "De funktioner alle brugere ser under \"Kommende funktioner\" i profilmenuen. Kun publicerede punkter vises.",
+            "newItem": "Nyt punkt",
+            "editItem": "Rediger punkt",
+            "noItems": "Ingen punkter med denne status.",
+            "dragHint": "Træk punkterne for at ændre rækkefølgen, brugerne ser dem i.",
+            "published": "Publiceret",
+            "draft": "Kladde",
+            "publish": "Publicer",
+            "unpublish": "Afpublicer",
+            "deleteConfirm": "Er du sikker på, at du vil slette dette punkt?",
+            "visibleToEveryone": "Synlig for alle brancher",
+            "visibleToIndustries": "Kun synlig for de valgte brancher",
+            "releasedOn": "Udgivet {date}",
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivelse",
+                "descriptionHint": "Skriv til brugerne: hvad funktionen gør, og hvordan den hjælper dem.",
+                "status": "Status",
+                "expectedPeriod": "Forventet",
+                "expectedPeriodPlaceholder": "F.eks. Q2 2027 eller april 2027",
+                "industries": "Brancher",
+                "industriesHint": "Lad feltet være tomt for at vise punktet for alle brancher.",
+                "published": "Vis for brugerne",
+                "publishedHint": "Kladder er kun synlige her i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
@@ -12845,6 +12981,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App-kategorier",
             "companies": "Virksomheder",
@@ -16267,6 +16404,7 @@
             "recipientPlaceholder": "Modtager (ellers afdelingens e-mail)",
             "sendEmail": "Send på e-mail",
             "pushEconomic": "Send til e-conomic som kladde",
+            "pushDinero": "Send til Dinero som bilag",
             "empty": "Ingen fakturaer i denne visning.",
             "number": "Fakturanr.",
             "billTo": "Modtager",
@@ -16286,6 +16424,9 @@
                 "invoice_not_found": "Fakturaen blev ikke fundet",
                 "customer_failed": "Kunden kunne ikke oprettes i e-conomic",
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
+                "dinero_not_connected": "Dinero er ikke forbundet",
+                "dinero_invoice_not_found": "Fakturaen blev ikke fundet",
+                "dinero_voucher_failed": "Bilaget kunne ikke oprettes i Dinero",
                 "unknown_action": "Ukendt handling"
             }
         },

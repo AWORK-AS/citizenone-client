@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Shared documents",
+        "enterPassword": "Enter the password you received from the sender to open the documents.",
+        "password": "Password",
+        "unlock": "Open",
+        "lock": "Close",
+        "sharedBy": "Shared by {name}, {company}",
+        "linkExpires": "The link works until {date}",
+        "folderPath": "Folder path",
+        "view": "View",
+        "download": "Download",
+        "empty": "This folder is empty.",
+        "changeLanguage": "Change language",
+        "somethingWentWrong": "Something went wrong. Please try again."
+    },
+    "comingFunctions": {
+        "title": "Coming functions",
+        "intro": "Here you can see what we're working on and what's coming next in CitizenOne. Missing something? Send us a wish.",
+        "sendWish": "Send a wish",
+        "empty": "There are no coming functions to show right now.",
+        "sections": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Recently released"
+        },
+        "status": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Released"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Export",
         "filters": {
@@ -2087,6 +2118,49 @@
                 "template": "Template",
                 "useTemplate": "Use template"
             },
+            "sendLink": {
+                "title": "Send link by email",
+                "fileIntro": "The recipient can view and download this file.",
+                "folderIntro": "The recipient can view and download everything in this folder, including subfolders.",
+                "recipients": "Recipients",
+                "recipientsPlaceholder": "Type an email address and press Enter",
+                "recipientsHelp": "Up to 10 recipients.",
+                "password": "Password",
+                "confirmPassword": "Confirm password",
+                "passwordHelp": "The password is not included in the email. Give it to the recipient another way, e.g. by phone or text message.",
+                "expiresAt": "Link expires",
+                "emailLanguage": "Email language",
+                "message": "Message (optional)",
+                "messagePlaceholder": "Write a message to the recipient",
+                "send": "Send link",
+                "sent": "The link has been sent",
+                "sentLinks": "Sent links",
+                "sentLinksIntro": "Links sent by email from these documents. Revoke a link to stop it working straight away.",
+                "document": "Document",
+                "sentTo": "Sent to",
+                "sentBy": "Sent by",
+                "expires": "Expires",
+                "active": "Active",
+                "expired": "Expired",
+                "copyLink": "Copy link",
+                "linkCopied": "Link copied",
+                "revoke": "Revoke link",
+                "revokeConfirmation": "Revoke this link? The recipients will no longer be able to open it",
+                "revoked": "The link has been revoked",
+                "languages": {
+                    "dk": "Danish",
+                    "en": "English",
+                    "no": "Norwegian",
+                    "sv": "Swedish"
+                },
+                "alert": {
+                    "recipientRequired": "Add at least one email address",
+                    "tooManyRecipients": "You can send to at most 10 recipients",
+                    "passwordMin": "Use at least 8 characters",
+                    "passwordMismatch": "The passwords do not match",
+                    "expiryRange": "Choose a date between today and one year from now"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Access",
@@ -2096,6 +2170,7 @@
                     "edit": "Edit",
                     "move": "Move",
                     "openSelected": "Open selected",
+                    "sendLink": "Send link by email",
                     "share": "Share",
                     "statuses": "Statuses",
                     "unshare": "Unshare",
@@ -9312,6 +9387,8 @@
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "newWishes": "New wishes",
+        "comingFunctions": "Coming functions",
         "reminders": "Reminders",
         "settings": "Settings",
         "subscription": "Subscription",
@@ -10850,6 +10927,8 @@
                 "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
+                "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
+                "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
@@ -10978,7 +11057,8 @@
                 "portalSectionForms": "Forms",
                 "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
-                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them."
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
+                "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -11111,6 +11191,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
@@ -11192,6 +11273,29 @@
             "how1": "Click “Connect to e-conomic”.",
             "how2": "Approve access in e-conomic (App Connect).",
             "how3": "You are returned here. Invoices can then be sent to e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send invoices from CitizenOne to Dinero as bookkeeping vouchers.",
+            "adminOnly": "Only administrators can manage the Dinero connection.",
+            "notPurchased": "The Dinero app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "The Client ID Dinero issued you",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "The Client Secret Dinero issued you",
+            "apiKeyLabel": "Dinero API key",
+            "apiKeyPlaceholder": "Paste the API key from your Dinero organization",
+            "howTitle": "How to connect",
+            "how1": "In Dinero, go to Settings → Integrations and request a personal integration to get a Client ID, Client Secret and API key for this organization.",
+            "how2": "Paste all three here and click “Connect”.",
+            "how3": "Once connected, invoices can be sent to Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk integration",
@@ -11324,6 +11428,10 @@
             "economic": {
                 "title": "What does e-conomic do?",
                 "body": "Send invoices and vouchers on to your accounting system, so the figures are only typed once."
+            },
+            "dinero": {
+                "title": "What does Dinero do?",
+                "body": "Send invoices on to Dinero as bookkeeping vouchers, so the figures are only typed once."
             },
             "fst": {
                 "title": "What is FindSocialeTilbud.dk?",
@@ -11678,6 +11786,34 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "The functions all users see under \"Coming functions\" in the profile menu. Only published items are shown.",
+            "newItem": "New item",
+            "editItem": "Edit item",
+            "noItems": "No items with this status.",
+            "dragHint": "Drag the items to change the order users see them in.",
+            "published": "Published",
+            "draft": "Draft",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "deleteConfirm": "Are you sure you want to delete this item?",
+            "visibleToEveryone": "Visible to all industries",
+            "visibleToIndustries": "Only visible to the selected industries",
+            "releasedOn": "Released {date}",
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "descriptionHint": "Write for users: what the function does and how it helps them.",
+                "status": "Status",
+                "expectedPeriod": "Expected",
+                "expectedPeriodPlaceholder": "E.g. Q2 2027 or April 2027",
+                "industries": "Industries",
+                "industriesHint": "Leave empty to show the item to all industries.",
+                "published": "Show to users",
+                "publishedHint": "Drafts are only visible here in superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Accounts",
             "alert": {
@@ -12845,6 +12981,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App categories",
             "companies": "Companies",
@@ -16267,6 +16404,7 @@
             "recipientPlaceholder": "Recipient (otherwise the department e-mail)",
             "sendEmail": "Send by e-mail",
             "pushEconomic": "Send to e-conomic as draft",
+            "pushDinero": "Send to Dinero as voucher",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -16286,6 +16424,9 @@
                 "invoice_not_found": "The invoice was not found",
                 "customer_failed": "The customer could not be created in e-conomic",
                 "invoice_failed": "The draft could not be created in e-conomic",
+                "dinero_not_connected": "Dinero is not connected",
+                "dinero_invoice_not_found": "The invoice was not found",
+                "dinero_voucher_failed": "The voucher could not be created in Dinero",
                 "unknown_action": "Unknown action"
             }
         },

@@ -89,6 +89,7 @@ const ADMIN_ONLY_ROUTES = [
     'settings-whistleblower',
     'settings-power-bi',
     'settings-economic',
+    'settings-dinero',
     'settings-gdpr-retention',
     'settings-portal-access',
     'settings-support-access',
