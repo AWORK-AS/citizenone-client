@@ -9590,6 +9590,7 @@
                 "medicineDeviationStatistics": "Medisin afveget",
                 "myDailyEvents": "Mine daglige arrangementer",
                 "nextShift": "Neste vakt",
+                "onDutyToday": "På jobb i dag",
                 "plansAndGoals": "Planer og mål",
                 "riskAssessment": "Risikovurdering",
                 "scheduleSlots": "Udbyd vakter",
@@ -9689,6 +9690,20 @@
             "viewSchedule": "Åpne vaktplan",
             "reminderInfo": "I mobilappen får du et push-varsel 2 timer før vakten starter.",
             "onlyDifferent": "Denne vakten er i en annen avdeling enn den du vanligvis jobber i."
+        },
+        "onDuty": {
+            "title": "Hvem er på jobb i dag?",
+            "none": "Ingen står på vaktplanen denne dagen.",
+            "onDutyCount": "{count} på jobb",
+            "workingNowCount": "{count} jobber nå",
+            "absentCount": "{count} fraværende",
+            "absent": "Fraværende",
+            "now": "Nå",
+            "wholeCompany": "Hele virksomheten",
+            "yesterday": "I går",
+            "goToToday": "Gå til i dag",
+            "onlyYou": "Du kan bare se dine egne vakter. Spør lederen din hvis du skal kunne se kollegene dine.",
+            "onlyYourDepartments": "Du ser kolleger i dine egne avdelinger."
         },
         "myDailyEvents": "Mine daglige arrangementer",
         "news": "Nyheter",

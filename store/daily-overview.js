@@ -27,6 +27,8 @@ export const useDailyOverviewStore = defineStore('dailyOverviewStore',
                 // On by default: it is the one box every employee with a schedule
                 // wants, and nobody finds it in the show/hide list unprompted.
                 showNextShift: true,
+                // On by default, like the next shift: who you work with today.
+                showOnDutyToday: true,
                 showPlansAndGoals: false,
                 showReminders: true,
                 showRiskAssessment: false,
