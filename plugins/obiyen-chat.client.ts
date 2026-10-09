@@ -7,6 +7,10 @@ export default defineNuxtPlugin(() => {
         s.src = "https://appserver.obiyen.com/browser-ui/chat-widget-loader.js"
         s.setAttribute("data-widget-id", "86a7f852-f64d-49f8-a43a-c11c76fd862e")
         s.setAttribute("data-api-base", "https://appserver.obiyen.com/api")
+        // Milo is here for when someone asks, never on his own: this widget id
+        // also serves citizenone.dk, and a trigger set up for the website
+        // would otherwise open him over someone's journal.
+        s.setAttribute("data-proactive", "off")
         const t = d.getElementsByTagName("script")[0]
 
         if (t && t.parentNode) {

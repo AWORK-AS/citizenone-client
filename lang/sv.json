@@ -8101,6 +8101,7 @@
         "askMilo": "Fråga Milo",
         "askMiloTooltip": "Fråga Milo om schemat",
         "askMiloGeneral": "Fråga Milo om du behöver hjälp",
+        "miloHelpLabel": "Hjälp",
         "miloQuestions": {
             "inApp": {
                 "q1": "Hur skriver jag en journalanteckning?",

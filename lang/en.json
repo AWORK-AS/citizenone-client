@@ -8101,6 +8101,7 @@
         "askMilo": "Ask Milo",
         "askMiloTooltip": "Ask Milo about the duty schedule",
         "askMiloGeneral": "Ask Milo if you need help",
+        "miloHelpLabel": "Help",
         "miloQuestions": {
             "inApp": {
                 "q1": "How do I write a journal note?",
