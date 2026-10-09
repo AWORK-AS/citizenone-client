@@ -44,7 +44,7 @@
                                 class="flex-1 rounded-lg bg-surface-50 px-2 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors">
                                 {{ $t('citizens.tabs.journals') }}
                             </button>
-                            <button type="button" @click.stop="go('medicine-journals')"
+                            <button v-if="canOpenMedicine" type="button" @click.stop="go('medicine-journals')"
                                 class="flex-1 rounded-lg bg-surface-50 px-2 py-1.5 text-xs font-medium text-primary hover:bg-primary/10 transition-colors">
                                 {{ $t('citizens.tabs.medicineCard') }}
                             </button>
@@ -59,12 +59,19 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { canOpenPage } from '@/composables/pageAccess'
+import { useUserStore } from '@/store/user'
 
 // `preset` lets callers that already have the citizen object (e.g. a list row)
 // seed the card without an extra request.
 const props = defineProps<{ uuid: string; name?: string; preset?: any }>()
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const userStore = useUserStore()
+
+// The same check as the citizen's own Medicine card tab, so a company that has
+// switched medicine off is not offered it on hover either.
+const canOpenMedicine = computed(() => canOpenPage(userStore.getUser, 'Medicine card'))
 
 // Cache fetched summaries across all hover cards for the session.
 const cache = useState<Record<string, any>>('citizenHoverCache', () => ({}))

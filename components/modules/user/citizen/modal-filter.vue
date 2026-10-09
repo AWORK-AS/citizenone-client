@@ -127,6 +127,7 @@ import { regionService } from '@/components/api/user/RegionService'
 import { sectionService } from '@/components/api/user/SectionService'
 import { userService } from '@/components/api/user/UserService'
 import { useI18n } from 'vue-i18n'
+import { useGenders } from '@/composables/genders'
 
 const props = defineProps({
     isModalOpen: {
@@ -173,12 +174,9 @@ const state = reactive({
     },
 })
 
-const genderOptions = computed(() => [
-    { value: 'male', label: t('gender.male') },
-    { value: 'female', label: t('gender.female') },
-    { value: 'non_binary', label: t('gender.nonbinary') },
-    { value: 'will_not_disclose', label: t('gender.willNotDisclose') },
-])
+// The company's gender list, including genders it added.
+const { genderOptions: companyGenderOptions } = useGenders()
+const genderOptions = computed(() => companyGenderOptions())
 
 const coordinatorRoleOptions = computed(() => [
     { value: 'primary', label: t('citizens.coordinators.primary') },

@@ -18,7 +18,14 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
-                    <TableSearch @search="handleSearch" />
+                    <div class="flex flex-wrap items-center justify-between gap-3">
+                        <TableSearch @search="handleSearch" />
+                        <label class="flex items-center gap-x-2 text-sm text-gray-700 cursor-pointer">
+                            <FormSwitch :value="state.onlyDeletable" :label="$t('archived.table.readyForDeletion')"
+                                @toggleSwitch="toggleDeletable" />
+                            {{ $t('archived.table.readyForDeletion') }}
+                        </label>
+                    </div>
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="state.employees"
                             :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
@@ -39,13 +46,27 @@
                                     <td width="15%">
                                         <span>{{ employee?.email }}</span>
                                     </td>
-                                    <td width="15%">
+                                    <td width="10%">
                                         <span>{{ employee?.phone }}</span>
                                     </td>
                                     <td width="10%">
                                         <div class="flex items-center gap-x-2" v-for="(role, index) in employee?.roles"
                                             :key="index">
                                             <span>{{ role.name }}</span>
+                                        </div>
+                                    </td>
+                                    <td width="10%">
+                                        <span v-if="employee?.employee_detail?.termination_date">
+                                            {{ formatDateToReadable(employee.employee_detail.termination_date) }}
+                                        </span>
+                                    </td>
+                                    <td width="10%">
+                                        <div v-if="employee?.employee_detail?.deletable_from" class="space-y-1">
+                                            <span>{{ formatDateToReadable(employee.employee_detail.deletable_from) }}</span>
+                                            <Badge v-if="employee.employee_detail.is_deletable" type="active"
+                                                data-testid="can-be-deleted-badge">
+                                                {{ $t('archived.table.canBeDeleted') }}
+                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="20%">
@@ -108,11 +129,14 @@ const state = reactive({
         { name: 'employees.table.email', isTranslateName: true, sorter: true, key: 'email' },
         { name: 'employees.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
         { name: 'employees.table.role', isTranslateName: true, },
+        { name: 'archived.table.lastWorkingDay', isTranslateName: true, sorter: true, key: 'termination_date' },
+        { name: 'archived.table.canBeDeletedFrom', isTranslateName: true, },
         { name: '' },
     ],
     dataFilter: {
         search: ''
     },
+    onlyDeletable: false,
     employees: [] as any,
     error: {} as Error,
     isTableLoading: false,
@@ -134,8 +158,17 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 onMounted(() => {
+    // The reminder email and bell item link here with ?filter=deletable.
+    state.onlyDeletable = useRoute().query.filter === 'deletable'
     fetchArchivedEmployees()
 })
+
+function toggleDeletable() {
+    state.onlyDeletable = !state.onlyDeletable
+    currentTablePage = 1
+    navigateTo({ query: state.onlyDeletable ? { filter: 'deletable' } : {} }, { replace: true })
+    fetchArchivedEmployees()
+}
 
 async function fetchArchivedEmployees() {
     state.error = {}
@@ -146,7 +179,8 @@ async function fetchArchivedEmployees() {
             page: currentTablePage,
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
-            ...state.dataFilter
+            ...state.dataFilter,
+            ...(state.onlyDeletable ? { filter: 'deletable' } : {}),
         }
         const response = await employeeService.getArchivedEmployees(params)
         if (response) {
