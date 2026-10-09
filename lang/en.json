@@ -9133,6 +9133,8 @@
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
         "openInNewWindow": "Open in new window",
+        "openCitizenJournal": "Open {name}'s journal",
+        "openCitizenProfile": "Open {name}'s profile",
         "groupChat": {
             "add": "Add",
             "addUser": "Add user",
