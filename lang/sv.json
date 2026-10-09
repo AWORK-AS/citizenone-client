@@ -10137,6 +10137,19 @@
     },
     "proceed": "Fortsätt",
     "protocols": {
+        "attendanceExport": {
+            "button": "Ladda ner närvaro",
+            "title": "Ladda ner närvaro",
+            "help": "En Excel-fil med närvaro och frånvaro per medborgare och per avdelning, rangordnad, samt alla registreringar. En medborgare i flera avdelningar räknas i var och en av dem.",
+            "period": "Period",
+            "thisMonth": "Denna månad",
+            "lastMonth": "Förra månaden",
+            "thisYear": "I år",
+            "departments": "Avdelningar",
+            "allDepartmentsHint": "Lämna tomt för att ta med alla avdelningar.",
+            "protocols": "Protokoll",
+            "download": "Ladda ner"
+        },
         "download": "Ladda ner",
         "editProtocol": "Redigera protokoll",
         "form": {

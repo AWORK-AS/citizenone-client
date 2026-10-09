@@ -10137,6 +10137,19 @@
     },
     "proceed": "Fortsett",
     "protocols": {
+        "attendanceExport": {
+            "button": "Last ned oppmøte",
+            "title": "Last ned oppmøte",
+            "help": "Én Excel-fil med oppmøte og fravær per borger og per avdeling, rangert, pluss alle registreringer. En borger i flere avdelinger telles med i hver av dem.",
+            "period": "Periode",
+            "thisMonth": "Denne måneden",
+            "lastMonth": "Forrige måned",
+            "thisYear": "I år",
+            "departments": "Avdelinger",
+            "allDepartmentsHint": "La feltet stå tomt for å ta med alle avdelinger.",
+            "protocols": "Protokoller",
+            "download": "Last ned"
+        },
         "download": "Last ned",
         "editProtocol": "Rediger protokoll",
         "form": {

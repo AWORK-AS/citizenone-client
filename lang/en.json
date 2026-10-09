@@ -10142,6 +10142,19 @@
     },
     "proceed": "Proceed",
     "protocols": {
+        "attendanceExport": {
+            "button": "Download attendance",
+            "title": "Download attendance",
+            "help": "One Excel file with attendance and absence per citizen and per department, ranked, plus every registration. A citizen in several departments counts in each of them.",
+            "period": "Period",
+            "thisMonth": "This month",
+            "lastMonth": "Last month",
+            "thisYear": "This year",
+            "departments": "Departments",
+            "allDepartmentsHint": "Leave empty to include every department.",
+            "protocols": "Protocols",
+            "download": "Download"
+        },
         "download": "Download",
         "editProtocol": "Edit protocol",
         "form": {
