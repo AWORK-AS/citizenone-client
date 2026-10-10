@@ -1,23 +1,23 @@
 <template>
-    <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10" data-testid="elite-card">
+    <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10" data-testid="enterprise-card">
         <div class="flex items-center gap-x-2">
             <h3 class="text-base font-semibold leading-7 text-tertiary">
-                {{ $t('subscription.elite.title') }}
+                {{ $t('subscription.enterprise.title') }}
             </h3>
-            <Tooltip :text="$t('subscription.elite.badgeHelp')" position="top" wrap>
-                <span class="co-badge co-badge-navy">{{ $t('subscription.elite.badge') }}</span>
+            <Tooltip :text="$t('subscription.enterprise.badgeHelp')" position="top" wrap>
+                <span class="co-badge co-badge-navy">{{ $t('subscription.enterprise.badge') }}</span>
             </Tooltip>
         </div>
 
         <p class="text-gray-600 mt-6 text-base leading-7">
-            {{ $t('subscription.elite.agreementText') }}
+            {{ $t('subscription.enterprise.agreementText') }}
         </p>
 
         <ul role="list" class="mt-8 space-y-3 text-sm leading-6 text-gray-600 sm:mt-8">
             <!-- Actual licence counts when the page has them; the deal's included numbers are not shown. -->
             <li v-if="usageView" class="flex gap-x-2">
                 <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
-                {{ $t('subscription.elite.usage', { used: usageView.used, total: usageView.total, label: usage?.label ?? '' }) }}
+                {{ $t('subscription.enterprise.usage', { used: usageView.used, total: usageView.total, label: usage?.label ?? '' }) }}
             </li>
             <li class="flex gap-x-2">
                 <Icon name="ph:check" class="h-6 w-5 flex-none text-primary" aria-hidden="true" />
@@ -39,9 +39,9 @@
         </ul>
 
         <div class="mt-8">
-            <Tooltip :text="$t('subscription.elite.contactHelp')" position="top" wrap>
+            <Tooltip :text="$t('subscription.enterprise.contactHelp')" position="top" wrap>
                 <a href="mailto:support@citizenone.dk" class="text-sm font-medium text-primary underline underline-offset-2">
-                    {{ $t('subscription.elite.contact') }}
+                    {{ $t('subscription.enterprise.contact') }}
                 </a>
             </Tooltip>
         </div>
