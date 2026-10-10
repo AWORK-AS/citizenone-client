@@ -45,7 +45,7 @@
                         <h3 class="py-3 text-sm font-semibold">
                             {{ $t('subscription.currentSubscription') }}
                         </h3>
-                        <ModulesUserSubscriptionEliteCard v-if="isUnderAgreement(userStore.getUser?.user_subscription)" :usage="{ label: $t('subscription.deal.users'), used: state.licensesCount?.data?.used, unused: state.licensesCount?.data?.unused }"/>
+                        <ModulesUserSubscriptionEnterpriseCard v-if="isUnderAgreement(userStore.getUser?.user_subscription)" :usage="{ label: $t('subscription.deal.users'), used: state.licensesCount?.data?.used, unused: state.licensesCount?.data?.unused }"/>
                         <div v-else class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">
                             <div class="flex items-center justify-between gap-x-4">
                                 <h3 class="text-base font-semibold leading-7 text-tertiary">

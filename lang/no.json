@@ -11748,7 +11748,7 @@
             "remove": "Fjern"
         },
         "currentSubscription": "Nåværende abonnement",
-        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Abonnementet deres er en spesifisert avtale med CitizenOne.", "agreementText": "Spesifisert avtale – priser og vilkår følger avtalen deres med CitizenOne.", "usage": "{used} av {total} {label} i bruk", "contact": "Kontakt oss", "contactHelp": "Skriv til CitizenOne om avtalen, prisene eller endringer."},
+        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Abonnementet deres er en spesifisert avtale med CitizenOne.", "agreementText": "Spesifisert avtale – priser og vilkår følger avtalen deres med CitizenOne.", "usage": "{used} av {total} {label} i bruk", "contact": "Kontakt oss", "contactHelp": "Skriv til CitizenOne om avtalen, prisene eller endringer."},
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "admin": "Admin",
