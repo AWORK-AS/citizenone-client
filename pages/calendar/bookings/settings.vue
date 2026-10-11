@@ -20,7 +20,7 @@
             </NuxtLink>
 
             <LoadingSpinner :isActive="state.isPageLoading">
-                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl" id="formBookingSettings">
+                <form @submit.prevent="submitForm()" class="mt-8 max-w-3xl" id="formBookingSettings" data-tour="booking-settings">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 

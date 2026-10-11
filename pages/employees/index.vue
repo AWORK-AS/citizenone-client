@@ -39,7 +39,7 @@
                             <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.newEmployee') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isInviteEmployeeOpen = true">
+                        <FormButton buttonStyle="action" data-tour="employees-invite" @click="state.modal.isInviteEmployeeOpen = true">
                             <Icon name="ph:envelope" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.inviteEmployee') }}
                         </FormButton>
