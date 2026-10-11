@@ -11748,7 +11748,7 @@
             "remove": "Ta bort"
         },
         "currentSubscription": "Nuvarande prenumeration",
-        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Er prenumeration är ett specificerat avtal med CitizenOne.", "agreementText": "Specificerat avtal – priser och villkor följer ert avtal med CitizenOne.", "usage": "{used} av {total} {label} används", "contact": "Kontakta oss", "contactHelp": "Skriv till CitizenOne om avtalet, priserna eller ändringar."},
+        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Er prenumeration är ett specificerat avtal med CitizenOne.", "agreementText": "Specificerat avtal – priser och villkor följer ert avtal med CitizenOne.", "usage": "{used} av {total} {label} används", "contact": "Kontakta oss", "contactHelp": "Skriv till CitizenOne om avtalet, priserna eller ändringar."},
         "deal": {
             "additionalPurchaseFor": "tilköb extra för",
             "admin": "Admin",
