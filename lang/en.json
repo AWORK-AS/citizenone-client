@@ -15520,6 +15520,35 @@
             "enterAnswer": "Enter your answer"
         }
     },
+    "welcomeTour": {
+        "name": "Milo",
+        "skip": "Skip the tour",
+        "skipHelp": "Close the tour. You can start it again from Get started.",
+        "finish": "Done",
+        "finishHelp": "Finish the tour",
+        "restart": "Show me around",
+        "restartHelp": "Start Milo's tour again from the beginning",
+        "careHome": {
+            "citizens": "This is where your @:terms.citizens{''} live. Journal, plans, goals and documents are gathered on each @:terms.citizen{''}.",
+            "colleagues": "Invite your colleagues. The role decides which @:terms.citizens{''} they can see.",
+            "today": "The shift starts here: who is on, what is going to happen, which medicine is to be given.",
+            "journal": "The journal note is written here, ideally right after it happened.",
+            "end": "You will find the rest in the checklist. And you can always ask me here."
+        },
+        "clinic": {
+            "calendar": "Your appointments live here. Add your working hours first.",
+            "booking": "Create your services with duration and price, and turn on online booking.",
+            "clients": "Every @:terms.citizen{''} has their own journal, and the note is written after the treatment.",
+            "invoices": "The invoice is sent straight from here.",
+            "end": "You will find the rest in the checklist. Ask me if you get stuck."
+        },
+        "staff": {
+            "welcome": "Welcome. I'll show you the most important things in under a minute.",
+            "day": "Here you see your day. Tap a citizen or client to write the note.",
+            "messages": "Write to your colleagues here.",
+            "end": "And you can always ask me here."
+        }
+    },
     "appTours": {
         "getStarted": "Get started",
         "surveys": {
