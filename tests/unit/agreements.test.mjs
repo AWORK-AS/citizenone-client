@@ -753,7 +753,7 @@ describe('renewals without a plan', () => {
     })
 })
 
-describe('CitizenOne Elite on the customer pages', () => {
+describe('CitizenOne Enterprise on the customer pages', () => {
     test('only a literal true under_agreement switches the card', () => {
         assert.equal(isUnderAgreement({ under_agreement: true }), true)
         for (const v of [false, 'true', 1, null, undefined]) assert.equal(isUnderAgreement({ under_agreement: v }), false)
