@@ -51,11 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import { CONTACTED_BY_LABELS, formLabel } from '@/composables/inquiryForms'
+import { CONTACTED_BY_LABELS, formLabel, listItemName } from '@/composables/inquiryForms'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 
 const props = defineProps({
@@ -140,8 +140,9 @@ function reportingKey(value: string) {
     return value.replace(/_([a-z])/g, (_, c) => c.toUpperCase())
 }
 
+// Departments have a name; topics, reasons and guidance an en_name/dk_name.
 function names(list: any) {
-    return (list ?? []).map((item: any) => item?.name).filter(Boolean).join(', ')
+    return (list ?? []).map((item: any) => listItemName(item, locale.value)).filter(Boolean).join(', ')
 }
 
 const isShelter = computed(() => props.inquiry?.inquiry_type === 'shelter')

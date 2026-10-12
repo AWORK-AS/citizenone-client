@@ -48,6 +48,20 @@ export function yesNoToBoolean(value: unknown): boolean | null {
     return null
 }
 
+/**
+ * The name of an entry from one of the crisis centre's fixed lists (topics,
+ * reasons for no intake interview, guidance). Those carry en_name and dk_name
+ * rather than a name, as the form's own dropdowns read them: English for an
+ * English user, the Danish name for everyone else. Anything with a plain name
+ * (a department) keeps it.
+ */
+export function listItemName(item: { name?: string | null, en_name?: string | null, dk_name?: string | null } | null | undefined, locale: string): string {
+    if (!item) return ''
+    if (item.name) return item.name
+
+    return (locale === 'en' ? item.en_name : item.dk_name) || item.en_name || item.dk_name || ''
+}
+
 /** A built-in form is called by the company's own word for it. */
 export function formLabel(form: Pick<InquiryForm, 'name' | 'builtin'> | null | undefined, names: BuiltinNames): string {
     if (form?.builtin === 'shelter') return names.shelter

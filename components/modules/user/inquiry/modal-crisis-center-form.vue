@@ -381,13 +381,16 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             contacted_by: newValue.contacted_by || '',
             outcome: newValue.outcome,
             purpose: newValue.purpose,
-            topic_uuid: newValue.topic_uuid || [],
+            // A new inquiry's draft holds uuids; a saved inquiry holds the
+            // entries themselves. Reading only the first emptied all three on
+            // a refresh while editing, and the next save wiped them.
+            topic_uuid: newValue.topic_uuid ?? newValue.topics?.map((topic: any) => topic.uuid) ?? [],
             target_group_crisis_center: newValue.target_group_crisis_center || [],
             // Stored as a boolean, chosen as yes/no: read the same way as on mount,
             // or a refresh while editing empties the question.
             received_visit: yesNoFrom(newValue.received_visit),
-            assessment_uuid: newValue.assessment_uuid || [],
-            guidance_uuid: newValue.guidance_uuid || [],
+            assessment_uuid: newValue.assessment_uuid ?? newValue.no_assessment_reasons?.map((reason: any) => reason.uuid) ?? [],
+            guidance_uuid: newValue.guidance_uuid ?? newValue.guidances?.map((guidance: any) => guidance.uuid) ?? [],
             conversation_summary: newValue.conversation_summary,
             notes: newValue.notes || ''
         }
