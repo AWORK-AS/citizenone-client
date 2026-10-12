@@ -277,6 +277,15 @@
                                         </div>
                                     </MenuItem>
                                     <MenuItem>
+                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:share-network" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.shareCitizenOne') }}
+                                            </div>
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                         <div @click="state.modal.isContactUsOpen = true"
                                             class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                             <div class="flex items-center gap-x-3">
@@ -340,6 +349,8 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesDentistSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
+        <ModulesUserPlatformShareModal :isModalOpen="state.modal.isPlatformShareOpen"
+            @close="state.modal.isPlatformShareOpen = false" v-if="state.modal.isPlatformShareOpen" />
         <ModulesDentistWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
     </LoadingSpinner>
@@ -393,6 +404,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isContactUsOpen: false,
+        isPlatformShareOpen: false,
     },
     showSubscribeButton: false,
     slideOver: {
