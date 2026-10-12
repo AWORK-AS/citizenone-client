@@ -5256,6 +5256,8 @@
         "holidayWorkedTooltip": "You are working on a public holiday. The shift's hours are multiplied by your organisation's public holiday factor (e.g. ×1.5) and appear both under the shift type and as public holiday hours.",
         "holidayNonWorkedTooltip": "This day is a public holiday. You receive public holiday hours even though no shift is registered.",
         "lockedShiftTooltip": "This shift is locked and can only be edited by an admin.",
+        "editShiftTooltip": "Click to edit this shift",
+        "moveShiftTooltip": "Drag to move this shift",
         "indicators": {
             "exceedsNorm": "Exceeds norm",
             "negative": "Negative balance",
