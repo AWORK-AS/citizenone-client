@@ -15090,9 +15090,9 @@
             "previewOn": "{statuses} statusar raderas från {date}.",
             "previewOff": "Om du slår på detta skulle {statuses} statusar raderas i dag.",
             "previewJournals": "{journals} journalanteckningar skulle också raderas.",
-            "lessHistory": "Listor, grafer, utvecklingsöversikt och PDF-utdrag visar mindre historik efter detta. Det kan inte ångras.",
+            "lessHistory": "Listor, grafer, utvecklingsöversikt och PDF-utdrag visar mindre historik efter detta. Raderade poster döljs, de tas inte bort från databasen.",
             "nextRun": "Nästa radering: dagligen; första körning {date}.",
-            "confirmEnable": "Detta raderar permanent statusar (och journalanteckningar, om valt) äldre än 365 dagar och kan inte ångras. Den första raderingen sker {date}. Du kan stänga av det före dess."
+            "confirmEnable": "Detta döljer statusar (och journalanteckningar, om valt) äldre än 365 dagar i systemet. De tas inte bort från databasen och kan återställas på begäran. Den första raderingen sker {date}. Du kan stänga av det före dess."
         },
         "retention": {
             "title": "GDPR Datalagring",

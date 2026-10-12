@@ -15186,9 +15186,9 @@
             "previewOn": "{statuses} statusser slettes fra {date}.",
             "previewOff": "Hvis du slår det til, ville {statuses} statusser blive slettet i dag.",
             "previewJournals": "{journals} journalnotater ville også blive slettet.",
-            "lessHistory": "Lister, grafer, udviklingsoversigt og PDF-udtræk viser mindre historik herefter. Det kan ikke fortrydes.",
+            "lessHistory": "Lister, grafer, udviklingsoversigt og PDF-udtræk viser mindre historik herefter. Slettede poster skjules, de fjernes ikke fra databasen.",
             "nextRun": "Næste sletning: dagligt; første kørsel {date}.",
-            "confirmEnable": "Dette sletter permanent statusser (og journalnotater, hvis valgt) ældre end 365 dage og kan ikke fortrydes. Den første sletning sker den {date}. Du kan slå det fra inden da."
+            "confirmEnable": "Dette skjuler statusser (og journalnotater, hvis valgt) ældre end 365 dage i systemet. De fjernes ikke fra databasen og kan gendannes efter anmodning. Den første sletning sker den {date}. Du kan slå det fra inden da."
         },
         "retention": {
             "title": "GDPR Dataopbevaring",
