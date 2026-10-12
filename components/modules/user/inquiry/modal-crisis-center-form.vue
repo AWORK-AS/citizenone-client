@@ -340,7 +340,7 @@ onMounted(() => {
         purpose: props.selectedInquiry?.purpose,
         topic_uuid: props.selectedInquiry?.topics?.map((topic: any) => topic.uuid) || [],
         target_group_crisis_center: props.selectedInquiry?.target_group_crisis_center || [],
-        received_visit: props.formType === 'update' ? (props.selectedInquiry?.received_visit ? 'yes' : 'no') : '',
+        received_visit: yesNoFrom(props.selectedInquiry?.received_visit),
         assessment_uuid: props.selectedInquiry?.no_assessment_reasons?.map((reason: any) => reason.uuid) || [],
         guidance_uuid: props.selectedInquiry?.guidances?.map((guidance: any) => guidance.uuid) || [],
         conversation_summary: props.selectedInquiry?.conversation_summary,
@@ -355,12 +355,15 @@ onMounted(() => {
     fetchGuidanceListOptions()
 })
 
-// An edit reads a stored boolean as the yes/no the select offers; a new
+// An edit reads a stored boolean as the yes/no the select offers, and an
+// unanswered question (null) as empty - not as a "no" nobody gave. A new
 // inquiry's own draft is already yes/no or empty.
 function yesNoFrom(value: any) {
     if (props.formType !== 'update') return value || ''
+    if (value === true) return 'yes'
+    if (value === false) return 'no'
 
-    return value ? 'yes' : 'no'
+    return ''
 }
 
 watch(() => props.selectedInquiry, (newValue: any) => {

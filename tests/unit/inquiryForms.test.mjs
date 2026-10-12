@@ -9,7 +9,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 
-const { formLabel, activeForms, asksFor, lockReason, toggleField } = await import('../../composables/inquiryForms.ts')
+const { formLabel, activeForms, asksFor, lockReason, toggleField, yesNoToBoolean } = await import('../../composables/inquiryForms.ts')
 
 const names = { shelter: 'Herberg', crisisCenter: 'Krisecenter' }
 
@@ -86,5 +86,18 @@ describe('lockReason and toggleField', () => {
     test('adds a field back in the order the form shows it', () => {
         assert.deepEqual(toggleField(own, 'topic'), ['inquiry_date', 'cpr', 'topic'])
         assert.deepEqual(toggleField(own, 'inquirer_name'), ['inquiry_date', 'inquirer_name', 'cpr'])
+    })
+})
+
+describe('yesNoToBoolean', () => {
+    test('stores yes and no as true and false', () => {
+        assert.equal(yesNoToBoolean('yes'), true)
+        assert.equal(yesNoToBoolean('no'), false)
+    })
+
+    test('leaves an unanswered question empty instead of saying no', () => {
+        assert.equal(yesNoToBoolean(''), null)
+        assert.equal(yesNoToBoolean(null), null)
+        assert.equal(yesNoToBoolean(undefined), null)
     })
 })

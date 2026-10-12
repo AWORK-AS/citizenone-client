@@ -36,6 +36,18 @@ export const CONTACTED_BY_LABELS: Record<string, string> = {
     other: 'inquiries.form.options.contactedBy.other',
 }
 
+/**
+ * A yes/no answer as the inquiry stores it: yes is true, no is false, and a
+ * question nobody answered - often one the form never showed - stays null
+ * rather than turning into a "no".
+ */
+export function yesNoToBoolean(value: unknown): boolean | null {
+    if (value === 'yes') return true
+    if (value === 'no') return false
+
+    return null
+}
+
 /** A built-in form is called by the company's own word for it. */
 export function formLabel(form: Pick<InquiryForm, 'name' | 'builtin'> | null | undefined, names: BuiltinNames): string {
     if (form?.builtin === 'shelter') return names.shelter

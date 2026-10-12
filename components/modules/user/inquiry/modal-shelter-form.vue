@@ -471,9 +471,9 @@ onMounted(() => {
         inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
-        vacant_place_available: props.formType === 'update' ? (props.selectedInquiry?.vacant_place_available ? 'yes' : 'no') : '',
-        in_shelter_target_group: props.formType === 'update' ? (props.selectedInquiry?.in_shelter_target_group ? 'yes' : 'no') : '',
-        fits_in_target_group: props.formType === 'update' ? (props.selectedInquiry?.fits_in_target_group ? 'yes' : 'no') : '',
+        vacant_place_available: yesNoFrom(props.selectedInquiry?.vacant_place_available),
+        in_shelter_target_group: yesNoFrom(props.selectedInquiry?.in_shelter_target_group),
+        fits_in_target_group: yesNoFrom(props.selectedInquiry?.fits_in_target_group),
         non_admission_reason: props.selectedInquiry?.non_admission_reason || '',
         not_in_service_target_group_reason: props.selectedInquiry?.not_in_service_target_group_reason || '',
         referral_destination: props.selectedInquiry?.referral_destination || '',
@@ -484,12 +484,15 @@ onMounted(() => {
     }
 })
 
-// An edit reads a stored boolean as the yes/no the select offers; a new
+// An edit reads a stored boolean as the yes/no the select offers, and an
+// unanswered question (null) as empty - not as a "no" nobody gave. A new
 // inquiry's own draft is already yes/no or empty.
 function yesNoFrom(value: any) {
     if (props.formType !== 'update') return value || ''
+    if (value === true) return 'yes'
+    if (value === false) return 'no'
 
-    return value ? 'yes' : 'no'
+    return ''
 }
 
 watch(() => props.selectedInquiry, (newValue: any) => {
