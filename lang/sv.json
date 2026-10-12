@@ -10235,6 +10235,11 @@
             "perHour": "Per timme",
             "recordingModeDayHelp": "En registrering per brukare för varje dag.",
             "recordingModeHourHelp": "En registrering per brukare för varje tidsintervall varje dag, så att närvaro kan registreras timme för timme.",
+            "clipCard": "Klippkort",
+            "recordingModeClipHelp": "Varje brukare får ett kort med ett antal klipp. Använd ett klipp vilken dag som helst mellan start- och slutdatumet när brukaren är närvarande.",
+            "clipCount": "Antal klipp",
+            "clipCountPlaceholder": "t.ex. 10",
+            "clipCountHelp": "Varje brukare i protokollet får ett eget kort med så här många klipp. Det kan inte ändras senare.",
             "timeSlots": "Tidsintervall",
             "timeSlotsHelp": "Fyll i ett tidsintervall för varje timme i ett spann, eller lägg till dem ett i taget.",
             "fromHour": "Från",
@@ -10248,7 +10253,8 @@
             "errors": {
                 "timeSlotsRequired": "Lägg till minst ett tidsintervall.",
                 "timeSlotEndAfterStart": "Varje tidsintervall måste sluta efter att det börjar.",
-                "timeSlotsOverlap": "Tidsintervallen får inte överlappa varandra."
+                "timeSlotsOverlap": "Tidsintervallen får inte överlappa varandra.",
+                "clipCountBetween": "Ange ett heltal mellan 1 och 500."
             }
         },
         "checkIn": "Checka in",
@@ -10257,6 +10263,29 @@
         "today": "Idag",
         "other": "Övriga",
         "noTodayEntries": "Inga protokollregistreringar för idag",
+        "clipCard": {
+            "summary": "{clips} klipp per brukare · Giltigt {start} – {end}",
+            "clipsLeft": "{remaining} av {total} klipp kvar",
+            "clipsUsedBadge": "Använda klipp: {used}",
+            "useClip": "Använd klipp",
+            "history": "Historik",
+            "hideHistory": "Dölj historik",
+            "lastUsed": "Senast använt {date} kl. {time}",
+            "notUsedYet": "Inte använt än",
+            "usedUp": "Kortet är förbrukat",
+            "noUses": "Inga klipp har använts än.",
+            "usedOn": "Använt {date} kl. {time}",
+            "undo": "Ångra",
+            "undoConfirmation": "Ångra det här klippet? Det läggs tillbaka på kortet.",
+            "clipUsed": "Klipp använt för {name}. {remaining} kvar.",
+            "clipUndone": "Klippet är ångrat. {remaining} kvar.",
+            "notStarted": "Klippkortet kan användas från {date}.",
+            "expired": "Klippkortet gick ut {date}. Det går inte längre att använda klipp.",
+            "noCards": "Det finns inga brukare på det här klippkortet.",
+            "searchCitizen": "Sök brukare",
+            "myClipCards": "Mina klippkort",
+            "validPeriod": "Giltigt {start} – {end}"
+        },
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {

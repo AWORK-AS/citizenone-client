@@ -10240,6 +10240,11 @@
             "perHour": "Pr. time",
             "recordingModeDayHelp": "Én registrering pr. borger for hver dag.",
             "recordingModeHourHelp": "Én registrering pr. borger for hvert tidsrum hver dag, så fremmøde kan registreres time for time.",
+            "clipCard": "Klippekort",
+            "recordingModeClipHelp": "Hver borger får et kort med et antal klip. Brug et klip en hvilken som helst dag mellem start- og slutdatoen, når borgeren er til stede.",
+            "clipCount": "Antal klip",
+            "clipCountPlaceholder": "f.eks. 10",
+            "clipCountHelp": "Hver borger på protokollen får sit eget kort med dette antal klip. Det kan ikke ændres bagefter.",
             "timeSlots": "Tidsrum",
             "timeSlotsHelp": "Udfyld et tidsrum for hver time i et interval, eller tilføj tidsrum ét ad gangen.",
             "fromHour": "Fra",
@@ -10253,7 +10258,8 @@
             "errors": {
                 "timeSlotsRequired": "Tilføj mindst ét tidsrum.",
                 "timeSlotEndAfterStart": "Hvert tidsrum skal slutte efter det starter.",
-                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden."
+                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden.",
+                "clipCountBetween": "Angiv et helt tal mellem 1 og 500."
             }
         },
         "checkIn": "Tjek ind",
@@ -10262,6 +10268,29 @@
         "today": "I dag",
         "other": "Andre",
         "noTodayEntries": "Ingen protokolregistreringer for i dag",
+        "clipCard": {
+            "summary": "{clips} klip pr. borger · Gyldigt {start} – {end}",
+            "clipsLeft": "{remaining} af {total} klip tilbage",
+            "clipsUsedBadge": "Klip brugt: {used}",
+            "useClip": "Brug klip",
+            "history": "Historik",
+            "hideHistory": "Skjul historik",
+            "lastUsed": "Sidst brugt {date} kl. {time}",
+            "notUsedYet": "Ikke brugt endnu",
+            "usedUp": "Kortet er brugt op",
+            "noUses": "Der er ikke brugt nogen klip endnu.",
+            "usedOn": "Brugt {date} kl. {time}",
+            "undo": "Fortryd",
+            "undoConfirmation": "Fortryd dette klip? Det kommer tilbage på kortet.",
+            "clipUsed": "Klip brugt for {name}. {remaining} tilbage.",
+            "clipUndone": "Klippet er fortrudt. {remaining} tilbage.",
+            "notStarted": "Klippekortet kan bruges fra {date}.",
+            "expired": "Klippekortet udløb {date}. Der kan ikke længere bruges klip.",
+            "noCards": "Der er ingen borgere på dette klippekort.",
+            "searchCitizen": "Søg borger",
+            "myClipCards": "Mine klippekort",
+            "validPeriod": "Gyldigt {start} – {end}"
+        },
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {

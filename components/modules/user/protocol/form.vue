@@ -47,10 +47,20 @@
                 </div>
                 </div>
                 <p class="text-xs text-gray-500">
-                    {{ state.formProtocol.recording_mode === 'hour'
-                        ? $t('protocols.form.recordingModeHourHelp')
-                        : $t('protocols.form.recordingModeDayHelp') }}
+                    {{ recordingModeHelp }}
                 </p>
+            </div>
+
+            <!-- Task 136: a clip card gives each citizen this many clips to use
+                 on any day between the start and end date. -->
+            <div class="space-y-1 max-w-xs"
+                v-if="props.formType === 'create' && state.formProtocol.recording_mode === 'clip'">
+                <FormLabel for="clip_count" :label="$t('protocols.form.clipCount')" />
+                <FormNumberField id="clip_count" name="clip_count" :placeholder="$t('protocols.form.clipCountPlaceholder')"
+                    :min="1" :max="500" v-model="state.formProtocol.clip_count" />
+                <p class="text-xs text-gray-500">{{ $t('protocols.form.clipCountHelp') }}</p>
+                <FormError :error="v$?.formProtocol?.clip_count?.$errors[0]?.$message.toString()" />
+                <FormError :error="props?.error?.errors?.clip_count?.[0]" />
             </div>
 
             <div class="space-y-3 border border-gray-200 rounded-2xl p-4"
@@ -118,7 +128,7 @@
             </div>
 
             <!-- Recurring toggle -->
-            <div class="space-y-1" v-if="props.formType === 'create'">
+            <div class="space-y-1" v-if="props.formType === 'create' && !isClipCard">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formProtocol.is_recurring = !state.formProtocol.is_recurring">
                     <FormCheckbox :value="state.formProtocol.is_recurring" />
@@ -127,7 +137,7 @@
             </div>
 
             <!-- Exclude weekends (only when not recurring) -->
-            <div class="space-y-1" v-if="!state.formProtocol.is_recurring">
+            <div class="space-y-1" v-if="!state.formProtocol.is_recurring && !isClipCard">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formProtocol.exclude_weekends = !state.formProtocol.exclude_weekends">
                     <FormCheckbox :value="state.formProtocol.exclude_weekends" />
@@ -136,7 +146,7 @@
             </div>
 
             <!-- Recurrence settings -->
-            <div class="space-y-3 border border-gray-200 rounded-2xl p-4" v-if="state.formProtocol.is_recurring && props.formType === 'create'">
+            <div class="space-y-3 border border-gray-200 rounded-2xl p-4" v-if="state.formProtocol.is_recurring && props.formType === 'create' && !isClipCard">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="recurring" :label="$t('protocols.form.recurringType')" />
@@ -261,7 +271,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, helpers, between, integer } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -292,8 +302,9 @@ const state = reactive({
         end_date: '',
         citizens: [],
         exclude_weekends: false,
-        recording_mode: 'day' as 'day' | 'hour',
+        recording_mode: 'day' as 'day' | 'hour' | 'clip',
         time_slots: [] as { start_time: string, end_time: string }[],
+        clip_count: '10',
         is_recurring: false,
         recurring: 'every_week',
         recurring_until: '',
@@ -325,7 +336,16 @@ const state = reactive({
 const recordingModes = computed(() => [
     { value: 'day' as const, label: t('protocols.form.perDay') },
     { value: 'hour' as const, label: t('protocols.form.perHour') },
+    { value: 'clip' as const, label: t('protocols.form.clipCard') },
 ])
+
+const isClipCard = computed(() => state.formProtocol.recording_mode === 'clip')
+
+const recordingModeHelp = computed(() => {
+    if (state.formProtocol.recording_mode === 'hour') return t('protocols.form.recordingModeHourHelp')
+    if (state.formProtocol.recording_mode === 'clip') return t('protocols.form.recordingModeClipHelp')
+    return t('protocols.form.recordingModeDayHelp')
+})
 
 const toMinutes = (time: string) => {
     const [hours, minutes] = (time || '').split(':').map(Number)
@@ -480,7 +500,15 @@ const rules = computed(() => {
             required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
         }
 
-        if (state.formProtocol.is_recurring) {
+        if (isClipCard.value) {
+            base.formProtocol.clip_count = {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                between: helpers.withMessage(() => t('protocols.form.errors.clipCountBetween'), between(1, 500)),
+                integer: helpers.withMessage(() => t('protocols.form.errors.clipCountBetween'), integer),
+            }
+        }
+
+        if (state.formProtocol.is_recurring && !isClipCard.value) {
             base.formProtocol.recurring_until = {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             }

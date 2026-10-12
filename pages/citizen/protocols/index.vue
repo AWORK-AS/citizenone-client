@@ -13,11 +13,41 @@
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <LoadingSpinner :isActive="state.isLoading">
-                    <div v-if="state.protocols.length === 0 && !state.isLoading">
+                    <!-- Task 136: clip cards, read-only. Staff use a clip when the citizen is present. -->
+                    <section v-if="state.clipCards.length > 0" class="mb-8">
+                        <p class="mb-3 text-xs font-bold text-primary uppercase tracking-widest">{{ $t('protocols.clipCard.myClipCards') }}</p>
+                        <div class="space-y-3">
+                            <div v-for="card in state.clipCards" :key="card.uuid"
+                                class="bg-white rounded-2xl border border-gray-200 px-5 py-4 space-y-2">
+                                <div class="flex items-start justify-between gap-4">
+                                    <p class="font-semibold text-gray-900">{{ card.protocol_name }}</p>
+                                    <p class="text-sm font-medium text-gray-900 tabular-nums shrink-0">
+                                        {{ $t('protocols.clipCard.clipsLeft', { remaining: card.clips_remaining, total: card.clip_count }) }}
+                                    </p>
+                                </div>
+                                <div v-if="card.clip_count <= 30" class="flex flex-wrap gap-1" aria-hidden="true">
+                                    <span v-for="n in card.clip_count" :key="n" class="size-3 rounded-full border"
+                                        :class="n <= card.clips_used ? 'bg-gray-300 border-gray-300' : 'bg-primary/15 border-primary'" />
+                                </div>
+                                <p class="text-sm text-gray-500">
+                                    {{ $t('protocols.clipCard.validPeriod', {
+                                        start: formatDateToReadable(card.start_date),
+                                        end: formatDateToReadable(card.end_date),
+                                    }) }}
+                                    <span v-if="card.uses?.length"> · {{ $t('protocols.clipCard.lastUsed', {
+                                        date: formatDateToReadable(card.uses[0].date),
+                                        time: card.uses[0].time,
+                                    }) }}</span>
+                                </p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <div v-if="state.protocols.length === 0 && state.clipCards.length === 0 && !state.isLoading">
                         <Alert type="info" :text="$t('theListIsEmpty')" />
                     </div>
 
-                    <div v-else class="space-y-8">
+                    <div v-else-if="state.protocols.length > 0" class="space-y-8">
                         <!-- Today's entries -->
                         <section>
                             <p class="mb-3 text-xs font-bold text-primary uppercase tracking-widest">{{ $t('protocols.today') }}</p>
@@ -108,6 +138,7 @@ const perPage = 10
 
 const state = reactive({
     protocols: [] as any[],
+    clipCards: [] as any[],
     isLoading: false,
     loadingUuid: null as string | null,
     error: {} as Error,
@@ -135,10 +166,14 @@ async function fetchProtocols() {
     state.error = {}
     state.isLoading = true
     try {
-        const response = await citizenProtocolService.getProtocols({})
+        const [response, clipCards] = await Promise.all([
+            citizenProtocolService.getProtocols({}),
+            citizenProtocolService.getClipCards(),
+        ])
         if (response?.data) {
             state.protocols = [...response.data].sort((a: any, b: any) => a.date < b.date ? -1 : 1)
         }
+        state.clipCards = clipCards?.data ?? []
     } catch (error: any) {
         state.error = error
     }
