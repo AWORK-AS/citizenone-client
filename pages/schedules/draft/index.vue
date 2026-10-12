@@ -183,6 +183,7 @@
 const runtimeConfig = useRuntimeConfig()
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
+import { useI18n } from 'vue-i18n'
 
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
