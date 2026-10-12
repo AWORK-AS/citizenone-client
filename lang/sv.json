@@ -3103,6 +3103,7 @@
                 "lastGivenHoursAgo": "Sidst given för {hours} timmar sedan. Vent {remaining} timmar mer.",
                 "hoursLeft": "{hours}t tillbaka",
                 "givePN": "Giv PN",
+                "handOutPN": "Lämna ut PN",
                 "noScheduledMedicines": "Inga planlagte mediciner",
                 "overdueDeviation": "Försenad/avvikelse",
                 "givenLegend": "Given",

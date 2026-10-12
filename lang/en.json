@@ -3103,6 +3103,7 @@
                 "lastGivenHoursAgo": "Last given {hours} hours ago. Wait {remaining} more hours.",
                 "hoursLeft": "{hours}h left",
                 "givePN": "Give PN",
+                "handOutPN": "Hand out PN",
                 "noScheduledMedicines": "No scheduled medicines",
                 "overdueDeviation": "Overdue/deviation",
                 "givenLegend": "Given",

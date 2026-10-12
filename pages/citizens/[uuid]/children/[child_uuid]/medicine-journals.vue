@@ -548,7 +548,7 @@
                                     <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
                                         @click="givePNMedicine(medicine)">
                                         <Icon name="ph:plus" class="size-3" />
-                                        {{ $t('citizens.medicineJournals.page.givePN') }}
+                                        {{ medicine.is_self_administered ? $t('citizens.medicineJournals.page.handOutPN') : $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
                                     <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
                                         <button :aria-label="$t('citizens.medicineJournals.table.actions.view')" type="button"
