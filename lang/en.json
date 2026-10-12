@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medication allergies (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Self-administered",
+                "hint": "Hand out only – @:terms.citizenDefinite{''} takes it themselves.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} takes this medicine themselves. It only needs to be handed out – register it as delivered, not given.",
+                "batchAuto": "Automatic – delivered for self-administered, otherwise given",
+                "overdue": "The medicine is {time} late. Hand it out, or register a deviation.",
+                "handOutNow": "Hand out now"
+            },
             "alert": {
                 "successfullyActivated": "Medicine successfully activated",
                 "successfullyDeactivated": "Medicine successfully deactivated",
@@ -3095,6 +3103,7 @@
                 "lastGivenHoursAgo": "Last given {hours} hours ago. Wait {remaining} more hours.",
                 "hoursLeft": "{hours}h left",
                 "givePN": "Give PN",
+                "handOutPN": "Hand out PN",
                 "noScheduledMedicines": "No scheduled medicines",
                 "overdueDeviation": "Overdue/deviation",
                 "givenLegend": "Given",
@@ -4788,6 +4797,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Day load",
+            "help": "Staff on duty each day – counted over all employees, not just this page – against the departments' minimum staffing. Red means below the minimum.",
+            "hoursShort": "{hours} h",
+            "onDuty": "{count} on duty",
+            "plannedHours": "{hours} planned hours",
+            "shifts": "{count} shifts",
+            "absent": "{count} absent",
+            "openSlots": "{count} open shifts",
+            "minimum": "Minimum staffing: {count}",
+            "missing": "{count} short"
+        },
         "allDay": "All day",
         "groups": {
             "collapse": "Collapse department",
@@ -7277,6 +7298,7 @@
             "employeeInformations": "Employee informations",
             "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs",
+            "monthlySheet": "Monthly sheet",
             "consultantProfile": "Consultant profile"
         },
         "timeLogs": "Time Logs",
@@ -9402,6 +9424,7 @@
     "navbar": {
         "apps": "Apps",
         "colleagues": "Colleagues",
+        "myMonthlySheet": "My monthly sheet",
         "forms": "Forms",
         "invoices": "Invoices",
         "logout": "Log out",
@@ -10219,6 +10242,11 @@
             "perHour": "Per hour",
             "recordingModeDayHelp": "One entry per citizen for each day.",
             "recordingModeHourHelp": "One entry per citizen for each time slot on every day, so attendance can be recorded hour by hour.",
+            "clipCard": "Clip card",
+            "recordingModeClipHelp": "Each citizen gets a card with a number of clips. Use a clip on any day between the start and end date when the citizen is present.",
+            "clipCount": "Number of clips",
+            "clipCountPlaceholder": "e.g. 10",
+            "clipCountHelp": "Each citizen on the protocol gets their own card with this many clips. It can't be changed later.",
             "timeSlots": "Time slots",
             "timeSlotsHelp": "Fill in a slot for every hour in a range, or add slots one at a time.",
             "fromHour": "From",
@@ -10232,7 +10260,8 @@
             "errors": {
                 "timeSlotsRequired": "Add at least one time slot.",
                 "timeSlotEndAfterStart": "Each time slot must end after it starts.",
-                "timeSlotsOverlap": "Time slots must not overlap."
+                "timeSlotsOverlap": "Time slots must not overlap.",
+                "clipCountBetween": "Enter a whole number between 1 and 500."
             }
         },
         "checkIn": "Check in",
@@ -10241,6 +10270,29 @@
         "today": "Today",
         "other": "Other",
         "noTodayEntries": "No protocol entries for today",
+        "clipCard": {
+            "summary": "{clips} clips per citizen · Valid {start} – {end}",
+            "clipsLeft": "{remaining} of {total} clips left",
+            "clipsUsedBadge": "Clips used: {used}",
+            "useClip": "Use clip",
+            "history": "History",
+            "hideHistory": "Hide history",
+            "lastUsed": "Last used {date} at {time}",
+            "notUsedYet": "Not used yet",
+            "usedUp": "Card used up",
+            "noUses": "No clips used yet.",
+            "usedOn": "Used {date} at {time}",
+            "undo": "Undo",
+            "undoConfirmation": "Undo this clip? It goes back on the card.",
+            "clipUsed": "Clip used for {name}. {remaining} left.",
+            "clipUndone": "Clip undone. {remaining} left.",
+            "notStarted": "This clip card can be used from {date}.",
+            "expired": "This clip card expired on {date}. Clips can no longer be used.",
+            "noCards": "No citizens on this clip card.",
+            "searchCitizen": "Search citizen",
+            "myClipCards": "My clip cards",
+            "validPeriod": "Valid {start} – {end}"
+        },
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {
@@ -15202,6 +15254,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statuses and journal notes",
+            "hint": "Delete old statuses, and optionally the journal notes behind them, automatically. Checked every day: anything older than 365 days is deleted.",
+            "statusSwitch": "Delete statuses in treatments and goals after 365 days",
+            "statusSwitchHint": "Statuses on plans, goals, sub-goals and treatments, including the copies of journal notes on goals.",
+            "journalSwitch": "Also delete the journal notes themselves",
+            "journalSwitchHint": "Only notes linked to a goal. Medical record notes, drafts and notes not linked to a goal are never deleted.",
+            "previewOn": "{statuses} statuses will be deleted from {date}.",
+            "previewOff": "If you switch this on, {statuses} statuses would be deleted today.",
+            "previewJournals": "{journals} journal notes would also be deleted.",
+            "lessHistory": "Lists, graphs, the development overview and PDF exports will show less history after this. Deleted items are hidden, not erased from the database.",
+            "nextRun": "Next deletion: daily; first run {date}.",
+            "confirmEnable": "This hides statuses (and journal notes, if selected) older than 365 days from the system. They are not erased from the database, and can be restored on request. The first deletion runs on {date}. You can switch it off before then."
+        },
         "retention": {
             "title": "GDPR Data Retention",
             "retentionPeriod": "Retention period",
@@ -15227,6 +15293,9 @@
             "deletionCancelled": "Scheduled deletion cancelled"
         },
         "deletionLog": {
+            "statusJournalRun": "Statuses and journal notes",
+            "statusJournalCounts": "{statuses} statuses, {journals} notes (before {date})",
+            "triggerStatusJournal": "Statuses and notes (automatic)",
             "title": "Deletion log",
             "fromDate": "From date",
             "toDate": "To date",
@@ -16110,6 +16179,44 @@
             "revenue": "Revenue",
             "billing": "Billing extraction"
         }
+    },
+    "monthlySheet": {
+        "title": "Monthly sheet",
+        "subtitle": "Planned shifts, clocked time, absence and extra hours for every day of the month.",
+        "previousMonth": "Previous month",
+        "nextMonth": "Next month",
+        "month": "Month",
+        "download": "Download",
+        "downloadPdf": "PDF",
+        "downloadExcel": "Excel",
+        "planned": "Planned",
+        "worked": "Worked",
+        "clocked": "Clocked",
+        "norm": "Norm",
+        "balance": "Balance",
+        "absence": "Absence",
+        "extraHours": "Extra hours",
+        "date": "Date",
+        "plannedShift": "Planned shift",
+        "plannedHours": "Planned",
+        "absenceColumn": "Absence",
+        "clockedInOut": "Clocked in – out",
+        "clockedHours": "Clocked",
+        "extra": "Extra hours",
+        "difference": "Difference",
+        "remarks": "Remarks",
+        "totals": "Month totals",
+        "absenceByType": "Absence by type",
+        "byShiftType": "Hours by shift type",
+        "days": "days",
+        "pending": "pending",
+        "declined": "declined",
+        "open": "not ended",
+        "empty": "Nothing is planned or registered for this month.",
+        "loadError": "The monthly sheet could not be loaded.",
+        "hint": "Worked hours follow the duty schedule, the same figure as the hours statistics. Clocked hours come from time logs and are shown separately.",
+        "clampedNote": "Norm and balance cover {start} – {end} only.",
+        "pendingExtra": "{hours} pending"
     },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",

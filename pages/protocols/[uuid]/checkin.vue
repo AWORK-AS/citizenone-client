@@ -201,6 +201,10 @@ async function fetchProtocol() {
     try {
         const response = await protocolService.getProtocol(protocolUuid)
         state.protocol = response?.data ?? response
+        // Task 136: a clip card has no roll call; its clips are used on the protocol page.
+        if (state.protocol?.recording_mode === 'clip') {
+            return navigateTo(`/protocols/${protocolUuid}`, { replace: true })
+        }
     } catch (error: any) {
         state.error = error
     }

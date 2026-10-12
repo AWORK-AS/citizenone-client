@@ -24,13 +24,7 @@
                                 </Badge>
                             </div>
                             <div v-if="state.selectedMedicine.is_self_administered">
-                                <Badge type="primary" class="w-fit">
-                                    <p class="text-xxs">
-                                        {{
-                                            $t('citizens.medicineJournals.form.selfAdminister')
-                                        }}
-                                    </p>
-                                </Badge>
+                                <ModulesUserCitizenMedicineSelfAdministeredBadge />
                             </div>
                             <div v-if="state.selectedMedicine.is_expired"
                                 :title="$t('citizens.medicineJournals.viewModal.expiredTooltip')">

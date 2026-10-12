@@ -312,6 +312,22 @@
                                 </div>
                             </div>
 
+                            <!-- Task #6: the load of each day, for whoever plans the schedule -->
+                            <div v-if="hasScheduleManageAccess" class="grid grid-cols-9 border-b border-gray-100 bg-white"
+                                data-testid="duty-day-load-row">
+                                <div class="col-span-2 border-r border-gray-100 bg-gray-50/50 flex items-center justify-end gap-1 px-3 py-1.5">
+                                    <p class="text-xs font-medium text-gray-500">{{ $t('dutySchedules.dayLoad.label') }}</p>
+                                    <Tooltip :text="$t('dutySchedules.dayLoad.help')" :wrap="true">
+                                        <Icon name="ph:info" class="size-3.5 text-gray-400" aria-hidden="true" />
+                                    </Tooltip>
+                                </div>
+                                <div v-for="dayKey in DAY_LOAD_KEYS" :key="dayKey"
+                                    class="border-0.5 px-1 py-1 flex items-center justify-center">
+                                    <ModulesUserDutyScheduleDayLoad :load="state.weeklySchedules?.week_data?.[dayKey]?.load"
+                                        :open-slots="state.weeklySchedules?.week_data?.[dayKey]?.total_slots ?? 0" />
+                                </div>
+                            </div>
+
                             <div id="fixed-header-spacer" class="hidden" />
 
                             <div class="hidden">
@@ -2452,6 +2468,9 @@ function changePageLength(event: any) {
     dutyScheduleStore.setCurrentPageLength(event.target.value)
     fetchDutySchedule()
 }
+
+// Task #6: week_data is keyed by weekday name, Monday first like the grid.
+const DAY_LOAD_KEYS = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday', 'sunday']
 
 function getSlotCount(dayName: string) {
     const dayMap = {

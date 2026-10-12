@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medisinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Selvadministrert",
+                "hint": "Skal bare utleveres – @:terms.citizenDefinite{''} tar medisinen selv.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tar denne medisinen selv. Den skal bare utleveres – registrer den som utlevert, ikke gitt.",
+                "batchAuto": "Automatisk – utlevert for selvadministrert, ellers gitt",
+                "overdue": "Medisinen er {time} forsinket. Utlever den, eller registrer avvik.",
+                "handOutNow": "Utlever nu"
+            },
             "alert": {
                 "successfullyActivated": "Medisin aktivert vellykket",
                 "successfullyDeactivated": "Medisin deaktivert vellykket",
@@ -2828,7 +2836,7 @@
                 "pnMedicine": "PN-medisin",
                 "scheduleFrequency": "Hvor tit skal @:terms.citizen{''} ha medisinen",
                 "scheduleUntil": "Inntil når skal @:terms.citizen{''} ha medisinen",
-                "selfAdminister": "Selvadministrerende medisin",
+                "selfAdminister": "Selvadministrert medisin",
                 "startDate": "Dato for ordinering",
                 "strength": "Styrke",
                 "time": "Tid",
@@ -3087,7 +3095,7 @@
                 "medicineIsOverdue": "Medisinen er {time} forsinket. Gi straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaller om {minutes} minutter. Husk at gi til tiden.",
                 "expired": "Utløpt",
-                "selfAdministration": "Selvadministrerende",
+                "selfAdministration": "Selvadministrert",
                 "expiredCheckDate": "Utløpt - sjekk åpning dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbake",
@@ -3095,6 +3103,7 @@
                 "lastGivenHoursAgo": "Sist gitt for {hours} timer siden. Vent {remaining} timer mer.",
                 "hoursLeft": "{hours}t tilbake",
                 "givePN": "Gi PN",
+                "handOutPN": "Utlever PN",
                 "noScheduledMedicines": "Ingen planlagte mediciner",
                 "overdueDeviation": "Forsinket/afvigelse",
                 "givenLegend": "Gitt",
@@ -4788,6 +4797,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Ansatte på vakt per dag – telt over alle ansatte, ikke bare denne siden – mot avdelingenes minimumsbemanning. Rød betyr under minimum.",
+            "hoursShort": "{hours} t",
+            "onDuty": "{count} på vakt",
+            "plannedHours": "{hours} planlagte timer",
+            "shifts": "{count} vakter",
+            "absent": "{count} fraværende",
+            "openSlots": "{count} ledige vakter",
+            "minimum": "Minimumsbemanning: {count}",
+            "missing": "Mangler {count}"
+        },
         "allDay": "Hele dagen",
         "groups": {
             "collapse": "Skjul avdelingen",
@@ -7277,6 +7298,7 @@
             "employeeInformations": "Medarbeiderinformationer",
             "mileageLog": "Kjørebok",
             "timeLogs": "Tidslogfiler",
+            "monthlySheet": "Månedsoversikt",
             "consultantProfile": "Konsulentprofil"
         },
         "timeLogs": "Tidslogfiler",
@@ -9402,6 +9424,7 @@
     "navbar": {
         "apps": "Apper",
         "colleagues": "Kollegaer",
+        "myMonthlySheet": "Min månedsoversikt",
         "forms": "Skjemaer",
         "invoices": "Fakturaer",
         "logout": "Logg ut",
@@ -10214,6 +10237,11 @@
             "perHour": "Per time",
             "recordingModeDayHelp": "Én registrering per borger for hver dag.",
             "recordingModeHourHelp": "Én registrering per borger for hvert tidsrom hver dag, slik at oppmøte kan registreres time for time.",
+            "clipCard": "Klippekort",
+            "recordingModeClipHelp": "Hver borger får et kort med et antall klipp. Bruk et klipp hvilken som helst dag mellom start- og sluttdatoen når borgeren er til stede.",
+            "clipCount": "Antall klipp",
+            "clipCountPlaceholder": "f.eks. 10",
+            "clipCountHelp": "Hver borger på protokollen får sitt eget kort med dette antallet klipp. Det kan ikke endres senere.",
             "timeSlots": "Tidsrom",
             "timeSlotsHelp": "Fyll inn et tidsrom for hver time i et intervall, eller legg til tidsrom ett om gangen.",
             "fromHour": "Fra",
@@ -10227,7 +10255,8 @@
             "errors": {
                 "timeSlotsRequired": "Legg til minst ett tidsrom.",
                 "timeSlotEndAfterStart": "Hvert tidsrom må slutte etter at det starter.",
-                "timeSlotsOverlap": "Tidsrommene kan ikke overlappe hverandre."
+                "timeSlotsOverlap": "Tidsrommene kan ikke overlappe hverandre.",
+                "clipCountBetween": "Angi et heltall mellom 1 og 500."
             }
         },
         "checkIn": "Sjekk inn",
@@ -10236,6 +10265,29 @@
         "today": "I dag",
         "other": "Andre",
         "noTodayEntries": "Ingen protokollregistreringer for i dag",
+        "clipCard": {
+            "summary": "{clips} klipp per borger · Gyldig {start} – {end}",
+            "clipsLeft": "{remaining} av {total} klipp igjen",
+            "clipsUsedBadge": "Klipp brukt: {used}",
+            "useClip": "Bruk klipp",
+            "history": "Historikk",
+            "hideHistory": "Skjul historikk",
+            "lastUsed": "Sist brukt {date} kl. {time}",
+            "notUsedYet": "Ikke brukt ennå",
+            "usedUp": "Kortet er brukt opp",
+            "noUses": "Ingen klipp er brukt ennå.",
+            "usedOn": "Brukt {date} kl. {time}",
+            "undo": "Angre",
+            "undoConfirmation": "Angre dette klippet? Det kommer tilbake på kortet.",
+            "clipUsed": "Klipp brukt for {name}. {remaining} igjen.",
+            "clipUndone": "Klippet er angret. {remaining} igjen.",
+            "notStarted": "Klippekortet kan brukes fra {date}.",
+            "expired": "Klippekortet utløp {date}. Det kan ikke lenger brukes klipp.",
+            "noCards": "Det er ingen borgere på dette klippekortet.",
+            "searchCitizen": "Søk etter borger",
+            "myClipCards": "Mine klippekort",
+            "validPeriod": "Gyldig {start} – {end}"
+        },
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -15106,6 +15158,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statuser og journalnotater",
+            "hint": "Slett gamle statuser, og om ønskelig journalnotatene bak dem, automatisk. Sjekkes hver dag: alt eldre enn 365 dager slettes.",
+            "statusSwitch": "Slett statuser i behandlinger og mål etter 365 dager",
+            "statusSwitchHint": "Statuser på planer, mål, delmål og behandlinger, inkludert kopier av journalnotater på mål.",
+            "journalSwitch": "Slett også selve journalnotatene",
+            "journalSwitchHint": "Bare notater som er knyttet til et mål. Legejournalnotater, utkast og notater uten målknytning slettes aldri.",
+            "previewOn": "{statuses} statuser slettes fra {date}.",
+            "previewOff": "Hvis du slår dette på, ville {statuses} statuser blitt slettet i dag.",
+            "previewJournals": "{journals} journalnotater ville også blitt slettet.",
+            "lessHistory": "Lister, grafer, utviklingsoversikt og PDF-uttrekk viser mindre historikk etter dette. Slettede poster skjules, de fjernes ikke fra databasen.",
+            "nextRun": "Neste sletting: daglig; første kjøring {date}.",
+            "confirmEnable": "Dette skjuler statuser (og journalnotater, hvis valgt) eldre enn 365 dager i systemet. De fjernes ikke fra databasen og kan gjenopprettes på forespørsel. Den første slettingen skjer {date}. Du kan slå det av før den tid."
+        },
         "retention": {
             "title": "GDPR Dataoppbevaring",
             "retentionPeriod": "Oppbevaringsperiode",
@@ -15131,6 +15197,9 @@
             "deletionCancelled": "Planlagt sletting avbrutt"
         },
         "deletionLog": {
+            "statusJournalRun": "Statuser og journalnotater",
+            "statusJournalCounts": "{statuses} statuser, {journals} notater (før {date})",
+            "triggerStatusJournal": "Statuser og notater (automatisk)",
             "title": "Slettelogg",
             "fromDate": "Fra dato",
             "toDate": "Til dato",
@@ -16014,6 +16083,44 @@
             "revenue": "Omsetning",
             "billing": "Faktureringsuttrekk"
         }
+    },
+    "monthlySheet": {
+        "title": "Månedsoversikt",
+        "subtitle": "Planlagte vakter, stemplet tid, fravær og ekstra timer for hver dag i måneden.",
+        "previousMonth": "Forrige måned",
+        "nextMonth": "Neste måned",
+        "month": "Måned",
+        "download": "Last ned",
+        "downloadPdf": "PDF",
+        "downloadExcel": "Excel",
+        "planned": "Planlagt",
+        "worked": "Arbeidet",
+        "clocked": "Stemplet",
+        "norm": "Norm",
+        "balance": "Saldo",
+        "absence": "Fravær",
+        "extraHours": "Ekstra timer",
+        "date": "Dato",
+        "plannedShift": "Planlagt vakt",
+        "plannedHours": "Planlagt",
+        "absenceColumn": "Fravær",
+        "clockedInOut": "Stemplet inn – ut",
+        "clockedHours": "Stemplet",
+        "extra": "Ekstra timer",
+        "difference": "Differanse",
+        "remarks": "Merknader",
+        "totals": "Måneden totalt",
+        "absenceByType": "Fravær fordelt på type",
+        "byShiftType": "Timer fordelt på vakttype",
+        "days": "dager",
+        "pending": "venter",
+        "declined": "avslått",
+        "open": "ikke avsluttet",
+        "empty": "Det er ikke planlagt eller registrert noe denne måneden.",
+        "loadError": "Månedsoversikten kunne ikke hentes.",
+        "hint": "Arbeidede timer følger vaktplanen og er samme tall som timestatistikken. Stemplede timer kommer fra tidsregistreringer og vises for seg.",
+        "clampedNote": "Norm og saldo gjelder bare {start} – {end}.",
+        "pendingExtra": "{hours} venter"
     },
     "plansAndGoalsExport": {
         "title": "Eksport av planer og mål",

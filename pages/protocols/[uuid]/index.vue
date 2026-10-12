@@ -20,7 +20,9 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <div class="flex items-center justify-end gap-2">
-                    <FormButton buttonStyle="action" @click="navigateTo(`/protocols/${protocolUuid}/checkin`)">
+                    <!-- Task 136: a clip card has no day's roll call; clips are used on its cards below. -->
+                    <FormButton buttonStyle="action" @click="navigateTo(`/protocols/${protocolUuid}/checkin`)"
+                        v-if="!isClipCard">
                         <Icon name="ph:check-square" class="w-4 h-4" />
                         {{ $t('attendance.checkIn') }}
                     </FormButton>
@@ -32,6 +34,8 @@
                         {{ $t('protocols.download') }}
                     </FormButton>
                 </div>
+                <ModulesUserProtocolClipCards v-if="isClipCard" :protocol="state.selectedProtocol.data" />
+                <template v-else-if="state.selectedProtocol?.data">
                 <TableSearch @search="handleSearch" />
                 <div class="table-responsive">
                     <Table :columnHeaders="state.columnHeaders" :data="state.citizenProtocols"
@@ -97,6 +101,7 @@
                     </Table>
                 </div>
                 <Pagination :data="state.citizenProtocols" @previous="previous" @next="next" />
+                </template>
             </div>
             <ModulesUserAbsenceModalAbsent :isModalOpen="state.modal.isMarkAsAbsentOpen"
                 @close="state.modal.isMarkAsAbsentOpen = false" @markAsAbsent="markAsAbsent" />
@@ -158,6 +163,8 @@ const state = reactive({
         sortOrder: 'descend',
     },
 })
+
+const isClipCard = computed(() => state.selectedProtocol?.data?.recording_mode === 'clip')
 
 onMounted(() => {
     fetchProtocol()

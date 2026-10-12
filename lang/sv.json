@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Självadministrerad",
+                "hint": "Ska bara lämnas ut – @:terms.citizenDefinite{''} tar läkemedlet själv.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tar detta läkemedel själv. Det ska bara lämnas ut – registrera det som utlämnat, inte givet.",
+                "batchAuto": "Automatiskt – utlämnat för självadministrerade, annars givet",
+                "overdue": "Läkemedlet är {time} försenat. Lämna ut det, eller registrera avvikelse.",
+                "handOutNow": "Lämna ut nu"
+            },
             "alert": {
                 "successfullyActivated": "Medicin aktiverad",
                 "successfullyDeactivated": "Medicin inaktiverad",
@@ -2828,7 +2836,7 @@
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Var tit ska @:terms.citizen{''} have medicinen",
                 "scheduleUntil": "Tills när ska @:terms.citizen{''} have medicinen",
-                "selfAdminister": "Selvadministrerende medicin",
+                "selfAdminister": "Självadministrerat läkemedel",
                 "startDate": "Datum för ordinering",
                 "strength": "Styrka",
                 "time": "Tid",
@@ -3087,7 +3095,7 @@
                 "medicineIsOverdue": "Medicinen är {timme} försenad. Giv straks eller registrér avvikelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",
-                "selfAdministration": "Självadministrerande",
+                "selfAdministration": "Självadministrerad",
                 "expiredCheckDate": "Utgången - kontrollera anbrud datum",
                 "lowStock": "Lågt lager",
                 "lowStockOnly": "Lågt lager: endast {n} tillbaka",
@@ -3095,6 +3103,7 @@
                 "lastGivenHoursAgo": "Sidst given för {hours} timmar sedan. Vent {remaining} timmar mer.",
                 "hoursLeft": "{hours}t tillbaka",
                 "givePN": "Giv PN",
+                "handOutPN": "Lämna ut PN",
                 "noScheduledMedicines": "Inga planlagte mediciner",
                 "overdueDeviation": "Försenad/avvikelse",
                 "givenLegend": "Given",
@@ -4788,6 +4797,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Medarbetare i tjänst per dag – räknat över alla medarbetare, inte bara denna sida – mot avdelningarnas minimibemanning. Röd betyder under minimum.",
+            "hoursShort": "{hours} h",
+            "onDuty": "{count} i tjänst",
+            "plannedHours": "{hours} planerade timmar",
+            "shifts": "{count} pass",
+            "absent": "{count} frånvarande",
+            "openSlots": "{count} lediga pass",
+            "minimum": "Minimibemanning: {count}",
+            "missing": "Saknar {count}"
+        },
         "allDay": "Hela dagen",
         "groups": {
             "collapse": "Fäll ihop avdelningen",
@@ -7277,6 +7298,7 @@
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Körjournal",
             "timeLogs": "Tidslogfiler",
+            "monthlySheet": "Månadsöversikt",
             "consultantProfile": "Konsultprofil"
         },
         "timeLogs": "Tidslogfiler",
@@ -9402,6 +9424,7 @@
     "navbar": {
         "apps": "Apps",
         "colleagues": "Kollegaer",
+        "myMonthlySheet": "Min månadsöversikt",
         "forms": "Formulär",
         "invoices": "Fakturor",
         "logout": "Logga ut",
@@ -10214,6 +10237,11 @@
             "perHour": "Per timme",
             "recordingModeDayHelp": "En registrering per brukare för varje dag.",
             "recordingModeHourHelp": "En registrering per brukare för varje tidsintervall varje dag, så att närvaro kan registreras timme för timme.",
+            "clipCard": "Klippkort",
+            "recordingModeClipHelp": "Varje brukare får ett kort med ett antal klipp. Använd ett klipp vilken dag som helst mellan start- och slutdatumet när brukaren är närvarande.",
+            "clipCount": "Antal klipp",
+            "clipCountPlaceholder": "t.ex. 10",
+            "clipCountHelp": "Varje brukare i protokollet får ett eget kort med så här många klipp. Det kan inte ändras senare.",
             "timeSlots": "Tidsintervall",
             "timeSlotsHelp": "Fyll i ett tidsintervall för varje timme i ett spann, eller lägg till dem ett i taget.",
             "fromHour": "Från",
@@ -10227,7 +10255,8 @@
             "errors": {
                 "timeSlotsRequired": "Lägg till minst ett tidsintervall.",
                 "timeSlotEndAfterStart": "Varje tidsintervall måste sluta efter att det börjar.",
-                "timeSlotsOverlap": "Tidsintervallen får inte överlappa varandra."
+                "timeSlotsOverlap": "Tidsintervallen får inte överlappa varandra.",
+                "clipCountBetween": "Ange ett heltal mellan 1 och 500."
             }
         },
         "checkIn": "Checka in",
@@ -10236,6 +10265,29 @@
         "today": "Idag",
         "other": "Övriga",
         "noTodayEntries": "Inga protokollregistreringar för idag",
+        "clipCard": {
+            "summary": "{clips} klipp per brukare · Giltigt {start} – {end}",
+            "clipsLeft": "{remaining} av {total} klipp kvar",
+            "clipsUsedBadge": "Använda klipp: {used}",
+            "useClip": "Använd klipp",
+            "history": "Historik",
+            "hideHistory": "Dölj historik",
+            "lastUsed": "Senast använt {date} kl. {time}",
+            "notUsedYet": "Inte använt än",
+            "usedUp": "Kortet är förbrukat",
+            "noUses": "Inga klipp har använts än.",
+            "usedOn": "Använt {date} kl. {time}",
+            "undo": "Ångra",
+            "undoConfirmation": "Ångra det här klippet? Det läggs tillbaka på kortet.",
+            "clipUsed": "Klipp använt för {name}. {remaining} kvar.",
+            "clipUndone": "Klippet är ångrat. {remaining} kvar.",
+            "notStarted": "Klippkortet kan användas från {date}.",
+            "expired": "Klippkortet gick ut {date}. Det går inte längre att använda klipp.",
+            "noCards": "Det finns inga brukare på det här klippkortet.",
+            "searchCitizen": "Sök brukare",
+            "myClipCards": "Mina klippkort",
+            "validPeriod": "Giltigt {start} – {end}"
+        },
         "newProtocol": "Ny protokoll",
         "protocols": "Protokoll",
         "table": {
@@ -15106,6 +15158,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statusar och journalanteckningar",
+            "hint": "Radera gamla statusar, och vid behov journalanteckningarna bakom dem, automatiskt. Kontrolleras varje dag: allt äldre än 365 dagar raderas.",
+            "statusSwitch": "Radera statusar i behandlingar och mål efter 365 dagar",
+            "statusSwitchHint": "Statusar på planer, mål, delmål och behandlingar, inklusive kopior av journalanteckningar på mål.",
+            "journalSwitch": "Radera även själva journalanteckningarna",
+            "journalSwitchHint": "Bara anteckningar kopplade till ett mål. Läkarjournalanteckningar, utkast och anteckningar utan målkoppling raderas aldrig.",
+            "previewOn": "{statuses} statusar raderas från {date}.",
+            "previewOff": "Om du slår på detta skulle {statuses} statusar raderas i dag.",
+            "previewJournals": "{journals} journalanteckningar skulle också raderas.",
+            "lessHistory": "Listor, grafer, utvecklingsöversikt och PDF-utdrag visar mindre historik efter detta. Raderade poster döljs, de tas inte bort från databasen.",
+            "nextRun": "Nästa radering: dagligen; första körning {date}.",
+            "confirmEnable": "Detta döljer statusar (och journalanteckningar, om valt) äldre än 365 dagar i systemet. De tas inte bort från databasen och kan återställas på begäran. Den första raderingen sker {date}. Du kan stänga av det före dess."
+        },
         "retention": {
             "title": "GDPR Datalagring",
             "retentionPeriod": "Lagringsperiod",
@@ -15131,6 +15197,9 @@
             "deletionCancelled": "Schemalagd radering avbruten"
         },
         "deletionLog": {
+            "statusJournalRun": "Statusar och journalanteckningar",
+            "statusJournalCounts": "{statuses} statusar, {journals} anteckningar (före {date})",
+            "triggerStatusJournal": "Statusar och anteckningar (automatisk)",
             "title": "Raderingslogg",
             "fromDate": "Från datum",
             "toDate": "Till datum",
@@ -16014,6 +16083,44 @@
             "revenue": "Omsättning",
             "billing": "Faktureringsunderlag"
         }
+    },
+    "monthlySheet": {
+        "title": "Månadsöversikt",
+        "subtitle": "Planerade pass, stämplad tid, frånvaro och extra timmar för varje dag i månaden.",
+        "previousMonth": "Föregående månad",
+        "nextMonth": "Nästa månad",
+        "month": "Månad",
+        "download": "Ladda ner",
+        "downloadPdf": "PDF",
+        "downloadExcel": "Excel",
+        "planned": "Planerat",
+        "worked": "Arbetat",
+        "clocked": "Stämplat",
+        "norm": "Norm",
+        "balance": "Saldo",
+        "absence": "Frånvaro",
+        "extraHours": "Extra timmar",
+        "date": "Datum",
+        "plannedShift": "Planerat pass",
+        "plannedHours": "Planerat",
+        "absenceColumn": "Frånvaro",
+        "clockedInOut": "Instämplat – ut",
+        "clockedHours": "Stämplat",
+        "extra": "Extra timmar",
+        "difference": "Differens",
+        "remarks": "Anmärkningar",
+        "totals": "Månaden totalt",
+        "absenceByType": "Frånvaro per typ",
+        "byShiftType": "Timmar per passtyp",
+        "days": "dagar",
+        "pending": "väntar",
+        "declined": "avslagen",
+        "open": "inte avslutad",
+        "empty": "Inget är planerat eller registrerat den här månaden.",
+        "loadError": "Månadsöversikten kunde inte hämtas.",
+        "hint": "Arbetade timmar följer schemat och är samma siffra som timstatistiken. Stämplade timmar kommer från tidsregistreringar och visas separat.",
+        "clampedNote": "Norm och saldo gäller bara {start} – {end}.",
+        "pendingExtra": "{hours} väntar"
     },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",

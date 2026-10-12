@@ -335,6 +335,7 @@
                                             <p class="text-sm font-medium text-gray-900 truncate">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
+                                            <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                                             <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                 :wrap="true" class="shrink-0">
                                                 <Icon name="ph:info"
@@ -493,6 +494,7 @@
                                             <p class="text-sm font-medium text-gray-900">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
+                                            <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                                             <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                 :wrap="true" class="shrink-0">
                                                 <Icon name="ph:info"
@@ -546,7 +548,7 @@
                                     <FormButton buttonStyle="action" class="rounded-md text-xs shrink-0"
                                         @click="givePNMedicine(medicine)">
                                         <Icon name="ph:plus" class="size-3" />
-                                        {{ $t('citizens.medicineJournals.page.givePN') }}
+                                        {{ medicine.is_self_administered ? $t('citizens.medicineJournals.page.handOutPN') : $t('citizens.medicineJournals.page.givePN') }}
                                     </FormButton>
                                     <Tooltip :text="$t('citizens.medicineJournals.table.actions.view')">
                                         <button :aria-label="$t('citizens.medicineJournals.table.actions.view')" type="button"
@@ -633,6 +635,7 @@
                                                 <p class="truncate max-w-36">
                                                     {{ getMedicineName(medicine) }}
                                                 </p>
+                                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" compact />
                                                 <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                     :wrap="true" class="shrink-0">
                                                     <Icon name="ph:info"
@@ -742,6 +745,7 @@
                                                 <p class="font-medium">
                                                     {{ getMedicineName(medicine) }}
                                                 </p>
+                                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" compact />
                                                 <p class="text-gray-500">
                                                     {{ medicine?.medicine?.ingredients }}
                                                     <span v-if="medicine?.strength"> ·
@@ -808,6 +812,7 @@
                                                     <p class="text-sm font-semibold text-gray-900 truncate">
                                                         {{ getMedicineName(medicine) }}
                                                     </p>
+                                                    <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                                                     <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                         :wrap="true" class="shrink-0">
                                                         <Icon name="ph:info"

@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Selvadministrerende",
+                "hint": "Skal kun udleveres – @:terms.citizenDefinite{''} tager selv medicinen.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tager selv denne medicin. Den skal kun udleveres – registrér den som udleveret, ikke givet.",
+                "batchAuto": "Automatisk – udleveret for selvadministrerende, ellers givet",
+                "overdue": "Medicinen er {time} forsinket. Udlevér den, eller registrér afvigelse.",
+                "handOutNow": "Udlevér nu"
+            },
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
                 "successfullyDeactivated": "Medicin deaktiveret med succes",
@@ -3095,6 +3103,7 @@
                 "lastGivenHoursAgo": "Sidst givet for {hours} timer siden. Vent {remaining} timer mere.",
                 "hoursLeft": "{hours}t tilbage",
                 "givePN": "Giv PN",
+                "handOutPN": "Udlevér PN",
                 "noScheduledMedicines": "Ingen planlagte mediciner",
                 "overdueDeviation": "Forsinket/afvigelse",
                 "givenLegend": "Givet",
@@ -4788,6 +4797,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Medarbejdere på vagt pr. dag – talt over alle medarbejdere, ikke kun denne side – mod afdelingernes minimumsbemanding. Rød betyder under minimum.",
+            "hoursShort": "{hours} t",
+            "onDuty": "{count} på vagt",
+            "plannedHours": "{hours} planlagte timer",
+            "shifts": "{count} vagter",
+            "absent": "{count} fraværende",
+            "openSlots": "{count} ledige vagter",
+            "minimum": "Minimumsbemanding: {count}",
+            "missing": "Mangler {count}"
+        },
         "allDay": "Hele dagen",
         "groups": {
             "collapse": "Fold afdelingen sammen",
@@ -7277,6 +7298,7 @@
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Kørselsregnskab",
             "timeLogs": "Tidslogfiler",
+            "monthlySheet": "Månedsoversigt",
             "consultantProfile": "Konsulentprofil"
         },
         "timeLogs": "Tidslogfiler",
@@ -9402,6 +9424,7 @@
     "navbar": {
         "apps": "Apps",
         "colleagues": "Kollegaer",
+        "myMonthlySheet": "Min månedsoversigt",
         "forms": "Formularer",
         "invoices": "Fakturaer",
         "logout": "Log ud",
@@ -10219,6 +10242,11 @@
             "perHour": "Pr. time",
             "recordingModeDayHelp": "Én registrering pr. borger for hver dag.",
             "recordingModeHourHelp": "Én registrering pr. borger for hvert tidsrum hver dag, så fremmøde kan registreres time for time.",
+            "clipCard": "Klippekort",
+            "recordingModeClipHelp": "Hver borger får et kort med et antal klip. Brug et klip en hvilken som helst dag mellem start- og slutdatoen, når borgeren er til stede.",
+            "clipCount": "Antal klip",
+            "clipCountPlaceholder": "f.eks. 10",
+            "clipCountHelp": "Hver borger på protokollen får sit eget kort med dette antal klip. Det kan ikke ændres bagefter.",
             "timeSlots": "Tidsrum",
             "timeSlotsHelp": "Udfyld et tidsrum for hver time i et interval, eller tilføj tidsrum ét ad gangen.",
             "fromHour": "Fra",
@@ -10232,7 +10260,8 @@
             "errors": {
                 "timeSlotsRequired": "Tilføj mindst ét tidsrum.",
                 "timeSlotEndAfterStart": "Hvert tidsrum skal slutte efter det starter.",
-                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden."
+                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden.",
+                "clipCountBetween": "Angiv et helt tal mellem 1 og 500."
             }
         },
         "checkIn": "Tjek ind",
@@ -10241,6 +10270,29 @@
         "today": "I dag",
         "other": "Andre",
         "noTodayEntries": "Ingen protokolregistreringer for i dag",
+        "clipCard": {
+            "summary": "{clips} klip pr. borger · Gyldigt {start} – {end}",
+            "clipsLeft": "{remaining} af {total} klip tilbage",
+            "clipsUsedBadge": "Klip brugt: {used}",
+            "useClip": "Brug klip",
+            "history": "Historik",
+            "hideHistory": "Skjul historik",
+            "lastUsed": "Sidst brugt {date} kl. {time}",
+            "notUsedYet": "Ikke brugt endnu",
+            "usedUp": "Kortet er brugt op",
+            "noUses": "Der er ikke brugt nogen klip endnu.",
+            "usedOn": "Brugt {date} kl. {time}",
+            "undo": "Fortryd",
+            "undoConfirmation": "Fortryd dette klip? Det kommer tilbage på kortet.",
+            "clipUsed": "Klip brugt for {name}. {remaining} tilbage.",
+            "clipUndone": "Klippet er fortrudt. {remaining} tilbage.",
+            "notStarted": "Klippekortet kan bruges fra {date}.",
+            "expired": "Klippekortet udløb {date}. Der kan ikke længere bruges klip.",
+            "noCards": "Der er ingen borgere på dette klippekort.",
+            "searchCitizen": "Søg borger",
+            "myClipCards": "Mine klippekort",
+            "validPeriod": "Gyldigt {start} – {end}"
+        },
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {
@@ -15202,6 +15254,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statusser og journalnotater",
+            "hint": "Slet gamle statusser, og om ønsket de journalnotater, der ligger bag dem, automatisk. Tjekkes hver dag: alt ældre end 365 dage slettes.",
+            "statusSwitch": "Slet statusser i behandlinger og mål efter 365 dage",
+            "statusSwitchHint": "Statusser på planer, mål, delmål og behandlinger, inklusive kopier af journalnotater på mål.",
+            "journalSwitch": "Slet også selve journalnotaterne",
+            "journalSwitchHint": "Kun notater, der er knyttet til et mål. Lægejournalnotater, kladder og notater uden målknytning slettes aldrig.",
+            "previewOn": "{statuses} statusser slettes fra {date}.",
+            "previewOff": "Hvis du slår det til, ville {statuses} statusser blive slettet i dag.",
+            "previewJournals": "{journals} journalnotater ville også blive slettet.",
+            "lessHistory": "Lister, grafer, udviklingsoversigt og PDF-udtræk viser mindre historik herefter. Slettede poster skjules, de fjernes ikke fra databasen.",
+            "nextRun": "Næste sletning: dagligt; første kørsel {date}.",
+            "confirmEnable": "Dette skjuler statusser (og journalnotater, hvis valgt) ældre end 365 dage i systemet. De fjernes ikke fra databasen og kan gendannes efter anmodning. Den første sletning sker den {date}. Du kan slå det fra inden da."
+        },
         "retention": {
             "title": "GDPR Dataopbevaring",
             "retentionPeriod": "Opbevaringsperiode",
@@ -15227,6 +15293,9 @@
             "deletionCancelled": "Planlagt sletning annulleret"
         },
         "deletionLog": {
+            "statusJournalRun": "Statusser og journalnotater",
+            "statusJournalCounts": "{statuses} statusser, {journals} notater (før {date})",
+            "triggerStatusJournal": "Statusser og notater (automatisk)",
             "title": "Sletningslog",
             "fromDate": "Fra dato",
             "toDate": "Til dato",
@@ -16110,6 +16179,44 @@
             "revenue": "Omsætning",
             "billing": "Faktureringsudtræk"
         }
+    },
+    "monthlySheet": {
+        "title": "Månedsoversigt",
+        "subtitle": "Planlagte vagter, stemplet tid, fravær og ekstra timer for hver dag i måneden.",
+        "previousMonth": "Forrige måned",
+        "nextMonth": "Næste måned",
+        "month": "Måned",
+        "download": "Download",
+        "downloadPdf": "PDF",
+        "downloadExcel": "Excel",
+        "planned": "Planlagt",
+        "worked": "Arbejdet",
+        "clocked": "Stemplet",
+        "norm": "Norm",
+        "balance": "Saldo",
+        "absence": "Fravær",
+        "extraHours": "Ekstra timer",
+        "date": "Dato",
+        "plannedShift": "Planlagt vagt",
+        "plannedHours": "Planlagt",
+        "absenceColumn": "Fravær",
+        "clockedInOut": "Stemplet ind – ud",
+        "clockedHours": "Stemplet",
+        "extra": "Ekstra timer",
+        "difference": "Difference",
+        "remarks": "Bemærkninger",
+        "totals": "Måneden i alt",
+        "absenceByType": "Fravær fordelt på type",
+        "byShiftType": "Timer fordelt på vagttype",
+        "days": "dage",
+        "pending": "afventer",
+        "declined": "afvist",
+        "open": "ikke afsluttet",
+        "empty": "Der er ikke planlagt eller registreret noget i denne måned.",
+        "loadError": "Månedsoversigten kunne ikke hentes.",
+        "hint": "Arbejdede timer følger vagtplanen og er det samme tal som timestatistikken. Stemplede timer kommer fra tidsregistreringer og vises for sig.",
+        "clampedNote": "Norm og saldo dækker kun {start} – {end}.",
+        "pendingExtra": "{hours} afventer"
     },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",

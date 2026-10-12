@@ -44,6 +44,9 @@
                                     <tr v-for="(protocol, index) in state.protocols?.data" :key="index">
                                         <td width="25%">
                                             <span>{{ protocol?.name }}</span>
+                                            <Badge type="primary" class="w-fit mt-1" v-if="protocol?.recording_mode === 'clip'">
+                                                <p class="text-xs">{{ $t('protocols.form.clipCard') }}</p>
+                                            </Badge>
                                         </td>
                                         <td width="25%">
                                             <span>{{ formatDateToReadable(protocol?.start_date) }}</span>

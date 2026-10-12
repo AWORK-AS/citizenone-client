@@ -278,6 +278,7 @@ import { euDecimalValidation } from "@/composables/euDecimalValidation"
 import { medicineDosage } from "@/composables/medicineDosage"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
+import { medicineSelfAdministration } from '@/composables/medicineSelfAdministration'
 
 const props = defineProps({
     error: {
@@ -348,7 +349,7 @@ const state = reactive({
 
 onMounted(() => {
     fetchAllUsers()
-    fetchStatusTypesConfig()
+    fetchStatusTypesConfig().then(applySelfAdministeredDefault)
     fetchMedicineHistoryPerMedicine(moment(props.selectedMedicineHistory?.date).format('YYYY-MM-DD'))
     state.formMedicineHistory = {
         uuid: props.selectedMedicineHistory.uuid,
@@ -629,13 +630,33 @@ const doseConfirmationMessage = computed(() => {
     return message
 })
 
+// Task #115: a new entry for a self-administered medicine starts on "delivered"
+// (Udleveret) - staff hand it out - as the give-medicine window does. Only a new
+// entry: an existing one keeps what was recorded.
+const { defaultDoseType } = medicineSelfAdministration()
+const statusTypeFields = ref<Record<string, boolean> | null>(null)
+
+function newEntryType(): string {
+    if (props.formType !== 'create' || !props.selectedMedicine?.is_self_administered) return ''
+    return defaultDoseType(props.selectedMedicine, statusTypeFields.value)
+}
+
+function applySelfAdministeredDefault() {
+    const type = newEntryType()
+    if (!type) return
+    if (!state.formMedicineHistory.type) state.formMedicineHistory.type = type
+    state.formMedicineHistory.dosages.forEach((dosage: any) => {
+        if (!dosage.type) dosage.type = type
+    })
+}
+
 function generateDosage() {
     (props.selectedMedicine?.max_dosage_per_time ?? []).forEach((dosage: any) => {
         state.formMedicineHistory.dosages.push({
             medicine_uuid: props.selectedMedicine?.uuid,
             time: dosage?.time,
             dosage: '',
-            type: '',
+            type: newEntryType(),
             comment: '',
         })
     })
@@ -685,6 +706,7 @@ async function fetchStatusTypesConfig() {
         const config = response?.data?.find((c: any) => c.form_type === 'status_types')
         const formFields = config?.form_fields
         if (!formFields) return
+        statusTypeFields.value = formFields
 
         // Keep the current history entry's own type selectable even if the
         // company has since disabled it - editing existing data shouldn't break.
