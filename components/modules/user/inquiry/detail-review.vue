@@ -117,6 +117,9 @@ const OPTION_LABELS: Record<string, Record<string, string>> = {
 }
 
 function option(group: string, value: any) {
+    // The yes/no questions are stored as booleans: false is an answer ("No"),
+    // only null means nobody answered.
+    if (typeof value === 'boolean') value = value ? 'yes' : 'no'
     if (!value) return ''
     const key = OPTION_LABELS[group]?.[value]
     // An unmapped value is still worth showing raw - better than an empty box
