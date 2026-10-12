@@ -68,11 +68,8 @@
                     @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent">
                     <template #extra>
                         <div class="py-4" v-if="props.selectedSchedule.is_recurring">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.isDeleteFutureEvents = !state.isDeleteFutureEvents">
-                                <FormCheckbox id="delete_future_events" :value="state.isDeleteFutureEvents" />
-                                {{ $t('events.confirmation.deleteFutureEvents') }}
-                            </div>
+                            <ModulesUserMyCalendarRecurringScope v-model="state.deleteScope"
+                                :label="$t('events.recurringScope.deleteLabel')" />
                         </div>
                     </template>
                 </DialogConfirmation>
@@ -105,7 +102,7 @@ const state = reactive({
     modal: {
         isDeleteScheduleOpen: false,
     },
-    isDeleteFutureEvents: false,
+    deleteScope: 'this' as 'this' | 'this_and_following' | 'all',
 })
 
 function closeModal() {
@@ -114,12 +111,12 @@ function closeModal() {
 }
 
 function openDeleteConfirmation() {
-    state.isDeleteFutureEvents = false
+    state.deleteScope = 'this'
     state.modal.isDeleteScheduleOpen = true
 }
 
 function deleteMyCalendarEvent() {
     state.modal.isDeleteScheduleOpen = false
-    emit('deleteMyCalendarEvent', props.selectedSchedule, state.isDeleteFutureEvents)
+    emit('deleteMyCalendarEvent', props.selectedSchedule, state.deleteScope)
 }
 </script>

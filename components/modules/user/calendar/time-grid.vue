@@ -55,6 +55,9 @@
                             <span class="flex items-center gap-x-1">
                                 <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
                                 <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>
+                                <!-- Part of a repeating plan (task #133). -->
+                                <Icon v-if="ev.raw?.is_recurring" name="ph:repeat" class="h-3 w-3 flex-none opacity-80"
+                                    :title="$t('events.recurringScope.repeating')" />
                                 <!-- A journal note has been written from this booking. -->
                                 <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
                                     :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
