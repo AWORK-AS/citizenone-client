@@ -7365,6 +7365,14 @@
         "somethingWentWrong": "Vi har registreret denne feil. Du behøver ikke at gøre noe. Vi vender tilbake til dig raskst muligt"
     },
     "events": {
+        "recurringScope": {
+            "editLabel": "Bruk endringene på",
+            "deleteLabel": "Slett",
+            "this": "Bare denne hendelsen",
+            "thisAndFollowing": "Denne og de følgende hendelsene",
+            "all": "Alle hendelser i serien",
+            "repeating": "Gjentakende hendelse"
+        },
         "onlineMeeting": {
             "toggle": "Nettmøte",
             "linkLabel": "Møtelenke",
@@ -7404,7 +7412,7 @@
             "dateTimeEnd": "Slutt dato og tid",
             "datetimeStart": "Start dato og tid",
             "description": "Beskrivelse",
-            "employeeGroups": "Employee groups",
+            "employeeGroups": "Medarbeidergrupper",
             "employees": "Medarbeidere",
             "eventOwner": "Arrangementseier",
             "private": "Privat",
@@ -10491,6 +10499,7 @@
         },
         "recurring": "Gjentakende",
         "repeat": "Gjenta",
+        "repeatEvent": "Gjenta hendelsen",
         "until": "Inntil",
         "youAreEditingARecurringShift": "Du redigerer en gjentakende vakt"
     },

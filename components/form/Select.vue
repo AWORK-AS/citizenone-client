@@ -3,7 +3,7 @@
         :placeholder="props.placeholder"
         :canClear="props.canClear" :canDeselect="props.canDeselect" :no-options-text="$t('theListIsEmpty')"
         :noResultsText="$t('noResultFound')"
-        :appendToBody="props.appendToBody"
+        :appendToBody="props.appendToBody" :openDirection="props.openDirection"
         :createOption="props.createOption"
         :modelValue="props.modelValue" @update:modelValue="$emit('update:modelValue', $event)" />
 </template>
@@ -36,6 +36,13 @@ const props = defineProps({
     },
     modelValue: {
         default: null
+    },
+    // 'top' for a field near the bottom of a modal, whose panel clips a list
+    // opening downwards. (appendToBody escapes the clip but lands under the
+    // modal, and a click there counts as outside it.)
+    openDirection: {
+        type: String as () => 'top' | 'bottom',
+        default: 'bottom',
     },
     options: {
         type: Object,

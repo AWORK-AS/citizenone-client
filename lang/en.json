@@ -7365,6 +7365,14 @@
         "somethingWentWrong": "We have registered this error. You don't have to do anything. We will get back to you as soon as possible"
     },
     "events": {
+        "recurringScope": {
+            "editLabel": "Apply the changes to",
+            "deleteLabel": "Delete",
+            "this": "Only this event",
+            "thisAndFollowing": "This and the following events",
+            "all": "All events in the series",
+            "repeating": "Repeating event"
+        },
         "onlineMeeting": {
             "toggle": "Online meeting",
             "linkLabel": "Meeting link",
@@ -10496,6 +10504,7 @@
         },
         "recurring": "Recurring",
         "repeat": "Repeat",
+        "repeatEvent": "Repeat this event",
         "until": "Until",
         "youAreEditingARecurringShift": "You are editing a recurring shift"
     },

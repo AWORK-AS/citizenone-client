@@ -7365,6 +7365,14 @@
         "somethingWentWrong": "Vi har registrerad denna fel. Du behöver inte att göra något. Vi vender tillbaka till dig hurtigst muligt"
     },
     "events": {
+        "recurringScope": {
+            "editLabel": "Tillämpa ändringarna på",
+            "deleteLabel": "Radera",
+            "this": "Endast denna händelse",
+            "thisAndFollowing": "Denna och följande händelser",
+            "all": "Alla händelser i serien",
+            "repeating": "Återkommande händelse"
+        },
         "onlineMeeting": {
             "toggle": "Onlinemöte",
             "linkLabel": "Möteslänk",
@@ -7404,7 +7412,7 @@
             "dateTimeEnd": "Slut datum och tid",
             "datetimeStart": "Start datum och tid",
             "description": "Beskrivning",
-            "employeeGroups": "Employee groups",
+            "employeeGroups": "Medarbetargrupper",
             "employees": "Anställda",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
@@ -10490,7 +10498,8 @@
             }
         },
         "recurring": "Tilbagevendende",
-        "repeat": "Gentag",
+        "repeat": "Upprepa",
+        "repeatEvent": "Upprepa händelsen",
         "until": "Tills",
         "youAreEditingARecurringShift": "Du redigerer en gentagende pass"
     },
