@@ -51,7 +51,7 @@
 </template>
 
 <script setup lang="ts">
-import { formLabel } from '@/composables/inquiryForms'
+import { CONTACTED_BY_LABELS, formLabel } from '@/composables/inquiryForms'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
@@ -72,15 +72,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 // The same option values the two forms offer, so a stored value reads here
 // exactly as it read in the dropdown that set it.
 const OPTION_LABELS: Record<string, Record<string, string>> = {
-    contacted_by: {
-        the_citizen_themselves: 'inquiries.form.options.contactedBy.theCitizenThemselves',
-        family_friend_neighbor_colleague_acquaintance: 'inquiries.form.options.contactedBy.familyFriends',
-        municipal_employee: 'inquiries.form.options.contactedBy.municipalEmployee',
-        police_prison_and_probation_service: 'inquiries.form.options.contactedBy.police',
-        healthcare_professional: 'inquiries.form.options.contactedBy.healthcareProfessional',
-        employee_from_another_crisis_center: 'inquiries.form.options.contactedBy.employeeFromAnotherCrisisCenter',
-        other: 'inquiries.form.options.contactedBy.other',
-    },
+    contacted_by: CONTACTED_BY_LABELS,
     assessment: {
         yes: 'inquiries.form.options.assessment.yes',
         no: 'inquiries.form.options.assessment.no',

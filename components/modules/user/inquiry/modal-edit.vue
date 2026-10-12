@@ -3,18 +3,28 @@
         <Modal size="lg" :title="modalTitle" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <!-- Opening an inquiry is for reading it. Editing is a decision the
-                         user makes after that, not the thing they land in. -->
-                    <ModulesUserInquiryDetailReview v-if="!state.isEditing && hasKnownType"
-                        :inquiry="props.selectedInquiry" @edit="state.isEditing = true"
-                        @fieldsSaved="refreshInquiries" />
-                    <ModulesUserInquiryModalCrisisCenterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'crisis_center'" formType="update" :selectedInquiry="props.selectedInquiry"
+                    <!-- Rediger means edit: the page behind already shows the review,
+                         so the form opens straight away. Keyed on each open, so the
+                         form always starts from the inquiry as it is now. -->
+                    <ModulesUserInquiryModalCrisisCenterForm v-if="props.selectedInquiry.inquiry_type === 'crisis_center'" :key="'crisis-' + state.openCount"
+                        formType="update" :selectedInquiry="props.selectedInquiry"
                         :form="props.selectedInquiry.form ?? null"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="stopEditing" @submitForm="updateCrisisCenterInquiry" />
-                    <ModulesUserInquiryModalShelterForm v-if="state.isEditing && props.selectedInquiry.inquiry_type === 'shelter'" formType="update" :selectedInquiry="props.selectedInquiry"
+                        @closeModal="closeModal" @submitForm="updateCrisisCenterInquiry">
+                        <template #after-fields>
+                            <ModulesUserInquiryFieldsBlock v-if="props.selectedInquiry.uuid" ref="fieldsBlock" embedded
+                                :inquiryUuid="props.selectedInquiry.uuid" />
+                        </template>
+                    </ModulesUserInquiryModalCrisisCenterForm>
+                    <ModulesUserInquiryModalShelterForm v-if="props.selectedInquiry.inquiry_type === 'shelter'" :key="'shelter-' + state.openCount"
+                        formType="update" :selectedInquiry="props.selectedInquiry"
                         :form="props.selectedInquiry.form ?? null" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="stopEditing" @submitForm="updateShelterInquiry" />
+                        @closeModal="closeModal" @submitForm="updateShelterInquiry">
+                        <template #after-fields>
+                            <ModulesUserInquiryFieldsBlock v-if="props.selectedInquiry.uuid" ref="fieldsBlock" embedded
+                                :inquiryUuid="props.selectedInquiry.uuid" />
+                        </template>
+                    </ModulesUserInquiryModalShelterForm>
                     <!-- Neither form fits: the inquiry has no type, which happens to
                          imported rows and to anything created straight through the API.
                          Say so instead of showing an empty box. -->
@@ -71,23 +81,35 @@ const emit = defineEmits(['close', 'refreshInquiries'])
 
 const state = reactive({
     error: {} as Error,
-    isEditing: false,
-    isPageLoading: false
+    isPageLoading: false,
+    openCount: 0,
 })
 
-// Every open starts on the review, including reopening the same inquiry.
+// The custom fields in the form, saved by the same button as the rest.
+const fieldsBlock = ref<any>(null)
+
+// Every open starts from the inquiry as loaded, including reopening the same one.
 watch(() => props.isModalOpen, (open: boolean) => {
     if (open) {
-        state.isEditing = false
+        state.openCount++
         state.error = {}
     }
 })
 
-// Cancelling an edit returns to the review rather than throwing the user out of
-// the inquiry altogether.
-function stopEditing() {
-    state.isEditing = false
-    state.error = {}
+/**
+ * The inquiry itself is saved; now its custom fields, if any changed. They go
+ * through the block's own save, the same one the inquiry page uses. If that
+ * fails the block says why and the form stays open with the answers in it.
+ */
+async function finishSave() {
+    if (fieldsBlock.value?.isDirty && !(await fieldsBlock.value.save())) {
+        refreshInquiries()
+        return
+    }
+
+    refreshInquiries()
+    closeModal()
+    successAlert(`${t('alert.success')}!`, `${t('inquiries.form.alert.inquirySuccessfullyUpdated')}.`)
 }
 
 function closeModal() {
@@ -127,9 +149,7 @@ async function updateCrisisCenterInquiry(inquiryDetails: any) {
         }
         const response = await citizenInquiryService.updateInquiry(inquiryUuid, params)
         if (response?.data) {
-            refreshInquiries()
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('inquiries.form.alert.inquirySuccessfullyUpdated')}.`)
+            await finishSave()
         }
     } catch (error: any) {
         state.error = error
@@ -167,9 +187,7 @@ async function updateShelterInquiry(inquiryDetails: any) {
         }
         const response = await citizenInquiryService.updateInquiry(inquiryUuid, params)
         if (response?.data) {
-            refreshInquiries()
-            closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('inquiries.form.alert.inquirySuccessfullyUpdated')}.`)
+            await finishSave()
         }
     } catch (error: any) {
         state.error = error

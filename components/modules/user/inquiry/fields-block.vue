@@ -135,8 +135,10 @@
             </div>
         </section>
 
-        <!-- Nothing to save until something actually changed. -->
-        <div v-if="isDirty" class="flex items-center justify-end gap-3 border-t border-surface-200 pt-4">
+        <!-- Nothing to save until something actually changed. Inside the edit
+             form the form's own button saves these too, so this bar would be a
+             second way to do the same thing. -->
+        <div v-if="isDirty && !props.embedded" class="flex items-center justify-end gap-3 border-t border-surface-200 pt-4">
             <FormButton type="button" buttonStyle="cancel" @click="reset">
                 {{ $t('cancel') }}
             </FormButton>
@@ -164,6 +166,12 @@ const props = defineProps({
     inquiryUuid: {
         type: String,
         required: true,
+    },
+    // Part of the inquiry's edit form: saved by that form's button, which
+    // also says it worked, instead of by a bar of its own.
+    embedded: {
+        type: Boolean,
+        default: false,
     },
 })
 
@@ -368,7 +376,8 @@ function reset() {
     draft.value = { ...loaded.value }
 }
 
-async function save() {
+async function save(): Promise<boolean> {
+    let saved = false
     state.isSaving = true
     try {
         // Only what changed is sent, so a field another user filled in meanwhile
@@ -391,11 +400,19 @@ async function save() {
         loaded.value = answers
         draft.value = { ...answers }
 
-        successAlert(`${t('alert.success')}!`, `${t('inquiryFields.alert.saved')}.`)
+        if (!props.embedded) {
+            successAlert(`${t('alert.success')}!`, `${t('inquiryFields.alert.saved')}.`)
+        }
         emit('saved')
+        saved = true
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryFields.alert.saveFailed'))
     }
     state.isSaving = false
+
+    return saved
 }
+
+// The edit form saves these with its own button.
+defineExpose({ save, isDirty })
 </script>

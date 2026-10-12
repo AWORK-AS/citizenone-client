@@ -171,6 +171,8 @@
                 </section>
                 <ModulesUserInquiryMatchNeedsBlock :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
                     :error="props.error" @update="(value: any) => matchNeeds = value" />
+                <!-- Whatever else the edit carries, saved by the same button. -->
+                <slot name="after-fields" />
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -234,8 +236,17 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
  * without a service type, or a type nobody has configured, asks for all of
  * them - which is what every form did before the setting existed.
  */
-function asksFor(field: string): boolean {
+function formAsks(field: string): boolean {
     return asksForField(field, props.form as any, props.serviceType as any)
+}
+
+/**
+ * Whether the field is shown. An edit shows every field: the inquiry page
+ * lists them all, so each one it lists can be corrected here. Only what the
+ * form asks for is required, so a field it leaves out never blocks a save.
+ */
+function asksFor(field: string): boolean {
+    return props.formType === 'update' || formAsks(field)
 }
 
 const { t, locale } = useI18n()
@@ -342,6 +353,14 @@ onMounted(() => {
     fetchGuidanceListOptions()
 })
 
+// An edit reads a stored boolean as the yes/no the select offers; a new
+// inquiry's own draft is already yes/no or empty.
+function yesNoFrom(value: any) {
+    if (props.formType !== 'update') return value || ''
+
+    return value ? 'yes' : 'no'
+}
+
 watch(() => props.selectedInquiry, (newValue: any) => {
     if (newValue != null) {
         state.formInquiry = {
@@ -359,7 +378,9 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             purpose: newValue.purpose,
             topic_uuid: newValue.topic_uuid || [],
             target_group_crisis_center: newValue.target_group_crisis_center || [],
-            received_visit: newValue.received_visit || '',
+            // Stored as a boolean, chosen as yes/no: read the same way as on mount,
+            // or a refresh while editing empties the question.
+            received_visit: yesNoFrom(newValue.received_visit),
             assessment_uuid: newValue.assessment_uuid || [],
             guidance_uuid: newValue.guidance_uuid || [],
             conversation_summary: newValue.conversation_summary,
@@ -379,12 +400,12 @@ const rules = computed(() => {
             },
             // A field the form does not show cannot be filled in, so it is not
             // required: requiring it made the form impossible to send.
-            ...(asksFor('inquirer_name') ? {
+            ...(formAsks('inquirer_name') ? {
                 inquirer_name: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             } : {}),
-            ...(asksFor('conversation_summary') ? {
+            ...(formAsks('conversation_summary') ? {
                 conversation_summary: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
