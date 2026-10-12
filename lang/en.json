@@ -4797,6 +4797,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Day load",
+            "help": "Staff on duty each day – counted over all employees, not just this page – against the departments' minimum staffing. Red means below the minimum.",
+            "hoursShort": "{hours} h",
+            "onDuty": "{count} on duty",
+            "plannedHours": "{hours} planned hours",
+            "shifts": "{count} shifts",
+            "absent": "{count} absent",
+            "openSlots": "{count} open shifts",
+            "minimum": "Minimum staffing: {count}",
+            "missing": "{count} short"
+        },
         "allDay": "All day",
         "groups": {
             "collapse": "Collapse department",
