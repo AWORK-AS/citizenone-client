@@ -1140,8 +1140,12 @@
                                                             </div>
                                                         </div>
                                                     </Tooltip>
-                                                    <div v-for="(shift, shiftIndex) in visibleShifts(employee, weekIndex as string, week?.shifts)"
-                                                        :key="shiftIndex" :class="[
+                                                    <Tooltip v-for="(shift, shiftIndex) in visibleShifts(employee, weekIndex as string, week?.shifts)"
+                                                        :key="shiftIndex"
+                                                        :text="$t('dutySchedules.moveShiftTooltip')"
+                                                        :disabled="!(isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)) || isHoveringShiftAction"
+                                                        position="top" class="!block w-full [&>div]:w-full">
+                                                    <div :class="[
                                                             'rounded-lg relative mb-1.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20',
                                                             isShiftLocked(shift?.date_time_start) && 'opacity-60',
                                                             isSpanHighlighted(shift) && 'outline outline-2 outline-offset-2 outline-primary-400 shadow-lg'
@@ -1187,6 +1191,10 @@
                                                             </Tooltip>
                                                         </div>
                                                         <div v-if="isWorkedHolidayShift(shift)" class="h-2" />
+                                                        <Tooltip :text="$t('dutySchedules.editShiftTooltip')"
+                                                            :disabled="!((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) || isHoveringTimeField"
+                                                            position="top" class="!block w-full [&>div]:w-full"
+                                                            @mouseenter="isHoveringShiftAction = true" @mouseleave="isHoveringShiftAction = false">
                                                         <div class="flex flex-col lg:flex-row lg:items-center lg:flex-wrap text-white cursor-pointer px-1.5 sm:px-2 pt-1 sm:pt-1.5 pb-0.5"
                                                             @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                             <!-- Start time -->
@@ -1198,7 +1206,8 @@
                                                                 </div>
                                                                 <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'start')"
                                                                     :text="$t('dutySchedules.quickEditTime.tooltip')"
-                                                                    :disabled="!canQuickEditShift(shift)">
+                                                                    :disabled="!canQuickEditShift(shift)"
+                                                                    @mouseenter="isHoveringTimeField = true" @mouseleave="isHoveringTimeField = false">
                                                                     <span
                                                                         class="text-xs 2xl:text-sm font-bold text-white tracking-tight leading-none"
                                                                         @click="handleTimeClick($event, employeeIndex, weekIndex, shift, shiftIndex, 'start')">
@@ -1225,7 +1234,8 @@
                                                             <div v-if="shift?.date_time_start && shift?.date_time_end" class="flex items-center gap-0.5 mt-0.5 sm:mt-0">
                                                                 <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'end')"
                                                                     :text="$t('dutySchedules.quickEditTime.tooltip')"
-                                                                    :disabled="!canQuickEditShift(shift)">
+                                                                    :disabled="!canQuickEditShift(shift)"
+                                                                    @mouseenter="isHoveringTimeField = true" @mouseleave="isHoveringTimeField = false">
                                                                     <span
                                                                         class="text-xs 2xl:text-sm font-bold text-white/80 sm:text-white tracking-tight leading-none"
                                                                         @click="handleTimeClick($event, employeeIndex, weekIndex, shift, shiftIndex, 'end')">
@@ -1254,9 +1264,11 @@
                                                                 </span>
                                                             </div>
                                                         </div>
+                                                        </Tooltip>
                                                         <Tooltip v-if="shift?.hours !== null && shift?.hours !== undefined"
                                                             :text="shiftHoursTooltip(shift)"
-                                                            position="left" :wrap="true">
+                                                            position="left" :wrap="true"
+                                                            @mouseenter="isHoveringShiftAction = true" @mouseleave="isHoveringShiftAction = false">
                                                             <!-- Opens the shift too: on a compact card the times fill the
                                                                  top line, and a click on a time is a quick edit. -->
                                                             <div
@@ -1447,6 +1459,7 @@
                                                             </Menu>
                                                         </button>
                                                     </div>
+                                                    </Tooltip>
                                                     <Tooltip v-if="hiddenShiftCount(employee, weekIndex as string, week?.shifts) > 0"
                                                         class="!block w-full [&>div]:w-full"
                                                         :text="$t('dutySchedules.moreShifts', { count: hiddenShiftCount(employee, weekIndex as string, week?.shifts) })">
@@ -1648,6 +1661,12 @@ const dutyScheduleStore = useDutyScheduleStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
 const { isDateLocked, scheduleLockCutoff } = useScheduleLock()
+// Hides the card-wide "drag to move" tooltip while the pointer is over a
+// more specific hotspot (the edit row, the hours icon) that has its own tooltip.
+const isHoveringShiftAction = ref(false)
+// Hides the "click to edit this shift" tooltip while the pointer is over the
+// start/end time text specifically, which has its own quick-edit-time tooltip.
+const isHoveringTimeField = ref(false)
 const favoriteEmployees = useFavoriteEmployees()
 
 // Holiday markers only show for companies that opted in to holiday hours.

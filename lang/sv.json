@@ -5201,6 +5201,8 @@
         "holidayWorkedTooltip": "Du arbetar på en helgdag. Passets timmar multipliceras med organisationens helgdagsfaktor (t.ex. ×1,5) och visas både under passtypen och som helgdagstimmar.",
         "holidayNonWorkedTooltip": "Den här dagen är en helgdag. Du får helgdagstimmar även om inget pass är registrerat.",
         "lockedShiftTooltip": "Detta pass är låst och kan endast redigeras av en administratör.",
+        "editShiftTooltip": "Klicka för att redigera detta pass",
+        "moveShiftTooltip": "Dra för att flytta detta pass",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
