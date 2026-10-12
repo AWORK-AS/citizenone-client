@@ -10271,6 +10271,7 @@
         },
         "recurring": "Recurring",
         "repeat": "Repeat",
+        "repeatEvent": "Repeat this event",
         "until": "Until",
         "youAreEditingARecurringShift": "You are editing a recurring shift"
     },

@@ -7277,7 +7277,7 @@
             "dateTimeEnd": "Slut datum och tid",
             "datetimeStart": "Start datum och tid",
             "description": "Beskrivning",
-            "employeeGroups": "Employee groups",
+            "employeeGroups": "Medarbetargrupper",
             "employees": "Anställda",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
@@ -10265,7 +10265,8 @@
             }
         },
         "recurring": "Tilbagevendende",
-        "repeat": "Gentag",
+        "repeat": "Upprepa",
+        "repeatEvent": "Upprepa händelsen",
         "until": "Tills",
         "youAreEditingARecurringShift": "Du redigerer en gentagende pass"
     },

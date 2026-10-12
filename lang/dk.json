@@ -7277,7 +7277,7 @@
             "dateTimeEnd": "Slut dato og tid",
             "datetimeStart": "Start dato og tid",
             "description": "Beskrivelse",
-            "employeeGroups": "Employee groups",
+            "employeeGroups": "Medarbejdergrupper",
             "employees": "Medarbejdere",
             "eventOwner": "Begivenhedsejer",
             "private": "Privat",
@@ -10271,6 +10271,7 @@
         },
         "recurring": "Tilbagevendende",
         "repeat": "Gentag",
+        "repeatEvent": "Gentag begivenheden",
         "until": "Indtil",
         "youAreEditingARecurringShift": "Du redigerer en gentagende vagt"
     },

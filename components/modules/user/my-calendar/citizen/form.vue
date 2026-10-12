@@ -90,13 +90,13 @@
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.recurring.is_recurring = !state.formSchedule.recurring.is_recurring">
                     <FormCheckbox :value="state.formSchedule.recurring.is_recurring" />
-                    {{ $t('bookings.formEvent.information.createMultipleEvents') }}
+                    {{ $t('recurring.repeatEvent') }}
                 </div>
             </div>
             <div class="space-y-3" v-if="state.formSchedule.recurring.is_recurring">
                 <div class="space-y-1">
                     <FormLabel for="recurring" :label="$t('recurring.repeat')" />
-                    <FormSelect id="recurring" :options="state.options.recurring.recurringSchedules"
+                    <FormSelect id="recurring" openDirection="top" :options="state.options.recurring.recurringSchedules"
                         v-model="state.formSchedule.recurring.recurring" />
                     <FormError :error="v$?.formSchedule?.recurring.recurring?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
@@ -112,7 +112,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <FormLabel for="frequency" :label="$t('recurring.frequency.frequency')" />
-                            <FormSelect id="frequency" :options="state.options.recurring.frequency"
+                            <FormSelect id="frequency" openDirection="top" :options="state.options.recurring.frequency"
                                 v-model="state.formSchedule.recurring.frequency" />
                             <FormError
                                 :error="v$?.formSchedule?.recurring.frequency?.$errors[0]?.$message.toString()" />
@@ -124,7 +124,7 @@
                                     state.formSchedule.recurring.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
                                         $t('recurring.frequency.yearly.years')
                                 })`" />
-                            <FormSelect id="daily_every" :options="state.formSchedule.recurring.frequency === 'daily' ? state.options.recurring.zeroTo999Days :
+                            <FormSelect id="daily_every" openDirection="top" :options="state.formSchedule.recurring.frequency === 'daily' ? state.options.recurring.zeroTo999Days :
                                 state.formSchedule.recurring.frequency === 'weekly' ? state.options.recurring.zeroTo999Weeks :
                                     state.formSchedule.recurring.frequency === 'monthly' ? state.options.recurring.zeroTo999Months :
                                         state.options.recurring.zeroTo999Years"
@@ -166,7 +166,7 @@
                             <div v-else>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <FormSelect id="monthly_on_the_sequence"
+                                        <FormSelect id="monthly_on_the_sequence" openDirection="top"
                                             :options="state.options.recurring.monthlyOnTheSequences"
                                             v-model="state.formSchedule.recurring.monthly_on_the_sequence" />
                                         <FormError
@@ -174,7 +174,7 @@
                                         <FormError :error="state?.error?.errors?.monthly_on_the_sequence?.[0]" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormSelect id="monthly_on_the_day"
+                                        <FormSelect id="monthly_on_the_day" openDirection="top"
                                             :options="state.options.recurring.monthlyOnTheDays"
                                             v-model="state.formSchedule.recurring.monthly_on_the_day" />
                                         <FormError
@@ -205,7 +205,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                                     v-if="state.formSchedule.recurring.yearly_on_the_enabled">
                                     <div class="space-y-1">
-                                        <FormSelect id="yearly_on_the_sequence"
+                                        <FormSelect id="yearly_on_the_sequence" openDirection="top"
                                             :options="state.options.recurring.yearlyOnTheSequences"
                                             v-model="state.formSchedule.recurring.yearly_on_the_sequence" />
                                         <FormError
@@ -213,7 +213,7 @@
                                         <FormError :error="state?.error?.errors?.yearly_on_the_sequence?.[0]" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormSelect id="yearly_on_the_day"
+                                        <FormSelect id="yearly_on_the_day" openDirection="top"
                                             :options="state.options.recurring.yearlyOnTheDays"
                                             v-model="state.formSchedule.recurring.yearly_on_the_day" />
                                         <FormError

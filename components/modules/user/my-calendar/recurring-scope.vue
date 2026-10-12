@@ -4,7 +4,7 @@
         <legend class="text-sm font-medium text-gray-700 mb-1">{{ props.label }}</legend>
         <label v-for="option in options" :key="option.value"
             class="flex items-center gap-x-2 cursor-pointer text-sm text-gray-700">
-            <input type="radio" class="w-4 h-4 text-primary focus:ring-primary" :name="name" :value="option.value"
+            <input type="radio" class="w-4 h-4 rounded-full border-gray-300 text-primary focus:ring-primary" :name="name" :value="option.value"
                 :checked="props.modelValue === option.value"
                 @change="emit('update:modelValue', option.value)" />
             {{ option.label }}
