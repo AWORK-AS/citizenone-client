@@ -6,6 +6,16 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
+                    <!-- Task #115: self-administered - staff only hand it out. -->
+                    <div v-if="isSelfAdministered" role="note"
+                        class="rounded-xl bg-violet-600 px-4 py-3 flex items-start gap-3 text-white">
+                        <Icon name="ph:hand-palm-fill" class="size-5 shrink-0 mt-0.5" aria-hidden="true" />
+                        <div>
+                            <p class="text-sm font-semibold">{{ $t('citizens.medicineJournals.selfAdministered.label') }}</p>
+                            <p class="text-xs text-violet-100 mt-0.5">{{ $t('citizens.medicineJournals.selfAdministered.banner') }}</p>
+                        </div>
+                    </div>
+
                     <!-- Medicine context banner -->
                     <div class="rounded-xl bg-blue-50 border border-blue-200 px-4 py-3 flex items-start gap-3">
                         <Icon name="ph:pill" class="size-5 text-blue-600 shrink-0 mt-0.5" />
@@ -340,6 +350,8 @@ import { medicineHistoryService } from '@/components/api/user/MedicineHistorySer
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
+import { medicineSelfAdministration } from '@/composables/medicineSelfAdministration'
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -396,6 +408,24 @@ const typeOptions = computed(() => [
         inactiveClass: 'bg-white text-red-600 border-red-300 hover:bg-red-50',
     },
 ])
+
+const { defaultDoseType } = medicineSelfAdministration()
+const isSelfAdministered = computed(() => !!props.selectedMedicine?.is_self_administered)
+// The company's status settings (citizen_medicine_history / status_types); null
+// until loaded, which counts as "everything allowed".
+const statusTypeFields = ref<Record<string, boolean> | null>(null)
+
+async function loadStatusTypeFields() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine_history' })
+        statusTypeFields.value = response?.data?.find((c: any) => c.form_type === 'status_types')?.form_fields ?? null
+    } catch {
+        statusTypeFields.value = null
+    }
+}
+
+/** "delivered" for a self-administered medicine (where allowed), otherwise "given". */
+const defaultType = computed(() => defaultDoseType(props.selectedMedicine, statusTypeFields.value))
 
 const medicineName = computed(() =>
     language.locale.value === 'en'
@@ -737,10 +767,14 @@ watch(() => props.isModalOpen, async (val) => {
         state.error = null
         await buildSlots(initDate)
         fetchMonthDosageStatus()
-        // If a specific time was preselected, auto-select 'given' for that slot
+        // If a specific time was preselected, auto-select that slot - handed out
+        // for a self-administered medicine, given otherwise (task #115).
         if (props.preselectedTime) {
+            if (isSelfAdministered.value) await loadStatusTypeFields()
             const slot = state.slots.find(s => s.time === props.preselectedTime && !s.status)
-            if (slot) slot.selectedType = 'given'
+            if (slot) slot.selectedType = defaultType.value
+        } else if (isSelfAdministered.value) {
+            loadStatusTypeFields()
         }
     }
 })

@@ -5,6 +5,11 @@ class CitizenProtocolService extends BaseAPIService {
         return await this.request(`/citizen/protocols`, 'GET', params)
     }
 
+    // Task 136: the citizen's own clip cards, read-only.
+    async getClipCards(): Promise<any> {
+        return await this.request(`/citizen/protocols/clip-cards`, 'GET')
+    }
+
     async getProtocol(uuid: string): Promise<any> {
         return await this.request(`/citizen/protocols/${uuid}`, 'GET')
     }

@@ -16,8 +16,8 @@
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
-                    <!-- Retention settings card -->
-                    <LoadingSpinner :isActive="state.isPageLoading">
+                    <!-- Retention settings card (citizen retention is for employment services only) -->
+                    <LoadingSpinner v-if="isEmploymentServices" :isActive="state.isPageLoading">
                         <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm max-w-2xl">
                             <div class="mb-5">
                                 <h2 class="text-[16px] font-semibold text-[#1F2533]">
@@ -83,8 +83,70 @@
                         </div>
                     </LoadingSpinner>
 
+                    <!-- Statuses and journal notes: a rolling rule, switched on by an administrator, any sector -->
+                    <LoadingSpinner :isActive="state.isRuleLoading">
+                        <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm max-w-2xl"
+                            data-testid="status-journal-retention">
+                            <div class="mb-5">
+                                <h2 class="text-[16px] font-semibold text-[#1F2533]">
+                                    {{ $t('gdpr.statusJournal.title') }}
+                                </h2>
+                                <p class="text-sm text-[#5C6478] mt-1">{{ $t('gdpr.statusJournal.hint') }}</p>
+                            </div>
+
+                            <div class="flex items-center justify-between py-4 border-t border-[#EAECF0]">
+                                <div class="pr-4">
+                                    <p class="text-[14px] font-medium text-[#1F2533]">{{ $t('gdpr.statusJournal.statusSwitch') }}</p>
+                                    <p class="text-[12px] text-[#8891A4] mt-0.5">{{ $t('gdpr.statusJournal.statusSwitchHint') }}</p>
+                                    <p v-if="state.preview" class="text-[12px] text-[#5C6478] mt-1" data-testid="status-preview">
+                                        {{ state.saved.status_retention_enabled && state.firstRunAt
+                                            ? $t('gdpr.statusJournal.previewOn', { statuses: state.preview.statuses, date: formatDateToReadable(state.firstRunAt) })
+                                            : $t('gdpr.statusJournal.previewOff', { statuses: state.preview.statuses }) }}
+                                    </p>
+                                </div>
+                                <FormSwitch :value="state.rule.status_retention_enabled"
+                                    :label="$t('gdpr.statusJournal.statusSwitch')" @toggleSwitch="toggleStatusRule" />
+                            </div>
+
+                            <div class="flex items-center justify-between py-4 border-t border-[#EAECF0]"
+                                :class="state.rule.status_retention_enabled ? '' : 'opacity-50'">
+                                <div class="pr-4">
+                                    <p class="text-[14px] font-medium text-[#1F2533]">{{ $t('gdpr.statusJournal.journalSwitch') }}</p>
+                                    <p class="text-[12px] text-[#8891A4] mt-0.5">{{ $t('gdpr.statusJournal.journalSwitchHint') }}</p>
+                                    <p v-if="state.preview && state.rule.journal_retention_enabled" class="text-[12px] text-[#5C6478] mt-1"
+                                        data-testid="journal-preview">
+                                        {{ $t('gdpr.statusJournal.previewJournals', { journals: state.preview.journals }) }}
+                                    </p>
+                                </div>
+                                <FormSwitch :value="state.rule.journal_retention_enabled"
+                                    :disabled="!state.rule.status_retention_enabled"
+                                    :label="$t('gdpr.statusJournal.journalSwitch')" @toggleSwitch="toggleJournalRule" />
+                            </div>
+
+                            <p class="text-[12px] text-[#8891A4] border-t border-[#EAECF0] pt-4">
+                                {{ $t('gdpr.statusJournal.lessHistory') }}
+                            </p>
+                            <p v-if="state.saved.status_retention_enabled && state.firstRunAt"
+                                class="text-[13px] font-medium text-[#1F2533] mt-3" data-testid="next-run">
+                                {{ $t('gdpr.statusJournal.nextRun', { date: formatDateToReadable(state.firstRunAt) }) }}
+                            </p>
+
+                            <div class="flex items-center justify-end gap-x-2 mt-6 pt-4 border-t border-[#EAECF0]">
+                                <!-- Elsewhere the log is reached from the scheduled deletions, which only employment services have. -->
+                                <FormButton v-if="!isEmploymentServices" buttonStyle="action"
+                                    @click="navigateTo('/settings/gdpr-retention/deletion-log')">
+                                    <Icon name="ph:clock-clockwise" class="w-4 h-4" />
+                                    {{ $t('gdpr.retention.viewDeletionLog') }}
+                                </FormButton>
+                                <FormButton buttonStyle="primary" @click="saveRule" :disabled="state.isSaving || !ruleChanged">
+                                    {{ state.isSaving ? $t('saving') : $t('save') }}
+                                </FormButton>
+                            </div>
+                        </div>
+                    </LoadingSpinner>
+
                     <!-- Scheduled deletions -->
-                    <div>
+                    <div v-if="isEmploymentServices">
                         <div class="flex items-center justify-between mb-3">
                             <h2 class="text-[16px] font-semibold text-[#1F2533]">
                                 {{ $t('gdpr.retention.scheduledDeletions') }}
@@ -149,6 +211,9 @@
                 </div>
             </div>
 
+            <DialogConfirmation :isModalOpen="state.modal.isEnableRuleOpen"
+                :message="$t('gdpr.statusJournal.confirmEnable', { date: formatDateToReadable(ruleStartDate) })"
+                @close="state.modal.isEnableRuleOpen = false" @confirm="confirmEnableRule" />
             <DialogConfirmation :isModalOpen="state.modal.isCancelOpen"
                 :message="$t('gdpr.retention.cancelDeletionConfirmation') + '?'"
                 @close="state.modal.isCancelOpen = false" @confirm="cancelDeletion" />
@@ -170,9 +235,22 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 
-onMounted(() => {
+// Citizen retention and scheduled deletions are for employment services; the status/journal rule is for every company.
+const isEmploymentServices = computed(() => userStore.getUser?.company?.industry?.system_name === 'employment_services')
+
+function fetchEmploymentRetention() {
     fetchRetentionSettings()
     fetchScheduledDeletions()
+}
+
+onMounted(() => {
+    fetchStatusJournalRule()
+    if (isEmploymentServices.value) fetchEmploymentRetention()
+})
+
+// The user can finish loading after the page mounts.
+watch(isEmploymentServices, (isEmployment: boolean, wasEmployment: boolean) => {
+    if (isEmployment && !wasEmployment) fetchEmploymentRetention()
 })
 
 const breadcrumbLinks = [
@@ -188,6 +266,7 @@ const retentionOptions = computed(() => [
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    isRuleLoading: false,
     isSaving: false,
     isTableLoading: false,
     form: {
@@ -195,7 +274,12 @@ const state = reactive({
         auto_delete_enabled: false,
         notify_before_deletion: true,
     },
-    modal: { isCancelOpen: false },
+    // The status/journal rule: what is on screen, and what the server has.
+    rule: { status_retention_enabled: false, journal_retention_enabled: false },
+    saved: { status_retention_enabled: false, journal_retention_enabled: false },
+    firstRunAt: null as string | null,
+    preview: null as { statuses: number, journals: number } | null,
+    modal: { isCancelOpen: false, isEnableRuleOpen: false },
     scheduledDeletions: [] as any[],
     selectedItem: null as any,
 })
@@ -216,6 +300,17 @@ async function fetchRetentionSettings() {
     state.isPageLoading = false
 }
 
+async function fetchStatusJournalRule() {
+    state.isRuleLoading = true
+    try {
+        const response = await gdprService.getStatusJournalRule()
+        if (response?.data) applyRule(response.data)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isRuleLoading = false
+}
+
 async function fetchScheduledDeletions() {
     state.isTableLoading = true
     try {
@@ -225,6 +320,67 @@ async function fetchScheduledDeletions() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function applyRule(data: any) {
+    state.saved.status_retention_enabled = !!data.status_retention_enabled
+    state.saved.journal_retention_enabled = !!data.journal_retention_enabled
+    state.rule.status_retention_enabled = state.saved.status_retention_enabled
+    state.rule.journal_retention_enabled = state.saved.journal_retention_enabled
+    state.firstRunAt = data.first_run_at ?? null
+    state.preview = data.preview ?? null
+}
+
+const ruleChanged = computed(() =>
+    state.rule.status_retention_enabled !== state.saved.status_retention_enabled
+    || state.rule.journal_retention_enabled !== state.saved.journal_retention_enabled)
+
+// Switching either one on starts a new seven-day notice period, so it asks first.
+const turnsRuleOn = computed(() =>
+    (state.rule.status_retention_enabled && !state.saved.status_retention_enabled)
+    || (state.rule.journal_retention_enabled && !state.saved.journal_retention_enabled))
+
+const ruleStartDate = computed(() => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10))
+
+function toggleStatusRule() {
+    state.rule.status_retention_enabled = !state.rule.status_retention_enabled
+    // The journal switch depends on this one.
+    if (!state.rule.status_retention_enabled) state.rule.journal_retention_enabled = false
+}
+
+function toggleJournalRule() {
+    if (!state.rule.status_retention_enabled) return
+    state.rule.journal_retention_enabled = !state.rule.journal_retention_enabled
+}
+
+function saveRule() {
+    if (turnsRuleOn.value) {
+        state.modal.isEnableRuleOpen = true
+        return
+    }
+    persistRule()
+}
+
+function confirmEnableRule() {
+    state.modal.isEnableRuleOpen = false
+    persistRule()
+}
+
+async function persistRule() {
+    state.isSaving = true
+    state.error = {} as Error
+    try {
+        // Its own endpoint: open to every sector, and it leaves unsaved citizen retention edits alone.
+        const response = await gdprService.saveStatusJournalRule({
+            status_retention_enabled: state.rule.status_retention_enabled,
+            journal_retention_enabled: state.rule.journal_retention_enabled,
+        })
+        if (response?.data) applyRule(response.data)
+        successAlert(`${t('alert.success')}!`, `${t('gdpr.retention.settingsSaved')}.`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isSaving = false
 }
 
 async function saveSettings() {

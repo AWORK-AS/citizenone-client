@@ -146,7 +146,10 @@
                                             <p class="text-sm font-medium text-gray-800 truncate">
                                                 {{ (row.medicine.citizen?.firstname || '') + ' ' + (row.medicine.citizen?.lastname || '') }}
                                             </p>
-                                            <p class="text-xxs text-gray-500 truncate">{{ medName(row.medicine) }}</p>
+                                            <p class="text-xxs text-gray-500 truncate flex items-center gap-1">
+                                                <span class="truncate">{{ medName(row.medicine) }}</span>
+                                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="row.medicine?.is_self_administered" compact />
+                                            </p>
                                         </div>
                                         <Tooltip :text="statusLabel(row.status)">
                                             <span class="shrink-0 text-xxs font-medium text-white bg-secondary rounded-md px-2 py-1 tabular-nums">
@@ -159,7 +162,10 @@
                                             <p class="text-sm font-medium text-gray-800 truncate">
                                                 {{ (row.medicine.citizen?.firstname || '') + ' ' + (row.medicine.citizen?.lastname || '') }}
                                             </p>
-                                            <p class="text-xxs text-gray-500 truncate">{{ medName(row.medicine) }}</p>
+                                            <p class="text-xxs text-gray-500 truncate flex items-center gap-1">
+                                                <span class="truncate">{{ medName(row.medicine) }}</span>
+                                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="row.medicine?.is_self_administered" compact />
+                                            </p>
                                         </div>
                                         <Tooltip :text="statusLabel(row.status)">
                                             <span :class="[

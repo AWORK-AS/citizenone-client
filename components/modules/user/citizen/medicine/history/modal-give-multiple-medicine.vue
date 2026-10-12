@@ -79,6 +79,8 @@
                                                         <Badge type="primary" class="w-fit">
                                                             <p class="text-xxs">{{ medicine.dosage_unit }}</p>
                                                         </Badge>
+                                                        <ModulesUserCitizenMedicineSelfAdministeredBadge
+                                                            v-if="medicine.is_self_administered" />
                                                     </div>
                                                 </td>
 
@@ -224,6 +226,8 @@
                                                     }}
                                                 </p>
                                             </Badge>
+                                            <ModulesUserCitizenMedicineSelfAdministeredBadge
+                                                v-if="selectedMedicine?.is_self_administered" />
                                         </div>
                                         <div class="flex items-center">
                                             <Icon name="ic:round-keyboard-arrow-down" class="w-4 h-4" v-if="!open" />
@@ -652,6 +656,7 @@ async function fetchAllSelectedMedicines(date: any) {
                         medicine: selectedMedicine?.medicine,
                         dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
+                        is_self_administered: !!selectedMedicine?.is_self_administered,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
                         dosage: '',
                         type: '',
@@ -664,6 +669,7 @@ async function fetchAllSelectedMedicines(date: any) {
                         medicine: selectedMedicine?.medicine,
                         dosage_unit: doseUnit,
                         is_pn_medicine: selectedMedicine?.is_pn_medicine,
+                        is_self_administered: !!selectedMedicine?.is_self_administered,
                         citizen_medicine_uuid: selectedMedicine?.uuid,
                         max_daily_dose: selectedMedicine?.max_daily_dose ?? null,
                         dosages: generateDosage(selectedMedicine),
