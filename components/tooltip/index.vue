@@ -5,7 +5,7 @@
         </div>
 
         <Teleport to="body">
-            <div v-if="visible && !disabled && text"
+            <div v-if="visible && !disabled && text" ref="tooltipRef"
                 class="fixed z-[9999] text-sm text-white bg-primary rounded-md shadow-lg tooltip"
                 :class="wrap ? 'w-72' : 'whitespace-nowrap'" :style="tooltipStyle" @mouseenter="cancelHide"
                 @mouseleave="scheduleHide">
@@ -41,6 +41,7 @@ const props = defineProps({
 
 const visible = ref(false)
 const triggerRef = ref(null)
+const tooltipRef = ref(null)
 const tooltipStyle = ref({})
 let hideTimer = null
 
@@ -82,9 +83,43 @@ function computePosition() {
     }
 }
 
-const showTooltip = () => {
+const showTooltip = async () => {
     computePosition()
     visible.value = true
+    await nextTick()
+    clampToViewport()
+}
+
+// A tooltip centered on a narrow trigger (e.g. a grid cell) can overflow past
+// the viewport edge and overlap neighbouring content - nudge it back in.
+function clampToViewport() {
+    if (!tooltipRef.value) return
+    const rect = tooltipRef.value.getBoundingClientRect()
+    const PADDING = 8
+    let shiftX = 0
+    let shiftY = 0
+
+    if (rect.left < PADDING) {
+        shiftX = PADDING - rect.left
+    } else if (rect.right > window.innerWidth - PADDING) {
+        shiftX = (window.innerWidth - PADDING) - rect.right
+    }
+
+    if (rect.top < PADDING) {
+        shiftY = PADDING - rect.top
+    } else if (rect.bottom > window.innerHeight - PADDING) {
+        shiftY = (window.innerHeight - PADDING) - rect.bottom
+    }
+
+    if (shiftX || shiftY) {
+        const currentLeft = parseFloat(tooltipStyle.value.left) || 0
+        const currentTop = parseFloat(tooltipStyle.value.top) || 0
+        tooltipStyle.value = {
+            ...tooltipStyle.value,
+            left: `${currentLeft + shiftX}px`,
+            top: `${currentTop + shiftY}px`,
+        }
+    }
 }
 
 const scheduleHide = () => {
