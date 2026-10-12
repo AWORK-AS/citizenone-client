@@ -10832,6 +10832,31 @@
     },
     "search": "Søk",
     "sections": {
+        "sectionsAndServiceTypes": "Paragraffer & innsatstyper",
+        "list": {
+            "description": "Hver linje er både en paragraf på innbyggere og innsatstypen en henvendelse registreres under. Angi standard timepris på linjen; den gjelder fra i dag.",
+            "add": "Legg til",
+            "search": "Søk",
+            "empty": "Det finnes ingen paragrafer ennå.",
+            "noMatch": "Ingen paragrafer samsvarer med søket.",
+            "hourlyRate": "Standard timepris",
+            "hourlyRatePlaceholder": "F.eks. 650",
+            "perHour": "per time",
+            "noRate": "Ingen standard timepris",
+            "framework": "Rammeverk",
+            "frameworkHint": "Styres av feltet med fokusområder under Felter i henvendelser.",
+            "frameworks": {
+                "ics": "ICS",
+                "vum": "VUM",
+                "both": "ICS + VUM"
+            },
+            "inactive": "Slått av: tilbys ikke på nye henvendelser",
+            "alert": {
+                "saveFailed": "Paragrafen kunne ikke lagres",
+                "rateFailed": "Paragrafen ble lagret, men timeprisen kunne ikke lagres",
+                "deleteFailed": "Paragrafen kunne ikke slettes"
+            }
+        },
         "mirrored": "Følger innsatstype",
         "mirroredTooltip": "Denne paragrafen vedlikeholdes under Innsatstyper. Endre navn og paragraf der, så følger den med her.",
         "addNewSection": "Legg til ny paragraf",
@@ -11175,6 +11200,7 @@
             "employment": "Jobbsenter"
         },
         "tabs": {
+            "sectionsAndServiceTypes": "Paragraffer & innsatstyper",
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Rusmisbruk",

@@ -88,7 +88,7 @@ export const PAGE_SETTINGS: Record<string, string[]> = {
         '/settings/inquiry-forms',
         '/settings/inquiry-pipeline-stages',
         '/settings/inquiry-fields',
-        '/settings/inquiry-service-types',
+        '/settings/sections',
         '/settings/consultant-skills',
     ],
     'economy': ['/settings/employment-billing-rules', '/settings/expense-categories'],

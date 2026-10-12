@@ -10832,6 +10832,31 @@
     },
     "search": "Sök",
     "sections": {
+        "sectionsAndServiceTypes": "Paragraffer & insatstyper",
+        "list": {
+            "description": "Varje rad är både en paragraf på medborgare och den insatstyp en förfrågan registreras under. Ange standardtimpriset på raden; det gäller från i dag.",
+            "add": "Lägg till",
+            "search": "Sök",
+            "empty": "Det finns inga paragrafer än.",
+            "noMatch": "Inga paragrafer matchar sökningen.",
+            "hourlyRate": "Standardtimpris",
+            "hourlyRatePlaceholder": "T.ex. 650",
+            "perHour": "per timme",
+            "noRate": "Inget standardtimpris",
+            "framework": "Ramverk",
+            "frameworkHint": "Styrs av fältet med fokusområden under Fält för förfrågningar.",
+            "frameworks": {
+                "ics": "ICS",
+                "vum": "VUM",
+                "both": "ICS + VUM"
+            },
+            "inactive": "Avstängd: erbjuds inte på nya förfrågningar",
+            "alert": {
+                "saveFailed": "Paragrafen kunde inte sparas",
+                "rateFailed": "Paragrafen sparades, men timpriset kunde inte sparas",
+                "deleteFailed": "Paragrafen kunde inte raderas"
+            }
+        },
         "mirrored": "Följer insatstyp",
         "mirroredTooltip": "Denna paragraf underhålls under Insatstyper. Ändra namn och paragraf där, så följer den med hit.",
         "addNewSection": "Lägg till ny paragraf",
@@ -11175,6 +11200,7 @@
             "employment": "Jobbcenter"
         },
         "tabs": {
+            "sectionsAndServiceTypes": "Paragraffer & insatstyper",
             "absences": "Frånvaro",
             "activityLogs": "Aktivitetsloggar",
             "addictions": "Substansmissbruk",

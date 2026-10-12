@@ -79,7 +79,6 @@ export function useSettingsCatalog() {
             ...when(takesInquiries, item('citizens', 'settings.tabs.inquiryForms', '/settings/inquiry-forms', ['settings-inquiry-forms'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryPipelineStages', '/settings/inquiry-pipeline-stages', ['settings-inquiry-pipeline-stages'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryFields', '/settings/inquiry-fields', ['settings-inquiry-fields'])),
-            ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryServiceTypes', '/settings/inquiry-service-types', ['settings-inquiry-service-types'])),
             ...when(hasInquiries, item('citizens', 'settings.tabs.inquiryOffers', '/settings/inquiry-offers', ['settings-inquiry-offers'])),
             ...when(hasTasks, item('access', 'settings.tabs.taskTypes', '/settings/task-types', ['settings-task-types'])),
             ...when(hasTasks, item('access', 'settings.tabs.taskRules', '/settings/task-rules', ['settings-task-rules'])),
@@ -96,7 +95,9 @@ export function useSettingsCatalog() {
             item('access', 'settings.tabs.roles', '/settings/roles', ['settings-roles']),
             item('booking', 'settings.tabs.rooms', '/settings/rooms', ['settings-rooms']),
             item('schedule', 'settings.tabs.scheduleTags', '/settings/schedule-tags', ['settings-schedule-tags']),
-            item('access', 'settings.tabs.sections', '/settings/sections', ['settings-sections']),
+            // With the inquiry pipeline, paragraphs are also the service types
+            // (the old Service types page redirects here).
+            item('access', hasInquiries ? 'settings.tabs.sectionsAndServiceTypes' : 'settings.tabs.sections', '/settings/sections', ['settings-sections', 'settings-sections-new', 'settings-sections-uuid-edit', 'settings-inquiry-service-types']),
             item('schedule', 'settings.tabs.shifts', '/settings/shifts', ['settings-shifts']),
             ...when(hasExtendedDutySchedule, item('schedule', 'settings.tabs.wageSupplementRules', '/settings/wage-supplement-rules', ['settings-wage-supplement-rules'])),
             ...when(isEmploymentServices, item('employment', 'settings.tabs.employmentStatusTypes', '/settings/employment-status-types', ['settings-employment-status-types'])),
