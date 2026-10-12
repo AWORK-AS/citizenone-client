@@ -5256,6 +5256,8 @@
         "holidayWorkedTooltip": "Du arbejder på en helligdag. Vagtens timer ganges med organisationens helligdagsfaktor (fx ×1,5) og fremgår både under vagttypen og som helligdagstimer.",
         "holidayNonWorkedTooltip": "Denne dag er en helligdag. Du modtager helligdagstimer, selvom der ikke er registreret nogen vagt.",
         "lockedShiftTooltip": "Denne vagt er låst og kan kun redigeres af en administrator.",
+        "editShiftTooltip": "Klik for at redigere denne vagt",
+        "moveShiftTooltip": "Træk for at flytte denne vagt",
         "indicators": {
             "exceedsNorm": "Overskrider norm",
             "negative": "Negativ saldo",
