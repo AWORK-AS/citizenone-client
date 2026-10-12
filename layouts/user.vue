@@ -494,6 +494,13 @@
                                                 $t('navbar.colleagues') }}
                                         </div>
                                     </MenuItem>
+                                    <MenuItem v-if="userStore.getUser?.show_working_hours && userStore.getUser?.uuid">
+                                        <div @click="navigateTo(`/employees/${userStore.getUser.uuid}/monthly-sheet`)"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:table" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.myMonthlySheet') }}
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem v-if="isAtLeast('Admin') && !discoverCompleted">
                                         <div @click="navigateTo('/discover')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
