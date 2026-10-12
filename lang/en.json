@@ -10837,6 +10837,31 @@
     },
     "search": "Search",
     "sections": {
+        "sectionsAndServiceTypes": "Paragraphs & service types",
+        "list": {
+            "description": "Each entry is a paragraph on citizens and the service type an inquiry is registered under. Add the standard hourly rate on the row; it applies from today.",
+            "add": "Add",
+            "search": "Search",
+            "empty": "There are no paragraphs yet.",
+            "noMatch": "No paragraphs match the search.",
+            "hourlyRate": "Standard hourly rate",
+            "hourlyRatePlaceholder": "E.g. 650",
+            "perHour": "per hour",
+            "noRate": "No standard rate",
+            "framework": "Framework",
+            "frameworkHint": "Set by the focus-area field under Inquiry fields.",
+            "frameworks": {
+                "ics": "ICS",
+                "vum": "VUM",
+                "both": "ICS + VUM"
+            },
+            "inactive": "Turned off: not offered on new inquiries",
+            "alert": {
+                "saveFailed": "The paragraph could not be saved",
+                "rateFailed": "The paragraph was saved, but the hourly rate could not be saved",
+                "deleteFailed": "The paragraph could not be deleted"
+            }
+        },
         "mirrored": "Follows a service type",
         "mirroredTooltip": "This paragraph is kept under Service types. Change the name and paragraph there, and it follows here.",
         "addNewSection": "Add new section",
@@ -11180,6 +11205,7 @@
             "employment": "Jobcenter"
         },
         "tabs": {
+            "sectionsAndServiceTypes": "Paragraphs & service types",
             "absences": "Absences",
             "activityLogs": "Activity logs",
             "addictions": "Substance abuse",
