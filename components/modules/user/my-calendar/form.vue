@@ -51,7 +51,7 @@
                 <!-- Recurring Frequency Fields -->
                 <div class="space-y-1">
                     <FormLabel for="recurring" :label="$t('recurring.repeat')" />
-                    <FormSelect id="recurring" :options="state.options.schedule_frequencies?.recurringSchedules"
+                    <FormSelect id="recurring" openDirection="top" :options="state.options.schedule_frequencies?.recurringSchedules"
                         v-model="state.formSchedule.recurring.recurring" />
                     <FormError :error="v$?.formSchedule?.recurring?.recurring?.$errors[0]?.$message?.toString()" />
                     <FormError :error="state?.error?.errors?.recurring_uuid?.[0]" />
@@ -67,7 +67,7 @@
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                         <div class="space-y-1">
                             <FormLabel for="frequency" :label="$t('recurring.frequency.frequency')" />
-                            <FormSelect id="frequency" :options="state.options.schedule_frequencies?.frequency"
+                            <FormSelect id="frequency" openDirection="top" :options="state.options.schedule_frequencies?.frequency"
                                 v-model="state.formSchedule.recurring.frequency" />
                             <FormError
                                 :error="v$?.formSchedule?.recurring?.frequency?.$errors[0]?.$message.toString()" />
@@ -79,7 +79,7 @@
                                     state.formSchedule.recurring?.frequency === 'monthly' ? $t('recurring.frequency.monthly.months') :
                                         $t('recurring.frequency.yearly.years')
                                 })`" />
-                            <FormSelect id="daily_every" :options="state.formSchedule.recurring?.frequency === 'daily' ? state.options.schedule_frequencies?.zeroTo999Days :
+                            <FormSelect id="daily_every" openDirection="top" :options="state.formSchedule.recurring?.frequency === 'daily' ? state.options.schedule_frequencies?.zeroTo999Days :
                                 state.formSchedule.recurring?.frequency === 'weekly' ? state.options.schedule_frequencies?.zeroTo999Weeks :
                                     state.formSchedule.recurring?.frequency === 'monthly' ? state.options.schedule_frequencies?.zeroTo999Months :
                                         state.options.schedule_frequencies?.zeroTo999Years"
@@ -122,7 +122,7 @@
                             <div v-else>
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                                     <div class="space-y-1">
-                                        <FormSelect id="monthly_on_the_sequence"
+                                        <FormSelect id="monthly_on_the_sequence" openDirection="top"
                                             :options="state.options.schedule_frequencies?.monthlyOnTheSequences"
                                             v-model="state.formSchedule.recurring.monthly_on_the_sequence" />
                                         <FormError
@@ -130,7 +130,7 @@
                                         <FormError :error="state?.error?.errors?.monthly_on_the_sequence?.[0]" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormSelect id="monthly_on_the_day"
+                                        <FormSelect id="monthly_on_the_day" openDirection="top"
                                             :options="state.options.schedule_frequencies?.monthlyOnTheDays"
                                             v-model="state.formSchedule.recurring.monthly_on_the_day" />
                                         <FormError
@@ -161,7 +161,7 @@
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                                     v-if="state.formSchedule.recurring?.yearly_on_the_enabled">
                                     <div class="space-y-1">
-                                        <FormSelect id="yearly_on_the_sequence"
+                                        <FormSelect id="yearly_on_the_sequence" openDirection="top"
                                             :options="state.options.schedule_frequencies?.yearlyOnTheSequences"
                                             v-model="state.formSchedule.recurring.yearly_on_the_sequence" />
                                         <FormError
@@ -169,7 +169,7 @@
                                         <FormError :error="state?.error?.errors?.yearly_on_the_sequence?.[0]" />
                                     </div>
                                     <div class="space-y-1">
-                                        <FormSelect id="yearly_on_the_day"
+                                        <FormSelect id="yearly_on_the_day" openDirection="top"
                                             :options="state.options.schedule_frequencies?.yearlyOnTheDays"
                                             v-model="state.formSchedule.recurring.yearly_on_the_day" />
                                         <FormError
@@ -249,11 +249,8 @@
                 <p class="text-xs text-[#8891A4] ml-5">{{ $t('sms.form.sendSmsNotificationHint') }}</p>
             </div>
             <div class="space-y-1" v-if="props.selectedSchedule?.is_recurring">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formSchedule.apply_changes_to_future_events = !state.formSchedule.apply_changes_to_future_events">
-                    <FormCheckbox :value="state.formSchedule.apply_changes_to_future_events" />
-                    {{ $t('events.form.applyChangesToFutureEvents') }}
-                </div>
+                <ModulesUserMyCalendarRecurringScope v-model="state.formSchedule.apply_to"
+                    :label="$t('events.recurringScope.editLabel')" />
             </div>
         </div>
         <div class="mt-6">
@@ -336,7 +333,7 @@ const state = reactive({
         calendar_tag_uuid: [] as any,
         send_invitation: false,
         send_sms_notification: false,
-        apply_changes_to_future_events: false,
+        apply_to: 'this',
         recurring: {
             is_recurring: true,
             recurring: '',
@@ -474,7 +471,7 @@ onMounted(() => {
         calendar_tag_uuid: [],
         send_invitation: props.selectedSchedule.send_invitation,
         send_sms_notification: props.selectedSchedule.send_sms_notification ?? false,
-        apply_changes_to_future_events: false,
+        apply_to: 'this',
         recurring: {
             is_recurring: true,
             recurring: props.selectedSchedule?.recurring_type || '',

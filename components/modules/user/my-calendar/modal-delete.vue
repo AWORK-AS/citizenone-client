@@ -6,12 +6,9 @@
                     <div class="mt-4">
                         <p>{{ t('events.confirmation.deleteConfirmation') + '?' }}</p>
                     </div>
-                    <div class="space-y-3 py-4" v-if="props.selectedSchedule.is_recurring">
-                        <div class="w-fit flex items-center cursor-pointer"
-                            @click="state.isDeleteFutureEvents = !state.isDeleteFutureEvents">
-                        <FormCheckbox id="delete_future_events" :value="state.isDeleteFutureEvents" />
-                        {{ $t('events.confirmation.deleteFutureEvents') }}
-                    </div>
+                    <div class="py-4" v-if="props.selectedSchedule.is_recurring">
+                        <ModulesUserMyCalendarRecurringScope v-model="state.deleteScope"
+                            :label="$t('events.recurringScope.deleteLabel')" />
                     </div>
                     <div class="mt-6">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -20,7 +17,7 @@
                                 {{ $t('close') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="danger" class="rounded-md col-start-2"
-                               @click="emit('deleteMyCalendarEvent', state.isDeleteFutureEvents)">
+                               @click="emit('deleteMyCalendarEvent', state.deleteScope)">
                                 {{ $t('events.delete') }}
                             </FormButton>
                         </div>
@@ -54,15 +51,15 @@ const emit = defineEmits(['close', 'deleteMyCalendarEvent'])
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
-    isDeleteFutureEvents: false,
+    deleteScope: 'this' as 'this' | 'this_and_following' | 'all',
 })
 
 // The parent keeps this component mounted and only toggles isModalOpen, so the
-// checkbox would otherwise stay ticked from a previous delete and silently take
-// the whole future series with the next single-occurrence delete.
+// choice would otherwise stay on "all" from a previous delete and silently take
+// the whole series with the next single-occurrence delete.
 watch(() => props.isModalOpen, (isOpen) => {
     if (isOpen) {
-        state.isDeleteFutureEvents = false
+        state.deleteScope = 'this'
     }
 })
 </script>
