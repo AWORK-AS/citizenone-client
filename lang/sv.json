@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Självadministrerad",
+                "hint": "Ska bara lämnas ut – @:terms.citizenDefinite{''} tar läkemedlet själv.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tar detta läkemedel själv. Det ska bara lämnas ut – registrera det som utlämnat, inte givet.",
+                "batchAuto": "Automatiskt – utlämnat för självadministrerade, annars givet",
+                "overdue": "Läkemedlet är {time} försenat. Lämna ut det, eller registrera avvikelse.",
+                "handOutNow": "Lämna ut nu"
+            },
             "alert": {
                 "successfullyActivated": "Medicin aktiverad",
                 "successfullyDeactivated": "Medicin inaktiverad",
@@ -2828,7 +2836,7 @@
                 "pnMedicine": "PN-medicin",
                 "scheduleFrequency": "Var tit ska @:terms.citizen{''} have medicinen",
                 "scheduleUntil": "Tills när ska @:terms.citizen{''} have medicinen",
-                "selfAdminister": "Selvadministrerende medicin",
+                "selfAdminister": "Självadministrerat läkemedel",
                 "startDate": "Datum för ordinering",
                 "strength": "Styrka",
                 "time": "Tid",
@@ -3087,7 +3095,7 @@
                 "medicineIsOverdue": "Medicinen är {timme} försenad. Giv straks eller registrér avvikelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",
-                "selfAdministration": "Självadministrerande",
+                "selfAdministration": "Självadministrerad",
                 "expiredCheckDate": "Utgången - kontrollera anbrud datum",
                 "lowStock": "Lågt lager",
                 "lowStockOnly": "Lågt lager: endast {n} tillbaka",

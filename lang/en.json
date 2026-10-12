@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medication allergies (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Self-administered",
+                "hint": "Hand out only – @:terms.citizenDefinite{''} takes it themselves.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} takes this medicine themselves. It only needs to be handed out – register it as delivered, not given.",
+                "batchAuto": "Automatic – delivered for self-administered, otherwise given",
+                "overdue": "The medicine is {time} late. Hand it out, or register a deviation.",
+                "handOutNow": "Hand out now"
+            },
             "alert": {
                 "successfullyActivated": "Medicine successfully activated",
                 "successfullyDeactivated": "Medicine successfully deactivated",

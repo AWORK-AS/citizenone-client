@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Selvadministrerende",
+                "hint": "Skal kun udleveres – @:terms.citizenDefinite{''} tager selv medicinen.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tager selv denne medicin. Den skal kun udleveres – registrér den som udleveret, ikke givet.",
+                "batchAuto": "Automatisk – udleveret for selvadministrerende, ellers givet",
+                "overdue": "Medicinen er {time} forsinket. Udlevér den, eller registrér afvigelse.",
+                "handOutNow": "Udlevér nu"
+            },
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
                 "successfullyDeactivated": "Medicin deaktiveret med succes",

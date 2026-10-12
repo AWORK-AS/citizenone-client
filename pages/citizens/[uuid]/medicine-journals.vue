@@ -113,6 +113,8 @@
                                 }}
                                 {{ alarm.medicineName }} — {{ $t('citizens.medicineJournals.page.scheduledAt') }}
                                 {{ alarm.time }}
+                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="alarm.medicine?.is_self_administered"
+                                    class="ml-1 align-middle" />
                             </p>
                             <p
                                 :class="['text-xs mt-0.5', alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600']">
@@ -122,7 +124,9 @@
                         <button v-if="alarm.type === 'overdue'"
                             class="shrink-0 text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors"
                             @click="quickGive(alarm)">
-                            {{ $t('citizens.medicineJournals.page.giveNow') }}
+                            {{ alarm.medicine?.is_self_administered
+                                ? $t('citizens.medicineJournals.selfAdministered.handOutNow')
+                                : $t('citizens.medicineJournals.page.giveNow') }}
                         </button>
                     </div>
                 </div>
@@ -445,12 +449,7 @@
                                                 <p class="text-sm font-medium text-gray-900 truncate">
                                                     {{ getMedicineName(medicine) }}
                                                 </p>
-                                                <span v-if="medicine.is_self_administered"
-                                                    :title="$t('citizens.medicineJournals.page.selfAdministration')"
-                                                    class="shrink-0 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xxs font-semibold text-amber-800">
-                                                    <Icon name="ph:hand-palm" class="size-3" />
-                                                    {{ $t('citizens.medicineJournals.page.selfAdministration') }}
-                                                </span>
+                                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                                                 <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                     :wrap="true" class="shrink-0">
                                                     <Icon name="ph:info"
@@ -616,12 +615,7 @@
                                             <p class="text-sm font-medium text-gray-900">
                                                 {{ getMedicineName(medicine) }}
                                             </p>
-                                            <span v-if="medicine.is_self_administered"
-                                                :title="$t('citizens.medicineJournals.page.selfAdministration')"
-                                                class="shrink-0 inline-flex items-center gap-0.5 rounded-full bg-amber-100 px-1.5 py-0.5 text-xxs font-semibold text-amber-800">
-                                                <Icon name="ph:hand-palm" class="size-3" />
-                                                {{ $t('citizens.medicineJournals.page.selfAdministration') }}
-                                            </span>
+                                            <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                                             <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                 :wrap="true" class="shrink-0">
                                                 <Icon name="ph:info"
@@ -792,11 +786,7 @@
                                                 <p class="truncate max-w-36">
                                                     {{ getMedicineName(medicine) }}
                                                 </p>
-                                                <Tooltip v-if="medicine.is_self_administered"
-                                                    :text="$t('citizens.medicineJournals.page.selfAdministration')"
-                                                    class="shrink-0">
-                                                    <Icon name="ph:hand-palm" class="size-3.5 text-amber-600" />
-                                                </Tooltip>
+                                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" compact />
                                                 <Tooltip v-if="medicine?.description" :text="medicine.description"
                                                     :wrap="true" class="shrink-0">
                                                     <Icon name="ph:info"
@@ -926,8 +916,9 @@
                                                 @click="openGiveMedicineOnDate(medicine, dosage, day)">
                                                 <div :class="['px-2 py-1', getMonthSlotBgClass(dosage.status, dosage.time, day.dateStr)]"
                                                     style="font-size:10px;line-height:1.4">
-                                                    <p class="font-medium">
-                                                        {{ getMedicineName(medicine) }}
+                                                    <p class="font-medium flex items-center gap-1">
+                                                        <span class="truncate">{{ getMedicineName(medicine) }}</span>
+                                                        <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" compact />
                                                     </p>
                                                     <p class="text-gray-500">
                                                         {{ medicine?.medicine?.ingredients }}
@@ -1020,11 +1011,7 @@
                                                     <Badge v-if="medicine.is_pn_medicine" type="primary" class="w-fit">
                                                         <p class="text-xxs">PN</p>
                                                     </Badge>
-                                                    <span v-if="medicine.is_self_administered"
-                                                        class="text-xs bg-amber-100 text-amber-800 px-1.5 py-0.5 rounded inline-flex items-center gap-1 font-medium">
-                                                        <Icon name="ph:hand-palm" class="size-3" />
-                                                        {{ $t('citizens.medicineJournals.page.selfAdministration') }}
-                                                    </span>
+                                                    <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                                                     <Tooltip v-if="medicine?.is_expired"
                                                         :text="$t('citizens.medicineJournals.page.expired')">
                                                         <span
@@ -1583,7 +1570,11 @@ const alarmBanners = computed(() => {
                 if (d?.status) return
                 if (isMissed(d?.time)) {
                     const mins = minutesSince(d?.time)
-                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                    // A self-administered medicine is handed out, not given (task #115).
+                    const overdueKey = m?.is_self_administered
+                        ? 'citizens.medicineJournals.selfAdministered.overdue'
+                        : 'citizens.medicineJournals.page.medicineIsOverdue'
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t(overdueKey, { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
                 } else if (isDueSoon(d?.time)) {
                     banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
                 }
