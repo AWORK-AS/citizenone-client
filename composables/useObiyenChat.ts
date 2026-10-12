@@ -145,6 +145,37 @@ export function useObiyenChat() {
         }
     }
 
+    /**
+     * Questions about the page the person is on, shown under Milo's greeting
+     * in place of the website's pricing and demo questions
+     * (window.ObiyenChat.suggest, insight-server #445). Before the widget has
+     * loaded the call waits on its queue; a widget without suggest ignores it.
+     */
+    function suggest(questions: string[], label?: string) {
+        // Before the loader has arrived, queue onto the stub it replays
+        // (the widget's documented pre-load queue); dropping the call here
+        // left the website's suggestions on the first page of every visit.
+        const w = ((window as any).ObiyenChat ||= { q: [] })
+        if (typeof w.suggest === 'function') w.suggest(questions, label)
+        else if (Array.isArray(w.q)) w.q.push(['suggest', questions, label])
+    }
+
+    /**
+     * Inside the product Milo's defaults are the website's - "What does
+     * CitizenOne cost?", "Can we get a demo?" - which a logged-in customer
+     * opening the bubble has no use for. These are support questions instead,
+     * set when the app starts and again on every page change.
+     */
+    function suggestInApp(t: (key: string) => string) {
+        suggest(['q1', 'q2', 'q3'].map((q) => t(`helpGuide.miloQuestions.inApp.${q}`)), t('helpGuide.miloHelpLabel'))
+    }
+
+    /** "?" on a page: open Milo with that page's questions. */
+    function askAbout(questions: string[]) {
+        suggest(questions)
+        revealAndOpenChat()
+    }
+
     function resetOnLogout() {
         // The next person on this browser is a different user, and must not
         // inherit this one's signature.
@@ -153,5 +184,5 @@ export function useObiyenChat() {
         hideBubble()
     }
 
-    return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, setSideOffset, resetOnLogout }
+    return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, suggest, suggestInApp, askAbout, setSideOffset, resetOnLogout }
 }

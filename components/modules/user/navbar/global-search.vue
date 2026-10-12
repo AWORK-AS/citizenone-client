@@ -156,6 +156,7 @@ import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useCommandPalette } from '@/composables/useCommandPalette'
+import { useCitizenFirstPage } from '@/composables/citizenFirstPage'
 
 const RECENT_SEARCHES_KEY = 'globalSearch_recent'
 const MAX_RECENT = 5
@@ -171,6 +172,7 @@ const state = reactive({
 const searchInput = ref<HTMLInputElement | null>(null)
 
 const userStore = useUserStore()
+const { getFirstCitizenPage } = useCitizenFirstPage()
 const highlightStore = useSearchHighlightStore()
 const { t } = useI18n()
 const { isAtLeast } = usePermissions()
@@ -301,22 +303,6 @@ function runAction(action: MergedAction) {
 }
 
 const citizenName = (item: any) => [item.citizen?.firstname, item.citizen?.lastname].filter(Boolean).join(' ')
-
-function getFirstCitizenPage(citizenUuid: string): string {
-    const pages: any[] = userStore.getUser?.pages ?? []
-    const has = (name: string) => pages.some((p: any) => p.name === name)
-    if (has('Journals')) return `/citizens/${citizenUuid}/journals`
-    if (has('Medicine card')) return `/citizens/${citizenUuid}/medicine-journals`
-    if (has('Plans and goals')) return `/citizens/${citizenUuid}/plans-and-goals/all`
-    if (has('Health')) return `/citizens/${citizenUuid}/nursing-areas`
-    if (has('Documents')) return `/citizens/${citizenUuid}/documents`
-    if (has('Attendance')) return `/citizens/${citizenUuid}/attendance`
-    if (has('Calendar')) return `/citizens/${citizenUuid}/calendar`
-    if (has('Economy')) return `/citizens/${citizenUuid}/wallets`
-    if (has('Contacts')) return `/citizens/${citizenUuid}/contacts`
-    if (has('Employee Group')) return `/citizens/${citizenUuid}/employee-groups`
-    return `/citizens`
-}
 
 const resultGroups = computed(() => [
     {

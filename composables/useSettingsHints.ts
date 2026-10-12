@@ -36,6 +36,7 @@ export function useSettingsHints() {
         'settings-sms-notifications': 'smsNotifications',
         'settings-power-bi': 'powerBi',
         'settings-economic': 'economic',
+        'settings-dinero': 'dinero',
         'settings-fst': 'fst',
         'settings-custom-pages': 'customPages',
         'settings-transactions': 'transactions',

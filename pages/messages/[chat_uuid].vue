@@ -33,13 +33,23 @@
 
                 <!-- Direct Chat Header -->
                 <div v-if="state.chat?.data?.type === 'direct'" class="flex items-center gap-3 flex-1 min-w-0">
-                    <div class="relative">
-                        <img :src="getChatHeaderAvatar()" alt="avatar" class="w-9 h-9 rounded-full object-cover" />
-                    </div>
-                    <div>
-                        <h4 class="font-semibold text-sm text-gray-900">{{ getChatHeaderName() }}</h4>
-                        <p class="text-xs text-gray-400 line-clamp-1">{{ state.chat?.data?.subject }}</p>
-                    </div>
+                    <!-- With a citizen, the name opens their journal, so staff don't go via Citizens -->
+                    <component :is="chatCitizenLink ? NuxtLink : 'div'" :to="chatCitizenLink || undefined"
+                        :title="chatCitizenLink ? chatCitizenLinkLabel : undefined"
+                        class="flex items-center gap-3 min-w-0 group/citizen">
+                        <div class="relative">
+                            <img :src="getChatHeaderAvatar()" alt="avatar" class="w-9 h-9 rounded-full object-cover" />
+                        </div>
+                        <div class="min-w-0">
+                            <h4 class="font-semibold text-sm text-gray-900 flex items-center gap-1"
+                                :class="{ 'group-hover/citizen:text-primary group-hover/citizen:underline': chatCitizenLink }">
+                                {{ getChatHeaderName() }}
+                                <Icon v-if="chatCitizenLink" name="ph:arrow-up-right"
+                                    class="h-3.5 w-3.5 text-gray-400 group-hover/citizen:text-primary" aria-hidden="true" />
+                            </h4>
+                            <p class="text-xs text-gray-400 line-clamp-1">{{ state.chat?.data?.subject }}</p>
+                        </div>
+                    </component>
                 </div>
 
                 <!-- Group Chat Header -->
@@ -64,6 +74,14 @@
 
                 <!-- Header Actions -->
                 <div class="flex items-center gap-1">
+                    <!-- A group's title may be a custom name, so its citizen gets a button rather than a linked title -->
+                    <Tooltip :text="chatCitizenLinkLabel" position="left"
+                        v-if="state.chat?.data?.type === 'group' && chatCitizenLink">
+                        <NuxtLink :to="chatCitizenLink" :aria-label="chatCitizenLinkLabel"
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors">
+                            <Icon name="ph:notebook" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </NuxtLink>
+                    </Tooltip>
                     <Tooltip :text="$t('messages.openInNewWindow')" position="left" v-if="isDesktopApp">
                         <button :aria-label="$t('messages.openInNewWindow')"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
@@ -330,6 +348,7 @@ import { useContinuity } from '@/composables/useContinuity'
 import { useChatCprWarning } from '@/composables/chatCprWarning'
 import { useIsDesktopApp, openInNewDesktopWindow } from '@/composables/useIsDesktopApp'
 import { useUserStore } from '@/store/user'
+import { useCitizenFirstPage } from '@/composables/citizenFirstPage'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -340,6 +359,8 @@ const { reportContinuity } = useContinuity()
 const { confirmChatText } = useChatCprWarning()
 const isDesktopApp = useIsDesktopApp()
 const userStore = useUserStore() as any
+const { getFirstCitizenPage } = useCitizenFirstPage()
+const NuxtLink = resolveComponent('NuxtLink')
 const router = useRouter()
 // Reassigned (not a computed ref) on purpose - every function below reads this
 // as a plain value at call time, same style as currentPage/scrollHeight below.
@@ -530,6 +551,29 @@ function memberAvatar(member: any) {
     }
     return user.profile_image ?? '/img/avatars/user.svg'
 }
+
+// The one citizen in this chat: the patient in a direct chat or in the shared
+// patient inbox thread. Matched on user_type, as ids are per table and a
+// citizen can share one with the signed-in employee.
+const chatCitizen = computed(() => {
+    const citizens = (state.chat?.data?.chat_members || [])
+        .filter((m: any) => m?.user_type === 'App\\Models\\Citizen' && m?.user?.uuid)
+    return citizens.length === 1 ? citizens[0] : null
+})
+
+// Journals first, else the first citizen tab they have; none at all, no link.
+const chatCitizenLink = computed(() => {
+    if (!chatCitizen.value) return null
+    const page = getFirstCitizenPage(chatCitizen.value.user.uuid)
+    return page === '/citizens' ? null : page
+})
+
+const chatCitizenLinkLabel = computed(() => {
+    const name = memberDisplayName(chatCitizen.value)
+    return chatCitizenLink.value?.endsWith('/journals')
+        ? t('messages.openCitizenJournal', { name })
+        : t('messages.openCitizenProfile', { name })
+})
 
 function appendEmoji(emoji: string) {
     state.message = (state.message ?? '') + emoji

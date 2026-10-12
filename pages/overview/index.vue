@@ -23,10 +23,10 @@
                         <Icon name="ph:sparkle-fill" class="size-4" aria-hidden="true" />
                         {{ $t('handover.button') }}
                     </button>
-                    <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
-                        <Icon name="ph:question"
-                            class="size-5 cursor-pointer text-slate-400 hover:text-slate-600 transition-colors"
-                            aria-hidden="true" />
+                    <Tooltip :text="$t('helpGuide.askMiloGeneral')" position="left">
+                        <button type="button" :aria-label="$t('helpGuide.askMiloGeneral')" class="rounded-md hover:bg-slate-100 p-0.5" @click="askMilo()">
+                            <Icon name="ph:question" class="size-5 text-slate-400 hover:text-slate-600 transition-colors" aria-hidden="true" />
+                        </button>
                     </Tooltip>
                 </div>
             </template>
@@ -278,9 +278,12 @@
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" v-if="visibleCustomBoxes.length > 0">
                     <ModulesUserDailyOverviewCustomBox v-for="box in visibleCustomBoxes" :key="box.key" :box="box" />
                 </div>
-                <!-- When is my next shift? Above the rest: it is the first thing an employee checks. -->
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" v-if="isShown('showNextShift')">
-                    <ModulesUserDailyOverviewNextShift />
+                <!-- When is my next shift, and who is on duty today? Above the rest: it is the
+                     first thing an employee checks. Both read the duty schedule. -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 items-start"
+                    v-if="isShown('showNextShift') || isShown('showOnDutyToday')">
+                    <ModulesUserDailyOverviewNextShift v-if="isShown('showNextShift')" />
+                    <ModulesUserDailyOverviewOnDutyToday v-if="isShown('showOnDutyToday')" />
                 </div>
                 <!-- Citizens' events + Latest journal notes row -->
                 <!-- Medication overview and Follow-up reminders row -->
@@ -481,9 +484,6 @@
                     </ul>
                 </template>
             </Modal>
-            <ModulesUserGuidedTourModalDailyOverview v-if="state.modal.isGuidedTourDailyOverviewOpen"
-                :isModalOpen="state.modal.isGuidedTourDailyOverviewOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourDailyOverviewOpen = false" />
             <ModulesUserHandoverModalSummary :isModalOpen="handoverOpen"
                 :department="departmentStore.getSelectedDepartmentName" @close="handoverOpen = false" />
         </NuxtLayout>
@@ -569,7 +569,6 @@ const state = reactive({
         isDailyOverviewDateRangeOpen: false,
         isDateRangeHelperOpen: false,
         isFilterDailyOverviewOpen: false,
-        isGuidedTourDailyOverviewOpen: false,
         isQuickRiskAssessmentOpen: false,
         isBirthdaysOpen: false,
         isCreateJournalOpen: false,
@@ -831,9 +830,6 @@ function scrollToNewsIfNeeded() {
     }
 }
 
-function openGuidedTour() {
-    state.modal.isGuidedTourDailyOverviewOpen = true
-}
 
 function filterDailyOverviewByDate(formDateRange: any) {
     state.dateRange.formDateRange.start_date = formDateRange.start_date
@@ -972,5 +968,13 @@ async function fetchActiveTreatmentsCount() {
     } catch {
         // silently fail — widget shows 0
     }
+}
+
+// Help here is Milo, answering from the help-desk articles. The "?" used to
+// open a video tour recorded on the 2025 interface; it was also a tooltip
+// with a click handler rather than a button, so a keyboard could not reach it.
+const i18nForMilo = useI18n()
+function askMilo() {
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => i18nForMilo.t(`helpGuide.miloQuestions.overview.${q}`)))
 }
 </script>

@@ -107,7 +107,7 @@
                     !event?.is_shift && event?.type === 'employees' && 'border-green-600',
                     !event?.is_shift && event?.type === 'my_self' && 'border-primary',
                     'pl-4 border-l-4'
-                ]">
+                ]" :style="!event?.is_shift && eventTagColor(event) ? { borderLeftColor: eventTagColor(event) } : undefined">
                     <div v-if="event?.is_shift" class="relative py-4">
                         <div class="flex items-center gap-x-2 flex-wrap">
                             <Icon name="ph:briefcase" class="h-4 w-4 text-indigo-600" aria-hidden="true" />
@@ -136,7 +136,8 @@
                         </dl>
                     </div>
                     <div v-else class="relative flex space-x-4 py-4">
-                        <span class="mt-1.5 h-2.5 w-2.5 flex-none rounded-full" :class="[
+                        <span class="mt-1.5 h-2.5 w-2.5 flex-none rounded-full"
+                            :style="eventTagColor(event) ? { backgroundColor: eventTagColor(event) } : undefined" :class="[
                             event?.type === 'citizens' && 'bg-amber-500',
                             event?.type === 'employees' && 'bg-green-600',
                             event?.type === 'my_self' && 'bg-primary',
@@ -257,6 +258,7 @@
 
 
 <script setup lang="ts">
+import { eventTagColor, tintColor } from '@/composables/calendarEventPresentation'
 import moment from 'moment'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'

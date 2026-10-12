@@ -200,7 +200,7 @@ function handleBack() {
 }
 
 function handleNext() {
-    emit('next', 'duty-schedule')
+    emit('next', 'employees')
 }
 
 async function navigateToExternalLink(link: any) {

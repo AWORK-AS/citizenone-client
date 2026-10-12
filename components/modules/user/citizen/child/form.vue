@@ -24,7 +24,8 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="gender" :label="$t('children.form.gender')" />
-                    <FormSelect id="gender" :options="state.options.genders" v-model="state.formChild.gender" />
+                    <FormSelect id="gender" :options="genderOptions(state.formChild.gender)" :createOption="true"
+                        :placeholder="$t('citizens.form.selectOrTypeGender')" v-model="state.formChild.gender" />
                     <FormError :error="v$?.formChild?.gender?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.gender?.[0]" />
                 </div>
@@ -127,6 +128,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
+import { useGenders } from '@/composables/genders'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -146,6 +148,7 @@ const props = defineProps({
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const language = useI18n()
+const { genderOptions } = useGenders()
 
 const state = reactive({
     error: {} as Error,

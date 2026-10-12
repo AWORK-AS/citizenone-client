@@ -132,7 +132,7 @@
                                 <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
                                         :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                        :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null"
+                                        :data-tour="SIDEBAR_TOUR_KEYS[item.name] ?? null"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
                                         <img v-if="item.image" :src="item.image" :alt="item.name"
                                             class="h-5 w-5 shrink-0" />
@@ -248,7 +248,7 @@
                         <li v-for="item in activeContextGroup?.items || []" :key="item.name">
                             <div @click="openNavItem(item)"
                                 :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                :data-tour="item.name === 'Citizens' ? 'sidebar-citizens' : null">
+                                :data-tour="SIDEBAR_TOUR_KEYS[item.name] ?? null">
                                 <img v-if="item.image" :src="item.image" :alt="item.name" class="h-5 w-5 shrink-0" />
                                 <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                 <span class="whitespace-nowrap overflow-hidden">{{ getNavItemLabel(item) }}</span>
@@ -347,7 +347,7 @@
                                 enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
                                 leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
                                 leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint && !showCmdkTip"
+                                <div v-if="showCmdkHint && !showCmdkTip && !welcomeTour.active"
                                     class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
                                     <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
                                     <div class="relative flex items-start gap-2.5 px-3.5 py-3">
@@ -494,6 +494,13 @@
                                                 $t('navbar.colleagues') }}
                                         </div>
                                     </MenuItem>
+                                    <MenuItem v-if="userStore.getUser?.show_working_hours && userStore.getUser?.uuid">
+                                        <div @click="navigateTo(`/employees/${userStore.getUser.uuid}/monthly-sheet`)"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:table" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.myMonthlySheet') }}
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem v-if="isAtLeast('Admin') && !discoverCompleted">
                                         <div @click="navigateTo('/discover')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
@@ -531,6 +538,20 @@
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:list-checks" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.procedures') }}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div @click="state.modal.isContactUsOpen = true"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:shooting-star" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.newWishes') }}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div @click="navigateTo('/coming-functions')"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:map-trifold" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.comingFunctions') }}
                                         </div>
                                     </MenuItem>
                                     <div class="border-t border-surface-100 mt-1 pt-1">
@@ -613,6 +634,8 @@
         </div>
 
         <!-- All modals -->
+        <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
+            @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
             @close="state.modal.isCheckinReminderOpen = false" />
         <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
@@ -624,6 +647,9 @@
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
         <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
+        <!-- Milo's welcome tour. Its position lives in useWelcomeTour, since this layout is rebuilt on every page change. -->
+        <ModulesUserAppTourGuide v-if="welcomeTour.active && welcomeSteps.length" mascot :customSteps="welcomeSteps"
+            :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
@@ -641,10 +667,6 @@
         <ModulesUserGuidedTourModalCalendar v-if="state.modal.isGuidedTourCalendarOpen"
             :isModalOpen="state.modal.isGuidedTourCalendarOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourCalendarOpen = false" @back="handleBackGuidedTour"
-            @next="handleNextGuidedTour" />
-        <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
-            :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="true"
-            @close="state.modal.isGuidedTourDutyScheduleOpen = false" @back="handleBackGuidedTour"
             @next="handleNextGuidedTour" />
         <ModulesUserGuidedTourModalEmployees v-if="state.modal.isGuidedTourEmployeesOpen"
             :isModalOpen="state.modal.isGuidedTourEmployeesOpen" :isGuidedTour="true"
@@ -666,7 +688,7 @@
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
                  each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && !medicineToastVisible"
+            <div v-if="showCmdkTip && !medicineToastVisible && !welcomeTour.active"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -1070,10 +1092,10 @@ const state = reactive({
     modal: {
         is2faRequiredOpen: false,
         isCheckinReminderOpen: false,
+        isContactUsOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,
-        isGuidedTourDutyScheduleOpen: false,
         isGuidedTourEmployeesOpen: false,
         isGuidedTourEndOpen: false,
         isGuidedTourWelcomeOpen: false,
@@ -1570,7 +1592,22 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
     if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
 }
 
-function guidedUserTourModalVisibility() { if (userStore.getUser?.is_first_login) state.modal.isGuidedTourWelcomeOpen = true }
+// The Milo spotlight tour when the backend sends tours_seen; otherwise (an
+// older backend) the modal sequence exactly as before.
+const { tour: welcomeTour, steps: welcomeSteps, startIfDue: startWelcomeTourIfDue, setIndex: setWelcomeStep, close: closeWelcomeTour } = useWelcomeTour()
+
+// Sidebar items the welcome tour points at.
+const SIDEBAR_TOUR_KEYS: Record<string, string> = {
+    Citizens: 'sidebar-citizens',
+    Overview: 'sidebar-overview',
+    Calendar: 'sidebar-calendar',
+    Messages: 'sidebar-messages',
+    Invoicing: 'sidebar-invoicing',
+}
+
+function guidedUserTourModalVisibility() {
+    if (startWelcomeTourIfDue(userStore.getUser) === 'legacy') state.modal.isGuidedTourWelcomeOpen = true
+}
 
 // Post-purchase app tours: the app store's success pages link to the app's
 // setup route with ?tour=<generic_name>; any registered tour opens here.
@@ -1598,8 +1635,9 @@ function handleBackGuidedTour(back: any) {
     if (back === 'welcome') { state.modal.isGuidedTourDailyOverviewOpen = false; state.modal.isGuidedTourWelcomeOpen = true }
     if (back === 'overview') { state.modal.isGuidedTourCitizensOverviewOpen = false; state.modal.isGuidedTourDailyOverviewOpen = true }
     if (back === 'citizens-overview') { state.modal.isGuidedTourCalendarOpen = false; state.modal.isGuidedTourCitizensOverviewOpen = true }
-    if (back === 'calendar') { state.modal.isGuidedTourDutyScheduleOpen = false; state.modal.isGuidedTourCalendarOpen = true }
-    if (back === 'duty-schedule') { state.modal.isGuidedTourEmployeesOpen = false; state.modal.isGuidedTourDutyScheduleOpen = true }
+    // The duty-schedule step showed a video of the 2025 interface; the tour
+    // goes from the calendar straight to employees.
+    if (back === 'calendar') { state.modal.isGuidedTourEmployeesOpen = false; state.modal.isGuidedTourCalendarOpen = true }
     if (back === 'employees') { state.modal.isGuidedTourEndOpen = false; state.modal.isGuidedTourEmployeesOpen = true }
 }
 
@@ -1607,8 +1645,7 @@ function handleNextGuidedTour(next: any) {
     if (next === 'overview') { state.modal.isGuidedTourWelcomeOpen = false; state.modal.isGuidedTourDailyOverviewOpen = true }
     if (next === 'citizens-overview') { state.modal.isGuidedTourDailyOverviewOpen = false; state.modal.isGuidedTourCitizensOverviewOpen = true }
     if (next === 'calendar') { state.modal.isGuidedTourCitizensOverviewOpen = false; state.modal.isGuidedTourCalendarOpen = true }
-    if (next === 'duty-schedule') { state.modal.isGuidedTourCalendarOpen = false; state.modal.isGuidedTourDutyScheduleOpen = true }
-    if (next === 'employees') { state.modal.isGuidedTourDutyScheduleOpen = false; state.modal.isGuidedTourEmployeesOpen = true }
+    if (next === 'employees') { state.modal.isGuidedTourCalendarOpen = false; state.modal.isGuidedTourEmployeesOpen = true }
     if (next === 'end') { state.modal.isGuidedTourEmployeesOpen = false; state.modal.isGuidedTourEndOpen = true }
 }
 

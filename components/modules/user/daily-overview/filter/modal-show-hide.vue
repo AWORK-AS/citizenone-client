@@ -96,6 +96,7 @@ const FILTER_ITEMS = computed(() => [
     { key: 'showPlansAndGoals', label: t('overview.filter.items.plansAndGoals') },
     { key: 'showReminders', label: t('reminders.reminders') },
     { key: 'showNextShift', label: t('overview.filter.items.nextShift') },
+    { key: 'showOnDutyToday', label: t('overview.filter.items.onDutyToday') },
 ])
 
 /** The fixed list, minus what the admin hid, plus the admin's custom boxes. */
@@ -121,6 +122,7 @@ watch(() => userStore.getUser, (user: any) => {
         dailyOverviewStore.setDailyOverviewFilterFlag('showReminders', saved?.showReminders ?? true)
         // Same for the next-shift box: on until someone switches it off.
         dailyOverviewStore.setDailyOverviewFilterFlag('showNextShift', saved?.showNextShift ?? true)
+        dailyOverviewStore.setDailyOverviewFilterFlag('showOnDutyToday', saved?.showOnDutyToday ?? true)
         // Personal choices about the admin's custom boxes.
         for (const key of Object.keys(saved).filter((entry) => entry.startsWith('custom:'))) {
             dailyOverviewStore.setDailyOverviewFilterFlag(key, saved[key])

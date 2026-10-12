@@ -106,6 +106,11 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/daily-overview/next-shift`, 'GET')
     }
 
+    /** Who is on duty on `date` (default today), for the `department` name or the whole company when blank. */
+    async getOnDuty(params: { date?: string; department?: string }): Promise<any> {
+        return await this.request(`/user/daily-overview/on-duty`, 'GET', params)
+    }
+
     async getCitizenPlansAndGoals(params: object): Promise<any> {
         return await this.request(`/user/citizen-plans/goals-and-sub-goals/all`, 'GET', params)
     }

@@ -189,6 +189,8 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('certificateexpiry')) return 'certificate_expiry'
     if (type.toLowerCase().includes('whistleblowerreport')) return 'whistleblower'
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
+    if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
+    if (type.toLowerCase().includes('employeedeletionreminder')) return 'employee_deletion_reminder'
     return 'other'
 }
 
@@ -203,6 +205,8 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     certificate_expiry: { bg: 'bg-accent-orange/10', icon: 'ph:certificate', color: 'text-accent-orange' },
     whistleblower: { bg: 'bg-primary/10', icon: 'ph:megaphone-simple', color: 'text-primary' },
     booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
+    patient_booking: { bg: 'bg-primary/10', icon: 'ph:calendar-check', color: 'text-primary' },
+    employee_deletion_reminder: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -547,6 +551,18 @@ async function handleNotifClick(notif: any) {
             state.isOpen = false
             navigateTo('/employees/certificates')
         }
+    }
+    // A patient booked or cancelled a time online: to Booked times on that
+    // day. An event booking is in no calendar, so this is where it shows.
+    if (getCategory(notif.type) === 'patient_booking') {
+        state.isOpen = false
+        const date = notif.data?.content?.date
+        navigateTo({ path: '/calendar/bookings/appointments', query: date ? { from: date, to: date } : {} })
+    }
+    // Former employees whose data can now be deleted: the archived list, filtered to them.
+    if (getCategory(notif.type) === 'employee_deletion_reminder') {
+        state.isOpen = false
+        navigateTo('/settings/archived/employees?filter=deletable')
     }
 }
 

@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Shared documents",
+        "enterPassword": "Enter the password you received from the sender to open the documents.",
+        "password": "Password",
+        "unlock": "Open",
+        "lock": "Close",
+        "sharedBy": "Shared by {name}, {company}",
+        "linkExpires": "The link works until {date}",
+        "folderPath": "Folder path",
+        "view": "View",
+        "download": "Download",
+        "empty": "This folder is empty.",
+        "changeLanguage": "Change language",
+        "somethingWentWrong": "Something went wrong. Please try again."
+    },
+    "comingFunctions": {
+        "title": "Coming functions",
+        "intro": "Here you can see what we're working on and what's coming next in CitizenOne. Missing something? Send us a wish.",
+        "sendWish": "Send a wish",
+        "empty": "There are no coming functions to show right now.",
+        "sections": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Recently released"
+        },
+        "status": {
+            "in_progress": "In progress",
+            "planned": "Planned",
+            "released": "Released"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Export",
         "filters": {
@@ -915,6 +946,10 @@
             "deleteEmployee": "Are you sure you want to permanently delete this employee? This action cannot be undone."
         },
         "table": {
+            "lastWorkingDay": "Last working day",
+            "canBeDeletedFrom": "Can be deleted from",
+            "canBeDeleted": "Can be deleted",
+            "readyForDeletion": "Ready for deletion",
             "actions": {
                 "unarchive": "Unarchive",
                 "unarchiveCitizen": "Unarchive @:terms.citizen{''}",
@@ -1442,6 +1477,14 @@
         "featured": "Featured"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Duplicate",
+            "help": "Creates a new event with the same title, description, participants and tags. You choose the date and time."
+        },
+        "onlyMine": {
+            "label": "Only mine",
+            "help": "Shows only events you own or are invited to"
+        },
         "shortcuts": {
             "view": "{view} (press {key})",
             "today": "Go to today (press T)",
@@ -2079,6 +2122,49 @@
                 "template": "Template",
                 "useTemplate": "Use template"
             },
+            "sendLink": {
+                "title": "Send link by email",
+                "fileIntro": "The recipient can view and download this file.",
+                "folderIntro": "The recipient can view and download everything in this folder, including subfolders.",
+                "recipients": "Recipients",
+                "recipientsPlaceholder": "Type an email address and press Enter",
+                "recipientsHelp": "Up to 10 recipients.",
+                "password": "Password",
+                "confirmPassword": "Confirm password",
+                "passwordHelp": "The password is not included in the email. Give it to the recipient another way, e.g. by phone or text message.",
+                "expiresAt": "Link expires",
+                "emailLanguage": "Email language",
+                "message": "Message (optional)",
+                "messagePlaceholder": "Write a message to the recipient",
+                "send": "Send link",
+                "sent": "The link has been sent",
+                "sentLinks": "Sent links",
+                "sentLinksIntro": "Links sent by email from these documents. Revoke a link to stop it working straight away.",
+                "document": "Document",
+                "sentTo": "Sent to",
+                "sentBy": "Sent by",
+                "expires": "Expires",
+                "active": "Active",
+                "expired": "Expired",
+                "copyLink": "Copy link",
+                "linkCopied": "Link copied",
+                "revoke": "Revoke link",
+                "revokeConfirmation": "Revoke this link? The recipients will no longer be able to open it",
+                "revoked": "The link has been revoked",
+                "languages": {
+                    "dk": "Danish",
+                    "en": "English",
+                    "no": "Norwegian",
+                    "sv": "Swedish"
+                },
+                "alert": {
+                    "recipientRequired": "Add at least one email address",
+                    "tooManyRecipients": "You can send to at most 10 recipients",
+                    "passwordMin": "Use at least 8 characters",
+                    "passwordMismatch": "The passwords do not match",
+                    "expiryRange": "Choose a date between today and one year from now"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Access",
@@ -2088,6 +2174,7 @@
                     "edit": "Edit",
                     "move": "Move",
                     "openSelected": "Open selected",
+                    "sendLink": "Send link by email",
                     "share": "Share",
                     "statuses": "Statuses",
                     "unshare": "Unshare",
@@ -2277,11 +2364,16 @@
             "selectedAddress": "Selected Address",
             "selectedLocation": "Selected Location",
             "autoFilledFromSsn": "Filled in from the CPR number",
+            "cprExists": "{name} already has this CPR number.",
+            "cprExistsArchived": "{name} already has this CPR number, but is archived.",
+            "cprExistsHidden": "A @:terms.citizen{''} with this CPR number already exists, but you don't have access to them. Ask a manager.",
+            "cprExistsOpen": "Open",
             "selectGender": "Select gender",
+            "selectOrTypeGender": "Select or type a gender",
             "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
             "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
-            "ssn": "Social security number",
+            "ssn": "CPR number",
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
                 "accommodationStartDate": "Accommodation start date",
@@ -2624,6 +2716,14 @@
         },
         "medicationAllergies": "Medication allergies (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Self-administered",
+                "hint": "Hand out only – @:terms.citizenDefinite{''} takes it themselves.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} takes this medicine themselves. It only needs to be handed out – register it as delivered, not given.",
+                "batchAuto": "Automatic – delivered for self-administered, otherwise given",
+                "overdue": "The medicine is {time} late. Hand it out, or register a deviation.",
+                "handOutNow": "Hand out now"
+            },
             "alert": {
                 "successfullyActivated": "Medicine successfully activated",
                 "successfullyDeactivated": "Medicine successfully deactivated",
@@ -3003,6 +3103,7 @@
                 "lastGivenHoursAgo": "Last given {hours} hours ago. Wait {remaining} more hours.",
                 "hoursLeft": "{hours}h left",
                 "givePN": "Give PN",
+                "handOutPN": "Hand out PN",
                 "noScheduledMedicines": "No scheduled medicines",
                 "overdueDeviation": "Overdue/deviation",
                 "givenLegend": "Given",
@@ -3461,7 +3562,7 @@
             "name": "Name",
             "phone": "Phone",
             "section": "Paragraph / service type",
-            "ssn": "Social security number",
+            "ssn": "CPR number",
             "consultant": "Consultant",
             "startupStatus": "Start-up status",
             "phase": "Status / phase",
@@ -4696,7 +4797,37 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Day load",
+            "help": "Staff on duty each day – counted over all employees, not just this page – against the departments' minimum staffing. Red means below the minimum.",
+            "hoursShort": "{hours} h",
+            "onDuty": "{count} on duty",
+            "plannedHours": "{hours} planned hours",
+            "shifts": "{count} shifts",
+            "absent": "{count} absent",
+            "openSlots": "{count} open shifts",
+            "minimum": "Minimum staffing: {count}",
+            "missing": "{count} short"
+        },
         "allDay": "All day",
+        "groups": {
+            "collapse": "Collapse department",
+            "conflicts": "{count} conflicts",
+            "employees": "{count} staff",
+            "expand": "Expand department",
+            "noDepartment": "No department",
+            "shifts": "{count} shifts"
+        },
+        "moreShifts": "{count} more shifts – click to show all",
+        "optimizedNotice": {
+            "title": "The duty schedule is easier to read",
+            "compact": "Shifts take less room, and a day shows the first few – click +N for the rest.",
+            "groups": "On All departments, staff are grouped by department, with yours first.",
+            "tooltips": "Hover over a button to see what it does.",
+            "dismiss": "Got it",
+            "dismissTooltip": "Close this message – it will not show again"
+        },
+        "showFewerShifts": "Show only the first shifts",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
             "hint": "Enter to save · Esc to cancel"
@@ -5537,6 +5668,7 @@
             },
             "numberOfShifts": "Number of shifts",
             "offerNewTime": "Offer new time",
+            "offeredShiftsOnDay": "Offered shifts you can take: {count}",
             "opportunityForAShift": "Opportunity for a shift",
             "scheduleSlots": "Schedule slots",
             "table": {
@@ -7052,7 +7184,9 @@
                 "jobSpecialty": "Job specialty",
                 "jobTitle": "Job titles",
                 "salaryID": "Salary ID",
-                "terminationDate": "Termination date",
+                "terminationDate": "Last working day",
+                "terminationDateHint": "We'll remind administrators when this employee's data can be deleted (5 years after this date).",
+                "terminationBeforeEmployment": "The last working day cannot be before the employment date",
                 "vacationDays": "Vacation days",
                 "weeklyNormHours": "Weekly norm hours",
                 "weeks": "Weeks",
@@ -7164,6 +7298,7 @@
             "employeeInformations": "Employee informations",
             "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs",
+            "monthlySheet": "Monthly sheet",
             "consultantProfile": "Consultant profile"
         },
         "timeLogs": "Time Logs",
@@ -8093,13 +8228,13 @@
         "economy": "Economy",
         "employees": "Employees",
         "health": "Health Records",
-        "hint": "Search for @:terms.citizens{''}, journals, medicine and more...",
+        "hint": "Search for @:terms.citizens{''}, CPR numbers, journals, medicine and more...",
         "invoices": "Invoices",
         "journals": "Journals",
         "medicines": "Medicines",
         "noResults": "No results found",
         "pages": "Pages",
-        "placeholder": "Search for @:terms.citizens{''}, journals, medicine and more...",
+        "placeholder": "Search for @:terms.citizens{''}, CPR numbers, journals, medicine and more...",
         "plans": "Plans & Goals",
         "recent": "Recent searches",
         "searching": "Searching...",
@@ -8140,6 +8275,42 @@
     "guidedTour": "Guided tour",
     "helpGuide": {
         "scheduleTitle": "Help & Guide - Schedule",
+        "askMilo": "Ask Milo",
+        "askMiloTooltip": "Ask Milo about the duty schedule",
+        "askMiloGeneral": "Ask Milo if you need help",
+        "miloHelpLabel": "Help",
+        "miloQuestions": {
+            "inApp": {
+                "q1": "How do I write a journal note?",
+                "q2": "How do I give a colleague access to a department?",
+                "q3": "How do I contact support?"
+            },
+            "schedules": {
+                "q1": "How do I copy a week to the next week?",
+                "q2": "What does +N on a day mean?",
+                "q3": "How do I approve a shift swap?"
+            },
+            "calendar": {
+                "q1": "How do I create a recurring appointment?",
+                "q2": "How do I show only my own appointments?",
+                "q3": "How do I delete the rest of a series?"
+            },
+            "overview": {
+                "q1": "How do I choose which boxes I see?",
+                "q2": "Why are some boxes locked?",
+                "q3": "What is the shift summary?"
+            },
+            "citizens": {
+                "q1": "How do I create a new {citizen}?",
+                "q2": "How do I archive a {citizen}?",
+                "q3": "How do I find a {citizen} by CPR number?"
+            },
+            "employees": {
+                "q1": "How do I invite a new employee?",
+                "q2": "How do I archive an employee?",
+                "q3": "How do I give an employee access to a department?"
+            }
+        },
         "title": "Help & Guide"
     },
     "hideAll": "Hide all",
@@ -8998,6 +9169,8 @@
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
         "openInNewWindow": "Open in new window",
+        "openCitizenJournal": "Open {name}'s journal",
+        "openCitizenProfile": "Open {name}'s profile",
         "groupChat": {
             "add": "Add",
             "addUser": "Add user",
@@ -9259,11 +9432,14 @@
     "navbar": {
         "apps": "Apps",
         "colleagues": "Colleagues",
+        "myMonthlySheet": "My monthly sheet",
         "forms": "Forms",
         "invoices": "Invoices",
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "newWishes": "New wishes",
+        "comingFunctions": "Coming functions",
         "reminders": "Reminders",
         "settings": "Settings",
         "subscription": "Subscription",
@@ -9450,6 +9626,7 @@
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
                 "nextShift": "Next shift",
+                "onDutyToday": "On duty today",
                 "plansAndGoals": "Plans and goals",
                 "riskAssessment": "Risk assessment",
                 "scheduleSlots": "Schedule slots",
@@ -9549,6 +9726,20 @@
             "viewSchedule": "Open duty schedule",
             "reminderInfo": "In the mobile app you get a push reminder 2 hours before the shift starts.",
             "onlyDifferent": "This shift is in a different department than the one you usually work in."
+        },
+        "onDuty": {
+            "title": "Who is on duty today?",
+            "none": "Nobody is on the duty schedule this day.",
+            "onDutyCount": "{count} on duty",
+            "workingNowCount": "{count} working now",
+            "absentCount": "{count} absent",
+            "absent": "Absent",
+            "now": "Now",
+            "wholeCompany": "Whole company",
+            "yesterday": "Yesterday",
+            "goToToday": "Go to today",
+            "onlyYou": "You can only see your own shifts. Ask your manager if you should see your colleagues.",
+            "onlyYourDepartments": "You see colleagues in your own departments."
         },
         "myDailyEvents": "My daily events",
         "news": "News",
@@ -10017,6 +10208,19 @@
     },
     "proceed": "Proceed",
     "protocols": {
+        "attendanceExport": {
+            "button": "Download attendance",
+            "title": "Download attendance",
+            "help": "One Excel file with attendance and absence per citizen and per department, ranked, plus every registration. A citizen in several departments counts in each of them.",
+            "period": "Period",
+            "thisMonth": "This month",
+            "lastMonth": "Last month",
+            "thisYear": "This year",
+            "departments": "Departments",
+            "allDepartmentsHint": "Leave empty to include every department.",
+            "protocols": "Protocols",
+            "download": "Download"
+        },
         "download": "Download",
         "editProtocol": "Edit protocol",
         "form": {
@@ -10046,6 +10250,11 @@
             "perHour": "Per hour",
             "recordingModeDayHelp": "One entry per citizen for each day.",
             "recordingModeHourHelp": "One entry per citizen for each time slot on every day, so attendance can be recorded hour by hour.",
+            "clipCard": "Clip card",
+            "recordingModeClipHelp": "Each citizen gets a card with a number of clips. Use a clip on any day between the start and end date when the citizen is present.",
+            "clipCount": "Number of clips",
+            "clipCountPlaceholder": "e.g. 10",
+            "clipCountHelp": "Each citizen on the protocol gets their own card with this many clips. It can't be changed later.",
             "timeSlots": "Time slots",
             "timeSlotsHelp": "Fill in a slot for every hour in a range, or add slots one at a time.",
             "fromHour": "From",
@@ -10059,7 +10268,8 @@
             "errors": {
                 "timeSlotsRequired": "Add at least one time slot.",
                 "timeSlotEndAfterStart": "Each time slot must end after it starts.",
-                "timeSlotsOverlap": "Time slots must not overlap."
+                "timeSlotsOverlap": "Time slots must not overlap.",
+                "clipCountBetween": "Enter a whole number between 1 and 500."
             }
         },
         "checkIn": "Check in",
@@ -10068,6 +10278,29 @@
         "today": "Today",
         "other": "Other",
         "noTodayEntries": "No protocol entries for today",
+        "clipCard": {
+            "summary": "{clips} clips per citizen · Valid {start} – {end}",
+            "clipsLeft": "{remaining} of {total} clips left",
+            "clipsUsedBadge": "Clips used: {used}",
+            "useClip": "Use clip",
+            "history": "History",
+            "hideHistory": "Hide history",
+            "lastUsed": "Last used {date} at {time}",
+            "notUsedYet": "Not used yet",
+            "usedUp": "Card used up",
+            "noUses": "No clips used yet.",
+            "usedOn": "Used {date} at {time}",
+            "undo": "Undo",
+            "undoConfirmation": "Undo this clip? It goes back on the card.",
+            "clipUsed": "Clip used for {name}. {remaining} left.",
+            "clipUndone": "Clip undone. {remaining} left.",
+            "notStarted": "This clip card can be used from {date}.",
+            "expired": "This clip card expired on {date}. Clips can no longer be used.",
+            "noCards": "No citizens on this clip card.",
+            "searchCitizen": "Search citizen",
+            "myClipCards": "My clip cards",
+            "validPeriod": "Valid {start} – {end}"
+        },
         "newProtocol": "New protocol",
         "protocols": "Protocols",
         "table": {
@@ -10431,6 +10664,17 @@
         "strongPasswordSub": "Use at least 8 characters with numbers and symbols",
         "strongPasswordTitle": "Create a strong password"
     },
+    "citizenVisibility": {
+        "notice": "You are not linked to any department, @:terms.citizens{''} or employee group, so you cannot see any @:terms.citizens{''} yet. Please contact your manager.",
+        "noticeHelp": "Staff see @:terms.citizens{''} in their own departments, @:terms.citizens{''} assigned to them, and @:terms.citizens{''} through their employee groups. Your manager can add you to a department or assign @:terms.citizens{''} to you.",
+        "noticeHelpLabel": "Why can I not see any @:terms.citizens{''}?",
+        "levelAll": "Sees every @:terms.citizen{''} in the company",
+        "levelLimited": "Sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups (or all, if the company does not use departments)",
+        "levelHelp": "The level decides which @:terms.citizens{''} the role can see. @:roles.table.manager and above see every @:terms.citizen{''} in the company. @:roles.table.regular sees only @:terms.citizens{''} in own departments, assigned ones and those via employee groups. If the company does not use departments, everyone sees all @:terms.citizens{''}.",
+        "levelHelpLabel": "What does the level mean?",
+        "badgeAll": "All @:terms.citizens{''}",
+        "badgeLimited": "Own @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Add new role",
         "alert": {
@@ -10654,6 +10898,31 @@
     },
     "search": "Search",
     "sections": {
+        "sectionsAndServiceTypes": "Paragraphs & service types",
+        "list": {
+            "description": "Each entry is a paragraph on citizens and the service type an inquiry is registered under. Add the standard hourly rate on the row; it applies from today.",
+            "add": "Add",
+            "search": "Search",
+            "empty": "There are no paragraphs yet.",
+            "noMatch": "No paragraphs match the search.",
+            "hourlyRate": "Standard hourly rate",
+            "hourlyRatePlaceholder": "E.g. 650",
+            "perHour": "per hour",
+            "noRate": "No standard rate",
+            "framework": "Framework",
+            "frameworkHint": "Set by the focus-area field under Inquiry fields.",
+            "frameworks": {
+                "ics": "ICS",
+                "vum": "VUM",
+                "both": "ICS + VUM"
+            },
+            "inactive": "Turned off: not offered on new inquiries",
+            "alert": {
+                "saveFailed": "The paragraph could not be saved",
+                "rateFailed": "The paragraph was saved, but the hourly rate could not be saved",
+                "deleteFailed": "The paragraph could not be deleted"
+            }
+        },
         "mirrored": "Follows a service type",
         "mirroredTooltip": "This paragraph is kept under Service types. Change the name and paragraph there, and it follows here.",
         "addNewSection": "Add new section",
@@ -10792,6 +11061,12 @@
                 "relativeChatContactPersons": "Relatives can write to the @:terms.citizen{''}'s assigned contact persons",
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
+                "chatCprWarning": "Warn about CPR numbers in chat",
+                "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
+                "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
+                "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
+                "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
+                "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
                 "groupPortalAccess": "Portal access",
                 "portalAccessHint": "Choose what relatives, third parties and @:terms.citizens{''} can see in their own portal",
@@ -10920,7 +11195,8 @@
                 "portalSectionForms": "Forms",
                 "portalSectionPriceEstimates": "Price estimates",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
-                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them."
+                "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
+                "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -10990,6 +11266,7 @@
             "employment": "Jobcenter"
         },
         "tabs": {
+            "sectionsAndServiceTypes": "Paragraphs & service types",
             "absences": "Absences",
             "activityLogs": "Activity logs",
             "addictions": "Substance abuse",
@@ -11053,6 +11330,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
@@ -11134,6 +11412,29 @@
             "how1": "Click “Connect to e-conomic”.",
             "how2": "Approve access in e-conomic (App Connect).",
             "how3": "You are returned here. Invoices can then be sent to e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send invoices from CitizenOne to Dinero as bookkeeping vouchers.",
+            "adminOnly": "Only administrators can manage the Dinero connection.",
+            "notPurchased": "The Dinero app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "The Client ID Dinero issued you",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "The Client Secret Dinero issued you",
+            "apiKeyLabel": "Dinero API key",
+            "apiKeyPlaceholder": "Paste the API key from your Dinero organization",
+            "howTitle": "How to connect",
+            "how1": "In Dinero, go to Settings → Integrations and request a personal integration to get a Client ID, Client Secret and API key for this organization.",
+            "how2": "Paste all three here and click “Connect”.",
+            "how3": "Once connected, invoices can be sent to Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk integration",
@@ -11266,6 +11567,10 @@
             "economic": {
                 "title": "What does e-conomic do?",
                 "body": "Send invoices and vouchers on to your accounting system, so the figures are only typed once."
+            },
+            "dinero": {
+                "title": "What does Dinero do?",
+                "body": "Send invoices on to Dinero as bookkeeping vouchers, so the figures are only typed once."
             },
             "fst": {
                 "title": "What is FindSocialeTilbud.dk?",
@@ -11567,7 +11872,7 @@
             "remove": "Remove"
         },
         "currentSubscription": "Current subscription",
-        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Your subscription is a specified agreement with CitizenOne.", "agreementText": "Specified agreement – prices and terms follow your agreement with CitizenOne.", "usage": "{used} of {total} {label} in use", "contact": "Contact us", "contactHelp": "Write to CitizenOne about your agreement, prices or changes."},
+        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Your subscription is a specified agreement with CitizenOne.", "agreementText": "Specified agreement – prices and terms follow your agreement with CitizenOne.", "usage": "{used} of {total} {label} in use", "contact": "Contact us", "contactHelp": "Write to CitizenOne about your agreement, prices or changes."},
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",
             "admin": "Admin",
@@ -11620,6 +11925,34 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "The functions all users see under \"Coming functions\" in the profile menu. Only published items are shown.",
+            "newItem": "New item",
+            "editItem": "Edit item",
+            "noItems": "No items with this status.",
+            "dragHint": "Drag the items to change the order users see them in.",
+            "published": "Published",
+            "draft": "Draft",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "deleteConfirm": "Are you sure you want to delete this item?",
+            "visibleToEveryone": "Visible to all industries",
+            "visibleToIndustries": "Only visible to the selected industries",
+            "releasedOn": "Released {date}",
+            "form": {
+                "title": "Title",
+                "description": "Description",
+                "descriptionHint": "Write for users: what the function does and how it helps them.",
+                "status": "Status",
+                "expectedPeriod": "Expected",
+                "expectedPeriodPlaceholder": "E.g. Q2 2027 or April 2027",
+                "industries": "Industries",
+                "industriesHint": "Leave empty to show the item to all industries.",
+                "published": "Show to users",
+                "publishedHint": "Drafts are only visible here in superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Accounts",
             "alert": {
@@ -12787,6 +13120,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App categories",
             "companies": "Companies",
@@ -14929,6 +15263,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statuses and journal notes",
+            "hint": "Delete old statuses, and optionally the journal notes behind them, automatically. Checked every day: anything older than 365 days is deleted.",
+            "statusSwitch": "Delete statuses in treatments and goals after 365 days",
+            "statusSwitchHint": "Statuses on plans, goals, sub-goals and treatments, including the copies of journal notes on goals.",
+            "journalSwitch": "Also delete the journal notes themselves",
+            "journalSwitchHint": "Only notes linked to a goal. Medical record notes, drafts and notes not linked to a goal are never deleted.",
+            "previewOn": "{statuses} statuses will be deleted from {date}.",
+            "previewOff": "If you switch this on, {statuses} statuses would be deleted today.",
+            "previewJournals": "{journals} journal notes would also be deleted.",
+            "lessHistory": "Lists, graphs, the development overview and PDF exports will show less history after this. Deleted items are hidden, not erased from the database.",
+            "nextRun": "Next deletion: daily; first run {date}.",
+            "confirmEnable": "This hides statuses (and journal notes, if selected) older than 365 days from the system. They are not erased from the database, and can be restored on request. The first deletion runs on {date}. You can switch it off before then."
+        },
         "retention": {
             "title": "GDPR Data Retention",
             "retentionPeriod": "Retention period",
@@ -14954,6 +15302,9 @@
             "deletionCancelled": "Scheduled deletion cancelled"
         },
         "deletionLog": {
+            "statusJournalRun": "Statuses and journal notes",
+            "statusJournalCounts": "{statuses} statuses, {journals} notes (before {date})",
+            "triggerStatusJournal": "Statuses and notes (automatic)",
             "title": "Deletion log",
             "fromDate": "From date",
             "toDate": "To date",
@@ -15271,6 +15622,35 @@
         },
         "fill": {
             "enterAnswer": "Enter your answer"
+        }
+    },
+    "welcomeTour": {
+        "name": "Milo",
+        "skip": "Skip the tour",
+        "skipHelp": "Close the tour. You can start it again from Get started.",
+        "finish": "Done",
+        "finishHelp": "Finish the tour",
+        "restart": "Show me around",
+        "restartHelp": "Start Milo's tour again from the beginning",
+        "careHome": {
+            "citizens": "This is where your @:terms.citizens{''} live. Journal, plans, goals and documents are gathered on each @:terms.citizen{''}.",
+            "colleagues": "Invite your colleagues. The role decides which @:terms.citizens{''} they can see.",
+            "today": "The shift starts here: who is on, what is going to happen, which medicine is to be given.",
+            "journal": "The journal note is written here, ideally right after it happened.",
+            "end": "You will find the rest in the checklist. And you can always ask me here."
+        },
+        "clinic": {
+            "calendar": "Your appointments live here. Add your working hours first.",
+            "booking": "Create your services with duration and price, and turn on online booking.",
+            "clients": "Every @:terms.citizen{''} has their own journal, and the note is written after the treatment.",
+            "invoices": "The invoice is sent straight from here.",
+            "end": "You will find the rest in the checklist. Ask me if you get stuck."
+        },
+        "staff": {
+            "welcome": "Welcome. I'll show you the most important things in under a minute.",
+            "day": "Here you see your day. Tap a citizen or client to write the note.",
+            "messages": "Write to your colleagues here.",
+            "end": "And you can always ask me here."
         }
     },
     "appTours": {
@@ -15809,6 +16189,44 @@
             "billing": "Billing extraction"
         }
     },
+    "monthlySheet": {
+        "title": "Monthly sheet",
+        "subtitle": "Planned shifts, clocked time, absence and extra hours for every day of the month.",
+        "previousMonth": "Previous month",
+        "nextMonth": "Next month",
+        "month": "Month",
+        "download": "Download",
+        "downloadPdf": "PDF",
+        "downloadExcel": "Excel",
+        "planned": "Planned",
+        "worked": "Worked",
+        "clocked": "Clocked",
+        "norm": "Norm",
+        "balance": "Balance",
+        "absence": "Absence",
+        "extraHours": "Extra hours",
+        "date": "Date",
+        "plannedShift": "Planned shift",
+        "plannedHours": "Planned",
+        "absenceColumn": "Absence",
+        "clockedInOut": "Clocked in – out",
+        "clockedHours": "Clocked",
+        "extra": "Extra hours",
+        "difference": "Difference",
+        "remarks": "Remarks",
+        "totals": "Month totals",
+        "absenceByType": "Absence by type",
+        "byShiftType": "Hours by shift type",
+        "days": "days",
+        "pending": "pending",
+        "declined": "declined",
+        "open": "not ended",
+        "empty": "Nothing is planned or registered for this month.",
+        "loadError": "The monthly sheet could not be loaded.",
+        "hint": "Worked hours follow the duty schedule, the same figure as the hours statistics. Clocked hours come from time logs and are shown separately.",
+        "clampedNote": "Norm and balance cover {start} – {end} only.",
+        "pendingExtra": "{hours} pending"
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",
@@ -16209,6 +16627,7 @@
             "recipientPlaceholder": "Recipient (otherwise the department e-mail)",
             "sendEmail": "Send by e-mail",
             "pushEconomic": "Send to e-conomic as draft",
+            "pushDinero": "Send to Dinero as voucher",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -16228,6 +16647,9 @@
                 "invoice_not_found": "The invoice was not found",
                 "customer_failed": "The customer could not be created in e-conomic",
                 "invoice_failed": "The draft could not be created in e-conomic",
+                "dinero_not_connected": "Dinero is not connected",
+                "dinero_invoice_not_found": "The invoice was not found",
+                "dinero_voucher_failed": "The voucher could not be created in Dinero",
                 "unknown_action": "Unknown action"
             }
         },
@@ -17738,6 +18160,46 @@
             "noPlans": "Nothing to show from your citizens' plans right now.",
             "overdue": "Overdue {date}",
             "dueToday": "Due today"
+        }
+    },
+    "inquiryForms": {
+        "title": "Inquiry forms",
+        "description": "The forms to choose from under \"New inquiry\". Switch off the ones you do not use, create your own, and choose which built-in fields each form asks for.",
+        "add": "Create form",
+        "addHint": "A new form asks only for date, department, name and CPR. Choose the rest afterwards.",
+        "builtin": "Built-in",
+        "builtinHint": "Follows the registration of inquiries under sections 110 and 109 of the Danish Social Services Act. Can be switched off, not deleted.",
+        "serviceTypeHint": "Inquiries on this form get the service type chosen in advance.",
+        "fieldCount": "{count} built-in fields",
+        "noneActive": "No forms are switched on. Switch one on under Settings → Inquiry forms.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Referral from municipality",
+            "serviceType": "Service type (optional)",
+            "noServiceType": "None"
+        },
+        "actions": {
+            "switchOff": "Switch the form off",
+            "switchOn": "Switch the form on",
+            "fields": "Choose built-in fields",
+            "ownFields": "Own fields on the form",
+            "rename": "Rename the form",
+            "delete": "Delete the form"
+        },
+        "fields": {
+            "hint": "Untick a field to hide it. Fields with a lock cannot be hidden.",
+            "saved": "The fields are saved",
+            "locked": "Locked",
+            "lockedRegistration": "Used in the registration of inquiries under sections 110/109, so it cannot be hidden on this form.",
+            "lockedAlways": "Every inquiry needs this field."
+        },
+        "confirmation": {
+            "delete": "Are you sure you want to delete this form"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The form is deleted",
+            "deleteFailed": "The form could not be deleted"
         }
     },
     "documentTabs": {

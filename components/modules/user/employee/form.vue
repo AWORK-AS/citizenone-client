@@ -282,6 +282,7 @@
                         <FormLabel for="termination_date" :label="$t('employees.form.employment.terminationDate')" />
                         <FormDateField id="termination_date" name="termination_date"
                             v-model="state.formEmployee.employment.termination_date" />
+                        <p class="text-xs text-gray-500">{{ $t('employees.form.employment.terminationDateHint') }}</p>
                         <FormError
                             :error="v$?.formEmployee?.employment?.termination_date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.termination_date?.[0]" />
@@ -914,6 +915,17 @@ const rules = computed(() => {
             formEmployee: {
                 firstname: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+                employment: {
+                    termination_date: {
+                        afterEmployment: helpers.withMessage(
+                            () => `${t('employees.form.employment.terminationBeforeEmployment')}.`,
+                            (value: string) => {
+                                const start = state.formEmployee.employment.employment_date
+                                return !value || !start || new Date(value) >= new Date(start)
+                            },
+                        ),
+                    },
                 },
             },
         }

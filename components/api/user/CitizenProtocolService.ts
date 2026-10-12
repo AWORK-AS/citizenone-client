@@ -31,6 +31,11 @@ class CitizenProtocolService extends BaseAPIService {
         return await this.request(`/user/attendance-reports/weekly`, 'GET', params)
     }
 
+    // Attendance and absence per citizen and department, as an .xlsx file.
+    async exportAttendance(params: object): Promise<Blob | null> {
+        return await this.requestBlob(`/user/attendance-reports/export`, 'GET', params)
+    }
+
     async getMonthlyAttendanceReport(params: object): Promise<any> {
         return await this.request(`/user/attendance-reports/monthly`, 'GET', params)
     }

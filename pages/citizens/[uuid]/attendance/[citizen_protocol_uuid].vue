@@ -46,7 +46,20 @@
                                     v-model="state.page_limit" />
                             </div>
                             <div class="flex flex-col-reverse md:flex-row gap-2 md:items-center">
-                                <div class="flex gap-x-2">
+                                <!-- Task 136: every entry on a clip card is a clip used, so the card's
+                                     count says more than an attendance rate. -->
+                                <div class="flex gap-x-2" v-if="state.citizenProtocolsCount?.data?.clip_count">
+                                    <Badge type="primary" class="w-fit">
+                                        {{ $t('protocols.clipCard.clipsUsedBadge', { used: state.citizenProtocolsCount.data.clips_used }) }}
+                                    </Badge>
+                                    <span class="w-fit px-2 py-1 rounded-full border border-gray-300 bg-white text-gray-700 text-xs">
+                                        {{ $t('protocols.clipCard.clipsLeft', {
+                                            remaining: state.citizenProtocolsCount.data.clips_remaining,
+                                            total: state.citizenProtocolsCount.data.clip_count,
+                                        }) }}
+                                    </span>
+                                </div>
+                                <div class="flex gap-x-2" v-else>
                                     <Badge type="primary" class="w-fit">
                                         {{ $t('protocols.table.status.attended') }}:
                                         {{ state.citizenProtocolsCount?.data?.attended ?? 0 }}

@@ -5,6 +5,11 @@ class ProtocolService extends BaseAPIService {
         return await this.request(`/user/protocols`, 'GET', params)
     }
 
+    // Name and uuid of every protocol, for pickers.
+    async getProtocolList(): Promise<any> {
+        return await this.request(`/user/protocols/all/list`, 'GET')
+    }
+
     async getProtocol(protocolUuid: any): Promise<any> {
         return await this.request(`/user/protocols/${protocolUuid}`, 'GET')
     }
@@ -39,6 +44,19 @@ class ProtocolService extends BaseAPIService {
 
     async getCitizenProtocolsCount(citizenUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizens/${citizenUuid}/citizen-protocols-count`, 'GET', params)
+    }
+
+    // Task 136: clip cards
+    async getClipCards(protocolUuid: string): Promise<any> {
+        return await this.request(`/user/protocols/${protocolUuid}/clip-cards`, 'GET')
+    }
+
+    async useClip(cardUuid: string): Promise<any> {
+        return await this.request(`/user/protocol-clip-cards/${cardUuid}/use`, 'POST')
+    }
+
+    async undoClip(cardUuid: string, useUuid: string): Promise<any> {
+        return await this.request(`/user/protocol-clip-cards/${cardUuid}/uses/${useUuid}`, 'DELETE')
     }
 }
 

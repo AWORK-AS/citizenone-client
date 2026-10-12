@@ -8,6 +8,12 @@
                             <ModulesUserMyCalendarLinkedNote :journal="props.selectedSchedule?.journal"
                                 :citizenUuid="props.selectedSchedule?.citizen?.uuid" />
                         </div>
+                        <Tooltip :text="$t('calendar.duplicate.help')" position="bottom">
+                            <FormButton type="button" buttonStyle="action" @click="emit('duplicateEvent', props.selectedSchedule)">
+                                <Icon name="ph:copy" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('calendar.duplicate.label') }}
+                            </FormButton>
+                        </Tooltip>
                         <FormButton type="button" buttonStyle="danger" @click="state.modal.isDeleteScheduleOpen = true">
                             {{ $t('events.delete') }}
                         </FormButton>
@@ -45,7 +51,7 @@ const props = defineProps({
         required: true,
     }
 })
-const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent'])
+const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'duplicateEvent'])
 
 const state = reactive({
     error: {} as Error,

@@ -246,6 +246,7 @@
 </template>
 
 <script setup lang="ts">
+import { duplicateFields } from '@/composables/calendarEventPresentation'
 import { usePermissions } from '@/composables/usePermissions'
 import moment from 'moment'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
@@ -272,6 +273,10 @@ const props = defineProps({
     selectedSchedule: {
         type: Object,
         required: true,
+    },
+    duplicateOf: {
+        type: Object,
+        default: null,
     },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
@@ -432,9 +437,40 @@ watch(() => props.selectedSchedule?.date_time_start, (dateTimeStart: any) => {
     }
 })
 
+// A duplicate keeps its length when its start moves; a new event is an hour.
+const eventMinutes = computed(() => props.duplicateOf ? duplicateFields(props.duplicateOf).durationMinutes : 60)
+
 watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
-    state.formSchedule.date_time_end = moment(dateTimeStart).add(1, 'hours').format('YYYY-MM-DD HH:mm')
+    state.formSchedule.date_time_end = moment(dateTimeStart).add(eventMinutes.value, 'minutes').format('YYYY-MM-DD HH:mm')
 })
+
+// "Duplicate": start from the original's content and people, not its date,
+// series or journal note.
+watch(() => props.duplicateOf, (event: any, previous: any) => {
+    if (!event) {
+        // The duplicate's modal closed: don't carry its content into the next new event.
+        if (previous) {
+            state.formSchedule.title = ''
+            state.formSchedule.description = ''
+            state.formSchedule.unit_uuid = ''
+            state.formSchedule.is_private = false
+            state.formSchedule.is_online_meeting = false
+            state.formSchedule.meeting_url = ''
+            state.formSchedule.calendar_tag_uuid = [] as any
+        state.formSchedule.citizens = [] as any
+        }
+        return
+    }
+    const fields = duplicateFields(event)
+    state.formSchedule.title = fields.title
+    state.formSchedule.description = fields.description
+    state.formSchedule.unit_uuid = fields.unit_uuid
+    state.formSchedule.is_private = fields.is_private
+    state.formSchedule.is_online_meeting = fields.is_online_meeting
+    state.formSchedule.meeting_url = fields.meeting_url
+    state.formSchedule.calendar_tag_uuid = fields.calendar_tag_uuid as any
+        state.formSchedule.citizens = (fields.ownerCitizens.length ? fields.ownerCitizens : fields.inviteeCitizens) as any
+}, { immediate: true })
 
 const rules = computed(() => {
     if (state.formSchedule.recurring.is_recurring) {

@@ -42,6 +42,10 @@
                 <Icon name="ph:upload-simple" class="w-4 h-4" />
                 {{ $t('socialWelfare.invoices.pushEconomic') }}
             </FormButton>
+            <FormButton v-if="state.dineroAvailable" buttonStyle="action" :disabled="state.isWorking" @click="run('push_dinero')">
+                <Icon name="ph:upload-simple" class="w-4 h-4" />
+                {{ $t('socialWelfare.invoices.pushDinero') }}
+            </FormButton>
         </div>
 
         <LoadingSpinner :isActive="state.isLoading">
@@ -126,6 +130,7 @@ const state = reactive({
     selected: [] as string[],
     recipient: '',
     economicAvailable: false,
+    dineroAvailable: false,
     failures: {} as Record<string, string>,
 })
 
@@ -155,6 +160,7 @@ async function refresh() {
         const response = await socialWelfareService.getClientInvoices({ status: state.status })
         state.invoices = response?.data ?? []
         state.economicAvailable = Boolean(response?.economic_available)
+        state.dineroAvailable = Boolean(response?.dinero_available)
         state.selected = state.selected.filter(uuid => state.invoices.some((invoice: any) => invoice.uuid === uuid))
     } catch (error: any) {
         state.error = error

@@ -13,6 +13,10 @@ class CitizenService extends BaseAPIService {
         return await this.request(`/user/citizen-calendars`, 'GET', params)
     }
 
+    async findCitizenByCpr(cpr: string): Promise<any> {
+        return await this.request(`/user/citizens/all/cpr-match`, 'GET', { cpr })
+    }
+
     async saveCitizen(params: object): Promise<any> {
         return await this.request(`/user/citizens`, 'POST', params)
     }

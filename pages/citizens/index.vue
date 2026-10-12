@@ -29,12 +29,15 @@
                 {{ customPagesStore.getCustomPagesName?.citizens }}
             </template>
             <template #guided-tour>
-                <Tooltip :text="$t('guidedTour')" position="left" @click="openGuidedTour()">
-                    <Icon name="ph:question" class="size-6 cursor-pointer text-gray-700" aria-hidden="true" />
+                <Tooltip :text="$t('helpGuide.askMiloGeneral')" position="left">
+                    <button type="button" :aria-label="$t('helpGuide.askMiloGeneral')" class="rounded-md hover:bg-slate-100 p-0.5" @click="askMilo()">
+                        <Icon name="ph:question" class="size-6 text-gray-700" aria-hidden="true" />
+                    </button>
                 </Tooltip>
             </template>
 
             <div>
+                <VisibilityNoCitizensNotice />
                 <div
                     class="flex justify-between items-start flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
                     <div class="flex items-center gap-x-3">
@@ -546,9 +549,6 @@
             <ModulesUserCitizenJournalShareModalView :isModalOpen="state.modal.isSharedJournalsOpen"
                 @close="state.modal.isSharedJournalsOpen = false" />
 
-            <ModulesUserGuidedTourModalCitizens v-if="state.modal.isGuidedTourCitizensOverviewOpen"
-                :isModalOpen="state.modal.isGuidedTourCitizensOverviewOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourCitizensOverviewOpen = false" />
 
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
@@ -625,7 +625,6 @@ const state = reactive({
     modal: {
         isFilterOpen: false,
         isColumnsOpen: false,
-        isGuidedTourCitizensOverviewOpen: false,
         isImportCitizensOpen: false,
         isImportMapperOpen: false,
         isRiskHistoryOpen: false,
@@ -953,9 +952,6 @@ async function stopLocationTracking() {
     arrivalCheckState.isCheckingArrival = false
 }
 
-function openGuidedTour() {
-    state.modal.isGuidedTourCitizensOverviewOpen = true
-}
 
 async function fetchCitizens() {
     state.error = {}
@@ -1342,4 +1338,11 @@ watchEffect(() => {
     setPageCommands(cmds)
 })
 onUnmounted(() => clearPageCommands())
+
+// Help here is Milo, answering from the help-desk articles. The "?" used to
+// open a video tour recorded on the 2025 interface; it was also a tooltip
+// with a click handler rather than a button, so a keyboard could not reach it.
+function askMilo() {
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => tt(`helpGuide.miloQuestions.citizens.${q}`)))
+}
 </script>

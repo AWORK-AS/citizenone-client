@@ -27,11 +27,25 @@
                 </div>
                 <div class="flex items-center justify-between">
                     <p class="text-sm">
+                        {{ $t('overview.gender.nonbinary') }}
+                    </p>
+                    <p class="text-sm">
+                        {{ state.citizensGender?.data?.non_binary ?? 0 }}
+                    </p>
+                </div>
+                <div class="flex items-center justify-between">
+                    <p class="text-sm">
                         {{ $t('overview.gender.willNotDisclose') }}
                     </p>
                     <p class="text-sm">
                         {{ state.citizensGender?.data?.will_not_disclose }}
                     </p>
+                </div>
+                <!-- Genders the company added, each with its own count. -->
+                <div v-for="gender in state.citizensGender?.data?.others ?? []" :key="gender.name"
+                    class="flex items-center justify-between">
+                    <p class="text-sm">{{ gender.name }}</p>
+                    <p class="text-sm">{{ gender.count }}</p>
                 </div>
             </div>
         </div>

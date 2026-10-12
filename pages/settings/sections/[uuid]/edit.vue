@@ -27,6 +27,7 @@
 <script setup lang="ts">
 import { sectionService } from '@/components/api/user/SectionService'
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -35,9 +36,13 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const sectionUuid = router?.currentRoute?.value?.params?.uuid
+// Pipeline companies keep paragraphs and service types as one list.
+const sectionsTitleKey = (useUserStore() as any).getUser?.company?.inquiry_pipeline_enabled
+    ? 'sections.sectionsAndServiceTypes'
+    : 'sections.sections'
 const breadcrumbLinks = [
     {
-        name: 'sections.sections',
+        name: sectionsTitleKey,
         translate: true,
         href: '/settings/sections',
     },

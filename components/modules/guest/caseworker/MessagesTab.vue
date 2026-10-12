@@ -165,7 +165,6 @@ import { useChatCprWarning } from "@/composables/chatCprWarning";
 defineOptions({ name: "ModulesGuestCaseworkerMessagesTab" });
 
 const { t } = useI18n();
-const { confirmChatText } = useChatCprWarning();
 
 const props = defineProps({
     messages: {
@@ -184,7 +183,15 @@ const props = defineProps({
         type: String,
         default: "",
     },
+    // The share link has no signed-in user, so the page passes the switch of
+    // the company the chat belongs to.
+    cprWarningEnabled: {
+        type: Boolean,
+        default: false,
+    },
 });
+
+const { confirmChatText } = useChatCprWarning({ enabled: () => props.cprWarningEnabled });
 
 const emit = defineEmits<{
     (e: "refresh"): void;

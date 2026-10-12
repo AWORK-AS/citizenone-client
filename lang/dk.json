@@ -1,4 +1,35 @@
 {
+    "guestDocuments": {
+        "title": "Delte dokumenter",
+        "enterPassword": "Indtast den adgangskode, du har fået af afsenderen, for at åbne dokumenterne.",
+        "password": "Adgangskode",
+        "unlock": "Åbn",
+        "lock": "Luk",
+        "sharedBy": "Delt af {name}, {company}",
+        "linkExpires": "Linket virker indtil {date}",
+        "folderPath": "Mappesti",
+        "view": "Vis",
+        "download": "Download",
+        "empty": "Mappen er tom.",
+        "changeLanguage": "Skift sprog",
+        "somethingWentWrong": "Noget gik galt. Prøv igen."
+    },
+    "comingFunctions": {
+        "title": "Kommende funktioner",
+        "intro": "Her kan du se, hvad vi arbejder på, og hvad der kommer i CitizenOne. Mangler du noget? Send os et ønske.",
+        "sendWish": "Send et ønske",
+        "empty": "Der er ingen kommende funktioner at vise lige nu.",
+        "sections": {
+            "in_progress": "I gang",
+            "planned": "Planlagt",
+            "released": "Netop udgivet"
+        },
+        "status": {
+            "in_progress": "I gang",
+            "planned": "Planlagt",
+            "released": "Udgivet"
+        }
+    },
     "compensatoryPayoutsReport": {
         "export": "Eksporter",
         "filters": {
@@ -915,6 +946,10 @@
             "deleteEmployee": "Er du sikker på, at du vil slette denne medarbejder permanent? Denne handling kan ikke fortrydes."
         },
         "table": {
+            "lastWorkingDay": "Fratrædelsesdato",
+            "canBeDeletedFrom": "Kan slettes fra",
+            "canBeDeleted": "Kan slettes",
+            "readyForDeletion": "Klar til sletning",
             "actions": {
                 "unarchive": "Genåbn",
                 "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
@@ -1442,6 +1477,14 @@
         "featured": "Fremhævet"
     },
     "calendar": {
+        "duplicate": {
+            "label": "Dupliker",
+            "help": "Opretter en ny aftale med samme titel, beskrivelse, deltagere og etiketter. Du vælger selv dato og tid."
+        },
+        "onlyMine": {
+            "label": "Kun mine",
+            "help": "Viser kun aftaler, du ejer eller er inviteret til"
+        },
         "shortcuts": {
             "view": "{view} (tast {key})",
             "today": "Gå til i dag (tast T)",
@@ -2079,6 +2122,49 @@
                 "template": "Skabelon",
                 "useTemplate": "Brug skabelon"
             },
+            "sendLink": {
+                "title": "Send link på e-mail",
+                "fileIntro": "Modtageren kan se og downloade denne fil.",
+                "folderIntro": "Modtageren kan se og downloade alt i denne mappe, også undermapper.",
+                "recipients": "Modtagere",
+                "recipientsPlaceholder": "Skriv en e-mailadresse, og tryk Enter",
+                "recipientsHelp": "Op til 10 modtagere.",
+                "password": "Adgangskode",
+                "confirmPassword": "Bekræft adgangskode",
+                "passwordHelp": "Adgangskoden står ikke i e-mailen. Giv den til modtageren på en anden måde, fx på telefon eller sms.",
+                "expiresAt": "Linket udløber",
+                "emailLanguage": "Sprog i e-mailen",
+                "message": "Besked (valgfri)",
+                "messagePlaceholder": "Skriv en besked til modtageren",
+                "send": "Send link",
+                "sent": "Linket er sendt",
+                "sentLinks": "Sendte links",
+                "sentLinksIntro": "Links sendt på e-mail fra disse dokumenter. Tilbagekald et link for at lukke det med det samme.",
+                "document": "Dokument",
+                "sentTo": "Sendt til",
+                "sentBy": "Sendt af",
+                "expires": "Udløber",
+                "active": "Aktiv",
+                "expired": "Udløbet",
+                "copyLink": "Kopiér link",
+                "linkCopied": "Linket er kopieret",
+                "revoke": "Tilbagekald link",
+                "revokeConfirmation": "Tilbagekald linket? Modtagerne kan derefter ikke åbne det",
+                "revoked": "Linket er tilbagekaldt",
+                "languages": {
+                    "dk": "Dansk",
+                    "en": "Engelsk",
+                    "no": "Norsk",
+                    "sv": "Svensk"
+                },
+                "alert": {
+                    "recipientRequired": "Tilføj mindst én e-mailadresse",
+                    "tooManyRecipients": "Du kan højst sende til 10 modtagere",
+                    "passwordMin": "Brug mindst 8 tegn",
+                    "passwordMismatch": "Adgangskoderne er ikke ens",
+                    "expiryRange": "Vælg en dato mellem i dag og om et år"
+                }
+            },
             "table": {
                 "actions": {
                     "access": "Adgang",
@@ -2088,6 +2174,7 @@
                     "edit": "Rediger",
                     "move": "Flyt",
                     "openSelected": "Åbn valgte",
+                    "sendLink": "Send link på e-mail",
                     "share": "Del",
                     "statuses": "Statusser",
                     "unshare": "Fjern deling",
@@ -2277,7 +2364,12 @@
             "selectedAddress": "Valgt adresse",
             "selectedLocation": "Valgt placering",
             "autoFilledFromSsn": "Udfyldt ud fra CPR",
+            "cprExists": "{name} har allerede dette CPR-nummer.",
+            "cprExistsArchived": "{name} har allerede dette CPR-nummer, men er arkiveret.",
+            "cprExistsHidden": "Der findes allerede en @:terms.citizen{''} med dette CPR-nummer, men du har ikke adgang. Spørg en leder.",
+            "cprExistsOpen": "Åbn",
             "selectGender": "Vælg køn",
+            "selectOrTypeGender": "Vælg eller skriv et køn",
             "spokenLanguages": "Sprog @:terms.citizenDefinite{''} taler",
             "spokenLanguagesDescription": "Vælg de sprog, @:terms.citizenDefinite{''} kan tale. Det er ikke det samme som systemets sprog.",
             "ssnPlaceholder": "ddmmåå-xxxx",
@@ -2624,6 +2716,14 @@
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Selvadministrerende",
+                "hint": "Skal kun udleveres – @:terms.citizenDefinite{''} tager selv medicinen.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tager selv denne medicin. Den skal kun udleveres – registrér den som udleveret, ikke givet.",
+                "batchAuto": "Automatisk – udleveret for selvadministrerende, ellers givet",
+                "overdue": "Medicinen er {time} forsinket. Udlevér den, eller registrér afvigelse.",
+                "handOutNow": "Udlevér nu"
+            },
             "alert": {
                 "successfullyActivated": "Medicin aktiveret med succes",
                 "successfullyDeactivated": "Medicin deaktiveret med succes",
@@ -3003,6 +3103,7 @@
                 "lastGivenHoursAgo": "Sidst givet for {hours} timer siden. Vent {remaining} timer mere.",
                 "hoursLeft": "{hours}t tilbage",
                 "givePN": "Giv PN",
+                "handOutPN": "Udlevér PN",
                 "noScheduledMedicines": "Ingen planlagte mediciner",
                 "overdueDeviation": "Forsinket/afvigelse",
                 "givenLegend": "Givet",
@@ -4696,7 +4797,37 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Medarbejdere på vagt pr. dag – talt over alle medarbejdere, ikke kun denne side – mod afdelingernes minimumsbemanding. Rød betyder under minimum.",
+            "hoursShort": "{hours} t",
+            "onDuty": "{count} på vagt",
+            "plannedHours": "{hours} planlagte timer",
+            "shifts": "{count} vagter",
+            "absent": "{count} fraværende",
+            "openSlots": "{count} ledige vagter",
+            "minimum": "Minimumsbemanding: {count}",
+            "missing": "Mangler {count}"
+        },
         "allDay": "Hele dagen",
+        "groups": {
+            "collapse": "Fold afdelingen sammen",
+            "conflicts": "{count} konflikter",
+            "employees": "{count} medarb.",
+            "expand": "Fold afdelingen ud",
+            "noDepartment": "Uden afdeling",
+            "shifts": "{count} vagter"
+        },
+        "moreShifts": "{count} vagter mere – klik for at vise alle",
+        "optimizedNotice": {
+            "title": "Vagtplanen er blevet lettere at overskue",
+            "compact": "Vagterne fylder mindre, og en dag viser de første vagter – tryk +N for resten.",
+            "groups": "På Alle afdelinger er medarbejderne delt op i afdelinger, med din egen øverst.",
+            "tooltips": "Hold musen over en knap for at se, hvad den gør.",
+            "dismiss": "Forstået",
+            "dismissTooltip": "Luk beskeden – den vises ikke igen"
+        },
+        "showFewerShifts": "Vis kun de første vagter",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
             "hint": "Enter for at gemme · Esc for at annullere"
@@ -5537,6 +5668,7 @@
             },
             "numberOfShifts": "Antal vagter",
             "offerNewTime": "Udbyd nye vagter",
+            "offeredShiftsOnDay": "Udbudte vagter, du kan tage: {count}",
             "opportunityForAShift": "Mulighed for en vagt",
             "scheduleSlots": "Udbyd vagter",
             "table": {
@@ -7052,7 +7184,9 @@
                 "jobSpecialty": "Jobspecialitet",
                 "jobTitle": "Jobtitler",
                 "salaryID": "Løn-ID",
-                "terminationDate": "Opsigelsesdato",
+                "terminationDate": "Fratrædelsesdato",
+                "terminationDateHint": "Vi minder administratorer om, hvornår medarbejderens oplysninger kan slettes (5 år efter denne dato).",
+                "terminationBeforeEmployment": "Fratrædelsesdatoen må ikke ligge før ansættelsesdatoen",
                 "vacationDays": "Feriedage",
                 "weeklyNormHours": "Ugentlige normtimer",
                 "weeks": "Uger",
@@ -7164,6 +7298,7 @@
             "employeeInformations": "Medarbejderinformationer",
             "mileageLog": "Kørselsregnskab",
             "timeLogs": "Tidslogfiler",
+            "monthlySheet": "Månedsoversigt",
             "consultantProfile": "Konsulentprofil"
         },
         "timeLogs": "Tidslogfiler",
@@ -8099,7 +8234,7 @@
         "medicines": "Medicin",
         "noResults": "Ingen resultater fundet",
         "pages": "Sider",
-        "placeholder": "Søge på @:terms.citizens{''}, journaler, medicin og mere...",
+        "placeholder": "Søg på @:terms.citizens{''}, CPR-numre, journaler, medicin og mere...",
         "plans": "Planer & Mål",
         "recent": "Seneste søgninger",
         "searching": "Søger...",
@@ -8140,6 +8275,42 @@
     "guidedTour": "Guidet tur",
     "helpGuide": {
         "scheduleTitle": "Hjælp & Guide - Vagtplan",
+        "askMilo": "Spørg Milo",
+        "askMiloTooltip": "Spørg Milo om vagtplanen",
+        "askMiloGeneral": "Spørg Milo, hvis du har brug for hjælp",
+        "miloHelpLabel": "Hjælp",
+        "miloQuestions": {
+            "inApp": {
+                "q1": "Hvordan skriver jeg et journalnotat?",
+                "q2": "Hvordan giver jeg en kollega adgang til en afdeling?",
+                "q3": "Hvordan kontakter jeg supporten?"
+            },
+            "schedules": {
+                "q1": "Hvordan kopierer jeg en uge til næste uge?",
+                "q2": "Hvad betyder +N på en dag?",
+                "q3": "Hvordan godkender jeg et vagtbytte?"
+            },
+            "calendar": {
+                "q1": "Hvordan opretter jeg en aftale, der gentager sig?",
+                "q2": "Hvordan viser jeg kun mine egne aftaler?",
+                "q3": "Hvordan sletter jeg resten af en serie?"
+            },
+            "overview": {
+                "q1": "Hvordan vælger jeg, hvilke bokse jeg ser?",
+                "q2": "Hvorfor er nogle bokse låst?",
+                "q3": "Hvad er Vagtoverblik?"
+            },
+            "citizens": {
+                "q1": "Hvordan opretter jeg en ny {citizen}?",
+                "q2": "Hvordan arkiverer jeg en {citizen}?",
+                "q3": "Hvordan finder jeg en {citizen} ud fra CPR-nummer?"
+            },
+            "employees": {
+                "q1": "Hvordan inviterer jeg en ny medarbejder?",
+                "q2": "Hvordan arkiverer jeg en medarbejder?",
+                "q3": "Hvordan giver jeg en medarbejder adgang til en afdeling?"
+            }
+        },
         "title": "Hjælp & Guide"
     },
     "hideAll": "Skjul alle",
@@ -8998,6 +9169,8 @@
         "directMessage": "Direkte besked",
         "editMessage": "Rediger besked",
         "openInNewWindow": "Åbn i nyt vindue",
+        "openCitizenJournal": "Åbn journal for {name}",
+        "openCitizenProfile": "Åbn profil for {name}",
         "groupChat": {
             "add": "Tilføj",
             "addUser": "Tilføj bruger",
@@ -9259,11 +9432,14 @@
     "navbar": {
         "apps": "Apps",
         "colleagues": "Kollegaer",
+        "myMonthlySheet": "Min månedsoversigt",
         "forms": "Formularer",
         "invoices": "Fakturaer",
         "logout": "Log ud",
         "notifications": "Notifikationer",
         "procedures": "Procedurer",
+        "newWishes": "Nye ønsker",
+        "comingFunctions": "Kommende funktioner",
         "reminders": "Påmindelser",
         "settings": "Indstillinger",
         "subscription": "Abonnement",
@@ -9450,6 +9626,7 @@
                 "medicineDeviationStatistics": "Medicin afveget",
                 "myDailyEvents": "Mine daglige begivenheder",
                 "nextShift": "Næste vagt",
+                "onDutyToday": "På arbejde i dag",
                 "plansAndGoals": "Planer og mål",
                 "riskAssessment": "Risikovurdering",
                 "scheduleSlots": "Udbyd vagter",
@@ -9549,6 +9726,20 @@
             "viewSchedule": "Åbn vagtplan",
             "reminderInfo": "I mobilappen får du en push-notifikation 2 timer før vagten starter.",
             "onlyDifferent": "Denne vagt ligger i en anden afdeling end den, du normalt arbejder i."
+        },
+        "onDuty": {
+            "title": "Hvem er på arbejde i dag?",
+            "none": "Ingen står på vagtplanen denne dag.",
+            "onDutyCount": "{count} på arbejde",
+            "workingNowCount": "{count} arbejder nu",
+            "absentCount": "{count} fraværende",
+            "absent": "Fraværende",
+            "now": "Nu",
+            "wholeCompany": "Hele virksomheden",
+            "yesterday": "I går",
+            "goToToday": "Gå til i dag",
+            "onlyYou": "Du kan kun se dine egne vagter. Spørg din leder, hvis du skal kunne se dine kolleger.",
+            "onlyYourDepartments": "Du ser kolleger i dine egne afdelinger."
         },
         "myDailyEvents": "Mine daglige begivenheder",
         "news": "Nyheder",
@@ -10017,6 +10208,19 @@
     },
     "proceed": "Fortsæt",
     "protocols": {
+        "attendanceExport": {
+            "button": "Download fremmøde",
+            "title": "Download fremmøde",
+            "help": "Én Excel-fil med fremmøde og fravær pr. borger og pr. afdeling, rangeret, samt alle registreringer. En borger i flere afdelinger tælles med i hver af dem.",
+            "period": "Periode",
+            "thisMonth": "Denne måned",
+            "lastMonth": "Sidste måned",
+            "thisYear": "I år",
+            "departments": "Afdelinger",
+            "allDepartmentsHint": "Lad feltet være tomt for at tage alle afdelinger med.",
+            "protocols": "Protokoller",
+            "download": "Download"
+        },
         "download": "Download",
         "editProtocol": "Rediger protokol",
         "form": {
@@ -10046,6 +10250,11 @@
             "perHour": "Pr. time",
             "recordingModeDayHelp": "Én registrering pr. borger for hver dag.",
             "recordingModeHourHelp": "Én registrering pr. borger for hvert tidsrum hver dag, så fremmøde kan registreres time for time.",
+            "clipCard": "Klippekort",
+            "recordingModeClipHelp": "Hver borger får et kort med et antal klip. Brug et klip en hvilken som helst dag mellem start- og slutdatoen, når borgeren er til stede.",
+            "clipCount": "Antal klip",
+            "clipCountPlaceholder": "f.eks. 10",
+            "clipCountHelp": "Hver borger på protokollen får sit eget kort med dette antal klip. Det kan ikke ændres bagefter.",
             "timeSlots": "Tidsrum",
             "timeSlotsHelp": "Udfyld et tidsrum for hver time i et interval, eller tilføj tidsrum ét ad gangen.",
             "fromHour": "Fra",
@@ -10059,7 +10268,8 @@
             "errors": {
                 "timeSlotsRequired": "Tilføj mindst ét tidsrum.",
                 "timeSlotEndAfterStart": "Hvert tidsrum skal slutte efter det starter.",
-                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden."
+                "timeSlotsOverlap": "Tidsrummene må ikke overlappe hinanden.",
+                "clipCountBetween": "Angiv et helt tal mellem 1 og 500."
             }
         },
         "checkIn": "Tjek ind",
@@ -10068,6 +10278,29 @@
         "today": "I dag",
         "other": "Andre",
         "noTodayEntries": "Ingen protokolregistreringer for i dag",
+        "clipCard": {
+            "summary": "{clips} klip pr. borger · Gyldigt {start} – {end}",
+            "clipsLeft": "{remaining} af {total} klip tilbage",
+            "clipsUsedBadge": "Klip brugt: {used}",
+            "useClip": "Brug klip",
+            "history": "Historik",
+            "hideHistory": "Skjul historik",
+            "lastUsed": "Sidst brugt {date} kl. {time}",
+            "notUsedYet": "Ikke brugt endnu",
+            "usedUp": "Kortet er brugt op",
+            "noUses": "Der er ikke brugt nogen klip endnu.",
+            "usedOn": "Brugt {date} kl. {time}",
+            "undo": "Fortryd",
+            "undoConfirmation": "Fortryd dette klip? Det kommer tilbage på kortet.",
+            "clipUsed": "Klip brugt for {name}. {remaining} tilbage.",
+            "clipUndone": "Klippet er fortrudt. {remaining} tilbage.",
+            "notStarted": "Klippekortet kan bruges fra {date}.",
+            "expired": "Klippekortet udløb {date}. Der kan ikke længere bruges klip.",
+            "noCards": "Der er ingen borgere på dette klippekort.",
+            "searchCitizen": "Søg borger",
+            "myClipCards": "Mine klippekort",
+            "validPeriod": "Gyldigt {start} – {end}"
+        },
         "newProtocol": "Ny protokol",
         "protocols": "Protokol",
         "table": {
@@ -10431,6 +10664,17 @@
         "strongPasswordSub": "Brug mindst 8 tegn med tal og symboler",
         "strongPasswordTitle": "Opret en stærk adgangskode"
     },
+    "citizenVisibility": {
+        "notice": "Du er ikke tilknyttet nogen afdeling, @:terms.citizens{''} eller medarbejdergruppe, så du kan ikke se nogen @:terms.citizens{''} endnu. Kontakt din leder.",
+        "noticeHelp": "Medarbejdere ser @:terms.citizens{''} i deres egne afdelinger, @:terms.citizens{''} de er tildelt, og @:terms.citizens{''} via deres medarbejdergrupper. Din leder kan tilføje dig til en afdeling eller tildele dig @:terms.citizens{''}.",
+        "noticeHelpLabel": "Hvorfor kan jeg ikke se nogen @:terms.citizens{''}?",
+        "levelAll": "Ser alle @:terms.citizens{''} i virksomheden",
+        "levelLimited": "Ser kun @:terms.citizens{''} i egne afdelinger, tildelte og via medarbejdergrupper (eller alle, hvis virksomheden ikke bruger afdelinger)",
+        "levelHelp": "Niveauet bestemmer, hvilke @:terms.citizens{''} rollen kan se. @:roles.table.manager og derover ser alle @:terms.citizens{''} i virksomheden. @:roles.table.regular ser kun @:terms.citizens{''} i egne afdelinger, tildelte og via medarbejdergrupper. Bruger virksomheden ikke afdelinger, ser alle medarbejdere alle @:terms.citizens{''}.",
+        "levelHelpLabel": "Hvad betyder niveauet?",
+        "badgeAll": "Alle @:terms.citizens{''}",
+        "badgeLimited": "Egne @:terms.citizens{''}"
+    },
     "roles": {
         "addNewRole": "Tilføj ny rolle",
         "alert": {
@@ -10654,6 +10898,31 @@
     },
     "search": "Søg",
     "sections": {
+        "sectionsAndServiceTypes": "Paragraffer & indsatstyper",
+        "list": {
+            "description": "Hver linje er både en paragraf på borgere og den indsatstype, en henvendelse registreres under. Angiv standardtimeprisen på linjen; den gælder fra i dag.",
+            "add": "Tilføj",
+            "search": "Søg",
+            "empty": "Der er ingen paragraffer endnu.",
+            "noMatch": "Ingen paragraffer matcher søgningen.",
+            "hourlyRate": "Standardtimepris",
+            "hourlyRatePlaceholder": "F.eks. 650",
+            "perHour": "pr. time",
+            "noRate": "Ingen standardtimepris",
+            "framework": "Ramme",
+            "frameworkHint": "Styres af feltet med fokusområder under Felter i henvendelser.",
+            "frameworks": {
+                "ics": "ICS",
+                "vum": "VUM",
+                "both": "ICS + VUM"
+            },
+            "inactive": "Slået fra: tilbydes ikke på nye henvendelser",
+            "alert": {
+                "saveFailed": "Paragraffen kunne ikke gemmes",
+                "rateFailed": "Paragraffen blev gemt, men timeprisen kunne ikke gemmes",
+                "deleteFailed": "Paragraffen kunne ikke slettes"
+            }
+        },
         "mirrored": "Følger indsatstype",
         "mirroredTooltip": "Denne paragraf vedligeholdes under Indsatstyper. Ret navn og paragraf dér, så følger den med her.",
         "addNewSection": "Tilføj ny paragraf",
@@ -10792,6 +11061,12 @@
                 "relativeChatContactPersons": "Pårørende kan skrive til @:terms.citizenDefinite{'s'} tilknyttede kontaktpersoner",
                 "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
                 "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
+                "chatCprWarning": "Advar om CPR-numre i chat",
+                "missingNoteReminder": "Påmind om aftaler uden @:terms.journalNote{''}",
+                "bookingNoteNotifications": "Giv besked om @:terms.journalNotes{''} oprettet fra en aftale",
+                "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
+                "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
+                "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
                 "groupPortalAccess": "Portaladgang",
                 "portalAccessHint": "Vælg hvad pårørende, tredjeparter og @:terms.citizens{''} kan se i deres egen portal",
@@ -10920,7 +11195,8 @@
                 "portalSectionForms": "Formularer",
                 "portalSectionPriceEstimates": "Prisoverslag",
                 "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
-                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem."
+                "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
+                "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}"
             }
         },
         "licenseOverview": {
@@ -10990,6 +11266,7 @@
             "employment": "Jobcenter"
         },
         "tabs": {
+            "sectionsAndServiceTypes": "Paragraffer & indsatstyper",
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Stofmisbrug",
@@ -11053,6 +11330,7 @@
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
             "economic": "e-conomic",
+            "dinero": "Dinero",
             "customLinks": "Egne links",
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
@@ -11134,6 +11412,29 @@
             "how1": "Klik “Forbind til e-conomic”.",
             "how2": "Godkend adgangen i e-conomic (App Connect).",
             "how3": "Du sendes tilbage hertil. Herefter kan fakturaer sendes til e-conomic."
+        },
+        "dinero": {
+            "title": "Dinero",
+            "subtitle": "Send fakturaer fra CitizenOne til Dinero som bogføringsbilag.",
+            "adminOnly": "Kun administratorer kan administrere Dinero-forbindelsen.",
+            "notPurchased": "Dinero-app’en er ikke aktiveret endnu. Aktivér den under Apps for at forbinde.",
+            "goToApps": "Gå til Apps",
+            "connection": "Forbindelse",
+            "connected": "Forbundet",
+            "notConnected": "Ikke forbundet",
+            "connect": "Forbind",
+            "disconnect": "Afbryd",
+            "confirmDisconnect": "Afbryd forbindelsen til Dinero?",
+            "clientIdLabel": "Client ID",
+            "clientIdPlaceholder": "Det Client ID, Dinero har udstedt til jer",
+            "clientSecretLabel": "Client Secret",
+            "clientSecretPlaceholder": "Den Client Secret, Dinero har udstedt til jer",
+            "apiKeyLabel": "Dinero API-nøgle",
+            "apiKeyPlaceholder": "Indsæt API-nøglen fra din Dinero-organisation",
+            "howTitle": "Sådan forbinder du",
+            "how1": "Gå til Indstillinger → Integrationer i Dinero, og anmod om en personlig integration for at få et Client ID, en Client Secret og en API-nøgle til organisationen.",
+            "how2": "Indsæt alle tre her, og klik “Forbind”.",
+            "how3": "Når forbindelsen er oprettet, kan fakturaer sendes til Dinero."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11266,6 +11567,10 @@
             "economic": {
                 "title": "Hvad gør e-conomic?",
                 "body": "Send fakturaer og bilag videre til jeres regnskabssystem, så tallene kun tastes ét sted."
+            },
+            "dinero": {
+                "title": "Hvad gør Dinero?",
+                "body": "Send fakturaer videre til Dinero som bogføringsbilag, så tallene kun tastes ét sted."
             },
             "fst": {
                 "title": "Hvad er FindSocialeTilbud.dk?",
@@ -11567,7 +11872,7 @@
             "remove": "Fjern"
         },
         "currentSubscription": "Nuværende abonnement",
-        "elite": {"title": "CitizenOne Elite", "badge": "Elite", "badgeHelp": "Jeres abonnement er en specificeret aftale med CitizenOne.", "agreementText": "Specificeret aftale – priser og vilkår følger jeres aftale med CitizenOne.", "usage": "{used} af {total} {label} i brug", "contact": "Kontakt os", "contactHelp": "Skriv til CitizenOne om jeres aftale, priser eller ændringer."},
+        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Jeres abonnement er en specificeret aftale med CitizenOne.", "agreementText": "Specificeret aftale – priser og vilkår følger jeres aftale med CitizenOne.", "usage": "{used} af {total} {label} i brug", "contact": "Kontakt os", "contactHelp": "Skriv til CitizenOne om jeres aftale, priser eller ændringer."},
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "admin": "Admin",
@@ -11620,6 +11925,34 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "roadmap": {
+            "title": "Roadmap",
+            "intro": "De funktioner alle brugere ser under \"Kommende funktioner\" i profilmenuen. Kun publicerede punkter vises.",
+            "newItem": "Nyt punkt",
+            "editItem": "Rediger punkt",
+            "noItems": "Ingen punkter med denne status.",
+            "dragHint": "Træk punkterne for at ændre rækkefølgen, brugerne ser dem i.",
+            "published": "Publiceret",
+            "draft": "Kladde",
+            "publish": "Publicer",
+            "unpublish": "Afpublicer",
+            "deleteConfirm": "Er du sikker på, at du vil slette dette punkt?",
+            "visibleToEveryone": "Synlig for alle brancher",
+            "visibleToIndustries": "Kun synlig for de valgte brancher",
+            "releasedOn": "Udgivet {date}",
+            "form": {
+                "title": "Titel",
+                "description": "Beskrivelse",
+                "descriptionHint": "Skriv til brugerne: hvad funktionen gør, og hvordan den hjælper dem.",
+                "status": "Status",
+                "expectedPeriod": "Forventet",
+                "expectedPeriodPlaceholder": "F.eks. Q2 2027 eller april 2027",
+                "industries": "Brancher",
+                "industriesHint": "Lad feltet være tomt for at vise punktet for alle brancher.",
+                "published": "Vis for brugerne",
+                "publishedHint": "Kladder er kun synlige her i superadmin."
+            }
+        },
         "accounts": {
             "accounts": "Kontoer",
             "alert": {
@@ -12787,6 +13120,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App-kategorier",
             "companies": "Virksomheder",
@@ -14929,6 +15263,20 @@
         }
     },
     "gdpr": {
+        "statusJournal": {
+            "title": "Statusser og journalnotater",
+            "hint": "Slet gamle statusser, og om ønsket de journalnotater, der ligger bag dem, automatisk. Tjekkes hver dag: alt ældre end 365 dage slettes.",
+            "statusSwitch": "Slet statusser i behandlinger og mål efter 365 dage",
+            "statusSwitchHint": "Statusser på planer, mål, delmål og behandlinger, inklusive kopier af journalnotater på mål.",
+            "journalSwitch": "Slet også selve journalnotaterne",
+            "journalSwitchHint": "Kun notater, der er knyttet til et mål. Lægejournalnotater, kladder og notater uden målknytning slettes aldrig.",
+            "previewOn": "{statuses} statusser slettes fra {date}.",
+            "previewOff": "Hvis du slår det til, ville {statuses} statusser blive slettet i dag.",
+            "previewJournals": "{journals} journalnotater ville også blive slettet.",
+            "lessHistory": "Lister, grafer, udviklingsoversigt og PDF-udtræk viser mindre historik herefter. Slettede poster skjules, de fjernes ikke fra databasen.",
+            "nextRun": "Næste sletning: dagligt; første kørsel {date}.",
+            "confirmEnable": "Dette skjuler statusser (og journalnotater, hvis valgt) ældre end 365 dage i systemet. De fjernes ikke fra databasen og kan gendannes efter anmodning. Den første sletning sker den {date}. Du kan slå det fra inden da."
+        },
         "retention": {
             "title": "GDPR Dataopbevaring",
             "retentionPeriod": "Opbevaringsperiode",
@@ -14954,6 +15302,9 @@
             "deletionCancelled": "Planlagt sletning annulleret"
         },
         "deletionLog": {
+            "statusJournalRun": "Statusser og journalnotater",
+            "statusJournalCounts": "{statuses} statusser, {journals} notater (før {date})",
+            "triggerStatusJournal": "Statusser og notater (automatisk)",
             "title": "Sletningslog",
             "fromDate": "Fra dato",
             "toDate": "Til dato",
@@ -15271,6 +15622,35 @@
         },
         "fill": {
             "enterAnswer": "Skriv dit svar"
+        }
+    },
+    "welcomeTour": {
+        "name": "Milo",
+        "skip": "Spring rundvisningen over",
+        "skipHelp": "Luk rundvisningen. Du kan starte den igen fra Kom godt i gang.",
+        "finish": "Færdig",
+        "finishHelp": "Afslut rundvisningen",
+        "restart": "Vis mig rundt",
+        "restartHelp": "Start Milos rundvisning forfra",
+        "careHome": {
+            "citizens": "Her bor jeres @:terms.citizens{''}. Journal, planer, mål og dokumenter samles på hver @:terms.citizen{''}.",
+            "colleagues": "Invitér dine kolleger. Rollen styrer, hvilke @:terms.citizens{''} de kan se.",
+            "today": "Her starter vagten: hvem er på, hvad skal ske, hvilken medicin skal gives.",
+            "journal": "Journalnoten skrives her, gerne lige efter at det er sket.",
+            "end": "Resten finder du i tjeklisten. Og du kan altid spørge mig her."
+        },
+        "clinic": {
+            "calendar": "Her ligger dine tider. Læg dine arbejdstider ind først.",
+            "booking": "Opret dine ydelser med varighed og pris, og slå online booking til.",
+            "clients": "Hver @:terms.citizen{''} har sin egen journal, og notatet skrives efter behandlingen.",
+            "invoices": "Fakturaen sendes direkte herfra.",
+            "end": "Resten finder du i tjeklisten. Spørg mig, hvis du sidder fast."
+        },
+        "staff": {
+            "welcome": "Velkommen. Jeg viser dig det vigtigste på under et minut.",
+            "day": "Her ser du din dag. Tryk på en borger eller klient for at skrive notatet.",
+            "messages": "Skriv til dine kolleger her.",
+            "end": "Og du kan altid spørge mig her."
         }
     },
     "appTours": {
@@ -15809,6 +16189,44 @@
             "billing": "Faktureringsudtræk"
         }
     },
+    "monthlySheet": {
+        "title": "Månedsoversigt",
+        "subtitle": "Planlagte vagter, stemplet tid, fravær og ekstra timer for hver dag i måneden.",
+        "previousMonth": "Forrige måned",
+        "nextMonth": "Næste måned",
+        "month": "Måned",
+        "download": "Download",
+        "downloadPdf": "PDF",
+        "downloadExcel": "Excel",
+        "planned": "Planlagt",
+        "worked": "Arbejdet",
+        "clocked": "Stemplet",
+        "norm": "Norm",
+        "balance": "Saldo",
+        "absence": "Fravær",
+        "extraHours": "Ekstra timer",
+        "date": "Dato",
+        "plannedShift": "Planlagt vagt",
+        "plannedHours": "Planlagt",
+        "absenceColumn": "Fravær",
+        "clockedInOut": "Stemplet ind – ud",
+        "clockedHours": "Stemplet",
+        "extra": "Ekstra timer",
+        "difference": "Difference",
+        "remarks": "Bemærkninger",
+        "totals": "Måneden i alt",
+        "absenceByType": "Fravær fordelt på type",
+        "byShiftType": "Timer fordelt på vagttype",
+        "days": "dage",
+        "pending": "afventer",
+        "declined": "afvist",
+        "open": "ikke afsluttet",
+        "empty": "Der er ikke planlagt eller registreret noget i denne måned.",
+        "loadError": "Månedsoversigten kunne ikke hentes.",
+        "hint": "Arbejdede timer følger vagtplanen og er det samme tal som timestatistikken. Stemplede timer kommer fra tidsregistreringer og vises for sig.",
+        "clampedNote": "Norm og saldo dækker kun {start} – {end}.",
+        "pendingExtra": "{hours} afventer"
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
@@ -16209,6 +16627,7 @@
             "recipientPlaceholder": "Modtager (ellers afdelingens e-mail)",
             "sendEmail": "Send på e-mail",
             "pushEconomic": "Send til e-conomic som kladde",
+            "pushDinero": "Send til Dinero som bilag",
             "empty": "Ingen fakturaer i denne visning.",
             "number": "Fakturanr.",
             "billTo": "Modtager",
@@ -16228,6 +16647,9 @@
                 "invoice_not_found": "Fakturaen blev ikke fundet",
                 "customer_failed": "Kunden kunne ikke oprettes i e-conomic",
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
+                "dinero_not_connected": "Dinero er ikke forbundet",
+                "dinero_invoice_not_found": "Fakturaen blev ikke fundet",
+                "dinero_voucher_failed": "Bilaget kunne ikke oprettes i Dinero",
                 "unknown_action": "Ukendt handling"
             }
         },
@@ -17738,6 +18160,46 @@
             "noPlans": "Intet at vise fra dine borgeres planer lige nu.",
             "overdue": "Overskredet {date}",
             "dueToday": "Frist i dag"
+        }
+    },
+    "inquiryForms": {
+        "title": "Henvendelsesformularer",
+        "description": "De formularer man kan vælge mellem under \"Ny henvendelse\". Slå dem fra, I ikke bruger, opret jeres egne, og vælg hvilke faste felter hver formular spørger om.",
+        "add": "Opret formular",
+        "addHint": "En ny formular spørger kun om dato, afdeling, navn og CPR. Vælg selv resten bagefter.",
+        "builtin": "Indbygget",
+        "builtinHint": "Følger registreringen af henvendelser efter servicelovens § 110 og § 109. Kan slås fra, men ikke slettes.",
+        "serviceTypeHint": "Henvendelser på denne formular får indsatstypen valgt på forhånd.",
+        "fieldCount": "{count} faste felter",
+        "noneActive": "Ingen formularer er slået til. Slå en til under Indstillinger → Henvendelsesformularer.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "Fx Henvisning fra kommune",
+            "serviceType": "Indsatstype (valgfri)",
+            "noServiceType": "Ingen"
+        },
+        "actions": {
+            "switchOff": "Slå formularen fra",
+            "switchOn": "Slå formularen til",
+            "fields": "Vælg faste felter",
+            "ownFields": "Egne felter på formularen",
+            "rename": "Omdøb formularen",
+            "delete": "Slet formularen"
+        },
+        "fields": {
+            "hint": "Fjern fluebenet for at skjule et felt. Felter med hængelås kan ikke skjules.",
+            "saved": "Felterne er gemt",
+            "locked": "Låst",
+            "lockedRegistration": "Bruges i registreringen af henvendelser efter § 110/§ 109 og kan derfor ikke skjules på denne formular.",
+            "lockedAlways": "Alle henvendelser skal have dette felt."
+        },
+        "confirmation": {
+            "delete": "Er du sikker på, at du vil slette denne formular"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Formularen er slettet",
+            "deleteFailed": "Formularen kunne ikke slettes"
         }
     },
     "documentTabs": {

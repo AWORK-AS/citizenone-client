@@ -77,6 +77,11 @@
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('citizens.documents.createTemplate.createReport') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isViewShareLinksOpen = true"
+                            v-if="canDownloadDocuments">
+                            <Icon name="ph:paper-plane-tilt" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.documents.sendLink.sentLinks') }}
+                        </FormButton>
                     </div>
                 </div>
 
@@ -173,6 +178,13 @@
                                                     <Icon name="ph:share" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="$t('citizens.documents.table.actions.sendLink')"
+                                                v-if="!is_draft && canDownloadDocuments">
+                                                <FormButton :aria-label="$t('citizens.documents.table.actions.sendLink')" type="button" buttonStyle="primary"
+                                                    @click="openSendLink(document)">
+                                                    <Icon name="ph:paper-plane-tilt" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('citizens.documents.table.actions.move')"
                                                 v-if="document?.type === 'file' && !is_draft">
                                                 <FormButton :aria-label="$t('citizens.documents.table.actions.move')" type="button" buttonStyle="primary"
@@ -240,6 +252,10 @@
                 <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
+                <ModulesUserCitizenDocumentShareLinkModalSend :isModalOpen="state.modal.isSendLinkOpen"
+                    :selectedDocument="state.selectedDocument" @close="state.modal.isSendLinkOpen = false" />
+                <ModulesUserCitizenDocumentShareLinkModalView :isModalOpen="state.modal.isViewShareLinksOpen"
+                    :citizenUuid="citizenUuid" @close="state.modal.isViewShareLinksOpen = false" />
                 <ModulesUserCitizenDocumentFolderStructureModalFolderStructures
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" @refreshDocuments="fetchDocuments" />
@@ -346,12 +362,14 @@ const state = reactive({
         isEditDocumentOpen: false,
         isEditDocumentDraftOpen: false,
         isMoveFileOpen: false,
+        isSendLinkOpen: false,
         isShareDocumentOpen: false,
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewAccessOpen: false,
         isViewFolderStructureOpen: false,
         isViewNewFeaturesOpen: false,
+        isViewShareLinksOpen: false,
     },
     selectedDocument: [] as any,
     sortData: {
@@ -626,6 +644,11 @@ function editDocument(document: any) {
 function viewDocumentAccess(document: any) {
     state.selectedDocument = document
     state.modal.isViewAccessOpen = true
+}
+
+function openSendLink(document: any) {
+    state.selectedDocument = document
+    state.modal.isSendLinkOpen = true
 }
 
 function confirmDocumentShareUnshare(document: any) {

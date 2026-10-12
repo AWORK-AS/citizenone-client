@@ -89,6 +89,15 @@ class UserService extends BaseAPIService {
         return await this.request(`user/update/first-login`, 'PUT')
     }
 
+    /** Marks a tour as seen; the answer is the user's full tours_seen map. */
+    async markTourSeen(tour: 'welcome_web'): Promise<{ tours_seen: Record<string, string | null> }> {
+        return await this.request(`/user/tours/${tour}`, 'PUT')
+    }
+
+    async getOnboardingChecklist(): Promise<{ route: string | null, steps: { key: string, done: boolean }[] }> {
+        return await this.request(`/user/onboarding/checklist`, 'GET')
+    }
+
     async uploadCompanyLogo(params: FormData): Promise<any> {
         return await this.request(`/user/company/settings/company/upload-logo`, 'POST', params)
     }

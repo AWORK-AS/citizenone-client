@@ -62,6 +62,17 @@
                                             class="bg-gray-100 text-gray-700 text-xs px-2 py-1 rounded-md font-medium">
                                             {{ $t('roles.table.regular') }}
                                         </span>
+                                        <div class="mt-1.5">
+                                            <Tooltip
+                                                :text="Number(role?.level) >= 50 ? $t('citizenVisibility.levelAll') : $t('citizenVisibility.levelLimited')"
+                                                wrap>
+                                                <span class="inline-flex items-center gap-1 rounded-md px-2 py-0.5 text-xxs font-medium"
+                                                    :class="Number(role?.level) >= 50 ? 'bg-primary/10 text-primary' : 'bg-slate-100 text-slate-600'">
+                                                    <Icon name="ph:eye" class="size-3" aria-hidden="true" />
+                                                    {{ Number(role?.level) >= 50 ? $t('citizenVisibility.badgeAll') : $t('citizenVisibility.badgeLimited') }}
+                                                </span>
+                                            </Tooltip>
+                                        </div>
                                     </td>
                                     <td width="26%">
                                         <div v-if="role?.permissions?.length" class="text-xxs">

@@ -30,7 +30,7 @@
                 <div class="flex items-center gap-2 flex-wrap">
 
                     <div id="schedule-date-picker-target" class="flex items-center"></div>
-                    <div class="hidden lg:block h-5 w-px bg-slate-200" />
+                    <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- View Toggle (moved from below) -->
                     <div class="flex items-center bg-surface-100 rounded-lg p-0.5 mr-2">
@@ -56,34 +56,47 @@
                         </button>
                     </div>
 
-                    <div class="hidden lg:block h-5 w-px bg-slate-200" />
+                    <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- Shift Types legend — surfaced as a clear button so the colour key is discoverable -->
-                    <button
-                        @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm">
-                        <Icon name="ph:palette" class="h-3.5 w-3.5" aria-hidden="true" />
-                        <span class="hidden md:inline">{{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}</span>
-                    </button>
+                    <!-- Labels from 2xl only: below that this row wrapped to two lines and,
+                         with the filter rows, pushed the grid 436px down a 782px window. -->
+                    <Tooltip :text="$t('dutySchedules.showTheDistributionOfShiftTypes')">
+                        <button :aria-label="$t('dutySchedules.showTheDistributionOfShiftTypes')"
+                            @click="state.modal.isShowDistributionOfShiftTypes = !state.modal.isShowDistributionOfShiftTypes"
+                            class="inline-flex items-center gap-1.5 px-2.5 2xl:px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm h-[32px]">
+                            <Icon name="ph:palette" class="h-3.5 w-3.5" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.showTheDistributionOfShiftTypes') }}</span>
+                        </button>
+                    </Tooltip>
 
-                    <div class="hidden lg:block h-5 w-px bg-slate-200" />
+                    <div class="hidden 2xl:block h-5 w-px bg-slate-200" />
 
                     <!-- Compact Action Buttons -->
-                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="navigateTo('/schedules/draft')" v-if="isAtLeast('Admin')">
-                        <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('dutySchedules.draft.pageTitle') }}</span>
-                    </FormButton>
-                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="state.modal.isDownloadOpen = true">
-                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('dutySchedules.download.download') }}</span>
-                    </FormButton>
-                    <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-3 !text-xs !h-[32px]"
-                        @click="state.modal.isSubscribeOpen = true">
-                        <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
-                        <span class="hidden xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
-                    </FormButton>
+                    <Tooltip :text="$t('dutySchedules.draft.pageTitle')" v-if="isAtLeast('Admin')">
+                        <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-2.5 2xl:!px-3 !text-xs !h-[32px]"
+                            :aria-label="$t('dutySchedules.draft.pageTitle')"
+                            @click="navigateTo('/schedules/draft')">
+                            <Icon name="ph:note" class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.draft.pageTitle') }}</span>
+                        </FormButton>
+                    </Tooltip>
+                    <Tooltip :text="$t('dutySchedules.download.download')">
+                        <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-2.5 2xl:!px-3 !text-xs !h-[32px]"
+                            :aria-label="$t('dutySchedules.download.download')"
+                            @click="state.modal.isDownloadOpen = true">
+                            <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('dutySchedules.download.download') }}</span>
+                        </FormButton>
+                    </Tooltip>
+                    <Tooltip :text="$t('events.subscribe.addToCalendar')">
+                        <FormButton buttonStyle="action" size="sm" class="rounded-lg !py-1 !px-2.5 2xl:!px-3 !text-xs !h-[32px]"
+                            :aria-label="$t('events.subscribe.addToCalendar')"
+                            @click="state.modal.isSubscribeOpen = true">
+                            <Icon name="ph:calendar-plus" class="h-4 w-4" aria-hidden="true" />
+                            <span class="hidden 2xl:inline">{{ $t('events.subscribe.addToCalendar') }}</span>
+                        </FormButton>
+                    </Tooltip>
                     <FormButton v-if="state.isZenegyPurchased" size="sm"
                         class="rounded-lg !py-1 !px-3 !h-[32px] !bg-green-700 !border-green-700 !text-white hover:!bg-green-800"
                         @click="openZenegySyncModal">
@@ -119,56 +132,15 @@
                                 <Icon name="ph:clock-counter-clockwise" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
-                        <Tooltip :text="$t('guidedTour')">
-                            <button :aria-label="$t('guidedTour')"
+                        <Tooltip :text="$t('helpGuide.askMiloTooltip')">
+                            <button :aria-label="$t('helpGuide.askMiloTooltip')"
                                 class="p-1.5 rounded-md text-slate-500 hover:text-slate-700 hover:bg-surface-100 transition-colors"
-                                @click="openGuidedTour()">
+                                @click="askMilo()">
                                 <Icon name="ph:question" class="size-4.5" aria-hidden="true" />
                             </button>
                         </Tooltip>
                     </div>
-                    <div class="w-px h-4 bg-slate-200 mx-1"></div>
-                    <button onclick="document.getElementById('help-modal-udgivet').style.display='flex'"
-                        class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white border border-slate-200 hover:border-primary hover:text-primary text-slate-500 text-xs font-semibold transition-all shadow-sm">
-                        <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        {{ $t('helpGuide.title') }}
-                    </button>
-                    <!-- Teleported out: the toolbar row is sticky, and a positioned sticky
-                         ancestor would trap this overlay below the navbar's stacking context. -->
-                    <Teleport to="body">
-                    <div id="help-modal-udgivet"
-                        style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(15,43,70,0.6);backdrop-filter:blur(4px);align-items:center;justify-content:center;"
-                        onclick="if(event.target===this)this.style.display='none'">
-                        <div
-                            style="background:white;border-radius:20px;width:90vw;max-width:1100px;height:88vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 25px 80px rgba(0,0,0,0.35);">
-                            <div
-                                style="display:flex;align-items:center;justify-content:space-between;padding:16px 24px;border-bottom:1px solid #e2e8f0;flex-shrink:0;">
-                                <div style="display:flex;align-items:center;gap:10px;">
-                                    <svg style="width:20px;height:20px;color:#0f4c75" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                                    </svg>
-                                    <span style="font-weight:600;color:#0f2b46;font-size:15px;">{{
-                                        $t('helpGuide.scheduleTitle') }}</span>
-                                </div>
-                                <button onclick="document.getElementById('help-modal-udgivet').style.display='none'"
-                                    style="padding:8px;border-radius:8px;border:none;background:#f1f5f9;cursor:pointer;display:flex;align-items:center;color:#64748b;">
-                                    <svg style="width:18px;height:18px" fill="none" viewBox="0 0 24 24"
-                                        stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                            d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <iframe src="/vagtplan-guide.html" style="flex:1;border:none;width:100%;"
-                                :title="$t('helpGuide.title')"></iframe>
-                        </div>
-                    </div>
-                    </Teleport>
+
                 </div>
             </template>
 
@@ -205,11 +177,9 @@
             <ModulesUserDutyScheduleActivityLogsModalHistory :isModalOpen="state.modal.isActivityLogsOpen"
                 :date="state.activityLogDate"
                 @close="state.modal.isActivityLogsOpen = false; state.activityLogDate = null" />
+            <ModulesUserDutyScheduleNoticeOptimized />
             <ModulesUserDutyScheduleShareModalView :isModalOpen="state.modal.isViewSharedDutyScheduleOpen"
                 @close="state.modal.isViewSharedDutyScheduleOpen = false" />
-            <ModulesUserGuidedTourModalDutySchedule v-if="state.modal.isGuidedTourDutyScheduleOpen"
-                :isModalOpen="state.modal.isGuidedTourDutyScheduleOpen" :isGuidedTour="false"
-                @close="state.modal.isGuidedTourDutyScheduleOpen = false" />
             <ModulesUserDutyScheduleModalDanlonSync
                 :isModalOpen="state.modal.isDanlonSyncOpen"
                 :scheduleEmployees="weekViewRef?.getScheduleEmployees() ?? []"
@@ -723,7 +693,6 @@ const state = reactive({
     modal: {
         isActivityLogsOpen: false,
         isDownloadOpen: false,
-        isGuidedTourDutyScheduleOpen: false,
         isShowDistributionOfShiftTypes: false,
         isViewSharedDutyScheduleOpen: false,
         isZenegySyncOpen: false,
@@ -959,9 +928,6 @@ function openDutySchedulesActivityLogs(date: string | null = null) {
     state.modal.isActivityLogsOpen = true
 }
 
-function openGuidedTour() {
-    state.modal.isGuidedTourDutyScheduleOpen = true
-}
 
 
 function setDutyScheduleCurrentDate(selectedDate: any) {
@@ -1691,5 +1657,12 @@ async function executeSyncToZenegy() {
     // } else {
     //     errorAlert(t('alert.error'), t('dutySchedules.zenegy_sync_failed'))
     // }
+}
+
+// Help on the duty schedule is Milo, answering from the help-desk articles.
+// The static vagtplan-guide.html it replaces described a 2025 interface.
+const i18nForMilo = useI18n()
+function askMilo() {
+    useObiyenChat().askAbout(['q1', 'q2', 'q3'].map((q) => i18nForMilo.t(`helpGuide.miloQuestions.schedules.${q}`)))
 }
 </script>

@@ -6,16 +6,23 @@
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const language = useI18n()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 
-const state = reactive({
-    tabs: [
+// Managers see every employee's monthly sheet; anyone else only their own, and only when
+// they may see working hours (the same rule the backend enforces).
+const canSeeMonthlySheet = computed(() =>
+    isAtLeast('Manager') || (userStore.getUser?.uuid === employeeUuid && !!userStore.getUser?.show_working_hours))
+
+function buildTabs() {
+    return [
         {
             name: 'employees.tabs.employeeInformations',
             isTranslateName: true,
@@ -40,6 +47,14 @@ const state = reactive({
                 'employees-employee_uuid-time-logs',
             ]
         },
+        ...(canSeeMonthlySheet.value ? [{
+            name: 'employees.tabs.monthlySheet',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/monthly-sheet`,
+            routeNames: [
+                'employees-employee_uuid-monthly-sheet',
+            ]
+        }] : []),
         {
             name: 'employees.tabs.mileageLog',
             isTranslateName: true,
@@ -57,51 +72,19 @@ const state = reactive({
             ]
         }] : []),
     ] as any
+}
+
+const state = reactive({
+    tabs: buildTabs()
 })
 
-watch(() => language.locale.value, (language: any) => {
-    state.tabs = [
-        {
-            name: 'employees.tabs.employeeInformations',
-            isTranslateName: true,
-            href: `/employees/${employeeUuid}/view-details`,
-            routeNames: [
-                'employees-employee_uuid-view-details',
-            ]
-        },
-        {
-            name: customPagesStore.getCustomPagesName?.dutySchedules,
-            isTranslateName: false,
-            href: `/employees/${employeeUuid}/duty-schedule`,
-            routeNames: [
-                'employees-employee_uuid-duty-schedule',
-            ]
-        },
-        {
-            name: 'employees.tabs.timeLogs',
-            isTranslateName: true,
-            href: `/employees/${employeeUuid}/time-logs`,
-            routeNames: [
-                'employees-employee_uuid-time-logs',
-            ]
-        },
-        {
-            name: 'employees.tabs.mileageLog',
-            isTranslateName: true,
-            href: `/employees/${employeeUuid}/mileage-log`,
-            routeNames: [
-                'employees-employee_uuid-mileage-log',
-            ]
-        },
-        ...(isInquiryPipelineEnabled.value ? [{
-            name: 'employees.tabs.consultantProfile',
-            isTranslateName: true,
-            href: `/employees/${employeeUuid}/consultant-profile`,
-            routeNames: [
-                'employees-employee_uuid-consultant-profile',
-            ]
-        }] : []),
-    ]
+watch(() => language.locale.value, () => {
+    state.tabs = buildTabs()
+})
+
+// The user is loaded after the page in some flows, so the tab list follows it.
+watch(canSeeMonthlySheet, () => {
+    state.tabs = buildTabs()
 })
 
 function changeTab(value: any) {
@@ -113,6 +96,9 @@ function changeTab(value: any) {
     }
     else if (value === `/employees/${employeeUuid}/time-logs`) {
         navigateTo(`/employees/${employeeUuid}/time-logs`)
+    }
+    else if (value === `/employees/${employeeUuid}/monthly-sheet`) {
+        navigateTo(`/employees/${employeeUuid}/monthly-sheet`)
     }
     else if (value === `/employees/${employeeUuid}/mileage-log`) {
         navigateTo(`/employees/${employeeUuid}/mileage-log`)

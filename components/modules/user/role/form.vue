@@ -19,6 +19,19 @@
                     <FormLabel for="level" :label="$t('roles.form.level')" />
                     <FormSelect id="level" name="level" :options="levelOptions" v-model="state.formRole.level"
                         :disabled="state.formRole?.predefined" />
+                    <!-- The level is also the citizen visibility rule; spell the consequence out here,
+                         because a custom leader role left at the default level behaves like staff. -->
+                    <div class="flex items-start gap-1.5 pt-1 text-xs text-slate-500">
+                        <Icon name="ph:eye" class="mt-0.5 size-3.5 shrink-0 text-primary" aria-hidden="true" />
+                        <span class="flex-1">{{ levelVisibilityText }}</span>
+                        <Tooltip :text="$t('citizenVisibility.levelHelp')" position="left" wrap>
+                            <button type="button"
+                                class="flex size-5 shrink-0 items-center justify-center rounded-full text-primary hover:bg-primary/10"
+                                :aria-label="$t('citizenVisibility.levelHelpLabel')">
+                                <Icon name="ph:question" class="size-3.5" aria-hidden="true" />
+                            </button>
+                        </Tooltip>
+                    </div>
                     <FormError :error="props?.error?.errors?.level?.[0]" />
                 </div>
             </div>
@@ -193,6 +206,11 @@ const levelOptions = computed(() => [
     { value: '20', label: t('roles.table.regular') },
     { value: '50', label: t('roles.table.manager') },
 ])
+
+// Manager level (50) and above see every citizen in the company; below that, only their own.
+const levelVisibilityText = computed(() => Number(state.formRole.level) >= 50
+    ? t('citizenVisibility.levelAll')
+    : t('citizenVisibility.levelLimited'))
 
 const isInitializing = ref(true)
 

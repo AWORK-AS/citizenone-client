@@ -20,10 +20,17 @@
                         {{ departmentStore.getSelectedDepartmentName }}
                     </span>
                     <span v-else></span>
-                    <FormButton buttonStyle="success" @click="navigateTo('/protocols/new')">
-                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                        {{ $t('protocols.newProtocol') }}
-                    </FormButton>
+                    <div class="flex items-center gap-2">
+                        <FormButton v-if="isAtLeast('Manager')" buttonStyle="action" data-testid="download-attendance"
+                            @click="state.modal.isAttendanceExportOpen = true">
+                            <Icon name="ph:file-xls" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('protocols.attendanceExport.button') }}
+                        </FormButton>
+                        <FormButton buttonStyle="success" @click="navigateTo('/protocols/new')">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('protocols.newProtocol') }}
+                        </FormButton>
+                    </div>
                 </div>
                 <div class="space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -57,6 +64,9 @@
                                 <tr v-for="(protocol, index) in state.protocols?.data" :key="index">
                                     <td width="25%">
                                         <span>{{ protocol?.name }}</span>
+                                        <Badge type="primary" class="w-fit mt-1" v-if="protocol?.recording_mode === 'clip'">
+                                            <p class="text-xs">{{ $t('protocols.form.clipCard') }}</p>
+                                        </Badge>
                                     </td>
                                     <td width="25%">
                                         <span>{{ formatDateToReadable(protocol?.start_date) }}</span>
@@ -90,6 +100,8 @@
                     <Pagination :data="state.protocols" @previous="previous" @next="next" />
                 </div>
             </div>
+            <ModulesUserProtocolModalAttendanceExport :isModalOpen="state.modal.isAttendanceExportOpen"
+                @close="state.modal.isAttendanceExportOpen = false" />
             <DialogConfirmation :isModalOpen="state.modal.isDeleteProtocolOpen"
                 :message="$t('protocols.table.confirmation.deleteConfirmation') + '?'"
                 @close="state.modal.isDeleteProtocolOpen = false" @confirm="deleteProtocol" />
@@ -103,6 +115,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { protocolService } from '@/components/api/user/ProtocolService'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { saveAs } from 'file-saver'
@@ -114,6 +127,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
+const { isAtLeast } = usePermissions()
 const isEmploymentServices = computed(() => userStore.getUser?.company?.industry?.system_name === 'employment_services')
 let currentTablePage = 1
 const breadcrumbLinks = [
@@ -143,6 +157,7 @@ const state = reactive({
     isTableLoading: false,
     modal: {
         isDeleteProtocolOpen: false,
+        isAttendanceExportOpen: false,
     },
     protocols: [] as any,
     selectedProtocol: [] as any,

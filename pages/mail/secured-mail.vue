@@ -210,7 +210,7 @@
                                                         <div v-for="(attachment, attachmentIndex) in state.selectedEmail?.attachments"
                                                             :key="attachmentIndex" class="border border-gray-200 rounded-sm">
                                                             <div class="cursor-pointer flex items-center gap-x-2 p-2"
-                                                                @click="downloadAttachment(attachment?.file_url)">
+                                                                @click="downloadAttachment(attachment?.file_url, attachment?.file_name)">
                                                                 <div class="flex items-center" v-if="isPdf(attachment?.file_name)">
                                                                     <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600"
                                                                         aria-hidden="true" />
@@ -298,29 +298,29 @@
                                                         :index="attachmentIndex"
                                                         class="border border-gray-200 rounded-sm">
                                                         <div class="cursor-pointer flex items-center gap-x-2 p-2"
-                                                            @click="downloadAttachment(attachment?.file_url)">
+                                                            @click="downloadAttachment(attachmentUrl(attachment), attachmentName(attachment))">
                                                             <div class="flex items-center"
-                                                                v-if="isPdf(attachment?.file_name)">
+                                                                v-if="isPdf(attachmentName(attachment))">
                                                                 <Icon name="ph:file-pdf" class="h-5 w-5 text-red-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isWord(attachment?.file_name)">
+                                                                v-else-if="isWord(attachmentName(attachment))">
                                                                 <Icon name="ph:file-doc" class="h-5 w-5 text-blue-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isExcel(attachment?.file_name)">
+                                                                v-else-if="isExcel(attachmentName(attachment))">
                                                                 <Icon name="ph:file-xls" class="h-5 w-5 text-green-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isPpt(attachment?.file_name)">
+                                                                v-else-if="isPpt(attachmentName(attachment))">
                                                                 <Icon name="ph:file-ppt" class="h-5 w-5 text-purple-600"
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <div class="flex items-center"
-                                                                v-else-if="isImage(attachment?.file_name)">
+                                                                v-else-if="isImage(attachmentName(attachment))">
                                                                 <Icon name="ph:file-image"
                                                                     class="h-5 w-5 text-yellow-600"
                                                                     aria-hidden="true" />
@@ -330,7 +330,7 @@
                                                                     aria-hidden="true" />
                                                             </div>
                                                             <p class="text-xs">
-                                                                {{ attachment?.file_name }}
+                                                                {{ attachmentName(attachment) }}
                                                             </p>
                                                         </div>
                                                     </div>
@@ -360,7 +360,7 @@
             <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                 @close="state.modal.isSendEmailOpen = false" />
             <ModulesUserSecuredMailModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
-                :selectedAttachment="state.selectedAttachment" @close="state.modal.isDownloadAttachment = false" />
+                :selectedAttachment="state.selectedAttachment" :selectedAttachmentName="state.selectedAttachmentName" @close="state.modal.isDownloadAttachment = false" />
             <ModulesUserMailSignatureSignaturesSlideOver :isOpen="state.slideOver.isSignaturesOpen"
                 @close="state.slideOver.isSignaturesOpen = false" />
         </NuxtLayout>
@@ -402,6 +402,7 @@ const state = reactive({
     },
     pagination: {} as any,
     selectedAttachment: '' as any,
+    selectedAttachmentName: '' as string,
     selectedEmail: null as any,
     showOnFirstLoad: false,
     showReplyForm: false,
@@ -495,9 +496,23 @@ async function setSelectedEmail(emailIndex: any, email: any) {
     }
 }
 
-function downloadAttachment(attachment: any) {
+function downloadAttachment(attachment: any, fileName?: string) {
     state.modal.isDownloadAttachment = true
     state.selectedAttachment = attachment
+    state.selectedAttachmentName = fileName ?? ''
+}
+
+// `history` mixes two shapes: the original encrypted mail's own attachments
+// are plain URL strings, but every reply's attachments are
+// `{file_url, file_name}` objects - these two spots are the only place both
+// shapes are rendered through the same markup.
+function attachmentUrl(attachment: any): string {
+    return typeof attachment === 'string' ? attachment : attachment?.file_url
+}
+
+function attachmentName(attachment: any): string {
+    if (typeof attachment === 'string') return attachment.split('/').pop() ?? ''
+    return attachment?.file_name || attachment?.file_url?.split('/').pop() || ''
 }
 </script>
 

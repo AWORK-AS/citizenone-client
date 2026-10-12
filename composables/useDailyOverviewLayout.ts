@@ -20,6 +20,7 @@ export const DAILY_OVERVIEW_BOXES = [
     { key: 'showScheduleSlots', label: 'overview.filter.items.scheduleSlots' },
     { key: 'showPlansAndGoals', label: 'overview.filter.items.plansAndGoals' },
     { key: 'showNextShift', label: 'overview.filter.items.nextShift' },
+    { key: 'showOnDutyToday', label: 'overview.filter.items.onDutyToday' },
 ] as const
 
 /**
