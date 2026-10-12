@@ -90,7 +90,9 @@
                     <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.assessment') }}
                     </h3>
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                    <!-- Bottom-aligned: a question that wraps to two lines would
+                         otherwise push its answer below the one beside it. -->
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 sm:items-end">
                         <div class="space-y-1 sm:col-span-2" v-if="asksFor('topic')">
                             <FormLabel for="topic" :label="$t('inquiries.form.crisisCenter.fields.topic')" />
                             <FormSelectMultiple id="topic" :options="state.options.about_list"
