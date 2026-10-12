@@ -10884,6 +10884,31 @@
     },
     "search": "Søk",
     "sections": {
+        "sectionsAndServiceTypes": "Paragraffer & innsatstyper",
+        "list": {
+            "description": "Hver linje er både en paragraf på innbyggere og innsatstypen en henvendelse registreres under. Angi standard timepris på linjen; den gjelder fra i dag.",
+            "add": "Legg til",
+            "search": "Søk",
+            "empty": "Det finnes ingen paragrafer ennå.",
+            "noMatch": "Ingen paragrafer samsvarer med søket.",
+            "hourlyRate": "Standard timepris",
+            "hourlyRatePlaceholder": "F.eks. 650",
+            "perHour": "per time",
+            "noRate": "Ingen standard timepris",
+            "framework": "Rammeverk",
+            "frameworkHint": "Styres av feltet med fokusområder under Felter i henvendelser.",
+            "frameworks": {
+                "ics": "ICS",
+                "vum": "VUM",
+                "both": "ICS + VUM"
+            },
+            "inactive": "Slått av: tilbys ikke på nye henvendelser",
+            "alert": {
+                "saveFailed": "Paragrafen kunne ikke lagres",
+                "rateFailed": "Paragrafen ble lagret, men timeprisen kunne ikke lagres",
+                "deleteFailed": "Paragrafen kunne ikke slettes"
+            }
+        },
         "mirrored": "Følger innsatstype",
         "mirroredTooltip": "Denne paragrafen vedlikeholdes under Innsatstyper. Endre navn og paragraf der, så følger den med her.",
         "addNewSection": "Legg til ny paragraf",
@@ -11227,6 +11252,7 @@
             "employment": "Jobbsenter"
         },
         "tabs": {
+            "sectionsAndServiceTypes": "Paragraffer & innsatstyper",
             "absences": "Fravær",
             "activityLogs": "Aktivitetslogfiler",
             "addictions": "Rusmisbruk",
@@ -18029,6 +18055,46 @@
             "noPlans": "Ingenting å vise fra innbyggernes planer akkurat nå.",
             "overdue": "Forfalt {date}",
             "dueToday": "Frist i dag"
+        }
+    },
+    "inquiryForms": {
+        "title": "Henvendelsesskjemaer",
+        "description": "Skjemaene man kan velge mellom under \"Ny henvendelse\". Slå av dem dere ikke bruker, opprett deres egne, og velg hvilke faste felt hvert skjema spør om.",
+        "add": "Opprett skjema",
+        "addHint": "Et nytt skjema spør bare om dato, avdeling, navn og personnummer. Velg resten etterpå.",
+        "builtin": "Innebygd",
+        "builtinHint": "Følger registreringen av henvendelser etter den danske serviceloven § 110 og § 109. Kan slås av, men ikke slettes.",
+        "serviceTypeHint": "Henvendelser på dette skjemaet får innsatstypen valgt på forhånd.",
+        "fieldCount": "{count} faste felt",
+        "noneActive": "Ingen skjemaer er slått på. Slå på ett under Innstillinger → Henvendelsesskjemaer.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Henvisning fra kommunen",
+            "serviceType": "Innsatstype (valgfri)",
+            "noServiceType": "Ingen"
+        },
+        "actions": {
+            "switchOff": "Slå av skjemaet",
+            "switchOn": "Slå på skjemaet",
+            "fields": "Velg faste felt",
+            "ownFields": "Egne felt på skjemaet",
+            "rename": "Gi skjemaet nytt navn",
+            "delete": "Slett skjemaet"
+        },
+        "fields": {
+            "hint": "Fjern haken for å skjule et felt. Felt med hengelås kan ikke skjules.",
+            "saved": "Feltene er lagret",
+            "locked": "Låst",
+            "lockedRegistration": "Brukes i registreringen av henvendelser etter § 110/§ 109 og kan derfor ikke skjules på dette skjemaet.",
+            "lockedAlways": "Alle henvendelser må ha dette feltet."
+        },
+        "confirmation": {
+            "delete": "Er du sikker på at du vil slette dette skjemaet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Skjemaet er slettet",
+            "deleteFailed": "Skjemaet kunne ikke slettes"
         }
     },
     "documentTabs": {
