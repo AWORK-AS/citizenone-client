@@ -2716,6 +2716,14 @@
         },
         "medicationAllergies": "Medisinallergier (CAVE)",
         "medicineJournals": {
+            "selfAdministered": {
+                "label": "Selvadministrert",
+                "hint": "Skal bare utleveres – @:terms.citizenDefinite{''} tar medisinen selv.",
+                "banner": "@.capitalize:terms.citizenDefinite{''} tar denne medisinen selv. Den skal bare utleveres – registrer den som utlevert, ikke gitt.",
+                "batchAuto": "Automatisk – utlevert for selvadministrert, ellers gitt",
+                "overdue": "Medisinen er {time} forsinket. Utlever den, eller registrer avvik.",
+                "handOutNow": "Utlever nu"
+            },
             "alert": {
                 "successfullyActivated": "Medisin aktivert vellykket",
                 "successfullyDeactivated": "Medisin deaktivert vellykket",
@@ -2828,7 +2836,7 @@
                 "pnMedicine": "PN-medisin",
                 "scheduleFrequency": "Hvor tit skal @:terms.citizen{''} ha medisinen",
                 "scheduleUntil": "Inntil når skal @:terms.citizen{''} ha medisinen",
-                "selfAdminister": "Selvadministrerende medisin",
+                "selfAdminister": "Selvadministrert medisin",
                 "startDate": "Dato for ordinering",
                 "strength": "Styrke",
                 "time": "Tid",
@@ -3087,7 +3095,7 @@
                 "medicineIsOverdue": "Medisinen er {time} forsinket. Gi straks eller registrér afvigelse.",
                 "dueInMinutes": "Forfaller om {minutes} minutter. Husk at gi til tiden.",
                 "expired": "Utløpt",
-                "selfAdministration": "Selvadministrerende",
+                "selfAdministration": "Selvadministrert",
                 "expiredCheckDate": "Utløpt - sjekk åpning dato",
                 "lowStock": "Lavt lager",
                 "lowStockOnly": "Lavt lager: kun {n} tilbake",
@@ -3095,6 +3103,7 @@
                 "lastGivenHoursAgo": "Sist gitt for {hours} timer siden. Vent {remaining} timer mer.",
                 "hoursLeft": "{hours}t tilbake",
                 "givePN": "Gi PN",
+                "handOutPN": "Utlever PN",
                 "noScheduledMedicines": "Ingen planlagte mediciner",
                 "overdueDeviation": "Forsinket/afvigelse",
                 "givenLegend": "Gitt",

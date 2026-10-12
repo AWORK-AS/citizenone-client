@@ -33,13 +33,7 @@
                                 </p>
                             </Badge>
                             <div class="mt-1">
-                                <Badge type="primary" class="w-fit" v-if="medicine.is_self_administered">
-                                    <p class="text-xxs">
-                                        {{
-                                            $t('citizens.medicineJournals.form.selfAdminister')
-                                        }}
-                                    </p>
-                                </Badge>
+                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="medicine.is_self_administered" />
                             </div>
                             <h3 class="text-base font-semibold">
                                 {{ language.locale.value === 'en' ? medicine?.medicine?.en_name

@@ -190,7 +190,7 @@ const state = reactive({
     excludedPnMedicines: [] as any[],
     form: {
         date_range: [] as any,
-        type: 'given',
+        type: 'auto',
         comment: '',
     },
     preview: null as any,
@@ -201,6 +201,7 @@ const state = reactive({
     pouringEmptyMessage: '',
     options: {
         types: [
+            { value: 'auto', label: '' },
             { value: 'given', label: '' },
             { value: 'delivered', label: '' },
             { value: 'deviated', label: '' },
@@ -210,6 +211,9 @@ const state = reactive({
 
 function refreshTypeLabels() {
     state.options.types = [
+        // Task #115: each medicine gets its own status - self-administered ones
+        // are handed out, the rest given. The backend picks per medicine.
+        { value: 'auto', label: t('citizens.medicineJournals.selfAdministered.batchAuto') },
         { value: 'given', label: t('citizens.medicineJournals.history.form.type.given') },
         { value: 'delivered', label: t('citizens.medicineJournals.history.form.type.delivered') },
         { value: 'deviated', label: t('citizens.medicineJournals.history.form.type.deviated') },
@@ -228,7 +232,7 @@ function resetState() {
     state.step = 'form'
     state.error = {}
     state.form.date_range = []
-    state.form.type = 'given'
+    state.form.type = 'auto'
     state.form.comment = ''
     state.preview = null
     state.result = null
@@ -273,7 +277,7 @@ function buildParams(forceMainStock = false) {
         medicine_uuids: state.scheduledMedicines.map((m: any) => m.uuid),
         date_start: state.form.date_range?.[0],
         date_end: state.form.date_range?.[1],
-        type: state.form.type,
+        type: state.form.type === 'auto' ? undefined : state.form.type,
         comment: state.form.comment || undefined,
         give_from_main_stock: forceMainStock || undefined,
     }
