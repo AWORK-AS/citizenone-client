@@ -551,6 +551,12 @@
                                                 {{ getHoliday(day) }}
                                             </span>
                                         </div>
+                                        <!-- Task #6: the load of the day -->
+                                        <div class="mt-1 px-1" @click.stop>
+                                            <ModulesUserDutyScheduleDayLoad compact
+                                                :load="state.monthlySchedules?.month_data?.[moment(day).format('YYYY-MM-DD')]?.load"
+                                                :open-slots="getSlotCountForDay(day)" />
+                                        </div>
                                         <!-- Slot badge -->
                                         <div v-if="getSlotCountForDay(day) > 0"
                                             class="slot-badge absolute top-1 right-1 bg-primary font-bold shadow-sm">

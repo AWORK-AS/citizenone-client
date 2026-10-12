@@ -4788,6 +4788,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Medarbetare i tjänst per dag – räknat över alla medarbetare, inte bara denna sida – mot avdelningarnas minimibemanning. Röd betyder under minimum.",
+            "hoursShort": "{hours} h",
+            "onDuty": "{count} i tjänst",
+            "plannedHours": "{hours} planerade timmar",
+            "shifts": "{count} pass",
+            "absent": "{count} frånvarande",
+            "openSlots": "{count} lediga pass",
+            "minimum": "Minimibemanning: {count}",
+            "missing": "Saknar {count}"
+        },
         "allDay": "Hela dagen",
         "groups": {
             "collapse": "Fäll ihop avdelningen",

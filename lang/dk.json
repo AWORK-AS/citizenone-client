@@ -4788,6 +4788,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Medarbejdere på vagt pr. dag – talt over alle medarbejdere, ikke kun denne side – mod afdelingernes minimumsbemanding. Rød betyder under minimum.",
+            "hoursShort": "{hours} t",
+            "onDuty": "{count} på vagt",
+            "plannedHours": "{hours} planlagte timer",
+            "shifts": "{count} vagter",
+            "absent": "{count} fraværende",
+            "openSlots": "{count} ledige vagter",
+            "minimum": "Minimumsbemanding: {count}",
+            "missing": "Mangler {count}"
+        },
         "allDay": "Hele dagen",
         "groups": {
             "collapse": "Fold afdelingen sammen",

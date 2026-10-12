@@ -4788,6 +4788,18 @@
         }
     },
     "dutySchedules": {
+        "dayLoad": {
+            "label": "Belastning",
+            "help": "Ansatte på vakt per dag – telt over alle ansatte, ikke bare denne siden – mot avdelingenes minimumsbemanning. Rød betyr under minimum.",
+            "hoursShort": "{hours} t",
+            "onDuty": "{count} på vakt",
+            "plannedHours": "{hours} planlagte timer",
+            "shifts": "{count} vakter",
+            "absent": "{count} fraværende",
+            "openSlots": "{count} ledige vakter",
+            "minimum": "Minimumsbemanning: {count}",
+            "missing": "Mangler {count}"
+        },
         "allDay": "Hele dagen",
         "groups": {
             "collapse": "Skjul avdelingen",
