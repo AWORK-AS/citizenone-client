@@ -72,6 +72,11 @@
                             <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('folderStructure.folderStructure') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" @click="state.modal.isTemplateLibraryOpen = true"
+                            v-if="isAtLeast('Admin') || can('create_citizen_document')" data-testid="open-template-library">
+                            <Icon name="ph:files" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('templateLibrary.title') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true"
                             v-if="isAtLeast('Admin') || can('create_citizen_document')">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
@@ -247,8 +252,11 @@
                     @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
+                <ModulesUserDocumentTemplateLibraryModal :isModalOpen="state.modal.isTemplateLibraryOpen" area="citizen"
+                    @close="state.modal.isTemplateLibraryOpen = false" @pick="openPickedTemplate" />
                 <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
-                    @close="state.modal.isCreateTemplateOpen = false" @refreshDocuments="fetchDocuments" />
+                    :presetFormUuid="state.pickedTemplateUuid" :presetFolderUuid="currentFolderUuid"
+                    @close="closeCreateTemplate" @refreshDocuments="fetchDocuments" />
                 <ModulesUserCitizenDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isMoveFileOpen = false"
                     @refreshDocuments="fetchDocuments" />
@@ -353,10 +361,13 @@ const state = reactive({
     isTableLoading: false,
     documents: [] as any,
     selectedDocuments: [] as any[],
+    // The template picked in the templates library, filled in through "Opret rapport".
+    pickedTemplateUuid: '',
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isCreateTemplateOpen: false,
+        isTemplateLibraryOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
@@ -397,6 +408,19 @@ const showDraftButton = computed(() => {
 
 const handleRouteChange = () => {
     fetchDocuments()
+}
+
+const currentFolderUuid = computed(() => typeof route?.query?.folder_uuid === 'string' ? route.query.folder_uuid : '')
+
+function openPickedTemplate(formUuid: string) {
+    state.pickedTemplateUuid = formUuid
+    state.modal.isTemplateLibraryOpen = false
+    state.modal.isCreateTemplateOpen = true
+}
+
+function closeCreateTemplate() {
+    state.modal.isCreateTemplateOpen = false
+    state.pickedTemplateUuid = ''
 }
 
 function closeUpgradeStorageModal() {

@@ -18263,5 +18263,18 @@
             "required": "Besvara frågorna markerade med *.",
             "failed": "Något gick fel. Försök igen."
         }
+    },
+    "templateLibrary": {
+        "title": "Mallar",
+        "intro": "Välj en mall, fyll i den och spara resultatet som en ny PDF i den mapp du vill. Själva mallen ändras aldrig.",
+        "standardTitle": "Standardmallar",
+        "ownTitle": "Era egna mallar",
+        "questions": "{count} frågor",
+        "fillIn": "Fyll i",
+        "search": "Sök bland mallar",
+        "noMatches": "Inga mallar matchar sökningen.",
+        "ownEmpty": "Ni har inga egna mallar ännu.",
+        "createOwn": "Skapa en mall",
+        "loadFailed": "Mallarna kunde inte hämtas. Försök igen."
     }
 }

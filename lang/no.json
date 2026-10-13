@@ -18263,5 +18263,18 @@
             "required": "Svar på spørsmålene merket med *.",
             "failed": "Noe gikk galt. Prøv igjen."
         }
+    },
+    "templateLibrary": {
+        "title": "Maler",
+        "intro": "Velg en mal, fyll den ut og lagre resultatet som en ny PDF i mappen du ønsker. Selve malen endres ikke.",
+        "standardTitle": "Standardmaler",
+        "ownTitle": "Deres egne maler",
+        "questions": "{count} spørsmål",
+        "fillIn": "Fyll ut",
+        "search": "Søk i maler",
+        "noMatches": "Ingen maler samsvarer med søket.",
+        "ownEmpty": "Dere har ingen egne maler ennå.",
+        "createOwn": "Opprett en mal",
+        "loadFailed": "Malene kunne ikke hentes. Prøv igjen."
     }
 }
