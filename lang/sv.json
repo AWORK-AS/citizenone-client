@@ -16436,6 +16436,7 @@
             "allStays": "Alla vistelser",
             "noDepartment": "Ingen avdelning",
             "createDepartment": "Skapa kunder och avdelningar under Inställningar",
+            "addDepartment": "Skapa kund/avdelning",
             "priceType": "Prismodell",
             "priceTypes": {
                 "hourly": "Pris per levererad timme",

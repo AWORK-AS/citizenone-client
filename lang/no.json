@@ -16436,6 +16436,7 @@
             "allStays": "Alle opphold",
             "noDepartment": "Ingen avdeling",
             "createDepartment": "Opprett kunder og avdelinger under Innstillinger",
+            "addDepartment": "Opprett kunde/avdeling",
             "priceType": "Prismodell",
             "priceTypes": {
                 "hourly": "Pris per levert time",
