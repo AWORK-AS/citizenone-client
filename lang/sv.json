@@ -15497,6 +15497,9 @@
             "addQuestion": "Tilføj nyt spørgsmål",
             "templates": "Standardenkäter",
             "orBuildYourOwn": "Eller byg dit eget",
+            "addFollowUp": "Lägg till följdfråga",
+            "followUpShownWhen": "Visas när svaret på \"{question}\" är:",
+            "followUpPickOption": "Välj minst ett svar som visar den här frågan.",
             "scoreRanges": {
                 "title": "Poängtolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",

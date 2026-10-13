@@ -15593,6 +15593,9 @@
             "addQuestion": "Tilføj nyt spørgsmål",
             "templates": "Standardskemaer",
             "orBuildYourOwn": "Eller byg dit eget",
+            "addFollowUp": "Tilføj opfølgende spørgsmål",
+            "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
+            "followUpPickOption": "Vælg mindst ét svar, der viser dette spørgsmål.",
             "scoreRanges": {
                 "title": "Score-fortolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
