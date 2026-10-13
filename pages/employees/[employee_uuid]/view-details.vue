@@ -575,6 +575,10 @@ const spokenLanguagesSummary = computed(() =>
 
 onMounted(() => {
     fetchEmployee()
+    // Task #97: "contract signed" notifications open the employee's contracts.
+    if (useRoute().query.contracts === '1') {
+        state.modal.isViewEmploymentContractsOpen = true
+    }
 })
 
 async function fetchEmployee() {

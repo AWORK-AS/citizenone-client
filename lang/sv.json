@@ -7115,7 +7115,10 @@
                 "confirmSend": "Skicka avtalet till medarbetaren så att det kan läsas och undertecknas i CitizenOne",
                 "confirmWithdraw": "Dra tillbaka begäran om underskrift",
                 "sent": "Avtalet har skickats för underskrift",
-                "withdrawn": "Begäran om underskrift har dragits tillbaka"
+                "withdrawn": "Begäran om underskrift har dragits tillbaka",
+                "sendOnUpload": "Skicka till medarbetaren för underskrift",
+                "sendOnUploadHint": "Medarbetaren får besked i CitizenOne, i mobilen och via e-post, och du får besked när avtalet är undertecknat.",
+                "savedAndSent": "Avtalet har sparats och skickats för underskrift"
             },
             "form": {
                 "alert": {

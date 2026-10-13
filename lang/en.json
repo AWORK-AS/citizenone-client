@@ -7115,7 +7115,10 @@
                 "confirmSend": "Send the contract to the employee to read and sign in CitizenOne",
                 "confirmWithdraw": "Withdraw the request for a signature",
                 "sent": "The contract has been sent for signing",
-                "withdrawn": "The request for a signature has been withdrawn"
+                "withdrawn": "The request for a signature has been withdrawn",
+                "sendOnUpload": "Send to the employee to sign",
+                "sendOnUploadHint": "The employee is told in CitizenOne, on their phone and by email, and you are told when the contract is signed.",
+                "savedAndSent": "The contract has been saved and sent for signing"
             },
             "form": {
                 "alert": {
