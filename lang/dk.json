@@ -16229,6 +16229,21 @@
         "clampedNote": "Norm og saldo dækker kun {start} – {end}.",
         "pendingExtra": "{hours} afventer"
     },
+    "notificationPreferences": {
+        "title": "Notifikationstyper",
+        "subtitle": "Vælg hvilke notifikationer du modtager, og hvordan. Obligatoriske notifikationer kan ikke slås fra.",
+        "push": "Push",
+        "email": "E-mail",
+        "frequency": "Frekvens",
+        "instant": "Med det samme",
+        "hourly": "Timevis samling",
+        "required": "Påkrævet",
+        "save": "Gem notifikationstyper",
+        "saved": "Notifikationstyper gemt",
+        "loadError": "Notifikationstyperne kunne ikke indlæses.",
+        "retry": "Prøv igen",
+        "masterOffHint": "Nogle kontakter er nedtonede, fordi den tilsvarende kontakt ovenfor (e-mail- eller systemnotifikationer) er slået fra."
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
