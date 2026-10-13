@@ -7448,6 +7448,7 @@
         "createJournalNote": "Skapa @:terms.journalNote{''}",
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
+        "statusMenuLabel": "Markera \"{title}\" som slutförd eller inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
         "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
         "noteNudge": {

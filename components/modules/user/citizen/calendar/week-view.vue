@@ -44,7 +44,8 @@
 
         <!-- Desktop: 7-day week grid -->
         <div class="hidden lg:block">
-            <TimeGrid :days="timeGridDays" @eventClick="viewMyCalendarEvent" @dayClick="setSelectedDay" />
+            <TimeGrid :days="timeGridDays" :statusActions="props.statusActions" @markStatus="markEventAsStatus"
+                @eventClick="viewMyCalendarEvent" @dayClick="setSelectedDay" />
         </div>
 
         <!-- Mobile: agenda list -->
@@ -165,6 +166,12 @@ const props = defineProps({
     myCalendarEvents: {
         type: Object,
         required: true,
+    },
+    // "Mark as completed / not completed" on the desktop grid's events. Only
+    // for a page that handles markEventAsStatus (the child calendar doesn't).
+    statusActions: {
+        type: Boolean,
+        default: false,
     },
 })
 const emit = defineEmits(['changeDatePerWeek', 'viewMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])

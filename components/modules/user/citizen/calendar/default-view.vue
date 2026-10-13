@@ -78,7 +78,8 @@
                     </div>
                 </div>
 
-                <TimeGrid :days="dayGridDays" :showHeader="false" @eventClick="viewMyCalendarEvent" />
+                <TimeGrid :days="dayGridDays" :showHeader="false" :statusActions="props.statusActions"
+                    @markStatus="markEventAsStatus" @eventClick="viewMyCalendarEvent" />
             </div>
         </div>
         <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
@@ -98,6 +99,12 @@ const props = defineProps({
     myCalendarEvents: {
         type: Object,
         required: true,
+    },
+    // "Mark as completed / not completed" on the desktop grid's events. Only
+    // for a page that handles markEventAsStatus (the child calendar doesn't).
+    statusActions: {
+        type: Boolean,
+        default: false,
     },
 })
 const emit = defineEmits(['changeMonthYear', 'editMyCalendarEvent', 'deleteMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent', 'viewMyCalendarEvent'])
