@@ -156,6 +156,7 @@
 <script setup lang="ts">
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { useAlert } from '@/composables/alert'
+import { lookupOptionLabel, sortByLabel } from '@/composables/spokenLanguageNames'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
 
@@ -221,10 +222,18 @@ function isWide(field: any) {
 }
 
 function lookupOptions(field: any) {
-    return (field.lookup_options ?? []).map((option: any) => ({
-        value: option.uuid,
-        label: option.is_special ? `${option.label} (${t('inquiryOffer.specialLanguage').toLowerCase()})` : option.label,
-    }))
+    const options = (field.lookup_options ?? []).map((option: any) => {
+        const label = lookupOptionLabel(option, locale.value)
+
+        return {
+            value: option.uuid,
+            label: option.is_special ? `${label} (${t('inquiryOffer.specialLanguage').toLowerCase()})` : label,
+        }
+    })
+
+    // Spoken languages read in the order of the names shown (Danish for a Danish
+    // user); every other register keeps the order the server chose for it.
+    return field.options?.source === 'spoken_languages' ? sortByLabel(options, locale.value) : options
 }
 
 // The lookup field a new customer department is being created for.
@@ -253,7 +262,7 @@ function specialChosen(field: any): string[] {
 
     return (field.lookup_options ?? [])
         .filter((option: any) => option.is_special && chosen.includes(option.uuid))
-        .map((option: any) => option.label)
+        .map((option: any) => lookupOptionLabel(option, locale.value))
 }
 
 function choiceOptions(field: any) {
