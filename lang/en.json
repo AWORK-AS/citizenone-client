@@ -11333,6 +11333,7 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "dinero": "Dinero",
+            "billy": "Billy",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
@@ -11437,6 +11438,25 @@
             "how1": "In Dinero, go to Settings → Integrations and request a personal integration to get a Client ID, Client Secret and API key for this organization.",
             "how2": "Paste all three here and click “Connect”.",
             "how3": "Once connected, invoices can be sent to Dinero."
+        },
+        "billy": {
+            "title": "Billy",
+            "subtitle": "Send invoices from CitizenOne to Billy as draft invoices.",
+            "adminOnly": "Only administrators can manage the Billy connection.",
+            "notPurchased": "The Billy app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from Billy?",
+            "apiTokenLabel": "Billy access token",
+            "apiTokenPlaceholder": "Paste the access token from your Billy account",
+            "howTitle": "How to connect",
+            "how1": "In Billy, go to Settings → Access tokens and create a new token for this organization.",
+            "how2": "Paste it here and click “Connect”.",
+            "how3": "Once connected, invoices can be sent to Billy as drafts."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk integration",
@@ -11573,6 +11593,10 @@
             "dinero": {
                 "title": "What does Dinero do?",
                 "body": "Send invoices on to Dinero as bookkeeping vouchers, so the figures are only typed once."
+            },
+            "billy": {
+                "title": "What does Billy do?",
+                "body": "Send invoices on to Billy as draft invoices, so the figures are only typed once."
             },
             "fst": {
                 "title": "What is FindSocialeTilbud.dk?",
@@ -16630,6 +16654,7 @@
             "sendEmail": "Send by e-mail",
             "pushEconomic": "Send to e-conomic as draft",
             "pushDinero": "Send to Dinero as voucher",
+            "pushBilly": "Send to Billy as draft",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -16652,6 +16677,13 @@
                 "dinero_not_connected": "Dinero is not connected",
                 "dinero_invoice_not_found": "The invoice was not found",
                 "dinero_voucher_failed": "The voucher could not be created in Dinero",
+                "billy_not_connected": "Billy is not connected",
+                "billy_invoice_not_found": "The invoice was not found",
+                "billy_contact_failed": "The contact could not be created in Billy",
+                "billy_product_failed": "The product could not be created in Billy (no revenue account found)",
+                "billy_invoice_failed": "The invoice could not be created in Billy",
+                "billy_already_pushed": "The invoice has already been sent to Billy",
+                "billy_auth_failed": "Billy did not accept the access token",
                 "unknown_action": "Unknown action"
             }
         },
