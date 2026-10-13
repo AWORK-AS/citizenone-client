@@ -7102,6 +7102,21 @@
             "driversLicense": "Kørekort",
             "editDocument": "Rediger dokument",
             "employmentContracts": "Ansættelseskontrakter",
+            "signature": {
+                "column": "Underskrift",
+                "notSent": "Ikke sendt",
+                "pending": "Afventer underskrift",
+                "sentOn": "Sendt {date}",
+                "signed": "Underskrevet",
+                "signedOnBy": "{date} af {name}",
+                "send": "Send til underskrift",
+                "withdraw": "Træk tilbage",
+                "certificate": "Underskriftsbevis",
+                "confirmSend": "Send kontrakten til medarbejderen, så den kan læses og underskrives i CitizenOne",
+                "confirmWithdraw": "Træk anmodningen om underskrift tilbage",
+                "sent": "Kontrakten er sendt til underskrift",
+                "withdrawn": "Anmodningen om underskrift er trukket tilbage"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Dokument gemt med succes",
@@ -18391,5 +18406,27 @@
             "required": "Besvar spørgsmålene markeret med *.",
             "failed": "Noget gik galt. Prøv igen."
         }
+    },
+    "myContracts": {
+        "title": "Mine kontrakter",
+        "subtitle": "Kontrakter, du er blevet bedt om at læse og underskrive.",
+        "waiting": "Venter på din underskrift",
+        "signedSection": "Underskrevet",
+        "empty": "Du har ingen kontrakter at underskrive.",
+        "sentBy": "Sendt af {name} {date}",
+        "signedOn": "Underskrevet {date}",
+        "open": "Læs og underskriv",
+        "view": "Se kontrakt",
+        "certificate": "Underskriftsbevis",
+        "signTitle": "Underskriv kontrakt",
+        "readFirst": "Læs kontrakten igennem, før du underskriver.",
+        "accept": "Jeg har læst kontrakten og accepterer den",
+        "nameLabel": "Skriv dit fulde navn som underskrift",
+        "nameHint": "Som det står i CitizenOne: {name}",
+        "sign": "Underskriv",
+        "signed": "Kontrakten er underskrevet",
+        "evidence": "Når du underskriver, gemmes tidspunkt, IP-adresse og enhed sammen med kontrakten som bevis.",
+        "loadFailed": "Kontrakten kunne ikke hentes. Prøv igen.",
+        "pendingCount": "{count} venter på underskrift"
     }
 }

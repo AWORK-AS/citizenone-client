@@ -7102,6 +7102,21 @@
             "driversLicense": "Körekort",
             "editDocument": "Redigera dokument",
             "employmentContracts": "Ansättelseskontrakter",
+            "signature": {
+                "column": "Underskrift",
+                "notSent": "Inte skickat",
+                "pending": "Väntar på underskrift",
+                "sentOn": "Skickat {date}",
+                "signed": "Undertecknat",
+                "signedOnBy": "{date} av {name}",
+                "send": "Skicka för underskrift",
+                "withdraw": "Dra tillbaka",
+                "certificate": "Underskriftsintyg",
+                "confirmSend": "Skicka avtalet till medarbetaren så att det kan läsas och undertecknas i CitizenOne",
+                "confirmWithdraw": "Dra tillbaka begäran om underskrift",
+                "sent": "Avtalet har skickats för underskrift",
+                "withdrawn": "Begäran om underskrift har dragits tillbaka"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Dokument sparad",
@@ -18295,5 +18310,27 @@
             "required": "Besvara frågorna markerade med *.",
             "failed": "Något gick fel. Försök igen."
         }
+    },
+    "myContracts": {
+        "title": "Mina avtal",
+        "subtitle": "Avtal som du har ombetts att läsa och underteckna.",
+        "waiting": "Väntar på din underskrift",
+        "signedSection": "Undertecknade",
+        "empty": "Du har inga avtal att underteckna.",
+        "sentBy": "Skickat av {name} {date}",
+        "signedOn": "Undertecknat {date}",
+        "open": "Läs och underteckna",
+        "view": "Visa avtal",
+        "certificate": "Underskriftsintyg",
+        "signTitle": "Underteckna avtal",
+        "readFirst": "Läs igenom avtalet innan du undertecknar.",
+        "accept": "Jag har läst avtalet och godkänner det",
+        "nameLabel": "Skriv ditt fullständiga namn som underskrift",
+        "nameHint": "Som det står i CitizenOne: {name}",
+        "sign": "Underteckna",
+        "signed": "Avtalet är undertecknat",
+        "evidence": "När du undertecknar sparas tidpunkt, IP-adress och enhet tillsammans med avtalet som bevis.",
+        "loadFailed": "Avtalet kunde inte hämtas. Försök igen.",
+        "pendingCount": "{count} väntar på underskrift"
     }
 }
