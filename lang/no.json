@@ -11328,6 +11328,7 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "dinero": "Dinero",
+            "billy": "Billy",
             "customLinks": "Egne lenker",
             "messageTemplates": "Meldingsmaler",
             "timelineEventTypes": "Tidslinjetyper",
@@ -11432,6 +11433,25 @@
             "how1": "Gå til Innstillinger → Integrasjoner i Dinero, og be om en personlig integrasjon for å få en Client ID, Client Secret og API-nøkkel for organisasjonen.",
             "how2": "Lim inn alle tre her, og klikk “Koble til”.",
             "how3": "Når tilkoblingen er opprettet, kan fakturaer sendes til Dinero."
+        },
+        "billy": {
+            "title": "Billy",
+            "subtitle": "Send fakturaer fra CitizenOne til Billy som kladder.",
+            "adminOnly": "Bare administratorer kan administrere Billy-tilkoblingen.",
+            "notPurchased": "Billy-appen er ikke aktivert ennå. Aktiver den under Apps for å koble til.",
+            "goToApps": "Gå til Apps",
+            "connection": "Tilkobling",
+            "connected": "Tilkoblet",
+            "notConnected": "Ikke tilkoblet",
+            "connect": "Koble til",
+            "disconnect": "Koble fra",
+            "confirmDisconnect": "Koble fra Billy?",
+            "apiTokenLabel": "Billy tilgangstoken",
+            "apiTokenPlaceholder": "Lim inn tilgangstoken fra Billy-kontoen din",
+            "howTitle": "Slik kobler du til",
+            "how1": "Gå til Innstillinger → Tilgangstokener i Billy, og opprett en ny token for organisasjonen.",
+            "how2": "Lim den inn her, og klikk “Koble til”.",
+            "how3": "Når tilkoblingen er opprettet, kan fakturaer sendes til Billy som kladder."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11568,6 +11588,10 @@
             "dinero": {
                 "title": "Hva gjør Dinero?",
                 "body": "Send fakturaer videre til Dinero som bilag, slik at tallene bare tastes ett sted."
+            },
+            "billy": {
+                "title": "Hva gjør Billy?",
+                "body": "Send fakturaer videre til Billy som kladder, slik at tallene bare tastes ett sted."
             },
             "fst": {
                 "title": "Hva er FindSocialeTilbud.dk?",
@@ -16534,6 +16558,7 @@
             "sendEmail": "Send på e-post",
             "pushEconomic": "Send til e-conomic som utkast",
             "pushDinero": "Send til Dinero som bilag",
+            "pushBilly": "Send til Billy som kladd",
             "empty": "Ingen fakturaer i denne visningen.",
             "number": "Fakturanr.",
             "billTo": "Mottaker",
@@ -16556,6 +16581,13 @@
                 "dinero_not_connected": "Dinero er ikke tilkoblet",
                 "dinero_invoice_not_found": "Fakturaen ble ikke funnet",
                 "dinero_voucher_failed": "Bilaget kunne ikke opprettes i Dinero",
+                "billy_not_connected": "Billy er ikke tilkoblet",
+                "billy_invoice_not_found": "Fakturaen ble ikke funnet",
+                "billy_contact_failed": "Kunden kunne ikke opprettes i Billy",
+                "billy_product_failed": "Produktet kunne ikke opprettes i Billy (ingen inntektskonto funnet)",
+                "billy_invoice_failed": "Fakturaen kunne ikke opprettes i Billy",
+                "billy_already_pushed": "Fakturaen er allerede sendt til Billy",
+                "billy_auth_failed": "Billy godtok ikke tilgangstokenen",
                 "unknown_action": "Ukjent handling"
             }
         },
