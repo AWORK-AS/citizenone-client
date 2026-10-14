@@ -166,6 +166,8 @@
                                         <div v-else
                                             class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">
                                             {{ $t('citizens.interventionHours.table.work') }}</div>
+                                        <p v-if="inteventionHours?.contract_hour_type?.name" class="mt-1 text-xs text-gray-500">
+                                            {{ inteventionHours.contract_hour_type.name }}</p>
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}

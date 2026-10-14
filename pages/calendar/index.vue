@@ -249,7 +249,7 @@
 
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
-                @duplicateEvent="duplicateMyCalendarEvent"
+                @duplicateEvent="duplicateMyCalendarEvent" @markEventAsStatus="markStatusFromModal"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
 
 
@@ -817,6 +817,12 @@ async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'comp
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// The edit modal's done / not done buttons: same request as the event menu.
+function markStatusFromModal(status: 'completed' | 'not_completed') {
+    state.modal.isEditEventOpen = false
+    handleMarkEventAsStatus(state.selectedSchedule, status)
 }
 
 function handleCreateJournalFromEvent(selectedCalendarEvent: any) {

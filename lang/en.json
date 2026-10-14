@@ -2702,6 +2702,7 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Created by",
                 "dateTimeEnd": "Date time end",
+                "hourType": "Hour type",
                 "dateTimeStart": "Date time start",
                 "endAddress": "End address",
                 "kilometers": "Kilometers",
@@ -7448,6 +7449,7 @@
         "createJournalNote": "Create @:terms.journalNote{''}",
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
+        "statusMenuLabel": "Mark \"{title}\" as completed or not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
         "linkedNote": "Linked @:terms.journalNote{''}: {title}",
         "noteNudge": {
@@ -9108,7 +9110,8 @@
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "nameNorwegian": "Name (norwegian)",
-            "nameSwedish": "Name (swedish)"
+            "nameSwedish": "Name (swedish)",
+            "atLeastOneName": "Enter the name in at least one language."
         },
         "medicines": "Medicines",
         "newMedicine": "New medicine",
@@ -11067,6 +11070,7 @@
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
+                "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
                 "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
@@ -16556,6 +16560,7 @@
             "allStays": "All stays",
             "noDepartment": "No department",
             "createDepartment": "Create customers and departments under Settings",
+            "addDepartment": "Create customer/department",
             "priceType": "Pricing model",
             "priceTypes": {
                 "hourly": "Price per delivered hour",
