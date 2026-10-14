@@ -89,6 +89,7 @@ async function updateSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             is_online_meeting: scheduleDetails.is_online_meeting,
             meeting_url: scheduleDetails.meeting_url,
+            is_video_consultation: scheduleDetails.is_video_consultation ?? false,
             apply_to: scheduleDetails.apply_to ?? 'this',
         } as any
 

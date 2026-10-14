@@ -50,42 +50,53 @@
 
                         <!-- Step 2 and 3: when -->
                         <div class="lg:col-span-3 space-y-5" v-if="state.selectedService">
+                            <!-- Day and time in one card: side by side on a wide screen, so the
+                                 calendar does not sit alone in a card of empty space; stacked on a phone. -->
                             <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5">
-                                <p class="text-xs font-bold text-primary uppercase tracking-widest">
-                                    {{ $t('patient.booking.chooseDate') }}
-                                </p>
-
-                                <div v-if="state.selectedService.available_dates?.length" class="mt-3 flex flex-wrap gap-2">
-                                    <button v-for="date in state.selectedService.available_dates" :key="date" type="button"
-                                        class="rounded-full border px-4 py-2 text-sm transition"
-                                        :class="state.selectedDate === date ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 text-gray-700 hover:border-primary/40'"
-                                        @click="selectDate(date)">
-                                        {{ formatDate(date) }}
-                                    </button>
-                                </div>
-                                <p v-else class="mt-3 text-sm text-gray-500 italic">
+                                <p v-if="!state.selectedService.available_dates?.length" class="text-sm text-gray-500 italic">
                                     {{ $t('patient.booking.noDates') }}
                                 </p>
-                            </div>
 
-                            <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5" v-if="state.selectedDate">
-                                <p class="text-xs font-bold text-primary uppercase tracking-widest">
-                                    {{ $t('patient.booking.chooseTime') }}
-                                </p>
-
-                                <LoadingSpinner :isActive="state.isSlotsLoading">
-                                    <div v-if="state.slots.length" class="mt-3 flex flex-wrap gap-2">
-                                        <button v-for="slot in state.slots" :key="slot.uuid" type="button"
-                                            class="rounded-full border px-4 py-2 text-sm transition"
-                                            :class="state.selectedSlot?.uuid === slot.uuid ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 text-gray-700 hover:border-primary/40'"
-                                            @click="state.selectedSlot = slot">
-                                            {{ slot.start_time?.substring(0, 5) }}
-                                        </button>
+                                <div v-else class="flex flex-col gap-6 md:flex-row">
+                                    <div class="md:w-80 md:shrink-0">
+                                        <p class="text-xs font-bold text-primary uppercase tracking-widest">
+                                            {{ $t('patient.booking.chooseDate') }}
+                                        </p>
+                                        <div class="mt-3">
+                                            <PatientBookingCalendar :key="state.selectedService.uuid"
+                                                :dates="state.selectedService.available_dates" :modelValue="state.selectedDate"
+                                                @update:modelValue="selectDate" />
+                                        </div>
                                     </div>
-                                    <p v-else class="mt-3 text-sm text-gray-500 italic">
-                                        {{ $t('patient.booking.noTimes') }}
-                                    </p>
-                                </LoadingSpinner>
+
+                                    <div class="min-w-0 flex-1 border-t border-gray-100 pt-5 md:border-t-0 md:border-l md:pt-0 md:pl-6">
+                                        <p class="text-xs font-bold text-primary uppercase tracking-widest">
+                                            {{ $t('patient.booking.chooseTime') }}
+                                        </p>
+
+                                        <p v-if="!state.selectedDate" class="mt-3 text-sm text-gray-500">
+                                            {{ $t('patient.booking.pickDayFirst') }}
+                                        </p>
+
+                                        <template v-else>
+                                            <p class="mt-1 text-sm text-gray-600">{{ formatDate(state.selectedDate) }}</p>
+
+                                            <LoadingSpinner :isActive="state.isSlotsLoading">
+                                                <div v-if="state.slots.length" class="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-4">
+                                                    <button v-for="slot in state.slots" :key="slot.uuid" type="button"
+                                                        class="rounded-full border px-4 py-2 text-sm transition"
+                                                        :class="state.selectedSlot?.uuid === slot.uuid ? 'border-primary bg-primary/5 text-primary' : 'border-gray-200 text-gray-700 hover:border-primary/40'"
+                                                        @click="state.selectedSlot = slot">
+                                                        {{ slot.start_time?.substring(0, 5) }}
+                                                    </button>
+                                                </div>
+                                                <p v-else class="mt-3 text-sm text-gray-500 italic">
+                                                    {{ $t('patient.booking.noTimes') }}
+                                                </p>
+                                            </LoadingSpinner>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
 
                             <div class="bg-white rounded-2xl border border-gray-200 px-6 py-5 space-y-4"
@@ -116,6 +127,7 @@
 
 <script setup lang="ts">
 import moment from 'moment'
+import PatientBookingCalendar from '@/components/modules/patient/booking/calendar.vue'
 import { patientBookingService } from '@/components/api/patient/BookingService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'

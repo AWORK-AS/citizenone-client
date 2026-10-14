@@ -117,6 +117,7 @@ async function saveSchedule(scheduleDetails: any) {
             is_private: scheduleDetails.is_private,
             is_online_meeting: scheduleDetails.is_online_meeting,
             meeting_url: scheduleDetails.meeting_url,
+            is_video_consultation: scheduleDetails.is_video_consultation ?? false,
             send_invitation: scheduleDetails.send_invitation,
             department_uuid: [departmentStore.getSelectedDepartment.uuid],
             is_recurring: scheduleDetails.recurring.is_recurring,
