@@ -2075,6 +2075,8 @@
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
                 "shareConfirmation": "Er du sikker på, at du vil dele dette dokument",
+                "shareWithPatientConfirmation": "Del dette dokument med patienten? Det vises i patientens app, og patienten får besked.",
+                "unshareWithPatientConfirmation": "Stop med at dele dette dokument med patienten?",
                 "unshareConfirmation": "Er du sikker på, at du vil fjerne delingen af dette dokument",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
@@ -2176,6 +2178,8 @@
                     "openSelected": "Åbn valgte",
                     "sendLink": "Send link på e-mail",
                     "share": "Del",
+                    "shareWithPatient": "Del med patienten",
+                    "unshareWithPatient": "Stop deling med patienten",
                     "statuses": "Statusser",
                     "unshare": "Fjern deling",
                     "view": "Se"
@@ -2702,6 +2706,7 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Oprettet af",
                 "dateTimeEnd": "Dato og tid slut",
+                "hourType": "Timetype",
                 "dateTimeStart": "Dato og tid start",
                 "endAddress": "Slutadresse",
                 "kilometers": "Kilometer",
@@ -7466,6 +7471,7 @@
         "createJournalNote": "Opret @:terms.journalNote{''}",
         "markAsCompleted": "Markér som gennemført",
         "markAsNotCompleted": "Markér som ikke gennemført",
+        "statusMenuLabel": "Markér \"{title}\" som gennemført eller ikke gennemført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
         "noteNudge": {
@@ -8445,7 +8451,7 @@
             }
         },
         "inquiries": "Henvendelser",
-        "newInquiry": "Ny henvendelser",
+        "newInquiry": "Ny henvendelse",
         "shelterInquiry": "Herberger og forsorgshjem henvendelser",
         "table": {
             "actions": {
@@ -9126,7 +9132,8 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "nameNorwegian": "Navn (norsk)",
-            "nameSwedish": "Navn (svensk)"
+            "nameSwedish": "Navn (svensk)",
+            "atLeastOneName": "Udfyld navnet på mindst ét sprog."
         },
         "medicines": "Medicin",
         "newMedicine": "Ny medicin",
@@ -9458,6 +9465,7 @@
         "logout": "Log ud",
         "notifications": "Notifikationer",
         "procedures": "Procedurer",
+        "shareCitizenOne": "Del CitizenOne",
         "newWishes": "Nye ønsker",
         "comingFunctions": "Kommende funktioner",
         "reminders": "Påmindelser",
@@ -9468,6 +9476,22 @@
         "impersonating": "Logget ind som klient",
         "stopImpersonation": "Log ud som klient",
         "surveys": "Spørgeskemaer"
+    },
+    "platformShare": {
+        "title": "Del CitizenOne",
+        "intro": "Kender du andre, der kunne have gavn af CitizenOne? Send dem dit personlige link - det tager kun et øjeblik.",
+        "yourLink": "Dit personlige link",
+        "copy": "Kopiér",
+        "copied": "Kopieret",
+        "shareVia": "Del via",
+        "email": "E-mail",
+        "sms": "SMS",
+        "more": "Flere apps",
+        "subject": "Prøv CitizenOne",
+        "message": "Jeg bruger CitizenOne og tænkte, at det også kunne være noget for jer. Se mere og opret en konto her:",
+        "thanksOnce": "Tak! Du har delt CitizenOne én gang.",
+        "thanks": "Tak! Du har delt CitizenOne {count} gange.",
+        "loadFailed": "Linket kunne ikke hentes. Prøv igen."
     },
     "news": {
         "confirmation": {
@@ -10565,6 +10589,8 @@
         "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
         "oauthBannerDescription": "Din {provider}-konto er ikke tilknyttet CitizenOne endnu. Udfyld formularen for at oprette din konto.",
         "oauthBannerTitle": "Vi fandt ikke din konto",
+        "sharedBannerDescription": "En af vores kunder har delt CitizenOne med dig. Udfyld formularen for at oprette din konto.",
+        "sharedBannerTitle": "Du er blevet anbefalet CitizenOne",
         "of": "Af",
         "register": "Opret konto",
         "review": {
@@ -11085,6 +11111,7 @@
                 "missingNoteReminder": "Påmind om aftaler uden @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Giv besked om @:terms.journalNotes{''} oprettet fra en aftale",
                 "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
+                "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
@@ -12605,6 +12632,7 @@
             },
             "source": {
                 "all": "Alle kilder",
+                "share": "Delt af kunde",
                 "search": "Søgemaskine (organisk)",
                 "campaign": "Kampagne",
                 "referral": "Henvisning",
@@ -13191,6 +13219,7 @@
             "cancellations": "Opsigelser",
             "storagePackages": "Lagerpakker",
             "paymentFees": "Betalingsgebyrer",
+            "platformShares": "Delinger",
             "storageUsage": "Lagerforbrug",
             "industries": "Brancher",
             "salesInquiries": "Henvendelser",
@@ -13817,6 +13846,47 @@
             "successDeleted": "Lagerpakke slettet",
             "successUpdated": "Lagerpakke opdateret",
             "colPricePerGb": "Kr. pr. GB"
+        },
+        "platformShares": {
+            "header": "Delinger af CitizenOne",
+            "subtitle": "Hvem der har delt CitizenOne via \"Del CitizenOne\", og hvem der er kommet ind via et delt link.",
+            "periods": {
+                "all": "Hele perioden",
+                "30d": "Seneste 30 dage",
+                "month": "Denne måned",
+                "year": "I år"
+            },
+            "cards": {
+                "users": "Brugere der har delt",
+                "usersHint": "Forskellige brugere",
+                "companies": "Kunder der har delt",
+                "companiesHint": "Forskellige virksomheder",
+                "shares": "Delinger i alt",
+                "sharesHint": "Kopieret link, mail, LinkedIn m.m.",
+                "signups": "Tilmeldinger via deling",
+                "signupsHint": "Nye kunder fra et delt link"
+            },
+            "byMethod": "Fordelt på kanal",
+            "methods": {
+                "copy": "Kopieret link",
+                "email": "E-mail",
+                "sms": "SMS",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Telefonens deling"
+            },
+            "company": "Kunde",
+            "shares": "Delinger",
+            "users": "Brugere",
+            "signups": "Tilmeldinger",
+            "lastShared": "Senest delt",
+            "signupsTitle": "Tilmeldt via et delt link",
+            "sharedBy": "Delt af {name} ({company})",
+            "noSignups": "Ingen er tilmeldt via et delt link endnu.",
+            "recent": "Seneste delinger",
+            "method": "Kanal",
+            "when": "Tidspunkt",
+            "empty": "Ingen har delt CitizenOne i perioden."
         },
         "paymentFees": {
             "pageTitle": "Betalingsgebyrer",
@@ -15596,7 +15666,8 @@
         },
         "source": {
             "internal": "Udfyldt internt",
-            "citizen": "Udfyldt af @:terms.citizen{''}"
+            "citizen": "Udfyldt af @:terms.citizen{''}",
+            "sentToCitizen": "Sendt til @:terms.citizen{''}"
         },
         "empty": {
             "title": "Ingen besvarelser endnu",
@@ -15635,6 +15706,9 @@
             "addQuestion": "Tilføj nyt spørgsmål",
             "templates": "Standardskemaer",
             "orBuildYourOwn": "Eller byg dit eget",
+            "addFollowUp": "Tilføj opfølgende spørgsmål",
+            "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
+            "followUpPickOption": "Vælg mindst ét svar, der viser dette spørgsmål.",
             "scoreRanges": {
                 "title": "Score-fortolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
@@ -16271,6 +16345,21 @@
         "clampedNote": "Norm og saldo dækker kun {start} – {end}.",
         "pendingExtra": "{hours} afventer"
     },
+    "notificationPreferences": {
+        "title": "Notifikationstyper",
+        "subtitle": "Vælg hvilke notifikationer du modtager, og hvordan. Obligatoriske notifikationer kan ikke slås fra.",
+        "push": "Push",
+        "email": "E-mail",
+        "frequency": "Frekvens",
+        "instant": "Med det samme",
+        "hourly": "Timevis samling",
+        "required": "Påkrævet",
+        "save": "Gem notifikationstyper",
+        "saved": "Notifikationstyper gemt",
+        "loadError": "Notifikationstyperne kunne ikke indlæses.",
+        "retry": "Prøv igen",
+        "masterOffHint": "Nogle kontakter er nedtonede, fordi den tilsvarende kontakt ovenfor (e-mail- eller systemnotifikationer) er slået fra."
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
@@ -16574,6 +16663,7 @@
             "allStays": "Alle ophold",
             "noDepartment": "Ingen afdeling",
             "createDepartment": "Opret kunder og afdelinger under Indstillinger",
+            "addDepartment": "Opret kunde/afdeling",
             "priceType": "Prismodel",
             "priceTypes": {
                 "hourly": "Pris pr. leveret time",

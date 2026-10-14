@@ -197,7 +197,7 @@
                                         </span>
                                         <span v-for="(topic, ti) in inq.topics" :key="'t' + ti"
                                             class="inline-flex items-center rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-semibold text-slate-500">
-                                            {{ topic?.name }}
+                                            {{ listItemName(topic, locale) }}
                                         </span>
                                         <span v-if="inq.outcome"
                                             class="inline-flex items-center rounded-full bg-[#fdf3df] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c98a12]">
@@ -349,7 +349,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { inquiryFormService } from '@/components/api/user/InquiryFormService'
-import { activeForms, formLabel, type InquiryForm } from '@/composables/inquiryForms'
+import { activeForms, CONTACTED_BY_LABELS, formLabel, listItemName, type InquiryForm } from '@/composables/inquiryForms'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useInquiryStore } from '@/store/inquiry'
 import { useDepartmentStore } from '@/store/department'
@@ -370,7 +370,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 const customPagesStore = useCustomPagesStore() as any
 const { successAlert, errorAlert } = useAlert()
 const { tt } = useTerminology()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 // Inquiry pipeline (kanban) — opt-in per company.
 const pipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
@@ -422,7 +422,19 @@ function inqSource(inq: any) {
     // Came in through the website form: say so rather than show a raw key.
     if (inq?.source === 'website') return t('inquiryIntake.fromWebsite')
 
-    return inq?.contacted_by || inq?.inquiry_type || ''
+    // Who got in touch, in words; a value the form no longer offers stays as it is.
+    if (inq?.contacted_by) {
+        const key = CONTACTED_BY_LABELS[inq.contacted_by]
+
+        return key ? t(key) : inq.contacted_by
+    }
+
+    // Otherwise the form it was taken on, called what the inquiry page calls it.
+    if (inq?.form) return formLabel(inq.form, builtinNames.value)
+    if (inq?.inquiry_type === 'shelter') return shelterName.value
+    if (inq?.inquiry_type === 'crisis_center') return crisisCenterName.value
+
+    return ''
 }
 function inqInitials(inq: any) {
     const src = (inq?.inquirer_name || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`).trim()

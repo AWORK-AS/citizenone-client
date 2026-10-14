@@ -64,11 +64,14 @@
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
                             @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
+                            @viewMyCalendarEvent="viewMyCalendarEvent"
                             v-if="state.calendarView === 'default'" />
                         <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
                             @viewMyCalendarEvent="viewMyCalendarEvent" />
+                        <!-- This page handles no status or journal note, so the menu shows only "View schedule". -->
                         <ModulesUserCitizenCalendarMonthView :myCalendarEvents="state.myCalendarEvents"
+                            :eventActions="false"
                             @changeMonthYear="changeMonthYear" v-if="state.calendarView === 'month'"
                             @viewMyCalendarEvent="viewMyCalendarEvent" />
                     </LoadingSpinner>

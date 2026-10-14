@@ -549,6 +549,13 @@
                                         </div>
                                     </MenuItem>
                                     <MenuItem>
+                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:share-network" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.shareCitizenOne') }}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
                                         <div @click="state.modal.isContactUsOpen = true"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:shooting-star" class="h-4 w-4 text-slate-400" />{{
@@ -642,6 +649,8 @@
         </div>
 
         <!-- All modals -->
+        <ModulesUserPlatformShareModal :isModalOpen="state.modal.isPlatformShareOpen"
+            @close="state.modal.isPlatformShareOpen = false" v-if="state.modal.isPlatformShareOpen" />
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
@@ -1101,6 +1110,7 @@ const state = reactive({
         is2faRequiredOpen: false,
         isCheckinReminderOpen: false,
         isContactUsOpen: false,
+        isPlatformShareOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,

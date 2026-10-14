@@ -74,6 +74,7 @@
             <!-- Desktop: 7-day week grid -->
             <div class="hidden lg:block">
                 <TimeGrid :days="timeGridDays" :noteNudge="!props.readOnly" @createJournal="openCreateJournal"
+                    :statusActions="!props.readOnly" @markStatus="markEventAsStatus"
                     @eventClick="editMyCalendarEvent" @dayClick="setSelectedDay"
                     @slotDblClick="(date) => { if (!props.readOnly) $emit('createEvent', date) }" />
             </div>

@@ -2075,6 +2075,8 @@
                 "deleteFileConfirmation": "Are you sure you want to delete this file",
                 "deleteFolderConfirmation": "Are you sure you want to delete this folder",
                 "shareConfirmation": "Are you sure you want to share this document",
+                "shareWithPatientConfirmation": "Share this document with the patient? It appears in their app, and they are notified.",
+                "unshareWithPatientConfirmation": "Stop sharing this document with the patient?",
                 "unshareConfirmation": "Are you sure you want to unshare this document",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
@@ -2176,6 +2178,8 @@
                     "openSelected": "Open selected",
                     "sendLink": "Send link by email",
                     "share": "Share",
+                    "shareWithPatient": "Share with the patient",
+                    "unshareWithPatient": "Stop sharing with the patient",
                     "statuses": "Statuses",
                     "unshare": "Unshare",
                     "view": "View"
@@ -2702,6 +2706,7 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Created by",
                 "dateTimeEnd": "Date time end",
+                "hourType": "Hour type",
                 "dateTimeStart": "Date time start",
                 "endAddress": "End address",
                 "kilometers": "Kilometers",
@@ -7466,6 +7471,7 @@
         "createJournalNote": "Create @:terms.journalNote{''}",
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
+        "statusMenuLabel": "Mark \"{title}\" as completed or not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
         "linkedNote": "Linked @:terms.journalNote{''}: {title}",
         "noteNudge": {
@@ -9126,7 +9132,8 @@
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "nameNorwegian": "Name (norwegian)",
-            "nameSwedish": "Name (swedish)"
+            "nameSwedish": "Name (swedish)",
+            "atLeastOneName": "Enter the name in at least one language."
         },
         "medicines": "Medicines",
         "newMedicine": "New medicine",
@@ -9458,6 +9465,7 @@
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "shareCitizenOne": "Share CitizenOne",
         "newWishes": "New wishes",
         "comingFunctions": "Coming functions",
         "reminders": "Reminders",
@@ -9468,6 +9476,22 @@
         "impersonating": "Logged in as client",
         "stopImpersonation": "Log out as client",
         "surveys": "Surveys"
+    },
+    "platformShare": {
+        "title": "Share CitizenOne",
+        "intro": "Know someone who could benefit from CitizenOne? Send them your personal link - it only takes a moment.",
+        "yourLink": "Your personal link",
+        "copy": "Copy",
+        "copied": "Copied",
+        "shareVia": "Share via",
+        "email": "Email",
+        "sms": "Text message",
+        "more": "More apps",
+        "subject": "Try CitizenOne",
+        "message": "I use CitizenOne and thought it could be something for you too. Take a look and create an account here:",
+        "thanksOnce": "Thank you! You have shared CitizenOne once.",
+        "thanks": "Thank you! You have shared CitizenOne {count} times.",
+        "loadFailed": "The link could not be loaded. Please try again."
     },
     "news": {
         "confirmation": {
@@ -10565,6 +10589,8 @@
         "noCommitment": "There's no commitment, and you don't need to link a payment card",
         "oauthBannerDescription": "Your {provider} account is not yet linked to CitizenOne. Fill in the form to create your account.",
         "oauthBannerTitle": "We didn't find your account",
+        "sharedBannerDescription": "One of our customers shared CitizenOne with you. Fill in the form to create your account.",
+        "sharedBannerTitle": "Someone recommended CitizenOne to you",
         "of": "Of",
         "register": "Register",
         "review": {
@@ -11085,6 +11111,7 @@
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
+                "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
                 "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
@@ -12605,6 +12632,7 @@
             },
             "source": {
                 "all": "All sources",
+                "share": "Shared by a customer",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
                 "referral": "Referral",
@@ -13191,6 +13219,7 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
+            "platformShares": "Shares",
             "storageUsage": "Storage usage",
             "industries": "Industries",
             "salesInquiries": "Inquiries",
@@ -13817,6 +13846,47 @@
             "successDeleted": "Storage package deleted",
             "successUpdated": "Storage package updated",
             "colPricePerGb": "Price per GB"
+        },
+        "platformShares": {
+            "header": "CitizenOne shares",
+            "subtitle": "Who has shared CitizenOne through \"Share CitizenOne\", and who signed up through a shared link.",
+            "periods": {
+                "all": "All time",
+                "30d": "Last 30 days",
+                "month": "This month",
+                "year": "This year"
+            },
+            "cards": {
+                "users": "Users who shared",
+                "usersHint": "Distinct users",
+                "companies": "Customers who shared",
+                "companiesHint": "Distinct companies",
+                "shares": "Total shares",
+                "sharesHint": "Copied link, email, LinkedIn etc.",
+                "signups": "Signups from shares",
+                "signupsHint": "New customers from a shared link"
+            },
+            "byMethod": "By channel",
+            "methods": {
+                "copy": "Copied link",
+                "email": "Email",
+                "sms": "Text message",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Device share sheet"
+            },
+            "company": "Customer",
+            "shares": "Shares",
+            "users": "Users",
+            "signups": "Signups",
+            "lastShared": "Last shared",
+            "signupsTitle": "Signed up through a shared link",
+            "sharedBy": "Shared by {name} ({company})",
+            "noSignups": "No one has signed up through a shared link yet.",
+            "recent": "Latest shares",
+            "method": "Channel",
+            "when": "When",
+            "empty": "No one has shared CitizenOne in this period."
         },
         "paymentFees": {
             "pageTitle": "Payment fees",
@@ -15596,7 +15666,8 @@
         },
         "source": {
             "internal": "Filled out internally",
-            "citizen": "Filled out by @:terms.citizen{''}"
+            "citizen": "Filled out by @:terms.citizen{''}",
+            "sentToCitizen": "Sent to @:terms.citizen{''}"
         },
         "empty": {
             "title": "No responses yet",
@@ -15635,6 +15706,9 @@
             "addQuestion": "Add new question",
             "templates": "Standard surveys",
             "orBuildYourOwn": "Or build your own",
+            "addFollowUp": "Add follow-up question",
+            "followUpShownWhen": "Shown when the answer to \"{question}\" is:",
+            "followUpPickOption": "Pick at least one answer that shows this question.",
             "scoreRanges": {
                 "title": "Score interpretation",
                 "subtitle": "Give score intervals a label, e.g. 0-4 Minimal anxiety. Shown with the result.",
@@ -16271,6 +16345,21 @@
         "clampedNote": "Norm and balance cover {start} – {end} only.",
         "pendingExtra": "{hours} pending"
     },
+    "notificationPreferences": {
+        "title": "Notification types",
+        "subtitle": "Choose which notifications you receive, and how. Required notifications cannot be switched off.",
+        "push": "Push",
+        "email": "Email",
+        "frequency": "Frequency",
+        "instant": "Instant",
+        "hourly": "Hourly digest",
+        "required": "Required",
+        "save": "Save notification types",
+        "saved": "Notification types saved",
+        "loadError": "The notification types could not be loaded.",
+        "retry": "Try again",
+        "masterOffHint": "Some switches are greyed out because the matching switch above (email or system notifications) is turned off."
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",
@@ -16574,6 +16663,7 @@
             "allStays": "All stays",
             "noDepartment": "No department",
             "createDepartment": "Create customers and departments under Settings",
+            "addDepartment": "Create customer/department",
             "priceType": "Pricing model",
             "priceTypes": {
                 "hourly": "Price per delivered hour",

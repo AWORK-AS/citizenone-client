@@ -74,7 +74,7 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -132,17 +132,10 @@ watch(() => props.selectedMedicine, (newValue: any) => {
 const rules = computed(() => {
     return {
         formMedicine: {
-            en_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // One name is enough; missing translations fall back to it.
             dk_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            no_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            sv_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                atLeastOneName: helpers.withMessage(() => t('medicines.form.atLeastOneName'), () =>
+                    ['en_name', 'dk_name', 'no_name', 'sv_name'].some((key) => String((state.formMedicine as any)[key] ?? '').trim() !== '')),
             },
         },
     }

@@ -8,6 +8,21 @@
                             {{ $t('citizens.calendar.delete') }}
                         </FormButton>
                     </div>
+                    <!-- Done / not done, as in the calendar's event menu: here too because a
+                         narrow event in the day/week grid has no room for that menu. -->
+                    <div v-if="props.statusActions && props.selectedSchedule?.uuid"
+                        class="mt-2 flex flex-wrap items-center justify-end gap-2">
+                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'completed'" type="button"
+                            buttonStyle="action" @click="emit('markEventAsStatus', 'completed')">
+                            <Icon name="ph:check-circle" class="h-4 w-4 text-green-700" aria-hidden="true" />
+                            {{ $t('events.markAsCompleted') }}
+                        </FormButton>
+                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'not_completed'" type="button"
+                            buttonStyle="action" @click="emit('markEventAsStatus', 'not_completed')">
+                            <Icon name="ph:x-circle" class="h-4 w-4 text-red-700" aria-hidden="true" />
+                            {{ $t('events.markAsNotCompleted') }}
+                        </FormButton>
+                    </div>
                     <div class="mt-4 relative flex space-x-6 pb-6 xl:static">
                         <img :src="avatarUrl(`${props.selectedSchedule?.user?.firstname + ' ' + props.selectedSchedule?.user?.lastname}`)"
                             alt="Image" class="h-14 w-14 flex-none rounded-full" />
@@ -93,8 +108,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // Offer "mark as completed / not completed" (emits markEventAsStatus(status)).
+    // Only for a page that handles it (the child calendar doesn't).
+    statusActions: {
+        type: Boolean,
+        default: false,
+    },
 })
-const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent'])
+const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'markEventAsStatus'])
 
 const state = reactive({
     error: {} as Error,
