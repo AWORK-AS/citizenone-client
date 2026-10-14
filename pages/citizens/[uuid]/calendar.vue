@@ -59,14 +59,14 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <LoadingSpinner :isActive="state.isPageLoading">
-                        <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents" statusActions
                             @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
                             @createJournalFromEvent="handleCreateJournalFromEvent"
                             @viewMyCalendarEvent="viewMyCalendarEvent"
                             @createEvent="openCreateEventModal"
                             v-if="state.calendarView === 'default'" />
-                        <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents" statusActions
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
                             @viewMyCalendarEvent="viewMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
@@ -86,6 +86,7 @@
                     @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
                 <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
                     :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
+                    statusActions @markEventAsStatus="markStatusFromModal"
                     @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
                 <ModulesUserMyCalendarModalEventJournalPrompt :isModalOpen="state.modal.isEventJournalPromptOpen"
                     @close="state.modal.isEventJournalPromptOpen = false"
@@ -137,6 +138,9 @@ const state = reactive({
         isCreateEventJournalOpen: false,
     },
     selectedSchedule: null as any,
+    // The event the view modal was opened from, as the calendar has it:
+    // selectedSchedule is a trimmed copy for the modal.
+    viewedEvent: null as any,
     selectedDate: {
         end_date: moment().endOf('month').format('YYYY-MM-DD'),
         start_date: moment().startOf('month').format('YYYY-MM-DD'),
@@ -289,6 +293,7 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
         journal: selectedCalendarEvent.journal,
         citizen_uuid: citizenUuid,
     }
+    state.viewedEvent = selectedCalendarEvent
     state.modal.isViewEventOpen = true
 }
 
@@ -332,6 +337,14 @@ async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'comp
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// The view modal's done / not done buttons: same request as the event menu.
+// The full event goes on, because the journal prompt that follows reads its
+// start and its citizen.
+function markStatusFromModal(status: 'completed' | 'not_completed') {
+    state.modal.isViewEventOpen = false
+    handleMarkEventAsStatus(state.viewedEvent, status)
 }
 
 function handleCreateJournalFromEvent(selectedCalendarEvent: any) {

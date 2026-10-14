@@ -18,6 +18,21 @@
                             {{ $t('events.delete') }}
                         </FormButton>
                     </div>
+                    <!-- Done / not done, as in the calendar's event menu: here too because a
+                         narrow event in the day/week grid has no room for that menu. -->
+                    <div v-if="props.selectedSchedule?.uuid && !props.selectedSchedule?.is_shift"
+                        class="mt-2 flex flex-wrap items-center justify-end gap-2">
+                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'completed'" type="button"
+                            buttonStyle="action" @click="emit('markEventAsStatus', 'completed')">
+                            <Icon name="ph:check-circle" class="h-4 w-4 text-green-700" aria-hidden="true" />
+                            {{ $t('events.markAsCompleted') }}
+                        </FormButton>
+                        <FormButton v-if="props.selectedSchedule?.completion_status !== 'not_completed'" type="button"
+                            buttonStyle="action" @click="emit('markEventAsStatus', 'not_completed')">
+                            <Icon name="ph:x-circle" class="h-4 w-4 text-red-700" aria-hidden="true" />
+                            {{ $t('events.markAsNotCompleted') }}
+                        </FormButton>
+                    </div>
                     <div class="mt-4">
                         <ModulesUserMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
@@ -51,7 +66,8 @@ const props = defineProps({
         required: true,
     }
 })
-const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'duplicateEvent'])
+// markEventAsStatus(status): the page marks its selected event, as for the menu.
+const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'duplicateEvent', 'markEventAsStatus'])
 
 const state = reactive({
     error: {} as Error,

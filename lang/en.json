@@ -7448,6 +7448,7 @@
         "createJournalNote": "Create @:terms.journalNote{''}",
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
+        "statusMenuLabel": "Mark \"{title}\" as completed or not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
         "linkedNote": "Linked @:terms.journalNote{''}: {title}",
         "noteNudge": {
