@@ -1,4 +1,5 @@
 import { obiyenChatIdentityService } from '@/components/api/user/ObiyenChatIdentityService'
+import { forgetChatSession } from '@/composables/obiyenChatSession'
 
 // Shared control for the Obiyen chat bubble: hidden by default, only shown
 // after the user explicitly clicks "Chat with support" (components/modules/
@@ -198,6 +199,7 @@ export function useObiyenChat() {
         identityPromise = null
         try { sessionStorage.removeItem(REVEALED_KEY) } catch { /* ignore */ }
         hideBubble()
+        forgetChatSession()
     }
 
     return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, suggest, suggestInApp, askAbout, setSideOffset, resetOnLogout }
