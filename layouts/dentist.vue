@@ -231,6 +231,16 @@
                                             </div>
                                         </div>
                                     </MenuItem>
+                                    <!-- Task #33: contracts sent to the employee to read and sign. -->
+                                    <MenuItem>
+                                        <div @click="navigateTo('/my-contracts')" data-testid="menu-my-contracts"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:signature" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('myContracts.title') }}
+                                            </div>
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem>
                                         <div @click="navigateTo('/employees')"
                                             class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">

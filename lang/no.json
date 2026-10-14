@@ -7103,6 +7103,21 @@
             "driversLicense": "Kørekort",
             "editDocument": "Rediger dokument",
             "employmentContracts": "Ansættelseskontrakter",
+            "signature": {
+                "column": "Signatur",
+                "notSent": "Ikke sendt",
+                "pending": "Venter på signatur",
+                "sentOn": "Sendt {date}",
+                "signed": "Signert",
+                "signedOnBy": "{date} av {name}",
+                "send": "Send til signering",
+                "withdraw": "Trekk tilbake",
+                "certificate": "Signaturbevis",
+                "confirmSend": "Send kontrakten til den ansatte, slik at den kan leses og signeres i CitizenOne",
+                "confirmWithdraw": "Trekk tilbake forespørselen om signatur",
+                "sent": "Kontrakten er sendt til signering",
+                "withdrawn": "Forespørselen om signatur er trukket tilbake"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Dokument lagret vellykket",
@@ -18380,5 +18395,27 @@
             "required": "Svar på spørsmålene merket med *.",
             "failed": "Noe gikk galt. Prøv igjen."
         }
+    },
+    "myContracts": {
+        "title": "Mine kontrakter",
+        "subtitle": "Kontrakter du er bedt om å lese og signere.",
+        "waiting": "Venter på din signatur",
+        "signedSection": "Signert",
+        "empty": "Du har ingen kontrakter å signere.",
+        "sentBy": "Sendt av {name} {date}",
+        "signedOn": "Signert {date}",
+        "open": "Les og signer",
+        "view": "Se kontrakt",
+        "certificate": "Signaturbevis",
+        "signTitle": "Signer kontrakt",
+        "readFirst": "Les gjennom kontrakten før du signerer.",
+        "accept": "Jeg har lest kontrakten og godtar den",
+        "nameLabel": "Skriv ditt fulle navn som signatur",
+        "nameHint": "Slik det står i CitizenOne: {name}",
+        "sign": "Signer",
+        "signed": "Kontrakten er signert",
+        "evidence": "Når du signerer, lagres tidspunkt, IP-adresse og enhet sammen med kontrakten som bevis.",
+        "loadFailed": "Kontrakten kunne ikke hentes. Prøv igjen.",
+        "pendingCount": "{count} venter på signatur"
     }
 }

@@ -7103,6 +7103,21 @@
             "driversLicense": "Drivers License",
             "editDocument": "Edit document",
             "employmentContracts": "Employment contracts",
+            "signature": {
+                "column": "Signature",
+                "notSent": "Not sent",
+                "pending": "Awaiting signature",
+                "sentOn": "Sent {date}",
+                "signed": "Signed",
+                "signedOnBy": "{date} by {name}",
+                "send": "Send for signing",
+                "withdraw": "Withdraw",
+                "certificate": "Signature certificate",
+                "confirmSend": "Send the contract to the employee to read and sign in CitizenOne",
+                "confirmWithdraw": "Withdraw the request for a signature",
+                "sent": "The contract has been sent for signing",
+                "withdrawn": "The request for a signature has been withdrawn"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Document successfully saved",
@@ -18476,5 +18491,27 @@
             "required": "Answer the questions marked with *.",
             "failed": "Something went wrong. Try again."
         }
+    },
+    "myContracts": {
+        "title": "My contracts",
+        "subtitle": "Contracts you have been asked to read and sign.",
+        "waiting": "Waiting for your signature",
+        "signedSection": "Signed",
+        "empty": "You have no contracts to sign.",
+        "sentBy": "Sent by {name} {date}",
+        "signedOn": "Signed {date}",
+        "open": "Read and sign",
+        "view": "View contract",
+        "certificate": "Signature certificate",
+        "signTitle": "Sign contract",
+        "readFirst": "Read the contract through before you sign.",
+        "accept": "I have read the contract and accept it",
+        "nameLabel": "Type your full name as your signature",
+        "nameHint": "As it is in CitizenOne: {name}",
+        "sign": "Sign",
+        "signed": "The contract has been signed",
+        "evidence": "When you sign, the time, IP address and device are saved with the contract as evidence.",
+        "loadFailed": "The contract could not be loaded. Please try again.",
+        "pendingCount": "{count} waiting for a signature"
     }
 }
