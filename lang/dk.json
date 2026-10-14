@@ -16532,6 +16532,7 @@
             "allStays": "Alle ophold",
             "noDepartment": "Ingen afdeling",
             "createDepartment": "Opret kunder og afdelinger under Indstillinger",
+            "addDepartment": "Opret kunde/afdeling",
             "priceType": "Prismodel",
             "priceTypes": {
                 "hourly": "Pris pr. leveret time",

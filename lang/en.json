@@ -16532,6 +16532,7 @@
             "allStays": "All stays",
             "noDepartment": "No department",
             "createDepartment": "Create customers and departments under Settings",
+            "addDepartment": "Create customer/department",
             "priceType": "Pricing model",
             "priceTypes": {
                 "hourly": "Price per delivered hour",
