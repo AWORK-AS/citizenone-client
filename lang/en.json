@@ -15683,6 +15683,9 @@
             "addQuestion": "Add new question",
             "templates": "Standard surveys",
             "orBuildYourOwn": "Or build your own",
+            "addFollowUp": "Add follow-up question",
+            "followUpShownWhen": "Shown when the answer to \"{question}\" is:",
+            "followUpPickOption": "Pick at least one answer that shows this question.",
             "scoreRanges": {
                 "title": "Score interpretation",
                 "subtitle": "Give score intervals a label, e.g. 0-4 Minimal anxiety. Shown with the result.",

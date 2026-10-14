@@ -191,6 +191,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { visibleSurveyQuestions } from '@/composables/surveyFollowUps'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
@@ -276,7 +277,8 @@ const answerEntries = computed(() => {
     const a = state.answersModal.assignment
     if (!a) return []
     const entries: any[] = []
-    ;(a.survey?.questions ?? []).forEach((q: any) => {
+    // Follow-ups the respondent never saw are left out.
+    visibleSurveyQuestions(a.survey?.questions ?? [], a.answers ?? {}).forEach((q: any) => {
         const def = q.question ?? q
         entries.push({ question: def?.value, answer: resolveAnswer(def, a.answers?.[q.uuid]) })
     })

@@ -15587,6 +15587,9 @@
             "addQuestion": "Tilføj nyt spørgsmål",
             "templates": "Standardskjemaer",
             "orBuildYourOwn": "Eller byg dit eget",
+            "addFollowUp": "Legg til oppfølgingsspørsmål",
+            "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
+            "followUpPickOption": "Velg minst ett svar som viser dette spørsmålet.",
             "scoreRanges": {
                 "title": "Score-fortolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
