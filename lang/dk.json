@@ -7120,7 +7120,10 @@
                 "confirmSend": "Send kontrakten til medarbejderen, så den kan læses og underskrives i CitizenOne",
                 "confirmWithdraw": "Træk anmodningen om underskrift tilbage",
                 "sent": "Kontrakten er sendt til underskrift",
-                "withdrawn": "Anmodningen om underskrift er trukket tilbage"
+                "withdrawn": "Anmodningen om underskrift er trukket tilbage",
+                "sendOnUpload": "Send til medarbejderen til underskrift",
+                "sendOnUploadHint": "Medarbejderen får besked i CitizenOne, på mobilen og på e-mail, og du får besked, når kontrakten er underskrevet.",
+                "savedAndSent": "Kontrakten er gemt og sendt til underskrift"
             },
             "form": {
                 "alert": {
