@@ -48,7 +48,16 @@ export function useObiyenChat() {
         if (typeof window === 'undefined') return
 
         try {
-            if (!identityPromise) identityPromise = obiyenChatIdentityService.getIdentity()
+            if (!identityPromise) {
+                const request = obiyenChatIdentityService.getIdentity()
+                identityPromise = request
+                // A failed lookup must not stick for the rest of the page load:
+                // the next identify() - opening the chat - asks again, instead
+                // of leaving the person anonymous until they reload.
+                request.catch(() => {
+                    if (identityPromise === request) identityPromise = null
+                })
+            }
             const response = await identityPromise
             const identity = response?.data ?? response
 
@@ -59,6 +68,13 @@ export function useObiyenChat() {
                 userHash: identity.user_hash,
                 name: identity.name,
                 email: identity.email,
+                // The company the user works in, so support sees which
+                // customer is writing. profileHash signs it together with id,
+                // name and email; a widget that does not know these fields
+                // ignores them, and the Obiyen side drops a company that does
+                // not match the signature.
+                company: identity.company ?? undefined,
+                profileHash: identity.profile_hash ?? undefined,
             }
 
             // The widget publishes identify() as soon as its script evaluates,
