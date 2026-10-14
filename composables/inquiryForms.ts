@@ -22,6 +22,46 @@ export interface BuiltinNames {
     crisisCenter: string
 }
 
+/**
+ * Who got in touch, as the crisis centre form offers it. Read the same way on
+ * the inquiry page and on the board's cards.
+ */
+export const CONTACTED_BY_LABELS: Record<string, string> = {
+    the_citizen_themselves: 'inquiries.form.options.contactedBy.theCitizenThemselves',
+    family_friend_neighbor_colleague_acquaintance: 'inquiries.form.options.contactedBy.familyFriends',
+    municipal_employee: 'inquiries.form.options.contactedBy.municipalEmployee',
+    police_prison_and_probation_service: 'inquiries.form.options.contactedBy.police',
+    healthcare_professional: 'inquiries.form.options.contactedBy.healthcareProfessional',
+    employee_from_another_crisis_center: 'inquiries.form.options.contactedBy.employeeFromAnotherCrisisCenter',
+    other: 'inquiries.form.options.contactedBy.other',
+}
+
+/**
+ * A yes/no answer as the inquiry stores it: yes is true, no is false, and a
+ * question nobody answered - often one the form never showed - stays null
+ * rather than turning into a "no".
+ */
+export function yesNoToBoolean(value: unknown): boolean | null {
+    if (value === 'yes') return true
+    if (value === 'no') return false
+
+    return null
+}
+
+/**
+ * The name of an entry from one of the crisis centre's fixed lists (topics,
+ * reasons for no intake interview, guidance). Those carry en_name and dk_name
+ * rather than a name, as the form's own dropdowns read them: English for an
+ * English user, the Danish name for everyone else. Anything with a plain name
+ * (a department) keeps it.
+ */
+export function listItemName(item: { name?: string | null, en_name?: string | null, dk_name?: string | null } | null | undefined, locale: string): string {
+    if (!item) return ''
+    if (item.name) return item.name
+
+    return (locale === 'en' ? item.en_name : item.dk_name) || item.en_name || item.dk_name || ''
+}
+
 /** A built-in form is called by the company's own word for it. */
 export function formLabel(form: Pick<InquiryForm, 'name' | 'builtin'> | null | undefined, names: BuiltinNames): string {
     if (form?.builtin === 'shelter') return names.shelter

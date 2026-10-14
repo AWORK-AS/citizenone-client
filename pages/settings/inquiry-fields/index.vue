@@ -142,8 +142,8 @@
                             </div>
                             <div>
                                 <FormLabel for="field-stage" :label="$t('inquiryFieldSettings.form.stage')" />
-                                <FormSelect id="field-stage" v-model="state.form.stage_uuid" :options="stageOptions"
-                                    :searchable="false" />
+                                <FormSelect id="field-stage" :modelValue="orAll(state.form.stage_uuid)" :options="stageOptions"
+                                    :searchable="false" @update:modelValue="(value: any) => state.form.stage_uuid = fromAll(value)" />
                                 <p class="mt-1 text-[11px] text-gray-400">
                                     {{ $t('inquiryFieldSettings.form.stageHint') }}
                                 </p>
@@ -167,8 +167,9 @@
                         <div>
                             <FormLabel for="field-service-type"
                                 :label="$t('inquiryFieldSettings.form.serviceType')" />
-                            <FormSelect id="field-service-type" v-model="state.form.service_type_uuid"
-                                :options="serviceTypeOptions" :searchable="false" />
+                            <FormSelect id="field-service-type" :modelValue="orAll(state.form.service_type_uuid)"
+                                :options="serviceTypeOptions" :searchable="false"
+                                @update:modelValue="(value: any) => state.form.service_type_uuid = fromAll(value)" />
                             <p class="mt-1 text-[11px] text-gray-400">
                                 {{ $t('inquiryFieldSettings.form.serviceTypeHint') }}
                             </p>
@@ -176,8 +177,9 @@
 
                         <div>
                             <FormLabel for="field-form" :label="$t('inquiryFieldSettings.form.form')" />
-                            <FormSelect id="field-form" v-model="state.form.form_uuid"
-                                :options="formOptions" :searchable="false" />
+                            <FormSelect id="field-form" :modelValue="orAll(state.form.form_uuid)"
+                                :options="formOptions" :searchable="false"
+                                @update:modelValue="(value: any) => state.form.form_uuid = fromAll(value)" />
                             <p class="mt-1 text-[11px] text-gray-400">
                                 {{ $t('inquiryFieldSettings.form.formHint') }}
                             </p>
@@ -342,8 +344,21 @@ const typeOptions = computed(() =>
     TYPES.map((type) => ({ value: type, label: t('inquiryFieldSettings.types.' + type) }))
 )
 
+// "Applies throughout", "All service types" and "All forms" are real choices
+// stored as null, but the dropdown reads null as nothing chosen and shows an
+// empty box. So the dropdown carries a stand-in, and the form keeps null.
+const ALL = 'all'
+
+function orAll(value: string | null) {
+    return value ?? ALL
+}
+
+function fromAll(value: any): string | null {
+    return value === ALL || value === undefined ? null : value
+}
+
 const stageOptions = computed(() => [
-    { value: null, label: t('inquiryFields.appliesThroughout') },
+    { value: ALL, label: t('inquiryFields.appliesThroughout') },
     ...state.stages.map((stage: any) => ({ value: stage.uuid, label: stage.name })),
 ])
 
@@ -354,7 +369,7 @@ const sourceOptions = computed(() =>
 )
 
 const serviceTypeOptions = computed(() => [
-    { value: null, label: t('inquiryFieldSettings.allServiceTypes') },
+    { value: ALL, label: t('inquiryFieldSettings.allServiceTypes') },
     ...state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label })),
 ])
 
@@ -364,7 +379,7 @@ const builtinNames = computed(() => ({
 }))
 
 const formOptions = computed(() => [
-    { value: null, label: t('inquiryFieldSettings.allForms') },
+    { value: ALL, label: t('inquiryFieldSettings.allForms') },
     ...state.forms.map((form: any) => ({ value: form.uuid, label: formLabel(form, builtinNames.value) })),
 ])
 
