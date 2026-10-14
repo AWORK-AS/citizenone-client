@@ -9108,7 +9108,8 @@
             "nameDanish": "Name (danish)",
             "nameEnglish": "Name (english)",
             "nameNorwegian": "Name (norwegian)",
-            "nameSwedish": "Name (swedish)"
+            "nameSwedish": "Name (swedish)",
+            "atLeastOneName": "Enter the name in at least one language."
         },
         "medicines": "Medicines",
         "newMedicine": "New medicine",
