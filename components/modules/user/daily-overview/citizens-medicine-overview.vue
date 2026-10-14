@@ -54,10 +54,12 @@
                                             case 'given':
                                                 return customPagesStore.getCustomPagesName?.giveMedicine;
                                             default:
-                                                return $t('overview.medicationOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
+                                                return medicine?.is_self_administered
+                                                    ? $t('citizens.medicineJournals.selfAdministered.hint')
+                                                    : $t('overview.medicationOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                         }
                                     })()">
-                                    <span :class="[dueDateColorClass(due_date), 'px-2 py-1 text-white rounded-md']">
+                                    <span :class="[dueDateColorClass(due_date, medicine?.is_self_administered), 'px-2 py-1 text-white rounded-md']">
                                         {{ formatDateToReadable(due_date?.date) }} @
                                         {{ due_date?.time }}
                                     </span>
@@ -195,10 +197,15 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 // A handled slot keeps its status colour; the overdue/due-soon timing only
 // applies to slots nobody has handled yet, anchored to the chip's own date
 // (AW-2026-6579: a delivered "06:00 - 10:00" dose turned red after 10:00).
-function dueDateColorClass(dueDate: any): string {
+function dueDateColorClass(dueDate: any, isSelfAdministered = false): string {
     if (dueDate?.status === 'given') return 'bg-green-700'
     if (dueDate?.status === 'delivered') return 'bg-primary'
     if (dueDate?.status === 'deviated') return 'bg-red-600'
+    // Self-administered medicine is handed out periodically, not given dose by
+    // dose, so an unlogged slot is never actually overdue (matches the
+    // missed-dose notification/list suppression already in place for
+    // is_self_administered).
+    if (isSelfAdministered) return 'bg-secondary'
     if (isMissed(dueDate?.time, state.now, dueDate?.date)) return 'bg-red-600'
     if (isDueSoon(dueDate?.time, state.now, dueDate?.date)) return 'bg-amber-500'
     return 'bg-secondary'

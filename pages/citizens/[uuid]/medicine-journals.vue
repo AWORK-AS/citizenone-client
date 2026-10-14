@@ -1545,6 +1545,11 @@ const stats = computed(() => {
             entries.forEach((d: any) => {
                 const s = d?.status
                 if (s === 'given' || s === 'delivered') given++
+                // Self-administered medicine is handed out periodically, not given dose
+                // by dose, so an unlogged slot is never actually overdue - it just
+                // hasn't been (and won't be) logged per dose. Matches the missed-dose
+                // notification/list suppression already in place for is_self_administered.
+                else if (m?.is_self_administered) pending++
                 else if (isMissed(d?.time)) overdue++
                 else if (isDueSoon(d?.time)) dueSoon++
                 else pending++
@@ -1568,13 +1573,14 @@ const alarmBanners = computed(() => {
             const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
             entries.forEach((d: any) => {
                 if (d?.status) return
+                // Self-administered medicine is handed out periodically, not given dose
+                // by dose - an unlogged slot is expected, not overdue, so it never
+                // raises the overdue banner (matches the missed-dose notification/list
+                // suppression already in place for is_self_administered).
+                if (m?.is_self_administered) return
                 if (isMissed(d?.time)) {
                     const mins = minutesSince(d?.time)
-                    // A self-administered medicine is handed out, not given (task #115).
-                    const overdueKey = m?.is_self_administered
-                        ? 'citizens.medicineJournals.selfAdministered.overdue'
-                        : 'citizens.medicineJournals.page.medicineIsOverdue'
-                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t(overdueKey, { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
                 } else if (isDueSoon(d?.time)) {
                     banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
                 }
