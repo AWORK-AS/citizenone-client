@@ -2075,6 +2075,8 @@
                 "deleteFileConfirmation": "Är du säker på att du vill radera denna fil",
                 "deleteFolderConfirmation": "Är du säker på att du vill radera denna mapp",
                 "shareConfirmation": "Är du säker på att du vill dele detta dokument",
+                "shareWithPatientConfirmation": "Dela det här dokumentet med patienten? Det visas i patientens app och patienten får ett meddelande.",
+                "unshareWithPatientConfirmation": "Sluta dela det här dokumentet med patienten?",
                 "unshareConfirmation": "Är du säker på att du vill ta bort delingen av detta dokument",
                 "upgradeStorageConfirmation": "Vill du opgradere ditt lager"
             },
@@ -2176,6 +2178,8 @@
                     "openSelected": "Öppna valda",
                     "sendLink": "Skicka länk via e-post",
                     "share": "Dela",
+                    "shareWithPatient": "Dela med patienten",
+                    "unshareWithPatient": "Sluta dela med patienten",
                     "statuses": "Statusar",
                     "unshare": "Ta bort delning",
                     "view": "Se"
