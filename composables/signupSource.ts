@@ -3,9 +3,10 @@
  *
  * The website adds utm_*, gclid, landing and ref (see lib/attribution.ts there). A Salesflow
  * sequence mail adds `sf`, its signed reference, so the backend can tell Salesflow and the lead's
- * mail funnel stops once they have an account (see App\Support\SalesflowSignupReporter).
+ * mail funnel stops once they have an account (see App\Support\SalesflowSignupReporter). A customer's
+ * "Del CitizenOne" link adds `share`, their code, so the signup is credited to them (task #16).
  */
-export const SIGNUP_SOURCE_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'gclid', 'landing', 'ref', 'sf'] as const
+export const SIGNUP_SOURCE_KEYS = ['utm_source', 'utm_medium', 'utm_campaign', 'gclid', 'landing', 'ref', 'sf', 'share'] as const
 
 export function signupSourceFromQuery(search: string): Record<string, string> {
     const query = new URLSearchParams(search)

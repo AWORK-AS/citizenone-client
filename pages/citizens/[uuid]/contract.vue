@@ -217,7 +217,7 @@
             <ModulesUserCitizenContractPeriodModal :isModalOpen="state.isModalOpen" :citizenUuid="citizenUuid"
                 :citizen="state.citizen" :period="state.editing" :previous="previousForNew" :template="state.template"
                 :stays="state.stays" :departments="state.departments"
-                @close="state.isModalOpen = false" @saved="fetchContract" />
+                @close="state.isModalOpen = false" @saved="fetchContract" @departmentCreated="fetchDepartments" />
             <DialogConfirmation :isModalOpen="state.isDeleteOpen" :message="$t('socialWelfare.contract.confirmDelete')"
                 @close="state.isDeleteOpen = false" @confirm="deletePeriod" />
         </NuxtLayout>

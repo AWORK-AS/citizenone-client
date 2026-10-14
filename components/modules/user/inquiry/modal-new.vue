@@ -25,7 +25,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
-import { formLabel } from '@/composables/inquiryForms'
+import { formLabel, yesNoToBoolean } from '@/composables/inquiryForms'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -116,7 +116,7 @@ async function saveCrisisCenterInquiry(inquiryDetails: any) {
             contacted_by: inquiryDetails.contacted_by,
             topic_uuid: inquiryDetails.topic_uuid,
             target_group_crisis_center: inquiryDetails.target_group_crisis_center,
-            received_visit: inquiryDetails.received_visit === 'yes',
+            received_visit: yesNoToBoolean(inquiryDetails.received_visit),
             assessment_uuid: inquiryDetails.assessment_uuid,
             guidance_uuid: inquiryDetails.guidance_uuid,
             notes: inquiryDetails.notes,
@@ -154,9 +154,9 @@ async function saveShelterInquiry(inquiryDetails: any) {
             inquiry_service_type_uuid: inquiryDetails.inquiry_service_type_uuid ?? null,
             first_name: inquiryDetails.first_name,
             last_name: inquiryDetails.last_name,
-            vacant_place_available: inquiryDetails.vacant_place_available === 'yes',
-            in_shelter_target_group: inquiryDetails.in_shelter_target_group  === 'yes',
-            fits_in_target_group: inquiryDetails.fits_in_target_group  === 'yes',
+            vacant_place_available: yesNoToBoolean(inquiryDetails.vacant_place_available),
+            in_shelter_target_group: yesNoToBoolean(inquiryDetails.in_shelter_target_group),
+            fits_in_target_group: yesNoToBoolean(inquiryDetails.fits_in_target_group),
             non_admission_reason: inquiryDetails.non_admission_reason,
             not_in_service_target_group_reason: inquiryDetails.not_in_service_target_group_reason,
             referral_destination: inquiryDetails.referral_destination,

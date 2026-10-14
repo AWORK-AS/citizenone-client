@@ -37,6 +37,7 @@ export function useSettingsHints() {
         'settings-power-bi': 'powerBi',
         'settings-economic': 'economic',
         'settings-dinero': 'dinero',
+        'settings-billy': 'billy',
         'settings-fst': 'fst',
         'settings-custom-pages': 'customPages',
         'settings-transactions': 'transactions',

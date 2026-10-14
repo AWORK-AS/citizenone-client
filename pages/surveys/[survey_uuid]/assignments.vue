@@ -161,6 +161,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { visibleSurveyQuestions } from '@/composables/surveyFollowUps'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
@@ -230,7 +231,8 @@ const answerEntries = computed(() => {
     if (!a) return []
     const questions = state.survey?.questions ?? []
     const entries: any[] = []
-    questions.forEach((q: any) => {
+    // Follow-ups the respondent never saw are left out.
+    visibleSurveyQuestions(questions, a.answers ?? {}).forEach((q: any) => {
         const def = q.question ?? q
         const answer = a.answers?.[q.uuid]
         entries.push({ question: def?.value, answer: resolveAnswer(def, answer) })

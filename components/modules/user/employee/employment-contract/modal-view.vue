@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="xl" :title="$t('employees.documents.employmentContracts')" :show="props.isModalOpen"
+        <Modal size="3xl" :title="$t('employees.documents.employmentContracts')" :show="props.isModalOpen"
             @close="closeModal">
             <template #modal-body>
                 <div>
@@ -18,18 +18,60 @@
                                 :isLoading="state.isTableLoading" :sortData="state.sortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.documents?.data?.length === 0))">
                                     <tr v-for="(document, index) in state.documents?.data" :key="index">
-                                        <td width="30%">
+                                        <td width="24%">
                                             <div class="text-tertiary hover:text-tertiary-700 cursor-pointer flex items-center gap-x-1"
                                                 v-if="document?.file_url" @click="viewDocument(document)">
                                                 <Icon name="ph:file" class="size-6" />
                                                 <span>{{ document?.name }}</span>
                                             </div>
                                         </td>
-                                        <td width="40%">
+                                        <td width="16%">
                                             <span>{{ document?.note }}</span>
                                         </td>
-                                        <td width="30%">
-                                            <div class="flex items-end gap-2">
+                                        <!-- Task #33: sent to the employee to sign -->
+                                        <td width="18%" :data-testid="`contract-signature-${document?.uuid}`">
+                                            <span v-if="document?.signature?.status === 'signed'"
+                                                class="inline-flex flex-col">
+                                                <span class="inline-flex items-center gap-1 text-sm font-medium text-[#2E9E33]">
+                                                    <Icon name="ph:seal-check-fill" class="size-4" />
+                                                    {{ $t('employees.documents.signature.signed') }}
+                                                </span>
+                                                <span class="text-xs text-gray-500">
+                                                    {{ $t('employees.documents.signature.signedOnBy', { date: formatDate(document.signature.signed_at), name: document.signature.signed_name }) }}
+                                                </span>
+                                            </span>
+                                            <span v-else-if="document?.signature?.status === 'pending'"
+                                                class="inline-flex flex-col">
+                                                <span class="inline-flex items-center gap-1 text-sm font-medium text-amber-600">
+                                                    <Icon name="ph:hourglass-medium" class="size-4" />
+                                                    {{ $t('employees.documents.signature.pending') }}
+                                                </span>
+                                                <span class="text-xs text-gray-500">
+                                                    {{ $t('employees.documents.signature.sentOn', { date: formatDate(document.signature.requested_at) }) }}
+                                                </span>
+                                            </span>
+                                            <span v-else class="text-sm text-gray-400">
+                                                {{ $t('employees.documents.signature.notSent') }}
+                                            </span>
+                                        </td>
+                                        <td width="42%">
+                                            <div class="flex flex-wrap items-center gap-2">
+                                                <FormButton v-if="document?.is_signable && !document?.signature" type="button"
+                                                    buttonStyle="action" :data-testid="`contract-send-${document?.uuid}`"
+                                                    @click="confirmSignatureRequest(document)">
+                                                    <Icon name="ph:signature" class="size-4" />
+                                                    {{ $t('employees.documents.signature.send') }}
+                                                </FormButton>
+                                                <FormButton v-if="document?.signature?.status === 'pending'" type="button"
+                                                    buttonStyle="action" @click="confirmSignatureWithdrawal(document)">
+                                                    <Icon name="ph:arrow-counter-clockwise" class="size-4" />
+                                                    {{ $t('employees.documents.signature.withdraw') }}
+                                                </FormButton>
+                                                <FormButton v-if="document?.signature?.status === 'signed'" type="button"
+                                                    buttonStyle="action" @click="downloadCertificate(document)">
+                                                    <Icon name="ph:certificate" class="size-4" />
+                                                    {{ $t('employees.documents.signature.certificate') }}
+                                                </FormButton>
                                                 <FormButton v-if="document?.file_url && canDownloadDocuments" type="button"
                                                     buttonStyle="action" @click="downloadDocument(document)">
                                                     <Icon name="ph:download-simple" class="size-4" />
@@ -67,6 +109,12 @@
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('employees.documents.confirmation.archiveConfirmation') + '?'"
                     @close="state.modal.isArchiveDocumentOpen = false" @confirm="archiveDocument" />
+                <DialogConfirmation :isModalOpen="state.modal.isSignatureRequestOpen"
+                    :message="$t('employees.documents.signature.confirmSend') + '?'"
+                    @close="state.modal.isSignatureRequestOpen = false" @confirm="requestSignature" />
+                <DialogConfirmation :isModalOpen="state.modal.isSignatureWithdrawOpen"
+                    :message="$t('employees.documents.signature.confirmWithdraw') + '?'"
+                    @close="state.modal.isSignatureWithdrawOpen = false" @confirm="withdrawSignatureRequest" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteDocumentOpen"
                     :message="$t('employees.documents.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteDocumentOpen = false" @confirm="deleteDocument" />
@@ -84,6 +132,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { saveAs } from 'file-saver'
+import moment from 'moment'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -106,6 +155,7 @@ const state = reactive({
     columnHeaders: [
         { name: 'employees.documents.table.file', isTranslateName: true, },
         { name: 'employees.documents.table.note', isTranslateName: true, },
+        { name: 'employees.documents.signature.column', isTranslateName: true, },
         { name: '' },
     ],
     documents: [] as any,
@@ -115,6 +165,8 @@ const state = reactive({
         isArchiveDocumentOpen: false,
         isEditDocumentOpen: false,
         isDeleteDocumentOpen: false,
+        isSignatureRequestOpen: false,
+        isSignatureWithdrawOpen: false,
     },
     isTableLoading: false,
     selectedEmployeeDocument: [] as any,
@@ -228,6 +280,66 @@ async function archiveDocument() {
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.documents.alert.documentSuccessfullyArchived')}.`)
             fetchDocuments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+// Task #33: send an employment contract to the employee to sign, take a
+// request back while it waits, and print the evidence once it is signed.
+function formatDate(value: string | null): string {
+    return value ? moment(value).format('DD-MM-YYYY') : ''
+}
+
+function confirmSignatureRequest(document: any) {
+    state.selectedEmployeeDocument = document
+    state.modal.isSignatureRequestOpen = true
+}
+
+function confirmSignatureWithdrawal(document: any) {
+    state.selectedEmployeeDocument = document
+    state.modal.isSignatureWithdrawOpen = true
+}
+
+async function requestSignature() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await employeeDocumentService.requestSignature(state.selectedEmployeeDocument?.uuid)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('employees.documents.signature.sent')}.`)
+            fetchDocuments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function withdrawSignatureRequest() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await employeeDocumentService.withdrawSignatureRequest(state.selectedEmployeeDocument?.uuid)
+        if (response?.data) {
+            successAlert(`${t('alert.success')}!`, `${t('employees.documents.signature.withdrawn')}.`)
+            fetchDocuments()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function downloadCertificate(document: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await employeeDocumentService.downloadSignatureCertificate(document?.uuid)
+        if (response) {
+            saveAs(response, `${t('employees.documents.signature.certificate')} - ${document?.name}.pdf`)
         }
     } catch (error: any) {
         state.error = error

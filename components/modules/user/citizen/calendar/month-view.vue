@@ -121,16 +121,22 @@
                                         <Menu as="div"
                                             class="absolute right-1 flex-none opacity-0 group-hover/event:opacity-100"
                                             @click.stop>
-                                            <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700">
+                                            <MenuButton class="flex items-center rounded bg-white/90 p-0.5 text-gray-400 shadow-sm ring-1 ring-gray-200 hover:text-gray-700"
+                                                @click="openDropdownMenu($event)"
+                                                @keydown.enter.space.down.up="openDropdownMenu($event)">
                                                 <Icon name="heroicons:ellipsis-horizontal" class="h-3.5 w-3.5" />
                                             </MenuButton>
+                                            <Teleport to="body">
                                             <transition enter-active-class="transition ease-out duration-100"
                                                 enter-from-class="transform opacity-0 scale-95"
                                                 enter-to-class="transform opacity-100 scale-100"
                                                 leave-active-class="transition ease-in duration-75"
                                                 leave-from-class="transform opacity-100 scale-100"
-                                                leave-to-class="transform opacity-0 scale-95">
-                                                <MenuItems class="absolute right-0 z-20 mt-1 w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                                leave-to-class="transform opacity-0 scale-95"
+                                                @enter="keepMenuInView">
+                                                <MenuItems @mouseenter="hidePreview"
+                                                    :style="{ left: state.menuPos.x + 'px', top: state.menuPos.y + 'px' }"
+                                                    class="fixed z-[60] w-48 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                                                     <div class="py-1">
                                                         <MenuItem v-slot="{ active }">
                                                         <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -139,7 +145,7 @@
                                                             {{ $t('citizens.calendar.viewSchedule') }}
                                                         </a>
                                                         </MenuItem>
-                                                        <template v-if="myCalendarEvent?.completion_status !== 'completed'">
+                                                        <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'completed'">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                 @click.stop="markEventAsStatus(myCalendarEvent, 'completed')">
@@ -148,7 +154,7 @@
                                                             </a>
                                                             </MenuItem>
                                                         </template>
-                                                        <template v-if="myCalendarEvent?.completion_status !== 'not_completed'">
+                                                        <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'not_completed'">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                 @click.stop="markEventAsStatus(myCalendarEvent, 'not_completed')">
@@ -157,16 +163,19 @@
                                                             </a>
                                                             </MenuItem>
                                                         </template>
-                                                        <MenuItem v-slot="{ active }">
-                                                        <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
-                                                            @click.stop="openCreateJournal(myCalendarEvent)">
-                                                            <Icon name="ph:notebook" class="h-4 w-4" />
-                                                            {{ $t('events.createJournalNote') }}
-                                                        </a>
-                                                        </MenuItem>
+                                                        <template v-if="props.eventActions">
+                                                            <MenuItem v-slot="{ active }">
+                                                            <a href="#" :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                                                @click.stop="openCreateJournal(myCalendarEvent)">
+                                                                <Icon name="ph:notebook" class="h-4 w-4" />
+                                                                {{ $t('events.createJournalNote') }}
+                                                            </a>
+                                                            </MenuItem>
+                                                        </template>
                                                     </div>
                                                 </MenuItems>
                                             </transition>
+                                            </Teleport>
                                         </Menu>
                                     </div>
                                 </div>
@@ -267,7 +276,7 @@
                                     {{ $t('citizens.calendar.viewSchedule') }}
                                 </a>
                                 </MenuItem>
-                                <template v-if="myCalendarEvent?.completion_status !== 'completed'">
+                                <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'completed'">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -277,7 +286,7 @@
                                     </a>
                                     </MenuItem>
                                 </template>
-                                <template v-if="myCalendarEvent?.completion_status !== 'not_completed'">
+                                <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'not_completed'">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -287,14 +296,16 @@
                                     </a>
                                     </MenuItem>
                                 </template>
-                                <MenuItem v-slot="{ active }">
-                                <a href="#"
-                                    :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
-                                    @click="openCreateJournal(myCalendarEvent)">
-                                    <Icon name="ph:notebook" class="h-4 w-4" />
-                                    {{ $t('events.createJournalNote') }}
-                                </a>
-                                </MenuItem>
+                                <template v-if="props.eventActions">
+                                    <MenuItem v-slot="{ active }">
+                                    <a href="#"
+                                        :class="[active && 'bg-gray-100', 'text-gray-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
+                                        @click="openCreateJournal(myCalendarEvent)">
+                                        <Icon name="ph:notebook" class="h-4 w-4" />
+                                        {{ $t('events.createJournalNote') }}
+                                    </a>
+                                    </MenuItem>
+                                </template>
                             </div>
                         </MenuItems>
                     </transition>
@@ -345,6 +356,14 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // "Mark as completed / not completed" and "Create journal note" in the
+    // event menus. Only for a page that handles markEventAsStatus and
+    // createJournalFromEvent (the child calendar doesn't). "View schedule"
+    // always shows.
+    eventActions: {
+        type: Boolean,
+        default: true,
+    },
 })
 
 const emit = defineEmits(['changeMonthYear', 'viewMyCalendarEvent', 'markEventAsStatus', 'createJournalFromEvent', 'createEvent'])
@@ -358,6 +377,7 @@ const state = reactive({
     expandedDays: [] as string[],
     flashToday: false,
     preview: { event: null as any, x: 0, y: 0 },
+    menuPos: { x: 0, y: 0 },
     selectedDay: null as any,
 })
 
@@ -483,6 +503,31 @@ function showPreviewEl(e: FocusEvent, event: any) {
 
 function hidePreview() {
     state.preview.event = null
+}
+
+// The dropdown is teleported to <body> (fixed position) so it can never be
+// overpainted by a later sibling day-cell in the grid when it extends past
+// its own cell's boundary (e.g. events near the bottom of a row) - matches
+// the same approach already used for the hover preview above.
+// Also called on the keys that open the menu (no click fires for those).
+let menuButtonTop = 0
+function openDropdownMenu(e: Event) {
+    hidePreview()
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const width = 192 // w-48
+    let x = rect.right - width
+    if (x < 8) x = 8
+    state.menuPos = { x, y: rect.bottom + 4 }
+    menuButtonTop = rect.top
+}
+
+// A fixed menu doesn't scroll with the page, so when it would run past the
+// bottom of the window it opens above the button instead.
+function keepMenuInView(el: Element) {
+    const height = (el as HTMLElement).offsetHeight
+    if (state.menuPos.y + height > window.innerHeight - 8) {
+        state.menuPos.y = Math.max(8, menuButtonTop - 4 - height)
+    }
 }
 
 function onCalKey(e: KeyboardEvent) {

@@ -2075,6 +2075,8 @@
                 "deleteFileConfirmation": "Er du sikker på, at du vil slette denne fil",
                 "deleteFolderConfirmation": "Er du sikker på, at du vil slette denne mappe",
                 "shareConfirmation": "Er du sikker på, at du vil dele dette dokument",
+                "shareWithPatientConfirmation": "Del dette dokument med patienten? Det vises i patientens app, og patienten får besked.",
+                "unshareWithPatientConfirmation": "Stop med at dele dette dokument med patienten?",
                 "unshareConfirmation": "Er du sikker på, at du vil fjerne delingen af dette dokument",
                 "upgradeStorageConfirmation": "Vil du opgradere dit lager"
             },
@@ -2176,6 +2178,8 @@
                     "openSelected": "Åbn valgte",
                     "sendLink": "Send link på e-mail",
                     "share": "Del",
+                    "shareWithPatient": "Del med patienten",
+                    "unshareWithPatient": "Stop deling med patienten",
                     "statuses": "Statusser",
                     "unshare": "Fjern deling",
                     "view": "Se"
@@ -2702,6 +2706,7 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Oprettet af",
                 "dateTimeEnd": "Dato og tid slut",
+                "hourType": "Timetype",
                 "dateTimeStart": "Dato og tid start",
                 "endAddress": "Slutadresse",
                 "kilometers": "Kilometer",
@@ -7102,6 +7107,24 @@
             "driversLicense": "Kørekort",
             "editDocument": "Rediger dokument",
             "employmentContracts": "Ansættelseskontrakter",
+            "signature": {
+                "column": "Underskrift",
+                "notSent": "Ikke sendt",
+                "pending": "Afventer underskrift",
+                "sentOn": "Sendt {date}",
+                "signed": "Underskrevet",
+                "signedOnBy": "{date} af {name}",
+                "send": "Send til underskrift",
+                "withdraw": "Træk tilbage",
+                "certificate": "Underskriftsbevis",
+                "confirmSend": "Send kontrakten til medarbejderen, så den kan læses og underskrives i CitizenOne",
+                "confirmWithdraw": "Træk anmodningen om underskrift tilbage",
+                "sent": "Kontrakten er sendt til underskrift",
+                "withdrawn": "Anmodningen om underskrift er trukket tilbage",
+                "sendOnUpload": "Send til medarbejderen til underskrift",
+                "sendOnUploadHint": "Medarbejderen får besked i CitizenOne, på mobilen og på e-mail, og du får besked, når kontrakten er underskrevet.",
+                "savedAndSent": "Kontrakten er gemt og sendt til underskrift"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Dokument gemt med succes",
@@ -7448,6 +7471,7 @@
         "createJournalNote": "Opret @:terms.journalNote{''}",
         "markAsCompleted": "Markér som gennemført",
         "markAsNotCompleted": "Markér som ikke gennemført",
+        "statusMenuLabel": "Markér \"{title}\" som gennemført eller ikke gennemført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
         "noteNudge": {
@@ -8427,7 +8451,7 @@
             }
         },
         "inquiries": "Henvendelser",
-        "newInquiry": "Ny henvendelser",
+        "newInquiry": "Ny henvendelse",
         "shelterInquiry": "Herberger og forsorgshjem henvendelser",
         "table": {
             "actions": {
@@ -9108,7 +9132,8 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "nameNorwegian": "Navn (norsk)",
-            "nameSwedish": "Navn (svensk)"
+            "nameSwedish": "Navn (svensk)",
+            "atLeastOneName": "Udfyld navnet på mindst ét sprog."
         },
         "medicines": "Medicin",
         "newMedicine": "Ny medicin",
@@ -9440,6 +9465,7 @@
         "logout": "Log ud",
         "notifications": "Notifikationer",
         "procedures": "Procedurer",
+        "shareCitizenOne": "Del CitizenOne",
         "newWishes": "Nye ønsker",
         "comingFunctions": "Kommende funktioner",
         "reminders": "Påmindelser",
@@ -9450,6 +9476,22 @@
         "impersonating": "Logget ind som klient",
         "stopImpersonation": "Log ud som klient",
         "surveys": "Spørgeskemaer"
+    },
+    "platformShare": {
+        "title": "Del CitizenOne",
+        "intro": "Kender du andre, der kunne have gavn af CitizenOne? Send dem dit personlige link - det tager kun et øjeblik.",
+        "yourLink": "Dit personlige link",
+        "copy": "Kopiér",
+        "copied": "Kopieret",
+        "shareVia": "Del via",
+        "email": "E-mail",
+        "sms": "SMS",
+        "more": "Flere apps",
+        "subject": "Prøv CitizenOne",
+        "message": "Jeg bruger CitizenOne og tænkte, at det også kunne være noget for jer. Se mere og opret en konto her:",
+        "thanksOnce": "Tak! Du har delt CitizenOne én gang.",
+        "thanks": "Tak! Du har delt CitizenOne {count} gange.",
+        "loadFailed": "Linket kunne ikke hentes. Prøv igen."
     },
     "news": {
         "confirmation": {
@@ -10547,6 +10589,8 @@
         "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
         "oauthBannerDescription": "Din {provider}-konto er ikke tilknyttet CitizenOne endnu. Udfyld formularen for at oprette din konto.",
         "oauthBannerTitle": "Vi fandt ikke din konto",
+        "sharedBannerDescription": "En af vores kunder har delt CitizenOne med dig. Udfyld formularen for at oprette din konto.",
+        "sharedBannerTitle": "Du er blevet anbefalet CitizenOne",
         "of": "Af",
         "register": "Opret konto",
         "review": {
@@ -11067,6 +11111,7 @@
                 "missingNoteReminder": "Påmind om aftaler uden @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Giv besked om @:terms.journalNotes{''} oprettet fra en aftale",
                 "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
+                "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
@@ -11333,6 +11378,7 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "dinero": "Dinero",
+            "billy": "Billy",
             "customLinks": "Egne links",
             "messageTemplates": "Beskedskabeloner",
             "timelineEventTypes": "Tidslinje-typer",
@@ -11437,6 +11483,25 @@
             "how1": "Gå til Indstillinger → Integrationer i Dinero, og anmod om en personlig integration for at få et Client ID, en Client Secret og en API-nøgle til organisationen.",
             "how2": "Indsæt alle tre her, og klik “Forbind”.",
             "how3": "Når forbindelsen er oprettet, kan fakturaer sendes til Dinero."
+        },
+        "billy": {
+            "title": "Billy",
+            "subtitle": "Send fakturaer fra CitizenOne til Billy som kladder.",
+            "adminOnly": "Kun administratorer kan administrere Billy-forbindelsen.",
+            "notPurchased": "Billy-app’en er ikke aktiveret endnu. Aktivér den under Apps for at forbinde.",
+            "goToApps": "Gå til Apps",
+            "connection": "Forbindelse",
+            "connected": "Forbundet",
+            "notConnected": "Ikke forbundet",
+            "connect": "Forbind",
+            "disconnect": "Afbryd",
+            "confirmDisconnect": "Afbryd forbindelsen til Billy?",
+            "apiTokenLabel": "Billy adgangstoken",
+            "apiTokenPlaceholder": "Indsæt adgangstoken fra din Billy-konto",
+            "howTitle": "Sådan forbinder du",
+            "how1": "Gå til Indstillinger → Adgangstokens i Billy, og opret en ny token til organisationen.",
+            "how2": "Indsæt den her, og klik “Forbind”.",
+            "how3": "Når forbindelsen er oprettet, kan fakturaer sendes til Billy som kladder."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11573,6 +11638,10 @@
             "dinero": {
                 "title": "Hvad gør Dinero?",
                 "body": "Send fakturaer videre til Dinero som bogføringsbilag, så tallene kun tastes ét sted."
+            },
+            "billy": {
+                "title": "Hvad gør Billy?",
+                "body": "Send fakturaer videre til Billy som kladder, så tallene kun tastes ét sted."
             },
             "fst": {
                 "title": "Hvad er FindSocialeTilbud.dk?",
@@ -12563,6 +12632,7 @@
             },
             "source": {
                 "all": "Alle kilder",
+                "share": "Delt af kunde",
                 "search": "Søgemaskine (organisk)",
                 "campaign": "Kampagne",
                 "referral": "Henvisning",
@@ -13149,6 +13219,7 @@
             "cancellations": "Opsigelser",
             "storagePackages": "Lagerpakker",
             "paymentFees": "Betalingsgebyrer",
+            "platformShares": "Delinger",
             "storageUsage": "Lagerforbrug",
             "industries": "Brancher",
             "salesInquiries": "Henvendelser",
@@ -13775,6 +13846,47 @@
             "successDeleted": "Lagerpakke slettet",
             "successUpdated": "Lagerpakke opdateret",
             "colPricePerGb": "Kr. pr. GB"
+        },
+        "platformShares": {
+            "header": "Delinger af CitizenOne",
+            "subtitle": "Hvem der har delt CitizenOne via \"Del CitizenOne\", og hvem der er kommet ind via et delt link.",
+            "periods": {
+                "all": "Hele perioden",
+                "30d": "Seneste 30 dage",
+                "month": "Denne måned",
+                "year": "I år"
+            },
+            "cards": {
+                "users": "Brugere der har delt",
+                "usersHint": "Forskellige brugere",
+                "companies": "Kunder der har delt",
+                "companiesHint": "Forskellige virksomheder",
+                "shares": "Delinger i alt",
+                "sharesHint": "Kopieret link, mail, LinkedIn m.m.",
+                "signups": "Tilmeldinger via deling",
+                "signupsHint": "Nye kunder fra et delt link"
+            },
+            "byMethod": "Fordelt på kanal",
+            "methods": {
+                "copy": "Kopieret link",
+                "email": "E-mail",
+                "sms": "SMS",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Telefonens deling"
+            },
+            "company": "Kunde",
+            "shares": "Delinger",
+            "users": "Brugere",
+            "signups": "Tilmeldinger",
+            "lastShared": "Senest delt",
+            "signupsTitle": "Tilmeldt via et delt link",
+            "sharedBy": "Delt af {name} ({company})",
+            "noSignups": "Ingen er tilmeldt via et delt link endnu.",
+            "recent": "Seneste delinger",
+            "method": "Kanal",
+            "when": "Tidspunkt",
+            "empty": "Ingen har delt CitizenOne i perioden."
         },
         "paymentFees": {
             "pageTitle": "Betalingsgebyrer",
@@ -15554,7 +15666,8 @@
         },
         "source": {
             "internal": "Udfyldt internt",
-            "citizen": "Udfyldt af @:terms.citizen{''}"
+            "citizen": "Udfyldt af @:terms.citizen{''}",
+            "sentToCitizen": "Sendt til @:terms.citizen{''}"
         },
         "empty": {
             "title": "Ingen besvarelser endnu",
@@ -15593,6 +15706,9 @@
             "addQuestion": "Tilføj nyt spørgsmål",
             "templates": "Standardskemaer",
             "orBuildYourOwn": "Eller byg dit eget",
+            "addFollowUp": "Tilføj opfølgende spørgsmål",
+            "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
+            "followUpPickOption": "Vælg mindst ét svar, der viser dette spørgsmål.",
             "scoreRanges": {
                 "title": "Score-fortolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
@@ -16229,6 +16345,21 @@
         "clampedNote": "Norm og saldo dækker kun {start} – {end}.",
         "pendingExtra": "{hours} afventer"
     },
+    "notificationPreferences": {
+        "title": "Notifikationstyper",
+        "subtitle": "Vælg hvilke notifikationer du modtager, og hvordan. Obligatoriske notifikationer kan ikke slås fra.",
+        "push": "Push",
+        "email": "E-mail",
+        "frequency": "Frekvens",
+        "instant": "Med det samme",
+        "hourly": "Timevis samling",
+        "required": "Påkrævet",
+        "save": "Gem notifikationstyper",
+        "saved": "Notifikationstyper gemt",
+        "loadError": "Notifikationstyperne kunne ikke indlæses.",
+        "retry": "Prøv igen",
+        "masterOffHint": "Nogle kontakter er nedtonede, fordi den tilsvarende kontakt ovenfor (e-mail- eller systemnotifikationer) er slået fra."
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
@@ -16532,6 +16663,7 @@
             "allStays": "Alle ophold",
             "noDepartment": "Ingen afdeling",
             "createDepartment": "Opret kunder og afdelinger under Indstillinger",
+            "addDepartment": "Opret kunde/afdeling",
             "priceType": "Prismodel",
             "priceTypes": {
                 "hourly": "Pris pr. leveret time",
@@ -16630,6 +16762,7 @@
             "sendEmail": "Send på e-mail",
             "pushEconomic": "Send til e-conomic som kladde",
             "pushDinero": "Send til Dinero som bilag",
+            "pushBilly": "Send til Billy som kladde",
             "empty": "Ingen fakturaer i denne visning.",
             "number": "Fakturanr.",
             "billTo": "Modtager",
@@ -16652,6 +16785,13 @@
                 "dinero_not_connected": "Dinero er ikke forbundet",
                 "dinero_invoice_not_found": "Fakturaen blev ikke fundet",
                 "dinero_voucher_failed": "Bilaget kunne ikke oprettes i Dinero",
+                "billy_not_connected": "Billy er ikke forbundet",
+                "billy_invoice_not_found": "Fakturaen blev ikke fundet",
+                "billy_contact_failed": "Kunden kunne ikke oprettes i Billy",
+                "billy_product_failed": "Produktet kunne ikke oprettes i Billy (ingen indtægtskonto fundet)",
+                "billy_invoice_failed": "Fakturaen kunne ikke oprettes i Billy",
+                "billy_already_pushed": "Fakturaen er allerede sendt til Billy",
+                "billy_auth_failed": "Billy accepterede ikke adgangstoken",
                 "unknown_action": "Ukendt handling"
             }
         },
@@ -18397,5 +18537,27 @@
         "joinButton": "Deltag i videokonsultation",
         "toggle": "Videokonsultation i patientportalen",
         "toggleHint": "Patienten deltager fra sin egen portal. Der er intet link at sende."
+    },
+    "myContracts": {
+        "title": "Mine kontrakter",
+        "subtitle": "Kontrakter, du er blevet bedt om at læse og underskrive.",
+        "waiting": "Venter på din underskrift",
+        "signedSection": "Underskrevet",
+        "empty": "Du har ingen kontrakter at underskrive.",
+        "sentBy": "Sendt af {name} {date}",
+        "signedOn": "Underskrevet {date}",
+        "open": "Læs og underskriv",
+        "view": "Se kontrakt",
+        "certificate": "Underskriftsbevis",
+        "signTitle": "Underskriv kontrakt",
+        "readFirst": "Læs kontrakten igennem, før du underskriver.",
+        "accept": "Jeg har læst kontrakten og accepterer den",
+        "nameLabel": "Skriv dit fulde navn som underskrift",
+        "nameHint": "Som det står i CitizenOne: {name}",
+        "sign": "Underskriv",
+        "signed": "Kontrakten er underskrevet",
+        "evidence": "Når du underskriver, gemmes tidspunkt, IP-adresse og enhed sammen med kontrakten som bevis.",
+        "loadFailed": "Kontrakten kunne ikke hentes. Prøv igen.",
+        "pendingCount": "{count} venter på underskrift"
     }
 }

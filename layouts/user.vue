@@ -501,6 +501,14 @@
                                                 $t('navbar.myMonthlySheet') }}
                                         </div>
                                     </MenuItem>
+                                    <!-- Task #33: contracts sent to the employee to read and sign. -->
+                                    <MenuItem>
+                                        <div @click="navigateTo('/my-contracts')" data-testid="menu-my-contracts"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:signature" class="h-4 w-4 text-slate-400" />{{
+                                                $t('myContracts.title') }}
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem v-if="isAtLeast('Admin') && !discoverCompleted">
                                         <div @click="navigateTo('/discover')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
@@ -538,6 +546,13 @@
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:list-checks" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.procedures') }}
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:share-network" class="h-4 w-4 text-slate-400" />{{
+                                                $t('navbar.shareCitizenOne') }}
                                         </div>
                                     </MenuItem>
                                     <MenuItem>
@@ -634,6 +649,8 @@
         </div>
 
         <!-- All modals -->
+        <ModulesUserPlatformShareModal :isModalOpen="state.modal.isPlatformShareOpen"
+            @close="state.modal.isPlatformShareOpen = false" v-if="state.modal.isPlatformShareOpen" />
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
@@ -1093,6 +1110,7 @@ const state = reactive({
         is2faRequiredOpen: false,
         isCheckinReminderOpen: false,
         isContactUsOpen: false,
+        isPlatformShareOpen: false,
         isGuidedTourCalendarOpen: false,
         isGuidedTourCitizensOverviewOpen: false,
         isGuidedTourDailyOverviewOpen: false,

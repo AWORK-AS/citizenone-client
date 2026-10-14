@@ -169,11 +169,9 @@
                                                     <Icon name="ph:download-simple" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
-                                            <Tooltip :text="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
-                                                $t('citizens.documents.table.actions.share')"
+                                            <Tooltip :text="shareLabel(document)"
                                                 v-if="document?.type === 'file' && !is_draft">
-                                                <FormButton :aria-label="document?.is_shared ? $t('citizens.documents.table.actions.unshare') :
-                                                $t('citizens.documents.table.actions.share')" type="button" buttonStyle="primary"
+                                                <FormButton :aria-label="shareLabel(document)" type="button" buttonStyle="primary"
                                                     @click="confirmDocumentShareUnshare(document)">
                                                     <Icon name="ph:share" class="size-4" />
                                                 </FormButton>
@@ -260,7 +258,7 @@
                     :isModalOpen="state.modal.isViewFolderStructureOpen"
                     @close="state.modal.isViewFolderStructureOpen = false" @refreshDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isShareDocumentOpen"
-                    :message="state.selectedDocument?.is_shared ? $t('citizens.documents.confirmation.unshareConfirmation') : $t('citizens.documents.confirmation.shareConfirmation') + '?'"
+                    :message="shareConfirmationMessage"
                     @close="state.modal.isShareDocumentOpen = false" @confirm="shareUnshareDocument" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
                     :message="$t('citizens.documents.confirmation.archiveConfirmation') + '?'"
@@ -318,6 +316,25 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
+
+// With the patient portal, sharing is how a document reaches the patient's app
+// (and the patient is told), so the button and the question say so.
+const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+
+function shareLabel(document: any) {
+    if (hasPatientPortal.value) {
+        return document?.is_shared ? t('citizens.documents.table.actions.unshareWithPatient') : t('citizens.documents.table.actions.shareWithPatient')
+    }
+    return document?.is_shared ? t('citizens.documents.table.actions.unshare') : t('citizens.documents.table.actions.share')
+}
+
+const shareConfirmationMessage = computed(() => {
+    const isShared = !!state.selectedDocument?.is_shared
+    if (hasPatientPortal.value) {
+        return isShared ? t('citizens.documents.confirmation.unshareWithPatientConfirmation') : t('citizens.documents.confirmation.shareWithPatientConfirmation')
+    }
+    return isShared ? t('citizens.documents.confirmation.unshareConfirmation') : t('citizens.documents.confirmation.shareConfirmation') + '?'
+})
 const { isAtLeast, can } = usePermissions()
 // Without download_documents a document can still be viewed, but not saved.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
