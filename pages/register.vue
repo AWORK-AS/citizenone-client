@@ -32,6 +32,15 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="space-y-1">
+                        <!-- Came through a customer's "Del CitizenOne" link (task #16). -->
+                        <div v-if="signupSource.share && !state.oauthProvider" data-testid="register-shared-banner"
+                            class="mb-6 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
+                            <Icon name="ph:share-network" class="mt-0.5 size-[18px] shrink-0 text-[#42AED9]" />
+                            <div>
+                                <p class="text-sm font-semibold text-[#0f4c75]">{{ $t('register.sharedBannerTitle') }}</p>
+                                <p class="text-xs text-[#64748b] mt-0.5">{{ $t('register.sharedBannerDescription') }}</p>
+                            </div>
+                        </div>
                         <div v-if="state.oauthProvider"
                             class="mb-6 flex items-start gap-3 rounded-xl border border-blue-100 bg-blue-50 px-4 py-3">
                             <svg class="mt-0.5 flex-shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none"

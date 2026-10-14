@@ -9443,6 +9443,7 @@
         "logout": "Logg ut",
         "notifications": "Varsler",
         "procedures": "Prosedyrer",
+        "shareCitizenOne": "Del CitizenOne",
         "newWishes": "Nye ønsker",
         "comingFunctions": "Kommende funksjoner",
         "reminders": "Påminnelser",
@@ -9453,6 +9454,22 @@
         "impersonating": "Innlogget som klient",
         "stopImpersonation": "Logg ut som klient",
         "surveys": "Spørreskjemaer"
+    },
+    "platformShare": {
+        "title": "Del CitizenOne",
+        "intro": "Kjenner du andre som kunne ha nytte av CitizenOne? Send dem din personlige lenke - det tar bare et øyeblikk.",
+        "yourLink": "Din personlige lenke",
+        "copy": "Kopier",
+        "copied": "Kopiert",
+        "shareVia": "Del via",
+        "email": "E-post",
+        "sms": "SMS",
+        "more": "Flere apper",
+        "subject": "Prøv CitizenOne",
+        "message": "Jeg bruker CitizenOne og tenkte at det også kunne være noe for dere. Se mer og opprett en konto her:",
+        "thanksOnce": "Takk! Du har delt CitizenOne én gang.",
+        "thanks": "Takk! Du har delt CitizenOne {count} ganger.",
+        "loadFailed": "Lenken kunne ikke hentes. Prøv igjen."
     },
     "news": {
         "confirmation": {
@@ -10545,6 +10562,8 @@
         "noCommitment": "Der er ingen binding, og du behøver ikke tilknytte et betalingskort",
         "oauthBannerDescription": "Din {provider}-konto er ikke tilknyttet CitizenOne ennå. Udfyld skjemaet for at opprette din konto.",
         "oauthBannerTitle": "Vi fandt ikke din konto",
+        "sharedBannerDescription": "En av våre kunder har delt CitizenOne med deg. Fyll ut skjemaet for å opprette kontoen din.",
+        "sharedBannerTitle": "Du har blitt anbefalt CitizenOne",
         "of": "Av",
         "register": "Opprett konto",
         "review": {
@@ -12554,6 +12573,7 @@
             },
             "source": {
                 "all": "Alle kilder",
+                "share": "Delt av kunde",
                 "search": "Søkemotor (organisk)",
                 "campaign": "Kampanje",
                 "referral": "Henvisning",
@@ -13140,6 +13160,7 @@
             "cancellations": "Oppsigelser",
             "storagePackages": "Lagringspakker",
             "paymentFees": "Betalingsgebyrer",
+            "platformShares": "Delinger",
             "storageUsage": "Lagerforbruk",
             "industries": "Bransjer",
             "salesInquiries": "Henvendelser"
@@ -13707,6 +13728,47 @@
             "successDeleted": "Lagringspakke slettet",
             "successUpdated": "Lagringspakke oppdatert",
             "colPricePerGb": "Kr. pr. GB"
+        },
+        "platformShares": {
+            "header": "Delinger av CitizenOne",
+            "subtitle": "Hvem som har delt CitizenOne via \"Del CitizenOne\", og hvem som har registrert seg via en delt lenke.",
+            "periods": {
+                "all": "Hele perioden",
+                "30d": "Siste 30 dager",
+                "month": "Denne måneden",
+                "year": "I år"
+            },
+            "cards": {
+                "users": "Brukere som har delt",
+                "usersHint": "Ulike brukere",
+                "companies": "Kunder som har delt",
+                "companiesHint": "Ulike virksomheter",
+                "shares": "Delinger totalt",
+                "sharesHint": "Kopiert lenke, e-post, LinkedIn m.m.",
+                "signups": "Registreringer via deling",
+                "signupsHint": "Nye kunder fra en delt lenke"
+            },
+            "byMethod": "Fordelt på kanal",
+            "methods": {
+                "copy": "Kopiert lenke",
+                "email": "E-post",
+                "sms": "SMS",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Telefonens deling"
+            },
+            "company": "Kunde",
+            "shares": "Delinger",
+            "users": "Brukere",
+            "signups": "Registreringer",
+            "lastShared": "Sist delt",
+            "signupsTitle": "Registrert via en delt lenke",
+            "sharedBy": "Delt av {name} ({company})",
+            "noSignups": "Ingen har registrert seg via en delt lenke ennå.",
+            "recent": "Siste delinger",
+            "method": "Kanal",
+            "when": "Tidspunkt",
+            "empty": "Ingen har delt CitizenOne i perioden."
         },
         "paymentFees": {
             "pageTitle": "Betalingsgebyrer",

@@ -9443,6 +9443,7 @@
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "shareCitizenOne": "Share CitizenOne",
         "newWishes": "New wishes",
         "comingFunctions": "Coming functions",
         "reminders": "Reminders",
@@ -9453,6 +9454,22 @@
         "impersonating": "Logged in as client",
         "stopImpersonation": "Log out as client",
         "surveys": "Surveys"
+    },
+    "platformShare": {
+        "title": "Share CitizenOne",
+        "intro": "Know someone who could benefit from CitizenOne? Send them your personal link - it only takes a moment.",
+        "yourLink": "Your personal link",
+        "copy": "Copy",
+        "copied": "Copied",
+        "shareVia": "Share via",
+        "email": "Email",
+        "sms": "Text message",
+        "more": "More apps",
+        "subject": "Try CitizenOne",
+        "message": "I use CitizenOne and thought it could be something for you too. Take a look and create an account here:",
+        "thanksOnce": "Thank you! You have shared CitizenOne once.",
+        "thanks": "Thank you! You have shared CitizenOne {count} times.",
+        "loadFailed": "The link could not be loaded. Please try again."
     },
     "news": {
         "confirmation": {
@@ -10550,6 +10567,8 @@
         "noCommitment": "There's no commitment, and you don't need to link a payment card",
         "oauthBannerDescription": "Your {provider} account is not yet linked to CitizenOne. Fill in the form to create your account.",
         "oauthBannerTitle": "We didn't find your account",
+        "sharedBannerDescription": "One of our customers shared CitizenOne with you. Fill in the form to create your account.",
+        "sharedBannerTitle": "Someone recommended CitizenOne to you",
         "of": "Of",
         "register": "Register",
         "review": {
@@ -12591,6 +12610,7 @@
             },
             "source": {
                 "all": "All sources",
+                "share": "Shared by a customer",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
                 "referral": "Referral",
@@ -13177,6 +13197,7 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
+            "platformShares": "Shares",
             "storageUsage": "Storage usage",
             "industries": "Industries",
             "salesInquiries": "Inquiries",
@@ -13803,6 +13824,47 @@
             "successDeleted": "Storage package deleted",
             "successUpdated": "Storage package updated",
             "colPricePerGb": "Price per GB"
+        },
+        "platformShares": {
+            "header": "CitizenOne shares",
+            "subtitle": "Who has shared CitizenOne through \"Share CitizenOne\", and who signed up through a shared link.",
+            "periods": {
+                "all": "All time",
+                "30d": "Last 30 days",
+                "month": "This month",
+                "year": "This year"
+            },
+            "cards": {
+                "users": "Users who shared",
+                "usersHint": "Distinct users",
+                "companies": "Customers who shared",
+                "companiesHint": "Distinct companies",
+                "shares": "Total shares",
+                "sharesHint": "Copied link, email, LinkedIn etc.",
+                "signups": "Signups from shares",
+                "signupsHint": "New customers from a shared link"
+            },
+            "byMethod": "By channel",
+            "methods": {
+                "copy": "Copied link",
+                "email": "Email",
+                "sms": "Text message",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Device share sheet"
+            },
+            "company": "Customer",
+            "shares": "Shares",
+            "users": "Users",
+            "signups": "Signups",
+            "lastShared": "Last shared",
+            "signupsTitle": "Signed up through a shared link",
+            "sharedBy": "Shared by {name} ({company})",
+            "noSignups": "No one has signed up through a shared link yet.",
+            "recent": "Latest shares",
+            "method": "Channel",
+            "when": "When",
+            "empty": "No one has shared CitizenOne in this period."
         },
         "paymentFees": {
             "pageTitle": "Payment fees",

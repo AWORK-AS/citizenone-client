@@ -9443,6 +9443,7 @@
         "logout": "Logga ut",
         "notifications": "Notiser",
         "procedures": "Procedurer",
+        "shareCitizenOne": "Dela CitizenOne",
         "newWishes": "Nya önskemål",
         "comingFunctions": "Kommande funktioner",
         "reminders": "Påminnelser",
@@ -9453,6 +9454,22 @@
         "impersonating": "Inloggad som @:terms.citizen{''}",
         "stopImpersonation": "Logga ut som @:terms.citizen{''}",
         "surveys": "Enkäter"
+    },
+    "platformShare": {
+        "title": "Dela CitizenOne",
+        "intro": "Känner du andra som kan ha nytta av CitizenOne? Skicka din personliga länk till dem - det tar bara ett ögonblick.",
+        "yourLink": "Din personliga länk",
+        "copy": "Kopiera",
+        "copied": "Kopierad",
+        "shareVia": "Dela via",
+        "email": "E-post",
+        "sms": "SMS",
+        "more": "Fler appar",
+        "subject": "Prova CitizenOne",
+        "message": "Jag använder CitizenOne och tänkte att det kunde vara något för er också. Läs mer och skapa ett konto här:",
+        "thanksOnce": "Tack! Du har delat CitizenOne en gång.",
+        "thanks": "Tack! Du har delat CitizenOne {count} gånger.",
+        "loadFailed": "Länken kunde inte hämtas. Försök igen."
     },
     "news": {
         "confirmation": {
@@ -10545,6 +10562,8 @@
         "noCommitment": "Där är inga bindning, och du behöver inte koppla ett betalkort",
         "oauthBannerDescription": "Din {provider}-konto är inte kopplad CitizenOne ännu. Fyll i formuläret för att skapa din konto.",
         "oauthBannerTitle": "Vi fandt inte din konto",
+        "sharedBannerDescription": "En av våra kunder har delat CitizenOne med dig. Fyll i formuläret för att skapa ditt konto.",
+        "sharedBannerTitle": "Du har fått CitizenOne rekommenderat",
         "of": "Av",
         "register": "Skapa konto",
         "review": {
@@ -12554,6 +12573,7 @@
             },
             "source": {
                 "all": "Alla källor",
+                "share": "Delad av kund",
                 "search": "Sökmotor (organisk)",
                 "campaign": "Kampanj",
                 "referral": "Hänvisning",
@@ -13140,6 +13160,7 @@
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
+            "platformShares": "Delningar",
             "storageUsage": "Lagringsanvändning",
             "industries": "Branscher",
             "salesInquiries": "Förfrågningar"
@@ -13707,6 +13728,47 @@
             "successDeleted": "Lagringspaket raderat",
             "successUpdated": "Lagringspaket uppdaterat",
             "colPricePerGb": "Kr. per GB"
+        },
+        "platformShares": {
+            "header": "Delningar av CitizenOne",
+            "subtitle": "Vem som har delat CitizenOne via \"Dela CitizenOne\", och vem som har registrerat sig via en delad länk.",
+            "periods": {
+                "all": "Hela perioden",
+                "30d": "Senaste 30 dagarna",
+                "month": "Denna månad",
+                "year": "I år"
+            },
+            "cards": {
+                "users": "Användare som har delat",
+                "usersHint": "Olika användare",
+                "companies": "Kunder som har delat",
+                "companiesHint": "Olika företag",
+                "shares": "Delningar totalt",
+                "sharesHint": "Kopierad länk, e-post, LinkedIn m.m.",
+                "signups": "Registreringar via delning",
+                "signupsHint": "Nya kunder från en delad länk"
+            },
+            "byMethod": "Fördelat på kanal",
+            "methods": {
+                "copy": "Kopierad länk",
+                "email": "E-post",
+                "sms": "SMS",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Telefonens delning"
+            },
+            "company": "Kund",
+            "shares": "Delningar",
+            "users": "Användare",
+            "signups": "Registreringar",
+            "lastShared": "Senast delad",
+            "signupsTitle": "Registrerade via en delad länk",
+            "sharedBy": "Delad av {name} ({company})",
+            "noSignups": "Ingen har registrerat sig via en delad länk ännu.",
+            "recent": "Senaste delningar",
+            "method": "Kanal",
+            "when": "Tidpunkt",
+            "empty": "Ingen har delat CitizenOne under perioden."
         },
         "paymentFees": {
             "pageTitle": "Betalningsavgifter",
