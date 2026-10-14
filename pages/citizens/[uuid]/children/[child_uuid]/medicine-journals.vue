@@ -113,6 +113,8 @@
                                 }}
                                 {{ alarm.medicineName }} — {{ $t('citizens.medicineJournals.page.scheduledAt') }}
                                 {{ alarm.time }}
+                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="alarm.medicine?.is_self_administered"
+                                    class="ml-1 align-middle" />
                             </p>
                             <p
                                 :class="['text-xs mt-0.5', alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600']">
@@ -122,7 +124,9 @@
                         <button v-if="alarm.type === 'overdue'"
                             class="shrink-0 text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors"
                             @click="quickGive(alarm)">
-                            {{ $t('citizens.medicineJournals.page.giveNow') }}
+                            {{ alarm.medicine?.is_self_administered
+                                ? $t('citizens.medicineJournals.selfAdministered.handOutNow')
+                                : $t('citizens.medicineJournals.page.giveNow') }}
                         </button>
                     </div>
                 </div>
@@ -1290,7 +1294,11 @@ const alarmBanners = computed(() => {
                 if (d?.status) return
                 if (isMissed(d?.time)) {
                     const mins = minutesSince(d?.time)
-                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                    // A self-administered medicine is handed out, not given (task #115).
+                    const overdueKey = m?.is_self_administered
+                        ? 'citizens.medicineJournals.selfAdministered.overdue'
+                        : 'citizens.medicineJournals.page.medicineIsOverdue'
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t(overdueKey, { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
                 } else if (isDueSoon(d?.time)) {
                     banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
                 }
