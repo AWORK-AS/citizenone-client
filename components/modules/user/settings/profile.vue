@@ -141,6 +141,9 @@
                 </FormButton>
             </div>
         </form>
+        <ModulesUserSettingsNotificationPreferences
+            :emailMasterEnabled="!!state.formProfile.email_notifications_enabled"
+            :systemMasterEnabled="!!state.formProfile.system_notifications_enabled" />
     </LoadingSpinner>
 </template>
 

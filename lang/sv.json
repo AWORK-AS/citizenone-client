@@ -16226,6 +16226,21 @@
         "clampedNote": "Norm och saldo gäller bara {start} – {end}.",
         "pendingExtra": "{hours} väntar"
     },
+    "notificationPreferences": {
+        "title": "Aviseringstyper",
+        "subtitle": "Välj vilka aviseringar du får och hur. Obligatoriska aviseringar kan inte stängas av.",
+        "push": "Push",
+        "email": "E-post",
+        "frequency": "Frekvens",
+        "instant": "Direkt",
+        "hourly": "Sammanställning varje timme",
+        "required": "Obligatorisk",
+        "save": "Spara aviseringstyper",
+        "saved": "Aviseringstyper sparade",
+        "loadError": "Aviseringstyperna kunde inte läsas in.",
+        "retry": "Försök igen",
+        "masterOffHint": "Vissa reglage är nedtonade eftersom motsvarande reglage ovan (e-post- eller systemaviseringar) är avstängt."
+    },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",
         "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",

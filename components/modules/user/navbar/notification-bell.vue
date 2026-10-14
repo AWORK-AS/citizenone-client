@@ -177,6 +177,16 @@ const categories = computed(() => [
     { key: 'birthday', label: t('bellNotification.categories.birthday'), icon: 'ph:cake' },
 ])
 
+// Medication alerts: missed/upcoming dose, deviation/overdose incident, media risk.
+const MEDICATION_TYPES = [
+    'misseddosenotification',
+    'missedmedicinedosenotification',
+    'upcomingmedicinedosenotification',
+    'deviatedincidentpushnotification',
+    'unintendedincidentpushnotification',
+    'mediarisknotification',
+]
+
 function getCategory(type: string): string {
     if (!type) return 'other'
     if (type.toLowerCase().includes('dutyshiftrule')) return 'duty_shift'
@@ -191,6 +201,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
     if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
     if (type.toLowerCase().includes('employeedeletionreminder')) return 'employee_deletion_reminder'
+    if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
     return 'other'
 }
 
@@ -207,6 +218,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
     patient_booking: { bg: 'bg-primary/10', icon: 'ph:calendar-check', color: 'text-primary' },
     employee_deletion_reminder: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
+    medication: { bg: 'bg-accent-orange/10', icon: 'ph:pill', color: 'text-accent-orange' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -482,6 +494,27 @@ async function handleNotifClick(notif: any) {
         const citizenUuid = notif.data?.content?.citizen_uuid
         if (citizenUuid) {
             navigateTo(`/citizens/${citizenUuid}/surveys`)
+        }
+        return
+    }
+    if (getCategory(notif.type) === 'medication') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        // A media risk alert has no citizen to open.
+        const citizenUuid = notif.data?.content?.citizen_uuid
+        if (citizenUuid) {
+            navigateTo(`/citizens/${citizenUuid}/medicine-journals`)
         }
         return
     }

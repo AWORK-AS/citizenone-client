@@ -16226,6 +16226,21 @@
         "clampedNote": "Norm og saldo gjelder bare {start} – {end}.",
         "pendingExtra": "{hours} venter"
     },
+    "notificationPreferences": {
+        "title": "Varslingstyper",
+        "subtitle": "Velg hvilke varsler du mottar, og hvordan. Obligatoriske varsler kan ikke slås av.",
+        "push": "Push",
+        "email": "E-post",
+        "frequency": "Frekvens",
+        "instant": "Umiddelbart",
+        "hourly": "Samling hver time",
+        "required": "Påkrevd",
+        "save": "Lagre varslingstyper",
+        "saved": "Varslingstyper lagret",
+        "loadError": "Varslingstypene kunne ikke lastes inn.",
+        "retry": "Prøv igjen",
+        "masterOffHint": "Noen brytere er nedtonet fordi den tilsvarende bryteren ovenfor (e-post- eller systemvarsler) er slått av."
+    },
     "plansAndGoalsExport": {
         "title": "Eksport av planer og mål",
         "description": "Last ned planer, mål og delmål som en zip-fil med PDF-rapporter for mange innbyggere samtidig. La utvalget stå tomt for å eksportere hele selskapet.",

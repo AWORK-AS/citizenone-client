@@ -16322,6 +16322,21 @@
         "clampedNote": "Norm and balance cover {start} – {end} only.",
         "pendingExtra": "{hours} pending"
     },
+    "notificationPreferences": {
+        "title": "Notification types",
+        "subtitle": "Choose which notifications you receive, and how. Required notifications cannot be switched off.",
+        "push": "Push",
+        "email": "Email",
+        "frequency": "Frequency",
+        "instant": "Instant",
+        "hourly": "Hourly digest",
+        "required": "Required",
+        "save": "Save notification types",
+        "saved": "Notification types saved",
+        "loadError": "The notification types could not be loaded.",
+        "retry": "Try again",
+        "masterOffHint": "Some switches are greyed out because the matching switch above (email or system notifications) is turned off."
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",
