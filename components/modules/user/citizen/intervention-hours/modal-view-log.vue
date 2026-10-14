@@ -42,6 +42,10 @@
                         <p class="text-sm font-semibold text-gray-700">{{
                             formatDateTimeToReadable(props.selectedCareHour?.date_time_end) }}</p>
                     </div>
+                    <div class="space-y-1 my-1" v-if="props.selectedCareHour?.contract_hour_type?.name">
+                        <FormLabel :label="$t('citizens.interventionHours.view.hourType')" />
+                        <p class="text-sm font-semibold text-gray-700">{{ props.selectedCareHour.contract_hour_type.name }}</p>
+                    </div>
 
                     <div class="space-y-1 my-1" v-if="props.selectedCareHour?.is_transportation">
                         <FormLabel :label="startAddressLabel" />
