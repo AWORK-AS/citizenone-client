@@ -9,7 +9,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 
-const { formLabel, activeForms, asksFor, lockReason, toggleField } = await import('../../composables/inquiryForms.ts')
+const { formLabel, activeForms, asksFor, lockReason, toggleField, yesNoToBoolean, listItemName } = await import('../../composables/inquiryForms.ts')
 
 const names = { shelter: 'Herberg', crisisCenter: 'Krisecenter' }
 
@@ -86,5 +86,34 @@ describe('lockReason and toggleField', () => {
     test('adds a field back in the order the form shows it', () => {
         assert.deepEqual(toggleField(own, 'topic'), ['inquiry_date', 'cpr', 'topic'])
         assert.deepEqual(toggleField(own, 'inquirer_name'), ['inquiry_date', 'inquirer_name', 'cpr'])
+    })
+})
+
+describe('yesNoToBoolean', () => {
+    test('stores yes and no as true and false', () => {
+        assert.equal(yesNoToBoolean('yes'), true)
+        assert.equal(yesNoToBoolean('no'), false)
+    })
+
+    test('leaves an unanswered question empty instead of saying no', () => {
+        assert.equal(yesNoToBoolean(''), null)
+        assert.equal(yesNoToBoolean(null), null)
+        assert.equal(yesNoToBoolean(undefined), null)
+    })
+})
+
+describe('listItemName', () => {
+    const topic = { uuid: 't', en_name: 'Counseling regarding violence', dk_name: 'Rådgivning om vold' }
+
+    test('reads a fixed-list entry in the language of the user, Danish for all but English', () => {
+        assert.equal(listItemName(topic, 'en'), 'Counseling regarding violence')
+        assert.equal(listItemName(topic, 'dk'), 'Rådgivning om vold')
+        assert.equal(listItemName(topic, 'sv'), 'Rådgivning om vold')
+    })
+
+    test('keeps a plain name, and falls back rather than going blank', () => {
+        assert.equal(listItemName({ name: 'Afdeling 1' }, 'en'), 'Afdeling 1')
+        assert.equal(listItemName({ en_name: 'Only English' }, 'dk'), 'Only English')
+        assert.equal(listItemName(null, 'en'), '')
     })
 })

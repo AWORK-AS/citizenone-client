@@ -102,6 +102,7 @@
                 </div>
 
                 <TimeGrid :days="dayGridDays" :showHeader="false" :noteNudge="!props.readOnly"
+                    :statusActions="!props.readOnly" @markStatus="markEventAsStatus"
                     @createJournal="openCreateJournal" @eventClick="editMyCalendarEvent" />
             </div>
         </div>

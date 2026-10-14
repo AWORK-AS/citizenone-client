@@ -51,11 +51,11 @@
 </template>
 
 <script setup lang="ts">
-import { formLabel } from '@/composables/inquiryForms'
+import { CONTACTED_BY_LABELS, formLabel, listItemName } from '@/composables/inquiryForms'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 
 const props = defineProps({
@@ -72,15 +72,7 @@ const { formatDateToReadable } = useDatetimeFormatter()
 // The same option values the two forms offer, so a stored value reads here
 // exactly as it read in the dropdown that set it.
 const OPTION_LABELS: Record<string, Record<string, string>> = {
-    contacted_by: {
-        the_citizen_themselves: 'inquiries.form.options.contactedBy.theCitizenThemselves',
-        family_friend_neighbor_colleague_acquaintance: 'inquiries.form.options.contactedBy.familyFriends',
-        municipal_employee: 'inquiries.form.options.contactedBy.municipalEmployee',
-        police_prison_and_probation_service: 'inquiries.form.options.contactedBy.police',
-        healthcare_professional: 'inquiries.form.options.contactedBy.healthcareProfessional',
-        employee_from_another_crisis_center: 'inquiries.form.options.contactedBy.employeeFromAnotherCrisisCenter',
-        other: 'inquiries.form.options.contactedBy.other',
-    },
+    contacted_by: CONTACTED_BY_LABELS,
     assessment: {
         yes: 'inquiries.form.options.assessment.yes',
         no: 'inquiries.form.options.assessment.no',
@@ -125,6 +117,9 @@ const OPTION_LABELS: Record<string, Record<string, string>> = {
 }
 
 function option(group: string, value: any) {
+    // The yes/no questions are stored as booleans: false is an answer ("No"),
+    // only null means nobody answered.
+    if (typeof value === 'boolean') value = value ? 'yes' : 'no'
     if (!value) return ''
     const key = OPTION_LABELS[group]?.[value]
     // An unmapped value is still worth showing raw - better than an empty box
@@ -145,8 +140,9 @@ function reportingKey(value: string) {
     return value.replace(/_([a-z])/g, (_, c) => c.toUpperCase())
 }
 
+// Departments have a name; topics, reasons and guidance an en_name/dk_name.
 function names(list: any) {
-    return (list ?? []).map((item: any) => item?.name).filter(Boolean).join(', ')
+    return (list ?? []).map((item: any) => listItemName(item, locale.value)).filter(Boolean).join(', ')
 }
 
 const isShelter = computed(() => props.inquiry?.inquiry_type === 'shelter')

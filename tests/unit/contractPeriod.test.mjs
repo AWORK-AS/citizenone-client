@@ -11,7 +11,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    PRESET_KINDS, blankPresets, customFieldValues, customFieldsPayload, grantedTotal,
+    PRESET_KINDS, blankPresets, customFieldValues, customFieldsPayload, departmentChoices, grantedTotal,
     hourEntriesFromPeriod, hoursPayload, linesPayload, splitLines,
 } from '../../composables/contractPeriod.ts'
 
@@ -136,5 +136,36 @@ describe('custom fields', () => {
             { field_uuid: 'f-text', value: null },
             { field_uuid: 'f-num', value: 12.5 },
         ])
+    })
+})
+
+describe('department choices', () => {
+    const listed = [{ uuid: 'd-1', name: 'One' }, { uuid: 'd-2', name: 'Two' }]
+
+    test('the listed departments are offered as they are', () => {
+        assert.deepEqual(departmentChoices(listed, []), listed)
+    })
+
+    test("an edited period's inactive department is still offered", () => {
+        const inactive = { uuid: 'd-old', name: 'Old', is_active: false }
+
+        assert.deepEqual(departmentChoices(listed, [inactive]).map(d => d.uuid), ['d-1', 'd-2', 'd-old'])
+    })
+
+    test('a department created from the form is offered once', () => {
+        const created = { uuid: 'd-new', name: 'New' }
+
+        assert.deepEqual(departmentChoices(listed, [created, created]).map(d => d.uuid), ['d-1', 'd-2', 'd-new'])
+    })
+
+    test('no duplicate once the list has been fetched again', () => {
+        const refetched = [...listed, { uuid: 'd-new', name: 'New' }]
+
+        assert.deepEqual(departmentChoices(refetched, [{ uuid: 'd-new', name: 'New' }]), refetched)
+    })
+
+    test('a missing period department or list is ignored', () => {
+        assert.deepEqual(departmentChoices(listed, [null, undefined, {}]), listed)
+        assert.deepEqual(departmentChoices(undefined, [null]), [])
     })
 })

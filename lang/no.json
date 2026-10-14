@@ -2702,6 +2702,7 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Opprettet av",
                 "dateTimeEnd": "Dato og tid slutt",
+                "hourType": "Timetype",
                 "dateTimeStart": "Dato og tid start",
                 "endAddress": "Slutadresse",
                 "kilometers": "Kilometer",
@@ -7448,6 +7449,7 @@
         "createJournalNote": "Opprett @:terms.journalNote{''}",
         "markAsCompleted": "Merk som fullført",
         "markAsNotCompleted": "Merk som ikke fullført",
+        "statusMenuLabel": "Merk \"{title}\" som fullført eller ikke fullført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
         "noteNudge": {
@@ -8427,7 +8429,7 @@
             }
         },
         "inquiries": "Henvendelser",
-        "newInquiry": "Ny henvendelser",
+        "newInquiry": "Ny henvendelse",
         "shelterInquiry": "Herberger og forsorgshjem henvendelser",
         "table": {
             "actions": {
@@ -9108,7 +9110,8 @@
             "nameDanish": "Navn (dansk)",
             "nameEnglish": "Navn (engelsk)",
             "nameNorwegian": "Navn (norsk)",
-            "nameSwedish": "Navn (svensk)"
+            "nameSwedish": "Navn (svensk)",
+            "atLeastOneName": "Fyll inn navnet på minst ett språk."
         },
         "medicines": "Medisin",
         "newMedicine": "Ny medisin",
@@ -11062,6 +11065,7 @@
                 "missingNoteReminder": "Påminn om avtaler uten @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Varsle om @:terms.journalNotes{''} opprettet fra en avtale",
                 "certificateReminderAllRecipients": "Påminnelser om attester til alle administratorer og den ansatte",
+                "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
                 "patientHideClinicContactHint": "Pasientene ser bare klinikkens navn. Adresse og telefon står fortsatt på fakturaene deres",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
@@ -16436,6 +16440,7 @@
             "allStays": "Alle opphold",
             "noDepartment": "Ingen avdeling",
             "createDepartment": "Opprett kunder og avdelinger under Innstillinger",
+            "addDepartment": "Opprett kunde/avdeling",
             "priceType": "Prismodell",
             "priceTypes": {
                 "hourly": "Pris per levert time",

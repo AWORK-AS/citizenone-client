@@ -2702,6 +2702,7 @@
                 "citizen": "@.capitalize:terms.citizen{''}",
                 "createdBy": "Skapad av",
                 "dateTimeEnd": "Datum och tid slut",
+                "hourType": "Timtyp",
                 "dateTimeStart": "Datum och tid start",
                 "endAddress": "Slutadresse",
                 "kilometers": "Kilometer",
@@ -7448,6 +7449,7 @@
         "createJournalNote": "Skapa @:terms.journalNote{''}",
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
+        "statusMenuLabel": "Markera \"{title}\" som slutförd eller inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
         "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
         "noteNudge": {
@@ -8427,7 +8429,7 @@
             }
         },
         "inquiries": "Förfrågningar",
-        "newInquiry": "Ny förfrågningar",
+        "newInquiry": "Ny förfrågan",
         "shelterInquiry": "Herberger och forsorgshjem förfrågningar",
         "table": {
             "actions": {
@@ -9108,7 +9110,8 @@
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
             "nameNorwegian": "Namn (norska)",
-            "nameSwedish": "Namn (svenska)"
+            "nameSwedish": "Namn (svenska)",
+            "atLeastOneName": "Fyll i namnet på minst ett språk."
         },
         "medicines": "Medicin",
         "newMedicine": "Ny medicin",
@@ -11062,6 +11065,7 @@
                 "missingNoteReminder": "Påminn om bokningar utan @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Meddela om @:terms.journalNotes{''} skapade från en bokning",
                 "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
+                "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
@@ -16436,6 +16440,7 @@
             "allStays": "Alla vistelser",
             "noDepartment": "Ingen avdelning",
             "createDepartment": "Skapa kunder och avdelningar under Inställningar",
+            "addDepartment": "Skapa kund/avdelning",
             "priceType": "Prismodell",
             "priceTypes": {
                 "hourly": "Pris per levererad timme",

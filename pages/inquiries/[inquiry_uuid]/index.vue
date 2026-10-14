@@ -84,8 +84,8 @@
                          for, and the notes written along the way -->
                     <div class="space-y-5 lg:col-span-2">
                         <div class="rounded-lg border border-gray-200 bg-white p-5">
-                            <ModulesUserInquiryDetailReview v-if="state.inquiry?.uuid" :inquiry="state.inquiry"
-                                @edit="state.isEditOpen = true" @fieldsSaved="fetchAll" />
+                            <ModulesUserInquiryDetailReview v-if="state.inquiry?.uuid" :key="state.reviewKey"
+                                :inquiry="state.inquiry" @edit="state.isEditOpen = true" @fieldsSaved="fetchAll" />
                         </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryInvitationsPanel :inquiryUuid="state.inquiry.uuid" />
@@ -219,7 +219,7 @@
             </div>
 
             <ModulesUserInquiryModalEdit :isModalOpen="state.isEditOpen" :selectedInquiry="state.inquiry ?? {}"
-                @close="state.isEditOpen = false" @refreshInquiries="fetchAll" />
+                @close="state.isEditOpen = false" @refreshInquiries="onEdited" />
 
             <ModulesUserInquiryModalMarkLost :isModalOpen="state.isLostOpen" @close="state.isLostOpen = false"
                 @confirm="confirmLost" />
@@ -273,6 +273,8 @@ const state = reactive({
     missingFields: [] as string[],
     nextStage: null as any,
     stages: [] as any[],
+    // Bumped after an edit, so the custom fields shown inline reload too.
+    reviewKey: 0,
 })
 
 const shelterName = computed(() => customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'))
@@ -347,6 +349,13 @@ async function fetchAll() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+// The edit form also saves the custom fields, which the review below loads
+// once; remounting it shows what was just saved.
+function onEdited() {
+    state.reviewKey++
+    fetchAll()
 }
 
 const historyPanel = ref<any>(null)

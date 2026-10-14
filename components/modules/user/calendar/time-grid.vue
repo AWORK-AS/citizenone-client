@@ -46,29 +46,72 @@
                             </div>
                         </div>
                         <!-- events -->
-                        <button v-for="ev in day.events" :key="ev.uuid" type="button"
-                            :aria-label="ev.title"
-                            class="group/ev absolute overflow-hidden rounded-md border-l-2 px-1.5 py-0.5 text-left transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
-                            :class="[ev.colorClass, ev.completed && 'opacity-70', ev.isNow && 'ring-1 ring-inset ring-red-400']"
-                            :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width, ...ev.tagStyle }"
-                            @click.stop="$emit('eventClick', ev.raw)">
-                            <span class="flex items-center gap-x-1">
-                                <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
-                                <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>
-                                <!-- Part of a repeating plan (task #133). -->
-                                <Icon v-if="ev.raw?.is_recurring" name="ph:repeat" class="h-3 w-3 flex-none opacity-80"
-                                    :title="$t('events.recurringScope.repeating')" />
-                                <!-- A journal note has been written from this booking. -->
-                                <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
-                                    :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
-                                <!-- Ended without its note: write it from here. -->
-                                <ModulesUserMyCalendarNoteNudge v-if="props.noteNudge" compact :event="ev.raw"
-                                    @create="$emit('createJournal', ev.raw)" />
-                            </span>
-                            <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
-                                {{ ev.timeLabel }}
-                            </span>
-                        </button>
+                        <div v-for="ev in day.events" :key="ev.uuid" class="event-slot group/ev absolute"
+                            :style="{ top: ev.top + 'px', height: ev.height + 'px', left: ev.left, width: ev.width }">
+                            <button type="button"
+                                :aria-label="ev.title"
+                                class="h-full w-full overflow-hidden rounded-md border-l-2 px-1.5 py-0.5 text-left transition active:scale-[0.99] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                                :class="[ev.colorClass, ev.completed && 'opacity-70', ev.isNow && 'ring-1 ring-inset ring-red-400']"
+                                :style="ev.tagStyle"
+                                @click.stop="$emit('eventClick', ev.raw)">
+                                <span class="flex items-center gap-x-1">
+                                    <span v-if="ev.isNow" class="h-1.5 w-1.5 flex-none rounded-full bg-red-500 motion-safe:animate-pulse"></span>
+                                    <span class="truncate text-[11px] font-semibold" :class="ev.completed && 'line-through'">{{ ev.title }}</span>
+                                    <!-- Part of a repeating plan (task #133). -->
+                                    <Icon v-if="ev.raw?.is_recurring" name="ph:repeat" class="h-3 w-3 flex-none opacity-80"
+                                        :title="$t('events.recurringScope.repeating')" />
+                                    <!-- A journal note has been written from this booking. -->
+                                    <Icon v-if="ev.hasNote" name="ph:notebook" class="h-3 w-3 flex-none opacity-80"
+                                        :title="$t('events.linkedNote', { title: ev.raw.journal?.title ?? '' })" />
+                                    <!-- Ended without its note: write it from here. -->
+                                    <ModulesUserMyCalendarNoteNudge v-if="props.noteNudge" compact :event="ev.raw"
+                                        @create="$emit('createJournal', ev.raw)" />
+                                </span>
+                                <span v-if="ev.height >= 30" class="block truncate text-[10px] tabular-nums opacity-75">
+                                    {{ ev.timeLabel }}
+                                </span>
+                            </button>
+                            <!-- Done / not done, as in the month view's menu. A sibling of the chip
+                                 (a button can't hold a button); shows on hover and keyboard focus.
+                                 Never on shifts. Each item applies to this one occurrence. -->
+                            <Menu v-if="props.statusActions && !ev.raw?.is_shift" as="div"
+                                class="status-menu absolute right-0.5 top-0.5 opacity-0 transition-opacity group-hover/ev:opacity-100 group-focus-within/ev:opacity-100"
+                                @click.stop @dblclick.stop>
+                                <MenuButton :aria-label="$t('events.statusMenuLabel', { title: ev.title ?? '' })"
+                                    class="flex items-center rounded bg-white/90 p-0.5 text-gray-500 shadow-sm ring-1 ring-gray-200 hover:text-gray-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+                                    @click="placeStatusMenu" @keydown="placeStatusMenu">
+                                    <Icon name="heroicons:ellipsis-horizontal" class="h-3.5 w-3.5" aria-hidden="true" />
+                                </MenuButton>
+                                <Teleport to="body">
+                                    <transition enter-active-class="transition ease-out duration-100"
+                                        enter-from-class="transform opacity-0 scale-95"
+                                        enter-to-class="transform opacity-100 scale-100"
+                                        leave-active-class="transition ease-in duration-75"
+                                        leave-from-class="transform opacity-100 scale-100"
+                                        leave-to-class="transform opacity-0 scale-95">
+                                        <MenuItems :style="{ left: menuPos.x + 'px', top: menuPos.y + 'px' }"
+                                            class="fixed z-[60] w-60 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+                                            <MenuItem v-if="ev.raw?.completion_status !== 'completed'" v-slot="{ active }">
+                                                <button type="button"
+                                                    :class="[active && 'bg-gray-100', 'text-green-700', 'flex w-full items-center gap-x-1.5 px-4 py-2 text-left text-sm']"
+                                                    @click.stop="$emit('markStatus', ev.raw, 'completed')">
+                                                    <Icon name="ph:check-circle" class="h-4 w-4" aria-hidden="true" />
+                                                    {{ $t('events.markAsCompleted') }}
+                                                </button>
+                                            </MenuItem>
+                                            <MenuItem v-if="ev.raw?.completion_status !== 'not_completed'" v-slot="{ active }">
+                                                <button type="button"
+                                                    :class="[active && 'bg-gray-100', 'text-red-700', 'flex w-full items-center gap-x-1.5 px-4 py-2 text-left text-sm']"
+                                                    @click.stop="$emit('markStatus', ev.raw, 'not_completed')">
+                                                    <Icon name="ph:x-circle" class="h-4 w-4" aria-hidden="true" />
+                                                    {{ $t('events.markAsNotCompleted') }}
+                                                </button>
+                                            </MenuItem>
+                                        </MenuItems>
+                                    </transition>
+                                </Teleport>
+                            </Menu>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,6 +121,7 @@
 
 <script setup lang="ts">
 import { eventTagColor, tintColor } from '@/composables/calendarEventPresentation'
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import moment from 'moment'
 
 const props = defineProps({
@@ -86,8 +130,11 @@ const props = defineProps({
     showHeader: { type: Boolean, default: true },
     // Show the "note missing" badge on citizen bookings (my calendar only).
     noteNudge: { type: Boolean, default: false },
+    // Offer "mark as completed / not completed" on each event (emits markStatus).
+    // Off unless the page handles it: the patient portal and the child calendar don't.
+    statusActions: { type: Boolean, default: false },
 })
-defineEmits(['eventClick', 'dayClick', 'slotDblClick', 'createJournal'])
+defineEmits(['eventClick', 'dayClick', 'slotDblClick', 'createJournal', 'markStatus'])
 
 const hourHeight = 48
 const hours = Array.from({ length: 24 }, (_, i) => i)
@@ -122,6 +169,20 @@ onMounted(() => {
     })
 })
 onUnmounted(() => timer && clearInterval(timer))
+
+// The status menu is teleported to <body> (fixed position) so the scrolling
+// grid can't clip it, as the month view does. Placed on click and on the keys
+// that open it, below the button, or above it near the bottom of the screen.
+const menuPos = reactive({ x: 0, y: 0 })
+function placeStatusMenu(e: Event) {
+    const rect = (e.currentTarget as HTMLElement).getBoundingClientRect()
+    const width = 240 // w-60
+    const height = 80 // two items
+    menuPos.x = Math.max(8, rect.right - width)
+    menuPos.y = rect.bottom + 4 + height > window.innerHeight
+        ? Math.max(8, rect.top - height - 4)
+        : rect.bottom + 4
+}
 
 function hourLabel(h: number) {
     return h === 0 ? '' : String(h).padStart(2, '0')
@@ -198,3 +259,25 @@ const laidOut = computed(() => {
     })
 })
 </script>
+
+<style scoped>
+/* Overlapping events share a day column, so a chip can get very narrow. Below
+   48px the status button would cover the chip and take its click, so it hides
+   there; the chip's modal offers the same two actions. */
+.event-slot {
+    container-type: inline-size;
+}
+
+@container (max-width: 47px) {
+    .status-menu {
+        display: none;
+    }
+}
+
+/* No hover on touch screens: keep the button visible. */
+@media (hover: none) {
+    .status-menu {
+        opacity: 1;
+    }
+}
+</style>
