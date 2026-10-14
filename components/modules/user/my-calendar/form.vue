@@ -32,14 +32,34 @@
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
 
-            <div class="space-y-1 flex items-center gap-x-2">
+            <!-- Video consultation in the patient portal: only for an event with a
+                 patient on it, at a clinic that has the patient portal. -->
+            <div class="space-y-2" v-if="canOfferVideoConsultation">
+                <div class="flex items-center gap-x-2">
+                    <FormSwitch :value="state.formSchedule.is_video_consultation"
+                        @toggleSwitch="toggleVideoConsultation" />
+                    <div>
+                        <p>{{ $t('videoConsultation.toggle') }}</p>
+                        <p class="text-xs text-[#8891A4]">{{ $t('videoConsultation.toggleHint') }}</p>
+                    </div>
+                </div>
+                <FormButton v-if="props.selectedSchedule?.is_video_consultation" type="button" buttonStyle="primary"
+                    @click="navigateTo(`/video-consultations/${props.selectedSchedule.uuid}`)">
+                    <span class="flex items-center gap-2">
+                        <Icon name="ph:video-camera" class="h-5 w-5" aria-hidden="true" />
+                        {{ $t('videoConsultation.joinButton') }}
+                    </span>
+                </FormButton>
+            </div>
+
+            <div class="space-y-1 flex items-center gap-x-2" v-if="!state.formSchedule.is_video_consultation">
                 <FormSwitch :value="state.formSchedule.is_online_meeting"
                     @toggleSwitch="state.formSchedule.is_online_meeting = !state.formSchedule.is_online_meeting" />
                 <p>
                     {{ $t('events.onlineMeeting.toggle') }}
                 </p>
             </div>
-            <div class="space-y-1" v-if="state.formSchedule.is_online_meeting">
+            <div class="space-y-1" v-if="state.formSchedule.is_online_meeting && !state.formSchedule.is_video_consultation">
                 <FormLabel for="meeting_url" :label="$t('events.onlineMeeting.linkLabel')" />
                 <FormTextField id="meeting_url" name="meeting_url"
                     placeholder="https://teams.microsoft.com/..." v-model="state.formSchedule.meeting_url" />
@@ -309,6 +329,21 @@ const isEmploymentServices = computed(
     () => userStore.getUser?.company?.industry?.system_name === 'employment_services'
 )
 
+// A video consultation is held with the patient on the event, through the
+// patient portal - so only for an event with a citizen, at a clinic with the app.
+const canOfferVideoConsultation = computed(
+    () => !!userStore.getUser?.has_patient_app && !!props.selectedSchedule?.citizen_id
+)
+
+// One way to meet online at a time: the portal's own video or an external link.
+function toggleVideoConsultation() {
+    state.formSchedule.is_video_consultation = !state.formSchedule.is_video_consultation
+    if (state.formSchedule.is_video_consultation) {
+        state.formSchedule.is_online_meeting = false
+        state.formSchedule.meeting_url = ''
+    }
+}
+
 interface Option {
     value: string
     label: string
@@ -328,6 +363,7 @@ const state = reactive({
         is_private: false,
         is_online_meeting: false,
         meeting_url: '',
+        is_video_consultation: false,
         citizens_uuid: [],
         users_uuid: [],
         calendar_tag_uuid: [] as any,
@@ -466,6 +502,7 @@ onMounted(() => {
         is_private: props.selectedSchedule.is_private,
         is_online_meeting: props.selectedSchedule.is_online_meeting ?? false,
         meeting_url: props.selectedSchedule.meeting_url ?? '',
+        is_video_consultation: props.selectedSchedule.is_video_consultation ?? false,
         citizens_uuid: props.selectedSchedule.citizens_uuid,
         users_uuid: props.selectedSchedule.users_uuid,
         calendar_tag_uuid: [],

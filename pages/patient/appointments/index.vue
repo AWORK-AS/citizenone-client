@@ -36,7 +36,11 @@
                                     <Icon name="heroicons:clock" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                                     {{ formatDateTime(appointment.date_time_start) }}
                                 </p>
-                                <p class="mt-1 text-sm text-gray-600 flex items-center gap-2" v-if="appointment.location">
+                                <p class="mt-1 text-sm text-primary flex items-center gap-2" v-if="appointment.is_video_consultation">
+                                    <Icon name="ph:video-camera" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('videoConsultation.title') }}
+                                </p>
+                                <p class="mt-1 text-sm text-gray-600 flex items-center gap-2" v-else-if="appointment.location">
                                     <Icon name="heroicons:map-pin" class="h-4 w-4 text-gray-400" aria-hidden="true" />
                                     {{ appointment.location }}
                                 </p>
@@ -65,7 +69,20 @@
                                             </span>
                                         </dd>
                                     </div>
-                                    <div class="flex gap-4" v-if="selected.location">
+                                    <div class="flex gap-4" v-if="selected.is_video_consultation && selected.video_consultation_uuid">
+                                        <dt class="w-32 shrink-0 italic text-gray-400">{{ $t('patient.appointments.where') }}</dt>
+                                        <dd class="text-gray-900 space-y-2">
+                                            <p>{{ $t('videoConsultation.appointmentHelp') }}</p>
+                                            <FormButton v-if="state.filter === 'upcoming'" type="button" buttonStyle="primary"
+                                                @click="navigateTo(`/patient/video/${selected.video_consultation_uuid}`)">
+                                                <span class="flex items-center gap-2">
+                                                    <Icon name="ph:video-camera" class="h-5 w-5" aria-hidden="true" />
+                                                    {{ $t('videoConsultation.joinButton') }}
+                                                </span>
+                                            </FormButton>
+                                        </dd>
+                                    </div>
+                                    <div class="flex gap-4" v-else-if="selected.location">
                                         <dt class="w-32 shrink-0 italic text-gray-400">{{ $t('patient.appointments.where') }}</dt>
                                         <dd class="text-gray-900">{{ selected.location }}</dd>
                                     </div>
