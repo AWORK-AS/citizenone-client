@@ -76,6 +76,7 @@
                     </div>
                     <FormTextField v-else :id="`dyn_field_${field.uuid}`" :name="`dyn_field_${field.uuid}`"
                         placeholder="" v-model="state.formJournal.field_answers[i].response" />
+                    <FormError :error="props?.error?.errors?.[`field_answers.${i}.response`]?.[0]" />
                 </div>
             </div>
             <div class="space-y-3" v-if="linkedCompletedSurveys.length > 0">
