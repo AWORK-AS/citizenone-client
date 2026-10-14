@@ -15563,7 +15563,8 @@
         },
         "source": {
             "internal": "Ifylld internt",
-            "citizen": "Ifylld av medborgare"
+            "citizen": "Ifylld av medborgare",
+            "sentToCitizen": "Skickat till medborgare"
         },
         "empty": {
             "title": "Ingen besvarelser endnu",
