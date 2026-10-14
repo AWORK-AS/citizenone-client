@@ -15482,7 +15482,8 @@
         },
         "source": {
             "internal": "Udfyldt internt",
-            "citizen": "Utfylt av innbygger"
+            "citizen": "Utfylt av innbygger",
+            "sentToCitizen": "Sendt til innbygger"
         },
         "empty": {
             "title": "Ingen besvarelser endnu",

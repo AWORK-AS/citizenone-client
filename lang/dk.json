@@ -15578,7 +15578,8 @@
         },
         "source": {
             "internal": "Udfyldt internt",
-            "citizen": "Udfyldt af @:terms.citizen{''}"
+            "citizen": "Udfyldt af @:terms.citizen{''}",
+            "sentToCitizen": "Sendt til @:terms.citizen{''}"
         },
         "empty": {
             "title": "Ingen besvarelser endnu",

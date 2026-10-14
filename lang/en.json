@@ -15578,7 +15578,8 @@
         },
         "source": {
             "internal": "Filled out internally",
-            "citizen": "Filled out by @:terms.citizen{''}"
+            "citizen": "Filled out by @:terms.citizen{''}",
+            "sentToCitizen": "Sent to @:terms.citizen{''}"
         },
         "empty": {
             "title": "No responses yet",

@@ -86,7 +86,7 @@
                                             {{ a?.status === 'completed' ? $t('surveys.status.completed') : $t('surveys.status.pending') }}
                                         </span>
                                     </td>
-                                    <td><p>{{ a?.source === 'internal' ? $t('surveys.source.internal') : $t('surveys.source.citizen') }}</p></td>
+                                    <td><p>{{ sourceLabel(a) }}</p></td>
                                     <td><p>{{ formatDate(a?.created_at) }}</p></td>
                                     <td><p>{{ a?.completed_at ? formatDate(a?.completed_at) : '-' }}</p></td>
                                     <td>
@@ -288,6 +288,12 @@ function resolveAnswer(def: any, answer: any) {
     if (def?.type === 'choice') return def?.options?.[answer] ?? '-'
     if (def?.type === 'checkbox' && Array.isArray(answer)) return answer.map((i: any) => def?.options?.[i]).filter(Boolean).join(', ') || '-'
     return String(answer)
+}
+
+// A questionnaire sent to the citizen is only "filled out by" them once they have answered it.
+function sourceLabel(a: any) {
+    if (a?.source === 'internal') return t('surveys.source.internal')
+    return a?.status === 'completed' ? t('surveys.source.citizen') : t('surveys.source.sentToCitizen')
 }
 
 function scoreLabel(score: any, ranges: any) {
