@@ -261,6 +261,16 @@
                             </div>
                         </div>
 
+                        <!-- Special prices per indsatstype, used by inquiry offers, so
+                             only with the inquiry pipeline. They are kept on a saved
+                             customer, each row on its own. -->
+                        <div v-if="hasInquiryPipeline" class="space-y-3 border-t border-surface-200 pt-4 first:border-0 first:pt-0">
+                            <p class="text-sm font-semibold text-slate-900">{{ $t('socialWelfare.customerDepartments.specialPrices.title') }}</p>
+                            <ModulesUserEconomyCustomerSpecialPrices v-if="props.department?.uuid"
+                                :departmentUuid="props.department.uuid" :canEdit="canEditSpecialPrices" />
+                            <p v-else class="text-[12px] text-slate-500">{{ $t('socialWelfare.customerDepartments.specialPrices.saveFirst') }}</p>
+                        </div>
+
                         <div class="space-y-3 border-t border-surface-200 pt-4 first:border-0 first:pt-0">
                             <p class="text-sm font-semibold text-slate-900">{{ $t('socialWelfare.customerDepartments.sections.cooperation') }}</p>
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -331,6 +341,7 @@ import { socialWelfareService } from '@/components/api/user/SocialWelfareService
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { departmentPayload, emptyDepartmentForm, formFromDepartment } from '@/composables/customerDepartment'
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 import type { PaymentTerm } from '@/types/contract'
@@ -343,6 +354,13 @@ const emit = defineEmits(['close', 'saved'])
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { isAtLeast, can } = usePermissions()
+const userStore = useUserStore() as any
+
+// The same rule as the special-price endpoints: the pipeline licensed and on,
+// and kept by whoever may keep the customer departments.
+const hasInquiryPipeline = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+const canEditSpecialPrices = computed(() => isAtLeast('Admin') || can('create') || can('update'))
 
 const state = reactive({
     error: {} as Error,

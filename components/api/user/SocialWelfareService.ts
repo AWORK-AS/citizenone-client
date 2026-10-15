@@ -55,6 +55,24 @@ class SocialWelfareService extends BaseAPIService {
         return await this.request(`/user/social-welfare/customer-departments/${uuid}`, 'DELETE')
     }
 
+    // A department's special prices (særpriser) per indsatstype, with the
+    // types one can be given for (`service_types`). Inquiry pipeline only.
+    async getCustomerDepartmentSpecialPrices(uuid: string): Promise<any> {
+        return await this.request(`/user/social-welfare/customer-departments/${uuid}/special-prices`, 'GET')
+    }
+
+    async saveCustomerDepartmentSpecialPrice(uuid: string, payload: object): Promise<any> {
+        return await this.request(`/user/social-welfare/customer-departments/${uuid}/special-prices`, 'POST', payload)
+    }
+
+    async updateCustomerDepartmentSpecialPrice(uuid: string, priceUuid: string, payload: object): Promise<any> {
+        return await this.request(`/user/social-welfare/customer-departments/${uuid}/special-prices/${priceUuid}`, 'PUT', payload)
+    }
+
+    async deleteCustomerDepartmentSpecialPrice(uuid: string, priceUuid: string): Promise<any> {
+        return await this.request(`/user/social-welfare/customer-departments/${uuid}/special-prices/${priceUuid}`, 'DELETE')
+    }
+
     // WorkZone export (xlsx or csv). A dry run only reports what would happen;
     // dry_run=false writes it all in one transaction.
     async importCustomerDepartments(file: File, dryRun: boolean): Promise<DataEnvelope<ImportResult>> {
