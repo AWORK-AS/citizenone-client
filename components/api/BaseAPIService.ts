@@ -1,5 +1,6 @@
 import APIError from '@/components/api/user/APIError'
 import { clearSessionToken } from '@/composables/useDesktopToken'
+import { forgetChatSession } from '@/composables/obiyenChatSession'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -652,6 +653,9 @@ class BaseAPIService {
         // it would make the impersonation banner show for whoever logs in next
         // on this browser, impersonated or not.
         localStorage.removeItem("_original_token")
+        // The session is over, so whoever logs in next on this browser must
+        // not inherit this user's support chat either.
+        forgetChatSession()
 
         // A page fires several requests in parallel (sidebar counts, lists, the
         // page's own data), so an expired session 401s several times at once.
