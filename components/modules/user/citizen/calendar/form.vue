@@ -263,6 +263,7 @@ import { shiftService } from '@/components/api/user/ShiftService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useDepartmentStore } from '@/store/department'
+import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
 import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -478,6 +479,15 @@ onMounted(() => {
             yearly_on_the_day: '',
             is_apply_to_all: false,
         },
+    }
+})
+
+// As in the main calendar's form: a new event is an hour, and its end follows
+// the start. This also replaces the opening defaults (start = end on a picked
+// day, 00:00-23:59 otherwise) with start + 1 hour.
+watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
+    if (dateTimeStart) {
+        state.formSchedule.date_time_end = moment(dateTimeStart).add(60, 'minutes').format('YYYY-MM-DD HH:mm')
     }
 })
 
