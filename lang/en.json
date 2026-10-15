@@ -979,6 +979,34 @@
             "archivedSubgoals": "Archived subgoals"
         }
     },
+    "cody": {
+        "adoption": {
+            "headline": "Give your team time back with Cody",
+            "headlineBody": "Cody saves 2.37 hours of administration per employee per day on average, measured among active users.",
+            "tryFree": "Try Cody free for 14 days",
+            "tryFreeShort": "Try free for 14 days",
+            "readMore": "Read more",
+            "enableTitle": "Give your team time back with Cody",
+            "turnOn": "Turn on Cody",
+            "trialLeft": "Cody trial: {count} day left | Cody trial: {count} days left",
+            "buy": "Buy Cody",
+            "requestTitle": "Want Cody?",
+            "requestBody": "Ask your administrator to turn it on.",
+            "askAdmin": "Ask your administrator to turn on Cody",
+            "sent": "Sent to your administrator",
+            "noAdmin": "We could not find an administrator to send this to.",
+            "requestFailed": "That did not work. Please try again shortly.",
+            "promptTitle": "Bring Cody into your day",
+            "goToStore": "Go to the App Store",
+            "confirmTitle": "Start the 14-day free trial",
+            "confirmBody": "Everyone in the company gets Cody for 14 days. Nothing is billed, and the trial stops by itself.",
+            "confirmStart": "Start trial",
+            "trialError": {
+                "notAllowed": "The trial cannot be started for your company.",
+                "failed": "Could not start the trial. Please try again."
+            }
+        }
+    },
     "assistants": {
         "askAI": "Ask Cody",
         "actions": {

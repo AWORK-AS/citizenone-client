@@ -7,7 +7,7 @@
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-3 !h-9 !py-0"
             :aria-expanded="assistantStore.isOpen"
             :aria-label="ariaLabel"
-            @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
+            @click="onPress()">
             <!-- The mark carries the state, so the count is not the only thing
             saying there is something waiting. -->
             <ModulesUserNavbarCodyMark :size="20" :state="waiting > 0 ? 'attention' : 'idle'"
@@ -36,6 +36,15 @@ import { useAssistantStore } from '@/store/assistant'
 const userStore = useUserStore() as any
 const assistantStore = useAssistantStore()
 const { t } = useI18n()
+const { promptOpen, load: loadAdoption } = useCodyAdoption()
+
+// No access: a small prompt that fits the person (try it, buy it, or ask the
+// admin) instead of dropping them in the app store.
+function onPress() {
+    if (userStore.getUser?.has_ai_access) return assistantStore.toggle()
+    loadAdoption()
+    promptOpen.value = true
+}
 
 // A shortcut nobody is told about is a shortcut nobody uses, and the button is
 // the only place people look. Mac gets the symbol it expects.

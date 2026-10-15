@@ -979,6 +979,34 @@
             "archivedSubgoals": "Arkiverte delmål"
         }
     },
+    "cody": {
+        "adoption": {
+            "headline": "Gi de ansatte tid tilbake med Cody",
+            "headlineBody": "Cody sparer i snitt 2,37 timer administrasjon per ansatt per dag, målt blant aktive brukere.",
+            "tryFree": "Prøv Cody gratis i 14 dager",
+            "tryFreeShort": "Prøv gratis i 14 dager",
+            "readMore": "Les mer",
+            "enableTitle": "Gi de ansatte tid tilbake med Cody",
+            "turnOn": "Slå på Cody",
+            "trialLeft": "Cody-prøveperiode: {count} dag igjen | Cody-prøveperiode: {count} dager igjen",
+            "buy": "Kjøp Cody",
+            "requestTitle": "Vil du ha Cody?",
+            "requestBody": "Be administratoren din om å slå den på.",
+            "askAdmin": "Be administratoren din slå på Cody",
+            "sent": "Sendt til administratoren deres",
+            "noAdmin": "Vi fant ingen administrator å sende dette til.",
+            "requestFailed": "Det gikk ikke. Prøv igjen om litt.",
+            "promptTitle": "Ta Cody med inn i hverdagen",
+            "goToStore": "Gå til App-butikken",
+            "confirmTitle": "Start 14 dagers gratis prøve",
+            "confirmBody": "Alle i virksomheten får Cody i 14 dager. Ingenting faktureres, og prøven stopper av seg selv.",
+            "confirmStart": "Start prøven",
+            "trialError": {
+                "notAllowed": "Prøveperioden kan ikke startes for virksomheten deres.",
+                "failed": "Kunne ikke starte prøven. Prøv igjen."
+            }
+        }
+    },
     "assistants": {
         "askAI": "Spør Cody",
         "actions": {

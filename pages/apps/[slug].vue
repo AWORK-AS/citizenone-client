@@ -84,6 +84,17 @@
                                 {{ app.is_one_time_fee ? $t('apps.orderNow') : $t('apps.activate') }}
                             </FormButton>
 
+                            <FormButton v-if="showCodyTrial" type="button" buttonStyle="action"
+                                class="w-full justify-center" :disabled="trialBusy" @click="confirmTrialOpen = true">
+                                {{ $t('cody.adoption.tryFreeShort') }}
+                            </FormButton>
+                            <p v-if="showCodyTrial && trialError" class="text-xs text-red-600">
+                                {{ $t(`cody.adoption.trialError.${trialError}`) }}
+                            </p>
+                            <DialogConfirmation :isModalOpen="confirmTrialOpen" :title="$t('cody.adoption.confirmTitle')"
+                                :message="$t('cody.adoption.confirmBody')" :confirmLabel="$t('cody.adoption.confirmStart')"
+                                @close="confirmTrialOpen = false" @confirm="startCodyTrial()" />
+
                             <FormButton type="button" buttonStyle="action" class="w-full justify-center"
                                 @click="state.isContactOpen = true">
                                 {{ $t('apps.contactUs') }}
@@ -244,7 +255,20 @@ async function openPartner(link: string) {
     }
 }
 
-onMounted(fetchApp)
+const { status: codyStatus, trialBusy, trialError, load: loadCodyAdoption, startTrial } = useCodyAdoption()
+const confirmTrialOpen = ref(false)
+const isCodyApp = computed(() => state.app?.generic_name === 'citizenone-ai' || state.app?.slug === 'cody')
+const showCodyTrial = computed(() => isCodyApp.value && !!codyStatus.value?.can_manage
+    && !!codyStatus.value?.trial?.available && !state.app?.user_activated)
+
+async function startCodyTrial() {
+    if (await startTrial()) await fetchApp()
+}
+
+onMounted(() => {
+    fetchApp()
+    loadCodyAdoption()
+})
 
 async function fetchApp() {
     state.error = {}
