@@ -16487,6 +16487,8 @@
                 "hourlyRate": "Timepris",
                 "adminRate": "Timepris, administration",
                 "transportRate": "Timepris, transport",
+                "adminShort": "Administration",
+                "transportShort": "Transport",
                 "note": "Bemærkning",
                 "standard": "Standard: {amount}",
                 "noStandard": "Ingen standardtimepris",

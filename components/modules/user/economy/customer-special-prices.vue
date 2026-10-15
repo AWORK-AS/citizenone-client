@@ -9,11 +9,12 @@
             <table class="w-full text-sm">
                 <thead class="border-b border-surface-200 bg-surface-50">
                     <tr>
-                        <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.serviceType') }}</th>
+                        <th class="co-th min-w-[200px]">{{ $t('socialWelfare.customerDepartments.specialPrices.serviceType') }}</th>
                         <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.validFrom') }}</th>
-                        <th class="co-th text-right">{{ $t('socialWelfare.customerDepartments.specialPrices.hourlyRate') }}</th>
-                        <th class="co-th text-right">{{ $t('socialWelfare.customerDepartments.specialPrices.adminRate') }}</th>
-                        <th class="co-th text-right">{{ $t('socialWelfare.customerDepartments.specialPrices.transportRate') }}</th>
+                        <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.hourlyRate') }}</th>
+                        <!-- Short headers, so the row fits the form without scrolling sideways. -->
+                        <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.adminShort') }}</th>
+                        <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.transportShort') }}</th>
                         <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.note') }}</th>
                         <th v-if="props.canEdit" class="co-th"></th>
                     </tr>
@@ -21,19 +22,19 @@
                 <tbody>
                     <tr v-for="price in state.prices" :key="price.uuid" class="border-t border-surface-100 first:border-t-0"
                         :class="state.editing?.uuid === price.uuid && 'bg-[#f0fafd]'">
-                        <td class="co-td">
+                        <td class="co-td min-w-[200px]">
                             <p class="text-slate-800">{{ price.service_type?.label }}</p>
-                            <p class="text-[11px] text-slate-400">{{ standardText(price.service_type?.uuid) }}</p>
+                            <p class="whitespace-nowrap text-[11px] text-slate-400">{{ standardText(price.service_type?.uuid) }}</p>
                         </td>
                         <td class="co-td whitespace-nowrap text-slate-600">{{ formatDateToReadable(price.valid_from) }}</td>
-                        <td class="co-td whitespace-nowrap text-right tabular-nums font-semibold text-slate-800">{{ formatPrice(price.hourly_rate) }}</td>
-                        <td class="co-td whitespace-nowrap text-right tabular-nums text-slate-600">
+                        <td class="co-td whitespace-nowrap tabular-nums font-semibold text-slate-800">{{ formatPrice(price.hourly_rate) }}</td>
+                        <td class="co-td whitespace-nowrap tabular-nums text-slate-600">
                             {{ formatPrice(price.admin_hourly_rate) || $t('socialWelfare.customerDepartments.specialPrices.followsStandard') }}
                         </td>
-                        <td class="co-td whitespace-nowrap text-right tabular-nums text-slate-600">
+                        <td class="co-td whitespace-nowrap tabular-nums text-slate-600">
                             {{ formatPrice(price.transport_hourly_rate) || $t('socialWelfare.customerDepartments.specialPrices.followsStandard') }}
                         </td>
-                        <td class="co-td text-slate-600">{{ price.note }}</td>
+                        <td class="co-td max-w-[220px] break-words text-slate-600">{{ price.note }}</td>
                         <td v-if="props.canEdit" class="co-td">
                             <div class="flex items-center justify-end gap-2">
                                 <FormButton type="button" buttonStyle="action" :aria-label="$t('edit')" @click="startEdit(price)">
@@ -55,8 +56,10 @@
         <!-- One row is edited at a time, below the list, so the type picker
              is not clipped by the scrolling table. -->
         <div v-if="state.editing" class="space-y-3 rounded-lg border border-surface-200 bg-surface-50 p-3">
+            <!-- Field errors show under their field; the box is for the rest
+                 (no permission, no pipeline, not found). -->
             <Alert type="danger" :text="state.error?.message"
-                v-if="state.error?.message && state.error.message.length > 0" />
+                v-if="state.error?.message && !state.error?.errors" />
             <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <div class="space-y-1 md:col-span-2">
                     <FormLabel :label="$t('socialWelfare.customerDepartments.specialPrices.serviceType')" />

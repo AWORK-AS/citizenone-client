@@ -16391,6 +16391,8 @@
                 "hourlyRate": "Timepris",
                 "adminRate": "Timepris, administrasjon",
                 "transportRate": "Timepris, reise",
+                "adminShort": "Administrasjon",
+                "transportShort": "Reise",
                 "note": "Merknad",
                 "standard": "Standard: {amount}",
                 "noStandard": "Ingen standard timepris",

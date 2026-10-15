@@ -16487,6 +16487,8 @@
                 "hourlyRate": "Hourly rate",
                 "adminRate": "Hourly rate, administration",
                 "transportRate": "Hourly rate, travel",
+                "adminShort": "Administration",
+                "transportShort": "Travel",
                 "note": "Note",
                 "standard": "Standard: {amount}",
                 "noStandard": "No standard hourly rate",

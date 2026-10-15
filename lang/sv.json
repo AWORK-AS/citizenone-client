@@ -16391,6 +16391,8 @@
                 "hourlyRate": "Timpris",
                 "adminRate": "Timpris, administration",
                 "transportRate": "Timpris, resor",
+                "adminShort": "Administration",
+                "transportShort": "Resor",
                 "note": "Anteckning",
                 "standard": "Standard: {amount}",
                 "noStandard": "Inget standardtimpris",
