@@ -494,7 +494,7 @@
                                                     </span>
                                                 </Tooltip>
                                                 <Tooltip
-                                                    v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
+                                                    v-if="isFieldVisible('current_stocks') && medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
                                                     :text="$t('citizens.medicineJournals.page.lowStockOnly', { n: medicine?.current_stocks })">
                                                     <span
                                                         class="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
@@ -1058,7 +1058,7 @@
                                                 {{ medicine?.current_stocks }}
                                             </span>
                                             <Tooltip
-                                                v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
+                                                v-if="isFieldVisible('current_stocks') && medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
                                                 :text="$t('citizens.medicineJournals.page.lowStock')">
                                                 <Icon name="ph:warning" class="size-4 text-amber-500" />
                                             </Tooltip>
@@ -1242,6 +1242,7 @@ import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
@@ -1362,6 +1363,26 @@ const state = reactive({
 
 let clockInterval: any
 
+// Whether the "Current stocks" field is switched on for this company
+// (Settings > Medicine form fields). A company that doesn't track stock at
+// all shouldn't see stock-derived low-stock warnings either.
+const medicineFormConfig = ref<Record<string, boolean>>({})
+
+function isFieldVisible(fieldKey: string): boolean {
+    if (Object.keys(medicineFormConfig.value).length === 0) return true
+    return medicineFormConfig.value[fieldKey] !== false
+}
+
+async function fetchMedicineFormConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine' })
+        const config = response?.data?.find((c: any) => c.form_type === 'edit')
+        if (config?.form_fields) {
+            medicineFormConfig.value = config.form_fields
+        }
+    } catch (e) { /* silent — all fields visible on error */ }
+}
+
 onMounted(() => {
     citizenMedicineStore.resetFilterByActiveInactiveDeactivated()
     citizenMedicineStore.setFilterMedicationType('all')
@@ -1369,6 +1390,7 @@ onMounted(() => {
     // (another citizen, or a closed tab). Start clean.
     citizenMedicineStore.resetSelectedMedicine()
     fetchCitizenMedicines()
+    fetchMedicineFormConfig()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
 
@@ -1545,6 +1567,11 @@ const stats = computed(() => {
             entries.forEach((d: any) => {
                 const s = d?.status
                 if (s === 'given' || s === 'delivered') given++
+                // Self-administered medicine is handed out periodically, not given dose
+                // by dose, so an unlogged slot is never actually overdue - it just
+                // hasn't been (and won't be) logged per dose. Matches the missed-dose
+                // notification/list suppression already in place for is_self_administered.
+                else if (m?.is_self_administered) pending++
                 else if (isMissed(d?.time)) overdue++
                 else if (isDueSoon(d?.time)) dueSoon++
                 else pending++
@@ -1568,13 +1595,14 @@ const alarmBanners = computed(() => {
             const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
             entries.forEach((d: any) => {
                 if (d?.status) return
+                // Self-administered medicine is handed out periodically, not given dose
+                // by dose - an unlogged slot is expected, not overdue, so it never
+                // raises the overdue banner (matches the missed-dose notification/list
+                // suppression already in place for is_self_administered).
+                if (m?.is_self_administered) return
                 if (isMissed(d?.time)) {
                     const mins = minutesSince(d?.time)
-                    // A self-administered medicine is handed out, not given (task #115).
-                    const overdueKey = m?.is_self_administered
-                        ? 'citizens.medicineJournals.selfAdministered.overdue'
-                        : 'citizens.medicineJournals.page.medicineIsOverdue'
-                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t(overdueKey, { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
                 } else if (isDueSoon(d?.time)) {
                     banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
                 }

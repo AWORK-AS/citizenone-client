@@ -52,6 +52,7 @@
 
 <script setup lang="ts">
 import { CONTACTED_BY_LABELS, formLabel, listItemName } from '@/composables/inquiryForms'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
@@ -68,6 +69,25 @@ const props = defineProps({
 const emit = defineEmits(['edit', 'fieldsSaved'])
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const { labelFor: spokenLanguageLabel, fetchAll: fetchSpokenLanguages } = useSpokenLanguages()
+
+// The inquiry carries a language's English name only; the register has the
+// Danish one too. Until it has loaded (or if it can't), the English name shows.
+const spokenLanguages = ref<any[]>([])
+
+onMounted(async () => {
+    try {
+        spokenLanguages.value = await fetchSpokenLanguages()
+    } catch {
+        spokenLanguages.value = []
+    }
+})
+
+function languageName(language: any) {
+    if (!language) return ''
+
+    return spokenLanguageLabel(spokenLanguages.value.find((item: any) => item.uuid === language.uuid)) || language.name || ''
+}
 
 // The same option values the two forms offer, so a stored value reads here
 // exactly as it read in the dropdown that set it.
@@ -217,8 +237,8 @@ const sections = computed(() => {
         {
             key: 'matchNeeds',
             fields: [
-                { label: t('inquiryMatchNeeds.primaryLanguage'), value: inq.primary_spoken_language?.name ?? '' },
-                { label: t('inquiryMatchNeeds.secondaryLanguage'), value: inq.secondary_spoken_language?.name ?? '' },
+                { label: t('inquiryMatchNeeds.primaryLanguage'), value: languageName(inq.primary_spoken_language) },
+                { label: t('inquiryMatchNeeds.secondaryLanguage'), value: languageName(inq.secondary_spoken_language) },
                 {
                     label: t('inquiryMatchNeeds.location'),
                     value: [inq.location_address, inq.location_postal_code].filter(Boolean).join(', '),

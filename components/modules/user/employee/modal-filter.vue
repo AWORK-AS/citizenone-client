@@ -49,8 +49,8 @@
 <script setup lang="ts">
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
 import { roleService } from '@/components/api/user/RoleService'
-import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useI18n } from 'vue-i18n'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 
 const props = defineProps({
     isModalOpen: {
@@ -65,6 +65,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'setFilter'])
 const { t } = useI18n()
+const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 
 const EMPTY = {
     employee_group: null as string | null,
@@ -121,11 +122,7 @@ async function fetchOptions() {
 
     if (state.options.spokenLanguages.length === 0) {
         try {
-            const response = await spokenLanguageService.getSpokenLanguages()
-            state.options.spokenLanguages = (response?.data ?? []).map((language: any) => ({
-                value: language.uuid,
-                label: language.name,
-            }))
+            state.options.spokenLanguages = await fetchSpokenLanguageOptions()
         } catch (error: any) {
             // Same.
         }

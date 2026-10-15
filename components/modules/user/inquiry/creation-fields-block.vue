@@ -110,10 +110,11 @@
 <script setup lang="ts">
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { employmentService } from '@/components/api/user/EmploymentService'
+import { lookupOptionLabel, sortByLabel } from '@/composables/spokenLanguageNames'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const props = defineProps({
     modelValue: {
@@ -157,7 +158,11 @@ function isWide(field: any) {
 }
 
 function lookupOptions(field: any) {
-    return (field.lookup_options ?? []).map((option: any) => ({ value: option.uuid, label: option.label }))
+    const options = (field.lookup_options ?? []).map((option: any) => ({ value: option.uuid, label: lookupOptionLabel(option, locale.value) }))
+
+    // Spoken languages read in the order of the names shown (Danish for a Danish
+    // user); every other register keeps the order the server chose for it.
+    return field.options?.source === 'spoken_languages' ? sortByLabel(options, locale.value) : options
 }
 
 function choiceOptions(field: any) {

@@ -57,8 +57,8 @@
 </template>
 
 <script setup lang="ts">
-import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useI18n } from 'vue-i18n'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 
 const props = defineProps({
     // The inquiry being edited, or nothing when a new one is taken.
@@ -78,6 +78,7 @@ const props = defineProps({
 const emit = defineEmits(['update'])
 
 const { t } = useI18n()
+const { toOptions, fetchAll: fetchSpokenLanguages } = useSpokenLanguages()
 
 const languages = ref<any[]>([])
 
@@ -129,7 +130,7 @@ const reportingFrequencyOptions = computed(() => [
     { value: 'yearly', label: t('citizens.form.reportingOptions.yearly') },
 ])
 
-const languageOptions = computed(() => languages.value.map((l: any) => ({ value: l.uuid, label: l.name })))
+const languageOptions = computed(() => toOptions(languages.value))
 const primaryOptions = computed(() => languageOptions.value)
 const secondaryOptions = computed(() =>
     languageOptions.value.filter((option: any) => option.value !== form.primary_spoken_language_uuid)
@@ -155,8 +156,7 @@ const locationStatus = computed(() => {
 
 onMounted(async () => {
     try {
-        const response = await spokenLanguageService.getSpokenLanguages()
-        languages.value = response?.data ?? []
+        languages.value = await fetchSpokenLanguages()
     } catch {
         languages.value = []
     }

@@ -158,7 +158,7 @@
                             class="flex cursor-pointer items-center gap-2 text-sm text-slate-700">
                             <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
                                 :value="language.uuid" v-model="state.specialUuids" />
-                            {{ language.name_dk || language.name }}
+                            {{ language.label }}
                         </label>
                     </div>
                 </section>
@@ -213,12 +213,15 @@ definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries', required
 import { inquiryOfferService } from '@/components/api/user/InquiryOfferService'
 import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
 import { useAlert } from '@/composables/alert'
+import { sortByLabel } from '@/composables/spokenLanguageNames'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert, errorAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const { labelFor: spokenLanguageLabel } = useSpokenLanguages()
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const breadcrumbLinks = [
@@ -271,11 +274,17 @@ const state = reactive({
 
 const serviceTypeOptions = computed(() => state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label })))
 
+// Each language by the reader's name for it (Danish for a Danish user) and in
+// that order; the search still finds it by either name.
 const filteredLanguages = computed(() => {
     const search = state.languageSearch.trim().toLowerCase()
-    if (!search) return state.languages
+    const languages = sortByLabel(
+        state.languages.map((language: any) => ({ ...language, label: spokenLanguageLabel(language) })),
+        locale.value,
+    )
+    if (!search) return languages
 
-    return state.languages.filter((language: any) =>
+    return languages.filter((language: any) =>
         `${language.name} ${language.name_dk ?? ''}`.toLowerCase().includes(search))
 })
 
