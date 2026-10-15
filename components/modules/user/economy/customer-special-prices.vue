@@ -12,19 +12,20 @@
                         <th class="co-th min-w-[200px]">{{ $t('socialWelfare.customerDepartments.specialPrices.serviceType') }}</th>
                         <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.validFrom') }}</th>
                         <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.hourlyRate') }}</th>
-                        <!-- Short headers, so the row fits the form without scrolling sideways. -->
+                        <!-- Short headers and the note under the type, so a row fits the
+                             form; the buttons stay in view when it doesn't. -->
                         <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.adminShort') }}</th>
                         <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.transportShort') }}</th>
-                        <th class="co-th">{{ $t('socialWelfare.customerDepartments.specialPrices.note') }}</th>
-                        <th v-if="props.canEdit" class="co-th"></th>
+                        <th v-if="props.canEdit" class="co-th sticky right-0 bg-surface-50"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr v-for="price in state.prices" :key="price.uuid" class="border-t border-surface-100 first:border-t-0"
-                        :class="state.editing?.uuid === price.uuid && 'bg-[#f0fafd]'">
+                        :class="rowBackground(price)">
                         <td class="co-td min-w-[200px]">
                             <p class="text-slate-800">{{ price.service_type?.label }}</p>
                             <p class="whitespace-nowrap text-[11px] text-slate-400">{{ standardText(price.service_type?.uuid) }}</p>
+                            <p v-if="price.note" class="mt-0.5 max-w-[280px] break-words text-[12px] italic text-slate-500">{{ price.note }}</p>
                         </td>
                         <td class="co-td whitespace-nowrap text-slate-600">{{ formatDateToReadable(price.valid_from) }}</td>
                         <td class="co-td whitespace-nowrap tabular-nums font-semibold text-slate-800">{{ formatPrice(price.hourly_rate) }}</td>
@@ -34,8 +35,7 @@
                         <td class="co-td whitespace-nowrap tabular-nums text-slate-600">
                             {{ formatPrice(price.transport_hourly_rate) || $t('socialWelfare.customerDepartments.specialPrices.followsStandard') }}
                         </td>
-                        <td class="co-td max-w-[220px] break-words text-slate-600">{{ price.note }}</td>
-                        <td v-if="props.canEdit" class="co-td">
+                        <td v-if="props.canEdit" class="co-td sticky right-0" :class="rowBackground(price)">
                             <div class="flex items-center justify-end gap-2">
                                 <FormButton type="button" buttonStyle="action" :aria-label="$t('edit')" @click="startEdit(price)">
                                     <Icon name="ph:pencil-simple" class="size-4" />
@@ -189,6 +189,12 @@ async function fetchPrices() {
         state.loadError = error?.message ?? t('socialWelfare.customerDepartments.specialPrices.loadFailed')
     }
     state.isLoading = false
+}
+
+// The row being edited is tinted; the pinned buttons cell needs its own
+// background, or the scrolled cells show through it.
+function rowBackground(price: any) {
+    return state.editing?.uuid === price.uuid ? 'bg-[#f0fafd]' : 'bg-white'
 }
 
 function standardText(typeUuid: string | null | undefined) {
