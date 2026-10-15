@@ -261,6 +261,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useAlert } from '@/composables/alert'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -268,6 +269,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t } = useI18n()
+const { labelFor, toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
 
@@ -354,7 +356,7 @@ const locationStatus = computed(() => {
 })
 
 const secondaryLanguageName = computed(() =>
-    state.languages.find((l: any) => l.uuid === state.form.secondary_spoken_language_uuid)?.name ?? ''
+    labelFor(state.languages.find((l: any) => l.uuid === state.form.secondary_spoken_language_uuid))
 )
 
 function distanceText(result: any) {
@@ -389,7 +391,7 @@ const municipalityOptions = computed(() =>
     state.municipalities.map((m: any) => ({ value: m.uuid, label: m.name }))
 )
 const regionOptions = computed(() => state.regions.map((r: any) => ({ value: r.uuid, label: r.name })))
-const languageOptions = computed(() => state.languages.map((l: any) => ({ value: l.uuid, label: l.name })))
+const languageOptions = computed(() => toOptions(state.languages))
 const statusOptions = computed(() =>
     ['available', 'partially_available', 'unavailable', 'inactive']
         .map((value) => ({ value, label: t('consultantProfile.statuses.' + value) }))

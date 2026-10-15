@@ -121,13 +121,13 @@
 </template>
 
 <script setup lang="ts">
-import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { sectionService } from '@/components/api/user/SectionService'
 import { userService } from '@/components/api/user/UserService'
 import { useI18n } from 'vue-i18n'
 import { useGenders } from '@/composables/genders'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 
 const props = defineProps({
     isModalOpen: {
@@ -143,6 +143,7 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'setFilter'])
 const { t } = useI18n()
+const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 
 const EMPTY = {
     admitted_from: null as string | null,
@@ -213,11 +214,7 @@ function toggleInterpreter() {
 async function fetchOptions() {
     if (state.options.spokenLanguages.length === 0) {
         try {
-            const response = await spokenLanguageService.getSpokenLanguages()
-            state.options.spokenLanguages = (response?.data ?? []).map((language: any) => ({
-                value: language.uuid,
-                label: language.name,
-            }))
+            state.options.spokenLanguages = await fetchSpokenLanguageOptions()
         } catch (error: any) {
             // A missing option list should not stop the rest of the panel from working.
         }

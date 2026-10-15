@@ -1,5 +1,6 @@
 import { useI18n } from 'vue-i18n'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
+import { sortByLabel, spokenLanguageName, spokenLanguageSummaryLine } from '@/composables/spokenLanguageNames'
 
 export interface SpokenLanguage {
     uuid: string
@@ -24,18 +25,23 @@ export function useSpokenLanguages() {
      * back to the English name until those names are translated.
      */
     function labelFor(item: SpokenLanguage | null | undefined): string {
-        if (!item) return ''
-        return locale.value === 'dk' ? (item.name_dk || item.name) : item.name
+        return spokenLanguageName(item, locale.value)
     }
 
+    // Sorted by the name shown, so a Danish list is in Danish order whatever
+    // order the server sent.
     function toOptions(items: SpokenLanguage[]) {
-        return items.map((item) => ({ value: item.uuid, label: labelFor(item) }))
+        return sortByLabel(items.map((item) => ({ value: item.uuid, label: labelFor(item) })), locale.value)
+    }
+
+    async function fetchAll(): Promise<SpokenLanguage[]> {
+        const response = await spokenLanguageService.getSpokenLanguages()
+
+        return response?.data ?? []
     }
 
     async function fetchOptions() {
-        const response = await spokenLanguageService.getSpokenLanguages()
-        const items: SpokenLanguage[] = response?.data ?? []
-        return toOptions(items)
+        return toOptions(await fetchAll())
     }
 
     /**
@@ -43,11 +49,8 @@ export function useSpokenLanguages() {
      * (modersmål), Engelsk".
      */
     function summarise(items: SpokenLanguage[] | null | undefined, motherTongueLabel: string): string {
-        if (!items?.length) return ''
-        return items
-            .map((item) => item.is_primary ? `${labelFor(item)} (${motherTongueLabel})` : labelFor(item))
-            .join(', ')
+        return spokenLanguageSummaryLine(items, locale.value, motherTongueLabel)
     }
 
-    return { labelFor, toOptions, fetchOptions, summarise }
+    return { labelFor, toOptions, fetchAll, fetchOptions, summarise }
 }
