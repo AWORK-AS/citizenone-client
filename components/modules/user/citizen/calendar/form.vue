@@ -231,7 +231,7 @@
                         <FormError :error="v$?.shift?.shift_type_uuid?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.['shift.shift_type_uuid']?.[0]" />
                     </div>
-                    <div class="space-y-1" v-if="state.shift.user_uuid && hasRealDepartments">
+                    <div class="space-y-1" v-if="hasRealDepartments">
                         <FormLabel for="shift_department_uuid" :label="$t('events.form.shift.department')" />
                         <FormSelect id="shift_department_uuid" searchable openDirection="top" :canClear="false"
                             :options="state.shiftOptions.departments" v-model="state.shift.department_uuid" />
@@ -262,6 +262,7 @@ import { userService } from '@/components/api/user/UserService'
 import { shiftService } from '@/components/api/user/ShiftService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { useDepartmentStore } from '@/store/department'
 import { useVuelidate } from "@vuelidate/core"
 import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -290,6 +291,7 @@ const props = defineProps({
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t, locale } = useI18n()
+const departmentStore = useDepartmentStore() as any
 
 // System shift types that mean time off (backend ShiftType::ABSENCE_SYSTEM_NAMES);
 // a citizen event never creates leave. The backend refuses them too.
@@ -543,14 +545,16 @@ function toggleShift() {
     }
 }
 
-// The same lists the duty schedule's new-shift form uses: every active
-// employee of the company and the company's shift types (leave left out).
+// The same lists the duty schedule's new-shift form (form-shift.vue) uses:
+// every active employee of the company, the company's shift types (leave left
+// out) and the departments the signed-in user sees.
 async function fetchShiftOptions() {
     state.isPageLoading = true
     try {
-        const [employees, shiftTypes] = await Promise.all([
+        const [employees, shiftTypes, departments] = await Promise.all([
             userService.getAllUsersWithoutAllUsersOption(),
             shiftService.getAllShifts({ department: '' }),
+            departmentService.getAllDepartments({}),
         ])
         state.shiftOptions.employees = (employees?.data ?? []).map((user: any) => ({
             value: user?.uuid,
@@ -565,6 +569,11 @@ async function fetchShiftOptions() {
                         locale.value === 'sv' ? shift?.sv_name :
                             shift?.dk_name) || shift?.en_name || shift?.dk_name,
             }))
+        state.shiftOptions.departments = (departments?.data ?? []).map((department: any) => ({
+            value: department.uuid,
+            label: department.name,
+        }))
+        state.shift.department_uuid = defaultShiftDepartment()
         state.shiftOptions.isLoaded = true
     } catch (error: any) {
         state.error = error
@@ -572,28 +581,17 @@ async function fetchShiftOptions() {
     state.isPageLoading = false
 }
 
-// The employee's departments, as the duty schedule offers them; preselected
-// when there is only one real department to choose.
-async function fetchShiftDepartments(userUuid: string) {
-    state.shift.department_uuid = ''
-    state.shiftOptions.departments = []
-    if (!userUuid) return
-    try {
-        const response = await departmentService.getAllDepartments({ user_uuid: userUuid })
-        state.shiftOptions.departments = (response?.data ?? []).map((department: any) => ({
-            value: department.uuid,
-            label: department.name,
-        }))
-        const realDepartments = state.shiftOptions.departments.filter((department: Option) => department.value !== 'all-departments')
-        if (realDepartments.length === 1) {
-            state.shift.department_uuid = realDepartments[0].value
-        }
-    } catch (error: any) {
-        state.error = error
+// As on the duty schedule: the department chosen in the switcher at the top,
+// unless that's "All departments"; otherwise the only real department, if
+// there is just one. Else the user picks one.
+function defaultShiftDepartment(): string {
+    const realDepartments = state.shiftOptions.departments.filter((department: Option) => department.value !== 'all-departments')
+    const selected = departmentStore.getSelectedDepartment?.uuid
+    if (selected && realDepartments.some((department: Option) => department.value === selected)) {
+        return selected
     }
+    return realDepartments.length === 1 ? realDepartments[0].value : ''
 }
-
-watch(() => state.shift.user_uuid, (userUuid) => fetchShiftDepartments(userUuid))
 
 // The duty schedule's own warnings (11-hour rest, 13 hours, 48 hours), shown
 // before saving as on /schedules. They never block the save.
