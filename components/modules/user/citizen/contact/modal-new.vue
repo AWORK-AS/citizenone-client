@@ -121,6 +121,16 @@ async function saveContact(contactDetails: any) {
                 company_contact_uuid: state.formContact.company_contact_uuid || null,
             }
         }
+        if (contactDetails.title === 'doctor') {
+            params = {
+                ...params,
+                is_primary_gp: contactDetails.is_primary_gp === true,
+                provider_number: contactDetails.provider_number || null,
+                clinic_name: contactDetails.clinic_name || null,
+                clinic_ean: contactDetails.clinic_ean || null,
+                sor_code: contactDetails.sor_code || null,
+            }
+        }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {
             refreshContacts()
