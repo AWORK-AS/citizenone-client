@@ -52,7 +52,27 @@
                                         <Icon name="ph:globe" class="h-3 w-3" />
                                         {{ $t('releaseNotes.onWebsite') }}
                                     </span>
+                                    <span v-if="note.status === 'published' && note.send_to_milo"
+                                        class="inline-flex items-center gap-1 rounded-full bg-[#EEF4F7] px-2 py-0.5 text-[11px] font-medium text-[#205E77]">
+                                        <Icon name="ph:lifebuoy" class="h-3 w-3" />
+                                        {{ $t('releaseNotes.toMilo') }}
+                                    </span>
+                                    <span v-if="note.review_required_at"
+                                        class="inline-flex items-center gap-1 rounded-full bg-amber-100 px-2 py-0.5 text-[11px] font-medium text-amber-700">
+                                        <Icon name="ph:eye" class="h-3 w-3" />
+                                        {{ $t('releaseNotes.reviewBadge') }}
+                                    </span>
+                                    <span v-if="note.status !== 'published' && note.ai_status === 'pending'"
+                                        class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-600">
+                                        <Icon name="ph:sparkle" class="h-3 w-3 animate-pulse" />
+                                        {{ $t('releaseNotes.aiPending') }}
+                                    </span>
                                 </div>
+                                <p v-if="note.status !== 'published' && note.ai_status === 'failed'"
+                                    class="mt-1 flex items-center gap-1 text-xs text-[#CC3B2D]">
+                                    <Icon name="ph:warning-circle" class="h-3.5 w-3.5 shrink-0" />
+                                    {{ $t('releaseNotes.aiFailed', { error: note.ai_error ?? '' }) }}
+                                </p>
                                 <p v-if="note.content" class="mt-1 line-clamp-2 whitespace-pre-line text-sm text-gray-600">{{ note.content }}</p>
                                 <p class="mt-1 text-xs text-gray-400">{{ formatNoteDate(note) }}</p>
                                 <p v-if="note.status === 'published'" class="mt-1 text-xs text-gray-400">
@@ -85,7 +105,7 @@
                                     {{ $t('releaseNotes.remindApprover') }}
                                 </FormButton>
                                 <FormButton v-if="note.status !== 'published'" buttonStyle="success" buttonSize="sm"
-                                    @click="publish(note)">
+                                    @click="openApprove(note)">
                                     {{ $t('releaseNotes.publish') }}
                                 </FormButton>
                                 <FormButton v-else buttonStyle="cancel" buttonSize="sm"
@@ -118,7 +138,74 @@
                                     class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none" />
                             </div>
                         </div>
-                        <div class="space-y-1 text-left">
+                        <!-- A deploy draft is edited as classified items; the text customers see is rendered from them. -->
+                        <div v-if="itemsMode" class="space-y-3 text-left">
+                            <div v-if="state.form.reviewCount" role="status"
+                                class="flex flex-wrap items-center justify-between gap-2 rounded-md border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                                <span class="flex items-center gap-1.5">
+                                    <Icon name="ph:warning-circle" class="h-4 w-4 shrink-0" />
+                                    {{ $t('releaseNotes.reviewBanner', { count: state.form.reviewCount }) }}
+                                </span>
+                                <FormButton buttonStyle="cancel" buttonSize="sm" @click="state.form.markReviewed = true; state.form.reviewCount = 0">
+                                    {{ $t('releaseNotes.markReviewed') }}
+                                </FormButton>
+                            </div>
+
+                            <div class="flex items-center justify-between gap-2">
+                                <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.items') }}</label>
+                                <FormButton v-if="state.form.uuid && state.form.sourceItems.length && state.form.status !== 'published'"
+                                    buttonStyle="cancel" buttonSize="sm" @click="state.regenerateOpen = true">
+                                    <Icon name="ph:sparkle" class="h-4 w-4" /> {{ $t('releaseNotes.regenerate') }}
+                                </FormButton>
+                            </div>
+                            <p class="text-xs text-gray-500">{{ $t('releaseNotes.itemsHint') }}</p>
+
+                            <section v-for="kind in ITEM_KINDS" :key="kind" class="space-y-2">
+                                <h3 class="text-xs font-semibold uppercase tracking-wide text-gray-500">{{ kindLabel(kind) }}</h3>
+                                <div v-for="item in itemsOfKind(kind)" :key="item.key"
+                                    class="space-y-2 rounded-md border border-gray-200 p-2">
+                                    <textarea v-model="item.text" rows="2" :placeholder="$t('releaseNotes.itemPlaceholder')"
+                                        :aria-label="kindLabel(kind)"
+                                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
+                                    <div class="flex flex-wrap items-center gap-2">
+                                        <input v-model="item.area" type="text" :placeholder="$t('releaseNotes.itemArea')"
+                                            :aria-label="$t('releaseNotes.itemArea')"
+                                            class="min-w-0 flex-1 rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-primary focus:outline-none" />
+                                        <select v-model="item.kind" :aria-label="$t('releaseNotes.itemKind')"
+                                            class="rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-primary focus:outline-none">
+                                            <option v-for="k in ITEM_KINDS" :key="k" :value="k">{{ kindLabel(k) }}</option>
+                                        </select>
+                                        <button type="button" class="rounded p-1 text-gray-400 hover:bg-gray-100 hover:text-[#CC3B2D]"
+                                            :aria-label="$t('releaseNotes.removeItem')" :title="$t('releaseNotes.removeItem')"
+                                            @click="removeItem(item.key)">
+                                            <Icon name="ph:trash" class="h-4 w-4" />
+                                        </button>
+                                    </div>
+                                </div>
+                                <button type="button" class="inline-flex items-center gap-1 text-xs font-medium text-tertiary hover:underline"
+                                    @click="addItem(kind)">
+                                    <Icon name="ph:plus" class="h-3.5 w-3.5" /> {{ $t('releaseNotes.addItem') }}
+                                </button>
+                            </section>
+
+                            <details v-if="state.form.sourceItems.length" class="rounded-md border border-gray-200 bg-gray-50 p-3">
+                                <summary class="cursor-pointer text-xs font-medium text-gray-600">
+                                    {{ $t('releaseNotes.sourceItems', { count: state.form.sourceItems.length }) }}
+                                </summary>
+                                <ul class="mt-2 space-y-1">
+                                    <li v-for="(source, i) in state.form.sourceItems" :key="source.sha ?? i"
+                                        class="flex flex-wrap items-baseline gap-x-2 text-xs text-gray-600">
+                                        <span class="font-mono">{{ source.subject }}</span>
+                                        <span v-if="source.repo" class="text-gray-400">{{ source.repo }}</span>
+                                        <span v-if="source.needs_review"
+                                            class="rounded-full bg-amber-100 px-1.5 py-0.5 text-[10px] font-medium text-amber-700">
+                                            {{ $t('releaseNotes.needsReview') }}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </details>
+                        </div>
+                        <div v-else class="space-y-1 text-left">
                             <label class="text-sm font-medium text-gray-700">{{ $t('releaseNotes.content') }}</label>
                             <textarea v-model="state.form.content" rows="6"
                                 class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-primary focus:outline-none"></textarea>
@@ -156,6 +243,13 @@
                                 <span class="block text-xs text-gray-500">{{ $t('releaseNotes.showOnWebsiteHint') }}</span>
                             </span>
                         </label>
+                        <label class="flex cursor-pointer items-start gap-2 rounded-md border border-gray-200 bg-gray-50 p-3 text-left">
+                            <input v-model="state.form.send_to_milo" type="checkbox" class="mt-0.5" />
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">{{ $t('releaseNotes.sendToMilo') }}</span>
+                                <span class="block text-xs text-gray-500">{{ $t('releaseNotes.sendToMiloHint') }}</span>
+                            </span>
+                        </label>
 
                         <div class="flex justify-end gap-x-2 pb-6">
                             <FormButton buttonStyle="cancel" @click="closeForm">{{ $t('cancel') }}</FormButton>
@@ -184,6 +278,35 @@
                 </template>
             </Modal>
 
+            <Modal size="md" :title="$t('releaseNotes.approveTitle')" :show="state.approveOpen" @close="state.approveOpen = false">
+                <template #modal-body>
+                    <div class="space-y-3 text-left">
+                        <p class="text-sm text-gray-600">{{ $t('releaseNotes.approveIntro') }}</p>
+                        <label class="flex cursor-pointer items-start gap-2 rounded-md border border-gray-200 bg-gray-50 p-3">
+                            <input v-model="state.approve.is_public" type="checkbox" class="mt-0.5" />
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">{{ $t('releaseNotes.showAsNews') }}</span>
+                                <span class="block text-xs text-gray-500">{{ $t('releaseNotes.showAsNewsHint') }}</span>
+                            </span>
+                        </label>
+                        <label class="flex cursor-pointer items-start gap-2 rounded-md border border-gray-200 bg-gray-50 p-3">
+                            <input v-model="state.approve.send_to_milo" type="checkbox" class="mt-0.5" />
+                            <span>
+                                <span class="block text-sm font-medium text-gray-800">{{ $t('releaseNotes.sendToMilo') }}</span>
+                                <span class="block text-xs text-gray-500">{{ $t('releaseNotes.sendToMiloHint') }}</span>
+                            </span>
+                        </label>
+                        <div class="flex justify-end gap-x-2 pb-6">
+                            <FormButton buttonStyle="cancel" @click="state.approveOpen = false">{{ $t('cancel') }}</FormButton>
+                            <FormButton buttonStyle="success" @click="publish">{{ $t('releaseNotes.publish') }}</FormButton>
+                        </div>
+                    </div>
+                </template>
+            </Modal>
+
+            <DialogConfirmation :isModalOpen="state.regenerateOpen" :message="$t('releaseNotes.regenerateConfirm')"
+                @close="state.regenerateOpen = false" @confirm="doRegenerate" />
+
             <DialogConfirmation :isModalOpen="state.deleteOpen" :message="$t('releaseNotes.deleteConfirm')"
                 @close="state.deleteOpen = false" @confirm="doDelete" />
 
@@ -208,12 +331,36 @@ const { t } = useI18n()
 
 let currentPage = 1
 
+type ItemKind = 'feature' | 'improvement' | 'fix'
+interface EditableItem { key: number; kind: ItemKind; text: string; area: string }
+
+// The order the groups are shown in, and the only kinds an item can have.
+const ITEM_KINDS: ItemKind[] = ['feature', 'improvement', 'fix']
+let itemKey = 0
+
+function emptyForm() {
+    return {
+        uuid: '', title: '', version: '', content: '', video_url: '', image_url: null as string | null,
+        imageFile: null as File | null, removeImage: false, is_public: false, send_to_milo: true,
+        status: 'draft', items: [] as EditableItem[], sourceItems: [] as any[], reviewCount: 0, markReviewed: false,
+    }
+}
+
+function toEditable(items: any[] | null | undefined): EditableItem[] {
+    return (items ?? [])
+        .filter((item) => ITEM_KINDS.includes(item?.kind))
+        .map((item) => ({ key: ++itemKey, kind: item.kind, text: item.text ?? '', area: item.area ?? '' }))
+}
+
 const state = reactive({
     isLoading: false,
     error: '',
     notes: {} as any,
     showForm: false,
-    form: { uuid: '', title: '', version: '', content: '', video_url: '', image_url: '' as string | null, imageFile: null as File | null, removeImage: false, is_public: false },
+    form: emptyForm(),
+    approveOpen: false,
+    approve: { uuid: '', is_public: false, send_to_milo: true },
+    regenerateOpen: false,
     deleteOpen: false,
     deleteTarget: null as any,
     unpublishOpen: false,
@@ -262,14 +409,42 @@ function toggleFilter() {
 
 function openForm(note: any = null) {
     clearPickedImage()
-    state.form = note
-        ? {
+    const form = emptyForm()
+    if (note) {
+        const sourceItems = Array.isArray(note.source_items) ? note.source_items : []
+        Object.assign(form, {
             uuid: note.uuid, title: note.title, version: note.version ?? '', content: note.content ?? '',
-            video_url: note.video_url ?? '', image_url: note.image_url ?? null, imageFile: null, removeImage: false,
-            is_public: !!note.is_public,
-        }
-        : { uuid: '', title: '', version: '', content: '', video_url: '', image_url: null, imageFile: null, removeImage: false, is_public: false }
+            video_url: note.video_url ?? '', image_url: note.image_url ?? null,
+            is_public: !!note.is_public, send_to_milo: note.send_to_milo ?? true, status: note.status,
+            items: toEditable(note.items), sourceItems,
+            reviewCount: note.review_required_at ? sourceItems.filter((item: any) => item?.needs_review).length : 0,
+        })
+    }
+    state.form = form
     state.showForm = true
+}
+
+// A note built from deploys is edited as items; a hand-written one as free text.
+const itemsMode = computed(() => state.form.items.length > 0 || state.form.sourceItems.length > 0)
+
+function kindLabel(kind: ItemKind): string {
+    return {
+        feature: t('releaseNotes.kindFeature'),
+        improvement: t('releaseNotes.kindImprovement'),
+        fix: t('releaseNotes.kindFix'),
+    }[kind]
+}
+
+function itemsOfKind(kind: ItemKind): EditableItem[] {
+    return state.form.items.filter((item) => item.kind === kind)
+}
+
+function addItem(kind: ItemKind) {
+    state.form.items.push({ key: ++itemKey, kind, text: '', area: '' })
+}
+
+function removeItem(key: number) {
+    state.form.items = state.form.items.filter((item) => item.key !== key)
 }
 
 function closeForm() {
@@ -351,11 +526,22 @@ async function saveDraft() {
         const form = new FormData()
         form.append('title', state.form.title ?? '')
         form.append('version', state.form.version ?? '')
-        form.append('content', state.form.content ?? '')
+        if (itemsMode.value) {
+            // The backend renders the text from the items; sending the old text
+            // too would keep it from following the edit.
+            const items = state.form.items
+                .filter((item) => item.text.trim() !== '')
+                .map((item) => ({ kind: item.kind, text: item.text.trim(), ...(item.area.trim() ? { area: item.area.trim() } : {}) }))
+            form.append('items', JSON.stringify(items))
+            if (state.form.markReviewed) form.append('mark_reviewed', '1')
+        } else {
+            form.append('content', state.form.content ?? '')
+        }
         form.append('video_url', state.form.video_url ?? '')
         if (state.form.imageFile) form.append('image', state.form.imageFile)
         if (state.form.removeImage) form.append('remove_image', '1')
         form.append('is_public', state.form.is_public ? '1' : '0')
+        form.append('send_to_milo', state.form.send_to_milo ? '1' : '0')
 
         if (state.form.uuid) {
             form.append('_method', 'PUT')
@@ -372,10 +558,32 @@ async function saveDraft() {
     }
 }
 
-async function publish(note: any) {
+function openApprove(note: any) {
+    state.approve = { uuid: note.uuid, is_public: !!note.is_public, send_to_milo: note.send_to_milo ?? true }
+    state.approveOpen = true
+}
+
+async function publish() {
+    state.error = ''
+    state.approveOpen = false
+    try {
+        await releaseNoteService.publishReleaseNote(state.approve.uuid, {
+            is_public: state.approve.is_public,
+            send_to_milo: state.approve.send_to_milo,
+        })
+        successAlert(`${t('alert.success')}!`, '')
+        fetchNotes()
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+    }
+}
+
+async function doRegenerate() {
+    state.regenerateOpen = false
     state.error = ''
     try {
-        await releaseNoteService.publishReleaseNote(note.uuid)
+        await releaseNoteService.regenerateReleaseNote(state.form.uuid)
+        state.showForm = false
         successAlert(`${t('alert.success')}!`, '')
         fetchNotes()
     } catch (error: any) {

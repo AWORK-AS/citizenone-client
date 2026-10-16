@@ -4,7 +4,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenCalendarForm formType="create" :selectedSchedule="state.formSchedule"
-                        :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        :error="state.error" :showShiftOption="showShiftOption" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveSchedule" />
                 </LoadingSpinner>
             </template>
@@ -18,12 +18,14 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const userStore = useUserStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
+const { isAtLeast, can } = usePermissions()
 
 const props = defineProps({
     isModalOpen: {
@@ -34,8 +36,22 @@ const props = defineProps({
         type: String,
         default: '',
     },
+    // Only the citizen's own calendar page offers "Also create a shift" (CITIZE-100).
+    allowShift: {
+        type: Boolean,
+        default: false,
+    },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])
+
+// The page opts in, the company switched it on, and the user may plan shifts
+// (the duty schedule's own rule: Admin or create_schedule). A user payload
+// without the field counts as off.
+const showShiftOption = computed(() =>
+    props.allowShift
+    && userStore.getUser?.company?.citizen_calendar_shift_enabled === true
+    && (isAtLeast('Admin') || can('create_schedule'))
+)
 
 const state = reactive({
     error: {} as Error,
@@ -129,11 +145,20 @@ async function saveSchedule(scheduleDetails: any) {
                 }
             }
         }
+        if (scheduleDetails.shift) {
+            params.shift = scheduleDetails.shift
+        }
         const response = await myCalendarService.saveSchedule(params)
         if (response?.data) {
             refreshSchedules()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyAdded')}.`)
+            if (response?.shift?.is_conflict) {
+                warningAlert(`${t('alert.warning')}!`, t('events.alert.shiftConflict'))
+            } else if (response?.shift) {
+                successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyAddedWithShift')}.`)
+            } else {
+                successAlert(`${t('alert.success')}!`, `${t('events.alert.successfullyAdded')}.`)
+            }
         }
     } catch (error: any) {
         state.error = error
