@@ -78,6 +78,16 @@ async function updateContact(contactDetails: any) {
                 chat_user_uuid: contactDetails.chat_users ?? [],
             }
         }
+        if (contactDetails.title === 'doctor') {
+            params = {
+                ...params,
+                is_primary_gp: contactDetails.is_primary_gp === true,
+                provider_number: contactDetails.provider_number || null,
+                clinic_name: contactDetails.clinic_name || null,
+                clinic_ean: contactDetails.clinic_ean || null,
+                sor_code: contactDetails.sor_code || null,
+            }
+        }
         const response = await citizenContactService.updateContact(contactUuid, params)
         if (response?.data) {
             refreshContacts()

@@ -1292,6 +1292,8 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-wallets-wallet_uuid',
             'citizens-uuid-contacts',
             'citizens-uuid-reports',
+            'citizens-uuid-epikriser',
+            'citizens-uuid-epikriser-epikrise_uuid',
             'citizens-uuid-tooth-chart',
             'citizens-uuid-price-estimates',
             'citizens-uuid-invoices',

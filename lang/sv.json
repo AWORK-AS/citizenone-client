@@ -1971,6 +1971,15 @@
                 "email": "E-postadress",
                 "employee": "Anställd",
                 "employees": "Anställda",
+                "gp": {
+                    "title": "Husläkare",
+                    "primaryGp": "Primär husläkare",
+                    "providerNumber": "Ydernummer",
+                    "clinicName": "Mottagningens namn",
+                    "clinicEan": "EAN / lokationsnummer",
+                    "sorCode": "SOR-kod",
+                    "hint": "EAN, ydernummer och SOR-kod används för elektronisk sändning senare. Bara en läkare kan vara primär husläkare."
+                },
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
                 "municipality": "Kommun",
@@ -11362,6 +11371,7 @@
             "approvedDevices": "Godkända enheter",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
             "reportTemplates": "Rapportmallar",
+            "epikriseTemplates": "Epikrismallar",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
@@ -16263,6 +16273,124 @@
         "loadError": "Aviseringstyperna kunde inte läsas in.",
         "retry": "Försök igen",
         "masterOffHint": "Vissa reglage är nedtonade eftersom motsvarande reglage ovan (e-post- eller systemaviseringar) är avstängt."
+    },
+    "epikrise": {
+        "tab": "Epikriser",
+        "title": "Epikriser",
+        "listIntro": "Här skrivs epikriser, som låses och skickas till personens egen husläkare via säker, krypterad e-post.",
+        "empty": "Det finns inga epikriser ännu.",
+        "notSent": "Inte skickad",
+        "new": {
+            "title": "Ny epikris",
+            "intro": "Ett utkast skapas och fylls i förväg utifrån vistelsedata, diagnoser och medicin. Du kan redigera allt innan den slutförs.",
+            "button": "Ny epikris",
+            "create": "Skapa utkast"
+        },
+        "form": {
+            "title": "Titel",
+            "titlePlaceholder": "Lämna tomt för standardtitel",
+            "admissionDate": "Inskrivningsdatum",
+            "dischargeDate": "Utskrivningsdatum",
+            "recipient": "Mottagare (husläkare)",
+            "recipientPlaceholder": "Den primära husläkaren används om fältet är tomt",
+            "noDoctors": "Det finns inga läkare bland kontakterna. Skapa först en kontakt med jobbtiteln Läkare.",
+            "template": "Mall",
+            "templatePlaceholder": "Ingen mall (standardlayout)",
+            "templateHint": "Valfritt. Välj en epikrismall att utgå från.",
+            "body": "Text",
+            "primaryGp": "primär husläkare"
+        },
+        "status": {
+            "draft": "Utkast",
+            "finalized": "Slutförd"
+        },
+        "table": {
+            "title": "Titel",
+            "status": "Status",
+            "dischargeDate": "Utskrivningsdatum",
+            "author": "Författare",
+            "sentTo": "Skickad till"
+        },
+        "actions": {
+            "edit": "Redigera",
+            "open": "Öppna",
+            "delete": "Ta bort",
+            "save": "Spara",
+            "prefill": "Fyll i från data",
+            "previewPdf": "Förhandsgranska PDF",
+            "finalize": "Slutför",
+            "send": "Skicka med e-post"
+        },
+        "confirm": {
+            "delete": "Är du säker på att du vill ta bort detta utkast"
+        },
+        "alert": {
+            "created": "Utkast skapat",
+            "deleted": "Utkast borttaget",
+            "saved": "Sparat",
+            "prefilled": "Texten har fyllts i från data",
+            "finalized": "Slutförd och låst",
+            "sent": "Skickad som krypterad e-post"
+        },
+        "editor": {
+            "title": "Epikris",
+            "lockedNotice": "Epikrisen är slutförd och låst. Texten kan inte längre ändras.",
+            "noEditRights": "Du kan inte redigera den här epikrisen.",
+            "finalizedAt": "Slutförd"
+        },
+        "dispatches": {
+            "title": "Sändningslogg",
+            "empty": "Inte skickad ännu.",
+            "sentAt": "Skickad",
+            "recipient": "Mottagare",
+            "sentBy": "Skickad av",
+            "status": "Status",
+            "encrypted": "Krypterad e-post",
+            "sent": "Skickad",
+            "failed": "Misslyckades"
+        },
+        "prefill": {
+            "title": "Ersätta texten?",
+            "message": "Att fylla i från data ersätter den nuvarande texten med en ny text byggd på mallen och personens data. Dina ändringar i texten går förlorade.",
+            "confirm": "Ersätt texten"
+        },
+        "finalize": {
+            "title": "Slutföra epikrisen?",
+            "message": "När epikrisen slutförs låses texten och kan inte längre ändras. Kontrollera texten och PDF-förhandsgranskningen först. Därefter kan den skickas till läkaren.",
+            "confirm": "Slutför"
+        },
+        "send": {
+            "title": "Skicka som krypterad e-post",
+            "encryptedNotice": "Epikrisen skickas alltid som krypterad e-post. Läkaren behöver ett lösenord för att öppna den.",
+            "recipient": "Mottagare (husläkare)",
+            "otherEmail": "Eller en annan e-postadress",
+            "otherEmailPlaceholder": "E-postadress",
+            "otherEmailHint": "Om du skriver en adress här används den i stället för den valda läkaren.",
+            "willBeSentTo": "Skickas till",
+            "passwordNotice": "E-posten innehåller bara en ledtråd till lösenordet, inte själva lösenordet. Berätta lösenordet för läkaren separat, till exempel per telefon. Skicka aldrig lösenordet med e-post.",
+            "password": "Lösenord",
+            "passwordHint": "Ledtråd till lösenord",
+            "passwordHintPlaceholder": "En ledtråd som läkaren känner igen",
+            "hintWarning": "Ledtråden syns i e-posten. Skriv inte själva lösenordet i ledtråden.",
+            "confirmCheckbox": "Jag berättar lösenordet för läkaren separat",
+            "submit": "Skicka"
+        },
+        "dischargeHint": {
+            "text": "Den här personen är utskriven. Vill du skriva en epikris till husläkaren?",
+            "create": "Skapa epikris",
+            "dismiss": "Stäng"
+        },
+        "settings": {
+            "enableLabel": "Epikriser",
+            "enableHint": "Ett dokument skrivet i CitizenOne, som låses och skickas som PDF till läkaren via säker, krypterad e-post. Det är inte ett officiellt MedCom-meddelande.",
+            "templatesLink": "mallar"
+        },
+        "templates": {
+            "title": "Epikrismallar",
+            "intro": "Mallar som fyller i en epikris i förväg med personens data. Redigeraren visar de tillgängliga sammanfogningsfälten.",
+            "new": "Ny epikrismall",
+            "edit": "Redigera epikrismall"
+        }
     },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",
