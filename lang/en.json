@@ -11064,6 +11064,8 @@
                 "checkinOut": "Check in/out",
                 "chooseNotificationDepartments": "Choose which departments you want notifications from",
                 "citizensDisplay": "@.capitalize:terms.citizen{''}'s display",
+                "citizensDisplayRoles": "Who may see the fields",
+                "citizensDisplayRolesHelp": "Choose roles for a field to show it only to them. Empty means everyone who can open the citizen. Administrators always see the fields shown.",
                 "city": "City",
                 "companyLogo": "Company logo",
                 "companyName": "Company name",

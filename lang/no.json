@@ -11059,6 +11059,8 @@
                 "checkinOut": "Sjekk inn/ut",
                 "chooseNotificationDepartments": "Velg hvilke avdelinger du vil motta varsler fra",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Hvem kan se feltene",
+                "citizensDisplayRolesHelp": "Velg roller for et felt for å vise det bare for dem. Tomt betyr alle som kan åpne brukeren. Administratorer ser alltid feltene som vises.",
                 "city": "By",
                 "companyLogo": "Firmalogo",
                 "companyName": "Firmanavn",
