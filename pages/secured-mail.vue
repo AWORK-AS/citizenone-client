@@ -231,9 +231,10 @@
 </template>
 
 <script setup lang="ts">
+import { citizenoneAttributionUrl } from '@/composables/citizenoneAttribution'
 // The page already says the mail came through CitizenOne; the address lets a
 // recipient look it up. Tagged so a signup from here counts as the product channel.
-const CITIZENONE_URL = 'https://citizenone.dk/?utm_source=citizenone_product&utm_medium=portal&utm_campaign=attribution'
+const CITIZENONE_URL = citizenoneAttributionUrl('portal')
 import { securedMailService } from '@/components/api/user/SecuredMailService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'

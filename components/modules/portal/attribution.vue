@@ -12,9 +12,10 @@
 // can. The company can switch it off in Settings (hide_citizenone_attribution),
 // the same switch that removes it from its PDFs and mails.
 import { useUserStore } from '@/store/user'
+import { citizenoneAttributionShown, citizenoneAttributionUrl } from '@/composables/citizenoneAttribution'
 
-const CITIZENONE_URL = 'https://citizenone.dk/?utm_source=citizenone_product&utm_medium=portal&utm_campaign=attribution'
+const CITIZENONE_URL = citizenoneAttributionUrl('portal')
 
 const userStore = useUserStore() as any
-const shown = computed(() => userStore.getUser?.company?.hide_citizenone_attribution !== true)
+const shown = computed(() => citizenoneAttributionShown(userStore.getUser?.company))
 </script>
