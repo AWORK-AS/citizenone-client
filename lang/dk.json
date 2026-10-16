@@ -11068,6 +11068,8 @@
                 "checkinOut": "Check ind/ud",
                 "chooseNotificationDepartments": "Vælg hvilke afdelinger du vil modtage notifikationer fra",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Hvem må se felterne",
+                "citizensDisplayRolesHelp": "Vælg roller for et felt for kun at vise det for dem. Tomt betyder alle, der kan åbne borgeren. Administratorer ser altid de viste felter.",
                 "city": "By",
                 "companyLogo": "Firmalogo",
                 "companyName": "Firmanavn",

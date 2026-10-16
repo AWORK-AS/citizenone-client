@@ -11063,6 +11063,8 @@
                 "checkinOut": "Check in/ut",
                 "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Vem får se fälten",
+                "citizensDisplayRolesHelp": "Välj roller för ett fält för att bara visa det för dem. Tomt betyder alla som kan öppna brukaren. Administratörer ser alltid de visade fälten.",
                 "city": "Stad",
                 "companyLogo": "Firmalogo",
                 "companyName": "Företagsnamn",
