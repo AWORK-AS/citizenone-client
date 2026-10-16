@@ -7302,7 +7302,8 @@
             "mileageLog": "Kørselsregnskab",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månedsoversigt",
-            "consultantProfile": "Konsulentprofil"
+            "consultantProfile": "Konsulentprofil",
+            "hrDetails": "HR-oplysninger"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbejder",
@@ -17003,6 +17004,58 @@
             "result": "{added} tilføjet, {skipped} stod der allerede"
         }
     },
+    "hrDetails": {
+        "title": "HR-oplysninger",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Ansættelse",
+            "work": "Arbejde",
+            "bank": "Løn og bank"
+        },
+        "fields": {
+            "privateEmail": "Privat mail",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbejdstelefon",
+            "gender": "Køn",
+            "nationality": "Nationalitet",
+            "manager": "Nærmeste leder",
+            "daysPerWeek": "Antal arbejdsdage pr. uge",
+            "pensionStartDate": "Opstart pensionsordning",
+            "lunchScheme": "Frokostordning",
+            "flexJob": "Flexjob",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-måneders samtale afholdt",
+            "terminationReason": "Fratrædelsesårsag",
+            "simCard": "Simkort",
+            "otherWork": "Øvrigt arbejde",
+            "workingHoursComment": "Kommentar til arbejdstider",
+            "notWorkWith": "Ønsker ikke arbejde med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Reg.nr.",
+            "bankAccountNo": "Kontonr.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinde",
+            "male": "Mand",
+            "other": "Andet"
+        },
+        "taxCards": {
+            "main": "Hovedkort",
+            "secondary": "Bikort",
+            "self_employed": "Selvstændig"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ikke angivet",
+        "select": "Vælg",
+        "bankAdminOnly": "Bankoplysninger kan kun ændres af en administrator",
+        "alert": {
+            "saved": "HR-oplysningerne er gemt",
+            "saveFailed": "HR-oplysningerne kunne ikke gemmes"
+        }
+    },
     "consultantProfile": {
         "title": "Konsulentprofil",
         "ready": "Konsulenten kan sættes på en sag",
@@ -17047,7 +17100,8 @@
             "miscellaneous": "Øvrigt",
             "passport": "Pas",
             "cv": "CV",
-            "education": "Uddannelsespapirer"
+            "education": "Uddannelsespapirer",
+            "work_permit": "Arbejds- og opholdstilladelse"
         },
         "findings": {
             "document_missing": "{document} mangler",

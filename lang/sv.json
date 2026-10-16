@@ -7302,7 +7302,8 @@
             "mileageLog": "Körjournal",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månadsöversikt",
-            "consultantProfile": "Konsultprofil"
+            "consultantProfile": "Konsultprofil",
+            "hrDetails": "HR-uppgifter"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se anställd",
@@ -16907,6 +16908,58 @@
             "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
+    "hrDetails": {
+        "title": "HR-uppgifter",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Anställning",
+            "work": "Arbete",
+            "bank": "Lön och bank"
+        },
+        "fields": {
+            "privateEmail": "Privat e-post",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbetstelefon",
+            "gender": "Kön",
+            "nationality": "Nationalitet",
+            "manager": "Närmaste chef",
+            "daysPerWeek": "Antal arbetsdagar per vecka",
+            "pensionStartDate": "Start av pensionsavtal",
+            "lunchScheme": "Lunchförmån",
+            "flexJob": "Flexjobb",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-månaderssamtal genomfört",
+            "terminationReason": "Orsak till avslut",
+            "simCard": "SIM-kort",
+            "otherWork": "Övrigt arbete",
+            "workingHoursComment": "Kommentar om arbetstider",
+            "notWorkWith": "Vill inte arbeta med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Clearingnr",
+            "bankAccountNo": "Kontonr",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinna",
+            "male": "Man",
+            "other": "Annat"
+        },
+        "taxCards": {
+            "main": "Huvudkort",
+            "secondary": "Bikort",
+            "self_employed": "Egenföretagare"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ej angivet",
+        "select": "Välj",
+        "bankAdminOnly": "Bankuppgifter kan bara ändras av en administratör",
+        "alert": {
+            "saved": "HR-uppgifterna är sparade",
+            "saveFailed": "HR-uppgifterna kunde inte sparas"
+        }
+    },
     "consultantProfile": {
         "title": "Konsultprofil",
         "ready": "Konsulten kan sättas på ett ärende",
@@ -16951,7 +17004,8 @@
             "miscellaneous": "Övrigt",
             "passport": "Pass",
             "cv": "CV",
-            "education": "Utbildningsbevis"
+            "education": "Utbildningsbevis",
+            "work_permit": "Arbets- och uppehållstillstånd"
         },
         "findings": {
             "document_missing": "{document} saknas",

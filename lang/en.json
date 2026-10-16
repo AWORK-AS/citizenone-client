@@ -7302,7 +7302,8 @@
             "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs",
             "monthlySheet": "Monthly sheet",
-            "consultantProfile": "Consultant profile"
+            "consultantProfile": "Consultant profile",
+            "hrDetails": "HR details"
         },
         "timeLogs": "Time Logs",
         "viewEmployee": "View employee",
@@ -17003,6 +17004,58 @@
             "result": "{added} added, {skipped} already there"
         }
     },
+    "hrDetails": {
+        "title": "HR details",
+        "groups": {
+            "contact": "Contact",
+            "person": "Person",
+            "employment": "Employment",
+            "work": "Work",
+            "bank": "Pay and bank"
+        },
+        "fields": {
+            "privateEmail": "Private email",
+            "privatePhone": "Private phone",
+            "workPhone": "Work phone",
+            "gender": "Gender",
+            "nationality": "Nationality",
+            "manager": "Closest manager",
+            "daysPerWeek": "Working days per week",
+            "pensionStartDate": "Pension scheme start",
+            "lunchScheme": "Lunch scheme",
+            "flexJob": "Flex job",
+            "section56": "Section 56",
+            "threeMonthInterviewAt": "3-month interview held",
+            "terminationReason": "Reason for leaving",
+            "simCard": "SIM card",
+            "otherWork": "Other work",
+            "workingHoursComment": "Comment on working hours",
+            "notWorkWith": "Does not wish to work with",
+            "taxCardType": "Tax card",
+            "bankRegNo": "Reg. no.",
+            "bankAccountNo": "Account no.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Female",
+            "male": "Male",
+            "other": "Other"
+        },
+        "taxCards": {
+            "main": "Main card",
+            "secondary": "Secondary card",
+            "self_employed": "Self-employed"
+        },
+        "yes": "Yes",
+        "no": "No",
+        "unset": "Not specified",
+        "select": "Select",
+        "bankAdminOnly": "Bank details can only be changed by an administrator",
+        "alert": {
+            "saved": "HR details saved",
+            "saveFailed": "HR details could not be saved"
+        }
+    },
     "consultantProfile": {
         "title": "Consultant profile",
         "ready": "The consultant can be put forward for a case",
@@ -17047,7 +17100,8 @@
             "miscellaneous": "Other",
             "passport": "Passport",
             "cv": "CV",
-            "education": "Education papers"
+            "education": "Education papers",
+            "work_permit": "Work and residence permit"
         },
         "findings": {
             "document_missing": "{document} is missing",
