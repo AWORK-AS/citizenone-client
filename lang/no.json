@@ -4411,6 +4411,34 @@
             "averageHint": "Gjennomsnittlig varighet fra start til slutt"
         }
     },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltype",
+        "none": "Ingen",
+        "description": "Typene mål dere jobber med, som en liste dere selv vedlikeholder. Typen velges på målet, så mål kan grupperes og telles etter type.",
+        "add": "Legg til",
+        "addHint": "Legg til en type som kan velges på et mål",
+        "empty": "Det finnes ingen måltyper ennå.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Utviklingsmål"
+        },
+        "actions": {
+            "switchOff": "Slå av typen",
+            "switchOn": "Slå på typen",
+            "rename": "Gi nytt navn",
+            "delete": "Slett"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Måltypen er slettet",
+            "deleteFailed": "Måltypen kunne ikke slettes"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temaet i VUM som målet jobber med. Kategorien følger med temaet.",
+        "typeHint": "Velg en type fra listen deres over måltyper",
+        "noTypes": "Det finnes ingen måltyper ennå. De opprettes under Innstillinger."
+    },
     "client": {
         "appointments": "Avtaler",
         "appointmentsTable": {
@@ -11317,6 +11345,7 @@
             "profile": "Profil",
             "relationships": "Forhold",
             "dischargeReasons": "Avslutningsårsaker",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Rom",
             "scheduleTags": "Vaktplan tagger",
