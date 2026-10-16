@@ -2373,6 +2373,7 @@
             "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
             "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
+            "hiddenForRole": "Hidden for your role",
             "ssn": "CPR number",
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",

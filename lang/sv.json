@@ -2373,6 +2373,7 @@
             "spokenLanguages": "Språk medborgaren talar",
             "spokenLanguagesDescription": "Välj de språk medborgaren kan tala. Det är inte samma sak som systemets språk.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Dold för din roll",
             "ssn": "Personnummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdatum",
