@@ -1821,6 +1821,11 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "visibleRoles": "Hvem må se notatet",
+                "visibleRolesHint": "Alle med adgang til borgeren kan se notatet. Vælg roller for at begrænse det.",
+                "visibleRolesLimited": "Kun de valgte roller, forfatteren og administratorer kan se notatet. Det kommer ikke med i Cody og kan ikke kopieres til en plan.",
+                "visibleRolesEveryone": "Alle med adgang til borgeren",
+                "restrictedBadge": "Begrænset",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Udarbejd med AI",

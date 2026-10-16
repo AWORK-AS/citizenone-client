@@ -15,6 +15,13 @@
                                 class="flex items-center gap-x-1 text-primary text-xs font-medium">
                                 <Icon name="ph:push-pin-fill" class="size-3.5" />
                             </div>
+                            <div v-if="journal.restricted_to_roles"
+                                :title="(journal.visible_roles ?? []).map((role: any) => role.name).join(', ')">
+                                <span class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-1 text-xs font-medium text-slate-600">
+                                    <Icon name="ph:lock-simple" class="size-3" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.form.restrictedBadge') }}
+                                </span>
+                            </div>
                             <div v-if="journal.is_draft">
                                 <Badge type="primary">
                                     <p class="text-xs">

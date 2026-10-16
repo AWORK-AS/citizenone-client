@@ -1821,6 +1821,11 @@
                 },
                 "date": "Datum",
                 "draft": "Utkast",
+                "visibleRoles": "Vem får se anteckningen",
+                "visibleRolesHint": "Alla med åtkomst till brukaren kan se anteckningen. Välj roller för att begränsa den.",
+                "visibleRolesLimited": "Endast de valda rollerna, författaren och administratörer kan se anteckningen. Den tas inte med i Cody och kan inte kopieras till en plan.",
+                "visibleRolesEveryone": "Alla med åtkomst till brukaren",
+                "restrictedBadge": "Begränsad",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",

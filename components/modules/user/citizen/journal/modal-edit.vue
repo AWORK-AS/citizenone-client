@@ -68,6 +68,7 @@ async function updateJournal(journalDetails: any) {
             content: journalDetails.formJournal.content,
             ...journalNotePlanLinkParams(journalDetails.formJournal, true),
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
+            visible_role_ids: journalDetails.formJournal.visible_role_ids ?? [],
             is_draft: journalDetails.formJournal.is_draft,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,

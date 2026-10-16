@@ -289,6 +289,7 @@ async function saveJournal(journalDetails: any) {
             risk_assessment_plan_goal_subgoal_uuid: risk_assessment_plan_goal_subgoal_uuid,
             content: journalDetails.formJournal.content,
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
+            visible_role_ids: journalDetails.formJournal.visible_role_ids ?? [],
             is_draft: journalDetails.formJournal.is_draft,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_medical_record: props.isMedicalRecord,

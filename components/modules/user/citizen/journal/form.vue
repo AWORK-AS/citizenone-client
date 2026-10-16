@@ -246,6 +246,23 @@
                 <FormError :error="v$?.formJournal?.journal_note_tags?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.journal_note_tags_uuid?.[0]" />
             </div>
+            <!-- Limits the note to roles, for notes internal to the office. Only the
+                 author or an Admin may change it; others see who it is limited to. -->
+            <div v-if="state.options.visible_roles.length" class="space-y-1">
+                <FormLabel for="visible_roles" :label="$t('citizens.citizenJournals.form.visibleRoles')" />
+                <FormSelectMultiple v-if="canChangeVisibleRoles" id="visible_roles"
+                    :options="state.options.visible_roles" v-model="state.formJournal.visible_role_ids" />
+                <p v-else class="text-sm text-gray-700">
+                    {{ visibleRoleNames || $t('citizens.citizenJournals.form.visibleRolesEveryone') }}
+                </p>
+                <p class="flex items-start gap-1.5 text-xs text-gray-400">
+                    <Icon v-if="state.formJournal.visible_role_ids.length" name="ph:lock-simple" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                    {{ state.formJournal.visible_role_ids.length
+                        ? $t('citizens.citizenJournals.form.visibleRolesLimited')
+                        : $t('citizens.citizenJournals.form.visibleRolesHint') }}
+                </p>
+                <FormError :error="props?.error?.errors?.visible_role_ids?.[0] ?? props?.error?.errors?.['visible_role_ids.0']?.[0]" />
+            </div>
             <div class="space-y-1">
                 <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
                 <FormSelectMultiple id="mentioned_colleagues" :options="state.options.colleagues"
@@ -515,6 +532,7 @@ import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { roleService } from '@/components/api/user/RoleService'
 import { journalTitleService } from '@/components/api/user/JournalTitleService'
 import { teethService } from '@/components/api/user/TeethService'
 import { planService } from '@/components/api/user/PlanService'
@@ -642,6 +660,7 @@ const state = reactive({
         uuid: '',
         content: '',
         journal_note_tags: [],
+        visible_role_ids: [] as number[],
         date: '',
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
@@ -720,6 +739,7 @@ const state = reactive({
         risk_assessment_subgoals: [],
         journal_note_tags: [],
         risk_assessment_tags: [],
+        visible_roles: [] as Array<{ value: number, label: string }>,
         colleagues: [],
         score: [
             { value: 1, label: 1 },
@@ -939,6 +959,7 @@ onMounted(() => {
     fetchAllGoalsForRiskAssessment()
     fetchSubgoalShortcutOptions()
     fetchAllJournalNoteTags()
+    fetchVisibleRoleOptions()
     fetchAllJournalTitles()
     fetchAllTeeth()
     fetchColleagues()
@@ -1112,6 +1133,7 @@ async function setFormJournalFromSelected(journal: any) {
         uuid: journal.uuid,
         content: journal.content ?? '',
         journal_note_tags: [],
+        visible_role_ids: (journal.visible_roles ?? []).map((role: any) => role.id),
         date: journal.date,
         // Ticked and filled in when the note is already attached to a plan,
         // goal, sub-goal or single goal, so editing it shows where it is.
@@ -1631,6 +1653,28 @@ async function fetchAllTeeth() {
         state.error = error
     }
     emit('isPageLoading', false)
+}
+
+// A note's author decides who reads it, so the roles can be changed by the
+// author or an Admin. A new note is always the current user's own.
+const canChangeVisibleRoles = computed(() => props.formType === 'create'
+    || isAtLeast('Admin')
+    || (props.selectedJournal as any)?.user?.uuid === userStore.getUser?.uuid)
+
+const visibleRoleNames = computed(() => state.options.visible_roles
+    .filter((option) => state.formJournal.visible_role_ids.includes(option.value))
+    .map((option) => option.label)
+    .join(', '))
+
+async function fetchVisibleRoleOptions() {
+    try {
+        const response = await roleService.getAllRoles()
+        const roles = Array.isArray(response) ? response : (response?.data ?? [])
+        state.options.visible_roles = roles.map((role: any) => ({ value: role.id, label: role.name }))
+    } catch (error: any) {
+        // Without the list the field stays hidden and the note keeps its roles.
+        state.options.visible_roles = []
+    }
 }
 
 async function fetchColleagues() {
