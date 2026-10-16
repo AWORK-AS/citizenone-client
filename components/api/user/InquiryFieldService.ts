@@ -36,6 +36,15 @@ class InquiryFieldService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/fields`, 'PUT', { answers })
     }
 
+    // The fields carried over to an indsats, kept on the citizen.
+    async getCitizenFields(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/field-values`, 'GET')
+    }
+
+    async saveCitizenFields(citizenUuid: string, answers: Record<string, any>): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/field-values`, 'PUT', { answers })
+    }
+
     // Which stage the inquiry is in, what comes next, and what is stopping it -
     // read from the same gate that refuses the move.
     async getStageGate(inquiryUuid: string): Promise<any> {
