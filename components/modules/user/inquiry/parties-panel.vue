@@ -33,7 +33,7 @@
                             </span>
                         </Tooltip>
                         <span v-if="party.coordinator_role" class="rounded-full bg-[#e6f6ee] px-2 py-px text-[11px] font-semibold text-[#177a53]">
-                            {{ party.coordinator_role === 'primary' ? $t('citizens.coordinators.badgePrimary') : $t('citizens.coordinators.badgeSecondary') }}
+                            {{ party.coordinator_role === 'primary' ? $t('citizens.coordinators.badgePrimary') : party.coordinator_role === 'intake' ? $t('citizens.coordinators.badgeIntake') : $t('citizens.coordinators.badgeSecondary') }}
                         </span>
                         <span v-if="party.email || party.phone" class="text-[11px] text-gray-400">
                             {{ [party.email, party.phone].filter(Boolean).join(' · ') }}
@@ -167,6 +167,7 @@ const roleOptions = computed(() => [
     { value: null, label: t('inquiryParties.form.noRole') },
     { value: 'primary', label: t('citizens.coordinators.primary') },
     { value: 'secondary', label: t('citizens.coordinators.secondary') },
+    { value: 'intake', label: t('citizens.coordinators.intake') },
 ])
 
 function partyName(party: any) {

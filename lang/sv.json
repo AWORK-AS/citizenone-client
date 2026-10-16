@@ -263,9 +263,9 @@
                 "cta": "Gå till Ärendetyper"
             },
             "jobcenters": {
-                "title": "Lägg till jobbcenter",
-                "desc": "Registrera de jobbcenter ni samarbetar med, så remisser kan kopplas på.",
-                "cta": "Gå till Jobbcenter"
+                "title": "Lägg till kunder och leverantörer",
+                "desc": "Registrera de kunder och leverantörer ni samarbetar med, så remisser kan kopplas på.",
+                "cta": "Gå till Kunder och leverantörer"
             },
             "journalTitles": {
                 "title": "Journalmallar",
@@ -2492,6 +2492,10 @@
             "reportingFrequency": "Rapportering till kommunen",
             "reportingFrequencyHint": "Skapar en återkommande påminnelse till alla på insatsen som har en inloggning.",
             "reportingStartsOn": "Första rapportering",
+            "reportDraftDaysBefore": "Internt utkast, dagar före",
+            "reportDraftDaysBeforePlaceholder": "T.ex. 7",
+            "reportDraftDaysBeforeHint": "Skickar en påminnelse \"Rapportutkast\" så många dagar före varje rapportering, så att utkastet kan granskas internt. Tomt betyder ingen påminnelse.",
+            "reportDraftDaysBeforeValue": "{days} dagar före",
             "reportingOptions": {
                 "biweekly": "Varannan vecka",
                 "everySixMonths": "Var sjätte månad",
@@ -4342,9 +4346,11 @@
         "searchPlaceholder": "Sök på namn, personnummer eller ärendenummer",
         "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
         "coordinators": {
+            "badgeIntake": "Mottagningskoordinator",
             "badgePrimary": "Primär koordinator",
             "badgeSecondary": "Sekundär koordinator",
             "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
+            "intake": "Mottagningskoordinator",
             "notSet": "Inte angiven",
             "primary": "Primär koordinator",
             "saved": "Koordinatorerna har sparats",
@@ -11336,7 +11342,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Arbetsförmedlingar",
+            "employmentJobcenters": "Kunder och leverantörer",
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
@@ -15090,7 +15096,7 @@
         "jobcenters": {
             "addNewJobcenter": "Lägg till nytt {term}",
             "editJobcenter": "Redigera {term}",
-            "jobcenters": "Jobbcenter",
+            "jobcenters": "Kunder och leverantörer",
             "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
@@ -15739,6 +15745,7 @@
         },
         "distribution": "Fördelning av insatser",
         "distributionUnassigned": "{count} utan koordinator",
+        "distributionIntake": "{count} i mottagning",
         "distributionPrimary": "{count} primära",
         "distributionSecondary": "{count} sekundära"
     },
@@ -16450,6 +16457,11 @@
             "noDepartmentYet": "Ingen avdelning vald ännu",
             "newPeriod": "Ny avtalsperiod",
             "editPeriod": "Redigera avtalsperiod",
+            "cancelled": "Avtal uppsagt",
+            "cancelledAt": "Uppsagt den",
+            "cancelledOn": "Uppsagt {date}",
+            "cancelledHelp": "Registrera när avtalet sades upp. Faktureringen följer fortfarande periodens slutdatum.",
+            "cancellationNote": "Kommentar till uppsägningen",
             "agreedPrice": "Avtalat pris",
             "grantedHours": "Beviljade timmar",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16807,7 +16819,7 @@
             "consultant_skills": "Konsultkompetenser (alla)",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
-            "jobcenters": "Arbetsförmedlingar",
+            "jobcenters": "Kunder och leverantörer",
             "focus_areas": "Fokusområden (VUM, vuxna)",
             "customer_departments": "Kunder och avdelningar",
             "consultant_skills_competence": "Konsultkompetenser: kompetenser",

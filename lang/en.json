@@ -263,9 +263,9 @@
                 "cta": "Go to Case types"
             },
             "jobcenters": {
-                "title": "Add jobcentres",
-                "desc": "Register the jobcentres you work with, so referrals can be attached.",
-                "cta": "Go to Jobcentres"
+                "title": "Add customers and suppliers",
+                "desc": "Register the customers and suppliers you work with, so referrals can be attached.",
+                "cta": "Go to Customers and suppliers"
             },
             "journalTitles": {
                 "title": "Journal templates",
@@ -2492,6 +2492,10 @@
             "reportingFrequency": "Reporting to the authority",
             "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
             "reportingStartsOn": "First report",
+            "reportDraftDaysBefore": "Internal draft, days before",
+            "reportDraftDaysBeforePlaceholder": "E.g. 7",
+            "reportDraftDaysBeforeHint": "Sends a \"Report draft\" reminder this many days before each reporting date, so the draft can be reviewed internally. Leave empty for no reminder.",
+            "reportDraftDaysBeforeValue": "{days} days before",
             "reportingOptions": {
                 "biweekly": "Every two weeks",
                 "everySixMonths": "Every six months",
@@ -4342,9 +4346,11 @@
         "searchPlaceholder": "Search by name, CPR or case number",
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
+            "badgeIntake": "Intake coordinator",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
+            "intake": "Intake coordinator",
             "notSet": "Not set",
             "primary": "Primary coordinator",
             "saved": "The coordinators have been saved",
@@ -11341,7 +11347,7 @@
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
-            "employmentJobcenters": "Jobcenters",
+            "employmentJobcenters": "Customers and suppliers",
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
@@ -15186,7 +15192,7 @@
         "jobcenters": {
             "addNewJobcenter": "Add new {term}",
             "editJobcenter": "Edit {term}",
-            "jobcenters": "Job centers",
+            "jobcenters": "Customers and suppliers",
             "newJobcenter": "New {term}",
             "form": {
                 "alert": {
@@ -15835,6 +15841,7 @@
         },
         "distribution": "How cases are spread",
         "distributionUnassigned": "{count} with no coordinator",
+        "distributionIntake": "{count} intake",
         "distributionPrimary": "{count} primary",
         "distributionSecondary": "{count} secondary"
     },
@@ -16546,6 +16553,11 @@
             "noDepartmentYet": "No department chosen yet",
             "newPeriod": "New contract period",
             "editPeriod": "Edit contract period",
+            "cancelled": "Contract cancelled",
+            "cancelledAt": "Cancelled on",
+            "cancelledOn": "Cancelled {date}",
+            "cancelledHelp": "Record when notice was given on the contract. Billing still follows the period end date.",
+            "cancellationNote": "Cancellation note",
             "agreedPrice": "Agreed price",
             "grantedHours": "Granted hours",
             "billingFrequency": "Billing frequency",
@@ -16903,7 +16915,7 @@
             "consultant_skills": "Consultant skills (all)",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
-            "jobcenters": "Jobcenters",
+            "jobcenters": "Customers and suppliers",
             "focus_areas": "Focus areas (VUM, adults)",
             "customer_departments": "Customers and departments",
             "consultant_skills_competence": "Consultant skills: competences",

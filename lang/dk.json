@@ -263,9 +263,9 @@
                 "cta": "Gå til Sagstyper"
             },
             "jobcenters": {
-                "title": "Tilføj jobcentre",
-                "desc": "Registrér de jobcentre I samarbejder med, så henvisninger kan kobles på.",
-                "cta": "Gå til Jobcentre"
+                "title": "Tilføj kunder og leverandører",
+                "desc": "Registrér de kunder og leverandører I samarbejder med, så henvisninger kan kobles på.",
+                "cta": "Gå til Kunder og leverandører"
             },
             "journalTitles": {
                 "title": "Journalskabeloner",
@@ -2492,6 +2492,10 @@
             "reportingFrequency": "Rapportering til kommunen",
             "reportingFrequencyHint": "Opretter en tilbagevendende påmindelse til alle på indsatsen med et login.",
             "reportingStartsOn": "Første rapportering",
+            "reportDraftDaysBefore": "Internt udkast, dage før",
+            "reportDraftDaysBeforePlaceholder": "Fx 7",
+            "reportDraftDaysBeforeHint": "Sender en påmindelse \"Rapportudkast\" så mange dage før hver rapportering, så udkastet kan gennemses internt. Tomt betyder ingen påmindelse.",
+            "reportDraftDaysBeforeValue": "{days} dage før",
             "reportingOptions": {
                 "biweekly": "Hver 14. dag",
                 "everySixMonths": "Hvert halve år",
@@ -4342,9 +4346,11 @@
         "searchPlaceholder": "Søg på navn, CPR eller indsatsnummer",
         "emptyListHint": "Ingen {citizens} fundet endnu. Brug \"Ny {citizen}\" øverst, eller importér fra et andet system.",
         "coordinators": {
+            "badgeIntake": "Modtagelseskoordinator",
             "badgePrimary": "Primær koordinator",
             "badgeSecondary": "Sekundær koordinator",
             "hint": "Den medarbejder du sætter her vises under Kontakter på {theCitizen} og {theCitizen} vises under medarbejderens tildelte {citizens}.",
+            "intake": "Modtagelseskoordinator",
             "notSet": "Ikke sat",
             "primary": "Primær koordinator",
             "saved": "Koordinatorerne er gemt",
@@ -11341,7 +11347,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Jobcentre",
+            "employmentJobcenters": "Kunder og leverandører",
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
@@ -15186,7 +15192,7 @@
         "jobcenters": {
             "addNewJobcenter": "Tilføj nyt {term}",
             "editJobcenter": "Rediger {term}",
-            "jobcenters": "Jobcentre",
+            "jobcenters": "Kunder og leverandører",
             "newJobcenter": "Nyt {term}",
             "form": {
                 "alert": {
@@ -15835,6 +15841,7 @@
         },
         "distribution": "Fordeling af indsatser",
         "distributionUnassigned": "{count} uden koordinator",
+        "distributionIntake": "{count} i modtagelse",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære"
     },
@@ -16546,6 +16553,11 @@
             "noDepartmentYet": "Ingen afdeling valgt endnu",
             "newPeriod": "Ny kontraktperiode",
             "editPeriod": "Rediger kontraktperiode",
+            "cancelled": "Kontrakt opsagt",
+            "cancelledAt": "Opsagt den",
+            "cancelledOn": "Opsagt {date}",
+            "cancelledHelp": "Registrér hvornår kontrakten blev opsagt. Faktureringen følger stadig periodens slutdato.",
+            "cancellationNote": "Bemærkning til opsigelsen",
             "agreedPrice": "Aftalt pris",
             "grantedHours": "Bevilgede timer",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16903,7 +16915,7 @@
             "consultant_skills": "Konsulentkompetencer (alle)",
             "inquiry_service_types": "Indsatstyper",
             "employees": "Medarbejdere",
-            "jobcenters": "Jobcentre",
+            "jobcenters": "Kunder og leverandører",
             "focus_areas": "Fokusområder (VUM, voksne)",
             "customer_departments": "Kunder og afdelinger",
             "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
