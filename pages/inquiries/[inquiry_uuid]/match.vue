@@ -200,6 +200,12 @@
                                             class="rounded-full bg-[#fbe9e5] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c0442c]">
                                             {{ $t('consultantMatch.notReady') }}
                                         </span>
+                                        <!-- Archived consultants are matched too; this says she has to be
+                                             reactivated and given a licence before the case. -->
+                                        <span v-if="result.is_archived" :title="$t('consultantMatch.archivedHint')"
+                                            class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
+                                            {{ $t('consultantMatch.archived') }}
+                                        </span>
                                         <!-- Distance from the case to her home; approximate
                                              when her home is only known by postal code. -->
                                         <span v-if="state.locationGeocoded"

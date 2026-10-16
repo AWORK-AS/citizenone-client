@@ -17123,6 +17123,8 @@
         "clear": "Nulstil",
         "noConsultants": "Ingen konsulenter fundet.",
         "notReady": "Kan ikke sættes på sag",
+        "archived": "Arkiveret",
+        "archivedHint": "Skal genaktiveres og have en licens, før konsulenten kan sættes på sagen",
         "openProfile": "Åbn profil",
         "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
         "matches": {
