@@ -4413,6 +4413,34 @@
             "averageHint": "Genomsnittlig längd från start till slut"
         }
     },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltyp",
+        "none": "Ingen",
+        "description": "De typer av mål ni arbetar med, som en lista ni själva underhåller. Typen väljs på målet, så mål kan grupperas och räknas efter typ.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en typ som kan väljas på ett mål",
+        "empty": "Det finns inga måltyper ännu.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Utvecklingsmål"
+        },
+        "actions": {
+            "switchOff": "Stäng av typen",
+            "switchOn": "Slå på typen",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Måltypen är borttagen",
+            "deleteFailed": "Måltypen kunde inte tas bort"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temat i VUM som målet arbetar med. Kategorin följer med temat.",
+        "typeHint": "Välj en typ från er lista över måltyper",
+        "noTypes": "Det finns inga måltyper ännu. De skapas under Inställningar."
+    },
     "client": {
         "appointments": "Möten",
         "appointmentsTable": {
@@ -11324,6 +11352,7 @@
             "profile": "Profil",
             "relationships": "Förhållande",
             "dischargeReasons": "Avslutningsorsaker",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Rum",
             "scheduleTags": "Tjänsteschema etiketter",

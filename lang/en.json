@@ -4413,6 +4413,34 @@
             "averageHint": "Average length from start to end"
         }
     },
+    "goalTypes": {
+        "title": "Goal types",
+        "single": "Goal type",
+        "none": "None",
+        "description": "The kinds of goals you work with, as a list you keep. The type is picked on the goal, so goals can be grouped and counted by type.",
+        "add": "Add",
+        "addHint": "Add a type that can be picked on a goal",
+        "empty": "There are no goal types yet.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Development goal"
+        },
+        "actions": {
+            "switchOff": "Switch the type off",
+            "switchOn": "Switch the type on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The goal type is deleted",
+            "deleteFailed": "The goal type could not be deleted"
+        },
+        "vumTheme": "VUM theme",
+        "vumThemeHint": "The VUM theme the goal works on. The category comes with the theme.",
+        "typeHint": "Pick a type from your list of goal types",
+        "noTypes": "There are no goal types yet. They are created under Settings."
+    },
     "client": {
         "appointments": "Appointments",
         "appointmentsTable": {
@@ -11329,6 +11357,7 @@
             "profile": "Profile",
             "relationships": "Relationships",
             "dischargeReasons": "Discharge reasons",
+            "goalTypes": "Goal types",
             "roles": "Roles",
             "rooms": "Rooms",
             "scheduleTags": "Schedule tags",

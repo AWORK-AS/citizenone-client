@@ -91,6 +91,7 @@
                                                                         </Badge>
                                                                     </div>
                                                                 </div>
+                                                                <ModulesUserCitizenPlanGoalClassificationBadges :goal="goal" class="mt-1" />
                                                             </div>
                                                             <div class="flex gap-x-2">
                                                                 <Tooltip :text="$t('plansandgoals.newSubgoal')"

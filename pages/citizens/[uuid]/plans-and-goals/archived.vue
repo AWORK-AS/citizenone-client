@@ -151,6 +151,7 @@
                                                 {{ plan?.name }}
                                             </h3>
                                         </div>
+                                        <ModulesUserCitizenPlanGoalClassificationBadges v-if="plan?.is_single_goal" :goal="plan" />
                                         <div class="text-sm">
                                             <div v-html="plan?.description" class="content" />
                                         </div>
