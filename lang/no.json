@@ -7304,7 +7304,8 @@
             "mileageLog": "Kjørebok",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månedsoversikt",
-            "consultantProfile": "Konsulentprofil"
+            "consultantProfile": "Konsulentprofil",
+            "hrDetails": "HR-opplysninger"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbeider",
@@ -16913,6 +16914,58 @@
             "result": "{added} lagt til, {skipped} fantes allerede"
         }
     },
+    "hrDetails": {
+        "title": "HR-opplysninger",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Ansettelse",
+            "work": "Arbeid",
+            "bank": "Lønn og bank"
+        },
+        "fields": {
+            "privateEmail": "Privat e-post",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbeidstelefon",
+            "gender": "Kjønn",
+            "nationality": "Nasjonalitet",
+            "manager": "Nærmeste leder",
+            "daysPerWeek": "Antall arbeidsdager per uke",
+            "pensionStartDate": "Oppstart pensjonsordning",
+            "lunchScheme": "Lunsjordning",
+            "flexJob": "Fleksjobb",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-måneders samtale gjennomført",
+            "terminationReason": "Fratredelsesårsak",
+            "simCard": "SIM-kort",
+            "otherWork": "Annet arbeid",
+            "workingHoursComment": "Kommentar til arbeidstider",
+            "notWorkWith": "Ønsker ikke å jobbe med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Reg.nr.",
+            "bankAccountNo": "Kontonr.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinne",
+            "male": "Mann",
+            "other": "Annet"
+        },
+        "taxCards": {
+            "main": "Hovedkort",
+            "secondary": "Bikort",
+            "self_employed": "Selvstendig"
+        },
+        "yes": "Ja",
+        "no": "Nei",
+        "unset": "Ikke oppgitt",
+        "select": "Velg",
+        "bankAdminOnly": "Bankopplysninger kan bare endres av en administrator",
+        "alert": {
+            "saved": "HR-opplysningene er lagret",
+            "saveFailed": "HR-opplysningene kunne ikke lagres"
+        }
+    },
     "consultantProfile": {
         "title": "Konsulentprofil",
         "ready": "Konsulenten kan settes på en sak",
@@ -16957,7 +17010,8 @@
             "miscellaneous": "Annet",
             "passport": "Pass",
             "cv": "CV",
-            "education": "Utdanningspapirer"
+            "education": "Utdanningspapirer",
+            "work_permit": "Arbeids- og oppholdstillatelse"
         },
         "findings": {
             "document_missing": "{document} mangler",
