@@ -10382,6 +10382,7 @@
         "draft": "Utkast",
         "editReport": "Redigera rapport",
         "finalize": "Slutför",
+        "cprPending": "Personnumret är inte ifyllt än eftersom din roll inte har åtkomst till det. Det fylls i när en kollega med åtkomst slutför rapporten.",
         "finalized": "Slutförd",
         "newReport": "Ny rapport",
         "publicLink": "Offentlig länk",

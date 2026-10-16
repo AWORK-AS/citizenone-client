@@ -10387,6 +10387,7 @@
         "draft": "Kladde",
         "editReport": "Rediger rapport",
         "finalize": "Færdiggør",
+        "cprPending": "CPR-nummeret er ikke indsat endnu, fordi din rolle ikke har adgang til CPR. Det indsættes, når en kollega med adgang færdiggør rapporten.",
         "finalized": "Færdiggjort",
         "newReport": "Ny rapport",
         "publicLink": "Offentligt link",

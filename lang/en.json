@@ -10387,6 +10387,7 @@
         "draft": "Draft",
         "editReport": "Edit report",
         "finalize": "Finalize",
+        "cprPending": "The CPR number is not filled in yet because your role has no access to CPR. It is filled in when a colleague with access finalises the report.",
         "finalized": "Finalized",
         "newReport": "New report",
         "publicLink": "Public link",
