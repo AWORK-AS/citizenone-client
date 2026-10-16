@@ -7383,6 +7383,8 @@
             "join": "Bli med i møte"
         },
         "alert": {
+            "successfullyAddedWithShift": "Nytt arrangement og vakt ble lagt til",
+            "shiftConflict": "Arrangementet og vakten ble lagt til. Medarbeideren har allerede en vakt på dette tidspunktet, så den nye vakten er merket som en konflikt på vaktplanen.",
             "successfullyAdded": "Ny arrangement ble lagt til vellykket",
             "successfullyDeleted": "Arrangement slettet vellykket",
             "successfullyUpdated": "Arrangement ble oppdatert vellykket",
@@ -7410,6 +7412,14 @@
         "employees": "Medarbeidere",
         "eventOwner": "Arrangementseier",
         "form": {
+            "shift": {
+                "alsoCreate": "Opprett også en vakt",
+                "employee": "Medarbeider",
+                "shiftType": "Vakttype",
+                "department": "Avdeling",
+                "notForRepeating": "En vakt kan ikke opprettes for et gjentakende arrangement.",
+                "info": "Vakten får arrangementets dato og tid og vises på medarbeiderens vaktplan med @:terms.citizenDefinite{''} tilknyttet."
+            },
             "applyChangesToFutureEvents": "Bruk endringer på fremtidige arrangementer",
             "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slutt dato og tid",
@@ -10962,6 +10972,7 @@
     "settings": {
         "company": {
             "form": {
+                "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
                 "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {

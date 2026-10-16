@@ -7383,6 +7383,8 @@
             "join": "Join meeting"
         },
         "alert": {
+            "successfullyAddedWithShift": "New event and shift successfully added",
+            "shiftConflict": "The event and the shift were added. The employee already has a shift at this time, so the new shift is marked as a conflict on the duty schedule.",
             "successfullyAdded": "New event successfully added",
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated",
@@ -7410,6 +7412,14 @@
         "employees": "Employees",
         "eventOwner": "Event owner",
         "form": {
+            "shift": {
+                "alsoCreate": "Also create a shift",
+                "employee": "Employee",
+                "shiftType": "Shift type",
+                "department": "Department",
+                "notForRepeating": "A shift can't be created for a repeating event.",
+                "info": "The shift gets the event's date and time and appears on the employee's duty schedule with the @:terms.citizen{''} attached."
+            },
             "applyChangesToFutureEvents": "Apply changes to future events",
             "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Date time end",
@@ -10967,6 +10977,7 @@
     "settings": {
         "company": {
             "form": {
+                "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
                 "2fa": "Two factor authentication",
                 "accountantEmail": "Auditor or accounting e-mail (@:terms.citizens{''}' wallet transactions)",
                 "alert": {
