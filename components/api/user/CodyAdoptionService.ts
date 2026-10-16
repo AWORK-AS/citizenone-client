@@ -20,6 +20,8 @@ export interface CodyAdoptionStatus {
         paid_seats_free?: number | null
     }
     requested_recently: boolean
+    app_uuid?: string | null
+    app_slug?: string | null
 }
 
 export interface CodyRequestResult {

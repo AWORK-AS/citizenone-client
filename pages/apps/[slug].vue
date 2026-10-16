@@ -88,9 +88,9 @@
                                  uses; nothing is charged until the trial ends. -->
                             <div v-if="app.trial_enabled && trial" class="space-y-2 border-t border-gray-100 pt-3">
                                 <template v-if="trial.available && isAdmin">
-                                    <div v-if="hasBothFrequencies" role="radiogroup" :aria-label="$t('appTrial.frequency')"
+                                    <div v-if="offeredFrequencies.length > 1" role="radiogroup" :aria-label="$t('appTrial.frequency')"
                                         class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1 text-xs font-semibold">
-                                        <button v-for="f in ['monthly', 'yearly']" :key="f" type="button" role="radio"
+                                        <button v-for="f in offeredFrequencies" :key="f" type="button" role="radio"
                                             :aria-checked="trialForm.frequency === f"
                                             class="rounded-md px-2 py-1.5 transition-colors"
                                             :class="trialForm.frequency === f ? 'bg-white text-primary shadow-sm' : 'text-gray-600'"
@@ -103,11 +103,11 @@
                                         <input v-model.number="trialForm.seats" type="number" min="1" step="1"
                                             class="w-20 rounded-md border border-gray-300 px-2 py-1 text-right text-sm" />
                                     </label>
+                                    <p class="text-xs text-gray-500">{{ finePrint }}</p>
                                     <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
                                         :disabled="activation.isBusy" @click="beginTrial()">
                                         {{ $t('appTrial.tryFree', { days: trialDays }) }}
                                     </FormButton>
-                                    <p class="text-xs text-gray-500">{{ finePrint }}</p>
                                 </template>
 
                                 <div v-else-if="trial.status === 'active' || trial.status === 'converting'" role="status"
@@ -318,14 +318,17 @@ const userStore = useUserStore() as any
 const isAdmin = computed(() => !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
 const trial = computed(() => state.app?.trial ?? null)
 const trialDays = computed(() => Number(trial.value?.days ?? state.app?.trial_days ?? 14))
-const hasBothFrequencies = computed(() => !!Number(state.app?.monthly_price) && !!Number(state.app?.yearly_price))
+const quotes = computed(() => trial.value?.quotes ?? {})
+// A frequency without a quote cannot be priced, so it is not offered.
+const offeredFrequencies = computed(() => (['monthly', 'yearly'] as const).filter(f => !!quotes.value?.[f]))
 const trialForm = reactive({ frequency: 'monthly' as 'monthly' | 'yearly', seats: 1 })
 const confirmCancelOpen = ref(false)
 const trialError = ref('')
 
 watch(trial, (value) => {
-    if (value?.frequency) trialForm.frequency = value.frequency
-    else if (!state.app?.monthly_price && state.app?.yearly_price) trialForm.frequency = 'yearly'
+    const offered = offeredFrequencies.value
+    if (value?.frequency && (!offered.length || offered.includes(value.frequency))) trialForm.frequency = value.frequency
+    else if (offered.length && !offered.includes(trialForm.frequency)) trialForm.frequency = offered[0]
 }, { immediate: true })
 
 function fmtDate(value: any) {
@@ -338,15 +341,13 @@ function fmtDate(value: any) {
 const finePrint = computed(() => {
     const end = new Date()
     end.setDate(end.getDate() + trialDays.value)
-    const matchesBackend = trial.value?.amount_gross && (trial.value?.frequency ?? trialForm.frequency) === trialForm.frequency
-    const listPrice = trialForm.frequency === 'monthly' ? state.app?.monthly_price : state.app?.yearly_price
-    const amount = matchesBackend
-        ? formatPrice(trial.value.amount_gross)
-        : `${formatPrice(listPrice)} ${t('excludeVat')}`
+    const quote = quotes.value?.[trialForm.frequency]
+    const amount = quote ? formatPrice(quote.amount_gross) : ''
     return t('appTrial.finePrint', {
         date: fmtDate(end),
         amount,
         period: trialForm.frequency === 'monthly' ? t('appTrial.perMonth') : t('appTrial.perYear'),
+        charge: fmtDate(end),
     })
 })
 

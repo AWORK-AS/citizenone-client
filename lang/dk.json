@@ -1003,7 +1003,7 @@
     },
     "appTrial": {
         "tryFree": "Prøv gratis i {days} dage",
-        "finePrint": "Gratis til {date}. Derefter {amount} pr. {period}. Opsig når som helst inden.",
+        "finePrint": "Gratis til {date}. Derefter {amount} pr. {period}. Opsig når som helst inden. Kortet trækkes automatisk {charge}, medmindre du opsiger inden.",
         "perMonth": "md.",
         "perYear": "år",
         "frequency": "Betalingsperiode",

@@ -1003,7 +1003,7 @@
     },
     "appTrial": {
         "tryFree": "Prova gratis i {days} dagar",
-        "finePrint": "Gratis till {date}. Därefter {amount} per {period}. Säg upp när som helst innan.",
+        "finePrint": "Gratis till {date}. Därefter {amount} per {period}. Säg upp när som helst innan. Kortet debiteras automatiskt {charge}, om du inte säger upp innan.",
         "perMonth": "mån.",
         "perYear": "år",
         "frequency": "Betalningsperiod",

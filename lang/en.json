@@ -1003,7 +1003,7 @@
     },
     "appTrial": {
         "tryFree": "Try free for {days} days",
-        "finePrint": "Free until {date}. Then {amount} per {period}. Cancel any time before.",
+        "finePrint": "Free until {date}. Then {amount} per {period}. Cancel any time before. The card is charged automatically on {charge} unless you cancel before.",
         "perMonth": "month",
         "perYear": "year",
         "frequency": "Billing period",
