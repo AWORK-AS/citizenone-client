@@ -1821,6 +1821,8 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "internal": "Intern note",
+                "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Udarbejd med AI",
@@ -10705,6 +10707,8 @@
             "permissions": "Tilladelser",
             "pages": "Sideadgange",
             "level": "Niveau",
+            "hideInternalJournals": "Kan ikke se interne noter",
+            "hideInternalJournalsHelp": "Medarbejdere med denne rolle ser ikke noter markeret som interne, medmindre de selv har skrevet dem. Har en medarbejder flere roller, er det nok at én af dem er markeret.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
