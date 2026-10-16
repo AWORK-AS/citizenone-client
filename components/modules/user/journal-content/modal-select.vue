@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { journalContentService } from '@/components/api/user/JournalContentService'
 import type { Error } from '@/types'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
     error: {
@@ -53,6 +54,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'select'])
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -93,7 +95,8 @@ async function fetchJournalContents() {
         if (response.data) {
             state.options.journal_contents = response.data.map((item: any) => ({
                 value: item.uuid,
-                label: item.name,
+                // A text with choice lists asks for options when inserted; say so.
+                label: item.choice_lists_count > 0 ? `${item.name} · ${t('journalContents.choices.badge')}` : item.name,
                 content: item.content,
             }))
         }

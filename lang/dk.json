@@ -8705,6 +8705,19 @@
             },
             "content": "Indhold",
             "name": "Navn"
+        },
+        "choices": {
+            "title": "Vælg muligheder",
+            "hint": "Teksten har valglister. Vælg den mulighed, der passer, så indsættes den færdige tekst i notatet.",
+            "preview": "Sådan bliver teksten",
+            "insert": "Indsæt i notatet",
+            "badge": "med valglister",
+            "syntaxHint": "Valgliste: skriv mulighederne i krøllede parenteser, adskilt af lodret streg, fx {example}. Man vælger mulighed, når teksten indsættes i et notat.",
+            "addList": "Indsæt valgliste",
+            "optionsLabel": "Muligheder (én pr. linje)",
+            "optionsPlaceholder": "finasterid 1 mg tablet\nfinasterid 5% serum",
+            "insertList": "Indsæt",
+            "needTwo": "Skriv mindst to muligheder, én pr. linje."
         }
     },
     "journalNoteTags": {

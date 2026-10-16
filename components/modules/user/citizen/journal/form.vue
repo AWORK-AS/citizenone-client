@@ -218,7 +218,8 @@
                     </div>
                 </div>
                 <div class="co-editor">
-                    <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"
+                        @ready="onContentEditorReady" @focus="contentEditorUsed = true"></ckeditor>
                     <!-- The audit's "always review AI output" reminder belongs where the
                     text was generated, not only in the assistant. -->
                     <p v-if="state.formJournal.is_ai_used"
@@ -458,6 +459,9 @@
 
         <ModulesUserJournalContentModalSelect :isModalOpen="state.modal.isSelectJournalContent"
             @close="state.modal.isSelectJournalContent = false" @select="onSelectJournalContent" />
+        <ModulesUserJournalContentModalChoices :isModalOpen="state.modal.isChoosingJournalContent"
+            :content="state.choicesContent" @close="state.modal.isChoosingJournalContent = false"
+            @insert="onChoicesInsert" />
 
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
@@ -539,6 +543,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+import { countChoiceLists } from '@/composables/journalChoiceLists'
 
 const { isAtLeast } = usePermissions()
 
@@ -680,8 +685,11 @@ const state = reactive({
         isAddJournalNoteTagsOpen: false,
         isUpgradeStorageOpen: false,
         isSelectJournalContent: false,
+        isChoosingJournalContent: false,
         isAiGeneratePreviewOpen: false,
     },
+    // A predefined text with choice lists, while its options are being chosen.
+    choicesContent: '',
     // Audit P2.1/P2.2: lets the user see and deselect specific journals/plans
     // before AI generation, rather than the AI silently having access to
     // everything with no visibility or control.
@@ -1242,9 +1250,47 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
+// The content editor itself, kept out of Vue's reactivity: CKEditor must not
+// be proxied. Used to insert a predefined text where the cursor is.
+let contentEditor: any = null
+const contentEditorUsed = ref(false)
+
+function onContentEditorReady(editor: any) {
+    contentEditor = editor
+}
+
+// A predefined text with choice lists ("{tablet | serum}") asks for the
+// options first; one without goes straight in.
 function onSelectJournalContent(selected: any) {
-    state.formJournal.content = selected.content
     state.modal.isSelectJournalContent = false
+    if (countChoiceLists(selected?.content) > 0) {
+        state.choicesContent = selected.content
+        state.modal.isChoosingJournalContent = true
+        return
+    }
+    insertJournalContent(selected?.content ?? '')
+}
+
+function onChoicesInsert(html: string) {
+    state.modal.isChoosingJournalContent = false
+    insertJournalContent(html)
+}
+
+// Into the note where the cursor is, keeping what is already written, so
+// several predefined texts can make up one note. It used to replace the whole
+// content. Before the editor has been clicked into, the text goes at the end.
+function insertJournalContent(html: string) {
+    if (!html) return
+    if (!contentEditor || !state.formJournal.content) {
+        state.formJournal.content = html
+    } else {
+        const model = contentEditor.model
+        if (!contentEditorUsed.value) {
+            model.change((writer: any) => writer.setSelection(writer.createPositionAt(model.document.getRoot(), 'end')))
+        }
+        const fragment = contentEditor.data.toModel(contentEditor.data.processor.toView(html))
+        model.insertContent(fragment)
+    }
     state.userPredefinedContents = true
 }
 

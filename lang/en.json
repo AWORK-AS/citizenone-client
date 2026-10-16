@@ -8705,6 +8705,19 @@
             },
             "content": "Content",
             "name": "Name"
+        },
+        "choices": {
+            "title": "Choose options",
+            "hint": "This text has choice lists. Choose the option that fits, and the finished text is inserted in the note.",
+            "preview": "How the text will read",
+            "insert": "Insert in the note",
+            "badge": "with choice lists",
+            "syntaxHint": "Choice list: write the options in curly braces, separated by a vertical bar, e.g. {example}. The option is chosen when the text is inserted in a note.",
+            "addList": "Insert choice list",
+            "optionsLabel": "Options (one per line)",
+            "optionsPlaceholder": "finasterid 1 mg tablet\nfinasterid 5% serum",
+            "insertList": "Insert",
+            "needTwo": "Write at least two options, one per line."
         }
     },
     "journalNoteTags": {
