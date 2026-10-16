@@ -29,7 +29,18 @@
 
         <!-- Chat List -->
         <ul ref="chatListRef" class="flex-1 overflow-y-auto py-1">
-            <li v-for="(chat, index) in filteredChats" :key="index" @click="openChat(chat)" :class="[
+            <template v-for="(chat, index) in filteredChats" :key="chat.uuid">
+            <!-- Section labels, shown only when there are pinned chats -->
+            <li v-if="chat.pinned_at && index === 0"
+                class="flex items-center gap-1.5 px-4 pt-2 pb-1 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                <Icon name="ph:push-pin-fill" class="w-3 h-3" aria-hidden="true" />
+                {{ $t('messages.pinnedChats') }}
+            </li>
+            <li v-else-if="!chat.pinned_at && index > 0 && filteredChats[index - 1]?.pinned_at"
+                class="px-4 pt-3 pb-1 mt-1 border-t border-gray-100 text-[11px] font-semibold uppercase tracking-wide text-gray-400">
+                {{ $t('messages.allChats') }}
+            </li>
+            <li @click="openChat(chat)" :class="[
                 'flex items-center gap-3 px-4 py-4 md:py-3 cursor-pointer transition-all relative group/chat',
                 props.activeChatUuid === chat.uuid
                     ? 'bg-primary/8 before:absolute before:left-0 before:top-0 before:bottom-0 before:w-0.5 before:bg-primary'
@@ -56,12 +67,17 @@
                 <!-- Info -->
                 <div class="flex-1 min-w-0">
                     <div class="flex items-center justify-between gap-1">
-                        <h4 :class="[
-                            'text-sm truncate',
-                            chat?.unread_messages > 0 ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'
-                        ]">
-                            {{ getChatDisplayName(chat) }}
-                        </h4>
+                        <div class="flex items-center gap-1 min-w-0">
+                            <h4 :class="[
+                                'text-sm truncate',
+                                chat?.unread_messages > 0 ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'
+                            ]">
+                                {{ getChatDisplayName(chat) }}
+                            </h4>
+                            <Icon v-if="chat.pinned_at" name="ph:push-pin-fill"
+                                class="w-3 h-3 flex-shrink-0 text-primary" :title="$t('messages.pinnedChats')"
+                                :aria-label="$t('messages.pinnedChats')" />
+                        </div>
                         <!-- Time (hidden on hover) / Menu button (shown on hover) -->
                         <div class="flex-shrink-0 relative">
                             <span class="text-xs text-gray-400 group-hover/chat:hidden">
@@ -76,6 +92,13 @@
                             <div v-if="state.openChatMenuUuid === chat.uuid"
                                 class="absolute right-0 top-full mt-1 w-44 bg-white rounded-xl shadow-lg border border-gray-100 py-1 z-20"
                                 @click.stop>
+                                <button
+                                    class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 transition-colors"
+                                    @click="togglePin(chat)">
+                                    <Icon :name="chat.pinned_at ? 'ph:push-pin-slash' : 'ph:push-pin'"
+                                        class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                                    {{ chat.pinned_at ? $t('messages.unpinChat') : $t('messages.pinChat') }}
+                                </button>
                                 <button
                                     class="w-full flex items-center gap-3 px-4 py-2.5 text-sm text-red-500 hover:bg-red-50 transition-colors"
                                     @click="confirmDeleteChat(chat)">
@@ -97,6 +120,7 @@
                     </div>
                 </div>
             </li>
+            </template>
 
             <!-- Empty search result -->
             <li v-if="filteredChats.length === 0 && state.searchQuery" class="px-4 py-8 text-center">
@@ -170,6 +194,21 @@ onMounted(() => {
 
 function toggleChatMenu(uuid: string) {
     state.openChatMenuUuid = state.openChatMenuUuid === uuid ? null : uuid
+}
+
+async function togglePin(chat: any) {
+    state.openChatMenuUuid = null
+    const pinning = !chat.pinned_at
+    try {
+        const response = pinning
+            ? await messageService.pinChat(chat.uuid)
+            : await messageService.unpinChat(chat.uuid)
+        if (response) {
+            successAlert(`${t('alert.success')}!`, pinning ? t('messages.alert.chatPinned') : t('messages.alert.chatUnpinned'))
+            // The server decides the order (pinned first), so reload the list.
+            fetchChats?.()
+        }
+    } catch (error: any) { }
 }
 
 function confirmDeleteChat(chat: any) {
