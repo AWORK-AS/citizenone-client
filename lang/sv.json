@@ -8705,6 +8705,19 @@
             },
             "content": "Innehåll",
             "name": "Namn"
+        },
+        "choices": {
+            "title": "Välj alternativ",
+            "hint": "Texten har vallistor. Välj det alternativ som passar, så infogas den färdiga texten i anteckningen.",
+            "preview": "Så blir texten",
+            "insert": "Infoga i anteckningen",
+            "badge": "med vallistor",
+            "syntaxHint": "Vallista: skriv alternativen inom klammerparenteser, åtskilda av lodrätt streck, t.ex. {example}. Alternativet väljs när texten infogas i en anteckning.",
+            "addList": "Infoga vallista",
+            "optionsLabel": "Alternativ (ett per rad)",
+            "optionsPlaceholder": "finasterid 1 mg tablett\nfinasterid 5% serum",
+            "insertList": "Infoga",
+            "needTwo": "Skriv minst två alternativ, ett per rad."
         }
     },
     "journalNoteTags": {
