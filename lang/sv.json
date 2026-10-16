@@ -3554,7 +3554,7 @@
             "caseNumber": "Ärendenummer",
             "columns": {
                 "columns": "Kolumner",
-                "hint": "Välj vilka kolumner som ska visas i översikten."
+                "hint": "Markera kolumnerna du vill se och dra dem i den ordning du vill ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdelning",
@@ -18334,5 +18334,9 @@
             "required": "Besvara frågorna markerade med *.",
             "failed": "Något gick fel. Försök igen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytta {column} upp",
+        "moveDown": "Flytta {column} ned"
     }
 }

@@ -3554,7 +3554,7 @@
             "caseNumber": "Indsatsnummer",
             "columns": {
                 "columns": "Kolonner",
-                "hint": "Vælg hvilke kolonner der skal vises i oversigten."
+                "hint": "Sæt flueben ved de kolonner, du vil se, og træk dem i den rækkefølge, du vil have dem."
             },
             "coordinator": "Koordinator",
             "department": "Afdeling",
@@ -18430,5 +18430,9 @@
             "required": "Besvar spørgsmålene markeret med *.",
             "failed": "Noget gik galt. Prøv igen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flyt {column} op",
+        "moveDown": "Flyt {column} ned"
     }
 }
