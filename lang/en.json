@@ -9181,9 +9181,12 @@
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chat successfully deleted",
+            "chatPinned": "Chat pinned",
+            "chatUnpinned": "Chat unpinned",
             "messageSuccessfullyDeleted": "Message successfully deleted",
             "messageSuccessfullyUpdated": "Message successfully updated"
         },
+        "allChats": "All chats",
         "allMessagesAreLoaded": "All messages are loaded",
         "and": "And",
         "attachFile": "Attach file",
@@ -9193,6 +9196,9 @@
         },
         "conversationsAndMessaging": "Conversations & Messaging",
         "deleteChat": "Delete chat",
+        "pinChat": "Pin chat",
+        "pinnedChats": "Pinned",
+        "unpinChat": "Unpin chat",
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
         "openInNewWindow": "Open in new window",
