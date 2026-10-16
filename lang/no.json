@@ -7405,6 +7405,8 @@
             "join": "Bli med i møte"
         },
         "alert": {
+            "successfullyAddedWithShift": "Nytt arrangement og vakt ble lagt til",
+            "shiftConflict": "Arrangementet og vakten ble lagt til. Medarbeideren har allerede en vakt på dette tidspunktet, så den nye vakten er merket som en konflikt på vaktplanen.",
             "successfullyAdded": "Ny arrangement ble lagt til vellykket",
             "successfullyDeleted": "Arrangement slettet vellykket",
             "successfullyUpdated": "Arrangement ble oppdatert vellykket",
@@ -7432,6 +7434,14 @@
         "employees": "Medarbeidere",
         "eventOwner": "Arrangementseier",
         "form": {
+            "shift": {
+                "alsoCreate": "Opprett også en vakt",
+                "employee": "Medarbeider",
+                "shiftType": "Vakttype",
+                "department": "Avdeling",
+                "notForRepeating": "En vakt kan ikke opprettes for et gjentakende arrangement.",
+                "info": "Vakten får arrangementets dato og tid og vises på medarbeiderens vaktplan med @:terms.citizenDefinite{''} tilknyttet."
+            },
             "applyChangesToFutureEvents": "Bruk endringer på fremtidige arrangementer",
             "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slutt dato og tid",
@@ -11003,6 +11013,7 @@
     "settings": {
         "company": {
             "form": {
+                "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
                 "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
@@ -15730,7 +15741,34 @@
         "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så ta aldri opp en skjerm med @:terms.citizen{'data'}.",
         "showOnWebsite": "Vis også på citizenone.dk",
         "showOnWebsiteHint": "Notatet blir synlig for kommende kunder på nettsiden, ikke bare for dem som @:terms.citizen{''} systemet.",
-        "onWebsite": "På nettsiden"
+        "onWebsite": "På nettsiden",
+        "items": "Punkter",
+        "kindFeature": "Nytt",
+        "kindImprovement": "Forbedret",
+        "kindFix": "Rettet",
+        "addItem": "Legg til punkt",
+        "itemPlaceholder": "Skriv så ansatte og ledere forstår det",
+        "itemArea": "Område (valgfritt)",
+        "itemKind": "Type",
+        "removeItem": "Fjern punkt",
+        "itemsHint": "Teksten kundene ser, lages ut fra punktene.",
+        "noItems": "Ingen punkter ennå.",
+        "sourceItems": "Rå endringer fra deployer ({count})",
+        "needsReview": "Ny siden redigeringen",
+        "reviewBanner": "{count} nye endringer har kommet etter at utkastet ble redigert. De er ikke med i teksten ennå.",
+        "markReviewed": "Merk som gjennomgått",
+        "reviewBadge": "Til gjennomgang",
+        "aiPending": "Skrives om med AI",
+        "aiFailed": "AI-omskrivingen feilet: {error}",
+        "regenerate": "Generer på nytt med AI",
+        "regenerateConfirm": "Skrive teksten på nytt ut fra alle ukens endringer? Endringene dine i punktene blir erstattet.",
+        "approveTitle": "Godkjenn release note",
+        "approveIntro": "Velg hvor notatet skal. Kunder i systemet ser det alltid.",
+        "showAsNews": "Vis som nyhet på citizenone.dk og i appen",
+        "showAsNewsHint": "Bare det nye og det forbedrede vises. Rettelser vises aldri som nyheter.",
+        "sendToMilo": "Send til Milo (supportkunnskap)",
+        "sendToMiloHint": "Rettelser går til Milo så support kan svare på spørsmål om dem, men vises aldri som nyheter.",
+        "toMilo": "Til Milo"
     },
     "customSidebarLinks": {
         "title": "Egne lenker",

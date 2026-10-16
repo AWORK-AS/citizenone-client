@@ -7405,6 +7405,8 @@
             "join": "Anslut till möte"
         },
         "alert": {
+            "successfullyAddedWithShift": "Ny händelse och nytt pass har lagts till",
+            "shiftConflict": "Händelsen och passet har lagts till. Den anställda har redan ett pass vid den här tiden, så det nya passet är markerat som en konflikt i schemat.",
             "successfullyAdded": "Ny händelse har lagts till",
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
@@ -7432,6 +7434,14 @@
         "employees": "Anställda",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "shift": {
+                "alsoCreate": "Skapa även ett pass",
+                "employee": "Anställd",
+                "shiftType": "Passtyp",
+                "department": "Avdelning",
+                "notForRepeating": "Ett pass kan inte skapas för en återkommande händelse.",
+                "info": "Passet får händelsens datum och tid och visas på den anställdes schema med @:terms.citizenDefinite{''} kopplad."
+            },
             "applyChangesToFutureEvents": "Använd ändringar på fremtidige händelser",
             "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slut datum och tid",
@@ -11003,6 +11013,7 @@
     "settings": {
         "company": {
             "form": {
+                "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
                 "2fa": "Tvåfaktorsautentisering",
                 "accountantEmail": "Revisor eller regnskabs e-post (borgernes wallet transaktioner)",
                 "alert": {
@@ -15730,7 +15741,34 @@
         "videoHint": "YouTube, Vimeo eller Loom. Videon ligger hos tredje part, så spela aldrig in en skärm med @:terms.citizen{'data'}.",
         "showOnWebsite": "Visa även på citizenone.dk",
         "showOnWebsiteHint": "Noten blir synlig för blivande kunder på webbplatsen, inte bara för dem som använder systemet.",
-        "onWebsite": "På webbplatsen"
+        "onWebsite": "På webbplatsen",
+        "items": "Punkter",
+        "kindFeature": "Nytt",
+        "kindImprovement": "Förbättrat",
+        "kindFix": "Åtgärdat",
+        "addItem": "Lägg till punkt",
+        "itemPlaceholder": "Skriv så att medarbetare och chefer förstår det",
+        "itemArea": "Område (valfritt)",
+        "itemKind": "Typ",
+        "removeItem": "Ta bort punkt",
+        "itemsHint": "Texten kunderna ser byggs av punkterna.",
+        "noItems": "Inga punkter än.",
+        "sourceItems": "Råa ändringar från deployer ({count})",
+        "needsReview": "Ny sedan redigeringen",
+        "reviewBanner": "{count} nya ändringar har kommit sedan utkastet redigerades. De finns inte i texten än.",
+        "markReviewed": "Markera som granskad",
+        "reviewBadge": "Att granska",
+        "aiPending": "Skrivs om med AI",
+        "aiFailed": "AI-omskrivningen misslyckades: {error}",
+        "regenerate": "Generera igen med AI",
+        "regenerateConfirm": "Skriva texten på nytt utifrån alla veckans ändringar? Dina ändringar i punkterna ersätts.",
+        "approveTitle": "Godkänn release note",
+        "approveIntro": "Välj vart anteckningen ska. Kunder i systemet ser den alltid.",
+        "showAsNews": "Visa som nyhet på citizenone.dk och i appen",
+        "showAsNewsHint": "Bara det nya och det förbättrade visas. Rättningar visas aldrig som nyheter.",
+        "sendToMilo": "Skicka till Milo (supportkunskap)",
+        "sendToMiloHint": "Rättningar går till Milo så att supporten kan svara på frågor om dem, men visas aldrig som nyheter.",
+        "toMilo": "Till Milo"
     },
     "customSidebarLinks": {
         "title": "Egna länkar",
