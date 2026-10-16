@@ -17027,6 +17027,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
+        "archived": "Arkiverad",
+        "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
         "matches": {
