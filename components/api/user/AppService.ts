@@ -32,6 +32,11 @@ class AppService extends BaseAPIService {
         return await this.request(`/user/apps/${appUuid}/trial`, 'POST', params)
     }
 
+    // The binding price for a frequency and seat count, incl. VAT and fees.
+    async getTrialQuote(appUuid: string, params: { frequency: string, seats?: number }): Promise<any> {
+        return await this.request(`/user/apps/${appUuid}/trial/quote`, 'GET', params)
+    }
+
     async verifyTrial(paymentId: string): Promise<any> {
         return await this.request(`/user/apps/${paymentId}/trial/verify`, 'POST')
     }

@@ -1003,6 +1003,10 @@
     },
     "appTrial": {
         "tryFree": "Prøv gratis i {days} dage",
+        "quoting": "Henter pris...",
+        "quoteFailed": "Vi kunne ikke hente prisen. Prøv igen.",
+        "priceChanged": "Prisen er nu {amount}. Bekræft for at fortsætte.",
+        "confirmPrice": "Bekræft og fortsæt",
         "finePrint": "Gratis til {date}. Derefter {amount} pr. {period}. Opsig når som helst inden. Kortet trækkes automatisk {charge}, medmindre du opsiger inden.",
         "perMonth": "md.",
         "perYear": "år",

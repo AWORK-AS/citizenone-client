@@ -1003,6 +1003,10 @@
     },
     "appTrial": {
         "tryFree": "Try free for {days} days",
+        "quoting": "Fetching price...",
+        "quoteFailed": "We could not fetch the price. Please try again.",
+        "priceChanged": "The price is now {amount}. Confirm to continue.",
+        "confirmPrice": "Confirm and continue",
         "finePrint": "Free until {date}. Then {amount} per {period}. Cancel any time before. The card is charged automatically on {charge} unless you cancel before.",
         "perMonth": "month",
         "perYear": "year",

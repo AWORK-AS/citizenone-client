@@ -103,9 +103,19 @@
                                         <input v-model.number="trialForm.seats" type="number" min="1" step="1"
                                             class="w-20 rounded-md border border-gray-300 px-2 py-1 text-right text-sm" />
                                     </label>
-                                    <p class="text-xs text-gray-500">{{ finePrint }}</p>
-                                    <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
-                                        :disabled="activation.isBusy" @click="beginTrial()">
+                                    <p v-if="quoting" class="text-xs text-gray-500" role="status">{{ $t('appTrial.quoting') }}</p>
+                                    <p v-else-if="quoteFailed" class="text-xs text-red-600" role="alert">{{ $t('appTrial.quoteFailed') }}</p>
+                                    <p v-else-if="quote" class="text-xs text-gray-500">{{ finePrint }}</p>
+                                    <div v-if="activation.priceChange" role="alert"
+                                        class="space-y-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+                                        <p>{{ $t('appTrial.priceChanged', { amount: formatPrice(activation.priceChange.amount) }) }}</p>
+                                        <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
+                                            @click="confirmTrialPrice()">
+                                            {{ $t('appTrial.confirmPrice') }}
+                                        </FormButton>
+                                    </div>
+                                    <FormButton v-else type="button" buttonStyle="primary" class="w-full justify-center"
+                                        :disabled="activation.isBusy || quoting || quoteFailed || !quote" @click="beginTrial()">
                                         {{ $t('appTrial.tryFree', { days: trialDays }) }}
                                     </FormButton>
                                 </template>
@@ -249,7 +259,7 @@ const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t, locale } = useI18n()
 const { appPrice, formatAmount } = useAppPrice()
-const { activation, requestActivation, activate, startTrial } = useAppActivation({
+const { activation, requestActivation, activate, startTrial, confirmTrialPrice } = useAppActivation({
     checkoutContainerId: 'app-page-checkout',
     onTrialStarted: async () => { await fetchApp(); await refreshUser(); loadCodyAdoption(true) },
 })
@@ -315,13 +325,22 @@ async function openPartner(link: string) {
 }
 
 const userStore = useUserStore() as any
-const isAdmin = computed(() => !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
+const { can } = usePermissions()
+// The backend's can_manage (adoption status) or the licence permission decides; the
+// role name alone is only a fallback. The backend still enforces whatever is shown.
+const isAdmin = computed(() => !!codyStatus.value?.can_manage || can('manage_licenses')
+    || !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
 const trial = computed(() => state.app?.trial ?? null)
 const trialDays = computed(() => Number(trial.value?.days ?? state.app?.trial_days ?? 14))
 const quotes = computed(() => trial.value?.quotes ?? {})
 // A frequency without a quote cannot be priced, so it is not offered.
 const offeredFrequencies = computed(() => (['monthly', 'yearly'] as const).filter(f => !!quotes.value?.[f]))
 const trialForm = reactive({ frequency: 'monthly' as 'monthly' | 'yearly', seats: 1 })
+const quote = ref<any>(null)
+const quoting = ref(false)
+const quoteFailed = ref(false)
+let quoteSeq = 0
+let quoteTimer: any = null
 const confirmCancelOpen = ref(false)
 const trialError = ref('')
 
@@ -329,7 +348,36 @@ watch(trial, (value) => {
     const offered = offeredFrequencies.value
     if (value?.frequency && (!offered.length || offered.includes(value.frequency))) trialForm.frequency = value.frequency
     else if (offered.length && !offered.includes(trialForm.frequency)) trialForm.frequency = offered[0]
+    if (value?.seats) trialForm.seats = Number(value.seats) || 1
 }, { immediate: true })
+
+// Re-quote whenever the choice changes. Only the latest response is used.
+function requestQuote() {
+    if (!state.app?.uuid || !trial.value?.available) return
+    clearTimeout(quoteTimer)
+    quote.value = null
+    quoteFailed.value = false
+    quoting.value = true
+    activation.priceChange = null
+    const seq = ++quoteSeq
+    quoteTimer = setTimeout(async () => {
+        try {
+            const result = await appService.getTrialQuote(state.app.uuid, {
+                frequency: trialForm.frequency,
+                ...(state.app?.is_quantifiable ? { seats: Math.max(1, Number(trialForm.seats) || 1) } : {}),
+            })
+            if (seq !== quoteSeq) return
+            quote.value = result?.amount_gross != null ? result : null
+            quoteFailed.value = !quote.value
+        } catch (_) {
+            if (seq !== quoteSeq) return
+            quoteFailed.value = true
+        }
+        if (seq === quoteSeq) quoting.value = false
+    }, 300)
+}
+
+watch(() => [trialForm.frequency, trialForm.seats, state.app?.uuid, trial.value?.available], requestQuote, { immediate: true })
 
 function fmtDate(value: any) {
     if (!value) return ''
@@ -341,8 +389,7 @@ function fmtDate(value: any) {
 const finePrint = computed(() => {
     const end = new Date()
     end.setDate(end.getDate() + trialDays.value)
-    const quote = quotes.value?.[trialForm.frequency]
-    const amount = quote ? formatPrice(quote.amount_gross) : ''
+    const amount = quote.value ? formatPrice(quote.value.amount_gross) : ''
     return t('appTrial.finePrint', {
         date: fmtDate(end),
         amount,
@@ -356,7 +403,7 @@ async function beginTrial() {
     await startTrial(state.app, {
         frequency: trialForm.frequency,
         ...(state.app?.is_quantifiable ? { seats: Math.max(1, Number(trialForm.seats) || 1) } : {}),
-    })
+    }, quote.value?.amount_gross)
 }
 
 async function runTrialAction(action: () => Promise<any>) {
@@ -374,7 +421,7 @@ async function runTrialAction(action: () => Promise<any>) {
 const cancelTrial = () => runTrialAction(() => appService.cancelTrial(state.app.uuid))
 const undoCancel = () => runTrialAction(() => appService.undoCancelTrial(state.app.uuid))
 
-const { load: loadCodyAdoption } = useCodyAdoption()
+const { load: loadCodyAdoption, status: codyStatus } = useCodyAdoption()
 
 // A trial can switch an app on (Cody sets has_ai_access on the user), so re-read the user.
 async function refreshUser() {

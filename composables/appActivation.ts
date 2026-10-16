@@ -27,6 +27,8 @@ export function useAppActivation(options: { checkoutContainerId: string, onTrial
         isBusy: false,
         isCheckoutOpen: false,
         isTermsOpen: false,
+        // Set when the price at start differs from the one shown: nothing opens until it is confirmed.
+        priceChange: null as null | { paymentId: string, amount: number | string },
         selectedApp: {} as any,
     })
 
@@ -145,8 +147,9 @@ export function useAppActivation(options: { checkoutContainerId: string, onTrial
      * (nothing is charged), the same checkout collects it, and verifying the
      * payment is what actually starts the trial.
      */
-    async function startTrial(app: any, params: { frequency: 'monthly' | 'yearly', seats?: number }) {
+    async function startTrial(app: any, params: { frequency: 'monthly' | 'yearly', seats?: number }, displayedAmount?: number | string | null) {
         activation.error = {}
+        activation.priceChange = null
         activation.isBusy = true
 
         try {
@@ -154,18 +157,12 @@ export function useAppActivation(options: { checkoutContainerId: string, onTrial
 
             if (!response?.paymentId) {
                 activation.error = { message: t('apps.couldNotStartPayment') }
+            } else if (response?.amount_gross != null && displayedAmount != null
+                && Math.round(Number(response.amount_gross) * 100) !== Math.round(Number(displayedAmount) * 100)) {
+                // The price moved between quote and start. Show it and wait for a second click.
+                activation.priceChange = { paymentId: response.paymentId, amount: response.amount_gross }
             } else {
-                mountCheckout(response.paymentId, async (result: any) => {
-                    activation.isBusy = true
-                    try {
-                        await appService.verifyTrial(result.paymentId)
-                    } catch (error: any) {
-                        activation.error = error
-                    }
-                    activation.isCheckoutOpen = false
-                    activation.isBusy = false
-                    await options.onTrialStarted?.()
-                })
+                mountTrialCheckout(response.paymentId)
             }
         } catch (error: any) {
             activation.error = error
@@ -174,5 +171,25 @@ export function useAppActivation(options: { checkoutContainerId: string, onTrial
         activation.isBusy = false
     }
 
-    return { activation, requestActivation, activate, startTrial }
+    function confirmTrialPrice() {
+        const pending = activation.priceChange
+        activation.priceChange = null
+        if (pending) mountTrialCheckout(pending.paymentId)
+    }
+
+    function mountTrialCheckout(paymentId: string) {
+        mountCheckout(paymentId, async (result: any) => {
+            activation.isBusy = true
+            try {
+                await appService.verifyTrial(result.paymentId)
+            } catch (error: any) {
+                activation.error = error
+            }
+            activation.isCheckoutOpen = false
+            activation.isBusy = false
+            await options.onTrialStarted?.()
+        })
+    }
+
+    return { activation, requestActivation, activate, startTrial, confirmTrialPrice }
 }
