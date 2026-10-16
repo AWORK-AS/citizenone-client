@@ -998,13 +998,35 @@
             "requestFailed": "Det lykkedes ikke. Prøv igen om lidt.",
             "promptTitle": "Få Cody med i hverdagen",
             "goToStore": "Gå til App-butikken",
-            "confirmTitle": "Start 14 dages gratis prøve",
-            "confirmBody": "Alle i virksomheden får Cody i 14 dage. Der bliver ikke afregnet noget, og prøven stopper af sig selv.",
-            "confirmStart": "Start prøven",
-            "trialError": {
-                "notAllowed": "Prøveperioden kan ikke startes for jeres virksomhed.",
-                "failed": "Det lykkedes ikke at starte prøven. Prøv igen."
-            }
+            "thenAmount": "Derefter {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Prøv gratis i {days} dage",
+        "finePrint": "Gratis til {date}. Derefter {amount} pr. {period}. Opsig når som helst inden.",
+        "perMonth": "md.",
+        "perYear": "år",
+        "frequency": "Betalingsperiode",
+        "monthly": "Månedligt",
+        "yearly": "Årligt",
+        "seats": "Antal brugere",
+        "activeTitle": "Gratis prøveperiode",
+        "freeUntil": "Gratis til {date}",
+        "firstCharge": "Første betaling {date}: {amount}",
+        "cancel": "Opsig prøveperioden",
+        "cancelTitle": "Opsig prøveperioden?",
+        "cancelBody": "Du kan bruge appen gratis til {date}. Derefter bliver der ikke trukket noget. Du kan fortryde, så længe prøven løber.",
+        "cancelled": "Prøveperioden er opsagt og slutter {date}.",
+        "undo": "Fortryd",
+        "chargeFailedTitle": "Betalingen mislykkedes",
+        "chargeFailedBody": "Vi kunne ikke trække betalingen efter prøveperioden. Tjek jeres betalingskort, så prøver vi igen.",
+        "chargeFailedLink": "Gå til abonnement og betaling",
+        "failed": "Det lykkedes ikke. Prøv igen.",
+        "superadmin": {
+            "enabled": "Gratis prøveperiode",
+            "days": "Antal dage",
+            "daysHint": "Mellem 4 og 90 dage. Kunden skal gemme et kort, og prøven går automatisk over i betaling.",
+            "blockedHint": "Ikke muligt for tredjepartsapps og apps med engangsbetaling."
         }
     },
     "assistants": {

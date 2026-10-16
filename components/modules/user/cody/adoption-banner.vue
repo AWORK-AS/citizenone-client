@@ -9,11 +9,11 @@
 
             <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                 <FormButton v-if="variant === 'adminTrial'" type="button" buttonStyle="primary" buttonSize="xs"
-                    :disabled="trialBusy" @click="confirmOpen = true">
+                    @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.tryFree') }}
                 </FormButton>
                 <FormButton v-else-if="variant === 'adminEnable'" type="button" buttonStyle="primary" buttonSize="xs"
-                    @click="navigateTo('/apps')">
+                    @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.turnOn') }}
                 </FormButton>
                 <FormButton v-else-if="variant === 'request' && requestState !== 'sent' && requestState !== 'recent'"
@@ -27,17 +27,16 @@
                 </span>
 
                 <button v-if="variant === 'adminTrial'" type="button"
-                    class="text-sm text-primary underline underline-offset-2" @click="navigateTo('/apps')">
+                    class="text-sm text-primary underline underline-offset-2" @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.readMore') }}
                 </button>
                 <button v-if="variant === 'trial' && isAdmin" type="button"
-                    class="text-sm font-semibold text-primary underline underline-offset-2" @click="navigateTo('/apps')">
+                    class="text-sm font-semibold text-primary underline underline-offset-2" @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.buy') }}
                 </button>
 
                 <p v-if="requestState === 'no_admin'" class="text-sm text-gray-600">{{ $t('cody.adoption.noAdmin') }}</p>
                 <p v-if="requestState === 'error'" class="text-sm text-red-600">{{ $t('cody.adoption.requestFailed') }}</p>
-                <p v-if="trialError" class="text-sm text-red-600">{{ $t(`cody.adoption.trialError.${trialError}`) }}</p>
             </div>
         </div>
 
@@ -45,23 +44,18 @@
             :aria-label="$t('close')" @click="dismiss(variant === 'trial' ? 'trial' : 'banner')">
             <Icon name="ph:x" class="h-4 w-4" aria-hidden="true" />
         </button>
-
-        <DialogConfirmation :isModalOpen="confirmOpen" :title="$t('cody.adoption.confirmTitle')"
-            :message="$t('cody.adoption.confirmBody')" :confirmLabel="$t('cody.adoption.confirmStart')"
-            @close="confirmOpen = false" @confirm="startTrial()" />
     </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { formatPrice } from '@/composables/customerSpecialPrice'
 
 const { t } = useI18n()
 const {
-    status, isAdmin, hasAccess, requestState, trialBusy, trialError,
-    load, startTrial, requestFromAdmin, isDismissed, dismiss,
+    status, isAdmin, hasAccess, requestState, appPath,
+    load, requestFromAdmin, isDismissed, dismiss,
 } = useCodyAdoption()
-
-const confirmOpen = ref(false)
 
 const daysLeft = computed(() => Math.max(0, Number(status.value?.trial?.days_left ?? 0)))
 // From three days left the countdown stops being a footnote.
@@ -79,7 +73,11 @@ const variant = computed<'trial' | 'adminTrial' | 'adminEnable' | 'request' | nu
 
 const title = computed(() => {
     switch (variant.value) {
-        case 'trial': return t('cody.adoption.trialLeft', { count: daysLeft.value }, daysLeft.value)
+        case 'trial': {
+            const base = t('cody.adoption.trialLeft', { count: daysLeft.value }, daysLeft.value)
+            const amount = formatPrice(status.value?.trial?.amount_gross)
+            return amount ? `${base}. ${t('cody.adoption.thenAmount', { amount })}` : base
+        }
         case 'adminTrial': return t('cody.adoption.headline')
         case 'adminEnable': return t('cody.adoption.enableTitle')
         case 'request': return t('cody.adoption.requestTitle')

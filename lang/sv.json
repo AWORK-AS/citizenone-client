@@ -998,13 +998,35 @@
             "requestFailed": "Det gick inte. Försök igen om en stund.",
             "promptTitle": "Ta in Cody i vardagen",
             "goToStore": "Gå till App-butiken",
-            "confirmTitle": "Starta 14 dagars gratis provperiod",
-            "confirmBody": "Alla i företaget får Cody i 14 dagar. Inget faktureras och provperioden upphör av sig själv.",
-            "confirmStart": "Starta provperioden",
-            "trialError": {
-                "notAllowed": "Provperioden kan inte startas för ert företag.",
-                "failed": "Det gick inte att starta provperioden. Försök igen."
-            }
+            "thenAmount": "Därefter {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Prova gratis i {days} dagar",
+        "finePrint": "Gratis till {date}. Därefter {amount} per {period}. Säg upp när som helst innan.",
+        "perMonth": "mån.",
+        "perYear": "år",
+        "frequency": "Betalningsperiod",
+        "monthly": "Månadsvis",
+        "yearly": "Årsvis",
+        "seats": "Antal användare",
+        "activeTitle": "Gratis provperiod",
+        "freeUntil": "Gratis till {date}",
+        "firstCharge": "Första betalning {date}: {amount}",
+        "cancel": "Säg upp provperioden",
+        "cancelTitle": "Säga upp provperioden?",
+        "cancelBody": "Du kan använda appen gratis till {date}. Därefter dras ingenting. Du kan ångra dig medan provperioden pågår.",
+        "cancelled": "Provperioden är uppsagd och slutar {date}.",
+        "undo": "Ångra",
+        "chargeFailedTitle": "Betalningen misslyckades",
+        "chargeFailedBody": "Vi kunde inte dra betalningen efter provperioden. Kontrollera ert betalkort så försöker vi igen.",
+        "chargeFailedLink": "Gå till abonnemang och betalning",
+        "failed": "Det gick inte. Försök igen.",
+        "superadmin": {
+            "enabled": "Gratis provperiod",
+            "days": "Antal dagar",
+            "daysHint": "Mellan 4 och 90 dagar. Kunden måste spara ett kort och provperioden går automatiskt över i betalning.",
+            "blockedHint": "Inte möjligt för tredjepartsappar och appar med engångsbetalning."
         }
     },
     "assistants": {

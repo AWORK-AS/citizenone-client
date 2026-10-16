@@ -1,5 +1,4 @@
 import { codyAdoptionService, type CodyAdoptionStatus } from '@/components/api/user/CodyAdoptionService'
-import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 
 const DISMISS_DAYS = 14
@@ -18,8 +17,6 @@ export function useCodyAdoption() {
     const status = useState<CodyAdoptionStatus | null>('cody-adoption-status', () => null)
     const loaded = useState<boolean>('cody-adoption-loaded', () => false)
     const requestState = useState<'idle' | 'sending' | 'sent' | 'recent' | 'no_admin' | 'error'>('cody-adoption-request', () => 'idle')
-    const trialBusy = useState<boolean>('cody-adoption-trial-busy', () => false)
-    const trialError = useState<string>('cody-adoption-trial-error', () => '')
     const promptOpen = useState<boolean>('cody-adoption-prompt-open', () => false)
     const dismissTick = useState<number>('cody-adoption-dismiss-tick', () => 0)
 
@@ -34,31 +31,6 @@ export function useCodyAdoption() {
         } catch (_) {
             // A missing reading must never block the page.
             status.value = null
-        }
-    }
-
-    // The user object carries has_ai_access, so Cody appears once it is re-read.
-    async function refreshUser() {
-        try {
-            const response = await userService.getUser()
-            if (response?.data) userStore.setUser(response.data)
-        } catch (_) { /* the next request will pick it up */ }
-    }
-
-    async function startTrial(): Promise<boolean> {
-        trialBusy.value = true
-        trialError.value = ''
-        try {
-            await codyAdoptionService.startTrial()
-            await refreshUser()
-            await load(true)
-            promptOpen.value = false
-            return true
-        } catch (error: any) {
-            trialError.value = error?.status === 422 ? 'notAllowed' : 'failed'
-            return false
-        } finally {
-            trialBusy.value = false
         }
     }
 
@@ -104,9 +76,18 @@ export function useCodyAdoption() {
     const trialAvailable = computed(() => !!status.value?.trial?.available)
     const hasAccess = computed(() => !!userStore.getUser?.has_ai_access)
 
+    // The Cody app page, where a trial is started (a card is needed) or Cody is
+    // bought. Falls back to the store while the backend does not say which app.
+    const appPath = computed(() => {
+        const s: any = status.value
+        const ref = s?.app_slug ?? s?.app_uuid
+        return ref ? `/apps/${ref}` : '/apps'
+    })
+
     return {
+        appPath,
         status, isAdmin, trialActive, trialAvailable, hasAccess,
-        requestState, trialBusy, trialError, promptOpen,
-        load, startTrial, requestFromAdmin, isDismissed, dismiss,
+        requestState, promptOpen,
+        load, requestFromAdmin, isDismissed, dismiss,
     }
 }

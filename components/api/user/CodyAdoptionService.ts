@@ -9,9 +9,15 @@ export interface CodyAdoptionStatus {
     can_manage: boolean
     trial: {
         available: boolean
+        status: string | null
         active: boolean
         ends_at: string | null
         days_left: number | null
+        first_charge_at?: string | null
+        frequency?: 'monthly' | 'yearly' | null
+        amount_gross?: number | string | null
+        currency?: string | null
+        paid_seats_free?: number | null
     }
     requested_recently: boolean
 }
@@ -25,10 +31,6 @@ class CodyAdoptionService extends BaseAPIService {
     async getStatus(): Promise<CodyAdoptionStatus | null> {
         const response: any = await this.request(`${BASE}/adoption-status`, 'GET')
         return response?.data ?? response ?? null
-    }
-
-    async startTrial(): Promise<any> {
-        return await this.request(`${BASE}/trial`, 'POST')
     }
 
     async requestFromAdmin(): Promise<CodyRequestResult> {

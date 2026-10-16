@@ -9,11 +9,11 @@
                 <div class="mt-5 flex flex-col gap-2 sm:flex-row">
                     <template v-if="isAdmin">
                         <FormButton v-if="trialAvailable" type="button" buttonStyle="primary" class="w-full justify-center"
-                            :disabled="trialBusy" @click="confirmOpen = true">
+                            @click="go(appPath)">
                             {{ $t('cody.adoption.tryFreeShort') }}
                         </FormButton>
                         <FormButton type="button" :buttonStyle="trialAvailable ? 'cancel' : 'primary'"
-                            class="w-full justify-center" @click="goToStore()">
+                            class="w-full justify-center" @click="go('/apps')">
                             {{ $t('cody.adoption.goToStore') }}
                         </FormButton>
                     </template>
@@ -31,27 +31,20 @@
                 </div>
                 <p v-if="requestState === 'no_admin'" class="mt-3 text-sm text-gray-600">{{ $t('cody.adoption.noAdmin') }}</p>
                 <p v-if="requestState === 'error'" class="mt-3 text-sm text-red-600">{{ $t('cody.adoption.requestFailed') }}</p>
-                <p v-if="trialError" class="mt-3 text-sm text-red-600">{{ $t(`cody.adoption.trialError.${trialError}`) }}</p>
             </div>
-
-            <DialogConfirmation :isModalOpen="confirmOpen" :title="$t('cody.adoption.confirmTitle')"
-                :message="$t('cody.adoption.confirmBody')" :confirmLabel="$t('cody.adoption.confirmStart')"
-                @close="confirmOpen = false" @confirm="startTrial()" />
         </template>
     </Modal>
 </template>
 
 <script setup lang="ts">
 const {
-    isAdmin, trialAvailable, requestState, trialBusy, trialError, promptOpen,
-    load, startTrial, requestFromAdmin,
+    isAdmin, trialAvailable, requestState, promptOpen, appPath,
+    load, requestFromAdmin,
 } = useCodyAdoption()
 
-const confirmOpen = ref(false)
-
-function goToStore() {
+function go(path: string) {
     promptOpen.value = false
-    navigateTo('/apps')
+    navigateTo(path)
 }
 
 // Opening the prompt is the moment the answer is needed; usually the banner
