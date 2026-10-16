@@ -145,6 +145,16 @@
 
                     <!-- Who fits, and how well -->
                     <div class="space-y-3 lg:col-span-2">
+                        <!-- Finds a consultant by name among everyone the match returns,
+                             whatever the criteria say about her. -->
+                        <div class="relative">
+                            <Icon name="ph:magnifying-glass"
+                                class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                            <input id="match-name" v-model="state.nameQuery" type="search"
+                                :placeholder="$t('consultantMatch.nameSearch')" :aria-label="$t('consultantMatch.nameSearch')"
+                                class="w-full rounded-lg border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm focus:border-secondary focus:outline-none"
+                                @focus="!state.hasSearched && !state.isSearching && search()" />
+                        </div>
                         <div v-if="state.hasSearched" class="flex flex-wrap items-center justify-between gap-3">
                             <p class="text-xs text-slate-400">
                                 {{ $t('consultantMatch.resultSummary', {
@@ -169,12 +179,12 @@
                             </FormButton>
                         </div>
 
-                        <p v-if="state.hasSearched && !state.results.length"
+                        <p v-if="state.hasSearched && !shownResults.length"
                             class="rounded-lg border border-gray-200 bg-white px-4 py-6 text-sm text-gray-400">
                             {{ $t('consultantMatch.noConsultants') }}
                         </p>
 
-                        <div v-for="result in state.results" :key="result.uuid"
+                        <div v-for="result in shownResults" :key="result.uuid"
                             class="rounded-lg border bg-white p-4"
                             :class="result.match === 'full' ? 'border-[#1f9d6b]/40' : 'border-gray-200'">
                             <div class="flex flex-wrap items-start justify-between gap-3">
@@ -337,6 +347,7 @@ const state = reactive({
     municipalities: [] as any[],
     regions: [] as any[],
     results: [] as any[],
+    nameQuery: '',
     picked: [] as string[],
     isInviting: false,
     inquiry: null as any,
@@ -392,6 +403,17 @@ function setSort(sort: 'match' | 'distance') {
 }
 
 const fullCount = computed(() => state.results.filter((r: any) => r.match === 'full').length)
+
+// Every word typed must be found in the first or last name, so "anna jen" finds Anna Jensen.
+const shownResults = computed(() => {
+    const words = state.nameQuery.toLocaleLowerCase().split(/\s+/).filter(Boolean)
+    if (!words.length) return state.results
+
+    return state.results.filter((r: any) => {
+        const name = `${r.firstname ?? ''} ${r.lastname ?? ''}`.toLocaleLowerCase()
+        return words.every((word) => name.includes(word))
+    })
+})
 
 const municipalityOptions = computed(() =>
     state.municipalities.map((m: any) => ({ value: m.uuid, label: m.name }))

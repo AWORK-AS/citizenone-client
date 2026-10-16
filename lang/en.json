@@ -17124,7 +17124,8 @@
         "noConsultants": "No consultants found.",
         "notReady": "Cannot be put on a case",
         "archived": "Archived",
-        "archivedHint": "Needs reactivating and a licence before the consultant can be put on the case",
+        "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
+        "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
         "matches": {

@@ -17028,7 +17028,8 @@
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
         "archived": "Arkiverad",
-        "archivedHint": "Måste återaktiveras och få en licens innan konsulten kan sättas på ärendet",
+        "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
         "matches": {

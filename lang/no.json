@@ -17028,7 +17028,8 @@
         "noConsultants": "Ingen konsulenter funnet.",
         "notReady": "Kan ikke settes på sak",
         "archived": "Arkivert",
-        "archivedHint": "Må reaktiveres og få en lisens før konsulenten kan settes på saken",
+        "archivedHint": "Reaktiveres med en lisens når konsulenten velges til saken",
+        "nameSearch": "Søk konsulent på navn",
         "openProfile": "Åpne profil",
         "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
         "matches": {
