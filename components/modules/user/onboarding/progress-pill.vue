@@ -20,6 +20,7 @@
 import { userService } from '@/components/api/user/UserService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useDiscoverDone } from '@/composables/useDiscoverDone'
+import { onboardingProgress, showProgressPill, type ChecklistStep } from '@/composables/onboardingProgress'
 
 const CIRCUMFERENCE = 2 * Math.PI * 8
 // The checklist is a handful of exists() queries; once a minute is plenty.
@@ -29,19 +30,18 @@ const route = useRoute()
 const { isAtLeast } = usePermissions()
 const { completed } = useDiscoverDone()
 
-const steps = ref<{ key: string, done: boolean }[]>([])
+const steps = ref<ChecklistStep[]>([])
 let fetchedAt = 0
 
-const total = computed(() => steps.value.length)
-const done = computed(() => steps.value.filter(s => s.done).length)
+const total = computed(() => onboardingProgress(steps.value).total)
+const done = computed(() => onboardingProgress(steps.value).done)
 
-const visible = computed(() =>
-    isAtLeast('Admin')
-    && !completed.value
-    && total.value > 0
-    && done.value < total.value
-    && route.path !== '/discover'
-)
+const visible = computed(() => showProgressPill({
+    isAdmin: isAtLeast('Admin'),
+    discoverCompleted: completed.value,
+    steps: steps.value,
+    path: route.path,
+}))
 
 async function refresh() {
     if (!isAtLeast('Admin') || completed.value) return

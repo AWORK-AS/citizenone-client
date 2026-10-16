@@ -178,11 +178,13 @@ const MODULE_OPTIONS = [
     { key: 'priceEstimates', icon: 'ph:receipt', industries: ['dental'] },
 ]
 
+/** The journey for an industry `system_name`, or the neutral one. Pure, for tests. */
+export function journeyFor(systemName: string | null | undefined): DiscoverGroup[] {
+    return (systemName && JOURNEYS[systemName]) || DEFAULT_JOURNEY
+}
+
 export function useDiscoverJourney(systemName: () => string | null | undefined) {
-    const journey = computed<DiscoverGroup[]>(() => {
-        const key = systemName()
-        return (key && JOURNEYS[key]) || DEFAULT_JOURNEY
-    })
+    const journey = computed<DiscoverGroup[]>(() => journeyFor(systemName()))
 
     const moduleOptions = computed(() => {
         const key = systemName()
