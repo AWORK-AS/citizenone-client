@@ -1,4 +1,21 @@
 {
+    "nps": {
+        "question": "Hvor sandsynligt er det, at du vil anbefale CitizenOne til en kollega?",
+        "unlikely": "Slet ikke",
+        "likely": "Meget sandsynligt",
+        "notNow": "Ikke nu",
+        "comment": "Hvad er den vigtigste grund til din score?",
+        "commentDetractor": "Hvad skal vi gøre bedre?",
+        "commentLabel": "Din kommentar",
+        "commentPlaceholder": "Valgfrit",
+        "back": "Tilbage",
+        "send": "Send",
+        "thanks": "Tak for dit svar",
+        "thanksDetractor": "En fra vores team tager kontakt, så vi kan høre mere.",
+        "reviewInvite": "Vil du dele din oplevelse med andre? En anmeldelse på Trustpilot hjælper andre tilbud med at vælge.",
+        "reviewCta": "Skriv en anmeldelse",
+        "error": "Svaret kunne ikke sendes. Prøv igen."
+    },
     "guestDocuments": {
         "title": "Delte dokumenter",
         "enterPassword": "Indtast den adgangskode, du har fået af afsenderen, for at åbne dokumenterne.",
@@ -11980,6 +11997,27 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "nps": {
+            "title": "Anbefalinger (NPS)",
+            "subtitle": "Svar fra administratorer de sidste 90 dage. NPS = andel 9-10 minus andel 0-6.",
+            "nps": "NPS",
+            "answers": "Svar",
+            "promoters": "Anbefalere (9-10)",
+            "detractors": "Kritikere (0-6)",
+            "reviewClicks": "Klik til Trustpilot",
+            "empty": "Ingen svar endnu.",
+            "score": "Score",
+            "company": "Firma",
+            "comment": "Kommentar",
+            "reviewClicked": "Til Trustpilot",
+            "date": "Dato",
+            "yes": "Ja",
+            "band": {
+                "promoter": "anbefaler",
+                "passive": "neutral",
+                "detractor": "kritiker"
+            }
+        },
         "roadmap": {
             "title": "Roadmap",
             "intro": "De funktioner alle brugere ser under \"Kommende funktioner\" i profilmenuen. Kun publicerede punkter vises.",
@@ -13175,6 +13213,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "nps": "Anbefalinger (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App-kategorier",
