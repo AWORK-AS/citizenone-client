@@ -2375,6 +2375,7 @@
             "spokenLanguages": "Sprog @:terms.citizenDefinite{''} taler",
             "spokenLanguagesDescription": "Vælg de sprog, @:terms.citizenDefinite{''} kan tale. Det er ikke det samme som systemets sprog.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Skjult for din rolle",
             "ssn": "CPR-nummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdato",
@@ -10417,6 +10418,7 @@
         "draft": "Kladde",
         "editReport": "Rediger rapport",
         "finalize": "Færdiggør",
+        "cprPending": "CPR-nummeret er ikke indsat endnu, fordi din rolle ikke har adgang til CPR. Det indsættes, når en kollega med adgang færdiggør rapporten.",
         "finalized": "Færdiggjort",
         "newReport": "Ny rapport",
         "publicLink": "Offentligt link",

@@ -2375,6 +2375,7 @@
             "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
             "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
+            "hiddenForRole": "Hidden for your role",
             "ssn": "CPR number",
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
@@ -10417,6 +10418,7 @@
         "draft": "Draft",
         "editReport": "Edit report",
         "finalize": "Finalize",
+        "cprPending": "The CPR number is not filled in yet because your role has no access to CPR. It is filled in when a colleague with access finalises the report.",
         "finalized": "Finalized",
         "newReport": "New report",
         "publicLink": "Public link",

@@ -2375,6 +2375,7 @@
             "spokenLanguages": "Språk borgeren snakker",
             "spokenLanguagesDescription": "Velg språkene borgeren kan snakke. Dette er ikke det samme som systemspråket.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Skjult for din rolle",
             "ssn": "CPR-nummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets sluttdato",
@@ -10412,6 +10413,7 @@
         "draft": "Utkast",
         "editReport": "Rediger rapport",
         "finalize": "Ferdigstill",
+        "cprPending": "Personnummeret er ikke satt inn ennå fordi rollen din ikke har tilgang til det. Det settes inn når en kollega med tilgang ferdigstiller rapporten.",
         "finalized": "Ferdigstilt",
         "newReport": "Ny rapport",
         "publicLink": "Offentlig lenke",
