@@ -733,7 +733,15 @@ function formatScope(citizen: any) {
     return ''
 }
 
+// The body cells are rendered in the fixed order of OPTIONAL_COLUMN_HEADERS,
+// so the selection is always normalised to that order. Otherwise the headers
+// follow the order the columns were ticked in and no longer sit above their data.
+function normalizeColumns(columns: string[]): string[] {
+    return Object.keys(OPTIONAL_COLUMN_HEADERS).filter((key) => columns.includes(key))
+}
+
 function rebuildColumnHeaders() {
+    state.visibleColumns = normalizeColumns(state.visibleColumns)
     state.columnHeaders = [
         { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
         ...state.visibleColumns.map((key) => OPTIONAL_COLUMN_HEADERS[key]).filter(Boolean),
@@ -744,6 +752,7 @@ function rebuildColumnHeaders() {
 async function saveVisibleColumns(columns: string[]) {
     state.visibleColumns = columns
     rebuildColumnHeaders()
+    columns = state.visibleColumns
     state.modal.isColumnsOpen = false
     try {
         await userService.updateCitizensListColumns(columns)
