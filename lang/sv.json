@@ -1008,7 +1008,7 @@
         "priceChanged": "Priset är nu {amount}. Bekräfta för att fortsätta.",
         "confirmPrice": "Bekräfta och fortsätt",
         "finePrint": "Gratis till {date}. Därefter {amount} per {period}. Säg upp när som helst innan. Kortet debiteras automatiskt {charge}, om du inte säger upp innan.",
-        "perMonth": "mån.",
+        "perMonth": "månad",
         "perYear": "år",
         "frequency": "Betalningsperiod",
         "monthly": "Månadsvis",

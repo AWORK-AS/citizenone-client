@@ -1008,7 +1008,7 @@
         "priceChanged": "Prisen er nå {amount}. Bekreft for å fortsette.",
         "confirmPrice": "Bekreft og fortsett",
         "finePrint": "Gratis til {date}. Deretter {amount} per {period}. Si opp når som helst før. Kortet belastes automatisk {charge}, med mindre du sier opp før.",
-        "perMonth": "mnd.",
+        "perMonth": "måned",
         "perYear": "år",
         "frequency": "Betalingsperiode",
         "monthly": "Månedlig",
