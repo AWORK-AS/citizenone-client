@@ -1875,6 +1875,8 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "internal": "Intern note",
+                "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Udarbejd med AI",
@@ -2427,6 +2429,7 @@
             "spokenLanguages": "Sprog @:terms.citizenDefinite{''} taler",
             "spokenLanguagesDescription": "Vælg de sprog, @:terms.citizenDefinite{''} kan tale. Det er ikke det samme som systemets sprog.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Skjult for din rolle",
             "ssn": "CPR-nummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdato",
@@ -4464,6 +4467,34 @@
             "averageDays": "Ø {days} dage",
             "averageHint": "Gennemsnitlig varighed fra start til slut"
         }
+    },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltype",
+        "none": "Ingen",
+        "description": "De typer mål I arbejder med, som en liste I selv vedligeholder. Typen vælges på målet, så mål kan grupperes og tælles efter type.",
+        "add": "Tilføj",
+        "addHint": "Tilføj en type, der kan vælges på et mål",
+        "empty": "Der er ingen måltyper endnu.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Udviklingsmål"
+        },
+        "actions": {
+            "switchOff": "Slå typen fra",
+            "switchOn": "Slå typen til",
+            "rename": "Omdøb",
+            "delete": "Slet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Måltypen er slettet",
+            "deleteFailed": "Måltypen kunne ikke slettes"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temaet i VUM, som målet arbejder med. Kategorien følger med temaet.",
+        "typeHint": "Vælg en type fra jeres liste over måltyper",
+        "noTypes": "Der er ingen måltyper endnu. De oprettes under Indstillinger."
     },
     "client": {
         "appointments": "Aftaler",
@@ -7356,7 +7387,8 @@
             "mileageLog": "Kørselsregnskab",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månedsoversigt",
-            "consultantProfile": "Konsulentprofil"
+            "consultantProfile": "Konsulentprofil",
+            "hrDetails": "HR-oplysninger"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbejder",
@@ -7437,6 +7469,8 @@
             "join": "Deltag i møde"
         },
         "alert": {
+            "successfullyAddedWithShift": "Ny begivenhed og vagt blev tilføjet med succes",
+            "shiftConflict": "Begivenheden og vagten blev tilføjet. Medarbejderen har allerede en vagt på dette tidspunkt, så den nye vagt er markeret som en konflikt på vagtplanen.",
             "successfullyAdded": "Ny begivenhed blev tilføjet med succes",
             "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes",
@@ -7464,6 +7498,14 @@
         "employees": "Medarbejdere",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "shift": {
+                "alsoCreate": "Opret også en vagt",
+                "employee": "Medarbejder",
+                "shiftType": "Vagttype",
+                "department": "Afdeling",
+                "notForRepeating": "En vagt kan ikke oprettes til en gentagen begivenhed.",
+                "info": "Vagten får begivenhedens dato og tid og vises på medarbejderens vagtplan med @:terms.citizenDefinite{''} tilknyttet."
+            },
             "applyChangesToFutureEvents": "Anvend ændringer på fremtidige begivenheder",
             "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slut dato og tid",
@@ -10430,6 +10472,7 @@
         "draft": "Kladde",
         "editReport": "Rediger rapport",
         "finalize": "Færdiggør",
+        "cprPending": "CPR-nummeret er ikke indsat endnu, fordi din rolle ikke har adgang til CPR. Det indsættes, når en kollega med adgang færdiggør rapporten.",
         "finalized": "Færdiggjort",
         "newReport": "Ny rapport",
         "publicLink": "Offentligt link",
@@ -10749,6 +10792,8 @@
             "permissions": "Tilladelser",
             "pages": "Sideadgange",
             "level": "Niveau",
+            "hideInternalJournals": "Kan ikke se interne noter",
+            "hideInternalJournalsHelp": "Medarbejdere med denne rolle ser ikke noter markeret som interne, medmindre de selv har skrevet dem. Har en medarbejder flere roller, er det nok at én af dem er markeret.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
@@ -11021,6 +11066,7 @@
     "settings": {
         "company": {
             "form": {
+                "citizenCalendarShift": "Nye begivenheder i @:terms.citizenDefinite{'s'} kalender kan også oprette en vagt til en medarbejder",
                 "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-mail (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
@@ -11107,6 +11153,8 @@
                 "checkinOut": "Check ind/ud",
                 "chooseNotificationDepartments": "Vælg hvilke afdelinger du vil modtage notifikationer fra",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Hvem må se felterne",
+                "citizensDisplayRolesHelp": "Vælg roller for et felt for kun at vise det for dem. Tomt betyder alle, der kan åbne borgeren. Administratorer ser altid de viste felter.",
                 "city": "By",
                 "companyLogo": "Firmalogo",
                 "companyName": "Firmanavn",
@@ -11365,6 +11413,7 @@
             "profile": "Profil",
             "relationships": "Forhold",
             "dischargeReasons": "Afslutningsårsager",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Værelser",
             "scheduleTags": "Vagtplan tags",
@@ -15768,7 +15817,34 @@
         "videoHint": "YouTube, Vimeo eller Loom. Videoen ligger hos tredjepart, så optag aldrig en skærm med @:terms.citizen{'data'}.",
         "showOnWebsite": "Vis også på citizenone.dk",
         "showOnWebsiteHint": "Noten bliver synlig for kommende kunder på hjemmesiden, ikke kun for dem der bruger systemet.",
-        "onWebsite": "På hjemmesiden"
+        "onWebsite": "På hjemmesiden",
+        "items": "Punkter",
+        "kindFeature": "Nyt",
+        "kindImprovement": "Forbedret",
+        "kindFix": "Rettet",
+        "addItem": "Tilføj punkt",
+        "itemPlaceholder": "Skriv så medarbejdere og ledere forstår det",
+        "itemArea": "Område (valgfrit)",
+        "itemKind": "Type",
+        "removeItem": "Fjern punkt",
+        "itemsHint": "Teksten kunderne ser, laves ud fra punkterne.",
+        "noItems": "Ingen punkter endnu.",
+        "sourceItems": "Rå ændringer fra deploys ({count})",
+        "needsReview": "Ny siden redigeringen",
+        "reviewBanner": "Der er kommet {count} nye ændringer, efter kladden blev redigeret. De er ikke med i teksten endnu.",
+        "markReviewed": "Markér som gennemset",
+        "reviewBadge": "Til gennemsyn",
+        "aiPending": "Skrives om med AI",
+        "aiFailed": "AI-omskrivningen fejlede: {error}",
+        "regenerate": "Generer igen med AI",
+        "regenerateConfirm": "Skriv teksten forfra ud fra alle ugens ændringer? Dine redigeringer i punkterne bliver erstattet.",
+        "approveTitle": "Godkend release note",
+        "approveIntro": "Vælg hvor noten skal ud. Kunder i systemet ser den altid.",
+        "showAsNews": "Vis som nyhed på citizenone.dk og i appen",
+        "showAsNewsHint": "Kun det nye og det forbedrede vises. Rettelser vises aldrig som nyheder.",
+        "sendToMilo": "Send til Milo (supportviden)",
+        "sendToMiloHint": "Rettelser går til Milo, så support kan svare på dem, men vises aldrig som nyheder.",
+        "toMilo": "Til Milo"
     },
     "customSidebarLinks": {
         "title": "Egne links",
@@ -17019,6 +17095,58 @@
             "result": "{added} tilføjet, {skipped} stod der allerede"
         }
     },
+    "hrDetails": {
+        "title": "HR-oplysninger",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Ansættelse",
+            "work": "Arbejde",
+            "bank": "Løn og bank"
+        },
+        "fields": {
+            "privateEmail": "Privat mail",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbejdstelefon",
+            "gender": "Køn",
+            "nationality": "Nationalitet",
+            "manager": "Nærmeste leder",
+            "daysPerWeek": "Antal arbejdsdage pr. uge",
+            "pensionStartDate": "Opstart pensionsordning",
+            "lunchScheme": "Frokostordning",
+            "flexJob": "Flexjob",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-måneders samtale afholdt",
+            "terminationReason": "Fratrædelsesårsag",
+            "simCard": "Simkort",
+            "otherWork": "Øvrigt arbejde",
+            "workingHoursComment": "Kommentar til arbejdstider",
+            "notWorkWith": "Ønsker ikke arbejde med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Reg.nr.",
+            "bankAccountNo": "Kontonr.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinde",
+            "male": "Mand",
+            "other": "Andet"
+        },
+        "taxCards": {
+            "main": "Hovedkort",
+            "secondary": "Bikort",
+            "self_employed": "Selvstændig"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ikke angivet",
+        "select": "Vælg",
+        "bankAdminOnly": "Bankoplysninger kan kun ændres af en administrator",
+        "alert": {
+            "saved": "HR-oplysningerne er gemt",
+            "saveFailed": "HR-oplysningerne kunne ikke gemmes"
+        }
+    },
     "consultantProfile": {
         "title": "Konsulentprofil",
         "ready": "Konsulenten kan sættes på en sag",
@@ -17063,7 +17191,8 @@
             "miscellaneous": "Øvrigt",
             "passport": "Pas",
             "cv": "CV",
-            "education": "Uddannelsespapirer"
+            "education": "Uddannelsespapirer",
+            "work_permit": "Arbejds- og opholdstilladelse"
         },
         "findings": {
             "document_missing": "{document} mangler",
@@ -17139,6 +17268,9 @@
         "clear": "Nulstil",
         "noConsultants": "Ingen konsulenter fundet.",
         "notReady": "Kan ikke sættes på sag",
+        "archived": "Arkiveret",
+        "archivedHint": "Genaktiveres med en licens, når konsulenten vælges til sagen",
+        "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
         "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
         "matches": {
@@ -17890,7 +18022,7 @@
         },
         "tab": "Trivsel",
         "title": "Trivsel",
-        "description": "Trivselsmålinger fra 0 til 10 for borgeren og de relaterede borgere, fx søskende på samme indsats. Hver måling har den, der har givet den, og datoen den er modtaget. Målinger fra rapporter med nøglen \"trivsel\" vises også her.",
+        "description": "Trivselsmålinger fra 0 til 10 for borgeren, de relaterede borgere, fx søskende på samme indsats, og borgerens kontakter, fx forældre. Hver måling har den, der har givet den, og datoen den er modtaget. Målinger fra rapporter med nøglen \"trivsel\" vises også her.",
         "primary": "Hovedperson",
         "latest": "Seneste",
         "add": "Ny måling",
@@ -17906,7 +18038,9 @@
         "removeConfirmation": "Er du sikker på, at du vil fjerne denne måling",
         "saveFailed": "Målingen kunne ikke gemmes",
         "removeFailed": "Målingen kunne ikke fjernes",
-        "noRelations": "Søskende og andre relaterede borgere vises her, når de er tilknyttet under",
+        "noRelations": "Søskende, andre relaterede borgere og kontakter vises her, når de er tilknyttet under",
+        "or": "eller",
+        "contact": "Kontakt",
         "raters": {
             "caseworker": "Rådgiver",
             "mother": "Mor",

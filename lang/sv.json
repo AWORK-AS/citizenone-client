@@ -1875,6 +1875,8 @@
                 },
                 "date": "Datum",
                 "draft": "Utkast",
+                "internal": "Intern anteckning",
+                "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
@@ -2427,6 +2429,7 @@
             "spokenLanguages": "Språk medborgaren talar",
             "spokenLanguagesDescription": "Välj de språk medborgaren kan tala. Det är inte samma sak som systemets språk.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Dold för din roll",
             "ssn": "Personnummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdatum",
@@ -4464,6 +4467,34 @@
             "averageDays": "Snitt {days} dagar",
             "averageHint": "Genomsnittlig längd från start till slut"
         }
+    },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltyp",
+        "none": "Ingen",
+        "description": "De typer av mål ni arbetar med, som en lista ni själva underhåller. Typen väljs på målet, så mål kan grupperas och räknas efter typ.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en typ som kan väljas på ett mål",
+        "empty": "Det finns inga måltyper ännu.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Utvecklingsmål"
+        },
+        "actions": {
+            "switchOff": "Stäng av typen",
+            "switchOn": "Slå på typen",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Måltypen är borttagen",
+            "deleteFailed": "Måltypen kunde inte tas bort"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temat i VUM som målet arbetar med. Kategorin följer med temat.",
+        "typeHint": "Välj en typ från er lista över måltyper",
+        "noTypes": "Det finns inga måltyper ännu. De skapas under Inställningar."
     },
     "client": {
         "appointments": "Möten",
@@ -7356,7 +7387,8 @@
             "mileageLog": "Körjournal",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månadsöversikt",
-            "consultantProfile": "Konsultprofil"
+            "consultantProfile": "Konsultprofil",
+            "hrDetails": "HR-uppgifter"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se anställd",
@@ -7437,6 +7469,8 @@
             "join": "Anslut till möte"
         },
         "alert": {
+            "successfullyAddedWithShift": "Ny händelse och nytt pass har lagts till",
+            "shiftConflict": "Händelsen och passet har lagts till. Den anställda har redan ett pass vid den här tiden, så det nya passet är markerat som en konflikt i schemat.",
             "successfullyAdded": "Ny händelse har lagts till",
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
@@ -7464,6 +7498,14 @@
         "employees": "Anställda",
         "eventOwner": "Begivenhedsejer",
         "form": {
+            "shift": {
+                "alsoCreate": "Skapa även ett pass",
+                "employee": "Anställd",
+                "shiftType": "Passtyp",
+                "department": "Avdelning",
+                "notForRepeating": "Ett pass kan inte skapas för en återkommande händelse.",
+                "info": "Passet får händelsens datum och tid och visas på den anställdes schema med @:terms.citizenDefinite{''} kopplad."
+            },
             "applyChangesToFutureEvents": "Använd ändringar på fremtidige händelser",
             "citizens": "@.capitalize:terms.citizens{''}",
             "dateTimeEnd": "Slut datum och tid",
@@ -10425,6 +10467,7 @@
         "draft": "Utkast",
         "editReport": "Redigera rapport",
         "finalize": "Slutför",
+        "cprPending": "Personnumret är inte ifyllt än eftersom din roll inte har åtkomst till det. Det fylls i när en kollega med åtkomst slutför rapporten.",
         "finalized": "Slutförd",
         "newReport": "Ny rapport",
         "publicLink": "Offentlig länk",
@@ -10744,6 +10787,8 @@
             "permissions": "Behörigheter",
             "pages": "Sidåtkomst",
             "level": "Level",
+            "hideInternalJournals": "Kan inte se interna anteckningar",
+            "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11016,6 +11061,7 @@
     "settings": {
         "company": {
             "form": {
+                "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
                 "2fa": "Tvåfaktorsautentisering",
                 "accountantEmail": "Revisor eller regnskabs e-post (borgernes wallet transaktioner)",
                 "alert": {
@@ -11102,6 +11148,8 @@
                 "checkinOut": "Check in/ut",
                 "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Vem får se fälten",
+                "citizensDisplayRolesHelp": "Välj roller för ett fält för att bara visa det för dem. Tomt betyder alla som kan öppna brukaren. Administratörer ser alltid de visade fälten.",
                 "city": "Stad",
                 "companyLogo": "Firmalogo",
                 "companyName": "Företagsnamn",
@@ -11360,6 +11408,7 @@
             "profile": "Profil",
             "relationships": "Förhållande",
             "dischargeReasons": "Avslutningsorsaker",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Rum",
             "scheduleTags": "Tjänsteschema etiketter",
@@ -15672,7 +15721,34 @@
         "videoHint": "YouTube, Vimeo eller Loom. Videon ligger hos tredje part, så spela aldrig in en skärm med @:terms.citizen{'data'}.",
         "showOnWebsite": "Visa även på citizenone.dk",
         "showOnWebsiteHint": "Noten blir synlig för blivande kunder på webbplatsen, inte bara för dem som använder systemet.",
-        "onWebsite": "På webbplatsen"
+        "onWebsite": "På webbplatsen",
+        "items": "Punkter",
+        "kindFeature": "Nytt",
+        "kindImprovement": "Förbättrat",
+        "kindFix": "Åtgärdat",
+        "addItem": "Lägg till punkt",
+        "itemPlaceholder": "Skriv så att medarbetare och chefer förstår det",
+        "itemArea": "Område (valfritt)",
+        "itemKind": "Typ",
+        "removeItem": "Ta bort punkt",
+        "itemsHint": "Texten kunderna ser byggs av punkterna.",
+        "noItems": "Inga punkter än.",
+        "sourceItems": "Råa ändringar från deployer ({count})",
+        "needsReview": "Ny sedan redigeringen",
+        "reviewBanner": "{count} nya ändringar har kommit sedan utkastet redigerades. De finns inte i texten än.",
+        "markReviewed": "Markera som granskad",
+        "reviewBadge": "Att granska",
+        "aiPending": "Skrivs om med AI",
+        "aiFailed": "AI-omskrivningen misslyckades: {error}",
+        "regenerate": "Generera igen med AI",
+        "regenerateConfirm": "Skriva texten på nytt utifrån alla veckans ändringar? Dina ändringar i punkterna ersätts.",
+        "approveTitle": "Godkänn release note",
+        "approveIntro": "Välj vart anteckningen ska. Kunder i systemet ser den alltid.",
+        "showAsNews": "Visa som nyhet på citizenone.dk och i appen",
+        "showAsNewsHint": "Bara det nya och det förbättrade visas. Rättningar visas aldrig som nyheter.",
+        "sendToMilo": "Skicka till Milo (supportkunskap)",
+        "sendToMiloHint": "Rättningar går till Milo så att supporten kan svara på frågor om dem, men visas aldrig som nyheter.",
+        "toMilo": "Till Milo"
     },
     "customSidebarLinks": {
         "title": "Egna länkar",
@@ -16923,6 +16999,58 @@
             "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
+    "hrDetails": {
+        "title": "HR-uppgifter",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Anställning",
+            "work": "Arbete",
+            "bank": "Lön och bank"
+        },
+        "fields": {
+            "privateEmail": "Privat e-post",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbetstelefon",
+            "gender": "Kön",
+            "nationality": "Nationalitet",
+            "manager": "Närmaste chef",
+            "daysPerWeek": "Antal arbetsdagar per vecka",
+            "pensionStartDate": "Start av pensionsavtal",
+            "lunchScheme": "Lunchförmån",
+            "flexJob": "Flexjobb",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-månaderssamtal genomfört",
+            "terminationReason": "Orsak till avslut",
+            "simCard": "SIM-kort",
+            "otherWork": "Övrigt arbete",
+            "workingHoursComment": "Kommentar om arbetstider",
+            "notWorkWith": "Vill inte arbeta med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Clearingnr",
+            "bankAccountNo": "Kontonr",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinna",
+            "male": "Man",
+            "other": "Annat"
+        },
+        "taxCards": {
+            "main": "Huvudkort",
+            "secondary": "Bikort",
+            "self_employed": "Egenföretagare"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ej angivet",
+        "select": "Välj",
+        "bankAdminOnly": "Bankuppgifter kan bara ändras av en administratör",
+        "alert": {
+            "saved": "HR-uppgifterna är sparade",
+            "saveFailed": "HR-uppgifterna kunde inte sparas"
+        }
+    },
     "consultantProfile": {
         "title": "Konsultprofil",
         "ready": "Konsulten kan sättas på ett ärende",
@@ -16967,7 +17095,8 @@
             "miscellaneous": "Övrigt",
             "passport": "Pass",
             "cv": "CV",
-            "education": "Utbildningsbevis"
+            "education": "Utbildningsbevis",
+            "work_permit": "Arbets- och uppehållstillstånd"
         },
         "findings": {
             "document_missing": "{document} saknas",
@@ -17043,6 +17172,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
+        "archived": "Arkiverad",
+        "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
         "matches": {
@@ -17794,7 +17926,7 @@
         },
         "tab": "Välmående",
         "title": "Välmående",
-        "description": "Mätningar av välmående från 0 till 10 för personen och relaterade personer, t.ex. syskon i samma insats. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
+        "description": "Mätningar av välmående från 0 till 10 för personen, relaterade personer, t.ex. syskon i samma insats, och personens kontakter, t.ex. föräldrar. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
         "primary": "Huvudperson",
         "latest": "Senaste",
         "add": "Ny mätning",
@@ -17810,7 +17942,9 @@
         "removeConfirmation": "Är du säker på att du vill ta bort denna mätning",
         "saveFailed": "Mätningen kunde inte sparas",
         "removeFailed": "Mätningen kunde inte tas bort",
-        "noRelations": "Syskon och andra relaterade personer visas här när de är kopplade under",
+        "noRelations": "Syskon, andra relaterade personer och kontakter visas här när de är kopplade under",
+        "or": "eller",
+        "contact": "Kontakt",
         "raters": {
             "caseworker": "Handläggare",
             "mother": "Mamma",
