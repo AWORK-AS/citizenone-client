@@ -16,8 +16,8 @@ export interface EmployeeHrDetails {
     nationality: HrDetailLookup | null
     manager: HrDetailLookup | null
     pension_start_date: string | null
-    lunch_scheme: string | null
-    flex_job: string | null
+    lunch_scheme: boolean | null
+    flex_job: boolean | null
     section_56: boolean | null
     days_per_week: number | null
     termination_reason: string | null

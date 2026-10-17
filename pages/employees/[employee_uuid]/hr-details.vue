@@ -83,19 +83,19 @@
                                     <p v-else class="text-sm text-gray-900">{{ displayDate(state.form.pension_start_date) }}</p>
                                     <FormError :error="fieldError('pension_start_date')" />
                                 </div>
+                                <div v-for="field in employmentYesNoFields" :key="field.key">
+                                    <FormLabel :for="field.key" :label="fieldLabel(field.label)" />
+                                    <FormSelect v-if="canWrite" :id="field.key" v-model="state.form[field.key]"
+                                        :options="triStateOptions" :searchable="false" />
+                                    <p v-else class="text-sm text-gray-900">{{ optionLabel(triStateOptions, state.form[field.key]) }}</p>
+                                    <FormError :error="fieldError(field.key)" />
+                                </div>
                                 <div v-for="field in employmentTextFields" :key="field.key">
                                     <FormLabel :for="field.key" :label="fieldLabel(field.label)" />
                                     <FormTextField v-if="canWrite" :id="field.key" :name="field.key"
                                         v-model="state.form[field.key]" placeholder="" />
                                     <p v-else class="text-sm text-gray-900">{{ display(state.form[field.key]) }}</p>
                                     <FormError :error="fieldError(field.key)" />
-                                </div>
-                                <div>
-                                    <FormLabel for="section_56" :label="fieldLabel('section56')" />
-                                    <FormSelect v-if="canWrite" id="section_56" v-model="state.form.section_56"
-                                        :options="triStateOptions" :searchable="false" />
-                                    <p v-else class="text-sm text-gray-900">{{ optionLabel(triStateOptions, state.form.section_56) }}</p>
-                                    <FormError :error="fieldError('section_56')" />
                                 </div>
                                 <div>
                                     <FormLabel for="three_month_interview_at" :label="fieldLabel('threeMonthInterviewAt')" />
@@ -192,9 +192,13 @@ const canWrite = computed(() => isAdmin.value || can('update'))
 const canWriteBank = computed(() => isAdmin.value)
 
 const contactFields = ['private_email', 'private_phone', 'work_phone'] as const
-const employmentTextFields = [
+// Stored as booleans: yes, no, or not answered.
+const employmentYesNoFields = [
     { key: 'lunch_scheme', label: 'lunchScheme' },
     { key: 'flex_job', label: 'flexJob' },
+    { key: 'section_56', label: 'section56' },
+] as const
+const employmentTextFields = [
     { key: 'termination_reason', label: 'terminationReason' },
     { key: 'sim_card', label: 'simCard' },
 ]
@@ -218,7 +222,7 @@ function emptyForm(): Record<string, any> {
     return {
         private_email: '', private_phone: '', work_phone: '',
         gender: null, nationality_country_uuid: null, manager_uuid: null,
-        pension_start_date: '', lunch_scheme: '', flex_job: '', section_56: null,
+        pension_start_date: '', lunch_scheme: null, flex_job: null, section_56: null,
         days_per_week: null, termination_reason: '', three_month_interview_at: '',
         other_work: '', working_hours_comment: '', not_work_with: '', sim_card: '',
         tax_card_type: null, bank_reg_no: '', bank_account_no: '', cvr: '',
@@ -280,13 +284,23 @@ function optionLabel(options: any[], value: any) {
     return match && value !== null && value !== undefined ? match.label : '-'
 }
 
+function toYesNo(value: boolean | null | undefined) {
+    return value === true ? 'yes' : value === false ? 'no' : null
+}
+
+function fromYesNo(value: any): boolean | null {
+    return value === 'yes' ? true : value === 'no' ? false : null
+}
+
 function applyDetails(data: EmployeeHrDetails) {
     const form = emptyForm()
     for (const key of Object.keys(form)) {
         const value = (data as any)[key]
         if (value !== undefined && value !== null) form[key] = value
     }
-    form.section_56 = data.section_56 === true ? 'yes' : data.section_56 === false ? 'no' : null
+    for (const field of employmentYesNoFields) {
+        form[field.key] = toYesNo(data[field.key])
+    }
     form.days_per_week = data.days_per_week === null || data.days_per_week === undefined ? null : String(data.days_per_week)
     form.nationality_country_uuid = data.nationality?.uuid ?? null
     form.manager_uuid = data.manager?.uuid ?? null
@@ -340,9 +354,9 @@ function buildPayload(): EmployeeHrDetailsPayload {
         nationality_country_uuid: f.nationality_country_uuid ?? null,
         manager_uuid: f.manager_uuid ?? null,
         pension_start_date: text(f.pension_start_date),
-        lunch_scheme: text(f.lunch_scheme),
-        flex_job: text(f.flex_job),
-        section_56: f.section_56 === 'yes' ? true : f.section_56 === 'no' ? false : null,
+        lunch_scheme: fromYesNo(f.lunch_scheme),
+        flex_job: fromYesNo(f.flex_job),
+        section_56: fromYesNo(f.section_56),
         days_per_week: f.days_per_week === null || f.days_per_week === undefined || f.days_per_week === '' ? null : Number(f.days_per_week),
         termination_reason: text(f.termination_reason),
         three_month_interview_at: text(f.three_month_interview_at),
