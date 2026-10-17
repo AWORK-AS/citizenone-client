@@ -979,6 +979,60 @@
             "archivedSubgoals": "Archived subgoals"
         }
     },
+    "cody": {
+        "adoption": {
+            "headline": "Give your team time back with Cody",
+            "headlineBody": "Cody saves 2.37 hours of administration per employee per day on average, measured among active users.",
+            "tryFree": "Try Cody free for 14 days",
+            "tryFreeShort": "Try free for 14 days",
+            "readMore": "Read more",
+            "enableTitle": "Give your team time back with Cody",
+            "turnOn": "Turn on Cody",
+            "trialLeft": "Cody trial: {count} day left | Cody trial: {count} days left",
+            "buy": "Buy Cody",
+            "requestTitle": "Want Cody?",
+            "requestBody": "Ask your administrator to turn it on.",
+            "askAdmin": "Ask your administrator to turn on Cody",
+            "sent": "Sent to your administrator",
+            "noAdmin": "We could not find an administrator to send this to.",
+            "requestFailed": "That did not work. Please try again shortly.",
+            "promptTitle": "Bring Cody into your day",
+            "goToStore": "Go to the App Store",
+            "thenAmount": "Then {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Try free for {days} days",
+        "quoting": "Fetching price...",
+        "quoteFailed": "We could not fetch the price. Please try again.",
+        "priceChanged": "The price is now {amount}. Confirm to continue.",
+        "confirmPrice": "Confirm and continue",
+        "finePrint": "Free until {date}. Then {amount} per {period}. Cancel any time before. The card is charged automatically on {charge} unless you cancel before.",
+        "perMonth": "month",
+        "perYear": "year",
+        "frequency": "Billing period",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "seats": "Number of users",
+        "activeTitle": "Free trial",
+        "freeUntil": "Free until {date}",
+        "firstCharge": "First payment {date}: {amount}",
+        "cancel": "Cancel the trial",
+        "cancelTitle": "Cancel the trial?",
+        "cancelBody": "You can use the app for free until {date}. Nothing is charged after that. You can undo this while the trial is running.",
+        "cancelled": "The trial is cancelled and ends {date}.",
+        "undo": "Undo",
+        "chargeFailedTitle": "The payment failed",
+        "chargeFailedBody": "We could not charge the payment after the trial. Check your payment card and we will try again.",
+        "chargeFailedLink": "Go to subscription and billing",
+        "failed": "That did not work. Please try again.",
+        "superadmin": {
+            "enabled": "Free trial",
+            "days": "Number of days",
+            "daysHint": "Between 4 and 90 days. The customer must save a card, and the trial converts to paid automatically.",
+            "blockedHint": "Not available for third party apps and one-time-fee apps."
+        }
+    },
     "assistants": {
         "askAI": "Ask Cody",
         "actions": {

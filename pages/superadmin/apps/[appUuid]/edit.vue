@@ -54,6 +54,8 @@ const state = reactive({
         is_recommended: false,
         is_news: false,
         url_field: '',
+        trial_enabled: false,
+        trial_days: 14,
     },
     isPageLoading: false,
 })
@@ -86,6 +88,8 @@ async function fetchApp() {
                 is_recommended: response?.data?.is_recommended ? true : false,
                 is_news: response?.data?.is_news ? true : false,
                 url_field: response?.data?.url_field ?? '',
+                trial_enabled: response?.data?.trial_enabled ? true : false,
+                trial_days: response?.data?.trial_days ?? 14,
             }
         }
     } catch (error: any) {
@@ -113,6 +117,10 @@ async function updateApp(appDetails: any) {
         params.append('is_recommended', appDetails.is_recommended)
         params.append('is_news', appDetails.is_news)
         params.append('url_field', appDetails.url_field)
+        params.append('trial_enabled', appDetails.trial_enabled ? '1' : '0')
+        if (appDetails.trial_enabled) {
+            params.append('trial_days', String(appDetails.trial_days || 14))
+        }
         if (appDetails.background_image) {
             params.append('background_image', appDetails.background_image)
         }

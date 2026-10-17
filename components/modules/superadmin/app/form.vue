@@ -142,6 +142,23 @@
                 </div>
             </div>
             <div class="space-y-1">
+                <div class="w-fit flex items-center" :class="trialBlocked ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'"
+                    role="checkbox" :aria-checked="state.formApp.trial_enabled" :aria-disabled="trialBlocked"
+                    tabindex="0" @keydown.space.prevent="toggleTrial" @click="toggleTrial">
+                    <FormCheckbox :value="state.formApp.trial_enabled" />
+                    {{ $t('appTrial.superadmin.enabled') }}
+                </div>
+                <p v-if="trialBlocked" class="text-xs text-gray-500">{{ $t('appTrial.superadmin.blockedHint') }}</p>
+                <div v-if="state.formApp.trial_enabled && !trialBlocked" class="pt-1">
+                    <FormLabel for="trial_days" :label="$t('appTrial.superadmin.days')" />
+                    <input id="trial_days" v-model.number="state.formApp.trial_days" type="number" min="4" max="90" step="1"
+                        class="w-28 rounded-md border border-gray-300 px-2 py-1.5 text-sm" />
+                    <p class="text-xs text-gray-500">{{ $t('appTrial.superadmin.daysHint') }}</p>
+                </div>
+                <FormError :error="props?.error?.errors?.trial_enabled?.[0]" />
+                <FormError :error="props?.error?.errors?.trial_days?.[0]" />
+            </div>
+            <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formApp.is_popular = !state.formApp.is_popular">
                     <FormCheckbox :value="state.formApp.is_popular" />
@@ -228,6 +245,8 @@ const state = reactive({
         is_recommended: false,
         is_news: false,
         url_field: '',
+        trial_enabled: false,
+        trial_days: 14,
     } as AppForm,
     options: {
         type: [
@@ -260,6 +279,8 @@ watch(() => props.selectedApp, (newValue: any) => {
             is_recommended: newValue.is_recommended,
             is_news: newValue.is_news,
             url_field: newValue.url_field,
+            trial_enabled: !!newValue.trial_enabled,
+            trial_days: newValue.trial_days ?? 14,
         }
         if (newValue.background_image) {
             backgroundImageUrl.value = newValue.background_image
@@ -327,6 +348,16 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+// Trials need a recurring plan; the backend refuses the rest and says so too.
+const trialBlocked = computed(() => !!state.formApp.is_thirdparty || !!state.formApp.is_one_time_fee)
+
+function toggleTrial() {
+    if (trialBlocked.value) return
+    state.formApp.trial_enabled = !state.formApp.trial_enabled
+}
+
+watch(trialBlocked, (blocked) => { if (blocked) state.formApp.trial_enabled = false })
 
 function triggerBackgroundImageFileInput() {
     if (backgroundImage.value) {
