@@ -35,6 +35,7 @@ export const superadminNav: SuperadminNavGroups = {
         { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', permission: 'view_team', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },
         { name: 'TeamRoles', label: 'superadmin.sidebar.teamRoles', href: '/superadmin/team-roles', icon: 'ph:shield-check', permission: 'view_team', routes: ['superadmin-team-roles'] },
         { name: 'SalesInquiries', label: 'superadmin.sidebar.salesInquiries', href: '/superadmin/sales-inquiries', icon: 'ph:tray', permission: 'view_sales_inquiries', routes: ['superadmin-sales-inquiries'] },
+        { name: 'Nps', label: 'superadmin.sidebar.nps', href: '/superadmin/nps', icon: 'ph:smiley', permission: 'view_companies', routes: ['superadmin-nps'] },
         { name: 'SupportAccess', label: 'superadmin.sidebar.supportAccess', href: '/superadmin/support-access', icon: 'ph:lock-key', permission: 'impersonate_users', routes: ['superadmin-support-access'] },
     ],
     okonomi: [

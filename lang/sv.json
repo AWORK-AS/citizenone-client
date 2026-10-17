@@ -1,4 +1,21 @@
 {
+    "nps": {
+        "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
+        "unlikely": "Inte alls",
+        "likely": "Mycket sannolikt",
+        "notNow": "Inte nu",
+        "comment": "Vad är det viktigaste skälet till ditt betyg?",
+        "commentDetractor": "Vad ska vi göra bättre?",
+        "commentLabel": "Din kommentar",
+        "commentPlaceholder": "Valfritt",
+        "back": "Tillbaka",
+        "send": "Skicka",
+        "thanks": "Tack för ditt svar",
+        "thanksDetractor": "Någon från vårt team hör av sig för att höra mer.",
+        "reviewInvite": "Vill du dela din upplevelse med andra? En recension på Trustpilot hjälper andra verksamheter att välja.",
+        "reviewCta": "Skriv en recension",
+        "error": "Svaret kunde inte skickas. Försök igen."
+    },
     "guestDocuments": {
         "title": "Delade dokument",
         "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
@@ -11943,6 +11960,27 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "nps": {
+            "title": "Rekommendationer (NPS)",
+            "subtitle": "Svar från administratörer de senaste 90 dagarna. NPS = andel 9-10 minus andel 0-6.",
+            "nps": "NPS",
+            "answers": "Svar",
+            "promoters": "Rekommenderare (9-10)",
+            "detractors": "Kritiker (0-6)",
+            "reviewClicks": "Klick till Trustpilot",
+            "empty": "Inga svar ännu.",
+            "score": "Betyg",
+            "company": "Företag",
+            "comment": "Kommentar",
+            "reviewClicked": "Till Trustpilot",
+            "date": "Datum",
+            "yes": "Ja",
+            "band": {
+                "promoter": "rekommenderar",
+                "passive": "neutral",
+                "detractor": "kritiker"
+            }
+        },
         "roadmap": {
             "title": "Färdplan",
             "intro": "Funktionerna alla användare ser under \"Kommande funktioner\" i profilmenyn. Endast publicerade punkter visas.",
@@ -13138,6 +13176,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "nps": "Rekommendationer (NPS)",
             "roadmap": "Färdplan",
             "apps": "Apps",
             "appCategories": "App-kategorier",
