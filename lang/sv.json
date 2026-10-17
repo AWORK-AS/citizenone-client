@@ -11943,6 +11943,25 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "funnel": {
+            "title": "Tillväxttratt",
+            "subtitle": "Företag som registrerade sig under perioden, per registreringskanal, och hur långt de har kommit: egna brukare, första anteckning och betalning.",
+            "stages": {
+                "signed_up": "Registrerade",
+                "activated": "Egna brukare",
+                "first_note": "Första anteckning",
+                "paying": "Betalar"
+            },
+            "ofSignups": "av registrerade",
+            "medianDays": "median {days} dagar",
+            "channel": "Kanal",
+            "toPaying": "Till betalning",
+            "biggestDrop": "Största bortfall",
+            "smallSample": "få tal",
+            "all": "Alla",
+            "empty": "Inga registreringar under perioden.",
+            "footnote": "Kohort: ett företag räknas i den period det registrerade sig. Exempeldata från registreringen räknas inte. Betalar = aktivt Basis- eller Pro-abonnemang i dag. Okänd = skapat före källspårning (2026-09-30) eller av superadmin. Nyare perioder ser sämre ut eftersom företagen haft kortare tid."
+        },
         "roadmap": {
             "title": "Färdplan",
             "intro": "Funktionerna alla användare ser under \"Kommande funktioner\" i profilmenyn. Endast publicerade punkter visas.",
@@ -12732,6 +12751,7 @@
                 "allCollecting": "Alla avtal debiteras"
             },
             "tabs": {
+                "funnel": "Tillväxt",
                 "overview": "Översikt",
                 "report": "Rapport",
                 "management": "Ledning"
