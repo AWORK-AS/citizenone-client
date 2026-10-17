@@ -11980,6 +11980,25 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "funnel": {
+            "title": "Growth funnel",
+            "subtitle": "Companies that signed up in the period, per signup channel, and how far they got: own citizens, first note and paying.",
+            "stages": {
+                "signed_up": "Signed up",
+                "activated": "Own citizens",
+                "first_note": "First note",
+                "paying": "Paying"
+            },
+            "ofSignups": "of signups",
+            "medianDays": "median {days} days",
+            "channel": "Channel",
+            "toPaying": "To paying",
+            "biggestDrop": "Biggest drop",
+            "smallSample": "few signups",
+            "all": "All",
+            "empty": "No signups in the period.",
+            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time."
+        },
         "roadmap": {
             "title": "Roadmap",
             "intro": "The functions all users see under \"Coming functions\" in the profile menu. Only published items are shown.",
@@ -12769,6 +12788,7 @@
                 "allCollecting": "Every agreement is collecting"
             },
             "tabs": {
+                "funnel": "Growth",
                 "overview": "Overview",
                 "report": "Report",
                 "management": "Management"
