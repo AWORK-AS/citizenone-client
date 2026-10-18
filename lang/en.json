@@ -144,6 +144,7 @@
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
         "stepsProgress": "{done} of {total} steps completed",
+        "pill": "Get started {done}/{total}",
         "nextStep": "Next step",
         "demoData": {
             "title": "Explore with demo @:terms.citizens{''}",
@@ -186,6 +187,11 @@
             "cases": "Cases & jobcentre"
         },
         "steps": {
+            "firstNote": {
+                "title": "Write your first journal note",
+                "desc": "Write a note on one of the example people or one of your own. With Cody you can dictate the note instead of typing it.",
+                "cta": "Write note"
+            },
             "departments": {
                 "title": "Create departments",
                 "desc": "Departments structure staff, journals and the duty schedule.",

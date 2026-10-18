@@ -144,6 +144,7 @@
         "subtitle": "Her er din raske guide til å få CitizenOne satt opp og i gang for teamet ditt.",
         "whatDoYouNeed": "Hva trenger du?",
         "stepsProgress": "{done} av {total} trinn fullført",
+        "pill": "Kom i gang {done}/{total}",
         "nextStep": "Neste steg",
         "demoData": {
             "title": "Utforsk med demo-@:terms.citizens{''}",
@@ -186,6 +187,11 @@
             "cases": "Saker og NAV"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv deres første journalnotat",
+                "desc": "Skriv et notat på en av eksempelpersonene eller en av deres egne. Med Cody kan dere diktere notatet i stedet for å skrive det.",
+                "cta": "Skriv notat"
+            },
             "departments": {
                 "title": "Opprett avdelinger",
                 "desc": "Avdelinger strukturerer personale, journaler og vaktplan.",
