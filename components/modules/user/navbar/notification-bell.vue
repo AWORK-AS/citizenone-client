@@ -177,6 +177,16 @@ const categories = computed(() => [
     { key: 'birthday', label: t('bellNotification.categories.birthday'), icon: 'ph:cake' },
 ])
 
+// Medication alerts: missed/upcoming dose, deviation/overdose incident, media risk.
+const MEDICATION_TYPES = [
+    'misseddosenotification',
+    'missedmedicinedosenotification',
+    'upcomingmedicinedosenotification',
+    'deviatedincidentpushnotification',
+    'unintendedincidentpushnotification',
+    'mediarisknotification',
+]
+
 function getCategory(type: string): string {
     if (!type) return 'other'
     if (type.toLowerCase().includes('dutyshiftrule')) return 'duty_shift'
@@ -191,6 +201,10 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
     if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
     if (type.toLowerCase().includes('employeedeletionreminder')) return 'employee_deletion_reminder'
+    // Task #97: a contract sent to sign, and a contract signed.
+    if (type.toLowerCase().includes('contractsignaturerequested')) return 'contract_to_sign'
+    if (type.toLowerCase().includes('contractsigned')) return 'contract_signed'
+    if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
     if (type.toLowerCase().includes('codyaccessrequest')) return 'cody_request'
     return 'other'
 }
@@ -208,6 +222,9 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
     patient_booking: { bg: 'bg-primary/10', icon: 'ph:calendar-check', color: 'text-primary' },
     employee_deletion_reminder: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
+    contract_to_sign: { bg: 'bg-accent-orange/10', icon: 'ph:signature', color: 'text-accent-orange' },
+    contract_signed: { bg: 'bg-secondary/10', icon: 'ph:seal-check', color: 'text-secondary' },
+    medication: { bg: 'bg-accent-orange/10', icon: 'ph:pill', color: 'text-accent-orange' },
     cody_request: { bg: 'bg-secondary/10', icon: 'ph:sparkle', color: 'text-secondary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
@@ -494,6 +511,27 @@ async function handleNotifClick(notif: any) {
         }
         return
     }
+    if (getCategory(notif.type) === 'medication') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        // A media risk alert has no citizen to open.
+        const citizenUuid = notif.data?.content?.citizen_uuid
+        if (citizenUuid) {
+            navigateTo(`/citizens/${citizenUuid}/medicine-journals`)
+        }
+        return
+    }
     if (getCategory(notif.type) === 'birthday') {
         if (!notif.read_at) {
             try {
@@ -572,6 +610,20 @@ async function handleNotifClick(notif: any) {
     if (getCategory(notif.type) === 'employee_deletion_reminder') {
         state.isOpen = false
         navigateTo('/settings/archived/employees?filter=deletable')
+    }
+    // Task #97: a contract to sign opens it for signing; a signed one opens the
+    // employee's contracts.
+    if (getCategory(notif.type) === 'contract_to_sign') {
+        state.isOpen = false
+        const documentUuid = notif.data?.content?.document_uuid
+        navigateTo({ path: '/my-contracts', query: documentUuid ? { contract: documentUuid } : {} })
+    }
+    if (getCategory(notif.type) === 'contract_signed') {
+        const employeeUuid = notif.data?.content?.employee_uuid
+        if (employeeUuid) {
+            state.isOpen = false
+            navigateTo({ path: `/employees/${employeeUuid}/view-details`, query: { contracts: '1' } })
+        }
     }
 }
 

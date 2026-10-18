@@ -1,6 +1,8 @@
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { canOpenPage } from '@/composables/pageAccess'
+import { usePermissions } from '@/composables/usePermissions'
+import { isEpikriseOn } from '@/composables/useEpikrise'
 
 export interface SettingsCatalogItem {
     /** Category the item sits in on the settings catalog page. */
@@ -24,6 +26,7 @@ export interface SettingsCatalogItem {
 export function useSettingsCatalog() {
     const userStore = useUserStore() as any
     const customPagesStore = useCustomPagesStore() as any
+    const { isAtLeast, can } = usePermissions()
 
     /** Exactly the rail on the settings catalog page, in its own order. */
     const catalogItems = computed<SettingsCatalogItem[]>(() => {
@@ -38,6 +41,8 @@ export function useSettingsCatalog() {
         const hasTasks = !!user?.company?.tasks_workflow_enabled
         const hasSurveys = user?.is_surveys_active !== false
         const hasExtendedDutySchedule = !!user?.is_extended_duty_schedule_active
+        // Epikrise templates: only where the company uses epikrise and the user manages templates.
+        const managesEpikriseTemplates = isEpikriseOn(user?.company) && (isAtLeast('Admin') || can('manage_report_templates'))
 
         const when = (condition: boolean, item: SettingsCatalogItem) => condition ? [item] : []
         const item = (group: string, name: string, href: string, routeNames: string[], isTranslateName = true): SettingsCatalogItem =>
@@ -105,7 +110,7 @@ export function useSettingsCatalog() {
             item('schedule', 'settings.tabs.timeAccounts', '/settings/time-accounts', ['settings-time-accounts']),
             item('health', 'settings.tabs.treatmentTemplates', '/settings/treatment-templates', ['settings-treatment-templates']),
             item('health', 'settings.tabs.units', '/settings/units', ['settings-units']),
-
+            ...when(managesEpikriseTemplates, item('health', 'settings.tabs.epikriseTemplates', '/settings/epikrise-templates', ['settings-epikrise-templates', 'settings-epikrise-templates-new', 'settings-epikrise-templates-uuid-edit'])),
         ]
     })
 

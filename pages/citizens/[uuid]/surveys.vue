@@ -86,7 +86,7 @@
                                             {{ a?.status === 'completed' ? $t('surveys.status.completed') : $t('surveys.status.pending') }}
                                         </span>
                                     </td>
-                                    <td><p>{{ a?.source === 'internal' ? $t('surveys.source.internal') : $t('surveys.source.citizen') }}</p></td>
+                                    <td><p>{{ sourceLabel(a) }}</p></td>
                                     <td><p>{{ formatDate(a?.created_at) }}</p></td>
                                     <td><p>{{ a?.completed_at ? formatDate(a?.completed_at) : '-' }}</p></td>
                                     <td>
@@ -191,6 +191,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { surveyService } from '@/components/api/user/SurveyService'
+import { visibleSurveyQuestions } from '@/composables/surveyFollowUps'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
@@ -276,7 +277,8 @@ const answerEntries = computed(() => {
     const a = state.answersModal.assignment
     if (!a) return []
     const entries: any[] = []
-    ;(a.survey?.questions ?? []).forEach((q: any) => {
+    // Follow-ups the respondent never saw are left out.
+    visibleSurveyQuestions(a.survey?.questions ?? [], a.answers ?? {}).forEach((q: any) => {
         const def = q.question ?? q
         entries.push({ question: def?.value, answer: resolveAnswer(def, a.answers?.[q.uuid]) })
     })
@@ -288,6 +290,12 @@ function resolveAnswer(def: any, answer: any) {
     if (def?.type === 'choice') return def?.options?.[answer] ?? '-'
     if (def?.type === 'checkbox' && Array.isArray(answer)) return answer.map((i: any) => def?.options?.[i]).filter(Boolean).join(', ') || '-'
     return String(answer)
+}
+
+// A questionnaire sent to the citizen is only "filled out by" them once they have answered it.
+function sourceLabel(a: any) {
+    if (a?.source === 'internal') return t('surveys.source.internal')
+    return a?.status === 'completed' ? t('surveys.source.citizen') : t('surveys.source.sentToCitizen')
 }
 
 function scoreLabel(score: any, ranges: any) {

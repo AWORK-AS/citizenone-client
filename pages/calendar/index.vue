@@ -23,7 +23,7 @@
 
             <div :class="[
                 userStore.getUser?.has_booking_app_access && 'mt-8',
-                'flex justify-end items-center mb-5 gap-x-2'
+                'flex flex-wrap justify-end items-center mb-5 gap-x-2 gap-y-2'
             ]">
                 <FormButton buttonStyle="action" @click="state.modal.isCompletionStatisticsOpen = true">
                     <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
@@ -87,7 +87,7 @@
             </div>
 
             <div class="grid lg:grid-cols-6 gap-3">
-                <div class="flex items-center gap-x-4 lg:col-span-3">
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 lg:col-span-3">
                     <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
                         <Tooltip v-for="opt in viewOptions" :key="opt.value" position="bottom"
                             :text="$t('calendar.shortcuts.view', { view: $t(opt.label), key: opt.key })">

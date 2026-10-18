@@ -1,6 +1,7 @@
 <template>
     <div class="space-y-8">
-        <div v-for="(question, qi) in visibleQuestions" :key="question.uuid" class="space-y-3">
+        <div v-for="(question, qi) in visibleQuestions" :key="question.uuid" class="space-y-3"
+            :style="{ marginLeft: `${surveyQuestionDepth(question, props.questions ?? []) * 2}rem` }">
             <!-- Text the patient reads rather than answers, such as the risks a consent form explains. -->
             <template v-if="isLayout(question)">
                 <h2 v-if="def(question)?.type === 'heading'" class="text-lg font-semibold text-gray-900">
@@ -84,6 +85,8 @@
 </template>
 
 <script setup lang="ts">
+import { visibleSurveyQuestions, surveyQuestionDepth } from '@/composables/surveyFollowUps'
+
 const props = defineProps({
     questions: { type: Array as any, required: true },
     answers: { type: Object as any, required: true },
@@ -94,8 +97,17 @@ const props = defineProps({
 
 const LAYOUT_TYPES = ['heading', 'subheading', 'paragraph', 'guidance']
 
-// Only questions we can render/answer (all current types are supported).
-const visibleQuestions = computed(() => props.questions ?? [])
+// Follow-up questions only show while their parent's answer asks for them.
+const visibleQuestions = computed(() => visibleSurveyQuestions(props.questions ?? [], props.answers))
+
+// A follow-up that gets hidden again (the parent's answer changed) loses its
+// answer, so it is neither sent nor counted as answered.
+watch(visibleQuestions, (visible) => {
+    const shown = new Set(visible.map((q: any) => q.uuid))
+    for (const question of props.questions ?? []) {
+        if (!shown.has(question.uuid) && question.uuid in props.answers) delete props.answers[question.uuid]
+    }
+})
 
 function isLayout(question: any) {
     return props.withLayout && LAYOUT_TYPES.includes(def(question)?.type)

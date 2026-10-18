@@ -10,7 +10,7 @@
                 <FormError :error="v$?.form?.name?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.name?.[0]" />
             </div>
-            <div class="space-y-1">
+            <div class="space-y-1" v-if="!isEpikrise">
                 <FormLabel for="case_type_uuid" :label="$t('reportTemplates.form.agreementType')" />
                 <FormSelect id="case_type_uuid" name="case_type_uuid" :options="state.options.caseTypes"
                     :placeholder="$t('select')"
@@ -36,7 +36,7 @@
             sm:mx-0 sm:rounded-lg sm:px-6">
             <div class="flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-end">
                 <FormButton type="button" buttonStyle="cancel" class="sm:w-auto sm:px-8"
-                    @click="navigateTo('/settings/report-templates')">
+                    @click="navigateTo(backHref)">
                     {{ $t('cancel') }}
                 </FormButton>
                 <FormButton type="submit" buttonStyle="primary" class="sm:w-auto sm:px-10">
@@ -64,6 +64,12 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // 'report' (default) or 'epikrise': the same editor serves both kinds.
+    type: {
+        type: String,
+        required: false,
+        default: 'report',
+    },
     selectedTemplate: {
         type: Object,
         required: false,
@@ -74,13 +80,27 @@ const emit = defineEmits(['submitForm'])
 const { t } = useI18n()
 const editor = ref(ClassicEditor)
 const editorConfig = ref({ height: 400 })
-const availablePlaceholders = [
+const isEpikrise = computed(() => props.type === 'epikrise')
+const backHref = computed(() => isEpikrise.value ? '/settings/epikrise-templates' : '/settings/report-templates')
+const availablePlaceholders = computed(() => (isEpikrise.value ? [
+    '{{citizen_name}}',
+    '{{citizen_cpr}}',
+    '{{citizen_admission_date}}',
+    '{{citizen_discharge_date}}',
+    '{{diagnoses}}',
+    '{{medication}}',
+    '{{medical_notes}}',
+    '{{contact_person}}',
+    '{{author_name}}',
+    '{{company_name}}',
+    '{{gp_name}}',
+] : [
     '{{citizen_name}}',
     '{{citizen_cpr}}',
     '{{agreement_type}}',
     '{{citizen_admission_date}}',
     '{{citizen_discharge_date}}',
-].join(', ')
+]).join(', '))
 
 const state = reactive({
     options: {
@@ -116,14 +136,19 @@ const rules = computed(() => ({
 const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
-    fetchCaseTypes()
+    if (!isEpikrise.value) fetchCaseTypes()
 })
 
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
         const payload: any = { ...state.form }
-        if (!payload.case_type_uuid) delete payload.case_type_uuid
+        if (isEpikrise.value) {
+            payload.type = 'epikrise'
+            delete payload.case_type_uuid
+        } else if (!payload.case_type_uuid) {
+            delete payload.case_type_uuid
+        }
         emit('submitForm', payload)
     }
 }

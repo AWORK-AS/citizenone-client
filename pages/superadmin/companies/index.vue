@@ -68,6 +68,7 @@
                         @change="handleSourceChange">
                         <option value="">{{ $t('superadmin.companies.source.all') }}</option>
                         <option value="google_ads">Google Ads</option>
+                        <option value="share">{{ $t('superadmin.companies.source.share') }}</option>
                         <option value="search">{{ $t('superadmin.companies.source.search') }}</option>
                         <option value="findsocialetilbud">FindSocialeTilbud</option>
                         <option value="product">{{ $t('superadmin.companies.source.product') }}</option>
@@ -145,7 +146,7 @@
                             <td class="co-td">
                                 <span v-if="company?.signup_source?.channel"
                                     class="inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold"
-                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-[#E8F6FB] text-[#1F7FA3]' : 'bg-[#F2F4F7] text-[#5C6478]'"
+                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-[#E8F6FB] text-[#1F7FA3]' : company.signup_source.channel === 'share' ? 'bg-[#E9F7EA] text-[#2E7D32]' : 'bg-[#F2F4F7] text-[#5C6478]'"
                                     :title="[company.signup_source.detail, company.signup_source.landing_page].filter(Boolean).join(' · ')">
                                     {{ company.signup_source.label }}
                                 </span>
