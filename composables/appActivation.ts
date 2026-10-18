@@ -17,7 +17,7 @@ declare const Dibs: any
  * page cannot drift into a second, subtly different way of selling the same
  * thing.
  */
-export function useAppActivation(options: { checkoutContainerId: string }) {
+export function useAppActivation(options: { checkoutContainerId: string, onTrialStarted?: () => void | Promise<void> }) {
     const { t } = useI18n()
     const userStore = useUserStore() as any
     const onedriveService = new OneDriveService()
@@ -27,6 +27,8 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
         isBusy: false,
         isCheckoutOpen: false,
         isTermsOpen: false,
+        // Set when the price at start differs from the one shown: nothing opens until it is confirmed.
+        priceChange: null as null | { paymentId: string, amount: number | string },
         selectedApp: {} as any,
     })
 
@@ -98,7 +100,6 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
     }
 
     async function openCheckout(app: any, form: any) {
-        const runtimeConfig = useRuntimeConfig()
         const params: any = {}
 
         if (!app?.is_one_time_fee) {
@@ -115,9 +116,19 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
             return
         }
 
+        mountCheckout(response?.paymentId, (result: any) => {
+            navigateTo(`/apps/purchased-successfully?paymentId=${result?.paymentId}&category=${app?.category?.slug ?? ''}&exclude=${app?.uuid ?? ''}`)
+        })
+    }
+
+    // The one place the Nexi embedded checkout is created and torn down, shared
+    // by a purchase and by saving a card for a free trial.
+    function mountCheckout(paymentId: string, onCompleted: (result: any) => void | Promise<void>) {
+        const runtimeConfig = useRuntimeConfig()
+
         checkout = new Dibs.Checkout({
             checkoutKey: runtimeConfig?.public?.checkoutKey,
-            paymentId: response?.paymentId,
+            paymentId,
             containerId: options.checkoutContainerId,
             language: 'da-DK',
             theme: { buttonRadius: '5px' },
@@ -125,11 +136,60 @@ export function useAppActivation(options: { checkoutContainerId: string }) {
 
         checkout.on('payment-completed', (result: any) => {
             checkout.cleanup()
-            navigateTo(`/apps/purchased-successfully?paymentId=${result?.paymentId}&category=${app?.category?.slug ?? ''}&exclude=${app?.uuid ?? ''}`)
+            onCompleted({ ...result, paymentId: result?.paymentId ?? paymentId })
         })
 
         activation.isCheckoutOpen = true
     }
 
-    return { activation, requestActivation, activate }
+    /**
+     * Start a free trial: the backend returns a payment id for saving a card
+     * (nothing is charged), the same checkout collects it, and verifying the
+     * payment is what actually starts the trial.
+     */
+    async function startTrial(app: any, params: { frequency: 'monthly' | 'yearly', seats?: number }, displayedAmount?: number | string | null) {
+        activation.error = {}
+        activation.priceChange = null
+        activation.isBusy = true
+
+        try {
+            const response = await appService.startTrial(app?.uuid, params)
+
+            if (!response?.paymentId) {
+                activation.error = { message: t('apps.couldNotStartPayment') }
+            } else if (response?.amount_gross != null && displayedAmount != null
+                && Math.round(Number(response.amount_gross) * 100) !== Math.round(Number(displayedAmount) * 100)) {
+                // The price moved between quote and start. Show it and wait for a second click.
+                activation.priceChange = { paymentId: response.paymentId, amount: response.amount_gross }
+            } else {
+                mountTrialCheckout(response.paymentId)
+            }
+        } catch (error: any) {
+            activation.error = error
+        }
+
+        activation.isBusy = false
+    }
+
+    function confirmTrialPrice() {
+        const pending = activation.priceChange
+        activation.priceChange = null
+        if (pending) mountTrialCheckout(pending.paymentId)
+    }
+
+    function mountTrialCheckout(paymentId: string) {
+        mountCheckout(paymentId, async (result: any) => {
+            activation.isBusy = true
+            try {
+                await appService.verifyTrial(result.paymentId)
+            } catch (error: any) {
+                activation.error = error
+            }
+            activation.isCheckoutOpen = false
+            activation.isBusy = false
+            await options.onTrialStarted?.()
+        })
+    }
+
+    return { activation, requestActivation, activate, startTrial, confirmTrialPrice }
 }

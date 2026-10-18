@@ -990,6 +990,60 @@
             "archivedSubgoals": "Arkiverade delmål"
         }
     },
+    "cody": {
+        "adoption": {
+            "headline": "Ge era medarbetare tid tillbaka med Cody",
+            "headlineBody": "Cody sparar i genomsnitt 2,37 timmars administration per medarbetare och dag, uppmätt bland aktiva användare.",
+            "tryFree": "Prova Cody gratis i 14 dagar",
+            "tryFreeShort": "Prova gratis i 14 dagar",
+            "readMore": "Läs mer",
+            "enableTitle": "Ge era medarbetare tid tillbaka med Cody",
+            "turnOn": "Aktivera Cody",
+            "trialLeft": "Cody-provperiod: {count} dag kvar | Cody-provperiod: {count} dagar kvar",
+            "buy": "Köp Cody",
+            "requestTitle": "Vill du ha Cody?",
+            "requestBody": "Be din administratör att aktivera den.",
+            "askAdmin": "Be din administratör aktivera Cody",
+            "sent": "Skickat till er administratör",
+            "noAdmin": "Vi hittade ingen administratör att skicka det till.",
+            "requestFailed": "Det gick inte. Försök igen om en stund.",
+            "promptTitle": "Ta in Cody i vardagen",
+            "goToStore": "Gå till App-butiken",
+            "thenAmount": "Därefter {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Prova gratis i {days} dagar",
+        "quoting": "Hämtar pris...",
+        "quoteFailed": "Vi kunde inte hämta priset. Försök igen.",
+        "priceChanged": "Priset är nu {amount}. Bekräfta för att fortsätta.",
+        "confirmPrice": "Bekräfta och fortsätt",
+        "finePrint": "Gratis till {date}. Därefter {amount} per {period}. Säg upp när som helst innan. Kortet debiteras automatiskt {charge}, om du inte säger upp innan.",
+        "perMonth": "månad",
+        "perYear": "år",
+        "frequency": "Betalningsperiod",
+        "monthly": "Månadsvis",
+        "yearly": "Årsvis",
+        "seats": "Antal användare",
+        "activeTitle": "Gratis provperiod",
+        "freeUntil": "Gratis till {date}",
+        "firstCharge": "Första betalning {date}: {amount}",
+        "cancel": "Säg upp provperioden",
+        "cancelTitle": "Säga upp provperioden?",
+        "cancelBody": "Du kan använda appen gratis till {date}. Därefter dras ingenting. Du kan ångra dig medan provperioden pågår.",
+        "cancelled": "Provperioden är uppsagd och slutar {date}.",
+        "undo": "Ångra",
+        "chargeFailedTitle": "Betalningen misslyckades",
+        "chargeFailedBody": "Vi kunde inte dra betalningen efter provperioden. Kontrollera ert betalkort så försöker vi igen.",
+        "chargeFailedLink": "Gå till abonnemang och betalning",
+        "failed": "Det gick inte. Försök igen.",
+        "superadmin": {
+            "enabled": "Gratis provperiod",
+            "days": "Antal dagar",
+            "daysHint": "Mellan 4 och 90 dagar. Kunden måste spara ett kort och provperioden går automatiskt över i betalning.",
+            "blockedHint": "Inte möjligt för tredjepartsappar och appar med engångsbetalning."
+        }
+    },
     "assistants": {
         "askAI": "Fråga Cody",
         "actions": {

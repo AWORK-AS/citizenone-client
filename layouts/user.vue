@@ -380,7 +380,7 @@
                         <!-- AI (mobile) -->
                         <div class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
-                                @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : navigateTo('/apps')">
+                                @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : openCodyPrompt()">
                                 <ModulesUserNavbarCodyMark :size="22" class="md:!w-5 md:!h-5" />
                                 <p class="text-sm font-semibold hidden lg:block">
                                     {{ $t('assistants.identity.name') }}</p>
@@ -577,6 +577,9 @@
                          above the navbar so it never disturbs the measured sticky offsets. -->
                     <ModulesUserStorageQuotaNotice />
 
+                    <!-- Cody adoption: trial offer, countdown, or a request to the admin. -->
+                    <ModulesUserCodyAdoptionBanner />
+
                     <!-- Subscription payment outstanding. Renders a blocking wall for an
                          admin (who can fix it) and a plain notice for everyone else. -->
                     <ModulesUserBillingPaymentWall />
@@ -679,6 +682,7 @@
             @next="handleNextGuidedTour" />
         <!-- Rendered once here rather than inside the navbar button, so the panel
         survives navigation and the content area can make room for it. -->
+        <ModulesUserCodyAccessPrompt />
         <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access" />
         <ModulesUserOwnChatGptSyncProgressBar />
 
@@ -1138,6 +1142,13 @@ function getNavItemLabel(item: any) {
 const { pageCommands, open: openCommandPalette } = useCommandPalette()
 const { allItems: settingsCatalog } = useSettingsCatalog()
 const isAdmin = computed(() => userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
+
+// Users without Cody get a small prompt instead of a bare redirect to the store.
+const { promptOpen: codyPromptOpen, load: loadCodyAdoption } = useCodyAdoption()
+function openCodyPrompt() {
+    loadCodyAdoption()
+    codyPromptOpen.value = true
+}
 const commandPaletteItems = computed(() => {
     const _user = userStore.getUser // recompute when sidebar links rebuild
     const _locale = language.locale.value // recompute when labels change

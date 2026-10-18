@@ -990,6 +990,60 @@
             "archivedSubgoals": "Arkiverede delmål"
         }
     },
+    "cody": {
+        "adoption": {
+            "headline": "Giv jeres medarbejdere tid tilbage med Cody",
+            "headlineBody": "Cody sparer i gennemsnit 2,37 timer administration pr. medarbejder pr. dag, målt blandt aktive brugere.",
+            "tryFree": "Prøv Cody gratis i 14 dage",
+            "tryFreeShort": "Prøv gratis i 14 dage",
+            "readMore": "Læs mere",
+            "enableTitle": "Giv jeres medarbejdere tid tilbage med Cody",
+            "turnOn": "Slå Cody til",
+            "trialLeft": "Cody-prøveperiode: {count} dag tilbage | Cody-prøveperiode: {count} dage tilbage",
+            "buy": "Køb Cody",
+            "requestTitle": "Vil du have Cody?",
+            "requestBody": "Bed din administrator om at slå den til.",
+            "askAdmin": "Bed din administrator om at slå Cody til",
+            "sent": "Sendt til jeres administrator",
+            "noAdmin": "Vi kunne ikke finde en administrator at sende det til.",
+            "requestFailed": "Det lykkedes ikke. Prøv igen om lidt.",
+            "promptTitle": "Få Cody med i hverdagen",
+            "goToStore": "Gå til App-butikken",
+            "thenAmount": "Derefter {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Prøv gratis i {days} dage",
+        "quoting": "Henter pris...",
+        "quoteFailed": "Vi kunne ikke hente prisen. Prøv igen.",
+        "priceChanged": "Prisen er nu {amount}. Bekræft for at fortsætte.",
+        "confirmPrice": "Bekræft og fortsæt",
+        "finePrint": "Gratis til {date}. Derefter {amount} pr. {period}. Opsig når som helst inden. Kortet trækkes automatisk {charge}, medmindre du opsiger inden.",
+        "perMonth": "måned",
+        "perYear": "år",
+        "frequency": "Betalingsperiode",
+        "monthly": "Månedligt",
+        "yearly": "Årligt",
+        "seats": "Antal brugere",
+        "activeTitle": "Gratis prøveperiode",
+        "freeUntil": "Gratis til {date}",
+        "firstCharge": "Første betaling {date}: {amount}",
+        "cancel": "Opsig prøveperioden",
+        "cancelTitle": "Opsig prøveperioden?",
+        "cancelBody": "Du kan bruge appen gratis til {date}. Derefter bliver der ikke trukket noget. Du kan fortryde, så længe prøven løber.",
+        "cancelled": "Prøveperioden er opsagt og slutter {date}.",
+        "undo": "Fortryd",
+        "chargeFailedTitle": "Betalingen mislykkedes",
+        "chargeFailedBody": "Vi kunne ikke trække betalingen efter prøveperioden. Tjek jeres betalingskort, så prøver vi igen.",
+        "chargeFailedLink": "Gå til abonnement og betaling",
+        "failed": "Det lykkedes ikke. Prøv igen.",
+        "superadmin": {
+            "enabled": "Gratis prøveperiode",
+            "days": "Antal dage",
+            "daysHint": "Mellem 4 og 90 dage. Kunden skal gemme et kort, og prøven går automatisk over i betaling.",
+            "blockedHint": "Ikke muligt for tredjepartsapps og apps med engangsbetaling."
+        }
+    },
     "assistants": {
         "askAI": "Spørg Cody",
         "actions": {

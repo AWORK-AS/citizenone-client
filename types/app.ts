@@ -9,6 +9,8 @@ export interface AppForm {
     logo: string,
     image: string,
     is_thirdparty: boolean,
+    trial_enabled?: boolean,
+    trial_days?: number | string,
     url_field: string,
     uuid?: string,
     category_id?: number,

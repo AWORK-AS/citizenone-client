@@ -49,6 +49,8 @@ const state = reactive({
         is_recommended: false,
         is_news: false,
         url_field: '',
+        trial_enabled: false,
+        trial_days: 14,
     },
     isPageLoading: false,
 })
@@ -74,6 +76,10 @@ async function saveApp(appDetails: any) {
         params.append('is_recommended', appDetails.is_recommended ? '1' : '0')
         params.append('is_news', appDetails.is_news ? '1' : '0')
         params.append('url_field', appDetails.url_field)
+        params.append('trial_enabled', appDetails.trial_enabled ? '1' : '0')
+        if (appDetails.trial_enabled) {
+            params.append('trial_days', String(appDetails.trial_days || 14))
+        }
         if (appDetails.background_image) {
             params.append('background_image', appDetails.background_image)
         }
