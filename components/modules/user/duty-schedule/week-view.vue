@@ -3081,7 +3081,7 @@ function copyWeeklySchedule(weekNumber: number) {
     if (copyWeeklyScheduleTimer) return
     state.copy.allEmployeeSchedules = {
         weekNumber: weekNumber,
-        yearSource: currentDate.value.year(),
+        yearSource: currentDate.value.isoWeekYear(),
         weeklySchedules: state.weeklySchedules?.data
     }
     copyWeeklyScheduleTimer = setTimeout(() => { copyWeeklyScheduleTimer = null }, 300)
@@ -3093,7 +3093,7 @@ function pasteWeeklySchedule(weekNumber: number) {
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
         year_source: state.copy.allEmployeeSchedules.yearSource,
-        year_destination: currentDate.value.year(),
+        year_destination: currentDate.value.isoWeekYear(),
     }
     saveCopiedWeeklyDutySchedule(params)
 }
