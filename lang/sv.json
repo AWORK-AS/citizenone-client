@@ -9333,9 +9333,12 @@
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chatt raderad",
+            "chatPinned": "Chatt fäst",
+            "chatUnpinned": "Fästning borttagen",
             "messageSuccessfullyDeleted": "Meddelande raderad",
             "messageSuccessfullyUpdated": "Meddelande uppdaterad"
         },
+        "allChats": "Alla chattar",
         "allMessagesAreLoaded": "Alla meddelanden är indläst",
         "and": "Och",
         "attachFile": "Bifoga fil",
@@ -9345,6 +9348,9 @@
         },
         "conversationsAndMessaging": "Samtal och meddelanden",
         "deleteChat": "Radera chatt",
+        "pinChat": "Fäst chatt",
+        "pinnedChats": "Fästa",
+        "unpinChat": "Ta bort fästning",
         "directMessage": "Direkte meddelande",
         "editMessage": "Redigera meddelande",
         "openInNewWindow": "Öppna i nytt fönster",

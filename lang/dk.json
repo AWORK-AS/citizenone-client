@@ -9333,9 +9333,12 @@
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chat slettet med succes",
+            "chatPinned": "Chat fastgjort",
+            "chatUnpinned": "Fastgørelse fjernet",
             "messageSuccessfullyDeleted": "Besked slettet med succes",
             "messageSuccessfullyUpdated": "Besked opdateret med succes"
         },
+        "allChats": "Alle chats",
         "allMessagesAreLoaded": "Alle beskeder er indlæst",
         "and": "Og",
         "attachFile": "Vedhæft fil",
@@ -9345,6 +9348,9 @@
         },
         "conversationsAndMessaging": "Samtaler og beskeder",
         "deleteChat": "Slet chat",
+        "pinChat": "Fastgør chat",
+        "pinnedChats": "Fastgjorte",
+        "unpinChat": "Fjern fastgørelse",
         "directMessage": "Direkte besked",
         "editMessage": "Rediger besked",
         "openInNewWindow": "Åbn i nyt vindue",
