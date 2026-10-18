@@ -58,7 +58,7 @@ const state = reactive({
 })
 
 function seriesLabel(series: any): string {
-    const who = series.child_name || t('wellbeing.ruler.wholeCase')
+    const who = series.child_name || series.contact_name || t('wellbeing.ruler.wholeCase')
     // A party other than staff (a parent, the child) is part of what the line
     // means, so it is named.
     const rater = series.rater_key && series.rater_key !== 'staff'

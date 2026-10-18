@@ -96,6 +96,11 @@
                                     <p class="text-xs text-slate-400">{{ field.label }}</p>
                                     <p class="text-lg font-semibold text-slate-900">{{ field.value }}</p>
                                 </div>
+                                <div v-if="current.cancelled_at">
+                                    <p class="text-xs text-slate-400">{{ $t('socialWelfare.contract.cancelled') }}</p>
+                                    <p class="text-lg font-semibold text-[#CC3B2D]">{{ current.cancelled_at }}</p>
+                                    <p v-if="current.cancellation_note" class="text-xs text-slate-500 whitespace-pre-line">{{ current.cancellation_note }}</p>
+                                </div>
                             </div>
                         </div>
 
@@ -146,6 +151,11 @@
                                                 <p v-if="period.uuid === state.currentUuid" class="co-badge co-badge-green text-[11px] mt-1 inline-block">
                                                     {{ $t('socialWelfare.contract.current') }}
                                                 </p>
+                                                <Tooltip v-if="period.cancelled_at" :text="period.cancellation_note || $t('socialWelfare.contract.cancelled')" wrap position="top">
+                                                    <p class="co-badge co-badge-red text-[11px] mt-1 inline-block whitespace-nowrap">
+                                                        {{ $t('socialWelfare.contract.cancelledOn', { date: period.cancelled_at }) }}
+                                                    </p>
+                                                </Tooltip>
                                                 <p v-if="period.stay_journal_number" class="text-[12px] text-slate-400">{{ period.stay_journal_number }}</p>
                                             </td>
                                             <td class="co-td text-slate-600">

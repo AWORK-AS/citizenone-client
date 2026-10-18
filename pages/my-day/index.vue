@@ -270,6 +270,9 @@
                                     <span v-if="row.secondary" class="text-xxs text-gray-400">
                                         {{ $t('myDay.distributionSecondary', { count: row.secondary }) }}
                                     </span>
+                                    <span v-if="row.intake" class="text-xxs text-gray-400">
+                                        {{ $t('myDay.distributionIntake', { count: row.intake }) }}
+                                    </span>
                                 </li>
                             </ul>
                         </section>
