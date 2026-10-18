@@ -64,6 +64,7 @@ async function saveRole(roleDetails: any) {
         const params = {
             name: roleDetails.name,
             level: roleDetails.level,
+            hide_internal_journals: roleDetails.hide_internal_journals ?? false,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
             employee_group_uuid: roleDetails.employee_group_uuid ?? [],

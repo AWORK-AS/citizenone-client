@@ -26,6 +26,8 @@
                 <FormError :error="v$?.formGoal?.score?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.score?.[0]" />
             </div>
+            <ModulesUserCitizenPlanGoalClassificationFields v-model:goalTypeUuid="state.formGoal.goal_type_uuid"
+                v-model:focusAreaUuid="state.formGoal.focus_area_uuid" :error="props.error" />
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
                     {{ $t('plansandgoals.form.description') }}
@@ -119,6 +121,8 @@ const state = reactive({
         date_completed: '',
         is_completed: false,
         score: '',
+        goal_type_uuid: null as string | null,
+        focus_area_uuid: null as string | null,
     },
     options: {
         scores: [
@@ -142,6 +146,8 @@ onMounted(() => {
         date_completed: props.selectedGoal.date_completed,
         is_completed: props.selectedGoal.is_completed,
         score: props.selectedGoal.score,
+        goal_type_uuid: props.selectedGoal.goal_type_uuid ?? null,
+        focus_area_uuid: props.selectedGoal.focus_area_uuid ?? null,
     }
     if (props.selectedGoal.date_completed) {
         state.formGoal.is_completed = true
@@ -162,6 +168,8 @@ watch(() => props.selectedGoal, (newValue: any) => {
             date_completed: newValue.date_completed,
             is_completed: newValue.is_completed,
             score: newValue.score,
+            goal_type_uuid: newValue.goal_type_uuid ?? null,
+            focus_area_uuid: newValue.focus_area_uuid ?? null,
         }
     }
 })
