@@ -1271,6 +1271,8 @@ async function saveDisplayRoles() {
         uuid,
         role_ids: state.displayRoles[uuid] ?? [],
     }))
+    // The API refuses an empty list ("The fields field is required"); with no fields shown there is nothing to save.
+    if (!fields.length) return
     const response = await citizenDisplayService.updateRoles(fields)
     const byName: Record<string, number[]> = {}
     for (const field of response?.data ?? []) {
