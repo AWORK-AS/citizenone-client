@@ -417,6 +417,18 @@
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
             </div>
+            <!-- Internal notes are hidden from the roles an Admin has marked "cannot see
+                 internal notes". Only the author or an Admin may change it. -->
+            <div class="space-y-1">
+                <div class="w-fit flex items-center"
+                    :class="canChangeInternal ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'"
+                    @click="canChangeInternal && (state.formJournal.is_internal = !state.formJournal.is_internal)">
+                    <FormCheckbox id="is_internal" :value="state.formJournal.is_internal" />
+                    {{ $t('citizens.citizenJournals.form.internal') }}
+                </div>
+                <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.internalHelp') }}</p>
+                <FormError :error="props?.error?.errors?.is_internal?.[0]" />
+            </div>
             <div class="space-y-1" v-if="isDentalClinic">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.is_visible_to_patient = !state.formJournal.is_visible_to_patient">
@@ -659,6 +671,7 @@ const state = reactive({
         risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
+        is_internal: false,
         is_visible_to_patient: false,
         is_ai_used: false,
         assessment: null,
@@ -1131,6 +1144,7 @@ async function setFormJournalFromSelected(journal: any) {
         risk_assessment_subgoal: '',
         title: journal.title,
         is_draft: journal.is_draft,
+        is_internal: journal.is_internal ?? false,
         is_visible_to_patient: journal.is_visible_to_patient ?? false,
         is_ai_used: journal.is_ai_used ?? false,
         assessment: journal.assessment,
@@ -1678,6 +1692,12 @@ async function fetchAllTeeth() {
     }
     emit('isPageLoading', false)
 }
+
+// Who marks a note internal decides who reads it, so the author or an Admin
+// may change it. A new note is always the current user's own.
+const canChangeInternal = computed(() => props.formType === 'create'
+    || isAtLeast('Admin')
+    || (props.selectedJournal as any)?.user?.uuid === userStore.getUser?.uuid)
 
 async function fetchColleagues() {
     try {

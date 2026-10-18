@@ -182,6 +182,7 @@ const genderOptions = computed(() => companyGenderOptions())
 const coordinatorRoleOptions = computed(() => [
     { value: 'primary', label: t('citizens.coordinators.primary') },
     { value: 'secondary', label: t('citizens.coordinators.secondary') },
+    { value: 'intake', label: t('citizens.coordinators.intake') },
 ])
 
 // Same values as the backend derives in the list query (CitizenListColumns).

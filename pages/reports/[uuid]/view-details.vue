@@ -36,6 +36,13 @@
                         </div>
 
                         <!-- Meta -->
+                        <!-- The CPR is still a placeholder: whoever wrote the report could not
+                             see it. It is merged in when someone who can finalises the report. -->
+                        <p v-if="state.report.status === 'draft' && state.report.cpr_pending"
+                            class="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                            <Icon name="ph:lock-simple" class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                            {{ $t('citizenReports.cprPending') }}
+                        </p>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                             <div v-if="state.report.citizen">
                                 <p class="font-medium text-gray-700">{{ $t('citizenReports.form.citizen') }}</p>

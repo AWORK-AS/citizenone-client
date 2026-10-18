@@ -242,6 +242,7 @@
                             <slot />
                         </div>
                     </div>
+                    <ModulesPortalAttribution />
                 </main>
             </div>
         </div>

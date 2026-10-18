@@ -38,18 +38,21 @@
                 <p class="mt-8 max-w-3xl text-sm text-gray-500">{{ $t('wellbeing.description') }}</p>
 
                 <!-- The citizen first, then everyone related to them - in a
-                     children's case the siblings on the same intervention. -->
+                     children's case the siblings on the same intervention -
+                     and then the citizen's contacts. -->
                 <div class="space-y-4">
-                    <ModulesUserCitizenWellbeingParty v-for="party in parties" :key="party.uuid"
-                        :citizenUuid="party.uuid" :name="party.name" :relationship="party.relationship"
-                        :isPrimary="party.isPrimary" />
+                    <ModulesUserCitizenWellbeingParty v-for="party in parties" :key="party.key"
+                        :citizenUuid="party.uuid" :contactUuid="party.contactUuid" :name="party.name"
+                        :relationship="party.relationship" :isPrimary="party.isPrimary" />
                 </div>
 
                 <p v-if="!state.isLoading && parties.length === 1" class="text-xs text-gray-400">
                     {{ $t('wellbeing.noRelations') }}
                     <NuxtLink :to="`/citizens/${citizenUuid}/relations`" class="text-secondary hover:underline">
-                        {{ $t('citizenRelations.title') }}
-                    </NuxtLink>
+                        {{ $t('citizenRelations.title') }}</NuxtLink>
+                    {{ $t('wellbeing.or') }}
+                    <NuxtLink :to="`/citizens/${citizenUuid}/contacts`" class="text-secondary hover:underline">
+                        {{ $t('citizens.tabs.contacts') }}</NuxtLink>.
                 </p>
             </div>
         </NuxtLayout>
@@ -58,13 +61,16 @@
 
 <script setup lang="ts">
 import { citizenRelationService } from '@/components/api/user/CitizenRelationService'
+import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import type { Error } from '@/types'
+import { useI18n } from 'vue-i18n'
 
 definePageMeta({ middleware: 'require-page', requiredPage: 'Wellbeing' })
 
 const runtimeConfig = useRuntimeConfig()
+const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
@@ -80,6 +86,7 @@ const breadcrumbLinks = [
 const state = reactive({
     citizen: null as any,
     relations: [] as any[],
+    contacts: [] as any[],
     error: {} as Error,
     isLoading: false,
 })
@@ -96,7 +103,9 @@ function fullName(citizen: any): string {
 
 const parties = computed(() => {
     const list: any[] = [{
+        key: citizenUuid,
         uuid: citizenUuid,
+        contactUuid: '',
         name: fullName(state.citizen) || '…',
         relationship: '',
         isPrimary: true,
@@ -107,7 +116,21 @@ const parties = computed(() => {
         const other = otherCitizen(relation)
         if (!other?.uuid || seen.has(other.uuid)) continue
         seen.add(other.uuid)
-        list.push({ uuid: other.uuid, name: fullName(other), relationship: relation?.relationship?.name ?? '', isPrimary: false })
+        list.push({ key: other.uuid, uuid: other.uuid, contactUuid: '', name: fullName(other), relationship: relation?.relationship?.name ?? '', isPrimary: false })
+    }
+
+    // A contact is not a citizen of its own, so their scores are kept on this
+    // citizen, about the contact.
+    for (const contact of state.contacts) {
+        if (!contact?.uuid) continue
+        list.push({
+            key: 'contact-' + contact.uuid,
+            uuid: citizenUuid,
+            contactUuid: contact.uuid,
+            name: contact.name || '…',
+            relationship: contact.relationship || contact.job_title || t('wellbeing.contact'),
+            isPrimary: false,
+        })
     }
 
     return list
@@ -117,9 +140,10 @@ onMounted(async () => {
     state.isLoading = true
     // Relations sit behind the Contacts page, which not everyone who writes
     // journals has. Without them the citizen's own measurements still show.
-    const [citizen, relations] = await Promise.allSettled([
+    const [citizen, relations, contacts] = await Promise.allSettled([
         citizenService.getCitizen(citizenUuid),
         citizenRelationService.getRelations({ citizen_uuid: citizenUuid }),
+        citizenScaleScoreService.getContacts(citizenUuid),
     ])
     if (citizen.status === 'fulfilled') {
         state.citizen = citizen.value?.data ?? null
@@ -127,6 +151,7 @@ onMounted(async () => {
         state.error = citizen.reason
     }
     state.relations = relations.status === 'fulfilled' ? (relations.value?.data ?? []) : []
+    state.contacts = contacts.status === 'fulfilled' ? (contacts.value?.data ?? []) : []
     state.isLoading = false
 })
 </script>

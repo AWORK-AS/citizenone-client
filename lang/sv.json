@@ -1,4 +1,26 @@
 {
+    "nps": {
+        "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
+        "unlikely": "Inte alls",
+        "likely": "Mycket sannolikt",
+        "notNow": "Inte nu",
+        "comment": "Vad är det viktigaste skälet till ditt betyg?",
+        "commentDetractor": "Vad ska vi göra bättre?",
+        "commentLabel": "Din kommentar",
+        "commentPlaceholder": "Valfritt",
+        "back": "Tillbaka",
+        "send": "Skicka",
+        "thanks": "Tack för ditt svar",
+        "thanksDetractor": "Någon från vårt team hör av sig för att höra mer.",
+        "reviewInvite": "Vill du dela din upplevelse med andra? En recension på Trustpilot hjälper andra verksamheter att välja.",
+        "reviewCta": "Skriv en recension",
+        "error": "Svaret kunde inte skickas. Försök igen."
+},
+    "citizenoneAttribution": {
+        "portal": "Portalen tillhandahålls av CitizenOne, journalsystemet för omsorg och hälsa.",
+        "setting": "Visa \"Skapat med CitizenOne\" på det ni skickar ut",
+        "settingHint": "En kort rad med länk till citizenone.dk längst ned på PDF:er, mejl till anhöriga och externa och i portalerna."
+    },
     "guestDocuments": {
         "title": "Delade dokument",
         "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
@@ -144,6 +166,7 @@
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
         "stepsProgress": "{done} av {total} steg slutförda",
+        "pill": "Kom igång {done}/{total}",
         "nextStep": "Nästa steg",
         "demoData": {
             "title": "Utforska med demo@:terms.citizens{''}",
@@ -186,6 +209,11 @@
             "cases": "Ärenden och jobbcenter"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv er första journalanteckning",
+                "desc": "Skriv en anteckning på en av exempelpersonerna eller en av era egna. Med Cody kan ni diktera anteckningen i stället för att skriva den.",
+                "cta": "Skriv anteckning"
+            },
             "departments": {
                 "title": "Skapa avdelningar",
                 "desc": "Avdelningar strukturerar personal, journaler och schema.",
@@ -263,9 +291,9 @@
                 "cta": "Gå till Ärendetyper"
             },
             "jobcenters": {
-                "title": "Lägg till jobbcenter",
-                "desc": "Registrera de jobbcenter ni samarbetar med, så remisser kan kopplas på.",
-                "cta": "Gå till Jobbcenter"
+                "title": "Lägg till kunder och leverantörer",
+                "desc": "Registrera de kunder och leverantörer ni samarbetar med, så remisser kan kopplas på.",
+                "cta": "Gå till Kunder och leverantörer"
             },
             "journalTitles": {
                 "title": "Journalmallar",
@@ -977,6 +1005,60 @@
             "archivedGoals": "Arkiverade mål",
             "archivedPlans": "Arkiverade planer",
             "archivedSubgoals": "Arkiverade delmål"
+        }
+    },
+    "cody": {
+        "adoption": {
+            "headline": "Ge era medarbetare tid tillbaka med Cody",
+            "headlineBody": "Cody sparar i genomsnitt 2,37 timmars administration per medarbetare och dag, uppmätt bland aktiva användare.",
+            "tryFree": "Prova Cody gratis i 14 dagar",
+            "tryFreeShort": "Prova gratis i 14 dagar",
+            "readMore": "Läs mer",
+            "enableTitle": "Ge era medarbetare tid tillbaka med Cody",
+            "turnOn": "Aktivera Cody",
+            "trialLeft": "Cody-provperiod: {count} dag kvar | Cody-provperiod: {count} dagar kvar",
+            "buy": "Köp Cody",
+            "requestTitle": "Vill du ha Cody?",
+            "requestBody": "Be din administratör att aktivera den.",
+            "askAdmin": "Be din administratör aktivera Cody",
+            "sent": "Skickat till er administratör",
+            "noAdmin": "Vi hittade ingen administratör att skicka det till.",
+            "requestFailed": "Det gick inte. Försök igen om en stund.",
+            "promptTitle": "Ta in Cody i vardagen",
+            "goToStore": "Gå till App-butiken",
+            "thenAmount": "Därefter {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Prova gratis i {days} dagar",
+        "quoting": "Hämtar pris...",
+        "quoteFailed": "Vi kunde inte hämta priset. Försök igen.",
+        "priceChanged": "Priset är nu {amount}. Bekräfta för att fortsätta.",
+        "confirmPrice": "Bekräfta och fortsätt",
+        "finePrint": "Gratis till {date}. Därefter {amount} per {period}. Säg upp när som helst innan. Kortet debiteras automatiskt {charge}, om du inte säger upp innan.",
+        "perMonth": "månad",
+        "perYear": "år",
+        "frequency": "Betalningsperiod",
+        "monthly": "Månadsvis",
+        "yearly": "Årsvis",
+        "seats": "Antal användare",
+        "activeTitle": "Gratis provperiod",
+        "freeUntil": "Gratis till {date}",
+        "firstCharge": "Första betalning {date}: {amount}",
+        "cancel": "Säg upp provperioden",
+        "cancelTitle": "Säga upp provperioden?",
+        "cancelBody": "Du kan använda appen gratis till {date}. Därefter dras ingenting. Du kan ångra dig medan provperioden pågår.",
+        "cancelled": "Provperioden är uppsagd och slutar {date}.",
+        "undo": "Ångra",
+        "chargeFailedTitle": "Betalningen misslyckades",
+        "chargeFailedBody": "Vi kunde inte dra betalningen efter provperioden. Kontrollera ert betalkort så försöker vi igen.",
+        "chargeFailedLink": "Gå till abonnemang och betalning",
+        "failed": "Det gick inte. Försök igen.",
+        "superadmin": {
+            "enabled": "Gratis provperiod",
+            "days": "Antal dagar",
+            "daysHint": "Mellan 4 och 90 dagar. Kunden måste spara ett kort och provperioden går automatiskt över i betalning.",
+            "blockedHint": "Inte möjligt för tredjepartsappar och appar med engångsbetalning."
         }
     },
     "assistants": {
@@ -1821,6 +1903,8 @@
                 },
                 "date": "Datum",
                 "draft": "Utkast",
+                "internal": "Intern anteckning",
+                "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
@@ -2377,6 +2461,7 @@
             "spokenLanguages": "Språk medborgaren talar",
             "spokenLanguagesDescription": "Välj de språk medborgaren kan tala. Det är inte samma sak som systemets språk.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Dold för din roll",
             "ssn": "Personnummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdatum",
@@ -2496,6 +2581,10 @@
             "reportingFrequency": "Rapportering till kommunen",
             "reportingFrequencyHint": "Skapar en återkommande påminnelse till alla på insatsen som har en inloggning.",
             "reportingStartsOn": "Första rapportering",
+            "reportDraftDaysBefore": "Internt utkast, dagar före",
+            "reportDraftDaysBeforePlaceholder": "T.ex. 7",
+            "reportDraftDaysBeforeHint": "Skickar en påminnelse \"Rapportutkast\" så många dagar före varje rapportering, så att utkastet kan granskas internt. Tomt betyder ingen påminnelse.",
+            "reportDraftDaysBeforeValue": "{days} dagar före",
             "reportingOptions": {
                 "biweekly": "Varannan vecka",
                 "everySixMonths": "Var sjätte månad",
@@ -3558,7 +3647,7 @@
             "caseNumber": "Ärendenummer",
             "columns": {
                 "columns": "Kolumner",
-                "hint": "Välj vilka kolumner som ska visas i översikten."
+                "hint": "Markera kolumnerna du vill se och dra dem i den ordning du vill ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdelning",
@@ -4346,9 +4435,11 @@
         "searchPlaceholder": "Sök på namn, personnummer eller ärendenummer",
         "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
         "coordinators": {
+            "badgeIntake": "Mottagningskoordinator",
             "badgePrimary": "Primär koordinator",
             "badgeSecondary": "Sekundär koordinator",
             "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
+            "intake": "Mottagningskoordinator",
             "notSet": "Inte angiven",
             "primary": "Primär koordinator",
             "saved": "Koordinatorerna har sparats",
@@ -4414,6 +4505,34 @@
             "averageDays": "Snitt {days} dagar",
             "averageHint": "Genomsnittlig längd från start till slut"
         }
+    },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltyp",
+        "none": "Ingen",
+        "description": "De typer av mål ni arbetar med, som en lista ni själva underhåller. Typen väljs på målet, så mål kan grupperas och räknas efter typ.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en typ som kan väljas på ett mål",
+        "empty": "Det finns inga måltyper ännu.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Utvecklingsmål"
+        },
+        "actions": {
+            "switchOff": "Stäng av typen",
+            "switchOn": "Slå på typen",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Måltypen är borttagen",
+            "deleteFailed": "Måltypen kunde inte tas bort"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temat i VUM som målet arbetar med. Kategorin följer med temat.",
+        "typeHint": "Välj en typ från er lista över måltyper",
+        "noTypes": "Det finns inga måltyper ännu. De skapas under Inställningar."
     },
     "client": {
         "appointments": "Möten",
@@ -7324,7 +7443,8 @@
             "mileageLog": "Körjournal",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månadsöversikt",
-            "consultantProfile": "Konsultprofil"
+            "consultantProfile": "Konsultprofil",
+            "hrDetails": "HR-uppgifter"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se anställd",
@@ -10433,6 +10553,7 @@
         "draft": "Utkast",
         "editReport": "Redigera rapport",
         "finalize": "Slutför",
+        "cprPending": "Personnumret är inte ifyllt än eftersom din roll inte har åtkomst till det. Det fylls i när en kollega med åtkomst slutför rapporten.",
         "finalized": "Slutförd",
         "newReport": "Ny rapport",
         "publicLink": "Offentlig länk",
@@ -10754,6 +10875,8 @@
             "permissions": "Behörigheter",
             "pages": "Sidåtkomst",
             "level": "Level",
+            "hideInternalJournals": "Kan inte se interna anteckningar",
+            "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11113,6 +11236,8 @@
                 "checkinOut": "Check in/ut",
                 "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Vem får se fälten",
+                "citizensDisplayRolesHelp": "Välj roller för ett fält för att bara visa det för dem. Tomt betyder alla som kan öppna brukaren. Administratörer ser alltid de visade fälten.",
                 "city": "Stad",
                 "companyLogo": "Firmalogo",
                 "companyName": "Företagsnamn",
@@ -11371,6 +11496,7 @@
             "profile": "Profil",
             "relationships": "Förhållande",
             "dischargeReasons": "Avslutningsorsaker",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Rum",
             "scheduleTags": "Tjänsteschema etiketter",
@@ -11390,7 +11516,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Arbetsförmedlingar",
+            "employmentJobcenters": "Kunder och leverantörer",
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
@@ -11983,6 +12109,46 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "nps": {
+            "title": "Rekommendationer (NPS)",
+            "subtitle": "Svar från administratörer de senaste 90 dagarna. NPS = andel 9-10 minus andel 0-6.",
+            "nps": "NPS",
+            "answers": "Svar",
+            "promoters": "Rekommenderare (9-10)",
+            "detractors": "Kritiker (0-6)",
+            "reviewClicks": "Klick till Trustpilot",
+            "empty": "Inga svar ännu.",
+            "score": "Betyg",
+            "company": "Företag",
+            "comment": "Kommentar",
+            "reviewClicked": "Till Trustpilot",
+            "date": "Datum",
+            "yes": "Ja",
+            "band": {
+                "promoter": "rekommenderar",
+                "passive": "neutral",
+                "detractor": "kritiker"
+            }
+    },
+        "funnel": {
+            "title": "Tillväxttratt",
+            "subtitle": "Företag som registrerade sig under perioden, per registreringskanal, och hur långt de har kommit: egna brukare, första anteckning och betalning.",
+            "stages": {
+                "signed_up": "Registrerade",
+                "activated": "Egna brukare",
+                "first_note": "Första anteckning",
+                "paying": "Betalar"
+            },
+            "ofSignups": "av registrerade",
+            "medianDays": "median {days} dagar",
+            "channel": "Kanal",
+            "toPaying": "Till betalning",
+            "biggestDrop": "Största bortfall",
+            "smallSample": "få tal",
+            "all": "Alla",
+            "empty": "Inga registreringar under perioden.",
+            "footnote": "Kohort: ett företag räknas i den period det registrerade sig. Exempeldata från registreringen räknas inte. Betalar = aktivt Basis- eller Pro-abonnemang i dag. Okänd = skapat före källspårning (2026-09-30) eller av superadmin. Nyare perioder ser sämre ut eftersom företagen haft kortare tid."
+        },
         "roadmap": {
             "title": "Färdplan",
             "intro": "Funktionerna alla användare ser under \"Kommande funktioner\" i profilmenyn. Endast publicerade punkter visas.",
@@ -12620,6 +12786,7 @@
             "source": {
                 "all": "Alla källor",
                 "share": "Delad av kund",
+                "product": "Från produkten (PDF, mejl, portal)",
                 "search": "Sökmotor (organisk)",
                 "campaign": "Kampanj",
                 "referral": "Hänvisning",
@@ -12773,6 +12940,7 @@
                 "allCollecting": "Alla avtal debiteras"
             },
             "tabs": {
+                "funnel": "Tillväxt",
                 "overview": "Översikt",
                 "report": "Rapport",
                 "management": "Ledning"
@@ -13179,6 +13347,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "nps": "Rekommendationer (NPS)",
             "roadmap": "Färdplan",
             "apps": "Apps",
             "appCategories": "App-kategorier",
@@ -15211,7 +15380,7 @@
         "jobcenters": {
             "addNewJobcenter": "Lägg till nytt {term}",
             "editJobcenter": "Redigera {term}",
-            "jobcenters": "Jobbcenter",
+            "jobcenters": "Kunder och leverantörer",
             "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
@@ -15864,6 +16033,7 @@
         },
         "distribution": "Fördelning av insatser",
         "distributionUnassigned": "{count} utan koordinator",
+        "distributionIntake": "{count} i mottagning",
         "distributionPrimary": "{count} primära",
         "distributionSecondary": "{count} sekundära"
     },
@@ -16590,6 +16760,11 @@
             "noDepartmentYet": "Ingen avdelning vald ännu",
             "newPeriod": "Ny avtalsperiod",
             "editPeriod": "Redigera avtalsperiod",
+            "cancelled": "Avtal uppsagt",
+            "cancelledAt": "Uppsagt den",
+            "cancelledOn": "Uppsagt {date}",
+            "cancelledHelp": "Registrera när avtalet sades upp. Faktureringen följer fortfarande periodens slutdatum.",
+            "cancellationNote": "Kommentar till uppsägningen",
             "agreedPrice": "Avtalat pris",
             "grantedHours": "Beviljade timmar",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16890,12 +17065,16 @@
             "saveFailed": "Fälten kunde inte sparas"
         }
     },
+    "citizenFields": {
+        "title": "Fält från förfrågan"
+    },
     "inquiryFieldSettings": {
         "title": "Fält för förfrågningar",
         "description": "Bestäm själv vilka uppgifter som ska registreras och vilken fas de hör till. Ett obligatoriskt fält måste vara ifyllt innan förfrågan kan flyttas vidare från sin fas - bakåt går alltid.",
         "addField": "Lägg till fält",
         "editField": "Redigera fält",
         "inactive": "Avstängt",
+        "carriedBadge": "Följer med till insatsen",
         "noFieldsInStage": "Inga fält i den här fasen.",
         "fieldCount": "{count} fält",
         "actions": {
@@ -16925,6 +17104,8 @@
             "helpTextPlaceholder": "Visas under fältet",
             "isRequired": "Obligatoriskt för att lämna fasen",
             "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
+            "carryToCitizen": "Följer med till insatsen",
+            "carryToCitizenHint": "När förfrågan blir en insats sparas svaret också som ett fält på insatsen, där det kan ses och ändras senare.",
             "isActive": "Aktivt",
             "source": "Slå upp i",
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
@@ -16955,7 +17136,7 @@
             "consultant_skills": "Konsultkompetenser (alla)",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
-            "jobcenters": "Arbetsförmedlingar",
+            "jobcenters": "Kunder och leverantörer",
             "focus_areas": "Fokusområden (VUM, vuxna)",
             "customer_departments": "Kunder och avdelningar",
             "consultant_skills_competence": "Konsultkompetenser: kompetenser",
@@ -17055,6 +17236,58 @@
             "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
+    "hrDetails": {
+        "title": "HR-uppgifter",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Anställning",
+            "work": "Arbete",
+            "bank": "Lön och bank"
+        },
+        "fields": {
+            "privateEmail": "Privat e-post",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbetstelefon",
+            "gender": "Kön",
+            "nationality": "Nationalitet",
+            "manager": "Närmaste chef",
+            "daysPerWeek": "Antal arbetsdagar per vecka",
+            "pensionStartDate": "Start av pensionsavtal",
+            "lunchScheme": "Lunchförmån",
+            "flexJob": "Flexjobb",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-månaderssamtal genomfört",
+            "terminationReason": "Orsak till avslut",
+            "simCard": "SIM-kort",
+            "otherWork": "Övrigt arbete",
+            "workingHoursComment": "Kommentar om arbetstider",
+            "notWorkWith": "Vill inte arbeta med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Clearingnr",
+            "bankAccountNo": "Kontonr",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinna",
+            "male": "Man",
+            "other": "Annat"
+        },
+        "taxCards": {
+            "main": "Huvudkort",
+            "secondary": "Bikort",
+            "self_employed": "Egenföretagare"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ej angivet",
+        "select": "Välj",
+        "bankAdminOnly": "Bankuppgifter kan bara ändras av en administratör",
+        "alert": {
+            "saved": "HR-uppgifterna är sparade",
+            "saveFailed": "HR-uppgifterna kunde inte sparas"
+        }
+    },
     "consultantProfile": {
         "title": "Konsultprofil",
         "ready": "Konsulten kan sättas på ett ärende",
@@ -17099,7 +17332,8 @@
             "miscellaneous": "Övrigt",
             "passport": "Pass",
             "cv": "CV",
-            "education": "Utbildningsbevis"
+            "education": "Utbildningsbevis",
+            "work_permit": "Arbets- och uppehållstillstånd"
         },
         "findings": {
             "document_missing": "{document} saknas",
@@ -17175,6 +17409,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
+        "archived": "Arkiverad",
+        "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
         "matches": {
@@ -17929,7 +18166,7 @@
         },
         "tab": "Välmående",
         "title": "Välmående",
-        "description": "Mätningar av välmående från 0 till 10 för personen och relaterade personer, t.ex. syskon i samma insats. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
+        "description": "Mätningar av välmående från 0 till 10 för personen, relaterade personer, t.ex. syskon i samma insats, och personens kontakter, t.ex. föräldrar. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
         "primary": "Huvudperson",
         "latest": "Senaste",
         "add": "Ny mätning",
@@ -17945,7 +18182,9 @@
         "removeConfirmation": "Är du säker på att du vill ta bort denna mätning",
         "saveFailed": "Mätningen kunde inte sparas",
         "removeFailed": "Mätningen kunde inte tas bort",
-        "noRelations": "Syskon och andra relaterade personer visas här när de är kopplade under",
+        "noRelations": "Syskon, andra relaterade personer och kontakter visas här när de är kopplade under",
+        "or": "eller",
+        "contact": "Kontakt",
         "raters": {
             "caseworker": "Handläggare",
             "mother": "Mamma",
@@ -18542,5 +18781,9 @@
         "evidence": "När du undertecknar sparas tidpunkt, IP-adress och enhet tillsammans med avtalet som bevis.",
         "loadFailed": "Avtalet kunde inte hämtas. Försök igen.",
         "pendingCount": "{count} väntar på underskrift"
+    },
+    "tableColumns": {
+        "moveUp": "Flytta {column} upp",
+        "moveDown": "Flytta {column} ned"
     }
 }
