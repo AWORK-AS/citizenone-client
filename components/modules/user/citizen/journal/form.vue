@@ -1314,15 +1314,17 @@ function insertJournalContent(html: string) {
 // is left alone: no space before a full stop or after an opening bracket.
 function keepWordsApart(model: any, range: any) {
     if (!range) return
-    const edge = (node: any, last: boolean) => {
-        if (!node || !node.is('$text')) return ''
-        return last ? node.data.slice(-1) : node.data.slice(0, 1)
+    // The characters of a block, with anything that is not text (an image, a line break) as a placeholder.
+    const charAt = (parent: any, offset: number) => {
+        if (!parent || offset < 0) return ''
+        const chars = Array.from(parent.getChildren()).map((child: any) => (child.is('$text') ? child.data : '\u0000')).join('')
+        return chars.charAt(offset)
     }
-    const after = edge(range.end.nodeAfter, false)
-    const before = edge(range.start.nodeBefore, true)
+    const after = charAt(range.end.parent, range.end.offset)
+    const before = charAt(range.start.parent, range.start.offset - 1)
     model.change((writer: any) => {
-        if (after && !/[\s.,;:!?)\]}]/.test(after)) writer.insertText(' ', range.end)
-        if (before && !/[\s(\[{]/.test(before)) writer.insertText(' ', range.start)
+        if (after && after !== '\u0000' && !/[\s.,;:!?)\]}]/.test(after)) writer.insertText(' ', range.end)
+        if (before && before !== '\u0000' && !/[\s(\[{]/.test(before)) writer.insertText(' ', range.start)
     })
 }
 
