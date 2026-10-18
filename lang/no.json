@@ -16780,12 +16780,16 @@
             "saveFailed": "Feltene kunne ikke lagres"
         }
     },
+    "citizenFields": {
+        "title": "Felter fra henvendelsen"
+    },
     "inquiryFieldSettings": {
         "title": "Felter i henvendelser",
         "description": "Bestem selv hvilke opplysninger som skal registreres, og hvilken fase de hører til. Et påkrevd felt må være fylt ut før henvendelsen kan flyttes videre fra fasen sin - bakover kan man alltid.",
         "addField": "Legg til felt",
         "editField": "Rediger felt",
         "inactive": "Slått av",
+        "carriedBadge": "Følger med til tiltaket",
         "noFieldsInStage": "Ingen felter i denne fasen.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -16815,6 +16819,8 @@
             "helpTextPlaceholder": "Vises under feltet",
             "isRequired": "Påkrevd for å forlate fasen",
             "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
+            "carryToCitizen": "Følger med til tiltaket",
+            "carryToCitizenHint": "Når henvendelsen blir et tiltak, lagres svaret også som et felt på tiltaket, der det kan ses og endres senere.",
             "isActive": "Aktivt",
             "source": "Slå opp i",
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",

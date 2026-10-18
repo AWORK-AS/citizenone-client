@@ -16876,12 +16876,16 @@
             "saveFailed": "The fields could not be saved"
         }
     },
+    "citizenFields": {
+        "title": "Fields from the inquiry"
+    },
     "inquiryFieldSettings": {
         "title": "Inquiry fields",
         "description": "Decide what has to be recorded, and which stage it belongs to. A required field has to be filled in before the inquiry can move on from its stage - moving back is always allowed.",
         "addField": "Add field",
         "editField": "Edit field",
         "inactive": "Off",
+        "carriedBadge": "Carried to the case",
         "noFieldsInStage": "No fields in this stage.",
         "fieldCount": "{count} fields",
         "actions": {
@@ -16911,6 +16915,8 @@
             "helpTextPlaceholder": "Shown below the field",
             "isRequired": "Required to leave the stage",
             "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
+            "carryToCitizen": "Carried over to the case",
+            "carryToCitizenHint": "When the inquiry becomes a case, the answer is also kept as a field on the case, where it can be seen and edited later.",
             "isActive": "Active",
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
