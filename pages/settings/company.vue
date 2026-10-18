@@ -646,6 +646,15 @@
                                     {{ $t('settings.company.form.oneJournalNotePerDay') }}
                                 </p>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.show_citizenone_attribution"
+                                        @toggleSwitch="state.formCompany.show_citizenone_attribution = !state.formCompany.show_citizenone_attribution"
+                                        :label="$t('citizenoneAttribution.setting')" />
+                                    <p>{{ $t('citizenoneAttribution.setting') }}</p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('citizenoneAttribution.settingHint') }}</p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.register_transport_enabled"
                                     @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" :label="$t('settings.company.form.registerTransport')" />
@@ -1046,6 +1055,8 @@ const state = reactive({
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
         one_journal_note_per_day_enabled: false,
+        // Shown as "show"; stored as hide_citizenone_attribution, which is off by default.
+        show_citizenone_attribution: true,
         logo: null as File | null,
         should_delete_logo: false,
         register_transport_enabled: false,
@@ -1179,6 +1190,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             one_journal_note_per_day_enabled: newValue?.company?.one_journal_note_per_day_enabled ? true : false,
+            show_citizenone_attribution: newValue?.company?.hide_citizenone_attribution !== true,
             register_transport_enabled: newValue?.company?.register_transport_enabled ? true : false,
             warning_13_hour_shift_enabled: newValue?.company?.warning_13_hour_shift_enabled !== false,
             warning_11_hour_rest_enabled: newValue?.company?.warning_11_hour_rest_enabled !== false,
@@ -1441,6 +1453,7 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
                 one_journal_note_per_day_enabled: state.formCompany.one_journal_note_per_day_enabled,
+                hide_citizenone_attribution: !state.formCompany.show_citizenone_attribution,
                 register_transport_enabled: state.formCompany.register_transport_enabled,
                 warning_13_hour_shift_enabled: state.formCompany.warning_13_hour_shift_enabled,
                 warning_11_hour_rest_enabled: state.formCompany.warning_11_hour_rest_enabled,

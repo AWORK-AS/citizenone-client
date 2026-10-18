@@ -1,4 +1,9 @@
 {
+    "citizenoneAttribution": {
+        "portal": "This portal is provided by CitizenOne, the journal system for care and health services.",
+        "setting": "Show \"Made with CitizenOne\" on what you send out",
+        "settingHint": "A short line linking to citizenone.dk at the bottom of PDFs, mails to relatives and external parties, and in the portals."
+    },
     "guestDocuments": {
         "title": "Shared documents",
         "enterPassword": "Enter the password you received from the sender to open the documents.",
@@ -12628,6 +12633,7 @@
             },
             "source": {
                 "all": "All sources",
+                "product": "From the product (PDF, mail, portal)",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
                 "referral": "Referral",
