@@ -144,6 +144,7 @@
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
         "stepsProgress": "{done} av {total} steg slutförda",
+        "pill": "Kom igång {done}/{total}",
         "nextStep": "Nästa steg",
         "demoData": {
             "title": "Utforska med demo@:terms.citizens{''}",
@@ -186,6 +187,11 @@
             "cases": "Ärenden och jobbcenter"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv er första journalanteckning",
+                "desc": "Skriv en anteckning på en av exempelpersonerna eller en av era egna. Med Cody kan ni diktera anteckningen i stället för att skriva den.",
+                "cta": "Skriv anteckning"
+            },
             "departments": {
                 "title": "Skapa avdelningar",
                 "desc": "Avdelningar strukturerar personal, journaler och schema.",
