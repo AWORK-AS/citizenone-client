@@ -131,6 +131,48 @@
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
                 </div>
+                <div class="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-4"
+                    v-if="state.formContact.title === 'doctor'">
+                    <p class="text-sm font-medium text-gray-800">{{ $t('citizens.contacts.form.gp.title') }}</p>
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formContact.is_primary_gp"
+                            @toggleSwitch="state.formContact.is_primary_gp = !state.formContact.is_primary_gp"
+                            :label="$t('citizens.contacts.form.gp.primaryGp')" />
+                        <p class="text-sm text-gray-700">{{ $t('citizens.contacts.form.gp.primaryGp') }}</p>
+                    </div>
+                    <FormError :error="props?.error?.errors?.is_primary_gp?.[0]" />
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                        <div class="space-y-1">
+                            <FormLabel for="provider_number" :label="$t('citizens.contacts.form.gp.providerNumber')" />
+                            <FormTextField id="provider_number" name="provider_number"
+                                :placeholder="$t('citizens.contacts.form.gp.providerNumber')"
+                                v-model="state.formContact.provider_number" />
+                            <FormError :error="props?.error?.errors?.provider_number?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="clinic_name" :label="$t('citizens.contacts.form.gp.clinicName')" />
+                            <FormTextField id="clinic_name" name="clinic_name"
+                                :placeholder="$t('citizens.contacts.form.gp.clinicName')"
+                                v-model="state.formContact.clinic_name" />
+                            <FormError :error="props?.error?.errors?.clinic_name?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="clinic_ean" :label="$t('citizens.contacts.form.gp.clinicEan')" />
+                            <FormTextField id="clinic_ean" name="clinic_ean"
+                                :placeholder="$t('citizens.contacts.form.gp.clinicEan')"
+                                v-model="state.formContact.clinic_ean" />
+                            <FormError :error="props?.error?.errors?.clinic_ean?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="sor_code" :label="$t('citizens.contacts.form.gp.sorCode')" />
+                            <FormTextField id="sor_code" name="sor_code"
+                                :placeholder="$t('citizens.contacts.form.gp.sorCode')"
+                                v-model="state.formContact.sor_code" />
+                            <FormError :error="props?.error?.errors?.sor_code?.[0]" />
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('citizens.contacts.form.gp.hint') }}</p>
+                </div>
                 <div class="space-y-1">
                     <FormLabel for="note" :label="$t('citizens.contacts.form.note')" />
                     <FormTextArea id="note" name="note" :placeholder="$t('citizens.contacts.form.notePlaceholder')"
@@ -292,6 +334,11 @@ const state = reactive({
         }] as any,
         has_system_access: false,
         chat_users: [] as any,
+        is_primary_gp: false,
+        provider_number: '',
+        clinic_name: '',
+        clinic_ean: '',
+        sor_code: '',
     },
     isPageLoading: false,
     modal: {
@@ -352,6 +399,11 @@ onMounted(async () => {
         notifications: [],
         has_system_access: contact?.has_system_access ?? false,
         chat_users: contact?.chat_users?.map((user: any) => user?.uuid) ?? [],
+        is_primary_gp: contact?.is_primary_gp === true,
+        provider_number: contact?.provider_number ?? '',
+        clinic_name: contact?.clinic_name ?? '',
+        clinic_ean: contact?.clinic_ean ?? '',
+        sor_code: contact?.sor_code ?? '',
     }
 
     if (regionUuid) {
@@ -403,6 +455,11 @@ watch(() => props.selectedContact, async (newValue: any) => {
         notifications: [],
         has_system_access: newValue?.has_system_access ?? false,
         chat_users: newValue?.chat_users?.map((user: any) => user?.uuid) ?? [],
+        is_primary_gp: newValue?.is_primary_gp === true,
+        provider_number: newValue?.provider_number ?? '',
+        clinic_name: newValue?.clinic_name ?? '',
+        clinic_ean: newValue?.clinic_ean ?? '',
+        sor_code: newValue?.sor_code ?? '',
     }
 
     if (regionUuid) {

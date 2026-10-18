@@ -3,6 +3,23 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
+            <!-- A suggestion only: nothing is created unless the user chooses to. -->
+            <div v-if="showEpikriseHint"
+                class="mb-4 flex flex-col gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 sm:flex-row sm:items-center"
+                role="status">
+                <Icon name="ph:file-text" class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                <p class="grow text-sm text-slate-700">{{ $t('epikrise.dischargeHint.text') }}</p>
+                <div class="flex items-center gap-2">
+                    <FormButton type="button" buttonStyle="action" @click="state.modal.isNewEpikriseOpen = true">
+                        {{ $t('epikrise.dischargeHint.create') }}
+                    </FormButton>
+                    <button type="button"
+                        class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-surface-100 hover:text-primary"
+                        :aria-label="$t('epikrise.dischargeHint.dismiss')" @click="dismissEpikriseHint">
+                        <Icon name="heroicons:x-mark" class="h-5 w-5" aria-hidden="true" />
+                    </button>
+                </div>
+            </div>
             <div class="grid grid-cols-12 gap-6 relative">
                 <div :class="[
                     ['citizens-uuid-medicine-journals', 'citizens-uuid-journals'].includes($route.name as any) ? 'col-span-12 lg:col-span-9' : 'col-span-12',
@@ -471,6 +488,11 @@
                 :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
                 :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
                 @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
+
+            <ModulesUserEpikriseModalNew v-if="epikrise.canCreate.value" :isModalOpen="state.modal.isNewEpikriseOpen"
+                :citizenUuid="citizenUuid" :admissionDate="state.selectedCitizen?.data?.date_admitted ?? ''"
+                :dischargeDate="state.selectedCitizen?.data?.date_discharged ?? ''"
+                @close="state.modal.isNewEpikriseOpen = false" @created="onEpikriseCreated" />
         </LoadingSpinner>
     </div>
 </template>
@@ -511,9 +533,10 @@ const userStore = useUserStore() as any
 // Care plans, their follow-ups and the score that feeds the development graph. Off for an
 // industry that writes no care plans; the company can switch it back on under "What do you use?".
 const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
-const { can } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 // Which fields the company shows, and to which roles. Shared with the hover card.
 const { showsCitizenField } = useCitizenFieldVisibility()
+const epikrise = useEpikrise()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 const isDesktopApp = useIsDesktopApp()
 
@@ -540,7 +563,9 @@ const state = reactive({
         isDevelopmentGraphOpen: false,
         isEmploymentProgramOpen: false,
         isRiskHistoryOpen: false,
+        isNewEpikriseOpen: false,
     },
+    epikriseHintDismissed: false,
     selectedCitizen: {} as any,
     showExpandedNote: false,
     noteOverflows: false,
@@ -576,6 +601,35 @@ const primaryCaseworkerName = computed(() => {
     if (!caseworker?.firstname && !caseworker?.lastname) return null
     return [caseworker?.firstname, caseworker?.lastname].filter(Boolean).join(' ')
 })
+
+// The hint is remembered per citizen and discharge date, so a new discharge asks again.
+const epikriseHintKey = computed(() => `epikrise-hint-dismissed:${citizenUuid}:${state.selectedCitizen?.data?.date_discharged ?? ''}`)
+
+const showEpikriseHint = computed(() =>
+    epikrise.canCreate.value
+    && !!state.selectedCitizen?.data?.date_discharged
+    && !state.epikriseHintDismissed
+    && !String(router.currentRoute.value.name ?? '').startsWith('citizens-uuid-epikriser'))
+
+watch(epikriseHintKey, (key: string) => {
+    try {
+        state.epikriseHintDismissed = localStorage.getItem(key) === '1'
+    } catch {
+        state.epikriseHintDismissed = false
+    }
+}, { immediate: true })
+
+function dismissEpikriseHint() {
+    state.epikriseHintDismissed = true
+    try {
+        localStorage.setItem(epikriseHintKey.value, '1')
+    } catch { /* the hint simply comes back next time */ }
+}
+
+function onEpikriseCreated(created: any) {
+    state.modal.isNewEpikriseOpen = false
+    if (created?.uuid) navigateTo(`/citizens/${citizenUuid}/epikriser/${created.uuid}`)
+}
 
 const { celebrate } = useConfetti()
 const { recordVisit } = useRecentCitizens()

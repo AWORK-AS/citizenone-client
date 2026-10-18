@@ -2055,6 +2055,15 @@
                 "email": "E-postadresse",
                 "employee": "Medarbeider",
                 "employees": "Medarbeidere",
+                "gp": {
+                    "title": "Fastlege",
+                    "primaryGp": "Primær fastlege",
+                    "providerNumber": "Ydernummer",
+                    "clinicName": "Legekontorets navn",
+                    "clinicEan": "EAN / lokasjonsnummer",
+                    "sorCode": "SOR-kode",
+                    "hint": "EAN, ydernummer og SOR-kode brukes til elektronisk sending senere. Bare én lege kan være primær fastlege."
+                },
                 "firstname": "Fornavn",
                 "lastname": "Etternavn",
                 "municipality": "Kommune",
@@ -11512,6 +11521,7 @@
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sykeplejejournalskabeloner",
             "reportTemplates": "Rapportmaler",
+            "epikriseTemplates": "Epikrisemaler",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sakstyper",
@@ -16484,6 +16494,124 @@
         "loadError": "Varslingstypene kunne ikke lastes inn.",
         "retry": "Prøv igjen",
         "masterOffHint": "Noen brytere er nedtonet fordi den tilsvarende bryteren ovenfor (e-post- eller systemvarsler) er slått av."
+    },
+    "epikrise": {
+        "tab": "Epikriser",
+        "title": "Epikriser",
+        "listIntro": "Her skrives epikriser, som låses og sendes til personens egen fastlege via sikker, kryptert e-post.",
+        "empty": "Det finnes ingen epikriser ennå.",
+        "notSent": "Ikke sendt",
+        "new": {
+            "title": "Ny epikrise",
+            "intro": "Det opprettes et utkast som forhåndsutfylles fra oppholdsdata, diagnoser og medisin. Du kan redigere alt før den ferdigstilles.",
+            "button": "Ny epikrise",
+            "create": "Opprett utkast"
+        },
+        "form": {
+            "title": "Tittel",
+            "titlePlaceholder": "La stå tom for standardtittel",
+            "admissionDate": "Innleggelsesdato",
+            "dischargeDate": "Utskrivningsdato",
+            "recipient": "Mottaker (fastlege)",
+            "recipientPlaceholder": "Primær fastlege brukes hvis feltet er tomt",
+            "noDoctors": "Det finnes ingen leger blant kontaktene. Opprett først en kontakt med stillingstittelen Lege.",
+            "template": "Mal",
+            "templatePlaceholder": "Ingen mal (standardoppsett)",
+            "templateHint": "Valgfritt. Velg en epikrisemal å starte fra.",
+            "body": "Tekst",
+            "primaryGp": "primær fastlege"
+        },
+        "status": {
+            "draft": "Utkast",
+            "finalized": "Ferdigstilt"
+        },
+        "table": {
+            "title": "Tittel",
+            "status": "Status",
+            "dischargeDate": "Utskrivningsdato",
+            "author": "Forfatter",
+            "sentTo": "Sendt til"
+        },
+        "actions": {
+            "edit": "Rediger",
+            "open": "Åpne",
+            "delete": "Slett",
+            "save": "Lagre",
+            "prefill": "Fyll ut fra data",
+            "previewPdf": "Forhåndsvis PDF",
+            "finalize": "Ferdigstill",
+            "send": "Send på e-post"
+        },
+        "confirm": {
+            "delete": "Er du sikker på at du vil slette dette utkastet"
+        },
+        "alert": {
+            "created": "Utkast opprettet",
+            "deleted": "Utkast slettet",
+            "saved": "Lagret",
+            "prefilled": "Teksten er fylt ut fra data",
+            "finalized": "Ferdigstilt og låst",
+            "sent": "Sendt som kryptert e-post"
+        },
+        "editor": {
+            "title": "Epikrise",
+            "lockedNotice": "Epikrisen er ferdigstilt og låst. Teksten kan ikke lenger endres.",
+            "noEditRights": "Du kan ikke redigere denne epikrisen.",
+            "finalizedAt": "Ferdigstilt"
+        },
+        "dispatches": {
+            "title": "Sendelogg",
+            "empty": "Ikke sendt ennå.",
+            "sentAt": "Sendt",
+            "recipient": "Mottaker",
+            "sentBy": "Sendt av",
+            "status": "Status",
+            "encrypted": "Kryptert e-post",
+            "sent": "Sendt",
+            "failed": "Mislyktes"
+        },
+        "prefill": {
+            "title": "Erstatte teksten?",
+            "message": "Utfylling fra data erstatter dagens tekst med en ny tekst bygget på malen og personens data. Endringene dine i teksten går tapt.",
+            "confirm": "Erstatt teksten"
+        },
+        "finalize": {
+            "title": "Ferdigstille epikrisen?",
+            "message": "Når epikrisen ferdigstilles, låses teksten og kan ikke lenger endres. Kontroller teksten og PDF-visningen først. Deretter kan den sendes til legen.",
+            "confirm": "Ferdigstill"
+        },
+        "send": {
+            "title": "Send som kryptert e-post",
+            "encryptedNotice": "Epikrisen sendes alltid som kryptert e-post. Legen trenger et passord for å åpne den.",
+            "recipient": "Mottaker (fastlege)",
+            "otherEmail": "Eller en annen e-postadresse",
+            "otherEmailPlaceholder": "E-postadresse",
+            "otherEmailHint": "Skriver du en adresse her, brukes den i stedet for den valgte legen.",
+            "willBeSentTo": "Sendes til",
+            "passwordNotice": "E-posten inneholder bare et hint til passordet, ikke selve passordet. Si passordet til legen separat, for eksempel på telefon. Send aldri passordet på e-post.",
+            "password": "Passord",
+            "passwordHint": "Hint til passord",
+            "passwordHintPlaceholder": "Et hint som legen kan kjenne igjen",
+            "hintWarning": "Hintet er synlig i e-posten. Ikke skriv selve passordet i hintet.",
+            "confirmCheckbox": "Jeg sier passordet til legen separat",
+            "submit": "Send"
+        },
+        "dischargeHint": {
+            "text": "Denne personen er utskrevet. Vil du skrive en epikrise til fastlegen?",
+            "create": "Opprett epikrise",
+            "dismiss": "Lukk"
+        },
+        "settings": {
+            "enableLabel": "Epikriser",
+            "enableHint": "Et dokument skrevet i CitizenOne, som låses og sendes som PDF til legen via sikker, kryptert e-post. Det er ikke en offisiell MedCom-melding.",
+            "templatesLink": "maler"
+        },
+        "templates": {
+            "title": "Epikrisemaler",
+            "intro": "Maler som forhåndsutfyller en epikrise med personens data. Editoren viser de tilgjengelige flettefeltene.",
+            "new": "Ny epikrisemal",
+            "edit": "Rediger epikrisemal"
+        }
     },
     "plansAndGoalsExport": {
         "title": "Eksport av planer og mål",

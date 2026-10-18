@@ -2055,6 +2055,15 @@
                 "email": "E-mailadresse",
                 "employee": "Medarbejder",
                 "employees": "Medarbejdere",
+                "gp": {
+                    "title": "Praktiserende læge",
+                    "primaryGp": "Primær læge",
+                    "providerNumber": "Ydernummer",
+                    "clinicName": "Klinikkens navn",
+                    "clinicEan": "EAN / lokationsnummer",
+                    "sorCode": "SOR-kode",
+                    "hint": "EAN, ydernummer og SOR-kode bruges til elektronisk afsendelse senere. Kun én læge kan være primær læge."
+                },
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
@@ -11517,6 +11526,7 @@
             "approvedDevices": "Godkendte enheder",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
             "reportTemplates": "Rapportskabeloner",
+            "epikriseTemplates": "Epikriseskabeloner",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
@@ -16580,6 +16590,124 @@
         "loadError": "Notifikationstyperne kunne ikke indlæses.",
         "retry": "Prøv igen",
         "masterOffHint": "Nogle kontakter er nedtonede, fordi den tilsvarende kontakt ovenfor (e-mail- eller systemnotifikationer) er slået fra."
+    },
+    "epikrise": {
+        "tab": "Epikriser",
+        "title": "Epikriser",
+        "listIntro": "Her skrives epikriser, som låses og sendes til borgerens egen læge via sikker, krypteret e-mail.",
+        "empty": "Der er endnu ingen epikriser.",
+        "notSent": "Ikke sendt",
+        "new": {
+            "title": "Ny epikrise",
+            "intro": "Der oprettes en kladde, som forudfyldes ud fra opholdsdata, diagnoser og medicin. Du kan redigere det hele, inden den færdiggøres.",
+            "button": "Ny epikrise",
+            "create": "Opret kladde"
+        },
+        "form": {
+            "title": "Titel",
+            "titlePlaceholder": "Lad stå tom for standardtitel",
+            "admissionDate": "Indlæggelsesdato",
+            "dischargeDate": "Udskrivningsdato",
+            "recipient": "Modtager (praktiserende læge)",
+            "recipientPlaceholder": "Den primære læge bruges, hvis feltet er tomt",
+            "noDoctors": "Der er ingen læger blandt kontakterne. Opret først en kontakt med jobtitlen Læge.",
+            "template": "Skabelon",
+            "templatePlaceholder": "Ingen skabelon (standardopsætning)",
+            "templateHint": "Valgfrit. Vælg en epikriseskabelon at starte fra.",
+            "body": "Tekst",
+            "primaryGp": "primær læge"
+        },
+        "status": {
+            "draft": "Kladde",
+            "finalized": "Færdiggjort"
+        },
+        "table": {
+            "title": "Titel",
+            "status": "Status",
+            "dischargeDate": "Udskrivningsdato",
+            "author": "Forfatter",
+            "sentTo": "Sendt til"
+        },
+        "actions": {
+            "edit": "Rediger",
+            "open": "Åbn",
+            "delete": "Slet",
+            "save": "Gem",
+            "prefill": "Udfyld fra data",
+            "previewPdf": "Vis PDF",
+            "finalize": "Færdiggør",
+            "send": "Send på e-mail"
+        },
+        "confirm": {
+            "delete": "Er du sikker på, at du vil slette denne kladde"
+        },
+        "alert": {
+            "created": "Kladde oprettet",
+            "deleted": "Kladde slettet",
+            "saved": "Gemt",
+            "prefilled": "Teksten er udfyldt fra data",
+            "finalized": "Færdiggjort og låst",
+            "sent": "Sendt som krypteret e-mail"
+        },
+        "editor": {
+            "title": "Epikrise",
+            "lockedNotice": "Epikrisen er færdiggjort og låst. Teksten kan ikke længere ændres.",
+            "noEditRights": "Du kan ikke redigere denne epikrise.",
+            "finalizedAt": "Færdiggjort"
+        },
+        "dispatches": {
+            "title": "Afsendelseslog",
+            "empty": "Ikke sendt endnu.",
+            "sentAt": "Sendt",
+            "recipient": "Modtager",
+            "sentBy": "Sendt af",
+            "status": "Status",
+            "encrypted": "Krypteret e-mail",
+            "sent": "Sendt",
+            "failed": "Fejlet"
+        },
+        "prefill": {
+            "title": "Erstat teksten?",
+            "message": "Udfyldning fra data erstatter den nuværende tekst med en ny tekst opbygget af skabelonen og borgerens data. Dine ændringer i teksten går tabt.",
+            "confirm": "Erstat teksten"
+        },
+        "finalize": {
+            "title": "Færdiggør epikrisen?",
+            "message": "Når epikrisen færdiggøres, låses teksten, og den kan ikke længere ændres. Kontrollér teksten og PDF-visningen først. Derefter kan den sendes til lægen.",
+            "confirm": "Færdiggør"
+        },
+        "send": {
+            "title": "Send som krypteret e-mail",
+            "encryptedNotice": "Epikrisen sendes altid som krypteret e-mail. Lægen skal bruge en adgangskode for at åbne den.",
+            "recipient": "Modtager (praktiserende læge)",
+            "otherEmail": "Eller en anden e-mailadresse",
+            "otherEmailPlaceholder": "E-mailadresse",
+            "otherEmailHint": "Skriver du en adresse her, bruges den i stedet for den valgte læge.",
+            "willBeSentTo": "Sendes til",
+            "passwordNotice": "E-mailen indeholder kun et hint til adgangskoden, ikke selve adgangskoden. Fortæl lægen adgangskoden separat, for eksempel telefonisk. Send aldrig adgangskoden på e-mail.",
+            "password": "Adgangskode",
+            "passwordHint": "Hint til adgangskode",
+            "passwordHintPlaceholder": "Et hint, som lægen kan genkende",
+            "hintWarning": "Hintet er synligt i e-mailen. Skriv ikke selve adgangskoden i hintet.",
+            "confirmCheckbox": "Jeg fortæller lægen adgangskoden separat",
+            "submit": "Send"
+        },
+        "dischargeHint": {
+            "text": "Denne borger er udskrevet. Vil du skrive en epikrise til den praktiserende læge?",
+            "create": "Opret epikrise",
+            "dismiss": "Luk"
+        },
+        "settings": {
+            "enableLabel": "Epikriser",
+            "enableHint": "Et dokument skrevet i CitizenOne, som låses og sendes som PDF til lægen via sikker, krypteret e-mail. Det er ikke en officiel MedCom-meddelelse.",
+            "templatesLink": "skabeloner"
+        },
+        "templates": {
+            "title": "Epikriseskabeloner",
+            "intro": "Skabeloner, der forudfylder en epikrise med borgerens data. Editoren viser de tilgængelige flettefelter.",
+            "new": "Ny epikriseskabelon",
+            "edit": "Rediger epikriseskabelon"
+        }
     },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
