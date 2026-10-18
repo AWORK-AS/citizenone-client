@@ -349,6 +349,15 @@
                             v-model="state.formCitizen.reporting_starts_on" />
                         <FormError :error="props?.error?.errors?.reporting_starts_on?.[0]" />
                     </div>
+                    <!-- An internal deadline for the draft, ahead of each reporting date. -->
+                    <div class="space-y-1" v-if="state.formCitizen.reporting_frequency">
+                        <FormLabel for="report_draft_days_before" :label="$t('citizens.form.reportDraftDaysBefore')" />
+                        <FormNumberField id="report_draft_days_before" name="report_draft_days_before" :min="1"
+                            :placeholder="$t('citizens.form.reportDraftDaysBeforePlaceholder')"
+                            v-model="state.formCitizen.report_draft_days_before" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.reportDraftDaysBeforeHint') }}</p>
+                        <FormError :error="props?.error?.errors?.report_draft_days_before?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
@@ -1372,6 +1381,7 @@ const state = reactive({
             conversation_summary: '',
             reporting_frequency: '',
             reporting_starts_on: '',
+            report_draft_days_before: '',
             inquiry_date: '',
             inquirer_name: '',
             outcome: '',
@@ -1655,6 +1665,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 conversation_summary: selectedCitizen.inquiryData?.conversation_summary || '',
                 reporting_frequency: selectedCitizen.reporting_frequency || '',
                 reporting_starts_on: selectedCitizen.reporting_starts_on || '',
+                report_draft_days_before: selectedCitizen.report_draft_days_before ? String(selectedCitizen.report_draft_days_before) : '',
                 inquiry_date: selectedCitizen.inquiryData?.inquiry_date || '',
                 inquirer_name: selectedCitizen.inquiryData?.inquirer_name || '',
                 outcome: selectedCitizen.inquiryData?.outcome || '',
