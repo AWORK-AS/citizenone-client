@@ -2,7 +2,7 @@
     <Multiselect mode="tags" :close-on-select="true" :searchable="true" :options="props.options" :limit="props.limit"
         :no-options-text="$t('theListIsEmpty')" :noResultsText="$t('noResultFound')" :max-height="props.maxHeight"
         :appendToBody="props.appendToBody" :loading="props.loading"
-        class="multiselect-limited" :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)" />
+        class="multiselect-limited" :style="{ '--ms-max-height': `${props.maxHeight}px` }" :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)" />
 </template>
 
 <script setup lang="ts">
@@ -28,7 +28,7 @@ const props = defineProps({
     },
     maxHeight: {
         type: Number,
-        default: 200,
+        default: 320,
     },
     loading: {
         type: Boolean,
@@ -40,17 +40,13 @@ const emit = defineEmits(['update:modelValue'])
 </script>
 
 <style>
-.multiselect-limited {
-    --ms-max-height: 200px;
-}
-
 .multiselect-limited .multiselect-tags {
     max-height: 30px;
     overflow-y: auto;
 }
 
 .multiselect-limited .multiselect-dropdown {
-    max-height: var(--ms-max-height) !important;
+    max-height: min(var(--ms-max-height, 320px), 60vh) !important;
     overflow-y: auto !important;
 }
 </style>

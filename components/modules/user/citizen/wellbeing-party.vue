@@ -41,18 +41,18 @@
 
             <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
                 <div>
-                    <FormLabel :for="`rater-${props.citizenUuid}`" :label="$t('wellbeing.givenBy')" />
-                    <FormSelect :id="`rater-${props.citizenUuid}`" v-model="state.form.rater" :options="raterOptions"
+                    <FormLabel :for="`rater-${partyKey}`" :label="$t('wellbeing.givenBy')" />
+                    <FormSelect :id="`rater-${partyKey}`" v-model="state.form.rater" :options="raterOptions"
                         :canClear="false" :canDeselect="false" />
                 </div>
                 <div v-if="state.form.rater === 'other'">
-                    <FormLabel :for="`other-${props.citizenUuid}`" :label="$t('wellbeing.otherName')" />
-                    <FormTextField :id="`other-${props.citizenUuid}`" :name="`other-${props.citizenUuid}`"
+                    <FormLabel :for="`other-${partyKey}`" :label="$t('wellbeing.otherName')" />
+                    <FormTextField :id="`other-${partyKey}`" :name="`other-${partyKey}`"
                         v-model="state.form.otherLabel" :placeholder="$t('wellbeing.otherPlaceholder')" :maxLength="60" />
                 </div>
                 <div>
-                    <FormLabel :for="`date-${props.citizenUuid}`" :label="$t('wellbeing.receivedAt')" />
-                    <FormDateField :id="`date-${props.citizenUuid}`" :name="`date-${props.citizenUuid}`"
+                    <FormLabel :for="`date-${partyKey}`" :label="$t('wellbeing.receivedAt')" />
+                    <FormDateField :id="`date-${partyKey}`" :name="`date-${partyKey}`"
                         v-model="state.form.measuredAt" />
                 </div>
             </div>
@@ -83,7 +83,7 @@
                             stroke-linecap="round" stroke-linejoin="round" />
                         <circle v-for="(dot, i) in series.dots" :key="'d' + i" :cx="dot.x" :cy="dot.y" r="3"
                             :fill="series.colour" />
-                        <text :x="chart.width - chart.padRight + 6" :y="series.endY + 3" font-size="9"
+                        <text :x="chart.width - chart.padRight + 6" :y="series.labelY + 3" font-size="9"
                             :fill="series.colour" font-weight="600">{{ series.label }}</text>
                     </g>
                 </svg>
@@ -138,12 +138,17 @@ import { useUserStore } from '@/store/user'
 
 const props = defineProps({
     citizenUuid: { type: String, required: true },
+    // Set when the party is one of the citizen's contacts: the scores are then
+    // stored on the citizen, about that contact.
+    contactUuid: { type: String, default: '' },
     name: { type: String, required: true },
     relationship: { type: String, default: '' },
     isPrimary: { type: Boolean, default: false },
 })
 
 const { t } = useI18n()
+// A contact shares the citizen's uuid, so form ids need a key of their own.
+const partyKey = computed(() => props.contactUuid ? `contact-${props.contactUuid}` : props.citizenUuid)
 const { errorAlert } = useAlert()
 const userStore = useUserStore() as any
 
@@ -163,7 +168,7 @@ const BANDS = [
 ]
 const SERIES_COLOURS = ['#174560', '#2f8577', '#d9634a', '#7c5cbf', '#e0ab3d', '#1b6d8a', '#96263a', '#64748b']
 
-// The parties Memox asked for. "staff" is the organisation itself, so it is
+// The parties a case is usually assessed by. "staff" is the organisation itself, so it is
 // shown under the company's own name.
 const RATERS = ['caseworker', 'mother', 'father', 'parents', 'family', 'staff', 'citizen', 'other']
 
@@ -256,10 +261,31 @@ const chart = computed(() => {
         }
     }).filter((s: any) => s.dots.length > 0)
 
+    // Two parties ending on the same score would print their names on top of
+    // each other, so the end labels are pushed apart to one line height each,
+    // kept inside the plot area.
+    const LABEL_GAP = 11
+    const byEnd = [...series].sort((a: any, b: any) => a.endY - b.endY)
+    byEnd.forEach((s: any, i: number) => {
+        s.labelY = i === 0 ? Math.max(s.endY, padTop) : Math.max(s.endY, byEnd[i - 1].labelY + LABEL_GAP)
+    })
+    const overflow = byEnd.length ? byEnd[byEnd.length - 1].labelY - (padTop + innerH) : 0
+    if (overflow > 0) {
+        byEnd.forEach((s: any) => { s.labelY -= overflow })
+    }
+
+    // A date label is about 28 units wide; with more dates than fit, only
+    // every n-th is printed (always the latest) so the axis stays legible.
+    const maxLabels = Math.max(2, Math.floor(innerW / 32))
+    const step = Math.ceil(all.length / maxLabels)
+    const xLabels = all
+        .map((date, i) => ({ i, x: x(i), label: shortDate(date) }))
+        .filter(({ i }) => (all.length - 1 - i) % step === 0)
+
     return {
         width, height, padLeft, padRight, series,
         ticks: [0, MAX / 2, MAX].map((value) => ({ value, y: y(value) })),
-        xLabels: all.map((date, i) => ({ x: x(i), label: shortDate(date) })),
+        xLabels,
     }
 })
 
@@ -279,7 +305,9 @@ function raterKeyFor(): string {
 async function fetchScores() {
     state.isLoading = true
     try {
-        const response = await citizenScaleScoreService.getScaleScores(props.citizenUuid, { scale_key: SCALE_KEY, limit: 500 })
+        const params: Record<string, any> = { scale_key: SCALE_KEY, limit: 500 }
+        if (props.contactUuid) params.contact_uuid = props.contactUuid
+        const response = await citizenScaleScoreService.getScaleScores(props.citizenUuid, params)
         state.scores = response?.data ?? []
     } catch {
         state.scores = []
@@ -297,6 +325,7 @@ async function save() {
             score: state.form.score,
             max_score: MAX,
             measured_at: state.form.measuredAt,
+            ...(props.contactUuid ? { contact_uuid: props.contactUuid } : {}),
         })
         state.form = emptyForm()
         state.isAdding = false

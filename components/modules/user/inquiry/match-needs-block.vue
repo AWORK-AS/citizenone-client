@@ -52,6 +52,15 @@
                 <p class="text-[11px] text-slate-400">{{ $t('inquiryMatchNeeds.reportingHint') }}</p>
                 <FormError :error="props.error?.errors?.reporting_frequency?.[0]" />
             </div>
+            <div class="space-y-1" v-if="form.reporting_frequency">
+                <FormLabel for="inquiry_report_draft_days_before" :label="$t('citizens.form.reportDraftDaysBefore')" />
+                <FormNumberField id="inquiry_report_draft_days_before" name="report_draft_days_before" :min="1"
+                    :placeholder="$t('citizens.form.reportDraftDaysBeforePlaceholder')"
+                    :modelValue="form.report_draft_days_before"
+                    @update:modelValue="(value: any) => set('report_draft_days_before', value)" />
+                <p class="text-[11px] text-slate-400">{{ $t('citizens.form.reportDraftDaysBeforeHint') }}</p>
+                <FormError :error="props.error?.errors?.report_draft_days_before?.[0]" />
+            </div>
         </div>
     </section>
 </template>
@@ -88,6 +97,7 @@ const form = reactive({
     location_address: '',
     location_postal_code: '',
     reporting_frequency: null as string | null,
+    report_draft_days_before: '',
 })
 
 function fromInquiry(inquiry: any) {
@@ -96,13 +106,14 @@ function fromInquiry(inquiry: any) {
     form.location_address = inquiry?.location_address ?? ''
     form.location_postal_code = inquiry?.location_postal_code ?? ''
     form.reporting_frequency = inquiry?.reporting_frequency ?? null
+    form.report_draft_days_before = inquiry?.report_draft_days_before ? String(inquiry.report_draft_days_before) : ''
 }
 
 fromInquiry(props.inquiry)
 watch(() => props.inquiry, (value) => fromInquiry(value))
 
 function set(key: keyof typeof form, value: any) {
-    ;(form as any)[key] = value ?? (key.startsWith('location') ? '' : null)
+    ;(form as any)[key] = value ?? (key.startsWith('location') || key === 'report_draft_days_before' ? '' : null)
 
     // The same language cannot be both; picking it as primary clears it as
     // secondary rather than leaving a combination the server refuses.
@@ -116,6 +127,8 @@ function set(key: keyof typeof form, value: any) {
         location_address: form.location_address?.trim() || null,
         location_postal_code: form.location_postal_code?.trim() || null,
         reporting_frequency: form.reporting_frequency || null,
+        // Only meaningful with a frequency; cleared with it.
+        report_draft_days_before: form.reporting_frequency && form.report_draft_days_before ? Number(form.report_draft_days_before) : null,
     })
 }
 
