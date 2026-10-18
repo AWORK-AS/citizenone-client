@@ -16792,12 +16792,16 @@
             "saveFailed": "Fälten kunde inte sparas"
         }
     },
+    "citizenFields": {
+        "title": "Fält från förfrågan"
+    },
     "inquiryFieldSettings": {
         "title": "Fält för förfrågningar",
         "description": "Bestäm själv vilka uppgifter som ska registreras och vilken fas de hör till. Ett obligatoriskt fält måste vara ifyllt innan förfrågan kan flyttas vidare från sin fas - bakåt går alltid.",
         "addField": "Lägg till fält",
         "editField": "Redigera fält",
         "inactive": "Avstängt",
+        "carriedBadge": "Följer med till insatsen",
         "noFieldsInStage": "Inga fält i den här fasen.",
         "fieldCount": "{count} fält",
         "actions": {
@@ -16827,6 +16831,8 @@
             "helpTextPlaceholder": "Visas under fältet",
             "isRequired": "Obligatoriskt för att lämna fasen",
             "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
+            "carryToCitizen": "Följer med till insatsen",
+            "carryToCitizenHint": "När förfrågan blir en insats sparas svaret också som ett fält på insatsen, där det kan ses och ändras senare.",
             "isActive": "Aktivt",
             "source": "Slå upp i",
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
