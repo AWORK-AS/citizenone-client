@@ -248,6 +248,12 @@ const sections = computed(() => {
                     label: t('citizens.form.reportingFrequency'),
                     value: inq.reporting_frequency ? t('citizens.form.reportingOptions.' + reportingKey(inq.reporting_frequency)) : '',
                 },
+                {
+                    label: t('citizens.form.reportDraftDaysBefore'),
+                    value: inq.reporting_frequency && inq.report_draft_days_before
+                        ? t('citizens.form.reportDraftDaysBeforeValue', { days: inq.report_draft_days_before })
+                        : '',
+                },
             ],
         },
         { key: 'assessment', fields: assessment },

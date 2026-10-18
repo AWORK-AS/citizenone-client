@@ -77,6 +77,8 @@
                                             <p class="text-xxs px-2">
                                                 {{ contact.coordinator_role === 'primary'
                                                     ? $t('citizens.coordinators.badgePrimary')
+                                                    : contact.coordinator_role === 'intake'
+                                                    ? $t('citizens.coordinators.badgeIntake')
                                                     : $t('citizens.coordinators.badgeSecondary') }}
                                             </p>
                                         </Badge>
