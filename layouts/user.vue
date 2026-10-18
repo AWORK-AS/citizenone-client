@@ -332,6 +332,7 @@
                         </div>
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-2">
+                        <ModulesUserOnboardingProgressPill />
                         <!-- Command palette (⌘K) -->
                         <div class="hidden sm:block relative">
                             <Tooltip :text="$t('commandPalette.hint')" position="bottom" :wrap="true">

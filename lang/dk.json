@@ -149,6 +149,7 @@
         "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
         "whatDoYouNeed": "Hvad skal du bruge?",
         "stepsProgress": "{done} af {total} trin fuldført",
+        "pill": "Kom i gang {done}/{total}",
         "nextStep": "Næste skridt",
         "demoData": {
             "title": "Udforsk med demo-@:terms.citizens{''}",
@@ -191,6 +192,11 @@
             "cases": "Sager & jobcenter"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv jeres første journalnotat",
+                "desc": "Skriv et notat på en af eksempelpersonerne eller en af jeres egne. Har I Cody, kan I diktere notatet i stedet for at skrive det.",
+                "cta": "Skriv notat"
+            },
             "departments": {
                 "title": "Opret afdelinger",
                 "desc": "Afdelinger strukturerer personale, journaler og vagtplan.",
@@ -268,9 +274,9 @@
                 "cta": "Gå til Sagstyper"
             },
             "jobcenters": {
-                "title": "Tilføj jobcentre",
-                "desc": "Registrér de jobcentre I samarbejder med, så henvisninger kan kobles på.",
-                "cta": "Gå til Jobcentre"
+                "title": "Tilføj kunder og leverandører",
+                "desc": "Registrér de kunder og leverandører I samarbejder med, så henvisninger kan kobles på.",
+                "cta": "Gå til Kunder og leverandører"
             },
             "journalTitles": {
                 "title": "Journalskabeloner",
@@ -1826,6 +1832,8 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "internal": "Intern note",
+                "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Udarbejd med AI",
@@ -2378,6 +2386,7 @@
             "spokenLanguages": "Sprog @:terms.citizenDefinite{''} taler",
             "spokenLanguagesDescription": "Vælg de sprog, @:terms.citizenDefinite{''} kan tale. Det er ikke det samme som systemets sprog.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Skjult for din rolle",
             "ssn": "CPR-nummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdato",
@@ -2497,6 +2506,10 @@
             "reportingFrequency": "Rapportering til kommunen",
             "reportingFrequencyHint": "Opretter en tilbagevendende påmindelse til alle på indsatsen med et login.",
             "reportingStartsOn": "Første rapportering",
+            "reportDraftDaysBefore": "Internt udkast, dage før",
+            "reportDraftDaysBeforePlaceholder": "Fx 7",
+            "reportDraftDaysBeforeHint": "Sender en påmindelse \"Rapportudkast\" så mange dage før hver rapportering, så udkastet kan gennemses internt. Tomt betyder ingen påmindelse.",
+            "reportDraftDaysBeforeValue": "{days} dage før",
             "reportingOptions": {
                 "biweekly": "Hver 14. dag",
                 "everySixMonths": "Hvert halve år",
@@ -3559,7 +3572,7 @@
             "caseNumber": "Indsatsnummer",
             "columns": {
                 "columns": "Kolonner",
-                "hint": "Vælg hvilke kolonner der skal vises i oversigten."
+                "hint": "Sæt flueben ved de kolonner, du vil se, og træk dem i den rækkefølge, du vil have dem."
             },
             "coordinator": "Koordinator",
             "department": "Afdeling",
@@ -4347,9 +4360,11 @@
         "searchPlaceholder": "Søg på navn, CPR eller indsatsnummer",
         "emptyListHint": "Ingen {citizens} fundet endnu. Brug \"Ny {citizen}\" øverst, eller importér fra et andet system.",
         "coordinators": {
+            "badgeIntake": "Modtagelseskoordinator",
             "badgePrimary": "Primær koordinator",
             "badgeSecondary": "Sekundær koordinator",
             "hint": "Den medarbejder du sætter her vises under Kontakter på {theCitizen} og {theCitizen} vises under medarbejderens tildelte {citizens}.",
+            "intake": "Modtagelseskoordinator",
             "notSet": "Ikke sat",
             "primary": "Primær koordinator",
             "saved": "Koordinatorerne er gemt",
@@ -4415,6 +4430,34 @@
             "averageDays": "Ø {days} dage",
             "averageHint": "Gennemsnitlig varighed fra start til slut"
         }
+    },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltype",
+        "none": "Ingen",
+        "description": "De typer mål I arbejder med, som en liste I selv vedligeholder. Typen vælges på målet, så mål kan grupperes og tælles efter type.",
+        "add": "Tilføj",
+        "addHint": "Tilføj en type, der kan vælges på et mål",
+        "empty": "Der er ingen måltyper endnu.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Udviklingsmål"
+        },
+        "actions": {
+            "switchOff": "Slå typen fra",
+            "switchOn": "Slå typen til",
+            "rename": "Omdøb",
+            "delete": "Slet"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke gemmes",
+            "deleted": "Måltypen er slettet",
+            "deleteFailed": "Måltypen kunne ikke slettes"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temaet i VUM, som målet arbejder med. Kategorien følger med temaet.",
+        "typeHint": "Vælg en type fra jeres liste over måltyper",
+        "noTypes": "Der er ingen måltyper endnu. De oprettes under Indstillinger."
     },
     "client": {
         "appointments": "Aftaler",
@@ -7307,7 +7350,8 @@
             "mileageLog": "Kørselsregnskab",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månedsoversigt",
-            "consultantProfile": "Konsulentprofil"
+            "consultantProfile": "Konsulentprofil",
+            "hrDetails": "HR-oplysninger"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbejder",
@@ -10391,6 +10435,7 @@
         "draft": "Kladde",
         "editReport": "Rediger rapport",
         "finalize": "Færdiggør",
+        "cprPending": "CPR-nummeret er ikke indsat endnu, fordi din rolle ikke har adgang til CPR. Det indsættes, når en kollega med adgang færdiggør rapporten.",
         "finalized": "Færdiggjort",
         "newReport": "Ny rapport",
         "publicLink": "Offentligt link",
@@ -10710,6 +10755,8 @@
             "permissions": "Tilladelser",
             "pages": "Sideadgange",
             "level": "Niveau",
+            "hideInternalJournals": "Kan ikke se interne noter",
+            "hideInternalJournalsHelp": "Medarbejdere med denne rolle ser ikke noter markeret som interne, medmindre de selv har skrevet dem. Har en medarbejder flere roller, er det nok at én af dem er markeret.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
@@ -11069,6 +11116,8 @@
                 "checkinOut": "Check ind/ud",
                 "chooseNotificationDepartments": "Vælg hvilke afdelinger du vil modtage notifikationer fra",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Hvem må se felterne",
+                "citizensDisplayRolesHelp": "Vælg roller for et felt for kun at vise det for dem. Tomt betyder alle, der kan åbne borgeren. Administratorer ser altid de viste felter.",
                 "city": "By",
                 "companyLogo": "Firmalogo",
                 "companyName": "Firmanavn",
@@ -11327,6 +11376,7 @@
             "profile": "Profil",
             "relationships": "Forhold",
             "dischargeReasons": "Afslutningsårsager",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Værelser",
             "scheduleTags": "Vagtplan tags",
@@ -11346,7 +11396,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sagstyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Jobcentre",
+            "employmentJobcenters": "Kunder og leverandører",
             "employmentAgreements": "Aftaler",
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
@@ -15192,7 +15242,7 @@
         "jobcenters": {
             "addNewJobcenter": "Tilføj nyt {term}",
             "editJobcenter": "Rediger {term}",
-            "jobcenters": "Jobcentre",
+            "jobcenters": "Kunder og leverandører",
             "newJobcenter": "Nyt {term}",
             "form": {
                 "alert": {
@@ -15841,6 +15891,7 @@
         },
         "distribution": "Fordeling af indsatser",
         "distributionUnassigned": "{count} uden koordinator",
+        "distributionIntake": "{count} i modtagelse",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære"
     },
@@ -16552,6 +16603,11 @@
             "noDepartmentYet": "Ingen afdeling valgt endnu",
             "newPeriod": "Ny kontraktperiode",
             "editPeriod": "Rediger kontraktperiode",
+            "cancelled": "Kontrakt opsagt",
+            "cancelledAt": "Opsagt den",
+            "cancelledOn": "Opsagt {date}",
+            "cancelledHelp": "Registrér hvornår kontrakten blev opsagt. Faktureringen følger stadig periodens slutdato.",
+            "cancellationNote": "Bemærkning til opsigelsen",
             "agreedPrice": "Aftalt pris",
             "grantedHours": "Bevilgede timer",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16844,12 +16900,16 @@
             "saveFailed": "Felterne kunne ikke gemmes"
         }
     },
+    "citizenFields": {
+        "title": "Felter fra henvendelsen"
+    },
     "inquiryFieldSettings": {
         "title": "Felter i henvendelser",
         "description": "Bestem selv hvilke oplysninger der skal registreres, og i hvilken fase de hører til. Et påkrævet felt skal være udfyldt, før henvendelsen kan flyttes videre fra sin fase - baglæns kan man altid.",
         "addField": "Tilføj felt",
         "editField": "Rediger felt",
         "inactive": "Slået fra",
+        "carriedBadge": "Følger med til indsatsen",
         "noFieldsInStage": "Ingen felter i denne fase.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -16879,6 +16939,8 @@
             "helpTextPlaceholder": "Vises under feltet",
             "isRequired": "Påkrævet for at forlade fasen",
             "isRequiredHint": "Henvendelsen kan ikke flyttes fremad, før feltet er udfyldt.",
+            "carryToCitizen": "Følger med til indsatsen",
+            "carryToCitizenHint": "Når henvendelsen bliver til en indsats, gemmes svaret også som et felt på indsatsen, hvor det kan ses og rettes senere.",
             "isActive": "Aktivt",
             "source": "Slå op i",
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
@@ -16909,7 +16971,7 @@
             "consultant_skills": "Konsulentkompetencer (alle)",
             "inquiry_service_types": "Indsatstyper",
             "employees": "Medarbejdere",
-            "jobcenters": "Jobcentre",
+            "jobcenters": "Kunder og leverandører",
             "focus_areas": "Fokusområder (VUM, voksne)",
             "customer_departments": "Kunder og afdelinger",
             "consultant_skills_competence": "Konsulentkompetencer: kompetencer",
@@ -17009,6 +17071,58 @@
             "result": "{added} tilføjet, {skipped} stod der allerede"
         }
     },
+    "hrDetails": {
+        "title": "HR-oplysninger",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Ansættelse",
+            "work": "Arbejde",
+            "bank": "Løn og bank"
+        },
+        "fields": {
+            "privateEmail": "Privat mail",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbejdstelefon",
+            "gender": "Køn",
+            "nationality": "Nationalitet",
+            "manager": "Nærmeste leder",
+            "daysPerWeek": "Antal arbejdsdage pr. uge",
+            "pensionStartDate": "Opstart pensionsordning",
+            "lunchScheme": "Frokostordning",
+            "flexJob": "Flexjob",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-måneders samtale afholdt",
+            "terminationReason": "Fratrædelsesårsag",
+            "simCard": "Simkort",
+            "otherWork": "Øvrigt arbejde",
+            "workingHoursComment": "Kommentar til arbejdstider",
+            "notWorkWith": "Ønsker ikke arbejde med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Reg.nr.",
+            "bankAccountNo": "Kontonr.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinde",
+            "male": "Mand",
+            "other": "Andet"
+        },
+        "taxCards": {
+            "main": "Hovedkort",
+            "secondary": "Bikort",
+            "self_employed": "Selvstændig"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ikke angivet",
+        "select": "Vælg",
+        "bankAdminOnly": "Bankoplysninger kan kun ændres af en administrator",
+        "alert": {
+            "saved": "HR-oplysningerne er gemt",
+            "saveFailed": "HR-oplysningerne kunne ikke gemmes"
+        }
+    },
     "consultantProfile": {
         "title": "Konsulentprofil",
         "ready": "Konsulenten kan sættes på en sag",
@@ -17053,7 +17167,8 @@
             "miscellaneous": "Øvrigt",
             "passport": "Pas",
             "cv": "CV",
-            "education": "Uddannelsespapirer"
+            "education": "Uddannelsespapirer",
+            "work_permit": "Arbejds- og opholdstilladelse"
         },
         "findings": {
             "document_missing": "{document} mangler",
@@ -17129,6 +17244,9 @@
         "clear": "Nulstil",
         "noConsultants": "Ingen konsulenter fundet.",
         "notReady": "Kan ikke sættes på sag",
+        "archived": "Arkiveret",
+        "archivedHint": "Genaktiveres med en licens, når konsulenten vælges til sagen",
+        "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
         "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
         "matches": {
@@ -17880,7 +17998,7 @@
         },
         "tab": "Trivsel",
         "title": "Trivsel",
-        "description": "Trivselsmålinger fra 0 til 10 for borgeren og de relaterede borgere, fx søskende på samme indsats. Hver måling har den, der har givet den, og datoen den er modtaget. Målinger fra rapporter med nøglen \"trivsel\" vises også her.",
+        "description": "Trivselsmålinger fra 0 til 10 for borgeren, de relaterede borgere, fx søskende på samme indsats, og borgerens kontakter, fx forældre. Hver måling har den, der har givet den, og datoen den er modtaget. Målinger fra rapporter med nøglen \"trivsel\" vises også her.",
         "primary": "Hovedperson",
         "latest": "Seneste",
         "add": "Ny måling",
@@ -17896,7 +18014,9 @@
         "removeConfirmation": "Er du sikker på, at du vil fjerne denne måling",
         "saveFailed": "Målingen kunne ikke gemmes",
         "removeFailed": "Målingen kunne ikke fjernes",
-        "noRelations": "Søskende og andre relaterede borgere vises her, når de er tilknyttet under",
+        "noRelations": "Søskende, andre relaterede borgere og kontakter vises her, når de er tilknyttet under",
+        "or": "eller",
+        "contact": "Kontakt",
         "raters": {
             "caseworker": "Rådgiver",
             "mother": "Mor",
@@ -18436,5 +18556,9 @@
             "required": "Besvar spørgsmålene markeret med *.",
             "failed": "Noget gik galt. Prøv igen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flyt {column} op",
+        "moveDown": "Flyt {column} ned"
     }
 }
