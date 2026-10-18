@@ -2055,6 +2055,15 @@
                 "email": "Email address",
                 "employee": "Employee",
                 "employees": "Employees",
+                "gp": {
+                    "title": "General practitioner (GP)",
+                    "primaryGp": "Primary GP",
+                    "providerNumber": "Provider number (ydernummer)",
+                    "clinicName": "Clinic name",
+                    "clinicEan": "EAN / location number",
+                    "sorCode": "SOR code",
+                    "hint": "EAN, provider number and SOR code are for electronic sending later. Only one doctor can be the primary GP."
+                },
                 "firstname": "First name",
                 "lastname": "Last name",
                 "municipality": "Municipality",
@@ -2159,6 +2168,8 @@
                 "deleteFileConfirmation": "Are you sure you want to delete this file",
                 "deleteFolderConfirmation": "Are you sure you want to delete this folder",
                 "shareConfirmation": "Are you sure you want to share this document",
+                "shareWithPatientConfirmation": "Share this document with the patient? It appears in their app, and they are notified.",
+                "unshareWithPatientConfirmation": "Stop sharing this document with the patient?",
                 "unshareConfirmation": "Are you sure you want to unshare this document",
                 "upgradeStorageConfirmation": "Do you want to upgrade your storage"
             },
@@ -2260,6 +2271,8 @@
                     "openSelected": "Open selected",
                     "sendLink": "Send link by email",
                     "share": "Share",
+                    "shareWithPatient": "Share with the patient",
+                    "unshareWithPatient": "Stop sharing with the patient",
                     "statuses": "Statuses",
                     "unshare": "Unshare",
                     "view": "View"
@@ -7222,6 +7235,24 @@
             "driversLicense": "Drivers License",
             "editDocument": "Edit document",
             "employmentContracts": "Employment contracts",
+            "signature": {
+                "column": "Signature",
+                "notSent": "Not sent",
+                "pending": "Awaiting signature",
+                "sentOn": "Sent {date}",
+                "signed": "Signed",
+                "signedOnBy": "{date} by {name}",
+                "send": "Send for signing",
+                "withdraw": "Withdraw",
+                "certificate": "Signature certificate",
+                "confirmSend": "Send the contract to the employee to read and sign in CitizenOne",
+                "confirmWithdraw": "Withdraw the request for a signature",
+                "sent": "The contract has been sent for signing",
+                "withdrawn": "The request for a signature has been withdrawn",
+                "sendOnUpload": "Send to the employee to sign",
+                "sendOnUploadHint": "The employee is told in CitizenOne, on their phone and by email, and you are told when the contract is signed.",
+                "savedAndSent": "The contract has been saved and sent for signing"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Document successfully saved",
@@ -8803,6 +8834,19 @@
             },
             "content": "Content",
             "name": "Name"
+        },
+        "choices": {
+            "title": "Choose options",
+            "hint": "This text has choice lists. Choose the option that fits, and the finished text is inserted in the note.",
+            "preview": "How the text will read",
+            "insert": "Insert in the note",
+            "badge": "with choice lists",
+            "syntaxHint": "Choice list: write the options in curly braces, separated by a vertical bar, e.g. {example}. The option is chosen when the text is inserted in a note.",
+            "addList": "Insert choice list",
+            "optionsLabel": "Options (one per line)",
+            "optionsPlaceholder": "finasterid 1 mg tablet\nfinasterid 5% serum",
+            "insertList": "Insert",
+            "needTwo": "Write at least two options, one per line."
         }
     },
     "journalNoteTags": {
@@ -9289,9 +9333,12 @@
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chat successfully deleted",
+            "chatPinned": "Chat pinned",
+            "chatUnpinned": "Chat unpinned",
             "messageSuccessfullyDeleted": "Message successfully deleted",
             "messageSuccessfullyUpdated": "Message successfully updated"
         },
+        "allChats": "All chats",
         "allMessagesAreLoaded": "All messages are loaded",
         "and": "And",
         "attachFile": "Attach file",
@@ -9301,6 +9348,9 @@
         },
         "conversationsAndMessaging": "Conversations & Messaging",
         "deleteChat": "Delete chat",
+        "pinChat": "Pin chat",
+        "pinnedChats": "Pinned",
+        "unpinChat": "Unpin chat",
         "directMessage": "Direct Message",
         "editMessage": "Edit message",
         "openInNewWindow": "Open in new window",
@@ -9573,6 +9623,7 @@
         "logout": "Log out",
         "notifications": "Notifications",
         "procedures": "Procedures",
+        "shareCitizenOne": "Share CitizenOne",
         "newWishes": "New wishes",
         "comingFunctions": "Coming functions",
         "reminders": "Reminders",
@@ -9583,6 +9634,22 @@
         "impersonating": "Logged in as client",
         "stopImpersonation": "Log out as client",
         "surveys": "Surveys"
+    },
+    "platformShare": {
+        "title": "Share CitizenOne",
+        "intro": "Know someone who could benefit from CitizenOne? Send them your personal link - it only takes a moment.",
+        "yourLink": "Your personal link",
+        "copy": "Copy",
+        "copied": "Copied",
+        "shareVia": "Share via",
+        "email": "Email",
+        "sms": "Text message",
+        "more": "More apps",
+        "subject": "Try CitizenOne",
+        "message": "I use CitizenOne and thought it could be something for you too. Take a look and create an account here:",
+        "thanksOnce": "Thank you! You have shared CitizenOne once.",
+        "thanks": "Thank you! You have shared CitizenOne {count} times.",
+        "loadFailed": "The link could not be loaded. Please try again."
     },
     "news": {
         "confirmation": {
@@ -10681,6 +10748,8 @@
         "noCommitment": "There's no commitment, and you don't need to link a payment card",
         "oauthBannerDescription": "Your {provider} account is not yet linked to CitizenOne. Fill in the form to create your account.",
         "oauthBannerTitle": "We didn't find your account",
+        "sharedBannerDescription": "One of our customers shared CitizenOne with you. Fill in the form to create your account.",
+        "sharedBannerTitle": "Someone recommended CitizenOne to you",
         "of": "Of",
         "register": "Register",
         "review": {
@@ -11463,6 +11532,7 @@
             "approvedDevices": "Approved devices",
             "nursingProfessionalRecordTemplates": "Nursing record templates",
             "reportTemplates": "Report templates",
+            "epikriseTemplates": "Epikrise templates",
             "treatmentTemplates": "Treatment templates",
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
@@ -11474,6 +11544,7 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "dinero": "Dinero",
+            "billy": "Billy",
             "customLinks": "Custom links",
             "messageTemplates": "Message templates",
             "timelineEventTypes": "Timeline types",
@@ -11578,6 +11649,25 @@
             "how1": "In Dinero, go to Settings → Integrations and request a personal integration to get a Client ID, Client Secret and API key for this organization.",
             "how2": "Paste all three here and click “Connect”.",
             "how3": "Once connected, invoices can be sent to Dinero."
+        },
+        "billy": {
+            "title": "Billy",
+            "subtitle": "Send invoices from CitizenOne to Billy as draft invoices.",
+            "adminOnly": "Only administrators can manage the Billy connection.",
+            "notPurchased": "The Billy app is not active yet. Activate it under Apps to connect.",
+            "goToApps": "Go to Apps",
+            "connection": "Connection",
+            "connected": "Connected",
+            "notConnected": "Not connected",
+            "connect": "Connect",
+            "disconnect": "Disconnect",
+            "confirmDisconnect": "Disconnect from Billy?",
+            "apiTokenLabel": "Billy access token",
+            "apiTokenPlaceholder": "Paste the access token from your Billy account",
+            "howTitle": "How to connect",
+            "how1": "In Billy, go to Settings → Access tokens and create a new token for this organization.",
+            "how2": "Paste it here and click “Connect”.",
+            "how3": "Once connected, invoices can be sent to Billy as drafts."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk integration",
@@ -11714,6 +11804,10 @@
             "dinero": {
                 "title": "What does Dinero do?",
                 "body": "Send invoices on to Dinero as bookkeeping vouchers, so the figures are only typed once."
+            },
+            "billy": {
+                "title": "What does Billy do?",
+                "body": "Send invoices on to Billy as draft invoices, so the figures are only typed once."
             },
             "fst": {
                 "title": "What is FindSocialeTilbud.dk?",
@@ -12744,6 +12838,7 @@
             },
             "source": {
                 "all": "All sources",
+                "share": "Shared by a customer",
                 "product": "From the product (PDF, mail, portal)",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
@@ -13333,6 +13428,7 @@
             "cancellations": "Cancellations",
             "storagePackages": "Storage packages",
             "paymentFees": "Payment fees",
+            "platformShares": "Shares",
             "storageUsage": "Storage usage",
             "industries": "Industries",
             "salesInquiries": "Inquiries",
@@ -13959,6 +14055,47 @@
             "successDeleted": "Storage package deleted",
             "successUpdated": "Storage package updated",
             "colPricePerGb": "Price per GB"
+        },
+        "platformShares": {
+            "header": "CitizenOne shares",
+            "subtitle": "Who has shared CitizenOne through \"Share CitizenOne\", and who signed up through a shared link.",
+            "periods": {
+                "all": "All time",
+                "30d": "Last 30 days",
+                "month": "This month",
+                "year": "This year"
+            },
+            "cards": {
+                "users": "Users who shared",
+                "usersHint": "Distinct users",
+                "companies": "Customers who shared",
+                "companiesHint": "Distinct companies",
+                "shares": "Total shares",
+                "sharesHint": "Copied link, email, LinkedIn etc.",
+                "signups": "Signups from shares",
+                "signupsHint": "New customers from a shared link"
+            },
+            "byMethod": "By channel",
+            "methods": {
+                "copy": "Copied link",
+                "email": "Email",
+                "sms": "Text message",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Device share sheet"
+            },
+            "company": "Customer",
+            "shares": "Shares",
+            "users": "Users",
+            "signups": "Signups",
+            "lastShared": "Last shared",
+            "signupsTitle": "Signed up through a shared link",
+            "sharedBy": "Shared by {name} ({company})",
+            "noSignups": "No one has signed up through a shared link yet.",
+            "recent": "Latest shares",
+            "method": "Channel",
+            "when": "When",
+            "empty": "No one has shared CitizenOne in this period."
         },
         "paymentFees": {
             "pageTitle": "Payment fees",
@@ -15738,7 +15875,8 @@
         },
         "source": {
             "internal": "Filled out internally",
-            "citizen": "Filled out by @:terms.citizen{''}"
+            "citizen": "Filled out by @:terms.citizen{''}",
+            "sentToCitizen": "Sent to @:terms.citizen{''}"
         },
         "empty": {
             "title": "No responses yet",
@@ -15777,6 +15915,9 @@
             "addQuestion": "Add new question",
             "templates": "Standard surveys",
             "orBuildYourOwn": "Or build your own",
+            "addFollowUp": "Add follow-up question",
+            "followUpShownWhen": "Shown when the answer to \"{question}\" is:",
+            "followUpPickOption": "Pick at least one answer that shows this question.",
             "scoreRanges": {
                 "title": "Score interpretation",
                 "subtitle": "Give score intervals a label, e.g. 0-4 Minimal anxiety. Shown with the result.",
@@ -16441,6 +16582,139 @@
         "clampedNote": "Norm and balance cover {start} – {end} only.",
         "pendingExtra": "{hours} pending"
     },
+    "notificationPreferences": {
+        "title": "Notification types",
+        "subtitle": "Choose which notifications you receive, and how. Required notifications cannot be switched off.",
+        "push": "Push",
+        "email": "Email",
+        "frequency": "Frequency",
+        "instant": "Instant",
+        "hourly": "Hourly digest",
+        "required": "Required",
+        "save": "Save notification types",
+        "saved": "Notification types saved",
+        "loadError": "The notification types could not be loaded.",
+        "retry": "Try again",
+        "masterOffHint": "Some switches are greyed out because the matching switch above (email or system notifications) is turned off."
+    },
+    "epikrise": {
+        "tab": "Discharge summaries",
+        "title": "Discharge summaries",
+        "listIntro": "Discharge summaries (epikrise) are written here, locked, and sent to the citizen's own GP by secure, encrypted email.",
+        "empty": "No discharge summaries yet.",
+        "notSent": "Not sent",
+        "new": {
+            "title": "New discharge summary",
+            "intro": "A draft is created and pre-filled from the stay data, diagnoses and medication. You can edit everything before it is finalized.",
+            "button": "New discharge summary",
+            "create": "Create draft"
+        },
+        "form": {
+            "title": "Title",
+            "titlePlaceholder": "Leave empty for a default title",
+            "admissionDate": "Admission date",
+            "dischargeDate": "Discharge date",
+            "recipient": "Recipient (GP)",
+            "recipientPlaceholder": "The primary GP is used if left empty",
+            "noDoctors": "No doctors found among the contacts. Add a contact with the job title Doctor first.",
+            "template": "Template",
+            "templatePlaceholder": "No template (standard layout)",
+            "templateHint": "Optional. Pick an epikrise template to start from.",
+            "body": "Text",
+            "primaryGp": "primary GP"
+        },
+        "status": {
+            "draft": "Draft",
+            "finalized": "Finalized"
+        },
+        "table": {
+            "title": "Title",
+            "status": "Status",
+            "dischargeDate": "Discharge date",
+            "author": "Author",
+            "sentTo": "Sent to"
+        },
+        "actions": {
+            "edit": "Edit",
+            "open": "Open",
+            "delete": "Delete",
+            "save": "Save",
+            "prefill": "Fill from data",
+            "previewPdf": "Preview PDF",
+            "finalize": "Finalize",
+            "send": "Send by email"
+        },
+        "confirm": {
+            "delete": "Are you sure you want to delete this draft"
+        },
+        "alert": {
+            "created": "Draft created",
+            "deleted": "Draft deleted",
+            "saved": "Saved",
+            "prefilled": "Text filled from data",
+            "finalized": "Finalized and locked",
+            "sent": "Sent by encrypted email"
+        },
+        "editor": {
+            "title": "Discharge summary",
+            "lockedNotice": "This discharge summary is finalized and locked. The text can no longer be changed.",
+            "noEditRights": "You cannot edit this discharge summary.",
+            "finalizedAt": "Finalized"
+        },
+        "dispatches": {
+            "title": "Sending log",
+            "empty": "Not sent yet.",
+            "sentAt": "Sent",
+            "recipient": "Recipient",
+            "sentBy": "Sent by",
+            "status": "Status",
+            "encrypted": "Encrypted email",
+            "sent": "Sent",
+            "failed": "Failed"
+        },
+        "prefill": {
+            "title": "Replace the text?",
+            "message": "Filling from data replaces the current text with a new text built from the template and the citizen's data. Your changes to the text will be lost.",
+            "confirm": "Replace text"
+        },
+        "finalize": {
+            "title": "Finalize the discharge summary?",
+            "message": "When finalized, the text is locked and can no longer be changed. Check the text and the PDF preview first. After that you can send it to the GP.",
+            "confirm": "Finalize"
+        },
+        "send": {
+            "title": "Send by encrypted email",
+            "encryptedNotice": "The discharge summary is always sent as an encrypted email. The GP needs a password to open it.",
+            "recipient": "Recipient (GP)",
+            "otherEmail": "Or another email address",
+            "otherEmailPlaceholder": "Email address",
+            "otherEmailHint": "If you type an address here, it is used instead of the chosen GP.",
+            "willBeSentTo": "Will be sent to",
+            "passwordNotice": "The email only contains the password hint, not the password itself. Tell the GP the password separately, for example by phone. Never send the password by email.",
+            "password": "Password",
+            "passwordHint": "Password hint",
+            "passwordHintPlaceholder": "A hint the GP will recognise",
+            "hintWarning": "The hint is visible in the email. Do not write the password itself in the hint.",
+            "confirmCheckbox": "I will tell the GP the password separately",
+            "submit": "Send"
+        },
+        "dischargeHint": {
+            "text": "This citizen has been discharged. Do you want to write a discharge summary for the GP?",
+            "create": "Create discharge summary",
+            "dismiss": "Dismiss"
+        },
+        "settings": {
+            "enableLabel": "Discharge summaries (epikrise)",
+            "enableHint": "A document written in CitizenOne, locked, and sent to the GP as a PDF by secure, encrypted email. It is not an official MedCom message.",
+            "templatesLink": "templates"
+        },
+        "templates": {
+            "title": "Epikrise templates",
+            "intro": "Templates used to pre-fill a discharge summary with the citizen's data. The editor lists the available merge fields.",
+            "new": "New epikrise template",
+            "edit": "Edit epikrise template"
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",
@@ -16871,6 +17145,7 @@
             "sendEmail": "Send by e-mail",
             "pushEconomic": "Send to e-conomic as draft",
             "pushDinero": "Send to Dinero as voucher",
+            "pushBilly": "Send to Billy as draft",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -16893,6 +17168,13 @@
                 "dinero_not_connected": "Dinero is not connected",
                 "dinero_invoice_not_found": "The invoice was not found",
                 "dinero_voucher_failed": "The voucher could not be created in Dinero",
+                "billy_not_connected": "Billy is not connected",
+                "billy_invoice_not_found": "The invoice was not found",
+                "billy_contact_failed": "The contact could not be created in Billy",
+                "billy_product_failed": "The product could not be created in Billy (no revenue account found)",
+                "billy_invoice_failed": "The invoice could not be created in Billy",
+                "billy_already_pushed": "The invoice has already been sent to Billy",
+                "billy_auth_failed": "Billy did not accept the access token",
                 "unknown_action": "Unknown action"
             }
         },
@@ -17718,6 +18000,9 @@
             "chooseWhat": "Choose what to book",
             "event": "Event",
             "chooseDate": "Choose date",
+            "previousMonth": "Previous month",
+            "nextMonth": "Next month",
+            "pickDayFirst": "Pick a day in the calendar to see the free times.",
             "noDates": "No available dates.",
             "chooseTime": "Choose time",
             "noTimes": "No available times on the chosen date.",
@@ -18669,6 +18954,63 @@
             "required": "Answer the questions marked with *.",
             "failed": "Something went wrong. Try again."
         }
+    },
+    "videoConsultation": {
+        "title": "Video consultation",
+        "with": "With {name}",
+        "camera": "Camera",
+        "microphone": "Microphone",
+        "cameraOn": "Camera on",
+        "cameraOff": "Camera off",
+        "microphoneOn": "Microphone on",
+        "microphoneOff": "Microphone off",
+        "join": "Join now",
+        "privacyNote": "The consultation runs inside CitizenOne. Only you and the clinic can join, and nothing is recorded.",
+        "connecting": "Connecting…",
+        "waitingForPatient": "Waiting for the patient to join…",
+        "waitingForClinician": "Waiting for {name} to join…",
+        "yourClinician": "your clinician",
+        "reconnecting": "The connection dropped. Reconnecting…",
+        "enableSound": "Turn on sound",
+        "muteMicrophone": "Mute microphone",
+        "unmuteMicrophone": "Unmute microphone",
+        "turnCameraOff": "Turn camera off",
+        "turnCameraOn": "Turn camera on",
+        "stopSharing": "Stop sharing",
+        "shareScreen": "Share screen",
+        "leave": "Leave",
+        "endForEveryone": "End for everyone",
+        "couldNotConnect": "Could not connect to the video consultation",
+        "ended": "You have left the video consultation",
+        "rejoin": "Join again",
+        "permissionDenied": "Allow access to your camera and microphone in the browser to join.",
+        "deviceUnavailable": "Your camera or microphone could not be started. Check that no other program is using it.",
+        "appointmentHelp": "This appointment is a video consultation. You can join from here shortly before it starts.",
+        "joinButton": "Join video consultation",
+        "toggle": "Video consultation in the patient portal",
+        "toggleHint": "The patient joins from their own portal. There is no link to send."
+    },
+    "myContracts": {
+        "title": "My contracts",
+        "subtitle": "Contracts you have been asked to read and sign.",
+        "waiting": "Waiting for your signature",
+        "signedSection": "Signed",
+        "empty": "You have no contracts to sign.",
+        "sentBy": "Sent by {name} {date}",
+        "signedOn": "Signed {date}",
+        "open": "Read and sign",
+        "view": "View contract",
+        "certificate": "Signature certificate",
+        "signTitle": "Sign contract",
+        "readFirst": "Read the contract through before you sign.",
+        "accept": "I have read the contract and accept it",
+        "nameLabel": "Type your full name as your signature",
+        "nameHint": "As it is in CitizenOne: {name}",
+        "sign": "Sign",
+        "signed": "The contract has been signed",
+        "evidence": "When you sign, the time, IP address and device are saved with the contract as evidence.",
+        "loadFailed": "The contract could not be loaded. Please try again.",
+        "pendingCount": "{count} waiting for a signature"
     },
     "tableColumns": {
         "moveUp": "Move {column} up",

@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { journalContentService } from '@/components/api/user/JournalContentService'
 import type { Error } from '@/types'
+import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
     error: {
@@ -53,6 +54,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'select'])
+const { t } = useI18n()
 
 const state = reactive({
     error: {} as Error,
@@ -89,14 +91,22 @@ function selectContent() {
 async function fetchJournalContents() {
     state.isPageLoading = true
     try {
-        const response = await journalContentService.getJournalContents({})
-        if (response.data) {
-            state.options.journal_contents = response.data.map((item: any) => ({
-                value: item.uuid,
-                label: item.name,
-                content: item.content,
-            }))
-        }
+        // The list comes in pages of ten; the picker needs every text.
+        const items: any[] = []
+        let page = 1
+        let lastPage = 1
+        do {
+            const response = await journalContentService.getJournalContents({ page })
+            items.push(...(response?.data ?? []))
+            lastPage = response?.meta?.last_page ?? response?.last_page ?? 1
+            page++
+        } while (page <= lastPage)
+        state.options.journal_contents = items.map((item: any) => ({
+            value: item.uuid,
+            // A text with choice lists asks for options when inserted; say so.
+            label: item.choice_lists_count > 0 ? `${item.name} · ${t('journalContents.choices.badge')}` : item.name,
+            content: item.content,
+        }))
     } catch (error: any) {
         state.error = error
     }

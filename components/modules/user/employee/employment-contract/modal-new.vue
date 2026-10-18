@@ -3,7 +3,7 @@
         <Modal size="md" :title="$t('employees.documents.newDocument')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmployeeEmploymentContractForm formType="create"
+                    <ModulesUserEmployeeEmploymentContractForm formType="create" :allowSignatureRequest="true"
                         :selectedEmployeeDocument="state.formEmployeeDocument" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveEmployeeDocument" />
@@ -58,9 +58,12 @@ async function saveEmployeeDocument(employeeDocumentDetails: any) {
         params.append('file', employeeDocumentDetails.file)
         params.append('file_type', 'employment_contract')
         params.append('note', employeeDocumentDetails.note)
+        // Task #97: send it to the employee to sign in the same step.
+        params.append('request_signature', employeeDocumentDetails.request_signature ? '1' : '0')
         const response = await employeeDocumentService.saveDocument(params)
         if (response.data) {
-            successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullySaved')}.`)
+            const sent = response.data?.signature?.status === 'pending'
+            successAlert(`${t('alert.success')}!`, `${t(sent ? 'employees.documents.signature.savedAndSent' : 'employees.documents.form.alert.documentSuccessfullySaved')}.`)
             refreshEmployeeDocuments()
             closeModal()
         }

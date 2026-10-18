@@ -24,6 +24,10 @@ describe('signupSourceFromQuery', () => {
         assert.deepEqual(signupSourceFromQuery(`?utm_source=salesflow&sf=${REF}`), { utm_source: 'salesflow', sf: REF })
     })
 
+    test('carries the code from a customer\'s "Del CitizenOne" link (task #16)', () => {
+        assert.deepEqual(signupSourceFromQuery('?share=abc23xyz9k'), { share: 'abc23xyz9k' })
+    })
+
     test('ignores parameters it does not know and empty values', () => {
         assert.deepEqual(signupSourceFromQuery('?email=a@b.dk&provider=google&utm_source='), {})
     })

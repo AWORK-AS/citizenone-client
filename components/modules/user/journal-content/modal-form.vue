@@ -14,7 +14,9 @@
                 <p class="text-sm text-gray-600">
                     {{ $t('journalContents.form.content') }}
                 </p>
-                <ckeditor :editor="editor" v-model="state.formJournalContent.content" :config="editorConfig" />
+                <ckeditor :editor="editor" v-model="state.formJournalContent.content" :config="editorConfig"
+                    @ready="onEditorReady" />
+                <ModulesUserJournalContentChoiceListInserter @insert="insertChoiceList" />
                 <FormError :error="v$?.formJournalContent?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
             </div>
@@ -81,6 +83,25 @@ const state = reactive({
         content: '',
     },
 })
+
+// Kept out of Vue's reactivity: CKEditor must not be proxied.
+let contentEditor: any = null
+
+function onEditorReady(editor: any) {
+    contentEditor = editor
+}
+
+// A choice list goes in where the cursor is, as text the admin can still edit.
+function insertChoiceList(token: string) {
+    if (!contentEditor) {
+        state.formJournalContent.content = `${state.formJournalContent.content ?? ''}${token}`
+        return
+    }
+    contentEditor.model.change((writer: any) => {
+        contentEditor.model.insertContent(writer.createText(token))
+    })
+    contentEditor.editing.view.focus()
+}
 
 watch(() => props.selectedJournalContent, (newValue: any) => {
     if (newValue != null) {

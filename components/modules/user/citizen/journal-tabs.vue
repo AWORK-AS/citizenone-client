@@ -16,6 +16,7 @@ const { term } = useTerminology()
 const { errorAlert } = useAlert()
 const { industryHasFeature } = useIndustryFeatures()
 const permissions = usePermissions()
+const epikrise = useEpikrise()
 
 const state = reactive({
     tabs: [] as any[],
@@ -216,6 +217,16 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
             category: 'admin', primary: false,
             href: `/citizens/${citizenUuid}/employee-groups`,
             routeNames: ['citizens-uuid-employee-groups'],
+        })
+    }
+    // Discharge summary: a company switch plus the create/send permission. Both are
+    // checked in useEpikrise, so the tab is gone for everyone else.
+    if (epikrise.canUse.value) {
+        tabs.push({
+            name: 'epikrise.tab', icon: 'ph:file-text', isTranslateName: true,
+            category: 'documentation', primary: false,
+            href: `/citizens/${citizenUuid}/epikriser`,
+            routeNames: ['citizens-uuid-epikriser'],
         })
     }
     if (can('Reports') && isEmploymentServices) {

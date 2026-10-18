@@ -2055,6 +2055,15 @@
                 "email": "E-postadress",
                 "employee": "Anställd",
                 "employees": "Anställda",
+                "gp": {
+                    "title": "Husläkare",
+                    "primaryGp": "Primär husläkare",
+                    "providerNumber": "Ydernummer",
+                    "clinicName": "Mottagningens namn",
+                    "clinicEan": "EAN / lokationsnummer",
+                    "sorCode": "SOR-kod",
+                    "hint": "EAN, ydernummer och SOR-kod används för elektronisk sändning senare. Bara en läkare kan vara primär husläkare."
+                },
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
                 "municipality": "Kommun",
@@ -2159,6 +2168,8 @@
                 "deleteFileConfirmation": "Är du säker på att du vill radera denna fil",
                 "deleteFolderConfirmation": "Är du säker på att du vill radera denna mapp",
                 "shareConfirmation": "Är du säker på att du vill dele detta dokument",
+                "shareWithPatientConfirmation": "Dela det här dokumentet med patienten? Det visas i patientens app och patienten får ett meddelande.",
+                "unshareWithPatientConfirmation": "Sluta dela det här dokumentet med patienten?",
                 "unshareConfirmation": "Är du säker på att du vill ta bort delingen av detta dokument",
                 "upgradeStorageConfirmation": "Vill du opgradere ditt lager"
             },
@@ -2260,6 +2271,8 @@
                     "openSelected": "Öppna valda",
                     "sendLink": "Skicka länk via e-post",
                     "share": "Dela",
+                    "shareWithPatient": "Dela med patienten",
+                    "unshareWithPatient": "Sluta dela med patienten",
                     "statuses": "Statusar",
                     "unshare": "Ta bort delning",
                     "view": "Se"
@@ -7222,6 +7235,24 @@
             "driversLicense": "Körekort",
             "editDocument": "Redigera dokument",
             "employmentContracts": "Ansättelseskontrakter",
+            "signature": {
+                "column": "Underskrift",
+                "notSent": "Inte skickat",
+                "pending": "Väntar på underskrift",
+                "sentOn": "Skickat {date}",
+                "signed": "Undertecknat",
+                "signedOnBy": "{date} av {name}",
+                "send": "Skicka för underskrift",
+                "withdraw": "Dra tillbaka",
+                "certificate": "Underskriftsintyg",
+                "confirmSend": "Skicka avtalet till medarbetaren så att det kan läsas och undertecknas i CitizenOne",
+                "confirmWithdraw": "Dra tillbaka begäran om underskrift",
+                "sent": "Avtalet har skickats för underskrift",
+                "withdrawn": "Begäran om underskrift har dragits tillbaka",
+                "sendOnUpload": "Skicka till medarbetaren för underskrift",
+                "sendOnUploadHint": "Medarbetaren får besked i CitizenOne, i mobilen och via e-post, och du får besked när avtalet är undertecknat.",
+                "savedAndSent": "Avtalet har sparats och skickats för underskrift"
+            },
             "form": {
                 "alert": {
                     "documentSuccessfullySaved": "Dokument sparad",
@@ -8803,6 +8834,19 @@
             },
             "content": "Innehåll",
             "name": "Namn"
+        },
+        "choices": {
+            "title": "Välj alternativ",
+            "hint": "Texten har vallistor. Välj det alternativ som passar, så infogas den färdiga texten i anteckningen.",
+            "preview": "Så blir texten",
+            "insert": "Infoga i anteckningen",
+            "badge": "med vallistor",
+            "syntaxHint": "Vallista: skriv alternativen inom klammerparenteser, åtskilda av lodrätt streck, t.ex. {example}. Alternativet väljs när texten infogas i en anteckning.",
+            "addList": "Infoga vallista",
+            "optionsLabel": "Alternativ (ett per rad)",
+            "optionsPlaceholder": "finasterid 1 mg tablett\nfinasterid 5% serum",
+            "insertList": "Infoga",
+            "needTwo": "Skriv minst två alternativ, ett per rad."
         }
     },
     "journalNoteTags": {
@@ -9289,9 +9333,12 @@
         },
         "alert": {
             "chatSuccessfullyDeleted": "Chatt raderad",
+            "chatPinned": "Chatt fäst",
+            "chatUnpinned": "Fästning borttagen",
             "messageSuccessfullyDeleted": "Meddelande raderad",
             "messageSuccessfullyUpdated": "Meddelande uppdaterad"
         },
+        "allChats": "Alla chattar",
         "allMessagesAreLoaded": "Alla meddelanden är indläst",
         "and": "Och",
         "attachFile": "Bifoga fil",
@@ -9301,6 +9348,9 @@
         },
         "conversationsAndMessaging": "Samtal och meddelanden",
         "deleteChat": "Radera chatt",
+        "pinChat": "Fäst chatt",
+        "pinnedChats": "Fästa",
+        "unpinChat": "Ta bort fästning",
         "directMessage": "Direkte meddelande",
         "editMessage": "Redigera meddelande",
         "openInNewWindow": "Öppna i nytt fönster",
@@ -9573,6 +9623,7 @@
         "logout": "Logga ut",
         "notifications": "Notiser",
         "procedures": "Procedurer",
+        "shareCitizenOne": "Dela CitizenOne",
         "newWishes": "Nya önskemål",
         "comingFunctions": "Kommande funktioner",
         "reminders": "Påminnelser",
@@ -9583,6 +9634,22 @@
         "impersonating": "Inloggad som @:terms.citizen{''}",
         "stopImpersonation": "Logga ut som @:terms.citizen{''}",
         "surveys": "Enkäter"
+    },
+    "platformShare": {
+        "title": "Dela CitizenOne",
+        "intro": "Känner du andra som kan ha nytta av CitizenOne? Skicka din personliga länk till dem - det tar bara ett ögonblick.",
+        "yourLink": "Din personliga länk",
+        "copy": "Kopiera",
+        "copied": "Kopierad",
+        "shareVia": "Dela via",
+        "email": "E-post",
+        "sms": "SMS",
+        "more": "Fler appar",
+        "subject": "Prova CitizenOne",
+        "message": "Jag använder CitizenOne och tänkte att det kunde vara något för er också. Läs mer och skapa ett konto här:",
+        "thanksOnce": "Tack! Du har delat CitizenOne en gång.",
+        "thanks": "Tack! Du har delat CitizenOne {count} gånger.",
+        "loadFailed": "Länken kunde inte hämtas. Försök igen."
     },
     "news": {
         "confirmation": {
@@ -10676,6 +10743,8 @@
         "noCommitment": "Där är inga bindning, och du behöver inte koppla ett betalkort",
         "oauthBannerDescription": "Din {provider}-konto är inte kopplad CitizenOne ännu. Fyll i formuläret för att skapa din konto.",
         "oauthBannerTitle": "Vi fandt inte din konto",
+        "sharedBannerDescription": "En av våra kunder har delat CitizenOne med dig. Fyll i formuläret för att skapa ditt konto.",
+        "sharedBannerTitle": "Du har fått CitizenOne rekommenderat",
         "of": "Av",
         "register": "Skapa konto",
         "review": {
@@ -11458,6 +11527,7 @@
             "approvedDevices": "Godkända enheter",
             "nursingProfessionalRecordTemplates": "Sygeplejejournalskabeloner",
             "reportTemplates": "Rapportmallar",
+            "epikriseTemplates": "Epikrismallar",
             "treatmentTemplates": "Behandlingsskabeloner",
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
@@ -11469,6 +11539,7 @@
             "powerBi": "Power BI",
             "economic": "e-conomic",
             "dinero": "Dinero",
+            "billy": "Billy",
             "customLinks": "Egna länkar",
             "messageTemplates": "Meddelandemallar",
             "timelineEventTypes": "Tidslinjetyper",
@@ -11573,6 +11644,25 @@
             "how1": "Gå till Inställningar → Integrationer i Dinero och begär en personlig integration för att få ett Client ID, en Client Secret och en API-nyckel för organisationen.",
             "how2": "Klistra in alla tre här och klicka på “Anslut”.",
             "how3": "När anslutningen är klar kan fakturor skickas till Dinero."
+        },
+        "billy": {
+            "title": "Billy",
+            "subtitle": "Skicka fakturor från CitizenOne till Billy som utkast.",
+            "adminOnly": "Endast administratörer kan hantera Billy-anslutningen.",
+            "notPurchased": "Billy-appen är inte aktiverad ännu. Aktivera den under Appar för att ansluta.",
+            "goToApps": "Gå till Appar",
+            "connection": "Anslutning",
+            "connected": "Ansluten",
+            "notConnected": "Inte ansluten",
+            "connect": "Anslut",
+            "disconnect": "Koppla från",
+            "confirmDisconnect": "Koppla från Billy?",
+            "apiTokenLabel": "Billy åtkomsttoken",
+            "apiTokenPlaceholder": "Klistra in åtkomsttoken från ditt Billy-konto",
+            "howTitle": "Så här ansluter du",
+            "how1": "Gå till Inställningar → Åtkomsttokens i Billy och skapa en ny token för organisationen.",
+            "how2": "Klistra in den här och klicka på “Anslut”.",
+            "how3": "När anslutningen är klar kan fakturor skickas till Billy som utkast."
         },
         "fst": {
             "title": "FindSocialeTilbud.dk-integration",
@@ -11709,6 +11799,10 @@
             "dinero": {
                 "title": "Vad gör Dinero?",
                 "body": "Skicka fakturor vidare till Dinero som bokföringsunderlag, så att siffrorna bara skrivs in en gång."
+            },
+            "billy": {
+                "title": "Vad gör Billy?",
+                "body": "Skicka fakturor vidare till Billy som utkast, så att siffrorna bara skrivs in en gång."
             },
             "fst": {
                 "title": "Vad är FindSocialeTilbud.dk?",
@@ -12707,6 +12801,7 @@
             },
             "source": {
                 "all": "Alla källor",
+                "share": "Delad av kund",
                 "product": "Från produkten (PDF, mejl, portal)",
                 "search": "Sökmotor (organisk)",
                 "campaign": "Kampanj",
@@ -13296,6 +13391,7 @@
             "cancellations": "Avslutningar",
             "storagePackages": "Lagringspaket",
             "paymentFees": "Betalningsavgifter",
+            "platformShares": "Delningar",
             "storageUsage": "Lagringsanvändning",
             "industries": "Branscher",
             "salesInquiries": "Förfrågningar"
@@ -13863,6 +13959,47 @@
             "successDeleted": "Lagringspaket raderat",
             "successUpdated": "Lagringspaket uppdaterat",
             "colPricePerGb": "Kr. per GB"
+        },
+        "platformShares": {
+            "header": "Delningar av CitizenOne",
+            "subtitle": "Vem som har delat CitizenOne via \"Dela CitizenOne\", och vem som har registrerat sig via en delad länk.",
+            "periods": {
+                "all": "Hela perioden",
+                "30d": "Senaste 30 dagarna",
+                "month": "Denna månad",
+                "year": "I år"
+            },
+            "cards": {
+                "users": "Användare som har delat",
+                "usersHint": "Olika användare",
+                "companies": "Kunder som har delat",
+                "companiesHint": "Olika företag",
+                "shares": "Delningar totalt",
+                "sharesHint": "Kopierad länk, e-post, LinkedIn m.m.",
+                "signups": "Registreringar via delning",
+                "signupsHint": "Nya kunder från en delad länk"
+            },
+            "byMethod": "Fördelat på kanal",
+            "methods": {
+                "copy": "Kopierad länk",
+                "email": "E-post",
+                "sms": "SMS",
+                "linkedin": "LinkedIn",
+                "facebook": "Facebook",
+                "native": "Telefonens delning"
+            },
+            "company": "Kund",
+            "shares": "Delningar",
+            "users": "Användare",
+            "signups": "Registreringar",
+            "lastShared": "Senast delad",
+            "signupsTitle": "Registrerade via en delad länk",
+            "sharedBy": "Delad av {name} ({company})",
+            "noSignups": "Ingen har registrerat sig via en delad länk ännu.",
+            "recent": "Senaste delningar",
+            "method": "Kanal",
+            "when": "Tidpunkt",
+            "empty": "Ingen har delat CitizenOne under perioden."
         },
         "paymentFees": {
             "pageTitle": "Betalningsavgifter",
@@ -15642,7 +15779,8 @@
         },
         "source": {
             "internal": "Ifylld internt",
-            "citizen": "Ifylld av medborgare"
+            "citizen": "Ifylld av medborgare",
+            "sentToCitizen": "Skickat till medborgare"
         },
         "empty": {
             "title": "Ingen besvarelser endnu",
@@ -15681,6 +15819,9 @@
             "addQuestion": "Tilføj nyt spørgsmål",
             "templates": "Standardenkäter",
             "orBuildYourOwn": "Eller byg dit eget",
+            "addFollowUp": "Lägg till följdfråga",
+            "followUpShownWhen": "Visas när svaret på \"{question}\" är:",
+            "followUpPickOption": "Välj minst ett svar som visar den här frågan.",
             "scoreRanges": {
                 "title": "Poängtolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
@@ -16345,6 +16486,139 @@
         "clampedNote": "Norm och saldo gäller bara {start} – {end}.",
         "pendingExtra": "{hours} väntar"
     },
+    "notificationPreferences": {
+        "title": "Aviseringstyper",
+        "subtitle": "Välj vilka aviseringar du får och hur. Obligatoriska aviseringar kan inte stängas av.",
+        "push": "Push",
+        "email": "E-post",
+        "frequency": "Frekvens",
+        "instant": "Direkt",
+        "hourly": "Sammanställning varje timme",
+        "required": "Obligatorisk",
+        "save": "Spara aviseringstyper",
+        "saved": "Aviseringstyper sparade",
+        "loadError": "Aviseringstyperna kunde inte läsas in.",
+        "retry": "Försök igen",
+        "masterOffHint": "Vissa reglage är nedtonade eftersom motsvarande reglage ovan (e-post- eller systemaviseringar) är avstängt."
+    },
+    "epikrise": {
+        "tab": "Epikriser",
+        "title": "Epikriser",
+        "listIntro": "Här skrivs epikriser, som låses och skickas till personens egen husläkare via säker, krypterad e-post.",
+        "empty": "Det finns inga epikriser ännu.",
+        "notSent": "Inte skickad",
+        "new": {
+            "title": "Ny epikris",
+            "intro": "Ett utkast skapas och fylls i förväg utifrån vistelsedata, diagnoser och medicin. Du kan redigera allt innan den slutförs.",
+            "button": "Ny epikris",
+            "create": "Skapa utkast"
+        },
+        "form": {
+            "title": "Titel",
+            "titlePlaceholder": "Lämna tomt för standardtitel",
+            "admissionDate": "Inskrivningsdatum",
+            "dischargeDate": "Utskrivningsdatum",
+            "recipient": "Mottagare (husläkare)",
+            "recipientPlaceholder": "Den primära husläkaren används om fältet är tomt",
+            "noDoctors": "Det finns inga läkare bland kontakterna. Skapa först en kontakt med jobbtiteln Läkare.",
+            "template": "Mall",
+            "templatePlaceholder": "Ingen mall (standardlayout)",
+            "templateHint": "Valfritt. Välj en epikrismall att utgå från.",
+            "body": "Text",
+            "primaryGp": "primär husläkare"
+        },
+        "status": {
+            "draft": "Utkast",
+            "finalized": "Slutförd"
+        },
+        "table": {
+            "title": "Titel",
+            "status": "Status",
+            "dischargeDate": "Utskrivningsdatum",
+            "author": "Författare",
+            "sentTo": "Skickad till"
+        },
+        "actions": {
+            "edit": "Redigera",
+            "open": "Öppna",
+            "delete": "Ta bort",
+            "save": "Spara",
+            "prefill": "Fyll i från data",
+            "previewPdf": "Förhandsgranska PDF",
+            "finalize": "Slutför",
+            "send": "Skicka med e-post"
+        },
+        "confirm": {
+            "delete": "Är du säker på att du vill ta bort detta utkast"
+        },
+        "alert": {
+            "created": "Utkast skapat",
+            "deleted": "Utkast borttaget",
+            "saved": "Sparat",
+            "prefilled": "Texten har fyllts i från data",
+            "finalized": "Slutförd och låst",
+            "sent": "Skickad som krypterad e-post"
+        },
+        "editor": {
+            "title": "Epikris",
+            "lockedNotice": "Epikrisen är slutförd och låst. Texten kan inte längre ändras.",
+            "noEditRights": "Du kan inte redigera den här epikrisen.",
+            "finalizedAt": "Slutförd"
+        },
+        "dispatches": {
+            "title": "Sändningslogg",
+            "empty": "Inte skickad ännu.",
+            "sentAt": "Skickad",
+            "recipient": "Mottagare",
+            "sentBy": "Skickad av",
+            "status": "Status",
+            "encrypted": "Krypterad e-post",
+            "sent": "Skickad",
+            "failed": "Misslyckades"
+        },
+        "prefill": {
+            "title": "Ersätta texten?",
+            "message": "Att fylla i från data ersätter den nuvarande texten med en ny text byggd på mallen och personens data. Dina ändringar i texten går förlorade.",
+            "confirm": "Ersätt texten"
+        },
+        "finalize": {
+            "title": "Slutföra epikrisen?",
+            "message": "När epikrisen slutförs låses texten och kan inte längre ändras. Kontrollera texten och PDF-förhandsgranskningen först. Därefter kan den skickas till läkaren.",
+            "confirm": "Slutför"
+        },
+        "send": {
+            "title": "Skicka som krypterad e-post",
+            "encryptedNotice": "Epikrisen skickas alltid som krypterad e-post. Läkaren behöver ett lösenord för att öppna den.",
+            "recipient": "Mottagare (husläkare)",
+            "otherEmail": "Eller en annan e-postadress",
+            "otherEmailPlaceholder": "E-postadress",
+            "otherEmailHint": "Om du skriver en adress här används den i stället för den valda läkaren.",
+            "willBeSentTo": "Skickas till",
+            "passwordNotice": "E-posten innehåller bara en ledtråd till lösenordet, inte själva lösenordet. Berätta lösenordet för läkaren separat, till exempel per telefon. Skicka aldrig lösenordet med e-post.",
+            "password": "Lösenord",
+            "passwordHint": "Ledtråd till lösenord",
+            "passwordHintPlaceholder": "En ledtråd som läkaren känner igen",
+            "hintWarning": "Ledtråden syns i e-posten. Skriv inte själva lösenordet i ledtråden.",
+            "confirmCheckbox": "Jag berättar lösenordet för läkaren separat",
+            "submit": "Skicka"
+        },
+        "dischargeHint": {
+            "text": "Den här personen är utskriven. Vill du skriva en epikris till husläkaren?",
+            "create": "Skapa epikris",
+            "dismiss": "Stäng"
+        },
+        "settings": {
+            "enableLabel": "Epikriser",
+            "enableHint": "Ett dokument skrivet i CitizenOne, som låses och skickas som PDF till läkaren via säker, krypterad e-post. Det är inte ett officiellt MedCom-meddelande.",
+            "templatesLink": "mallar"
+        },
+        "templates": {
+            "title": "Epikrismallar",
+            "intro": "Mallar som fyller i en epikris i förväg med personens data. Redigeraren visar de tillgängliga sammanfogningsfälten.",
+            "new": "Ny epikrismall",
+            "edit": "Redigera epikrismall"
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",
         "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
@@ -16775,6 +17049,7 @@
             "sendEmail": "Skicka via e-post",
             "pushEconomic": "Skicka till e-conomic som utkast",
             "pushDinero": "Skicka till Dinero som underlag",
+            "pushBilly": "Skicka till Billy som utkast",
             "empty": "Inga fakturor i den här vyn.",
             "number": "Fakturanr",
             "billTo": "Mottagare",
@@ -16797,6 +17072,13 @@
                 "dinero_not_connected": "Dinero är inte anslutet",
                 "dinero_invoice_not_found": "Fakturan hittades inte",
                 "dinero_voucher_failed": "Underlaget kunde inte skapas i Dinero",
+                "billy_not_connected": "Billy är inte anslutet",
+                "billy_invoice_not_found": "Fakturan hittades inte",
+                "billy_contact_failed": "Kunden kunde inte skapas i Billy",
+                "billy_product_failed": "Produkten kunde inte skapas i Billy (inget intäktskonto hittades)",
+                "billy_invoice_failed": "Fakturan kunde inte skapas i Billy",
+                "billy_already_pushed": "Fakturan har redan skickats till Billy",
+                "billy_auth_failed": "Billy godtog inte åtkomsttoken",
                 "unknown_action": "Okänd åtgärd"
             }
         },
@@ -17622,6 +17904,9 @@
             "chooseWhat": "Välj vad du vill boka",
             "event": "Händelse",
             "chooseDate": "Välj datum",
+            "previousMonth": "Föregående månad",
+            "nextMonth": "Nästa månad",
+            "pickDayFirst": "Välj en dag i kalendern för att se de lediga tiderna.",
             "noDates": "Inga lediga datum.",
             "chooseTime": "Välj tid",
             "noTimes": "Inga lediga tider det valda datumet.",
@@ -18573,6 +18858,63 @@
             "required": "Besvara frågorna markerade med *.",
             "failed": "Något gick fel. Försök igen."
         }
+    },
+    "videoConsultation": {
+        "title": "Videokonsultation",
+        "with": "Med {name}",
+        "camera": "Kamera",
+        "microphone": "Mikrofon",
+        "cameraOn": "Kamera på",
+        "cameraOff": "Kamera av",
+        "microphoneOn": "Mikrofon på",
+        "microphoneOff": "Mikrofon av",
+        "join": "Anslut nu",
+        "privacyNote": "Konsultationen sker i CitizenOne. Bara du och kliniken kan ansluta, och inget spelas in.",
+        "connecting": "Ansluter…",
+        "waitingForPatient": "Väntar på att patienten ansluter…",
+        "waitingForClinician": "Väntar på att {name} ansluter…",
+        "yourClinician": "din behandlare",
+        "reconnecting": "Anslutningen bröts. Ansluter igen…",
+        "enableSound": "Slå på ljud",
+        "muteMicrophone": "Stäng av mikrofon",
+        "unmuteMicrophone": "Slå på mikrofon",
+        "turnCameraOff": "Stäng av kamera",
+        "turnCameraOn": "Slå på kamera",
+        "stopSharing": "Sluta dela",
+        "shareScreen": "Dela skärm",
+        "leave": "Lämna",
+        "endForEveryone": "Avsluta för alla",
+        "couldNotConnect": "Kunde inte ansluta till videokonsultationen",
+        "ended": "Du har lämnat videokonsultationen",
+        "rejoin": "Anslut igen",
+        "permissionDenied": "Ge webbläsaren tillgång till kamera och mikrofon för att ansluta.",
+        "deviceUnavailable": "Kameran eller mikrofonen kunde inte startas. Kontrollera att inget annat program använder den.",
+        "appointmentHelp": "Det här besöket är en videokonsultation. Du kan ansluta härifrån strax innan det börjar.",
+        "joinButton": "Anslut till videokonsultation",
+        "toggle": "Videokonsultation i patientportalen",
+        "toggleHint": "Patienten ansluter från sin egen portal. Det finns ingen länk att skicka."
+    },
+    "myContracts": {
+        "title": "Mina avtal",
+        "subtitle": "Avtal som du har ombetts att läsa och underteckna.",
+        "waiting": "Väntar på din underskrift",
+        "signedSection": "Undertecknade",
+        "empty": "Du har inga avtal att underteckna.",
+        "sentBy": "Skickat av {name} {date}",
+        "signedOn": "Undertecknat {date}",
+        "open": "Läs och underteckna",
+        "view": "Visa avtal",
+        "certificate": "Underskriftsintyg",
+        "signTitle": "Underteckna avtal",
+        "readFirst": "Läs igenom avtalet innan du undertecknar.",
+        "accept": "Jag har läst avtalet och godkänner det",
+        "nameLabel": "Skriv ditt fullständiga namn som underskrift",
+        "nameHint": "Som det står i CitizenOne: {name}",
+        "sign": "Underteckna",
+        "signed": "Avtalet är undertecknat",
+        "evidence": "När du undertecknar sparas tidpunkt, IP-adress och enhet tillsammans med avtalet som bevis.",
+        "loadFailed": "Avtalet kunde inte hämtas. Försök igen.",
+        "pendingCount": "{count} väntar på underskrift"
     },
     "tableColumns": {
         "moveUp": "Flytta {column} upp",

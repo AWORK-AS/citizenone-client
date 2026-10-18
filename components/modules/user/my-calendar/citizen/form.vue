@@ -38,14 +38,23 @@
                 <FormError :error="v$?.formSchedule?.date_time_end?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.date_time_end?.[0]" />
             </div>
-            <div class="space-y-1 flex items-center gap-x-2">
+            <!-- Video consultation in the patient portal, for clinics with the app. -->
+            <div class="space-y-1 flex items-center gap-x-2" v-if="userStore.getUser?.has_patient_app">
+                <FormSwitch :value="state.formSchedule.is_video_consultation"
+                    @toggleSwitch="toggleVideoConsultation" />
+                <div>
+                    <p>{{ $t('videoConsultation.toggle') }}</p>
+                    <p class="text-xs text-[#8891A4]">{{ $t('videoConsultation.toggleHint') }}</p>
+                </div>
+            </div>
+            <div class="space-y-1 flex items-center gap-x-2" v-if="!state.formSchedule.is_video_consultation">
                 <FormSwitch :value="state.formSchedule.is_online_meeting"
                     @toggleSwitch="state.formSchedule.is_online_meeting = !state.formSchedule.is_online_meeting" />
                 <p>
                     {{ $t('events.onlineMeeting.toggle') }}
                 </p>
             </div>
-            <div class="space-y-1" v-if="state.formSchedule.is_online_meeting">
+            <div class="space-y-1" v-if="state.formSchedule.is_online_meeting && !state.formSchedule.is_video_consultation">
                 <FormLabel for="meeting_url" :label="$t('events.onlineMeeting.linkLabel')" />
                 <FormTextField id="meeting_url" name="meeting_url"
                     placeholder="https://teams.microsoft.com/..." v-model="state.formSchedule.meeting_url" />
@@ -257,9 +266,11 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const { isAtLeast } = usePermissions()
+const userStore = useUserStore()
 
 const props = defineProps({
     error: {
@@ -283,6 +294,15 @@ const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
 const departmentStore = useDepartmentStore()
 
+// One way to meet online at a time: the portal's own video or an external link.
+function toggleVideoConsultation() {
+    state.formSchedule.is_video_consultation = !state.formSchedule.is_video_consultation
+    if (state.formSchedule.is_video_consultation) {
+        state.formSchedule.is_online_meeting = false
+        state.formSchedule.meeting_url = ''
+    }
+}
+
 interface Option {
     value: string
     label: string
@@ -304,6 +324,7 @@ const state = reactive({
         is_private: false,
         is_online_meeting: false,
         meeting_url: '',
+        is_video_consultation: false,
         send_invitation: false,
         recurring: {
             is_recurring: false,
@@ -456,6 +477,7 @@ watch(() => props.duplicateOf, (event: any, previous: any) => {
             state.formSchedule.is_private = false
             state.formSchedule.is_online_meeting = false
             state.formSchedule.meeting_url = ''
+            state.formSchedule.is_video_consultation = false
             state.formSchedule.calendar_tag_uuid = [] as any
         state.formSchedule.citizens = [] as any
         }
@@ -468,6 +490,7 @@ watch(() => props.duplicateOf, (event: any, previous: any) => {
     state.formSchedule.is_private = fields.is_private
     state.formSchedule.is_online_meeting = fields.is_online_meeting
     state.formSchedule.meeting_url = fields.meeting_url
+    state.formSchedule.is_video_consultation = !!event.is_video_consultation
     state.formSchedule.calendar_tag_uuid = fields.calendar_tag_uuid as any
         state.formSchedule.citizens = (fields.ownerCitizens.length ? fields.ownerCitizens : fields.inviteeCitizens) as any
 }, { immediate: true })
