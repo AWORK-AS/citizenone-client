@@ -29,6 +29,13 @@ const tabs = computed(() => [
         href: '/superadmin/analytics',
         routeNames: ['superadmin-analytics'],
     }] : []),
+    // Vækst-tragten: hvilke tilmeldingskanaler bliver til kunder. Samme rettighed som Rapport.
+    ...(can('view_management') ? [{
+        name: 'superadmin.dashboard.tabs.funnel',
+        isTranslateName: true,
+        href: '/superadmin/funnel',
+        routeNames: ['superadmin-funnel'],
+    }] : []),
     ...(can('view_management') ? [{
         name: 'superadmin.dashboard.tabs.management',
         isTranslateName: true,

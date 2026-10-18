@@ -12051,6 +12051,25 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "funnel": {
+            "title": "Vækst-tragt",
+            "subtitle": "Firmaer der oprettede sig i perioden, pr. tilmeldingskanal, og hvor langt de er nået: egne borgere, første notat og betaling.",
+            "stages": {
+                "signed_up": "Tilmeldt",
+                "activated": "Egne borgere",
+                "first_note": "Første notat",
+                "paying": "Betaler"
+            },
+            "ofSignups": "af tilmeldte",
+            "medianDays": "median {days} dage",
+            "channel": "Kanal",
+            "toPaying": "Til betaling",
+            "biggestDrop": "Største frafald",
+            "smallSample": "få tal",
+            "all": "Alle",
+            "empty": "Ingen tilmeldinger i perioden.",
+            "footnote": "Kohorte: et firma tæller i den periode, det oprettede sig. Eksempeldata fra tilmeldingen tæller ikke. Betaler = aktivt Basis- eller Pro-abonnement i dag. Ukendt = oprettet før kildesporing (30.09.2026) eller af superadmin. Nyere perioder ser dårligere ud, fordi firmaerne har haft kortere tid."
+        },
         "roadmap": {
             "title": "Roadmap",
             "intro": "De funktioner alle brugere ser under \"Kommende funktioner\" i profilmenuen. Kun publicerede punkter vises.",
@@ -12841,6 +12860,7 @@
                 "allCollecting": "Alle aftaler opkræves"
             },
             "tabs": {
+                "funnel": "Vækst",
                 "overview": "Overblik",
                 "report": "Rapport",
                 "management": "Ledelse"
