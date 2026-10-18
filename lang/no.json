@@ -8825,6 +8825,19 @@
             },
             "content": "Innhold",
             "name": "Navn"
+        },
+        "choices": {
+            "title": "Velg alternativer",
+            "hint": "Teksten har valglister. Velg alternativet som passer, så settes den ferdige teksten inn i notatet.",
+            "preview": "Slik blir teksten",
+            "insert": "Sett inn i notatet",
+            "badge": "med valglister",
+            "syntaxHint": "Valgliste: skriv alternativene i krøllparenteser, adskilt av loddrett strek, f.eks. {example}. Man velger alternativ når teksten settes inn i et notat.",
+            "addList": "Sett inn valgliste",
+            "optionsLabel": "Alternativer (ett per linje)",
+            "optionsPlaceholder": "finasterid 1 mg tablett\nfinasterid 5% serum",
+            "insertList": "Sett inn",
+            "needTwo": "Skriv minst to alternativer, ett per linje."
         }
     },
     "journalNoteTags": {
