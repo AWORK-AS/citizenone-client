@@ -1,4 +1,21 @@
 {
+    "nps": {
+        "question": "How likely are you to recommend CitizenOne to a colleague?",
+        "unlikely": "Not at all likely",
+        "likely": "Extremely likely",
+        "notNow": "Not now",
+        "comment": "What is the main reason for your score?",
+        "commentDetractor": "What should we do better?",
+        "commentLabel": "Your comment",
+        "commentPlaceholder": "Optional",
+        "back": "Back",
+        "send": "Send",
+        "thanks": "Thank you for your answer",
+        "thanksDetractor": "Someone from our team will get in touch to hear more.",
+        "reviewInvite": "Would you share your experience with others? A review on Trustpilot helps other organisations choose.",
+        "reviewCta": "Write a review",
+        "error": "Your answer could not be sent. Please try again."
+},
     "citizenoneAttribution": {
         "portal": "This portal is provided by CitizenOne, the journal system for care and health services.",
         "setting": "Show \"Made with CitizenOne\" on what you send out",
@@ -12051,6 +12068,27 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "nps": {
+            "title": "Recommendations (NPS)",
+            "subtitle": "Answers from admins in the last 90 days. NPS = share of 9-10 minus share of 0-6.",
+            "nps": "NPS",
+            "answers": "Answers",
+            "promoters": "Promoters (9-10)",
+            "detractors": "Detractors (0-6)",
+            "reviewClicks": "Clicks to Trustpilot",
+            "empty": "No answers yet.",
+            "score": "Score",
+            "company": "Company",
+            "comment": "Comment",
+            "reviewClicked": "To Trustpilot",
+            "date": "Date",
+            "yes": "Yes",
+            "band": {
+                "promoter": "promoter",
+                "passive": "passive",
+                "detractor": "detractor"
+            }
+    },
         "funnel": {
             "title": "Growth funnel",
             "subtitle": "Companies that signed up in the period, per signup channel, and how far they got: own citizens, first note and paying.",
@@ -13267,6 +13305,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "nps": "Recommendations (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App categories",

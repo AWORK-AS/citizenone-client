@@ -655,6 +655,8 @@
         <ModulesUserAppTourGuide v-if="welcomeTour.active && welcomeSteps.length" mascot :customSteps="welcomeSteps"
             :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
+        <!-- "Would you recommend CitizenOne?" Never on top of a tour or the medicine toast in the same corner. -->
+        <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />

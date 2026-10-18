@@ -1,4 +1,21 @@
 {
+    "nps": {
+        "question": "Hvor sandsynligt er det, at du vil anbefale CitizenOne til en kollega?",
+        "unlikely": "Slet ikke",
+        "likely": "Meget sandsynligt",
+        "notNow": "Ikke nu",
+        "comment": "Hvad er den vigtigste grund til din score?",
+        "commentDetractor": "Hvad skal vi gøre bedre?",
+        "commentLabel": "Din kommentar",
+        "commentPlaceholder": "Valgfrit",
+        "back": "Tilbage",
+        "send": "Send",
+        "thanks": "Tak for dit svar",
+        "thanksDetractor": "En fra vores team tager kontakt, så vi kan høre mere.",
+        "reviewInvite": "Vil du dele din oplevelse med andre? En anmeldelse på Trustpilot hjælper andre tilbud med at vælge.",
+        "reviewCta": "Skriv en anmeldelse",
+        "error": "Svaret kunne ikke sendes. Prøv igen."
+},
     "citizenoneAttribution": {
         "portal": "Portalen leveres af CitizenOne, journalsystemet til omsorg og sundhed.",
         "setting": "Vis \"Udarbejdet i CitizenOne\" på det, I sender ud",
@@ -12051,6 +12068,27 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "nps": {
+            "title": "Anbefalinger (NPS)",
+            "subtitle": "Svar fra administratorer de sidste 90 dage. NPS = andel 9-10 minus andel 0-6.",
+            "nps": "NPS",
+            "answers": "Svar",
+            "promoters": "Anbefalere (9-10)",
+            "detractors": "Kritikere (0-6)",
+            "reviewClicks": "Klik til Trustpilot",
+            "empty": "Ingen svar endnu.",
+            "score": "Score",
+            "company": "Firma",
+            "comment": "Kommentar",
+            "reviewClicked": "Til Trustpilot",
+            "date": "Dato",
+            "yes": "Ja",
+            "band": {
+                "promoter": "anbefaler",
+                "passive": "neutral",
+                "detractor": "kritiker"
+            }
+    },
         "funnel": {
             "title": "Vækst-tragt",
             "subtitle": "Firmaer der oprettede sig i perioden, pr. tilmeldingskanal, og hvor langt de er nået: egne borgere, første notat og betaling.",
@@ -13267,6 +13305,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "nps": "Anbefalinger (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App-kategorier",

@@ -1,4 +1,21 @@
 {
+    "nps": {
+        "question": "Hvor sannsynlig er det at du vil anbefale CitizenOne til en kollega?",
+        "unlikely": "Ikke i det hele tatt",
+        "likely": "Svært sannsynlig",
+        "notNow": "Ikke nå",
+        "comment": "Hva er den viktigste grunnen til scoren din?",
+        "commentDetractor": "Hva bør vi gjøre bedre?",
+        "commentLabel": "Din kommentar",
+        "commentPlaceholder": "Valgfritt",
+        "back": "Tilbake",
+        "send": "Send",
+        "thanks": "Takk for svaret ditt",
+        "thanksDetractor": "Noen fra teamet vårt tar kontakt for å høre mer.",
+        "reviewInvite": "Vil du dele opplevelsen din med andre? En anmeldelse på Trustpilot hjelper andre tilbud med å velge.",
+        "reviewCta": "Skriv en anmeldelse",
+        "error": "Svaret kunne ikke sendes. Prøv igjen."
+},
     "citizenoneAttribution": {
         "portal": "Portalen leveres av CitizenOne, journalsystemet for omsorg og helse.",
         "setting": "Vis \"Laget med CitizenOne\" på det dere sender ut",
@@ -12014,6 +12031,27 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
+        "nps": {
+            "title": "Anbefalinger (NPS)",
+            "subtitle": "Svar fra administratorer de siste 90 dagene. NPS = andel 9-10 minus andel 0-6.",
+            "nps": "NPS",
+            "answers": "Svar",
+            "promoters": "Anbefalere (9-10)",
+            "detractors": "Kritikere (0-6)",
+            "reviewClicks": "Klikk til Trustpilot",
+            "empty": "Ingen svar ennå.",
+            "score": "Score",
+            "company": "Firma",
+            "comment": "Kommentar",
+            "reviewClicked": "Til Trustpilot",
+            "date": "Dato",
+            "yes": "Ja",
+            "band": {
+                "promoter": "anbefaler",
+                "passive": "nøytral",
+                "detractor": "kritiker"
+            }
+    },
         "funnel": {
             "title": "Vekst-trakt",
             "subtitle": "Firmaer som registrerte seg i perioden, per registreringskanal, og hvor langt de har kommet: egne innbyggere, første notat og betaling.",
@@ -13230,6 +13268,7 @@
             "labelImage": "Bilde"
         },
         "sidebar": {
+            "nps": "Anbefalinger (NPS)",
             "roadmap": "Veikart",
             "apps": "Apper",
             "appCategories": "App-kategorier",
