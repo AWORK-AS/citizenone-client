@@ -3557,7 +3557,7 @@
             "caseNumber": "Case number",
             "columns": {
                 "columns": "Columns",
-                "hint": "Choose which columns to show in the overview."
+                "hint": "Tick the columns you want to see and drag them into the order you want."
             },
             "coordinator": "Coordinator",
             "department": "Department",
@@ -18526,5 +18526,9 @@
             "required": "Answer the questions marked with *.",
             "failed": "Something went wrong. Try again."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Move {column} up",
+        "moveDown": "Move {column} down"
     }
 }

@@ -3557,7 +3557,7 @@
             "caseNumber": "Saksnummer",
             "columns": {
                 "columns": "Kolonner",
-                "hint": "Velg hvilke kolonner som skal vises i oversikten."
+                "hint": "Kryss av kolonnene du vil se, og dra dem i den rekkefølgen du vil ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdeling",
@@ -18430,5 +18430,9 @@
             "required": "Svar på spørsmålene merket med *.",
             "failed": "Noe gikk galt. Prøv igjen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytt {column} opp",
+        "moveDown": "Flytt {column} ned"
     }
 }
