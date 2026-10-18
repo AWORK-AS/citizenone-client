@@ -29,11 +29,11 @@
                         </div>
 
                         <div class="mt-2.5 space-y-1 text-xs text-slate-500">
-                            <p v-if="state.data.birthday" class="flex items-center gap-x-1.5">
+                            <p v-if="state.data.birthday && showsCitizenField('Birthday')" class="flex items-center gap-x-1.5">
                                 <Icon name="ph:cake" class="h-3.5 w-3.5" />
                                 {{ formatDateToReadable(state.data.birthday) }}
                             </p>
-                            <p v-if="state.data.phone" class="flex items-center gap-x-1.5">
+                            <p v-if="state.data.phone && showsCitizenField('Phone')" class="flex items-center gap-x-1.5">
                                 <Icon name="ph:phone" class="h-3.5 w-3.5" />
                                 {{ state.data.phone }}
                             </p>
@@ -61,6 +61,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { canOpenPage } from '@/composables/pageAccess'
 import { useUserStore } from '@/store/user'
+import { useCitizenFieldVisibility } from '@/composables/useCitizenFieldVisibility'
 
 // `preset` lets callers that already have the citizen object (e.g. a list row)
 // seed the card without an extra request.
@@ -68,6 +69,9 @@ const props = defineProps<{ uuid: string; name?: string; preset?: any }>()
 
 const { formatDateToReadable } = useDatetimeFormatter()
 const userStore = useUserStore()
+// The same fields, for the same roles, as the citizen's own card header: a
+// field the company hid or limited to some roles is not shown on hover either.
+const { showsCitizenField } = useCitizenFieldVisibility()
 
 // The same check as the citizen's own Medicine card tab, so a company that has
 // switched medicine off is not offered it on hover either.

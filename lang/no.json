@@ -1,4 +1,9 @@
 {
+    "citizenoneAttribution": {
+        "portal": "Portalen leveres av CitizenOne, journalsystemet for omsorg og helse.",
+        "setting": "Vis \"Laget med CitizenOne\" på det dere sender ut",
+        "settingHint": "En kort linje med lenke til citizenone.dk nederst på PDF-er, e-post til pårørende og eksterne og i portalene."
+    },
     "guestDocuments": {
         "title": "Delte dokumenter",
         "enterPassword": "Skriv inn passordet du har fått av avsenderen for å åpne dokumentene.",
@@ -144,6 +149,7 @@
         "subtitle": "Her er din raske guide til å få CitizenOne satt opp og i gang for teamet ditt.",
         "whatDoYouNeed": "Hva trenger du?",
         "stepsProgress": "{done} av {total} trinn fullført",
+        "pill": "Kom i gang {done}/{total}",
         "nextStep": "Neste steg",
         "demoData": {
             "title": "Utforsk med demo-@:terms.citizens{''}",
@@ -186,6 +192,11 @@
             "cases": "Saker og NAV"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv deres første journalnotat",
+                "desc": "Skriv et notat på en av eksempelpersonene eller en av deres egne. Med Cody kan dere diktere notatet i stedet for å skrive det.",
+                "cta": "Skriv notat"
+            },
             "departments": {
                 "title": "Opprett avdelinger",
                 "desc": "Avdelinger strukturerer personale, journaler og vaktplan.",
@@ -263,9 +274,9 @@
                 "cta": "Gå til Sakstyper"
             },
             "jobcenters": {
-                "title": "Legg til NAV-kontorer",
-                "desc": "Registrer kontorene dere samarbeider med, så henvisninger kan kobles på.",
-                "cta": "Gå til NAV-kontorer"
+                "title": "Legg til kunder og leverandører",
+                "desc": "Registrer kundene og leverandørene dere samarbeider med, så henvisninger kan kobles på.",
+                "cta": "Gå til Kunder og leverandører"
             },
             "journalTitles": {
                 "title": "Journalmaler",
@@ -2549,6 +2560,10 @@
             "reportingFrequency": "Rapportering til kommunen",
             "reportingFrequencyHint": "Oppretter en gjentakende påminnelse til alle på tiltaket med en pålogging.",
             "reportingStartsOn": "Første rapportering",
+            "reportDraftDaysBefore": "Internt utkast, dager før",
+            "reportDraftDaysBeforePlaceholder": "F.eks. 7",
+            "reportDraftDaysBeforeHint": "Sender en påminnelse \"Rapportutkast\" så mange dager før hver rapportering, slik at utkastet kan gjennomgås internt. Tomt betyr ingen påminnelse.",
+            "reportDraftDaysBeforeValue": "{days} dager før",
             "reportingOptions": {
                 "biweekly": "Hver 14. dag",
                 "everySixMonths": "Hvert halvår",
@@ -3611,7 +3626,7 @@
             "caseNumber": "Saksnummer",
             "columns": {
                 "columns": "Kolonner",
-                "hint": "Velg hvilke kolonner som skal vises i oversikten."
+                "hint": "Kryss av kolonnene du vil se, og dra dem i den rekkefølgen du vil ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdeling",
@@ -4399,9 +4414,11 @@
         "searchPlaceholder": "Søk på navn, fødselsnummer eller saksnummer",
         "emptyListHint": "Ingen {citizens} funnet ennå. Bruk \"Ny {citizen}\" øverst, eller importer fra et annet system.",
         "coordinators": {
+            "badgeIntake": "Mottakskoordinator",
             "badgePrimary": "Primær koordinator",
             "badgeSecondary": "Sekundær koordinator",
             "hint": "Medarbeideren du setter her vises under Kontakter på {theCitizen}, og {theCitizen} vises under medarbeiderens tildelte {citizens}.",
+            "intake": "Mottakskoordinator",
             "notSet": "Ikke satt",
             "primary": "Primær koordinator",
             "saved": "Koordinatorene er lagret",
@@ -11428,7 +11445,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sakstyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Jobbsentre",
+            "employmentJobcenters": "Kunder og leverandører",
             "employmentAgreements": "Avtaler",
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS",
@@ -12633,6 +12650,7 @@
             },
             "source": {
                 "all": "Alle kilder",
+                "product": "Fra produktet (PDF, e-post, portal)",
                 "search": "Søkemotor (organisk)",
                 "campaign": "Kampanje",
                 "referral": "Henvisning",
@@ -15182,7 +15200,7 @@
         "jobcenters": {
             "addNewJobcenter": "Legg til nytt {term}",
             "editJobcenter": "Rediger {term}",
-            "jobcenters": "Jobbsentre",
+            "jobcenters": "Kunder og leverandører",
             "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
@@ -15831,6 +15849,7 @@
         },
         "distribution": "Fordeling av tiltak",
         "distributionUnassigned": "{count} uten koordinator",
+        "distributionIntake": "{count} i mottak",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære"
     },
@@ -16542,6 +16561,11 @@
             "noDepartmentYet": "Ingen avdeling valgt ennå",
             "newPeriod": "Ny kontraktperiode",
             "editPeriod": "Rediger kontraktperiode",
+            "cancelled": "Kontrakt oppsagt",
+            "cancelledAt": "Oppsagt den",
+            "cancelledOn": "Oppsagt {date}",
+            "cancelledHelp": "Registrer når kontrakten ble sagt opp. Faktureringen følger fortsatt periodens sluttdato.",
+            "cancellationNote": "Merknad til oppsigelsen",
             "agreedPrice": "Avtalt pris",
             "grantedHours": "Innvilgede timer",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16834,12 +16858,16 @@
             "saveFailed": "Feltene kunne ikke lagres"
         }
     },
+    "citizenFields": {
+        "title": "Felter fra henvendelsen"
+    },
     "inquiryFieldSettings": {
         "title": "Felter i henvendelser",
         "description": "Bestem selv hvilke opplysninger som skal registreres, og hvilken fase de hører til. Et påkrevd felt må være fylt ut før henvendelsen kan flyttes videre fra fasen sin - bakover kan man alltid.",
         "addField": "Legg til felt",
         "editField": "Rediger felt",
         "inactive": "Slått av",
+        "carriedBadge": "Følger med til tiltaket",
         "noFieldsInStage": "Ingen felter i denne fasen.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -16869,6 +16897,8 @@
             "helpTextPlaceholder": "Vises under feltet",
             "isRequired": "Påkrevd for å forlate fasen",
             "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
+            "carryToCitizen": "Følger med til tiltaket",
+            "carryToCitizenHint": "Når henvendelsen blir et tiltak, lagres svaret også som et felt på tiltaket, der det kan ses og endres senere.",
             "isActive": "Aktivt",
             "source": "Slå opp i",
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
@@ -16899,7 +16929,7 @@
             "consultant_skills": "Konsulentkompetanser (alle)",
             "inquiry_service_types": "Innsatstyper",
             "employees": "Ansatte",
-            "jobcenters": "Jobbsentre",
+            "jobcenters": "Kunder og leverandører",
             "focus_areas": "Fokusområder (VUM, voksne)",
             "customer_departments": "Kunder og avdelinger",
             "consultant_skills_competence": "Konsulentkompetanser: kompetanser",
@@ -18484,5 +18514,9 @@
             "required": "Svar på spørsmålene merket med *.",
             "failed": "Noe gikk galt. Prøv igjen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytt {column} opp",
+        "moveDown": "Flytt {column} ned"
     }
 }

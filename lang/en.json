@@ -1,4 +1,9 @@
 {
+    "citizenoneAttribution": {
+        "portal": "This portal is provided by CitizenOne, the journal system for care and health services.",
+        "setting": "Show \"Made with CitizenOne\" on what you send out",
+        "settingHint": "A short line linking to citizenone.dk at the bottom of PDFs, mails to relatives and external parties, and in the portals."
+    },
     "guestDocuments": {
         "title": "Shared documents",
         "enterPassword": "Enter the password you received from the sender to open the documents.",
@@ -144,6 +149,7 @@
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
         "stepsProgress": "{done} of {total} steps completed",
+        "pill": "Get started {done}/{total}",
         "nextStep": "Next step",
         "demoData": {
             "title": "Explore with demo @:terms.citizens{''}",
@@ -186,6 +192,11 @@
             "cases": "Cases & jobcentre"
         },
         "steps": {
+            "firstNote": {
+                "title": "Write your first journal note",
+                "desc": "Write a note on one of the example people or one of your own. With Cody you can dictate the note instead of typing it.",
+                "cta": "Write note"
+            },
             "departments": {
                 "title": "Create departments",
                 "desc": "Departments structure staff, journals and the duty schedule.",
@@ -263,9 +274,9 @@
                 "cta": "Go to Case types"
             },
             "jobcenters": {
-                "title": "Add jobcentres",
-                "desc": "Register the jobcentres you work with, so referrals can be attached.",
-                "cta": "Go to Jobcentres"
+                "title": "Add customers and suppliers",
+                "desc": "Register the customers and suppliers you work with, so referrals can be attached.",
+                "cta": "Go to Customers and suppliers"
             },
             "journalTitles": {
                 "title": "Journal templates",
@@ -2549,6 +2560,10 @@
             "reportingFrequency": "Reporting to the authority",
             "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
             "reportingStartsOn": "First report",
+            "reportDraftDaysBefore": "Internal draft, days before",
+            "reportDraftDaysBeforePlaceholder": "E.g. 7",
+            "reportDraftDaysBeforeHint": "Sends a \"Report draft\" reminder this many days before each reporting date, so the draft can be reviewed internally. Leave empty for no reminder.",
+            "reportDraftDaysBeforeValue": "{days} days before",
             "reportingOptions": {
                 "biweekly": "Every two weeks",
                 "everySixMonths": "Every six months",
@@ -3611,7 +3626,7 @@
             "caseNumber": "Case number",
             "columns": {
                 "columns": "Columns",
-                "hint": "Choose which columns to show in the overview."
+                "hint": "Tick the columns you want to see and drag them into the order you want."
             },
             "coordinator": "Coordinator",
             "department": "Department",
@@ -4399,9 +4414,11 @@
         "searchPlaceholder": "Search by name, CPR or case number",
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
+            "badgeIntake": "Intake coordinator",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
+            "intake": "Intake coordinator",
             "notSet": "Not set",
             "primary": "Primary coordinator",
             "saved": "The coordinators have been saved",
@@ -11433,7 +11450,7 @@
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
-            "employmentJobcenters": "Jobcenters",
+            "employmentJobcenters": "Customers and suppliers",
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
@@ -12670,6 +12687,7 @@
             },
             "source": {
                 "all": "All sources",
+                "product": "From the product (PDF, mail, portal)",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
                 "referral": "Referral",
@@ -15278,7 +15296,7 @@
         "jobcenters": {
             "addNewJobcenter": "Add new {term}",
             "editJobcenter": "Edit {term}",
-            "jobcenters": "Job centers",
+            "jobcenters": "Customers and suppliers",
             "newJobcenter": "New {term}",
             "form": {
                 "alert": {
@@ -15927,6 +15945,7 @@
         },
         "distribution": "How cases are spread",
         "distributionUnassigned": "{count} with no coordinator",
+        "distributionIntake": "{count} intake",
         "distributionPrimary": "{count} primary",
         "distributionSecondary": "{count} secondary"
     },
@@ -16638,6 +16657,11 @@
             "noDepartmentYet": "No department chosen yet",
             "newPeriod": "New contract period",
             "editPeriod": "Edit contract period",
+            "cancelled": "Contract cancelled",
+            "cancelledAt": "Cancelled on",
+            "cancelledOn": "Cancelled {date}",
+            "cancelledHelp": "Record when notice was given on the contract. Billing still follows the period end date.",
+            "cancellationNote": "Cancellation note",
             "agreedPrice": "Agreed price",
             "grantedHours": "Granted hours",
             "billingFrequency": "Billing frequency",
@@ -16930,12 +16954,16 @@
             "saveFailed": "The fields could not be saved"
         }
     },
+    "citizenFields": {
+        "title": "Fields from the inquiry"
+    },
     "inquiryFieldSettings": {
         "title": "Inquiry fields",
         "description": "Decide what has to be recorded, and which stage it belongs to. A required field has to be filled in before the inquiry can move on from its stage - moving back is always allowed.",
         "addField": "Add field",
         "editField": "Edit field",
         "inactive": "Off",
+        "carriedBadge": "Carried to the case",
         "noFieldsInStage": "No fields in this stage.",
         "fieldCount": "{count} fields",
         "actions": {
@@ -16965,6 +16993,8 @@
             "helpTextPlaceholder": "Shown below the field",
             "isRequired": "Required to leave the stage",
             "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
+            "carryToCitizen": "Carried over to the case",
+            "carryToCitizenHint": "When the inquiry becomes a case, the answer is also kept as a field on the case, where it can be seen and edited later.",
             "isActive": "Active",
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
@@ -16995,7 +17025,7 @@
             "consultant_skills": "Consultant skills (all)",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
-            "jobcenters": "Jobcenters",
+            "jobcenters": "Customers and suppliers",
             "focus_areas": "Focus areas (VUM, adults)",
             "customer_departments": "Customers and departments",
             "consultant_skills_competence": "Consultant skills: competences",
@@ -18580,5 +18610,9 @@
             "required": "Answer the questions marked with *.",
             "failed": "Something went wrong. Try again."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Move {column} up",
+        "moveDown": "Move {column} down"
     }
 }

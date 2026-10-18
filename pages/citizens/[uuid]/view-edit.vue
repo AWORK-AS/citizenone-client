@@ -39,6 +39,12 @@
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @submitForm="updateCitizen" />
                 </LoadingSpinner>
+                <!-- The inquiry fields the company carries over to the indsats,
+                     saved on their own; nothing is shown when there are none. -->
+                <div :class="state.carriedFieldCount ? 'mt-6 rounded-xl border border-surface-200 bg-white p-5' : ''">
+                    <ModulesUserInquiryFieldsBlock :citizenUuid="String(citizenUuid)"
+                        @loaded="(count: number) => state.carriedFieldCount = count" />
+                </div>
             </div>
             <DialogConfirmation :isModalOpen="state.modal.isArchiveCitizenOpen"
                 :message="$t('citizens.confirmation.archiveConfirmation') + '?'"
@@ -161,6 +167,7 @@ const state = reactive({
         },
     } as CitizenForm,
     isPageLoading: false,
+    carriedFieldCount: 0,
     modal: {
         isArchiveCitizenOpen: false
     }
@@ -312,6 +319,8 @@ async function updateCitizen(citizenDetails: any) {
         // requirement is lifted, and the reminder goes with it.
         params.append('reporting_frequency', citizenDetails.reporting_frequency ?? '')
         params.append('reporting_starts_on', citizenDetails.reporting_starts_on ?? '')
+        // Only meaningful with a frequency; cleared with it.
+        params.append('report_draft_days_before', citizenDetails.reporting_frequency ? (citizenDetails.report_draft_days_before ?? '') : '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))

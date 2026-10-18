@@ -1,4 +1,9 @@
 {
+    "citizenoneAttribution": {
+        "portal": "Portalen tillhandahålls av CitizenOne, journalsystemet för omsorg och hälsa.",
+        "setting": "Visa \"Skapat med CitizenOne\" på det ni skickar ut",
+        "settingHint": "En kort rad med länk till citizenone.dk längst ned på PDF:er, mejl till anhöriga och externa och i portalerna."
+    },
     "guestDocuments": {
         "title": "Delade dokument",
         "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
@@ -144,6 +149,7 @@
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
         "stepsProgress": "{done} av {total} steg slutförda",
+        "pill": "Kom igång {done}/{total}",
         "nextStep": "Nästa steg",
         "demoData": {
             "title": "Utforska med demo@:terms.citizens{''}",
@@ -186,6 +192,11 @@
             "cases": "Ärenden och jobbcenter"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv er första journalanteckning",
+                "desc": "Skriv en anteckning på en av exempelpersonerna eller en av era egna. Med Cody kan ni diktera anteckningen i stället för att skriva den.",
+                "cta": "Skriv anteckning"
+            },
             "departments": {
                 "title": "Skapa avdelningar",
                 "desc": "Avdelningar strukturerar personal, journaler och schema.",
@@ -263,9 +274,9 @@
                 "cta": "Gå till Ärendetyper"
             },
             "jobcenters": {
-                "title": "Lägg till jobbcenter",
-                "desc": "Registrera de jobbcenter ni samarbetar med, så remisser kan kopplas på.",
-                "cta": "Gå till Jobbcenter"
+                "title": "Lägg till kunder och leverantörer",
+                "desc": "Registrera de kunder och leverantörer ni samarbetar med, så remisser kan kopplas på.",
+                "cta": "Gå till Kunder och leverantörer"
             },
             "journalTitles": {
                 "title": "Journalmallar",
@@ -2549,6 +2560,10 @@
             "reportingFrequency": "Rapportering till kommunen",
             "reportingFrequencyHint": "Skapar en återkommande påminnelse till alla på insatsen som har en inloggning.",
             "reportingStartsOn": "Första rapportering",
+            "reportDraftDaysBefore": "Internt utkast, dagar före",
+            "reportDraftDaysBeforePlaceholder": "T.ex. 7",
+            "reportDraftDaysBeforeHint": "Skickar en påminnelse \"Rapportutkast\" så många dagar före varje rapportering, så att utkastet kan granskas internt. Tomt betyder ingen påminnelse.",
+            "reportDraftDaysBeforeValue": "{days} dagar före",
             "reportingOptions": {
                 "biweekly": "Varannan vecka",
                 "everySixMonths": "Var sjätte månad",
@@ -3611,7 +3626,7 @@
             "caseNumber": "Ärendenummer",
             "columns": {
                 "columns": "Kolumner",
-                "hint": "Välj vilka kolumner som ska visas i översikten."
+                "hint": "Markera kolumnerna du vill se och dra dem i den ordning du vill ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdelning",
@@ -4399,9 +4414,11 @@
         "searchPlaceholder": "Sök på namn, personnummer eller ärendenummer",
         "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
         "coordinators": {
+            "badgeIntake": "Mottagningskoordinator",
             "badgePrimary": "Primär koordinator",
             "badgeSecondary": "Sekundär koordinator",
             "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
+            "intake": "Mottagningskoordinator",
             "notSet": "Inte angiven",
             "primary": "Primär koordinator",
             "saved": "Koordinatorerna har sparats",
@@ -11428,7 +11445,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Ärendetyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Arbetsförmedlingar",
+            "employmentJobcenters": "Kunder och leverantörer",
             "employmentAgreements": "Avtal",
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
@@ -12633,6 +12650,7 @@
             },
             "source": {
                 "all": "Alla källor",
+                "product": "Från produkten (PDF, mejl, portal)",
                 "search": "Sökmotor (organisk)",
                 "campaign": "Kampanj",
                 "referral": "Hänvisning",
@@ -15182,7 +15200,7 @@
         "jobcenters": {
             "addNewJobcenter": "Lägg till nytt {term}",
             "editJobcenter": "Redigera {term}",
-            "jobcenters": "Jobbcenter",
+            "jobcenters": "Kunder och leverantörer",
             "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
@@ -15831,6 +15849,7 @@
         },
         "distribution": "Fördelning av insatser",
         "distributionUnassigned": "{count} utan koordinator",
+        "distributionIntake": "{count} i mottagning",
         "distributionPrimary": "{count} primära",
         "distributionSecondary": "{count} sekundära"
     },
@@ -16542,6 +16561,11 @@
             "noDepartmentYet": "Ingen avdelning vald ännu",
             "newPeriod": "Ny avtalsperiod",
             "editPeriod": "Redigera avtalsperiod",
+            "cancelled": "Avtal uppsagt",
+            "cancelledAt": "Uppsagt den",
+            "cancelledOn": "Uppsagt {date}",
+            "cancelledHelp": "Registrera när avtalet sades upp. Faktureringen följer fortfarande periodens slutdatum.",
+            "cancellationNote": "Kommentar till uppsägningen",
             "agreedPrice": "Avtalat pris",
             "grantedHours": "Beviljade timmar",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16834,12 +16858,16 @@
             "saveFailed": "Fälten kunde inte sparas"
         }
     },
+    "citizenFields": {
+        "title": "Fält från förfrågan"
+    },
     "inquiryFieldSettings": {
         "title": "Fält för förfrågningar",
         "description": "Bestäm själv vilka uppgifter som ska registreras och vilken fas de hör till. Ett obligatoriskt fält måste vara ifyllt innan förfrågan kan flyttas vidare från sin fas - bakåt går alltid.",
         "addField": "Lägg till fält",
         "editField": "Redigera fält",
         "inactive": "Avstängt",
+        "carriedBadge": "Följer med till insatsen",
         "noFieldsInStage": "Inga fält i den här fasen.",
         "fieldCount": "{count} fält",
         "actions": {
@@ -16869,6 +16897,8 @@
             "helpTextPlaceholder": "Visas under fältet",
             "isRequired": "Obligatoriskt för att lämna fasen",
             "isRequiredHint": "Förfrågan kan inte flyttas framåt förrän fältet är ifyllt.",
+            "carryToCitizen": "Följer med till insatsen",
+            "carryToCitizenHint": "När förfrågan blir en insats sparas svaret också som ett fält på insatsen, där det kan ses och ändras senare.",
             "isActive": "Aktivt",
             "source": "Slå upp i",
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
@@ -16899,7 +16929,7 @@
             "consultant_skills": "Konsultkompetenser (alla)",
             "inquiry_service_types": "Insatstyper",
             "employees": "Medarbetare",
-            "jobcenters": "Arbetsförmedlingar",
+            "jobcenters": "Kunder och leverantörer",
             "focus_areas": "Fokusområden (VUM, vuxna)",
             "customer_departments": "Kunder och avdelningar",
             "consultant_skills_competence": "Konsultkompetenser: kompetenser",
@@ -18484,5 +18514,9 @@
             "required": "Besvara frågorna markerade med *.",
             "failed": "Något gick fel. Försök igen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytta {column} upp",
+        "moveDown": "Flytta {column} ned"
     }
 }

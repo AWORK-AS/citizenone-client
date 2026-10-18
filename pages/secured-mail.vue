@@ -209,12 +209,16 @@
                         beskytter alle beskeder med kryptering og opbevarer
                         data på ISO 27001-certificerede servere i EU. CitizenOne overholder fuldt ud EUs
                         databeskyttelsesforordning (GDPR).
+                        <a :href="CITIZENONE_URL" target="_blank" rel="noopener"
+                            class="font-medium text-primary hover:text-secondary-500">citizenone.dk</a>
                     </p>
                     <p class="text-xs px-2 text-center" v-else>
                         This secure email is sent via <span class="font-semibold text-primary">CitizenOne</span>. We
                         protect all messages with encryption and store data
                         on ISO 27001 certified servers in the EU. CitizenOne fully complies with the EU's General Data
                         Protection Regulation (GDPR).
+                        <a :href="CITIZENONE_URL" target="_blank" rel="noopener"
+                            class="font-medium text-primary hover:text-secondary-500">citizenone.dk</a>
                     </p>
                 </div>
             </div>
@@ -227,6 +231,10 @@
 </template>
 
 <script setup lang="ts">
+import { citizenoneAttributionUrl } from '@/composables/citizenoneAttribution'
+// The page already says the mail came through CitizenOne; the address lets a
+// recipient look it up. Tagged so a signup from here counts as the product channel.
+const CITIZENONE_URL = citizenoneAttributionUrl('portal')
 import { securedMailService } from '@/components/api/user/SecuredMailService'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
