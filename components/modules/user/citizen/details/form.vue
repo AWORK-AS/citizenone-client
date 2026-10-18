@@ -39,9 +39,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
-                        <FormTextField id="social_security_number" name="social_security_number"
+                        <FormTextField v-if="!isHidden('social_security_number')" id="social_security_number" name="social_security_number"
                             :placeholder="$t('citizens.form.ssnPlaceholder')" :maxLength="11"
                             v-model="formattedSocialSecurityNumber" @input="updateSocialSecurityNumber" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                         <!-- Only a hint against creating a duplicate: saving is never blocked. -->
@@ -65,7 +66,8 @@
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
-                        <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" showAge />
+                        <FormDateField v-if="!isHidden('birthday')" id="birthday" name="birthday" v-model="state.formCitizen.birthday" showAge />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <p v-if="state.autoFilledFromSsn" class="flex items-center gap-x-1 text-xs text-tertiary">
                             <Icon name="ph:magic-wand" class="h-3.5 w-3.5" aria-hidden="true" />
                             {{ $t('citizens.form.autoFilledFromSsn') }}
@@ -84,8 +86,9 @@
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
-                        <FormTextField id="email" name="email" placeholder="navn@eksempel.dk"
+                        <FormTextField v-if="!isHidden('email')" id="email" name="email" placeholder="navn@eksempel.dk"
                             v-model="state.formCitizen.email" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.email?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.email?.[0]" />
                     </div>
@@ -93,7 +96,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="phone" :label="$t('citizens.form.phone')" />
-                        <FormTextField id="phone" name="phone" v-model="state.formCitizen.phone" />
+                        <FormTextField v-if="!isHidden('phone')" id="phone" name="phone" v-model="state.formCitizen.phone" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.phone?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
@@ -128,19 +132,20 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="street" :label="$t('citizens.form.street')" />
-                        <div class="flex gap-x-1 items-center" @click="state.modal.isLocateCitizenOpen = true">
+                        <div v-if="!isHidden('address')" class="flex gap-x-1 items-center" @click="state.modal.isLocateCitizenOpen = true">
                             <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800">
                                 {{ $t('citizens.form.locateCitizen') }}
                             </span>
                         </div>
                     </div>
-                    <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
+                    <FormTextField v-if="!isHidden('address')" id="street" name="street" :placeholder="$t('citizens.form.street')"
                         v-model="state.formCitizen.street" />
+                    <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                     <FormError :error="v$?.formCitizen?.street?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.street?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isHidden('address')">
                     <div class="space-y-1">
                         <FormLabel for="region" :label="$t('citizens.form.region')" />
                         <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
@@ -156,7 +161,7 @@
                         <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isHidden('address')">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('citizens.form.city')" />
                         <FormTextField id="city" name="city" :placeholder="$t('citizens.form.city')"
@@ -239,7 +244,7 @@
                         </p>
                     </div>
                 </Tooltip>
-                <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
+                <div class="space-y-1" v-if="isFieldVisible('diagnoses') && !isHidden('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -252,7 +257,7 @@
                     <FormError :error="v$?.formCitizen?.diagnoses?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.diagnoses?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="isFieldVisible('medication_allergies')">
+                <div class="space-y-1" v-if="isFieldVisible('medication_allergies') && !isHidden('allergies')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="medication_allergies" :label="$t('citizens.form.medicationAllergies')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -265,7 +270,7 @@
                     <FormError :error="v$?.formCitizen?.medication_allergies?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_allergies?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="isFieldVisible('addictions')">
+                <div class="space-y-1" v-if="isFieldVisible('addictions') && !isHidden('addictions')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="addictions" :label="customPagesStore.getCustomPagesName?.addictions" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -461,7 +466,7 @@
                         <FormError :error="props?.error?.errors?.allocated_monthly_hours?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1" v-if="isFieldVisible('note')">
+                <div class="space-y-1" v-if="isFieldVisible('note') && !isHidden('note')">
                     <p class="text-sm text-gray-600">{{ $t('citizens.form.note') }}</p>
                     <ckeditor :editor="editor" v-model="state.formCitizen.note" :config="editorNoteConfig" />
                     <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
@@ -1273,6 +1278,14 @@ const props = defineProps({
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const formConfig = ref<Record<string, boolean>>({})
+
+// Fields the company limited to roles the signed-in person does not hold. The
+// API leaves their values out and names them here; the form shows a lock
+// instead of an empty input that would look editable but never save.
+const hiddenFields = computed(() => new Set<string>((props.selectedCitizen as any)?.hidden_fields ?? []))
+function isHidden(attribute: string): boolean {
+    return hiddenFields.value.has(attribute)
+}
 
 function isFieldVisible(fieldKey: string): boolean {
     if (Object.keys(formConfig.value).length === 0) return true

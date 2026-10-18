@@ -1821,6 +1821,8 @@
                 },
                 "date": "Date",
                 "draft": "Draft",
+                "internal": "Internal note",
+                "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "aiGenerate": {
@@ -2373,6 +2375,7 @@
             "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
             "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
+            "hiddenForRole": "Hidden for your role",
             "ssn": "CPR number",
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
@@ -3558,7 +3561,7 @@
             "caseNumber": "Case number",
             "columns": {
                 "columns": "Columns",
-                "hint": "Choose which columns to show in the overview."
+                "hint": "Tick the columns you want to see and drag them into the order you want."
             },
             "coordinator": "Coordinator",
             "department": "Department",
@@ -4416,6 +4419,34 @@
             "averageDays": "Avg {days} days",
             "averageHint": "Average length from start to end"
         }
+    },
+    "goalTypes": {
+        "title": "Goal types",
+        "single": "Goal type",
+        "none": "None",
+        "description": "The kinds of goals you work with, as a list you keep. The type is picked on the goal, so goals can be grouped and counted by type.",
+        "add": "Add",
+        "addHint": "Add a type that can be picked on a goal",
+        "empty": "There are no goal types yet.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Development goal"
+        },
+        "actions": {
+            "switchOff": "Switch the type off",
+            "switchOn": "Switch the type on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The goal type is deleted",
+            "deleteFailed": "The goal type could not be deleted"
+        },
+        "vumTheme": "VUM theme",
+        "vumThemeHint": "The VUM theme the goal works on. The category comes with the theme.",
+        "typeHint": "Pick a type from your list of goal types",
+        "noTypes": "There are no goal types yet. They are created under Settings."
     },
     "client": {
         "appointments": "Appointments",
@@ -7308,7 +7339,8 @@
             "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs",
             "monthlySheet": "Monthly sheet",
-            "consultantProfile": "Consultant profile"
+            "consultantProfile": "Consultant profile",
+            "hrDetails": "HR details"
         },
         "timeLogs": "Time Logs",
         "viewEmployee": "View employee",
@@ -10392,6 +10424,7 @@
         "draft": "Draft",
         "editReport": "Edit report",
         "finalize": "Finalize",
+        "cprPending": "The CPR number is not filled in yet because your role has no access to CPR. It is filled in when a colleague with access finalises the report.",
         "finalized": "Finalized",
         "newReport": "New report",
         "publicLink": "Public link",
@@ -10711,6 +10744,8 @@
             "permissions": "Permissions",
             "pages": "Page access",
             "level": "Level",
+            "hideInternalJournals": "Cannot see internal notes",
+            "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -11070,6 +11105,8 @@
                 "checkinOut": "Check in/out",
                 "chooseNotificationDepartments": "Choose which departments you want notifications from",
                 "citizensDisplay": "@.capitalize:terms.citizen{''}'s display",
+                "citizensDisplayRoles": "Who may see the fields",
+                "citizensDisplayRolesHelp": "Choose roles for a field to show it only to them. Empty means everyone who can open the citizen. Administrators always see the fields shown.",
                 "city": "City",
                 "companyLogo": "Company logo",
                 "companyName": "Company name",
@@ -11328,6 +11365,7 @@
             "profile": "Profile",
             "relationships": "Relationships",
             "dischargeReasons": "Discharge reasons",
+            "goalTypes": "Goal types",
             "roles": "Roles",
             "rooms": "Rooms",
             "scheduleTags": "Schedule tags",
@@ -17015,6 +17053,58 @@
             "result": "{added} added, {skipped} already there"
         }
     },
+    "hrDetails": {
+        "title": "HR details",
+        "groups": {
+            "contact": "Contact",
+            "person": "Person",
+            "employment": "Employment",
+            "work": "Work",
+            "bank": "Pay and bank"
+        },
+        "fields": {
+            "privateEmail": "Private email",
+            "privatePhone": "Private phone",
+            "workPhone": "Work phone",
+            "gender": "Gender",
+            "nationality": "Nationality",
+            "manager": "Closest manager",
+            "daysPerWeek": "Working days per week",
+            "pensionStartDate": "Pension scheme start",
+            "lunchScheme": "Lunch scheme",
+            "flexJob": "Flex job",
+            "section56": "Section 56",
+            "threeMonthInterviewAt": "3-month interview held",
+            "terminationReason": "Reason for leaving",
+            "simCard": "SIM card",
+            "otherWork": "Other work",
+            "workingHoursComment": "Comment on working hours",
+            "notWorkWith": "Does not wish to work with",
+            "taxCardType": "Tax card",
+            "bankRegNo": "Reg. no.",
+            "bankAccountNo": "Account no.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Female",
+            "male": "Male",
+            "other": "Other"
+        },
+        "taxCards": {
+            "main": "Main card",
+            "secondary": "Secondary card",
+            "self_employed": "Self-employed"
+        },
+        "yes": "Yes",
+        "no": "No",
+        "unset": "Not specified",
+        "select": "Select",
+        "bankAdminOnly": "Bank details can only be changed by an administrator",
+        "alert": {
+            "saved": "HR details saved",
+            "saveFailed": "HR details could not be saved"
+        }
+    },
     "consultantProfile": {
         "title": "Consultant profile",
         "ready": "The consultant can be put forward for a case",
@@ -17059,7 +17149,8 @@
             "miscellaneous": "Other",
             "passport": "Passport",
             "cv": "CV",
-            "education": "Education papers"
+            "education": "Education papers",
+            "work_permit": "Work and residence permit"
         },
         "findings": {
             "document_missing": "{document} is missing",
@@ -17135,6 +17226,9 @@
         "clear": "Clear",
         "noConsultants": "No consultants found.",
         "notReady": "Cannot be put on a case",
+        "archived": "Archived",
+        "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
+        "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
         "matches": {
@@ -17886,7 +17980,7 @@
         },
         "tab": "Wellbeing",
         "title": "Wellbeing",
-        "description": "Wellbeing measurements from 0 to 10 for the citizen and related citizens, such as siblings on the same intervention. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
+        "description": "Wellbeing measurements from 0 to 10 for the citizen, related citizens such as siblings on the same intervention, and the citizen's contacts such as parents. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
         "primary": "Main person",
         "latest": "Latest",
         "add": "New measurement",
@@ -17902,7 +17996,9 @@
         "removeConfirmation": "Are you sure you want to remove this measurement",
         "saveFailed": "The measurement could not be saved",
         "removeFailed": "The measurement could not be removed",
-        "noRelations": "Siblings and other related citizens appear here once they are linked under",
+        "noRelations": "Siblings, other related citizens and contacts appear here once they are linked under",
+        "or": "or",
+        "contact": "Contact",
         "raters": {
             "caseworker": "Caseworker",
             "mother": "Mother",
@@ -18442,5 +18538,9 @@
             "required": "Answer the questions marked with *.",
             "failed": "Something went wrong. Try again."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Move {column} up",
+        "moveDown": "Move {column} down"
     }
 }

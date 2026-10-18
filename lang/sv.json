@@ -1821,6 +1821,8 @@
                 },
                 "date": "Datum",
                 "draft": "Utkast",
+                "internal": "Intern anteckning",
+                "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
                     "title": "Förbered med AI",
@@ -2373,6 +2375,7 @@
             "spokenLanguages": "Språk medborgaren talar",
             "spokenLanguagesDescription": "Välj de språk medborgaren kan tala. Det är inte samma sak som systemets språk.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Dold för din roll",
             "ssn": "Personnummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets slutdatum",
@@ -3558,7 +3561,7 @@
             "caseNumber": "Ärendenummer",
             "columns": {
                 "columns": "Kolumner",
-                "hint": "Välj vilka kolumner som ska visas i översikten."
+                "hint": "Markera kolumnerna du vill se och dra dem i den ordning du vill ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdelning",
@@ -4416,6 +4419,34 @@
             "averageDays": "Snitt {days} dagar",
             "averageHint": "Genomsnittlig längd från start till slut"
         }
+    },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltyp",
+        "none": "Ingen",
+        "description": "De typer av mål ni arbetar med, som en lista ni själva underhåller. Typen väljs på målet, så mål kan grupperas och räknas efter typ.",
+        "add": "Lägg till",
+        "addHint": "Lägg till en typ som kan väljas på ett mål",
+        "empty": "Det finns inga måltyper ännu.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "T.ex. Utvecklingsmål"
+        },
+        "actions": {
+            "switchOff": "Stäng av typen",
+            "switchOn": "Slå på typen",
+            "rename": "Byt namn",
+            "delete": "Ta bort"
+        },
+        "alert": {
+            "saveFailed": "Kunde inte sparas",
+            "deleted": "Måltypen är borttagen",
+            "deleteFailed": "Måltypen kunde inte tas bort"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temat i VUM som målet arbetar med. Kategorin följer med temat.",
+        "typeHint": "Välj en typ från er lista över måltyper",
+        "noTypes": "Det finns inga måltyper ännu. De skapas under Inställningar."
     },
     "client": {
         "appointments": "Möten",
@@ -7308,7 +7339,8 @@
             "mileageLog": "Körjournal",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månadsöversikt",
-            "consultantProfile": "Konsultprofil"
+            "consultantProfile": "Konsultprofil",
+            "hrDetails": "HR-uppgifter"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se anställd",
@@ -10387,6 +10419,7 @@
         "draft": "Utkast",
         "editReport": "Redigera rapport",
         "finalize": "Slutför",
+        "cprPending": "Personnumret är inte ifyllt än eftersom din roll inte har åtkomst till det. Det fylls i när en kollega med åtkomst slutför rapporten.",
         "finalized": "Slutförd",
         "newReport": "Ny rapport",
         "publicLink": "Offentlig länk",
@@ -10706,6 +10739,8 @@
             "permissions": "Behörigheter",
             "pages": "Sidåtkomst",
             "level": "Level",
+            "hideInternalJournals": "Kan inte se interna anteckningar",
+            "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11065,6 +11100,8 @@
                 "checkinOut": "Check in/ut",
                 "chooseNotificationDepartments": "Välj hvilke avdelningar du vill modtage notiser från",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Vem får se fälten",
+                "citizensDisplayRolesHelp": "Välj roller för ett fält för att bara visa det för dem. Tomt betyder alla som kan öppna brukaren. Administratörer ser alltid de visade fälten.",
                 "city": "Stad",
                 "companyLogo": "Firmalogo",
                 "companyName": "Företagsnamn",
@@ -11323,6 +11360,7 @@
             "profile": "Profil",
             "relationships": "Förhållande",
             "dischargeReasons": "Avslutningsorsaker",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Rum",
             "scheduleTags": "Tjänsteschema etiketter",
@@ -16919,6 +16957,58 @@
             "result": "{added} tillagda, {skipped} fanns redan"
         }
     },
+    "hrDetails": {
+        "title": "HR-uppgifter",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Anställning",
+            "work": "Arbete",
+            "bank": "Lön och bank"
+        },
+        "fields": {
+            "privateEmail": "Privat e-post",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbetstelefon",
+            "gender": "Kön",
+            "nationality": "Nationalitet",
+            "manager": "Närmaste chef",
+            "daysPerWeek": "Antal arbetsdagar per vecka",
+            "pensionStartDate": "Start av pensionsavtal",
+            "lunchScheme": "Lunchförmån",
+            "flexJob": "Flexjobb",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-månaderssamtal genomfört",
+            "terminationReason": "Orsak till avslut",
+            "simCard": "SIM-kort",
+            "otherWork": "Övrigt arbete",
+            "workingHoursComment": "Kommentar om arbetstider",
+            "notWorkWith": "Vill inte arbeta med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Clearingnr",
+            "bankAccountNo": "Kontonr",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinna",
+            "male": "Man",
+            "other": "Annat"
+        },
+        "taxCards": {
+            "main": "Huvudkort",
+            "secondary": "Bikort",
+            "self_employed": "Egenföretagare"
+        },
+        "yes": "Ja",
+        "no": "Nej",
+        "unset": "Ej angivet",
+        "select": "Välj",
+        "bankAdminOnly": "Bankuppgifter kan bara ändras av en administratör",
+        "alert": {
+            "saved": "HR-uppgifterna är sparade",
+            "saveFailed": "HR-uppgifterna kunde inte sparas"
+        }
+    },
     "consultantProfile": {
         "title": "Konsultprofil",
         "ready": "Konsulten kan sättas på ett ärende",
@@ -16963,7 +17053,8 @@
             "miscellaneous": "Övrigt",
             "passport": "Pass",
             "cv": "CV",
-            "education": "Utbildningsbevis"
+            "education": "Utbildningsbevis",
+            "work_permit": "Arbets- och uppehållstillstånd"
         },
         "findings": {
             "document_missing": "{document} saknas",
@@ -17039,6 +17130,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
+        "archived": "Arkiverad",
+        "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
         "matches": {
@@ -17790,7 +17884,7 @@
         },
         "tab": "Välmående",
         "title": "Välmående",
-        "description": "Mätningar av välmående från 0 till 10 för personen och relaterade personer, t.ex. syskon i samma insats. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
+        "description": "Mätningar av välmående från 0 till 10 för personen, relaterade personer, t.ex. syskon i samma insats, och personens kontakter, t.ex. föräldrar. Varje mätning visar vem som gav den och datumet den togs emot. Mätningar från rapporter med nyckeln \"trivsel\" visas också här.",
         "primary": "Huvudperson",
         "latest": "Senaste",
         "add": "Ny mätning",
@@ -17806,7 +17900,9 @@
         "removeConfirmation": "Är du säker på att du vill ta bort denna mätning",
         "saveFailed": "Mätningen kunde inte sparas",
         "removeFailed": "Mätningen kunde inte tas bort",
-        "noRelations": "Syskon och andra relaterade personer visas här när de är kopplade under",
+        "noRelations": "Syskon, andra relaterade personer och kontakter visas här när de är kopplade under",
+        "or": "eller",
+        "contact": "Kontakt",
         "raters": {
             "caseworker": "Handläggare",
             "mother": "Mamma",
@@ -18346,5 +18442,9 @@
             "required": "Besvara frågorna markerade med *.",
             "failed": "Något gick fel. Försök igen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytta {column} upp",
+        "moveDown": "Flytta {column} ned"
     }
 }

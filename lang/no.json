@@ -1821,6 +1821,8 @@
                 },
                 "date": "Dato",
                 "draft": "Udkast",
+                "internal": "Internt notat",
+                "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "aiGenerate": {
                     "title": "Utarbeid med AI",
@@ -2373,6 +2375,7 @@
             "spokenLanguages": "Språk borgeren snakker",
             "spokenLanguagesDescription": "Velg språkene borgeren kan snakke. Dette er ikke det samme som systemspråket.",
             "ssnPlaceholder": "ddmmåå-xxxx",
+            "hiddenForRole": "Skjult for din rolle",
             "ssn": "CPR-nummer",
             "stayData": {
                 "accommodationEndDate": "Opholdets sluttdato",
@@ -3558,7 +3561,7 @@
             "caseNumber": "Saksnummer",
             "columns": {
                 "columns": "Kolonner",
-                "hint": "Velg hvilke kolonner som skal vises i oversikten."
+                "hint": "Kryss av kolonnene du vil se, og dra dem i den rekkefølgen du vil ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdeling",
@@ -4416,6 +4419,34 @@
             "averageDays": "Snitt {days} dager",
             "averageHint": "Gjennomsnittlig varighet fra start til slutt"
         }
+    },
+    "goalTypes": {
+        "title": "Måltyper",
+        "single": "Måltype",
+        "none": "Ingen",
+        "description": "Typene mål dere jobber med, som en liste dere selv vedlikeholder. Typen velges på målet, så mål kan grupperes og telles etter type.",
+        "add": "Legg til",
+        "addHint": "Legg til en type som kan velges på et mål",
+        "empty": "Det finnes ingen måltyper ennå.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "F.eks. Utviklingsmål"
+        },
+        "actions": {
+            "switchOff": "Slå av typen",
+            "switchOn": "Slå på typen",
+            "rename": "Gi nytt navn",
+            "delete": "Slett"
+        },
+        "alert": {
+            "saveFailed": "Kunne ikke lagres",
+            "deleted": "Måltypen er slettet",
+            "deleteFailed": "Måltypen kunne ikke slettes"
+        },
+        "vumTheme": "VUM-tema",
+        "vumThemeHint": "Temaet i VUM som målet jobber med. Kategorien følger med temaet.",
+        "typeHint": "Velg en type fra listen deres over måltyper",
+        "noTypes": "Det finnes ingen måltyper ennå. De opprettes under Innstillinger."
     },
     "client": {
         "appointments": "Avtaler",
@@ -7308,7 +7339,8 @@
             "mileageLog": "Kjørebok",
             "timeLogs": "Tidslogfiler",
             "monthlySheet": "Månedsoversikt",
-            "consultantProfile": "Konsulentprofil"
+            "consultantProfile": "Konsulentprofil",
+            "hrDetails": "HR-opplysninger"
         },
         "timeLogs": "Tidslogfiler",
         "viewEmployee": "Se medarbeider",
@@ -10387,6 +10419,7 @@
         "draft": "Utkast",
         "editReport": "Rediger rapport",
         "finalize": "Ferdigstill",
+        "cprPending": "Personnummeret er ikke satt inn ennå fordi rollen din ikke har tilgang til det. Det settes inn når en kollega med tilgang ferdigstiller rapporten.",
         "finalized": "Ferdigstilt",
         "newReport": "Ny rapport",
         "publicLink": "Offentlig lenke",
@@ -10706,6 +10739,8 @@
             "permissions": "Tillatelser",
             "pages": "Sidetilgang",
             "level": "Level",
+            "hideInternalJournals": "Kan ikke se interne notater",
+            "hideInternalJournalsHelp": "Ansatte med denne rollen ser ikke notater merket som interne, med mindre de har skrevet dem selv. Har en ansatt flere roller, er det nok at én av dem er merket.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
@@ -11065,6 +11100,8 @@
                 "checkinOut": "Sjekk inn/ut",
                 "chooseNotificationDepartments": "Velg hvilke avdelinger du vil motta varsler fra",
                 "citizensDisplay": "@.capitalize:terms.citizenDefinite{'s'} visning",
+                "citizensDisplayRoles": "Hvem kan se feltene",
+                "citizensDisplayRolesHelp": "Velg roller for et felt for å vise det bare for dem. Tomt betyr alle som kan åpne brukeren. Administratorer ser alltid feltene som vises.",
                 "city": "By",
                 "companyLogo": "Firmalogo",
                 "companyName": "Firmanavn",
@@ -11323,6 +11360,7 @@
             "profile": "Profil",
             "relationships": "Forhold",
             "dischargeReasons": "Avslutningsårsaker",
+            "goalTypes": "Måltyper",
             "roles": "Roller",
             "rooms": "Rom",
             "scheduleTags": "Vaktplan tagger",
@@ -16919,6 +16957,58 @@
             "result": "{added} lagt til, {skipped} fantes allerede"
         }
     },
+    "hrDetails": {
+        "title": "HR-opplysninger",
+        "groups": {
+            "contact": "Kontakt",
+            "person": "Person",
+            "employment": "Ansettelse",
+            "work": "Arbeid",
+            "bank": "Lønn og bank"
+        },
+        "fields": {
+            "privateEmail": "Privat e-post",
+            "privatePhone": "Privat telefon",
+            "workPhone": "Arbeidstelefon",
+            "gender": "Kjønn",
+            "nationality": "Nasjonalitet",
+            "manager": "Nærmeste leder",
+            "daysPerWeek": "Antall arbeidsdager per uke",
+            "pensionStartDate": "Oppstart pensjonsordning",
+            "lunchScheme": "Lunsjordning",
+            "flexJob": "Fleksjobb",
+            "section56": "§56",
+            "threeMonthInterviewAt": "3-måneders samtale gjennomført",
+            "terminationReason": "Fratredelsesårsak",
+            "simCard": "SIM-kort",
+            "otherWork": "Annet arbeid",
+            "workingHoursComment": "Kommentar til arbeidstider",
+            "notWorkWith": "Ønsker ikke å jobbe med",
+            "taxCardType": "Skattekort",
+            "bankRegNo": "Reg.nr.",
+            "bankAccountNo": "Kontonr.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Kvinne",
+            "male": "Mann",
+            "other": "Annet"
+        },
+        "taxCards": {
+            "main": "Hovedkort",
+            "secondary": "Bikort",
+            "self_employed": "Selvstendig"
+        },
+        "yes": "Ja",
+        "no": "Nei",
+        "unset": "Ikke oppgitt",
+        "select": "Velg",
+        "bankAdminOnly": "Bankopplysninger kan bare endres av en administrator",
+        "alert": {
+            "saved": "HR-opplysningene er lagret",
+            "saveFailed": "HR-opplysningene kunne ikke lagres"
+        }
+    },
     "consultantProfile": {
         "title": "Konsulentprofil",
         "ready": "Konsulenten kan settes på en sak",
@@ -16963,7 +17053,8 @@
             "miscellaneous": "Annet",
             "passport": "Pass",
             "cv": "CV",
-            "education": "Utdanningspapirer"
+            "education": "Utdanningspapirer",
+            "work_permit": "Arbeids- og oppholdstillatelse"
         },
         "findings": {
             "document_missing": "{document} mangler",
@@ -17039,6 +17130,9 @@
         "clear": "Nullstill",
         "noConsultants": "Ingen konsulenter funnet.",
         "notReady": "Kan ikke settes på sak",
+        "archived": "Arkivert",
+        "archivedHint": "Reaktiveres med en lisens når konsulenten velges til saken",
+        "nameSearch": "Søk konsulent på navn",
         "openProfile": "Åpne profil",
         "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
         "matches": {
@@ -17790,7 +17884,7 @@
         },
         "tab": "Trivsel",
         "title": "Trivsel",
-        "description": "Trivselsmålinger fra 0 til 10 for innbyggeren og relaterte innbyggere, f.eks. søsken på samme tiltak. Hver måling har den som ga den og datoen den ble mottatt. Målinger fra rapporter med nøkkelen \"trivsel\" vises også her.",
+        "description": "Trivselsmålinger fra 0 til 10 for innbyggeren, relaterte innbyggere, f.eks. søsken på samme tiltak, og innbyggerens kontakter, f.eks. foreldre. Hver måling har den som ga den og datoen den ble mottatt. Målinger fra rapporter med nøkkelen \"trivsel\" vises også her.",
         "primary": "Hovedperson",
         "latest": "Siste",
         "add": "Ny måling",
@@ -17806,7 +17900,9 @@
         "removeConfirmation": "Er du sikker på at du vil fjerne denne målingen",
         "saveFailed": "Målingen kunne ikke lagres",
         "removeFailed": "Målingen kunne ikke fjernes",
-        "noRelations": "Søsken og andre relaterte innbyggere vises her når de er koblet under",
+        "noRelations": "Søsken, andre relaterte innbyggere og kontakter vises her når de er koblet under",
+        "or": "eller",
+        "contact": "Kontakt",
         "raters": {
             "caseworker": "Saksbehandler",
             "mother": "Mor",
@@ -18346,5 +18442,9 @@
             "required": "Svar på spørsmålene merket med *.",
             "failed": "Noe gikk galt. Prøv igjen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytt {column} opp",
+        "moveDown": "Flytt {column} ned"
     }
 }

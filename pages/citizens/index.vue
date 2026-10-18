@@ -412,60 +412,64 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="20%" v-if="state.visibleColumns.includes('email')">
-                                        <p v-if="citizen?.email">{{ citizen?.email }}</p>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('ssn')">
-                                        <span>{{ citizen?.social_security_number }}</span>
-                                        <!-- The case number sits under the CPR rather than in a column
-                                             of its own: only the customers who migrated from another
-                                             system have one, and an always-empty column costs every
-                                             other customer a column's width. -->
-                                        <p v-if="citizen?.case_number" class="text-xxs text-gray-500">
-                                            {{ $t('citizens.table.caseNumber') }}: {{ citizen.case_number }}
-                                        </p>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('phone')">
-                                        <span>{{ citizen?.phone }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('section')">
-                                        <span>{{ citizen?.section?.label }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('municipality')">
-                                        <span>{{ citizen?.responsible_municipality?.name }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('coordinator')">
-                                        <span v-if="citizen?.coordinator_name">{{ citizen.coordinator_name }}</span>
-                                        <span v-else-if="citizen?.primary_case_worker">
-                                            {{ citizen.primary_case_worker.firstname }}
-                                            {{ citizen.primary_case_worker.lastname }}
-                                        </span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('consultant')">
-                                        <span>{{ citizen?.consultant?.name }}</span>
-                                    </td>
-                                    <td width="12%" v-if="state.visibleColumns.includes('startup_status')">
-                                        <span v-if="citizen?.startup_status"
-                                            class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-semibold"
-                                            :class="startupStatusClass(citizen.startup_status)">
-                                            {{ $t(`citizens.table.startupStatuses.${citizen.startup_status}`) }}
-                                        </span>
-                                    </td>
-                                    <td width="10%" v-if="state.visibleColumns.includes('phase')">
-                                        <span v-if="citizen?.phase">{{ $t(`citizens.table.phases.${citizen.phase}`) }}</span>
-                                    </td>
-                                    <td width="10%" v-if="state.visibleColumns.includes('scope')">
-                                        <span>{{ formatScope(citizen) }}</span>
-                                    </td>
-                                    <td width="12%" v-if="state.visibleColumns.includes('geography')">
-                                        <span>{{ [citizen?.region_name, citizen?.address?.post_code].filter(Boolean).join(', ') }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('department')">
-                                        <span>{{ citizen?.departments?.map((d: any) => d?.name).join(', ') }}</span>
-                                    </td>
-                                    <td width="12%" v-if="state.visibleColumns.includes('admitted')">
-                                        <span>{{ citizen?.date_admitted }}</span>
-                                    </td>
+                                    <!-- The optional cells follow the order the user chose, the same
+                                         list the headers are built from, so they always line up. -->
+                                    <template v-for="column in state.visibleColumns" :key="column">
+                                        <td width="20%" v-if="column === 'email'">
+                                            <p v-if="citizen?.email">{{ citizen?.email }}</p>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'ssn'">
+                                            <span>{{ citizen?.social_security_number }}</span>
+                                            <!-- The case number sits under the CPR rather than in a column
+                                                 of its own: only the customers who migrated from another
+                                                 system have one, and an always-empty column costs every
+                                                 other customer a column's width. -->
+                                            <p v-if="citizen?.case_number" class="text-xxs text-gray-500">
+                                                {{ $t('citizens.table.caseNumber') }}: {{ citizen.case_number }}
+                                            </p>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'phone'">
+                                            <span>{{ citizen?.phone }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'section'">
+                                            <span>{{ citizen?.section?.label }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'municipality'">
+                                            <span>{{ citizen?.responsible_municipality?.name }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'coordinator'">
+                                            <span v-if="citizen?.coordinator_name">{{ citizen.coordinator_name }}</span>
+                                            <span v-else-if="citizen?.primary_case_worker">
+                                                {{ citizen.primary_case_worker.firstname }}
+                                                {{ citizen.primary_case_worker.lastname }}
+                                            </span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'consultant'">
+                                            <span>{{ citizen?.consultant?.name }}</span>
+                                        </td>
+                                        <td width="12%" v-else-if="column === 'startup_status'">
+                                            <span v-if="citizen?.startup_status"
+                                                class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-semibold"
+                                                :class="startupStatusClass(citizen.startup_status)">
+                                                {{ $t(`citizens.table.startupStatuses.${citizen.startup_status}`) }}
+                                            </span>
+                                        </td>
+                                        <td width="10%" v-else-if="column === 'phase'">
+                                            <span v-if="citizen?.phase">{{ $t(`citizens.table.phases.${citizen.phase}`) }}</span>
+                                        </td>
+                                        <td width="10%" v-else-if="column === 'scope'">
+                                            <span>{{ formatScope(citizen) }}</span>
+                                        </td>
+                                        <td width="12%" v-else-if="column === 'geography'">
+                                            <span>{{ [citizen?.region_name, citizen?.address?.post_code].filter(Boolean).join(', ') }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'department'">
+                                            <span>{{ citizen?.departments?.map((d: any) => d?.name).join(', ') }}</span>
+                                        </td>
+                                        <td width="12%" v-else-if="column === 'admitted'">
+                                            <span>{{ citizen?.date_admitted }}</span>
+                                        </td>
+                                    </template>
                                     <td width="20%">
                                         <div class="flex items-center justify-end gap-1.5">
                                             <Tooltip v-if="isInterventionCheckinEnabled"
@@ -733,7 +737,14 @@ function formatScope(citizen: any) {
     return ''
 }
 
+// The user's own order is kept; only keys this page no longer knows are
+// dropped. Headers and cells are both built from this list, so they line up.
+function normalizeColumns(columns: string[]): string[] {
+    return columns.filter((key, index) => key in OPTIONAL_COLUMN_HEADERS && columns.indexOf(key) === index)
+}
+
 function rebuildColumnHeaders() {
+    state.visibleColumns = normalizeColumns(state.visibleColumns)
     state.columnHeaders = [
         { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
         ...state.visibleColumns.map((key) => OPTIONAL_COLUMN_HEADERS[key]).filter(Boolean),
@@ -744,6 +755,7 @@ function rebuildColumnHeaders() {
 async function saveVisibleColumns(columns: string[]) {
     state.visibleColumns = columns
     rebuildColumnHeaders()
+    columns = state.visibleColumns
     state.modal.isColumnsOpen = false
     try {
         await userService.updateCitizensListColumns(columns)
