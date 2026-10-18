@@ -1303,9 +1303,27 @@ function insertJournalContent(html: string) {
             model.change((writer: any) => writer.setSelection(writer.createPositionAt(model.document.getRoot(), 'end')))
         }
         const fragment = contentEditor.data.toModel(contentEditor.data.processor.toView(html))
-        model.insertContent(fragment)
+        const range = model.insertContent(fragment)
+        keepWordsApart(model, range)
     }
     state.userPredefinedContents = true
+}
+
+// Inserted text that lands against a word on either side would run into it
+// ("serum" + "Slut."), so a space goes in where one is missing. Punctuation
+// is left alone: no space before a full stop or after an opening bracket.
+function keepWordsApart(model: any, range: any) {
+    if (!range) return
+    const edge = (node: any, last: boolean) => {
+        if (!node || !node.is('$text')) return ''
+        return last ? node.data.slice(-1) : node.data.slice(0, 1)
+    }
+    const after = edge(range.end.nodeAfter, false)
+    const before = edge(range.start.nodeBefore, true)
+    model.change((writer: any) => {
+        if (after && !/[\s.,;:!?)\]}]/.test(after)) writer.insertText(' ', range.end)
+        if (before && !/[\s(\[{]/.test(before)) writer.insertText(' ', range.start)
+    })
 }
 
 const triggerContentFileInput = () => {
