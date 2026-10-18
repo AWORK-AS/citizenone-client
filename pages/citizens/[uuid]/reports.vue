@@ -132,6 +132,13 @@
                             </div>
                         </div>
 
+                        <!-- The CPR is still a placeholder: whoever wrote the report could not
+                             see it. It is merged in when someone who can finalises the report. -->
+                        <p v-if="state.viewReport.status === 'draft' && state.viewReport.cpr_pending"
+                            class="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-800">
+                            <Icon name="ph:lock-simple" class="mt-0.5 size-4 shrink-0" aria-hidden="true" />
+                            {{ $t('citizenReports.cprPending') }}
+                        </p>
                         <div>
                             <p class="text-sm font-medium text-gray-700 mb-2">{{ $t('citizenReports.form.body') }}</p>
                             <div class="prose prose-sm max-w-none rounded-lg border border-gray-200 bg-gray-50 p-4"

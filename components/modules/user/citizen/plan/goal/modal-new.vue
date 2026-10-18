@@ -68,6 +68,8 @@ async function saveGoal(goalDetails: any) {
             enable_reminder: goalDetails.enable_reminder,
             completion_date: goalDetails.completion_date,
             score: goalDetails.score,
+            goal_type_uuid: goalDetails.goal_type_uuid ?? null,
+            focus_area_uuid: goalDetails.focus_area_uuid ?? null,
         }
         const response = await goalService.saveGoal(params)
         if (response?.data) {
