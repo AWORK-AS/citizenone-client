@@ -157,6 +157,17 @@
                                 {{ $t('citizens.citizenJournals.form.draft') }}
                             </div>
                         </div>
+                        <!-- Internal notes are hidden from the roles an Admin has marked "cannot see
+                             internal notes". The note is the current user's own, so they may set it. -->
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formJournal.is_internal = !state.formJournal.is_internal">
+                                <FormCheckbox id="is_internal" :value="state.formJournal.is_internal" />
+                                {{ $t('citizens.citizenJournals.form.internal') }}
+                            </div>
+                            <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.internalHelp') }}</p>
+                            <FormError :error="state.error?.errors?.is_internal?.[0]" />
+                        </div>
                         <div class="grid grid-cols-2 gap-3 mt-6">
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                 {{ $t('cancel') }}
@@ -241,6 +252,7 @@ const state = reactive({
         content: '',
         journal_note_tags: [] as string[],
         is_draft: false,
+        is_internal: false,
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
@@ -312,6 +324,7 @@ function resetForm() {
         content: '',
         journal_note_tags: [],
         is_draft: false,
+        is_internal: false,
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
@@ -508,6 +521,7 @@ async function saveJournal() {
             content: state.formJournal.content,
             journal_note_tags_uuid: state.formJournal.journal_note_tags,
             is_draft: state.formJournal.is_draft,
+            is_internal: state.formJournal.is_internal,
             copy_journal_note_to_plan_or_goal_or_subgoal: state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
             assessment: state.formJournal.assessment,
             risk_assessment_tags_uuid: state.formJournal.risk_assessment_tags,

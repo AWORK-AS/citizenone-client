@@ -1,4 +1,26 @@
 {
+    "nps": {
+        "question": "How likely are you to recommend CitizenOne to a colleague?",
+        "unlikely": "Not at all likely",
+        "likely": "Extremely likely",
+        "notNow": "Not now",
+        "comment": "What is the main reason for your score?",
+        "commentDetractor": "What should we do better?",
+        "commentLabel": "Your comment",
+        "commentPlaceholder": "Optional",
+        "back": "Back",
+        "send": "Send",
+        "thanks": "Thank you for your answer",
+        "thanksDetractor": "Someone from our team will get in touch to hear more.",
+        "reviewInvite": "Would you share your experience with others? A review on Trustpilot helps other organisations choose.",
+        "reviewCta": "Write a review",
+        "error": "Your answer could not be sent. Please try again."
+},
+    "citizenoneAttribution": {
+        "portal": "This portal is provided by CitizenOne, the journal system for care and health services.",
+        "setting": "Show \"Made with CitizenOne\" on what you send out",
+        "settingHint": "A short line linking to citizenone.dk at the bottom of PDFs, mails to relatives and external parties, and in the portals."
+    },
     "guestDocuments": {
         "title": "Shared documents",
         "enterPassword": "Enter the password you received from the sender to open the documents.",
@@ -144,6 +166,7 @@
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
         "stepsProgress": "{done} of {total} steps completed",
+        "pill": "Get started {done}/{total}",
         "nextStep": "Next step",
         "demoData": {
             "title": "Explore with demo @:terms.citizens{''}",
@@ -186,6 +209,11 @@
             "cases": "Cases & jobcentre"
         },
         "steps": {
+            "firstNote": {
+                "title": "Write your first journal note",
+                "desc": "Write a note on one of the example people or one of your own. With Cody you can dictate the note instead of typing it.",
+                "cta": "Write note"
+            },
             "departments": {
                 "title": "Create departments",
                 "desc": "Departments structure staff, journals and the duty schedule.",
@@ -263,9 +291,9 @@
                 "cta": "Go to Case types"
             },
             "jobcenters": {
-                "title": "Add jobcentres",
-                "desc": "Register the jobcentres you work with, so referrals can be attached.",
-                "cta": "Go to Jobcentres"
+                "title": "Add customers and suppliers",
+                "desc": "Register the customers and suppliers you work with, so referrals can be attached.",
+                "cta": "Go to Customers and suppliers"
             },
             "journalTitles": {
                 "title": "Journal templates",
@@ -977,6 +1005,60 @@
             "archivedGoals": "Archived goals",
             "archivedPlans": "Archived plans",
             "archivedSubgoals": "Archived subgoals"
+        }
+    },
+    "cody": {
+        "adoption": {
+            "headline": "Give your team time back with Cody",
+            "headlineBody": "Cody saves 2.37 hours of administration per employee per day on average, measured among active users.",
+            "tryFree": "Try Cody free for 14 days",
+            "tryFreeShort": "Try free for 14 days",
+            "readMore": "Read more",
+            "enableTitle": "Give your team time back with Cody",
+            "turnOn": "Turn on Cody",
+            "trialLeft": "Cody trial: {count} day left | Cody trial: {count} days left",
+            "buy": "Buy Cody",
+            "requestTitle": "Want Cody?",
+            "requestBody": "Ask your administrator to turn it on.",
+            "askAdmin": "Ask your administrator to turn on Cody",
+            "sent": "Sent to your administrator",
+            "noAdmin": "We could not find an administrator to send this to.",
+            "requestFailed": "That did not work. Please try again shortly.",
+            "promptTitle": "Bring Cody into your day",
+            "goToStore": "Go to the App Store",
+            "thenAmount": "Then {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Try free for {days} days",
+        "quoting": "Fetching price...",
+        "quoteFailed": "We could not fetch the price. Please try again.",
+        "priceChanged": "The price is now {amount}. Confirm to continue.",
+        "confirmPrice": "Confirm and continue",
+        "finePrint": "Free until {date}. Then {amount} per {period}. Cancel any time before. The card is charged automatically on {charge} unless you cancel before.",
+        "perMonth": "month",
+        "perYear": "year",
+        "frequency": "Billing period",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "seats": "Number of users",
+        "activeTitle": "Free trial",
+        "freeUntil": "Free until {date}",
+        "firstCharge": "First payment {date}: {amount}",
+        "cancel": "Cancel the trial",
+        "cancelTitle": "Cancel the trial?",
+        "cancelBody": "You can use the app for free until {date}. Nothing is charged after that. You can undo this while the trial is running.",
+        "cancelled": "The trial is cancelled and ends {date}.",
+        "undo": "Undo",
+        "chargeFailedTitle": "The payment failed",
+        "chargeFailedBody": "We could not charge the payment after the trial. Check your payment card and we will try again.",
+        "chargeFailedLink": "Go to subscription and billing",
+        "failed": "That did not work. Please try again.",
+        "superadmin": {
+            "enabled": "Free trial",
+            "days": "Number of days",
+            "daysHint": "Between 4 and 90 days. The customer must save a card, and the trial converts to paid automatically.",
+            "blockedHint": "Not available for third party apps and one-time-fee apps."
         }
     },
     "assistants": {
@@ -1821,6 +1903,8 @@
                 },
                 "date": "Date",
                 "draft": "Draft",
+                "internal": "Internal note",
+                "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "aiGenerate": {
@@ -2377,6 +2461,7 @@
             "spokenLanguages": "Languages the @:terms.citizen{''} speaks",
             "spokenLanguagesDescription": "Select the languages the @:terms.citizen{''} can speak. This is not the same as the system language.",
             "ssnPlaceholder": "ddmmyy-xxxx",
+            "hiddenForRole": "Hidden for your role",
             "ssn": "CPR number",
             "stayData": {
                 "accommodationEndDate": "Accommodation end date",
@@ -2496,6 +2581,10 @@
             "reportingFrequency": "Reporting to the authority",
             "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
             "reportingStartsOn": "First report",
+            "reportDraftDaysBefore": "Internal draft, days before",
+            "reportDraftDaysBeforePlaceholder": "E.g. 7",
+            "reportDraftDaysBeforeHint": "Sends a \"Report draft\" reminder this many days before each reporting date, so the draft can be reviewed internally. Leave empty for no reminder.",
+            "reportDraftDaysBeforeValue": "{days} days before",
             "reportingOptions": {
                 "biweekly": "Every two weeks",
                 "everySixMonths": "Every six months",
@@ -3558,7 +3647,7 @@
             "caseNumber": "Case number",
             "columns": {
                 "columns": "Columns",
-                "hint": "Choose which columns to show in the overview."
+                "hint": "Tick the columns you want to see and drag them into the order you want."
             },
             "coordinator": "Coordinator",
             "department": "Department",
@@ -4346,9 +4435,11 @@
         "searchPlaceholder": "Search by name, CPR or case number",
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
+            "badgeIntake": "Intake coordinator",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
+            "intake": "Intake coordinator",
             "notSet": "Not set",
             "primary": "Primary coordinator",
             "saved": "The coordinators have been saved",
@@ -4414,6 +4505,34 @@
             "averageDays": "Avg {days} days",
             "averageHint": "Average length from start to end"
         }
+    },
+    "goalTypes": {
+        "title": "Goal types",
+        "single": "Goal type",
+        "none": "None",
+        "description": "The kinds of goals you work with, as a list you keep. The type is picked on the goal, so goals can be grouped and counted by type.",
+        "add": "Add",
+        "addHint": "Add a type that can be picked on a goal",
+        "empty": "There are no goal types yet.",
+        "form": {
+            "name": "Name",
+            "namePlaceholder": "E.g. Development goal"
+        },
+        "actions": {
+            "switchOff": "Switch the type off",
+            "switchOn": "Switch the type on",
+            "rename": "Rename",
+            "delete": "Delete"
+        },
+        "alert": {
+            "saveFailed": "Could not be saved",
+            "deleted": "The goal type is deleted",
+            "deleteFailed": "The goal type could not be deleted"
+        },
+        "vumTheme": "VUM theme",
+        "vumThemeHint": "The VUM theme the goal works on. The category comes with the theme.",
+        "typeHint": "Pick a type from your list of goal types",
+        "noTypes": "There are no goal types yet. They are created under Settings."
     },
     "client": {
         "appointments": "Appointments",
@@ -7324,7 +7443,8 @@
             "mileageLog": "Mileage Log",
             "timeLogs": "Time Logs",
             "monthlySheet": "Monthly sheet",
-            "consultantProfile": "Consultant profile"
+            "consultantProfile": "Consultant profile",
+            "hrDetails": "HR details"
         },
         "timeLogs": "Time Logs",
         "viewEmployee": "View employee",
@@ -10425,6 +10545,7 @@
         "draft": "Draft",
         "editReport": "Edit report",
         "finalize": "Finalize",
+        "cprPending": "The CPR number is not filled in yet because your role has no access to CPR. It is filled in when a colleague with access finalises the report.",
         "finalized": "Finalized",
         "newReport": "New report",
         "publicLink": "Public link",
@@ -10746,6 +10867,8 @@
             "permissions": "Permissions",
             "pages": "Page access",
             "level": "Level",
+            "hideInternalJournals": "Cannot see internal notes",
+            "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -11105,6 +11228,8 @@
                 "checkinOut": "Check in/out",
                 "chooseNotificationDepartments": "Choose which departments you want notifications from",
                 "citizensDisplay": "@.capitalize:terms.citizen{''}'s display",
+                "citizensDisplayRoles": "Who may see the fields",
+                "citizensDisplayRolesHelp": "Choose roles for a field to show it only to them. Empty means everyone who can open the citizen. Administrators always see the fields shown.",
                 "city": "City",
                 "companyLogo": "Company logo",
                 "companyName": "Company name",
@@ -11363,6 +11488,7 @@
             "profile": "Profile",
             "relationships": "Relationships",
             "dischargeReasons": "Discharge reasons",
+            "goalTypes": "Goal types",
             "roles": "Roles",
             "rooms": "Rooms",
             "scheduleTags": "Schedule tags",
@@ -11382,7 +11508,7 @@
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
-            "employmentJobcenters": "Jobcenters",
+            "employmentJobcenters": "Customers and suppliers",
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
@@ -12007,6 +12133,46 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "nps": {
+            "title": "Recommendations (NPS)",
+            "subtitle": "Answers from admins in the last 90 days. NPS = share of 9-10 minus share of 0-6.",
+            "nps": "NPS",
+            "answers": "Answers",
+            "promoters": "Promoters (9-10)",
+            "detractors": "Detractors (0-6)",
+            "reviewClicks": "Clicks to Trustpilot",
+            "empty": "No answers yet.",
+            "score": "Score",
+            "company": "Company",
+            "comment": "Comment",
+            "reviewClicked": "To Trustpilot",
+            "date": "Date",
+            "yes": "Yes",
+            "band": {
+                "promoter": "promoter",
+                "passive": "passive",
+                "detractor": "detractor"
+            }
+    },
+        "funnel": {
+            "title": "Growth funnel",
+            "subtitle": "Companies that signed up in the period, per signup channel, and how far they got: own citizens, first note and paying.",
+            "stages": {
+                "signed_up": "Signed up",
+                "activated": "Own citizens",
+                "first_note": "First note",
+                "paying": "Paying"
+            },
+            "ofSignups": "of signups",
+            "medianDays": "median {days} days",
+            "channel": "Channel",
+            "toPaying": "To paying",
+            "biggestDrop": "Biggest drop",
+            "smallSample": "few signups",
+            "all": "All",
+            "empty": "No signups in the period.",
+            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time."
+        },
         "roadmap": {
             "title": "Roadmap",
             "intro": "The functions all users see under \"Coming functions\" in the profile menu. Only published items are shown.",
@@ -12644,6 +12810,7 @@
             "source": {
                 "all": "All sources",
                 "share": "Shared by a customer",
+                "product": "From the product (PDF, mail, portal)",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
                 "referral": "Referral",
@@ -12797,6 +12964,7 @@
                 "allCollecting": "Every agreement is collecting"
             },
             "tabs": {
+                "funnel": "Growth",
                 "overview": "Overview",
                 "report": "Report",
                 "management": "Management"
@@ -13203,6 +13371,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "nps": "Recommendations (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
             "appCategories": "App categories",
@@ -15294,7 +15463,7 @@
         "jobcenters": {
             "addNewJobcenter": "Add new {term}",
             "editJobcenter": "Edit {term}",
-            "jobcenters": "Job centers",
+            "jobcenters": "Customers and suppliers",
             "newJobcenter": "New {term}",
             "form": {
                 "alert": {
@@ -15947,6 +16116,7 @@
         },
         "distribution": "How cases are spread",
         "distributionUnassigned": "{count} with no coordinator",
+        "distributionIntake": "{count} intake",
         "distributionPrimary": "{count} primary",
         "distributionSecondary": "{count} secondary"
     },
@@ -16673,6 +16843,11 @@
             "noDepartmentYet": "No department chosen yet",
             "newPeriod": "New contract period",
             "editPeriod": "Edit contract period",
+            "cancelled": "Contract cancelled",
+            "cancelledAt": "Cancelled on",
+            "cancelledOn": "Cancelled {date}",
+            "cancelledHelp": "Record when notice was given on the contract. Billing still follows the period end date.",
+            "cancellationNote": "Cancellation note",
             "agreedPrice": "Agreed price",
             "grantedHours": "Granted hours",
             "billingFrequency": "Billing frequency",
@@ -16973,12 +17148,16 @@
             "saveFailed": "The fields could not be saved"
         }
     },
+    "citizenFields": {
+        "title": "Fields from the inquiry"
+    },
     "inquiryFieldSettings": {
         "title": "Inquiry fields",
         "description": "Decide what has to be recorded, and which stage it belongs to. A required field has to be filled in before the inquiry can move on from its stage - moving back is always allowed.",
         "addField": "Add field",
         "editField": "Edit field",
         "inactive": "Off",
+        "carriedBadge": "Carried to the case",
         "noFieldsInStage": "No fields in this stage.",
         "fieldCount": "{count} fields",
         "actions": {
@@ -17008,6 +17187,8 @@
             "helpTextPlaceholder": "Shown below the field",
             "isRequired": "Required to leave the stage",
             "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
+            "carryToCitizen": "Carried over to the case",
+            "carryToCitizenHint": "When the inquiry becomes a case, the answer is also kept as a field on the case, where it can be seen and edited later.",
             "isActive": "Active",
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
@@ -17038,7 +17219,7 @@
             "consultant_skills": "Consultant skills (all)",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
-            "jobcenters": "Jobcenters",
+            "jobcenters": "Customers and suppliers",
             "focus_areas": "Focus areas (VUM, adults)",
             "customer_departments": "Customers and departments",
             "consultant_skills_competence": "Consultant skills: competences",
@@ -17138,6 +17319,58 @@
             "result": "{added} added, {skipped} already there"
         }
     },
+    "hrDetails": {
+        "title": "HR details",
+        "groups": {
+            "contact": "Contact",
+            "person": "Person",
+            "employment": "Employment",
+            "work": "Work",
+            "bank": "Pay and bank"
+        },
+        "fields": {
+            "privateEmail": "Private email",
+            "privatePhone": "Private phone",
+            "workPhone": "Work phone",
+            "gender": "Gender",
+            "nationality": "Nationality",
+            "manager": "Closest manager",
+            "daysPerWeek": "Working days per week",
+            "pensionStartDate": "Pension scheme start",
+            "lunchScheme": "Lunch scheme",
+            "flexJob": "Flex job",
+            "section56": "Section 56",
+            "threeMonthInterviewAt": "3-month interview held",
+            "terminationReason": "Reason for leaving",
+            "simCard": "SIM card",
+            "otherWork": "Other work",
+            "workingHoursComment": "Comment on working hours",
+            "notWorkWith": "Does not wish to work with",
+            "taxCardType": "Tax card",
+            "bankRegNo": "Reg. no.",
+            "bankAccountNo": "Account no.",
+            "cvr": "CVR"
+        },
+        "genders": {
+            "female": "Female",
+            "male": "Male",
+            "other": "Other"
+        },
+        "taxCards": {
+            "main": "Main card",
+            "secondary": "Secondary card",
+            "self_employed": "Self-employed"
+        },
+        "yes": "Yes",
+        "no": "No",
+        "unset": "Not specified",
+        "select": "Select",
+        "bankAdminOnly": "Bank details can only be changed by an administrator",
+        "alert": {
+            "saved": "HR details saved",
+            "saveFailed": "HR details could not be saved"
+        }
+    },
     "consultantProfile": {
         "title": "Consultant profile",
         "ready": "The consultant can be put forward for a case",
@@ -17182,7 +17415,8 @@
             "miscellaneous": "Other",
             "passport": "Passport",
             "cv": "CV",
-            "education": "Education papers"
+            "education": "Education papers",
+            "work_permit": "Work and residence permit"
         },
         "findings": {
             "document_missing": "{document} is missing",
@@ -17258,6 +17492,9 @@
         "clear": "Clear",
         "noConsultants": "No consultants found.",
         "notReady": "Cannot be put on a case",
+        "archived": "Archived",
+        "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
+        "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
         "matches": {
@@ -18012,7 +18249,7 @@
         },
         "tab": "Wellbeing",
         "title": "Wellbeing",
-        "description": "Wellbeing measurements from 0 to 10 for the citizen and related citizens, such as siblings on the same intervention. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
+        "description": "Wellbeing measurements from 0 to 10 for the citizen, related citizens such as siblings on the same intervention, and the citizen's contacts such as parents. Each measurement records who gave it and the date it was received. Measurements from reports with the key \"trivsel\" also appear here.",
         "primary": "Main person",
         "latest": "Latest",
         "add": "New measurement",
@@ -18028,7 +18265,9 @@
         "removeConfirmation": "Are you sure you want to remove this measurement",
         "saveFailed": "The measurement could not be saved",
         "removeFailed": "The measurement could not be removed",
-        "noRelations": "Siblings and other related citizens appear here once they are linked under",
+        "noRelations": "Siblings, other related citizens and contacts appear here once they are linked under",
+        "or": "or",
+        "contact": "Contact",
         "raters": {
             "caseworker": "Caseworker",
             "mother": "Mother",
@@ -18625,5 +18864,9 @@
         "evidence": "When you sign, the time, IP address and device are saved with the contract as evidence.",
         "loadFailed": "The contract could not be loaded. Please try again.",
         "pendingCount": "{count} waiting for a signature"
+    },
+    "tableColumns": {
+        "moveUp": "Move {column} up",
+        "moveDown": "Move {column} down"
     }
 }

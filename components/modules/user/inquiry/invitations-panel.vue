@@ -19,6 +19,10 @@
             <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
                     <p class="text-[13px] font-semibold text-slate-800">{{ consultantName(invitation) }}</p>
+                    <span v-if="invitation.consultant?.is_archived" :title="$t('consultantMatch.archivedHint')"
+                        class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-bold text-slate-600">
+                        {{ $t('consultantMatch.archived') }}
+                    </span>
                     <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(invitation.status)">
                         {{ $t('inquiryInvitations.statuses.' + invitation.status) }}
                     </span>

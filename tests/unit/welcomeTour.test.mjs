@@ -156,6 +156,31 @@ describe('checklistDone', () => {
     })
 })
 
+describe('checklistDone - import and first note', () => {
+    const care = { route: 'care_home_admin', steps: [
+        { key: 'citizens_added', done: false },
+        { key: 'journal_note_written', done: true },
+    ] }
+    const clinic = { route: 'clinic_admin', steps: [
+        { key: 'clients_added', done: true },
+        { key: 'journal_note_written', done: false },
+    ] }
+
+    test('the import step follows whether the company has people of its own', () => {
+        assert.equal(checklistDone(care, 'import'), false)
+        assert.equal(checklistDone(clinic, 'import'), true)
+    })
+    test('the first-note step follows the backend journal_note_written', () => {
+        assert.equal(checklistDone(care, 'firstNote'), true)
+        assert.equal(checklistDone(clinic, 'firstNote'), false)
+    })
+    test('staff have no mapping for them and fall back to the page', () => {
+        const staff = { route: 'staff', steps: [{ key: 'journal_note_written', done: true }] }
+        assert.equal(checklistDone(staff, 'import'), null)
+        assert.equal(checklistDone(staff, 'firstNote'), null)
+    })
+})
+
 describe('restartRoute', () => {
     test('the backend route wins', () => {
         assert.equal(restartRoute({ tour_route: 'clinic_admin' }, false), 'clinic_admin')

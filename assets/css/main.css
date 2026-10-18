@@ -270,6 +270,12 @@ table td {
 /* ----------------------------------------------------------------------------------------------------
     @vueform/multiselect
 ---------------------------------------------------------------------------------------------------- */
+/* Open lists show about ten options before they scroll, but never more than
+   60% of the viewport. The library's own default is 10rem (about 4 options). */
+.multiselect {
+    --ms-max-height: min(20rem, 60vh);
+}
+
 .multiselect {
     @apply border border-gray-200 rounded-lg min-h-11 !important;
 }
