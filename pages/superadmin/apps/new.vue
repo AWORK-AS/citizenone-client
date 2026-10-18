@@ -49,6 +49,8 @@ const state = reactive({
         is_recommended: false,
         is_news: false,
         url_field: '',
+        trial_enabled: false,
+        trial_days: 14,
     },
     isPageLoading: false,
 })
@@ -60,18 +62,24 @@ async function saveApp(appDetails: any) {
         let params = new FormData()
         params.append('name', appDetails.name)
         params.append('description', appDetails.description)
-        params.append('is_one_time_fee', appDetails.is_one_time_fee)
+        // FormData turns a boolean into the text "true"/"false", which Laravel's `boolean`
+        // rule refuses, so every flag goes as 1/0. Sent raw, no app could be saved at all.
+        params.append('is_one_time_fee', appDetails.is_one_time_fee ? '1' : '0')
         params.append('price', appDetails.price)
         params.append('monthly_price', appDetails.monthly_price)
         params.append('yearly_price', appDetails.yearly_price)
         params.append('type', appDetails.type)
-        params.append('is_free', appDetails.is_free)
-        params.append('is_quantifiable', appDetails.is_quantifiable)
-        params.append('is_thirdparty', appDetails.is_thirdparty)
-        params.append('is_popular', appDetails.is_popular)
-        params.append('is_recommended', appDetails.is_recommended)
-        params.append('is_news', appDetails.is_news)
+        params.append('is_free', appDetails.is_free ? '1' : '0')
+        params.append('is_quantifiable', appDetails.is_quantifiable ? '1' : '0')
+        params.append('is_thirdparty', appDetails.is_thirdparty ? '1' : '0')
+        params.append('is_popular', appDetails.is_popular ? '1' : '0')
+        params.append('is_recommended', appDetails.is_recommended ? '1' : '0')
+        params.append('is_news', appDetails.is_news ? '1' : '0')
         params.append('url_field', appDetails.url_field)
+        params.append('trial_enabled', appDetails.trial_enabled ? '1' : '0')
+        if (appDetails.trial_enabled) {
+            params.append('trial_days', String(appDetails.trial_days || 14))
+        }
         if (appDetails.background_image) {
             params.append('background_image', appDetails.background_image)
         }

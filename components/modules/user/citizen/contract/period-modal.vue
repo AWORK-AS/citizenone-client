@@ -337,6 +337,29 @@
                             </div>
                         </div>
 
+                        <!-- Notice given on the contract. Recorded only: the end date still decides what is billed. -->
+                        <div class="space-y-3 border-t border-surface-200 pt-5">
+                            <Tooltip :text="$t('socialWelfare.contract.cancelledHelp')" wrap position="top">
+                                <label class="flex items-center gap-2 text-sm font-medium text-slate-700">
+                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                        v-model="state.form.is_cancelled" @change="onCancelledToggle" />
+                                    {{ $t('socialWelfare.contract.cancelled') }}
+                                </label>
+                            </Tooltip>
+                            <div v-if="state.form.is_cancelled" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="space-y-1">
+                                    <FormLabel :label="$t('socialWelfare.contract.cancelledAt')" />
+                                    <input type="date" class="co-cell-input w-full" v-model="state.form.cancelled_at" required />
+                                    <FormError :error="state.error?.errors?.cancelled_at?.[0]" />
+                                </div>
+                                <div class="space-y-1 md:col-span-2">
+                                    <FormLabel :label="$t('socialWelfare.contract.cancellationNote')" />
+                                    <textarea rows="2" class="co-cell-input w-full" v-model="state.form.cancellation_note"></textarea>
+                                    <FormError :error="state.error?.errors?.cancellation_note?.[0]" />
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="space-y-1 border-t border-surface-200 pt-5">
                             <FormLabel :label="$t('socialWelfare.contract.note')" />
                             <textarea rows="2" class="co-cell-input w-full" v-model="state.form.note"></textarea>
@@ -418,6 +441,9 @@ const blank = () => ({
     economic_product_number: '',
     show_cpr_on_invoice: false,
     show_case_number_on_invoice: false,
+    is_cancelled: false,
+    cancelled_at: '',
+    cancellation_note: '',
     note: '',
     lines: [] as any[],
 })
@@ -513,6 +539,12 @@ function fieldVisibility(definition: ContractFieldDefinition): string {
     ].filter(Boolean).join(' · ') || t('socialWelfare.contract.fieldHidden')
 }
 
+function onCancelledToggle() {
+    if (state.form.is_cancelled && !state.form.cancelled_at) {
+        state.form.cancelled_at = new Date().toISOString().slice(0, 10)
+    }
+}
+
 function fromPeriod(source: any, asNew: boolean) {
     const form = blank()
 
@@ -542,6 +574,10 @@ function fromPeriod(source: any, asNew: boolean) {
     form.show_cpr_on_invoice = !!source.show_cpr_on_invoice
     form.show_case_number_on_invoice = !!source.show_case_number_on_invoice
     form.note = asNew ? '' : (source.note ?? '')
+    // Notice belongs to the period it was given on, never to the next one.
+    form.is_cancelled = !asNew && !!source.cancelled_at
+    form.cancelled_at = asNew ? '' : (source.cancelled_at ?? '')
+    form.cancellation_note = asNew ? '' : (source.cancellation_note ?? '')
 
     const { presets, custom } = splitLines(source.lines ?? [], asNew)
     state.presets = presets
@@ -682,6 +718,8 @@ function payload() {
         show_cpr_on_invoice: state.form.show_cpr_on_invoice,
         show_case_number_on_invoice: state.form.show_case_number_on_invoice,
         note: textOrNull(state.form.note),
+        cancelled_at: state.form.is_cancelled ? textOrNull(state.form.cancelled_at) : null,
+        cancellation_note: state.form.is_cancelled ? textOrNull(state.form.cancellation_note) : null,
         // Only sent once the user has confirmed; the API asks for it with a 422
         // when it is missing on a new period.
         ...(state.reviewConfirmed ? { review_confirmed: true } : {}),
