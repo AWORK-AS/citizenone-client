@@ -15,6 +15,11 @@
         "reviewInvite": "Vil du dele opplevelsen din med andre? En anmeldelse på Trustpilot hjelper andre tilbud med å velge.",
         "reviewCta": "Skriv en anmeldelse",
         "error": "Svaret kunne ikke sendes. Prøv igjen."
+},
+    "citizenoneAttribution": {
+        "portal": "Portalen leveres av CitizenOne, journalsystemet for omsorg og helse.",
+        "setting": "Vis \"Laget med CitizenOne\" på det dere sender ut",
+        "settingHint": "En kort linje med lenke til citizenone.dk nederst på PDF-er, e-post til pårørende og eksterne og i portalene."
     },
     "guestDocuments": {
         "title": "Delte dokumenter",
@@ -161,6 +166,7 @@
         "subtitle": "Her er din raske guide til å få CitizenOne satt opp og i gang for teamet ditt.",
         "whatDoYouNeed": "Hva trenger du?",
         "stepsProgress": "{done} av {total} trinn fullført",
+        "pill": "Kom i gang {done}/{total}",
         "nextStep": "Neste steg",
         "demoData": {
             "title": "Utforsk med demo-@:terms.citizens{''}",
@@ -203,6 +209,11 @@
             "cases": "Saker og NAV"
         },
         "steps": {
+            "firstNote": {
+                "title": "Skriv deres første journalnotat",
+                "desc": "Skriv et notat på en av eksempelpersonene eller en av deres egne. Med Cody kan dere diktere notatet i stedet for å skrive det.",
+                "cta": "Skriv notat"
+            },
             "departments": {
                 "title": "Opprett avdelinger",
                 "desc": "Avdelinger strukturerer personale, journaler og vaktplan.",
@@ -280,9 +291,9 @@
                 "cta": "Gå til Sakstyper"
             },
             "jobcenters": {
-                "title": "Legg til NAV-kontorer",
-                "desc": "Registrer kontorene dere samarbeider med, så henvisninger kan kobles på.",
-                "cta": "Gå til NAV-kontorer"
+                "title": "Legg til kunder og leverandører",
+                "desc": "Registrer kundene og leverandørene dere samarbeider med, så henvisninger kan kobles på.",
+                "cta": "Gå til Kunder og leverandører"
             },
             "journalTitles": {
                 "title": "Journalmaler",
@@ -994,6 +1005,60 @@
             "archivedGoals": "Arkiverte mål",
             "archivedPlans": "Arkiverte planer",
             "archivedSubgoals": "Arkiverte delmål"
+        }
+    },
+    "cody": {
+        "adoption": {
+            "headline": "Gi de ansatte tid tilbake med Cody",
+            "headlineBody": "Cody sparer i snitt 2,37 timer administrasjon per ansatt per dag, målt blant aktive brukere.",
+            "tryFree": "Prøv Cody gratis i 14 dager",
+            "tryFreeShort": "Prøv gratis i 14 dager",
+            "readMore": "Les mer",
+            "enableTitle": "Gi de ansatte tid tilbake med Cody",
+            "turnOn": "Slå på Cody",
+            "trialLeft": "Cody-prøveperiode: {count} dag igjen | Cody-prøveperiode: {count} dager igjen",
+            "buy": "Kjøp Cody",
+            "requestTitle": "Vil du ha Cody?",
+            "requestBody": "Be administratoren din om å slå den på.",
+            "askAdmin": "Be administratoren din slå på Cody",
+            "sent": "Sendt til administratoren deres",
+            "noAdmin": "Vi fant ingen administrator å sende dette til.",
+            "requestFailed": "Det gikk ikke. Prøv igjen om litt.",
+            "promptTitle": "Ta Cody med inn i hverdagen",
+            "goToStore": "Gå til App-butikken",
+            "thenAmount": "Deretter {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Prøv gratis i {days} dager",
+        "quoting": "Henter pris...",
+        "quoteFailed": "Vi kunne ikke hente prisen. Prøv igjen.",
+        "priceChanged": "Prisen er nå {amount}. Bekreft for å fortsette.",
+        "confirmPrice": "Bekreft og fortsett",
+        "finePrint": "Gratis til {date}. Deretter {amount} per {period}. Si opp når som helst før. Kortet belastes automatisk {charge}, med mindre du sier opp før.",
+        "perMonth": "måned",
+        "perYear": "år",
+        "frequency": "Betalingsperiode",
+        "monthly": "Månedlig",
+        "yearly": "Årlig",
+        "seats": "Antall brukere",
+        "activeTitle": "Gratis prøveperiode",
+        "freeUntil": "Gratis til {date}",
+        "firstCharge": "Første betaling {date}: {amount}",
+        "cancel": "Si opp prøveperioden",
+        "cancelTitle": "Si opp prøveperioden?",
+        "cancelBody": "Du kan bruke appen gratis til {date}. Etter det trekkes ingenting. Du kan angre mens prøven pågår.",
+        "cancelled": "Prøveperioden er sagt opp og slutter {date}.",
+        "undo": "Angre",
+        "chargeFailedTitle": "Betalingen mislyktes",
+        "chargeFailedBody": "Vi kunne ikke trekke betalingen etter prøveperioden. Sjekk betalingskortet deres, så prøver vi igjen.",
+        "chargeFailedLink": "Gå til abonnement og betaling",
+        "failed": "Det gikk ikke. Prøv igjen.",
+        "superadmin": {
+            "enabled": "Gratis prøveperiode",
+            "days": "Antall dager",
+            "daysHint": "Mellom 4 og 90 dager. Kunden må lagre et kort, og prøven går automatisk over i betaling.",
+            "blockedHint": "Ikke mulig for tredjepartsapper og apper med engangsbetaling."
         }
     },
     "assistants": {
@@ -2512,6 +2577,10 @@
             "reportingFrequency": "Rapportering til kommunen",
             "reportingFrequencyHint": "Oppretter en gjentakende påminnelse til alle på tiltaket med en pålogging.",
             "reportingStartsOn": "Første rapportering",
+            "reportDraftDaysBefore": "Internt utkast, dager før",
+            "reportDraftDaysBeforePlaceholder": "F.eks. 7",
+            "reportDraftDaysBeforeHint": "Sender en påminnelse \"Rapportutkast\" så mange dager før hver rapportering, slik at utkastet kan gjennomgås internt. Tomt betyr ingen påminnelse.",
+            "reportDraftDaysBeforeValue": "{days} dager før",
             "reportingOptions": {
                 "biweekly": "Hver 14. dag",
                 "everySixMonths": "Hvert halvår",
@@ -3574,7 +3643,7 @@
             "caseNumber": "Saksnummer",
             "columns": {
                 "columns": "Kolonner",
-                "hint": "Velg hvilke kolonner som skal vises i oversikten."
+                "hint": "Kryss av kolonnene du vil se, og dra dem i den rekkefølgen du vil ha dem."
             },
             "coordinator": "Koordinator",
             "department": "Avdeling",
@@ -4362,9 +4431,11 @@
         "searchPlaceholder": "Søk på navn, fødselsnummer eller saksnummer",
         "emptyListHint": "Ingen {citizens} funnet ennå. Bruk \"Ny {citizen}\" øverst, eller importer fra et annet system.",
         "coordinators": {
+            "badgeIntake": "Mottakskoordinator",
             "badgePrimary": "Primær koordinator",
             "badgeSecondary": "Sekundær koordinator",
             "hint": "Medarbeideren du setter her vises under Kontakter på {theCitizen}, og {theCitizen} vises under medarbeiderens tildelte {citizens}.",
+            "intake": "Mottakskoordinator",
             "notSet": "Ikke satt",
             "primary": "Primær koordinator",
             "saved": "Koordinatorene er lagret",
@@ -11391,7 +11462,7 @@
             "employmentStatusTypes": "Statustyper",
             "employmentCaseTypes": "Sakstyper",
             "employmentBillingRules": "Faktureringsregler",
-            "employmentJobcenters": "Jobbsentre",
+            "employmentJobcenters": "Kunder og leverandører",
             "employmentAgreements": "Avtaler",
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS",
@@ -11980,6 +12051,25 @@
                 "passive": "nøytral",
                 "detractor": "kritiker"
             }
+    },
+        "funnel": {
+            "title": "Vekst-trakt",
+            "subtitle": "Firmaer som registrerte seg i perioden, per registreringskanal, og hvor langt de har kommet: egne innbyggere, første notat og betaling.",
+            "stages": {
+                "signed_up": "Registrert",
+                "activated": "Egne innbyggere",
+                "first_note": "Første notat",
+                "paying": "Betaler"
+            },
+            "ofSignups": "av registrerte",
+            "medianDays": "median {days} dager",
+            "channel": "Kanal",
+            "toPaying": "Til betaling",
+            "biggestDrop": "Største frafall",
+            "smallSample": "få tall",
+            "all": "Alle",
+            "empty": "Ingen registreringer i perioden.",
+            "footnote": "Kohort: et firma teller i perioden det registrerte seg. Eksempeldata fra registreringen teller ikke. Betaler = aktivt Basis- eller Pro-abonnement i dag. Ukjent = opprettet før kildesporing (30.09.2026) eller av superadmin. Nyere perioder ser dårligere ut fordi firmaene har hatt kortere tid."
         },
         "roadmap": {
             "title": "Veikart",
@@ -12617,6 +12707,7 @@
             },
             "source": {
                 "all": "Alle kilder",
+                "product": "Fra produktet (PDF, e-post, portal)",
                 "search": "Søkemotor (organisk)",
                 "campaign": "Kampanje",
                 "referral": "Henvisning",
@@ -12770,6 +12861,7 @@
                 "allCollecting": "Alle avtaler blir krevd inn"
             },
             "tabs": {
+                "funnel": "Vekst",
                 "overview": "Oversikt",
                 "report": "Rapport",
                 "management": "Ledelse"
@@ -15167,7 +15259,7 @@
         "jobcenters": {
             "addNewJobcenter": "Legg til nytt {term}",
             "editJobcenter": "Rediger {term}",
-            "jobcenters": "Jobbsentre",
+            "jobcenters": "Kunder og leverandører",
             "newJobcenter": "Nytt {term}",
             "form": {
                 "alert": {
@@ -15816,6 +15908,7 @@
         },
         "distribution": "Fordeling av tiltak",
         "distributionUnassigned": "{count} uten koordinator",
+        "distributionIntake": "{count} i mottak",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære"
     },
@@ -16527,6 +16620,11 @@
             "noDepartmentYet": "Ingen avdeling valgt ennå",
             "newPeriod": "Ny kontraktperiode",
             "editPeriod": "Rediger kontraktperiode",
+            "cancelled": "Kontrakt oppsagt",
+            "cancelledAt": "Oppsagt den",
+            "cancelledOn": "Oppsagt {date}",
+            "cancelledHelp": "Registrer når kontrakten ble sagt opp. Faktureringen følger fortsatt periodens sluttdato.",
+            "cancellationNote": "Merknad til oppsigelsen",
             "agreedPrice": "Avtalt pris",
             "grantedHours": "Innvilgede timer",
             "billingFrequency": "Faktureringsfrekvens",
@@ -16819,12 +16917,16 @@
             "saveFailed": "Feltene kunne ikke lagres"
         }
     },
+    "citizenFields": {
+        "title": "Felter fra henvendelsen"
+    },
     "inquiryFieldSettings": {
         "title": "Felter i henvendelser",
         "description": "Bestem selv hvilke opplysninger som skal registreres, og hvilken fase de hører til. Et påkrevd felt må være fylt ut før henvendelsen kan flyttes videre fra fasen sin - bakover kan man alltid.",
         "addField": "Legg til felt",
         "editField": "Rediger felt",
         "inactive": "Slått av",
+        "carriedBadge": "Følger med til tiltaket",
         "noFieldsInStage": "Ingen felter i denne fasen.",
         "fieldCount": "{count} felter",
         "actions": {
@@ -16854,6 +16956,8 @@
             "helpTextPlaceholder": "Vises under feltet",
             "isRequired": "Påkrevd for å forlate fasen",
             "isRequiredHint": "Henvendelsen kan ikke flyttes framover før feltet er fylt ut.",
+            "carryToCitizen": "Følger med til tiltaket",
+            "carryToCitizenHint": "Når henvendelsen blir et tiltak, lagres svaret også som et felt på tiltaket, der det kan ses og endres senere.",
             "isActive": "Aktivt",
             "source": "Slå opp i",
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
@@ -16884,7 +16988,7 @@
             "consultant_skills": "Konsulentkompetanser (alle)",
             "inquiry_service_types": "Innsatstyper",
             "employees": "Ansatte",
-            "jobcenters": "Jobbsentre",
+            "jobcenters": "Kunder og leverandører",
             "focus_areas": "Fokusområder (VUM, voksne)",
             "customer_departments": "Kunder og avdelinger",
             "consultant_skills_competence": "Konsulentkompetanser: kompetanser",
@@ -18469,5 +18573,9 @@
             "required": "Svar på spørsmålene merket med *.",
             "failed": "Noe gikk galt. Prøv igjen."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Flytt {column} opp",
+        "moveDown": "Flytt {column} ned"
     }
 }

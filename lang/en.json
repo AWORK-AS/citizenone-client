@@ -15,6 +15,11 @@
         "reviewInvite": "Would you share your experience with others? A review on Trustpilot helps other organisations choose.",
         "reviewCta": "Write a review",
         "error": "Your answer could not be sent. Please try again."
+},
+    "citizenoneAttribution": {
+        "portal": "This portal is provided by CitizenOne, the journal system for care and health services.",
+        "setting": "Show \"Made with CitizenOne\" on what you send out",
+        "settingHint": "A short line linking to citizenone.dk at the bottom of PDFs, mails to relatives and external parties, and in the portals."
     },
     "guestDocuments": {
         "title": "Shared documents",
@@ -161,6 +166,7 @@
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
         "stepsProgress": "{done} of {total} steps completed",
+        "pill": "Get started {done}/{total}",
         "nextStep": "Next step",
         "demoData": {
             "title": "Explore with demo @:terms.citizens{''}",
@@ -203,6 +209,11 @@
             "cases": "Cases & jobcentre"
         },
         "steps": {
+            "firstNote": {
+                "title": "Write your first journal note",
+                "desc": "Write a note on one of the example people or one of your own. With Cody you can dictate the note instead of typing it.",
+                "cta": "Write note"
+            },
             "departments": {
                 "title": "Create departments",
                 "desc": "Departments structure staff, journals and the duty schedule.",
@@ -280,9 +291,9 @@
                 "cta": "Go to Case types"
             },
             "jobcenters": {
-                "title": "Add jobcentres",
-                "desc": "Register the jobcentres you work with, so referrals can be attached.",
-                "cta": "Go to Jobcentres"
+                "title": "Add customers and suppliers",
+                "desc": "Register the customers and suppliers you work with, so referrals can be attached.",
+                "cta": "Go to Customers and suppliers"
             },
             "journalTitles": {
                 "title": "Journal templates",
@@ -994,6 +1005,60 @@
             "archivedGoals": "Archived goals",
             "archivedPlans": "Archived plans",
             "archivedSubgoals": "Archived subgoals"
+        }
+    },
+    "cody": {
+        "adoption": {
+            "headline": "Give your team time back with Cody",
+            "headlineBody": "Cody saves 2.37 hours of administration per employee per day on average, measured among active users.",
+            "tryFree": "Try Cody free for 14 days",
+            "tryFreeShort": "Try free for 14 days",
+            "readMore": "Read more",
+            "enableTitle": "Give your team time back with Cody",
+            "turnOn": "Turn on Cody",
+            "trialLeft": "Cody trial: {count} day left | Cody trial: {count} days left",
+            "buy": "Buy Cody",
+            "requestTitle": "Want Cody?",
+            "requestBody": "Ask your administrator to turn it on.",
+            "askAdmin": "Ask your administrator to turn on Cody",
+            "sent": "Sent to your administrator",
+            "noAdmin": "We could not find an administrator to send this to.",
+            "requestFailed": "That did not work. Please try again shortly.",
+            "promptTitle": "Bring Cody into your day",
+            "goToStore": "Go to the App Store",
+            "thenAmount": "Then {amount}"
+        }
+    },
+    "appTrial": {
+        "tryFree": "Try free for {days} days",
+        "quoting": "Fetching price...",
+        "quoteFailed": "We could not fetch the price. Please try again.",
+        "priceChanged": "The price is now {amount}. Confirm to continue.",
+        "confirmPrice": "Confirm and continue",
+        "finePrint": "Free until {date}. Then {amount} per {period}. Cancel any time before. The card is charged automatically on {charge} unless you cancel before.",
+        "perMonth": "month",
+        "perYear": "year",
+        "frequency": "Billing period",
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "seats": "Number of users",
+        "activeTitle": "Free trial",
+        "freeUntil": "Free until {date}",
+        "firstCharge": "First payment {date}: {amount}",
+        "cancel": "Cancel the trial",
+        "cancelTitle": "Cancel the trial?",
+        "cancelBody": "You can use the app for free until {date}. Nothing is charged after that. You can undo this while the trial is running.",
+        "cancelled": "The trial is cancelled and ends {date}.",
+        "undo": "Undo",
+        "chargeFailedTitle": "The payment failed",
+        "chargeFailedBody": "We could not charge the payment after the trial. Check your payment card and we will try again.",
+        "chargeFailedLink": "Go to subscription and billing",
+        "failed": "That did not work. Please try again.",
+        "superadmin": {
+            "enabled": "Free trial",
+            "days": "Number of days",
+            "daysHint": "Between 4 and 90 days. The customer must save a card, and the trial converts to paid automatically.",
+            "blockedHint": "Not available for third party apps and one-time-fee apps."
         }
     },
     "assistants": {
@@ -2512,6 +2577,10 @@
             "reportingFrequency": "Reporting to the authority",
             "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
             "reportingStartsOn": "First report",
+            "reportDraftDaysBefore": "Internal draft, days before",
+            "reportDraftDaysBeforePlaceholder": "E.g. 7",
+            "reportDraftDaysBeforeHint": "Sends a \"Report draft\" reminder this many days before each reporting date, so the draft can be reviewed internally. Leave empty for no reminder.",
+            "reportDraftDaysBeforeValue": "{days} days before",
             "reportingOptions": {
                 "biweekly": "Every two weeks",
                 "everySixMonths": "Every six months",
@@ -3574,7 +3643,7 @@
             "caseNumber": "Case number",
             "columns": {
                 "columns": "Columns",
-                "hint": "Choose which columns to show in the overview."
+                "hint": "Tick the columns you want to see and drag them into the order you want."
             },
             "coordinator": "Coordinator",
             "department": "Department",
@@ -4362,9 +4431,11 @@
         "searchPlaceholder": "Search by name, CPR or case number",
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
+            "badgeIntake": "Intake coordinator",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
+            "intake": "Intake coordinator",
             "notSet": "Not set",
             "primary": "Primary coordinator",
             "saved": "The coordinators have been saved",
@@ -11396,7 +11467,7 @@
             "employmentStatusTypes": "Status Types",
             "employmentCaseTypes": "Case Types",
             "employmentBillingRules": "Billing Rules",
-            "employmentJobcenters": "Jobcenters",
+            "employmentJobcenters": "Customers and suppliers",
             "employmentAgreements": "Agreements",
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
@@ -12017,6 +12088,25 @@
                 "passive": "passive",
                 "detractor": "detractor"
             }
+    },
+        "funnel": {
+            "title": "Growth funnel",
+            "subtitle": "Companies that signed up in the period, per signup channel, and how far they got: own citizens, first note and paying.",
+            "stages": {
+                "signed_up": "Signed up",
+                "activated": "Own citizens",
+                "first_note": "First note",
+                "paying": "Paying"
+            },
+            "ofSignups": "of signups",
+            "medianDays": "median {days} days",
+            "channel": "Channel",
+            "toPaying": "To paying",
+            "biggestDrop": "Biggest drop",
+            "smallSample": "few signups",
+            "all": "All",
+            "empty": "No signups in the period.",
+            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time."
         },
         "roadmap": {
             "title": "Roadmap",
@@ -12654,6 +12744,7 @@
             },
             "source": {
                 "all": "All sources",
+                "product": "From the product (PDF, mail, portal)",
                 "search": "Search engine (organic)",
                 "campaign": "Campaign",
                 "referral": "Referral",
@@ -12807,6 +12898,7 @@
                 "allCollecting": "Every agreement is collecting"
             },
             "tabs": {
+                "funnel": "Growth",
                 "overview": "Overview",
                 "report": "Report",
                 "management": "Management"
@@ -15263,7 +15355,7 @@
         "jobcenters": {
             "addNewJobcenter": "Add new {term}",
             "editJobcenter": "Edit {term}",
-            "jobcenters": "Job centers",
+            "jobcenters": "Customers and suppliers",
             "newJobcenter": "New {term}",
             "form": {
                 "alert": {
@@ -15912,6 +16004,7 @@
         },
         "distribution": "How cases are spread",
         "distributionUnassigned": "{count} with no coordinator",
+        "distributionIntake": "{count} intake",
         "distributionPrimary": "{count} primary",
         "distributionSecondary": "{count} secondary"
     },
@@ -16623,6 +16716,11 @@
             "noDepartmentYet": "No department chosen yet",
             "newPeriod": "New contract period",
             "editPeriod": "Edit contract period",
+            "cancelled": "Contract cancelled",
+            "cancelledAt": "Cancelled on",
+            "cancelledOn": "Cancelled {date}",
+            "cancelledHelp": "Record when notice was given on the contract. Billing still follows the period end date.",
+            "cancellationNote": "Cancellation note",
             "agreedPrice": "Agreed price",
             "grantedHours": "Granted hours",
             "billingFrequency": "Billing frequency",
@@ -16915,12 +17013,16 @@
             "saveFailed": "The fields could not be saved"
         }
     },
+    "citizenFields": {
+        "title": "Fields from the inquiry"
+    },
     "inquiryFieldSettings": {
         "title": "Inquiry fields",
         "description": "Decide what has to be recorded, and which stage it belongs to. A required field has to be filled in before the inquiry can move on from its stage - moving back is always allowed.",
         "addField": "Add field",
         "editField": "Edit field",
         "inactive": "Off",
+        "carriedBadge": "Carried to the case",
         "noFieldsInStage": "No fields in this stage.",
         "fieldCount": "{count} fields",
         "actions": {
@@ -16950,6 +17052,8 @@
             "helpTextPlaceholder": "Shown below the field",
             "isRequired": "Required to leave the stage",
             "isRequiredHint": "The inquiry cannot move forward until the field is filled in.",
+            "carryToCitizen": "Carried over to the case",
+            "carryToCitizenHint": "When the inquiry becomes a case, the answer is also kept as a field on the case, where it can be seen and edited later.",
             "isActive": "Active",
             "source": "Look up in",
             "sourceHint": "The field takes its choices from a register you already maintain.",
@@ -16980,7 +17084,7 @@
             "consultant_skills": "Consultant skills (all)",
             "inquiry_service_types": "Service types",
             "employees": "Employees",
-            "jobcenters": "Jobcenters",
+            "jobcenters": "Customers and suppliers",
             "focus_areas": "Focus areas (VUM, adults)",
             "customer_departments": "Customers and departments",
             "consultant_skills_competence": "Consultant skills: competences",
@@ -18565,5 +18669,9 @@
             "required": "Answer the questions marked with *.",
             "failed": "Something went wrong. Try again."
         }
+    },
+    "tableColumns": {
+        "moveUp": "Move {column} up",
+        "moveDown": "Move {column} down"
     }
 }

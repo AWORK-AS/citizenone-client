@@ -485,6 +485,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useCitizenFieldVisibility } from '@/composables/useCitizenFieldVisibility'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useContinuity } from '@/composables/useContinuity'
@@ -510,7 +511,9 @@ const userStore = useUserStore() as any
 // Care plans, their follow-ups and the score that feeds the development graph. Off for an
 // industry that writes no care plans; the company can switch it back on under "What do you use?".
 const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
-const { isAtLeast, can } = usePermissions()
+const { can } = usePermissions()
+// Which fields the company shows, and to which roles. Shared with the hover card.
+const { showsCitizenField } = useCitizenFieldVisibility()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 const isDesktopApp = useIsDesktopApp()
 
@@ -1009,46 +1012,6 @@ function switchToInterventionHours() {
     state.modal.isViewPatienCareHoursOpen = true
 }
 
-/**
- * Which of the citizen's fields this company shows.
- *
- * Every one of these used to start with `isAtLeast('Admin') ||`, which meant the
- * setting had no effect on the person most likely to be looking at it: an admin
- * saw every field whatever the company had chosen, so a dental clinic met
- * Indsats timer, EAN-nummer and Visitationskommune on every patient however it
- * configured itself. An admin now sees what the company configured, and can
- * change it in settings.
- *
- * A company that has never configured the list keeps exactly what it has today -
- * admins see everything, everyone else sees nothing - because reading the empty
- * list as "show everything" would hand social security numbers and diagnoses to
- * staff who cannot see them now.
- */
-// Fields the card showed to everyone before they could be chosen. A company
-// that has not chosen its fields keeps seeing them.
-const ALWAYS_SHOWN_UNTIL_CHOSEN = ['Phone', 'Spoken languages', 'Case worker', 'Case number']
-
-function showsCitizenField(name: string): boolean {
-    const displays = userStore.getUser?.company?.citizen_displays
-    const configured = Array.isArray(displays) && displays.length > 0
-    if (!configured) return ALWAYS_SHOWN_UNTIL_CHOSEN.includes(name) || isAtLeast('Admin')
-    if (!displays.some((display: any) => display.en_name === name)) return false
-
-    return mayRoleSeeField(name)
-}
-
-/**
- * A field the company limited to some roles is shown to people holding one of
- * them. Admins always see what the company shows, so they can check it.
- */
-function mayRoleSeeField(name: string): boolean {
-    const limits = userStore.getUser?.company?.citizen_display_roles ?? {}
-    const allowed: number[] = limits[name] ?? []
-    if (!allowed.length || isAtLeast('Admin')) return true
-
-    const mine = (userStore.getUser?.roles ?? []).map((role: any) => Number(role.id))
-    return allowed.some((id) => mine.includes(Number(id)))
-}
 
 function hasSocialSecurityNumberAccess() {
     return showsCitizenField('Social security number')

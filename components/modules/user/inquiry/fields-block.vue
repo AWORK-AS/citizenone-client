@@ -166,7 +166,13 @@ const { t, locale } = useI18n()
 const props = defineProps({
     inquiryUuid: {
         type: String,
-        required: true,
+        default: '',
+    },
+    // Set instead of inquiryUuid to show the fields carried over to an
+    // indsats, kept on the citizen and saved there.
+    citizenUuid: {
+        type: String,
+        default: '',
     },
     // Part of the inquiry's edit form: saved by that form's button, which
     // also says it worked, instead of by a bar of its own.
@@ -176,7 +182,7 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['saved'])
+const emit = defineEmits(['saved', 'loaded'])
 
 const WIDE_TYPES = ['textarea', 'multiselect']
 
@@ -205,7 +211,19 @@ onMounted(() => {
     fetchFields()
 })
 
-watch(() => props.inquiryUuid, () => fetchFields())
+watch(() => [props.inquiryUuid, props.citizenUuid], () => fetchFields())
+
+function loadFields() {
+    return props.citizenUuid
+        ? inquiryFieldService.getCitizenFields(props.citizenUuid)
+        : inquiryFieldService.getFields(props.inquiryUuid)
+}
+
+function storeFields(answers: Record<string, any>) {
+    return props.citizenUuid
+        ? inquiryFieldService.saveCitizenFields(props.citizenUuid, answers)
+        : inquiryFieldService.saveFields(props.inquiryUuid, answers)
+}
 
 function normalisedDraft(source: Record<string, any>) {
     // Sort the keys so two equal sets of answers always stringify the same way.
@@ -343,14 +361,15 @@ function groupFields(fields: any[]) {
     for (const field of fields) {
         // A field with no stage is asked for throughout, so it is grouped on its
         // own rather than attached to whichever stage happens to come first.
-        const key = field.stage?.uuid ?? 'always'
+        // On the citizen the stages are over, so the fields read as one group.
+        const key = props.citizenUuid ? 'citizen' : (field.stage?.uuid ?? 'always')
         let group = groups.find((candidate) => candidate.key === key)
 
         if (!group) {
             group = {
                 key,
-                title: field.stage?.name ?? t('inquiryFields.appliesThroughout'),
-                color: field.stage?.color ?? null,
+                title: props.citizenUuid ? t('citizenFields.title') : (field.stage?.name ?? t('inquiryFields.appliesThroughout')),
+                color: props.citizenUuid ? null : (field.stage?.color ?? null),
                 fields: [],
             }
             groups.push(group)
@@ -364,7 +383,7 @@ function groupFields(fields: any[]) {
 
 async function fetchFields() {
     try {
-        const response = await inquiryFieldService.getFields(props.inquiryUuid)
+        const response = await loadFields()
         state.fields = response?.data ?? []
         state.groups = groupFields(state.fields)
 
@@ -379,6 +398,8 @@ async function fetchFields() {
         state.fields = []
         state.groups = []
     }
+    // How many fields there are, so a page can leave out the frame around none.
+    emit('loaded', state.fields.length)
 }
 
 function reset() {
@@ -398,7 +419,7 @@ async function save(): Promise<boolean> {
             }
         }
 
-        const response = await inquiryFieldService.saveFields(props.inquiryUuid, changed)
+        const response = await storeFields(changed)
         state.fields = response?.data ?? state.fields
         state.groups = groupFields(state.fields)
 

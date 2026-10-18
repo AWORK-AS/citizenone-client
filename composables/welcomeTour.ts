@@ -127,13 +127,17 @@ export interface ChecklistResponse {
  */
 const CHECKLIST_KEYS: Record<string, Record<string, string>> = {
     care_home_admin: {
+        import: 'citizens_added',
         citizens: 'citizens_added',
+        firstNote: 'journal_note_written',
         employees: 'colleagues_invited',
         schedule: 'duty_schedule_created',
         medicine: 'medicine_added',
     },
     clinic_admin: {
+        import: 'clients_added',
         patients: 'clients_added',
+        firstNote: 'journal_note_written',
         employees: 'colleagues_invited',
     },
 }
