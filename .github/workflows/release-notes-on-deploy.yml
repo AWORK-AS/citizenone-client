@@ -1,4 +1,5 @@
-# Every deploy to main becomes a DRAFT release note in CitizenONE.
+# Every deploy to main adds its commits to the week's DRAFT release note in
+# CitizenONE, where they are rewritten into plain Danish for care staff.
 # A superadmin (CTO) still has to edit and approve it before customers see it,
 # so this is a starting point for the note, not the note itself.
 #
@@ -40,24 +41,39 @@ jobs:
           # measure from, so fall back to the last handful of commits.
           if [ -n "${BEFORE:-}" ] && [ "$BEFORE" != "0000000000000000000000000000000000000000" ] \
              && git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
-            subjects=$(git log --no-merges --pretty=format:'%s' "${BEFORE}..${SHA}")
+            range_args=("${BEFORE}..${SHA}")
           else
-            subjects=$(git log --no-merges --max-count=20 --pretty=format:'%s' "${SHA}")
+            range_args=(--max-count=20 "${SHA}")
           fi
 
-          # Merge commits are already excluded; drop the housekeeping that no
-          # customer will ever care about.
-          filtered=$(printf '%s\n' "$subjects" \
-            | grep -viE '^(chore|ci|build|style|test|refactor)(\(|:)' \
-            | grep -viE '^(merge|bump|wip|revert)\b' \
-            | sed '/^[[:space:]]*$/d' \
-            | sed 's/^/- /' || true)
+          # One "sha<TAB>subject" line per commit. Merge commits are left out,
+          # but a merged pull request's title (the first line of the merge
+          # body) is added: it often says what the change is for better than
+          # its commits do. The backend merges duplicates when it rewrites.
+          commits=$(git log --no-merges --pretty=format:'%H%x09%s' "${range_args[@]}"; echo)
+          prs=$(git log --merges --pretty=format:'%H' "${range_args[@]}" | while read -r m; do
+              t=$(git log -1 --pretty=format:'%b' "$m" | sed '/^[[:space:]]*$/d' | head -n 1)
+              [ -n "$t" ] && printf '%s\t%s\n' "$m" "$t"
+            done || true)
 
-          if [ -z "$filtered" ]; then
+          # Drop the housekeeping that no customer will ever care about.
+          lines=$(printf '%s\n%s\n' "$commits" "$prs" \
+            | sed '/^[[:space:]]*$/d' \
+            | grep -viE $'^[0-9a-f]+\t(chore|ci|build|style|test|refactor)(\\(|:)' \
+            | grep -viE $'^[0-9a-f]+\t(merge|bump|wip|revert)\\b' || true)
+
+          if [ -z "$lines" ]; then
             echo "Nothing customer-facing in this deploy; no draft created."
             exit 0
           fi
 
+          filtered=$(printf '%s\n' "$lines" | cut -f2- | sed 's/^/- /')
+          items=$(printf '%s\n' "$lines" | jq -R -s \
+            'split("\n") | map(select(length > 0) | split("\t") | {sha: .[0], subject: (.[1:] | join("\t"))})')
+
+          # The backend collects every deploy in a week into one draft and
+          # rewrites the subjects into plain Danish; title and content are the
+          # fallback it shows if that rewrite is not available.
           title="Produktopdateringer $(date -u +'%d.%m.%Y')"
           body=$(printf 'Kladde fra deploy af %s.\n\n%s\n' "$REPO_NAME" "$filtered")
 
@@ -65,10 +81,12 @@ jobs:
             --arg title "$title" \
             --arg content "$body" \
             --arg ref "deploy-${SHA}" \
-            '{title: $title, content: $content, external_ref: $ref}')
+            --arg repo "$REPO_NAME" \
+            --argjson items "$items" \
+            '{title: $title, content: $content, external_ref: $ref, repo: $repo, items: $items}')
 
           # external_ref makes this idempotent: re-running the workflow for the
-          # same commit updates nothing and creates nothing new.
+          # same commit adds nothing and creates nothing new.
           curl -sS -X POST "$API_URL/api/internal/release-notes" \
             -H "Content-Type: application/json" \
             -H "Accept: application/json" \

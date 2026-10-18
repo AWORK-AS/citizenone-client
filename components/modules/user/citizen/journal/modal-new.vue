@@ -290,6 +290,7 @@ async function saveJournal(journalDetails: any) {
             content: journalDetails.formJournal.content,
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
+            is_internal: journalDetails.formJournal.is_internal ?? false,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_medical_record: props.isMedicalRecord,
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,

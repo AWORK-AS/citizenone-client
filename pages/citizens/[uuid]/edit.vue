@@ -378,6 +378,8 @@ async function updateCitizen(citizenDetails: any) {
         // requirement is lifted, and the reminder goes with it.
         params.append('reporting_frequency', citizenDetails.reporting_frequency ?? '')
         params.append('reporting_starts_on', citizenDetails.reporting_starts_on ?? '')
+        // Only meaningful with a frequency; cleared with it.
+        params.append('report_draft_days_before', citizenDetails.reporting_frequency ? (citizenDetails.report_draft_days_before ?? '') : '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))

@@ -134,6 +134,23 @@
                                 :error="v$?.formCompany?.citizen_display_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.citizen_display_uuid?.[0]" />
                         </div>
+                        <!-- Who may see each chosen field. Empty means everyone who can open
+                             the citizen; admins always see what is shown. -->
+                        <div v-if="isAtLeast('Admin') && state.formCompany.citizen_display_uuid.length && state.options.roles.length"
+                            class="space-y-2 md:col-span-2">
+                            <FormLabel :label="$t('settings.company.form.citizensDisplayRoles')" />
+                            <p class="text-xs text-gray-500">{{ $t('settings.company.form.citizensDisplayRolesHelp') }}</p>
+                            <div class="divide-y divide-surface-100 rounded-lg border border-surface-200">
+                                <div v-for="uuid in state.formCompany.citizen_display_uuid" :key="uuid"
+                                    class="grid grid-cols-1 items-center gap-2 px-3 py-2 md:grid-cols-[minmax(0,14rem)_1fr]">
+                                    <span class="text-sm text-gray-700">{{ displayLabel(uuid) }}</span>
+                                    <FormSelectMultiple :id="`display-roles-${uuid}`" :options="state.options.roles"
+                                        :modelValue="state.displayRoles[uuid] ?? []"
+                                        @update:modelValue="(value: any) => { state.displayRoles[uuid] = value; isDirty = true }" />
+                                </div>
+                            </div>
+                            <FormError :error="state?.error?.errors?.['fields.0.role_ids.0']?.[0]" />
+                        </div>
                         <div class="space-y-1">
                             <FormLabel for="intervention_notification_hours"
                                 :label="$t('settings.company.form.interventionNotificationHours')" />
@@ -644,6 +661,15 @@
                                     {{ $t('settings.company.form.oneJournalNotePerDay') }}
                                 </p>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.show_citizenone_attribution"
+                                        @toggleSwitch="state.formCompany.show_citizenone_attribution = !state.formCompany.show_citizenone_attribution"
+                                        :label="$t('citizenoneAttribution.setting')" />
+                                    <p>{{ $t('citizenoneAttribution.setting') }}</p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('citizenoneAttribution.settingHint') }}</p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.register_transport_enabled"
                                     @toggleSwitch="state.formCompany.register_transport_enabled = !state.formCompany.register_transport_enabled" :label="$t('settings.company.form.registerTransport')" />
@@ -685,6 +711,13 @@
                                     @toggleSwitch="state.formCompany.calendar_done_creates_care_hours_enabled = !state.formCompany.calendar_done_creates_care_hours_enabled" :label="$t('settings.company.form.calendarDoneCreatesCareHours')" />
                                 <p>
                                     {{ $t('settings.company.form.calendarDoneCreatesCareHours') }}
+                                </p>
+                            </div>
+                            <div class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.citizen_calendar_shift_enabled"
+                                    @toggleSwitch="state.formCompany.citizen_calendar_shift_enabled = !state.formCompany.citizen_calendar_shift_enabled" :label="$t('settings.company.form.citizenCalendarShift')" />
+                                <p>
+                                    {{ $t('settings.company.form.citizenCalendarShift') }}
                                 </p>
                             </div>
                         </div>
@@ -781,6 +814,7 @@ import { userService } from "@/components/api/user/UserService";
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
+import { roleService } from '@/components/api/user/RoleService'
 import { companyService } from '@/components/api/user/CompanyService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
@@ -941,7 +975,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.epikrise_enabled].filter(Boolean).length)
+const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.epikrise_enabled].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -990,6 +1024,7 @@ const breadcrumbLinks = [
 ]
 
 const state = reactive({
+    displayRoles: {} as Record<string, number[]>,
     error: {} as Error,
     formCompany: {
         name: '',
@@ -1017,6 +1052,7 @@ const state = reactive({
         booking_note_notifications_enabled: false,
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
+        citizen_calendar_shift_enabled: false,
         patient_portal_hide_clinic_contact: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
@@ -1035,6 +1071,8 @@ const state = reactive({
         social_og_boligstyrelsen: false,
         quick_risk_assessment_enabled: false,
         one_journal_note_per_day_enabled: false,
+        // Shown as "show"; stored as hide_citizenone_attribution, which is off by default.
+        show_citizenone_attribution: true,
         logo: null as File | null,
         should_delete_logo: false,
         register_transport_enabled: false,
@@ -1057,6 +1095,7 @@ const state = reactive({
     options: {
         cities: [],
         citizen_displays: [],
+        roles: [] as Array<{ value: number, label: string }>,
         municipalities: [],
         regions: [],
         holidayNames: [] as string[],
@@ -1079,6 +1118,7 @@ const rules = computed(() => {
 
 onMounted(() => {
     fetchAllCitizenDisplays()
+    fetchDisplayRoles()
     fetchRegions()
     fetchPublicHolidays()
 })
@@ -1112,6 +1152,7 @@ function setHolidayState(name: string, target: 'full' | 'half' | 'off') {
 watch(() => language.locale.value, (newValue: any) => {
     if (newValue != null) {
         fetchAllCitizenDisplays()
+        fetchDisplayRoles()
     }
 })
 
@@ -1144,6 +1185,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
+            citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
@@ -1165,6 +1207,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             one_journal_note_per_day_enabled: newValue?.company?.one_journal_note_per_day_enabled ? true : false,
+            show_citizenone_attribution: newValue?.company?.hide_citizenone_attribution !== true,
             register_transport_enabled: newValue?.company?.register_transport_enabled ? true : false,
             warning_13_hour_shift_enabled: newValue?.company?.warning_13_hour_shift_enabled !== false,
             warning_11_hour_rest_enabled: newValue?.company?.warning_11_hour_rest_enabled !== false,
@@ -1215,6 +1258,47 @@ onBeforeRouteLeave(() => {
     }
     return true
 })
+
+function displayLabel(uuid: string): string {
+    return state.options.citizen_displays.find((option: any) => option.value === uuid)?.label ?? ''
+}
+
+async function fetchDisplayRoles() {
+    if (!isAtLeast('Admin')) return
+    try {
+        const [roles, limits] = await Promise.all([roleService.getAllRoles(), citizenDisplayService.getRoles()])
+        const list = Array.isArray(roles) ? roles : (roles?.data ?? [])
+        state.options.roles = list.map((role: any) => ({ value: role.id, label: role.name }))
+        const byUuid: Record<string, number[]> = {}
+        for (const field of limits?.data ?? []) {
+            byUuid[field.uuid] = field.role_ids ?? []
+        }
+        state.displayRoles = byUuid
+    } catch (error: any) {
+        // Without them the section stays hidden and nothing is changed.
+        state.options.roles = []
+    }
+}
+
+// Saved with the company. Fields no longer shown keep their roles, so showing
+// one again brings back who could see it.
+async function saveDisplayRoles() {
+    if (!isAtLeast('Admin') || !state.options.roles.length) return
+    const fields = state.formCompany.citizen_display_uuid.map((uuid: string) => ({
+        uuid,
+        role_ids: state.displayRoles[uuid] ?? [],
+    }))
+    const response = await citizenDisplayService.updateRoles(fields)
+    const byName: Record<string, number[]> = {}
+    for (const field of response?.data ?? []) {
+        if (field.role_ids?.length) byName[field.en_name] = field.role_ids
+    }
+    const currentUser: any = { ...userStore.getUser }
+    if (currentUser?.company) {
+        currentUser.company = { ...currentUser.company, citizen_display_roles: byName }
+        userStore.setUser(currentUser)
+    }
+}
 
 async function fetchAllCitizenDisplays() {
     state.error = {}
@@ -1365,6 +1449,7 @@ async function submitForm() {
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
+                citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
@@ -1386,6 +1471,7 @@ async function submitForm() {
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
                 one_journal_note_per_day_enabled: state.formCompany.one_journal_note_per_day_enabled,
+                hide_citizenone_attribution: !state.formCompany.show_citizenone_attribution,
                 register_transport_enabled: state.formCompany.register_transport_enabled,
                 warning_13_hour_shift_enabled: state.formCompany.warning_13_hour_shift_enabled,
                 warning_11_hour_rest_enabled: state.formCompany.warning_11_hour_rest_enabled,
@@ -1417,6 +1503,8 @@ async function submitForm() {
                     currentUser.company = { ...currentUser.company, ...response.data }
                     userStore.setUser(currentUser)
                 }
+                // After the company is stored, so its fresh roles are the ones kept.
+                await saveDisplayRoles()
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
                 isDirty.value = false
             }

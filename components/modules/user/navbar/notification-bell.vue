@@ -205,6 +205,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('contractsignaturerequested')) return 'contract_to_sign'
     if (type.toLowerCase().includes('contractsigned')) return 'contract_signed'
     if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
+    if (type.toLowerCase().includes('codyaccessrequest')) return 'cody_request'
     return 'other'
 }
 
@@ -224,6 +225,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     contract_to_sign: { bg: 'bg-accent-orange/10', icon: 'ph:signature', color: 'text-accent-orange' },
     contract_signed: { bg: 'bg-secondary/10', icon: 'ph:seal-check', color: 'text-secondary' },
     medication: { bg: 'bg-accent-orange/10', icon: 'ph:pill', color: 'text-accent-orange' },
+    cody_request: { bg: 'bg-secondary/10', icon: 'ph:sparkle', color: 'text-secondary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -421,6 +423,13 @@ async function refreshUnreadCount() {
 }
 
 async function handleNotifClick(notif: any) {
+    // A colleague asked for Cody: to its app page, where the trial or a seat is.
+    if (getCategory(notif.type) === 'cody_request') {
+        state.isOpen = false
+        const appUuid = notif.data?.content?.application?.uuid
+        navigateTo(appUuid ? `/apps/${appUuid}` : '/apps')
+        return
+    }
     if (getCategory(notif.type) === 'duty_shift') {
         state.isOpen = false
         navigateTo('/notifications/duty-shift-rule-notifications')

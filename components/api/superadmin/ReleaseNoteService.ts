@@ -25,8 +25,15 @@ class ReleaseNoteService extends BaseAPIService {
         return await this.request(`/superadmin/release-notes/${uuid}/notify`, 'POST')
     }
 
-    async publishReleaseNote(uuid: string): Promise<any> {
-        return await this.request(`/superadmin/release-notes/${uuid}/publish`, 'PUT')
+    // Where the note goes (public news, the support assistant) is decided in
+    // the approval step itself.
+    async publishReleaseNote(uuid: string, flags: { is_public?: boolean; send_to_milo?: boolean } = {}): Promise<any> {
+        return await this.request(`/superadmin/release-notes/${uuid}/publish`, 'PUT', flags)
+    }
+
+    // Rewrite the draft again from all of its raw deploy items. Replaces edits.
+    async regenerateReleaseNote(uuid: string): Promise<any> {
+        return await this.request(`/superadmin/release-notes/${uuid}/regenerate`, 'POST')
     }
 
     async unpublishReleaseNote(uuid: string): Promise<any> {

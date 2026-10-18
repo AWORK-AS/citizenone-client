@@ -71,6 +71,7 @@
                         <option value="share">{{ $t('superadmin.companies.source.share') }}</option>
                         <option value="search">{{ $t('superadmin.companies.source.search') }}</option>
                         <option value="findsocialetilbud">FindSocialeTilbud</option>
+                        <option value="product">{{ $t('superadmin.companies.source.product') }}</option>
                         <option value="campaign">{{ $t('superadmin.companies.source.campaign') }}</option>
                         <option value="referral">{{ $t('superadmin.companies.source.referral') }}</option>
                         <option value="direct">{{ $t('superadmin.companies.source.direct') }}</option>

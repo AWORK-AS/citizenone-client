@@ -111,7 +111,7 @@
                                         </p>
                                         <!-- Only customers who came from another system have one,
                                              so the line is left out rather than shown empty. -->
-                                        <Tooltip v-if="state.selectedCitizen?.data?.case_number"
+                                        <Tooltip v-if="state.selectedCitizen?.data?.case_number && showsCitizenField('Case number')"
                                             :text="$t('citizens.form.caseNumberHint')" class="w-fit">
                                             <p class="mt-0.5 text-sm text-slate-500 tabular-nums">
                                                 {{ $t('citizens.table.caseNumber') }}: {{ state.selectedCitizen.data.case_number }}
@@ -195,7 +195,7 @@
                                             {{ state.selectedCitizen?.data?.email }}
                                         </p>
                                     </div>
-                                    <div class="flex items-start gap-x-2" v-if="state.selectedCitizen?.data?.phone">
+                                    <div class="flex items-start gap-x-2" v-if="state.selectedCitizen?.data?.phone && showsCitizenField('Phone')">
                                         <Tooltip :text="$t('citizens.form.phone')" class="flex items-center mt-0.5 shrink-0">
                                             <Icon name="ph:phone" class="h-4 w-4 text-slate-400" aria-hidden="true" />
                                         </Tooltip>
@@ -203,7 +203,7 @@
                                             {{ state.selectedCitizen?.data?.phone }}
                                         </p>
                                     </div>
-                                    <div class="flex items-start gap-x-2" v-if="spokenLanguagesSummary">
+                                    <div class="flex items-start gap-x-2" v-if="spokenLanguagesSummary && showsCitizenField('Spoken languages')">
                                         <Tooltip :text="$t('citizens.form.spokenLanguages')" class="flex items-center mt-0.5 shrink-0">
                                             <Icon name="ph:translate" class="h-4 w-4 text-slate-400" aria-hidden="true" />
                                         </Tooltip>
@@ -212,7 +212,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-start gap-x-2"
-                                        v-if="primaryCaseworkerName">
+                                        v-if="primaryCaseworkerName && showsCitizenField('Case worker')">
                                         <Tooltip :text="term('caseworker', $t('citizens.form.primaryCaseworker'))"
                                             class="flex items-center mt-0.5 shrink-0">
                                             <Icon name="ph:user" class="h-4 w-4 text-slate-400" aria-hidden="true" />
@@ -507,6 +507,7 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useCitizenFieldVisibility } from '@/composables/useCitizenFieldVisibility'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useContinuity } from '@/composables/useContinuity'
@@ -533,6 +534,8 @@ const userStore = useUserStore() as any
 // industry that writes no care plans; the company can switch it back on under "What do you use?".
 const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
 const { isAtLeast, can } = usePermissions()
+// Which fields the company shows, and to which roles. Shared with the hover card.
+const { showsCitizenField } = useCitizenFieldVisibility()
 const epikrise = useEpikrise()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 const isDesktopApp = useIsDesktopApp()
@@ -1063,27 +1066,6 @@ function switchToInterventionHours() {
     state.modal.isViewPatienCareHoursOpen = true
 }
 
-/**
- * Which of the citizen's fields this company shows.
- *
- * Every one of these used to start with `isAtLeast('Admin') ||`, which meant the
- * setting had no effect on the person most likely to be looking at it: an admin
- * saw every field whatever the company had chosen, so a dental clinic met
- * Indsats timer, EAN-nummer and Visitationskommune on every patient however it
- * configured itself. An admin now sees what the company configured, and can
- * change it in settings.
- *
- * A company that has never configured the list keeps exactly what it has today -
- * admins see everything, everyone else sees nothing - because reading the empty
- * list as "show everything" would hand social security numbers and diagnoses to
- * staff who cannot see them now.
- */
-function showsCitizenField(name: string): boolean {
-    const displays = userStore.getUser?.company?.citizen_displays
-    const configured = Array.isArray(displays) && displays.length > 0
-    if (!configured) return isAtLeast('Admin')
-    return displays.some((display: any) => display.en_name === name)
-}
 
 function hasSocialSecurityNumberAccess() {
     return showsCitizenField('Social security number')

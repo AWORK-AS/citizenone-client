@@ -191,6 +191,54 @@
                     </div>
                 </div>
             </div>
+            <div class="space-y-3 border-t border-gray-200 pt-3" v-if="props.showShiftOption">
+                <div class="w-fit flex items-center"
+                    :class="state.formSchedule.recurring.is_recurring ? 'opacity-50 cursor-not-allowed' : 'cursor-pointer'"
+                    @click="toggleShift">
+                    <FormCheckbox :value="isShiftActive" />
+                    {{ $t('events.form.shift.alsoCreate') }}
+                </div>
+                <p class="text-xs text-gray-500" v-if="state.formSchedule.recurring.is_recurring">
+                    {{ $t('events.form.shift.notForRepeating') }}
+                </p>
+                <div class="space-y-3" v-if="isShiftActive">
+                    <p class="text-xs text-gray-500">{{ $t('events.form.shift.info') }}</p>
+                    <div v-if="state.shiftWarnings.length > 0" class="rounded-md bg-yellow-50 border border-yellow-200 p-3">
+                        <div class="flex">
+                            <Icon name="heroicons:exclamation-triangle" class="h-5 w-5 flex-shrink-0 text-yellow-400"
+                                aria-hidden="true" />
+                            <div class="ml-3 text-sm text-yellow-700">
+                                <p class="font-medium text-yellow-800">{{ $t('dutySchedules.shiftWarning.warningsFound') }}</p>
+                                <ul class="mt-1 list-disc space-y-1 pl-5">
+                                    <li v-for="(warning, index) in state.shiftWarnings" :key="index">
+                                        {{ locale === 'en' ? warning?.message_en : warning?.message_dk }}
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="shift_user_uuid" :label="$t('events.form.shift.employee')" />
+                        <FormSelect id="shift_user_uuid" searchable openDirection="top"
+                            :options="state.shiftOptions.employees" v-model="state.shift.user_uuid" />
+                        <FormError :error="v$?.shift?.user_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.['shift.user_uuid']?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="shift_type_uuid" :label="$t('events.form.shift.shiftType')" />
+                        <FormSelect id="shift_type_uuid" searchable openDirection="top"
+                            :options="state.shiftOptions.shiftTypes" v-model="state.shift.shift_type_uuid" />
+                        <FormError :error="v$?.shift?.shift_type_uuid?.$errors[0]?.$message.toString()" />
+                        <FormError :error="props?.error?.errors?.['shift.shift_type_uuid']?.[0]" />
+                    </div>
+                    <div class="space-y-1" v-if="hasRealDepartments">
+                        <FormLabel for="shift_department_uuid" :label="$t('events.form.shift.department')" />
+                        <FormSelect id="shift_department_uuid" searchable openDirection="top" :canClear="false"
+                            :options="state.shiftOptions.departments" v-model="state.shift.department_uuid" />
+                        <FormError :error="v$?.shift?.department_uuid?.$errors[0]?.$message.toString()" />
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -210,8 +258,14 @@
 
 <script setup lang="ts">
 import { unitService } from '@/components/api/user/UnitService'
+import { userService } from '@/components/api/user/UserService'
+import { shiftService } from '@/components/api/user/ShiftService'
+import { departmentService } from '@/components/api/user/DepartmentService'
+import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
+import { useDepartmentStore } from '@/store/department'
+import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -228,9 +282,30 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // "Also create a shift" (CITIZE-100): only the citizen calendar's new-event
+    // modal turns it on, and only for a company with the switch on and a user
+    // who may plan shifts.
+    showShiftOption: {
+        type: Boolean,
+        default: false,
+    },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const departmentStore = useDepartmentStore() as any
+
+// System shift types that mean time off (backend ShiftType::ABSENCE_SYSTEM_NAMES);
+// a citizen event never creates leave. The backend refuses them too.
+const ABSENCE_SYSTEM_NAMES = [
+    'sick-leave',
+    'vacation-leave',
+    'compensatory-time',
+    'time-account',
+    'non-worked-holiday',
+    'doctor',
+    'dentist',
+    'relatives',
+]
 
 interface Option {
     value: string
@@ -271,6 +346,19 @@ const state = reactive({
     modal: {
         isAddUnitOpen: false,
     },
+    shift: {
+        enabled: false,
+        user_uuid: '',
+        shift_type_uuid: '',
+        department_uuid: '',
+    },
+    shiftOptions: {
+        isLoaded: false,
+        employees: [] as Option[],
+        shiftTypes: [] as Option[],
+        departments: [] as Option[],
+    },
+    shiftWarnings: [] as any[],
     options: {
         recurring: {
             frequency: [
@@ -394,6 +482,27 @@ onMounted(() => {
     }
 })
 
+// As in the main calendar's form: a new event is an hour, and its end follows
+// the start. This also replaces the opening defaults (start = end on a picked
+// day, 00:00-23:59 otherwise) with start + 1 hour.
+watch(() => state.formSchedule.date_time_start, (dateTimeStart: any) => {
+    if (dateTimeStart) {
+        state.formSchedule.date_time_end = moment(dateTimeStart).add(60, 'minutes').format('YYYY-MM-DD HH:mm')
+    }
+})
+
+// A repeating event never gets a shift (v1), so the section is off while it repeats.
+const isShiftActive = computed(() =>
+    props.showShiftOption && state.shift.enabled && !state.formSchedule.recurring.is_recurring
+)
+
+// The department list carries a synthetic 'all-departments' row, so a company
+// without departments still gets one option. Like the duty schedule's own
+// form-shift.vue, a department is only asked for when real ones exist.
+const hasRealDepartments = computed(() =>
+    state.shiftOptions.departments.some((department: Option) => department.value !== 'all-departments')
+)
+
 const rules = computed(() => {
     return {
         formSchedule: {
@@ -408,6 +517,17 @@ const rules = computed(() => {
             },
             recurring: {},
         },
+        shift: isShiftActive.value ? {
+            user_uuid: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            shift_type_uuid: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
+            department_uuid: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(hasRealDepartments)),
+            },
+        } : {},
     }
 })
 
@@ -416,9 +536,97 @@ const v$ = useVuelidate(rules, state)
 function submitForm() {
     v$.value.$validate()
     if (!v$.value.$error) {
-        emit('submitForm', state.formSchedule)
+        emit('submitForm', {
+            ...state.formSchedule,
+            shift: isShiftActive.value ? {
+                user_uuid: state.shift.user_uuid,
+                shift_type_uuid: state.shift.shift_type_uuid,
+                department_uuid: state.shift.department_uuid || null,
+            } : null,
+        })
     }
 }
+
+function toggleShift() {
+    if (state.formSchedule.recurring.is_recurring) return
+    state.shift.enabled = !state.shift.enabled
+    if (state.shift.enabled && !state.shiftOptions.isLoaded) {
+        fetchShiftOptions()
+    }
+}
+
+// The same lists the duty schedule's new-shift form (form-shift.vue) uses:
+// every active employee of the company, the company's shift types (leave left
+// out) and the departments the signed-in user sees.
+async function fetchShiftOptions() {
+    state.isPageLoading = true
+    try {
+        const [employees, shiftTypes, departments] = await Promise.all([
+            userService.getAllUsersWithoutAllUsersOption(),
+            shiftService.getAllShifts({ department: '' }),
+            departmentService.getAllDepartments({}),
+        ])
+        state.shiftOptions.employees = (employees?.data ?? []).map((user: any) => ({
+            value: user?.uuid,
+            label: `${user?.firstname ?? ''} ${user?.lastname ?? ''}`.trim(),
+        }))
+        state.shiftOptions.shiftTypes = (shiftTypes?.data ?? [])
+            .filter((shift: any) => !shift?.is_leave_shift_type && !ABSENCE_SYSTEM_NAMES.includes(shift?.system_name))
+            .map((shift: any) => ({
+                value: shift?.uuid,
+                label: (locale.value === 'en' ? shift?.en_name :
+                    locale.value === 'no' ? shift?.no_name :
+                        locale.value === 'sv' ? shift?.sv_name :
+                            shift?.dk_name) || shift?.en_name || shift?.dk_name,
+            }))
+        state.shiftOptions.departments = (departments?.data ?? []).map((department: any) => ({
+            value: department.uuid,
+            label: department.name,
+        }))
+        state.shift.department_uuid = defaultShiftDepartment()
+        state.shiftOptions.isLoaded = true
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+// As on the duty schedule: the department chosen in the switcher at the top,
+// unless that's "All departments"; otherwise the only real department, if
+// there is just one. Else the user picks one.
+function defaultShiftDepartment(): string {
+    const realDepartments = state.shiftOptions.departments.filter((department: Option) => department.value !== 'all-departments')
+    const selected = departmentStore.getSelectedDepartment?.uuid
+    if (selected && realDepartments.some((department: Option) => department.value === selected)) {
+        return selected
+    }
+    return realDepartments.length === 1 ? realDepartments[0].value : ''
+}
+
+// The duty schedule's own warnings (11-hour rest, 13 hours, 48 hours), shown
+// before saving as on /schedules. They never block the save.
+let warningsRequest = 0
+watch(
+    () => [isShiftActive.value, state.shift.user_uuid, state.shift.shift_type_uuid, state.formSchedule.date_time_start, state.formSchedule.date_time_end],
+    async () => {
+        const request = ++warningsRequest
+        state.shiftWarnings = []
+        if (!isShiftActive.value || !state.shift.user_uuid || !state.formSchedule.date_time_start || !state.formSchedule.date_time_end) return
+        try {
+            const response = await dutyScheduleService.scheduleValidation({
+                user_uuid: state.shift.user_uuid,
+                date_time_start: state.formSchedule.date_time_start,
+                date_time_end: state.formSchedule.date_time_end,
+                ...(state.shift.shift_type_uuid && { shift_type_uuid: state.shift.shift_type_uuid }),
+            })
+            if (request === warningsRequest && response?.data && !response.data.valid) {
+                state.shiftWarnings = response.data.warnings ?? []
+            }
+        } catch (error: any) {
+            // Warnings only; the save itself reports any real problem.
+        }
+    },
+)
 
 function formatDateTimeToYYYYmmddHHmm(inputDate: string): string {
     const date = new Date(inputDate)
