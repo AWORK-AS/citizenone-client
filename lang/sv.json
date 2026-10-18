@@ -1,4 +1,9 @@
 {
+    "citizenoneAttribution": {
+        "portal": "Portalen tillhandahålls av CitizenOne, journalsystemet för omsorg och hälsa.",
+        "setting": "Visa \"Skapat med CitizenOne\" på det ni skickar ut",
+        "settingHint": "En kort rad med länk till citizenone.dk längst ned på PDF:er, mejl till anhöriga och externa och i portalerna."
+    },
     "guestDocuments": {
         "title": "Delade dokument",
         "enterPassword": "Ange lösenordet du fått av avsändaren för att öppna dokumenten.",
@@ -12579,6 +12584,7 @@
             },
             "source": {
                 "all": "Alla källor",
+                "product": "Från produkten (PDF, mejl, portal)",
                 "search": "Sökmotor (organisk)",
                 "campaign": "Kampanj",
                 "referral": "Hänvisning",
