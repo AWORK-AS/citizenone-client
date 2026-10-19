@@ -8640,11 +8640,20 @@
         }
     },
     "invitation": {
+        "accepting": "Accepterer invitation",
         "alert": {
             "invalidInvitationLink": "Ugyldigt invitationslink"
         },
+        "errorBody": "Invitationen kunne ikke accepteres lige nu. Prøv igen senere",
+        "errorTitle": "Noget gik galt",
+        "expiredBody": "Invitationslinket er udløbet. Bed den, der inviterede dig, om at sende en ny invitation",
+        "expiredTitle": "Invitationen er udløbet",
+        "invalidBody": "Invitationslinket er ugyldigt. Bed den, der inviterede dig, om at sende en ny invitation",
+        "invalidTitle": "Ugyldig invitation",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Log ind for at fortsætte",
+        "notAdminBody": "Kun administratorer kan acceptere denne invitation",
+        "notAdminTitle": "Invitationen blev ikke accepteret",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoiceDetails": {

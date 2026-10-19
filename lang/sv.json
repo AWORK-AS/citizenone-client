@@ -8640,11 +8640,20 @@
         }
     },
     "invitation": {
+        "accepting": "Accepterar inbjudan",
         "alert": {
             "invalidInvitationLink": "Ogiltigt invitationslink"
         },
+        "errorBody": "Inbjudan kunde inte accepteras just nu. Försök igen senare",
+        "errorTitle": "Något gick fel",
+        "expiredBody": "Inbjudningslänken har gått ut. Be den som bjöd in dig att skicka en ny inbjudan",
+        "expiredTitle": "Inbjudan har gått ut",
+        "invalidBody": "Inbjudningslänken är ogiltig. Be den som bjöd in dig att skicka en ny inbjudan",
+        "invalidTitle": "Ogiltig inbjudan",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Logga in för att fortsätta",
+        "notAdminBody": "Endast administratörer kan acceptera den här inbjudan",
+        "notAdminTitle": "Inbjudan accepterades inte",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har accepteret invitationen"
     },
     "invoiceDetails": {

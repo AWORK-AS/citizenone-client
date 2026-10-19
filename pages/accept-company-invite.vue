@@ -3,7 +3,7 @@
         <NuxtLayout>
 
             <Head>
-                <Title>{{ $t('invitation.invitationAccepted') }} - {{ runtimeConfig?.public?.appName }}</Title>
+                <Title>{{ view.title }} - {{ runtimeConfig?.public?.appName }}</Title>
             </Head>
 
             <LoadingSpinner :isActive="state.isPageLoading">
@@ -39,17 +39,17 @@
                             </div>
 
                             <div class="isolate mx-auto mt-10 grid max-w-lg">
-                                <div class="ring-1 ring-gray-100 rounded-lg p-8 xl:py-12 xl:px-6">
-                                    <div
-                                        class="mx-auto max-w-fit bg-green-600 rounded-full p-4 flex items-center justify-center">
-                                        <Icon name="ph:check-bold" class="h-5 w-5 text-white" aria-hidden="true" />
+                                <div v-if="state.outcome" class="ring-1 ring-gray-100 rounded-lg p-8 xl:py-12 xl:px-6">
+                                    <div class="mx-auto max-w-fit rounded-full p-4 flex items-center justify-center"
+                                        :class="view.iconClass">
+                                        <Icon :name="view.icon" class="h-5 w-5 text-white" aria-hidden="true" />
                                     </div>
-                                    <div class="mt-4 text-center">
+                                    <div class="mt-4 text-center" role="status">
                                         <h2 class="text-xl font-extrabold text-gray-900">
-                                            {{ $t('invitation.invitationAccepted') }}!
+                                            {{ view.title }}
                                         </h2>
                                         <p class="mt-2 text-sm text-gray-600">
-                                            {{ $t('invitation.youHaveSuccessfullyAcceptedTheInvitation') }}.
+                                            {{ view.body }}.
                                         </p>
                                     </div>
                                     <div class="mt-6">
@@ -73,28 +73,42 @@
 <script setup lang="ts">
 import { companyInvitationService } from '@/components/api/user/CompanyInvitationService'
 import { useUserStore } from '@/store/user'
-import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
-import type { Error } from '@/types'
+import { readCompanyInviteParams, companyInviteOutcomeOf, type CompanyInviteOutcome } from '@/composables/companyInvite'
 
 const runtimeConfig = useRuntimeConfig()
-const { errorAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore()
 const language = useI18n()
 const router = useRouter()
-const companyUuid = router?.currentRoute?.value?.query?.company
-const userUuid = router?.currentRoute?.value?.query?.user
+const invite = readCompanyInviteParams(router?.currentRoute?.value?.query ?? {})
 
 // Set language
 language.locale.value = userStore.getLanguage
 
 const state = reactive({
-    error: {} as Error,
+    outcome: null as CompanyInviteOutcome | null,
     isPageLoading: false,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
+})
+
+const view = computed(() => {
+    switch (state.outcome) {
+        case 'accepted':
+            return { icon: 'ph:check-bold', iconClass: 'bg-green-600', title: t('invitation.invitationAccepted'), body: t('invitation.youHaveSuccessfullyAcceptedTheInvitation') }
+        case 'expired':
+            return { icon: 'ph:clock-bold', iconClass: 'bg-amber-500', title: t('invitation.expiredTitle'), body: t('invitation.expiredBody') }
+        case 'invalid':
+            return { icon: 'ph:link-break-bold', iconClass: 'bg-red-600', title: t('invitation.invalidTitle'), body: t('invitation.invalidBody') }
+        case 'notAdmin':
+            return { icon: 'ph:x-bold', iconClass: 'bg-red-600', title: t('invitation.notAdminTitle'), body: t('invitation.notAdminBody') }
+        case 'error':
+            return { icon: 'ph:warning-bold', iconClass: 'bg-red-600', title: t('invitation.errorTitle'), body: t('invitation.errorBody') }
+        default:
+            return { icon: '', iconClass: '', title: t('invitation.accepting'), body: '' }
+    }
 })
 
 onMounted(() => {
@@ -120,20 +134,18 @@ function animateAssets() {
 }
 
 async function acceptInvitation() {
-    state.error = {}
+    // An old or cut-off link is refused without a round trip.
+    if (!invite) {
+        state.outcome = 'invalid'
+        return
+    }
+
     state.isPageLoading = true
     try {
-        const params = {
-            company_uuid: companyUuid,
-            user_uuid: userUuid,
-        }
-        await companyInvitationService.acceptInvitation(params)
+        await companyInvitationService.acceptInvitation({ ...invite, locale: userStore.getLanguage })
+        state.outcome = 'accepted'
     } catch (error: any) {
-        state.error = error
-        if (error?.message) {
-            errorAlert(`${t('alert.somethingWentWrong')}!`, `${t('invitation.alert.invalidInvitationLink')}.`)
-            navigateTo(`/`)
-        }
+        state.outcome = companyInviteOutcomeOf(error)
     }
     state.isPageLoading = false
 }

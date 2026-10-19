@@ -8640,11 +8640,20 @@
         }
     },
     "invitation": {
+        "accepting": "Accepting invitation",
         "alert": {
             "invalidInvitationLink": "Invalid invitation link"
         },
+        "errorBody": "The invitation could not be accepted right now. Please try again later",
+        "errorTitle": "Something went wrong",
+        "expiredBody": "This invitation link has expired. Ask the person who invited you to send a new invitation",
+        "expiredTitle": "Invitation expired",
+        "invalidBody": "This invitation link is not valid. Ask the person who invited you to send a new invitation",
+        "invalidTitle": "Invalid invitation",
         "invitationAccepted": "Invitation accepted",
         "loginToContinue": "Login to continue",
+        "notAdminBody": "Only administrators can accept this invitation",
+        "notAdminTitle": "Invitation not accepted",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "invoiceDetails": {
