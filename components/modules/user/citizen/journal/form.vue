@@ -42,7 +42,7 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="date" :label="$t('citizens.citizenJournals.form.date')" />
-                    <FormDateField id="date" name="date" placeholder="Date" v-model="state.formJournal.date" />
+                    <FormDateField id="date" name="date" :placeholder="$t('forms.fields.date')" v-model="state.formJournal.date" />
                     <FormError :error="v$?.formJournal?.date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date?.[0]" />
                 </div>

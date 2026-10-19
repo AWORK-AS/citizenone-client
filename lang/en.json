@@ -1,4 +1,14 @@
 {
+    "apiErrors": {
+        "serverError": "Server error. Please try again. If the problem persists, contact your system administrator",
+        "generic": "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+        "unauthorized": "Unauthorized",
+        "somethingWentWrongWith": "Something went wrong: {message}",
+        "downloadFailed": "An error occurred during the download.",
+        "importFailed": "An error occurred during the import.",
+        "openFileFailed": "An error occurred while opening the file.",
+        "deleteFailed": "An error occurred during the deletion."
+    },
     "nps": {
         "question": "How likely are you to recommend CitizenOne to a colleague?",
         "unlikely": "Not at all likely",
@@ -7089,6 +7099,7 @@
                 "count": "Number of occurrences"
             },
             "consecutiveDays": "Consecutive days",
+            "periodDaysPlaceholder": "e.g. 30",
             "dutyShiftRuleName": "Name",
             "evaluatingShiftsFrom": "Evaluating shifts from",
             "inactive": "Inactive",

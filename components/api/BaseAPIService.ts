@@ -1,6 +1,7 @@
 import APIError from '@/components/api/user/APIError'
 import { clearSessionToken } from '@/composables/useDesktopToken'
 import { forgetChatSession } from '@/composables/obiyenChatSession'
+import { translateMessage } from '@/composables/translateMessage'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -237,7 +238,7 @@ class BaseAPIService {
             throw new APIError({
                 ...errorBody,
                 status: 401,
-                message: errorBody?.message ?? 'Unauthorized',
+                message: errorBody?.message ?? translateMessage('apiErrors.unauthorized', 'Unauthorized'),
             })
         }
 
@@ -424,7 +425,7 @@ class BaseAPIService {
                     throw new APIError({
                         ...error.response._data,
                         status: 401,
-                        message: error.response._data?.message ?? 'Unauthorized',
+                        message: error.response._data?.message ?? translateMessage('apiErrors.unauthorized', 'Unauthorized'),
                     })
                 case 403:
                     // Status kept so a screen can tell "you may not see this"
@@ -433,7 +434,7 @@ class BaseAPIService {
                     throw new APIError({ ...error.response._data, status: error.response.status })
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator",
+                        message: translateMessage('apiErrors.serverError', "Server error. Please try again. If the problem persists, contact your system administrator"),
                         errorId: BaseAPIService.errorIdOf(error),
                     })
                 case 503:
@@ -444,7 +445,7 @@ class BaseAPIService {
                     throw new APIError(error.response._data)
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+                        message: translateMessage('apiErrors.generic', "Something went wrong. Please try again. If the problem persists, contact your system administrator"),
                         errorId: BaseAPIService.errorIdOf(error),
                     })
             }
@@ -496,7 +497,7 @@ class BaseAPIService {
                     throw new APIError({
                         ...error.response._data,
                         status: 401,
-                        message: error.response._data?.message ?? 'Unauthorized',
+                        message: error.response._data?.message ?? translateMessage('apiErrors.unauthorized', 'Unauthorized'),
                     })
                 case 403:
                     // Status kept so a screen can tell "you may not see this"
@@ -505,12 +506,12 @@ class BaseAPIService {
                     throw new APIError({ ...error.response._data, status: error.response.status })
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator",
+                        message: translateMessage('apiErrors.serverError', "Server error. Please try again. If the problem persists, contact your system administrator"),
                         errorId: BaseAPIService.errorIdOf(error),
                     })
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+                        message: translateMessage('apiErrors.generic', "Something went wrong. Please try again. If the problem persists, contact your system administrator"),
                         errorId: BaseAPIService.errorIdOf(error),
                     })
             }
@@ -571,19 +572,19 @@ class BaseAPIService {
                     throw new APIError({
                         ...errorBody,
                         status: 401,
-                        message: errorBody?.message ?? 'Unauthorized',
+                        message: errorBody?.message ?? translateMessage('apiErrors.unauthorized', 'Unauthorized'),
                     })
                 }
                 case 403:
                     throw new APIError(await BaseAPIService.errorBodyOf(error.response._data))
                 case 500:
                     throw new APIError({
-                        message: "Server error. Please try again. If the problem persists, contact your system administrator",
+                        message: translateMessage('apiErrors.serverError', "Server error. Please try again. If the problem persists, contact your system administrator"),
                         errorId: BaseAPIService.errorIdOf(error),
                     })
                 default:
                     throw new APIError({
-                        message: "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+                        message: translateMessage('apiErrors.generic', "Something went wrong. Please try again. If the problem persists, contact your system administrator"),
                         errorId: BaseAPIService.errorIdOf(error),
                     })
             }

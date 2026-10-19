@@ -1,4 +1,14 @@
 {
+    "apiErrors": {
+        "serverError": "Serverfeil. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
+        "generic": "Noe gikk galt. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
+        "unauthorized": "Ikke autorisert",
+        "somethingWentWrongWith": "Noe gikk galt: {message}",
+        "downloadFailed": "Det oppstod en feil under nedlastingen.",
+        "importFailed": "Det oppstod en feil under importen.",
+        "openFileFailed": "Det oppstod en feil under åpning av filen.",
+        "deleteFailed": "Det oppstod en feil under slettingen."
+    },
     "nps": {
         "question": "Hvor sannsynlig er det at du vil anbefale CitizenOne til en kollega?",
         "unlikely": "Ikke i det hele tatt",
@@ -7089,6 +7099,7 @@
                 "count": "Antall forekomster"
             },
             "consecutiveDays": "Sammenhængende dager",
+            "periodDaysPlaceholder": "f.eks. 30",
             "dutyShiftRuleName": "Navn",
             "evaluatingShiftsFrom": "Evaluerer vakter fra",
             "inactive": "Inaktiv",

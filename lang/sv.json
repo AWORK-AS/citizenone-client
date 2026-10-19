@@ -1,4 +1,14 @@
 {
+    "apiErrors": {
+        "serverError": "Serverfel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "generic": "Något gick fel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "unauthorized": "Behörighet saknas",
+        "somethingWentWrongWith": "Något gick fel: {message}",
+        "downloadFailed": "Ett fel uppstod vid nedladdningen.",
+        "importFailed": "Ett fel uppstod vid importen.",
+        "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
+        "deleteFailed": "Ett fel uppstod vid raderingen."
+    },
     "nps": {
         "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
         "unlikely": "Inte alls",
@@ -7089,6 +7099,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammanhängande dagar",
+            "periodDaysPlaceholder": "t.ex. 30",
             "dutyShiftRuleName": "Namn",
             "evaluatingShiftsFrom": "Evaluerer pass från",
             "inactive": "Inaktiv",
