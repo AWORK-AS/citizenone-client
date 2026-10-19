@@ -381,6 +381,11 @@ async function updateInterventionHours(interventionHoursDetails: any) {
             note: interventionHoursDetails.note,
         };
 
+        // Only when the hour-type picker showed; left out, the row keeps its type.
+        if (interventionHoursDetails.contract_hour_type_uuid) {
+            params.contract_hour_type_uuid = interventionHoursDetails.contract_hour_type_uuid;
+        }
+
         // Add transportation data if applicable
         if (props.selectedInterventionHours?.is_transportation) {
             params.is_transportation = true;
