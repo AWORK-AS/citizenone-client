@@ -7540,7 +7540,8 @@
             "successfullyDeleted": "Arrangement slettet vellykket",
             "successfullyUpdated": "Arrangement ble oppdatert vellykket",
             "statusSuccessfullyUpdated": "Hendelsestatus er oppdatert",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} er opprettet"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} er opprettet",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} er opprettet, og avtalen er merket som fullført"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7617,6 +7618,18 @@
             "label": "Mangler notat",
             "help": "Bookingen er over, men det er ikke skrevet et journalnotat ennå. Klikk for å skrive det."
         },
+        "noteHeader": {
+            "label": "Avtale",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Saksnr. {number}",
+            "responsible": "Ansvarlig",
+            "primaryCoordinator": "Primær koordinator",
+            "bookingOwner": "Ansvarlig for avtalen",
+            "statusLabel": "Status",
+            "planned": "Planlagt"
+        },
+        "saveAndComplete": "Lagre og merk som fullført",
+        "completeOnSaveHint": "Når du lagrer @:terms.journalNote{''}, merkes avtalen som fullført.",
         "status": {
             "completed": "Fullført",
             "notCompleted": "Ikke fullført"
@@ -11269,6 +11282,10 @@
                 "chatCprWarning": "Advar om CPR-numre i chat",
                 "missingNoteReminder": "Påminn om avtaler uten @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Varsle om @:terms.journalNotes{''} opprettet fra en avtale",
+                "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrevd ved Fullført",
+                "calendarNoteRequiredHint": "Velger man Fullført på en avtale med en @:terms.citizen{''}, åpnes @:terms.journalNote{''}, og avtalen merkes som fullført når det lagres. Ikke fullført krever ikke notat",
+                "missingNoteCoordinatorReminder": "Påminn koordinator om manglende @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "Et døgn etter at en avtale sluttet uten notat, får sakens primære koordinator også en påminnelse, og koordinatorer og ledere ser avtalene på Min dag. Krever at påminnelsen om avtaler uten notat er slått på",
                 "certificateReminderAllRecipients": "Påminnelser om attester til alle administratorer og den ansatte",
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
@@ -16013,6 +16030,8 @@
         "unassignedWonTooltip": "Se de vunne sakene som ingen står på ennå, og fordel dem",
         "brief": {
             "bookings_missing_note": "En avtale er ferdig uten et @:terms.journalNote{''} | {n} avtaler er ferdige uten et @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "En avtale på en sak du koordinerer mangler et @:terms.journalNote{''} | {n} avtaler på saker du koordinerer mangler et @:terms.journalNote{''}",
+            "department_bookings_missing_note": "En avtale i avdelingene dine mangler et @:terms.journalNote{''} | {n} avtaler i avdelingene dine mangler et @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut innen en uke | {n} mål går ut innen en uke",
             "heading": "Krever din oppmerksomhet",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",

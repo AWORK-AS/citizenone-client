@@ -7540,7 +7540,8 @@
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
             "statusSuccessfullyUpdated": "Händelsestatus har uppdaterats",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} har skapats och bokningen har markerats som slutförd"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7617,6 +7618,18 @@
             "label": "Anteckning saknas",
             "help": "Bokningen är slut men ingen journalanteckning har skrivits än. Klicka för att skriva den."
         },
+        "noteHeader": {
+            "label": "Bokning",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Ärendenr {number}",
+            "responsible": "Ansvarig",
+            "primaryCoordinator": "Primär koordinator",
+            "bookingOwner": "Ansvarig för bokningen",
+            "statusLabel": "Status",
+            "planned": "Planerad"
+        },
+        "saveAndComplete": "Spara och markera som slutförd",
+        "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
@@ -11269,6 +11282,10 @@
                 "chatCprWarning": "Varna för CPR-nummer i chatt",
                 "missingNoteReminder": "Påminn om bokningar utan @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Meddela om @:terms.journalNotes{''} skapade från en bokning",
+                "calendarNoteRequired": "@.capitalize:terms.journalNote{''} krävs vid Slutförd",
+                "calendarNoteRequiredHint": "Väljer man Slutförd på en bokning med en @:terms.citizen{''} öppnas @:terms.journalNote{''}, och bokningen markeras som slutförd när den sparas. Inte slutförd kräver ingen anteckning",
+                "missingNoteCoordinatorReminder": "Påminn koordinatorn om saknad @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "Ett dygn efter att en bokning avslutats utan anteckning får ärendets primära koordinator också en påminnelse, och koordinatorer och chefer ser bokningarna på Min dag. Kräver att påminnelsen om bokningar utan anteckning är påslagen",
                 "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
@@ -16013,6 +16030,8 @@
         "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
             "bookings_missing_note": "En bokning har avslutats utan en @:terms.journalNote{''} | {n} bokningar har avslutats utan en @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "En bokning i ett ärende du koordinerar saknar en @:terms.journalNote{''} | {n} bokningar i ärenden du koordinerar saknar en @:terms.journalNote{''}",
+            "department_bookings_missing_note": "En bokning i dina avdelningar saknar en @:terms.journalNote{''} | {n} bokningar i dina avdelningar saknar en @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
             "heading": "Kräver din uppmärksamhet",
             "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",

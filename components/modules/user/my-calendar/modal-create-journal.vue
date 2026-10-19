@@ -5,6 +5,13 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <ModulesUserMyCalendarNoteBookingHeader :context="state.noteContext" class="mb-4" />
+                    <!-- Opened by "done" where the company requires a note first:
+                         saving the note is what marks the booking done. -->
+                    <p v-if="props.completeOnSave" class="mb-4 flex items-start gap-x-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800 ring-1 ring-green-200">
+                        <Icon name="ph:check-circle" class="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                        {{ $t('events.completeOnSaveHint') }}
+                    </p>
                     <form @submit.prevent="saveJournal" class="space-y-4">
                         <div class="grid md:grid-cols-2 gap-x-3">
                             <div class="space-y-1">
@@ -150,7 +157,8 @@
                                 v-model="state.formJournal.risk_assessment_tags" />
                             <FormError :error="state.error?.errors?.risk_assessment_tags_uuid?.[0]" />
                         </div>
-                        <div>
+                        <!-- A draft isn't a note yet, so it can't complete the booking. -->
+                        <div v-if="!props.completeOnSave">
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.formJournal.is_draft = !state.formJournal.is_draft">
                                 <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
@@ -173,7 +181,7 @@
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton type="submit" buttonStyle="primary">
-                                {{ $t('save') }}
+                                {{ props.completeOnSave ? $t('events.saveAndComplete') : $t('save') }}
                             </FormButton>
                         </div>
                     </form>
@@ -220,6 +228,12 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // Opened by "done" where the company requires a note first: the save
+    // also marks the booking done (mark_completed), in one request.
+    completeOnSave: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const emit = defineEmits(['close', 'journalCreated'])
@@ -245,6 +259,7 @@ const state = reactive({
     error: {} as Error,
     citizenUuid: '' as string,
     planError: '',
+    noteContext: null as any,
     formJournal: {
         title: '',
         date: moment().format('YYYY-MM-DD'),
@@ -297,6 +312,7 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
             state.formJournal.date = moment(props.selectedEvent.date_time_start).format('YYYY-MM-DD')
         }
         resolveCitizenUuid()
+        fetchNoteContext()
         fetchColleagues()
         if (state.citizenUuid) {
             fetchPlans()
@@ -317,6 +333,7 @@ function resolveCitizenUuid() {
 
 function resetForm() {
     state.error = {}
+    state.noteContext = null
     state.formJournal = {
         title: '',
         date: moment().format('YYYY-MM-DD'),
@@ -346,6 +363,20 @@ function resetForm() {
     state.planError = ''
     state.options.journal_note_tags = []
     state.options.risk_assessment_tags = []
+}
+
+// The header above the form. Quiet on failure: the note can be written without it.
+async function fetchNoteContext() {
+    const uuid = props.selectedEvent?.uuid
+    if (!uuid) return
+    try {
+        const response = await myCalendarService.getNoteContext(uuid)
+        if (props.selectedEvent?.uuid === uuid) {
+            state.noteContext = response?.data ?? null
+        }
+    } catch {
+        state.noteContext = null
+    }
 }
 
 async function fetchPlans() {
@@ -520,7 +551,7 @@ async function saveJournal() {
             score: state.formJournal.score,
             content: state.formJournal.content,
             journal_note_tags_uuid: state.formJournal.journal_note_tags,
-            is_draft: state.formJournal.is_draft,
+            is_draft: props.completeOnSave ? false : state.formJournal.is_draft,
             is_internal: state.formJournal.is_internal,
             copy_journal_note_to_plan_or_goal_or_subgoal: state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
             assessment: state.formJournal.assessment,
@@ -533,12 +564,15 @@ async function saveJournal() {
         if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal && journal_note_plan_goal_subgoal_uuid) {
             params.journal_note_plan_goal_subgoal_uuid = journal_note_plan_goal_subgoal_uuid
         }
+        if (props.completeOnSave) {
+            params.mark_completed = true
+        }
 
         const response = await myCalendarService.createJournalFromEvent(uuid, params)
         if (response?.data) {
             emit('journalCreated')
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('events.alert.journalSuccessfullyCreated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t(props.completeOnSave ? 'events.alert.journalCreatedAndCompleted' : 'events.alert.journalSuccessfullyCreated')}.`)
         }
     } catch (error: any) {
         state.error = error
