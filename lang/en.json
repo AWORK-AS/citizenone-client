@@ -16715,6 +16715,25 @@
             "edit": "Edit epikrise template"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inactive employees",
+        "messageSingle": "{name} has been inactive for 3 months (last active {date}).",
+        "messageSingleNever": "{name} has never logged in and has been inactive for 3 months.",
+        "messageMany": "{count} employees have been inactive for 3 months or more.",
+        "licenseNote": "They still use a license until they are archived.",
+        "neverLoggedIn": "Never logged in",
+        "lastActive": "Last active {when}",
+        "archive": "Archive",
+        "keepActive": "Keep active",
+        "viewEmployee": "View employee",
+        "remindLater": "Remind me later",
+        "close": "Close",
+        "archiveConfirm": "Are you sure you want to archive {name}? They will no longer use a license.",
+        "licenseFreed": "License freed",
+        "columnHeader": "Last active",
+        "never": "Never",
+        "filter": "Inactive 3+ months"
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",

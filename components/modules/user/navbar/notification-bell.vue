@@ -206,6 +206,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('contractsigned')) return 'contract_signed'
     if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
     if (type.toLowerCase().includes('codyaccessrequest')) return 'cody_request'
+    if (type.toLowerCase().includes('inactiveemployees')) return 'inactive_employees'
     return 'other'
 }
 
@@ -226,6 +227,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     contract_signed: { bg: 'bg-secondary/10', icon: 'ph:seal-check', color: 'text-secondary' },
     medication: { bg: 'bg-accent-orange/10', icon: 'ph:pill', color: 'text-accent-orange' },
     cody_request: { bg: 'bg-secondary/10', icon: 'ph:sparkle', color: 'text-secondary' },
+    inactive_employees: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -423,6 +425,24 @@ async function refreshUnreadCount() {
 }
 
 async function handleNotifClick(notif: any) {
+    // Employees who have been inactive for 3 months (admins): to the employee list, filtered to them.
+    if (getCategory(notif.type) === 'inactive_employees') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        navigateTo(notif.data?.content?.link ?? '/employees?inactive=1')
+        return
+    }
     // A colleague asked for Cody: to its app page, where the trial or a seat is.
     if (getCategory(notif.type) === 'cody_request') {
         state.isOpen = false
