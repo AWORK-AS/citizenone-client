@@ -1478,7 +1478,11 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    if (economyNavVisible(user)) {
+    // An admin keeps Economy whenever the company has it, whether or not the
+    // admin role was granted the page itself.
+    const adminEconomy = isAtLeast('Admin')
+        && (companyHasModule('Management & Economy') || companyHasModule('Billing') || companyHasModule('Revenue report'))
+    if (economyNavVisible(user) || adminEconomy) {
         nav.push({
             name: 'Economy',
             href: '/economy',
