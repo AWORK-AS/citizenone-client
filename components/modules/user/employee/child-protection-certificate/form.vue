@@ -58,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import { addYearsToLocalDate } from '@/composables/localDate'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -96,10 +97,7 @@ const state = reactive({
 const derivedExpiry = computed(() => {
     const issued = state.formEmployeeDocument.issued_at
     if (!issued) return ''
-    const date = new Date(issued)
-    if (Number.isNaN(date.getTime())) return ''
-    date.setFullYear(date.getFullYear() + 1)
-    return date.toISOString().slice(0, 10)
+    return addYearsToLocalDate(issued, 1)
 })
 
 
