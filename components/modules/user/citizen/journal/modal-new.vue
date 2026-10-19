@@ -118,7 +118,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const { successAlert, warningAlert } = useAlert()
+const { successAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
@@ -136,6 +136,8 @@ const props = defineProps({
         default: false,
     },
 })
+
+const { warningAlert } = useAlert()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshJournal'])
