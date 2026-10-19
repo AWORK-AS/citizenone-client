@@ -352,6 +352,7 @@ import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { medicineSelfAdministration } from '@/composables/medicineSelfAdministration'
+import { saveDatesSettled, remainingDates } from '@/composables/multiDateSave'
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -659,40 +660,53 @@ async function saveMultiDate(forceMainStock = false) {
     if (!state.multiType || state.selectedDates.length === 0 || !state.slots.length) return
     state.isSaving = true
     state.error = null
-    try {
-        // Save one entry per date per timeslot in parallel
-        await Promise.all(
-            state.selectedDates.map(async (dateStr: string) => {
-                const payload: any = {
-                    medicine_uuid: props.selectedMedicine?.uuid,
-                    date: dateStr,
-                    dosages: state.slots.map((s: any) => ({
-                        medicine_uuid: props.selectedMedicine?.uuid,
-                        time: s.time,
-                        type: state.multiType,
-                        dosage: s.dosage,
-                        comment: state.multiComment,
-                    })),
-                }
-                if (forceMainStock) payload.give_from_main_stock = true
-                await medicineHistoryService.saveMedicineHistory(payload)
-            })
-        )
-        successAlert(`${t('alert.success')}!`, t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: state.selectedDates.length }))
+    const dates = [...state.selectedDates]
+    const outcome = await saveDatesSettled(dates, async (dateStr: string) => {
+        const payload: any = {
+            medicine_uuid: props.selectedMedicine?.uuid,
+            date: dateStr,
+            dosages: state.slots.map((s: any) => ({
+                medicine_uuid: props.selectedMedicine?.uuid,
+                time: s.time,
+                type: state.multiType,
+                dosage: s.dosage,
+                comment: state.multiComment,
+            })),
+        }
+        if (forceMainStock) payload.give_from_main_stock = true
+        await medicineHistoryService.saveMedicineHistory(payload)
+    })
+    // Dates that went through must leave the selection, or a retry would
+    // register them a second time.
+    state.selectedDates = remainingDates(dates, outcome)
+    if (outcome.succeeded.length) {
+        emit('refreshMedicines')
+        fetchMonthDosageStatus()
+    }
+    if (!outcome.failed.length) {
+        successAlert(`${t('alert.success')}!`, t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: outcome.succeeded.length }))
         state.selectedDates = []
         state.multiType = ''
         state.multiComment = ''
         state.multiDateMode = false
-        emit('refreshMedicines')
-        fetchMonthDosageStatus()
         setTimeout(() => closeModal(), 600)
-    } catch (error: any) {
-        if (error?.pouring_empty && !forceMainStock) {
-            openPouringEmptyDialog(error, () => saveMultiDate(true))
-            state.isSaving = false
-            return
-        }
-        state.error = { message: error?.data?.message ?? error?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurred') }
+        state.isSaving = false
+        return
+    }
+    const pouring = outcome.failed.find((f) => f.error?.pouring_empty)
+    if (pouring && !forceMainStock) {
+        openPouringEmptyDialog(pouring.error, () => saveMultiDate(true))
+        state.isSaving = false
+        return
+    }
+    const first = outcome.failed[0].error
+    const reason = first?.data?.message ?? first?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurred')
+    state.error = {
+        message: t('citizens.medicineJournals.giveMedicineModal.partialFailure', {
+            ok: outcome.succeeded.length,
+            dates: outcome.failed.map((f) => formatDateShort(f.date)).join(', '),
+            reason,
+        }),
     }
     state.isSaving = false
 }

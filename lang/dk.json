@@ -3109,6 +3109,7 @@
                 "anErrorOccurred": "Der opstod en fejl.",
                 "anErrorOccurredRetry": "Der opstod en fejl. Prøv igen.",
                 "registeredForDays": "Registreret for {n} dag(e).",
+                "partialFailure": "Registreret for {ok} dag(e). Mislykkedes for: {dates} ({reason}). De mislykkede datoer er stadig valgt - prøv igen.",
                 "overdueMinutes": "{minutes} min forsinket",
                 "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
                 "overdueHours": "{hours}t forsinket",

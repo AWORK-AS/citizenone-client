@@ -3109,6 +3109,7 @@
                 "anErrorOccurred": "Där opstod en fel.",
                 "anErrorOccurredRetry": "Där opstod en fel. Försök igen.",
                 "registeredForDays": "Registrerad för {n} dag(e).",
+                "partialFailure": "Registrerad för {ok} dag(ar). Misslyckades för: {dates} ({reason}). De misslyckade datumen är fortfarande valda - försök igen.",
                 "overdueMinutes": "{minutes} min försenad",
                 "overdueHoursMinutes": "{hours}t {minutes}min försenad",
                 "overdueHours": "{hours}t försenad",

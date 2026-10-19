@@ -3109,6 +3109,7 @@
                 "anErrorOccurred": "An error occurred.",
                 "anErrorOccurredRetry": "An error occurred. Please try again.",
                 "registeredForDays": "Registered for {n} day(s).",
+                "partialFailure": "Registered for {ok} day(s). Failed for: {dates} ({reason}). The failed dates are still selected - try again.",
                 "overdueMinutes": "{minutes} min overdue",
                 "overdueHoursMinutes": "{hours}h {minutes}min overdue",
                 "overdueHours": "{hours}h overdue",
