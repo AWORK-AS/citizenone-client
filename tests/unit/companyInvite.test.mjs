@@ -13,6 +13,10 @@ const {
     parseInviteFragment,
     initialCompanyInviteState,
     companyInviteOutcomeOf,
+    rememberCompanyInvite,
+    recallCompanyInvite,
+    forgetCompanyInvite,
+    isTerminalCompanyInviteState,
 } = await import('../../composables/companyInvite.ts')
 
 const full = { invite: 'i-uuid', company: 'c-uuid', user: 'u-uuid', expires: '1760000000', signature: 'abc123' }
@@ -116,5 +120,55 @@ describe('accept-company-invite page', () => {
     test('accepts from the button and clears the fragment', () => {
         assert.match(page, /@click="acceptInvitation"/)
         assert.match(page, /history\.replaceState/)
+    })
+})
+
+function memoryStorage() {
+    const map = new Map()
+    return {
+        map,
+        getItem: (k) => (map.has(k) ? map.get(k) : null),
+        setItem: (k, v) => { map.set(k, String(v)) },
+        removeItem: (k) => { map.delete(k) },
+    }
+}
+
+describe('remembering the invite across a reload', () => {
+    const invite = readCompanyInviteParams(full)
+
+    test('a stored invite comes back after the fragment is gone', () => {
+        const storage = memoryStorage()
+        rememberCompanyInvite(storage, invite)
+        assert.deepEqual(recallCompanyInvite(storage), invite)
+        assert.ok(storage.map.has('companyInvite:i-uuid'))
+    })
+
+    test('forgetting clears the invite and the pointer', () => {
+        const storage = memoryStorage()
+        rememberCompanyInvite(storage, invite)
+        forgetCompanyInvite(storage, 'i-uuid')
+        assert.equal(recallCompanyInvite(storage), null)
+        assert.equal(storage.map.size, 0)
+    })
+
+    test('nothing stored, garbage stored or no storage at all gives null', () => {
+        assert.equal(recallCompanyInvite(memoryStorage()), null)
+        const storage = memoryStorage()
+        storage.setItem('companyInvite:current', 'x')
+        storage.setItem('companyInvite:x', '{not json')
+        assert.equal(recallCompanyInvite(storage), null)
+        assert.equal(recallCompanyInvite(null), null)
+    })
+
+    test('a storage that throws does not break the page', () => {
+        const throwing = { getItem() { throw new Error('blocked') }, setItem() { throw new Error('blocked') }, removeItem() { throw new Error('blocked') } }
+        assert.doesNotThrow(() => rememberCompanyInvite(throwing, invite))
+        assert.equal(recallCompanyInvite(throwing), null)
+        assert.doesNotThrow(() => forgetCompanyInvite(throwing, 'i-uuid'))
+    })
+
+    test('only finished states drop the stored link', () => {
+        for (const s of ['accepted', 'expired', 'invalid', 'notAdmin']) assert.equal(isTerminalCompanyInviteState(s), true)
+        for (const s of ['ready', 'wrongUser', 'error', null]) assert.equal(isTerminalCompanyInviteState(s), false)
     })
 })

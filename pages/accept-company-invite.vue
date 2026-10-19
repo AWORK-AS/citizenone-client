@@ -83,6 +83,10 @@ import {
     parseInviteFragment,
     initialCompanyInviteState,
     companyInviteOutcomeOf,
+    rememberCompanyInvite,
+    recallCompanyInvite,
+    forgetCompanyInvite,
+    isTerminalCompanyInviteState,
     type CompanyInviteOutcome,
     type CompanyInvitePayload,
 } from '@/composables/companyInvite'
@@ -134,13 +138,33 @@ onMounted(() => {
 // from the address bar so they are not left in history or picked up by
 // anything that later reads the URL.
 function readInvite() {
-    invite = readCompanyInviteParams(parseInviteFragment(window.location.hash))
+    const storage = sessionStorageOrNull()
+    const fromLink = readCompanyInviteParams(parseInviteFragment(window.location.hash))
     if (window.location.hash) {
         window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
     }
 
+    // A reload after the fragment was cleared falls back to this tab's copy.
+    if (fromLink) rememberCompanyInvite(storage, fromLink)
+    invite = fromLink ?? recallCompanyInvite(storage)
+
     const signedInUuid = userStore.isLoggedIn ? userStore.getUser?.uuid : null
-    state.outcome = initialCompanyInviteState(invite, signedInUuid)
+    setOutcome(initialCompanyInviteState(invite, signedInUuid))
+}
+
+function sessionStorageOrNull(): Storage | null {
+    try {
+        return window.sessionStorage
+    } catch {
+        return null
+    }
+}
+
+function setOutcome(outcome: CompanyInviteOutcome) {
+    state.outcome = outcome
+    if (invite && isTerminalCompanyInviteState(outcome)) {
+        forgetCompanyInvite(sessionStorageOrNull(), invite.invite_uuid)
+    }
 }
 
 function animateAssets() {
@@ -167,9 +191,9 @@ async function acceptInvitation() {
     state.isPageLoading = true
     try {
         await companyInvitationService.acceptInvitation({ ...invite, locale: userStore.getLanguage })
-        state.outcome = 'accepted'
+        setOutcome('accepted')
     } catch (error: any) {
-        state.outcome = companyInviteOutcomeOf(error)
+        setOutcome(companyInviteOutcomeOf(error))
     }
     state.isPageLoading = false
 }

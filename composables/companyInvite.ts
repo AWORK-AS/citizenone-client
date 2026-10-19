@@ -83,3 +83,51 @@ export function companyInviteOutcomeOf(error: any): CompanyInviteOutcome {
 
     return 'error'
 }
+
+/**
+ * The fragment is removed from the address bar once read, so a reload before
+ * the button is pressed would otherwise lose the invitation. It is kept in
+ * sessionStorage (this tab only, gone when the tab closes) under a key per
+ * invite, and forgotten once the invite is accepted or turned out unusable.
+ */
+type InviteStorage = Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>
+
+const INVITE_KEY_PREFIX = 'companyInvite:'
+const CURRENT_INVITE_KEY = `${INVITE_KEY_PREFIX}current`
+
+/** States after which the stored link is of no further use. */
+export function isTerminalCompanyInviteState(outcome: CompanyInviteOutcome | null): boolean {
+    return outcome === 'accepted' || outcome === 'expired' || outcome === 'invalid' || outcome === 'notAdmin'
+}
+
+export function rememberCompanyInvite(storage: InviteStorage | null | undefined, invite: CompanyInvitePayload): void {
+    try {
+        storage?.setItem(`${INVITE_KEY_PREFIX}${invite.invite_uuid}`, JSON.stringify(invite))
+        storage?.setItem(CURRENT_INVITE_KEY, invite.invite_uuid)
+    } catch { /* storage blocked: a reload just needs the link again */ }
+}
+
+export function recallCompanyInvite(storage: InviteStorage | null | undefined): CompanyInvitePayload | null {
+    try {
+        const uuid = storage?.getItem(CURRENT_INVITE_KEY)
+        if (!uuid) return null
+        const raw = JSON.parse(storage?.getItem(`${INVITE_KEY_PREFIX}${uuid}`) ?? 'null')
+        if (!raw || typeof raw !== 'object') return null
+        return readCompanyInviteParams({
+            invite: raw.invite_uuid,
+            company: raw.company_uuid,
+            user: raw.user_uuid,
+            expires: String(raw.expires ?? ''),
+            signature: raw.signature,
+        })
+    } catch {
+        return null
+    }
+}
+
+export function forgetCompanyInvite(storage: InviteStorage | null | undefined, inviteUuid: string): void {
+    try {
+        storage?.removeItem(`${INVITE_KEY_PREFIX}${inviteUuid}`)
+        if (storage?.getItem(CURRENT_INVITE_KEY) === inviteUuid) storage?.removeItem(CURRENT_INVITE_KEY)
+    } catch { /* nothing to clean up */ }
+}
