@@ -1326,6 +1326,10 @@ function generateSidebarLinks(user: any) {
             ]
         })
     }
+    // The shared inbox of prescription renewal requests from the patient portal.
+    if (user?.can_review_prescription_renewals) {
+        nav.push({ name: 'PrescriptionRenewals', href: '/prescription-renewals', icon: 'ph:prescription', group: 'daily', activeRouteNames: ['prescription-renewals', 'prescription-renewals-uuid'] })
+    }
     const vagtplanEnabled = user?.company?.onboarding_preferences?.modules?.vagtplan !== false
     if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule") && vagtplanEnabled) {
         nav.push({

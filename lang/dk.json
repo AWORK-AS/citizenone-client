@@ -11405,8 +11405,10 @@
                 "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt",
                 "portalSectionForms": "Formularer",
                 "portalSectionPriceEstimates": "Prisoverslag",
+                "portalSectionPrescriptions": "Receptfornyelse",
                 "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
                 "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
+                "portalPreviewPrescriptions": "Patienten ser sine nuværende recepter og kan bede klinikken om at forny dem. Anmodningen kommer ind i indbakken Receptfornyelser.",
                 "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}"
             }
         },
@@ -19015,5 +19017,81 @@
     "tableColumns": {
         "moveUp": "Flyt {column} op",
         "moveDown": "Flyt {column} ned"
+    },
+    "prescriptionRenewals": {
+        "title": "Receptfornyelser",
+        "intro": "Anmodninger fra patienter om at forny en recept. En anmodning kommer herind, når patienten har besvaret spørgeskemaet, der hører til medicinen. Godkend den og opret recepten, eller afvis den med en begrundelse til patienten.",
+        "filter": "Filtrér efter status",
+        "all": "Alle",
+        "empty": "Der er ingen anmodninger her.",
+        "open": "Åbn",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Medicin",
+            "status": "Status",
+            "received": "Modtaget"
+        },
+        "statuses": {
+            "awaiting_answers": "Venter på spørgeskema",
+            "pending": "Til vurdering",
+            "approved": "Godkendt",
+            "rejected": "Afvist",
+            "prescribed": "Recept oprettet"
+        },
+        "detail": {
+            "title": "Anmodning om receptfornyelse",
+            "currentPrescription": "Nuværende recept",
+            "endsOn": "Slutter",
+            "patientNote": "Besked fra patienten",
+            "questionnaire": "Spørgeskema",
+            "notAnsweredYet": "Patienten har endnu ikke besvaret spørgeskemaet.",
+            "noQuestionnaire": "Der er ikke knyttet et spørgeskema til denne medicin.",
+            "decision": "Afgørelse",
+            "decidedBy": "Af {name}, {date}",
+            "noteToPatient": "Besked til patienten",
+            "notePlaceholder": "Skal udfyldes ved afvisning. Patienten ser den i appen.",
+            "approve": "Godkend",
+            "reject": "Afvis",
+            "approved": "Anmodningen er godkendt. Patienten har fået besked.",
+            "rejected": "Anmodningen er afvist. Patienten har fået besked.",
+            "prescribeHelp": "Anmodningen er godkendt. Opret recepten på patientens medicinkort.",
+            "prescribe": "Opret recept",
+            "openMedicineCard": "Åbn medicinkortet"
+        },
+        "prescribe": {
+            "banner": "Fornyelse af {medicine}",
+            "bannerHelp": "Når recepten gemmes, lukkes patientens anmodning om fornyelse.",
+            "done": "Recepten er oprettet, og anmodningen om fornyelse er lukket."
+        },
+        "settings": {
+            "renewalSurvey": "Spørgeskema ved receptfornyelse",
+            "noRenewalSurvey": "Intet spørgeskema",
+            "renewalSurveyHelp": "Sendes til patienten, når de beder om at få fornyet en recept på denne medicin, f.eks. et spørgeskema om hårtab."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Recepter",
+        "intro": "Dine nuværende recepter. Bed klinikken om at forny en, når den er ved at udløbe.",
+        "yourPrescriptions": "Dine recepter",
+        "empty": "Du har ingen recepter fra klinikken.",
+        "validUntil": "Gyldig til {date}",
+        "requestRenewal": "Anmod om fornyelse",
+        "answerQuestionnaire": "Besvar spørgeskemaet",
+        "yourRequests": "Dine anmodninger",
+        "requestedOn": "Anmodet {date}",
+        "clinicNote": "Fra klinikken",
+        "confirm": "Vil du bede klinikken om at forny din recept på {medicine}?",
+        "questionnaireNext": "Bagefter besvarer du et kort spørgeskema, så klinikken kan vurdere fornyelsen.",
+        "noteLabel": "Besked til klinikken (valgfri)",
+        "notePlaceholder": "F.eks. hvordan behandlingen går",
+        "send": "Send anmodning",
+        "sent": "Din anmodning er sendt til klinikken.",
+        "statuses": {
+            "awaiting_answers": "Venter på dine svar",
+            "pending": "Hos klinikken",
+            "approved": "Godkendt",
+            "rejected": "Afvist",
+            "prescribed": "Fornyet"
+        }
     }
 }

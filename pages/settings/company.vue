@@ -885,6 +885,7 @@ const portalAudiences = computed(() => {
                 { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
                 { key: 'forms', label: 'settings.company.form.portalSectionForms' },
                 { key: 'price_estimates', label: 'settings.company.form.portalSectionPriceEstimates' },
+                { key: 'prescriptions', label: 'settings.company.form.portalSectionPrescriptions' },
                 { key: 'support', label: 'settings.company.form.portalSectionSupport' },
             ],
         })
@@ -895,9 +896,14 @@ const portalAudiences = computed(() => {
 
 const totalSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) => total + audience.sections.length, 0))
 
-// An unset section means visible, matching the backend default.
+// Sections that start hidden until an admin turns them on, matching PortalVisibilityService::HIDDEN_UNTIL_ENABLED.
+const HIDDEN_UNTIL_ENABLED: Record<string, string[]> = { patient: ['prescriptions'] }
+
+// An unset section means visible, matching the backend default - except the ones above.
 function isSectionVisible(audience: string, section: string) {
-    return state.formCompany.portal_visibility?.[audience]?.[section] !== false
+    const value = state.formCompany.portal_visibility?.[audience]?.[section]
+    if (value === undefined || value === null) return !(HIDDEN_UNTIL_ENABLED[audience] ?? []).includes(section)
+    return value !== false
 }
 
 // Opening a section exposes records to people outside the organization, so it
