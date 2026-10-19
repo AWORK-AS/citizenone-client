@@ -1845,6 +1845,7 @@
                 "successfullyCopied": "{journal} successfully copied",
                 "successfullyMoved": "{journal} successfully moved",
                 "successfullyUpdated": "Journal successfully updated",
+                "surveysNotCompleted": "Some surveys could not be completed ({n}). Open the note and try again.",
                 "unlockJournal": "{journal} successfully unlocked",
                 "unpinJournal": "{journal} successfully unpinned"
             },
@@ -1951,6 +1952,7 @@
                 "title": "Title",
                 "usePredefinedcontent": "Use predefined content",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Could not save automatically. Your latest changes are not saved yet - retrying.",
                 "showJournalTitles": "Show journal titles",
                 "titlePlaceholder": "Choose or type a title",
                 "dictate": "Dictate",
@@ -4974,7 +4976,8 @@
         "showFewerShifts": "Show only the first shifts",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
-            "hint": "Enter to save · Esc to cancel"
+            "hint": "Enter to save · Esc to cancel",
+            "saveFailed": "Could not update the shift time."
         },
         "danlon_sync": "Sync to Danløn",
         "danlon_sync_description": "Transfer scheduled hours and supplements from your duty schedules to Danløn payroll. Select employees, choose a date range, and map shift types to Danløn codes before syncing.",

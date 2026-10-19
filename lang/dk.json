@@ -1845,6 +1845,7 @@
                 "successfullyCopied": "{journal} kopieret succesfuldt",
                 "successfullyMoved": "{journal} flyttet succesfuldt",
                 "successfullyUpdated": "Journal opdateret med succes",
+                "surveysNotCompleted": "Nogle spørgeskemaer kunne ikke gennemføres ({n}). Åbn notatet og prøv igen.",
                 "unlockJournal": "{journal} låst op med succes",
                 "unpinJournal": "{journal} fastgørelse fjernet med succes"
             },
@@ -1951,6 +1952,7 @@
                 "title": "Titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
                 "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
+                "autosaveFailed": "Kunne ikke gemme automatisk. Dine seneste ændringer er ikke gemt endnu - prøver igen.",
                 "showJournalTitles": "Vis journaltitler",
                 "titlePlaceholder": "Vælg eller skriv en titel",
                 "dictate": "Diktér",
@@ -4974,7 +4976,8 @@
         "showFewerShifts": "Vis kun de første vagter",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
-            "hint": "Enter for at gemme · Esc for at annullere"
+            "hint": "Enter for at gemme · Esc for at annullere",
+            "saveFailed": "Vagttidspunktet kunne ikke opdateres."
         },
         "danlon_sync": "Synkroniser til Danløn",
         "danlon_sync_description": "Overfør planlagte timer og tillæg fra dine vagtplaner til Danløn lønsystem. Vælg medarbejdere, vælg en datoperiode og kortlæg vagttyper til Danløn-koder før synkronisering.",

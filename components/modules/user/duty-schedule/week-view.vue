@@ -3311,6 +3311,11 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         }
     } catch (error: any) {
         state.editShiftError = error
+        // The edit modal shows editShiftError itself; a quick edit has no
+        // modal open, so without this the failure was visible nowhere.
+        if (!state.modal.isEditShiftOpen) {
+            errorAlert(language.t('alert.error'), error?.data?.message || error?.message || language.t('dutySchedules.quickEditTime.saveFailed'))
+        }
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()

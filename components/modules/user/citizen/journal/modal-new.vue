@@ -118,7 +118,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
@@ -319,6 +319,7 @@ async function saveJournal(journalDetails: any) {
 
 async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers: any[]) {
     if (!Array.isArray(pendingSurveyAnswers) || pendingSurveyAnswers.length === 0) return
+    let failed = 0
     for (const entry of pendingSurveyAnswers) {
         try {
             await surveyService.completeAssignment(entry.assignment_uuid, {
@@ -326,8 +327,13 @@ async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers
                 citizen_journal_uuid: journalUuid,
             })
         } catch (error: any) {
-            // one survey failing to complete must not block the journal note itself
+            // one survey failing to complete must not block the journal note
+            // itself, but the person has to be told it was not registered
+            failed++
         }
+    }
+    if (failed > 0) {
+        warningAlert(t('alert.error'), t('citizens.citizenJournals.alert.surveysNotCompleted', { n: failed }))
     }
 }
 </script>
