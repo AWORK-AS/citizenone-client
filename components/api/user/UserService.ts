@@ -53,6 +53,10 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/citizens-list-columns`, 'PUT', { citizens_list_columns: columns })
     }
 
+    async updateCitizensListFilters(filters: Record<string, any>): Promise<any> {
+        return await this.request(`/user/citizens-list-filters`, 'PUT', { citizens_list_filters: filters })
+    }
+
     async updateSidebarPreferences(preferences: { name: string, visible: boolean }[]): Promise<any> {
         return await this.request(`/user/sidebar-preferences`, 'PUT', { sidebar_preferences: preferences })
     }
