@@ -53,7 +53,11 @@
                                         </p>
                                     </div>
                                     <div class="mt-6">
-                                        <FormButton type="button" buttonStyle="primary" class="w-full"
+                                        <FormButton v-if="state.outcome === 'ready'" type="button" buttonStyle="primary"
+                                            class="w-full" :disabled="state.isPageLoading" @click="acceptInvitation">
+                                            {{ $t('invitation.acceptInvitation') }}
+                                        </FormButton>
+                                        <FormButton v-else type="button" buttonStyle="primary" class="w-full"
                                             @click="navigateTo('/')">
                                             {{ $t('invitation.loginToContinue') }}
                                         </FormButton>
@@ -74,14 +78,20 @@
 import { companyInvitationService } from '@/components/api/user/CompanyInvitationService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
-import { readCompanyInviteParams, companyInviteOutcomeOf, type CompanyInviteOutcome } from '@/composables/companyInvite'
+import {
+    readCompanyInviteParams,
+    parseInviteFragment,
+    initialCompanyInviteState,
+    companyInviteOutcomeOf,
+    type CompanyInviteOutcome,
+    type CompanyInvitePayload,
+} from '@/composables/companyInvite'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const userStore = useUserStore()
 const language = useI18n()
-const router = useRouter()
-const invite = readCompanyInviteParams(router?.currentRoute?.value?.query ?? {})
+let invite: CompanyInvitePayload | null = null
 
 // Set language
 language.locale.value = userStore.getLanguage
@@ -96,6 +106,10 @@ const state = reactive({
 
 const view = computed(() => {
     switch (state.outcome) {
+        case 'ready':
+            return { icon: 'ph:envelope-simple-open-bold', iconClass: 'bg-primary-600', title: t('invitation.readyTitle'), body: t('invitation.readyBody') }
+        case 'wrongUser':
+            return { icon: 'ph:user-switch-bold', iconClass: 'bg-amber-500', title: t('invitation.wrongUserTitle'), body: t('invitation.wrongUserBody') }
         case 'accepted':
             return { icon: 'ph:check-bold', iconClass: 'bg-green-600', title: t('invitation.invitationAccepted'), body: t('invitation.youHaveSuccessfullyAcceptedTheInvitation') }
         case 'expired':
@@ -113,8 +127,21 @@ const view = computed(() => {
 
 onMounted(() => {
     animateAssets()
-    acceptInvitation()
+    readInvite()
 })
+
+// The signed parameters live in the fragment. Read them once, then drop them
+// from the address bar so they are not left in history or picked up by
+// anything that later reads the URL.
+function readInvite() {
+    invite = readCompanyInviteParams(parseInviteFragment(window.location.hash))
+    if (window.location.hash) {
+        window.history.replaceState(window.history.state, '', window.location.pathname + window.location.search)
+    }
+
+    const signedInUuid = userStore.isLoggedIn ? userStore.getUser?.uuid : null
+    state.outcome = initialCompanyInviteState(invite, signedInUuid)
+}
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
@@ -133,12 +160,9 @@ function animateAssets() {
     observer.observe(animatedAsset02)
 }
 
+// Only on the button: a mail scanner opening the link must not accept it.
 async function acceptInvitation() {
-    // An old or cut-off link is refused without a round trip.
-    if (!invite) {
-        state.outcome = 'invalid'
-        return
-    }
+    if (!invite || state.outcome !== 'ready') return
 
     state.isPageLoading = true
     try {

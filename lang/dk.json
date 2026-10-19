@@ -8640,6 +8640,7 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Accepter invitation",
         "accepting": "Accepterer invitation",
         "alert": {
             "invalidInvitationLink": "Ugyldigt invitationslink"
@@ -8654,6 +8655,10 @@
         "loginToContinue": "Log ind for at fortsætte",
         "notAdminBody": "Kun administratorer kan acceptere denne invitation",
         "notAdminTitle": "Invitationen blev ikke accepteret",
+        "readyBody": "Tryk på knappen nedenfor for at blive administrator i organisationen",
+        "readyTitle": "Du er blevet inviteret",
+        "wrongUserBody": "Invitationen er til en anden bruger. Log ud, og åbn linket igen som den, den blev sendt til",
+        "wrongUserTitle": "Logget ind som en anden",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoiceDetails": {

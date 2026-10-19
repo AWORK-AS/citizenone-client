@@ -8640,6 +8640,7 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Accept invitation",
         "accepting": "Accepting invitation",
         "alert": {
             "invalidInvitationLink": "Invalid invitation link"
@@ -8654,6 +8655,10 @@
         "loginToContinue": "Login to continue",
         "notAdminBody": "Only administrators can accept this invitation",
         "notAdminTitle": "Invitation not accepted",
+        "readyBody": "Press the button below to join the organization as an administrator",
+        "readyTitle": "You have been invited",
+        "wrongUserBody": "This invitation is for another user. Sign out and open the link again as the person it was sent to",
+        "wrongUserTitle": "Signed in as someone else",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "invoiceDetails": {
