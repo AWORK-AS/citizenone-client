@@ -1845,7 +1845,9 @@
                 "successfullyCopied": "{journal} kopiert vellykket",
                 "successfullyMoved": "{journal} flyttet vellykket",
                 "successfullyUpdated": "Journal oppdatert vellykket",
-                "surveysNotCompleted": "Noen spørreskjemaer kunne ikke fullføres ({n}). Åpne notatet og prøv igjen.",
+                "surveysNotCompleted": "Notatet er lagret, men {n} spørreskjema ble ikke registrert.",
+                "surveysRetry": "Prøv igjen",
+                "surveysRetried": "Spørreskjemaene er registrert.",
                 "unlockJournal": "{journal} låst opp vellykket",
                 "unpinJournal": "{journal} festet fjernet vellykket"
             },

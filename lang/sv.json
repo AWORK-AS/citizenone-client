@@ -1845,7 +1845,9 @@
                 "successfullyCopied": "{journal} har kopierats",
                 "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
-                "surveysNotCompleted": "Några enkäter kunde inte slutföras ({n}). Öppna anteckningen och försök igen.",
+                "surveysNotCompleted": "Anteckningen är sparad, men {n} enkät(er) registrerades inte.",
+                "surveysRetry": "Försök igen",
+                "surveysRetried": "Enkäterna har registrerats.",
                 "unlockJournal": "{journal} låst upp",
                 "unpinJournal": "{journal} fästning borttagen"
             },

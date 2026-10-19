@@ -1845,7 +1845,9 @@
                 "successfullyCopied": "{journal} successfully copied",
                 "successfullyMoved": "{journal} successfully moved",
                 "successfullyUpdated": "Journal successfully updated",
-                "surveysNotCompleted": "Some surveys could not be completed ({n}). Open the note and try again.",
+                "surveysNotCompleted": "The note is saved, but {n} survey(s) were not registered.",
+                "surveysRetry": "Try again",
+                "surveysRetried": "The surveys were registered.",
                 "unlockJournal": "{journal} successfully unlocked",
                 "unpinJournal": "{journal} successfully unpinned"
             },
