@@ -10,6 +10,7 @@
                             <div class="space-y-1">
                                 <FormLabel for="citizen_uuid" :label="$t('citizens.emails.selectCitizen')" />
                                 <FormSelect id="citizen_uuid" :options="state.options.citizens" :appendToBody="true"
+                                    :filter-results="false" @search-change="citizenSearch.search"
                                     v-model="state.form.citizen_uuid" />
                                 <FormError :error="v$?.form?.citizen_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state.error?.errors?.citizen_uuid?.[0]" />
@@ -52,6 +53,7 @@
 
 <script setup lang="ts">
 import { citizenEmailService } from '@/components/api/user/CitizenEmailService'
+import { createCitizenSearch } from '@/composables/citizenPicker'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
@@ -143,19 +145,20 @@ async function loadOptions() {
     await fetchCitizens()
 }
 
-async function fetchCitizens() {
-    try {
-        const response = await citizenService.getCitizens({ page_length: 500 })
-        if (response?.data) {
-            state.options.citizens = response.data.map((c: any) => ({
-                value: c.uuid,
-                label: `${c.firstname} ${c.lastname}`,
-            }))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
+// First page on open, then a debounced server search while typing, so the
+// picker no longer pulls 500 citizens up front.
+const citizenSearch = createCitizenSearch({
+    fetchPage: async (params) => (await citizenService.getCitizens(params))?.data ?? [],
+    onOptions: (options) => { state.options.citizens = options },
+    onError: (error: any) => { state.error = error },
+    getSelected: () => state.form.citizen_uuid,
+})
+
+function fetchCitizens() {
+    return citizenSearch.load()
 }
+
+onBeforeUnmount(() => citizenSearch.cancel())
 
 async function submitForm() {
     state.error = {}
