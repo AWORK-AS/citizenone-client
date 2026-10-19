@@ -103,7 +103,10 @@
             "selectAll": "Velg alle",
             "banner": "{count} konvertert(e) sak(er) har ennå ingen saksbehandler.",
             "claimCases": "Ta saker",
-            "claimed": "1 sak tildelt | {count} saker tildelt"
+            "claimed": "1 sak tildelt | {count} saker tildelt",
+            "open": "Åpne",
+            "openCase": "Åpne @:terms.citizen{''}",
+            "openInquiry": "Åpne henvendelse"
         }
     },
     "managementEconomy": {
@@ -8497,6 +8500,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "@.capitalize:terms.citizenDefinite{'s'} CPR-nummer",
+            "cprWhenWon": "Må først fylles ut når henvendelsen vinnes.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Vurderer du, at @:terms.citizenDefinite{''} er inden for målgruppen av §109?",
@@ -11165,6 +11169,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
+                "inquiryWonRequiresCpr": "CPR-nummer påkrevd når en henvendelse er vunnet",
                 "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
@@ -17641,7 +17646,9 @@
             "external_contact": "Annen ekstern",
             "doctor": "Lege",
             "dentist": "Tannlege",
-            "our_contact_person": "Vår kontaktperson"
+            "our_contact_person": "Vår kontaktperson",
+            "advisor": "Rådgiver",
+            "municipality": "Kommune"
         },
         "form": {
             "type": "Type",
@@ -17654,7 +17661,13 @@
             "employee": "Medarbeider",
             "coordinatorRole": "Koordinatorrolle",
             "noRole": "Ingen",
-            "isPrimary": "Primær part"
+            "isPrimary": "Primær part",
+            "role": "Rolle",
+            "roleConsultant": "Konsulent",
+            "relationship": "Relasjon",
+            "noRelationships": "Det finnes ingen relasjoner ennå.",
+            "addRelationships": "Legg til relasjoner under Innstillinger",
+            "askAdminForRelationships": "En administrator kan legge dem til under Innstillinger."
         }
     },
     "inquiryInvitations": {
