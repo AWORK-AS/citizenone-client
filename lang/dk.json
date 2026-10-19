@@ -17576,6 +17576,27 @@
             "saved": "Profilen er gemt",
             "skillsSaved": "Kompetencerne er gemt",
             "saveFailed": "Kunne ikke gemmes"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktes",
+                "do_not_contact": "Må ikke kontaktes",
+                "terminated": "Ophørt"
+            },
+            "doNotContact": "Må ikke kontaktes",
+            "reason": "Årsag",
+            "note": "Note",
+            "hint": "Markeret som \"Må ikke kontaktes\" er konsulenten ude af matchningen og kan hverken spørges, vælges til en sag eller genaktiveres. En arkiveret konsulent uden markering og uden fratrædelsesdato er med i matchningen som \"Inaktiv – kan kontaktes\".",
+            "reasons": {
+                "resigned": "Fratrådt",
+                "paused": "På pause",
+                "absent": "Fraværende",
+                "do_not_contact": "Må ikke kontaktes",
+                "cannot_contact": "Kan ikke kontaktes",
+                "other": "Andet"
+            }
         }
     },
     "inquiryDetail": {
@@ -17639,7 +17660,7 @@
         "clear": "Nulstil",
         "noConsultants": "Ingen konsulenter fundet.",
         "notReady": "Kan ikke sættes på sag",
-        "archived": "Arkiveret",
+        "archived": "Inaktiv – kan kontaktes",
         "archivedHint": "Genaktiveres med en licens, når konsulenten vælges til sagen",
         "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
@@ -17775,7 +17796,8 @@
             "yes": "Ja tak",
             "no": "Nej tak",
             "answered": "Du har svaret"
-        }
+        },
+        "cannotBeChosen": "Markeret efter invitationen og kan ikke vælges til sagen"
     },
     "taskBoards": {
         "actions": {

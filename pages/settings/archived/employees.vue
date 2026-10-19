@@ -71,6 +71,14 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
+                                            <!-- Someone marked "Må ikke kontaktes" is out of the match and
+                                                 archived people are not in the employee list, so this is
+                                                 the way back to her consultant profile. -->
+                                            <NuxtLink v-if="isInquiryPipelineEnabled"
+                                                :to="`/employees/${employee.uuid}/consultant-profile`"
+                                                class="self-center whitespace-nowrap text-[13px] font-semibold text-secondary hover:underline">
+                                                {{ $t('employees.tabs.consultantProfile') }}
+                                            </NuxtLink>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="confirmEmployeeUnarchiving(employee)">
                                                 <Icon name="mdi:archive-cancel-outline" class="size-4" />
@@ -106,10 +114,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const departmentStore = useDepartmentStore()
+const userStore = useUserStore() as any
+// The consultant profile belongs to the inquiry pipeline, as its tab does.
+const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 const { formatDateToReadable } = useDatetimeFormatter()
 const { successAlert } = useAlert()
 const { t } = useI18n()

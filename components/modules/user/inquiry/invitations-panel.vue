@@ -19,7 +19,17 @@
             <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
                     <p class="text-[13px] font-semibold text-slate-800">{{ consultantName(invitation) }}</p>
-                    <span v-if="invitation.consultant?.is_archived" :title="$t('consultantMatch.archivedHint')"
+                    <!-- Marked or left since she was asked. Without contact_status (an
+                         older backend) only the archived badge shows, as before. -->
+                    <span v-if="isDoNotContact(invitation)" :title="$t('inquiryInvitations.cannotBeChosen')"
+                        class="rounded-full bg-[#fbe9e5] px-2 py-px text-[11px] font-bold text-[#c0442c]">
+                        {{ $t('consultantProfile.contact.statuses.do_not_contact') }}
+                    </span>
+                    <span v-else-if="invitation.consultant?.contact_status === 'terminated'"
+                        class="rounded-full bg-slate-200 px-2 py-px text-[11px] font-bold text-slate-700">
+                        {{ $t('consultantProfile.contact.statuses.terminated') }}
+                    </span>
+                    <span v-else-if="invitation.consultant?.is_archived" :title="$t('consultantMatch.archivedHint')"
                         class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-bold text-slate-600">
                         {{ $t('consultantMatch.archived') }}
                     </span>
@@ -47,7 +57,7 @@
                         {{ $t('inquiryInvitations.markDeclined') }}
                     </FormButton>
                 </template>
-                <Tooltip v-if="canManage && !invitation.is_selected && invitation.status !== 'declined'"
+                <Tooltip v-if="canManage && !invitation.is_selected && invitation.status !== 'declined' && !isDoNotContact(invitation)"
                     :text="$t('inquiryInvitations.select')">
                     <FormButton type="button" buttonStyle="primary" @click="select(invitation)">
                         {{ $t('inquiryInvitations.select') }}
@@ -92,6 +102,11 @@ function consultantName(invitation: any) {
     const c = invitation.consultant ?? {}
 
     return `${c.firstname ?? ''} ${c.lastname ?? ''}`.trim() || t('inquiryInvitations.unknownConsultant')
+}
+
+// The backend refuses to put her on the case, so the button is not offered.
+function isDoNotContact(invitation: any) {
+    return invitation.consultant?.contact_status === 'do_not_contact'
 }
 
 function statusClass(status: string) {

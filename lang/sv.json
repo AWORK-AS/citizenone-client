@@ -17480,6 +17480,27 @@
             "saved": "Profilen har sparats",
             "skillsSaved": "Kompetenserna har sparats",
             "saveFailed": "Kunde inte sparas"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktas",
+                "do_not_contact": "Får inte kontaktas",
+                "terminated": "Avslutad"
+            },
+            "doNotContact": "Får inte kontaktas",
+            "reason": "Orsak",
+            "note": "Anteckning",
+            "hint": "Markerad som \"Får inte kontaktas\" är konsulten utanför matchningen och kan varken tillfrågas, väljas till ett ärende eller återaktiveras. En arkiverad konsult utan markering och utan slutdatum finns med i matchningen som \"Inaktiv – kan kontaktas\".",
+            "reasons": {
+                "resigned": "Slutat",
+                "paused": "Pausad",
+                "absent": "Frånvarande",
+                "do_not_contact": "Får inte kontaktas",
+                "cannot_contact": "Kan inte kontaktas",
+                "other": "Annat"
+            }
         }
     },
     "inquiryDetail": {
@@ -17543,7 +17564,7 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
-        "archived": "Arkiverad",
+        "archived": "Inaktiv – kan kontaktas",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
@@ -17679,7 +17700,8 @@
             "yes": "Ja tack",
             "no": "Nej tack",
             "answered": "Du har svarat"
-        }
+        },
+        "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet"
     },
     "taskBoards": {
         "actions": {

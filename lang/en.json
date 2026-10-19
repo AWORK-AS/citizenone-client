@@ -17576,6 +17576,27 @@
             "saved": "The profile was saved",
             "skillsSaved": "The skills were saved",
             "saveFailed": "Could not be saved"
+        },
+        "contact": {
+            "title": "Contact status",
+            "statuses": {
+                "active": "Active",
+                "inactive": "Inactive – can be contacted",
+                "do_not_contact": "Must not be contacted",
+                "terminated": "Terminated"
+            },
+            "doNotContact": "Must not be contacted",
+            "reason": "Reason",
+            "note": "Note",
+            "hint": "Marked as \"Must not be contacted\", the consultant is left out of matching and can't be asked, chosen for a case or reactivated. An archived consultant with no mark and no termination date is in the match as \"Inactive – can be contacted\".",
+            "reasons": {
+                "resigned": "Resigned",
+                "paused": "Paused",
+                "absent": "Absent",
+                "do_not_contact": "Must not be contacted",
+                "cannot_contact": "Cannot be contacted",
+                "other": "Other"
+            }
         }
     },
     "inquiryDetail": {
@@ -17639,7 +17660,7 @@
         "clear": "Clear",
         "noConsultants": "No consultants found.",
         "notReady": "Cannot be put on a case",
-        "archived": "Archived",
+        "archived": "Inactive – can be contacted",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
@@ -17775,7 +17796,8 @@
             "yes": "Yes please",
             "no": "No thanks",
             "answered": "You have answered"
-        }
+        },
+        "cannotBeChosen": "Marked after the invitation and can't be chosen for the case"
     },
     "taskBoards": {
         "actions": {

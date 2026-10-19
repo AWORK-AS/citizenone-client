@@ -210,8 +210,10 @@
                                             class="rounded-full bg-[#fbe9e5] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c0442c]">
                                             {{ $t('consultantMatch.notReady') }}
                                         </span>
-                                        <!-- Archived consultants are matched too; this says she has to be
-                                             reactivated and given a licence before the case. -->
+                                        <!-- Archived consultants are matched too ("Inaktiv - kan kontaktes");
+                                             this says she has to be reactivated and given a licence
+                                             before the case. Whoever must not be contacted never
+                                             comes back from the match. -->
                                         <span v-if="result.is_archived" :title="$t('consultantMatch.archivedHint')"
                                             class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
                                             {{ $t('consultantMatch.archived') }}
@@ -492,6 +494,8 @@ function profileLine(result: any) {
     return [
         p.municipality_name,
         p.consultant_status ? t('consultantProfile.statuses.' + p.consultant_status) : '',
+        // Why she is inactive, e.g. absent.
+        p.status_reason ? t('consultantProfile.contact.reasons.' + p.status_reason) : '',
         p.has_car ? t('consultantProfile.form.hasCar') : '',
         p.max_travel_km ? `${p.max_travel_km} km` : '',
         p.desired_weekly_hours ? `${p.desired_weekly_hours} t/uge` : '',
