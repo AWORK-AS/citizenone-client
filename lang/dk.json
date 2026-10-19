@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "Du har et notat, der ikke blev gemt (kl. {time}).",
+        "restore": "Gendan",
+        "discard": "Kassér",
+        "confirmClose": "Notatet er ikke gemt. Vil du lukke alligevel? Teksten gemmes som kladde i denne fane."
+    },
     "nps": {
         "question": "Hvor sandsynligt er det, at du vil anbefale CitizenOne til en kollega?",
         "unlikely": "Slet ikke",

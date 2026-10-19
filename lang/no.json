@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "Du har et notat som ikke ble lagret (kl. {time}).",
+        "restore": "Gjenopprett",
+        "discard": "Forkast",
+        "confirmClose": "Notatet er ikke lagret. Vil du lukke likevel? Teksten lagres som kladd i denne fanen."
+    },
     "nps": {
         "question": "Hvor sannsynlig er det at du vil anbefale CitizenOne til en kollega?",
         "unlikely": "Ikke i det hele tatt",

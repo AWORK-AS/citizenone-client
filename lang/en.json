@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "You have a note that was not saved ({time}).",
+        "restore": "Restore",
+        "discard": "Discard",
+        "confirmClose": "The note is not saved. Close anyway? The text is kept as a draft in this tab."
+    },
     "nps": {
         "question": "How likely are you to recommend CitizenOne to a colleague?",
         "unlikely": "Not at all likely",
