@@ -295,8 +295,9 @@
                         <span class="text-xs font-medium text-slate-500">{{ $t('citizens.filters.activeFilters') }}:</span>
                         <button type="button" v-for="chip in activeFilterChips" :key="chip.key"
                             class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700 hover:bg-slate-200"
+                            :aria-label="$t('citizens.filters.removeFilter', { name: chip.text })"
                             @click="removeFilter(chip.key)">
-                            {{ chip.label }}
+                            {{ chip.text }}
                             <Icon name="ph:x" class="size-3" aria-hidden="true" />
                         </button>
                         <button type="button" class="text-xs font-medium text-tertiary hover:underline"
@@ -539,6 +540,7 @@
             </div>
 
             <ModulesUserCitizenModalFilter :isModalOpen="state.modal.isFilterOpen" :filter="state.propertyFilter"
+                :filters="offeredFilters"
                 @close="state.modal.isFilterOpen = false" @setFilter="applyFilter" />
             <ModulesUserCitizenModalColumns :isModalOpen="state.modal.isColumnsOpen" :modelValue="state.visibleColumns"
                 @close="state.modal.isColumnsOpen = false" @save="saveVisibleColumns" />
@@ -598,6 +600,9 @@ import { citizenInquiryService } from '@/components/api/user/CitizenInquiryServi
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
+import { useCitizenFieldVisibility } from '@/composables/useCitizenFieldVisibility'
+import { useCitizenListFilterOptions } from '@/composables/useCitizenListFilterOptions'
+import { CITIZEN_LIST_FILTERS, activeCitizenListFilters, availableCitizenListFilters } from '@/utils/citizenListFilters'
 
 const runtimeConfig = useRuntimeConfig()
 const { tt } = useTerminology()
@@ -781,9 +786,19 @@ function applySavedColumns(saved: any) {
 // (or the first one, on a cold load) can arrive later than onMounted.
 watch(() => userStore.getUser?.citizens_list_columns, (saved) => applySavedColumns(saved))
 
+// Same for the saved filter; it is only taken once, so it never overrides a
+// filter changed on the page since.
+watch(() => userStore.getUser?.citizens_list_filters, (saved) => {
+    if (applySavedFilter(saved)) {
+        citizenStore.setCurrentPageNumber(1)
+        fetchCitizens()
+    }
+})
+
 onMounted(() => {
     applySavedColumns(userStore.getUser?.citizens_list_columns)
     rebuildColumnHeaders()
+    applySavedFilter(userStore.getUser?.citizens_list_filters)
 
     fetchCitizens()
     ensurePinnedLoaded()
@@ -1032,19 +1047,19 @@ function handleSearch(value: any) {
     fetchCitizens()
 }
 
+let savedFilterApplied = false
+
+// The filters on offer come from CITIZEN_LIST_FILTERS; a filter on a card
+// field this person may not see is left out (the server ignores it as well).
+const { mayRoleSeeField } = useCitizenFieldVisibility()
+const { load: loadFilterOptions, valueLabel } = useCitizenListFilterOptions()
+const offeredFilters = computed(() => availableCitizenListFilters(mayRoleSeeField))
+
 /**
  * Only the properties that are actually set are sent, so an untouched filter
  * costs nothing and the query string stays readable.
  */
-const activeFilterParams = computed(() => {
-    const params: Record<string, any> = {}
-    for (const [key, value] of Object.entries(state.propertyFilter)) {
-        if (value === null || value === undefined || value === '') continue
-        params[key] = value
-    }
-
-    return params
-})
+const activeFilterParams = computed(() => activeCitizenListFilters(state.propertyFilter, offeredFilters.value))
 
 const activeFilterCount = computed(() => Object.keys(activeFilterParams.value).length)
 
@@ -1057,33 +1072,28 @@ const isFiltered = computed(() => {
 
 const emptyFilteredMessage = computed(() => tt('citizens.emptyFiltered'))
 
-const activeFilterChips = computed(() => {
-    const labels: Record<string, string> = {
-        admitted_from: t('citizens.filters.admittedFrom'),
-        admitted_to: t('citizens.filters.admittedTo'),
-        coordinator: t('citizens.coordinators.title'),
-        coordinator_role: t('citizens.filters.coordinatorRole'),
-        consultant: t('citizens.filters.consultant'),
-        municipality_uuid: t('citizens.table.municipality'),
-        region_uuid: t('citizens.filters.region'),
-        section_uuid: t('citizens.table.section'),
-        phase: t('citizens.table.phase'),
-        startup_status: t('citizens.table.startupStatus'),
-        weekly_hours_from: t('citizens.filters.weeklyHoursFrom'),
-        weekly_hours_to: t('citizens.filters.weeklyHoursTo'),
-        gender: t('citizens.form.gender'),
-        requires_interpreter: t('citizens.filters.requiresInterpreter'),
-        risk_level: t('citizens.filters.riskLevel'),
-        spoken_language: t('citizens.filters.spokenLanguage'),
-    }
+const activeFilterChips = computed(() => Object.entries(activeFilterParams.value).map(([key, value]) => {
+    const filter = CITIZEN_LIST_FILTERS.find((item) => item.key === key)
+    const label = filter ? t(filter.label) : key
+    const shown = filter ? valueLabel(filter, value) : String(value)
 
-    return Object.keys(activeFilterParams.value).map((key) => ({ key, label: labels[key] ?? key }))
-})
+    return { key, text: shown ? `${label}: ${shown}` : label }
+}))
+
+// A chip names the value it filters on, which for a select means the list
+// its options come from.
+watch(activeFilterParams, (params) => {
+    const used = CITIZEN_LIST_FILTERS.filter((item) => item.key in params)
+    if (used.length) loadFilterOptions(used)
+}, { immediate: true })
 
 function applyFilter(filter: Record<string, any>) {
-    state.propertyFilter = { ...filter }
+    // A filter chosen here wins over a saved one that arrives later.
+    savedFilterApplied = true
+    state.propertyFilter = activeCitizenListFilters(filter, offeredFilters.value)
     citizenStore.setCurrentPageNumber(1)
     fetchCitizens()
+    saveFilter()
 }
 
 function removeFilter(key: string) {
@@ -1095,6 +1105,28 @@ function removeFilter(key: string) {
 function clearFilters() {
     state.dataFilter.search = ''
     applyFilter({})
+}
+
+// The last filter is kept on the account, like the columns, so the list opens
+// the way it was left, on any device.
+async function saveFilter() {
+    const filters = { ...state.propertyFilter }
+    try {
+        await userService.updateCitizensListFilters(filters)
+        if (userStore.getUser) {
+            userStore.setUser({ ...userStore.getUser, citizens_list_filters: filters })
+        }
+    } catch (error: any) {
+        // Not being able to remember the filter should not get in the way of using it.
+    }
+}
+
+function applySavedFilter(saved: any) {
+    if (savedFilterApplied || !saved || typeof saved !== 'object') return false
+    savedFilterApplied = true
+    state.propertyFilter = activeCitizenListFilters(saved, offeredFilters.value)
+
+    return activeFilterCount.value > 0
 }
 
 function changePageLength(event: any) {
