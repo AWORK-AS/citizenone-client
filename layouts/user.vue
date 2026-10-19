@@ -517,7 +517,9 @@
                                                 $t('sidebar.discover') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <!-- Only an admin can switch an app on; for anyone else the
+                                         store is a shop window onto something they cannot buy. -->
+                                    <MenuItem v-if="isAtLeast('Admin')">
                                         <div @click="navigateTo('/apps')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ic:baseline-apps" class="h-4 w-4 text-slate-400" />{{
@@ -785,6 +787,7 @@ import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
 import { useAppTours } from '@/composables/useAppTours'
 import type { Error } from '@/types'
+import { economyNavVisible, navItemModuleEnabled } from '@/composables/pageAccess'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
@@ -1246,6 +1249,7 @@ function openNavItem(item: any) {
 
 function generateSidebarLinks(user: any) {
     const nav: any[] = []
+    const companyModulesForNav = user?.company?.module_pages
     try {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
@@ -1474,10 +1478,7 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    const hasEconomyOverview = user?.pages?.some((page: any) => page.name === 'Management & Economy')
-    const hasEmploymentEconomy = companyHasModule('Billing') || companyHasModule('Revenue report')
-
-    if (hasEconomyOverview || hasEmploymentEconomy) {
+    if (economyNavVisible(user)) {
         nav.push({
             name: 'Economy',
             href: '/economy',
@@ -1536,6 +1537,8 @@ function generateSidebarLinks(user: any) {
         // silent, hard-to-diagnose "empty sidebar" into a visible, debuggable one.
         console.error('generateSidebarLinks failed partway through', error)
     }
+
+    nav.splice(0, nav.length, ...nav.filter((item) => item.rawLabel || navItemModuleEnabled(item.name, companyModulesForNav)))
 
     // "Overview" and the dynamic per-company custom links (rawLabel: true, added
     // via /settings/custom-links) aren't user-hideable - Overview so a user can't
