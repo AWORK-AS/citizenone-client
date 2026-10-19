@@ -549,23 +549,37 @@
                                                 $t('navbar.procedures') }}
                                         </div>
                                     </MenuItem>
+                                    <!-- One entry for the three CitizenOne items. A MenuItem so the
+                                         arrow keys reach it; preventing the click keeps the menu
+                                         from closing, as it does for every other item. -->
                                     <MenuItem>
-                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                        <div @click.prevent="citizenOneMenuOpen = !citizenOneMenuOpen"
+                                            data-testid="menu-citizenone-group" aria-haspopup="true"
+                                            :aria-expanded="citizenOneMenuOpen"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:sparkle" class="h-4 w-4 text-slate-400" />
+                                            <span class="flex-1">CitizenOne</span>
+                                            <Icon name="ph:caret-down" class="h-4 w-4 text-slate-400 transition-transform"
+                                                :class="{ 'rotate-180': citizenOneMenuOpen }" />
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem v-if="citizenOneMenuOpen">
+                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                            class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:share-network" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.shareCitizenOne') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem v-if="citizenOneMenuOpen">
                                         <div @click="state.modal.isContactUsOpen = true"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:shooting-star" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.newWishes') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem v-if="citizenOneMenuOpen">
                                         <div @click="navigateTo('/coming-functions')"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:map-trifold" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.comingFunctions') }}
                                         </div>
@@ -910,6 +924,8 @@ function groupIsOpen(group: any): boolean {
 
 
 const { completed: discoverCompleted } = useDiscoverDone()
+// Profile menu: the share / wishes / coming-functions items sit under one entry.
+const citizenOneMenuOpen = ref(false)
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
