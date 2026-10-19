@@ -145,7 +145,7 @@ async function loadOptions() {
 
 async function fetchCitizens() {
     try {
-        const response = await citizenService.getCitizens({ per_page: 500 })
+        const response = await citizenService.getCitizens({ page_length: 500 })
         if (response?.data) {
             state.options.citizens = response.data.map((c: any) => ({
                 value: c.uuid,

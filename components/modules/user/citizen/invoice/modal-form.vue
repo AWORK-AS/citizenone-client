@@ -214,7 +214,7 @@ function applyTemplate() {
 
 async function loadCitizens() {
     try {
-        const response = await citizenService.getCitizens({ per_page: 500 })
+        const response = await citizenService.getCitizens({ page_length: 500 })
         state.citizens = response?.data || []
     } catch (error: any) {
         state.error = error?.message || ''
