@@ -502,6 +502,7 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { reportService } from '@/components/api/user/ReportService'
 import { timelineService } from '@/components/api/user/TimelineService'
+import { TIMELINE_PAGE_SIZE } from '@/composables/timelinePaging'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -870,7 +871,8 @@ function toggleTimeline() {
 async function fetchTimeline() {
     state.isTimelineLoading = true
     try {
-        const response = await timelineService.getTimeline(citizenUuid)
+        // A preview: the newest page only, with a link to the full timeline.
+        const response = await timelineService.getTimeline(citizenUuid, { page: 1, per_page: TIMELINE_PAGE_SIZE })
         state.timelineEntries = response?.data ?? []
     } catch (error: any) {
         state.error = error
