@@ -421,9 +421,14 @@ async function syncCompanyModules() {
     try {
         const res: any = await companyService.getCompanyModules()
         const pages = res?.pages ?? []
-        const enabled = new Set(CORE_PAGES)
+        // Start from what the company has now and change only what this modal
+        // asked about. Writing just the pages named here switched off every
+        // other module - mail, billing, messages - for anyone who saved it.
+        const current = new Set<string>(res?.enabled_page_uuids ?? [])
+        const enabled = new Set<string>(pages.filter((p: any) => current.has(p.uuid)).map((p: any) => p.name))
+        CORE_PAGES.forEach(n => enabled.add(n))
         Object.keys(MODULE_TO_PAGES).forEach(key => {
-            if (modules[key]) MODULE_TO_PAGES[key].forEach(n => enabled.add(n))
+            MODULE_TO_PAGES[key].forEach(n => modules[key] ? enabled.add(n) : enabled.delete(n))
         })
         const selected = pages.filter((p: any) => enabled.has(p.name))
         await companyService.updateCompanyModules({ page_uuids: selected.map((p: any) => p.uuid) })
