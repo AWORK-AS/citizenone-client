@@ -1,4 +1,5 @@
 import APIError from '@/components/api/user/APIError'
+import { requestKey } from '@/composables/requestKey'
 import { clearSessionToken } from '@/composables/useDesktopToken'
 import { forgetChatSession } from '@/composables/obiyenChatSession'
 
@@ -123,11 +124,17 @@ class BaseAPIService {
     }
 
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
-        const key = `${method}:${url}:${JSON.stringify(params)}`
+        const sharedKey = requestKey(method, url, params)
+        const key = sharedKey ?? ''
 
         if (method !== 'GET') {
             // A write makes any cached list for that resource wrong.
             BaseAPIService.invalidateReferenceCache(url)
+
+            // An upload (FormData) cannot be compared with another one, so it is never merged.
+            if (sharedKey === null) {
+                return this._sendRequest(url, method, params, signal)
+            }
 
             const existing = BaseAPIService.inflightRequests.get(key)
             if (existing) return existing
@@ -138,8 +145,8 @@ class BaseAPIService {
         }
 
         // A cancellable request belongs to one caller (typeahead searches abort
-        // the previous one), so it is never shared.
-        if (signal) {
+        // the previous one), so it is never shared; nor is a body that cannot be compared.
+        if (signal || sharedKey === null) {
             return this._sendRequest(url, method, params, signal)
         }
 
