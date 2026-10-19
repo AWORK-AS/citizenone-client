@@ -1,5 +1,10 @@
 {
     "apiErrors": {
+        "loadScheduleFailed": "Kunne ikke hente vaktplandata",
+        "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
+        "createShiftFailed": "Vakten kunne ikke opprettes.",
+        "employeeNotLinked": "Den ansatte er ennå ikke koblet til en lokal bruker.",
+        "unknownError": "Ukjent feil",
         "serverError": "Serverfeil. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
         "generic": "Noe gikk galt. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
         "unauthorized": "Ikke autorisert",

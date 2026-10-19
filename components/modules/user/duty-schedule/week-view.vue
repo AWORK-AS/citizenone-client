@@ -1634,6 +1634,7 @@
 
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
@@ -2694,7 +2695,7 @@ function viewAvailableVacationHours(employee: any) {
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
     if (!employee?.uuid) {
-        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        errorAlert(translateMessage('alert.error', 'Error'), translateMessage('apiErrors.employeeNotLinked', 'This employee is not linked to a local user yet.'))
         return
     }
     state.modal.isAddShiftOpen = true
@@ -2751,7 +2752,7 @@ async function tryRapidFillShortcut(key: string) {
         await dutyScheduleService.saveDutySchedule(params)
         fetchDutySchedule()
     } catch (error: any) {
-        errorAlert('Error', error?.data?.message || error?.message || 'Could not create the shift.')
+        errorAlert(translateMessage('alert.error', 'Error'), error?.data?.message || error?.message || translateMessage('apiErrors.createShiftFailed', 'Could not create the shift.'))
     }
 }
 
@@ -2829,7 +2830,7 @@ async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
     const employeeUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
     if (!employeeUuid) {
-        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        errorAlert(translateMessage('alert.error', 'Error'), translateMessage('apiErrors.employeeNotLinked', 'This employee is not linked to a local user yet.'))
         return
     }
     const shiftType = shiftDetails.shift_type

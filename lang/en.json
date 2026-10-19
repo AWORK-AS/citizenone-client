@@ -1,5 +1,10 @@
 {
     "apiErrors": {
+        "loadScheduleFailed": "Failed to load schedule data",
+        "loadSalaryDkFailed": "Failed to load Salary.dk data",
+        "createShiftFailed": "Could not create the shift.",
+        "employeeNotLinked": "This employee is not linked to a local user yet.",
+        "unknownError": "Unknown error",
         "serverError": "Server error. Please try again. If the problem persists, contact your system administrator",
         "generic": "Something went wrong. Please try again. If the problem persists, contact your system administrator",
         "unauthorized": "Unauthorized",
