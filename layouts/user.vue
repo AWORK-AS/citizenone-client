@@ -673,7 +673,13 @@
             :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <!-- "Would you recommend CitizenOne?" Never on top of a tour or the medicine toast in the same corner. -->
-        <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible" />
+        <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible"
+            :held="inactivePromptVisible" @visibilityChange="npsPromptVisible = $event" />
+        <!-- Admins: employees who have been inactive for 3 months. Waits its turn the same way: it is only
+             mounted (and so only asks the backend) while no tour or medicine toast is up. The two prompts
+             hold each other back: whichever comes second waits until the first is closed. -->
+        <ModulesUserEmployeeInactivePrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible"
+            :held="npsPromptVisible" @visibilityChange="inactivePromptVisible = $event" />
         <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
@@ -979,6 +985,9 @@ const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo }
 
 const showCmdkTip = ref(false)
 const medicineToastVisible = ref(false)
+// The feedback survey and the inactive-employees pop-up never show at the same time.
+const npsPromptVisible = ref(false)
+const inactivePromptVisible = ref(false)
 const CMDK_TIP_KEY = 'hasSeenCmdkTip'
 
 function dismissCmdkTip() {

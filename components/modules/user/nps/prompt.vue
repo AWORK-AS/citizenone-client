@@ -92,9 +92,18 @@ const error = ref('')
 const reviewUrl = ref('')
 const answerUuid = ref<string | null>(null)
 
+// `held`: another prompt (the inactive-employees one) is open. The card then waits and shows once
+// that one is closed, instead of appearing on top of it.
+const props = defineProps({
+    held: { type: Boolean, default: false },
+})
+const emit = defineEmits<{ (e: 'visibilityChange', visible: boolean): void }>()
+
 const band = computed(() => (score.value === null ? null : npsBand(score.value)))
 const impersonating = typeof localStorage !== 'undefined' && !!localStorage.getItem('_original_token')
-const visible = computed(() => mayShowNpsPrompt({ show: show.value, impersonating, path: route.path }))
+const visible = computed(() => !props.held && mayShowNpsPrompt({ show: show.value, impersonating, path: route.path }))
+
+watch(visible, (value) => emit('visibilityChange', value), { immediate: true })
 
 let timer: ReturnType<typeof setTimeout> | null = null
 

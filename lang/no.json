@@ -16683,6 +16683,25 @@
             "edit": "Rediger epikrisemal"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inaktive ansatte",
+        "messageSingle": "{name} har vært inaktiv i 3 måneder (sist aktiv {date}).",
+        "messageSingleNever": "{name} har aldri logget inn og har vært inaktiv i 3 måneder.",
+        "messageMany": "{count} ansatte har vært inaktive i 3 måneder eller mer.",
+        "licenseNote": "De bruker fortsatt en lisens til de blir arkivert.",
+        "neverLoggedIn": "Aldri logget inn",
+        "lastActive": "Sist aktiv {when}",
+        "archive": "Arkiver",
+        "keepActive": "Behold aktiv",
+        "viewEmployee": "Se ansatt",
+        "remindLater": "Påminn meg senere",
+        "close": "Lukk",
+        "archiveConfirm": "Er du sikker på at du vil arkivere {name}? Den ansatte bruker da ikke lenger en lisens.",
+        "licenseFreed": "Lisens frigjort",
+        "columnHeader": "Sist aktiv",
+        "never": "Aldri",
+        "filter": "Inaktiv i 3+ måneder"
+    },
     "plansAndGoalsExport": {
         "title": "Eksport av planer og mål",
         "description": "Last ned planer, mål og delmål som en zip-fil med PDF-rapporter for mange innbyggere samtidig. La utvalget stå tomt for å eksportere hele selskapet.",

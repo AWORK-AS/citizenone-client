@@ -16779,6 +16779,25 @@
             "edit": "Rediger epikriseskabelon"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inaktive medarbejdere",
+        "messageSingle": "{name} har været inaktiv i 3 måneder (sidst aktiv {date}).",
+        "messageSingleNever": "{name} har aldrig logget ind og har været inaktiv i 3 måneder.",
+        "messageMany": "{count} medarbejdere har været inaktive i 3 måneder eller mere.",
+        "licenseNote": "De bruger stadig en licens, indtil de bliver arkiveret.",
+        "neverLoggedIn": "Aldrig logget ind",
+        "lastActive": "Sidst aktiv {when}",
+        "archive": "Arkivér",
+        "keepActive": "Behold aktiv",
+        "viewEmployee": "Se medarbejder",
+        "remindLater": "Påmind mig senere",
+        "close": "Luk",
+        "archiveConfirm": "Er du sikker på, at du vil arkivere {name}? Medarbejderen bruger så ikke længere en licens.",
+        "licenseFreed": "Licens frigivet",
+        "columnHeader": "Sidst aktiv",
+        "never": "Aldrig",
+        "filter": "Inaktiv i 3+ måneder"
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
