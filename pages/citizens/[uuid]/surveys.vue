@@ -85,6 +85,8 @@
                                             :class="a?.status === 'completed' ? 'bg-green-100 text-green-700' : 'bg-yellow-100 text-yellow-700'">
                                             {{ a?.status === 'completed' ? $t('surveys.status.completed') : $t('surveys.status.pending') }}
                                         </span>
+                                        <ModulesUserQuestionnaireInboxReviewStatus v-if="a?.review_status" class="mt-1"
+                                            :status="a.review_status" :review="a.review" />
                                     </td>
                                     <td><p>{{ sourceLabel(a) }}</p></td>
                                     <td><p>{{ formatDate(a?.created_at) }}</p></td>

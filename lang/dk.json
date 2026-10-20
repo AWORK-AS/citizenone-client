@@ -16798,6 +16798,72 @@
         "never": "Aldrig",
         "filter": "Inaktiv i 3+ måneder"
     },
+    "questionnaireInbox": {
+        "title": "Spørgeskema-indbakke",
+        "subtitle": "Formularer og spørgeskemaer som patienter har sendt tilbage, til gennemsyn",
+        "tabs": {
+            "to_review": "Til gennemsyn",
+            "approved": "Godkendt",
+            "declined": "Afvist",
+            "all": "Alle"
+        },
+        "status": {
+            "to_review": "Til gennemsyn",
+            "approved": "Godkendt",
+            "declined": "Afvist"
+        },
+        "type": {
+            "form": "Formular",
+            "survey": "Spørgeskema"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Søg på patientens navn",
+            "questionnaire": "Skema",
+            "allQuestionnaires": "Alle skemaer",
+            "from": "Returneret fra",
+            "to": "Returneret til",
+            "sentByMe": "Sendt af mig",
+            "clear": "Nulstil filtre"
+        },
+        "empty": {
+            "to_review": "Ingen skemaer venter på gennemsyn",
+            "approved": "Ingen godkendte skemaer",
+            "declined": "Ingen afviste skemaer",
+            "all": "Der er endnu ikke returneret nogen skemaer"
+        },
+        "score": "Score",
+        "returned": "Returneret",
+        "sentBy": "Sendt af",
+        "handledBeforeInbox": "Håndteret før indbakken",
+        "reviewedBy": "Af {name}",
+        "backToList": "Tilbage til indbakken",
+        "openProfile": "Åbn patientens profil",
+        "openMedicineList": "Åbn medicinlisten",
+        "openPdf": "Åbn PDF",
+        "answers": "Svar",
+        "noAnswers": "Der er ingen svar at vise.",
+        "review": {
+            "title": "Gennemsyn",
+            "note": "Note",
+            "notePlaceholder": "For eksempel: Recept fornyet i 3 måneder",
+            "noteHint": "Valgfri ved godkendelse. Påkrævet ved afvisning.",
+            "approve": "Godkend",
+            "decline": "Afvis",
+            "reopen": "Genåbn",
+            "declineTitle": "Afvis skema",
+            "declineConfirm": "Vil du afvise dette skema? Begrundelsen gemmes sammen med det.",
+            "declineReasonRequired": "Skriv en kort begrundelse for afvisningen.",
+            "noteTooLong": "Noten må højst være på {max} tegn.",
+            "approvedBy": "Godkendt af {name} den {date}",
+            "declinedBy": "Afvist af {name} den {date}"
+        },
+        "alert": {
+            "approved": "Skemaet er godkendt.",
+            "declined": "Skemaet er afvist.",
+            "reopened": "Skemaet er tilbage under Til gennemsyn."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",

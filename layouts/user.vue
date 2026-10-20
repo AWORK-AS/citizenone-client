@@ -63,6 +63,8 @@
                                                         <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
                                                         <span>{{ getNavItemLabel(item) }}</span>
+                                                        <Badge v-if="navBadgeCount(item) > 0" type="notification"
+                                                            class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                                         <Icon v-if="item.external" name="ph:arrow-square-out"
                                                             class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                                     </div>
@@ -141,6 +143,8 @@
                                             :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
                                             {{ getNavItemLabel(item) }}
                                         </span>
+                                        <Badge v-if="navBadgeCount(item) > 0 && sidebarExpanded" type="notification"
+                                            class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                         <Icon v-if="item.external && sidebarExpanded" name="ph:arrow-square-out"
                                             class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                     </div>
@@ -252,6 +256,8 @@
                                 <img v-if="item.image" :src="item.image" :alt="item.name" class="h-5 w-5 shrink-0" />
                                 <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                 <span class="whitespace-nowrap overflow-hidden">{{ getNavItemLabel(item) }}</span>
+                                <Badge v-if="navBadgeCount(item) > 0" type="notification"
+                                    class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                 <Icon v-if="item.external" name="ph:arrow-square-out"
                                     class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                             </div>
@@ -791,6 +797,7 @@ import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
 import { useAppTours } from '@/composables/useAppTours'
 import { companyHasModule as hasCompanyModule } from '@/composables/pageAccess'
+import { canUseQuestionnaireInbox } from '@/composables/questionnaireInbox'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
@@ -1169,6 +1176,12 @@ function getNavItemLabel(item: any) {
     return getSidebarNavItemLabel(item, language.t, customPagesStore)
 }
 
+// The count shown beside a sidebar entry, 0 for the ones that carry none.
+function navBadgeCount(item: any): number {
+    if (item?.name !== 'Questionnaire inbox') return 0
+    return Number(userStore.getUser?.questionnaire_inbox_to_review_count ?? 0)
+}
+
 // Global command palette (⌘K): sidebar navigation + any commands the current
 // page contributes via useCommandPalette().
 const { pageCommands, open: openCommandPalette } = useCommandPalette()
@@ -1488,6 +1501,22 @@ function generateSidebarLinks(user: any) {
                 'forms',
                 'forms-new',
                 'forms-form_uuid-edit',
+            ]
+        })
+    }
+
+    // Forms and surveys the patients have sent back, waiting for someone to
+    // approve or decline them. They come back through the patient portal, so a
+    // company without the patient app has nothing to review.
+    if (canUseQuestionnaireInbox(user, isAtLeast, can)) {
+        nav.push({
+            name: 'Questionnaire inbox',
+            href: '/questionnaire-inbox',
+            icon: 'ph:tray',
+            group: 'daily',
+            activeRouteNames: [
+                'questionnaire-inbox',
+                'questionnaire-inbox-type-uuid',
             ]
         })
     }
