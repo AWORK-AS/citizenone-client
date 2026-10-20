@@ -1961,6 +1961,10 @@
                 "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
                 "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note.",
                 "attachedSurveys": "Spørgeskemaer der skal besvares",
+                "fillPendingSurveys": "Ubesvaret spørgeskema ({count}) - udfyld det her sammen med @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Ubesvaret spørgeskema",
+                "pendingSurveysWarningText": "Mangler at blive udfyldt af @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "Se spørgeskemaer",
                 "linkedSurveys": "Tilknyttede spørgeskemaer",
                 "quickJournalTitles": "Gemte journaltitler",
                 "moreJournalTitles": "+{count} flere"
