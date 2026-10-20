@@ -2015,6 +2015,10 @@
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
                 "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
                 "attachedSurveys": "Enkäter att besvara",
+                "fillPendingSurveys": "Obesvarat frågeformulär ({count}) - fyll i det här tillsammans med @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Obesvarat frågeformulär",
+                "pendingSurveysWarningText": "Ska fyllas i av @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "Se frågeformulär",
                 "linkedSurveys": "Kopplade enkäter",
                 "quickJournalTitles": "Sparade journaltitlar",
                 "moreJournalTitles": "+{count} fler"

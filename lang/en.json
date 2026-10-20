@@ -2015,6 +2015,10 @@
                 "notifyColleaguesPlaceholder": "Select colleagues to notify",
                 "notifyColleaguesHint": "Selected colleagues get a notification about this note.",
                 "attachedSurveys": "Surveys to answer",
+                "fillPendingSurveys": "Unanswered questionnaire ({count}) - fill it in here with @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Unanswered questionnaire",
+                "pendingSurveysWarningText": "Still to be filled in by @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "See questionnaires",
                 "linkedSurveys": "Linked surveys",
                 "quickJournalTitles": "Saved journal titles",
                 "moreJournalTitles": "+{count} more"
