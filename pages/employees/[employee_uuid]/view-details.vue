@@ -508,10 +508,13 @@
             <ModulesUserEmployeePassportModalView :isModalOpen="state.modal.isViewPassportOpen"
                 @close="state.modal.isViewPassportOpen = false" />
             <ModulesUserEmployeeDocumentBoxModalView fileType="cv" title="consultantProfile.documentTypes.cv"
+                dateField="issued_at" dateLabel="employees.documents.form.cvDatedAt"
+                dateHelp="employees.documents.form.cvDatedAtHelp"
                 :isModalOpen="state.modal.isViewCvOpen" @close="state.modal.isViewCvOpen = false" />
             <ModulesUserEmployeeDocumentBoxModalView fileType="education" title="consultantProfile.documentTypes.education"
                 :isModalOpen="state.modal.isViewEducationOpen" @close="state.modal.isViewEducationOpen = false" />
             <ModulesUserEmployeeDocumentBoxModalView fileType="work_permit" title="consultantProfile.documentTypes.work_permit"
+                dateField="expires_at" dateLabel="employees.documents.form.expiresAt"
                 :isModalOpen="state.modal.isViewWorkPermitOpen" @close="state.modal.isViewWorkPermitOpen = false" />
             <ModulesUserEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
                 @close="state.modal.isMiscellaneousOpen = false" />
