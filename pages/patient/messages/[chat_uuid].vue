@@ -213,7 +213,7 @@
                                 </button>
                                 <input type="text"
                                     class="flex-1 px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-                                    placeholder="Type a message..." v-model="state.message"
+                                    :placeholder="$t('messages.typeAMessage')" v-model="state.message"
                                     @keydown.enter="!state.isPageLoading && sendMessage()" />
                                 <button type="button"
                                     class="px-4 py-3 bg-primary text-white rounded-md hover:bg-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700 focus:ring-opacity-50"

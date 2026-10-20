@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "Du har et notat som ikke ble lagret (kl. {time}).",
+        "restore": "Gjenopprett",
+        "discard": "Forkast",
+        "confirmClose": "Notatet er ikke lagret. Vil du lukke likevel? Teksten lagres som kladd i denne fanen."
+    },
     "nps": {
         "question": "Hvor sannsynlig er det at du vil anbefale CitizenOne til en kollega?",
         "unlikely": "Ikke i det hele tatt",
@@ -1899,6 +1905,9 @@
                 "successfullyCopied": "{journal} kopiert vellykket",
                 "successfullyMoved": "{journal} flyttet vellykket",
                 "successfullyUpdated": "Journal oppdatert vellykket",
+                "surveysNotCompleted": "Notatet er lagret, men {n} spørreskjema ble ikke registrert.",
+                "surveysRetry": "Prøv igjen",
+                "surveysRetried": "Spørreskjemaene er registrert.",
                 "unlockJournal": "{journal} låst opp vellykket",
                 "unpinJournal": "{journal} festet fjernet vellykket"
             },
@@ -2005,6 +2014,7 @@
                 "title": "Tittel",
                 "usePredefinedcontent": "Bruk foruddefineret innhold",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunne ikke lagre automatisk. De siste endringene er ikke lagret ennå - prøver igjen.",
                 "showJournalTitles": "Vis journaltitler",
                 "titlePlaceholder": "Velg eller skriv en tittel",
                 "dictate": "Dikter",
@@ -3166,7 +3176,10 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Der opstod en feil.",
                 "anErrorOccurredRetry": "Der opstod en feil. Prøv igjen.",
+                "historyUnavailable": "Vi kunne ikke hente hvilke doser som allerede er gitt. Prøv igjen før du registrerer, så ingen dose blir gitt dobbelt.",
+                "retry": "Prøv igjen",
                 "registeredForDays": "Registreret for {n} dag(e).",
+                "partialFailure": "Registrert for {ok} dag(er). Mislyktes for: {dates} ({reason}). De mislykte datoene er fortsatt valgt - prøv igen.",
                 "overdueMinutes": "{minutes} min forsinket",
                 "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
                 "overdueHours": "{hours}t forsinket",
@@ -3789,6 +3802,8 @@
             "description": "Beskrivelse",
             "descriptionPlaceholder": "Legg til en beskrivelse",
             "viewFullTimeline": "Vis hele tidslinjen",
+            "loadOlder": "Vis eldre",
+            "allLoaded": "Alle hendelser er vist",
             "alert": {
                 "successfullyAdded": "Tidslinjehendelse lagt til",
                 "deletedSuccessfully": "Tidslinjehendelse slettet"
@@ -5031,7 +5046,8 @@
         "showFewerShifts": "Vis bare de første vaktene",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",
-            "hint": "Enter for å lagre · Esc for å avbryte"
+            "hint": "Enter for å lagre · Esc for å avbryte",
+            "saveFailed": "Vakttidspunktet kunne ikke oppdateres."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg for {date}",
@@ -7147,6 +7163,7 @@
                 "count": "Antall forekomster"
             },
             "consecutiveDays": "Sammenhængende dager",
+            "periodDaysPlaceholder": "f.eks. 30",
             "dutyShiftRuleName": "Navn",
             "evaluatingShiftsFrom": "Evaluerer vakter fra",
             "inactive": "Inaktiv",
@@ -8698,11 +8715,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Godta invitasjon",
+        "accepting": "Godtar invitasjon",
         "alert": {
             "invalidInvitationLink": "Ugyldig invitationslink"
         },
+        "errorBody": "Invitasjonen kunne ikke godtas akkurat nå. Prøv igjen senere",
+        "errorTitle": "Noe gikk galt",
+        "expiredBody": "Invitasjonslenken er utløpt. Be den som inviterte deg om å sende en ny invitasjon",
+        "expiredTitle": "Invitasjonen er utløpt",
+        "invalidBody": "Invitasjonslenken er ugyldig. Be den som inviterte deg om å sende en ny invitasjon",
+        "invalidTitle": "Ugyldig invitasjon",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Logg inn for at fortsette",
+        "notAdminBody": "Bare administratorer kan godta denne invitasjonen",
+        "notAdminTitle": "Invitasjonen ble ikke godtatt",
+        "readyBody": "Trykk på knappen nedenfor for å bli administrator i organisasjonen",
+        "readyTitle": "Du er invitert",
+        "wrongUserBody": "Invitasjonen er til en annen bruker. Logg ut, og åpne lenken igjen som den den ble sendt til",
+        "wrongUserTitle": "Logget inn som en annen",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har vellykket accepteret invitationen"
     },
     "invoiceDetails": {
@@ -19152,5 +19183,20 @@
             "rejected": "Avvist",
             "prescribed": "Fornyet"
         }
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Kunne ikke hente vaktplandata",
+        "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
+        "createShiftFailed": "Vakten kunne ikke opprettes.",
+        "employeeNotLinked": "Den ansatte er ennå ikke koblet til en lokal bruker.",
+        "unknownError": "Ukjent feil",
+        "serverError": "Serverfeil. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
+        "generic": "Noe gikk galt. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
+        "unauthorized": "Ikke autorisert",
+        "somethingWentWrongWith": "Noe gikk galt: {message}",
+        "downloadFailed": "Det oppstod en feil under nedlastingen.",
+        "importFailed": "Det oppstod en feil under importen.",
+        "openFileFailed": "Det oppstod en feil under åpning av filen.",
+        "deleteFailed": "Det oppstod en feil under slettingen."
     }
 }

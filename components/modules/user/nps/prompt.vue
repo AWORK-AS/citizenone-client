@@ -2,7 +2,7 @@
     <transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-3"
         enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-200"
         leave-from-class="opacity-100" leave-to-class="opacity-0">
-        <section v-if="visible" role="dialog" aria-modal="false" aria-labelledby="nps-title"
+        <section v-if="visible && granted" role="dialog" aria-modal="false" aria-labelledby="nps-title"
             class="fixed inset-x-3 bottom-3 z-40 rounded-2xl bg-white p-5 shadow-modal ring-1 ring-black/5 sm:inset-x-auto sm:right-6 sm:bottom-6 sm:w-[26rem]">
             <button type="button" :aria-label="$t('close')" @click="close"
                 class="absolute top-3 right-3 rounded-md p-1 text-gray-400 hover:text-gray-600">
@@ -76,6 +76,8 @@
 import { npsService } from '@/components/api/user/NpsService'
 import { NPS_SCALE, mayShowNpsPrompt, npsBand } from '@/composables/npsPrompt'
 import { useI18n } from 'vue-i18n'
+import { isFirstSession } from '@/composables/welcomeTour'
+import { useUserStore } from '@/store/user'
 
 /** Not the moment somebody logs in: give the screen a while to be about their work first. */
 const DELAY_MS = 20_000
@@ -104,6 +106,8 @@ const impersonating = typeof localStorage !== 'undefined' && !!localStorage.getI
 const visible = computed(() => !props.held && mayShowNpsPrompt({ show: show.value, impersonating, path: route.path }))
 
 watch(visible, (value) => emit('visibilityChange', value), { immediate: true })
+// Never in the first session, and never while another prompt holds the screen.
+const granted = usePromptSlot('nps', computed(() => visible.value && !isFirstSession(useUserStore().getUser)))
 
 let timer: ReturnType<typeof setTimeout> | null = null
 

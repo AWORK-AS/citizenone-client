@@ -222,6 +222,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString, addDaysToLocalDate } from '@/composables/localDate'
 import { gdprService } from '@/components/api/user/GdprService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
@@ -340,7 +341,7 @@ const turnsRuleOn = computed(() =>
     (state.rule.status_retention_enabled && !state.saved.status_retention_enabled)
     || (state.rule.journal_retention_enabled && !state.saved.journal_retention_enabled))
 
-const ruleStartDate = computed(() => new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10))
+const ruleStartDate = computed(() => addDaysToLocalDate(localDateString(), 7))
 
 function toggleStatusRule() {
     state.rule.status_retention_enabled = !state.rule.status_retention_enabled

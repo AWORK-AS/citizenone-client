@@ -1,3 +1,4 @@
+import { translateMessage } from '@/composables/translateMessage'
 class APIError extends Error {
 	errors?: Record<string, string[]>
 
@@ -45,7 +46,7 @@ class APIError extends Error {
 	}
 
 	getErrorMessage() {
-		return 'Something went wrong: ' + this.message
+		return translateMessage('apiErrors.somethingWentWrongWith', 'Something went wrong: {message}', { message: this.message })
 	}
 }
 export default APIError
