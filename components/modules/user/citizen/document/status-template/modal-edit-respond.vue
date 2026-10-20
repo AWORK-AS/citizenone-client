@@ -58,7 +58,7 @@
                                                                         </span>
                                                                     </h3>
                                                                     <FormTextField :name="'text_field_' + fieldIndex"
-                                                                        placeholder="Enter your answer"
+                                                                        :placeholder="$t('forms.fields.enterYourAnswer')"
                                                                         v-model="formField.responses" />
                                                                 </div>
                                                             </div>
@@ -79,7 +79,7 @@
                                                                         </span>
                                                                     </h3>
                                                                     <FormTextArea :name="'textarea_' + fieldIndex"
-                                                                        placeholder="Enter your answer"
+                                                                        :placeholder="$t('forms.fields.enterYourAnswer')"
                                                                         v-model="formField.responses" />
                                                                 </div>
                                                             </div>
@@ -102,7 +102,7 @@
                                                                     <div class="relative">
                                                                         <FormDateField
                                                                             :name="'date_field_' + fieldIndex"
-                                                                            placeholder="Enter your answer"
+                                                                            :placeholder="$t('forms.fields.enterYourAnswer')"
                                                                             v-model="formField.responses" />
                                                                         <Icon name="ph:calendar"
                                                                             class="h-5 w-5 absolute right-4 top-2.5 text-gray-500"

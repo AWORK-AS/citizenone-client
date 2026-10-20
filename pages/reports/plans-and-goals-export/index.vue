@@ -74,6 +74,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString } from '@/composables/localDate'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { planService } from '@/components/api/user/PlanService'
 import { usePermissions } from '@/composables/usePermissions'
@@ -176,7 +177,7 @@ async function downloadBulk() {
         const citizenUuids = state.selectedCitizens.map((citizen: any) => citizen.uuid)
         const blob = await planService.downloadBulkPlansAndGoals(citizenUuids)
         if (blob) {
-            const today = new Date().toISOString().slice(0, 10)
+            const today = localDateString()
             saveAs(blob, `Plans-and-goals-bulk-${today}.zip`)
         }
     } catch (error: any) {

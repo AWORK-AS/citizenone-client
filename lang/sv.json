@@ -7103,6 +7103,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammanhängande dagar",
+            "periodDaysPlaceholder": "t.ex. 30",
             "dutyShiftRuleName": "Namn",
             "evaluatingShiftsFrom": "Evaluerer pass från",
             "inactive": "Inaktiv",
@@ -9417,7 +9418,7 @@
         "startTheConversation": "Start samtalen",
         "subject": "Emne",
         "today": "Idag",
-        "typeAMessage": "Skriv en meddelande...",
+        "typeAMessage": "Skriv ett meddelande...",
         "unread": "olästa",
         "unreadMessages": "Olästa meddelanden",
         "users": "Användare",
@@ -18943,5 +18944,20 @@
     "tableColumns": {
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Det gick inte att hämta schemadata",
+        "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",
+        "createShiftFailed": "Passet kunde inte skapas.",
+        "employeeNotLinked": "Medarbetaren är ännu inte kopplad till en lokal användare.",
+        "unknownError": "Okänt fel",
+        "serverError": "Serverfel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "generic": "Något gick fel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "unauthorized": "Behörighet saknas",
+        "somethingWentWrongWith": "Något gick fel: {message}",
+        "downloadFailed": "Ett fel uppstod vid nedladdningen.",
+        "importFailed": "Ett fel uppstod vid importen.",
+        "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
+        "deleteFailed": "Ett fel uppstod vid raderingen."
     }
 }

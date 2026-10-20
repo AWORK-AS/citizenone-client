@@ -191,6 +191,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
 import { saveAs } from 'file-saver'
 
@@ -253,7 +254,7 @@ async function openReport() {
             setTimeout(() => URL.revokeObjectURL(url), 60000)
         }
     } catch (error: any) {
-        state.error = error?.message || 'An error occurred while opening the file.'
+        state.error = error?.message || translateMessage('apiErrors.openFileFailed', 'An error occurred while opening the file.')
     }
     state.isOpening = false
 }
@@ -272,7 +273,7 @@ async function downloadReport() {
             saveAs(response, `${filename}.pdf`)
         }
     } catch (error: any) {
-        state.error = error?.message || 'An error occurred during the download.'
+        state.error = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isDownloading = false
 }

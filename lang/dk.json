@@ -7103,6 +7103,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammenhængende dage",
+            "periodDaysPlaceholder": "fx 30",
             "dutyShiftRuleName": "Navn",
             "evaluatingShiftsFrom": "Evaluerer vagter fra",
             "inactive": "Inaktiv",
@@ -19039,5 +19040,20 @@
     "tableColumns": {
         "moveUp": "Flyt {column} op",
         "moveDown": "Flyt {column} ned"
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Kunne ikke hente vagtplansdata",
+        "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
+        "createShiftFailed": "Vagten kunne ikke oprettes.",
+        "employeeNotLinked": "Medarbejderen er endnu ikke knyttet til en lokal bruger.",
+        "unknownError": "Ukendt fejl",
+        "serverError": "Serverfejl. Prøv igen. Hvis problemet fortsætter, så kontakt din systemadministrator",
+        "generic": "Noget gik galt. Prøv igen. Hvis problemet fortsætter, så kontakt din systemadministrator",
+        "unauthorized": "Ikke autoriseret",
+        "somethingWentWrongWith": "Noget gik galt: {message}",
+        "downloadFailed": "Der opstod en fejl under download.",
+        "importFailed": "Der opstod en fejl under importen.",
+        "openFileFailed": "Der opstod en fejl under åbning af filen.",
+        "deleteFailed": "Der opstod en fejl under sletningen."
     }
 }

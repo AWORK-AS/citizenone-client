@@ -72,6 +72,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { citizenExpenseService } from '@/components/api/user/CitizenExpenseService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { saveAs } from 'file-saver'
@@ -114,7 +115,7 @@ async function downloadReceipt() {
             saveAs(response, props.selectedExpense?.file_name_src || 'receipt')
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isPageLoading = false
 }

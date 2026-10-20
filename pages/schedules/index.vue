@@ -649,6 +649,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
@@ -1440,7 +1441,7 @@ async function fetchAndBuildShiftTypes() {
         state.syncStep = 'assign-rates'
         state.assignRatesAttempted = false
     } catch (e: any) {
-        errorAlert(t('alert.error'), e?.message || 'Failed to load schedule data')
+        errorAlert(t('alert.error'), e?.message || translateMessage('apiErrors.loadScheduleFailed', 'Failed to load schedule data'))
     } finally {
         state.isSyncing = false
     }

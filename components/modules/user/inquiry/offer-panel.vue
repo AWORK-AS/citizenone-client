@@ -320,6 +320,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString, addDaysToLocalDate } from '@/composables/localDate'
 import { inquiryOfferService } from '@/components/api/user/InquiryOfferService'
 import { inquiryLostReasonService } from '@/components/api/user/InquiryLostReasonService'
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
@@ -419,11 +420,10 @@ const specialLanguageNames = computed(() =>
 )
 
 const sendDeadlinePreview = computed(() => {
-    const base = state.send.sent_at ? new Date(state.send.sent_at) : new Date()
+    const base = state.send.sent_at || localDateString()
     const days = Number(state.send.deadline_days || 0)
-    base.setDate(base.getDate() + days)
 
-    return formatDateToReadable(base.toISOString().slice(0, 10))
+    return formatDateToReadable(addDaysToLocalDate(base, days))
 })
 
 onMounted(() => {
@@ -607,7 +607,7 @@ async function saveDraft() {
 function openSend(offer: any) {
     state.sendFor = offer
     state.send = {
-        sent_at: new Date().toISOString().slice(0, 10),
+        sent_at: localDateString(),
         deadline_days: String(state.context?.deadline_days ?? 10),
     }
 }
@@ -648,7 +648,7 @@ function openRespond(offer: any) {
     state.lostReasonMissing = false
     state.respond = {
         decision: 'accepted',
-        responded_at: new Date().toISOString().slice(0, 10),
+        responded_at: localDateString(),
         remarks: '',
         rejection_reason: '',
         start_wishes: '',
