@@ -11379,6 +11379,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Receive vacant shift notifications regardless of my other notification settings",
                 "region": "Region",
                 "registerTransport": "Register transport",
+                "useOfForceInJournal": "Use of force in the journal",
+                "useOfForceInJournalHelp": "Shows \"Report use of force\" and previous use of force on the journal page. Turn off if you do not work with use of force.",
                 "sundayShiftCalculation": "Enable Sunday shift calculation",
                 "remove": "Remove company logo",
                 "street": "Street",
