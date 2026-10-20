@@ -4473,7 +4473,17 @@
             "consultant": "Consultant",
             "region": "Region",
             "weeklyHoursFrom": "Hours per week from",
-            "weeklyHoursTo": "Hours per week to"
+            "weeklyHoursTo": "Hours per week to",
+            "dischargedFrom": "Discharged from",
+            "dischargedTo": "Discharged to",
+            "contractStartFrom": "Contract starts from",
+            "contractStartTo": "Contract starts by",
+            "contractEndFrom": "Contract ends from",
+            "contractEndTo": "Contract ends by",
+            "hasCaseNumber": "Has a case number",
+            "caseWorker": "Case worker",
+            "payingMunicipality": "Paying municipality",
+            "removeFilter": "Remove filter: {name}"
         },
         "emptyFiltered": "No {citizens} match the filters."
     },

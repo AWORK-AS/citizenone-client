@@ -399,10 +399,8 @@
                             </div>
                         </div>
 
-                        <!-- Employee documents: Admins and roles with "can see HR details and
-                             employee documents"; the backend follows the same rule. -->
                         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3"
-                            v-if="seesHrData()">
+                            v-if="isAtLeast('Admin')">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.documents.documents') }}
@@ -462,7 +460,7 @@
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
-                                            {{ $t('employees.documents.cv') }}
+                                            {{ $t('consultantProfile.documentTypes.cv') }}
                                         </p>
                                     </div>
                                 </div>
@@ -471,7 +469,7 @@
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
-                                            {{ $t('employees.documents.education') }}
+                                            {{ $t('consultantProfile.documentTypes.education') }}
                                         </p>
                                     </div>
                                 </div>
@@ -480,7 +478,7 @@
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
-                                            {{ $t('employees.documents.workPermit') }}
+                                            {{ $t('consultantProfile.documentTypes.work_permit') }}
                                         </p>
                                     </div>
                                 </div>
@@ -509,12 +507,12 @@
                 @close="state.modal.isViewDriversLicenseOpen = false" />
             <ModulesUserEmployeePassportModalView :isModalOpen="state.modal.isViewPassportOpen"
                 @close="state.modal.isViewPassportOpen = false" />
-            <ModulesUserEmployeeCvModalView :isModalOpen="state.modal.isViewCvOpen"
-                @close="state.modal.isViewCvOpen = false" />
-            <ModulesUserEmployeeEducationModalView :isModalOpen="state.modal.isViewEducationOpen"
-                @close="state.modal.isViewEducationOpen = false" />
-            <ModulesUserEmployeeWorkPermitModalView :isModalOpen="state.modal.isViewWorkPermitOpen"
-                @close="state.modal.isViewWorkPermitOpen = false" />
+            <ModulesUserEmployeeDocumentBoxModalView fileType="cv" title="consultantProfile.documentTypes.cv"
+                :isModalOpen="state.modal.isViewCvOpen" @close="state.modal.isViewCvOpen = false" />
+            <ModulesUserEmployeeDocumentBoxModalView fileType="education" title="consultantProfile.documentTypes.education"
+                :isModalOpen="state.modal.isViewEducationOpen" @close="state.modal.isViewEducationOpen = false" />
+            <ModulesUserEmployeeDocumentBoxModalView fileType="work_permit" title="consultantProfile.documentTypes.work_permit"
+                :isModalOpen="state.modal.isViewWorkPermitOpen" @close="state.modal.isViewWorkPermitOpen = false" />
             <ModulesUserEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
                 @close="state.modal.isMiscellaneousOpen = false" />
             <ModulesUserEmployeeCitizenModalView :isModalOpen="state.modal.isViewCitizensOpen"
@@ -538,7 +536,7 @@ const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
-const { isAtLeast, seesHrData } = usePermissions()
+const { isAtLeast } = usePermissions()
 const { locale, t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { summarise: summariseSpokenLanguages } = useSpokenLanguages()

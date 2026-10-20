@@ -4473,7 +4473,17 @@
             "consultant": "Konsulent",
             "region": "Region",
             "weeklyHoursFrom": "Timer per uke fra",
-            "weeklyHoursTo": "Timer per uke til"
+            "weeklyHoursTo": "Timer per uke til",
+            "dischargedFrom": "Utskrevet fra",
+            "dischargedTo": "Utskrevet til",
+            "contractStartFrom": "Kontrakt starter fra",
+            "contractStartTo": "Kontrakt starter senest",
+            "contractEndFrom": "Kontrakt slutter fra",
+            "contractEndTo": "Kontrakt slutter senest",
+            "hasCaseNumber": "Har saksnummer",
+            "caseWorker": "Saksbehandler",
+            "payingMunicipality": "Betalende kommune",
+            "removeFilter": "Fjern filter: {name}"
         },
         "emptyFiltered": "Ingen {citizens} passer med filtrene."
     },
