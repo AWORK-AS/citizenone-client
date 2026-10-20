@@ -3108,6 +3108,8 @@
                 "legendScheduled": "Scheduled",
                 "anErrorOccurred": "An error occurred.",
                 "anErrorOccurredRetry": "An error occurred. Please try again.",
+                "historyUnavailable": "We could not load which doses have already been given. Try again before registering, so no dose is given twice.",
+                "retry": "Try again",
                 "registeredForDays": "Registered for {n} day(s).",
                 "overdueMinutes": "{minutes} min overdue",
                 "overdueHoursMinutes": "{hours}h {minutes}min overdue",

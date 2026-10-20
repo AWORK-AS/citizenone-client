@@ -3108,6 +3108,8 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Där opstod en fel.",
                 "anErrorOccurredRetry": "Där opstod en fel. Försök igen.",
+                "historyUnavailable": "Vi kunde inte hämta vilka doser som redan har getts. Försök igen innan du registrerar, så att ingen dos ges dubbelt.",
+                "retry": "Försök igen",
                 "registeredForDays": "Registrerad för {n} dag(e).",
                 "overdueMinutes": "{minutes} min försenad",
                 "overdueHoursMinutes": "{hours}t {minutes}min försenad",
