@@ -7259,12 +7259,18 @@
                     "documentSuccessfullyUpdated": "Dokument uppdaterad"
                 },
                 "expiresOn": "Går ut {date}",
+                "cvDatedAt": "CV daterat",
+                "cvDatedAtHelp": "Används för CV-påminnelsen. Utan datum räknas uppladdningsdatumet.",
+                "expiresAt": "Går ut",
                 "file": "Fil",
                 "issuedAt": "Inhämtad den",
                 "name": "Namn",
                 "note": "Anteckning"
             },
             "miscellaneous": "Diverse",
+            "cv": "CV",
+            "education": "Utbildningsbevis",
+            "workPermit": "Arbets- och uppehållstillstånd",
             "newDocument": "Nytt dokument",
             "passport": "Pas",
             "table": {
@@ -7295,10 +7301,37 @@
                 "status": "Status"
             },
             "statuses": {
+                "missing": "Saknas",
                 "expired": "Utgånget",
                 "expiring_soon": "Går snart ut",
                 "valid": "Giltigt",
                 "no_expiry": "Inget utgångsdatum"
+            },
+            "tabs": {
+                "expiry": "Utgång",
+                "missing": "Saknas",
+                "search": "Sök i dokument"
+            },
+            "missing": {
+                "empty": "Ingen saknar dokument",
+                "rule": "Konsulter (roller markerade som konsultroller) behöver barnintyg, CV, utbildningsbevis och kontrakt, samt körkort om de kör. Alla andra behöver barnintyg och belastningsregisterutdrag.",
+                "consultant": "Konsult",
+                "filters": {
+                    "status": "Status",
+                    "allStatuses": "Alla",
+                    "role": "Roll",
+                    "allRoles": "Alla roller",
+                    "department": "Avdelning",
+                    "allDepartments": "Alla avdelningar"
+                }
+            },
+            "search": {
+                "placeholder": "Sök på anställd eller filnamn",
+                "allTypes": "Alla typer",
+                "empty": "Inga dokument hittades",
+                "file": "Fil",
+                "uploaded": "Uppladdad",
+                "view": "Visa"
             },
             "empty": "Inga intyg hittades"
         },
@@ -10894,6 +10927,13 @@
             "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
             "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
             "seesHrDataHelp": "Medarbetare med den här rollen ser kollegors HR-uppgifter, medarbetardokument (avtal, belastningsregisterutdrag, intyg m.m.), lönefält, adresser och nödkontakter och kan hantera dem. Utan den ser de bara sina egna. Administratörer ser dem alltid.",
+            "certificateReminders": "Tar emot påminnelser om intyg",
+            "certificateRemindersHelp": "Personer med den här rollen får påminnelser om intyg som går ut och inaktuella CV:n, via e-post och i CitizenOne. Så snart en roll har detta går påminnelserna till dessa roller och medarbetaren i stället för till administratörerna.",
+            "certificateRemindersForAll": "För alla medarbetare",
+            "certificateRemindersForRoles": "För medarbetare med rollerna",
+            "certificateRemindersRolesPlaceholder": "Välj roller",
+            "countsAsConsultant": "Medarbetare med den här rollen är konsulter",
+            "countsAsConsultantHelp": "Används i Anställda → Intyg → Saknas: konsulter behöver utöver barnintyget CV, utbildningsbevis och kontrakt.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11168,6 +11208,10 @@
             "form": {
                 "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
                 "2fa": "Tvåfaktorsautentisering",
+                "certificateReminderEmail": "Gemensam brevlåda för intygspåminnelser",
+                "certificateReminderEmailHelp": "Får en kopia av alla påminnelser om intyg och CV:n.",
+                "cvReminderMonths": "CV-påminnelse efter (månader)",
+                "cvReminderMonthsHelp": "Påminner medarbetaren och mottagarna av intygspåminnelser en gång när det senaste CV:t är äldre än så. Lämna tomt för inga CV-påminnelser.",
                 "accountantEmail": "Revisor eller regnskabs e-post (borgernes wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma uppdaterad"
@@ -16009,6 +16053,13 @@
         }
     },
     "myDay": {
+        "certificates": {
+            "title": "Intyg som saknas eller går ut",
+            "missing": "{count} saknas",
+            "expired": "{count} utgångna",
+            "expiringSoon": "{count} går ut inom 60 dagar",
+            "open": "Öppna översikt"
+        },
         "unassignedWon": "Vunna ärenden utan koordinator",
         "unassignedWonCount": "1 ärende väntar | {count} ärenden väntar",
         "unassignedWonOpen": "Fördela ärenden",

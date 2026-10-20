@@ -458,6 +458,33 @@
                                     </div>
                                 </div>
                                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewCvOpen = true">
+                                    <div class="flex items-center justify-center gap-x-2">
+                                        <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
+                                        <p class="text-xs font-semibold leading-7 text-gray-900">
+                                            {{ $t('employees.documents.cv') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewEducationOpen = true">
+                                    <div class="flex items-center justify-center gap-x-2">
+                                        <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
+                                        <p class="text-xs font-semibold leading-7 text-gray-900">
+                                            {{ $t('employees.documents.education') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
+                                    @click="state.modal.isViewWorkPermitOpen = true">
+                                    <div class="flex items-center justify-center gap-x-2">
+                                        <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
+                                        <p class="text-xs font-semibold leading-7 text-gray-900">
+                                            {{ $t('employees.documents.workPermit') }}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-8 sm:py-10 cursor-pointer hover:bg-gray-50"
                                     @click="state.modal.isMiscellaneousOpen = true">
                                     <div class="flex items-center justify-center gap-x-2">
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
@@ -482,6 +509,12 @@
                 @close="state.modal.isViewDriversLicenseOpen = false" />
             <ModulesUserEmployeePassportModalView :isModalOpen="state.modal.isViewPassportOpen"
                 @close="state.modal.isViewPassportOpen = false" />
+            <ModulesUserEmployeeCvModalView :isModalOpen="state.modal.isViewCvOpen"
+                @close="state.modal.isViewCvOpen = false" />
+            <ModulesUserEmployeeEducationModalView :isModalOpen="state.modal.isViewEducationOpen"
+                @close="state.modal.isViewEducationOpen = false" />
+            <ModulesUserEmployeeWorkPermitModalView :isModalOpen="state.modal.isViewWorkPermitOpen"
+                @close="state.modal.isViewWorkPermitOpen = false" />
             <ModulesUserEmployeeMiscellaneousModalView :isModalOpen="state.modal.isMiscellaneousOpen"
                 @close="state.modal.isMiscellaneousOpen = false" />
             <ModulesUserEmployeeCitizenModalView :isModalOpen="state.modal.isViewCitizensOpen"
@@ -531,6 +564,9 @@ const state = reactive({
         isViewChildProtectionCertificatesOpen: false,
         isViewDriversLicenseOpen: false,
         isViewPassportOpen: false,
+        isViewCvOpen: false,
+        isViewEducationOpen: false,
+        isViewWorkPermitOpen: false,
         isMiscellaneousOpen: false,
         isViewCitizensOpen: false,
     },

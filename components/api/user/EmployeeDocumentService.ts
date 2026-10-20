@@ -60,6 +60,17 @@ class EmployeeDocumentService extends BaseAPIService {
     async getExpiryOverview(): Promise<any> {
         return await this.request(`/user/certificates/expiry-overview`, 'GET')
     }
+
+    // Per active employee, the required documents that are missing, expired or
+    // expiring within 60 days. params: status, role_id, department_uuid.
+    async getMissingOverview(params: object = {}): Promise<any> {
+        return await this.request(`/user/certificates/missing-overview`, 'GET', params)
+    }
+
+    // Every employee document of the company. params: search, file_type, page.
+    async searchDocuments(params: object): Promise<any> {
+        return await this.request(`/user/certificates/document-search`, 'GET', params)
+    }
 }
 
 export const employeeDocumentService = new EmployeeDocumentService()
