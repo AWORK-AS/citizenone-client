@@ -11464,8 +11464,10 @@
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
                 "portalSectionForms": "Formulär",
                 "portalSectionPriceEstimates": "Kostnadsförslag",
+                "portalSectionPrescriptions": "Receptförnyelse",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
                 "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
+                "portalPreviewPrescriptions": "Patienten ser sina nuvarande recept och kan be kliniken förnya dem. Förfrågan kommer in i inkorgen Receptförnyelser.",
                 "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
             }
         },
@@ -19068,5 +19070,81 @@
     "tableColumns": {
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
+    },
+    "prescriptionRenewals": {
+        "title": "Receptförnyelser",
+        "intro": "Förfrågningar från patienter om att förnya ett recept. En förfrågan kommer hit när patienten har besvarat frågeformuläret som hör till läkemedlet. Godkänn den och skapa receptet, eller avslå den med en motivering till patienten.",
+        "filter": "Filtrera efter status",
+        "all": "Alla",
+        "empty": "Det finns inga förfrågningar här.",
+        "open": "Öppna",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Läkemedel",
+            "status": "Status",
+            "received": "Mottagen"
+        },
+        "statuses": {
+            "awaiting_answers": "Väntar på frågeformulär",
+            "pending": "Att bedöma",
+            "approved": "Godkänd",
+            "rejected": "Avslagen",
+            "prescribed": "Recept skapat"
+        },
+        "detail": {
+            "title": "Förfrågan om receptförnyelse",
+            "currentPrescription": "Nuvarande recept",
+            "endsOn": "Slutar",
+            "patientNote": "Meddelande från patienten",
+            "questionnaire": "Frågeformulär",
+            "notAnsweredYet": "Patienten har ännu inte besvarat frågeformuläret.",
+            "noQuestionnaire": "Inget frågeformulär är kopplat till detta läkemedel.",
+            "decision": "Beslut",
+            "decidedBy": "Av {name}, {date}",
+            "noteToPatient": "Meddelande till patienten",
+            "notePlaceholder": "Måste fyllas i vid avslag. Patienten ser det i appen.",
+            "approve": "Godkänn",
+            "reject": "Avslå",
+            "approved": "Förfrågan har godkänts. Patienten har fått besked.",
+            "rejected": "Förfrågan har avslagits. Patienten har fått besked.",
+            "prescribeHelp": "Förfrågan är godkänd. Skapa receptet på patientens läkemedelskort.",
+            "prescribe": "Skapa recept",
+            "openMedicineCard": "Öppna läkemedelskortet"
+        },
+        "prescribe": {
+            "banner": "Förnyelse av {medicine}",
+            "bannerHelp": "När receptet sparas stängs patientens förfrågan om förnyelse.",
+            "done": "Receptet har skapats och förfrågan om förnyelse är stängd."
+        },
+        "settings": {
+            "renewalSurvey": "Frågeformulär vid receptförnyelse",
+            "noRenewalSurvey": "Inget frågeformulär",
+            "renewalSurveyHelp": "Skickas till patienten när de ber om att få ett recept på detta läkemedel förnyat, t.ex. ett frågeformulär om håravfall."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Recept",
+        "intro": "Dina nuvarande recept. Be kliniken förnya ett när det håller på att ta slut.",
+        "yourPrescriptions": "Dina recept",
+        "empty": "Du har inga recept från kliniken.",
+        "validUntil": "Giltigt till {date}",
+        "requestRenewal": "Begär förnyelse",
+        "answerQuestionnaire": "Besvara frågeformuläret",
+        "yourRequests": "Dina förfrågningar",
+        "requestedOn": "Begärd {date}",
+        "clinicNote": "Från kliniken",
+        "confirm": "Vill du be kliniken förnya ditt recept på {medicine}?",
+        "questionnaireNext": "Därefter besvarar du ett kort frågeformulär så att kliniken kan bedöma förnyelsen.",
+        "noteLabel": "Meddelande till kliniken (valfritt)",
+        "notePlaceholder": "T.ex. hur behandlingen går",
+        "send": "Skicka förfrågan",
+        "sent": "Din förfrågan har skickats till kliniken.",
+        "statuses": {
+            "awaiting_answers": "Väntar på dina svar",
+            "pending": "Hos kliniken",
+            "approved": "Godkänd",
+            "rejected": "Avslagen",
+            "prescribed": "Förnyat"
+        }
     }
 }

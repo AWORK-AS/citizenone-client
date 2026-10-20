@@ -11469,8 +11469,10 @@
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared",
                 "portalSectionForms": "Forms",
                 "portalSectionPriceEstimates": "Price estimates",
+                "portalSectionPrescriptions": "Prescription renewal",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
                 "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
+                "portalPreviewPrescriptions": "The patient sees their current prescriptions and can ask the clinic to renew them. The request comes into the Prescription renewals inbox.",
                 "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
             }
         },
@@ -19164,5 +19166,81 @@
     "tableColumns": {
         "moveUp": "Move {column} up",
         "moveDown": "Move {column} down"
+    },
+    "prescriptionRenewals": {
+        "title": "Prescription renewals",
+        "intro": "Requests from patients to renew a prescription. A request comes in here once the patient has answered the questionnaire linked to the medicine. Approve it and create the prescription, or reject it with a reason for the patient.",
+        "filter": "Filter by status",
+        "all": "All",
+        "empty": "There are no requests here.",
+        "open": "Open",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Medicine",
+            "status": "Status",
+            "received": "Received"
+        },
+        "statuses": {
+            "awaiting_answers": "Waiting for questionnaire",
+            "pending": "To review",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "prescribed": "Prescription created"
+        },
+        "detail": {
+            "title": "Renewal request",
+            "currentPrescription": "Current prescription",
+            "endsOn": "Ends on",
+            "patientNote": "Note from the patient",
+            "questionnaire": "Questionnaire",
+            "notAnsweredYet": "The patient has not answered the questionnaire yet.",
+            "noQuestionnaire": "No questionnaire is linked to this medicine.",
+            "decision": "Decision",
+            "decidedBy": "By {name}, {date}",
+            "noteToPatient": "Note to the patient",
+            "notePlaceholder": "Required when you reject. The patient sees it in the app.",
+            "approve": "Approve",
+            "reject": "Reject",
+            "approved": "The request has been approved. The patient has been told.",
+            "rejected": "The request has been rejected. The patient has been told.",
+            "prescribeHelp": "The request is approved. Create the prescription on the patient's medicine card.",
+            "prescribe": "Create prescription",
+            "openMedicineCard": "Open the medicine card"
+        },
+        "prescribe": {
+            "banner": "Renewal of {medicine}",
+            "bannerHelp": "Saving the prescription closes the patient's renewal request.",
+            "done": "The prescription has been created and the renewal request is closed."
+        },
+        "settings": {
+            "renewalSurvey": "Questionnaire for prescription renewal",
+            "noRenewalSurvey": "No questionnaire",
+            "renewalSurveyHelp": "Sent to the patient when they ask to renew a prescription for this medicine, e.g. a hair-loss questionnaire."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Prescriptions",
+        "intro": "Your current prescriptions. Ask the clinic to renew one when it is about to run out.",
+        "yourPrescriptions": "Your prescriptions",
+        "empty": "You have no prescriptions from the clinic.",
+        "validUntil": "Valid until {date}",
+        "requestRenewal": "Request renewal",
+        "answerQuestionnaire": "Answer the questionnaire",
+        "yourRequests": "Your requests",
+        "requestedOn": "Requested on {date}",
+        "clinicNote": "From the clinic",
+        "confirm": "Ask the clinic to renew your prescription for {medicine}?",
+        "questionnaireNext": "Next you answer a short questionnaire, so the clinic can assess the renewal.",
+        "noteLabel": "Message to the clinic (optional)",
+        "notePlaceholder": "E.g. how the treatment is going",
+        "send": "Send request",
+        "sent": "Your request has been sent to the clinic.",
+        "statuses": {
+            "awaiting_answers": "Waiting for your answers",
+            "pending": "With the clinic",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "prescribed": "Renewed"
+        }
     }
 }

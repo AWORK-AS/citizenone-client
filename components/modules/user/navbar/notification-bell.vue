@@ -194,6 +194,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('birthday')) return 'birthday'
     if (type.toLowerCase().includes('surveyreturned')) return 'survey'
     if (type.toLowerCase().includes('formreturned')) return 'form'
+    if (type.toLowerCase().includes('prescriptionrenewal')) return 'prescription_renewal'
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
@@ -217,6 +218,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
     survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
     form: { bg: 'bg-primary/10', icon: 'ph:note-pencil', color: 'text-primary' },
+    prescription_renewal: { bg: 'bg-secondary/10', icon: 'ph:prescription', color: 'text-secondary' },
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
@@ -538,6 +540,24 @@ async function handleNotifClick(notif: any) {
             // An older notification without the assignment: the patient's own list.
             navigateTo(`/citizens/${content.citizen_uuid}/${questionnaireType === 'form' ? 'patient-forms' : 'surveys'}`)
         }
+        return
+    }
+    if (getCategory(notif.type) === 'prescription_renewal') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        const renewalUuid = notif.data?.content?.prescription_renewal_uuid
+        navigateTo(renewalUuid ? `/prescription-renewals/${renewalUuid}` : '/prescription-renewals')
         return
     }
     if (getCategory(notif.type) === 'medication') {
