@@ -20,6 +20,10 @@
 
                 <TabsLocal v-model="view" :tabs="tabs" />
 
+                <!-- Without the HR setting the overviews answer "invalid permission". -->
+                <Alert type="danger" :text="state.error?.message"
+                    v-if="state.error?.message && state.error.message.length > 0" />
+
                 <!-- Expiry: every certificate on file, soonest expiry first. -->
                 <div v-if="view === 'expiry'" class="table-responsive">
                     <Table :columnHeaders="state.columnHeaders" :data="{ data: state.certificates }"
