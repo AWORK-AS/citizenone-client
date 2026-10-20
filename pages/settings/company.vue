@@ -778,28 +778,7 @@
                     </div>
                 </form>
 
-                <!-- Company modules — admin enables/disables whole modules for the company -->
-                <div class="mt-8 card" v-if="isAtLeast('Admin') && moduleState.pages.length">
-                    <div class="card-header">
-                        <h3 class="text-sm font-semibold text-slate-900">Moduler</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-sm text-slate-500 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <div v-for="page in moduleState.pages" :key="page.uuid"
-                                class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
-                                <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
-                                <FormSwitch :value="moduleState.enabled.includes(page.uuid)"
-                                    :label="$t(`companyModules.${page.name}`)" @toggleSwitch="toggleModule(page.uuid)" />
-                            </div>
-                        </div>
-                        <div class="mt-5">
-                            <FormButton type="button" buttonStyle="primary" class="w-full" @click="saveModules">
-                                {{ $t('save') }}
-                            </FormButton>
-                        </div>
-                    </div>
-                </div>
+                <ModulesUserSettingsCompanyModules v-if="isAtLeast('Admin')" />
 
                 <ModulesUserSettingsCompanySso v-if="isAtLeast('Admin')" />
             </LoadingSpinner>
@@ -815,7 +794,6 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { roleService } from '@/components/api/user/RoleService'
-import { companyService } from '@/components/api/user/CompanyService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useCompanyStore } from '@/store/company'
@@ -885,6 +863,7 @@ const portalAudiences = computed(() => {
                 { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
                 { key: 'forms', label: 'settings.company.form.portalSectionForms' },
                 { key: 'price_estimates', label: 'settings.company.form.portalSectionPriceEstimates' },
+                { key: 'prescriptions', label: 'settings.company.form.portalSectionPrescriptions' },
                 { key: 'support', label: 'settings.company.form.portalSectionSupport' },
             ],
         })
@@ -895,9 +874,14 @@ const portalAudiences = computed(() => {
 
 const totalSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) => total + audience.sections.length, 0))
 
-// An unset section means visible, matching the backend default.
+// Sections that start hidden until an admin turns them on, matching PortalVisibilityService::HIDDEN_UNTIL_ENABLED.
+const HIDDEN_UNTIL_ENABLED: Record<string, string[]> = { patient: ['prescriptions'] }
+
+// An unset section means visible, matching the backend default - except the ones above.
 function isSectionVisible(audience: string, section: string) {
-    return state.formCompany.portal_visibility?.[audience]?.[section] !== false
+    const value = state.formCompany.portal_visibility?.[audience]?.[section]
+    if (value === undefined || value === null) return !(HIDDEN_UNTIL_ENABLED[audience] ?? []).includes(section)
+    return value !== false
 }
 
 // Opening a section exposes records to people outside the organization, so it
@@ -981,36 +965,6 @@ const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
-
-// --- Company modules (admin enable/disable whole modules) ---
-const moduleState = reactive<{ pages: any[]; enabled: string[] }>({ pages: [], enabled: [] })
-
-async function fetchCompanyModules() {
-    try {
-        const response = await companyService.getCompanyModules()
-        moduleState.pages = response?.pages ?? []
-        moduleState.enabled = response?.enabled_page_uuids ?? []
-    } catch (e) { /* leave empty */ }
-}
-
-function toggleModule(uuid: string) {
-    const i = moduleState.enabled.indexOf(uuid)
-    if (i === -1) moduleState.enabled.push(uuid)
-    else moduleState.enabled.splice(i, 1)
-}
-
-async function saveModules() {
-    try {
-        await companyService.updateCompanyModules({ page_uuids: moduleState.enabled })
-        // Update the in-memory user so the sidebar regenerates live (no reload).
-        const enabledNames = moduleState.pages.filter((p: any) => moduleState.enabled.includes(p.uuid)).map((p: any) => p.name)
-        const u: any = userStore.getUser
-        if (u?.company) userStore.setUser({ ...u, company: { ...u.company, module_pages: enabledNames } })
-        successAlert(`${t('alert.success')}!`, 'Moduler opdateret.')
-    } catch (e) { }
-}
-
-onMounted(fetchCompanyModules)
 
 // Company logo for PDF branding
 const logoInput = ref<HTMLInputElement | null>(null)

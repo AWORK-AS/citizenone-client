@@ -193,6 +193,8 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('scheduleupdated')) return 'schedule_updated'
     if (type.toLowerCase().includes('birthday')) return 'birthday'
     if (type.toLowerCase().includes('surveyreturned')) return 'survey'
+    if (type.toLowerCase().includes('formreturned')) return 'form'
+    if (type.toLowerCase().includes('prescriptionrenewal')) return 'prescription_renewal'
     if (type.toLowerCase().includes('journalmention')) return 'journal_mention'
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
@@ -206,6 +208,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('contractsigned')) return 'contract_signed'
     if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
     if (type.toLowerCase().includes('codyaccessrequest')) return 'cody_request'
+    if (type.toLowerCase().includes('inactiveemployees')) return 'inactive_employees'
     return 'other'
 }
 
@@ -214,6 +217,8 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     schedule_updated: { bg: 'bg-primary/10', icon: 'ph:calendar', color: 'text-primary' },
     birthday: { bg: 'bg-accent-orange/10', icon: 'ph:cake', color: 'text-accent-orange' },
     survey: { bg: 'bg-primary/10', icon: 'ph:clipboard-text', color: 'text-primary' },
+    form: { bg: 'bg-primary/10', icon: 'ph:note-pencil', color: 'text-primary' },
+    prescription_renewal: { bg: 'bg-secondary/10', icon: 'ph:prescription', color: 'text-secondary' },
     journal_mention: { bg: 'bg-secondary/10', icon: 'ph:at', color: 'text-secondary' },
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
@@ -226,6 +231,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     contract_signed: { bg: 'bg-secondary/10', icon: 'ph:seal-check', color: 'text-secondary' },
     medication: { bg: 'bg-accent-orange/10', icon: 'ph:pill', color: 'text-accent-orange' },
     cody_request: { bg: 'bg-secondary/10', icon: 'ph:sparkle', color: 'text-secondary' },
+    inactive_employees: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -423,6 +429,24 @@ async function refreshUnreadCount() {
 }
 
 async function handleNotifClick(notif: any) {
+    // Employees who have been inactive for 3 months (admins): to the employee list, filtered to them.
+    if (getCategory(notif.type) === 'inactive_employees') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        navigateTo(notif.data?.content?.link ?? '/employees?inactive=1')
+        return
+    }
     // A colleague asked for Cody: to its app page, where the trial or a seat is.
     if (getCategory(notif.type) === 'cody_request') {
         state.isOpen = false
@@ -491,7 +515,8 @@ async function handleNotifClick(notif: any) {
         navigateTo('/calendar')
         return
     }
-    if (getCategory(notif.type) === 'survey') {
+    // A returned form or survey opens in the questionnaire inbox, where it is reviewed.
+    if (getCategory(notif.type) === 'survey' || getCategory(notif.type) === 'form') {
         if (!notif.read_at) {
             try {
                 const response = await notificationService.markSystemNotificationAsRead(notif.id)
@@ -505,10 +530,34 @@ async function handleNotifClick(notif: any) {
             }
         }
         state.isOpen = false
-        const citizenUuid = notif.data?.content?.citizen_uuid
-        if (citizenUuid) {
-            navigateTo(`/citizens/${citizenUuid}/surveys`)
+        const content = notif.data?.content
+        const questionnaireType = content?.type === 'form' || content?.type === 'survey'
+            ? content.type
+            : (getCategory(notif.type) === 'form' ? 'form' : 'survey')
+        if (content?.assignment_uuid) {
+            navigateTo(`/questionnaire-inbox/${questionnaireType}/${content.assignment_uuid}`)
+        } else if (content?.citizen_uuid) {
+            // An older notification without the assignment: the patient's own list.
+            navigateTo(`/citizens/${content.citizen_uuid}/${questionnaireType === 'form' ? 'patient-forms' : 'surveys'}`)
         }
+        return
+    }
+    if (getCategory(notif.type) === 'prescription_renewal') {
+        if (!notif.read_at) {
+            try {
+                const response = await notificationService.markSystemNotificationAsRead(notif.id)
+                if (response) {
+                    const index = state.notifications.findIndex((n: any) => n.id === notif.id)
+                    if (index !== -1) state.notifications[index].read_at = new Date().toISOString()
+                    await refreshUnreadCount()
+                }
+            } catch (error: any) {
+                state.error = error
+            }
+        }
+        state.isOpen = false
+        const renewalUuid = notif.data?.content?.prescription_renewal_uuid
+        navigateTo(renewalUuid ? `/prescription-renewals/${renewalUuid}` : '/prescription-renewals')
         return
     }
     if (getCategory(notif.type) === 'medication') {

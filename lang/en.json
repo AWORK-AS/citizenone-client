@@ -159,7 +159,61 @@
         "Management & Economy": "Management & economy",
         "Billing": "Billing",
         "Revenue report": "Revenue report",
-        "Findsocialetilbud": "FindSocialeTilbud.dk"
+        "Findsocialetilbud": "FindSocialeTilbud.dk",
+        "Messages": "Messages",
+        "Reminders": "Reminders",
+        "Bullet Board": "Bullet board",
+        "Forms": "Forms",
+        "Tasks": "Tasks",
+        "AI assistant": "AI assistant",
+        "Staff workload": "Staff workload"
+    },
+    "companyModulesCard": {
+        "title": "Modules",
+        "description": "Choose which modules your company uses. A module that is switched off is hidden for everyone in the company, on the web and in the app.",
+        "onlyHides": "Switching a module off only hides it from the menu. No data is deleted, and you can switch it on again at any time.",
+        "useRecommended": "Use recommended setup for my industry",
+        "recommendedFor": "The recommended setup is the set of modules suggested for {industry}. It only fills in the switches. Nothing changes until you press Save.",
+        "noRecommendation": "There is no recommended setup for your industry, so every module stays available.",
+        "allOn": "Turn all on",
+        "allOff": "Turn all off",
+        "noneWarning": "Every module is switched off. Only the basics, such as the overview and client records, will be shown.",
+        "saved": "Modules updated.",
+        "groups": {
+            "clients": "Clients",
+            "daily": "Daily work",
+            "staff": "Staff",
+            "economy": "Economy",
+            "other": "Other"
+        },
+        "help": {
+            "journals": "Journal notes on each client, with AI help to write them.",
+            "documents": "File storage for documents on clients and the company.",
+            "contacts": "Relatives and other contacts on a client.",
+            "emails": "Connect your own email and see emails on each client.",
+            "medicineCard": "Medication lists and records of medicine given.",
+            "health": "Health areas and nursing assessments.",
+            "plansAndGoals": "Action plans with goals and sub-goals for each client.",
+            "wellbeing": "Wellbeing check-ins and scores over time.",
+            "reports": "Reports written about a client.",
+            "calendar": "Appointments, bookings and online booking from your website.",
+            "messages": "Chat with colleagues and with clients through the client portal.",
+            "reminders": "Personal and shared reminders.",
+            "aiAssistant": "The AI assistant in the top bar.",
+            "forms": "Build your own forms and questionnaires.",
+            "tasks": "Task boards for work that is not tied to a client.",
+            "bulletBoard": "News and announcements for the whole company.",
+            "inquiries": "A pipeline for new inquiries and referrals.",
+            "findsocialetilbud": "Shortcut to FindSocialeTilbud.dk.",
+            "dutySchedule": "Shift planning and rosters for staff.",
+            "attendance": "Attendance registration and protocols.",
+            "employeeGroup": "Groups of employees for access and planning.",
+            "staffWorkload": "Workload overview for each employee.",
+            "billing": "Invoices for the services you deliver.",
+            "revenueReport": "An overview of your revenue.",
+            "economy": "Client wallets and expenses.",
+            "managementEconomy": "Management overview of the company's finances."
+        }
     },
     "discover": {
         "welcome": "Welcome, {name}",
@@ -11415,8 +11469,10 @@
                 "portalNeverUnsharedJournalNotes": "Journal notes that are not marked as shared",
                 "portalSectionForms": "Forms",
                 "portalSectionPriceEstimates": "Price estimates",
+                "portalSectionPrescriptions": "Prescription renewal",
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
                 "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
+                "portalPreviewPrescriptions": "The patient sees their current prescriptions and can ask the clinic to renew them. The request comes into the Prescription renewals inbox.",
                 "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
             }
         },
@@ -16725,6 +16781,91 @@
             "edit": "Edit epikrise template"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inactive employees",
+        "messageSingle": "{name} has been inactive for 3 months (last active {date}).",
+        "messageSingleNever": "{name} has never logged in and has been inactive for 3 months.",
+        "messageMany": "{count} employees have been inactive for 3 months or more.",
+        "licenseNote": "They still use a license until they are archived.",
+        "neverLoggedIn": "Never logged in",
+        "lastActive": "Last active {when}",
+        "archive": "Archive",
+        "keepActive": "Keep active",
+        "viewEmployee": "View employee",
+        "remindLater": "Remind me later",
+        "close": "Close",
+        "archiveConfirm": "Are you sure you want to archive {name}? They will no longer use a license.",
+        "licenseFreed": "License freed",
+        "columnHeader": "Last active",
+        "never": "Never",
+        "filter": "Inactive 3+ months"
+    },
+    "questionnaireInbox": {
+        "title": "Questionnaire inbox",
+        "subtitle": "Forms and surveys that patients have sent back, for you to review",
+        "tabs": {
+            "to_review": "To review",
+            "approved": "Approved",
+            "declined": "Declined",
+            "all": "All"
+        },
+        "status": {
+            "to_review": "To review",
+            "approved": "Approved",
+            "declined": "Declined"
+        },
+        "type": {
+            "form": "Form",
+            "survey": "Survey"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Search by patient name",
+            "questionnaire": "Questionnaire",
+            "allQuestionnaires": "All questionnaires",
+            "from": "Returned from",
+            "to": "Returned to",
+            "sentByMe": "Sent by me",
+            "clear": "Clear filters"
+        },
+        "empty": {
+            "to_review": "No questionnaires waiting for review",
+            "approved": "No approved questionnaires",
+            "declined": "No declined questionnaires",
+            "all": "No returned questionnaires yet"
+        },
+        "score": "Score",
+        "returned": "Returned",
+        "sentBy": "Sent by",
+        "handledBeforeInbox": "Handled before the inbox",
+        "reviewedBy": "By {name}",
+        "backToList": "Back to the inbox",
+        "openProfile": "Open patient profile",
+        "openMedicineList": "Open medicine list",
+        "openPdf": "Open PDF",
+        "answers": "Answers",
+        "noAnswers": "There are no answers to show.",
+        "review": {
+            "title": "Review",
+            "note": "Note",
+            "notePlaceholder": "For example: Prescription renewed for 3 months",
+            "noteHint": "Optional when approving. Required when declining.",
+            "approve": "Approve",
+            "decline": "Decline",
+            "reopen": "Reopen",
+            "declineTitle": "Decline questionnaire",
+            "declineConfirm": "Decline this questionnaire? The reason is saved with it.",
+            "declineReasonRequired": "Write a short reason for declining.",
+            "noteTooLong": "The note can be at most {max} characters.",
+            "approvedBy": "Approved by {name} on {date}",
+            "declinedBy": "Declined by {name} on {date}"
+        },
+        "alert": {
+            "approved": "The questionnaire is approved.",
+            "declined": "The questionnaire is declined.",
+            "reopened": "The questionnaire is back in To review."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",
@@ -19025,5 +19166,81 @@
     "tableColumns": {
         "moveUp": "Move {column} up",
         "moveDown": "Move {column} down"
+    },
+    "prescriptionRenewals": {
+        "title": "Prescription renewals",
+        "intro": "Requests from patients to renew a prescription. A request comes in here once the patient has answered the questionnaire linked to the medicine. Approve it and create the prescription, or reject it with a reason for the patient.",
+        "filter": "Filter by status",
+        "all": "All",
+        "empty": "There are no requests here.",
+        "open": "Open",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Medicine",
+            "status": "Status",
+            "received": "Received"
+        },
+        "statuses": {
+            "awaiting_answers": "Waiting for questionnaire",
+            "pending": "To review",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "prescribed": "Prescription created"
+        },
+        "detail": {
+            "title": "Renewal request",
+            "currentPrescription": "Current prescription",
+            "endsOn": "Ends on",
+            "patientNote": "Note from the patient",
+            "questionnaire": "Questionnaire",
+            "notAnsweredYet": "The patient has not answered the questionnaire yet.",
+            "noQuestionnaire": "No questionnaire is linked to this medicine.",
+            "decision": "Decision",
+            "decidedBy": "By {name}, {date}",
+            "noteToPatient": "Note to the patient",
+            "notePlaceholder": "Required when you reject. The patient sees it in the app.",
+            "approve": "Approve",
+            "reject": "Reject",
+            "approved": "The request has been approved. The patient has been told.",
+            "rejected": "The request has been rejected. The patient has been told.",
+            "prescribeHelp": "The request is approved. Create the prescription on the patient's medicine card.",
+            "prescribe": "Create prescription",
+            "openMedicineCard": "Open the medicine card"
+        },
+        "prescribe": {
+            "banner": "Renewal of {medicine}",
+            "bannerHelp": "Saving the prescription closes the patient's renewal request.",
+            "done": "The prescription has been created and the renewal request is closed."
+        },
+        "settings": {
+            "renewalSurvey": "Questionnaire for prescription renewal",
+            "noRenewalSurvey": "No questionnaire",
+            "renewalSurveyHelp": "Sent to the patient when they ask to renew a prescription for this medicine, e.g. a hair-loss questionnaire."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Prescriptions",
+        "intro": "Your current prescriptions. Ask the clinic to renew one when it is about to run out.",
+        "yourPrescriptions": "Your prescriptions",
+        "empty": "You have no prescriptions from the clinic.",
+        "validUntil": "Valid until {date}",
+        "requestRenewal": "Request renewal",
+        "answerQuestionnaire": "Answer the questionnaire",
+        "yourRequests": "Your requests",
+        "requestedOn": "Requested on {date}",
+        "clinicNote": "From the clinic",
+        "confirm": "Ask the clinic to renew your prescription for {medicine}?",
+        "questionnaireNext": "Next you answer a short questionnaire, so the clinic can assess the renewal.",
+        "noteLabel": "Message to the clinic (optional)",
+        "notePlaceholder": "E.g. how the treatment is going",
+        "send": "Send request",
+        "sent": "Your request has been sent to the clinic.",
+        "statuses": {
+            "awaiting_answers": "Waiting for your answers",
+            "pending": "With the clinic",
+            "approved": "Approved",
+            "rejected": "Rejected",
+            "prescribed": "Renewed"
+        }
     }
 }
