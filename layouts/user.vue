@@ -323,7 +323,7 @@
                             </div>
                         </div>
                         <div>
-                            <ModulesUserNavbarAiAssistant class="hidden xl:block" />
+                            <ModulesUserNavbarAiAssistant v-if="aiAssistantEnabled" class="hidden xl:block" />
                         </div>
                         <div>
                             <ModulesUserNavbarSubscribeButton
@@ -378,7 +378,7 @@
                         </button>
 
                         <!-- AI (mobile) -->
-                        <div class="xl:hidden">
+                        <div v-if="aiAssistantEnabled" class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
                                 @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : openCodyPrompt()">
                                 <ModulesUserNavbarCodyMark :size="22" class="md:!w-5 md:!h-5" />
@@ -593,7 +593,7 @@
                     <ModulesUserStorageQuotaNotice />
 
                     <!-- Cody adoption: trial offer, countdown, or a request to the admin. -->
-                    <ModulesUserCodyAdoptionBanner />
+                    <ModulesUserCodyAdoptionBanner v-if="aiAssistantEnabled" />
 
                     <!-- Subscription payment outstanding. Renders a blocking wall for an
                          admin (who can fix it) and a plain notice for everyone else. -->
@@ -702,7 +702,7 @@
         <!-- Rendered once here rather than inside the navbar button, so the panel
         survives navigation and the content area can make room for it. -->
         <ModulesUserCodyAccessPrompt />
-        <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access" />
+        <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access && aiAssistantEnabled" />
         <ModulesUserOwnChatGptSyncProgressBar />
 
         <!-- One-time ⌘K discovery tip -->
@@ -784,6 +784,7 @@ import { useEmployeeStore } from '@/store/employee'
 import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
 import { useAppTours } from '@/composables/useAppTours'
+import { companyHasModule as hasCompanyModule } from '@/composables/pageAccess'
 import type { Error } from '@/types'
 
 const departmentStore = useDepartmentStore()
@@ -794,6 +795,8 @@ const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
 const sidebarNavStore = useSidebarNavStore()
 const assistantStore = useAssistantStore()
+// The assistant is a module like any other: Settings -> Company -> Modules.
+const aiAssistantEnabled = computed(() => hasCompanyModule(userStore.getUser?.company?.module_pages, 'AI assistant'))
 const { isAtLeast, can } = usePermissions()
 const language = useI18n()
 const { citizensLabel } = useTerminology()
@@ -1250,8 +1253,7 @@ function generateSidebarLinks(user: any) {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     // Company-level module enablement: no list (empty) = every module on (default).
-    const companyModulePages = user?.company?.module_pages
-    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const companyHasModule = (name: string) => hasCompanyModule(user?.company?.module_pages, name)
     const userHasPageAttendanceAccess = companyHasModule("Attendance") && user?.pages?.some((page: any) => page.name === "Attendance")
     nav.push({
         name: 'Overview',
@@ -1359,30 +1361,37 @@ function generateSidebarLinks(user: any) {
             })
         }
     }
-    nav.push({
-        name: 'Messages',
-        href: '/messages',
-        icon: 'ph:chat-circle',
-        group: 'daily',
-        activeRouteNames: [
-            'messages',
-            'messages-chat_uuid'
-        ]
-    })
-    nav.push({
-        name: 'Reminders',
-        href: '/reminders',
-        icon: 'ph:bell',
-        group: 'daily',
-        activeRouteNames: [
-            'reminders'
-        ]
-    })
-    if (userHasSecuredMailAccess) {
+    if (companyHasModule('Messages')) {
+        nav.push({
+            name: 'Messages',
+            href: '/messages',
+            icon: 'ph:chat-circle',
+            group: 'daily',
+            activeRouteNames: [
+                'messages',
+                'messages-chat_uuid'
+            ]
+        })
+    }
+    if (companyHasModule('Reminders')) {
+        nav.push({
+            name: 'Reminders',
+            href: '/reminders',
+            icon: 'ph:bell',
+            group: 'daily',
+            activeRouteNames: [
+                'reminders'
+            ]
+        })
+    }
+    // Same module the app's Mails item and the citizen's Emails tab already use.
+    if (userHasSecuredMailAccess && companyHasModule('Emails')) {
         nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail-inbox', 'mail-sent', 'mail-secured-mail'] })
     }
 
-    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })
+    if (companyHasModule('Journals')) {
+        nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })
+    }
 
     if (companyHasModule("Documents")) {
         nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', group: 'documentation', activeRouteNames: ['drive'] })
@@ -1413,7 +1422,9 @@ function generateSidebarLinks(user: any) {
 
     // The board announces things to the whole house, so it gets a megaphone
     // rather than yet another sheet-of-paper icon next to notes and documents.
-    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:megaphone', group: 'organisation', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
+    if (companyHasModule('Bullet Board')) {
+        nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:megaphone', group: 'organisation', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
+    }
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
@@ -1421,7 +1432,7 @@ function generateSidebarLinks(user: any) {
 
     // Task boards hold the work that belongs to nobody's citizen record, so they
     // sit with the other organisation-wide pages rather than under a citizen.
-    if (user?.company?.tasks_workflow_enabled) {
+    if (user?.company?.tasks_workflow_enabled && companyHasModule('Tasks')) {
         nav.push({ name: 'Tasks', href: '/tasks', icon: 'ph:kanban', group: 'organisation', activeRouteNames: ['tasks'] })
     }
 
@@ -1448,7 +1459,7 @@ function generateSidebarLinks(user: any) {
     // page set could reach this export. A dental clinic, which the industry
     // defaults switch care plans off for, still met it in the menu.
     const hasCarePlans = user?.company?.onboarding_preferences?.modules?.carePlans !== false
-    if (hasCarePlans && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
+    if (hasCarePlans && companyHasModule('Plans and goals') && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
         nav.push({
             name: 'Plans And Goals Export',
             href: '/reports/plans-and-goals-export',
@@ -1458,7 +1469,7 @@ function generateSidebarLinks(user: any) {
         })
     }
 
-    if (isAtLeast('Admin') || can('manage_status_reports')) {
+    if ((isAtLeast('Admin') || can('manage_status_reports')) && companyHasModule('Forms')) {
         nav.push({
             name: 'Forms',
             href: '/forms',
@@ -1474,7 +1485,7 @@ function generateSidebarLinks(user: any) {
 
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    const hasEconomyOverview = user?.pages?.some((page: any) => page.name === 'Management & Economy')
+    const hasEconomyOverview = companyHasModule('Management & Economy') && user?.pages?.some((page: any) => page.name === 'Management & Economy')
     const hasEmploymentEconomy = companyHasModule('Billing') || companyHasModule('Revenue report')
 
     if (hasEconomyOverview || hasEmploymentEconomy) {
