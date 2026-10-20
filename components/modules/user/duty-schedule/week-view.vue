@@ -1634,6 +1634,7 @@
 
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
@@ -1753,6 +1754,7 @@ const state = reactive({
         selectedEmployeeDailySchedule: {},
         selectedEmployeeWeeklySchedule: {},
         selectedWeekNumber: null,
+        selectedWeekYear: null,
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
@@ -2694,7 +2696,7 @@ function viewAvailableVacationHours(employee: any) {
 
 function openAddNewShiftModal(employee: any, employeeIndex: number, weekIndex: any, week: any) {
     if (!employee?.uuid) {
-        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        errorAlert(translateMessage('alert.error', 'Error'), translateMessage('apiErrors.employeeNotLinked', 'This employee is not linked to a local user yet.'))
         return
     }
     state.modal.isAddShiftOpen = true
@@ -2751,7 +2753,7 @@ async function tryRapidFillShortcut(key: string) {
         await dutyScheduleService.saveDutySchedule(params)
         fetchDutySchedule()
     } catch (error: any) {
-        errorAlert('Error', error?.data?.message || error?.message || 'Could not create the shift.')
+        errorAlert(translateMessage('alert.error', 'Error'), error?.data?.message || error?.message || translateMessage('apiErrors.createShiftFailed', 'Could not create the shift.'))
     }
 }
 
@@ -2829,7 +2831,7 @@ async function saveShift(shiftDetails: any) {
     const employeeIndex = state.addShift.selectedEmployeeSchedule.employeeIndex
     const employeeUuid = state.weeklySchedules?.data?.[employeeIndex]?.uuid
     if (!employeeUuid) {
-        errorAlert('Error', 'This employee is not linked to a local user yet.')
+        errorAlert(translateMessage('alert.error', 'Error'), translateMessage('apiErrors.employeeNotLinked', 'This employee is not linked to a local user yet.'))
         return
     }
     const shiftType = shiftDetails.shift_type
@@ -2996,6 +2998,7 @@ function isEmployeeSelectedAsWeeklyScheduleSource(employee: any) {
 function copyEmployeeWeeklySchedule(weeklySchedule: any) {
     state.copy.selectedEmployeeWeeklySchedule = weeklySchedule
     state.copy.selectedWeekNumber = weekNumber?.value
+    state.copy.selectedWeekYear = moment(currentDate.value).isoWeekYear()
 }
 
 function viewExtraHours(employee: any) {
@@ -3045,6 +3048,8 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
             user_uuid_destination: weeklySchedule?.uuid,
             week_source: state.copy.selectedWeekNumber,
             week_destination: weekNumber?.value,
+            year_source: state.copy.selectedWeekYear,
+            year_destination: moment(currentDate.value).isoWeekYear(),
         }
         const response = await dutyScheduleService.copyEmployeeWeeklyDutySchedule(params)
         if (response) {
@@ -3077,7 +3082,7 @@ function copyWeeklySchedule(weekNumber: number) {
     if (copyWeeklyScheduleTimer) return
     state.copy.allEmployeeSchedules = {
         weekNumber: weekNumber,
-        yearSource: currentDate.value.year(),
+        yearSource: currentDate.value.isoWeekYear(),
         weeklySchedules: state.weeklySchedules?.data
     }
     copyWeeklyScheduleTimer = setTimeout(() => { copyWeeklyScheduleTimer = null }, 300)
@@ -3089,7 +3094,7 @@ function pasteWeeklySchedule(weekNumber: number) {
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
         year_source: state.copy.allEmployeeSchedules.yearSource,
-        year_destination: currentDate.value.year(),
+        year_destination: currentDate.value.isoWeekYear(),
     }
     saveCopiedWeeklyDutySchedule(params)
 }
@@ -3311,6 +3316,11 @@ async function updateDutySchedule(scheduleUuid: any, params: object, employeeInd
         }
     } catch (error: any) {
         state.editShiftError = error
+        // The edit modal shows editShiftError itself; a quick edit has no
+        // modal open, so without this the failure was visible nowhere.
+        if (!state.modal.isEditShiftOpen) {
+            errorAlert(language.t('alert.error'), error?.data?.message || error?.message || language.t('dutySchedules.quickEditTime.saveFailed'))
+        }
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()

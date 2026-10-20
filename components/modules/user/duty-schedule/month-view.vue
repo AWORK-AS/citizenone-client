@@ -69,7 +69,7 @@
                         <button
                             class="flex items-center gap-1 text-xxs bg-primary text-white hover:bg-primary-700 px-2 py-1 rounded font-semibold"
                             @click="pasteMonth(monthWeeks)"
-                            v-if="state.copy.selectedMonth && state.copy.selectedMonth.month !== moment(state.selectedDate).month()">
+                            v-if="state.copy.selectedMonth && (state.copy.selectedMonth.year !== moment(state.selectedDate).year() || state.copy.selectedMonth.month !== moment(state.selectedDate).month())">
                             <Icon name="ph:calendar-check" class="h-3.5 w-3.5" />
                             {{ $t('dutySchedules.monthView.insertMonthHere') }}
                         </button>
@@ -1134,7 +1134,7 @@ const state = reactive({
     copy: {
         allEmployeeSchedules: {},
         selectedEmployeeDailySchedule: {},
-        selectedWeek: null as any, // { weekNumber, days, year }
+        selectedWeek: null as any, // { weekNumber, days, year, employeeSnapshot }
         selectedMonth: null as any, // { weeks, year, month }
     } as any,
     copyShiftError: {} as Error,
@@ -1604,7 +1604,9 @@ function copyWeek(week: any) {
     state.copy.selectedWeek = {
         weekNumber: week.weekNumber,
         days: week.days.filter((d: any) => d !== null),
-        year: moment(week.days.find((d: any) => d !== null)).year()
+        year: moment(week.days.find((d: any) => d !== null)).year(),
+        // Snapshot so the week can be pasted into another month
+        employeeSnapshot: JSON.parse(JSON.stringify(state.monthlySchedules?.data || []))
     }
     state.copy.selectedMonth = null
 }
@@ -1613,12 +1615,13 @@ async function pasteWeek(targetWeek: any) {
     if (!state.copy.selectedWeek) return
     const srcDays = state.copy.selectedWeek.days
     const dstDays = targetWeek.days.filter((d: any) => d !== null)
+    const empSnap = state.copy.selectedWeek.employeeSnapshot || []
     // Copy day by day – match by weekday (Mon = Mon, Tue = Tue, etc.)
     for (let di = 0; di < Math.min(srcDays.length, dstDays.length); di++) {
         const srcDate = moment(srcDays[di]).format('YYYY-MM-DD')
         const dstDate = moment(dstDays[di]).format('YYYY-MM-DD')
-        for (let ei = 0; ei < (state.monthlySchedules?.data?.length || 0); ei++) {
-            const emp = state.monthlySchedules?.data?.[ei]
+        for (let ei = 0; ei < empSnap.length; ei++) {
+            const emp = empSnap[ei]
             if (!emp) continue
             const shifts = emp?.days?.[srcDate]?.shifts || []
             if (shifts.length === 0) continue
@@ -2327,11 +2330,17 @@ onMounted(() => {
     fetchDutySchedule()
     favoriteEmployees.ensureLoaded()
     document.addEventListener('click', closeRequestMenu)
+    window.addEventListener('keydown', handleKeyDown)
 })
 
 onUnmounted(() => {
     document.removeEventListener('click', closeRequestMenu)
+    window.removeEventListener('keydown', handleKeyDown)
 })
+
+function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') stopCopying()
+}
 
 function isFavorited(employee: any) {
     return employee?.is_favorited_by_viewer || favoriteEmployees.isFavorited(employee?.uuid)

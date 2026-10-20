@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "Du har en anteckning som inte sparades (kl. {time}).",
+        "restore": "Återställ",
+        "discard": "Kasta",
+        "confirmClose": "Anteckningen är inte sparad. Vill du stänga ändå? Texten sparas som utkast i den här fliken."
+    },
     "nps": {
         "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
         "unlikely": "Inte alls",
@@ -1899,6 +1905,9 @@
                 "successfullyCopied": "{journal} har kopierats",
                 "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
+                "surveysNotCompleted": "Anteckningen är sparad, men {n} enkät(er) registrerades inte.",
+                "surveysRetry": "Försök igen",
+                "surveysRetried": "Enkäterna har registrerats.",
                 "unlockJournal": "{journal} låst upp",
                 "unpinJournal": "{journal} fästning borttagen"
             },
@@ -2005,6 +2014,7 @@
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
                 "titlePlaceholder": "Välj eller skriv en titel",
                 "dictate": "Diktera",
@@ -3166,7 +3176,10 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Där opstod en fel.",
                 "anErrorOccurredRetry": "Där opstod en fel. Försök igen.",
+                "historyUnavailable": "Vi kunde inte hämta vilka doser som redan har getts. Försök igen innan du registrerar, så att ingen dos ges dubbelt.",
+                "retry": "Försök igen",
                 "registeredForDays": "Registrerad för {n} dag(e).",
+                "partialFailure": "Registrerad för {ok} dag(ar). Misslyckades för: {dates} ({reason}). De misslyckade datumen är fortfarande valda - försök igen.",
                 "overdueMinutes": "{minutes} min försenad",
                 "overdueHoursMinutes": "{hours}t {minutes}min försenad",
                 "overdueHours": "{hours}t försenad",
@@ -3789,6 +3802,8 @@
             "description": "Beskrivning",
             "descriptionPlaceholder": "Lägg till en beskrivning",
             "viewFullTimeline": "Visa hela tidslinjen",
+            "loadOlder": "Visa äldre",
+            "allLoaded": "Alla händelser visas",
             "alert": {
                 "successfullyAdded": "Tidslinjehändelse tillagd",
                 "deletedSuccessfully": "Tidslinjehändelse borttagen"
@@ -5031,7 +5046,8 @@
         "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
-            "hint": "Enter för att spara · Esc för att avbryta"
+            "hint": "Enter för att spara · Esc för att avbryta",
+            "saveFailed": "Passtiden kunde inte uppdateras."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg för {date}",
@@ -7147,6 +7163,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammanhängande dagar",
+            "periodDaysPlaceholder": "t.ex. 30",
             "dutyShiftRuleName": "Namn",
             "evaluatingShiftsFrom": "Evaluerer pass från",
             "inactive": "Inaktiv",
@@ -8698,11 +8715,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Acceptera inbjudan",
+        "accepting": "Accepterar inbjudan",
         "alert": {
             "invalidInvitationLink": "Ogiltigt invitationslink"
         },
+        "errorBody": "Inbjudan kunde inte accepteras just nu. Försök igen senare",
+        "errorTitle": "Något gick fel",
+        "expiredBody": "Inbjudningslänken har gått ut. Be den som bjöd in dig att skicka en ny inbjudan",
+        "expiredTitle": "Inbjudan har gått ut",
+        "invalidBody": "Inbjudningslänken är ogiltig. Be den som bjöd in dig att skicka en ny inbjudan",
+        "invalidTitle": "Ogiltig inbjudan",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Logga in för att fortsätta",
+        "notAdminBody": "Endast administratörer kan acceptera den här inbjudan",
+        "notAdminTitle": "Inbjudan accepterades inte",
+        "readyBody": "Tryck på knappen nedan för att bli administratör i organisationen",
+        "readyTitle": "Du har blivit inbjuden",
+        "wrongUserBody": "Inbjudan gäller en annan användare. Logga ut och öppna länken igen som den den skickades till",
+        "wrongUserTitle": "Inloggad som någon annan",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har accepteret invitationen"
     },
     "invoiceDetails": {
@@ -9461,7 +9492,7 @@
         "startTheConversation": "Start samtalen",
         "subject": "Emne",
         "today": "Idag",
-        "typeAMessage": "Skriv en meddelande...",
+        "typeAMessage": "Skriv ett meddelande...",
         "unread": "olästa",
         "unreadMessages": "Olästa meddelanden",
         "users": "Användare",
@@ -19152,5 +19183,20 @@
             "rejected": "Avslagen",
             "prescribed": "Förnyat"
         }
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Det gick inte att hämta schemadata",
+        "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",
+        "createShiftFailed": "Passet kunde inte skapas.",
+        "employeeNotLinked": "Medarbetaren är ännu inte kopplad till en lokal användare.",
+        "unknownError": "Okänt fel",
+        "serverError": "Serverfel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "generic": "Något gick fel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "unauthorized": "Behörighet saknas",
+        "somethingWentWrongWith": "Något gick fel: {message}",
+        "downloadFailed": "Ett fel uppstod vid nedladdningen.",
+        "importFailed": "Ett fel uppstod vid importen.",
+        "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
+        "deleteFailed": "Ett fel uppstod vid raderingen."
     }
 }

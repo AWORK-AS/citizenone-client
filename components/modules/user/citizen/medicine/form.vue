@@ -644,6 +644,7 @@
 </template>
 
 <script setup lang="ts">
+import { addDaysToLocalDate } from '@/composables/localDate'
 import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
 import { dosageFormService } from '@/components/api/user/DosageFormService'
 import { massUnitService } from '@/components/api/user/MassUnitService'
@@ -912,9 +913,7 @@ const computedExpirationDate = computed(() => {
     const opened = state.formMedicine.date_opened
     const days = parseInt(state.formMedicine.shelf_life_days)
     if (!opened || isNaN(days) || days <= 0) return ''
-    const d = new Date(opened)
-    d.setDate(d.getDate() + days)
-    return d.toISOString().slice(0, 10)
+    return addDaysToLocalDate(opened, days)
 })
 
 const rules = computed(() => {

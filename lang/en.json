@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "You have a note that was not saved ({time}).",
+        "restore": "Restore",
+        "discard": "Discard",
+        "confirmClose": "The note is not saved. Close anyway? The text is kept as a draft in this tab."
+    },
     "nps": {
         "question": "How likely are you to recommend CitizenOne to a colleague?",
         "unlikely": "Not at all likely",
@@ -1899,6 +1905,9 @@
                 "successfullyCopied": "{journal} successfully copied",
                 "successfullyMoved": "{journal} successfully moved",
                 "successfullyUpdated": "Journal successfully updated",
+                "surveysNotCompleted": "The note is saved, but {n} survey(s) were not registered.",
+                "surveysRetry": "Try again",
+                "surveysRetried": "The surveys were registered.",
                 "unlockJournal": "{journal} successfully unlocked",
                 "unpinJournal": "{journal} successfully unpinned"
             },
@@ -2005,6 +2014,7 @@
                 "title": "Title",
                 "usePredefinedcontent": "Use predefined content",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Could not save automatically. Your latest changes are not saved yet - retrying.",
                 "showJournalTitles": "Show journal titles",
                 "titlePlaceholder": "Choose or type a title",
                 "dictate": "Dictate",
@@ -3166,7 +3176,10 @@
                 "legendScheduled": "Scheduled",
                 "anErrorOccurred": "An error occurred.",
                 "anErrorOccurredRetry": "An error occurred. Please try again.",
+                "historyUnavailable": "We could not load which doses have already been given. Try again before registering, so no dose is given twice.",
+                "retry": "Try again",
                 "registeredForDays": "Registered for {n} day(s).",
+                "partialFailure": "Registered for {ok} day(s). Failed for: {dates} ({reason}). The failed dates are still selected - try again.",
                 "overdueMinutes": "{minutes} min overdue",
                 "overdueHoursMinutes": "{hours}h {minutes}min overdue",
                 "overdueHours": "{hours}h overdue",
@@ -3789,6 +3802,8 @@
             "description": "Description",
             "descriptionPlaceholder": "Add a description",
             "viewFullTimeline": "View full timeline",
+            "loadOlder": "Show older",
+            "allLoaded": "All events are shown",
             "alert": {
                 "successfullyAdded": "Timeline event added",
                 "deletedSuccessfully": "Timeline event deleted"
@@ -5031,7 +5046,8 @@
         "showFewerShifts": "Show only the first shifts",
         "quickEditTime": {
             "tooltip": "Click to edit the time",
-            "hint": "Enter to save · Esc to cancel"
+            "hint": "Enter to save · Esc to cancel",
+            "saveFailed": "Could not update the shift time."
         },
         "danlon_sync": "Sync to Danløn",
         "danlon_sync_description": "Transfer scheduled hours and supplements from your duty schedules to Danløn payroll. Select employees, choose a date range, and map shift types to Danløn codes before syncing.",
@@ -7147,6 +7163,7 @@
                 "count": "Number of occurrences"
             },
             "consecutiveDays": "Consecutive days",
+            "periodDaysPlaceholder": "e.g. 30",
             "dutyShiftRuleName": "Name",
             "evaluatingShiftsFrom": "Evaluating shifts from",
             "inactive": "Inactive",
@@ -8698,11 +8715,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Accept invitation",
+        "accepting": "Accepting invitation",
         "alert": {
             "invalidInvitationLink": "Invalid invitation link"
         },
+        "errorBody": "The invitation could not be accepted right now. Please try again later",
+        "errorTitle": "Something went wrong",
+        "expiredBody": "This invitation link has expired. Ask the person who invited you to send a new invitation",
+        "expiredTitle": "Invitation expired",
+        "invalidBody": "This invitation link is not valid. Ask the person who invited you to send a new invitation",
+        "invalidTitle": "Invalid invitation",
         "invitationAccepted": "Invitation accepted",
         "loginToContinue": "Login to continue",
+        "notAdminBody": "Only administrators can accept this invitation",
+        "notAdminTitle": "Invitation not accepted",
+        "readyBody": "Press the button below to join the organization as an administrator",
+        "readyTitle": "You have been invited",
+        "wrongUserBody": "This invitation is for another user. Sign out and open the link again as the person it was sent to",
+        "wrongUserTitle": "Signed in as someone else",
         "youHaveSuccessfullyAcceptedTheInvitation": "You have successfully accepted the invitation"
     },
     "invoiceDetails": {
@@ -19248,5 +19279,20 @@
             "rejected": "Rejected",
             "prescribed": "Renewed"
         }
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Failed to load schedule data",
+        "loadSalaryDkFailed": "Failed to load Salary.dk data",
+        "createShiftFailed": "Could not create the shift.",
+        "employeeNotLinked": "This employee is not linked to a local user yet.",
+        "unknownError": "Unknown error",
+        "serverError": "Server error. Please try again. If the problem persists, contact your system administrator",
+        "generic": "Something went wrong. Please try again. If the problem persists, contact your system administrator",
+        "unauthorized": "Unauthorized",
+        "somethingWentWrongWith": "Something went wrong: {message}",
+        "downloadFailed": "An error occurred during the download.",
+        "importFailed": "An error occurred during the import.",
+        "openFileFailed": "An error occurred while opening the file.",
+        "deleteFailed": "An error occurred during the deletion."
     }
 }

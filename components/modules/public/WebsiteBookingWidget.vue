@@ -128,6 +128,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString } from '@/composables/localDate'
 import { ref, reactive, computed, onMounted } from 'vue'
 import { PublicWebsiteBookingClient } from '@/components/api/public/PublicWebsiteBookingClient'
 
@@ -247,7 +248,7 @@ function t(key: string): string {
     return LABELS[locale][key] ?? key
 }
 
-const today = new Date().toISOString().slice(0, 10)
+const today = localDateString()
 
 const state = reactive({
     step: 'loading' as 'loading' | 'services' | 'slot' | 'contact' | 'confirmed',
