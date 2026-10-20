@@ -685,6 +685,18 @@
                                     Social- og Boligstyrelsen
                                 </p>
                             </div>
+                            <!-- The red "Report use of force" block on the journal page. Off for a company that never
+                                 uses force, e.g. a clinic; the dental industry never sees it at all. -->
+                            <div class="space-y-1 flex items-start gap-x-2" data-testid="use-of-force-switch"
+                                v-if="userStore.getUser?.industry !== 'Dentists and dental hygienists'">
+                                <FormSwitch :value="state.formCompany.use_of_force_enabled"
+                                    :label="$t('settings.company.form.useOfForceInJournal')"
+                                    @toggleSwitch="state.formCompany.use_of_force_enabled = !state.formCompany.use_of_force_enabled" />
+                                <div>
+                                    <p>{{ $t('settings.company.form.useOfForceInJournal') }}</p>
+                                    <p class="text-xs text-gray-500">{{ $t('settings.company.form.useOfForceInJournalHelp') }}</p>
+                                </div>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.missing_note_reminder_enabled"
                                     @toggleSwitch="state.formCompany.missing_note_reminder_enabled = !state.formCompany.missing_note_reminder_enabled" :label="$t('settings.company.form.missingNoteReminder')" />
@@ -1069,6 +1081,7 @@ const state = reactive({
         duty_schedule_default_sort: 'alphabetical',
         compensatory_time_enabled: false,
         social_og_boligstyrelsen: false,
+        use_of_force_enabled: true,
         quick_risk_assessment_enabled: false,
         one_journal_note_per_day_enabled: false,
         // Shown as "show"; stored as hide_citizenone_attribution, which is off by default.
@@ -1103,6 +1116,22 @@ const state = reactive({
 })
 
 // Unsaved-changes guard: warn before navigating away or reloading with edits.
+/**
+ * Use of force is a module choice (onboarding_preferences.modules.useOfForce), not a company column, and the
+ * endpoint stores the whole preferences blob - so the other choices are sent back unchanged.
+ */
+async function saveUseOfForceChoice() {
+    const company: any = userStore.getUser?.company
+    const preferences = company?.onboarding_preferences ?? {}
+    if ((preferences?.modules?.useOfForce !== false) === state.formCompany.use_of_force_enabled) return
+
+    const updated = { ...preferences, modules: { ...(preferences?.modules ?? {}), useOfForce: state.formCompany.use_of_force_enabled } }
+    await companyService.updateOnboardingPreferences({ onboarding_preferences: updated })
+    const currentUser: any = { ...userStore.getUser }
+    currentUser.company = { ...currentUser.company, onboarding_preferences: updated }
+    userStore.setUser(currentUser)
+}
+
 const isDirty = ref(false)
 const formReady = ref(false)
 
@@ -1205,6 +1234,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             duty_schedule_default_sort: newValue?.company?.duty_schedule_default_sort ?? 'alphabetical',
             compensatory_time_enabled: newValue?.company?.compensatory_time_enabled ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
+            // Stored with the company's module choices; on unless a company turned it off.
+            use_of_force_enabled: newValue?.company?.onboarding_preferences?.modules?.useOfForce !== false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             one_journal_note_per_day_enabled: newValue?.company?.one_journal_note_per_day_enabled ? true : false,
             show_citizenone_attribution: newValue?.company?.hide_citizenone_attribution !== true,
@@ -1505,6 +1536,7 @@ async function submitForm() {
                     currentUser.company = { ...currentUser.company, ...response.data }
                     userStore.setUser(currentUser)
                 }
+                await saveUseOfForceChoice()
                 // After the company is stored, so its fresh roles are the ones kept.
                 await saveDisplayRoles()
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)

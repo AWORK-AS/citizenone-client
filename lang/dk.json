@@ -11325,6 +11325,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Modtag notifikationer om ledige vagter, uanset mine andre notifikationsindstillinger",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Magtanvendelse i journalen",
+                "useOfForceInJournalHelp": "Viser \"Rapporter magtanvendelse\" og tidligere magtanvendelse på journalsiden. Slå fra, hvis I ikke arbejder med magtanvendelse.",
                 "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
                 "remove": "Fjern firmalogo",
                 "street": "Gade",

@@ -11320,6 +11320,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Motta varsler om ledige vakter, uansett mine andre varslingsinnstillinger",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Maktbruk i journalen",
+                "useOfForceInJournalHelp": "Viser \"Rapporter maktbruk\" og tidligere maktbruk på journalsiden. Slå av hvis dere ikke arbeider med maktbruk.",
                 "sundayShiftCalculation": "Aktiver søndagsvagtberegning",
                 "remove": "Fjern firmalogo",
                 "street": "Gade",

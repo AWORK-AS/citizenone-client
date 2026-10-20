@@ -11320,6 +11320,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Ta emot aviseringar om lediga pass, oavsett mina andra aviseringsinställningar",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Tvångsåtgärder i journalen",
+                "useOfForceInJournalHelp": "Visar \"Rapportera tvångsåtgärd\" och tidigare tvångsåtgärder på journalsidan. Stäng av om ni inte arbetar med tvångsåtgärder.",
                 "sundayShiftCalculation": "Aktivera söndagsvagtberegning",
                 "remove": "Ta bort firmalogo",
                 "street": "Gata",
