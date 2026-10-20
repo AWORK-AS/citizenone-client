@@ -1753,6 +1753,7 @@ const state = reactive({
         selectedEmployeeDailySchedule: {},
         selectedEmployeeWeeklySchedule: {},
         selectedWeekNumber: null,
+        selectedWeekYear: null,
     } as any,
     copyShiftError: {} as Error,
     customWeekLabel: 'week',
@@ -2996,6 +2997,7 @@ function isEmployeeSelectedAsWeeklyScheduleSource(employee: any) {
 function copyEmployeeWeeklySchedule(weeklySchedule: any) {
     state.copy.selectedEmployeeWeeklySchedule = weeklySchedule
     state.copy.selectedWeekNumber = weekNumber?.value
+    state.copy.selectedWeekYear = moment(currentDate.value).isoWeekYear()
 }
 
 function viewExtraHours(employee: any) {
@@ -3045,6 +3047,8 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
             user_uuid_destination: weeklySchedule?.uuid,
             week_source: state.copy.selectedWeekNumber,
             week_destination: weekNumber?.value,
+            year_source: state.copy.selectedWeekYear,
+            year_destination: moment(currentDate.value).isoWeekYear(),
         }
         const response = await dutyScheduleService.copyEmployeeWeeklyDutySchedule(params)
         if (response) {
@@ -3077,7 +3081,7 @@ function copyWeeklySchedule(weekNumber: number) {
     if (copyWeeklyScheduleTimer) return
     state.copy.allEmployeeSchedules = {
         weekNumber: weekNumber,
-        yearSource: currentDate.value.year(),
+        yearSource: currentDate.value.isoWeekYear(),
         weeklySchedules: state.weeklySchedules?.data
     }
     copyWeeklyScheduleTimer = setTimeout(() => { copyWeeklyScheduleTimer = null }, 300)
@@ -3089,7 +3093,7 @@ function pasteWeeklySchedule(weekNumber: number) {
         week_source: state.copy.allEmployeeSchedules.weekNumber,
         week_destination: weekNumber,
         year_source: state.copy.allEmployeeSchedules.yearSource,
-        year_destination: currentDate.value.year(),
+        year_destination: currentDate.value.isoWeekYear(),
     }
     saveCopiedWeeklyDutySchedule(params)
 }
