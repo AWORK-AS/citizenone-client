@@ -39,3 +39,39 @@ export function canOpenPage(user: any, requiredPage: string, requiredCompanyFlag
     return companyHasModule(user?.company?.module_pages, requiredPage)
         && userHasPage(user?.pages, requiredPage)
 }
+
+/**
+ * Sidebar entries that belong to a company module, by the entry's own name.
+ * The sidebar used to check the module for only a handful of its entries, so a
+ * company that had switched a module off in Settings -> Company still met the
+ * link. The route guard and the backend stay the real enforcement; this keeps
+ * the menu from advertising what the company has not got.
+ */
+export const NAV_ITEM_MODULE: Record<string, string> = {
+    'Journal Notes': 'Journals',
+    'Mail': 'Emails',
+    'Reports': 'Reports',
+    'Plans And Goals Export': 'Plans and goals',
+    'Staff workload': 'Staff workload',
+}
+
+export function navItemModuleEnabled(itemName: string, modulePages: unknown): boolean {
+    const module = NAV_ITEM_MODULE[itemName]
+
+    return !module || companyHasModule(modulePages, module)
+}
+
+/**
+ * The Economy entry. The two employment-service modules default to "on" for a
+ * company with no module list, which made the entry appear for every user; it
+ * now also needs the Economy page the user's role was granted.
+ */
+export function economyNavVisible(user: any): boolean {
+    const modulePages = user?.company?.module_pages
+    const hasOverview = userHasPage(user?.pages, 'Management & Economy')
+        && companyHasModule(modulePages, 'Management & Economy')
+    const hasEmploymentEconomy = userHasPage(user?.pages, 'Economy')
+        && (companyHasModule(modulePages, 'Billing') || companyHasModule(modulePages, 'Revenue report'))
+
+    return hasOverview || hasEmploymentEconomy
+}
