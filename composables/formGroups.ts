@@ -9,17 +9,29 @@ import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScor
  * which is what its answer is filed under.
  */
 export function useFormGroups() {
-    async function expandGroups(fields: any[], citizenUuid: string) {
+    /**
+     * @param formUuid the template being filled in. With it, a group that also
+     * repeats for completed goals only takes the ones completed since the
+     * previous finished report from this template.
+     */
+    async function expandGroups(fields: any[], citizenUuid: string, formUuid = '') {
         const groups = fields.filter((f: any) => parse(f)?.type === 'group')
+        const perGoalRulers = fields.filter((f: any) => isPerGoalRuler(parse(f)))
 
-        if (groups.length === 0) return fields
+        if (groups.length === 0 && perGoalRulers.length === 0) return fields
 
         const iterationsByGroup: Record<string, any[]> = {}
 
         for (const group of groups) {
             const config = parse(group)
-            iterationsByGroup[config.groupId] = await iterationsFor(citizenUuid, config)
+            iterationsByGroup[config.groupId] = await iterationsFor(citizenUuid, config, formUuid)
         }
+
+        // "Repeat the ruler for each goal": once per active goal, each filed
+        // under its goal like a ruler inside a group repeated per goal.
+        const activeGoals = perGoalRulers.length > 0
+            ? await iterationsFor(citizenUuid, { repeatFor: 'goals', includeCompleted: false }, formUuid)
+            : []
 
         const out: any[] = []
 
@@ -28,6 +40,29 @@ export function useFormGroups() {
 
             // Children are emitted by their group, never on their own.
             if (config?.parentGroup) continue
+
+            if (isPerGoalRuler(config)) {
+                // A case without goals still gets its one ruler.
+                if (activeGoals.length === 0) {
+                    out.push(field)
+
+                    continue
+                }
+
+                for (const goal of activeGoals) {
+                    out.push({
+                        uuid: `${field.uuid}::title::${goal.key}`,
+                        _skipInPayload: true,
+                        field: JSON.stringify({
+                            type: 'group_title',
+                            value: `${config.value ?? ''}: ${goal.label}`.trim(),
+                        }),
+                    })
+                    out.push({ ...field, responses: '', _iterationKey: goal.key, _goalUuid: goal.key })
+                }
+
+                continue
+            }
 
             if (config?.type !== 'group') {
                 out.push(field)
@@ -67,12 +102,53 @@ export function useFormGroups() {
                         field: JSON.stringify(childConfig),
                         responses: childConfig.type === 'checkbox' ? [] : '',
                         _iterationKey: iteration.key,
+                        // A ruler in a goal's repetition shows that goal's history.
+                        ...(iteration.goal_id ? { _goalUuid: iteration.key } : {}),
                     })
                 }
             }
         }
 
         return out
+    }
+
+    /**
+     * Puts a reopened report's answers back on the questions they answer. An
+     * answer inside a group goes back to its own repetition: matched by the
+     * question alone, every goal showed the last goal's answer, and saving
+     * again copied that answer to all of them.
+     */
+    function restoreResponses(fields: any[], saved: any[] = []) {
+        // A server that does not say which repetition an answer belongs to
+        // gets the old matching, by question only.
+        const knowsIterations = saved.some((row: any) => row && 'iteration_key' in row)
+
+        for (const field of fields) {
+            if (field?._skipInPayload) continue
+
+            const iterationKey = field._iterationKey ?? null
+            const hit = saved.find((row: any) => row?.form_field_id === field.id
+                && (!knowsIterations || (row.iteration_key ?? null) === iterationKey))
+
+            if (!hit) continue
+
+            // A checkbox answer is stored as a JSON list and must come back as
+            // one, or ticking a box in the reopened report fails.
+            field.responses = parse(field)?.type === 'checkbox' ? asList(hit.response) : hit.response
+        }
+    }
+
+    function asList(value: any): string[] {
+        if (Array.isArray(value)) return [...value]
+        if (typeof value !== 'string' || value === '') return []
+
+        try {
+            const parsed = JSON.parse(value)
+
+            return Array.isArray(parsed) ? parsed : []
+        } catch {
+            return []
+        }
     }
 
     /**
@@ -85,7 +161,7 @@ export function useFormGroups() {
         return field?._iterationKey ? `${field.uuid}::${field._iterationKey}` : field.uuid
     }
 
-    async function iterationsFor(citizenUuid: string, config: any) {
+    async function iterationsFor(citizenUuid: string, config: any, formUuid = '') {
         // Drive reports are not about anyone, so a group there has nothing to
         // repeat over and says so rather than failing.
         if (!citizenUuid) return []
@@ -95,12 +171,17 @@ export function useFormGroups() {
                 repeat_for: config.repeatFor ?? 'goals',
                 include_completed: config.includeCompleted ? 1 : 0,
                 count: config.count ?? 3,
+                ...(formUuid ? { form_uuid: formUuid } : {}),
             })
 
             return response?.data ?? []
         } catch {
             return []
         }
+    }
+
+    function isPerGoalRuler(config: any): boolean {
+        return config?.type === 'scale' && config?.perGoal === true && !config?.parentGroup
     }
 
     function parse(field: any) {
@@ -118,5 +199,5 @@ export function useFormGroups() {
             .replaceAll('{{gentagelse.i_alt}}', String(total))
     }
 
-    return { expandGroups, responseKey }
+    return { expandGroups, responseKey, restoreResponses }
 }
