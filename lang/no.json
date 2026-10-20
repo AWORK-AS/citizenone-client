@@ -16629,6 +16629,72 @@
             "edit": "Rediger epikrisemal"
         }
     },
+    "questionnaireInbox": {
+        "title": "Skjemainnboks",
+        "subtitle": "Skjemaer og spørreskjemaer som pasienter har sendt tilbake, til gjennomgang",
+        "tabs": {
+            "to_review": "Til gjennomgang",
+            "approved": "Godkjent",
+            "declined": "Avslått",
+            "all": "Alle"
+        },
+        "status": {
+            "to_review": "Til gjennomgang",
+            "approved": "Godkjent",
+            "declined": "Avslått"
+        },
+        "type": {
+            "form": "Skjema",
+            "survey": "Spørreskjema"
+        },
+        "filters": {
+            "search": "Pasient",
+            "searchPlaceholder": "Søk på pasientens navn",
+            "questionnaire": "Skjema",
+            "allQuestionnaires": "Alle skjemaer",
+            "from": "Returnert fra",
+            "to": "Returnert til",
+            "sentByMe": "Sendt av meg",
+            "clear": "Nullstill filtre"
+        },
+        "empty": {
+            "to_review": "Ingen skjemaer venter på gjennomgang",
+            "approved": "Ingen godkjente skjemaer",
+            "declined": "Ingen avslåtte skjemaer",
+            "all": "Ingen skjemaer er returnert ennå"
+        },
+        "score": "Poengsum",
+        "returned": "Returnert",
+        "sentBy": "Sendt av",
+        "handledBeforeInbox": "Behandlet før innboksen",
+        "reviewedBy": "Av {name}",
+        "backToList": "Tilbake til innboksen",
+        "openProfile": "Åpne pasientens profil",
+        "openMedicineList": "Åpne medisinlisten",
+        "openPdf": "Åpne PDF",
+        "answers": "Svar",
+        "noAnswers": "Det er ingen svar å vise.",
+        "review": {
+            "title": "Gjennomgang",
+            "note": "Notat",
+            "notePlaceholder": "For eksempel: Resept fornyet i 3 måneder",
+            "noteHint": "Valgfritt ved godkjenning. Påkrevd ved avslag.",
+            "approve": "Godkjenn",
+            "decline": "Avslå",
+            "reopen": "Gjenåpne",
+            "declineTitle": "Avslå skjema",
+            "declineConfirm": "Vil du avslå dette skjemaet? Begrunnelsen lagres sammen med det.",
+            "declineReasonRequired": "Skriv en kort begrunnelse for avslaget.",
+            "noteTooLong": "Notatet kan være på høyst {max} tegn.",
+            "approvedBy": "Godkjent av {name} den {date}",
+            "declinedBy": "Avslått av {name} den {date}"
+        },
+        "alert": {
+            "approved": "Skjemaet er godkjent.",
+            "declined": "Skjemaet er avslått.",
+            "reopened": "Skjemaet er tilbake under Til gjennomgang."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Eksport av planer og mål",
         "description": "Last ned planer, mål og delmål som en zip-fil med PDF-rapporter for mange innbyggere samtidig. La utvalget stå tomt for å eksportere hele selskapet.",

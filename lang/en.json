@@ -16725,6 +16725,72 @@
             "edit": "Edit epikrise template"
         }
     },
+    "questionnaireInbox": {
+        "title": "Questionnaire inbox",
+        "subtitle": "Forms and surveys that patients have sent back, for you to review",
+        "tabs": {
+            "to_review": "To review",
+            "approved": "Approved",
+            "declined": "Declined",
+            "all": "All"
+        },
+        "status": {
+            "to_review": "To review",
+            "approved": "Approved",
+            "declined": "Declined"
+        },
+        "type": {
+            "form": "Form",
+            "survey": "Survey"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Search by patient name",
+            "questionnaire": "Questionnaire",
+            "allQuestionnaires": "All questionnaires",
+            "from": "Returned from",
+            "to": "Returned to",
+            "sentByMe": "Sent by me",
+            "clear": "Clear filters"
+        },
+        "empty": {
+            "to_review": "No questionnaires waiting for review",
+            "approved": "No approved questionnaires",
+            "declined": "No declined questionnaires",
+            "all": "No returned questionnaires yet"
+        },
+        "score": "Score",
+        "returned": "Returned",
+        "sentBy": "Sent by",
+        "handledBeforeInbox": "Handled before the inbox",
+        "reviewedBy": "By {name}",
+        "backToList": "Back to the inbox",
+        "openProfile": "Open patient profile",
+        "openMedicineList": "Open medicine list",
+        "openPdf": "Open PDF",
+        "answers": "Answers",
+        "noAnswers": "There are no answers to show.",
+        "review": {
+            "title": "Review",
+            "note": "Note",
+            "notePlaceholder": "For example: Prescription renewed for 3 months",
+            "noteHint": "Optional when approving. Required when declining.",
+            "approve": "Approve",
+            "decline": "Decline",
+            "reopen": "Reopen",
+            "declineTitle": "Decline questionnaire",
+            "declineConfirm": "Decline this questionnaire? The reason is saved with it.",
+            "declineReasonRequired": "Write a short reason for declining.",
+            "noteTooLong": "The note can be at most {max} characters.",
+            "approvedBy": "Approved by {name} on {date}",
+            "declinedBy": "Declined by {name} on {date}"
+        },
+        "alert": {
+            "approved": "The questionnaire is approved.",
+            "declined": "The questionnaire is declined.",
+            "reopened": "The questionnaire is back in To review."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Plans and goals export",
         "description": "Download plans, goals and subgoals as a zip of PDF reports for many @:terms.citizens{''} at once. Leave the selection empty to export the whole company.",

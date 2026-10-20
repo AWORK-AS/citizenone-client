@@ -36,6 +36,7 @@ export function getSidebarNavItemLabel(item: any, t: (key: string) => string, cu
     // company's own word, capitalised for a menu entry.
     if (item.name === 'Journal Notes') return t('sidebar.journalNotes')
     if (item.name === 'Forms') return t('sidebar.forms')
+    if (item.name === 'Questionnaire inbox') return t('questionnaireInbox.title')
     if (item.name === 'Billing') return t('employment.billing.billing')
     if (item.name === 'Revenue report') return t('employment.revenue.report')
     if (item.name === 'Management & Economy') return t('managementEconomy.title')

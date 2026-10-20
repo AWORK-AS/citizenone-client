@@ -16629,6 +16629,72 @@
             "edit": "Redigera epikrismall"
         }
     },
+    "questionnaireInbox": {
+        "title": "Formulärinkorg",
+        "subtitle": "Formulär och enkäter som patienter har skickat tillbaka, för granskning",
+        "tabs": {
+            "to_review": "Att granska",
+            "approved": "Godkända",
+            "declined": "Avslagna",
+            "all": "Alla"
+        },
+        "status": {
+            "to_review": "Att granska",
+            "approved": "Godkänd",
+            "declined": "Avslagen"
+        },
+        "type": {
+            "form": "Formulär",
+            "survey": "Enkät"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Sök på patientens namn",
+            "questionnaire": "Formulär",
+            "allQuestionnaires": "Alla formulär",
+            "from": "Återlämnad från",
+            "to": "Återlämnad till",
+            "sentByMe": "Skickade av mig",
+            "clear": "Rensa filter"
+        },
+        "empty": {
+            "to_review": "Inga formulär väntar på granskning",
+            "approved": "Inga godkända formulär",
+            "declined": "Inga avslagna formulär",
+            "all": "Inga formulär har återlämnats ännu"
+        },
+        "score": "Poäng",
+        "returned": "Återlämnad",
+        "sentBy": "Skickad av",
+        "handledBeforeInbox": "Hanterad före inkorgen",
+        "reviewedBy": "Av {name}",
+        "backToList": "Tillbaka till inkorgen",
+        "openProfile": "Öppna patientens profil",
+        "openMedicineList": "Öppna läkemedelslistan",
+        "openPdf": "Öppna PDF",
+        "answers": "Svar",
+        "noAnswers": "Det finns inga svar att visa.",
+        "review": {
+            "title": "Granskning",
+            "note": "Anteckning",
+            "notePlaceholder": "Till exempel: Recept förnyat i 3 månader",
+            "noteHint": "Valfri vid godkännande. Obligatorisk vid avslag.",
+            "approve": "Godkänn",
+            "decline": "Avslå",
+            "reopen": "Öppna igen",
+            "declineTitle": "Avslå formulär",
+            "declineConfirm": "Vill du avslå det här formuläret? Motiveringen sparas tillsammans med det.",
+            "declineReasonRequired": "Skriv en kort motivering till avslaget.",
+            "noteTooLong": "Anteckningen får vara högst {max} tecken.",
+            "approvedBy": "Godkänd av {name} den {date}",
+            "declinedBy": "Avslagen av {name} den {date}"
+        },
+        "alert": {
+            "approved": "Formuläret är godkänt.",
+            "declined": "Formuläret är avslaget.",
+            "reopened": "Formuläret är tillbaka under Att granska."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",
         "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
