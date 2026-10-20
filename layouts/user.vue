@@ -79,7 +79,7 @@
                                             <ModulesUserTimeRegistrationCheckInOut
                                                 v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
-                                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
+                                                v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
                                         </li>
                                     </ul>
                                 </nav>
@@ -327,7 +327,7 @@
                         </div>
                         <div>
                             <ModulesUserNavbarSubscribeButton
-                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
+                                v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                                 class="hidden md:inline-flex" />
                         </div>
                     </div>
@@ -343,33 +343,6 @@
                                         class="rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium leading-none">⌘K</kbd>
                                 </button>
                             </Tooltip>
-                            <!-- One-time "did you know?" discovery hint -->
-                            <transition enter-active-class="transition ease-out duration-200"
-                                enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
-                                leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
-                                leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint && !showCmdkTip && !welcomeTour.active"
-                                    class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
-                                    <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
-                                    <div class="relative flex items-start gap-2.5 px-3.5 py-3">
-                                        <Icon name="ph:lightbulb" class="mt-0.5 size-4 shrink-0 text-amber-300" />
-                                        <div class="min-w-0">
-                                            <p class="text-sm font-semibold">{{ $t('commandPalette.didYouKnowTitle') }}
-                                            </p>
-                                            <p class="mt-0.5 text-xs text-white/90">{{
-                                                $t('commandPalette.didYouKnowBody') }}</p>
-                                            <button type="button" @click="dismissCmdkHint" :aria-label="$t('close')"
-                                                class="mt-2 rounded-md bg-white/15 px-2.5 py-1 text-xs font-medium hover:bg-white/25 transition-colors">
-                                                {{ $t('commandPalette.didYouKnowDismiss') }}
-                                            </button>
-                                        </div>
-                                        <button type="button" @click="dismissCmdkHint" :aria-label="$t('close')"
-                                            class="shrink-0 text-white/60 hover:text-white">
-                                            <Icon name="ph:x" class="size-3.5" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </transition>
                         </div>
                         <button type="button" @click="openCommandPalette()"
                             class="sm:hidden w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
@@ -657,24 +630,24 @@
             @close="state.modal.isPlatformShareOpen = false" v-if="state.modal.isPlatformShareOpen" />
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
-        <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
+        <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen && checkinGranted"
             @close="state.modal.isCheckinReminderOpen = false" />
-        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
+        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen && twofaGranted"
             @close="state.modal.is2faRequiredOpen = false" />
         <ModulesUserCitizenPlanModalCompletionReminder
-            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen" @close="closeCompletionReminder" />
+            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen && completionGranted" @close="closeCompletionReminder" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
-        <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
+        <ModulesUserAppTourGuide v-if="state.activeAppTour && tourGranted" :appKey="state.activeAppTour" @close="closeAppTour" />
         <!-- Milo's welcome tour. Its position lives in useWelcomeTour, since this layout is rebuilt on every page change. -->
-        <ModulesUserAppTourGuide v-if="welcomeTour.active && welcomeSteps.length" mascot :customSteps="welcomeSteps"
+        <ModulesUserAppTourGuide v-if="welcomeTour.active && tourGranted && welcomeSteps.length" mascot :customSteps="welcomeSteps"
             :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <!-- "Would you recommend CitizenOne?" Never on top of a tour or the medicine toast in the same corner. -->
         <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible" />
-        <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
+        <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen && tourGranted"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
         <CommandPalette :commands="commandPaletteItems" />
@@ -712,7 +685,7 @@
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
                  each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && !medicineToastVisible && !welcomeTour.active"
+            <div v-if="showCmdkTip && cmdkTipGranted && !medicineToastVisible"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -796,6 +769,8 @@ const customSidebarLinksStore = useCustomSidebarLinksStore()
 const sidebarNavStore = useSidebarNavStore()
 const assistantStore = useAssistantStore()
 const { isAtLeast, can } = usePermissions()
+// The upgrade offers are for people who can buy; staff who cannot are not shown them.
+const showUpgrade = useCanPurchase()
 const language = useI18n()
 const { citizensLabel } = useTerminology()
 const { industryHasFeature } = useIndustryFeatures()
@@ -998,7 +973,7 @@ function tryCmdkTip() {
 // lost to it and the covered control is reachable immediately after.
 function dismissCmdkTipIfClickOutside(event: PointerEvent) {
     // Not while it is held back: a click would mark as seen a tip nobody saw.
-    if (!showCmdkTip.value || medicineToastVisible.value) return
+    if (!showCmdkTip.value || !cmdkTipGranted.value || medicineToastVisible.value) return
     const target = event.target as HTMLElement | null
     if (target?.closest('button')) return
     dismissCmdkTip()
@@ -1207,24 +1182,6 @@ const commandPaletteItems = computed(() => {
 
     return [...pageCommands.value, ...nav, ...settings]
 })
-
-// One-time "did you know?" hint pointing at the ⌘K button.
-const showCmdkHint = ref(false)
-let cmdkHintTimer: any
-const CMDK_HINT_KEY = 'co_cmdk_hint_seen'
-function dismissCmdkHint() {
-    showCmdkHint.value = false
-    clearTimeout(cmdkHintTimer)
-}
-onMounted(() => {
-    if (typeof localStorage === 'undefined' || localStorage.getItem(CMDK_HINT_KEY) === '1') return
-    cmdkHintTimer = setTimeout(() => {
-        showCmdkHint.value = true
-        localStorage.setItem(CMDK_HINT_KEY, '1') // show at most once per browser
-        cmdkHintTimer = setTimeout(() => { showCmdkHint.value = false }, 12000)
-    }, 2500)
-})
-onUnmounted(() => clearTimeout(cmdkHintTimer))
 
 async function fetchCustomSidebarLinks() {
     await customSidebarLinksStore.fetchLinks()
@@ -1630,6 +1587,17 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 // The Milo spotlight tour when the backend sends tours_seen; otherwise (an
 // older backend) the modal sequence exactly as before.
 const { tour: welcomeTour, steps: welcomeSteps, startIfDue: startWelcomeTourIfDue, setIndex: setWelcomeStep, close: closeWelcomeTour } = useWelcomeTour()
+
+// One unsolicited prompt at a time (see composables/promptQueue.ts): security first, then the
+// tour, then the rest. Each prompt keeps its own trigger; the slot only decides when it shows.
+const twofaGranted = usePromptSlot('security2fa', computed(() => state.modal.is2faRequiredOpen))
+const tourGranted = usePromptSlot('tour', computed(() => welcomeTour.value.active || !!state.activeAppTour
+    || state.modal.isGuidedTourWelcomeOpen || state.modal.isGuidedTourDailyOverviewOpen
+    || state.modal.isGuidedTourCitizensOverviewOpen || state.modal.isGuidedTourCalendarOpen
+    || state.modal.isGuidedTourEmployeesOpen || state.modal.isGuidedTourEndOpen))
+const checkinGranted = usePromptSlot('checkinReminder', computed(() => state.modal.isCheckinReminderOpen))
+const completionGranted = usePromptSlot('completionReminder', computed(() => state.modal.isPlanGoalSubgoalCompletionReminderOpen))
+const cmdkTipGranted = usePromptSlot('cmdkTip', showCmdkTip)
 
 // Sidebar items the welcome tour points at.
 const SIDEBAR_TOUR_KEYS: Record<string, string> = {

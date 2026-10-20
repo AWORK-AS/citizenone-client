@@ -71,7 +71,7 @@
                                         </li>
                                         <li class="mt-auto space-y-2">
                                             <ModulesDentistSidebarSubscribeButton
-                                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
+                                                v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
                                             <ModulesDentistSidebarCompanyId />
                                         </li>
                                     </ul>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
                         <ModulesUserNavbarSubscribeButton
-                            v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
+                            v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/dentist/journal-notifications')">
@@ -390,6 +390,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
+const showUpgrade = useCanPurchase()
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 
