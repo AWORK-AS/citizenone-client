@@ -1851,6 +1851,9 @@
                 "successfullyCopied": "{journal} kopiert vellykket",
                 "successfullyMoved": "{journal} flyttet vellykket",
                 "successfullyUpdated": "Journal oppdatert vellykket",
+                "surveysNotCompleted": "Notatet er lagret, men {n} spørreskjema ble ikke registrert.",
+                "surveysRetry": "Prøv igjen",
+                "surveysRetried": "Spørreskjemaene er registrert.",
                 "unlockJournal": "{journal} låst opp vellykket",
                 "unpinJournal": "{journal} festet fjernet vellykket"
             },
@@ -1957,6 +1960,7 @@
                 "title": "Tittel",
                 "usePredefinedcontent": "Bruk foruddefineret innhold",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunne ikke lagre automatisk. De siste endringene er ikke lagret ennå - prøver igjen.",
                 "showJournalTitles": "Vis journaltitler",
                 "titlePlaceholder": "Velg eller skriv en tittel",
                 "dictate": "Dikter",
@@ -3117,6 +3121,7 @@
                 "historyUnavailable": "Vi kunne ikke hente hvilke doser som allerede er gitt. Prøv igjen før du registrerer, så ingen dose blir gitt dobbelt.",
                 "retry": "Prøv igjen",
                 "registeredForDays": "Registreret for {n} dag(e).",
+                "partialFailure": "Registrert for {ok} dag(er). Mislyktes for: {dates} ({reason}). De mislykte datoene er fortsatt valgt - prøv igen.",
                 "overdueMinutes": "{minutes} min forsinket",
                 "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
                 "overdueHours": "{hours}t forsinket",
@@ -4981,7 +4986,8 @@
         "showFewerShifts": "Vis bare de første vaktene",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",
-            "hint": "Enter for å lagre · Esc for å avbryte"
+            "hint": "Enter for å lagre · Esc for å avbryte",
+            "saveFailed": "Vakttidspunktet kunne ikke oppdateres."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg for {date}",

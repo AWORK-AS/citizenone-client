@@ -14,7 +14,11 @@
             </span>
         </div>
         <div class="space-y-3" :class="{ 'pointer-events-none select-text opacity-90': props.readonly }">
-            <div v-if="state.isAutoSaving" class="flex items-center gap-x-1">
+            <div v-if="state.saveFailed" class="flex items-center gap-x-1 text-red-600">
+                <Icon name="ph:warning-circle" class="w-5 h-5" />
+                <span class="text-base">{{ $t('citizens.citizenJournals.form.autosaveFailed') }}</span>
+            </div>
+            <div v-else-if="state.isAutoSaving" class="flex items-center gap-x-1">
                 <Icon name="ph:spinner" class="w-5 h-5 spin" />
                 <div>
                     <span class="text-base">
@@ -621,6 +625,9 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any
 const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
+// Bumped on every edit, so a save that was in flight while the person kept
+// typing does not clear the changes it did not contain.
+let changeVersion = 0
 let isInitialized = true
 let suppressChangeTracking = true
 // Tracks the template text last auto-inserted from a selected title, so
@@ -668,6 +675,8 @@ const editorNoteConfig = ref({
 
 const state = reactive({
     isAutoSaving: false,
+    saveFailed: false,
+    isSaveInFlight: false,
     error: {} as Error,
     formJournal: {
         id: '',
@@ -1119,6 +1128,7 @@ watch(() => state.formJournal, () => {
 
     // Only mark changes for update form
     if (props.formType === 'update') {
+        changeVersion++
         state.hasChanges = true
         state.isAutoSaving = true
     }
@@ -1257,13 +1267,33 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
+    // An autosave tick must not start a second request while one is in flight;
+    // an explicit Save always goes through.
+    if (state.isSaveInFlight && state.isAutoSaving) return
     v$.value.$validate()
     if (missingRequiredSurveyQuestions().length > 0) {
         state.error = { message: `${t('validation.thisFieldIsRequired')}.` } as any
         return
     }
     if (!v$.value.$error && state.hasChanges) {
-        state.hasChanges = false
+        const versionAtSend = changeVersion
+        // Only the autosaving edit form tracks the result; create forms close
+        // on success and keep their data on failure, as before.
+        const tracked = props.formType === 'update'
+        if (tracked) state.isSaveInFlight = true
+        else state.hasChanges = false
+        // hasChanges stays true until the parent reports success, so the form
+        // never shows "saved" for a request that failed or is still running.
+        const done = (ok: boolean) => {
+            state.isSaveInFlight = false
+            if (ok) {
+                state.saveFailed = false
+                if (changeVersion === versionAtSend) state.hasChanges = false
+            } else {
+                state.saveFailed = true
+                state.hasChanges = true
+            }
+        }
         emit('submitForm', {
             isAutoSaving: state.isAutoSaving,
             formJournal: state.formJournal,
@@ -1271,6 +1301,7 @@ function submitForm() {
             // Only sent when the ruler is shown, so saving from a form without
             // it leaves the note's scores alone.
             ...(isWellbeingRulerEnabled.value ? { wellbeing_scores: wellbeingPayload() } : {}),
+            ...(tracked ? { done } : {}),
         })
     }
 }

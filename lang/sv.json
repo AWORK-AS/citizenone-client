@@ -1851,6 +1851,9 @@
                 "successfullyCopied": "{journal} har kopierats",
                 "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
+                "surveysNotCompleted": "Anteckningen är sparad, men {n} enkät(er) registrerades inte.",
+                "surveysRetry": "Försök igen",
+                "surveysRetried": "Enkäterna har registrerats.",
                 "unlockJournal": "{journal} låst upp",
                 "unpinJournal": "{journal} fästning borttagen"
             },
@@ -1957,6 +1960,7 @@
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
                 "titlePlaceholder": "Välj eller skriv en titel",
                 "dictate": "Diktera",
@@ -3117,6 +3121,7 @@
                 "historyUnavailable": "Vi kunde inte hämta vilka doser som redan har getts. Försök igen innan du registrerar, så att ingen dos ges dubbelt.",
                 "retry": "Försök igen",
                 "registeredForDays": "Registrerad för {n} dag(e).",
+                "partialFailure": "Registrerad för {ok} dag(ar). Misslyckades för: {dates} ({reason}). De misslyckade datumen är fortfarande valda - försök igen.",
                 "overdueMinutes": "{minutes} min försenad",
                 "overdueHoursMinutes": "{hours}t {minutes}min försenad",
                 "overdueHours": "{hours}t försenad",
@@ -4981,7 +4986,8 @@
         "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
-            "hint": "Enter för att spara · Esc för att avbryta"
+            "hint": "Enter för att spara · Esc för att avbryta",
+            "saveFailed": "Passtiden kunde inte uppdateras."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg för {date}",

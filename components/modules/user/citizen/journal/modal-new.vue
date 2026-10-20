@@ -114,7 +114,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/user/PlanService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
-import { surveyService } from '@/components/api/user/SurveyService'
+import { useSurveyCompletion } from '@/composables/useSurveyCompletion'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -140,6 +140,8 @@ const props = defineProps({
         default: false,
     },
 })
+
+const { completeAnsweredSurveys } = useSurveyCompletion()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshJournal'])
@@ -334,17 +336,4 @@ async function saveJournal(journalDetails: any) {
     state.isPageLoading = false
 }
 
-async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers: any[]) {
-    if (!Array.isArray(pendingSurveyAnswers) || pendingSurveyAnswers.length === 0) return
-    for (const entry of pendingSurveyAnswers) {
-        try {
-            await surveyService.completeAssignment(entry.assignment_uuid, {
-                answers: entry.answers,
-                citizen_journal_uuid: journalUuid,
-            })
-        } catch (error: any) {
-            // one survey failing to complete must not block the journal note itself
-        }
-    }
-}
 </script>
