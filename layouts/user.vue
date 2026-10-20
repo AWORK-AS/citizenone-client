@@ -769,6 +769,7 @@
 </template>
 
 <script setup lang="ts">
+import { clearAllDrafts } from '@/composables/journalNoteDraft'
 import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
@@ -1684,6 +1685,8 @@ function handleNextGuidedTour(next: any) {
 }
 
 async function logout() {
+    // Unsaved journal notes are kept in this tab while writing; they go with the session.
+    clearAllDrafts(sessionStorage)
     state.error = {}
     state.isPageLoading = true
     try {

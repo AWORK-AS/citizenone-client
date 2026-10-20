@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "Du har en anteckning som inte sparades (kl. {time}).",
+        "restore": "Återställ",
+        "discard": "Kasta",
+        "confirmClose": "Anteckningen är inte sparad. Vill du stänga ändå? Texten sparas som utkast i den här fliken."
+    },
     "nps": {
         "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
         "unlikely": "Inte alls",

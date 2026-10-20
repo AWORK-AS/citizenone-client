@@ -4,6 +4,15 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
+        <!-- An unsaved note from earlier in this tab (closed by accident, or the session ran out). -->
+        <div v-if="state.draftOffer" role="status"
+            class="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <span>{{ $t('journalDraft.offer', { time: draftTime(state.draftOffer.savedAt) }) }}</span>
+            <span class="flex gap-3">
+                <button type="button" class="font-semibold underline" @click="restoreDraft">{{ $t('journalDraft.restore') }}</button>
+                <button type="button" class="underline" @click="discardDraft">{{ $t('journalDraft.discard') }}</button>
+            </span>
+        </div>
         <div class="space-y-3" :class="{ 'pointer-events-none select-text opacity-90': props.readonly }">
             <div v-if="state.isAutoSaving" class="flex items-center gap-x-1">
                 <Icon name="ph:spinner" class="w-5 h-5 spin" />
@@ -556,6 +565,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { countChoiceLists } from '@/composables/journalChoiceLists'
+import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
 
 const { isAtLeast } = usePermissions()
 
@@ -576,8 +586,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    /** The citizen a new note is for. Turns on the tab-local draft (composables/journalNoteDraft.ts). */
+    draftCitizenUuid: {
+        type: String,
+        default: null,
+    },
 })
-const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected'])
+const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected', 'dirtyChange'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
@@ -694,6 +709,7 @@ const state = reactive({
     pendingSurveys: [] as any[],
     surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
+    draftOffer: null as JournalNoteDraft | null,
     modal: {
         isAddJournalNoteTagsOpen: false,
         isUpgradeStorageOpen: false,
@@ -1636,6 +1652,51 @@ watch(dictation.error, (problem) => {
 // note, so the user does not copy out of one panel and paste into the other.
 // The panel never touches the editor: it only asks, and the answer lands here.
 const assistantStore = useAssistantStore()
+
+// ─── Draft of a new note (create only) ─────────────────────────
+const draftStorageKey = computed(() => props.formType === 'create'
+    ? draftKey(userStore.getUser?.uuid, props.draftCitizenUuid)
+    : null)
+let draftTimer: ReturnType<typeof setTimeout> | null = null
+
+function draftTime(savedAt: number): string {
+    return new Date(savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
+function restoreDraft() {
+    const draft = state.draftOffer
+    if (!draft) return
+    // Title first: picking a saved title can fill in its content template, which the restored
+    // text must then win over.
+    state.formJournal.title = draft.title
+    nextTick(() => {
+        state.formJournal.content = draft.content
+        state.formJournal.note = draft.note
+    })
+    state.draftOffer = null
+}
+
+function discardDraft() {
+    clearDraft(sessionStorage, draftStorageKey.value)
+    state.draftOffer = null
+}
+
+onMounted(() => {
+    if (!draftStorageKey.value || props.readonly) return
+    state.draftOffer = loadDraft(sessionStorage, draftStorageKey.value)
+})
+
+watch(() => [state.formJournal.title, state.formJournal.content, state.formJournal.note], () => {
+    if (props.formType !== 'create' || props.readonly) return
+    const dirty = hasWriting(state.formJournal)
+    emit('dirtyChange', dirty)
+    // While a draft is on offer, typing must not overwrite it before the user has chosen.
+    if (!draftStorageKey.value || state.draftOffer) return
+    if (draftTimer) clearTimeout(draftTimer)
+    draftTimer = setTimeout(() => saveDraft(sessionStorage, draftStorageKey.value, state.formJournal), 800)
+})
+
+onBeforeUnmount(() => { if (draftTimer) clearTimeout(draftTimer) })
 
 onMounted(() => assistantStore.offerInsertTarget(t('sidebar.journalNotes')))
 onBeforeUnmount(() => assistantStore.withdrawInsertTarget())
