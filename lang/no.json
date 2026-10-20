@@ -3744,6 +3744,8 @@
             "description": "Beskrivelse",
             "descriptionPlaceholder": "Legg til en beskrivelse",
             "viewFullTimeline": "Vis hele tidslinjen",
+            "loadOlder": "Vis eldre",
+            "allLoaded": "Alle hendelser er vist",
             "alert": {
                 "successfullyAdded": "Tidslinjehendelse lagt til",
                 "deletedSuccessfully": "Tidslinjehendelse slettet"

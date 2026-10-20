@@ -3744,6 +3744,8 @@
             "description": "Beskrivning",
             "descriptionPlaceholder": "Lägg till en beskrivning",
             "viewFullTimeline": "Visa hela tidslinjen",
+            "loadOlder": "Visa äldre",
+            "allLoaded": "Alla händelser visas",
             "alert": {
                 "successfullyAdded": "Tidslinjehändelse tillagd",
                 "deletedSuccessfully": "Tidslinjehändelse borttagen"

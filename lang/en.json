@@ -3744,6 +3744,8 @@
             "description": "Description",
             "descriptionPlaceholder": "Add a description",
             "viewFullTimeline": "View full timeline",
+            "loadOlder": "Show older",
+            "allLoaded": "All events are shown",
             "alert": {
                 "successfullyAdded": "Timeline event added",
                 "deletedSuccessfully": "Timeline event deleted"
