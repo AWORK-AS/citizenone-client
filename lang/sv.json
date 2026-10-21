@@ -2122,6 +2122,11 @@
         "departments": "Avdelningar",
         "diagnoses": "Diagnoser",
         "doctor": {
+            "addOwnDoctor": "Lägg till egen läkare",
+            "changeOwnDoctor": "Byt egen läkare",
+            "noOwnDoctor": "Ingen egen läkare tillagd",
+            "ownDoctor": "Egen läkare",
+            "ownDoctorAdded": "Egen läkare tillagd",
             "addNewDoctor": "Lägg till ny läkare",
             "alert": {
                 "newDoctorSuccessfullyAdded": "Ny läkare tillagd"

@@ -2122,6 +2122,11 @@
         "departments": "Avdelinger",
         "diagnoses": "Diagnoser",
         "doctor": {
+            "addOwnDoctor": "Legg til fastlege",
+            "changeOwnDoctor": "Bytt fastlege",
+            "noOwnDoctor": "Ingen fastlege lagt til",
+            "ownDoctor": "Fastlege",
+            "ownDoctorAdded": "Fastlege lagt til",
             "addNewDoctor": "Legg til ny lege",
             "alert": {
                 "newDoctorSuccessfullyAdded": "Ny lege lagt til vellykket"

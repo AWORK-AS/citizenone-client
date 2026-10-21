@@ -2122,6 +2122,11 @@
         "departments": "Departments",
         "diagnoses": "Diagnoses",
         "doctor": {
+            "addOwnDoctor": "Add own doctor",
+            "changeOwnDoctor": "Change own doctor",
+            "noOwnDoctor": "No own doctor added",
+            "ownDoctor": "Own doctor",
+            "ownDoctorAdded": "Own doctor added",
             "addNewDoctor": "Add new doctor",
             "alert": {
                 "newDoctorSuccessfullyAdded": "New doctor successfully added"
