@@ -16600,6 +16600,7 @@
         "frequency": "Frekvens",
         "instant": "Med det samme",
         "hourly": "Timevis samling",
+        "daily": "Daglig samling",
         "required": "Påkrævet",
         "save": "Gem notifikationstyper",
         "saved": "Notifikationstyper gemt",
