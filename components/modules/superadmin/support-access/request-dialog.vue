@@ -143,14 +143,16 @@ async function send() {
     state.error = ''
 
     try {
-        await supportAccessService.requestAccess({
+        const res: any = await supportAccessService.requestAccess({
             user_uuid: props.accountUuid,
             reason: state.reason.trim(),
             case_reference: state.caseReference.trim() || null,
             access_hours: state.accessHours,
         })
 
-        successAlert(`${t('alert.success')}!`, t('superadmin.supportAccess.alert.requested'))
+        // Backend genbruger en adgang der allerede er godkendt og stadig gælder, uden at forlænge den.
+        const reused = res?.reused_existing_grant ?? res?.data?.reused_existing_grant
+        successAlert(`${t('alert.success')}!`, t(reused ? 'superadmin.supportAccess.alert.reused' : 'superadmin.supportAccess.alert.requested'))
         emit('requested')
         close()
     } catch (error: any) {

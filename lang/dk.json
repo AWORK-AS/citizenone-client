@@ -13524,7 +13524,8 @@
                 "done": "Adgangen er afsluttet"
             },
             "alert": {
-                "requested": "Anmodningen er sendt til kunden"
+                "requested": "Anmodningen er sendt til kunden",
+                "reused": "Du har allerede en godkendt adgang, der stadig gælder. Den bruges uændret, og der er ikke sendt en ny anmodning."
             }
         },
         "emailTemplates": {

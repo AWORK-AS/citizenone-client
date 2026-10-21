@@ -13524,7 +13524,8 @@
                 "done": "Access has been ended"
             },
             "alert": {
-                "requested": "The request was sent to the customer"
+                "requested": "The request was sent to the customer",
+                "reused": "You already have an approved access that is still valid. It is used unchanged and no new request was sent."
             }
         },
         "emailTemplates": {
