@@ -1,4 +1,22 @@
 {
+    "referralProgram": {
+        "title": "Ge en månad, få en månad",
+        "intro": "När en verksamhet som du rekommenderar skapar ett konto via din länk och betalar sin första faktura får ni båda en gratis månad.",
+        "npsTitle": "Vill du tipsa om CitizenOne?",
+        "npsBody": "Skicka din personliga länk till en verksamhet som kan ha nytta av CitizenOne. Blir de kund får ni båda en gratis månad.",
+        "copy": "Kopiera länk",
+        "copied": "Kopierad",
+        "statusReferred": "Skapade via din länk: {count}",
+        "statusPending": "Väntar på sin första betalning: {count}",
+        "statusMonths": "Gratis månader på väg: {count}",
+        "termsTitle": "Villkor",
+        "terms1": "Ni får båda en gratis månad när verksamheten som du rekommenderat har betalat sin första faktura.",
+        "terms2": "Den gratis månaden är en månad av ert grundabonnemang, exkl. moms. Appar, tillägg och avgifter ingår inte, och den kan inte betalas ut.",
+        "terms3": "Vi drar av den från en av era kommande fakturor, normalt nästa.",
+        "terms4": "En verksamhet kan som mest få {cap} gratis månader per år. Er egen organisation, eller en med samma organisationsnummer eller e-postdomän, räknas inte.",
+        "terms5": "Rekommendera oss bara till någon som du tror har nytta av det. Det finns ingen förpliktelse, och verksamheten som du rekommenderar bestämmer själv.",
+        "registerNote": "När ni har betalat er första faktura får ni en gratis månad."
+    },
     "nps": {
         "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
         "unlikely": "Inte alls",
@@ -12135,6 +12153,52 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "referrals": {
+            "header": "Rekommendationer",
+            "subtitle": "Verksamheter som skapats via en kunds länk, och de gratis månader de har gett.",
+            "manualHint": "Gratis månader dras inte av automatiskt. Dra av månaden från företagets nästa faktura och markera den sedan som given med faktura- eller kreditnotanumret.",
+            "cards": {
+                "referrals": "Rekommendationer",
+                "pending": "Väntar på första betalning",
+                "rewarded": "Belönade",
+                "rejected": "Avvisade",
+                "toApply": "Gratis månader att ge"
+            },
+            "status": {
+                "pending": "Väntar på första betalning",
+                "rewarded": "Belönad",
+                "rejected": "Avvisad"
+            },
+            "reasons": {
+                "same_company": "Samma företag",
+                "same_cvr": "Samma CVR-nummer",
+                "same_email_domain": "Samma admin-e-postdomän"
+            },
+            "role": {
+                "referrer": "Rekommenderade",
+                "referred": "Blev rekommenderad"
+            },
+            "creditStatus": {
+                "earned": "Ska ges",
+                "applied": "Given",
+                "void": "Annullerad"
+            },
+            "allStatuses": "Alla statusar",
+            "referrer": "Rekommenderad av",
+            "referred": "Ny kund",
+            "signedUp": "Skapad",
+            "statusColumn": "Status",
+            "credits": "Gratis månader",
+            "capped": "Den rekommenderande kunden fick ingen månad (årligt tak nått eller inte längre aktiv).",
+            "amount": "{amount} kr exkl. moms",
+            "noAmount": "Inget abonnemangspris hittades",
+            "apply": "Markera som given",
+            "void": "Annullera",
+            "notePlaceholder": "Faktura- eller kreditnotanummer, eller varför den annulleras",
+            "save": "Spara",
+            "cancel": "Tillbaka",
+            "empty": "Inga verksamheter har skapats via en kunds länk under perioden."
+        },
         "nps": {
             "title": "Rekommendationer (NPS)",
             "subtitle": "Svar från administratörer de senaste 90 dagarna. NPS = andel 9-10 minus andel 0-6.",
@@ -13373,6 +13437,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "referrals": "Rekommendationer",
             "nps": "Rekommendationer (NPS)",
             "roadmap": "Färdplan",
             "apps": "Apps",
