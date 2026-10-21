@@ -28,6 +28,7 @@
                 <div v-if="view === 'expiry'" class="table-responsive">
                     <Table :columnHeaders="state.columnHeaders" :data="{ data: state.certificates }"
                         :isLoading="state.isLoading" :emptyMessage="$t('employees.certificates.empty')">
+                        <template #empty v-if="isRefused"><span /></template>
                         <template #body v-if="!(state.isLoading || state.certificates.length === 0)">
                             <tr v-for="certificate in state.certificates" :key="certificate.uuid">
                                 <td width="30%">
@@ -78,6 +79,7 @@
                     <div class="table-responsive">
                         <Table :columnHeaders="state.columnHeaders" :data="{ data: missing.rows }"
                             :isLoading="missing.isLoading" :emptyMessage="$t('employees.certificates.missing.empty')">
+                            <template #empty v-if="isRefused"><span /></template>
                             <template #body v-if="!(missing.isLoading || missing.rows.length === 0)">
                                 <tr v-for="row in missing.rows" :key="`${row.employee.uuid}-${row.file_type}`">
                                     <td width="30%">
@@ -212,6 +214,9 @@ const state = reactive({
     error: {} as Error,
 })
 
+// A refused request shows only the alert, no "nobody is missing…" under it.
+const isRefused = computed(() => !!state.error?.message)
+
 const missing = reactive({
     isLoaded: false,
     isLoading: false,
@@ -293,6 +298,14 @@ async function fetchMissing() {
         if (missing.departmentUuid) params.department_uuid = missing.departmentUuid
         const response = await employeeDocumentService.getMissingOverview(params)
         missing.rows = response?.data ?? []
+        // The overview brings every department of the company, for those who see HR
+        // data; an older backend without it falls back to the department list.
+        if (Array.isArray(response?.meta?.departments)) {
+            missing.departments = response.meta.departments
+        } else if (!missing.departments.length) {
+            const departments = await departmentService.getAllDepartments({}).catch(() => null)
+            missing.departments = departments?.data ?? []
+        }
     } catch (error: any) {
         missing.rows = []
         state.error = error
@@ -301,12 +314,8 @@ async function fetchMissing() {
 }
 
 async function fetchFilterOptions() {
-    const [roles, departments] = await Promise.all([
-        roleService.getAllRoles().catch(() => null),
-        departmentService.getAllDepartments({}).catch(() => null),
-    ])
+    const roles = await roleService.getAllRoles().catch(() => null)
     missing.roles = roles?.data ?? []
-    missing.departments = departments?.data ?? []
 }
 
 async function fetchSearch() {

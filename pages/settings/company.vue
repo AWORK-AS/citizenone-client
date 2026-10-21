@@ -724,7 +724,9 @@
                                 <div class="space-y-1">
                                     <FormLabel for="cv_reminder_months"
                                         :label="$t('settings.company.form.cvReminderMonths')" />
-                                    <FormNumberField id="cv_reminder_months" name="cv_reminder_months" :min="1"
+                                    <!-- No :min here: FormNumberField turns an empty value into the
+                                         minimum, and empty means no CV reminders. The backend refuses 0. -->
+                                    <FormNumberField id="cv_reminder_months" name="cv_reminder_months"
                                         :placeholder="$t('settings.company.form.cvReminderMonths')"
                                         v-model="state.formCompany.cv_reminder_months" />
                                     <p class="text-xs text-[#8891A4]">
