@@ -11898,7 +11898,8 @@
                 "h4": "Åtkomst i 4 timmar efter godkännande",
                 "h24": "Åtkomst i 1 dygn efter godkännande",
                 "h168": "Åtkomst i 7 dagar efter godkännande",
-                "h720": "Åtkomst i 30 dagar efter godkännande"
+                "h720": "Åtkomst i 30 dagar efter godkännande",
+                "hours": "Åtkomst i {count} timmar efter godkännande"
             }
         },
         "history": {

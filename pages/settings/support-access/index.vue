@@ -44,7 +44,7 @@
                                     <span v-if="item.case_reference"> &middot; {{ item.case_reference }}</span>
                                 </p>
                                 <p class="text-xs text-gray-700 font-medium mt-1">
-                                    {{ $t('supportAccess.pending.duration.h' + durationKey(item.access_hours)) }}
+                                    {{ durationText(item.access_hours) }}
                                 </p>
                             </div>
 
@@ -86,7 +86,7 @@
                                     }) }}
                                 </p>
                                 <p class="text-xs text-gray-500 mt-0.5">
-                                    {{ $t('supportAccess.pending.duration.h' + durationKey(item.access_hours)) }}
+                                    {{ durationText(item.access_hours) }}
                                 </p>
                             </div>
 
@@ -245,8 +245,10 @@ async function revoke(item: any) {
 }
 
 // Ældre anmodninger har ingen varighed og er altid fire timer.
-function durationKey(hours: number | null | undefined): number {
-    return [4, 24, 168, 720].includes(Number(hours)) ? Number(hours) : 4
+function durationText(hours: number | null | undefined): string {
+    const h = Number(hours ?? 4)
+    // Kendte trin har egen tekst; alt andet vises med det faktiske antal timer frem for at gætte på 4.
+    return [4, 24, 168, 720].includes(h) ? t('supportAccess.pending.duration.h' + h) : t('supportAccess.pending.duration.hours', { count: h })
 }
 
 function formatDateTime(value: string | null): string {

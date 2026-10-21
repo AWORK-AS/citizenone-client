@@ -11898,7 +11898,8 @@
                 "h4": "Tilgang i 4 timer etter godkjenning",
                 "h24": "Tilgang i 1 døgn etter godkjenning",
                 "h168": "Tilgang i 7 dager etter godkjenning",
-                "h720": "Tilgang i 30 dager etter godkjenning"
+                "h720": "Tilgang i 30 dager etter godkjenning",
+                "hours": "Tilgang i {count} timer etter godkjenning"
             }
         },
         "history": {

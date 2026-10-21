@@ -11911,7 +11911,8 @@
                 "h4": "Adgang i 4 timer efter godkendelse",
                 "h24": "Adgang i 1 døgn efter godkendelse",
                 "h168": "Adgang i 7 dage efter godkendelse",
-                "h720": "Adgang i 30 dage efter godkendelse"
+                "h720": "Adgang i 30 dage efter godkendelse",
+                "hours": "Adgang i {count} timer efter godkendelse"
             }
         },
         "active": {
@@ -13475,7 +13476,7 @@
         "supportAccess": {
             "pageTitle": "Adgang hos kunder",
             "header": "Adgang hos kunder",
-            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i den valgte varighed (4 timer til 30 dage). Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
+            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i den valgte varighed (4 timer til 7 dage). Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
             "loading": "Henter anmodninger",
             "empty": "Du har ikke bedt om adgang til nogen konti.",
             "status": {

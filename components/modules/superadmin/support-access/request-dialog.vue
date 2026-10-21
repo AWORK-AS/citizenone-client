@@ -111,7 +111,7 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 
 // Skal matche det backenden accepterer. 4 timer er standarden.
-const DURATION_OPTIONS = [4, 24, 168, 720]
+const DURATION_OPTIONS = [4, 24, 168]
 
 const state = reactive({
     accessHours: 4,

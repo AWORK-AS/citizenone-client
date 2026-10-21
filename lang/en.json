@@ -11911,7 +11911,8 @@
                 "h4": "Access for 4 hours after approval",
                 "h24": "Access for 1 day after approval",
                 "h168": "Access for 7 days after approval",
-                "h720": "Access for 30 days after approval"
+                "h720": "Access for 30 days after approval",
+                "hours": "Access for {count} hours after approval"
             }
         },
         "active": {
@@ -13475,7 +13476,7 @@
         "supportAccess": {
             "pageTitle": "Customer access",
             "header": "Customer access",
-            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts for the chosen duration (4 hours to 30 days). If they do not answer within twelve hours, the request lapses.",
+            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts for the chosen duration (4 hours to 7 days). If they do not answer within twelve hours, the request lapses.",
             "loading": "Loading requests",
             "empty": "You have not asked for access to any account.",
             "status": {
