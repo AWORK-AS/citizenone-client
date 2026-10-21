@@ -18929,5 +18929,45 @@
     "tableColumns": {
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
+    },
+    "billingOverview": {
+        "title": "Vad betalar jag för",
+        "intro": "Alla era återkommande kortbetalningar till CitizenOne, med innehåll, pris och datum för nästa dragning. Varje köp dras i dag för sig, på den dag i månaden det köptes.",
+        "loading": "Hämtar översikten...",
+        "failed": "Översikten kunde inte hämtas. Försök igen om en stund.",
+        "forbidden": "Endast administratörer och roller som får köpa licenser kan se vad företaget betalar.",
+        "inclVat": "inkl. moms",
+        "summary": {
+            "monthly": "Fast pris per månad",
+            "monthlyHint": "Exkl. moms och avgifter. Årsabonnemang är omräknade till månad.",
+            "charges": "Kortbetalningar per månad",
+            "chargesHint": "Dras den {days} i månaden",
+            "fees": "Serviceavgifter per månad",
+            "feesHint": "{fee} per kortbetalning",
+            "next": "Nästa dragning"
+        },
+        "charge": {
+            "monthly": "Månatlig dragning den {day}.",
+            "yearly": "Årlig dragning den {day} {month}",
+            "next": "Nästa dragning {date}"
+        },
+        "table": {
+            "product": "Produkt",
+            "quantity": "Antal",
+            "unitPrice": "Styckpris",
+            "amount": "Belopp",
+            "vat": "Moms (25 %)",
+            "serviceFee": "Serviceavgift",
+            "total": "Dras från kortet"
+        },
+        "kind": {
+            "plan": "Abonnemang",
+            "app": "App",
+            "storage": "Lagringsutrymme",
+            "add_on": "Tillägg"
+        },
+        "empty": "Det finns inga återkommande kortbetalningar på ert konto.",
+        "agreementNote": "En del av det ni använder faktureras enligt ert avtal och visas därför inte här.",
+        "notIncluded": "Ingår inte här: avgifter för onlinebetalningar, som läggs på app-dragningen för föregående månad, och påfyllning av SMS och Cody, som dras när saldot är lågt."
     }
 }

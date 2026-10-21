@@ -19025,5 +19025,45 @@
     "tableColumns": {
         "moveUp": "Move {column} up",
         "moveDown": "Move {column} down"
+    },
+    "billingOverview": {
+        "title": "What am I paying for",
+        "intro": "All your recurring card payments to CitizenOne, with what they cover, their price and the date of the next charge. Each purchase is charged separately today, on the day of the month it was bought.",
+        "loading": "Loading the overview...",
+        "failed": "The overview could not be loaded. Please try again shortly.",
+        "forbidden": "Only administrators and roles allowed to buy licences can see what the company pays.",
+        "inclVat": "incl. VAT",
+        "summary": {
+            "monthly": "Fixed price per month",
+            "monthlyHint": "Excl. VAT and fees. Yearly subscriptions are shown per month.",
+            "charges": "Card payments per month",
+            "chargesHint": "Charged on day {days} of the month",
+            "fees": "Service fees per month",
+            "feesHint": "{fee} per card payment",
+            "next": "Next charge"
+        },
+        "charge": {
+            "monthly": "Monthly charge on day {day}",
+            "yearly": "Yearly charge on {day} {month}",
+            "next": "Next charge {date}"
+        },
+        "table": {
+            "product": "Product",
+            "quantity": "Quantity",
+            "unitPrice": "Unit price",
+            "amount": "Amount",
+            "vat": "VAT (25 %)",
+            "serviceFee": "Service fee",
+            "total": "Charged to the card"
+        },
+        "kind": {
+            "plan": "Subscription",
+            "app": "App",
+            "storage": "Storage",
+            "add_on": "Add-on"
+        },
+        "empty": "There are no recurring card payments on your account.",
+        "agreementNote": "Some of what you use is invoiced under your agreement and is therefore not shown here.",
+        "notIncluded": "Not included: payment fees for online payments, added to the app charge for the previous month, and SMS and Cody top-ups, charged when the balance runs low."
     }
 }

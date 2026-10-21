@@ -19025,5 +19025,45 @@
     "tableColumns": {
         "moveUp": "Flyt {column} op",
         "moveDown": "Flyt {column} ned"
+    },
+    "billingOverview": {
+        "title": "Hvad betaler jeg for",
+        "intro": "Alle jeres faste kortbetalinger til CitizenOne, med indhold, pris og dato for næste træk. Hvert køb trækkes i dag for sig, på den dag i måneden det blev købt.",
+        "loading": "Henter oversigten...",
+        "failed": "Oversigten kunne ikke hentes. Prøv igen om lidt.",
+        "forbidden": "Kun administratorer og roller, der må købe licenser, kan se hvad virksomheden betaler.",
+        "inclVat": "inkl. moms",
+        "summary": {
+            "monthly": "Fast pris pr. måned",
+            "monthlyHint": "Ekskl. moms og gebyrer. Årlige abonnementer er omregnet til måned.",
+            "charges": "Kortbetalinger pr. måned",
+            "chargesHint": "Trækkes d. {days} i måneden",
+            "fees": "Servicegebyrer pr. måned",
+            "feesHint": "{fee} pr. kortbetaling",
+            "next": "Næste træk"
+        },
+        "charge": {
+            "monthly": "Månedligt træk d. {day}.",
+            "yearly": "Årligt træk d. {day}. {month}",
+            "next": "Næste træk {date}"
+        },
+        "table": {
+            "product": "Produkt",
+            "quantity": "Antal",
+            "unitPrice": "Stykpris",
+            "amount": "Beløb",
+            "vat": "Moms (25 %)",
+            "serviceFee": "Servicegebyr",
+            "total": "Trækkes på kortet"
+        },
+        "kind": {
+            "plan": "Abonnement",
+            "app": "App",
+            "storage": "Lagerplads",
+            "add_on": "Tilkøb"
+        },
+        "empty": "Der er ingen faste kortbetalinger på jeres konto.",
+        "agreementNote": "Noget af det I bruger, faktureres efter jeres aftale og er derfor ikke med her.",
+        "notIncluded": "Ikke med her: betalingsgebyrer for online-betalinger, som lægges på app-trækket for den foregående måned, og optankning af SMS og Cody, som trækkes når saldoen er lav."
     }
 }
