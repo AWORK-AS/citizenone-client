@@ -7630,6 +7630,7 @@
         },
         "saveAndComplete": "Spara och markera som slutförd",
         "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
+        "noteBodyRequired": "Skriv texten i @:terms.journalNote{''} innan bokningen markeras som slutförd.",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"

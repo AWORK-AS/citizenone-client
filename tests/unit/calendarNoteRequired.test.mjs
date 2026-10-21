@@ -7,7 +7,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    bookingStatusKey, isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone,
+    bookingStatusKey, hasNoteBody, isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone,
 } from '../../composables/calendarNoteRequired.ts'
 
 const on = { calendar_note_required_enabled: true }
@@ -66,5 +66,19 @@ describe('bookingStatusKey', () => {
         assert.equal(bookingStatusKey('planned'), 'planned')
         assert.equal(bookingStatusKey(null), 'planned')
         assert.equal(bookingStatusKey(undefined), 'planned')
+    })
+})
+
+describe('hasNoteBody', () => {
+    test('an editor nobody wrote in has no body', () => {
+        for (const html of [undefined, null, '', '<p></p>', '<p> </p>', '<p>&nbsp;</p>', '<p>\u00A0</p>\n<p></p>']) {
+            assert.equal(hasNoteBody(html), false, JSON.stringify(html))
+        }
+    })
+
+    test('any text counts', () => {
+        assert.equal(hasNoteBody('<p>Went well</p>'), true)
+        assert.equal(hasNoteBody('<p>&nbsp;ok</p>'), true)
+        assert.equal(hasNoteBody('<p><span class="mention">@Anna</span></p>'), true)
     })
 })

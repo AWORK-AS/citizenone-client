@@ -7630,6 +7630,7 @@
         },
         "saveAndComplete": "Gem og markér som gennemført",
         "completeOnSaveHint": "Når du gemmer @:terms.journalNote{''}, markeres aftalen som gennemført.",
+        "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''}, før aftalen markeres som gennemført.",
         "status": {
             "completed": "Gennemført",
             "notCompleted": "Ikke gennemført"

@@ -47,3 +47,18 @@ export function bookingStatusKey(status: string | null | undefined): 'planned' |
 
     return 'planned'
 }
+
+/**
+ * Whether a note's body (the editor's HTML) has any text: "Save and mark as
+ * completed" needs one, as the title is prefilled from the booking. The
+ * server checks the same and answers 422 `note_required`.
+ */
+export function hasNoteBody(html: string | null | undefined): boolean {
+    if (!html) return false
+
+    const text = html
+        .replace(/<[^>]*>/g, '')
+        .replace(/&nbsp;|&#160;|&#xa0;/gi, '')
+
+    return text.replace(/[\s ​﻿]+/g, '') !== ''
+}

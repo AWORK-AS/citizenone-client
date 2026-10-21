@@ -7630,6 +7630,7 @@
         },
         "saveAndComplete": "Save and mark as completed",
         "completeOnSaveHint": "Saving the @:terms.journalNote{''} marks the booking as completed.",
+        "noteBodyRequired": "Write the @:terms.journalNote{''} text before marking the booking as completed.",
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"

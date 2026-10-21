@@ -7630,6 +7630,7 @@
         },
         "saveAndComplete": "Lagre og merk som fullført",
         "completeOnSaveHint": "Når du lagrer @:terms.journalNote{''}, merkes avtalen som fullført.",
+        "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''} før avtalen merkes som fullført.",
         "status": {
             "completed": "Fullført",
             "notCompleted": "Ikke fullført"

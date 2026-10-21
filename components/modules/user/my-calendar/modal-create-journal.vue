@@ -86,7 +86,7 @@
                             <ckeditor :editor="editor" v-model="state.formJournal.content"
                                 :config="editorConfig"></ckeditor>
                             <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
-                            <FormError :error="state.error?.errors?.content?.[0]" />
+                            <FormError :error="state.error?.errors?.content?.[0] || state.contentError" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
@@ -198,6 +198,7 @@ import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
 import { Mention } from 'ckeditor5'
 import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { journalNotePlanGoalSubgoalUuid } from '@/utils/journal-plan-link'
+import { hasNoteBody } from '@/composables/calendarNoteRequired'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { planService } from '@/components/api/user/PlanService'
@@ -259,6 +260,7 @@ const state = reactive({
     error: {} as Error,
     citizenUuid: '' as string,
     planError: '',
+    contentError: '',
     noteContext: null as any,
     formJournal: {
         title: '',
@@ -333,6 +335,7 @@ function resolveCitizenUuid() {
 
 function resetForm() {
     state.error = {}
+    state.contentError = ''
     state.noteContext = null
     state.formJournal = {
         title: '',
@@ -541,6 +544,15 @@ async function saveJournal() {
         if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal
             && !state.formJournal.journal_note_plan && !state.formJournal.journal_note_single_goal) {
             state.planError = t('citizens.citizenJournals.form.selectPlanOrSingleGoal')
+            state.isPageLoading = false
+            return
+        }
+
+        // "Done" needs a note with something written in it, not only the
+        // title prefilled from the booking (the server refuses it too).
+        state.contentError = ''
+        if (props.completeOnSave && !hasNoteBody(state.formJournal.content)) {
+            state.contentError = t('events.noteBodyRequired')
             state.isPageLoading = false
             return
         }
