@@ -18929,5 +18929,21 @@
     "tableColumns": {
         "moveUp": "Flytt {column} opp",
         "moveDown": "Flytt {column} ned"
+    },
+    "managerSuggestion": {
+        "button": "Foreslå for lederen min",
+        "title": "Foreslå for lederen din",
+        "to": "Send til",
+        "message": "Melding",
+        "defaultMessage": "Jeg har prøvd {app} i CitizenOne og tror det kan spare oss tid til det vi egentlig er her for.",
+        "noPersonalData": "Ikke skriv personnummer eller andre personopplysninger her.",
+        "personalNumber": "Dette ligner et personnummer. Fjern det før du sender.",
+        "tooLong": "Meldingen kan være maks {max} tegn.",
+        "calm": "Det haster ikke. Lederen din får en kort melding og en lenke til appen.",
+        "send": "Send forslag",
+        "sent": "Takk. Forslaget ditt er sendt.",
+        "already": "Du har allerede sendt forslaget til dem nylig.",
+        "limit": "Du har sendt dette forslaget flere ganger nylig. La det hvile en stund.",
+        "failed": "Forslaget kunne ikke sendes. Prøv igjen senere."
     }
 }
