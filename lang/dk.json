@@ -11899,14 +11899,20 @@
     },
     "supportAccess": {
         "title": "CitizenOne's adgang",
-        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i fire timer og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
+        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i den varighed der er anmodet om og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
         "pending": {
             "heading": "Venter på jeres svar",
             "empty": "Der er ingen anmodninger lige nu.",
             "wantsAccessTo": "Beder om adgang til {name}s konto",
             "answerBefore": "Svar inden",
             "approve": "Godkend",
-            "deny": "Afvis"
+            "deny": "Afvis",
+            "duration": {
+                "h4": "Adgang i 4 timer efter godkendelse",
+                "h24": "Adgang i 1 døgn efter godkendelse",
+                "h168": "Adgang i 7 dage efter godkendelse",
+                "h720": "Adgang i 30 dage efter godkendelse"
+            }
         },
         "active": {
             "heading": "Adgang lige nu",
@@ -11921,7 +11927,8 @@
             "basis": "Grundlag",
             "reason": "Begrundelse",
             "approved": "Godkendt af jer",
-            "breakGlass": "Uden godkendelse"
+            "breakGlass": "Uden godkendelse",
+            "endedBySupport": "Afsluttet af supporten"
         },
         "alert": {
             "approved": "Adgangen er godkendt",
@@ -13468,7 +13475,7 @@
         "supportAccess": {
             "pageTitle": "Adgang hos kunder",
             "header": "Adgang hos kunder",
-            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i fire timer. Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
+            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i den valgte varighed (4 timer til 30 dage). Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
             "loading": "Henter anmodninger",
             "empty": "Du har ikke bedt om adgang til nogen konti.",
             "status": {
@@ -13485,7 +13492,9 @@
                 "reason": "Begrundelse",
                 "deadline": "Frist",
                 "accessUntil": "Adgang til",
-                "answerBefore": "Svar inden"
+                "answerBefore": "Svar inden",
+                "duration": "Varighed",
+                "endedBy": "Afsluttet af {name} {time}"
             },
             "dialog": {
                 "heading": "Bed kunden om adgang",
@@ -13496,7 +13505,22 @@
                 "caseReference": "Sagsnummer",
                 "caseReferencePlaceholder": "Valgfrit",
                 "send": "Send anmodning",
-                "terms": "Siger kunden ja, gælder adgangen i fire timer og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log."
+                "terms": "Siger kunden ja, gælder adgangen i den valgte varighed og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log.",
+                "duration": "Varighed",
+                "durationHint": "Kunden ser varigheden og kan trække adgangen tilbage når som helst."
+            },
+            "duration": {
+                "h4": "4 timer",
+                "h24": "1 døgn",
+                "h168": "7 dage",
+                "h720": "30 dage",
+                "hours": "{count} timer"
+            },
+            "end": {
+                "button": "Afslut adgang",
+                "confirm": "Afslutte adgangen nu?",
+                "yes": "Ja, afslut",
+                "done": "Adgangen er afsluttet"
             },
             "alert": {
                 "requested": "Anmodningen er sendt til kunden"

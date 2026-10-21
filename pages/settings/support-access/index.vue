@@ -43,6 +43,9 @@
                                     {{ formatDateTime(item.expires_at) }}
                                     <span v-if="item.case_reference"> &middot; {{ item.case_reference }}</span>
                                 </p>
+                                <p class="text-xs text-gray-700 font-medium mt-1">
+                                    {{ $t('supportAccess.pending.duration.h' + durationKey(item.access_hours)) }}
+                                </p>
                             </div>
 
                             <div class="flex gap-2 shrink-0">
@@ -82,6 +85,9 @@
                                         time: formatDateTime(item.access_expires_at),
                                     }) }}
                                 </p>
+                                <p class="text-xs text-gray-500 mt-0.5">
+                                    {{ $t('supportAccess.pending.duration.h' + durationKey(item.access_hours)) }}
+                                </p>
                             </div>
 
                             <FormButton type="button" buttonStyle="danger" :disabled="state.isSaving"
@@ -114,6 +120,10 @@
                                         <span v-else
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-700">
                                             {{ $t('supportAccess.history.approved') }}
+                                        </span>
+                                        <span v-if="entry.ended_at"
+                                            class="block text-xs text-gray-500 mt-1">
+                                            {{ $t('supportAccess.history.endedBySupport') }}
                                         </span>
                                     </td>
                                     <td class="max-w-md">
@@ -232,6 +242,11 @@ async function revoke(item: any) {
     } finally {
         state.isSaving = false
     }
+}
+
+// Ældre anmodninger har ingen varighed og er altid fire timer.
+function durationKey(hours: number | null | undefined): number {
+    return [4, 24, 168, 720].includes(Number(hours)) ? Number(hours) : 4
 }
 
 function formatDateTime(value: string | null): string {

@@ -11892,6 +11892,19 @@
             }
         }
     },
+    "supportAccess": {
+        "pending": {
+            "duration": {
+                "h4": "Åtkomst i 4 timmar efter godkännande",
+                "h24": "Åtkomst i 1 dygn efter godkännande",
+                "h168": "Åtkomst i 7 dagar efter godkännande",
+                "h720": "Åtkomst i 30 dagar efter godkännande"
+            }
+        },
+        "history": {
+            "endedBySupport": "Avslutad av supporten"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekräfta lösenord",
@@ -12135,6 +12148,29 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "supportAccess": {
+            "table": {
+                "duration": "Varaktighet",
+                "endedBy": "Avslutad av {name} {time}"
+            },
+            "dialog": {
+                "duration": "Varaktighet",
+                "durationHint": "Kunden ser varaktigheten och kan när som helst dra tillbaka åtkomsten."
+            },
+            "duration": {
+                "h4": "4 timmar",
+                "h24": "1 dygn",
+                "h168": "7 dagar",
+                "h720": "30 dagar",
+                "hours": "{count} timmar"
+            },
+            "end": {
+                "button": "Avsluta åtkomst",
+                "confirm": "Avsluta åtkomsten nu?",
+                "yes": "Ja, avsluta",
+                "done": "Åtkomsten har avslutats"
+            }
+        },
         "nps": {
             "title": "Rekommendationer (NPS)",
             "subtitle": "Svar från administratörer de senaste 90 dagarna. NPS = andel 9-10 minus andel 0-6.",

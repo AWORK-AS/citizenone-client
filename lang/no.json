@@ -11892,6 +11892,19 @@
             }
         }
     },
+    "supportAccess": {
+        "pending": {
+            "duration": {
+                "h4": "Tilgang i 4 timer etter godkjenning",
+                "h24": "Tilgang i 1 døgn etter godkjenning",
+                "h168": "Tilgang i 7 dager etter godkjenning",
+                "h720": "Tilgang i 30 dager etter godkjenning"
+            }
+        },
+        "history": {
+            "endedBySupport": "Avsluttet av supporten"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekreft passord",
@@ -12135,6 +12148,29 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
+        "supportAccess": {
+            "table": {
+                "duration": "Varighet",
+                "endedBy": "Avsluttet av {name} {time}"
+            },
+            "dialog": {
+                "duration": "Varighet",
+                "durationHint": "Kunden ser varigheten og kan trekke tilbake tilgangen når som helst."
+            },
+            "duration": {
+                "h4": "4 timer",
+                "h24": "1 døgn",
+                "h168": "7 dager",
+                "h720": "30 dager",
+                "hours": "{count} timer"
+            },
+            "end": {
+                "button": "Avslutt tilgang",
+                "confirm": "Avslutte tilgangen nå?",
+                "yes": "Ja, avslutt",
+                "done": "Tilgangen er avsluttet"
+            }
+        },
         "nps": {
             "title": "Anbefalinger (NPS)",
             "subtitle": "Svar fra administratorer de siste 90 dagene. NPS = andel 9-10 minus andel 0-6.",

@@ -40,7 +40,9 @@
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.account') }}</th>
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.company') }}</th>
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.reason') }}</th>
+                                <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.duration') }}</th>
                                 <th class="px-4 py-3">{{ $t('superadmin.supportAccess.table.deadline') }}</th>
+                                <th class="px-4 py-3"></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -59,6 +61,9 @@
                                     </span>
                                 </td>
                                 <td class="px-4 py-3 text-[#5C6478] whitespace-nowrap">
+                                    {{ durationLabel(item.access_hours) }}
+                                </td>
+                                <td class="px-4 py-3 text-[#5C6478] whitespace-nowrap">
                                     <!-- To forskellige frister, og hvilken der gælder afhænger
                                          af tilstanden: ventetiden på et svar, eller tiden til
                                          adgangen lukker. Én kolonne, fordi kun én er relevant
@@ -71,7 +76,35 @@
                                         {{ $t('superadmin.supportAccess.table.answerBefore') }}
                                         {{ formatDateTime(item.expires_at) }}
                                     </template>
+                                    <template v-else-if="item.ended_at">
+                                        {{ $t('superadmin.supportAccess.table.endedBy', {
+                                            name: item.ended_by ?? '-',
+                                            time: formatDateTime(item.ended_at),
+                                        }) }}
+                                    </template>
                                     <template v-else>—</template>
+                                </td>
+                                <td class="px-4 py-3 text-right whitespace-nowrap">
+                                    <template v-if="item.grants_access_now">
+                                        <template v-if="state.confirmUuid === item.uuid">
+                                            <span class="text-xs text-[#5C6478] mr-2">
+                                                {{ $t('superadmin.supportAccess.end.confirm') }}
+                                            </span>
+                                            <button type="button" :disabled="state.endingUuid === item.uuid"
+                                                @click="endAccess(item)"
+                                                class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold text-white bg-red-600 disabled:opacity-40">
+                                                {{ $t('superadmin.supportAccess.end.yes') }}
+                                            </button>
+                                            <button type="button" @click="state.confirmUuid = null"
+                                                class="inline-flex items-center px-3 py-1.5 ml-1 rounded-lg text-xs font-semibold text-[#5C6478] border border-[#EAECF0] bg-white">
+                                                {{ $t('cancel') }}
+                                            </button>
+                                        </template>
+                                        <button v-else type="button" @click="state.confirmUuid = item.uuid"
+                                            class="inline-flex items-center px-3 py-1.5 rounded-lg text-xs font-semibold text-red-700 border border-red-200 bg-white">
+                                            {{ $t('superadmin.supportAccess.end.button') }}
+                                        </button>
+                                    </template>
                                 </td>
                             </tr>
                         </tbody>
@@ -84,17 +117,24 @@
 
 <script setup lang="ts">
 import { supportAccessService } from '@/components/api/superadmin/SupportAccessService'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 
 /**
  * Hvad vi har spurgt kunderne om, og hvad de har svaret.
  *
- * Ingen handlinger på siden. Anmodningen sendes fra det sted man forsøgte at gå ind, og
- * svaret er kundens - der er ikke noget her vi kan gøre ved den, og en knap der ser ud
- * som om der var, ville være det værste på skærmen.
+ * Anmodningen sendes fra det sted man forsøgte at gå ind, og svaret er kundens. Den eneste
+ * handling her er at afslutte en adgang der er aktiv: samtykket er stadig kundens, men vi
+ * må gerne give den tilbage før tid.
  */
 const runtimeConfig = useRuntimeConfig()
 
+const { successAlert } = useAlert()
+const { t, te } = useI18n()
+
 const state = reactive({
+    confirmUuid: null as string | null,
+    endingUuid: null as string | null,
     isLoading: true,
     error: '',
     requests: [] as any[],
@@ -114,6 +154,29 @@ async function load() {
     } finally {
         state.isLoading = false
     }
+}
+
+async function endAccess(item: any) {
+    state.endingUuid = item.uuid
+    state.error = ''
+
+    try {
+        await supportAccessService.end(item.uuid)
+        successAlert(`${t('alert.success')}!`, t('superadmin.supportAccess.end.done'))
+    } catch (error: any) {
+        // 409: adgangen var allerede lukket. Listen hentes igen så rækken viser sandheden.
+        state.error = error?.message ?? error
+    } finally {
+        state.confirmUuid = null
+        state.endingUuid = null
+        await load()
+    }
+}
+
+function durationLabel(hours: number | null | undefined): string {
+    const key = `superadmin.supportAccess.duration.h${hours ?? 4}`
+
+    return te(key) ? t(key) : t('superadmin.supportAccess.duration.hours', { count: hours ?? 4 })
 }
 
 function badgeClass(item: any): string {
