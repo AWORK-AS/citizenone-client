@@ -9903,7 +9903,11 @@
             "forgotten": "Glömd",
             "pending": "Väntande",
             "noEvaluationsToShow": "Inga effektutvärderingar att visa",
-            "clickToEvaluate": "Klicka för att utvärdera"
+            "clickToEvaluate": "Klicka för att utvärdera",
+            "quickDose": {
+                "title": "Registrera dos",
+                "moreOptions": "Fler alternativ"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",

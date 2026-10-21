@@ -9903,7 +9903,11 @@
             "forgotten": "Glemt",
             "pending": "Venter",
             "noEvaluationsToShow": "Ingen effektevalueringer å vise",
-            "clickToEvaluate": "Klikk for å evaluere"
+            "clickToEvaluate": "Klikk for å evaluere",
+            "quickDose": {
+                "title": "Registrer dose",
+                "moreOptions": "Flere valg"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
