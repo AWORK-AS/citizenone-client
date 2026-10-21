@@ -100,8 +100,8 @@
                         </div>
                     </div>
 
-                    <!-- Whether she may be contacted at all, and why she is inactive.
-                         "Må ikke kontaktes" keeps her out of the match, invitations and
+                    <!-- Whether they may be contacted at all, and why they are inactive.
+                         "Må ikke kontaktes" keeps them out of the match, invitations and
                          reactivation. Only shown when the backend reports it. -->
                     <div v-if="state.hasContactStatus" class="mt-5 border-t border-surface-100 pt-4">
                         <div class="mb-3 flex flex-wrap items-center gap-2">

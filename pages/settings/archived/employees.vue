@@ -73,7 +73,7 @@
                                         <div class="flex items-end gap-2">
                                             <!-- Someone marked "Må ikke kontaktes" is out of the match and
                                                  archived people are not in the employee list, so this is
-                                                 the way back to her consultant profile. -->
+                                                 the way back to their consultant profile. -->
                                             <NuxtLink v-if="isInquiryPipelineEnabled"
                                                 :to="`/employees/${employee.uuid}/consultant-profile`"
                                                 class="self-center whitespace-nowrap text-[13px] font-semibold text-secondary hover:underline">
