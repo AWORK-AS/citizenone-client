@@ -12226,6 +12226,7 @@
             "signedUp": "Signed up",
             "statusColumn": "Status",
             "credits": "Free months",
+            "qualifyingInvoice": "First payment: invoice {number}, {amount} kr.",
             "capped": "The recommending customer got no month (yearly cap reached or no longer active).",
             "amount": "{amount} kr. excl. VAT",
             "noAmount": "No subscription price found",

@@ -12226,6 +12226,7 @@
             "signedUp": "Oprettet",
             "statusColumn": "Status",
             "credits": "Gratis måneder",
+            "qualifyingInvoice": "Første betaling: faktura {number}, {amount} kr.",
             "capped": "Den anbefalende kunde fik ingen måned (årligt loft nået eller ikke længere aktiv).",
             "amount": "{amount} kr. ekskl. moms",
             "noAmount": "Ingen abonnementspris fundet",

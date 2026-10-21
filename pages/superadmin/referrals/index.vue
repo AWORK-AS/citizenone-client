@@ -67,6 +67,7 @@
                                     <td class="co-td text-[13px]">
                                         <span class="co-badge" :class="row.status === 'rewarded' ? 'co-badge-navy' : ''">{{ $t(`superadmin.referrals.status.${row.status}`) }}</span>
                                         <p v-if="row.rejection_reason" class="mt-1 text-[12px] text-[#8891A4]">{{ $t(`superadmin.referrals.reasons.${row.rejection_reason}`) }}</p>
+                                        <p v-if="row.qualifying_invoice" class="mt-1 text-[12px] text-[#5C6478]">{{ $t('superadmin.referrals.qualifyingInvoice', { number: row.qualifying_invoice.number, amount: formatAmount(row.qualifying_invoice.total_amount) }) }}</p>
                                         <p v-if="row.status === 'rewarded' && row.referrer_rewarded === false" class="mt-1 text-[12px] text-[#8891A4] max-w-[16rem]">{{ $t('superadmin.referrals.capped') }}</p>
                                     </td>
                                     <td class="co-td text-[13px]">

@@ -12189,6 +12189,7 @@
             "signedUp": "Skapad",
             "statusColumn": "Status",
             "credits": "Gratis månader",
+            "qualifyingInvoice": "Första betalning: faktura {number}, {amount} kr",
             "capped": "Den rekommenderande kunden fick ingen månad (årligt tak nått eller inte längre aktiv).",
             "amount": "{amount} kr exkl. moms",
             "noAmount": "Inget abonnemangspris hittades",
