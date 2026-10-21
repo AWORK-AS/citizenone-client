@@ -3270,6 +3270,7 @@
                 "weekly": "Weekly"
             },
             "synchronizeWithFMK": "Synchronize with FMK",
+            "openFmkOnline": "Open FMK-online",
             "table": {
                 "actions": {
                     "activate": "Activate",

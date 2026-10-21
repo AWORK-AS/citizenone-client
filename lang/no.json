@@ -3270,6 +3270,7 @@
                 "weekly": "Ugentligt"
             },
             "synchronizeWithFMK": "Synkroniser med FMK",
+            "openFmkOnline": "Åpne FMK-online",
             "table": {
                 "actions": {
                     "activate": "Aktiver",
