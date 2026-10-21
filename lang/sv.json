@@ -17566,6 +17566,7 @@
         "notReady": "Kan inte sättas på ärende",
         "archived": "Inaktiv – kan kontaktas",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
@@ -17701,7 +17702,9 @@
             "no": "Nej tack",
             "answered": "Du har svarat"
         },
-        "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet"
+        "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet",
+        "contactDirectly": "Kontakta direkt",
+        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens."
     },
     "taskBoards": {
         "actions": {

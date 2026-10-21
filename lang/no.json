@@ -17566,6 +17566,7 @@
         "notReady": "Kan ikke settes på sak",
         "archived": "Inaktiv – kan kontaktes",
         "archivedHint": "Reaktiveres med en lisens når konsulenten velges til saken",
+        "notNotified": "{count} konsulent fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne. | {count} konsulenter fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne.",
         "nameSearch": "Søk konsulent på navn",
         "openProfile": "Åpne profil",
         "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
@@ -17701,7 +17702,9 @@
             "no": "Nei takk",
             "answered": "Du har svart"
         },
-        "cannotBeChosen": "Merket etter invitasjonen og kan ikke velges til saken"
+        "cannotBeChosen": "Merket etter invitasjonen og kan ikke velges til saken",
+        "contactDirectly": "Kontakt direkte",
+        "contactDirectlyHint": "Inaktive konsulenter får ingen e-post eller varsel i appen om saken. Kontakt dem direkte. Utpek reaktiverer dem med en lisens."
     },
     "taskBoards": {
         "actions": {

@@ -17662,6 +17662,7 @@
         "notReady": "Cannot be put on a case",
         "archived": "Inactive – can be contacted",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
+        "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
@@ -17797,7 +17798,9 @@
             "no": "No thanks",
             "answered": "You have answered"
         },
-        "cannotBeChosen": "Marked after the invitation and can't be chosen for the case"
+        "cannotBeChosen": "Marked after the invitation and can't be chosen for the case",
+        "contactDirectly": "Contact directly",
+        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence."
     },
     "taskBoards": {
         "actions": {
