@@ -1,4 +1,11 @@
 {
+    "invoiceMail": {
+        "noticeTitle": "Invoices are no longer emailed",
+        "noticeBody": "You will no longer get an email each time a subscription, app or top-up is charged automatically. All invoices and receipts are here under Invoices. You will still be emailed if a payment fails.",
+        "autoSendLabel": "Send invoices to the bookkeeper automatically",
+        "autoSendHint": "When on, the recipients below get a copy of every automatic invoice.",
+        "autoSendSaved": "The setting has been saved"
+    },
     "nps": {
         "question": "How likely are you to recommend CitizenOne to a colleague?",
         "unlikely": "Not at all likely",
