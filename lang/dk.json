@@ -12194,6 +12194,31 @@
             }
     },
         "funnel": {
+            "loops": {
+                "title": "Vækstløkker",
+                "subtitle": "Kunder der bringer mere med sig: medarbejdere der foreslår en app til deres leder, og kunder der deler CitizenOne.",
+                "period": "Periode",
+                "empty": "Intet i perioden.",
+                "suggestions": {
+                    "title": "Foreslå til min leder",
+                    "hint": "Én app i én virksomhed tæller én gang, fra det første forslag. Købt = et betalt abonnement på appen inden for {days} dage. Åben = vinduet er ikke lukket endnu og tæller ikke med i raten.",
+                    "sends": "Sendt",
+                    "recipients": "Modtagere",
+                    "apps": "Foreslåede apps",
+                    "converted": "Købt",
+                    "open": "Åben",
+                    "rate": "Købt inden for {days} dage"
+                },
+                "referrals": {
+                    "title": "Delte links",
+                    "hint": "Delinger af \"Del CitizenOne\"-linket, virksomheder oprettet via et (talt i den periode de blev oprettet), og hvor mange af dem der har betalt en faktura.",
+                    "shares": "Delinger",
+                    "signedUp": "Oprettet",
+                    "paid": "Betalt",
+                    "rate": "Oprettede der har betalt",
+                    "medianDays": "median {days} dage til første betaling"
+                }
+            },
             "title": "Vækst-tragt",
             "subtitle": "Firmaer der oprettede sig i perioden, pr. tilmeldingskanal, og hvor langt de er nået: egne borgere, første notat og betaling.",
             "stages": {
