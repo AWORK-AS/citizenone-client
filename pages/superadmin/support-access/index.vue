@@ -78,7 +78,7 @@
                                     </template>
                                     <template v-else-if="item.ended_at">
                                         {{ $t('superadmin.supportAccess.table.endedBy', {
-                                            name: item.ended_by ?? '-',
+                                            name: item.ended_by?.name ?? '-',
                                             time: formatDateTime(item.ended_at),
                                         }) }}
                                     </template>
