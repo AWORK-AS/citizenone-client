@@ -17404,6 +17404,8 @@
             "threeMonthInterviewAt": "3-måneders samtale gjennomført",
             "terminationReason": "Fratredelsesårsak",
             "simCard": "SIM-kort",
+            "contactStatus": "Kontaktstatus",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Annet arbeid",
             "workingHoursComment": "Kommentar til arbeidstider",
             "notWorkWith": "Ønsker ikke å jobbe med",

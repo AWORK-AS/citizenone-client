@@ -17404,6 +17404,8 @@
             "threeMonthInterviewAt": "3-månaderssamtal genomfört",
             "terminationReason": "Orsak till avslut",
             "simCard": "SIM-kort",
+            "contactStatus": "Kontaktstatus",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Övrigt arbete",
             "workingHoursComment": "Kommentar om arbetstider",
             "notWorkWith": "Vill inte arbeta med",
