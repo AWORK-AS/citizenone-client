@@ -8082,6 +8082,12 @@
             "title": "Medicine status types",
             "description": "Choose which statuses staff can select when logging a dose. \"Given\" always stays enabled."
         },
+        "selfAdministered": {
+            "title": "Self-administered medicine",
+            "description": "Choose whether self-administered medicine is still part of the staff medicine round.",
+            "showInRounds": "Show in Medication overview and My day",
+            "hiddenHint": "Off: the medicine stays on the medicine card, but is not shown in Medication overview or My day, and no reminders or expiry alerts are sent for it."
+        },
         "fields": {
             "addictions": "Dependencies",
             "allocatedHours": "Allocated Hours",
