@@ -284,22 +284,36 @@ const orderedResponses = computed(() => {
         if (row.iteration_key && !firstSeen.has(row.iteration_key)) firstSeen.set(row.iteration_key, firstSeen.size)
     }
 
-    // A group sits just before its first question.
+    // Each question's place in the template, as the fill-in shows them. A
+    // template never saved again after it was made has every sort_order at 0,
+    // so the question's id settles the order.
+    const fieldId = (row: any) => Number(row.form_field_id ?? row.form_field?.id ?? 0)
+    const fieldOrder = new Map<number, number>()
+    for (const row of [...rows].sort((a: any, b: any) =>
+        Number(a.form_field?.sort_order ?? 0) - Number(b.form_field?.sort_order ?? 0) || fieldId(a) - fieldId(b))) {
+        if (!fieldOrder.has(fieldId(row))) fieldOrder.set(fieldId(row), fieldOrder.size)
+    }
+    const order = (row: any) => fieldOrder.get(fieldId(row)) ?? 0
+
+    // A group sits just before its first question. An answer outside any
+    // repetition was given to a question whose group is gone, which the
+    // fill-in shows as an ordinary question, so it keeps its own place.
+    const groupOf = (row: any) => row.iteration_key ? parseField(row)?.parentGroup : null
+
     for (const row of rows) {
-        const group = parseField(row)?.parentGroup
-        const order = Number(row.form_field?.sort_order ?? 0)
-        if (group && (!groupPlace.has(group) || order < groupPlace.get(group)!)) groupPlace.set(group, order)
+        const group = groupOf(row)
+        if (group && (!groupPlace.has(group) || order(row) < groupPlace.get(group)!)) groupPlace.set(group, order(row))
     }
 
     const place = (row: any) => {
-        const group = parseField(row)?.parentGroup
-        return group ? groupPlace.get(group)! - 0.5 : Number(row.form_field?.sort_order ?? 0)
+        const group = groupOf(row)
+        return group ? groupPlace.get(group)! - 0.5 : order(row)
     }
 
     return rows.sort((a: any, b: any) =>
         place(a) - place(b)
         || (firstSeen.get(a.iteration_key) ?? -1) - (firstSeen.get(b.iteration_key) ?? -1)
-        || Number(a.form_field?.sort_order ?? 0) - Number(b.form_field?.sort_order ?? 0)
+        || order(a) - order(b)
         || a.id - b.id)
 })
 

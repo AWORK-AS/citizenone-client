@@ -16,7 +16,11 @@ export function useFormGroups() {
      */
     async function expandGroups(fields: any[], citizenUuid: string, formUuid = '') {
         const groups = fields.filter((f: any) => parse(f)?.type === 'group')
-        const perGoalRulers = fields.filter((f: any) => isPerGoalRuler(parse(f)))
+        // A question whose group was deleted from the template still names it.
+        // It is an ordinary question again, not hidden as a child of nothing.
+        const groupIds = new Set(groups.map((g: any) => parse(g)?.groupId).filter(Boolean))
+        const inGroup = (config: any) => !!config?.parentGroup && groupIds.has(config.parentGroup)
+        const perGoalRulers = fields.filter((f: any) => isPerGoalRuler(parse(f), inGroup))
 
         if (groups.length === 0 && perGoalRulers.length === 0) return fields
 
@@ -39,9 +43,9 @@ export function useFormGroups() {
             const config = parse(field)
 
             // Children are emitted by their group, never on their own.
-            if (config?.parentGroup) continue
+            if (inGroup(config)) continue
 
-            if (isPerGoalRuler(config)) {
+            if (isPerGoalRuler(config, inGroup)) {
                 // A case without goals still gets its one ruler.
                 if (activeGoals.length === 0) {
                     out.push(field)
@@ -180,8 +184,8 @@ export function useFormGroups() {
         }
     }
 
-    function isPerGoalRuler(config: any): boolean {
-        return config?.type === 'scale' && config?.perGoal === true && !config?.parentGroup
+    function isPerGoalRuler(config: any, inGroup: (config: any) => boolean): boolean {
+        return config?.type === 'scale' && config?.perGoal === true && !inGroup(config)
     }
 
     function parse(field: any) {
