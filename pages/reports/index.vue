@@ -100,7 +100,7 @@
                                 <FormSelect id="filter_status" name="filter_status" :options="statusOptions"
                                     v-model="state.filterForm.status" />
                             </div>
-                            <div class="space-y-1">
+                            <div v-if="hasCaseTypes" class="space-y-1">
                                 <FormLabel for="filter_case_type_uuid"
                                     :label="$t('citizenReports.form.agreementType')" />
                                 <FormSelect id="filter_case_type_uuid" name="filter_case_type_uuid"
@@ -129,11 +129,15 @@
 <script setup lang="ts">
 import { citizenReportService } from '@/components/api/user/CitizenReportService'
 import { employmentService } from '@/components/api/user/EmploymentService'
+import { useUserStore } from '@/store/user'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
+const userStore = useUserStore() as any
+// Agreement types only exist for employment services; other industries get a 400 from the endpoint.
+const hasCaseTypes = computed(() => userStore.user?.company?.industry?.system_name === 'employment_services')
 const { successAlert } = useAlert()
 const { t } = useI18n()
 let currentTablePage = 1
@@ -191,7 +195,11 @@ const activeFilterCount = computed(() => {
 
 onMounted(() => {
     fetchReports()
-    fetchCaseTypes()
+    if (hasCaseTypes.value) fetchCaseTypes()
+})
+
+watch(hasCaseTypes, (allowed: boolean, wasAllowed: boolean) => {
+    if (allowed && !wasAllowed) fetchCaseTypes()
 })
 
 watch(() => state.modal.isFilterOpen, (isOpen: boolean) => {

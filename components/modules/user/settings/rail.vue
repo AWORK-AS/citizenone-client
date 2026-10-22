@@ -99,7 +99,9 @@ const ADMIN_ONLY_ROUTES = [
 ]
 
 watch(() => userStore.getUser, (user: any) => {
-    if (user == null || isAdmin.value) return
+    // The store starts as {} and is truthy before the user has loaded, so wait for a real user:
+    // otherwise an Admin opening this page directly is sent away before their roles arrive.
+    if (!user?.uuid || isAdmin.value) return
     if (ADMIN_ONLY_ROUTES.includes(route.name as string)) navigateTo('/settings/profile')
 }, { immediate: true })
 

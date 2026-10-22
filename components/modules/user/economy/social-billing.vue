@@ -492,6 +492,7 @@ import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const { formatAmount } = useAmountFormatter()
 const { presetRange, matchPreset } = useEconomyPeriod()
@@ -500,7 +501,9 @@ const { t } = useI18n()
 const userStore = useUserStore() as any
 
 // Guard: requires the "Management & Economy" page, same as the rest of this area
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         navigateTo('/overview')
 

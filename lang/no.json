@@ -10082,7 +10082,12 @@
             "useForceStatistics": "Bruk av makt statistikk"
         },
         "viewAll": "Se alle",
-        "statistics": "Statistikk"
+        "statistics": "Statistikk",
+        "continuity": {
+            "continueOnCitizen": "Fortsett der du slapp: {label}",
+            "continueOnChat": "Fortsett samtalen med {label}",
+            "goTo": "Gå til"
+        }
     },
     "pageNotFound": "Side ikke funnet",
     "pagination": {
@@ -12725,7 +12730,7 @@
                 "migration": "Datamigrering",
                 "agreements": "Avtaler"
             },
-            "totalClients": "klienter totalt",
+            "totalClients": "{count} klienter totalt",
             "export": "Eksporter",
             "import": "Importer",
             "payingClientsOnly": "Kun betalende kunder",
@@ -13071,7 +13076,7 @@
                 "unpaid": "Ubetalt",
                 "type": "Type"
             },
-            "totalInvoices": "fakturaer totalt",
+            "totalInvoices": "{count} fakturaer totalt",
             "pending": "venter",
             "failed": "mislykket",
             "sort": {
@@ -13435,7 +13440,9 @@
             "platformShares": "Delinger",
             "storageUsage": "Lagerforbruk",
             "industries": "Bransjer",
-            "salesInquiries": "Henvendelser"
+            "salesInquiries": "Henvendelser",
+            "teamRoles": "Roller",
+            "supportAccess": "Tilgang hos kunder"
         },
         "emailTemplates": {
             "title": "E-postmaler",
@@ -13483,7 +13490,7 @@
                 "status": "Status"
             },
             "users": "Brukere",
-            "totalUsers": "brukere totalt",
+            "totalUsers": "{count} brukere totalt",
             "searchPlaceholder": "Søk bruker...",
             "sort": {
                 "nameAsc": "Navn A-Z",
@@ -14647,6 +14654,63 @@
             "upcomingDates": "Utløper {ends} - oppsigelsesfrist {notice}",
             "noAutoRenew": "Fornyes ikke",
             "noAutoRenewHelp": "Avtalen fornyes ikke automatisk og utløper når bindingen slutter."
+        },
+        "teamRoles": {
+            "pageTitle": "Roller",
+            "header": "Roller",
+            "subtitle": "Hva hver rolle får se i superadmin-panelet. Rollen er levende: utvider du den her, får alle i den området med. Unntak for den enkelte kollegaen settes under Brukere.",
+            "newRole": "Ny rolle",
+            "namePlaceholder": "Navn på rollen",
+            "locked": "Kan ikke endres",
+            "lockedHint": "Superadmin har all tilgang. Rollen kan ikke redigeres, fordi det er den som kan endre de andre.",
+            "members": "{count} kolleger",
+            "loading": "Henter roller",
+            "saved": "Tilgangen er lagret",
+            "person": {
+                "role": "Rolle",
+                "roleHint": "Pakken med områder denne kollegaen får. Bruk tilvalg og fravalg nedenfor ved unntak.",
+                "extra": "Ekstra tilgang utover rollen",
+                "revoked": "Fjernet, selv om rollen gir den",
+                "fromRole": "fra rollen",
+                "none": "Ingen rolle"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Tilgang hos kunder",
+            "header": "Tilgang hos kunder",
+            "subtitle": "Forespørsler om å logge inn på en kundes konto. Kunden svarer, og et ja gjelder i fire timer. Svarer de ikke innen tolv timer, bortfaller forespørselen.",
+            "loading": "Henter forespørsler",
+            "empty": "Du har ikke bedt om tilgang til noen kontoer.",
+            "status": {
+                "pending": "Venter på svar",
+                "approved": "Godkjent",
+                "denied": "Avvist",
+                "revoked": "Trukket tilbake",
+                "expired": "Utløpt"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Konto",
+                "company": "Virksomhet",
+                "reason": "Begrunnelse",
+                "deadline": "Frist",
+                "accessUntil": "Tilgang til",
+                "answerBefore": "Svar innen"
+            },
+            "dialog": {
+                "heading": "Be kunden om tilgang",
+                "intro": "Kunden har ikke godkjent tilgang til {name}. De får en e-post og kan svare med en gang.",
+                "reason": "Begrunnelse",
+                "reasonPlaceholder": "Hva skal du undersøke, og hvorfor krever det tilgang til denne kontoen?",
+                "reasonHint": "Kunden leser den ordrett. Minst 10 tegn.",
+                "caseReference": "Saksnummer",
+                "caseReferencePlaceholder": "Valgfritt",
+                "send": "Send forespørsel",
+                "terms": "Sier kunden ja, gjelder tilgangen i fire timer og lukkes deretter av seg selv. De kan trekke den tilbake underveis, og alt som skjer i mellomtiden står i loggen deres."
+            },
+            "alert": {
+                "requested": "Forespørselen er sendt til kunden"
+            }
         }
     },
     "support": {
@@ -18975,5 +19039,37 @@
         "importFailed": "Det oppstod en feil under importen.",
         "openFileFailed": "Det oppstod en feil under åpning av filen.",
         "deleteFailed": "Det oppstod en feil under slettingen."
+    },
+    "supportAccess": {
+        "title": "CitizenOnes tilgang",
+        "intro": "Her godkjenner dere når CitizenOne ber om å logge inn på kontoen til en av brukerne deres. Ingen kommer inn uten et ja fra dere. Et ja gjelder i fire timer og lukkes deretter av seg selv, dere kan trekke det tilbake underveis, og nederst står hver gang noen har vært inne.",
+        "pending": {
+            "heading": "Venter på svaret deres",
+            "empty": "Det er ingen forespørsler akkurat nå.",
+            "wantsAccessTo": "Ber om tilgang til kontoen til {name}",
+            "answerBefore": "Svar innen",
+            "approve": "Godkjenn",
+            "deny": "Avvis"
+        },
+        "active": {
+            "heading": "Tilgang akkurat nå",
+            "until": "Er inne på kontoen til {name} til {time}",
+            "revoke": "Trekk tilgangen tilbake"
+        },
+        "history": {
+            "heading": "Hvem har vært inne",
+            "when": "Tidspunkt",
+            "who": "Fra CitizenOne",
+            "account": "Konto",
+            "basis": "Grunnlag",
+            "reason": "Begrunnelse",
+            "approved": "Godkjent av dere",
+            "breakGlass": "Uten godkjenning"
+        },
+        "alert": {
+            "approved": "Tilgangen er godkjent",
+            "denied": "Forespørselen er avvist",
+            "revoked": "Tilgangen er trukket tilbake"
+        }
     }
 }

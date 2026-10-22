@@ -78,6 +78,7 @@ import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
+const runtimeConfig = useRuntimeConfig()
 
 const state = reactive({
     error: {} as Error,
@@ -163,7 +164,10 @@ async function fetchOneDriveQuota() {
 
     state.isOneDriveQuotaLoading = true
     try {
-        const response: any = await $fetch('/api/user/onedrive/storage-quota', {
+        const response: any = await $fetch('/user/onedrive/storage-quota', {
+            // The API's own address, like every other call: a bare '/api/...' only reaches it when the web
+            // app happens to be served from the same origin.
+            baseURL: runtimeConfig.public.apiBaseURL,
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

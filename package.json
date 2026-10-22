@@ -5,7 +5,7 @@
   "scripts": {
     "build": "NODE_OPTIONS=--max-old-space-size=8192 nuxt build",
     "build:widget": "vite build --config vite.widget.config.ts",
-    "dev": "nuxt dev",
+    "dev": "NODE_OPTIONS=--max-old-space-size=4096 nuxt dev",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

@@ -104,6 +104,7 @@ import { useEconomyPeriod } from '@/composables/economyPeriod'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const { formatAmount } = useAmountFormatter()
 const { presetRange, matchPreset } = useEconomyPeriod()
@@ -112,7 +113,9 @@ const userStore = useUserStore() as any
 
 // The screen opens on the running month with the figures already fetched: the
 // old empty state asked for two dates before it would say anything at all.
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!userStore.getUser?.pages?.some((page: any) => page.name === 'Management & Economy')) {
         navigateTo('/overview')
 

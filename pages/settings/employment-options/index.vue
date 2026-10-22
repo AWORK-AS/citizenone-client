@@ -82,6 +82,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import { EMPLOYMENT_STATUS_LABELS, WORKING_HOURS_LABELS } from '@/utils/employmentOptions'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -184,7 +185,9 @@ async function remove(option: any) {
     state.isSaving = false
 }
 
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!isAtLeast('Admin')) {
         navigateTo('/settings/company')
         return

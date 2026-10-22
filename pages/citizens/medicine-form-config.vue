@@ -262,6 +262,7 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -346,7 +347,9 @@ function isFieldVisible(fieldKey: string): boolean {
     return state.medicineFormConfig[state.activeFormType][fieldKey] !== false
 }
 
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!isAtLeast('Admin') && !can('update_form_field_config')) {
         navigateTo('/citizens')
         return

@@ -100,6 +100,7 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const runtimeConfig = useRuntimeConfig()
 const language = useI18n()
@@ -112,7 +113,9 @@ const breadcrumbLinks = [
     { name: 'compensatoryPayoutsReport.title', translate: true, href: '/reports/compensatory-payouts' },
 ]
 
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!isAtLeast('Admin') && !can('register_time_account_payout')) {
         navigateTo('/reports')
         return

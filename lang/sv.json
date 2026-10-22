@@ -3208,7 +3208,7 @@
                 "deselectAll": "Avmarkera alla",
                 "giveAllDueNow": "Ge allt förfallet ({n})",
                 "giveAllDueConfirmation": "Vill du registrera {n} doser som givna nu",
-                "medicineIsOverdue": "Medicinen är {timme} försenad. Giv straks eller registrér avvikelse.",
+                "medicineIsOverdue": "Medicinen är {time} försenad. Giv straks eller registrér avvikelse.",
                 "dueInMinutes": "Forfaldner om {minutes} minuter. Husk att ge till tiden.",
                 "expired": "Utgången",
                 "selfAdministration": "Självadministrerad",
@@ -3236,10 +3236,10 @@
                 "slotDelivered": "Udleveret ✓",
                 "slotDeviation": "Avvikelse",
                 "slotInMinutes": "Om {minutes} min",
-                "slotAt": "Kl. {timme}",
-                "slotOverdue": "Försenad - planlagt kl. {timme}. Klicka för att ge.",
-                "slotDueSoon": "Forfaldner om {minutes} min - kl. {timme}",
-                "slotClickToGive": "Klicka för att ge - planlagt kl. {timme}",
+                "slotAt": "Kl. {time}",
+                "slotOverdue": "Försenad - planlagt kl. {time}. Klicka för att ge.",
+                "slotDueSoon": "Förfaller om {minutes} min - kl. {time}",
+                "slotClickToGive": "Klicka för att ge - planlagt kl. {time}",
                 "overdueCountText": "{n} försenad",
                 "givenCountText": "{n} given",
                 "pendingCountText": "{n} väntar",
@@ -10082,7 +10082,12 @@
             "useForceStatistics": "Använd av tvång statistik"
         },
         "viewAll": "Se alla",
-        "statistics": "Statistik"
+        "statistics": "Statistik",
+        "continuity": {
+            "continueOnCitizen": "Fortsätt där du slutade: {label}",
+            "continueOnChat": "Fortsätt samtalet med {label}",
+            "goTo": "Gå till"
+        }
     },
     "pageNotFound": "Sida inte hittad",
     "pagination": {
@@ -12725,7 +12730,7 @@
                 "migration": "Datamigrering",
                 "agreements": "Avtal"
             },
-            "totalClients": "klienter totalt",
+            "totalClients": "{count} klienter totalt",
             "export": "Exportera",
             "import": "Importera",
             "payingClientsOnly": "Endast betalande kunder",
@@ -13071,7 +13076,7 @@
                 "unpaid": "Obetald",
                 "type": "Typ"
             },
-            "totalInvoices": "fakturor totalt",
+            "totalInvoices": "{count} fakturor totalt",
             "pending": "väntar",
             "failed": "misslyckades",
             "sort": {
@@ -13435,7 +13440,9 @@
             "platformShares": "Delningar",
             "storageUsage": "Lagringsanvändning",
             "industries": "Branscher",
-            "salesInquiries": "Förfrågningar"
+            "salesInquiries": "Förfrågningar",
+            "teamRoles": "Roller",
+            "supportAccess": "Åtkomst hos kunder"
         },
         "emailTemplates": {
             "title": "E-postmallar",
@@ -13483,7 +13490,7 @@
                 "status": "Status"
             },
             "users": "Användare",
-            "totalUsers": "användare totalt",
+            "totalUsers": "{count} användare totalt",
             "searchPlaceholder": "Sök användare...",
             "sort": {
                 "nameAsc": "Namn A-Ö",
@@ -14647,6 +14654,63 @@
             "upcomingDates": "Slutar {ends} - uppsägningstid {notice}",
             "noAutoRenew": "Förnyas inte",
             "noAutoRenewHelp": "Avtalet förnyas inte automatiskt och upphör när bindningen går ut."
+        },
+        "teamRoles": {
+            "pageTitle": "Roller",
+            "header": "Roller",
+            "subtitle": "Vad varje roll får se i superadminpanelen. Rollen är levande: utökar du den här får alla i den området med sig. Undantag för en enskild kollega anges under Användare.",
+            "newRole": "Ny roll",
+            "namePlaceholder": "Rollens namn",
+            "locked": "Kan inte ändras",
+            "lockedHint": "Superadmin har all åtkomst. Rollen kan inte redigeras, eftersom det är den som kan ändra de andra.",
+            "members": "{count} kollegor",
+            "loading": "Hämtar roller",
+            "saved": "Åtkomsten har sparats",
+            "person": {
+                "role": "Roll",
+                "roleHint": "Paketet med områden som kollegan får. Använd tillval och frånval nedan vid undantag.",
+                "extra": "Extra åtkomst utöver rollen",
+                "revoked": "Borttagen, trots att rollen ger den",
+                "fromRole": "från rollen",
+                "none": "Ingen roll"
+            }
+        },
+        "supportAccess": {
+            "pageTitle": "Åtkomst hos kunder",
+            "header": "Åtkomst hos kunder",
+            "subtitle": "Förfrågningar om att få gå in på en kunds konto. Kunden svarar, och ett ja gäller i fyra timmar. Svarar de inte inom tolv timmar upphör förfrågan.",
+            "loading": "Hämtar förfrågningar",
+            "empty": "Du har inte bett om åtkomst till något konto.",
+            "status": {
+                "pending": "Väntar på svar",
+                "approved": "Godkänd",
+                "denied": "Avslagen",
+                "revoked": "Tillbakadragen",
+                "expired": "Utgången"
+            },
+            "table": {
+                "status": "Status",
+                "account": "Konto",
+                "company": "Företag",
+                "reason": "Motivering",
+                "deadline": "Tidsfrist",
+                "accessUntil": "Åtkomst till",
+                "answerBefore": "Svara före"
+            },
+            "dialog": {
+                "heading": "Be kunden om åtkomst",
+                "intro": "Kunden har inte godkänt åtkomst till {name}. De får ett mejl och kan svara direkt.",
+                "reason": "Motivering",
+                "reasonPlaceholder": "Vad ska du undersöka, och varför krävs åtkomst till det här kontot?",
+                "reasonHint": "Kunden läser den ordagrant. Minst 10 tecken.",
+                "caseReference": "Ärendenummer",
+                "caseReferencePlaceholder": "Valfritt",
+                "send": "Skicka förfrågan",
+                "terms": "Svarar kunden ja gäller åtkomsten i fyra timmar och stängs sedan av sig själv. De kan dra tillbaka den under tiden, och allt som händer står i deras logg."
+            },
+            "alert": {
+                "requested": "Förfrågan har skickats till kunden"
+            }
         }
     },
     "support": {
@@ -18975,5 +19039,37 @@
         "importFailed": "Ett fel uppstod vid importen.",
         "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
         "deleteFailed": "Ett fel uppstod vid raderingen."
+    },
+    "supportAccess": {
+        "title": "CitizenOnes åtkomst",
+        "intro": "Här godkänner ni när CitizenOne ber om att få gå in på en av era användares konton. Ingen kommer in utan ett ja från er. Ett ja gäller i fyra timmar och stängs sedan av sig självt, ni kan dra tillbaka det under tiden, och längst ned står varje gång någon har varit inne.",
+        "pending": {
+            "heading": "Väntar på ert svar",
+            "empty": "Det finns inga förfrågningar just nu.",
+            "wantsAccessTo": "Ber om åtkomst till {name}s konto",
+            "answerBefore": "Svara före",
+            "approve": "Godkänn",
+            "deny": "Avslå"
+        },
+        "active": {
+            "heading": "Åtkomst just nu",
+            "until": "Är inne på {name}s konto till {time}",
+            "revoke": "Dra tillbaka åtkomsten"
+        },
+        "history": {
+            "heading": "Vem har varit inne",
+            "when": "Tidpunkt",
+            "who": "Från CitizenOne",
+            "account": "Konto",
+            "basis": "Grund",
+            "reason": "Motivering",
+            "approved": "Godkänt av er",
+            "breakGlass": "Utan godkännande"
+        },
+        "alert": {
+            "approved": "Åtkomsten är godkänd",
+            "denied": "Förfrågan har avslagits",
+            "revoked": "Åtkomsten har dragits tillbaka"
+        }
     }
 }

@@ -317,7 +317,10 @@ async function fetchOneDriveQuota() {
     const userId = userStore.getUser?.id || localStorage.getItem('user_id')
     if (!token || !userId) return
     try {
-        const response: any = await $fetch('/api/user/onedrive/storage-quota', {
+        const response: any = await $fetch('/user/onedrive/storage-quota', {
+            // The API's own address, like every other call: a bare '/api/...' only reaches it when the web
+            // app happens to be served from the same origin.
+            baseURL: runtimeConfig.public.apiBaseURL,
             method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,

@@ -202,4 +202,10 @@ async function fetchFunnel() {
 }
 
 onMounted(fetchFunnel)
+
+// On a cold load the user (and with it the permission) arrives after this page has mounted, so the fetch
+// above found "no access" and skipped, leaving "no signups". Fetch once the permission is there.
+watch(canView, (allowed, wasAllowed) => {
+    if (allowed && !wasAllowed) fetchFunnel()
+})
 </script>

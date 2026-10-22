@@ -61,6 +61,7 @@ import { journalService } from '@/components/api/user/JournalService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
@@ -90,7 +91,9 @@ const state = reactive({
     employees: { data: [] } as any,
 })
 
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!isAtLeast('Admin')) {
         navigateTo('/reports')
         return

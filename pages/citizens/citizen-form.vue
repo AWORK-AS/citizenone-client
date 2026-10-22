@@ -524,6 +524,7 @@ import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+import { whenUserLoaded } from '@/composables/userLoaded'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
@@ -610,7 +611,9 @@ function isFieldVisible(fieldKey: string): boolean {
     return state.citizenFormConfig[state.activeFormType][fieldKey] !== false
 }
 
-onMounted(() => {
+onMounted(async () => {
+    await whenUserLoaded()
+
     if (!isAtLeast('Admin') && !can('update_form_field_config')) {
         navigateTo('/citizens')
         return
