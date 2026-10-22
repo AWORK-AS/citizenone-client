@@ -3305,6 +3305,7 @@
                 "weekly": "Veckovis"
             },
             "synchronizeWithFMK": "Synkronisera med FMK",
+            "openFmkOnline": "Öppna FMK-online",
             "table": {
                 "actions": {
                     "activate": "Aktiver",
