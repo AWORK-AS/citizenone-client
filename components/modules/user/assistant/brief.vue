@@ -6,7 +6,7 @@
         <h2 id="cody-brief-heading"
             class="mb-2 flex items-center gap-1.5 px-0.5 text-xs font-semibold uppercase tracking-wide text-gray-500">
             {{ $t('myDay.brief.heading') }}
-            <span class="rounded-full bg-primary px-1.5 text-[11px] font-bold tabular-nums text-white">
+            <span class="rounded-full bg-ai-ink px-1.5 text-[11px] font-bold tabular-nums text-white">
                 {{ assistantStore.waitingCount }}
             </span>
         </h2>

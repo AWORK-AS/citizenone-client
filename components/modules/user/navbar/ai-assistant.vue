@@ -2,7 +2,7 @@
     <div>
         <Tooltip :text="shortcutHint" position="bottom">
         <!-- Held to the top bar's 36px, so the controls beside the company
-             name read as one row. It keeps its blue outline: it is the one
+             name read as one row. It wears the AI teal: it is the one
              control there that is an action rather than a setting. -->
         <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-3 !h-9 !py-0"
             :aria-expanded="assistantStore.isOpen"
@@ -18,7 +18,7 @@
                 {{ $t('assistants.identity.name') }}
             </p>
             <span v-if="waiting > 0"
-                class="ml-0.5 inline-flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-primary px-1.5 text-[11.5px] font-bold tabular-nums text-white">
+                class="ml-0.5 inline-flex h-[19px] min-w-[19px] items-center justify-center rounded-full bg-ai-ink px-1.5 text-[11.5px] font-bold tabular-nums text-white">
                 {{ waiting > 9 ? '9+' : waiting }}
             </span>
         </FormButton>
