@@ -20,6 +20,7 @@
                     </button>
                 </div>
             </div>
+            <ModulesUserCitizenNursingAreasActiveProblems :citizenUuid="citizenUuid" />
             <div class="grid grid-cols-12 gap-6 relative">
                 <div :class="[
                     ['citizens-uuid-medicine-journals', 'citizens-uuid-journals'].includes($route.name as any) ? 'col-span-12 lg:col-span-9' : 'col-span-12',

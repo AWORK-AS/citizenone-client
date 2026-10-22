@@ -54,6 +54,17 @@
                             <span class="text-gray-400">({{ formatDateToReadable(area.status.date) }})</span>
                         </p>
 
+                        <div v-if="area.open_goals?.length" class="mt-2">
+                            <p class="text-xs font-medium text-gray-900">
+                                {{ $t('citizens.nursingAreas.areaOverview.openGoals') }} ({{ area.open_goals.length }})
+                            </p>
+                            <ul v-if="isExpanded(area.area)" class="mt-1 space-y-0.5">
+                                <li v-for="goal in area.open_goals" :key="goal.uuid" class="text-xs text-gray-700">
+                                    {{ goal.title }}<span v-if="goal.completion_date" class="text-gray-400"> · {{ formatDateToReadable(goal.completion_date) }}</span>
+                                </li>
+                            </ul>
+                        </div>
+
                         <div v-if="area.open_treatments.length" class="mt-2">
                             <p class="text-xs font-medium text-primary">
                                 {{ $t('citizens.nursingAreas.areaOverview.openTreatments', { count: area.open_treatments.length }, area.open_treatments.length) }}
@@ -66,6 +77,16 @@
                         </div>
                     </template>
                     <p v-else class="text-xs text-gray-400 mt-2">{{ $t('citizens.nursingAreas.areaOverview.empty') }}</p>
+
+                    <!-- Plain-language guide: most staff are not health professionals. -->
+                    <div v-if="isExpanded(area.area)" class="mt-3 rounded-md bg-primary/5 px-3 py-2 text-xs text-gray-700 space-y-1">
+                        <p><span class="font-medium">{{ $t('citizens.nursingAreas.areaOverview.covers') }}:</span>
+                            {{ $t(`citizens.nursingAreas.areaOverview.guide.${area.area}.covers`) }}</p>
+                        <p><span class="font-medium">{{ $t('citizens.nursingAreas.areaOverview.watch') }}:</span>
+                            {{ $t(`citizens.nursingAreas.areaOverview.guide.${area.area}.watch`) }}</p>
+                        <p class="text-gray-500">{{ $t('citizens.nursingAreas.areaOverview.disclaimer') }}</p>
+                    </div>
+                    <p v-else class="text-xxs text-primary mt-2">{{ $t('citizens.nursingAreas.areaOverview.showGuide') }}</p>
                 </button>
             </li>
         </ul>
@@ -97,7 +118,7 @@ const state = reactive({
 const visibleAreas = computed(() => state.onlyActive ? state.areas.filter(hasContent) : state.areas)
 
 function hasContent(area: any): boolean {
-    return !!(area.assessment || area.status || area.open_treatments?.length)
+    return !!(area.assessment || area.status || area.open_treatments?.length || area.open_goals?.length)
 }
 
 function isExpanded(key: string): boolean {
