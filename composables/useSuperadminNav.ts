@@ -42,6 +42,7 @@ export const superadminNav: SuperadminNavGroups = {
         { name: 'Invoices', label: 'superadmin.sidebar.invoices', href: '/superadmin/invoices', icon: 'ph:invoice', permission: 'view_financials', routes: ['superadmin-invoices', 'superadmin-invoices-invoice_uuid'] },
         { name: 'Orders', label: 'superadmin.sidebar.orders', href: '/superadmin/orders', icon: 'ph:database', permission: 'view_financials', routes: ['superadmin-orders'] },
         { name: 'PaymentFees', label: 'superadmin.sidebar.paymentFees', href: '/superadmin/payment-fees', icon: 'ph:percent', permission: 'view_financials', routes: ['superadmin-payment-fees'] },
+        { name: 'Referrals', label: 'superadmin.sidebar.referrals', href: '/superadmin/referrals', icon: 'ph:gift', permission: 'view_financials', routes: ['superadmin-referrals'] },
     ],
     platform: [
         { name: 'Apps', label: 'superadmin.sidebar.apps', href: '/superadmin/apps', icon: 'ic:baseline-apps', permission: 'view_apps', routes: ['superadmin-apps', 'superadmin-apps-new', 'superadmin-apps-appUuid-edit'] },

@@ -99,6 +99,42 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Whether they may be contacted at all, and why they are inactive.
+                         "Må ikke kontaktes" keeps them out of the match, invitations and
+                         reactivation. Only shown when the backend reports it. -->
+                    <div v-if="state.hasContactStatus" class="mt-5 border-t border-surface-100 pt-4">
+                        <div class="mb-3 flex flex-wrap items-center gap-2">
+                            <p class="text-sm font-semibold text-gray-900">
+                                {{ $t('consultantProfile.contact.title') }}
+                            </p>
+                            <span v-if="state.contactStatus" class="rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
+                                :class="contactStatusClass(state.contactStatus)">
+                                {{ $t('consultantProfile.contact.statuses.' + state.contactStatus) }}
+                            </span>
+                        </div>
+                        <div class="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2 lg:grid-cols-3">
+                            <div class="flex items-end">
+                                <div class="flex w-fit cursor-pointer items-center gap-2 pb-2.5"
+                                    @click="state.form.do_not_contact = !state.form.do_not_contact">
+                                    <FormCheckbox :value="!!state.form.do_not_contact" />
+                                    <span class="text-sm">{{ $t('consultantProfile.contact.doNotContact') }}</span>
+                                </div>
+                            </div>
+                            <div>
+                                <FormLabel for="status-reason" :label="$t('consultantProfile.contact.reason')" />
+                                <FormSelect id="status-reason" v-model="state.form.status_reason" :options="reasonOptions"
+                                    :searchable="false" />
+                            </div>
+                            <div>
+                                <FormLabel for="status-reason-note" :label="$t('consultantProfile.contact.note')" />
+                                <FormTextField id="status-reason-note" name="status-reason-note"
+                                    v-model="state.form.status_reason_note" :maxLength="255" />
+                            </div>
+                        </div>
+                        <p class="mt-2 text-xs text-gray-400">{{ $t('consultantProfile.contact.hint') }}</p>
+                    </div>
+
                     <div class="mt-4 flex justify-end">
                         <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving"
                             @click="saveProfile">
@@ -237,6 +273,9 @@ const state = reactive({
     documents: [] as any[],
     isReady: true,
     isSaving: false,
+    // Set when the backend reports the contact status; an older one does not.
+    hasContactStatus: false,
+    contactStatus: null as string | null,
     isSavingSkills: false,
     municipalities: [] as any[],
     name: '',
@@ -251,6 +290,9 @@ const state = reactive({
         step_assessment: null as number | null,
         desired_weekly_hours: '',
         onboarding_status: null as string | null,
+        do_not_contact: false,
+        status_reason: null as string | null,
+        status_reason_note: '',
     },
 })
 
@@ -265,6 +307,10 @@ const regionOptions = computed(() =>
 const statusOptions = computed(() =>
     ['available', 'partially_available', 'unavailable', 'inactive']
         .map((value) => ({ value, label: t('consultantProfile.statuses.' + value) }))
+)
+const reasonOptions = computed(() =>
+    ['resigned', 'paused', 'absent', 'do_not_contact', 'cannot_contact', 'other']
+        .map((value) => ({ value, label: t('consultantProfile.contact.reasons.' + value) }))
 )
 const onboardingOptions = computed(() =>
     ['not_started', 'in_progress', 'completed']
@@ -331,6 +377,14 @@ function isExpiringSoon(date: any) {
     return new Date(date) <= limit
 }
 
+function contactStatusClass(status: string) {
+    if (status === 'active') return 'bg-[#e6f6ee] text-[#177a53]'
+    if (status === 'do_not_contact') return 'bg-[#fbe9e5] text-[#c0442c]'
+    if (status === 'terminated') return 'bg-slate-200 text-slate-700'
+
+    return 'bg-surface-100 text-slate-600'
+}
+
 function findingText(finding: any) {
     if (finding.code === 'skill_expired') {
         return t('consultantProfile.findings.skill_expired', { skill: finding.skill, date: finding.expires_at })
@@ -372,6 +426,8 @@ function applyProfile(data: any) {
     }))
 
     const profile = data.profile ?? {}
+    state.hasContactStatus = profile.do_not_contact !== undefined
+    state.contactStatus = data.contact_status ?? null
     state.form = {
         municipality_uuid: profile.municipality_uuid ?? null,
         region_uuid: profile.region_uuid ?? null,
@@ -381,6 +437,9 @@ function applyProfile(data: any) {
         step_assessment: profile.step_assessment ?? null,
         desired_weekly_hours: profile.desired_weekly_hours === null || profile.desired_weekly_hours === undefined ? '' : String(profile.desired_weekly_hours),
         onboarding_status: profile.onboarding_status ?? null,
+        do_not_contact: !!profile.do_not_contact,
+        status_reason: profile.status_reason ?? null,
+        status_reason_note: profile.status_reason_note ?? '',
     }
 }
 
@@ -411,6 +470,12 @@ async function saveProfile() {
             step_assessment: state.form.step_assessment,
             desired_weekly_hours: state.form.desired_weekly_hours === '' ? null : Number(state.form.desired_weekly_hours),
             onboarding_status: state.form.onboarding_status,
+            // Only to a backend that knows them; an empty reason or note clears it.
+            ...(state.hasContactStatus ? {
+                do_not_contact: !!state.form.do_not_contact,
+                status_reason: state.form.status_reason || null,
+                status_reason_note: state.form.status_reason_note?.trim() || null,
+            } : {}),
         })
         if (response?.data) applyProfile(response.data)
         successAlert(`${t('alert.success')}!`, `${t('consultantProfile.alert.saved')}.`)

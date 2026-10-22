@@ -45,6 +45,11 @@ class MyCalendarService extends BaseAPIService {
         return await this.request(`/user/my-calendars/${scheduleUuid}/journal`, 'POST', params)
     }
 
+    // The case, responsible person and status shown above a note written from the booking.
+    async getNoteContext(scheduleUuid: string): Promise<any> {
+        return await this.request(`/user/my-calendars/${scheduleUuid}/note-context`, 'GET')
+    }
+
     async getCompletionStatistics(params: object): Promise<any> {
         return await this.request(`/user/my-calendars/completion/statistics`, 'GET', params)
     }

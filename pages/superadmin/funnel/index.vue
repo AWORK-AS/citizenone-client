@@ -114,6 +114,85 @@
                         </div>
 
                         <p class="mt-3 text-[12px] text-[#8891A4] max-w-3xl">{{ $t('superadmin.funnel.footnote') }}</p>
+
+                        <!-- Growth loops: "suggest to my manager" and shared links, per period. -->
+                        <section v-if="state.loops" class="mt-8" data-testid="funnel-growth-loops">
+                            <h2 class="text-[17px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.loops.title') }}</h2>
+                            <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.loops.subtitle') }}</p>
+
+                            <div class="mt-4 grid grid-cols-1 gap-5 xl:grid-cols-2">
+                                <div class="bg-white border border-[#EAECF0] rounded-xl p-4" data-testid="funnel-loop-suggestions">
+                                    <div class="flex flex-wrap items-baseline justify-between gap-2">
+                                        <p class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.loops.suggestions.title') }}</p>
+                                        <p class="text-[13px] text-[#5C6478] tabular-nums">
+                                            {{ $t('superadmin.funnel.loops.suggestions.rate', { days: state.loops.suggestions.window_days }) }}:
+                                            <span class="font-semibold text-[#1F2533]">{{ pct(suggestionConversion(state.loops.suggestions.totals)) }}</span>
+                                        </p>
+                                    </div>
+                                    <p class="mt-1 text-[12px] text-[#8891A4]">{{ $t('superadmin.funnel.loops.suggestions.hint', { days: state.loops.suggestions.window_days }) }}</p>
+                                    <div class="mt-3 overflow-x-auto">
+                                        <table class="w-full text-sm">
+                                            <thead class="text-left text-[12px] text-[#5C6478]">
+                                                <tr>
+                                                    <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.loops.period') }}</th>
+                                                    <th v-for="col in SUGGESTION_COLUMNS" :key="col.field" class="py-2 px-2 font-medium text-right">{{ $t(`superadmin.funnel.loops.suggestions.${col.label}`) }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-[#EAECF0]">
+                                                <tr v-if="!suggestionRows.length"><td :colspan="SUGGESTION_COLUMNS.length + 1" class="py-4 text-center text-[#8891A4]">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
+                                                <tr v-for="row in suggestionRows" :key="row.key">
+                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ row.key }}</td>
+                                                    <td v-for="col in SUGGESTION_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ row[col.field] }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot class="font-semibold">
+                                                <tr>
+                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
+                                                    <td v-for="col in SUGGESTION_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ state.loops.suggestions.totals[col.field] }}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="bg-white border border-[#EAECF0] rounded-xl p-4" data-testid="funnel-loop-referrals">
+                                    <div class="flex flex-wrap items-baseline justify-between gap-2">
+                                        <p class="text-[14px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.loops.referrals.title') }}</p>
+                                        <p class="text-[13px] text-[#5C6478] tabular-nums">
+                                            {{ $t('superadmin.funnel.loops.referrals.rate') }}:
+                                            <span class="font-semibold text-[#1F2533]">{{ pct(referralPaidRate(state.loops.referrals.totals)) }}</span>
+                                            <template v-if="state.loops.referrals.totals.median_days_to_paid != null">
+                                                · {{ $t('superadmin.funnel.loops.referrals.medianDays', { days: state.loops.referrals.totals.median_days_to_paid }) }}
+                                            </template>
+                                        </p>
+                                    </div>
+                                    <p class="mt-1 text-[12px] text-[#8891A4]">{{ $t('superadmin.funnel.loops.referrals.hint') }}</p>
+                                    <div class="mt-3 overflow-x-auto">
+                                        <table class="w-full text-sm">
+                                            <thead class="text-left text-[12px] text-[#5C6478]">
+                                                <tr>
+                                                    <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.loops.period') }}</th>
+                                                    <th v-for="col in REFERRAL_COLUMNS" :key="col.field" class="py-2 px-2 font-medium text-right">{{ $t(`superadmin.funnel.loops.referrals.${col.label}`) }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody class="divide-y divide-[#EAECF0]">
+                                                <tr v-if="!referralRows.length"><td :colspan="REFERRAL_COLUMNS.length + 1" class="py-4 text-center text-[#8891A4]">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
+                                                <tr v-for="row in referralRows" :key="row.key">
+                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ row.key }}</td>
+                                                    <td v-for="col in REFERRAL_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ row[col.field] }}</td>
+                                                </tr>
+                                            </tbody>
+                                            <tfoot class="font-semibold">
+                                                <tr>
+                                                    <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
+                                                    <td v-for="col in REFERRAL_COLUMNS" :key="col.field" class="py-2 px-2 text-right tabular-nums">{{ state.loops.referrals.totals[col.field] }}</td>
+                                                </tr>
+                                            </tfoot>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </LoadingSpinner>
                 </template>
             </div>
@@ -129,7 +208,7 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
 import { usePermissions } from '@/composables/usePermissions'
-import { FUNNEL_STAGES, biggestDrop, isSmallSample, shareOfSignups, stepRate, type FunnelRow } from '@/composables/growthFunnel'
+import { FUNNEL_STAGES, activeBuckets, biggestDrop, isSmallSample, referralPaidRate, shareOfSignups, stepRate, suggestionConversion, type FunnelRow } from '@/composables/growthFunnel'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -145,9 +224,26 @@ const state = reactive({
     activePreset: 'lastTwelveMonths' as string | null,
     channels: [] as FunnelRow[],
     totals: null as FunnelRow | null,
+    loops: null as any,
     isLoading: false,
     error: {} as Error,
 })
+
+const SUGGESTION_COLUMNS = [
+    { field: 'sends', label: 'sends' },
+    { field: 'recipients', label: 'recipients' },
+    { field: 'suggested_apps', label: 'apps' },
+    { field: 'converted', label: 'converted' },
+    { field: 'open', label: 'open' },
+] as const
+const REFERRAL_COLUMNS = [
+    { field: 'shares', label: 'shares' },
+    { field: 'signed_up', label: 'signedUp' },
+    { field: 'paid', label: 'paid' },
+] as const
+
+const suggestionRows = computed(() => activeBuckets(state.loops?.suggestions?.buckets, ['sends', 'suggested_apps', 'converted']))
+const referralRows = computed(() => activeBuckets(state.loops?.referrals?.buckets, ['shares', 'signed_up', 'paid']))
 
 function pct(value: number | null): string {
     return value === null ? '-' : `${value}%`
@@ -195,6 +291,8 @@ async function fetchFunnel() {
         const response = await analyticsService.getFunnel({ from: state.from, to: state.to })
         state.channels = response?.channels ?? []
         state.totals = response?.totals ?? null
+        // An older backend has no growth_loops; the section then stays hidden.
+        state.loops = response?.growth_loops ?? null
     } catch (error: any) {
         state.error = error
     }

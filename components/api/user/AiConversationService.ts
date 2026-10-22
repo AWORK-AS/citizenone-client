@@ -16,6 +16,10 @@ class AiConversationService extends BaseAPIService {
     async updateConversationTitle(uuid: any, params: object): Promise<any> {
         return await this.request(`/user/own-chatgpt/conversations/${uuid}`, 'PUT', params)
     }
+
+    async rateMessage(uuid: string, params: { rating: 'up' | 'down' | null, reason?: string | null }): Promise<any> {
+        return await this.request(`/user/own-chatgpt/conversations/messages/${uuid}/feedback`, 'PUT', params)
+    }
 }
 
 export const aiConversationService = new AiConversationService()

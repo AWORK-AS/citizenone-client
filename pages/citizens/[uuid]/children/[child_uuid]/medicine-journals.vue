@@ -192,8 +192,8 @@
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                             v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                            <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                            <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.openFmkOnline') }}
                         </FormButton>
                         <!-- <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
                             <Icon name="ph:drop" class="h-4 w-4" />

@@ -531,6 +531,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import moment from 'moment'
 import { salaryDkService } from '@/components/api/user/SalaryDkService'
 import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
@@ -1102,7 +1103,7 @@ async function fetchAndBuildShiftTypes() {
         state.syncStep = 'assign-rates'
         state.assignRatesAttempted = false
     } catch (e: any) {
-        errorAlert(t('alert.error'), e?.message || 'Failed to load schedule data')
+        errorAlert(t('alert.error'), e?.message || translateMessage('apiErrors.loadScheduleFailed', 'Failed to load schedule data'))
     } finally {
         state.isSyncing = false
     }
@@ -1353,7 +1354,7 @@ async function executeSync() {
                 for (const err of errors) {
                     const empId = err.registration?.employeeID || 'unknown'
                     if (!errorsByEmployee.has(empId)) errorsByEmployee.set(empId, [])
-                    errorsByEmployee.get(empId)!.push(err.error || err.message || 'Unknown error')
+                    errorsByEmployee.get(empId)!.push(err.error || err.message || translateMessage('apiErrors.unknownError', 'Unknown error'))
                 }
 
                 for (const [empId, { name, regs }] of hoursByEmployee) {
@@ -1507,7 +1508,7 @@ watch(() => props.isModalOpen, async (isOpen: boolean) => {
             .every(e => e.selected)
 
     } catch (e: any) {
-        errorAlert(t('alert.error'), e?.message || 'Failed to load Salary.dk data')
+        errorAlert(t('alert.error'), e?.message || translateMessage('apiErrors.loadSalaryDkFailed', 'Failed to load Salary.dk data'))
     } finally {
         state.isLoadingModalData = false
     }
