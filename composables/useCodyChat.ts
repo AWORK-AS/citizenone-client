@@ -1,4 +1,6 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
+import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedback'
+import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { generalSearchService } from '@/components/api/user/GeneralSearchService'
@@ -81,11 +83,8 @@ export interface CodyMessage {
     feedbackGiven?: boolean
 }
 
-export type AnswerRating = 'up' | 'down' | null
-
-export const ANSWER_FEEDBACK_REASONS = ['wrong', 'incomplete', 'not_helpful', 'other'] as const
-
-export type AnswerFeedbackReason = typeof ANSWER_FEEDBACK_REASONS[number]
+export { ANSWER_FEEDBACK_REASONS }
+export type { AnswerRating, AnswerFeedbackReason }
 
 export type CodyChat = ReturnType<typeof createCodyChat>
 
@@ -805,14 +804,11 @@ export function createCodyChat() {
         if (!message.uuid) return
 
         const previous = { feedback: message.feedback ?? null, feedbackReason: message.feedbackReason ?? null }
-        const next = rating !== null && rating === previous.feedback && reason === null ? null : rating
 
-        message.feedback = next
-        message.feedbackReason = next === 'down' ? reason : null
-        message.feedbackGiven = next !== null
+        Object.assign(message, nextFeedback(previous.feedback, rating, reason))
 
         try {
-            await aiConversationService.rateMessage(message.uuid, { rating: next, reason: message.feedbackReason })
+            await aiConversationService.rateMessage(message.uuid, { rating: message.feedback ?? null, reason: message.feedbackReason ?? null })
         } catch {
             message.feedback = previous.feedback
             message.feedbackReason = previous.feedbackReason
