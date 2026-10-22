@@ -36,6 +36,7 @@
 
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
+                <ModulesUserCitizenJournalPendingSurveysWarning ref="pendingSurveysWarning" :citizenUuid="String(citizenUuid)" />
 
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <div class="mt-8 space-y-5">
@@ -155,7 +156,8 @@
             <ModulesUserCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
                 @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
             <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
-                @close="state.modal.isAddJournalOpen = false" @refreshJournal="fetchJournals" />
+                @close="state.modal.isAddJournalOpen = false"
+                @refreshJournal="() => { fetchJournals(); pendingSurveysWarning?.refresh() }" />
             <ModulesUserCitizenJournalModalEdit :isModalOpen="state.modal.isEditJournalOpen"
                 :selectedJournal="state.selectedJournal" :readonly="state.selectedJournalReadonly"
                 @close="closeEditJournalModal" @refreshJournal="fetchJournals" />
@@ -201,6 +203,8 @@ const { term } = useTerminology()
 const router = useRouter()
 const citizenJournalStore = useCitizenJournalStore()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+// Answering the questionnaire inside a new note clears the warning.
+const pendingSurveysWarning = ref<any>(null)
 let currentTablePage = 1
 
 const breadcrumbLinks = computed(() => [

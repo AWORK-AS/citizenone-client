@@ -32,7 +32,7 @@
                             </div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-                            <FormButton type="button" buttonStyle="cancel" @click="navigateTo('/patient/surveys')">
+                            <FormButton type="button" buttonStyle="cancel" @click="navigateTo(backTo)">
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton type="button" buttonStyle="primary" :disabled="state.isSubmitting"
@@ -58,6 +58,8 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const router = useRouter()
 const assignmentUuid = router?.currentRoute?.value?.params?.assignment_uuid as string
+// A questionnaire sent by a prescription renewal request is opened from Prescriptions, and goes back there.
+const backTo = router?.currentRoute?.value?.query?.from === 'prescriptions' ? '/patient/prescriptions' : '/patient/surveys'
 const surveyFill = ref()
 
 const state = reactive({ error: {} as Error, isLoading: false, isSubmitting: false, survey: null as any, answers: {} as any })
@@ -85,7 +87,7 @@ async function submitSurvey() {
         const response = await patientSurveyService.submitSurvey(assignmentUuid, { answers: state.answers })
         if (response?.data) {
             successAlert(`${t('alert.success')}!`, `${t('surveys.citizen.returned')}.`)
-            navigateTo('/patient/surveys')
+            navigateTo(backTo)
         }
     } catch (error: any) { state.error = error }
     state.isSubmitting = false

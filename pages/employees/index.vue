@@ -119,7 +119,7 @@
                         </button>
                     </div>
                     <div class="table-responsive">
-                        <Table :key="state.tableKey" :columnHeaders="state.columnHeaders" :data="state.employees"
+                        <Table :key="state.tableKey" :columnHeaders="columnHeaders" :data="state.employees"
                             :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort"
                             :selection="canBulkEdit" rowKey="uuid" @selection-change="onSelectionChange">
                             <template #body="{ selectedRows, handleRowSelect }"
@@ -168,6 +168,12 @@
                                                 <template v-else>{{ role?.name }}</template>
                                             </span>
                                         </div>
+                                    </td>
+                                    <td width="10%" v-if="canSeeLastActive">
+                                        <span class="whitespace-nowrap"
+                                            :title="employee?.last_seen_at ? formatLongDate(employee.last_seen_at, locale) : undefined">
+                                            {{ employee?.last_seen_at ? formatRelativeFromNow(employee.last_seen_at, locale) : $t('inactiveEmployees.never') }}
+                                        </span>
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end gap-2">
@@ -261,6 +267,7 @@ import { useEmployeeStore } from '@/store/employee'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { formatLongDate, formatRelativeFromNow } from '@/composables/inactiveEmployees'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
@@ -271,7 +278,8 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
 const { isAtLeast, seesHrData } = usePermissions()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const route = useRoute()
 const breadcrumbLinks = [
     {
         name: 'employees.employees',
@@ -286,6 +294,7 @@ const state = reactive({
         { name: 'employees.table.email', isTranslateName: true, sorter: true, key: 'email' },
         { name: 'employees.table.phone', isTranslateName: true, sorter: true, key: 'phone' },
         { name: 'employees.table.role', isTranslateName: true, },
+        { name: 'inactiveEmployees.columnHeader', isTranslateName: true, key: 'last_seen_at' },
         { name: '' },
     ],
     dataFilter: {
@@ -314,6 +323,12 @@ const state = reactive({
 
 // Same bar as editing a single employee's role and groups on the card.
 const canBulkEdit = computed(() => isAtLeast('Admin'))
+// When someone last used CitizenOne is for admins only: the server leaves it out for everyone else,
+// so the column would say "Never" for every colleague.
+const canSeeLastActive = computed(() => isAtLeast('Admin'))
+const columnHeaders = computed(() => canSeeLastActive.value
+    ? state.columnHeaders
+    : state.columnHeaders.filter((header: any) => header.key !== 'last_seen_at'))
 
 function onSelectionChange(rows: any[]) {
     state.selectedEmployees = [...rows]
@@ -340,7 +355,19 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 onMounted(() => {
+    // A link such as the bell notification opens the list already filtered: /employees?inactive=1
+    if (route.query.inactive === '1') {
+        state.propertyFilter = { ...state.propertyFilter, inactive: '1' }
+        employeeStore.setCurrentPageNumber(1)
+    }
     fetchEmployees()
+})
+
+// The same link followed while this page is already open.
+watch(() => route.query.inactive, (value: any) => {
+    if (value === '1' && state.propertyFilter.inactive !== '1') {
+        applyFilter({ ...state.propertyFilter, inactive: '1' })
+    }
 })
 
 
@@ -413,12 +440,18 @@ const activeFilterChips = computed(() => {
         is_active: t('employees.filters.state'),
         role: t('employees.form.role'),
         spoken_language: t('citizens.filters.spokenLanguage'),
+        inactive: t('inactiveEmployees.filter'),
     }
 
     return Object.keys(activeFilterParams.value).map((key) => ({ key, label: labels[key] ?? key }))
 })
 
 function applyFilter(filter: Record<string, any>) {
+    // Clearing the filter also clears it from the address, so a reload does not bring it back.
+    if (route.query.inactive && filter.inactive !== '1') {
+        const { inactive, ...query } = route.query
+        navigateTo({ path: route.path, query }, { replace: true })
+    }
     state.propertyFilter = { ...filter }
     employeeStore.setCurrentPageNumber(1)
     fetchEmployees()

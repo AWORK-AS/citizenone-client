@@ -24,6 +24,70 @@
         "terms5": "Anbefal os kun til nogen, du tror, får glæde af det. Der er ingen forpligtelse, og den virksomhed, du anbefaler, bestemmer selv.",
         "registerNote": "Når I har betalt jeres første faktura, får I en gratis måned."
     },
+    "bookableTreatments": {
+        "title": "Bookbare behandlinger",
+        "intro": "Behandlinger er det, patienterne booker i patientportalen og appen, fx en konsultation på 30 minutter. Opret en behandling, vælg behandleren, og tilføj de tider, der kan bookes.",
+        "new": "Ny behandling",
+        "edit": "Rediger behandling",
+        "created": "Behandlingen er oprettet. Tilføj nu de tider, den kan bookes.",
+        "updated": "Behandlingen er opdateret.",
+        "deleted": "Behandlingen er slettet.",
+        "deleteConfirm": "Slet behandlingen \"{name}\" og dens tider? En behandling, der er blevet booket, kan ikke slettes; slå online booking fra i stedet.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "fx Konsultation, 30 min.",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Hvad patienten kan forvente (valgfri)",
+            "clinician": "Behandler",
+            "clinicianHint": "Bookingen lander i denne persons kalender.",
+            "department": "Afdeling",
+            "departmentAll": "Alle behandlerens afdelinger",
+            "departmentHint": "Kun patienter i denne afdeling kan booke den.",
+            "price": "Pris (kr.)",
+            "onlineBooking": "Online booking",
+            "onlineBookingHint": "Patienterne kan booke den i portalen og appen.",
+            "video": "Videokonsultation",
+            "videoHint": "Aftalen holdes som videoopkald."
+        },
+        "table": {
+            "name": "Navn",
+            "clinician": "Behandler",
+            "department": "Afdeling",
+            "price": "Pris",
+            "onlineBooking": "Online booking",
+            "upcoming": "Bookbare tider",
+            "online": "Til",
+            "offline": "Fra",
+            "free": "Gratis",
+            "noTimes": "Ingen tider endnu",
+            "upcomingCount": "{count} tid | {count} tider",
+            "times": "Tider"
+        },
+        "times": {
+            "title": "Tider for {name}",
+            "add": "Tilføj tider",
+            "from": "Fra",
+            "to": "Til",
+            "weekdays": "På disse dage",
+            "weekdaysHint": "Tiderne nedenfor tilføjes på hver valgt dag mellem de to datoer. Tider, der allerede findes, bliver ikke ændret.",
+            "start": "Start",
+            "end": "Slut",
+            "seats": "Pladser",
+            "addRow": "Tilføj endnu en tid",
+            "removeRow": "Fjern denne tid",
+            "create": "Tilføj tider",
+            "created": "Ingen nye tider blev tilføjet | 1 tid tilføjet | {count} tider tilføjet",
+            "upcoming": "Kommende tider ({count})",
+            "none": "Ingen kommende tider. Patienterne kan ikke booke behandlingen, før du tilføjer nogle.",
+            "booked": "{count} booket | {count} booket",
+            "seatsLeft": "{count} pladser tilbage | {count} plads tilbage | {count} pladser tilbage",
+            "delete": "Slet tid",
+            "cannotDelete": "Nogen har booket denne tid, så den kan ikke slettes",
+            "clear": "Slet alle ubookede tider",
+            "clearConfirm": "Slet alle kommende tider, som ingen har booket? Bookede tider beholdes.",
+            "cleared": "Ubookede tider er slettet."
+        }
+    },
     "journalDraft": {
         "offer": "Du har et notat, der ikke blev gemt (kl. {time}).",
         "restore": "Gendan",
@@ -193,7 +257,61 @@
         "Management & Economy": "Ledelse & økonomi",
         "Billing": "Fakturering",
         "Revenue report": "Omsætningsrapport",
-        "Findsocialetilbud": "FindSocialeTilbud.dk"
+        "Findsocialetilbud": "FindSocialeTilbud.dk",
+        "Messages": "Beskeder",
+        "Reminders": "Påmindelser",
+        "Bullet Board": "Opslagstavle",
+        "Forms": "Formularer",
+        "Tasks": "Opgaver",
+        "AI assistant": "AI-assistent",
+        "Staff workload": "Medarbejderbelastning"
+    },
+    "companyModulesCard": {
+        "title": "Moduler",
+        "description": "Vælg hvilke moduler virksomheden bruger. Et modul der er slået fra, skjules for alle i virksomheden, både på web og i appen.",
+        "onlyHides": "Når et modul slås fra, skjules det kun i menuen. Ingen data slettes, og du kan slå det til igen når som helst.",
+        "useRecommended": "Brug anbefalet opsætning for min branche",
+        "recommendedFor": "Den anbefalede opsætning er de moduler, vi foreslår til {industry}. Den udfylder kun knapperne. Intet ændres, før du trykker Gem.",
+        "noRecommendation": "Der er ingen anbefalet opsætning for din branche, så alle moduler forbliver tilgængelige.",
+        "allOn": "Slå alle til",
+        "allOff": "Slå alle fra",
+        "noneWarning": "Alle moduler er slået fra. Kun det grundlæggende, som overblik og klientkort, vises.",
+        "saved": "Moduler opdateret.",
+        "groups": {
+            "clients": "Klienter",
+            "daily": "Dagligt arbejde",
+            "staff": "Personale",
+            "economy": "Økonomi",
+            "other": "Andet"
+        },
+        "help": {
+            "journals": "Journalnotater på hver klient, med AI-hjælp til at skrive dem.",
+            "documents": "Fillager til dokumenter på klienter og virksomheden.",
+            "contacts": "Pårørende og andre kontakter på en klient.",
+            "emails": "Forbind din egen mail og se mails på hver klient.",
+            "medicineCard": "Medicinlister og registrering af udleveret medicin.",
+            "health": "Sundhedsområder og sygeplejefaglige vurderinger.",
+            "plansAndGoals": "Handleplaner med mål og delmål for hver klient.",
+            "wellbeing": "Trivselsmålinger og udvikling over tid.",
+            "reports": "Rapporter skrevet om en klient.",
+            "calendar": "Aftaler, bookinger og online booking fra jeres hjemmeside.",
+            "messages": "Chat med kolleger og med klienter via klientportalen.",
+            "reminders": "Personlige og fælles påmindelser.",
+            "aiAssistant": "AI-assistenten i topbjælken.",
+            "forms": "Byg jeres egne formularer og spørgeskemaer.",
+            "tasks": "Opgavetavler til arbejde, der ikke hører til en klient.",
+            "bulletBoard": "Nyheder og meddelelser til hele virksomheden.",
+            "inquiries": "Pipeline til nye henvendelser og henvisninger.",
+            "findsocialetilbud": "Genvej til FindSocialeTilbud.dk.",
+            "dutySchedule": "Vagtplanlægning for personalet.",
+            "attendance": "Fremmøderegistrering og protokoller.",
+            "employeeGroup": "Grupper af medarbejdere til adgang og planlægning.",
+            "staffWorkload": "Overblik over belastningen for hver medarbejder.",
+            "billing": "Fakturaer for de ydelser I leverer.",
+            "revenueReport": "Overblik over jeres omsætning.",
+            "economy": "Klienters pengekasser og udgifter.",
+            "managementEconomy": "Ledelsesoverblik over virksomhedens økonomi."
+        }
     },
     "discover": {
         "welcome": "Velkommen, {name}",
@@ -1693,6 +1811,7 @@
         },
         "tabs": {
             "bookings": "Bookinger",
+            "treatments": "Behandlinger",
             "events": "Begivenheder",
             "appointments": "Bookede tider"
         },
@@ -2047,6 +2166,10 @@
                 "notifyColleaguesPlaceholder": "Vælg kolleger der skal underrettes",
                 "notifyColleaguesHint": "Valgte kolleger får en notifikation om denne note.",
                 "attachedSurveys": "Spørgeskemaer der skal besvares",
+                "fillPendingSurveys": "Ubesvaret spørgeskema ({count}) - udfyld det her sammen med @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Ubesvaret spørgeskema",
+                "pendingSurveysWarningText": "Mangler at blive udfyldt af @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "Se spørgeskemaer",
                 "linkedSurveys": "Tilknyttede spørgeskemaer",
                 "quickJournalTitles": "Gemte journaltitler",
                 "moreJournalTitles": "+{count} flere"
@@ -9568,6 +9691,12 @@
         "recipients": "Modtagere",
         "recipientsHint": "Vælg hvem du vil skrive til, og skriv din besked.",
         "selectRecipients": "Søg kolleger...",
+        "recipientType": "Modtagertype",
+        "recipientTypeEmployees": "Kolleger",
+        "recipientTypeCitizens": "@.capitalize:terms.citizens{''}",
+        "citizenRecipients": "@.capitalize:terms.citizens{''}",
+        "selectCitizenRecipients": "Søg @:terms.citizens{''}...",
+        "citizenRecipientWarning": "Beskeden sendes til @:terms.citizenDefinite{''}, ikke til en kollega. Tjek, at den ikke indeholder oplysninger, der kun er til kolleger.",
         "subjectOptional": "Emne (valgfrit)",
         "subjectPlaceholder": "Hvad handler det om?",
         "messagePlaceholder": "Skriv din besked...",
@@ -11488,6 +11617,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Modtag notifikationer om ledige vagter, uanset mine andre notifikationsindstillinger",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Magtanvendelse i journalen",
+                "useOfForceInJournalHelp": "Viser \"Rapporter magtanvendelse\" og tidligere magtanvendelse på journalsiden. Slå fra, hvis I ikke arbejder med magtanvendelse.",
                 "sundayShiftCalculation": "Aktivér søndagsvagtberegning",
                 "remove": "Fjern firmalogo",
                 "street": "Gade",
@@ -11578,8 +11709,10 @@
                 "portalNeverUnsharedJournalNotes": "Journalnotater, der ikke er markeret som delt",
                 "portalSectionForms": "Formularer",
                 "portalSectionPriceEstimates": "Prisoverslag",
+                "portalSectionPrescriptions": "Receptfornyelse",
                 "portalPreviewForms": "Patienten udfylder de formularer, I sender, fx før et besøg.",
                 "portalPreviewPriceEstimates": "Patienten ser de prisoverslag, I har delt med dem.",
+                "portalPreviewPrescriptions": "Patienten ser sine nuværende recepter og kan bede klinikken om at forny dem. Anmodningen kommer ind i indbakken Receptfornyelser.",
                 "oneJournalNotePerDay": "Kun ét journalnotat pr. dag pr. @:terms.citizen{''}"
             }
         },
@@ -16991,6 +17124,91 @@
             "edit": "Rediger epikriseskabelon"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inaktive medarbejdere",
+        "messageSingle": "{name} har været inaktiv i 3 måneder (sidst aktiv {date}).",
+        "messageSingleNever": "{name} har aldrig logget ind og har været inaktiv i 3 måneder.",
+        "messageMany": "{count} medarbejdere har været inaktive i 3 måneder eller mere.",
+        "licenseNote": "De bruger stadig en licens, indtil de bliver arkiveret.",
+        "neverLoggedIn": "Aldrig logget ind",
+        "lastActive": "Sidst aktiv {when}",
+        "archive": "Arkivér",
+        "keepActive": "Behold aktiv",
+        "viewEmployee": "Se medarbejder",
+        "remindLater": "Påmind mig senere",
+        "close": "Luk",
+        "archiveConfirm": "Er du sikker på, at du vil arkivere {name}? Medarbejderen bruger så ikke længere en licens.",
+        "licenseFreed": "Licens frigivet",
+        "columnHeader": "Sidst aktiv",
+        "never": "Aldrig",
+        "filter": "Inaktiv i 3+ måneder"
+    },
+    "questionnaireInbox": {
+        "title": "Spørgeskema-indbakke",
+        "subtitle": "Formularer og spørgeskemaer som patienter har sendt tilbage, til gennemsyn",
+        "tabs": {
+            "to_review": "Til gennemsyn",
+            "approved": "Godkendt",
+            "declined": "Afvist",
+            "all": "Alle"
+        },
+        "status": {
+            "to_review": "Til gennemsyn",
+            "approved": "Godkendt",
+            "declined": "Afvist"
+        },
+        "type": {
+            "form": "Formular",
+            "survey": "Spørgeskema"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Søg på patientens navn",
+            "questionnaire": "Skema",
+            "allQuestionnaires": "Alle skemaer",
+            "from": "Returneret fra",
+            "to": "Returneret til",
+            "sentByMe": "Sendt af mig",
+            "clear": "Nulstil filtre"
+        },
+        "empty": {
+            "to_review": "Ingen skemaer venter på gennemsyn",
+            "approved": "Ingen godkendte skemaer",
+            "declined": "Ingen afviste skemaer",
+            "all": "Der er endnu ikke returneret nogen skemaer"
+        },
+        "score": "Score",
+        "returned": "Returneret",
+        "sentBy": "Sendt af",
+        "handledBeforeInbox": "Håndteret før indbakken",
+        "reviewedBy": "Af {name}",
+        "backToList": "Tilbage til indbakken",
+        "openProfile": "Åbn patientens profil",
+        "openMedicineList": "Åbn medicinlisten",
+        "openPdf": "Åbn PDF",
+        "answers": "Svar",
+        "noAnswers": "Der er ingen svar at vise.",
+        "review": {
+            "title": "Gennemsyn",
+            "note": "Note",
+            "notePlaceholder": "For eksempel: Recept fornyet i 3 måneder",
+            "noteHint": "Valgfri ved godkendelse. Påkrævet ved afvisning.",
+            "approve": "Godkend",
+            "decline": "Afvis",
+            "reopen": "Genåbn",
+            "declineTitle": "Afvis skema",
+            "declineConfirm": "Vil du afvise dette skema? Begrundelsen gemmes sammen med det.",
+            "declineReasonRequired": "Skriv en kort begrundelse for afvisningen.",
+            "noteTooLong": "Noten må højst være på {max} tegn.",
+            "approvedBy": "Godkendt af {name} den {date}",
+            "declinedBy": "Afvist af {name} den {date}"
+        },
+        "alert": {
+            "approved": "Skemaet er godkendt.",
+            "declined": "Skemaet er afvist.",
+            "reopened": "Skemaet er tilbage under Til gennemsyn."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Eksport af planer og mål",
         "description": "Download planer, mål og delmål som en zip-fil med PDF-rapporter for mange @:terms.citizens{''} på én gang. Lad valget stå tomt for at eksportere hele virksomheden.",
@@ -19382,6 +19600,82 @@
         "already": "Du har allerede sendt forslaget til dem for nylig.",
         "limit": "Du har sendt dette forslag flere gange for nylig. Lad det hvile lidt.",
         "failed": "Forslaget kunne ikke sendes. Prøv igen senere."
+    },
+    "prescriptionRenewals": {
+        "title": "Receptfornyelser",
+        "intro": "Anmodninger fra patienter om at forny en recept. En anmodning kommer herind, når patienten har besvaret spørgeskemaet, der hører til medicinen. Godkend den og opret recepten, eller afvis den med en begrundelse til patienten.",
+        "filter": "Filtrér efter status",
+        "all": "Alle",
+        "empty": "Der er ingen anmodninger her.",
+        "open": "Åbn",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Medicin",
+            "status": "Status",
+            "received": "Modtaget"
+        },
+        "statuses": {
+            "awaiting_answers": "Venter på spørgeskema",
+            "pending": "Til vurdering",
+            "approved": "Godkendt",
+            "rejected": "Afvist",
+            "prescribed": "Recept oprettet"
+        },
+        "detail": {
+            "title": "Anmodning om receptfornyelse",
+            "currentPrescription": "Nuværende recept",
+            "endsOn": "Slutter",
+            "patientNote": "Besked fra patienten",
+            "questionnaire": "Spørgeskema",
+            "notAnsweredYet": "Patienten har endnu ikke besvaret spørgeskemaet.",
+            "noQuestionnaire": "Der er ikke knyttet et spørgeskema til denne medicin.",
+            "decision": "Afgørelse",
+            "decidedBy": "Af {name}, {date}",
+            "noteToPatient": "Besked til patienten",
+            "notePlaceholder": "Skal udfyldes ved afvisning. Patienten ser den i appen.",
+            "approve": "Godkend",
+            "reject": "Afvis",
+            "approved": "Anmodningen er godkendt. Patienten har fået besked.",
+            "rejected": "Anmodningen er afvist. Patienten har fået besked.",
+            "prescribeHelp": "Anmodningen er godkendt. Opret recepten på patientens medicinkort.",
+            "prescribe": "Opret recept",
+            "openMedicineCard": "Åbn medicinkortet"
+        },
+        "prescribe": {
+            "banner": "Fornyelse af {medicine}",
+            "bannerHelp": "Når recepten gemmes, lukkes patientens anmodning om fornyelse.",
+            "done": "Recepten er oprettet, og anmodningen om fornyelse er lukket."
+        },
+        "settings": {
+            "renewalSurvey": "Spørgeskema ved receptfornyelse",
+            "noRenewalSurvey": "Intet spørgeskema",
+            "renewalSurveyHelp": "Sendes til patienten, når de beder om at få fornyet en recept på denne medicin, f.eks. et spørgeskema om hårtab."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Recepter",
+        "intro": "Dine nuværende recepter. Bed klinikken om at forny en, når den er ved at udløbe.",
+        "yourPrescriptions": "Dine recepter",
+        "empty": "Du har ingen recepter fra klinikken.",
+        "validUntil": "Gyldig til {date}",
+        "requestRenewal": "Anmod om fornyelse",
+        "answerQuestionnaire": "Besvar spørgeskemaet",
+        "yourRequests": "Dine anmodninger",
+        "requestedOn": "Anmodet {date}",
+        "clinicNote": "Fra klinikken",
+        "confirm": "Vil du bede klinikken om at forny din recept på {medicine}?",
+        "questionnaireNext": "Bagefter besvarer du et kort spørgeskema, så klinikken kan vurdere fornyelsen.",
+        "noteLabel": "Besked til klinikken (valgfri)",
+        "notePlaceholder": "F.eks. hvordan behandlingen går",
+        "send": "Send anmodning",
+        "sent": "Din anmodning er sendt til klinikken.",
+        "statuses": {
+            "awaiting_answers": "Venter på dine svar",
+            "pending": "Hos klinikken",
+            "approved": "Godkendt",
+            "rejected": "Afvist",
+            "prescribed": "Fornyet"
+        }
     },
     "apiErrors": {
         "loadScheduleFailed": "Kunne ikke hente vagtplansdata",

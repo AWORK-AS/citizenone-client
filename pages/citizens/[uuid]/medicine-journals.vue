@@ -1157,7 +1157,8 @@
                     :selectedMedicine="state.selectedMedicine" @close="closeViewMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
-                    @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
+                    :renewal="renewalToPrescribe" @close="closeAddMedicineModal"
+                    @refreshMedicines="fetchCitizenMedicines" @prescribed="renewalToPrescribe = null" />
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
@@ -1243,6 +1244,7 @@ import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
+import { prescriptionRenewalService } from '@/components/api/user/PrescriptionRenewalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
@@ -1391,8 +1393,37 @@ onMounted(() => {
     citizenMedicineStore.resetSelectedMedicine()
     fetchCitizenMedicines()
     fetchMedicineFormConfig()
+    openRenewalFromQuery()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
+
+// "Create prescription" in the renewal inbox lands here with ?renewal=<uuid>: the add dialog opens with the
+// request's medicine chosen, and saving closes the request.
+const renewalToPrescribe = ref<any>(null)
+
+async function openRenewalFromQuery() {
+    const renewalUuid = router.currentRoute.value.query?.renewal
+    if (typeof renewalUuid !== 'string' || !renewalUuid) return
+    try {
+        const response = await prescriptionRenewalService.getRequest(renewalUuid)
+        const renewal = response?.data
+        if (renewal && renewal.citizen?.uuid === citizenUuid && ['pending', 'approved'].includes(renewal.status)) {
+            renewalToPrescribe.value = renewal
+            state.modal.isAddMedicineOpen = true
+        }
+    } catch {
+        // Not allowed or gone: the page works as usual.
+    }
+}
+
+function closeAddMedicineModal() {
+    state.modal.isAddMedicineOpen = false
+    if (renewalToPrescribe.value || router.currentRoute.value.query?.renewal) {
+        renewalToPrescribe.value = null
+        const { renewal: _renewal, ...query } = router.currentRoute.value.query
+        router.replace({ query })
+    }
+}
 
 onUnmounted(() => {
     citizenMedicineStore.resetSelectedMedicine()

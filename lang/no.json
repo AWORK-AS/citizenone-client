@@ -24,6 +24,70 @@
         "terms5": "Anbefal oss bare til noen du tror vil ha nytte av det. Det er ingen forpliktelse, og virksomheten du anbefaler bestemmer selv.",
         "registerNote": "Når dere har betalt den første fakturaen, får dere en gratis måned."
     },
+    "bookableTreatments": {
+        "title": "Bookbare behandlinger",
+        "intro": "Behandlinger er det pasientene booker i pasientportalen og appen, for eksempel en konsultasjon på 30 minutter. Opprett en behandling, velg behandleren og legg til tidene som kan bookes.",
+        "new": "Ny behandling",
+        "edit": "Rediger behandling",
+        "created": "Behandlingen er opprettet. Legg nå til tidene den kan bookes.",
+        "updated": "Behandlingen er oppdatert.",
+        "deleted": "Behandlingen er slettet.",
+        "deleteConfirm": "Slette behandlingen «{name}» og tidene? En behandling som er booket kan ikke slettes; slå av nettbooking i stedet.",
+        "form": {
+            "name": "Navn",
+            "namePlaceholder": "f.eks. Konsultasjon, 30 min",
+            "description": "Beskrivelse",
+            "descriptionPlaceholder": "Hva pasienten kan forvente (valgfritt)",
+            "clinician": "Behandler",
+            "clinicianHint": "Bookingen havner i denne personens kalender.",
+            "department": "Avdeling",
+            "departmentAll": "Alle behandlerens avdelinger",
+            "departmentHint": "Bare pasienter i denne avdelingen kan booke den.",
+            "price": "Pris (kr)",
+            "onlineBooking": "Nettbooking",
+            "onlineBookingHint": "Pasientene kan booke den i portalen og appen.",
+            "video": "Videokonsultasjon",
+            "videoHint": "Avtalen holdes som videosamtale."
+        },
+        "table": {
+            "name": "Navn",
+            "clinician": "Behandler",
+            "department": "Avdeling",
+            "price": "Pris",
+            "onlineBooking": "Nettbooking",
+            "upcoming": "Bookbare tider",
+            "online": "På",
+            "offline": "Av",
+            "free": "Gratis",
+            "noTimes": "Ingen tider ennå",
+            "upcomingCount": "{count} tid | {count} tider",
+            "times": "Tider"
+        },
+        "times": {
+            "title": "Tider for {name}",
+            "add": "Legg til tider",
+            "from": "Fra",
+            "to": "Til",
+            "weekdays": "På disse dagene",
+            "weekdaysHint": "Tidene nedenfor legges til på hver valgte dag mellom de to datoene. Tider som allerede finnes, endres ikke.",
+            "start": "Start",
+            "end": "Slutt",
+            "seats": "Plasser",
+            "addRow": "Legg til en tid til",
+            "removeRow": "Fjern denne tiden",
+            "create": "Legg til tider",
+            "created": "Ingen nye tider ble lagt til | 1 tid lagt til | {count} tider lagt til",
+            "upcoming": "Kommende tider ({count})",
+            "none": "Ingen kommende tider. Pasientene kan ikke booke behandlingen før du legger til noen.",
+            "booked": "{count} booket | {count} booket",
+            "seatsLeft": "{count} plasser igjen | {count} plass igjen | {count} plasser igjen",
+            "delete": "Slett tid",
+            "cannotDelete": "Noen har booket denne tiden, så den kan ikke slettes",
+            "clear": "Slett alle ubookede tider",
+            "clearConfirm": "Slette alle kommende tider som ingen har booket? Bookede tider beholdes.",
+            "cleared": "Ubookede tider er slettet."
+        }
+    },
     "journalDraft": {
         "offer": "Du har et notat som ikke ble lagret (kl. {time}).",
         "restore": "Gjenopprett",
@@ -193,7 +257,61 @@
         "Management & Economy": "Ledelse & økonomi",
         "Billing": "Fakturering",
         "Revenue report": "Inntektsrapport",
-        "Findsocialetilbud": "FindSocialeTilbud.dk"
+        "Findsocialetilbud": "FindSocialeTilbud.dk",
+        "Messages": "Meldinger",
+        "Reminders": "Påminnelser",
+        "Bullet Board": "Oppslagstavle",
+        "Forms": "Skjemaer",
+        "Tasks": "Oppgaver",
+        "AI assistant": "AI-assistent",
+        "Staff workload": "Ansattbelastning"
+    },
+    "companyModulesCard": {
+        "title": "Moduler",
+        "description": "Velg hvilke moduler virksomheten bruker. En modul som er slått av, skjules for alle i virksomheten, både på web og i appen.",
+        "onlyHides": "Når en modul slås av, skjules den bare i menyen. Ingen data slettes, og du kan slå den på igjen når som helst.",
+        "useRecommended": "Bruk anbefalt oppsett for min bransje",
+        "recommendedFor": "Det anbefalte oppsettet er modulene vi foreslår for {industry}. Det fyller bare ut bryterne. Ingenting endres før du trykker Lagre.",
+        "noRecommendation": "Det finnes ikke noe anbefalt oppsett for din bransje, så alle moduler forblir tilgjengelige.",
+        "allOn": "Slå alle på",
+        "allOff": "Slå alle av",
+        "noneWarning": "Alle moduler er slått av. Bare det grunnleggende, som oversikt og klientkort, vises.",
+        "saved": "Moduler oppdatert.",
+        "groups": {
+            "clients": "Klienter",
+            "daily": "Daglig arbeid",
+            "staff": "Personale",
+            "economy": "Økonomi",
+            "other": "Annet"
+        },
+        "help": {
+            "journals": "Journalnotater på hver klient, med AI-hjelp til å skrive dem.",
+            "documents": "Fillagring for dokumenter på klienter og virksomheten.",
+            "contacts": "Pårørende og andre kontakter på en klient.",
+            "emails": "Koble til din egen e-post og se e-poster på hver klient.",
+            "medicineCard": "Medisinlister og registrering av utlevert medisin.",
+            "health": "Helseområder og sykepleiefaglige vurderinger.",
+            "plansAndGoals": "Handlingsplaner med mål og delmål for hver klient.",
+            "wellbeing": "Trivselsmålinger og utvikling over tid.",
+            "reports": "Rapporter skrevet om en klient.",
+            "calendar": "Avtaler, bookinger og nettbooking fra nettsiden deres.",
+            "messages": "Chat med kolleger og med klienter via klientportalen.",
+            "reminders": "Personlige og felles påminnelser.",
+            "aiAssistant": "AI-assistenten i topplinjen.",
+            "forms": "Lag deres egne skjemaer og spørreskjemaer.",
+            "tasks": "Oppgavetavler for arbeid som ikke hører til en klient.",
+            "bulletBoard": "Nyheter og kunngjøringer for hele virksomheten.",
+            "inquiries": "Pipeline for nye henvendelser og henvisninger.",
+            "findsocialetilbud": "Snarvei til FindSocialeTilbud.dk.",
+            "dutySchedule": "Vaktplanlegging for personalet.",
+            "attendance": "Oppmøteregistrering og protokoller.",
+            "employeeGroup": "Grupper av ansatte for tilgang og planlegging.",
+            "staffWorkload": "Oversikt over belastningen for hver ansatt.",
+            "billing": "Fakturaer for tjenestene dere leverer.",
+            "revenueReport": "Oversikt over omsetningen deres.",
+            "economy": "Klienters lommebøker og utgifter.",
+            "managementEconomy": "Ledelsesoversikt over virksomhetens økonomi."
+        }
     },
     "discover": {
         "welcome": "Velkommen, {name}",
@@ -1693,6 +1811,7 @@
         },
         "tabs": {
             "bookings": "Bookinger",
+            "treatments": "Behandlinger",
             "events": "Arrangementer",
             "appointments": "Bookede tider"
         },
@@ -2047,6 +2166,10 @@
                 "notifyColleaguesPlaceholder": "Velg kolleger som skal varsles",
                 "notifyColleaguesHint": "Valgte kolleger får et varsel om dette notatet.",
                 "attachedSurveys": "Spørreskjemaer som skal besvares",
+                "fillPendingSurveys": "Ubesvart spørreskjema ({count}) - fyll det ut her sammen med @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Ubesvart spørreskjema",
+                "pendingSurveysWarningText": "Mangler å bli fylt ut av @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "Se spørreskjemaer",
                 "linkedSurveys": "Tilknyttede spørreskjemaer",
                 "quickJournalTitles": "Lagrede journaltitler",
                 "moreJournalTitles": "+{count} flere"
@@ -9568,6 +9691,12 @@
         "recipients": "Mottakere",
         "recipientsHint": "Velg hvem du vil skrive til, og skriv meldingen.",
         "selectRecipients": "Søk kolleger...",
+        "recipientType": "Mottakertype",
+        "recipientTypeEmployees": "Kolleger",
+        "recipientTypeCitizens": "@.capitalize:terms.citizens{''}",
+        "citizenRecipients": "@.capitalize:terms.citizens{''}",
+        "selectCitizenRecipients": "Søk @:terms.citizens{''}...",
+        "citizenRecipientWarning": "Meldingen sendes til @:terms.citizenDefinite{''}, ikke til en kollega. Sjekk at den ikke inneholder opplysninger som bare er for kolleger.",
         "subjectOptional": "Emne (valgfritt)",
         "subjectPlaceholder": "Hva handler det om?",
         "messagePlaceholder": "Skriv meldingen din...",
@@ -11483,6 +11612,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Motta varsler om ledige vakter, uansett mine andre varslingsinnstillinger",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Maktbruk i journalen",
+                "useOfForceInJournalHelp": "Viser \"Rapporter maktbruk\" og tidligere maktbruk på journalsiden. Slå av hvis dere ikke arbeider med maktbruk.",
                 "sundayShiftCalculation": "Aktiver søndagsvagtberegning",
                 "remove": "Fjern firmalogo",
                 "street": "Gade",
@@ -11573,8 +11704,10 @@
                 "portalNeverUnsharedJournalNotes": "Journalnotater som ikke er merket som delt",
                 "portalSectionForms": "Skjemaer",
                 "portalSectionPriceEstimates": "Prisoverslag",
+                "portalSectionPrescriptions": "Reseptfornyelse",
                 "portalPreviewForms": "Pasienten fyller ut skjemaene dere sender, f.eks. før et besøk.",
                 "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem.",
+                "portalPreviewPrescriptions": "Pasienten ser sine nåværende resepter og kan be klinikken om å fornye dem. Forespørselen kommer inn i innboksen Reseptfornyelser.",
                 "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}"
             }
         },
@@ -16906,6 +17039,91 @@
             "edit": "Rediger epikrisemal"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inaktive ansatte",
+        "messageSingle": "{name} har vært inaktiv i 3 måneder (sist aktiv {date}).",
+        "messageSingleNever": "{name} har aldri logget inn og har vært inaktiv i 3 måneder.",
+        "messageMany": "{count} ansatte har vært inaktive i 3 måneder eller mer.",
+        "licenseNote": "De bruker fortsatt en lisens til de blir arkivert.",
+        "neverLoggedIn": "Aldri logget inn",
+        "lastActive": "Sist aktiv {when}",
+        "archive": "Arkiver",
+        "keepActive": "Behold aktiv",
+        "viewEmployee": "Se ansatt",
+        "remindLater": "Påminn meg senere",
+        "close": "Lukk",
+        "archiveConfirm": "Er du sikker på at du vil arkivere {name}? Den ansatte bruker da ikke lenger en lisens.",
+        "licenseFreed": "Lisens frigjort",
+        "columnHeader": "Sist aktiv",
+        "never": "Aldri",
+        "filter": "Inaktiv i 3+ måneder"
+    },
+    "questionnaireInbox": {
+        "title": "Skjemainnboks",
+        "subtitle": "Skjemaer og spørreskjemaer som pasienter har sendt tilbake, til gjennomgang",
+        "tabs": {
+            "to_review": "Til gjennomgang",
+            "approved": "Godkjent",
+            "declined": "Avslått",
+            "all": "Alle"
+        },
+        "status": {
+            "to_review": "Til gjennomgang",
+            "approved": "Godkjent",
+            "declined": "Avslått"
+        },
+        "type": {
+            "form": "Skjema",
+            "survey": "Spørreskjema"
+        },
+        "filters": {
+            "search": "Pasient",
+            "searchPlaceholder": "Søk på pasientens navn",
+            "questionnaire": "Skjema",
+            "allQuestionnaires": "Alle skjemaer",
+            "from": "Returnert fra",
+            "to": "Returnert til",
+            "sentByMe": "Sendt av meg",
+            "clear": "Nullstill filtre"
+        },
+        "empty": {
+            "to_review": "Ingen skjemaer venter på gjennomgang",
+            "approved": "Ingen godkjente skjemaer",
+            "declined": "Ingen avslåtte skjemaer",
+            "all": "Ingen skjemaer er returnert ennå"
+        },
+        "score": "Poengsum",
+        "returned": "Returnert",
+        "sentBy": "Sendt av",
+        "handledBeforeInbox": "Behandlet før innboksen",
+        "reviewedBy": "Av {name}",
+        "backToList": "Tilbake til innboksen",
+        "openProfile": "Åpne pasientens profil",
+        "openMedicineList": "Åpne medisinlisten",
+        "openPdf": "Åpne PDF",
+        "answers": "Svar",
+        "noAnswers": "Det er ingen svar å vise.",
+        "review": {
+            "title": "Gjennomgang",
+            "note": "Notat",
+            "notePlaceholder": "For eksempel: Resept fornyet i 3 måneder",
+            "noteHint": "Valgfritt ved godkjenning. Påkrevd ved avslag.",
+            "approve": "Godkjenn",
+            "decline": "Avslå",
+            "reopen": "Gjenåpne",
+            "declineTitle": "Avslå skjema",
+            "declineConfirm": "Vil du avslå dette skjemaet? Begrunnelsen lagres sammen med det.",
+            "declineReasonRequired": "Skriv en kort begrunnelse for avslaget.",
+            "noteTooLong": "Notatet kan være på høyst {max} tegn.",
+            "approvedBy": "Godkjent av {name} den {date}",
+            "declinedBy": "Avslått av {name} den {date}"
+        },
+        "alert": {
+            "approved": "Skjemaet er godkjent.",
+            "declined": "Skjemaet er avslått.",
+            "reopened": "Skjemaet er tilbake under Til gjennomgang."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Eksport av planer og mål",
         "description": "Last ned planer, mål og delmål som en zip-fil med PDF-rapporter for mange innbyggere samtidig. La utvalget stå tomt for å eksportere hele selskapet.",
@@ -19297,6 +19515,82 @@
         "already": "Du har allerede sendt forslaget til dem nylig.",
         "limit": "Du har sendt dette forslaget flere ganger nylig. La det hvile en stund.",
         "failed": "Forslaget kunne ikke sendes. Prøv igjen senere."
+    },
+    "prescriptionRenewals": {
+        "title": "Reseptfornyelser",
+        "intro": "Forespørsler fra pasienter om å fornye en resept. En forespørsel kommer hit når pasienten har besvart spørreskjemaet som hører til medisinen. Godkjenn den og opprett resepten, eller avvis den med en begrunnelse til pasienten.",
+        "filter": "Filtrer etter status",
+        "all": "Alle",
+        "empty": "Det er ingen forespørsler her.",
+        "open": "Åpne",
+        "columns": {
+            "patient": "Pasient",
+            "medicine": "Medisin",
+            "status": "Status",
+            "received": "Mottatt"
+        },
+        "statuses": {
+            "awaiting_answers": "Venter på spørreskjema",
+            "pending": "Til vurdering",
+            "approved": "Godkjent",
+            "rejected": "Avvist",
+            "prescribed": "Resept opprettet"
+        },
+        "detail": {
+            "title": "Forespørsel om reseptfornyelse",
+            "currentPrescription": "Nåværende resept",
+            "endsOn": "Slutter",
+            "patientNote": "Melding fra pasienten",
+            "questionnaire": "Spørreskjema",
+            "notAnsweredYet": "Pasienten har ennå ikke besvart spørreskjemaet.",
+            "noQuestionnaire": "Det er ikke knyttet et spørreskjema til denne medisinen.",
+            "decision": "Avgjørelse",
+            "decidedBy": "Av {name}, {date}",
+            "noteToPatient": "Melding til pasienten",
+            "notePlaceholder": "Må fylles ut ved avvisning. Pasienten ser den i appen.",
+            "approve": "Godkjenn",
+            "reject": "Avvis",
+            "approved": "Forespørselen er godkjent. Pasienten har fått beskjed.",
+            "rejected": "Forespørselen er avvist. Pasienten har fått beskjed.",
+            "prescribeHelp": "Forespørselen er godkjent. Opprett resepten på pasientens medisinkort.",
+            "prescribe": "Opprett resept",
+            "openMedicineCard": "Åpne medisinkortet"
+        },
+        "prescribe": {
+            "banner": "Fornyelse av {medicine}",
+            "bannerHelp": "Når resepten lagres, lukkes pasientens forespørsel om fornyelse.",
+            "done": "Resepten er opprettet, og forespørselen om fornyelse er lukket."
+        },
+        "settings": {
+            "renewalSurvey": "Spørreskjema ved reseptfornyelse",
+            "noRenewalSurvey": "Ingen spørreskjema",
+            "renewalSurveyHelp": "Sendes til pasienten når de ber om å få fornyet en resept på denne medisinen, f.eks. et spørreskjema om hårtap."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Resepter",
+        "intro": "Dine nåværende resepter. Be klinikken om å fornye en når den holder på å gå ut.",
+        "yourPrescriptions": "Dine resepter",
+        "empty": "Du har ingen resepter fra klinikken.",
+        "validUntil": "Gyldig til {date}",
+        "requestRenewal": "Be om fornyelse",
+        "answerQuestionnaire": "Besvar spørreskjemaet",
+        "yourRequests": "Dine forespørsler",
+        "requestedOn": "Forespurt {date}",
+        "clinicNote": "Fra klinikken",
+        "confirm": "Vil du be klinikken om å fornye resepten din på {medicine}?",
+        "questionnaireNext": "Etterpå besvarer du et kort spørreskjema, slik at klinikken kan vurdere fornyelsen.",
+        "noteLabel": "Melding til klinikken (valgfritt)",
+        "notePlaceholder": "F.eks. hvordan behandlingen går",
+        "send": "Send forespørsel",
+        "sent": "Forespørselen din er sendt til klinikken.",
+        "statuses": {
+            "awaiting_answers": "Venter på svarene dine",
+            "pending": "Hos klinikken",
+            "approved": "Godkjent",
+            "rejected": "Avvist",
+            "prescribed": "Fornyet"
+        }
     },
     "apiErrors": {
         "loadScheduleFailed": "Kunne ikke hente vaktplandata",

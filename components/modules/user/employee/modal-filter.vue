@@ -26,6 +26,16 @@
                         :placeholder="$t('citizens.filters.any')" v-model="state.filter.is_active" />
                 </div>
 
+                <!-- Admins only: the server ignores this filter for everyone else. -->
+                <div v-if="isAtLeast('Admin')" class="flex items-center justify-between gap-3">
+                    <label for="filter_inactive" class="text-sm font-medium text-gray-700">
+                        {{ $t('inactiveEmployees.filter') }}
+                    </label>
+                    <FormSwitch id="filter_inactive" :value="state.filter.inactive === '1'"
+                        :label="$t('inactiveEmployees.filter')"
+                        @toggleSwitch="state.filter.inactive = state.filter.inactive === '1' ? null : '1'" />
+                </div>
+
                 <div class="flex items-center justify-between gap-2 pt-2">
                     <button type="button" class="text-sm font-medium text-gray-600 hover:underline" @click="reset">
                         {{ $t('table.clearFilters') }}
@@ -51,6 +61,9 @@ import { employeeGroupService } from '@/components/api/user/EmployeeGroupService
 import { roleService } from '@/components/api/user/RoleService'
 import { useI18n } from 'vue-i18n'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
+import { usePermissions } from '@/composables/usePermissions'
+
+const { isAtLeast } = usePermissions()
 
 const props = defineProps({
     isModalOpen: {
@@ -72,6 +85,7 @@ const EMPTY = {
     is_active: null as string | null,
     role: null as string | null,
     spoken_language: null as string | null,
+    inactive: null as string | null,
 }
 
 const state = reactive({
