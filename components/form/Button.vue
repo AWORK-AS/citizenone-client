@@ -21,11 +21,9 @@
             props.buttonStyle === 'plans-none' && 'border bg-white text-gray-900 hover:bg-text-gray-700',
             props.buttonStyle === 'plans-expiring' && 'border bg-yellow-500 text-white hover:bg-yellow-400',
             props.buttonStyle === 'plans-expired' && 'border bg-red-600 text-white hover:bg-red-500',
-            // Was a teal fill with green ink, which read as a second brand beside
-            // everything else in the product: the AI surfaces were the only green
-            // things on a blue page. The mobile design guide describes the same
-            // accent being removed there for the same reason. One action colour.
-            props.buttonStyle === 'AI' && '!bg-transparent !text-primary !border-1.5 !border-primary hover:!bg-primary-50',
+            // Teal is the AI colour: pale ai-bg fill, ai-ink text (5.8:1), ai-border edge.
+            // Blue (primary) stays the one action colour for everything that is not AI.
+            props.buttonStyle === 'AI' && '!bg-ai-bg !text-ai-ink !border-1.5 !border-ai-border hover:!bg-ai-bg/70 hover:!border-ai',
             props.buttonStyle === 'app-white' && 'bg-white text-primary',
             props.buttonStyle === 'app-order-now' && 'bg-primary text-white',
             props.buttonStyle === 'app-activated' && 'bg-[#02c18e] text-white',

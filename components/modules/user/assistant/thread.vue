@@ -84,7 +84,7 @@
                         <div v-if="index > 0 && !message.failed" class="flex items-center gap-1 mt-2 -ml-1.5">
                             <button type="button" @click="copyAnswer(message, index)"
                                 :title="$t('assistants.actions.copy')"
-                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors">
+                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-ai-ink hover:bg-ai-bg transition-colors">
                                 <Icon :name="state.copiedIndex === index ? 'ph:check' : 'ph:copy'"
                                     class="h-3.5 w-3.5" />
                                 {{ state.copiedIndex === index ? $t('assistants.actions.copied') :
@@ -93,7 +93,7 @@
                             <button type="button" v-if="assistantStore.insertTargetLabel"
                                 @click="assistantStore.requestInsert(formatMessage(message?.text))"
                                 :title="assistantStore.insertTargetLabel"
-                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors">
+                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-ai-ink hover:bg-ai-bg transition-colors">
                                 <Icon name="ph:arrow-line-down" class="h-3.5 w-3.5" />
                                 {{ $t('assistants.actions.insert') }}
                             </button>
@@ -101,7 +101,7 @@
                                 v-if="index === state.messages.length - 1 && state.lastRequest.prompt"
                                 @click="regenerateAnswer" :disabled="state.isGeneratingResponse"
                                 :title="$t('assistants.actions.regenerate')"
-                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-40">
+                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-ai-ink hover:bg-ai-bg transition-colors disabled:opacity-40">
                                 <Icon name="ph:arrow-clockwise" class="h-3.5 w-3.5" />
                                 {{ $t('assistants.actions.regenerate') }}
                             </button>
@@ -111,8 +111,8 @@
                                     :aria-label="$t(`assistants.feedback.${rating.value}`)"
                                     :aria-pressed="message.feedback === rating.value"
                                     :title="$t(`assistants.feedback.${rating.value}`)"
-                                    :class="['flex size-7 items-center justify-center rounded transition-colors hover:bg-primary/5',
-                                        message.feedback === rating.value ? 'text-primary' : 'text-gray-500 hover:text-primary',
+                                    :class="['flex size-7 items-center justify-center rounded transition-colors hover:bg-ai-bg',
+                                        message.feedback === rating.value ? 'text-ai-ink' : 'text-gray-500 hover:text-ai-ink',
                                         rating.value === 'up' && 'ml-auto']">
                                     <Icon :name="message.feedback === rating.value ? `${rating.icon}-fill` : rating.icon"
                                         class="h-3.5 w-3.5" aria-hidden="true" />
@@ -130,8 +130,8 @@
                                 :aria-pressed="message.feedbackReason === reason"
                                 :class="['rounded-full border px-2.5 py-1 text-xs transition-colors',
                                     message.feedbackReason === reason
-                                        ? 'border-primary bg-primary/10 text-primary'
-                                        : 'border-gray-200 text-gray-600 hover:border-primary/40']">
+                                        ? 'border-ai bg-ai-bg text-ai-ink'
+                                        : 'border-gray-200 text-gray-600 hover:border-ai-border']">
                                 {{ $t(`assistants.feedback.reasons.${reason}`) }}
                             </button>
                         </div>
@@ -141,7 +141,7 @@
                         </p>
                         <button v-if="message.failed && state.lastRequest.prompt" type="button"
                             @click="regenerateAnswer" :disabled="state.isGeneratingResponse"
-                            class="mt-2 -ml-1.5 flex items-center gap-1 rounded px-1.5 py-1 text-xs text-gray-500 transition-colors hover:bg-primary/5 hover:text-primary disabled:opacity-40">
+                            class="mt-2 -ml-1.5 flex items-center gap-1 rounded px-1.5 py-1 text-xs text-gray-500 transition-colors hover:bg-ai-bg hover:text-ai-ink disabled:opacity-40">
                             <Icon name="ph:arrow-clockwise" class="h-3.5 w-3.5" />
                             {{ $t('assistants.actions.regenerate') }}
                         </button>

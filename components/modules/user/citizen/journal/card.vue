@@ -37,7 +37,7 @@
                             </div>
                             <div v-if="journal.is_ai_used">
                                 <span
-                                    class="inline-flex items-center gap-1 rounded-full bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
+                                    class="inline-flex items-center gap-1 rounded-full bg-ai-bg ring-1 ring-ai-border px-2 py-0.5 text-xs font-medium text-ai-ink">
                                     <Icon name="ph:sparkle-fill" class="size-3 shrink-0" />
                                     {{ $t('citizens.citizenJournals.aiUsed') }}
                                 </span>

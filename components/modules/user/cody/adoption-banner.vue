@@ -1,33 +1,33 @@
 <template>
     <div v-if="variant && granted" role="status" class="mb-4 flex items-start gap-3 rounded-lg border bg-white px-4 py-3"
-        :class="urgent ? 'border-[#2dbab2]' : 'border-gray-200'">
+        :class="urgent ? 'border-ai' : 'border-gray-200'">
         <ModulesUserNavbarCodyMark :size="22" class="mt-0.5 shrink-0" />
 
         <div class="min-w-0 flex-1">
-            <p class="text-sm font-semibold text-primary">{{ title }}</p>
+            <p class="text-sm font-semibold text-ai-ink">{{ title }}</p>
             <p v-if="body" class="mt-0.5 text-sm text-gray-600">{{ body }}</p>
 
             <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
-                <FormButton v-if="variant === 'adminTrial'" type="button" buttonStyle="primary" buttonSize="xs"
+                <FormButton v-if="variant === 'adminTrial'" type="button" buttonStyle="primary" buttonSize="xs" class="!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink"
                     @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.tryFree') }}
                 </FormButton>
-                <FormButton v-else-if="variant === 'adminEnable'" type="button" buttonStyle="primary" buttonSize="xs"
+                <FormButton v-else-if="variant === 'adminEnable'" type="button" buttonStyle="primary" buttonSize="xs" class="!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink"
                     @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.turnOn') }}
                 </FormButton>
                 <FormButton v-else-if="variant === 'request' && requestState !== 'sent' && requestState !== 'recent'"
-                    type="button" buttonStyle="primary" buttonSize="xs" :disabled="requestState === 'sending'"
+                    type="button" buttonStyle="primary" buttonSize="xs" class="!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink" :disabled="requestState === 'sending'"
                     @click="requestFromAdmin()">
                     {{ $t('cody.adoption.askAdmin') }}
                 </FormButton>
-                <span v-else-if="variant === 'request'" class="text-sm font-medium text-primary">
-                    <Icon name="ph:check-circle" class="mr-1 inline h-4 w-4 text-[#2dbab2]" aria-hidden="true" />
+                <span v-else-if="variant === 'request'" class="text-sm font-medium text-ai-ink">
+                    <Icon name="ph:check-circle" class="mr-1 inline h-4 w-4 text-ai" aria-hidden="true" />
                     {{ $t('cody.adoption.sent') }}
                 </span>
 
                 <button v-if="variant === 'trial' && isAdmin" type="button"
-                    class="text-sm font-semibold text-primary underline underline-offset-2" @click="navigateTo(appPath)">
+                    class="text-sm font-semibold text-ai-ink underline underline-offset-2" @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.buy') }}
                 </button>
 
