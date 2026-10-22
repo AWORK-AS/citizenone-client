@@ -10,10 +10,18 @@ export interface BriefItem {
     details: Array<Record<string, string>>
 }
 
-/** The detail line: initials and times, never full names, for a screen read in a shared room. */
+/**
+ * The detail line: initials and times, never full names of citizens, for a
+ * screen read in a shared room. A colleague's booking also names the colleague
+ * (`owner`), so the person following it up knows whom to ask.
+ */
 export function describeBriefItem(item: BriefItem): string {
     return (item.details ?? [])
-        .map((detail) => [detail.initials, detail.name, detail.time].filter(Boolean).join(' '))
+        .map((detail) => {
+            const line = [detail.initials, detail.name, detail.time].filter(Boolean).join(' ')
+
+            return detail.owner ? `${line} (${detail.owner})` : line
+        })
         .join(' · ')
 }
 

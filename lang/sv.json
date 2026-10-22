@@ -17,6 +17,12 @@
         "terms5": "Rekommendera oss bara till någon som du tror har nytta av det. Det finns ingen förpliktelse, och verksamheten som du rekommenderar bestämmer själv.",
         "registerNote": "När ni har betalat er första faktura får ni en gratis månad."
     },
+    "journalDraft": {
+        "offer": "Du har en anteckning som inte sparades (kl. {time}).",
+        "restore": "Återställ",
+        "discard": "Kasta",
+        "confirmClose": "Anteckningen är inte sparad. Vill du stänga ändå? Texten sparas som utkast i den här fliken."
+    },
     "nps": {
         "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
         "unlikely": "Inte alls",
@@ -121,7 +127,10 @@
             "selectAll": "Välj alla",
             "banner": "{count} konverterade ärende(n) har ännu ingen handläggare.",
             "claimCases": "Ta ärenden",
-            "claimed": "1 ärende tilldelat | {count} ärenden tilldelade"
+            "claimed": "1 ärende tilldelat | {count} ärenden tilldelade",
+            "open": "Öppna",
+            "openCase": "Öppna @:terms.citizen{''}",
+            "openInquiry": "Öppna förfrågan"
         }
     },
     "managementEconomy": {
@@ -1863,6 +1872,9 @@
                 "successfullyCopied": "{journal} har kopierats",
                 "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
+                "surveysNotCompleted": "Anteckningen är sparad, men {n} enkät(er) registrerades inte.",
+                "surveysRetry": "Försök igen",
+                "surveysRetried": "Enkäterna har registrerats.",
                 "unlockJournal": "{journal} låst upp",
                 "unpinJournal": "{journal} fästning borttagen"
             },
@@ -1969,6 +1981,7 @@
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
                 "titlePlaceholder": "Välj eller skriv en titel",
                 "dictate": "Diktera",
@@ -2780,6 +2793,7 @@
                     "interventionHoursSuccessfullyAdded": "Indsatstimer tillagd",
                     "interventionHoursSuccessfullyUpdated": "Indsatstimer uppdaterad"
                 },
+                "hourType": "Timtyp",
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "note": "Anmärkning",
@@ -3126,7 +3140,10 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Där opstod en fel.",
                 "anErrorOccurredRetry": "Där opstod en fel. Försök igen.",
+                "historyUnavailable": "Vi kunde inte hämta vilka doser som redan har getts. Försök igen innan du registrerar, så att ingen dos ges dubbelt.",
+                "retry": "Försök igen",
                 "registeredForDays": "Registrerad för {n} dag(e).",
+                "partialFailure": "Registrerad för {ok} dag(ar). Misslyckades för: {dates} ({reason}). De misslyckade datumen är fortfarande valda - försök igen.",
                 "overdueMinutes": "{minutes} min försenad",
                 "overdueHoursMinutes": "{hours}t {minutes}min försenad",
                 "overdueHours": "{hours}t försenad",
@@ -3749,6 +3766,8 @@
             "description": "Beskrivning",
             "descriptionPlaceholder": "Lägg till en beskrivning",
             "viewFullTimeline": "Visa hela tidslinjen",
+            "loadOlder": "Visa äldre",
+            "allLoaded": "Alla händelser visas",
             "alert": {
                 "successfullyAdded": "Tidslinjehändelse tillagd",
                 "deletedSuccessfully": "Tidslinjehändelse borttagen"
@@ -4991,7 +5010,8 @@
         "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
-            "hint": "Enter för att spara · Esc för att avbryta"
+            "hint": "Enter för att spara · Esc för att avbryta",
+            "saveFailed": "Passtiden kunde inte uppdateras."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg för {date}",
@@ -7107,6 +7127,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammanhängande dagar",
+            "periodDaysPlaceholder": "t.ex. 30",
             "dutyShiftRuleName": "Namn",
             "evaluatingShiftsFrom": "Evaluerer pass från",
             "inactive": "Inaktiv",
@@ -7568,7 +7589,8 @@
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
             "statusSuccessfullyUpdated": "Händelsestatus har uppdaterats",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} har skapats och bokningen har markerats som slutförd"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7638,6 +7660,7 @@
         "createJournalNote": "Skapa @:terms.journalNote{''}",
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
+        "registerTime": "Registrera tid",
         "statusMenuLabel": "Markera \"{title}\" som slutförd eller inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
         "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
@@ -7645,6 +7668,19 @@
             "label": "Anteckning saknas",
             "help": "Bokningen är slut men ingen journalanteckning har skrivits än. Klicka för att skriva den."
         },
+        "noteHeader": {
+            "label": "Bokning",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Ärendenr {number}",
+            "responsible": "Ansvarig",
+            "primaryCoordinator": "Primär koordinator",
+            "bookingOwner": "Ansvarig för bokningen",
+            "statusLabel": "Status",
+            "planned": "Planerad"
+        },
+        "saveAndComplete": "Spara och markera som slutförd",
+        "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
+        "noteBodyRequired": "Skriv texten i @:terms.journalNote{''} innan bokningen markeras som slutförd.",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
@@ -8525,6 +8561,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "@.capitalize:terms.citizenDefinite{'s'} Personnummer",
+            "cprWhenWon": "Behöver fyllas i först när förfrågan vinns.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Bedömer du, att @:terms.citizenDefinite{''} är innan för målgruppen av §109?",
@@ -8658,11 +8695,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Acceptera inbjudan",
+        "accepting": "Accepterar inbjudan",
         "alert": {
             "invalidInvitationLink": "Ogiltigt invitationslink"
         },
+        "errorBody": "Inbjudan kunde inte accepteras just nu. Försök igen senare",
+        "errorTitle": "Något gick fel",
+        "expiredBody": "Inbjudningslänken har gått ut. Be den som bjöd in dig att skicka en ny inbjudan",
+        "expiredTitle": "Inbjudan har gått ut",
+        "invalidBody": "Inbjudningslänken är ogiltig. Be den som bjöd in dig att skicka en ny inbjudan",
+        "invalidTitle": "Ogiltig inbjudan",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Logga in för att fortsätta",
+        "notAdminBody": "Endast administratörer kan acceptera den här inbjudan",
+        "notAdminTitle": "Inbjudan accepterades inte",
+        "readyBody": "Tryck på knappen nedan för att bli administratör i organisationen",
+        "readyTitle": "Du har blivit inbjuden",
+        "wrongUserBody": "Inbjudan gäller en annan användare. Logga ut och öppna länken igen som den den skickades till",
+        "wrongUserTitle": "Inloggad som någon annan",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har accepteret invitationen"
     },
     "invoiceDetails": {
@@ -9421,7 +9472,7 @@
         "startTheConversation": "Start samtalen",
         "subject": "Emne",
         "today": "Idag",
-        "typeAMessage": "Skriv en meddelande...",
+        "typeAMessage": "Skriv ett meddelande...",
         "unread": "olästa",
         "unreadMessages": "Olästa meddelanden",
         "users": "Användare",
@@ -10920,6 +10971,8 @@
             "level": "Level",
             "hideInternalJournals": "Kan inte se interna anteckningar",
             "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
+            "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
+            "seesHrDataHelp": "Medarbetare med den här rollen ser kollegors HR-uppgifter, medarbetardokument (avtal, belastningsregisterutdrag, intyg m.m.), lönefält, adresser och nödkontakter och kan hantera dem. Utan den ser de bara sina egna. Administratörer ser dem alltid.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11193,6 +11246,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
+                "inquiryWonRequiresCpr": "Personnummer krävs när en förfrågan är vunnen",
                 "2fa": "Tvåfaktorsautentisering",
                 "accountantEmail": "Revisor eller regnskabs e-post (borgernes wallet transaktioner)",
                 "alert": {
@@ -11297,8 +11351,16 @@
                 "chatCprWarning": "Varna för CPR-nummer i chatt",
                 "missingNoteReminder": "Påminn om bokningar utan @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Meddela om @:terms.journalNotes{''} skapade från en bokning",
+                "calendarNoteRequired": "@.capitalize:terms.journalNote{''} krävs vid Slutförd",
+                "calendarNoteRequiredHint": "Väljer man Slutförd på en bokning med en @:terms.citizen{''} öppnas @:terms.journalNote{''}, och bokningen markeras som slutförd när den sparas. Inte slutförd kräver ingen anteckning",
+                "missingNoteCoordinatorReminder": "Påminn koordinatorn om saknad @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "Ett dygn efter att en bokning avslutats utan anteckning får ärendets primära koordinator också en påminnelse, och koordinatorer och chefer ser bokningarna på Min dag. Kräver att påminnelsen om bokningar utan anteckning är påslagen",
                 "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
+                "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
+                "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "careHourTypes": "Välj timtyp på insatstimmar",
+                "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
@@ -12673,7 +12735,7 @@
                     "grantStorage": "Tilldela lagring",
                     "description": "Tilldelar ett lagringspaket till företaget och skapar en väntande manuell faktura för beloppet. Köp av ett annat paket ersätter det nuvarande (med en proportionell kredit); samma paket igen avvisas.",
                     "packageLabel": "Lagringspaket",
-                    "used": "{used} GB använt av {quota} GB",
+                    "used": "{used} använt av {quota} GB",
                     "none": "Inget lagringspaket tilldelat - kvoten är {quota} GB.",
                     "remove": "Ta bort",
                     "confirmRemove": "Ta bort lagringspaketet {package}? Företagets kvot återgår till planens standard.",
@@ -16089,6 +16151,8 @@
         "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
             "bookings_missing_note": "En bokning har avslutats utan en @:terms.journalNote{''} | {n} bokningar har avslutats utan en @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "En bokning i ett ärende du koordinerar saknar en @:terms.journalNote{''} | {n} bokningar i ärenden du koordinerar saknar en @:terms.journalNote{''}",
+            "department_bookings_missing_note": "En bokning i dina avdelningar saknar en @:terms.journalNote{''} | {n} bokningar i dina avdelningar saknar en @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
             "heading": "Kräver din uppmärksamhet",
             "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",
@@ -17470,6 +17534,8 @@
             "threeMonthInterviewAt": "3-månaderssamtal genomfört",
             "terminationReason": "Orsak till avslut",
             "simCard": "SIM-kort",
+            "contactStatus": "Kontaktstatus",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Övrigt arbete",
             "workingHoursComment": "Kommentar om arbetstider",
             "notWorkWith": "Vill inte arbeta med",
@@ -17556,6 +17622,27 @@
             "saved": "Profilen har sparats",
             "skillsSaved": "Kompetenserna har sparats",
             "saveFailed": "Kunde inte sparas"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktas",
+                "do_not_contact": "Får inte kontaktas",
+                "terminated": "Avslutad"
+            },
+            "doNotContact": "Får inte kontaktas",
+            "reason": "Orsak",
+            "note": "Anteckning",
+            "hint": "Markerad som \"Får inte kontaktas\" är konsulten utanför matchningen och kan varken tillfrågas, väljas till ett ärende eller återaktiveras. En arkiverad konsult utan markering och utan slutdatum finns med i matchningen som \"Inaktiv – kan kontaktas\".",
+            "reasons": {
+                "resigned": "Slutat",
+                "paused": "Pausad",
+                "absent": "Frånvarande",
+                "do_not_contact": "Får inte kontaktas",
+                "cannot_contact": "Kan inte kontaktas",
+                "other": "Annat"
+            }
         }
     },
     "inquiryDetail": {
@@ -17619,8 +17706,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
-        "archived": "Arkiverad",
+        "archived": "Inaktiv – kan kontaktas",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
@@ -17717,7 +17805,9 @@
             "external_contact": "Annan extern",
             "doctor": "Läkare",
             "dentist": "Tandläkare",
-            "our_contact_person": "Vår kontaktperson"
+            "our_contact_person": "Vår kontaktperson",
+            "advisor": "Rådgivare",
+            "municipality": "Kommun"
         },
         "form": {
             "type": "Typ",
@@ -17730,7 +17820,13 @@
             "employee": "Medarbetare",
             "coordinatorRole": "Koordinatorroll",
             "noRole": "Ingen",
-            "isPrimary": "Primär part"
+            "isPrimary": "Primär part",
+            "role": "Roll",
+            "roleConsultant": "Konsult",
+            "relationship": "Relation",
+            "noRelationships": "Det finns inga relationer ännu.",
+            "addRelationships": "Lägg till relationer under Inställningar",
+            "askAdminForRelationships": "En administratör kan lägga till dem under Inställningar."
         }
     },
     "inquiryInvitations": {
@@ -17755,7 +17851,10 @@
             "yes": "Ja tack",
             "no": "Nej tack",
             "answered": "Du har svarat"
-        }
+        },
+        "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet",
+        "contactDirectly": "Kontakta direkt",
+        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens."
     },
     "taskBoards": {
         "actions": {
@@ -18995,5 +19094,36 @@
     "tableColumns": {
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
+    },
+    "managerSuggestion": {
+        "button": "Föreslå för min chef",
+        "title": "Föreslå för din chef",
+        "to": "Skicka till",
+        "message": "Meddelande",
+        "defaultMessage": "Jag har provat {app} i CitizenOne och tror att det kan spara oss tid för det vi egentligen är här för.",
+        "noPersonalData": "Skriv inte personnummer eller andra personuppgifter här.",
+        "personalNumber": "Det ser ut som ett personnummer. Ta bort det innan du skickar.",
+        "tooLong": "Meddelandet får vara högst {max} tecken.",
+        "calm": "Det är ingen brådska. Din chef får ett kort meddelande och en länk till appen.",
+        "send": "Skicka förslag",
+        "sent": "Tack. Ditt förslag har skickats.",
+        "already": "Du har redan skickat förslaget till dem nyligen.",
+        "limit": "Du har skickat det här förslaget flera gånger nyligen. Låt det vila ett tag.",
+        "failed": "Förslaget kunde inte skickas. Försök igen senare."
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Det gick inte att hämta schemadata",
+        "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",
+        "createShiftFailed": "Passet kunde inte skapas.",
+        "employeeNotLinked": "Medarbetaren är ännu inte kopplad till en lokal användare.",
+        "unknownError": "Okänt fel",
+        "serverError": "Serverfel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "generic": "Något gick fel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "unauthorized": "Behörighet saknas",
+        "somethingWentWrongWith": "Något gick fel: {message}",
+        "downloadFailed": "Ett fel uppstod vid nedladdningen.",
+        "importFailed": "Ett fel uppstod vid importen.",
+        "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
+        "deleteFailed": "Ett fel uppstod vid raderingen."
     }
 }

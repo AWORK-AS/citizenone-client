@@ -399,8 +399,10 @@
                             </div>
                         </div>
 
+                        <!-- Employee documents: Admins and roles with "can see HR details and
+                             employee documents"; the backend follows the same rule. -->
                         <div class="grid grid-cols-1 gap-x-8 gap-y-4 pb-10 mb-10 xl:grid-cols-3"
-                            v-if="isAtLeast('Admin')">
+                            v-if="seesHrData()">
                             <div>
                                 <h2 class="text-base font-semibold leading-7 text-gray-900">
                                     {{ $t('employees.documents.documents') }}
@@ -536,7 +538,7 @@ const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
-const { isAtLeast } = usePermissions()
+const { isAtLeast, seesHrData } = usePermissions()
 const { locale, t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { summarise: summariseSpokenLanguages } = useSpokenLanguages()

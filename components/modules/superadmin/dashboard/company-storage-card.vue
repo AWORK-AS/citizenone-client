@@ -17,9 +17,9 @@
                         {{ $t('superadmin.dashboard.companyStorage.storagePaid') }}:
                         {{ formatAmount(company?.storage_paid) }}
                     </p>
-                    <p class="text-xs" :class="company?.storage_used > 0 ? 'text-green-600' : 'text-red-600'">
+                    <p class="text-xs" :class="(company?.storage_used_bytes ?? company?.storage_used_gb ?? 0) > 0 ? 'text-green-600' : 'text-red-600'">
                         {{ $t('superadmin.dashboard.companyStorage.storageUsed') }}:
-                        {{ company?.storage_used }}
+                        {{ company?.storage_used_gb === null || company?.storage_used_gb === undefined ? '-' : formatStorageUsed(company?.storage_used_bytes, company?.storage_used_gb) }}
                     </p>
                 </div>
             </div>
@@ -29,6 +29,7 @@
 
 <script setup lang="ts">
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 
 const props = defineProps({
     title: String,
@@ -38,4 +39,5 @@ const props = defineProps({
     } as any
 })
 const { formatAmount } = useAmountFormatter()
+const { formatStorageUsed } = useStorageFormat()
 </script>

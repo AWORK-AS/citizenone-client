@@ -362,8 +362,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
                         <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
-                        <FormTextField id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
+                        <FormTextField v-if="!isHidden('pricing')" id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
                             v-model="state.formCitizen.pricing" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.pricing?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.pricing?.[0]" />
                     </div>
@@ -432,8 +433,9 @@
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('hourly_rate')">
                     <FormLabel for="hourly_rate" :label="$t('citizens.form.hourlyRate')" />
-                    <FormTextField id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
+                    <FormTextField v-if="!isHidden('hourly_rate')" id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
                         v-model="state.formCitizen.hourly_rate" />
+                    <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                     <FormError :error="v$?.formCitizen?.hourly_rate?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
                 </div>

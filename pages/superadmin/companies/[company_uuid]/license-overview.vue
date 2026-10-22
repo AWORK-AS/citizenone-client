@@ -414,7 +414,7 @@
                                             </p>
                                             <p class="text-sm text-gray-600 mt-1">
                                                 {{ $t('superadmin.companies.licenseOverview.storage.used', {
-                                                    used: state.storage.storage_used_gb,
+                                                    used: formatStorageUsed(state.storage.storage_used_bytes, state.storage.storage_used_gb),
                                                     quota: state.storage.storage_quota_gb
                                                 }) }}
                                             </p>
@@ -880,6 +880,7 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import { renewalSummary, subscriptionAgreementView } from '@/composables/agreements'
 import { useI18n } from 'vue-i18n'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import type { Error } from '@/types'
 
@@ -888,6 +889,7 @@ const { formatAmount } = useAmountFormatter()
 const { can } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
+const { formatStorageUsed } = useStorageFormat()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
@@ -983,6 +985,7 @@ const state = reactive({
     storage: {
         subscription: null as any,
         storage_used_gb: 0,
+        storage_used_bytes: null as number | null,
         storage_quota_gb: 0,
     },
     grantStorage: {
@@ -1379,6 +1382,7 @@ async function fetchCompanyStorage() {
         if (response) {
             state.storage.subscription = response.subscription ?? null
             state.storage.storage_used_gb = response.storage_used_gb ?? 0
+            state.storage.storage_used_bytes = response.storage_used_bytes ?? null
             state.storage.storage_quota_gb = response.storage_quota_gb ?? 0
         }
     } catch (error: any) {

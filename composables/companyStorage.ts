@@ -1,4 +1,5 @@
 import { licenseService } from '@/components/api/superadmin/LicenseService'
+import { formatStorage } from '@/composables/storageFormat'
 
 /**
  * Storage usage for one company, shared between the stat card and the
@@ -12,6 +13,7 @@ export function useCompanyStorage(companyUuid: string) {
 
     const usedGb = computed(() => Number(storage.value?.storage_used_gb ?? 0))
     const quotaGb = computed(() => Number(storage.value?.storage_quota_gb ?? 0))
+    const usedBytes = computed(() => storage.value?.storage_used_bytes ?? null)
     const hasData = computed(() => storage.value !== null)
 
     const percent = computed(() => {
@@ -51,7 +53,7 @@ export function useCompanyStorage(companyUuid: string) {
         isLoading.value = false
     }
 
-    return { storage, isLoading, hasData, usedGb, quotaGb, percent, textClass, barClass, breakdown, load }
+    return { storage, isLoading, hasData, usedGb, usedBytes, quotaGb, percent, textClass, barClass, breakdown, load }
 }
 
 export function formatStorageGb(value: any, locale = 'da-DK') {
@@ -59,9 +61,5 @@ export function formatStorageGb(value: any, locale = 'da-DK') {
 }
 
 export function formatStorageSize(bytes: any, locale = 'da-DK') {
-    const number = Number(bytes ?? 0)
-    if (number >= 1024 ** 3) return (number / 1024 ** 3).toLocaleString(locale, { maximumFractionDigits: 2 }) + ' GB'
-    if (number >= 1024 ** 2) return (number / 1024 ** 2).toLocaleString(locale, { maximumFractionDigits: 1 }) + ' MB'
-    if (number >= 1024) return (number / 1024).toLocaleString(locale, { maximumFractionDigits: 0 }) + ' KB'
-    return number + ' B'
+    return formatStorage(bytes, locale)
 }

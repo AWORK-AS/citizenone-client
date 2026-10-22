@@ -47,12 +47,13 @@
                             <Icon name="ph:file-arrow-up" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.importEmployees.importEmployees') }}
                         </FormButton>
-                        <FormButton buttonStyle="action" @click="exportEmployees">
+                        <!-- The export carries pay, norm and address fields: HR data. -->
+                        <FormButton buttonStyle="action" @click="exportEmployees" v-if="seesHrData()">
                             <Icon name="ph:file-arrow-down" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.exportEmployees') }}
                         </FormButton>
                         <FormButton buttonStyle="action" @click="navigateTo('/employees/certificates')"
-                            v-if="isAtLeast('Admin')">
+                            v-if="seesHrData()">
                             <Icon name="ph:seal-check" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('employees.certificates.certificates') }}
                         </FormButton>
@@ -269,7 +270,7 @@ const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { successAlert } = useAlert()
-const { isAtLeast } = usePermissions()
+const { isAtLeast, seesHrData } = usePermissions()
 const { t } = useI18n()
 const breadcrumbLinks = [
     {

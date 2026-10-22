@@ -207,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-import { asksFor as asksForField } from '@/composables/inquiryForms'
+import { asksFor as asksForField, shownOnInquiry } from '@/composables/inquiryForms'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -258,12 +258,17 @@ function formAsks(field: string): boolean {
 }
 
 /**
- * Whether the field is shown. An edit shows every field: the inquiry page
- * lists them all, so each one it lists can be corrected here. Only what the
- * form asks for is required, so a field it leaves out never blocks a save.
+ * Whether the field is shown. An edit shows the same fields as the inquiry
+ * page - what the inquiry's form asks for plus anything already filled in, or
+ * every field for an inquiry from before forms - so each one the page lists
+ * can be corrected here. Read off the inquiry as loaded, so a field does not
+ * vanish while it is being cleared. Only what the form asks for is required,
+ * so a field it leaves out never blocks a save.
  */
 function asksFor(field: string): boolean {
-    return props.formType === 'update' || formAsks(field)
+    if (props.formType !== 'update') return formAsks(field)
+
+    return shownOnInquiry(field, props.form as any, props.selectedInquiry as any)
 }
 
 const { t, locale } = useI18n()
