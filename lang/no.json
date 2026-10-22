@@ -17523,6 +17523,27 @@
             "saved": "Profilen er lagret",
             "skillsSaved": "Kompetansene er lagret",
             "saveFailed": "Kunne ikke lagres"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktes",
+                "do_not_contact": "Skal ikke kontaktes",
+                "terminated": "Avsluttet"
+            },
+            "doNotContact": "Skal ikke kontaktes",
+            "reason": "Årsak",
+            "note": "Notat",
+            "hint": "Merket «Skal ikke kontaktes» er konsulenten utenfor matchingen og kan verken spørres, velges til en sak eller reaktiveres. En arkivert konsulent uten merking og uten sluttdato er med i matchingen som «Inaktiv – kan kontaktes».",
+            "reasons": {
+                "resigned": "Sluttet",
+                "paused": "På pause",
+                "absent": "Fraværende",
+                "do_not_contact": "Skal ikke kontaktes",
+                "cannot_contact": "Kan ikke kontaktes",
+                "other": "Annet"
+            }
         }
     },
     "inquiryDetail": {
@@ -17586,8 +17607,9 @@
         "clear": "Nullstill",
         "noConsultants": "Ingen konsulenter funnet.",
         "notReady": "Kan ikke settes på sak",
-        "archived": "Arkivert",
+        "archived": "Inaktiv – kan kontaktes",
         "archivedHint": "Reaktiveres med en lisens når konsulenten velges til saken",
+        "notNotified": "{count} konsulent fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne. | {count} konsulenter fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne.",
         "nameSearch": "Søk konsulent på navn",
         "openProfile": "Åpne profil",
         "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
@@ -17722,7 +17744,10 @@
             "yes": "Ja takk",
             "no": "Nei takk",
             "answered": "Du har svart"
-        }
+        },
+        "cannotBeChosen": "Merket etter invitasjonen og kan ikke velges til saken",
+        "contactDirectly": "Kontakt direkte",
+        "contactDirectlyHint": "Inaktive konsulenter får ingen e-post eller varsel i appen om saken. Kontakt dem direkte. Utpek reaktiverer dem med en lisens."
     },
     "taskBoards": {
         "actions": {

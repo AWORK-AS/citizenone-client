@@ -17523,6 +17523,27 @@
             "saved": "Profilen har sparats",
             "skillsSaved": "Kompetenserna har sparats",
             "saveFailed": "Kunde inte sparas"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktas",
+                "do_not_contact": "Får inte kontaktas",
+                "terminated": "Avslutad"
+            },
+            "doNotContact": "Får inte kontaktas",
+            "reason": "Orsak",
+            "note": "Anteckning",
+            "hint": "Markerad som \"Får inte kontaktas\" är konsulten utanför matchningen och kan varken tillfrågas, väljas till ett ärende eller återaktiveras. En arkiverad konsult utan markering och utan slutdatum finns med i matchningen som \"Inaktiv – kan kontaktas\".",
+            "reasons": {
+                "resigned": "Slutat",
+                "paused": "Pausad",
+                "absent": "Frånvarande",
+                "do_not_contact": "Får inte kontaktas",
+                "cannot_contact": "Kan inte kontaktas",
+                "other": "Annat"
+            }
         }
     },
     "inquiryDetail": {
@@ -17586,8 +17607,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
-        "archived": "Arkiverad",
+        "archived": "Inaktiv – kan kontaktas",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
@@ -17722,7 +17744,10 @@
             "yes": "Ja tack",
             "no": "Nej tack",
             "answered": "Du har svarat"
-        }
+        },
+        "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet",
+        "contactDirectly": "Kontakta direkt",
+        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens."
     },
     "taskBoards": {
         "actions": {
