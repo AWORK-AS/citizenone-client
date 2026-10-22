@@ -52,6 +52,15 @@
         </div>
 
         <div class="space-y-3">
+            <!-- Visit, transport or administration time: only where the company
+                 switched hour types on (Settings -> Company). -->
+            <div class="space-y-1" v-if="showsHourType">
+                <FormLabel for="contract_hour_type_uuid" :label="$t('citizens.interventionHours.form.hourType')" />
+                <FormSelect id="contract_hour_type_uuid" :options="hourTypeOptions" :searchable="false"
+                    :canClear="false" :canDeselect="false"
+                    v-model="state.formInterventionHours.contract_hour_type_uuid" />
+                <FormError :error="props?.error?.errors?.contract_hour_type_uuid?.[0]" />
+            </div>
             <div class="space-y-1">
                 <FormLabel for="date_time_start" :label="$t('citizens.interventionHours.form.datetimeStart')" />
                 <FormDateTimeField id="date_time_start" name="date_time_start"
@@ -94,6 +103,8 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { useCareHourTypes } from '@/composables/careHourTypeList'
+import { defaultHourTypeUuid, hourTypeChoices, hourTypePayload } from '@/composables/careHourTypes'
 
 const props = defineProps({
     error: {
@@ -125,6 +136,7 @@ const state = reactive({
         date_time_start: '',
         date_time_end: '',
         note: '',
+        contract_hour_type_uuid: '' as string,
     },
     formTransport: {
         start_address: '',
@@ -134,6 +146,24 @@ const state = reactive({
 })
 
 const { t } = useI18n()
+const { types: hourTypes, loadHourTypes } = useCareHourTypes()
+
+// A transport trip keeps its own form; the picker is for registered time.
+const hourTypeOptions = computed(() => hourTypeChoices(hourTypes.value, props.selectedInterventionHours?.contract_hour_type))
+const showsHourType = computed(() => !props.selectedInterventionHours?.is_transportation && hourTypeOptions.value.length > 0)
+
+// A new registration starts on contact time; an edited one shows its own type,
+// or nothing for a row registered before types (left as it is unless chosen).
+function applyDefaultHourType() {
+    if (props.formType === 'create' && !state.formInterventionHours.contract_hour_type_uuid) {
+        state.formInterventionHours.contract_hour_type_uuid = defaultHourTypeUuid(hourTypes.value)
+    }
+}
+
+onMounted(async () => {
+    await loadHourTypes()
+    applyDefaultHourType()
+})
 
 watch(() => props.transportData, (data) => {
     if (data && props.selectedInterventionHours?.is_transportation) {
@@ -154,7 +184,9 @@ watch(() => props.selectedInterventionHours, (selectedInterventionHours: any) =>
             date_time_start: selectedInterventionHours.date_time_start,
             date_time_end: selectedInterventionHours.date_time_end,
             note: selectedInterventionHours.note,
+            contract_hour_type_uuid: selectedInterventionHours.contract_hour_type?.uuid ?? '',
         }
+        applyDefaultHourType()
 
         if (selectedInterventionHours.is_transportation) {
             state.formTransport = {
@@ -197,8 +229,10 @@ function submitForm() {
     state.error = {}
     v$.value.$validate()
     if (!v$.value.$error) {
+        const { contract_hour_type_uuid, ...times } = state.formInterventionHours
         const formData = {
-            ...state.formInterventionHours,
+            ...times,
+            ...hourTypePayload(showsHourType.value, contract_hour_type_uuid),
             ...(props.selectedInterventionHours?.is_transportation ? state.formTransport : {})
         }
         emit('submitForm', formData)
