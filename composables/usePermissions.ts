@@ -85,5 +85,16 @@ export function usePermissions() {
         )
     }
 
-    return { isAtLeast, can, isPlatformStaff }
+    /**
+     * Whether the signed-in user reads colleagues' HR details and employee
+     * documents: Admins, our own team, and roles an Admin has marked "can see
+     * HR details and employee documents". The backend sends `sees_hr_data` for
+     * the user themself (App\Support\HrDataAccess); an older backend without
+     * it leaves the screens as they were, for Admins only.
+     */
+    function seesHrData(): boolean {
+        return isAtLeast('Admin') || isPlatformStaff() || userStore.getUser?.sees_hr_data === true
+    }
+
+    return { isAtLeast, can, isPlatformStaff, seesHrData }
 }

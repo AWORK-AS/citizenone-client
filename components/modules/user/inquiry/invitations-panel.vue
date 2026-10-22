@@ -19,9 +19,26 @@
             <div class="min-w-0 flex-1">
                 <div class="flex flex-wrap items-center gap-2">
                     <p class="text-[13px] font-semibold text-slate-800">{{ consultantName(invitation) }}</p>
-                    <span v-if="invitation.consultant?.is_archived" :title="$t('consultantMatch.archivedHint')"
+                    <!-- Marked or left since they were asked. Without contact_status (an
+                         older backend) only the archived badge shows, as before. -->
+                    <span v-if="isDoNotContact(invitation)" :title="$t('inquiryInvitations.cannotBeChosen')"
+                        class="rounded-full bg-[#fbe9e5] px-2 py-px text-[11px] font-bold text-[#c0442c]">
+                        {{ $t('consultantProfile.contact.statuses.do_not_contact') }}
+                    </span>
+                    <span v-else-if="invitation.consultant?.contact_status === 'terminated'"
+                        class="rounded-full bg-slate-200 px-2 py-px text-[11px] font-bold text-slate-700">
+                        {{ $t('consultantProfile.contact.statuses.terminated') }}
+                    </span>
+                    <span v-else-if="invitation.consultant?.is_archived" :title="$t('consultantMatch.archivedHint')"
                         class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-bold text-slate-600">
                         {{ $t('consultantMatch.archived') }}
+                    </span>
+                    <!-- Asked, but an inactive consultant gets no mail or app notice. Not
+                         once chosen: the choice is made, even if they were archived again. -->
+                    <span v-if="invitation.consultant?.contact_status === 'inactive' && !invitation.is_selected"
+                        :title="$t('inquiryInvitations.contactDirectlyHint')"
+                        class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
+                        {{ $t('inquiryInvitations.contactDirectly') }}
                     </span>
                     <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(invitation.status)">
                         {{ $t('inquiryInvitations.statuses.' + invitation.status) }}
@@ -47,7 +64,7 @@
                         {{ $t('inquiryInvitations.markDeclined') }}
                     </FormButton>
                 </template>
-                <Tooltip v-if="canManage && !invitation.is_selected && invitation.status !== 'declined'"
+                <Tooltip v-if="canManage && !invitation.is_selected && invitation.status !== 'declined' && canBeChosen(invitation)"
                     :text="$t('inquiryInvitations.select')">
                     <FormButton type="button" buttonStyle="primary" @click="select(invitation)">
                         {{ $t('inquiryInvitations.select') }}
@@ -94,6 +111,16 @@ function consultantName(invitation: any) {
     return `${c.firstname ?? ''} ${c.lastname ?? ''}`.trim() || t('inquiryInvitations.unknownConsultant')
 }
 
+// The backend refuses to put them on the case, so the button is not offered.
+function isDoNotContact(invitation: any) {
+    return invitation.consultant?.contact_status === 'do_not_contact'
+}
+
+// Marked since they were asked, or left: the backend refuses either (409).
+function canBeChosen(invitation: any) {
+    return !isDoNotContact(invitation) && invitation.consultant?.contact_status !== 'terminated'
+}
+
 function statusClass(status: string) {
     if (status === 'interested') return 'bg-[#e6f6ee] text-[#177a53]'
     if (status === 'declined') return 'bg-[#fbe9e5] text-[#c0442c]'
@@ -113,7 +140,7 @@ function trail(invitation: any) {
         askedBy ? t('inquiryInvitations.askedBy', { name: askedBy }) : '',
         invitation.created_at ? formatDateToReadable(invitation.created_at) : '',
         // Who recorded the answer matters: an answer taken over the phone is not
-        // the same as the consultant answering herself.
+        // the same as the consultant answering themselves.
         answeredBy ? t('inquiryInvitations.answeredBy', { name: answeredBy }) : '',
     ].filter(Boolean).join(' · ')
 }

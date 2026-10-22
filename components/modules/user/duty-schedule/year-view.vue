@@ -319,18 +319,13 @@
                                 </div>
                                 <div class="grid grid-cols-7 text-xxs py-0.5 border-t border-gray-200 mt-0.5">
                                     <div class="col-span-3 pl-1 font-bold">{{ $t('dutySchedules.total') }}:</div>
+                                    <!-- Totals come from the API, summed from unrounded hours. Re-adding the
+                                         rounded rows here drifted by 0.01 on factor shifts (sleeping night). -->
                                     <div class="col-span-2 text-right pr-2 font-bold">
-                                        {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
-                                            any) => sum +
-                                            parseLocaleNumber(language.locale.value, t?.monthly_hours || t?.weekly_hours ||
-                                                '0'), 0))
-                                        }}
+                                        {{ employee?.period_hours_total ?? formatNumber(language.locale.value, 0) }}
                                     </div>
                                     <div class="col-span-2 text-right pr-2 font-bold border-l border-gray-100">
-                                        {{formatNumber(language.locale.value, employee?.hours?.reduce((sum: number, t:
-                                            any) => sum +
-                                            parseLocaleNumber(language.locale.value, t?.yearly_hours ?? '0'), 0))
-                                        }}
+                                        {{ employee?.year_hours_total ?? formatNumber(language.locale.value, 0) }}
                                     </div>
                                 </div>
                             </div>
@@ -1881,11 +1876,17 @@ onMounted(() => {
     fetchAllMonths()
     favoriteEmployees.ensureLoaded()
     document.addEventListener('click', closeRequestMenu)
+    window.addEventListener('keydown', handleKeyDown)
 })
 
 onUnmounted(() => {
     document.removeEventListener('click', closeRequestMenu)
+    window.removeEventListener('keydown', handleKeyDown)
 })
+
+function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') stopCopying()
+}
 
 function isFavorited(employee: any) {
     return employee?.is_favorited_by_viewer || favoriteEmployees.isFavorited(employee?.uuid)

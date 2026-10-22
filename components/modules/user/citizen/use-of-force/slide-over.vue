@@ -154,6 +154,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useOfForceService } from '@/components/api/user/UseOfForceService'
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -285,7 +286,7 @@ async function downloadAttachment(useOfForce: any) {
             saveAs(response, useOfForce?.file_name)
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isPageLoading = false
 }

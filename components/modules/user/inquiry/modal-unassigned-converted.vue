@@ -45,6 +45,7 @@
                                     <th class="co-th">{{ $t('inquiries.table.firstname') }}</th>
                                     <th class="co-th">{{ $t('inquiries.table.lastname') }}</th>
                                     <th class="co-th">{{ $t('inquiries.table.inquirerName') }}</th>
+                                    <th class="co-th text-right">{{ $t('inquiryPipeline.unassignedConverted.open') }}</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -57,6 +58,26 @@
                                     <td class="co-td">{{ item.citizen?.firstname ?? '-' }}</td>
                                     <td class="co-td">{{ item.citizen?.lastname ?? '-' }}</td>
                                     <td class="co-td">{{ item.inquirer_name ?? '-' }}</td>
+                                    <!-- Look at the case before handing it out; forwarding is the
+                                         assign above. -->
+                                    <td class="co-td">
+                                        <div class="flex items-center justify-end gap-1.5">
+                                            <Tooltip v-if="item.citizen?.uuid" :text="$t('inquiryPipeline.unassignedConverted.openCase')">
+                                                <NuxtLink :to="`/citizens/${item.citizen.uuid}/journals`"
+                                                    :aria-label="$t('inquiryPipeline.unassignedConverted.openCase')"
+                                                    class="inline-flex size-8 items-center justify-center rounded-md border border-surface-200 text-slate-500 hover:bg-surface-100 hover:text-slate-800">
+                                                    <Icon name="ph:user" class="size-4" />
+                                                </NuxtLink>
+                                            </Tooltip>
+                                            <Tooltip :text="$t('inquiryPipeline.unassignedConverted.openInquiry')">
+                                                <NuxtLink :to="`/inquiries/${item.uuid}`"
+                                                    :aria-label="$t('inquiryPipeline.unassignedConverted.openInquiry')"
+                                                    class="inline-flex size-8 items-center justify-center rounded-md border border-surface-200 text-slate-500 hover:bg-surface-100 hover:text-slate-800">
+                                                    <Icon name="ph:arrow-square-out" class="size-4" />
+                                                </NuxtLink>
+                                            </Tooltip>
+                                        </div>
+                                    </td>
                                 </tr>
                             </tbody>
                         </table>

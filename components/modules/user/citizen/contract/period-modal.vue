@@ -381,6 +381,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString, addDaysToLocalDate } from '@/composables/localDate'
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
@@ -541,7 +542,7 @@ function fieldVisibility(definition: ContractFieldDefinition): string {
 
 function onCancelledToggle() {
     if (state.form.is_cancelled && !state.form.cancelled_at) {
-        state.form.cancelled_at = new Date().toISOString().slice(0, 10)
+        state.form.cancelled_at = localDateString()
     }
 }
 
@@ -650,14 +651,11 @@ function templateSource() {
 }
 
 function today(): string {
-    return new Date().toISOString().slice(0, 10)
+    return localDateString()
 }
 
 function nextDay(date: string): string {
-    const d = new Date(`${date}T12:00:00`)
-    d.setDate(d.getDate() + 1)
-
-    return d.toISOString().slice(0, 10)
+    return addDaysToLocalDate(date, 1)
 }
 
 // A department created on top of this form is picked straight away; the page

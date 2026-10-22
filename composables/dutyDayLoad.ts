@@ -37,10 +37,14 @@ export function dutyDayLoad() {
         return (load!.minimum_staff as number) - load!.staff_count
     }
 
-    /** Hours as a short figure: 7.5 → "7,5" (dk) / "7.5" (en), whole hours without decimals. */
+    /**
+     * Hours as a short figure: 7.5 → "7,5" (dk) / "7.5" (en), whole hours without decimals.
+     * Two decimals at most, so quarter hours stay exact: 8.75 must not show as 8.8, or the
+     * day totals no longer add up to the shifts they are made of.
+     */
     function formatHours(hours: number | null | undefined, locale = 'da-DK'): string {
         const value = Number(hours ?? 0)
-        return value.toLocaleString(locale, { maximumFractionDigits: 1 })
+        return value.toLocaleString(locale, { maximumFractionDigits: 2 })
     }
 
     return { loadStatus, missingStaff, formatHours }
