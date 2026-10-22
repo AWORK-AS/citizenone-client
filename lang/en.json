@@ -11996,14 +11996,21 @@
     },
     "supportAccess": {
         "title": "CitizenOne's access",
-        "intro": "This is where you approve it when CitizenOne asks to enter one of your users' accounts. Nobody gets in without a yes from you. A yes lasts four hours and then closes by itself, you can pull it back in the meantime, and every time somebody has been inside is listed below.",
+        "intro": "This is where you approve it when CitizenOne asks to enter one of your users' accounts. Nobody gets in without a yes from you. A yes lasts for the requested duration and then closes by itself, you can pull it back in the meantime, and every time somebody has been inside is listed below.",
         "pending": {
             "heading": "Waiting for your answer",
             "empty": "There are no requests right now.",
             "wantsAccessTo": "Asks for access to {name}'s account",
             "answerBefore": "Answer before",
             "approve": "Approve",
-            "deny": "Deny"
+            "deny": "Deny",
+            "duration": {
+                "h4": "Access for 4 hours after approval",
+                "h24": "Access for 1 day after approval",
+                "h168": "Access for 7 days after approval",
+                "h720": "Access for 30 days after approval",
+                "hours": "Access for {count} hours after approval"
+            }
         },
         "active": {
             "heading": "Access right now",
@@ -12018,7 +12025,8 @@
             "basis": "Basis",
             "reason": "Reason",
             "approved": "Approved by you",
-            "breakGlass": "Without approval"
+            "breakGlass": "Without approval",
+            "endedBySupport": "Ended by support"
         },
         "alert": {
             "approved": "The access is approved",
@@ -13638,7 +13646,7 @@
         "supportAccess": {
             "pageTitle": "Customer access",
             "header": "Customer access",
-            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts four hours. If they do not answer within twelve hours, the request lapses.",
+            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts for the chosen duration (4 hours to 7 days). If they do not answer within twelve hours, the request lapses.",
             "loading": "Loading requests",
             "empty": "You have not asked for access to any account.",
             "status": {
@@ -13655,7 +13663,9 @@
                 "reason": "Reason",
                 "deadline": "Deadline",
                 "accessUntil": "Access until",
-                "answerBefore": "Answer before"
+                "answerBefore": "Answer before",
+                "duration": "Duration",
+                "endedBy": "Ended by {name} {time}"
             },
             "dialog": {
                 "heading": "Ask the customer for access",
@@ -13666,10 +13676,26 @@
                 "caseReference": "Case reference",
                 "caseReferencePlaceholder": "Optional",
                 "send": "Send request",
-                "terms": "If the customer says yes, the access lasts four hours and then closes by itself. They can pull it back in the meantime, and everything that happens is in their log."
+                "terms": "If the customer says yes, the access lasts for the chosen duration and then closes by itself. They can pull it back in the meantime, and everything that happens is in their log.",
+                "duration": "Duration",
+                "durationHint": "The customer sees the duration and can withdraw access at any time."
+            },
+            "duration": {
+                "h4": "4 hours",
+                "h24": "1 day",
+                "h168": "7 days",
+                "h720": "30 days",
+                "hours": "{count} hours"
+            },
+            "end": {
+                "button": "End access",
+                "confirm": "End the access now?",
+                "yes": "Yes, end it",
+                "done": "Access has been ended"
             },
             "alert": {
-                "requested": "The request was sent to the customer"
+                "requested": "The request was sent to the customer",
+                "reused": "You already have an approved access that is still valid. It is used unchanged and no new request was sent."
             }
         },
         "emailTemplates": {
