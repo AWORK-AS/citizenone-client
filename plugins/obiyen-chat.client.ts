@@ -28,6 +28,9 @@ export default defineNuxtPlugin(() => {
             const bubble = d.getElementById('obiyen-chat-widget')?.shadowRoot?.querySelector('.cw-bubble')
             if (bubble) {
                 if (!revealedAlready) hideBubble()
+                // The widget arrived after the first page was set: a start on a
+                // superadmin page has to hide it now that there is a host.
+                followPage(useRouter().currentRoute.value.path)
                 clearInterval(interval)
             }
         }, 250)
@@ -50,13 +53,53 @@ export default defineNuxtPlugin(() => {
                 useObiyenChat().suggestInApp((key: string) => String(i18n.t(key)))
             } catch { /* leave Milo's defaults */ }
         }
+        // The menu name of the section a path belongs to, for Milo's prompt.
+        // Sections without an entry send nothing, which clears the last one.
+        const SECTION_LABELS: Record<string, string> = {
+            'overview': 'sidebar.overview',
+            'my-day': 'sidebar.myDay',
+            'citizens': 'sidebar.citizens',
+            'citizen': 'sidebar.citizens',
+            'calendar': 'sidebar.calendar',
+            'messages': 'sidebar.messages',
+            'journal-notes': 'sidebar.journalNotes',
+            'drive': 'sidebar.documents',
+            'forms': 'sidebar.forms',
+            'schedules': 'sidebar.dutySchedules',
+            'my-availability': 'sidebar.myAvailability',
+            'my-shift-evaluations': 'sidebar.myShiftEvaluations',
+            'mail': 'sidebar.mail',
+            'reports': 'sidebar.reports',
+            'surveys': 'sidebar.surveys',
+            'tasks': 'sidebar.Tasks',
+            'invoicing': 'sidebar.invoicing',
+            'dental-recalls': 'sidebar.dentalRecalls',
+            'dental-overview': 'sidebar.dentalOverview',
+            'plans-goals-subgoals-completions': 'sidebar.plansAndGoalsExport',
+            'discover': 'sidebar.discover',
+        }
+        const followPage = (path: string) => {
+            try {
+                const chat = useObiyenChat()
+                const section = path.split('/').filter(Boolean)[0] ?? ''
+                chat.setHiddenHere(section === 'superadmin')
+                const key = SECTION_LABELS[section]
+                const i18n = (nuxtApp as any).$i18nGlobal
+                chat.setPage(key && i18n?.t ? String(i18n.t(key)) : null)
+            } catch { /* Milo just goes without the page name */ }
+        }
+
         nuxtApp.hook('app:mounted', () => {
             suggestInApp()
+            followPage(useRouter().currentRoute.value.path)
             const locale = (nuxtApp as any).$i18nGlobal?.locale
             if (locale && typeof locale === 'object' && 'value' in locale) watch(locale, suggestInApp)
         })
         useRouter().afterEach((to, from) => {
-            if (to.path !== from.path) suggestInApp()
+            if (to.path !== from.path) {
+                suggestInApp()
+                followPage(to.path)
+            }
         })
     }
 })
