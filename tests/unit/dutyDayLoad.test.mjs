@@ -33,10 +33,15 @@ describe('missingStaff', () => {
 })
 
 describe('formatHours', () => {
-    test('one decimal at most, in the locale', () => {
+    test('short figure in the locale', () => {
         assert.equal(formatHours(7.5, 'en-GB'), '7.5')
         assert.equal(formatHours(16, 'en-GB'), '16')
         assert.equal(formatHours(7.5, 'da-DK'), '7,5')
         assert.equal(formatHours(null, 'en-GB'), '0')
+    })
+    test('quarter hours are not rounded to one decimal', () => {
+        assert.equal(formatHours(8.75, 'en-GB'), '8.75')
+        assert.equal(formatHours(8.75, 'da-DK'), '8,75')
+        assert.equal(formatHours(8.25 + 8.75, 'da-DK'), '17')
     })
 })
