@@ -107,6 +107,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
+import { scaleAnswerOf } from '@/composables/scaleAnswer'
+import { chartLabelGap, chartLabelIndices } from '@/composables/scaleHistoryChart'
 
 const props = defineProps({
     field: {
@@ -171,20 +173,12 @@ const raters = computed(() => props.field?.raters ?? [])
 
 /**
  * The answer travels as an object so a whole measurement stays one field. It can
- * arrive as a JSON string when an existing report is reopened.
+ * arrive as a JSON string when an existing report is reopened, wrapped more than
+ * once when an earlier save encoded it again.
  */
 const answer = computed(() => {
-    const value = props.modelValue
-    if (!value) return { measured_at: today(), scores: [] }
-    if (typeof value === 'string') {
-        try {
-            const parsed = JSON.parse(value)
-            return { measured_at: parsed.measured_at || today(), scores: parsed.scores ?? [] }
-        } catch {
-            return { measured_at: today(), scores: [] }
-        }
-    }
-    return { measured_at: value.measured_at || today(), scores: value.scores ?? [] }
+    const value = scaleAnswerOf(props.modelValue)
+    return { measured_at: value?.measured_at || today(), scores: value?.scores ?? [] }
 })
 
 const measuredAt = computed({
@@ -283,10 +277,9 @@ const chart = computed(() => {
     // A label under every date ran the dates into each other once a case had
     // more than a dozen measurements. At most eight, spread evenly and always
     // the first and the last, with the year when the dates span more than one.
-    const labelCount = Math.min(dates.length, 8)
-    const labelled = new Set(Array.from({ length: labelCount }, (_, k) =>
-        labelCount > 1 ? Math.round((k * (dates.length - 1)) / (labelCount - 1)) : 0))
+    // Labels keep a whole label's width apart, so they never touch.
     const withYear = dates.length > 1 && dates[0].slice(0, 4) !== dates[dates.length - 1].slice(0, 4)
+    const labelled = new Set(chartLabelIndices(dates.length, innerW, chartLabelGap(withYear ? 8 : 5, 9)))
     const xLabels = dates
         .map((date, i) => ({ i, x: x(i), label: shortDate(date, withYear) }))
         .filter((point) => labelled.has(point.i))

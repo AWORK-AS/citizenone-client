@@ -241,6 +241,7 @@
 import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
 import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { scaleAnswerOf } from '@/composables/scaleAnswer'
 import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
 
@@ -368,13 +369,9 @@ function tableRows(fieldResponse: any): any[][] {
     return parseField(fieldResponse)?.rows ?? []
 }
 
+// An answer stored wrapped by an earlier save still shows its scores.
 function scaleAnswer(fieldResponse: any): any {
-    const value = fieldResponse?.response
-    try {
-        return typeof value === 'string' ? JSON.parse(value) : (value ?? {})
-    } catch {
-        return {}
-    }
+    return scaleAnswerOf(fieldResponse?.response) ?? {}
 }
 
 function scaleScore(fieldResponse: any, raterKey: string): string {

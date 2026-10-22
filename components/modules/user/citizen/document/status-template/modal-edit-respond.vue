@@ -290,6 +290,7 @@ import { citizenDocumentTemplateService } from '@/components/api/user/CitizenDoc
 import { citizenDocumentStatusService } from '@/components/api/user/CitizenDocumentStatusService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { scaleAnswerPayload } from '@/composables/scaleAnswer'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
@@ -480,7 +481,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -555,7 +556,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }

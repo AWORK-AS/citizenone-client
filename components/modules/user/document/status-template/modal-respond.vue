@@ -261,6 +261,7 @@ import { formService } from '@/components/api/user/FormService'
 import { documentTemplateService } from '@/components/api/user/DocumentTemplateService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { scaleAnswerPayload } from '@/composables/scaleAnswer'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { googledriveService } from '~/components/api/user/GoogleDriveService'
@@ -403,7 +404,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -457,7 +458,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -519,7 +520,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -577,7 +578,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }

@@ -355,6 +355,7 @@ import { useI18n } from "vue-i18n"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
+import { scaleAnswerPayload } from '@/composables/scaleAnswer'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
@@ -730,7 +731,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -810,7 +811,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -829,7 +830,7 @@ async function submitResponseAndDownloadPDF() {
         })
         const response = await formFieldService.savePlanGoalSubgoalResponsesAndDownloadPdfOnEdit(props.selectedStatus.uuid, params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfullyUpdated')}.`)
             closeModal()
             state.currentStep = 1
             const filename = state.form?.data?.document_title || state.form?.data?.title || 'download'
