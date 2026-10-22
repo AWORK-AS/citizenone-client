@@ -19384,6 +19384,8 @@
         "failed": "Forslaget kunne ikke sendes. Prøv igen senere."
     },
     "apiErrors": {
+        "notSavedTitle": "Ikke gemt",
+        "notSaved": "Din ændring blev ikke gemt. Tjek forbindelsen, og prøv igen.",
         "loadScheduleFailed": "Kunne ikke hente vagtplansdata",
         "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
         "createShiftFailed": "Vagten kunne ikke oprettes.",

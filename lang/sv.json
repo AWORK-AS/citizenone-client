@@ -19299,6 +19299,8 @@
         "failed": "Förslaget kunde inte skickas. Försök igen senare."
     },
     "apiErrors": {
+        "notSavedTitle": "Inte sparat",
+        "notSaved": "Din ändring sparades inte. Kontrollera anslutningen och försök igen.",
         "loadScheduleFailed": "Det gick inte att hämta schemadata",
         "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",
         "createShiftFailed": "Passet kunde inte skapas.",
