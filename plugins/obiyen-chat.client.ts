@@ -1,4 +1,5 @@
 // plugins/obiyen-chat.client.ts
+import { supportChatPage } from '~/composables/supportChatPage'
 
 export default defineNuxtPlugin(() => {
     // No support chat inside the duty schedule embedded on a customer's website.
@@ -53,39 +54,13 @@ export default defineNuxtPlugin(() => {
                 useObiyenChat().suggestInApp((key: string) => String(i18n.t(key)))
             } catch { /* leave Milo's defaults */ }
         }
-        // The menu name of the section a path belongs to, for Milo's prompt.
-        // Sections without an entry send nothing, which clears the last one.
-        const SECTION_LABELS: Record<string, string> = {
-            'overview': 'sidebar.overview',
-            'my-day': 'sidebar.myDay',
-            'citizens': 'sidebar.citizens',
-            'citizen': 'sidebar.citizens',
-            'calendar': 'sidebar.calendar',
-            'messages': 'sidebar.messages',
-            'journal-notes': 'sidebar.journalNotes',
-            'drive': 'sidebar.documents',
-            'forms': 'sidebar.forms',
-            'schedules': 'sidebar.dutySchedules',
-            'my-availability': 'sidebar.myAvailability',
-            'my-shift-evaluations': 'sidebar.myShiftEvaluations',
-            'mail': 'sidebar.mail',
-            'reports': 'sidebar.reports',
-            'surveys': 'sidebar.surveys',
-            'tasks': 'sidebar.Tasks',
-            'invoicing': 'sidebar.invoicing',
-            'dental-recalls': 'sidebar.dentalRecalls',
-            'dental-overview': 'sidebar.dentalOverview',
-            'plans-goals-subgoals-completions': 'sidebar.plansAndGoalsExport',
-            'discover': 'sidebar.discover',
-        }
         const followPage = (path: string) => {
             try {
                 const chat = useObiyenChat()
-                const section = path.split('/').filter(Boolean)[0] ?? ''
-                chat.setHiddenHere(section === 'superadmin')
-                const key = SECTION_LABELS[section]
+                const { hidden, labelKey } = supportChatPage(path)
+                chat.setHiddenHere(hidden)
                 const i18n = (nuxtApp as any).$i18nGlobal
-                chat.setPage(key && i18n?.t ? String(i18n.t(key)) : null)
+                chat.setPage(labelKey && i18n?.t ? String(i18n.t(labelKey)) : null)
             } catch { /* Milo just goes without the page name */ }
         }
 
