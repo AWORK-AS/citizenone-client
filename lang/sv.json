@@ -8197,6 +8197,12 @@
             "title": "Läkemedelsstatustyper",
             "description": "Välj vilka statusar personalen kan välja när de registrerar en dos. \"Given\" förblir alltid aktiverad."
         },
+        "selfAdministered": {
+            "title": "Självadministrerat läkemedel",
+            "description": "Välj om självadministrerat läkemedel fortfarande hör till personalens läkemedelsrunda.",
+            "showInRounds": "Visa i Medicinoversigt och Min dag",
+            "hiddenHint": "Avstängt: läkemedlet finns kvar på läkemedelskortet, men visas inte i Medicinoversigt eller Min dag, och inga påminnelser eller utgångsvarningar skickas för det."
+        },
         "fields": {
             "addictions": "Afhängigheder",
             "allocatedHours": "Tilldelade timmar",

@@ -8197,6 +8197,12 @@
             "title": "Medicinstatustyper",
             "description": "Vælg hvilke statusser medarbejdere kan vælge, når de registrerer en dosis. \"Givet\" forbliver altid aktiveret."
         },
+        "selfAdministered": {
+            "title": "Selvadministreret medicin",
+            "description": "Vælg om selvadministreret medicin stadig hører til personalets medicinrunde.",
+            "showInRounds": "Vis i Medicinoversigt og Min dag",
+            "hiddenHint": "Slået fra: medicinen står stadig på medicinkortet, men vises ikke i Medicinoversigt eller Min dag, og der sendes ingen påmindelser eller udløbsadvarsler om den."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",

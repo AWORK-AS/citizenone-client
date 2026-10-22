@@ -8197,6 +8197,12 @@
             "title": "Medisinstatustyper",
             "description": "Velg hvilke statuser ansatte kan velge når de registrerer en dose. \"Gitt\" forblir alltid aktivert."
         },
+        "selfAdministered": {
+            "title": "Selvadministrert medisin",
+            "description": "Velg om selvadministrert medisin fortsatt hører til personalets medisinrunde.",
+            "showInRounds": "Vis i Medicinoversigt og Min dag",
+            "hiddenHint": "Slått av: medisinen står fortsatt på medisinkortet, men vises ikke i Medicinoversigt eller Min dag, og det sendes ingen påminnelser eller utløpsvarsler om den."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",
