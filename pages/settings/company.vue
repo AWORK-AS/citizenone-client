@@ -823,6 +823,9 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+// Saving the company is for its Admins; the API refuses everyone else too.
+definePageMeta({ middleware: 'require-admin' })
+
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 // Counting absence toward norm hours is a Pro-plan feature.

@@ -13,7 +13,8 @@ import { usePermissions } from '@/composables/usePermissions'
  * just turns them back before the form is shown.
  *
  * They are sent to the list the page belongs to (/settings/schedule-tags/new ->
- * /settings/schedule-tags), where they can still read what exists.
+ * /settings/schedule-tags), where they can still read what exists, or to
+ * /overview from a page with no list above it (/settings/company).
  */
 export default defineNuxtRouteMiddleware(async (to) => {
     const userStore = useUserStore() as any
@@ -43,5 +44,9 @@ export default defineNuxtRouteMiddleware(async (to) => {
     const { $i18nGlobal } = useNuxtApp() as any
     errorAlert($i18nGlobal.t('alert.warning'), $i18nGlobal.t('alert.pageAccessDenied'))
 
-    return navigateTo(to.path.split('/').slice(0, 3).join('/'))
+    // A page with no list above it (/settings/company, /settings/whistleblower)
+    // would be sent to itself, so it goes where require-page sends a refusal.
+    const list = to.path.split('/').slice(0, 3).join('/')
+
+    return navigateTo(list === to.path.replace(/\/+$/, '') ? '/overview' : list)
 })
