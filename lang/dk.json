@@ -3320,6 +3320,16 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "De 12 sundhedsfaglige områder",
+                "description": "Seneste vurdering, problemstatus og åbne behandlinger inden for hvert område. Tryk på et område for at se mere.",
+                "onlyWithContent": "Vis kun områder med indhold",
+                "empty": "Intet registreret endnu",
+                "nothingYet": "Der er ikke registreret noget på de sundhedsfaglige områder endnu.",
+                "latestStatus": "Seneste status",
+                "openTreatments": "{count} åben behandling | {count} åbne behandlinger",
+                "loadFailed": "Områderne kunne ikke hentes. Prøv igen."
+            },
             "checklists": {
                 "addItem": "Tilføj punkt",
                 "checklists": "Tjeklister",

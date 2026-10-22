@@ -3320,6 +3320,16 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "The 12 health areas",
+                "description": "Latest assessment, problem status and open treatments in each area. Tap an area to see more.",
+                "onlyWithContent": "Only show areas with content",
+                "empty": "Nothing recorded yet",
+                "nothingYet": "Nothing has been recorded in the health areas yet.",
+                "latestStatus": "Latest status",
+                "openTreatments": "{count} open treatment | {count} open treatments",
+                "loadFailed": "The areas could not be loaded. Please try again."
+            },
             "checklists": {
                 "addItem": "Add item",
                 "checklists": "Checklists",

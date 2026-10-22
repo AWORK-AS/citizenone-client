@@ -3320,6 +3320,16 @@
             "noJournalToDisplay": "Inga journal att visa"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "De 12 hälsoområdena",
+                "description": "Senaste bedömning, problemstatus och öppna behandlingar inom varje område. Tryck på ett område för att se mer.",
+                "onlyWithContent": "Visa bara områden med innehåll",
+                "empty": "Inget registrerat ännu",
+                "nothingYet": "Inget har registrerats inom hälsoområdena ännu.",
+                "latestStatus": "Senaste status",
+                "openTreatments": "{count} öppen behandling | {count} öppna behandlingar",
+                "loadFailed": "Områdena kunde inte hämtas. Försök igen."
+            },
             "checklists": {
                 "addItem": "Lägg till punkt",
                 "checklists": "Checklistor",
