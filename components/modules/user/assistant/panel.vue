@@ -20,7 +20,7 @@
                     <ModulesUserNavbarCodyMark :size="28" :state="markState" class="shrink-0" />
                     <p class="min-w-0 flex-1 text-sm font-semibold leading-tight text-gray-900">
                         {{ $t('assistants.identity.name') }}
-                        <span class="block truncate text-[11.5px] font-normal text-gray-400">
+                        <span class="block truncate text-xs font-normal text-gray-500">
                             {{ $t('assistants.identity.scope') }}
                         </span>
                     </p>
@@ -56,7 +56,9 @@
                 </header>
 
                 <template v-if="!assistantStore.isCollapsed">
-                <Alert type="danger" :text="state?.error?.message" class="mx-4 mt-3"
+                <!-- A limit is something to wait out or buy past, not a fault, so it
+                     does not get the red of one. -->
+                <Alert :type="state.error?.isLimit ? 'warning' : 'danger'" :text="state?.error?.message" class="mx-4 mt-3"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
                 <!-- The daily ceiling is the one limit a person can act on: prepaid
