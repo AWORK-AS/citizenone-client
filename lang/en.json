@@ -109,7 +109,10 @@
             "selectAll": "Select all",
             "banner": "{count} converted case(s) have no caseworker yet.",
             "claimCases": "Claim cases",
-            "claimed": "1 case claimed | {count} cases claimed"
+            "claimed": "1 case claimed | {count} cases claimed",
+            "open": "Open",
+            "openCase": "Open @:terms.citizen{''}",
+            "openInquiry": "Open inquiry"
         }
     },
     "managementEconomy": {
@@ -8524,6 +8527,7 @@
             },
             "conversationSummary": "Conversation summary",
             "cpr": "@.capitalize:terms.citizen{''}'s CPR number",
+            "cprWhenWon": "Only required once the inquiry is won.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Do you assess that the @:terms.citizen{''} falls within the target group under Section 109?",
@@ -11213,6 +11217,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
+                "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
                 "2fa": "Two factor authentication",
                 "accountantEmail": "Auditor or accounting e-mail (@:terms.citizens{''}' wallet transactions)",
                 "alert": {
@@ -17802,7 +17807,9 @@
             "external_contact": "Other outside",
             "doctor": "Doctor",
             "dentist": "Dentist",
-            "our_contact_person": "Our contact person"
+            "our_contact_person": "Our contact person",
+            "advisor": "Advisor",
+            "municipality": "Municipality"
         },
         "form": {
             "type": "Type",
@@ -17815,7 +17822,13 @@
             "employee": "Employee",
             "coordinatorRole": "Coordinator role",
             "noRole": "None",
-            "isPrimary": "Primary party"
+            "isPrimary": "Primary party",
+            "role": "Role",
+            "roleConsultant": "Consultant",
+            "relationship": "Relation",
+            "noRelationships": "There are no relations yet.",
+            "addRelationships": "Add relations in Settings",
+            "askAdminForRelationships": "An administrator can add them in Settings."
         }
     },
     "inquiryInvitations": {

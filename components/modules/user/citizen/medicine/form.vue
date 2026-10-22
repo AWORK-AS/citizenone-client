@@ -1237,7 +1237,7 @@ async function fetchCitizenDoctors() {
             response.data.forEach(
                 (doctor: any) => options.push({
                     value: doctor.uuid,
-                    label: doctor.firstname + ' ' + (doctor.lastname ? doctor.lastname : ''),
+                    label: contactDisplayName(doctor),
                 })
             )
             state.options.doctors = options

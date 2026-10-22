@@ -247,6 +247,13 @@
                                     {{ $t('inquiryPipeline.enableLabel') }}
                                 </p>
                             </div>
+                            <div v-if="hasInquiryPipelineApp" class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.inquiry_won_requires_cpr_enabled"
+                                    @toggleSwitch="state.formCompany.inquiry_won_requires_cpr_enabled = !state.formCompany.inquiry_won_requires_cpr_enabled" :label="$t('settings.company.form.inquiryWonRequiresCpr')" />
+                                <p>
+                                    {{ $t('settings.company.form.inquiryWonRequiresCpr') }}
+                                </p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.relative_chat_enabled"
                                     @toggleSwitch="state.formCompany.relative_chat_enabled = !state.formCompany.relative_chat_enabled" :label="$t('settings.company.form.relativeChat')" />
@@ -1053,6 +1060,7 @@ const state = reactive({
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         citizen_calendar_shift_enabled: false,
+        inquiry_won_requires_cpr_enabled: false,
         patient_portal_hide_clinic_contact: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
@@ -1186,6 +1194,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
+            inquiry_won_requires_cpr_enabled: newValue?.company?.inquiry_won_requires_cpr_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
@@ -1452,6 +1461,7 @@ async function submitForm() {
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
+                inquiry_won_requires_cpr_enabled: state.formCompany.inquiry_won_requires_cpr_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
