@@ -10933,6 +10933,8 @@
             "level": "Level",
             "hideInternalJournals": "Kan inte se interna anteckningar",
             "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
+            "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
+            "seesHrDataHelp": "Medarbetare med den här rollen ser kollegors HR-uppgifter, medarbetardokument (avtal, belastningsregisterutdrag, intyg m.m.), lönefält, adresser och nödkontakter och kan hantera dem. Utan den ser de bara sina egna. Administratörer ser dem alltid.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",

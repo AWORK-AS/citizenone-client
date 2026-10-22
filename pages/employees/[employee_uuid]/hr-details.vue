@@ -173,7 +173,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const userStore = useUserStore() as any
-const { isAtLeast, can } = usePermissions()
+const { isAtLeast, seesHrData } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -188,7 +188,7 @@ const breadcrumbLinks = [
 // Who may write is decided by the backend; this only decides what to render. An
 // employee reading their own record gets values and no save button.
 const isAdmin = computed(() => isAtLeast('Admin'))
-const canWrite = computed(() => isAdmin.value || can('update'))
+const canWrite = computed(() => seesHrData())
 const canWriteBank = computed(() => isAdmin.value)
 
 const contactFields = ['private_email', 'private_phone', 'work_phone'] as const

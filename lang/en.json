@@ -10938,6 +10938,8 @@
             "level": "Level",
             "hideInternalJournals": "Cannot see internal notes",
             "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
+            "seesHrData": "Can see HR details and employee documents",
+            "seesHrDataHelp": "Employees with this role see colleagues' HR details, employee documents (contracts, criminal records, certificates and more), pay fields, addresses and emergency contacts, and can manage them. Without it, they see only their own. Administrators always see them.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
