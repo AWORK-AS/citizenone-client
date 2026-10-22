@@ -19299,6 +19299,8 @@
         "failed": "Forslaget kunne ikke sendes. Prøv igjen senere."
     },
     "apiErrors": {
+        "notSavedTitle": "Ikke lagret",
+        "notSaved": "Endringen din ble ikke lagret. Sjekk tilkoblingen, og prøv igjen.",
         "loadScheduleFailed": "Kunne ikke hente vaktplandata",
         "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
         "createShiftFailed": "Vakten kunne ikke opprettes.",

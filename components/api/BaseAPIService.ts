@@ -3,6 +3,8 @@ import { requestKey } from '@/composables/requestKey'
 import { clearSessionToken } from '@/composables/useDesktopToken'
 import { forgetChatSession } from '@/composables/obiyenChatSession'
 import { translateMessage } from '@/composables/translateMessage'
+import { notify } from '@kyvg/vue3-notification'
+import { createNoticeThrottle, shouldNoticeFailedWrite } from '@/composables/failedWrite'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -14,6 +16,25 @@ class BaseAPIService {
     // The in-flight "is this session actually over" check, shared by every 401
     // that arrives while it runs. See revokeAccess.
     private static sessionCheck: Promise<boolean> | null = null
+
+    private static readonly allowFailedWriteNotice = createNoticeThrottle()
+
+    /**
+     * Most screens only render a 422's field errors, so a write that failed any
+     * other way left the form looking saved (see composables/failedWrite.ts).
+     * Says so once, on top of whatever the screen itself does with the error.
+     */
+    private static noticeFailedWrite(method: string, url: string, error: any): void {
+        if (!shouldNoticeFailedWrite(method, url, error?.response?.status)) return
+        if (!BaseAPIService.allowFailedWriteNotice()) return
+
+        notify({
+            title: translateMessage('apiErrors.notSavedTitle', 'Not saved'),
+            text: translateMessage('apiErrors.notSaved', 'Your change was not saved. Check your connection and try again.'),
+            type: 'error',
+            duration: 8000,
+        })
+    }
 
     /**
      * Lists that barely change during a session and that most pages need. Each
@@ -384,6 +405,8 @@ class BaseAPIService {
                 }
             }
 
+            BaseAPIService.noticeFailedWrite(method, url, error)
+
             switch (error.response?.status) {
                 case 400:
                     // A 400 here is usually a rule the server is enforcing on
@@ -474,7 +497,11 @@ class BaseAPIService {
         try {
             return await $fetch(url, config)
         } catch (error: any) {
-            switch (error.response.status) {
+            BaseAPIService.noticeFailedWrite('POST', url, error)
+
+            // No response at all (the connection dropped mid-upload) used to
+            // throw a TypeError here instead of an error the screen can show.
+            switch (error.response?.status) {
                 case 400:
                     // A 400 here is usually a rule the server is enforcing on
                     // purpose - a required field, a delete that would orphan

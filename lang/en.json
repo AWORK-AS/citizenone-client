@@ -19384,6 +19384,8 @@
         "failed": "The suggestion could not be sent. Please try again later."
     },
     "apiErrors": {
+        "notSavedTitle": "Not saved",
+        "notSaved": "Your change was not saved. Check your connection and try again.",
         "loadScheduleFailed": "Failed to load schedule data",
         "loadSalaryDkFailed": "Failed to load Salary.dk data",
         "createShiftFailed": "Could not create the shift.",
