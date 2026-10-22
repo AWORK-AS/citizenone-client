@@ -3417,6 +3417,64 @@
         },
         "nursingAreas": {
             "areaOverview": {
+                "covers": "Hvad hører under",
+                "watch": "Hold øje med",
+                "showGuide": "Hvad betyder området?",
+                "openGoals": "Åbne mål",
+                "disclaimer": "Ved tvivl eller forværring: kontakt den sundhedsfaglige ansvarlige eller lægen.",
+                "activeProblems": "Aktive problemer",
+                "potentialProblems": "Mulige problemer",
+                "seeHealth": "Se Sundhed",
+                "guide": {
+                    "functional_level": {
+                        "covers": "Hvor meget personen selv kan i hverdagen: personlig hygiejne, påklædning, at spise, komme rundt og deltage i aktiviteter.",
+                        "watch": "Ting personen pludselig ikke længere kan selv, mere behov for hjælp, eller at personen trækker sig fra aktiviteter."
+                    },
+                    "musculoskeletal_system": {
+                        "covers": "Muskler, led og knogler: at gå, stå, balance og bevægelighed.",
+                        "watch": "Fald eller næsten-fald, ustabil gang, stivhed, hævede eller ømme led, og at personen bevæger sig mindre end før."
+                    },
+                    "nutrition": {
+                        "covers": "Mad og drikke: appetit, vægt, hvor meget personen spiser og drikker, og om det er svært at tygge eller synke.",
+                        "watch": "Vægttab, at personen spiser eller drikker mindre, hoster når der spises, tør mund eller mørk urin."
+                    },
+                    "skin_and_mucous_membranes": {
+                        "covers": "Hud, mund og slimhinder: sår, rødme, tør eller skør hud og mundhygiejne.",
+                        "watch": "Røde pletter der ikke forsvinder (især hvor personen sidder eller ligger), nye sår, kløe, udslæt og ondt i munden."
+                    },
+                    "communication": {
+                        "covers": "At forstå og blive forstået: tale, syn, hørelse og hvordan personen udtrykker behov og følelser.",
+                        "watch": "Ændringer i tale eller forståelse, dårligere syn eller hørelse, og tegn på at personen ikke kan gøre sig forstået."
+                    },
+                    "psychosocial_conditions": {
+                        "covers": "Trivsel, humør, relationer, netværk og hvordan personen har det med andre og sig selv.",
+                        "watch": "Tristhed, uro, isolation, konflikter, ændret adfærd, brug af alkohol eller stoffer, og udsagn om at have det skidt."
+                    },
+                    "respiration_and_circulation": {
+                        "covers": "Vejrtrækning og kredsløb: åndedræt, hoste, puls, blodtryk og hævelser.",
+                        "watch": "Åndenød, ny eller vedvarende hoste, blålige læber, hævede ben, svimmelhed og hjertebanken."
+                    },
+                    "sexuality": {
+                        "covers": "Krop, seksualitet, grænser og prævention, på personens egne præmisser.",
+                        "watch": "Usikkerhed eller bekymringer om egen krop, grænseoverskridende situationer og ændringer, personen selv nævner."
+                    },
+                    "pain_and_sensory_impressions": {
+                        "covers": "Smerter og sanser: ondt, ubehag, syn, hørelse, følesans og hvordan personen reagerer på lyde og lys.",
+                        "watch": "Tegn på smerter (grimasser, uro, at personen holder sig et sted), nye smerter og overfølsomhed eller nedsat følelse."
+                    },
+                    "sleep_and_rest": {
+                        "covers": "Søvn, hvile og døgnrytme: hvornår og hvor godt personen sover, og om personen får hvilet.",
+                        "watch": "Søvnløshed, natlig uro, at personen sover meget mere end før, træthed i løbet af dagen og vendt døgnrytme."
+                    },
+                    "knowledge_and_development": {
+                        "covers": "Hvad personen ved og forstår om egen situation og sygdom, hukommelse og evne til at lære nyt.",
+                        "watch": "Glemsomhed, forvirring, at personen ikke forstår eller husker aftaler og behandling, og spørgsmål personen går med."
+                    },
+                    "excretion_of_waste": {
+                        "covers": "Vandladning og afføring: hvor ofte, hvordan det ser ud, og om personen selv kan klare toiletbesøg.",
+                        "watch": "Forstoppelse, diarré, smerter ved vandladning, ufrivillig vandladning, blod i urin eller afføring og stærkt lugtende urin."
+                    }
+                },
                 "title": "De 12 sundhedsfaglige områder",
                 "description": "Seneste vurdering, problemstatus og åbne behandlinger inden for hvert område. Tryk på et område for at se mere.",
                 "onlyWithContent": "Vis kun områder med indhold",
