@@ -36,6 +36,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { ownChatGptService } from '@/components/api/user/OwnChatGptService'
 
 const props = defineProps<{ isModalOpen: boolean }>()
@@ -69,7 +70,7 @@ async function saveApiKey() {
             emit('close')
         }, 1500)
     } catch (e: any) {
-        state.settingsError = e?.message ?? 'Something went wrong'
+        state.settingsError = e?.message ?? translateMessage('somethingWentWrong', 'Something went wrong')
     } finally {
         state.isSavingKey = false
     }

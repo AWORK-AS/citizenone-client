@@ -6,6 +6,15 @@
                 <div class="space-y-5">
                     <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
+                    <!-- Without the doses already given, a slot cannot be told apart from one still due. -->
+                    <div v-if="registrationBlocked" role="alert"
+                        class="flex items-start justify-between gap-3 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                        <span>{{ $t('citizens.medicineJournals.giveMedicineModal.historyUnavailable') }}</span>
+                        <button type="button" class="shrink-0 font-semibold underline" @click="retryHistory">
+                            {{ $t('citizens.medicineJournals.giveMedicineModal.retry') }}
+                        </button>
+                    </div>
+
                     <!-- Task #115: self-administered - staff only hand it out. -->
                     <div v-if="isSelfAdministered" role="note"
                         class="rounded-xl bg-violet-600 px-4 py-3 flex items-start gap-3 text-white">
@@ -290,10 +299,10 @@
                         </FormButton>
                         <!-- Multi-date save -->
                         <button v-if="state.multiDateMode" type="button"
-                            :disabled="!state.multiType || state.selectedDates.length === 0 || state.isSaving"
+                            :disabled="!state.multiType || state.selectedDates.length === 0 || state.isSaving || registrationBlocked"
                             @click="saveMultiDate()" :class="[
                                 'flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all border',
-                                state.multiType && state.selectedDates.length > 0 && !state.isSaving
+                                state.multiType && state.selectedDates.length > 0 && !state.isSaving && !registrationBlocked
                                     ? 'bg-primary text-white border-primary hover:bg-primary/90'
                                     : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                             ]">
@@ -304,10 +313,10 @@
                             }}
                         </button>
                         <!-- Single date save -->
-                        <button v-else type="button" :disabled="!hasAnyTypeSelected || state.isSaving" @click="saveAll()"
+                        <button v-else type="button" :disabled="!hasAnyTypeSelected || state.isSaving || registrationBlocked" @click="saveAll()"
                             :class="[
                                 'flex items-center justify-center gap-2 px-4 py-2 rounded-md text-sm font-medium transition-all border',
-                                hasAnyTypeSelected && !state.isSaving
+                                hasAnyTypeSelected && !state.isSaving && !registrationBlocked
                                     ? 'bg-primary text-white border-primary hover:bg-primary/90'
                                     : 'bg-gray-100 text-gray-400 border-gray-200 cursor-not-allowed'
                             ]">
@@ -347,11 +356,13 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { doseRegistrationBlocked } from '@/composables/medicineGiveGuard'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { medicineSelfAdministration } from '@/composables/medicineSelfAdministration'
+import { saveDatesSettled, remainingDates } from '@/composables/multiDateSave'
 
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
@@ -386,7 +397,16 @@ const state = reactive({
     isPouringEmptyOpen: false,
     pouringEmptyMessage: '',
     pendingRetry: null as (() => void) | null,
+    historyFailed: false,
+    monthStatusFailed: false,
 })
+
+const registrationBlocked = computed(() => doseRegistrationBlocked(state))
+
+function retryHistory() {
+    if (state.multiDateMode) fetchMonthDosageStatus()
+    else buildSlots(state.selectedDate)
+}
 
 const typeOptions = computed(() => [
     {
@@ -535,6 +555,7 @@ async function fetchMonthDosageStatus() {
         return
     }
     state.isLoadingMonthStatus = true
+    state.monthStatusFailed = false
     const startDate = state.calendarMonth.clone().startOf('month').format('YYYY-MM-DD')
     const endDate = state.calendarMonth.clone().endOf('month').format('YYYY-MM-DD')
     try {
@@ -547,6 +568,7 @@ async function fetchMonthDosageStatus() {
         state.monthDosageStatusByDate = medicine?.dosage_status_by_date ?? {}
     } catch (e) {
         state.monthDosageStatusByDate = {}
+        state.monthStatusFailed = true
     } finally {
         state.isLoadingMonthStatus = false
     }
@@ -579,6 +601,7 @@ async function buildSlots(dateStr: string) {
 
     // Fetch real history from API for this date
     let historyByTime: Record<string, string | null> = {}
+    state.historyFailed = false
     if (!isFuture && props.selectedMedicine?.uuid) {
         try {
             const history = await medicineHistoryService.getMedicineHistoryByMedicineUuid(props.selectedMedicine.uuid, { date: dateStr })
@@ -587,7 +610,10 @@ async function buildSlots(dateStr: string) {
                     historyByTime[h.time] = h.type
                 })
             }
-        } catch (e) { /* ignore */ }
+        } catch (e) {
+            // Not knowing what is given is not the same as nothing given: block registering.
+            state.historyFailed = true
+        }
     }
 
     state.slots = rawDosages.map((d: any) => {
@@ -595,7 +621,7 @@ async function buildSlots(dateStr: string) {
         let overdueLabel = ''
         const effectiveStatus = isFuture ? null : (historyByTime[d.time] ?? null)
 
-        if (isToday && !effectiveStatus) {
+        if (isToday && !effectiveStatus && !state.historyFailed) {
             const [h, mi] = (d.time ?? '00:00').split(':').map(Number)
             const sched = new Date(); sched.setHours(h, mi, 0, 0)
             if (now > sched) {
@@ -656,48 +682,63 @@ function formatDateShort(dateStr: string): string {
 }
 
 async function saveMultiDate(forceMainStock = false) {
+    if (registrationBlocked.value) return
     if (!state.multiType || state.selectedDates.length === 0 || !state.slots.length) return
     state.isSaving = true
     state.error = null
-    try {
-        // Save one entry per date per timeslot in parallel
-        await Promise.all(
-            state.selectedDates.map(async (dateStr: string) => {
-                const payload: any = {
-                    medicine_uuid: props.selectedMedicine?.uuid,
-                    date: dateStr,
-                    dosages: state.slots.map((s: any) => ({
-                        medicine_uuid: props.selectedMedicine?.uuid,
-                        time: s.time,
-                        type: state.multiType,
-                        dosage: s.dosage,
-                        comment: state.multiComment,
-                    })),
-                }
-                if (forceMainStock) payload.give_from_main_stock = true
-                await medicineHistoryService.saveMedicineHistory(payload)
-            })
-        )
-        successAlert(`${t('alert.success')}!`, t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: state.selectedDates.length }))
+    const dates = [...state.selectedDates]
+    const outcome = await saveDatesSettled(dates, async (dateStr: string) => {
+        const payload: any = {
+            medicine_uuid: props.selectedMedicine?.uuid,
+            date: dateStr,
+            dosages: state.slots.map((s: any) => ({
+                medicine_uuid: props.selectedMedicine?.uuid,
+                time: s.time,
+                type: state.multiType,
+                dosage: s.dosage,
+                comment: state.multiComment,
+            })),
+        }
+        if (forceMainStock) payload.give_from_main_stock = true
+        await medicineHistoryService.saveMedicineHistory(payload)
+    })
+    // Dates that went through must leave the selection, or a retry would
+    // register them a second time.
+    state.selectedDates = remainingDates(dates, outcome)
+    if (outcome.succeeded.length) {
+        emit('refreshMedicines')
+        fetchMonthDosageStatus()
+    }
+    if (!outcome.failed.length) {
+        successAlert(`${t('alert.success')}!`, t('citizens.medicineJournals.giveMedicineModal.registeredForDays', { n: outcome.succeeded.length }))
         state.selectedDates = []
         state.multiType = ''
         state.multiComment = ''
         state.multiDateMode = false
-        emit('refreshMedicines')
-        fetchMonthDosageStatus()
         setTimeout(() => closeModal(), 600)
-    } catch (error: any) {
-        if (error?.pouring_empty && !forceMainStock) {
-            openPouringEmptyDialog(error, () => saveMultiDate(true))
-            state.isSaving = false
-            return
-        }
-        state.error = { message: error?.data?.message ?? error?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurred') }
+        state.isSaving = false
+        return
+    }
+    const pouring = outcome.failed.find((f) => f.error?.pouring_empty)
+    if (pouring && !forceMainStock) {
+        openPouringEmptyDialog(pouring.error, () => saveMultiDate(true))
+        state.isSaving = false
+        return
+    }
+    const first = outcome.failed[0].error
+    const reason = first?.data?.message ?? first?.message ?? t('citizens.medicineJournals.giveMedicineModal.anErrorOccurred')
+    state.error = {
+        message: t('citizens.medicineJournals.giveMedicineModal.partialFailure', {
+            ok: outcome.succeeded.length,
+            dates: outcome.failed.map((f) => formatDateShort(f.date)).join(', '),
+            reason,
+        }),
     }
     state.isSaving = false
 }
 
 async function saveAll(forceMainStock = false) {
+    if (registrationBlocked.value) return
     const toSave = state.slots.filter(s => s.selectedType && !s.status)
     if (!toSave.length) return
     state.isSaving = true

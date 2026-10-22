@@ -33,7 +33,7 @@
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="date" :label="$t('overview.quickRiskAssessment.form.date')" />
-                        <FormDateField id="date" name="date" placeholder="Date"
+                        <FormDateField id="date" name="date" :placeholder="$t('forms.fields.date')"
                             v-model="state.formRiskAssessment.date" />
                         <FormError :error="v$?.formRiskAssessment?.date?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.date?.[0]" />

@@ -64,7 +64,7 @@
                     <Icon name="ph:question" class="h-4 w-4 text-gray-400 cursor-pointer"
                         @click.stop="state.modal.isModalPeriodInfoOpen = true" />
                 </div>
-                <FormTextField id="period_days" name="period_days" type="number" min="1" placeholder="e.g. 30"
+                <FormTextField id="period_days" name="period_days" type="number" min="1" :placeholder="$t('dutyShiftRules.form.periodDaysPlaceholder')"
                     v-model="state.formDutyShiftRule.period_days" />
                 <FormError :error="v$?.formDutyShiftRule?.period_days?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.period_days?.[0]" />

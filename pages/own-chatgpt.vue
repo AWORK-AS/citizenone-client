@@ -247,6 +247,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { ownChatGptService } from '@/components/api/user/OwnChatGptService'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { useOwnChatGptSyncStore } from '@/store/own-chatgpt-sync'
@@ -350,7 +351,7 @@ async function saveTitle(conversation: any) {
         await aiConversationService.updateConversationTitle(conversation.uuid, { title })
         conversation.title = title
     } catch (e: any) {
-        state.error = e?.message ?? 'Something went wrong'
+        state.error = e?.message ?? translateMessage('somethingWentWrong', 'Something went wrong')
     }
 }
 
@@ -368,7 +369,7 @@ async function selectConversation(conversation: any) {
         await nextTick()
         scrollToBottom()
     } catch (e: any) {
-        state.error = e?.message ?? 'Something went wrong'
+        state.error = e?.message ?? translateMessage('somethingWentWrong', 'Something went wrong')
     }
 }
 
@@ -391,7 +392,7 @@ async function deleteConversation() {
         state.conversations = state.conversations.filter((c: any) => c.uuid !== uuid)
         if (state.activeConversationUuid === uuid) clearChat()
     } catch (e: any) {
-        state.error = e?.message ?? 'Something went wrong'
+        state.error = e?.message ?? translateMessage('somethingWentWrong', 'Something went wrong')
     }
     state.pendingDeleteUuid = null
 }
@@ -420,7 +421,7 @@ async function send() {
 
         fetchConversations()
     } catch (e: any) {
-        state.error = e?.message ?? 'Something went wrong'
+        state.error = e?.message ?? translateMessage('somethingWentWrong', 'Something went wrong')
         state.messages.pop()
         state.input = content
         state.files = attachedFiles.length ? state.files : []

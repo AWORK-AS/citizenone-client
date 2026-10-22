@@ -4,6 +4,15 @@
             @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <!-- Made from a patient's renewal request: saving closes the request. -->
+                    <div v-if="props.renewal" class="mb-4 rounded-lg border border-secondary/30 bg-secondary/5 px-4 py-3 text-sm text-gray-700"
+                        data-testid="medicine-from-renewal">
+                        <p class="font-semibold flex items-center gap-2">
+                            <Icon name="ph:prescription" class="size-4 text-secondary" aria-hidden="true" />
+                            {{ $t('prescriptionRenewals.prescribe.banner', { medicine: props.renewal.medicine?.name ?? '-' }) }}
+                        </p>
+                        <p class="mt-1 text-xs text-gray-500">{{ $t('prescriptionRenewals.prescribe.bannerHelp') }}</p>
+                    </div>
                     <ModulesUserCitizenMedicineForm formType="create" :selectedMedicine="state.formMedicine"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveMedicine" />
@@ -28,10 +37,15 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // A prescription renewal request (staff inbox) the new prescription is made from.
+    renewal: {
+        type: Object,
+        default: null,
+    },
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
-const emit = defineEmits(['close', 'refreshMedicines'])
+const emit = defineEmits(['close', 'refreshMedicines', 'prescribed'])
 
 const state = reactive({
     error: {} as Error,
@@ -77,6 +91,21 @@ const state = reactive({
             is_apply_to_all: false,
         },
     },
+})
+
+// Before the form mounts (it copies the medicine on mount), so the request's medicine is chosen already.
+let prefilledFromRenewal = false
+watch(() => props.isModalOpen, (isOpen) => {
+    if (!isOpen) return
+    if (props.renewal) {
+        state.formMedicine.medicine = props.renewal.medicine?.uuid ?? ''
+        state.formMedicine.strength = props.renewal.current_prescription?.strength ?? state.formMedicine.strength
+        prefilledFromRenewal = true
+    } else if (prefilledFromRenewal) {
+        state.formMedicine.medicine = ''
+        state.formMedicine.strength = ''
+        prefilledFromRenewal = false
+    }
 })
 
 function closeModal() {
@@ -157,11 +186,18 @@ async function saveMedicine(medicineDetails: any) {
 
         params.append('extra_dates', JSON.stringify(medicineDetails.extra_dates ?? []))
         params.append('treatment_periods', JSON.stringify(medicineDetails.treatment_periods ?? []))
+        if (props.renewal?.uuid) {
+            params.append('prescription_renewal_uuid', props.renewal.uuid)
+        }
         const response = await medicineJournalService.saveMedicine(params)
         if (response?.data) {
+            const fromRenewal = !!props.renewal
             refreshMedicines()
+            if (fromRenewal) emit('prescribed')
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.medicineJournals.form.alert.successfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, fromRenewal
+                ? t('prescriptionRenewals.prescribe.done')
+                : `${t('citizens.medicineJournals.form.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

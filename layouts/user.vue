@@ -63,6 +63,8 @@
                                                         <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0"
                                                             aria-hidden="true" />
                                                         <span>{{ getNavItemLabel(item) }}</span>
+                                                        <Badge v-if="navBadgeCount(item) > 0" type="notification"
+                                                            class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                                         <Icon v-if="item.external" name="ph:arrow-square-out"
                                                             class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                                     </div>
@@ -79,7 +81,7 @@
                                             <ModulesUserTimeRegistrationCheckInOut
                                                 v-if="userStore.getUser?.checkin_enabled" />
                                             <ModulesUserSidebarSubscribeButton
-                                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
+                                                v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
                                         </li>
                                     </ul>
                                 </nav>
@@ -141,6 +143,8 @@
                                             :class="['whitespace-nowrap transition-all duration-200 delay-75 overflow-hidden', sidebarExpanded ? 'opacity-100 max-w-[200px]' : 'opacity-0 max-w-0']">
                                             {{ getNavItemLabel(item) }}
                                         </span>
+                                        <Badge v-if="navBadgeCount(item) > 0 && sidebarExpanded" type="notification"
+                                            class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                         <Icon v-if="item.external && sidebarExpanded" name="ph:arrow-square-out"
                                             class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                                     </div>
@@ -252,6 +256,8 @@
                                 <img v-if="item.image" :src="item.image" :alt="item.name" class="h-5 w-5 shrink-0" />
                                 <Icon v-else :name="item.icon" class="h-5 w-5 shrink-0" aria-hidden="true" />
                                 <span class="whitespace-nowrap overflow-hidden">{{ getNavItemLabel(item) }}</span>
+                                <Badge v-if="navBadgeCount(item) > 0" type="notification"
+                                    class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                 <Icon v-if="item.external" name="ph:arrow-square-out"
                                     class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
                             </div>
@@ -323,11 +329,11 @@
                             </div>
                         </div>
                         <div>
-                            <ModulesUserNavbarAiAssistant class="hidden xl:block" />
+                            <ModulesUserNavbarAiAssistant v-if="aiAssistantEnabled" class="hidden xl:block" />
                         </div>
                         <div>
                             <ModulesUserNavbarSubscribeButton
-                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
+                                v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                                 class="hidden md:inline-flex" />
                         </div>
                     </div>
@@ -343,33 +349,6 @@
                                         class="rounded border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-medium leading-none">⌘K</kbd>
                                 </button>
                             </Tooltip>
-                            <!-- One-time "did you know?" discovery hint -->
-                            <transition enter-active-class="transition ease-out duration-200"
-                                enter-from-class="opacity-0 -translate-y-1" enter-to-class="opacity-100 translate-y-0"
-                                leave-active-class="transition ease-in duration-150" leave-from-class="opacity-100"
-                                leave-to-class="opacity-0">
-                                <div v-if="showCmdkHint && !showCmdkTip && !welcomeTour.active"
-                                    class="absolute right-0 top-full z-50 mt-2 w-72 rounded-xl bg-primary text-white shadow-xl ring-1 ring-black/5">
-                                    <div class="absolute -top-1.5 right-4 h-3 w-3 rotate-45 bg-primary"></div>
-                                    <div class="relative flex items-start gap-2.5 px-3.5 py-3">
-                                        <Icon name="ph:lightbulb" class="mt-0.5 size-4 shrink-0 text-amber-300" />
-                                        <div class="min-w-0">
-                                            <p class="text-sm font-semibold">{{ $t('commandPalette.didYouKnowTitle') }}
-                                            </p>
-                                            <p class="mt-0.5 text-xs text-white/90">{{
-                                                $t('commandPalette.didYouKnowBody') }}</p>
-                                            <button type="button" @click="dismissCmdkHint" :aria-label="$t('close')"
-                                                class="mt-2 rounded-md bg-white/15 px-2.5 py-1 text-xs font-medium hover:bg-white/25 transition-colors">
-                                                {{ $t('commandPalette.didYouKnowDismiss') }}
-                                            </button>
-                                        </div>
-                                        <button type="button" @click="dismissCmdkHint" :aria-label="$t('close')"
-                                            class="shrink-0 text-white/60 hover:text-white">
-                                            <Icon name="ph:x" class="size-3.5" />
-                                        </button>
-                                    </div>
-                                </div>
-                            </transition>
                         </div>
                         <button type="button" @click="openCommandPalette()"
                             class="sm:hidden w-9 h-9 rounded-full flex items-center justify-center text-primary hover:text-primary-700 hover:bg-surface-100 transition-colors"
@@ -378,7 +357,7 @@
                         </button>
 
                         <!-- AI (mobile) -->
-                        <div class="xl:hidden">
+                        <div v-if="aiAssistantEnabled" class="xl:hidden">
                             <FormButton buttonStyle="AI" buttonSize="xs" class="px-0 md:px-4"
                                 @click="userStore.getUser?.has_ai_access ? assistantStore.toggle() : openCodyPrompt()">
                                 <ModulesUserNavbarCodyMark :size="22" class="md:!w-5 md:!h-5" />
@@ -517,7 +496,9 @@
                                                 $t('sidebar.discover') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <!-- Only an admin can switch an app on; for anyone else the
+                                         store is a shop window onto something they cannot buy. -->
+                                    <MenuItem v-if="isAtLeast('Admin')">
                                         <div @click="navigateTo('/apps')"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ic:baseline-apps" class="h-4 w-4 text-slate-400" />{{
@@ -549,23 +530,37 @@
                                                 $t('navbar.procedures') }}
                                         </div>
                                     </MenuItem>
+                                    <!-- One entry for the three CitizenOne items. A MenuItem so the
+                                         arrow keys reach it; preventing the click keeps the menu
+                                         from closing, as it does for every other item. -->
                                     <MenuItem>
-                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                        <div @click.prevent="citizenOneMenuOpen = !citizenOneMenuOpen"
+                                            data-testid="menu-citizenone-group" aria-haspopup="true"
+                                            :aria-expanded="citizenOneMenuOpen"
                                             class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <Icon name="ph:sparkle" class="h-4 w-4 text-slate-400" />
+                                            <span class="flex-1">CitizenOne</span>
+                                            <Icon name="ph:caret-down" class="h-4 w-4 text-slate-400 transition-transform"
+                                                :class="{ 'rotate-180': citizenOneMenuOpen }" />
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem v-if="citizenOneMenuOpen">
+                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                            class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:share-network" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.shareCitizenOne') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem v-if="citizenOneMenuOpen">
                                         <div @click="state.modal.isContactUsOpen = true"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:shooting-star" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.newWishes') }}
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem v-if="citizenOneMenuOpen">
                                         <div @click="navigateTo('/coming-functions')"
-                                            class="cursor-pointer flex items-center gap-x-3 px-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
                                             <Icon name="ph:map-trifold" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.comingFunctions') }}
                                         </div>
@@ -593,7 +588,7 @@
                     <ModulesUserStorageQuotaNotice />
 
                     <!-- Cody adoption: trial offer, countdown, or a request to the admin. -->
-                    <ModulesUserCodyAdoptionBanner />
+                    <ModulesUserCodyAdoptionBanner v-if="aiAssistantEnabled" />
 
                     <!-- Subscription payment outstanding. Renders a blocking wall for an
                          admin (who can fix it) and a plain notice for everyone else. -->
@@ -657,24 +652,30 @@
             @close="state.modal.isPlatformShareOpen = false" v-if="state.modal.isPlatformShareOpen" />
         <ModulesUserWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
-        <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen"
+        <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen && checkinGranted"
             @close="state.modal.isCheckinReminderOpen = false" />
-        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
+        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen && twofaGranted"
             @close="state.modal.is2faRequiredOpen = false" />
         <ModulesUserCitizenPlanModalCompletionReminder
-            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen" @close="closeCompletionReminder" />
+            :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen && completionGranted" @close="closeCompletionReminder" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesUserSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
-        <ModulesUserAppTourGuide v-if="state.activeAppTour" :appKey="state.activeAppTour" @close="closeAppTour" />
+        <ModulesUserAppTourGuide v-if="state.activeAppTour && tourGranted" :appKey="state.activeAppTour" @close="closeAppTour" />
         <!-- Milo's welcome tour. Its position lives in useWelcomeTour, since this layout is rebuilt on every page change. -->
-        <ModulesUserAppTourGuide v-if="welcomeTour.active && welcomeSteps.length" mascot :customSteps="welcomeSteps"
+        <ModulesUserAppTourGuide v-if="welcomeTour.active && tourGranted && welcomeSteps.length" mascot :customSteps="welcomeSteps"
             :startIndex="welcomeTour.index" @step="setWelcomeStep" @close="closeWelcomeTour" />
         <ModulesUserNotificationsMissedMedicineToast @visibilityChange="medicineToastVisible = $event" />
         <!-- "Would you recommend CitizenOne?" Never on top of a tour or the medicine toast in the same corner. -->
-        <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible" />
-        <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen"
+        <ModulesUserNpsPrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible"
+            :held="inactivePromptVisible" @visibilityChange="npsPromptVisible = $event" />
+        <!-- Admins: employees who have been inactive for 3 months. Waits its turn the same way: it is only
+             mounted (and so only asks the backend) while no tour or medicine toast is up. The two prompts
+             hold each other back: whichever comes second waits until the first is closed. -->
+        <ModulesUserEmployeeInactivePrompt v-if="!welcomeTour.active && !state.activeAppTour && !medicineToastVisible"
+            :held="npsPromptVisible" @visibilityChange="inactivePromptVisible = $event" />
+        <ModulesUserGuidedTourModalWelcome v-if="state.modal.isGuidedTourWelcomeOpen && tourGranted"
             :isModalOpen="state.modal.isGuidedTourWelcomeOpen" :isGuidedTour="true"
             @close="state.modal.isGuidedTourWelcomeOpen = false" @next="handleNextGuidedTour" />
         <CommandPalette :commands="commandPaletteItems" />
@@ -702,7 +703,7 @@
         <!-- Rendered once here rather than inside the navbar button, so the panel
         survives navigation and the content area can make room for it. -->
         <ModulesUserCodyAccessPrompt />
-        <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access" />
+        <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access && aiAssistantEnabled" />
         <ModulesUserOwnChatGptSyncProgressBar />
 
         <!-- One-time ⌘K discovery tip -->
@@ -712,7 +713,7 @@
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
                  each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && !medicineToastVisible && !welcomeTour.active"
+            <div v-if="showCmdkTip && cmdkTipGranted && !medicineToastVisible"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -769,6 +770,7 @@
 </template>
 
 <script setup lang="ts">
+import { clearAllDrafts } from '@/composables/journalNoteDraft'
 import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
@@ -784,7 +786,10 @@ import { useEmployeeStore } from '@/store/employee'
 import { useI18n } from "vue-i18n"
 import { usePermissions } from '@/composables/usePermissions'
 import { useAppTours } from '@/composables/useAppTours'
+import { companyHasModule as hasCompanyModule } from '@/composables/pageAccess'
+import { canUseQuestionnaireInbox } from '@/composables/questionnaireInbox'
 import type { Error } from '@/types'
+import { economyNavVisible, navItemModuleEnabled } from '@/composables/pageAccess'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
@@ -794,7 +799,11 @@ const customPagesStore = useCustomPagesStore() as any
 const customSidebarLinksStore = useCustomSidebarLinksStore()
 const sidebarNavStore = useSidebarNavStore()
 const assistantStore = useAssistantStore()
+// The assistant is a module like any other: Settings -> Company -> Modules.
+const aiAssistantEnabled = computed(() => hasCompanyModule(userStore.getUser?.company?.module_pages, 'AI assistant'))
 const { isAtLeast, can } = usePermissions()
+// The upgrade offers are for people who can buy; staff who cannot are not shown them.
+const showUpgrade = useCanPurchase()
 const language = useI18n()
 const { citizensLabel } = useTerminology()
 const { industryHasFeature } = useIndustryFeatures()
@@ -910,6 +919,8 @@ function groupIsOpen(group: any): boolean {
 
 
 const { completed: discoverCompleted } = useDiscoverDone()
+// Profile menu: the share / wishes / coming-functions items sit under one entry.
+const citizenOneMenuOpen = ref(false)
 
 const isImpersonating = ref(!!localStorage.getItem('_original_token'))
 const globalSearch = ref<any>(null)
@@ -976,6 +987,9 @@ const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo }
 
 const showCmdkTip = ref(false)
 const medicineToastVisible = ref(false)
+// The feedback survey and the inactive-employees pop-up never show at the same time.
+const npsPromptVisible = ref(false)
+const inactivePromptVisible = ref(false)
 const CMDK_TIP_KEY = 'hasSeenCmdkTip'
 
 function dismissCmdkTip() {
@@ -997,7 +1011,7 @@ function tryCmdkTip() {
 // lost to it and the covered control is reachable immediately after.
 function dismissCmdkTipIfClickOutside(event: PointerEvent) {
     // Not while it is held back: a click would mark as seen a tip nobody saw.
-    if (!showCmdkTip.value || medicineToastVisible.value) return
+    if (!showCmdkTip.value || !cmdkTipGranted.value || medicineToastVisible.value) return
     const target = event.target as HTMLElement | null
     if (target?.closest('button')) return
     dismissCmdkTip()
@@ -1157,6 +1171,12 @@ function getNavItemLabel(item: any) {
     return getSidebarNavItemLabel(item, language.t, customPagesStore)
 }
 
+// The count shown beside a sidebar entry, 0 for the ones that carry none.
+function navBadgeCount(item: any): number {
+    if (item?.name !== 'Questionnaire inbox') return 0
+    return Number(userStore.getUser?.questionnaire_inbox_to_review_count ?? 0)
+}
+
 // Global command palette (⌘K): sidebar navigation + any commands the current
 // page contributes via useCommandPalette().
 const { pageCommands, open: openCommandPalette } = useCommandPalette()
@@ -1207,24 +1227,6 @@ const commandPaletteItems = computed(() => {
     return [...pageCommands.value, ...nav, ...settings]
 })
 
-// One-time "did you know?" hint pointing at the ⌘K button.
-const showCmdkHint = ref(false)
-let cmdkHintTimer: any
-const CMDK_HINT_KEY = 'co_cmdk_hint_seen'
-function dismissCmdkHint() {
-    showCmdkHint.value = false
-    clearTimeout(cmdkHintTimer)
-}
-onMounted(() => {
-    if (typeof localStorage === 'undefined' || localStorage.getItem(CMDK_HINT_KEY) === '1') return
-    cmdkHintTimer = setTimeout(() => {
-        showCmdkHint.value = true
-        localStorage.setItem(CMDK_HINT_KEY, '1') // show at most once per browser
-        cmdkHintTimer = setTimeout(() => { showCmdkHint.value = false }, 12000)
-    }, 2500)
-})
-onUnmounted(() => clearTimeout(cmdkHintTimer))
-
 async function fetchCustomSidebarLinks() {
     await customSidebarLinksStore.fetchLinks()
 }
@@ -1246,12 +1248,12 @@ function openNavItem(item: any) {
 
 function generateSidebarLinks(user: any) {
     const nav: any[] = []
+    const companyModulesForNav = user?.company?.module_pages
     try {
     const userHasSecuredMailAccess = user?.has_mail_access
     const userHasLeadsActive = user?.company?.is_leads_active
     // Company-level module enablement: no list (empty) = every module on (default).
-    const companyModulePages = user?.company?.module_pages
-    const companyHasModule = (name: string) => !Array.isArray(companyModulePages) || companyModulePages.length === 0 || companyModulePages.includes(name)
+    const companyHasModule = (name: string) => hasCompanyModule(user?.company?.module_pages, name)
     const userHasPageAttendanceAccess = companyHasModule("Attendance") && user?.pages?.some((page: any) => page.name === "Attendance")
     nav.push({
         name: 'Overview',
@@ -1326,6 +1328,10 @@ function generateSidebarLinks(user: any) {
             ]
         })
     }
+    // The shared inbox of prescription renewal requests from the patient portal.
+    if (user?.can_review_prescription_renewals) {
+        nav.push({ name: 'PrescriptionRenewals', href: '/prescription-renewals', icon: 'ph:prescription', group: 'daily', activeRouteNames: ['prescription-renewals', 'prescription-renewals-uuid'] })
+    }
     const vagtplanEnabled = user?.company?.onboarding_preferences?.modules?.vagtplan !== false
     if (companyHasModule("Duty Schedule") && user.pages?.find((page: any) => page.name === "Duty Schedule") && vagtplanEnabled) {
         nav.push({
@@ -1359,30 +1365,37 @@ function generateSidebarLinks(user: any) {
             })
         }
     }
-    nav.push({
-        name: 'Messages',
-        href: '/messages',
-        icon: 'ph:chat-circle',
-        group: 'daily',
-        activeRouteNames: [
-            'messages',
-            'messages-chat_uuid'
-        ]
-    })
-    nav.push({
-        name: 'Reminders',
-        href: '/reminders',
-        icon: 'ph:bell',
-        group: 'daily',
-        activeRouteNames: [
-            'reminders'
-        ]
-    })
-    if (userHasSecuredMailAccess) {
+    if (companyHasModule('Messages')) {
+        nav.push({
+            name: 'Messages',
+            href: '/messages',
+            icon: 'ph:chat-circle',
+            group: 'daily',
+            activeRouteNames: [
+                'messages',
+                'messages-chat_uuid'
+            ]
+        })
+    }
+    if (companyHasModule('Reminders')) {
+        nav.push({
+            name: 'Reminders',
+            href: '/reminders',
+            icon: 'ph:bell',
+            group: 'daily',
+            activeRouteNames: [
+                'reminders'
+            ]
+        })
+    }
+    // Same module the app's Mails item and the citizen's Emails tab already use.
+    if (userHasSecuredMailAccess && companyHasModule('Emails')) {
         nav.push({ name: 'Mail', href: '/mail/inbox', icon: 'ph:envelope-open', group: 'daily', activeRouteNames: ['mail-inbox', 'mail-sent', 'mail-secured-mail'] })
     }
 
-    nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })
+    if (companyHasModule('Journals')) {
+        nav.push({ name: 'Journal Notes', href: '/journal-notes', icon: 'ph:note-pencil', group: 'documentation', activeRouteNames: ['journal-notes'] })
+    }
 
     if (companyHasModule("Documents")) {
         nav.push({ name: 'Documents', href: '/drive', icon: 'ph:folder', group: 'documentation', activeRouteNames: ['drive'] })
@@ -1413,7 +1426,9 @@ function generateSidebarLinks(user: any) {
 
     // The board announces things to the whole house, so it gets a megaphone
     // rather than yet another sheet-of-paper icon next to notes and documents.
-    nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:megaphone', group: 'organisation', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
+    if (companyHasModule('Bullet Board')) {
+        nav.push({ name: 'Bullet Board', href: '/news', icon: 'ph:megaphone', group: 'organisation', activeRouteNames: ['news', 'news-new', 'news-edit-uuid'] })
+    }
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
@@ -1421,7 +1436,7 @@ function generateSidebarLinks(user: any) {
 
     // Task boards hold the work that belongs to nobody's citizen record, so they
     // sit with the other organisation-wide pages rather than under a citizen.
-    if (user?.company?.tasks_workflow_enabled) {
+    if (user?.company?.tasks_workflow_enabled && companyHasModule('Tasks')) {
         nav.push({ name: 'Tasks', href: '/tasks', icon: 'ph:kanban', group: 'organisation', activeRouteNames: ['tasks'] })
     }
 
@@ -1448,7 +1463,7 @@ function generateSidebarLinks(user: any) {
     // page set could reach this export. A dental clinic, which the industry
     // defaults switch care plans off for, still met it in the menu.
     const hasCarePlans = user?.company?.onboarding_preferences?.modules?.carePlans !== false
-    if (hasCarePlans && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
+    if (hasCarePlans && companyHasModule('Plans and goals') && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
         nav.push({
             name: 'Plans And Goals Export',
             href: '/reports/plans-and-goals-export',
@@ -1458,7 +1473,7 @@ function generateSidebarLinks(user: any) {
         })
     }
 
-    if (isAtLeast('Admin') || can('manage_status_reports')) {
+    if ((isAtLeast('Admin') || can('manage_status_reports')) && companyHasModule('Forms')) {
         nav.push({
             name: 'Forms',
             href: '/forms',
@@ -1472,12 +1487,29 @@ function generateSidebarLinks(user: any) {
         })
     }
 
+    // Forms and surveys the patients have sent back, waiting for someone to
+    // approve or decline them. They come back through the patient portal, so a
+    // company without the patient app has nothing to review.
+    if (canUseQuestionnaireInbox(user, isAtLeast, can)) {
+        nav.push({
+            name: 'Questionnaire inbox',
+            href: '/questionnaire-inbox',
+            icon: 'ph:tray',
+            group: 'daily',
+            activeRouteNames: [
+                'questionnaire-inbox',
+                'questionnaire-inbox-type-uuid',
+            ]
+        })
+    }
+
     // One economy area rather than three addresses nobody could tell apart:
     // how it is going, what was earned, and what has to be invoiced.
-    const hasEconomyOverview = user?.pages?.some((page: any) => page.name === 'Management & Economy')
-    const hasEmploymentEconomy = companyHasModule('Billing') || companyHasModule('Revenue report')
-
-    if (hasEconomyOverview || hasEmploymentEconomy) {
+    // An admin keeps Economy whenever the company has it, whether or not the
+    // admin role was granted the page itself.
+    const adminEconomy = isAtLeast('Admin')
+        && (companyHasModule('Management & Economy') || companyHasModule('Billing') || companyHasModule('Revenue report'))
+    if (economyNavVisible(user) || adminEconomy) {
         nav.push({
             name: 'Economy',
             href: '/economy',
@@ -1536,6 +1568,8 @@ function generateSidebarLinks(user: any) {
         // silent, hard-to-diagnose "empty sidebar" into a visible, debuggable one.
         console.error('generateSidebarLinks failed partway through', error)
     }
+
+    nav.splice(0, nav.length, ...nav.filter((item) => item.rawLabel || navItemModuleEnabled(item.name, companyModulesForNav)))
 
     // "Overview" and the dynamic per-company custom links (rawLabel: true, added
     // via /settings/custom-links) aren't user-hideable - Overview so a user can't
@@ -1630,6 +1664,17 @@ function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
 // older backend) the modal sequence exactly as before.
 const { tour: welcomeTour, steps: welcomeSteps, startIfDue: startWelcomeTourIfDue, setIndex: setWelcomeStep, close: closeWelcomeTour } = useWelcomeTour()
 
+// One unsolicited prompt at a time (see composables/promptQueue.ts): security first, then the
+// tour, then the rest. Each prompt keeps its own trigger; the slot only decides when it shows.
+const twofaGranted = usePromptSlot('security2fa', computed(() => state.modal.is2faRequiredOpen))
+const tourGranted = usePromptSlot('tour', computed(() => welcomeTour.value.active || !!state.activeAppTour
+    || state.modal.isGuidedTourWelcomeOpen || state.modal.isGuidedTourDailyOverviewOpen
+    || state.modal.isGuidedTourCitizensOverviewOpen || state.modal.isGuidedTourCalendarOpen
+    || state.modal.isGuidedTourEmployeesOpen || state.modal.isGuidedTourEndOpen))
+const checkinGranted = usePromptSlot('checkinReminder', computed(() => state.modal.isCheckinReminderOpen))
+const completionGranted = usePromptSlot('completionReminder', computed(() => state.modal.isPlanGoalSubgoalCompletionReminderOpen))
+const cmdkTipGranted = usePromptSlot('cmdkTip', showCmdkTip)
+
 // Sidebar items the welcome tour points at.
 const SIDEBAR_TOUR_KEYS: Record<string, string> = {
     Citizens: 'sidebar-citizens',
@@ -1684,6 +1729,8 @@ function handleNextGuidedTour(next: any) {
 }
 
 async function logout() {
+    // Unsaved journal notes are kept in this tab while writing; they go with the session.
+    clearAllDrafts(sessionStorage)
     state.error = {}
     state.isPageLoading = true
     try {

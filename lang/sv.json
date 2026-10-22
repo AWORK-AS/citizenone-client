@@ -63,6 +63,12 @@
             "cleared": "Obokade tider har tagits bort."
         }
     },
+    "journalDraft": {
+        "offer": "Du har en anteckning som inte sparades (kl. {time}).",
+        "restore": "Återställ",
+        "discard": "Kasta",
+        "confirmClose": "Anteckningen är inte sparad. Vill du stänga ändå? Texten sparas som utkast i den här fliken."
+    },
     "nps": {
         "question": "Hur sannolikt är det att du skulle rekommendera CitizenOne till en kollega?",
         "unlikely": "Inte alls",
@@ -223,7 +229,61 @@
         "Management & Economy": "Ledning & ekonomi",
         "Billing": "Fakturering",
         "Revenue report": "Intäktsrapport",
-        "Findsocialetilbud": "FindSocialeTilbud.dk"
+        "Findsocialetilbud": "FindSocialeTilbud.dk",
+        "Messages": "Meddelanden",
+        "Reminders": "Påminnelser",
+        "Bullet Board": "Anslagstavla",
+        "Forms": "Formulär",
+        "Tasks": "Uppgifter",
+        "AI assistant": "AI-assistent",
+        "Staff workload": "Personalbelastning"
+    },
+    "companyModulesCard": {
+        "title": "Moduler",
+        "description": "Välj vilka moduler verksamheten använder. En modul som är avstängd döljs för alla i verksamheten, både på webben och i appen.",
+        "onlyHides": "När en modul stängs av döljs den bara i menyn. Inga data raderas och du kan slå på den igen när som helst.",
+        "useRecommended": "Använd rekommenderad uppsättning för min bransch",
+        "recommendedFor": "Den rekommenderade uppsättningen är de moduler vi föreslår för {industry}. Den fyller bara i reglagen. Inget ändras förrän du trycker Spara.",
+        "noRecommendation": "Det finns ingen rekommenderad uppsättning för din bransch, så alla moduler förblir tillgängliga.",
+        "allOn": "Slå på alla",
+        "allOff": "Stäng av alla",
+        "noneWarning": "Alla moduler är avstängda. Bara det grundläggande, som översikt och klientkort, visas.",
+        "saved": "Moduler uppdaterade.",
+        "groups": {
+            "clients": "Klienter",
+            "daily": "Dagligt arbete",
+            "staff": "Personal",
+            "economy": "Ekonomi",
+            "other": "Övrigt"
+        },
+        "help": {
+            "journals": "Journalanteckningar på varje klient, med AI-hjälp att skriva dem.",
+            "documents": "Fillagring för dokument om klienter och verksamheten.",
+            "contacts": "Anhöriga och andra kontakter för en klient.",
+            "emails": "Koppla din egen e-post och se e-post på varje klient.",
+            "medicineCard": "Läkemedelslistor och registrering av given medicin.",
+            "health": "Hälsoområden och omvårdnadsbedömningar.",
+            "plansAndGoals": "Handlingsplaner med mål och delmål för varje klient.",
+            "wellbeing": "Mätningar av välbefinnande över tid.",
+            "reports": "Rapporter skrivna om en klient.",
+            "calendar": "Möten, bokningar och onlinebokning från er webbplats.",
+            "messages": "Chatta med kollegor och med klienter via klientportalen.",
+            "reminders": "Personliga och gemensamma påminnelser.",
+            "aiAssistant": "AI-assistenten i toppfältet.",
+            "forms": "Bygg egna formulär och frågeformulär.",
+            "tasks": "Uppgiftstavlor för arbete som inte hör till en klient.",
+            "bulletBoard": "Nyheter och meddelanden till hela verksamheten.",
+            "inquiries": "Pipeline för nya förfrågningar och remisser.",
+            "findsocialetilbud": "Genväg till FindSocialeTilbud.dk.",
+            "dutySchedule": "Schemaläggning för personalen.",
+            "attendance": "Närvaroregistrering och protokoll.",
+            "employeeGroup": "Grupper av anställda för åtkomst och planering.",
+            "staffWorkload": "Översikt över belastningen för varje anställd.",
+            "billing": "Fakturor för de tjänster ni levererar.",
+            "revenueReport": "Översikt över er omsättning.",
+            "economy": "Klienters kassor och utgifter.",
+            "managementEconomy": "Ledningsöversikt över verksamhetens ekonomi."
+        }
     },
     "discover": {
         "welcome": "Välkommen, {name}",
@@ -1910,6 +1970,9 @@
                 "successfullyCopied": "{journal} har kopierats",
                 "successfullyMoved": "{journal} har flyttats",
                 "successfullyUpdated": "Journal uppdaterad",
+                "surveysNotCompleted": "Anteckningen är sparad, men {n} enkät(er) registrerades inte.",
+                "surveysRetry": "Försök igen",
+                "surveysRetried": "Enkäterna har registrerats.",
                 "unlockJournal": "{journal} låst upp",
                 "unpinJournal": "{journal} fästning borttagen"
             },
@@ -2016,6 +2079,7 @@
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
                 "titlePlaceholder": "Välj eller skriv en titel",
                 "dictate": "Diktera",
@@ -2026,6 +2090,10 @@
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
                 "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
                 "attachedSurveys": "Enkäter att besvara",
+                "fillPendingSurveys": "Obesvarat frågeformulär ({count}) - fyll i det här tillsammans med @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Obesvarat frågeformulär",
+                "pendingSurveysWarningText": "Ska fyllas i av @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "Se frågeformulär",
                 "linkedSurveys": "Kopplade enkäter",
                 "quickJournalTitles": "Sparade journaltitlar",
                 "moreJournalTitles": "+{count} fler"
@@ -3173,7 +3241,10 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Där opstod en fel.",
                 "anErrorOccurredRetry": "Där opstod en fel. Försök igen.",
+                "historyUnavailable": "Vi kunde inte hämta vilka doser som redan har getts. Försök igen innan du registrerar, så att ingen dos ges dubbelt.",
+                "retry": "Försök igen",
                 "registeredForDays": "Registrerad för {n} dag(e).",
+                "partialFailure": "Registrerad för {ok} dag(ar). Misslyckades för: {dates} ({reason}). De misslyckade datumen är fortfarande valda - försök igen.",
                 "overdueMinutes": "{minutes} min försenad",
                 "overdueHoursMinutes": "{hours}t {minutes}min försenad",
                 "overdueHours": "{hours}t försenad",
@@ -3796,6 +3867,8 @@
             "description": "Beskrivning",
             "descriptionPlaceholder": "Lägg till en beskrivning",
             "viewFullTimeline": "Visa hela tidslinjen",
+            "loadOlder": "Visa äldre",
+            "allLoaded": "Alla händelser visas",
             "alert": {
                 "successfullyAdded": "Tidslinjehändelse tillagd",
                 "deletedSuccessfully": "Tidslinjehändelse borttagen"
@@ -4538,7 +4611,17 @@
             "consultant": "Konsult",
             "region": "Region",
             "weeklyHoursFrom": "Timmar per vecka från",
-            "weeklyHoursTo": "Timmar per vecka till"
+            "weeklyHoursTo": "Timmar per vecka till",
+            "dischargedFrom": "Utskriven från",
+            "dischargedTo": "Utskriven till",
+            "contractStartFrom": "Avtal börjar från",
+            "contractStartTo": "Avtal börjar senast",
+            "contractEndFrom": "Avtal slutar från",
+            "contractEndTo": "Avtal slutar senast",
+            "hasCaseNumber": "Har ärendenummer",
+            "caseWorker": "Handläggare",
+            "payingMunicipality": "Betalande kommun",
+            "removeFilter": "Ta bort filter: {name}"
         },
         "emptyFiltered": "Inga {citizens} matchar filtren."
     },
@@ -5028,7 +5111,8 @@
         "showFewerShifts": "Visa bara de första passen",
         "quickEditTime": {
             "tooltip": "Klicka för att redigera tiden",
-            "hint": "Enter för att spara · Esc för att avbryta"
+            "hint": "Enter för att spara · Esc för att avbryta",
+            "saveFailed": "Passtiden kunde inte uppdateras."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg för {date}",
@@ -7144,6 +7228,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammanhängande dagar",
+            "periodDaysPlaceholder": "t.ex. 30",
             "dutyShiftRuleName": "Namn",
             "evaluatingShiftsFrom": "Evaluerer pass från",
             "inactive": "Inaktiv",
@@ -8695,11 +8780,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Acceptera inbjudan",
+        "accepting": "Accepterar inbjudan",
         "alert": {
             "invalidInvitationLink": "Ogiltigt invitationslink"
         },
+        "errorBody": "Inbjudan kunde inte accepteras just nu. Försök igen senare",
+        "errorTitle": "Något gick fel",
+        "expiredBody": "Inbjudningslänken har gått ut. Be den som bjöd in dig att skicka en ny inbjudan",
+        "expiredTitle": "Inbjudan har gått ut",
+        "invalidBody": "Inbjudningslänken är ogiltig. Be den som bjöd in dig att skicka en ny inbjudan",
+        "invalidTitle": "Ogiltig inbjudan",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Logga in för att fortsätta",
+        "notAdminBody": "Endast administratörer kan acceptera den här inbjudan",
+        "notAdminTitle": "Inbjudan accepterades inte",
+        "readyBody": "Tryck på knappen nedan för att bli administratör i organisationen",
+        "readyTitle": "Du har blivit inbjuden",
+        "wrongUserBody": "Inbjudan gäller en annan användare. Logga ut och öppna länken igen som den den skickades till",
+        "wrongUserTitle": "Inloggad som någon annan",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har accepteret invitationen"
     },
     "invoiceDetails": {
@@ -9458,7 +9557,7 @@
         "startTheConversation": "Start samtalen",
         "subject": "Emne",
         "today": "Idag",
-        "typeAMessage": "Skriv en meddelande...",
+        "typeAMessage": "Skriv ett meddelande...",
         "unread": "olästa",
         "unreadMessages": "Olästa meddelanden",
         "users": "Användare",
@@ -9475,6 +9574,12 @@
         "recipients": "Mottagare",
         "recipientsHint": "Välj vem du vill skriva till och skriv ditt meddelande.",
         "selectRecipients": "Sök kollegor...",
+        "recipientType": "Mottagartyp",
+        "recipientTypeEmployees": "Kollegor",
+        "recipientTypeCitizens": "@.capitalize:terms.citizens{''}",
+        "citizenRecipients": "@.capitalize:terms.citizens{''}",
+        "selectCitizenRecipients": "Sök @:terms.citizens{''}...",
+        "citizenRecipientWarning": "Meddelandet skickas till @:terms.citizenDefinite{''}, inte till en kollega. Kontrollera att det inte innehåller uppgifter som bara är till för kollegor.",
         "subjectOptional": "Ämne (valfritt)",
         "subjectPlaceholder": "Vad handlar det om?",
         "messagePlaceholder": "Skriv ditt meddelande...",
@@ -11375,6 +11480,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Ta emot aviseringar om lediga pass, oavsett mina andra aviseringsinställningar",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Tvångsåtgärder i journalen",
+                "useOfForceInJournalHelp": "Visar \"Rapportera tvångsåtgärd\" och tidigare tvångsåtgärder på journalsidan. Stäng av om ni inte arbetar med tvångsåtgärder.",
                 "sundayShiftCalculation": "Aktivera söndagsvagtberegning",
                 "remove": "Ta bort firmalogo",
                 "street": "Gata",
@@ -11465,8 +11572,10 @@
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
                 "portalSectionForms": "Formulär",
                 "portalSectionPriceEstimates": "Kostnadsförslag",
+                "portalSectionPrescriptions": "Receptförnyelse",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
                 "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
+                "portalPreviewPrescriptions": "Patienten ser sina nuvarande recept och kan be kliniken förnya dem. Förfrågan kommer in i inkorgen Receptförnyelser.",
                 "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
             }
         },
@@ -16684,6 +16793,91 @@
             "edit": "Redigera epikrismall"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inaktiva medarbetare",
+        "messageSingle": "{name} har varit inaktiv i 3 månader (senast aktiv {date}).",
+        "messageSingleNever": "{name} har aldrig loggat in och har varit inaktiv i 3 månader.",
+        "messageMany": "{count} medarbetare har varit inaktiva i 3 månader eller mer.",
+        "licenseNote": "De använder fortfarande en licens tills de arkiveras.",
+        "neverLoggedIn": "Har aldrig loggat in",
+        "lastActive": "Senast aktiv {when}",
+        "archive": "Arkivera",
+        "keepActive": "Behåll aktiv",
+        "viewEmployee": "Visa medarbetare",
+        "remindLater": "Påminn mig senare",
+        "close": "Stäng",
+        "archiveConfirm": "Är du säker på att du vill arkivera {name}? Medarbetaren använder då inte längre en licens.",
+        "licenseFreed": "Licens frigjord",
+        "columnHeader": "Senast aktiv",
+        "never": "Aldrig",
+        "filter": "Inaktiv i 3+ månader"
+    },
+    "questionnaireInbox": {
+        "title": "Formulärinkorg",
+        "subtitle": "Formulär och enkäter som patienter har skickat tillbaka, för granskning",
+        "tabs": {
+            "to_review": "Att granska",
+            "approved": "Godkända",
+            "declined": "Avslagna",
+            "all": "Alla"
+        },
+        "status": {
+            "to_review": "Att granska",
+            "approved": "Godkänd",
+            "declined": "Avslagen"
+        },
+        "type": {
+            "form": "Formulär",
+            "survey": "Enkät"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Sök på patientens namn",
+            "questionnaire": "Formulär",
+            "allQuestionnaires": "Alla formulär",
+            "from": "Återlämnad från",
+            "to": "Återlämnad till",
+            "sentByMe": "Skickade av mig",
+            "clear": "Rensa filter"
+        },
+        "empty": {
+            "to_review": "Inga formulär väntar på granskning",
+            "approved": "Inga godkända formulär",
+            "declined": "Inga avslagna formulär",
+            "all": "Inga formulär har återlämnats ännu"
+        },
+        "score": "Poäng",
+        "returned": "Återlämnad",
+        "sentBy": "Skickad av",
+        "handledBeforeInbox": "Hanterad före inkorgen",
+        "reviewedBy": "Av {name}",
+        "backToList": "Tillbaka till inkorgen",
+        "openProfile": "Öppna patientens profil",
+        "openMedicineList": "Öppna läkemedelslistan",
+        "openPdf": "Öppna PDF",
+        "answers": "Svar",
+        "noAnswers": "Det finns inga svar att visa.",
+        "review": {
+            "title": "Granskning",
+            "note": "Anteckning",
+            "notePlaceholder": "Till exempel: Recept förnyat i 3 månader",
+            "noteHint": "Valfri vid godkännande. Obligatorisk vid avslag.",
+            "approve": "Godkänn",
+            "decline": "Avslå",
+            "reopen": "Öppna igen",
+            "declineTitle": "Avslå formulär",
+            "declineConfirm": "Vill du avslå det här formuläret? Motiveringen sparas tillsammans med det.",
+            "declineReasonRequired": "Skriv en kort motivering till avslaget.",
+            "noteTooLong": "Anteckningen får vara högst {max} tecken.",
+            "approvedBy": "Godkänd av {name} den {date}",
+            "declinedBy": "Avslagen av {name} den {date}"
+        },
+        "alert": {
+            "approved": "Formuläret är godkänt.",
+            "declined": "Formuläret är avslaget.",
+            "reopened": "Formuläret är tillbaka under Att granska."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",
         "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
@@ -18984,5 +19178,96 @@
     "tableColumns": {
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
+    },
+    "prescriptionRenewals": {
+        "title": "Receptförnyelser",
+        "intro": "Förfrågningar från patienter om att förnya ett recept. En förfrågan kommer hit när patienten har besvarat frågeformuläret som hör till läkemedlet. Godkänn den och skapa receptet, eller avslå den med en motivering till patienten.",
+        "filter": "Filtrera efter status",
+        "all": "Alla",
+        "empty": "Det finns inga förfrågningar här.",
+        "open": "Öppna",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Läkemedel",
+            "status": "Status",
+            "received": "Mottagen"
+        },
+        "statuses": {
+            "awaiting_answers": "Väntar på frågeformulär",
+            "pending": "Att bedöma",
+            "approved": "Godkänd",
+            "rejected": "Avslagen",
+            "prescribed": "Recept skapat"
+        },
+        "detail": {
+            "title": "Förfrågan om receptförnyelse",
+            "currentPrescription": "Nuvarande recept",
+            "endsOn": "Slutar",
+            "patientNote": "Meddelande från patienten",
+            "questionnaire": "Frågeformulär",
+            "notAnsweredYet": "Patienten har ännu inte besvarat frågeformuläret.",
+            "noQuestionnaire": "Inget frågeformulär är kopplat till detta läkemedel.",
+            "decision": "Beslut",
+            "decidedBy": "Av {name}, {date}",
+            "noteToPatient": "Meddelande till patienten",
+            "notePlaceholder": "Måste fyllas i vid avslag. Patienten ser det i appen.",
+            "approve": "Godkänn",
+            "reject": "Avslå",
+            "approved": "Förfrågan har godkänts. Patienten har fått besked.",
+            "rejected": "Förfrågan har avslagits. Patienten har fått besked.",
+            "prescribeHelp": "Förfrågan är godkänd. Skapa receptet på patientens läkemedelskort.",
+            "prescribe": "Skapa recept",
+            "openMedicineCard": "Öppna läkemedelskortet"
+        },
+        "prescribe": {
+            "banner": "Förnyelse av {medicine}",
+            "bannerHelp": "När receptet sparas stängs patientens förfrågan om förnyelse.",
+            "done": "Receptet har skapats och förfrågan om förnyelse är stängd."
+        },
+        "settings": {
+            "renewalSurvey": "Frågeformulär vid receptförnyelse",
+            "noRenewalSurvey": "Inget frågeformulär",
+            "renewalSurveyHelp": "Skickas till patienten när de ber om att få ett recept på detta läkemedel förnyat, t.ex. ett frågeformulär om håravfall."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Recept",
+        "intro": "Dina nuvarande recept. Be kliniken förnya ett när det håller på att ta slut.",
+        "yourPrescriptions": "Dina recept",
+        "empty": "Du har inga recept från kliniken.",
+        "validUntil": "Giltigt till {date}",
+        "requestRenewal": "Begär förnyelse",
+        "answerQuestionnaire": "Besvara frågeformuläret",
+        "yourRequests": "Dina förfrågningar",
+        "requestedOn": "Begärd {date}",
+        "clinicNote": "Från kliniken",
+        "confirm": "Vill du be kliniken förnya ditt recept på {medicine}?",
+        "questionnaireNext": "Därefter besvarar du ett kort frågeformulär så att kliniken kan bedöma förnyelsen.",
+        "noteLabel": "Meddelande till kliniken (valfritt)",
+        "notePlaceholder": "T.ex. hur behandlingen går",
+        "send": "Skicka förfrågan",
+        "sent": "Din förfrågan har skickats till kliniken.",
+        "statuses": {
+            "awaiting_answers": "Väntar på dina svar",
+            "pending": "Hos kliniken",
+            "approved": "Godkänd",
+            "rejected": "Avslagen",
+            "prescribed": "Förnyat"
+        }
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Det gick inte att hämta schemadata",
+        "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",
+        "createShiftFailed": "Passet kunde inte skapas.",
+        "employeeNotLinked": "Medarbetaren är ännu inte kopplad till en lokal användare.",
+        "unknownError": "Okänt fel",
+        "serverError": "Serverfel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "generic": "Något gick fel. Försök igen. Om problemet kvarstår, kontakta din systemadministratör",
+        "unauthorized": "Behörighet saknas",
+        "somethingWentWrongWith": "Något gick fel: {message}",
+        "downloadFailed": "Ett fel uppstod vid nedladdningen.",
+        "importFailed": "Ett fel uppstod vid importen.",
+        "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
+        "deleteFailed": "Ett fel uppstod vid raderingen."
     }
 }

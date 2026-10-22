@@ -4,8 +4,21 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
+        <!-- An unsaved note from earlier in this tab (closed by accident, or the session ran out). -->
+        <div v-if="state.draftOffer" role="status"
+            class="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <span>{{ $t('journalDraft.offer', { time: draftTime(state.draftOffer.savedAt) }) }}</span>
+            <span class="flex gap-3">
+                <button type="button" class="font-semibold underline" @click="restoreDraft">{{ $t('journalDraft.restore') }}</button>
+                <button type="button" class="underline" @click="discardDraft">{{ $t('journalDraft.discard') }}</button>
+            </span>
+        </div>
         <div class="space-y-3" :class="{ 'pointer-events-none select-text opacity-90': props.readonly }">
-            <div v-if="state.isAutoSaving" class="flex items-center gap-x-1">
+            <div v-if="state.saveFailed" class="flex items-center gap-x-1 text-red-600">
+                <Icon name="ph:warning-circle" class="w-5 h-5" />
+                <span class="text-base">{{ $t('citizens.citizenJournals.form.autosaveFailed') }}</span>
+            </div>
+            <div v-else-if="state.isAutoSaving" class="flex items-center gap-x-1">
                 <Icon name="ph:spinner" class="w-5 h-5 spin" />
                 <div>
                     <span class="text-base">
@@ -42,7 +55,7 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="date" :label="$t('citizens.citizenJournals.form.date')" />
-                    <FormDateField id="date" name="date" placeholder="Date" v-model="state.formJournal.date" />
+                    <FormDateField id="date" name="date" :placeholder="$t('forms.fields.date')" v-model="state.formJournal.date" />
                     <FormError :error="v$?.formJournal?.date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date?.[0]" />
                 </div>
@@ -90,18 +103,6 @@
                         <p class="text-gray-500">{{ entry.question }}</p>
                         <p class="font-medium">{{ entry.answer }}</p>
                     </div>
-                </div>
-            </div>
-            <div class="space-y-3" v-if="state.pendingSurveys.length > 0">
-                <p class="text-sm font-medium text-gray-700">
-                    {{ $t('citizens.citizenJournals.form.attachedSurveys') }}
-                </p>
-                <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
-                    class="bg-gray-50 rounded-md p-4 space-y-3">
-                    <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
-                    <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
-                        :questions="assignment?.survey?.questions ?? []"
-                        :answers="state.surveyAnswers[assignment.uuid]" />
                 </div>
             </div>
             <!-- The level feeds the development graph, which is a care-plan measure. -->
@@ -231,6 +232,29 @@
                 <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
+            </div>
+            <!-- A questionnaire the patient has not answered yet. It used to sit open above the note, so
+                 writing a note meant scrolling past every question first (Trium). The journal page now warns
+                 about it; here it stays folded under the note, for staff who fill it in with the patient. -->
+            <div class="rounded-lg border border-amber-200 bg-amber-50" v-if="state.pendingSurveys.length > 0"
+                data-testid="journal-pending-surveys">
+                <button type="button" class="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm text-amber-900"
+                    :aria-expanded="state.isPendingSurveysOpen" @click="state.isPendingSurveysOpen = !state.isPendingSurveysOpen">
+                    <span class="flex items-center gap-2">
+                        <Icon name="ph:clipboard-text" class="size-4 shrink-0" aria-hidden="true" />
+                        {{ $t('citizens.citizenJournals.form.fillPendingSurveys', { count: state.pendingSurveys.length }) }}
+                    </span>
+                    <Icon :name="state.isPendingSurveysOpen ? 'ph:caret-up' : 'ph:caret-down'" class="size-4 shrink-0" aria-hidden="true" />
+                </button>
+                <div v-if="state.isPendingSurveysOpen" class="space-y-3 border-t border-amber-200 bg-white p-3 rounded-b-lg">
+                    <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
+                        class="bg-gray-50 rounded-md p-4 space-y-3">
+                        <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
+                        <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
+                            :questions="assignment?.survey?.questions ?? []"
+                            :answers="state.surveyAnswers[assignment.uuid]" />
+                    </div>
+                </div>
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
@@ -556,6 +580,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { countChoiceLists } from '@/composables/journalChoiceLists'
+import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
 
 const { isAtLeast } = usePermissions()
 
@@ -576,8 +601,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    /** The citizen a new note is for. Turns on the tab-local draft (composables/journalNoteDraft.ts). */
+    draftCitizenUuid: {
+        type: String,
+        default: null,
+    },
 })
-const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected'])
+const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected', 'dirtyChange'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
@@ -606,6 +636,9 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any
 const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
+// Bumped on every edit, so a save that was in flight while the person kept
+// typing does not clear the changes it did not contain.
+let changeVersion = 0
 let isInitialized = true
 let suppressChangeTracking = true
 // Tracks the template text last auto-inserted from a selected title, so
@@ -653,6 +686,8 @@ const editorNoteConfig = ref({
 
 const state = reactive({
     isAutoSaving: false,
+    saveFailed: false,
+    isSaveInFlight: false,
     error: {} as Error,
     formJournal: {
         id: '',
@@ -692,8 +727,10 @@ const state = reactive({
     // only used to explain what unticking the box does.
     linkedToPlan: false,
     pendingSurveys: [] as any[],
+    isPendingSurveysOpen: false,
     surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
+    draftOffer: null as JournalNoteDraft | null,
     modal: {
         isAddJournalNoteTagsOpen: false,
         isUpgradeStorageOpen: false,
@@ -1103,6 +1140,7 @@ watch(() => state.formJournal, () => {
 
     // Only mark changes for update form
     if (props.formType === 'update') {
+        changeVersion++
         state.hasChanges = true
         state.isAutoSaving = true
     }
@@ -1241,13 +1279,33 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
+    // An autosave tick must not start a second request while one is in flight;
+    // an explicit Save always goes through.
+    if (state.isSaveInFlight && state.isAutoSaving) return
     v$.value.$validate()
     if (missingRequiredSurveyQuestions().length > 0) {
         state.error = { message: `${t('validation.thisFieldIsRequired')}.` } as any
         return
     }
     if (!v$.value.$error && state.hasChanges) {
-        state.hasChanges = false
+        const versionAtSend = changeVersion
+        // Only the autosaving edit form tracks the result; create forms close
+        // on success and keep their data on failure, as before.
+        const tracked = props.formType === 'update'
+        if (tracked) state.isSaveInFlight = true
+        else state.hasChanges = false
+        // hasChanges stays true until the parent reports success, so the form
+        // never shows "saved" for a request that failed or is still running.
+        const done = (ok: boolean) => {
+            state.isSaveInFlight = false
+            if (ok) {
+                state.saveFailed = false
+                if (changeVersion === versionAtSend) state.hasChanges = false
+            } else {
+                state.saveFailed = true
+                state.hasChanges = true
+            }
+        }
         emit('submitForm', {
             isAutoSaving: state.isAutoSaving,
             formJournal: state.formJournal,
@@ -1255,6 +1313,7 @@ function submitForm() {
             // Only sent when the ruler is shown, so saving from a form without
             // it leaves the note's scores alone.
             ...(isWellbeingRulerEnabled.value ? { wellbeing_scores: wellbeingPayload() } : {}),
+            ...(tracked ? { done } : {}),
         })
     }
 }
@@ -1636,6 +1695,51 @@ watch(dictation.error, (problem) => {
 // note, so the user does not copy out of one panel and paste into the other.
 // The panel never touches the editor: it only asks, and the answer lands here.
 const assistantStore = useAssistantStore()
+
+// ─── Draft of a new note (create only) ─────────────────────────
+const draftStorageKey = computed(() => props.formType === 'create'
+    ? draftKey(userStore.getUser?.uuid, props.draftCitizenUuid)
+    : null)
+let draftTimer: ReturnType<typeof setTimeout> | null = null
+
+function draftTime(savedAt: number): string {
+    return new Date(savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
+function restoreDraft() {
+    const draft = state.draftOffer
+    if (!draft) return
+    // Title first: picking a saved title can fill in its content template, which the restored
+    // text must then win over.
+    state.formJournal.title = draft.title
+    nextTick(() => {
+        state.formJournal.content = draft.content
+        state.formJournal.note = draft.note
+    })
+    state.draftOffer = null
+}
+
+function discardDraft() {
+    clearDraft(sessionStorage, draftStorageKey.value)
+    state.draftOffer = null
+}
+
+onMounted(() => {
+    if (!draftStorageKey.value || props.readonly) return
+    state.draftOffer = loadDraft(sessionStorage, draftStorageKey.value)
+})
+
+watch(() => [state.formJournal.title, state.formJournal.content, state.formJournal.note], () => {
+    if (props.formType !== 'create' || props.readonly) return
+    const dirty = hasWriting(state.formJournal)
+    emit('dirtyChange', dirty)
+    // While a draft is on offer, typing must not overwrite it before the user has chosen.
+    if (!draftStorageKey.value || state.draftOffer) return
+    if (draftTimer) clearTimeout(draftTimer)
+    draftTimer = setTimeout(() => saveDraft(sessionStorage, draftStorageKey.value, state.formJournal), 800)
+})
+
+onBeforeUnmount(() => { if (draftTimer) clearTimeout(draftTimer) })
 
 onMounted(() => assistantStore.offerInsertTarget(t('sidebar.journalNotes')))
 onBeforeUnmount(() => assistantStore.withdrawInsertTarget())

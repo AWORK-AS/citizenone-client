@@ -101,6 +101,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString } from '@/composables/localDate'
 import { useI18n } from 'vue-i18n'
 import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
 
@@ -184,7 +185,7 @@ const measuredAt = computed({
 })
 
 function today(): string {
-    return new Date().toISOString().slice(0, 10)
+    return localDateString()
 }
 
 function scoreOf(raterKey: string): number | null {
