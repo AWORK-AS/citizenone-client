@@ -1,4 +1,22 @@
 {
+    "referralProgram": {
+        "title": "Give a month, get a month",
+        "intro": "When a business you recommend creates an account through your link and pays its first invoice, you both get one free month.",
+        "npsTitle": "Would you pass CitizenOne on?",
+        "npsBody": "Send your personal link to a business that could use CitizenOne. If they become a customer, you both get one free month.",
+        "copy": "Copy link",
+        "copied": "Copied",
+        "statusReferred": "Signed up through your link: {count}",
+        "statusPending": "Waiting for their first payment: {count}",
+        "statusMonths": "Free months to come: {count}",
+        "termsTitle": "Terms",
+        "terms1": "You both get one free month when the business you recommended has paid its first invoice.",
+        "terms2": "The free month is one month of your base subscription, excluding VAT. Apps, add-ons and fees are not included, and it cannot be paid out.",
+        "terms3": "We deduct it from one of your coming invoices, normally the next one.",
+        "terms4": "A business can earn at most {cap} free months a year. Your own organisation, or one with the same CVR number or mail domain, does not count.",
+        "terms5": "Only recommend us to someone you think will benefit. There is no obligation, and the business you recommend decides for itself.",
+        "registerNote": "When you have paid your first invoice, you get one free month."
+    },
     "journalDraft": {
         "offer": "You have a note that was not saved ({time}).",
         "restore": "Restore",
@@ -12234,6 +12252,53 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "referrals": {
+            "header": "Referrals",
+            "subtitle": "Businesses that signed up through a customer's link, and the free months they have earned.",
+            "manualHint": "Free months are not deducted automatically. Take the month off the company's next invoice, then mark it applied with the invoice or credit note number.",
+            "cards": {
+                "referrals": "Referrals",
+                "pending": "Waiting for first payment",
+                "rewarded": "Rewarded",
+                "rejected": "Rejected",
+                "toApply": "Free months to apply"
+            },
+            "status": {
+                "pending": "Waiting for first payment",
+                "rewarded": "Rewarded",
+                "rejected": "Rejected"
+            },
+            "reasons": {
+                "same_company": "Same company",
+                "same_cvr": "Same CVR number",
+                "same_email_domain": "Same admin mail domain"
+            },
+            "role": {
+                "referrer": "Recommended",
+                "referred": "Was recommended"
+            },
+            "creditStatus": {
+                "earned": "To apply",
+                "applied": "Applied",
+                "void": "Cancelled"
+            },
+            "allStatuses": "All statuses",
+            "referrer": "Recommended by",
+            "referred": "New customer",
+            "signedUp": "Signed up",
+            "statusColumn": "Status",
+            "credits": "Free months",
+            "qualifyingInvoice": "First payment: invoice {number}, {amount} kr.",
+            "capped": "The recommending customer got no month (yearly cap reached or no longer active).",
+            "amount": "{amount} kr. excl. VAT",
+            "noAmount": "No subscription price found",
+            "apply": "Mark applied",
+            "void": "Cancel",
+            "notePlaceholder": "Invoice or credit note number, or why it is cancelled",
+            "save": "Save",
+            "cancel": "Back",
+            "empty": "No businesses have signed up through a customer's link in this period."
+        },
         "nps": {
             "title": "Recommendations (NPS)",
             "subtitle": "Answers from admins in the last 90 days. NPS = share of 9-10 minus share of 0-6.",
@@ -13472,6 +13537,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "referrals": "Referrals",
             "nps": "Recommendations (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",

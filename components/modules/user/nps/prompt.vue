@@ -61,6 +61,26 @@
                         <Icon name="ph:arrow-square-out" class="size-4" aria-hidden="true" />
                     </a>
                 </div>
+                <!--
+                    A 9-10 has just said they would recommend us; this is the means to. After the
+                    review invitation, which stays the same for every score.
+                -->
+                <div v-if="referralOffer && isPromoter(score)" class="mt-4 space-y-2 border-t border-gray-100 pt-4" data-testid="nps-referral">
+                    <p class="text-sm font-semibold text-gray-900">{{ $t('referralProgram.npsTitle') }}</p>
+                    <p class="text-sm text-gray-600">{{ $t('referralProgram.npsBody') }}</p>
+                    <div class="flex items-stretch gap-2">
+                        <label for="nps-referral-link" class="sr-only">{{ $t('platformShare.yourLink') }}</label>
+                        <input id="nps-referral-link" type="text" readonly :value="referralOffer.url"
+                            class="min-w-0 flex-1 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-xs text-gray-700 outline-none focus:border-primary"
+                            @focus="($event.target as HTMLInputElement).select()" />
+                        <button type="button" @click="copyReferralLink" data-testid="nps-referral-copy"
+                            class="inline-flex shrink-0 items-center gap-1 rounded-lg px-3 py-2 text-xs font-semibold text-primary ring-1 ring-secondary-200 hover:bg-secondary-25">
+                            <Icon :name="referralCopied ? 'ph:check' : 'ph:copy'" class="size-4" aria-hidden="true" />
+                            {{ referralCopied ? $t('referralProgram.copied') : $t('referralProgram.copy') }}
+                        </button>
+                    </div>
+                    <ModulesUserPlatformShareReferralTerms :offer="referralOffer" />
+                </div>
             </template>
         </section>
     </transition>
@@ -75,6 +95,8 @@
 // only to the happy ones would be review gating, which Trustpilot forbids.
 import { npsService } from '@/components/api/user/NpsService'
 import { NPS_SCALE, mayShowNpsPrompt, npsBand } from '@/composables/npsPrompt'
+import { isPromoter, referralOfferFrom, type ReferralOffer } from '@/composables/referralProgram'
+import { platformShareService } from '@/components/api/user/PlatformShareService'
 import { useI18n } from 'vue-i18n'
 import { isFirstSession } from '@/composables/welcomeTour'
 import { useUserStore } from '@/store/user'
@@ -93,6 +115,8 @@ const sending = ref(false)
 const error = ref('')
 const reviewUrl = ref('')
 const answerUuid = ref<string | null>(null)
+const referralOffer = ref<ReferralOffer | null>(null)
+const referralCopied = ref(false)
 
 const band = computed(() => (score.value === null ? null : npsBand(score.value)))
 const impersonating = typeof localStorage !== 'undefined' && !!localStorage.getItem('_original_token')
@@ -128,6 +152,7 @@ async function send(): Promise<void> {
         const res = await npsService.answer({ score: score.value, comment: comment.value.trim() || null })
         answerUuid.value = res?.data?.uuid ?? null
         reviewUrl.value = res?.data?.review_url || reviewUrl.value
+        referralOffer.value = referralOfferFrom(res?.data?.referral)
         step.value = 'thanks'
     } catch (e: any) {
         error.value = e?.message ?? t('nps.error')
@@ -147,6 +172,17 @@ function close(): void {
         return
     }
     notNow()
+}
+
+async function copyReferralLink(): Promise<void> {
+    if (!referralOffer.value) return
+    try {
+        await navigator.clipboard.writeText(referralOffer.value.url)
+        referralCopied.value = true
+        setTimeout(() => { referralCopied.value = false }, 2000)
+        // Counted like any other share of the link, so superadmin sees it.
+        platformShareService.recordShare({ method: 'copy' }).catch(() => {})
+    } catch { /* the field stays selectable for a manual copy */ }
 }
 
 function reviewClicked(): void {

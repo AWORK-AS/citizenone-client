@@ -1,4 +1,22 @@
 {
+    "referralProgram": {
+        "title": "Gi en måned, få en måned",
+        "intro": "Når en virksomhet du anbefaler oppretter en konto via lenken din og betaler sin første faktura, får dere begge en gratis måned.",
+        "npsTitle": "Vil du anbefale CitizenOne videre?",
+        "npsBody": "Send den personlige lenken din til en virksomhet som kan ha nytte av CitizenOne. Blir de kunde, får dere begge en gratis måned.",
+        "copy": "Kopier lenke",
+        "copied": "Kopiert",
+        "statusReferred": "Opprettet via lenken din: {count}",
+        "statusPending": "Venter på sin første betaling: {count}",
+        "statusMonths": "Gratis måneder på vei: {count}",
+        "termsTitle": "Vilkår",
+        "terms1": "Dere får begge en gratis måned når virksomheten du har anbefalt, har betalt sin første faktura.",
+        "terms2": "Den gratis måneden er en måned av grunnabonnementet deres, eksl. mva. Apper, tillegg og gebyrer er ikke med, og den kan ikke utbetales.",
+        "terms3": "Vi trekker den fra en av de kommende fakturaene deres, normalt den neste.",
+        "terms4": "En virksomhet kan maksimalt få {cap} gratis måneder i året. Deres egen organisasjon, eller en med samme organisasjonsnummer eller e-postdomene, teller ikke.",
+        "terms5": "Anbefal oss bare til noen du tror vil ha nytte av det. Det er ingen forpliktelse, og virksomheten du anbefaler bestemmer selv.",
+        "registerNote": "Når dere har betalt den første fakturaen, får dere en gratis måned."
+    },
     "journalDraft": {
         "offer": "Du har et notat som ikke ble lagret (kl. {time}).",
         "restore": "Gjenopprett",
@@ -12197,6 +12215,53 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
+        "referrals": {
+            "header": "Anbefalinger",
+            "subtitle": "Virksomheter som er opprettet via en kundes lenke, og de gratis månedene de har gitt.",
+            "manualHint": "Gratis måneder trekkes ikke fra automatisk. Trekk måneden fra virksomhetens neste faktura, og merk den deretter som gitt med faktura- eller kreditnotanummeret.",
+            "cards": {
+                "referrals": "Anbefalinger",
+                "pending": "Venter på første betaling",
+                "rewarded": "Belønnet",
+                "rejected": "Avvist",
+                "toApply": "Gratis måneder å gi"
+            },
+            "status": {
+                "pending": "Venter på første betaling",
+                "rewarded": "Belønnet",
+                "rejected": "Avvist"
+            },
+            "reasons": {
+                "same_company": "Samme virksomhet",
+                "same_cvr": "Samme CVR-nummer",
+                "same_email_domain": "Samme admin-e-postdomene"
+            },
+            "role": {
+                "referrer": "Anbefalte",
+                "referred": "Ble anbefalt"
+            },
+            "creditStatus": {
+                "earned": "Skal gis",
+                "applied": "Gitt",
+                "void": "Annullert"
+            },
+            "allStatuses": "Alle statuser",
+            "referrer": "Anbefalt av",
+            "referred": "Ny kunde",
+            "signedUp": "Opprettet",
+            "statusColumn": "Status",
+            "credits": "Gratis måneder",
+            "qualifyingInvoice": "Første betaling: faktura {number}, {amount} kr",
+            "capped": "Den anbefalende kunden fikk ingen måned (årlig tak nådd eller ikke lenger aktiv).",
+            "amount": "{amount} kr eksl. mva.",
+            "noAmount": "Ingen abonnementspris funnet",
+            "apply": "Merk som gitt",
+            "void": "Annuller",
+            "notePlaceholder": "Faktura- eller kreditnotanummer, eller hvorfor den annulleres",
+            "save": "Lagre",
+            "cancel": "Tilbake",
+            "empty": "Ingen virksomheter er opprettet via en kundes lenke i perioden."
+        },
         "nps": {
             "title": "Anbefalinger (NPS)",
             "subtitle": "Svar fra administratorer de siste 90 dagene. NPS = andel 9-10 minus andel 0-6.",
@@ -13435,6 +13500,7 @@
             "labelImage": "Bilde"
         },
         "sidebar": {
+            "referrals": "Anbefalinger",
             "nps": "Anbefalinger (NPS)",
             "roadmap": "Veikart",
             "apps": "Apper",

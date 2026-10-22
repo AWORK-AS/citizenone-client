@@ -1,4 +1,22 @@
 {
+    "referralProgram": {
+        "title": "Giv en måned, få en måned",
+        "intro": "Når en virksomhed, du anbefaler, opretter en konto via dit link og betaler sin første faktura, får I begge en gratis måned.",
+        "npsTitle": "Vil du give CitizenOne videre?",
+        "npsBody": "Send dit personlige link til en virksomhed, der kunne have gavn af CitizenOne. Bliver de kunde, får I begge en gratis måned.",
+        "copy": "Kopiér link",
+        "copied": "Kopieret",
+        "statusReferred": "Oprettet via dit link: {count}",
+        "statusPending": "Venter på deres første betaling: {count}",
+        "statusMonths": "Gratis måneder på vej: {count}",
+        "termsTitle": "Vilkår",
+        "terms1": "I får begge en gratis måned, når den virksomhed, du har anbefalet, har betalt sin første faktura.",
+        "terms2": "Den gratis måned er en måned af jeres grundabonnement, ekskl. moms. Apps, tilkøb og gebyrer er ikke med, og den kan ikke udbetales.",
+        "terms3": "Vi trækker den fra en af jeres kommende fakturaer, normalt den næste.",
+        "terms4": "En virksomhed kan højst få {cap} gratis måneder om året. Jeres egen organisation, eller en med samme CVR-nummer eller maildomæne, tæller ikke.",
+        "terms5": "Anbefal os kun til nogen, du tror, får glæde af det. Der er ingen forpligtelse, og den virksomhed, du anbefaler, bestemmer selv.",
+        "registerNote": "Når I har betalt jeres første faktura, får I en gratis måned."
+    },
     "journalDraft": {
         "offer": "Du har et notat, der ikke blev gemt (kl. {time}).",
         "restore": "Gendan",
@@ -12234,6 +12252,53 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "referrals": {
+            "header": "Anbefalinger",
+            "subtitle": "Virksomheder der er oprettet via en kundes link, og de gratis måneder de har givet.",
+            "manualHint": "Gratis måneder trækkes ikke fra automatisk. Træk måneden fra virksomhedens næste faktura, og markér den derefter som givet med faktura- eller kreditnotanummeret.",
+            "cards": {
+                "referrals": "Anbefalinger",
+                "pending": "Venter på første betaling",
+                "rewarded": "Belønnet",
+                "rejected": "Afvist",
+                "toApply": "Gratis måneder at give"
+            },
+            "status": {
+                "pending": "Venter på første betaling",
+                "rewarded": "Belønnet",
+                "rejected": "Afvist"
+            },
+            "reasons": {
+                "same_company": "Samme virksomhed",
+                "same_cvr": "Samme CVR-nummer",
+                "same_email_domain": "Samme admin-maildomæne"
+            },
+            "role": {
+                "referrer": "Anbefalede",
+                "referred": "Blev anbefalet"
+            },
+            "creditStatus": {
+                "earned": "Skal gives",
+                "applied": "Givet",
+                "void": "Annulleret"
+            },
+            "allStatuses": "Alle statusser",
+            "referrer": "Anbefalet af",
+            "referred": "Ny kunde",
+            "signedUp": "Oprettet",
+            "statusColumn": "Status",
+            "credits": "Gratis måneder",
+            "qualifyingInvoice": "Første betaling: faktura {number}, {amount} kr.",
+            "capped": "Den anbefalende kunde fik ingen måned (årligt loft nået eller ikke længere aktiv).",
+            "amount": "{amount} kr. ekskl. moms",
+            "noAmount": "Ingen abonnementspris fundet",
+            "apply": "Markér som givet",
+            "void": "Annullér",
+            "notePlaceholder": "Faktura- eller kreditnotanummer, eller hvorfor den annulleres",
+            "save": "Gem",
+            "cancel": "Tilbage",
+            "empty": "Ingen virksomheder er oprettet via en kundes link i perioden."
+        },
         "nps": {
             "title": "Anbefalinger (NPS)",
             "subtitle": "Svar fra administratorer de sidste 90 dage. NPS = andel 9-10 minus andel 0-6.",
@@ -13472,6 +13537,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "referrals": "Anbefalinger",
             "nps": "Anbefalinger (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
