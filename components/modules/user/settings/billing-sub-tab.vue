@@ -18,6 +18,7 @@ function changeTab(href: string) {
 
 const tabs = [
     { name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] },
+    { name: 'billingOverview.title', isTranslateName: true, href: '/settings/billing-overview', routeNames: ['settings-billing-overview'] },
     { name: 'settings.licenseOverview.licenseOverview', isTranslateName: true, href: '/settings/license-overview', routeNames: ['settings-license-overview', 'settings-license-overview-caseworker', 'settings-license-overview-departments'] },
     { name: 'storage.storage', isTranslateName: true, href: '/settings/storage', routeNames: ['settings-storage'] },
     { name: 'invoices.invoices', isTranslateName: true, href: '/settings/invoices', routeNames: ['settings-invoices', 'settings-invoices-invoice_uuid-invoice-details'] },

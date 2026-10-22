@@ -1,5 +1,5 @@
 <template>
-    <div v-if="variant" role="status" class="mb-4 flex items-start gap-3 rounded-lg border bg-white px-4 py-3"
+    <div v-if="variant && granted" role="status" class="mb-4 flex items-start gap-3 rounded-lg border bg-white px-4 py-3"
         :class="urgent ? 'border-[#2dbab2]' : 'border-gray-200'">
         <ModulesUserNavbarCodyMark :size="22" class="mt-0.5 shrink-0" />
 
@@ -61,15 +61,22 @@ const daysLeft = computed(() => Math.max(0, Number(status.value?.trial?.days_lef
 // From three days left the countdown stops being a footnote.
 const urgent = computed(() => variant.value === 'trial' && daysLeft.value <= 3)
 
+const showUpgrade = useCanPurchase()
+
 const variant = computed<'trial' | 'adminTrial' | 'adminEnable' | 'request' | null>(() => {
     const s = status.value
     if (!s) return null
+    // An offer to buy is for someone who can buy. Staff who cannot see nothing.
+    if (!showUpgrade.value) return null
     if (s.trial?.active) return isDismissed('trial') ? null : 'trial'
     if (hasAccess.value || s.has_access || s.company_has_cody) return null
     if (isDismissed('banner')) return null
     if (s.can_manage) return s.trial?.available ? 'adminTrial' : 'adminEnable'
     return 'request'
 })
+
+// One unsolicited prompt at a time: the banner waits for the tour and the security prompts.
+const granted = usePromptSlot('codyBanner', computed(() => variant.value !== null))
 
 const title = computed(() => {
     switch (variant.value) {

@@ -158,6 +158,9 @@
                                 :confirmLabel="$t('appTrial.cancel')"
                                 @close="confirmCancelOpen = false" @confirm="cancelTrial()" />
 
+                            <ModulesUserAppsSuggestToManager :appUuid="app.uuid" :appName="app.name"
+                                :priceText="suggestionPriceText" :isBuyer="isAdmin" :appActivated="!!app.user_activated" />
+
                             <FormButton type="button" buttonStyle="action" class="w-full justify-center"
                                 @click="state.isContactOpen = true">
                                 {{ $t('apps.contactUs') }}
@@ -330,6 +333,12 @@ const { can } = usePermissions()
 // role name alone is only a fallback. The backend still enforces whatever is shown.
 const isAdmin = computed(() => !!codyStatus.value?.can_manage || can('manage_licenses')
     || !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
+// The price as the card above shows it, for the "suggest to my manager" dialog.
+const suggestionPriceText = computed(() => {
+    if (price.value.isFree) return t('apps.free')
+    const unit = price.value.unit ? `/${String(price.value.unit).toLowerCase()}` : ''
+    return `${formatAmount(price.value.discountedAmount)}${unit} ${t('excludeVat')}`
+})
 const trial = computed(() => state.app?.trial ?? null)
 const trialDays = computed(() => Number(trial.value?.days ?? state.app?.trial_days ?? 14))
 const quotes = computed(() => trial.value?.quotes ?? {})

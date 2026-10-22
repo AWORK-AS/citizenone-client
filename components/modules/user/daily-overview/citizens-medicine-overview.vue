@@ -59,7 +59,13 @@
                                                     : $t('overview.medicationOverview.not') + ' ' + customPagesStore.getCustomPagesName?.giveMedicine?.toLowerCase();
                                         }
                                     })()">
-                                    <span :class="[dueDateColorClass(due_date, medicine?.is_self_administered), 'px-2 py-1 text-white rounded-md']">
+                                    <button v-if="canQuickGive(medicine, due_date)" type="button"
+                                        :class="[dueDateColorClass(due_date, medicine?.is_self_administered), 'px-2 py-1 text-white rounded-md cursor-pointer hover:opacity-90 focus:outline-none focus:ring-2 focus:ring-primary']"
+                                        @click.stop="openQuickDose(medicine, due_date)">
+                                        {{ formatDateToReadable(due_date?.date) }} @
+                                        {{ due_date?.time }}
+                                    </button>
+                                    <span v-else :class="[dueDateColorClass(due_date, medicine?.is_self_administered), 'px-2 py-1 text-white rounded-md']">
                                         {{ formatDateToReadable(due_date?.date) }} @
                                         {{ due_date?.time }}
                                     </span>
@@ -83,6 +89,11 @@
                 </div>
             </div>
         </div>
+        <ModulesUserDailyOverviewModalQuickDose :isModalOpen="state.modal.isQuickDoseOpen"
+            :medicineUuid="state.quickDose?.medicine?.uuid" :medicineName="quickDoseMedicineName"
+            :citizenName="quickDoseCitizenName" :slot="state.quickDose?.slot" :dosage="state.quickDose?.dosage"
+            @close="state.modal.isQuickDoseOpen = false" @saved="refreshAfterQuickDose"
+            @openForm="openQuickDoseForm" />
         <ModulesUserCitizenMedicineHistoryModalHistory :isModalOpen="state.modal.isViewMedicineOpen"
             :selectedMedicine="state.selectedMedicine" @close="state.modal.isViewMedicineOpen = false" />
 
@@ -167,7 +178,9 @@ const state = reactive({
         isAddEvaluationOpen: false,
         isEditEvaluationOpen: false,
         isViewMedicineOpen: false,
+        isQuickDoseOpen: false,
     },
+    quickDose: null as any,
     selectedEvaluation: {} as any,
     selectedMedicine: {} as any,
     now: new Date(),
@@ -262,6 +275,42 @@ async function fetchEvaluationOverview() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+// A slot can be ticked off here when nothing needs judgement: not a
+// self-administered medicine (handed out periodically, has its own form
+// defaults), not already recorded (changing one is done in the history), and
+// the schedule carries the dose for that exact time.
+function dosageForSlot(medicine: any, dueDate: any): string {
+    const match = (medicine?.max_dosage_per_time ?? []).find((slot: any) => slot?.time === dueDate?.time)
+    return match?.dosage ? String(match.dosage) : ''
+}
+
+function canQuickGive(medicine: any, dueDate: any): boolean {
+    if (!medicine || !dueDate || medicine.is_pn_medicine || medicine.is_self_administered) return false
+    if (dueDate.status || !dueDate.time || !dueDate.date) return false
+    return dosageForSlot(medicine, dueDate) !== ''
+}
+
+const quickDoseMedicineName = computed(() => language.locale.value === 'en'
+    ? state.quickDose?.medicine?.medicine?.en_name
+    : state.quickDose?.medicine?.medicine?.dk_name)
+
+const quickDoseCitizenName = computed(() =>
+    `${state.quickDose?.medicine?.citizen?.firstname ?? ''} ${state.quickDose?.medicine?.citizen?.lastname ?? ''}`.trim())
+
+function openQuickDose(medicine: any, dueDate: any) {
+    state.quickDose = { medicine, slot: dueDate, dosage: dosageForSlot(medicine, dueDate) }
+    state.modal.isQuickDoseOpen = true
+}
+
+function openQuickDoseForm() {
+    if (state.quickDose?.medicine) viewMedicineHistory(state.quickDose.medicine)
+}
+
+function refreshAfterQuickDose() {
+    fetchCitizensMedicines()
+    fetchEvaluationOverview()
 }
 
 function viewMedicineHistory(medicine: any) {

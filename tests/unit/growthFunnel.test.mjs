@@ -72,3 +72,47 @@ describe('copy', () => {
         }
     })
 })
+
+// ---------------------------------------------------------------- growth loops
+
+const loops = await import('../../composables/growthFunnel.ts')
+
+describe('suggestionConversion', () => {
+    test('is bought within the window over the suggestions whose window has closed', () => {
+        assert.equal(loops.suggestionConversion({ sends: 6, recipients: 9, suggested_apps: 5, converted: 2, open: 1 }), 50)
+    })
+    test('is null when no window has closed yet, or with nothing', () => {
+        assert.equal(loops.suggestionConversion({ sends: 1, recipients: 1, suggested_apps: 2, converted: 0, open: 2 }), null)
+        assert.equal(loops.suggestionConversion(null), null)
+    })
+})
+
+describe('referralPaidRate', () => {
+    test('is the share of referred signups that have paid', () => {
+        assert.equal(loops.referralPaidRate({ shares: 10, signed_up: 4, paid: 1 }), 25)
+    })
+    test('is null without signups', () => {
+        assert.equal(loops.referralPaidRate({ shares: 3, signed_up: 0, paid: 0 }), null)
+        assert.equal(loops.referralPaidRate(undefined), null)
+    })
+})
+
+describe('activeBuckets', () => {
+    test('keeps only the periods where something happened', () => {
+        const rows = [{ key: '2026-08', sends: 0, converted: 0 }, { key: '2026-09', sends: 2, converted: 0 }, { key: '2026-10', sends: 0, converted: 1 }]
+        assert.deepEqual(loops.activeBuckets(rows, ['sends', 'converted']).map((r) => r.key), ['2026-09', '2026-10'])
+        assert.deepEqual(loops.activeBuckets(null, ['sends']), [])
+    })
+})
+
+describe('growth loop copy', () => {
+    test('every locale has the same keys, without em dashes', () => {
+        const read = (code) => JSON.parse(fs.readFileSync(path.resolve('lang', `${code}.json`), 'utf8')).superadmin.funnel.loops
+        const keysOf = (obj, prefix = '') => Object.entries(obj).flatMap(([k, v]) => (v && typeof v === 'object' ? keysOf(v, `${prefix}${k}.`) : [`${prefix}${k}`]))
+        const expected = keysOf(read('en')).sort()
+        for (const code of ['dk', 'no', 'sv']) {
+            assert.deepEqual(keysOf(read(code)).sort(), expected, code)
+            assert.ok(!JSON.stringify(read(code)).includes('—'), `${code}: em dash`)
+        }
+    })
+})

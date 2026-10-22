@@ -49,6 +49,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -105,7 +106,7 @@ async function downloadTemplate() {
             saveAs(response, `${t('citizens.importCitizens.importTemplate')}`)
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isPageLoading = false
 }
@@ -127,7 +128,7 @@ async function importCitizens() {
             successAlert(`${t('alert.success')}!`, response?.message)
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the import.'
+        state.error.message = error?.message || translateMessage('apiErrors.importFailed', 'An error occurred during the import.')
     }
     state.isPageLoading = false
 }

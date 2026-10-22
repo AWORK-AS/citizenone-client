@@ -159,7 +159,7 @@
                                 <div v-if="company?.storage_used_gb !== null && company?.storage_used_gb !== undefined"
                                     class="min-w-[110px]">
                                     <p class="text-[13px]" :class="storageTextClass(company)">
-                                        {{ formatGb(company.storage_used_gb) }}
+                                        {{ formatStorageUsed(company.storage_used_bytes, company.storage_used_gb) }}
                                         <span class="text-[#8891A4]">/ {{ formatGb(company.storage_quota_gb) }} GB</span>
                                     </p>
                                     <div class="mt-1 h-1 bg-[#F5F6F8] rounded-full overflow-hidden">
@@ -233,6 +233,7 @@ import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -241,6 +242,7 @@ const { formatLocalized } = useDatetimeFormatter()
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatStorageUsed } = useStorageFormat()
 const { formatAmount } = useAmountFormatter()
 
 /**
