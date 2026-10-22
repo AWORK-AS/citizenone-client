@@ -52,3 +52,45 @@ export const SMALL_SAMPLE = 5
 export function isSmallSample(row: FunnelRow): boolean {
     return row.signed_up < SMALL_SAMPLE
 }
+
+// ---------------------------------------------------------------- growth loops
+// `growth_loops` on the same response: "suggest to my manager" and the "Del CitizenOne" referral
+// loop, per period. AnalyticsService::suggestionLoop / referralLoop on the backend.
+
+export interface SuggestionLoopTotals {
+    sends: number
+    recipients: number
+    senders?: number
+    suggested_apps: number
+    converted: number
+    open: number
+}
+
+export interface ReferralLoopTotals {
+    shares: number
+    signed_up: number
+    paid: number
+    median_days_to_paid?: number | null
+}
+
+/**
+ * Share of suggested apps the company bought within the window, 0-100 rounded. Suggestions whose
+ * window is still open have not had their chance yet and are left out; null when none have.
+ */
+export function suggestionConversion(totals: SuggestionLoopTotals | null | undefined): number | null {
+    if (!totals) return null
+    const decided = totals.suggested_apps - totals.open
+    if (decided <= 0) return null
+    return Math.round((totals.converted / decided) * 100)
+}
+
+/** Share of the companies that signed up through a shared link that have since paid. */
+export function referralPaidRate(totals: ReferralLoopTotals | null | undefined): number | null {
+    if (!totals || !totals.signed_up) return null
+    return Math.round((totals.paid / totals.signed_up) * 100)
+}
+
+/** The periods worth a row: those where anything happened. Keeps a year of empty months out. */
+export function activeBuckets<T extends Record<string, unknown>>(buckets: T[] | null | undefined, fields: (keyof T)[]): T[] {
+    return (buckets ?? []).filter((bucket) => fields.some((field) => Number(bucket[field]) > 0))
+}

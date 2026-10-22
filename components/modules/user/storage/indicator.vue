@@ -36,7 +36,7 @@
                 </div>
                 <div class="flex items-center">
                     <span class="inline-block w-3 h-3 mr-2" :class="usageBarColor"></span>
-                    {{ $t('storage.documents') }} {{ state.usage?.used_storage }}
+                    {{ $t('storage.documents') }} {{ formatStorageOr(state.usage?.used_storage_bytes, state.usage?.used_storage) }}
                 </div>
                 <div v-if="state.oneDriveConnected && state.oneDriveQuota" class="flex items-center">
                     <span class="inline-block w-3 h-3 bg-blue-500 mr-2"></span>
@@ -75,7 +75,10 @@
 <script setup lang="ts">
 import { storageService } from '@/components/api/user/StorageService'
 import { useUserStore } from '@/store/user'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import type { Error } from '@/types'
+
+const { formatStorageOr } = useStorageFormat()
 
 const userStore = useUserStore() as any
 

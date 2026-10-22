@@ -231,6 +231,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { citizenoneAttributionUrl } from '@/composables/citizenoneAttribution'
 // The page already says the mail came through CitizenOne; the address lets a
 // recipient look it up. Tagged so a signup from here counts as the product channel.
@@ -365,7 +366,7 @@ async function downloadAttachment(attachment: any, fileName?: string) {
             saveAs(response, fileName || attachment?.split('/').pop())
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isPageLoading = false
 }

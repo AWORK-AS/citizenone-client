@@ -22,6 +22,13 @@
                             <Icon name="ph:x-circle" class="h-4 w-4 text-red-700" aria-hidden="true" />
                             {{ $t('events.markAsNotCompleted') }}
                         </FormButton>
+                        <!-- Visit, transport or admin time on this booking, as Indsatstimer.
+                             Not tied to the booking: "not done" leaves it. -->
+                        <FormButton v-if="canRegisterTime" type="button" buttonStyle="action"
+                            @click="state.modal.isRegisterTimeOpen = true">
+                            <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('events.registerTime') }}
+                        </FormButton>
                     </div>
                     <div class="mt-4 relative flex space-x-6 pb-6 xl:static">
                         <img :src="avatarUrl(`${props.selectedSchedule?.user?.firstname + ' ' + props.selectedSchedule?.user?.lastname}`)"
@@ -78,6 +85,10 @@
                         </div>
                     </div>
                 </LoadingSpinner>
+                <ModulesUserCitizenInterventionHoursModalNew v-if="canRegisterTime"
+                    :isModalOpen="state.modal.isRegisterTimeOpen" :citizenUuid="props.selectedSchedule?.citizen_uuid"
+                    :presetStart="props.selectedSchedule?.start" :presetEnd="props.selectedSchedule?.end"
+                    @close="state.modal.isRegisterTimeOpen = false" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteScheduleOpen"
                     :message="$t('citizens.calendar.confirmation.deleteConfirmation') + '?'"
                     @close="state.modal.isDeleteScheduleOpen = false" @confirm="deleteMyCalendarEvent">
@@ -96,6 +107,8 @@
 
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { isCareHourTypesOn } from '@/composables/careHourTypes'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
@@ -122,12 +135,22 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isDeleteScheduleOpen: false,
+        isRegisterTimeOpen: false,
     },
     deleteScope: 'this' as 'this' | 'this_and_following' | 'all',
 })
 
+// Only where the company switched hour types on (Settings -> Company), and on
+// a page that offers done / not done (not the child calendar).
+const userStore = useUserStore() as any
+const canRegisterTime = computed(() => props.statusActions
+    && !!props.selectedSchedule?.uuid
+    && !!props.selectedSchedule?.citizen_uuid
+    && isCareHourTypesOn(userStore.getUser?.company))
+
 function closeModal() {
     state.modal.isDeleteScheduleOpen = false
+    state.modal.isRegisterTimeOpen = false
     emit('close')
 }
 

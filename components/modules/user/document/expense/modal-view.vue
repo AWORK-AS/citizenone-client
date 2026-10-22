@@ -75,6 +75,7 @@
 
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { useI18n } from "vue-i18n"
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { expenseService } from '@/components/api/user/ExpenseService'
@@ -113,7 +114,7 @@ async function downloadReceipt(expenseUuid: string) {
             saveAs(response, props.selectedExpense?.file_name_src || 'receipt')
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isPageLoading = false
 }

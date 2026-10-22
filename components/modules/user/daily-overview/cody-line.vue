@@ -19,6 +19,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString } from '@/composables/localDate'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import { useAssistantStore } from '@/store/assistant'
@@ -60,7 +61,7 @@ const state = reactive({
  * the cost of a cache miss is one extra call, not a wrong answer.
  */
 function cacheKey() {
-    const today = new Date().toISOString().slice(0, 10)
+    const today = localDateString()
     return `cody-day:${userStore.getUser?.uuid ?? 'unknown'}:${today}:${locale.value}`
 }
 

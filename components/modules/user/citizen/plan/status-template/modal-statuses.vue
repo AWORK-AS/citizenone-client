@@ -91,6 +91,7 @@
 
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
@@ -220,7 +221,7 @@ async function openStatus(status: any) {
             setTimeout(() => URL.revokeObjectURL(url), 60000)
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred while opening the file.'
+        state.error.message = error?.message || translateMessage('apiErrors.openFileFailed', 'An error occurred while opening the file.')
     }
     state.isTableLoading = false
 }
@@ -239,7 +240,7 @@ async function downloadStatus(status: any) {
             saveAs(response, `${filename}.pdf`)
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the download.'
+        state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isTableLoading = false
 }
@@ -261,7 +262,7 @@ async function deleteStatus() {
             state.modal.isDeleteStatusOpen = false
         }
     } catch (error: any) {
-        state.error.message = error?.message || 'An error occurred during the deletion.'
+        state.error.message = error?.message || translateMessage('apiErrors.deleteFailed', 'An error occurred during the deletion.')
     }
     state.isTableLoading = false
 }
