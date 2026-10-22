@@ -12321,6 +12321,31 @@
             }
     },
         "funnel": {
+            "loops": {
+                "title": "Growth loops",
+                "subtitle": "Customers bringing in more: staff suggesting an app to their manager, and customers sharing CitizenOne.",
+                "period": "Period",
+                "empty": "Nothing in the period.",
+                "suggestions": {
+                    "title": "Suggest to my manager",
+                    "hint": "One app in one company counts once, from its first suggestion. Bought = a paid subscription to that app within {days} days. Open = window not closed yet, left out of the rate.",
+                    "sends": "Sent",
+                    "recipients": "Recipients",
+                    "apps": "Apps suggested",
+                    "converted": "Bought",
+                    "open": "Open",
+                    "rate": "Bought within {days} days"
+                },
+                "referrals": {
+                    "title": "Shared links",
+                    "hint": "Shares of the \"Share CitizenOne\" link, companies that signed up through one (counted in the period they signed up), and how many of them have paid an invoice.",
+                    "shares": "Shares",
+                    "signedUp": "Signed up",
+                    "paid": "Paid",
+                    "rate": "Signups that paid",
+                    "medianDays": "median {days} days to first payment"
+                }
+            },
             "title": "Growth funnel",
             "subtitle": "Companies that signed up in the period, per signup channel, and how far they got: own citizens, first note and paying.",
             "stages": {

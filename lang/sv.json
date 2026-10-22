@@ -12284,6 +12284,31 @@
             }
     },
         "funnel": {
+            "loops": {
+                "title": "Tillväxtloopar",
+                "subtitle": "Kunder som för med sig fler: medarbetare som föreslår en app för sin chef, och kunder som delar CitizenOne.",
+                "period": "Period",
+                "empty": "Inget under perioden.",
+                "suggestions": {
+                    "title": "Föreslå för min chef",
+                    "hint": "En app i ett företag räknas en gång, från det första förslaget. Köpt = ett betalt abonnemang på appen inom {days} dagar. Öppen = fönstret har inte stängts än och räknas inte med i andelen.",
+                    "sends": "Skickat",
+                    "recipients": "Mottagare",
+                    "apps": "Föreslagna appar",
+                    "converted": "Köpt",
+                    "open": "Öppen",
+                    "rate": "Köpt inom {days} dagar"
+                },
+                "referrals": {
+                    "title": "Delade länkar",
+                    "hint": "Delningar av länken \"Dela CitizenOne\", företag som skapats via en (räknat i den period de skapades), och hur många av dem som har betalat en faktura.",
+                    "shares": "Delningar",
+                    "signedUp": "Skapade",
+                    "paid": "Betalat",
+                    "rate": "Skapade som har betalat",
+                    "medianDays": "median {days} dagar till första betalning"
+                }
+            },
             "title": "Tillväxttratt",
             "subtitle": "Företag som registrerade sig under perioden, per registreringskanal, och hur långt de har kommit: egna brukare, första anteckning och betalning.",
             "stages": {
