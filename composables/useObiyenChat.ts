@@ -107,17 +107,20 @@ export function useObiyenChat() {
         getBubble()?.style.setProperty('display', 'none')
     }
 
-    function revealAndOpenChat() {
+    /** False when the widget has not loaded, so the caller can offer another way to reach support. */
+    function revealAndOpenChat(): boolean {
         // Identify at the moment the chat is opened, not on every page load:
         // this is the first point where we know support is actually wanted.
         identify()
 
         const bubble = getBubble()
-        if (bubble) {
-            bubble.style.display = ''
-            try { sessionStorage.setItem(REVEALED_KEY, '1') } catch { /* ignore */ }
-            bubble.click()
-        }
+        if (!bubble) return false
+
+        bubble.style.display = ''
+        try { sessionStorage.setItem(REVEALED_KEY, '1') } catch { /* ignore */ }
+        bubble.click()
+
+        return true
     }
 
     /**
@@ -193,6 +196,28 @@ export function useObiyenChat() {
         revealAndOpenChat()
     }
 
+    /**
+     * The screen the person is on, by its menu name ("Vagtskema", "Medicin"),
+     * so Milo reads "how do I do this?" as a question about that screen
+     * (window.ObiyenChat.page). Only the name: the URL and the page title can
+     * hold a citizen's name or id, and this goes into the assistant's prompt.
+     */
+    function setPage(label: string | null) {
+        const w = ((window as any).ObiyenChat ||= { q: [] })
+        if (typeof w.page === 'function') w.page(label)
+        else if (Array.isArray(w.q)) w.q.push(['page', label])
+    }
+
+    /**
+     * Superadmin is our own back office: support chatting with support. The
+     * whole widget steps aside there, bubble and window, and comes back on
+     * the customer-facing pages (an impersonation goes from one to the other).
+     */
+    function setHiddenHere(hidden: boolean) {
+        const host = getHost()
+        if (host) host.style.display = hidden ? 'none' : ''
+    }
+
     function resetOnLogout() {
         // The next person on this browser is a different user, and must not
         // inherit this one's signature.
@@ -202,5 +227,5 @@ export function useObiyenChat() {
         forgetChatSession()
     }
 
-    return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, suggest, suggestInApp, askAbout, setSideOffset, resetOnLogout }
+    return { isRevealedThisSession, hideBubble, identify, revealAndOpenChat, suggest, suggestInApp, askAbout, setSideOffset, setPage, setHiddenHere, resetOnLogout }
 }

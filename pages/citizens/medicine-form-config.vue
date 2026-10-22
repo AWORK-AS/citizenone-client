@@ -88,6 +88,30 @@
                                     </FormButton>
                                 </div>
                             </div>
+
+                            <div
+                                class="mt-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6">
+                                <h3 class="text-sm font-semibold text-gray-900 mb-1">
+                                    {{ $t('formFieldConfig.selfAdministered.title') }}
+                                </h3>
+                                <p class="text-xs text-gray-500 mb-4">
+                                    {{ $t('formFieldConfig.selfAdministered.description') }}
+                                </p>
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.showSelfAdministeredInRounds"
+                                        @toggleSwitch="state.showSelfAdministeredInRounds = !state.showSelfAdministeredInRounds" />
+                                    <p class="text-sm text-gray-700">{{ $t('formFieldConfig.selfAdministered.showInRounds') }}</p>
+                                </div>
+                                <p v-if="!state.showSelfAdministeredInRounds" class="text-xs text-gray-500 mt-3">
+                                    {{ $t('formFieldConfig.selfAdministered.hiddenHint') }}
+                                </p>
+                                <div class="mt-6">
+                                    <FormButton type="button" buttonStyle="primary" class="w-full"
+                                        @click="submitSelfAdministeredConfig()">
+                                        {{ $t('save') }}
+                                    </FormButton>
+                                </div>
+                            </div>
                         </div>
 
                         <!-- Form Preview -->
@@ -340,6 +364,8 @@ const state = reactive({
         edit: defaultFields(),
     } as Record<string, Record<string, boolean>>,
     statusTypesConfig: defaultStatusTypes() as Record<string, boolean>,
+    // Unset means self-administered medicine stays in the medicine round.
+    showSelfAdministeredInRounds: true,
 })
 
 function isFieldVisible(fieldKey: string): boolean {
@@ -373,6 +399,9 @@ async function fetchFormFieldConfigs() {
                         })
                     }
                     state.medicineFormConfig[config.form_type] = fields
+                }
+                if (config.form_type === 'self_administered') {
+                    state.showSelfAdministeredInRounds = config.form_fields?.show_in_rounds !== false
                 }
             })
         }
@@ -408,6 +437,22 @@ async function submitStatusTypesConfig() {
             entity_type: 'citizen_medicine_history',
             form_type: 'status_types',
             form_fields: state.statusTypesConfig,
+        })
+        successAlert(`${t('alert.success')}!`, `${t('formFieldConfig.alert.successfullyUpdated')}.`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isPageLoading = false
+}
+
+async function submitSelfAdministeredConfig() {
+    state.error = {}
+    state.isPageLoading = true
+    try {
+        await formFieldConfigService.updateFormConfig({
+            entity_type: 'citizen_medicine',
+            form_type: 'self_administered',
+            form_fields: { show_in_rounds: state.showSelfAdministeredInRounds },
         })
         successAlert(`${t('alert.success')}!`, `${t('formFieldConfig.alert.successfullyUpdated')}.`)
     } catch (error: any) {

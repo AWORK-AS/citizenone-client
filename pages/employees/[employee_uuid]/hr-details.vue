@@ -173,7 +173,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const userStore = useUserStore() as any
-const { isAtLeast, can } = usePermissions()
+const { isAtLeast, seesHrData } = usePermissions()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { formatDateToReadable } = useDatetimeFormatter()
@@ -188,7 +188,7 @@ const breadcrumbLinks = [
 // Who may write is decided by the backend; this only decides what to render. An
 // employee reading their own record gets values and no save button.
 const isAdmin = computed(() => isAtLeast('Admin'))
-const canWrite = computed(() => isAdmin.value || can('update'))
+const canWrite = computed(() => seesHrData())
 const canWriteBank = computed(() => isAdmin.value)
 
 const contactFields = ['private_email', 'private_phone', 'work_phone'] as const
@@ -201,6 +201,8 @@ const employmentYesNoFields = [
 const employmentTextFields = [
     { key: 'termination_reason', label: 'terminationReason' },
     { key: 'sim_card', label: 'simCard' },
+    { key: 'contact_status', label: 'contactStatus' },
+    { key: 'onboarding_status', label: 'onboardingStatus' },
 ]
 const workFields = [
     { key: 'other_work', label: 'otherWork' },
@@ -224,7 +226,7 @@ function emptyForm(): Record<string, any> {
         gender: null, nationality_country_uuid: null, manager_uuid: null,
         pension_start_date: '', lunch_scheme: null, flex_job: null, section_56: null,
         days_per_week: null, termination_reason: '', three_month_interview_at: '',
-        other_work: '', working_hours_comment: '', not_work_with: '', sim_card: '',
+        other_work: '', working_hours_comment: '', not_work_with: '', sim_card: '', contact_status: '', onboarding_status: '',
         tax_card_type: null, bank_reg_no: '', bank_account_no: '', cvr: '',
     }
 }
@@ -364,6 +366,8 @@ function buildPayload(): EmployeeHrDetailsPayload {
         working_hours_comment: text(f.working_hours_comment),
         not_work_with: text(f.not_work_with),
         sim_card: text(f.sim_card),
+        contact_status: text(f.contact_status),
+        onboarding_status: text(f.onboarding_status),
     }
     // Only an admin may change bank data, and only when the backend sent it.
     if (state.canSeeBank && canWriteBank.value) {

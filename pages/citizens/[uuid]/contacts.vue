@@ -96,8 +96,7 @@
                                         </span>
                                     </td>
                                     <td width="20%">
-                                        <span>{{ contact?.firstname + ' ' }}</span>
-                                        <span>{{ contact?.lastname }}</span>
+                                        <span>{{ contactDisplayName(contact) }}</span>
                                     </td>
                                     <td width="20%">
                                         <div class="space-y-1">

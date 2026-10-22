@@ -284,7 +284,7 @@
                                             {{ storage.name }}
                                         </span>
                                         <span class="ml-2" :class="storageUsageClass(storage)">
-                                            {{ formatGb(storage.storage_used_gb) }} /
+                                            {{ formatStorageUsed(storage.storage_used_bytes, storage.storage_used_gb) }} /
                                             {{ formatGb(storage.storage_quota_gb) }} GB
                                         </span>
                                     </div>
@@ -365,12 +365,14 @@ import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import type { Error } from '@/types'
 
 const { formatLocalized } = useDatetimeFormatter()
 
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
+const { formatStorageUsed } = useStorageFormat()
 const userStore = useUserStore() as any
 
 const localeMap: Record<string, string> = {

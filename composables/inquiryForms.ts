@@ -96,6 +96,48 @@ export function asksFor(
     return !Array.isArray(configured) || configured.includes(field)
 }
 
+/** Where a saved inquiry keeps each built-in field's answer, when not under the field's own name. */
+const ANSWER_KEYS: Record<string, string> = {
+    department_uuid: 'departments',
+    first_name: 'firstname',
+    last_name: 'lastname',
+    topic: 'topics',
+    assessment: 'target_group_crisis_center',
+    assessment_reason: 'no_assessment_reasons',
+    guidance: 'guidances',
+}
+
+/**
+ * Whether a saved inquiry has an answer in a built-in field. A "no" is an
+ * answer; an empty text, an empty list or an unanswered question is not.
+ */
+export function hasBuiltinValue(field: string, inquiry: Record<string, any> | null | undefined): boolean {
+    const value = inquiry?.[ANSWER_KEYS[field] ?? field]
+
+    if (value === null || value === undefined) return false
+    if (typeof value === 'string') return value.trim() !== ''
+    if (Array.isArray(value)) return value.length > 0
+
+    return true
+}
+
+/**
+ * Whether a saved inquiry shows a built-in field, on its page and when it is
+ * edited. An inquiry taken on a form shows what that form asks for, plus any
+ * field that already has an answer - so leaving a field off a form never hides
+ * what was written in it. An inquiry from before forms shows every field, as
+ * it always did.
+ */
+export function shownOnInquiry(
+    field: string,
+    form: Pick<InquiryForm, 'core_fields'> | null | undefined,
+    inquiry: Record<string, any> | null | undefined,
+): boolean {
+    if (!Array.isArray(form?.core_fields)) return true
+
+    return form.core_fields.includes(field) || hasBuiltinValue(field, inquiry)
+}
+
 /**
  * Why a field cannot be switched off on a form, or null when it can: either
  * every inquiry needs it, or the national registration reads it.

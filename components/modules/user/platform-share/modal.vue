@@ -42,6 +42,10 @@
                         </div>
                     </div>
 
+                    <!-- "Giv en måned, få en måned": only for whoever may commit the company to paying. -->
+                    <ModulesUserPlatformShareReferralTerms v-if="referral.offer" :offer="referral.offer"
+                        :summary="referral.summary" />
+
                     <p v-if="state.shareCount > 0" class="flex items-center gap-1.5 text-xs text-gray-500"
                         data-testid="platform-share-count">
                         <Icon name="ph:heart-fill" class="size-3.5 text-[#42AED9]" />
@@ -56,6 +60,8 @@
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
 import { platformShareService } from '@/components/api/user/PlatformShareService'
+import { referralProgramService } from '@/components/api/user/ReferralProgramService'
+import { referralOfferFrom, type ReferralOffer, type ReferralSummary } from '@/composables/referralProgram'
 import { platformShareTargets, type PlatformShareMethod } from '@/utils/platformShare'
 
 const props = defineProps({
@@ -76,6 +82,22 @@ const state = reactive({
     isLoading: true,
     error: '',
 })
+
+const referral = reactive({
+    offer: null as ReferralOffer | null,
+    summary: null as ReferralSummary | null,
+})
+
+/** A 403 means this user is not offered the programme; the modal is the same without it. */
+async function loadReferral() {
+    try {
+        const response = await referralProgramService.get()
+        referral.offer = referralOfferFrom(response?.data)
+        referral.summary = response?.data?.summary ?? null
+    } catch {
+        referral.offer = null
+    }
+}
 
 // The phone's (or browser's) own share sheet covers every app the user has; offered where it exists.
 const canShareNatively = ref(false)
@@ -155,5 +177,6 @@ onMounted(() => {
     canShareNatively.value = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
     isPhone.value = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches === true
     load()
+    loadReferral()
 })
 </script>

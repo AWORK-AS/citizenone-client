@@ -1,4 +1,29 @@
 {
+    "invoiceMail": {
+        "noticeTitle": "Invoices are no longer emailed",
+        "noticeBody": "You will no longer get an email each time a subscription, app or top-up is charged automatically. All invoices and receipts are here under Invoices. You will still be emailed if a payment fails.",
+        "autoSendLabel": "Send invoices to the bookkeeper automatically",
+        "autoSendHint": "When on, the recipients below get a copy of every automatic invoice.",
+        "autoSendSaved": "The setting has been saved"
+    },
+    "referralProgram": {
+        "title": "Give a month, get a month",
+        "intro": "When a business you recommend creates an account through your link and pays its first invoice, you both get one free month.",
+        "npsTitle": "Would you pass CitizenOne on?",
+        "npsBody": "Send your personal link to a business that could use CitizenOne. If they become a customer, you both get one free month.",
+        "copy": "Copy link",
+        "copied": "Copied",
+        "statusReferred": "Signed up through your link: {count}",
+        "statusPending": "Waiting for their first payment: {count}",
+        "statusMonths": "Free months to come: {count}",
+        "termsTitle": "Terms",
+        "terms1": "You both get one free month when the business you recommended has paid its first invoice.",
+        "terms2": "The free month is one month of your base subscription, excluding VAT. Apps, add-ons and fees are not included, and it cannot be paid out.",
+        "terms3": "We deduct it from one of your coming invoices, normally the next one.",
+        "terms4": "A business can earn at most {cap} free months a year. Your own organisation, or one with the same CVR number or mail domain, does not count.",
+        "terms5": "Only recommend us to someone you think will benefit. There is no obligation, and the business you recommend decides for itself.",
+        "registerNote": "When you have paid your first invoice, you get one free month."
+    },
     "bookableTreatments": {
         "title": "Bookable treatments",
         "intro": "Treatments are what patients book in the patient portal and the app, for example a 30-minute consultation. Create a treatment, pick the clinician, and add the times it can be booked.",
@@ -173,7 +198,10 @@
             "selectAll": "Select all",
             "banner": "{count} converted case(s) have no caseworker yet.",
             "claimCases": "Claim cases",
-            "claimed": "1 case claimed | {count} cases claimed"
+            "claimed": "1 case claimed | {count} cases claimed",
+            "open": "Open",
+            "openCase": "Open @:terms.citizen{''}",
+            "openInquiry": "Open inquiry"
         }
     },
     "managementEconomy": {
@@ -1134,7 +1162,7 @@
     "cody": {
         "adoption": {
             "headline": "Give your team time back with Cody",
-            "headlineBody": "Cody saves 2.37 hours of administration per employee per day on average, measured among active users.",
+            "headlineBody": "Cody gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
             "tryFree": "Try Cody free for 14 days",
             "tryFreeShort": "Try free for 14 days",
             "readMore": "Read more",
@@ -1201,12 +1229,12 @@
         "rateLimitedToday": "Today's included Cody answers are used. With extra capacity you can carry on today - otherwise it resets at midnight.",
         "limitBuyMore": "Buy more capacity",
         "limitAskAdmin": "Ask your administrator for more capacity.",
-        "companyDataMissing": "Answered without access to your data. The search index has not been created yet.",
-        "companyDataBuilding": "Answered without access to your data. The search index is still being built.",
+        "companyDataMissing": "Cody AI could not see your data for this answer, because access is not set up yet. Contact support and we will help.",
+        "companyDataBuilding": "Cody AI is still getting your data ready and could not use it for this answer. Try again shortly.",
         "askAnything": "Ask anything, or type {'@'} to mention someone",
         "mentionSomeone": "Mention a @:terms.citizen{''} or employee",
-        "searchScopeHint": "AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
-        "reviewNotice": "AI-generated content may contain errors — always review before relying on it",
+        "searchScopeHint": "Cody AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
+        "reviewNotice": "Content from Cody AI may contain errors. Always review it before relying on it",
         "dataGovernanceNotice": "Read how CitizenOne protects your data in our",
         "previewBeforeSending": "Preview what will be sent",
         "fileSizeExceeds": "Total file size must not exceed 10MB",
@@ -1243,7 +1271,7 @@
             "duration": "{ms} ms"
         },
         "identity": {
-            "name": "Cody",
+            "name": "Cody AI",
             "tagline": "Your everyday assistant",
             "scope": "Only sees what you have access to"
         },
@@ -1269,6 +1297,54 @@
         },
         "dataAndAccess": "About data and access",
         "reviewShort": "Cody can be wrong - read the answer through.",
+        "pageContext": {
+            "seeing": "Cody can see you are on: {page}",
+            "pages": {
+                "my_day": "My day",
+                "overview": "Overview",
+                "citizen_list": "@:terms.citizens{''}",
+                "citizen_profile": "@:terms.citizen{''}",
+                "citizen_journals": "Journal",
+                "citizen_medicine": "Medication",
+                "citizen_plans_goals": "Plans and goals",
+                "citizen_documents": "Documents",
+                "citizen_calendar": "Calendar",
+                "citizen_contacts": "Contacts",
+                "citizen_nursing": "Nursing areas",
+                "citizen_wellbeing": "Wellbeing",
+                "citizen_timeline": "Timeline",
+                "duty_schedule": "Duty schedule",
+                "employee_schedule": "Employee's duty schedule",
+                "calendar": "Calendar",
+                "messages": "Messages",
+                "mail": "Mail",
+                "journal_feed": "Journal notes",
+                "missed_doses": "Missed doses",
+                "reminders": "Reminders",
+                "procedures": "Procedures",
+                "reports": "Reports",
+                "inquiries": "Inquiries",
+                "employees": "Employees",
+                "economy": "Economy",
+                "settings": "Settings"
+            }
+        },
+        "renameConversation": "Rename conversation",
+        "removeAttachment": "Remove {name}",
+        "deleteConversation": "Delete conversation",
+        "feedback": {
+            "up": "Good answer",
+            "down": "Bad answer",
+            "thanks": "Thanks for your feedback",
+            "question": "What was wrong?",
+            "failed": "Your feedback was not saved. Try again.",
+            "reasons": {
+                "wrong": "Wrong",
+                "incomplete": "Missing something",
+                "not_helpful": "Not helpful",
+                "other": "Other"
+            }
+        },
         "cards": {
             "badges": {
                 "draft": "Draft",
@@ -1284,7 +1360,7 @@
         },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",
-        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
+        "ownDailyLimit": "You have used your own daily Cody AI allowance. Your administrator can raise it.",
         "dictate": {
             "start": "Dictate",
             "stop": "Stop recording",
@@ -1296,7 +1372,7 @@
                 "insecure": "Dictation needs a secure connection (https).",
                 "failed": "Could not transcribe the recording. Try again.",
                 "limit": "Today's dictation or Cody answers are used. It resets at midnight.",
-                "budget": "Your extra capacity is spent. An administrator can top up under Settings → AI usage."
+                "budget": "Your extra capacity is spent. An administrator can top up under Settings → Cody AI usage."
             }
         },
         "attachFile": "Attach file",
@@ -2255,6 +2331,11 @@
         "departments": "Departments",
         "diagnoses": "Diagnoses",
         "doctor": {
+            "addOwnDoctor": "Add own doctor",
+            "changeOwnDoctor": "Change own doctor",
+            "noOwnDoctor": "No own doctor added",
+            "ownDoctor": "Own doctor",
+            "ownDoctorAdded": "Own doctor added",
             "addNewDoctor": "Add new doctor",
             "alert": {
                 "newDoctorSuccessfullyAdded": "New doctor successfully added"
@@ -2895,6 +2976,7 @@
                     "interventionHoursSuccessfullyAdded": "Intervention hours successfully added",
                     "interventionHoursSuccessfullyUpdated": "Intervention hours successfully updated"
                 },
+                "hourType": "Hour type",
                 "datetimeEnd": "Date time end",
                 "datetimeStart": "Date time start",
                 "note": "Note",
@@ -3406,6 +3488,7 @@
                 "weekly": "Weekly"
             },
             "synchronizeWithFMK": "Synchronize with FMK",
+            "openFmkOnline": "Open FMK-online",
             "table": {
                 "actions": {
                     "activate": "Activate",
@@ -3456,6 +3539,16 @@
             "noJournalToDisplay": "No journal to display"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "The 12 health areas",
+                "description": "Latest assessment, problem status and open treatments in each area. Tap an area to see more.",
+                "onlyWithContent": "Only show areas with content",
+                "empty": "Nothing recorded yet",
+                "nothingYet": "Nothing has been recorded in the health areas yet.",
+                "latestStatus": "Latest status",
+                "openTreatments": "{count} open treatment | {count} open treatments",
+                "loadFailed": "The areas could not be loaded. Please try again."
+            },
             "checklists": {
                 "addItem": "Add item",
                 "checklists": "Checklists",
@@ -7690,7 +7783,8 @@
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated",
             "statusSuccessfullyUpdated": "Event status successfully updated",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} successfully created"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} successfully created",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} created and the booking marked as completed"
         },
         "calendar": "Calendar",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7760,6 +7854,7 @@
         "createJournalNote": "Create @:terms.journalNote{''}",
         "markAsCompleted": "Mark as completed",
         "markAsNotCompleted": "Mark as not completed",
+        "registerTime": "Register time",
         "statusMenuLabel": "Mark \"{title}\" as completed or not completed",
         "viewJournalNote": "View @:terms.journalNote{''}",
         "linkedNote": "Linked @:terms.journalNote{''}: {title}",
@@ -7767,6 +7862,19 @@
             "label": "Note missing",
             "help": "The booking has ended but no journal note has been written yet. Click to write it."
         },
+        "noteHeader": {
+            "label": "Booking",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Case no. {number}",
+            "responsible": "Responsible",
+            "primaryCoordinator": "Primary coordinator",
+            "bookingOwner": "Responsible for the booking",
+            "statusLabel": "Status",
+            "planned": "Planned"
+        },
+        "saveAndComplete": "Save and mark as completed",
+        "completeOnSaveHint": "Saving the @:terms.journalNote{''} marks the booking as completed.",
+        "noteBodyRequired": "Write the @:terms.journalNote{''} text before marking the booking as completed.",
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"
@@ -8222,6 +8330,12 @@
             "title": "Medicine status types",
             "description": "Choose which statuses staff can select when logging a dose. \"Given\" always stays enabled."
         },
+        "selfAdministered": {
+            "title": "Self-administered medicine",
+            "description": "Choose whether self-administered medicine is still part of the staff medicine round.",
+            "showInRounds": "Show in Medication overview and My day",
+            "hiddenHint": "Off: the medicine stays on the medicine card, but is not shown in Medication overview or My day, and no reminders or expiry alerts are sent for it."
+        },
         "fields": {
             "addictions": "Dependencies",
             "allocatedHours": "Allocated Hours",
@@ -8501,6 +8615,8 @@
             "blocksInside": "blocks inside",
             "addingInside": "The next block goes inside the group",
             "addAtEnd": "Put it at the end instead",
+            "moveTo": "Move into a group",
+            "noGroup": "No group",
             "hint": "Blocks inside the group repeat once per goal on the @:terms.citizen{''}. Insert the repetition name field where the goal's name should go.",
             "noIterations": "The @:terms.citizen{''} has no goals yet, so this group is empty."
         }
@@ -8647,6 +8763,7 @@
             },
             "conversationSummary": "Conversation summary",
             "cpr": "@.capitalize:terms.citizen{''}'s CPR number",
+            "cprWhenWon": "Only required once the inquiry is won.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Do you assess that the @:terms.citizen{''} falls within the target group under Section 109?",
@@ -10068,7 +10185,11 @@
             "forgotten": "Forgotten",
             "pending": "Pending",
             "noEvaluationsToShow": "No effect evaluations to show",
-            "clickToEvaluate": "Click to evaluate"
+            "clickToEvaluate": "Click to evaluate",
+            "quickDose": {
+                "title": "Record dose",
+                "moreOptions": "More options"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",
@@ -11067,6 +11188,8 @@
             "level": "Level",
             "hideInternalJournals": "Cannot see internal notes",
             "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
+            "seesHrData": "Can see HR details and employee documents",
+            "seesHrDataHelp": "Employees with this role see colleagues' HR details, employee documents (contracts, criminal records, certificates and more), pay fields, addresses and emergency contacts, and can manage them. Without it, they see only their own. Administrators always see them.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -11340,6 +11463,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
+                "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
                 "2fa": "Two factor authentication",
                 "accountantEmail": "Auditor or accounting e-mail (@:terms.citizens{''}' wallet transactions)",
                 "alert": {
@@ -11444,8 +11568,16 @@
                 "chatCprWarning": "Warn about CPR numbers in chat",
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
+                "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
+                "calendarNoteRequiredHint": "Choosing Completed on a booking with a @:terms.citizen{''} opens the @:terms.journalNote{''}, and the booking is completed when it is saved. Not completed needs no note",
+                "missingNoteCoordinatorReminder": "Remind the coordinator about a missing @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "A day after a booking ended without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
+                "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
+                "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
+                "careHourTypes": "Choose an hour type on intervention hours",
+                "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
                 "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
@@ -12063,14 +12195,21 @@
     },
     "supportAccess": {
         "title": "CitizenOne's access",
-        "intro": "This is where you approve it when CitizenOne asks to enter one of your users' accounts. Nobody gets in without a yes from you. A yes lasts four hours and then closes by itself, you can pull it back in the meantime, and every time somebody has been inside is listed below.",
+        "intro": "This is where you approve it when CitizenOne asks to enter one of your users' accounts. Nobody gets in without a yes from you. A yes lasts for the requested duration and then closes by itself, you can pull it back in the meantime, and every time somebody has been inside is listed below.",
         "pending": {
             "heading": "Waiting for your answer",
             "empty": "There are no requests right now.",
             "wantsAccessTo": "Asks for access to {name}'s account",
             "answerBefore": "Answer before",
             "approve": "Approve",
-            "deny": "Deny"
+            "deny": "Deny",
+            "duration": {
+                "h4": "Access for 4 hours after approval",
+                "h24": "Access for 1 day after approval",
+                "h168": "Access for 7 days after approval",
+                "h720": "Access for 30 days after approval",
+                "hours": "Access for {count} hours after approval"
+            }
         },
         "active": {
             "heading": "Access right now",
@@ -12085,7 +12224,8 @@
             "basis": "Basis",
             "reason": "Reason",
             "approved": "Approved by you",
-            "breakGlass": "Without approval"
+            "breakGlass": "Without approval",
+            "endedBySupport": "Ended by support"
         },
         "alert": {
             "approved": "The access is approved",
@@ -12336,6 +12476,53 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "referrals": {
+            "header": "Referrals",
+            "subtitle": "Businesses that signed up through a customer's link, and the free months they have earned.",
+            "manualHint": "Free months are not deducted automatically. Take the month off the company's next invoice, then mark it applied with the invoice or credit note number.",
+            "cards": {
+                "referrals": "Referrals",
+                "pending": "Waiting for first payment",
+                "rewarded": "Rewarded",
+                "rejected": "Rejected",
+                "toApply": "Free months to apply"
+            },
+            "status": {
+                "pending": "Waiting for first payment",
+                "rewarded": "Rewarded",
+                "rejected": "Rejected"
+            },
+            "reasons": {
+                "same_company": "Same company",
+                "same_cvr": "Same CVR number",
+                "same_email_domain": "Same admin mail domain"
+            },
+            "role": {
+                "referrer": "Recommended",
+                "referred": "Was recommended"
+            },
+            "creditStatus": {
+                "earned": "To apply",
+                "applied": "Applied",
+                "void": "Cancelled"
+            },
+            "allStatuses": "All statuses",
+            "referrer": "Recommended by",
+            "referred": "New customer",
+            "signedUp": "Signed up",
+            "statusColumn": "Status",
+            "credits": "Free months",
+            "qualifyingInvoice": "First payment: invoice {number}, {amount} kr.",
+            "capped": "The recommending customer got no month (yearly cap reached or no longer active).",
+            "amount": "{amount} kr. excl. VAT",
+            "noAmount": "No subscription price found",
+            "apply": "Mark applied",
+            "void": "Cancel",
+            "notePlaceholder": "Invoice or credit note number, or why it is cancelled",
+            "save": "Save",
+            "cancel": "Back",
+            "empty": "No businesses have signed up through a customer's link in this period."
+        },
         "nps": {
             "title": "Recommendations (NPS)",
             "subtitle": "Answers from admins in the last 90 days. NPS = share of 9-10 minus share of 0-6.",
@@ -12358,6 +12545,31 @@
             }
     },
         "funnel": {
+            "loops": {
+                "title": "Growth loops",
+                "subtitle": "Customers bringing in more: staff suggesting an app to their manager, and customers sharing CitizenOne.",
+                "period": "Period",
+                "empty": "Nothing in the period.",
+                "suggestions": {
+                    "title": "Suggest to my manager",
+                    "hint": "One app in one company counts once, from its first suggestion. Bought = a paid subscription to that app within {days} days. Open = window not closed yet, left out of the rate.",
+                    "sends": "Sent",
+                    "recipients": "Recipients",
+                    "apps": "Apps suggested",
+                    "converted": "Bought",
+                    "open": "Open",
+                    "rate": "Bought within {days} days"
+                },
+                "referrals": {
+                    "title": "Shared links",
+                    "hint": "Shares of the \"Share CitizenOne\" link, companies that signed up through one (counted in the period they signed up), and how many of them have paid an invoice.",
+                    "shares": "Shares",
+                    "signedUp": "Signed up",
+                    "paid": "Paid",
+                    "rate": "Signups that paid",
+                    "medianDays": "median {days} days to first payment"
+                }
+            },
             "title": "Growth funnel",
             "subtitle": "Companies that signed up in the period, per signup channel, and how far they got: own citizens, first note and paying.",
             "stages": {
@@ -12809,7 +13021,7 @@
                     "grantStorage": "Grant storage",
                     "description": "Assigns a storage package to the company and creates a pending manual invoice for the amount. Buying a different package swaps the current one (with a prorated credit); the same package again is rejected.",
                     "packageLabel": "Storage package",
-                    "used": "{used} GB used of {quota} GB",
+                    "used": "{used} used of {quota} GB",
                     "none": "No storage package granted - quota is {quota} GB.",
                     "remove": "Remove",
                     "confirmRemove": "Remove the {package} storage package? The company's quota will revert to its plan default.",
@@ -13574,6 +13786,7 @@
             "labelImage": "Image"
         },
         "sidebar": {
+            "referrals": "Referrals",
             "nps": "Recommendations (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
@@ -13632,7 +13845,7 @@
         "supportAccess": {
             "pageTitle": "Customer access",
             "header": "Customer access",
-            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts four hours. If they do not answer within twelve hours, the request lapses.",
+            "subtitle": "Requests to enter a customer's account. The customer answers, and a yes lasts for the chosen duration (4 hours to 7 days). If they do not answer within twelve hours, the request lapses.",
             "loading": "Loading requests",
             "empty": "You have not asked for access to any account.",
             "status": {
@@ -13649,7 +13862,9 @@
                 "reason": "Reason",
                 "deadline": "Deadline",
                 "accessUntil": "Access until",
-                "answerBefore": "Answer before"
+                "answerBefore": "Answer before",
+                "duration": "Duration",
+                "endedBy": "Ended by {name} {time}"
             },
             "dialog": {
                 "heading": "Ask the customer for access",
@@ -13660,10 +13875,26 @@
                 "caseReference": "Case reference",
                 "caseReferencePlaceholder": "Optional",
                 "send": "Send request",
-                "terms": "If the customer says yes, the access lasts four hours and then closes by itself. They can pull it back in the meantime, and everything that happens is in their log."
+                "terms": "If the customer says yes, the access lasts for the chosen duration and then closes by itself. They can pull it back in the meantime, and everything that happens is in their log.",
+                "duration": "Duration",
+                "durationHint": "The customer sees the duration and can withdraw access at any time."
+            },
+            "duration": {
+                "h4": "4 hours",
+                "h24": "1 day",
+                "h168": "7 days",
+                "h720": "30 days",
+                "hours": "{count} hours"
+            },
+            "end": {
+                "button": "End access",
+                "confirm": "End the access now?",
+                "yes": "Yes, end it",
+                "done": "Access has been ended"
             },
             "alert": {
-                "requested": "The request was sent to the customer"
+                "requested": "The request was sent to the customer",
+                "reused": "You already have an approved access that is still valid. It is used unchanged and no new request was sent."
             }
         },
         "emailTemplates": {
@@ -14880,6 +15111,7 @@
     },
     "support": {
         "chatWithSupport": "Chat with support",
+        "helpAndResources": "Help and resources",
         "courseDetails": "If you and your colleagues need a course in CitizenOne, click the button below to see what we can offer to get you well prepared",
         "findGuidesHere": "Find guides here",
         "getAGuidedTour": "Get a guided video-tour",
@@ -16283,6 +16515,8 @@
         "unassignedWonTooltip": "See the won cases nobody is on yet, and hand them out",
         "brief": {
             "bookings_missing_note": "One booking has ended without a @:terms.journalNote{''} | {n} bookings have ended without a @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "One booking on a case you coordinate has no @:terms.journalNote{''} | {n} bookings on cases you coordinate have no @:terms.journalNote{''}",
+            "department_bookings_missing_note": "One booking in your departments has no @:terms.journalNote{''} | {n} bookings in your departments have no @:terms.journalNote{''}",
             "goals_running_out": "One goal is due within a week | {n} goals are due within a week",
             "heading": "Needs your attention",
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
@@ -16764,6 +16998,7 @@
         "frequency": "Frequency",
         "instant": "Instant",
         "hourly": "Hourly digest",
+        "daily": "Daily digest",
         "required": "Required",
         "save": "Save notification types",
         "saved": "Notification types saved",
@@ -17749,6 +17984,8 @@
             "threeMonthInterviewAt": "3-month interview held",
             "terminationReason": "Reason for leaving",
             "simCard": "SIM card",
+            "contactStatus": "Contact status",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Other work",
             "workingHoursComment": "Comment on working hours",
             "notWorkWith": "Does not wish to work with",
@@ -17835,6 +18072,27 @@
             "saved": "The profile was saved",
             "skillsSaved": "The skills were saved",
             "saveFailed": "Could not be saved"
+        },
+        "contact": {
+            "title": "Contact status",
+            "statuses": {
+                "active": "Active",
+                "inactive": "Inactive – can be contacted",
+                "do_not_contact": "Must not be contacted",
+                "terminated": "Terminated"
+            },
+            "doNotContact": "Must not be contacted",
+            "reason": "Reason",
+            "note": "Note",
+            "hint": "Marked as \"Must not be contacted\", the consultant is left out of matching and can't be asked, chosen for a case or reactivated. An archived consultant with no mark and no termination date is in the match as \"Inactive – can be contacted\".",
+            "reasons": {
+                "resigned": "Resigned",
+                "paused": "Paused",
+                "absent": "Absent",
+                "do_not_contact": "Must not be contacted",
+                "cannot_contact": "Cannot be contacted",
+                "other": "Other"
+            }
         }
     },
     "inquiryDetail": {
@@ -17898,8 +18156,9 @@
         "clear": "Clear",
         "noConsultants": "No consultants found.",
         "notReady": "Cannot be put on a case",
-        "archived": "Archived",
+        "archived": "Inactive – can be contacted",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
+        "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
@@ -17996,7 +18255,9 @@
             "external_contact": "Other outside",
             "doctor": "Doctor",
             "dentist": "Dentist",
-            "our_contact_person": "Our contact person"
+            "our_contact_person": "Our contact person",
+            "advisor": "Advisor",
+            "municipality": "Municipality"
         },
         "form": {
             "type": "Type",
@@ -18009,7 +18270,13 @@
             "employee": "Employee",
             "coordinatorRole": "Coordinator role",
             "noRole": "None",
-            "isPrimary": "Primary party"
+            "isPrimary": "Primary party",
+            "role": "Role",
+            "roleConsultant": "Consultant",
+            "relationship": "Relation",
+            "noRelationships": "There are no relations yet.",
+            "addRelationships": "Add relations in Settings",
+            "askAdminForRelationships": "An administrator can add them in Settings."
         }
     },
     "inquiryInvitations": {
@@ -18034,7 +18301,10 @@
             "yes": "Yes please",
             "no": "No thanks",
             "answered": "You have answered"
-        }
+        },
+        "cannotBeChosen": "Marked after the invitation and can't be chosen for the case",
+        "contactDirectly": "Contact directly",
+        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence."
     },
     "taskBoards": {
         "actions": {
@@ -18536,13 +18806,13 @@
         }
     },
     "aiUsage": {
-        "title": "AI usage",
+        "title": "Cody AI usage",
         "loading": "Loading usage ...",
         "failed": "Usage could not be loaded right now. Try again shortly.",
-        "forbidden": "You don't have access to AI usage. Ask an administrator in your company for access.",
+        "forbidden": "You don't have access to Cody AI usage. Ask an administrator in your company for access.",
         "today": "Today",
         "ofAllowance": "{used} of {allowance} answers",
-        "allowanceExplainer": "Your daily room follows the number of AI licences you hold. It resets at midnight.",
+        "allowanceExplainer": "Your daily room follows the number of Cody AI licences you hold. It resets at midnight.",
         "balance": "Balance",
         "balanceExplainer": "Only used for answers beyond what your licences cover each day - at the same price per answer as the licence. The balance does not expire.",
         "buyMore": "Buy more",
@@ -18551,10 +18821,10 @@
         "uses": "Used",
         "amount": "Amount",
         "minutes": "{count} min",
-        "noneThisMonth": "No AI use this month yet.",
+        "noneThisMonth": "No Cody AI use this month yet.",
         "purchases": "Purchases",
         "features": {
-            "assistant": "Ask AI",
+            "assistant": "Ask Cody AI",
             "transcribe": "Dictation",
             "journal": "Journal suggestions",
             "handover": "Shift handover",
@@ -18565,7 +18835,7 @@
             "subtitle": "Choose an amount to start with. You can always buy more later.",
             "other": "Other",
             "bonus": "+{percent}% extra",
-            "capacity": "AI capacity",
+            "capacity": "Cody AI capacity",
             "toPay": "To pay",
             "pay": "Pay {amount}",
             "terms": "By paying you accept CitizenOne's terms and conditions. Capacity does not expire, and is only drawn down when an answer is delivered.",
@@ -19274,6 +19544,62 @@
     "tableColumns": {
         "moveUp": "Move {column} up",
         "moveDown": "Move {column} down"
+    },
+    "billingOverview": {
+        "title": "What am I paying for",
+        "intro": "All your recurring card payments to CitizenOne, with what they cover, their price and the date of the next charge. Each purchase is charged separately today, on the day of the month it was bought.",
+        "loading": "Loading the overview...",
+        "failed": "The overview could not be loaded. Please try again shortly.",
+        "forbidden": "Only administrators and roles allowed to buy licences can see what the company pays.",
+        "inclVat": "incl. VAT",
+        "summary": {
+            "monthly": "Fixed price per month",
+            "monthlyHint": "Excl. VAT and fees. Yearly subscriptions are shown per month.",
+            "charges": "Card payments per month",
+            "chargesHint": "Charged on day {days} of the month",
+            "fees": "Service fees per month",
+            "feesHint": "{fee} per card payment",
+            "next": "Next charge"
+        },
+        "charge": {
+            "monthly": "Monthly charge on day {day}",
+            "yearly": "Yearly charge on {day} {month}",
+            "next": "Next charge {date}"
+        },
+        "table": {
+            "product": "Product",
+            "quantity": "Quantity",
+            "unitPrice": "Unit price",
+            "amount": "Amount",
+            "vat": "VAT (25 %)",
+            "serviceFee": "Service fee",
+            "total": "Charged to the card"
+        },
+        "kind": {
+            "plan": "Subscription",
+            "app": "App",
+            "storage": "Storage",
+            "add_on": "Add-on"
+        },
+        "empty": "There are no recurring card payments on your account.",
+        "agreementNote": "Some of what you use is invoiced under your agreement and is therefore not shown here.",
+        "notIncluded": "Not included: payment fees for online payments, added to the app charge for the previous month, and SMS and Cody top-ups, charged when the balance runs low."
+    },
+    "managerSuggestion": {
+        "button": "Suggest to my manager",
+        "title": "Suggest to your manager",
+        "to": "Send to",
+        "message": "Message",
+        "defaultMessage": "I have tried {app} in CitizenOne and think it could save us time for what we are really here to do.",
+        "noPersonalData": "Do not write personal identity numbers or other personal data here.",
+        "personalNumber": "This looks like a personal identity number. Remove it before sending.",
+        "tooLong": "The message can be at most {max} characters.",
+        "calm": "There is no rush. Your manager gets a short note and a link to the app.",
+        "send": "Send suggestion",
+        "sent": "Thank you. Your suggestion has been sent.",
+        "already": "You have already sent the suggestion to them recently.",
+        "limit": "You have sent this suggestion several times recently. Let it rest for a while.",
+        "failed": "The suggestion could not be sent. Please try again later."
     },
     "prescriptionRenewals": {
         "title": "Prescription renewals",

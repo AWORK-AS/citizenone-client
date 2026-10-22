@@ -17,6 +17,8 @@
             <div id="invoice-checkout" v-show="state.isCheckoutVisible" class="mx-auto max-w-sm md:max-w-md mt-10"></div>
 
             <div class="mt-10" v-if="!state.isCheckoutVisible">
+                <ModulesUserInvoiceMailNotice />
+
                 <!-- What is running and what it costs, before the list of what
                      has already been charged. -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6" v-if="state.apps.length">

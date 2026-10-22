@@ -1,4 +1,29 @@
 {
+    "invoiceMail": {
+        "noticeTitle": "Fakturor skickas inte längre via e-post",
+        "noticeBody": "Framöver får ni inte ett e-postmeddelande varje gång en prenumeration, en app eller en påfyllning dras automatiskt. Alla fakturor och kvitton finns här under Fakturor. Ni får fortfarande e-post om en betalning misslyckas.",
+        "autoSendLabel": "Skicka fakturor till bokföraren automatiskt",
+        "autoSendHint": "När den är på får mottagarna nedan en kopia av varje automatisk faktura.",
+        "autoSendSaved": "Inställningen har sparats"
+    },
+    "referralProgram": {
+        "title": "Ge en månad, få en månad",
+        "intro": "När en verksamhet som du rekommenderar skapar ett konto via din länk och betalar sin första faktura får ni båda en gratis månad.",
+        "npsTitle": "Vill du tipsa om CitizenOne?",
+        "npsBody": "Skicka din personliga länk till en verksamhet som kan ha nytta av CitizenOne. Blir de kund får ni båda en gratis månad.",
+        "copy": "Kopiera länk",
+        "copied": "Kopierad",
+        "statusReferred": "Skapade via din länk: {count}",
+        "statusPending": "Väntar på sin första betalning: {count}",
+        "statusMonths": "Gratis månader på väg: {count}",
+        "termsTitle": "Villkor",
+        "terms1": "Ni får båda en gratis månad när verksamheten som du rekommenderat har betalat sin första faktura.",
+        "terms2": "Den gratis månaden är en månad av ert grundabonnemang, exkl. moms. Appar, tillägg och avgifter ingår inte, och den kan inte betalas ut.",
+        "terms3": "Vi drar av den från en av era kommande fakturor, normalt nästa.",
+        "terms4": "En verksamhet kan som mest få {cap} gratis månader per år. Er egen organisation, eller en med samma organisationsnummer eller e-postdomän, räknas inte.",
+        "terms5": "Rekommendera oss bara till någon som du tror har nytta av det. Det finns ingen förpliktelse, och verksamheten som du rekommenderar bestämmer själv.",
+        "registerNote": "När ni har betalat er första faktura får ni en gratis månad."
+    },
     "bookableTreatments": {
         "title": "Bokningsbara behandlingar",
         "intro": "Behandlingar är det som patienterna bokar i patientportalen och appen, till exempel ett besök på 30 minuter. Skapa en behandling, välj behandlaren och lägg till de tider som kan bokas.",
@@ -173,7 +198,10 @@
             "selectAll": "Välj alla",
             "banner": "{count} konverterade ärende(n) har ännu ingen handläggare.",
             "claimCases": "Ta ärenden",
-            "claimed": "1 ärende tilldelat | {count} ärenden tilldelade"
+            "claimed": "1 ärende tilldelat | {count} ärenden tilldelade",
+            "open": "Öppna",
+            "openCase": "Öppna @:terms.citizen{''}",
+            "openInquiry": "Öppna förfrågan"
         }
     },
     "managementEconomy": {
@@ -1134,7 +1162,7 @@
     "cody": {
         "adoption": {
             "headline": "Ge era medarbetare tid tillbaka med Cody",
-            "headlineBody": "Cody sparar i genomsnitt 2,37 timmars administration per medarbetare och dag, uppmätt bland aktiva användare.",
+            "headlineBody": "Cody ger en överblick över dagen, hittar uppgifter och skriver utkast till journalanteckningar, så att mer tid går till kärnuppgiften.",
             "tryFree": "Prova Cody gratis i 14 dagar",
             "tryFreeShort": "Prova gratis i 14 dagar",
             "readMore": "Läs mer",
@@ -1201,12 +1229,12 @@
         "rateLimitedToday": "Dagens inkluderade Cody-svar är använda. Med extra kapacitet kan ni fortsätta i dag - annars nollställs det vid midnatt.",
         "limitBuyMore": "Köp mer kapacitet",
         "limitAskAdmin": "Be din administratör om mer kapacitet.",
-        "companyDataMissing": "Svaret gavs utan åtkomst till er data. Sökindexet har inte skapats ännu.",
-        "companyDataBuilding": "Svaret gavs utan åtkomst till er data. Sökindexet byggs fortfarande.",
+        "companyDataMissing": "Cody AI kunde inte se er data i det här svaret, eftersom åtkomsten inte är uppsatt ännu. Kontakta supporten så hjälper vi till.",
+        "companyDataBuilding": "Cody AI håller på att göra er data redo och kunde inte använda den i det här svaret. Försök igen om en stund.",
         "askAnything": "Fråga om vad som helst, eller skriv {'@'} för att nämna någon",
         "mentionSomeone": "Nämn en brukare eller medarbetare",
-        "searchScopeHint": "AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
-        "reviewNotice": "AI-genererat innehåll kan innehålla fel — granska alltid innan du litar på det",
+        "searchScopeHint": "Cody AI kan söka i alla brukar-/medarbetaruppgifter du har åtkomst till, om du inte taggar en specifik person med {'@'}",
+        "reviewNotice": "Innehåll från Cody AI kan innehålla fel. Granska det alltid innan du litar på det",
         "dataGovernanceNotice": "Läs hur CitizenOne skyddar dina uppgifter i vår",
         "previewBeforeSending": "Förhandsgranska innan du skickar",
         "fileSizeExceeds": "Den samlade filstörrelse får inte overstige 10MB",
@@ -1243,7 +1271,7 @@
             "duration": "{ms} ms"
         },
         "identity": {
-            "name": "Cody",
+            "name": "Cody AI",
             "tagline": "Din assistent i vardagen",
             "scope": "Ser bara det du har tillgång till"
         },
@@ -1269,6 +1297,54 @@
         },
         "dataAndAccess": "Om data och åtkomst",
         "reviewShort": "Cody kan ha fel - läs igenom svaret.",
+        "pageContext": {
+            "seeing": "Cody kan se att du är på: {page}",
+            "pages": {
+                "my_day": "Min dag",
+                "overview": "Översikt",
+                "citizen_list": "@:terms.citizens{''}",
+                "citizen_profile": "@:terms.citizen{''}",
+                "citizen_journals": "Journal",
+                "citizen_medicine": "Läkemedel",
+                "citizen_plans_goals": "Planer och mål",
+                "citizen_documents": "Dokument",
+                "citizen_calendar": "Kalender",
+                "citizen_contacts": "Kontakter",
+                "citizen_nursing": "Omvårdnadsområden",
+                "citizen_wellbeing": "Välmående",
+                "citizen_timeline": "Tidslinje",
+                "duty_schedule": "Schema",
+                "employee_schedule": "Medarbetarens schema",
+                "calendar": "Kalender",
+                "messages": "Meddelanden",
+                "mail": "Mejl",
+                "journal_feed": "Journalanteckningar",
+                "missed_doses": "Missade doser",
+                "reminders": "Påminnelser",
+                "procedures": "Rutiner",
+                "reports": "Rapporter",
+                "inquiries": "Förfrågningar",
+                "employees": "Medarbetare",
+                "economy": "Ekonomi",
+                "settings": "Inställningar"
+            }
+        },
+        "renameConversation": "Byt namn på konversation",
+        "removeAttachment": "Ta bort {name}",
+        "deleteConversation": "Radera konversation",
+        "feedback": {
+            "up": "Bra svar",
+            "down": "Dåligt svar",
+            "thanks": "Tack för din feedback",
+            "question": "Vad var fel?",
+            "failed": "Din feedback sparades inte. Försök igen.",
+            "reasons": {
+                "wrong": "Fel",
+                "incomplete": "Saknar något",
+                "not_helpful": "Hjälpte inte",
+                "other": "Annat"
+            }
+        },
         "cards": {
             "badges": {
                 "draft": "Utkast",
@@ -1284,7 +1360,7 @@
         },
         "couldNotAnswer": "Jag kunde inte svara på det. Försök igen - och om det fortsätter, säg till en administratör.",
         "budgetSpent": "Er extra kapacitet är slut, och dagens inkluderade svar är också använda. Fyll på för att fortsätta i dag.",
-        "ownDailyLimit": "Du har använt din egen dagsgräns för AI. Din administratör kan höja den.",
+        "ownDailyLimit": "Du har använt din egen dagsgräns för Cody AI. Din administratör kan höja den.",
         "dictate": {
             "start": "Diktera",
             "stop": "Stoppa inspelning",
@@ -1296,7 +1372,7 @@
                 "insecure": "Diktering kräver en säker anslutning (https).",
                 "failed": "Kunde inte skriva ner inspelningen. Försök igen.",
                 "limit": "Dagens diktering eller Cody-svar är använda. Det nollställs vid midnatt.",
-                "budget": "Er extra kapacitet är slut. En administratör kan fylla på under Inställningar → AI-användning."
+                "budget": "Er extra kapacitet är slut. En administratör kan fylla på under Inställningar → Cody AI-användning."
             }
         },
         "attachFile": "Bifoga fil",
@@ -2255,6 +2331,11 @@
         "departments": "Avdelningar",
         "diagnoses": "Diagnoser",
         "doctor": {
+            "addOwnDoctor": "Lägg till egen läkare",
+            "changeOwnDoctor": "Byt egen läkare",
+            "noOwnDoctor": "Ingen egen läkare tillagd",
+            "ownDoctor": "Egen läkare",
+            "ownDoctorAdded": "Egen läkare tillagd",
             "addNewDoctor": "Lägg till ny läkare",
             "alert": {
                 "newDoctorSuccessfullyAdded": "Ny läkare tillagd"
@@ -2895,6 +2976,7 @@
                     "interventionHoursSuccessfullyAdded": "Indsatstimer tillagd",
                     "interventionHoursSuccessfullyUpdated": "Indsatstimer uppdaterad"
                 },
+                "hourType": "Timtyp",
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "note": "Anmärkning",
@@ -3406,6 +3488,7 @@
                 "weekly": "Veckovis"
             },
             "synchronizeWithFMK": "Synkronisera med FMK",
+            "openFmkOnline": "Öppna FMK-online",
             "table": {
                 "actions": {
                     "activate": "Aktiver",
@@ -3456,6 +3539,16 @@
             "noJournalToDisplay": "Inga journal att visa"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "De 12 hälsoområdena",
+                "description": "Senaste bedömning, problemstatus och öppna behandlingar inom varje område. Tryck på ett område för att se mer.",
+                "onlyWithContent": "Visa bara områden med innehåll",
+                "empty": "Inget registrerat ännu",
+                "nothingYet": "Inget har registrerats inom hälsoområdena ännu.",
+                "latestStatus": "Senaste status",
+                "openTreatments": "{count} öppen behandling | {count} öppna behandlingar",
+                "loadFailed": "Områdena kunde inte hämtas. Försök igen."
+            },
             "checklists": {
                 "addItem": "Lägg till punkt",
                 "checklists": "Checklistor",
@@ -7690,7 +7783,8 @@
             "successfullyDeleted": "Händelse raderad",
             "successfullyUpdated": "Händelse har uppdaterats",
             "statusSuccessfullyUpdated": "Händelsestatus har uppdaterats",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} har skapats",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} har skapats och bokningen har markerats som slutförd"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7760,6 +7854,7 @@
         "createJournalNote": "Skapa @:terms.journalNote{''}",
         "markAsCompleted": "Markera som slutförd",
         "markAsNotCompleted": "Markera som inte slutförd",
+        "registerTime": "Registrera tid",
         "statusMenuLabel": "Markera \"{title}\" som slutförd eller inte slutförd",
         "viewJournalNote": "Visa @:terms.journalNote{''}",
         "linkedNote": "Kopplad @:terms.journalNote{''}: {title}",
@@ -7767,6 +7862,19 @@
             "label": "Anteckning saknas",
             "help": "Bokningen är slut men ingen journalanteckning har skrivits än. Klicka för att skriva den."
         },
+        "noteHeader": {
+            "label": "Bokning",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Ärendenr {number}",
+            "responsible": "Ansvarig",
+            "primaryCoordinator": "Primär koordinator",
+            "bookingOwner": "Ansvarig för bokningen",
+            "statusLabel": "Status",
+            "planned": "Planerad"
+        },
+        "saveAndComplete": "Spara och markera som slutförd",
+        "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
+        "noteBodyRequired": "Skriv texten i @:terms.journalNote{''} innan bokningen markeras som slutförd.",
         "status": {
             "completed": "Slutförd",
             "notCompleted": "Inte slutförd"
@@ -8222,6 +8330,12 @@
             "title": "Läkemedelsstatustyper",
             "description": "Välj vilka statusar personalen kan välja när de registrerar en dos. \"Given\" förblir alltid aktiverad."
         },
+        "selfAdministered": {
+            "title": "Självadministrerat läkemedel",
+            "description": "Välj om självadministrerat läkemedel fortfarande hör till personalens läkemedelsrunda.",
+            "showInRounds": "Visa i Medicinoversigt och Min dag",
+            "hiddenHint": "Avstängt: läkemedlet finns kvar på läkemedelskortet, men visas inte i Medicinoversigt eller Min dag, och inga påminnelser eller utgångsvarningar skickas för det."
+        },
         "fields": {
             "addictions": "Afhängigheder",
             "allocatedHours": "Tilldelade timmar",
@@ -8501,6 +8615,8 @@
             "blocksInside": "block i gruppen",
             "addingInside": "Nästa block läggs in i gruppen",
             "addAtEnd": "Lägg den längst ned i stället",
+            "moveTo": "Flytta in i en grupp",
+            "noGroup": "Ingen grupp",
             "hint": "Blocken i gruppen upprepas en gång per mål på medborgaren. Infoga fältet för upprepningens namn där målets namn ska stå.",
             "noIterations": "Medborgaren har inga mål ännu, så den här gruppen är tom."
         }
@@ -8647,6 +8763,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "@.capitalize:terms.citizenDefinite{'s'} Personnummer",
+            "cprWhenWon": "Behöver fyllas i först när förfrågan vinns.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Bedömer du, att @:terms.citizenDefinite{''} är innan för målgruppen av §109?",
@@ -10063,7 +10180,11 @@
             "forgotten": "Glömd",
             "pending": "Väntande",
             "noEvaluationsToShow": "Inga effektutvärderingar att visa",
-            "clickToEvaluate": "Klicka för att utvärdera"
+            "clickToEvaluate": "Klicka för att utvärdera",
+            "quickDose": {
+                "title": "Registrera dos",
+                "moreOptions": "Fler alternativ"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Avvikit",
@@ -11062,6 +11183,8 @@
             "level": "Level",
             "hideInternalJournals": "Kan inte se interna anteckningar",
             "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
+            "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
+            "seesHrDataHelp": "Medarbetare med den här rollen ser kollegors HR-uppgifter, medarbetardokument (avtal, belastningsregisterutdrag, intyg m.m.), lönefält, adresser och nödkontakter och kan hantera dem. Utan den ser de bara sina egna. Administratörer ser dem alltid.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11335,6 +11458,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
+                "inquiryWonRequiresCpr": "Personnummer krävs när en förfrågan är vunnen",
                 "2fa": "Tvåfaktorsautentisering",
                 "accountantEmail": "Revisor eller regnskabs e-post (borgernes wallet transaktioner)",
                 "alert": {
@@ -11439,8 +11563,16 @@
                 "chatCprWarning": "Varna för CPR-nummer i chatt",
                 "missingNoteReminder": "Påminn om bokningar utan @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Meddela om @:terms.journalNotes{''} skapade från en bokning",
+                "calendarNoteRequired": "@.capitalize:terms.journalNote{''} krävs vid Slutförd",
+                "calendarNoteRequiredHint": "Väljer man Slutförd på en bokning med en @:terms.citizen{''} öppnas @:terms.journalNote{''}, och bokningen markeras som slutförd när den sparas. Inte slutförd kräver ingen anteckning",
+                "missingNoteCoordinatorReminder": "Påminn koordinatorn om saknad @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "Ett dygn efter att en bokning avslutats utan anteckning får ärendets primära koordinator också en påminnelse, och koordinatorer och chefer ser bokningarna på Min dag. Kräver att påminnelsen om bokningar utan anteckning är påslagen",
                 "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
+                "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
+                "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "careHourTypes": "Välj timtyp på insatstimmar",
+                "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
@@ -12056,6 +12188,20 @@
             }
         }
     },
+    "supportAccess": {
+        "pending": {
+            "duration": {
+                "h4": "Åtkomst i 4 timmar efter godkännande",
+                "h24": "Åtkomst i 1 dygn efter godkännande",
+                "h168": "Åtkomst i 7 dagar efter godkännande",
+                "h720": "Åtkomst i 30 dagar efter godkännande",
+                "hours": "Åtkomst i {count} timmar efter godkännande"
+            }
+        },
+        "history": {
+            "endedBySupport": "Avslutad av supporten"
+        }
+    },
     "setupPassword": {
         "form": {
             "confirmPassword": "Bekräfta lösenord",
@@ -12299,6 +12445,76 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "supportAccess": {
+            "table": {
+                "duration": "Varaktighet",
+                "endedBy": "Avslutad av {name} {time}"
+            },
+            "dialog": {
+                "duration": "Varaktighet",
+                "durationHint": "Kunden ser varaktigheten och kan när som helst dra tillbaka åtkomsten."
+            },
+            "duration": {
+                "h4": "4 timmar",
+                "h24": "1 dygn",
+                "h168": "7 dagar",
+                "h720": "30 dagar",
+                "hours": "{count} timmar"
+            },
+            "end": {
+                "button": "Avsluta åtkomst",
+                "confirm": "Avsluta åtkomsten nu?",
+                "yes": "Ja, avsluta",
+                "done": "Åtkomsten har avslutats"
+            }
+        },
+        "referrals": {
+            "header": "Rekommendationer",
+            "subtitle": "Verksamheter som skapats via en kunds länk, och de gratis månader de har gett.",
+            "manualHint": "Gratis månader dras inte av automatiskt. Dra av månaden från företagets nästa faktura och markera den sedan som given med faktura- eller kreditnotanumret.",
+            "cards": {
+                "referrals": "Rekommendationer",
+                "pending": "Väntar på första betalning",
+                "rewarded": "Belönade",
+                "rejected": "Avvisade",
+                "toApply": "Gratis månader att ge"
+            },
+            "status": {
+                "pending": "Väntar på första betalning",
+                "rewarded": "Belönad",
+                "rejected": "Avvisad"
+            },
+            "reasons": {
+                "same_company": "Samma företag",
+                "same_cvr": "Samma CVR-nummer",
+                "same_email_domain": "Samma admin-e-postdomän"
+            },
+            "role": {
+                "referrer": "Rekommenderade",
+                "referred": "Blev rekommenderad"
+            },
+            "creditStatus": {
+                "earned": "Ska ges",
+                "applied": "Given",
+                "void": "Annullerad"
+            },
+            "allStatuses": "Alla statusar",
+            "referrer": "Rekommenderad av",
+            "referred": "Ny kund",
+            "signedUp": "Skapad",
+            "statusColumn": "Status",
+            "credits": "Gratis månader",
+            "qualifyingInvoice": "Första betalning: faktura {number}, {amount} kr",
+            "capped": "Den rekommenderande kunden fick ingen månad (årligt tak nått eller inte längre aktiv).",
+            "amount": "{amount} kr exkl. moms",
+            "noAmount": "Inget abonnemangspris hittades",
+            "apply": "Markera som given",
+            "void": "Annullera",
+            "notePlaceholder": "Faktura- eller kreditnotanummer, eller varför den annulleras",
+            "save": "Spara",
+            "cancel": "Tillbaka",
+            "empty": "Inga verksamheter har skapats via en kunds länk under perioden."
+        },
         "nps": {
             "title": "Rekommendationer (NPS)",
             "subtitle": "Svar från administratörer de senaste 90 dagarna. NPS = andel 9-10 minus andel 0-6.",
@@ -12321,6 +12537,31 @@
             }
     },
         "funnel": {
+            "loops": {
+                "title": "Tillväxtloopar",
+                "subtitle": "Kunder som för med sig fler: medarbetare som föreslår en app för sin chef, och kunder som delar CitizenOne.",
+                "period": "Period",
+                "empty": "Inget under perioden.",
+                "suggestions": {
+                    "title": "Föreslå för min chef",
+                    "hint": "En app i ett företag räknas en gång, från det första förslaget. Köpt = ett betalt abonnemang på appen inom {days} dagar. Öppen = fönstret har inte stängts än och räknas inte med i andelen.",
+                    "sends": "Skickat",
+                    "recipients": "Mottagare",
+                    "apps": "Föreslagna appar",
+                    "converted": "Köpt",
+                    "open": "Öppen",
+                    "rate": "Köpt inom {days} dagar"
+                },
+                "referrals": {
+                    "title": "Delade länkar",
+                    "hint": "Delningar av länken \"Dela CitizenOne\", företag som skapats via en (räknat i den period de skapades), och hur många av dem som har betalat en faktura.",
+                    "shares": "Delningar",
+                    "signedUp": "Skapade",
+                    "paid": "Betalat",
+                    "rate": "Skapade som har betalat",
+                    "medianDays": "median {days} dagar till första betalning"
+                }
+            },
             "title": "Tillväxttratt",
             "subtitle": "Företag som registrerade sig under perioden, per registreringskanal, och hur långt de har kommit: egna brukare, första anteckning och betalning.",
             "stages": {
@@ -12772,7 +13013,7 @@
                     "grantStorage": "Tilldela lagring",
                     "description": "Tilldelar ett lagringspaket till företaget och skapar en väntande manuell faktura för beloppet. Köp av ett annat paket ersätter det nuvarande (med en proportionell kredit); samma paket igen avvisas.",
                     "packageLabel": "Lagringspaket",
-                    "used": "{used} GB använt av {quota} GB",
+                    "used": "{used} använt av {quota} GB",
                     "none": "Inget lagringspaket tilldelat - kvoten är {quota} GB.",
                     "remove": "Ta bort",
                     "confirmRemove": "Ta bort lagringspaketet {package}? Företagets kvot återgår till planens standard.",
@@ -13537,6 +13778,7 @@
             "labelImage": "Bild"
         },
         "sidebar": {
+            "referrals": "Rekommendationer",
             "nps": "Rekommendationer (NPS)",
             "roadmap": "Färdplan",
             "apps": "Apps",
@@ -14784,6 +15026,7 @@
     },
     "support": {
         "chatWithSupport": "Chatt med support",
+        "helpAndResources": "Hjälp och resurser",
         "courseDetails": "Om du och dina kollegaer har använd för ett kurs i CitizenOne, så klicka på knappen nedenfor för att se, vad vi kan tilbyde, så I blir bra klädt på",
         "findGuidesHere": "Hitta vejledninger här",
         "getAGuidedTour": "Få en guided video-tour",
@@ -16187,6 +16430,8 @@
         "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
             "bookings_missing_note": "En bokning har avslutats utan en @:terms.journalNote{''} | {n} bokningar har avslutats utan en @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "En bokning i ett ärende du koordinerar saknar en @:terms.journalNote{''} | {n} bokningar i ärenden du koordinerar saknar en @:terms.journalNote{''}",
+            "department_bookings_missing_note": "En bokning i dina avdelningar saknar en @:terms.journalNote{''} | {n} bokningar i dina avdelningar saknar en @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut inom en vecka | {n} mål går ut inom en vecka",
             "heading": "Kräver din uppmärksamhet",
             "journal_mentions": "Du har taggats i en @:terms.journalNote{''} | Du har taggats i {n} @:terms.journalNotes{''}",
@@ -16668,6 +16913,7 @@
         "frequency": "Frekvens",
         "instant": "Direkt",
         "hourly": "Sammanställning varje timme",
+        "daily": "Daglig sammanställning",
         "required": "Obligatorisk",
         "save": "Spara aviseringstyper",
         "saved": "Aviseringstyper sparade",
@@ -17653,6 +17899,8 @@
             "threeMonthInterviewAt": "3-månaderssamtal genomfört",
             "terminationReason": "Orsak till avslut",
             "simCard": "SIM-kort",
+            "contactStatus": "Kontaktstatus",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Övrigt arbete",
             "workingHoursComment": "Kommentar om arbetstider",
             "notWorkWith": "Vill inte arbeta med",
@@ -17739,6 +17987,27 @@
             "saved": "Profilen har sparats",
             "skillsSaved": "Kompetenserna har sparats",
             "saveFailed": "Kunde inte sparas"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktas",
+                "do_not_contact": "Får inte kontaktas",
+                "terminated": "Avslutad"
+            },
+            "doNotContact": "Får inte kontaktas",
+            "reason": "Orsak",
+            "note": "Anteckning",
+            "hint": "Markerad som \"Får inte kontaktas\" är konsulten utanför matchningen och kan varken tillfrågas, väljas till ett ärende eller återaktiveras. En arkiverad konsult utan markering och utan slutdatum finns med i matchningen som \"Inaktiv – kan kontaktas\".",
+            "reasons": {
+                "resigned": "Slutat",
+                "paused": "Pausad",
+                "absent": "Frånvarande",
+                "do_not_contact": "Får inte kontaktas",
+                "cannot_contact": "Kan inte kontaktas",
+                "other": "Annat"
+            }
         }
     },
     "inquiryDetail": {
@@ -17802,8 +18071,9 @@
         "clear": "Nollställ",
         "noConsultants": "Inga konsulter hittades.",
         "notReady": "Kan inte sättas på ärende",
-        "archived": "Arkiverad",
+        "archived": "Inaktiv – kan kontaktas",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
+        "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
@@ -17900,7 +18170,9 @@
             "external_contact": "Annan extern",
             "doctor": "Läkare",
             "dentist": "Tandläkare",
-            "our_contact_person": "Vår kontaktperson"
+            "our_contact_person": "Vår kontaktperson",
+            "advisor": "Rådgivare",
+            "municipality": "Kommun"
         },
         "form": {
             "type": "Typ",
@@ -17913,7 +18185,13 @@
             "employee": "Medarbetare",
             "coordinatorRole": "Koordinatorroll",
             "noRole": "Ingen",
-            "isPrimary": "Primär part"
+            "isPrimary": "Primär part",
+            "role": "Roll",
+            "roleConsultant": "Konsult",
+            "relationship": "Relation",
+            "noRelationships": "Det finns inga relationer ännu.",
+            "addRelationships": "Lägg till relationer under Inställningar",
+            "askAdminForRelationships": "En administratör kan lägga till dem under Inställningar."
         }
     },
     "inquiryInvitations": {
@@ -17938,7 +18216,10 @@
             "yes": "Ja tack",
             "no": "Nej tack",
             "answered": "Du har svarat"
-        }
+        },
+        "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet",
+        "contactDirectly": "Kontakta direkt",
+        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens."
     },
     "taskBoards": {
         "actions": {
@@ -18440,13 +18721,13 @@
         }
     },
     "aiUsage": {
-        "title": "AI-användning",
+        "title": "Cody AI-användning",
         "loading": "Hämtar användning ...",
         "failed": "Användningen kunde inte hämtas just nu. Försök igen om en stund.",
-        "forbidden": "Du har inte åtkomst till AI-användningen. Be en administratör i ert företag om åtkomst.",
+        "forbidden": "Du har inte åtkomst till Cody AI-användningen. Be en administratör i ert företag om åtkomst.",
         "today": "I dag",
         "ofAllowance": "{used} av {allowance} svar",
-        "allowanceExplainer": "Den dagliga ramen följer antalet AI-licenser ni har. Den nollställs vid midnatt.",
+        "allowanceExplainer": "Den dagliga ramen följer antalet Cody AI-licenser ni har. Den nollställs vid midnatt.",
         "balance": "Saldo",
         "balanceExplainer": "Används bara för svar utöver det era licenser täcker per dag - till samma pris per svar som licensen. Saldot förfaller inte.",
         "buyMore": "Köp mer",
@@ -18455,10 +18736,10 @@
         "uses": "Användning",
         "amount": "Belopp",
         "minutes": "{count} min",
-        "noneThisMonth": "Ingen AI-användning den här månaden ännu.",
+        "noneThisMonth": "Ingen Cody AI-användning den här månaden ännu.",
         "purchases": "Köp",
         "features": {
-            "assistant": "Fråga AI",
+            "assistant": "Fråga Cody AI",
             "transcribe": "Diktering",
             "journal": "Journalförslag",
             "handover": "Skiftöverlämning",
@@ -18469,7 +18750,7 @@
             "subtitle": "Välj ett belopp att börja med. Ni kan alltid köpa mer senare.",
             "other": "Annat",
             "bonus": "+{percent}% extra",
-            "capacity": "AI-kapacitet",
+            "capacity": "Cody AI-kapacitet",
             "toPay": "Att betala",
             "pay": "Betala {amount}",
             "terms": "Genom att betala accepterar ni CitizenOnes villkor. Kapaciteten upphör inte att gälla och dras bara ned när ett svar levereras.",
@@ -19178,6 +19459,62 @@
     "tableColumns": {
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
+    },
+    "billingOverview": {
+        "title": "Vad betalar jag för",
+        "intro": "Alla era återkommande kortbetalningar till CitizenOne, med innehåll, pris och datum för nästa dragning. Varje köp dras i dag för sig, på den dag i månaden det köptes.",
+        "loading": "Hämtar översikten...",
+        "failed": "Översikten kunde inte hämtas. Försök igen om en stund.",
+        "forbidden": "Endast administratörer och roller som får köpa licenser kan se vad företaget betalar.",
+        "inclVat": "inkl. moms",
+        "summary": {
+            "monthly": "Fast pris per månad",
+            "monthlyHint": "Exkl. moms och avgifter. Årsabonnemang är omräknade till månad.",
+            "charges": "Kortbetalningar per månad",
+            "chargesHint": "Dras den {days} i månaden",
+            "fees": "Serviceavgifter per månad",
+            "feesHint": "{fee} per kortbetalning",
+            "next": "Nästa dragning"
+        },
+        "charge": {
+            "monthly": "Månatlig dragning den {day}.",
+            "yearly": "Årlig dragning den {day} {month}",
+            "next": "Nästa dragning {date}"
+        },
+        "table": {
+            "product": "Produkt",
+            "quantity": "Antal",
+            "unitPrice": "Styckpris",
+            "amount": "Belopp",
+            "vat": "Moms (25 %)",
+            "serviceFee": "Serviceavgift",
+            "total": "Dras från kortet"
+        },
+        "kind": {
+            "plan": "Abonnemang",
+            "app": "App",
+            "storage": "Lagringsutrymme",
+            "add_on": "Tillägg"
+        },
+        "empty": "Det finns inga återkommande kortbetalningar på ert konto.",
+        "agreementNote": "En del av det ni använder faktureras enligt ert avtal och visas därför inte här.",
+        "notIncluded": "Ingår inte här: avgifter för onlinebetalningar, som läggs på app-dragningen för föregående månad, och påfyllning av SMS och Cody, som dras när saldot är lågt."
+    },
+    "managerSuggestion": {
+        "button": "Föreslå för min chef",
+        "title": "Föreslå för din chef",
+        "to": "Skicka till",
+        "message": "Meddelande",
+        "defaultMessage": "Jag har provat {app} i CitizenOne och tror att det kan spara oss tid för det vi egentligen är här för.",
+        "noPersonalData": "Skriv inte personnummer eller andra personuppgifter här.",
+        "personalNumber": "Det ser ut som ett personnummer. Ta bort det innan du skickar.",
+        "tooLong": "Meddelandet får vara högst {max} tecken.",
+        "calm": "Det är ingen brådska. Din chef får ett kort meddelande och en länk till appen.",
+        "send": "Skicka förslag",
+        "sent": "Tack. Ditt förslag har skickats.",
+        "already": "Du har redan skickat förslaget till dem nyligen.",
+        "limit": "Du har skickat det här förslaget flera gånger nyligen. Låt det vila ett tag.",
+        "failed": "Förslaget kunde inte skickas. Försök igen senare."
     },
     "prescriptionRenewals": {
         "title": "Receptförnyelser",

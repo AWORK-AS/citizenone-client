@@ -2606,6 +2606,12 @@ function hoursPeriodLabel(employee: any) {
 // the Holidays box just mirrors them, so adding them again would double-count.
 function shiftTypeTotal(employee: any, key: 'weekly_hours' | 'yearly_hours'): number {
     const stats = empStats(employee)
+    // The API sums the same rows from unrounded hours. Re-adding the 2-decimal row
+    // strings drifted by 0.01 on factor shifts (sleeping night), so prefer its total.
+    const apiTotal = key === 'weekly_hours' ? stats?.total_weekly_hours : stats?.total_yearly_hours
+    if (apiTotal !== undefined && apiTotal !== null) {
+        return parseLocaleNumber(language.locale.value, apiTotal)
+    }
     let sum = (stats?.hours ?? [])
         .filter((t: any) => t?.shift?.system_name !== 'time-filter')
         .reduce((s: number, t: any) => s + parseLocaleNumber(language.locale.value, t?.[key]), 0)

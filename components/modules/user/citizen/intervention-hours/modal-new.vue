@@ -30,9 +30,23 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // From a booking ("Registrér tid"): its citizen and its times. Without
+    // them the form is the citizen page's own, as before.
+    citizenUuid: {
+        type: String,
+        default: '',
+    },
+    presetStart: {
+        type: String,
+        default: '',
+    },
+    presetEnd: {
+        type: String,
+        default: '',
+    },
 })
 const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const routeCitizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshInterventionHours'])
 
 const state = reactive({
@@ -44,6 +58,18 @@ const state = reactive({
         note: '',
     },
 })
+
+// Opened from a booking: start from its times every time, as a new object so
+// the form takes them.
+watch(() => [props.isModalOpen, props.presetStart, props.presetEnd], () => {
+    if (props.isModalOpen && props.presetStart) {
+        state.formInterventionHours = {
+            date_time_start: moment(props.presetStart).format('YYYY-MM-DD H:mm'),
+            date_time_end: moment(props.presetEnd || props.presetStart).format('YYYY-MM-DD H:mm'),
+            note: '',
+        }
+    }
+}, { immediate: true })
 
 function closeModal() {
     emit('close')
@@ -58,10 +84,14 @@ async function saveInterventionHours(interventionHoursDetails: any) {
     state.isPageLoading = true
     try {
         const params = {
-            citizen_uuid: citizenUuid,
+            citizen_uuid: props.citizenUuid || routeCitizenUuid,
             date_time_start: interventionHoursDetails.date_time_start,
             date_time_end: interventionHoursDetails.date_time_end,
             note: interventionHoursDetails.note,
+            // Only when the hour-type picker showed (careHourTypes.hourTypePayload).
+            ...(interventionHoursDetails.contract_hour_type_uuid
+                ? { contract_hour_type_uuid: interventionHoursDetails.contract_hour_type_uuid }
+                : {}),
         }
         const response = await interventionHoursService.saveInterventionHours(params)
         if (response?.data) {

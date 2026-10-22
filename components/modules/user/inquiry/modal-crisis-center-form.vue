@@ -67,6 +67,9 @@
                             <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                             <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
                                 v-model="state.formInquiry.cpr" />
+                            <p v-if="cprOnlyWhenWon" class="text-[11px] text-slate-400">
+                                {{ $t('inquiries.form.cprWhenWon') }}
+                            </p>
                             <FormError :error="v$?.formInquiry?.cpr?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.cpr?.[0]" />
                         </div>
@@ -192,11 +195,12 @@
 </template>
 
 <script setup lang="ts">
-import { asksFor as asksForField } from '@/composables/inquiryForms'
+import { asksFor as asksForField, shownOnInquiry } from '@/composables/inquiryForms'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -243,16 +247,27 @@ function formAsks(field: string): boolean {
 }
 
 /**
- * Whether the field is shown. An edit shows every field: the inquiry page
- * lists them all, so each one it lists can be corrected here. Only what the
- * form asks for is required, so a field it leaves out never blocks a save.
+ * Whether the field is shown. An edit shows the same fields as the inquiry
+ * page - what the inquiry's form asks for plus anything already filled in, or
+ * every field for an inquiry from before forms - so each one the page lists
+ * can be corrected here. Read off the inquiry as loaded, so a field does not
+ * vanish while it is being cleared. Only what the form asks for is required,
+ * so a field it leaves out never blocks a save.
  */
 function asksFor(field: string): boolean {
-    return props.formType === 'update' || formAsks(field)
+    if (props.formType !== 'update') return formAsks(field)
+
+    return shownOnInquiry(field, props.form as any, props.selectedInquiry as any)
 }
 
 const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
+
+// The company may ask for the CPR number only once the inquiry is won (moved
+// to won or converted), so it can be taken and worked on without one. Off,
+// the form requires it as it always has.
+const cprOnlyWhenWon = computed(() => userStore.getUser?.company?.inquiry_won_requires_cpr_enabled === true)
 
 const completedByLabel = computed(() => customPagesStore.getCustomPagesName?.completedBy || t('inquiries.form.inquirerName'))
 const dateOfInquiryLabel = computed(() => customPagesStore.getCustomPagesName?.dateOfInquiry || t('inquiries.form.dateOfInquiry'))
@@ -400,9 +415,11 @@ watch(() => props.selectedInquiry, (newValue: any) => {
 const rules = computed(() => {
     return {
         formInquiry: {
-            cpr: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            ...(cprOnlyWhenWon.value ? {} : {
+                cpr: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            }),
             inquiry_date: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },

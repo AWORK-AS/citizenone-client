@@ -1,4 +1,5 @@
 // plugins/obiyen-chat.client.ts
+import { supportChatPage } from '~/composables/supportChatPage'
 
 export default defineNuxtPlugin(() => {
     // No support chat inside the duty schedule embedded on a customer's website,
@@ -33,6 +34,9 @@ export default defineNuxtPlugin(() => {
             const bubble = d.getElementById('obiyen-chat-widget')?.shadowRoot?.querySelector('.cw-bubble')
             if (bubble) {
                 if (!revealedAlready) hideBubble()
+                // The widget arrived after the first page was set: a start on a
+                // superadmin page has to hide it now that there is a host.
+                followPage(useRouter().currentRoute.value.path)
                 clearInterval(interval)
             }
         }, 250)
@@ -55,13 +59,27 @@ export default defineNuxtPlugin(() => {
                 useObiyenChat().suggestInApp((key: string) => String(i18n.t(key)))
             } catch { /* leave Milo's defaults */ }
         }
+        const followPage = (path: string) => {
+            try {
+                const chat = useObiyenChat()
+                const { hidden, labelKey } = supportChatPage(path)
+                chat.setHiddenHere(hidden)
+                const i18n = (nuxtApp as any).$i18nGlobal
+                chat.setPage(labelKey && i18n?.t ? String(i18n.t(labelKey)) : null)
+            } catch { /* Milo just goes without the page name */ }
+        }
+
         nuxtApp.hook('app:mounted', () => {
             suggestInApp()
+            followPage(useRouter().currentRoute.value.path)
             const locale = (nuxtApp as any).$i18nGlobal?.locale
             if (locale && typeof locale === 'object' && 'value' in locale) watch(locale, suggestInApp)
         })
         useRouter().afterEach((to, from) => {
-            if (to.path !== from.path) suggestInApp()
+            if (to.path !== from.path) {
+                suggestInApp()
+                followPage(to.path)
+            }
         })
     }
 })

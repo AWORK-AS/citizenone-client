@@ -31,6 +31,7 @@
                                                         :field="JSON.parse(formField?.field)" :fieldIndex="fieldIndex"
                                                         :number="fieldIndex + 1"
                                                         :citizenUuid="scaleCitizenUuid"
+                                                        :goalUuid="formField._goalUuid ?? ''"
                                                         v-model="formField.responses" />
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'group_title'"
                                                         class="px-5 py-3 font-semibold text-primary border-l-4 border-primary bg-primary/5">
@@ -135,6 +136,7 @@
                                                                                 <FormRadioButton
                                                                                     :name="`choice_${fieldIndex}`"
                                                                                     :value="radio"
+                                                                                    :checked="formField.responses === radio"
                                                                                     @change="changeRadioButton(fieldIndex, $event)" />
                                                                                 <h3>{{ radio }}</h3>
                                                                             </label>
@@ -165,6 +167,7 @@
                                                                                 class="flex items-center gap-x-2 cursor-pointer">
                                                                                 <FormCheckbox
                                                                                     :name="`choice_${fieldIndex}_${checkboxIndex}`"
+                                                                                    :value="Array.isArray(formField.responses) && formField.responses.includes(checkbox)"
                                                                                     @change="changeCheckbox(fieldIndex, checkbox)" />
                                                                                 <h3>{{ checkbox }}</h3>
                                                                             </label>
@@ -287,13 +290,15 @@ import { citizenDocumentTemplateService } from '@/components/api/user/CitizenDoc
 import { citizenDocumentStatusService } from '@/components/api/user/CitizenDocumentStatusService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { scaleAnswerPayload } from '@/composables/scaleAnswer'
+import { tableAnswerPayload } from '@/composables/tableAnswer'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useCitizenStore } from '@/store/citizen'
 
-const { expandGroups, responseKey } = useFormGroups()
+const { expandGroups, responseKey, restoreResponses } = useFormGroups()
 
 // The scale loads the citizen's earlier measurements. The citizen comes from the
 // route on a citizen page and from the store when a modal was opened without
@@ -393,23 +398,13 @@ async function fetchForm() {
                 }))
             }
             if (response.data?.form_fields) {
-                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value)
+                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value, props.selectedFormStatusTemplate?.form_uuid ?? '')
             }
 
             state.form = response
 
             if (state.form?.data?.form_fields && props.savedResponses) {
-                for (let i = 0; i < state.form.data.form_fields.length; i++) {
-                    const formField = state.form.data.form_fields[i];
-
-                    for (let j = 0; j < props.savedResponses.length; j++) {
-                        const fieldResponse = props.savedResponses[j];
-
-                        if (formField.id === fieldResponse?.form_field_id) {
-                            state.form.data.form_fields[i].responses = fieldResponse?.response
-                        }
-                    }
-                }
+                restoreResponses(state.form.data.form_fields, props.savedResponses)
             }
         }
     } catch (error: any) {
@@ -481,13 +476,13 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -556,13 +551,13 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }

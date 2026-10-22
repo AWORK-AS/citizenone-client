@@ -20,6 +20,14 @@ class InvoiceReceiverService extends BaseAPIService {
     async deleteInvoiceReceiver(invoiceReceiverUuid: any): Promise<any> {
         return await this.request(`/user/invoice-receivers/${invoiceReceiverUuid}`, 'DELETE')
     }
+
+    async getAutoSendSetting(): Promise<any> {
+        return await this.request(`/user/invoice-receivers/settings`, 'GET')
+    }
+
+    async updateAutoSendSetting(autoSend: boolean): Promise<any> {
+        return await this.request(`/user/invoice-receivers/settings`, 'PUT', { auto_send_invoices_to_accountant: autoSend })
+    }
 }
 
 export const invoiceReceiverService = new InvoiceReceiverService()

@@ -3,7 +3,7 @@
         <!-- Running now. One line per tool, named, because the four to nine
         seconds this takes used to be a typing indicator and nothing else. -->
         <p v-for="call in live" :key="`${call.tool}-${call.turn}`"
-            class="flex items-center gap-2 text-xs text-gray-500">
+            class="flex items-center gap-2 text-xs text-gray-600">
             <ModulesUserNavbarCodyMark :size="15" state="working" class="shrink-0" />
             <span>{{ label(call.tool) }}</span>
         </p>
@@ -15,7 +15,7 @@
         point of the screen. -->
         <details v-if="receipts.length" class="group">
             <summary
-                class="flex cursor-pointer list-none items-center gap-1.5 text-xs text-gray-400 hover:text-gray-600">
+                class="flex cursor-pointer list-none items-center gap-1.5 text-xs text-gray-500 hover:text-gray-700">
                 <Icon name="ph:caret-right"
                     class="size-3 shrink-0 transition-transform group-open:rotate-90" aria-hidden="true" />
                 <span>{{ $t('assistants.toolTrace.title') }} ({{ receipts.length }})</span>
@@ -27,11 +27,11 @@
                             :class="['mt-0.5 size-3 shrink-0', receipt.ok ? 'text-gray-400' : 'text-amber-600']"
                             aria-hidden="true" />
                         <span class="min-w-0">
-                            <span class="font-medium text-gray-500">{{ label(receipt.tool) }}</span>
-                            <span v-if="receipt.summary" class="text-gray-400"> — {{ receipt.summary }}</span>
-                            <span v-else-if="!receipt.ok" class="text-gray-400">
-                                — {{ $t('assistants.toolTrace.failed') }}</span>
-                            <span v-if="receipt.ms" class="ml-1 tabular-nums text-gray-300">
+                            <span class="font-medium text-gray-600">{{ label(receipt.tool) }}</span>
+                            <span v-if="receipt.summary" class="text-gray-500"> - {{ receipt.summary }}</span>
+                            <span v-else-if="!receipt.ok" class="text-gray-500">
+                                - {{ $t('assistants.toolTrace.failed') }}</span>
+                            <span v-if="receipt.ms" class="ml-1 tabular-nums text-gray-500">
                                 {{ $t('assistants.toolTrace.duration', { ms: receipt.ms }) }}</span>
                         </span>
                     </span>
