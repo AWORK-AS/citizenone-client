@@ -44,6 +44,8 @@
 </template>
 
 <script setup lang="ts">
+import { tableAnswerOf } from '@/composables/tableAnswer'
+
 const props = defineProps({
     field: {
         type: Object,
@@ -69,18 +71,10 @@ const columns = computed<string[]>(() => props.field?.columns ?? [])
  * so a row of merge fields or a fixed label is already in place.
  */
 const cells = computed<string[][]>(() => {
-    const value = props.modelValue
+    // An answer stored wrapped by an earlier save still shows its rows.
+    const rows = tableAnswerOf(props.modelValue)
 
-    if (typeof value === 'string' && value) {
-        try {
-            const parsed = JSON.parse(value)
-            if (Array.isArray(parsed) && parsed.length) return parsed
-        } catch {
-            // fall through to the template's own rows
-        }
-    }
-
-    if (Array.isArray(value) && value.length) return value as string[][]
+    if (rows?.length) return rows as string[][]
 
     return (props.field?.rows ?? []).map((row: string[]) => [...row])
 })

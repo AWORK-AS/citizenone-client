@@ -92,7 +92,7 @@
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
             <div>
                 <div class="space-y-8 mt-5" v-if="state.form.fields?.length > 0">
-                    <div v-for="(field, fieldIndex) in state.form.fields" :key="fieldIndex" class="space-y-3"
+                    <div v-for="(field, fieldIndex) in state.form.fields" :key="keyOf(field)" class="space-y-3"
                         :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'"
                         @dragover.prevent="onFieldDragOver($event, fieldIndex)"
                         @dragleave="onFieldDragLeave($event, fieldIndex)" @drop.prevent="onFieldDrop(fieldIndex)">
@@ -113,6 +113,12 @@
                                         :canClear="false" :canDeselect="false" :searchable="false"
                                         :aria-label="$t('forms.fields.changeType')" :modelValue="field.type"
                                         @update:modelValue="(v) => changeFieldType(fieldIndex, v)" />
+                                </div>
+                                <div v-if="field.type !== 'group' && groupOptions.length > 0" class="w-48 ml-auto">
+                                    <FormSelect :id="'field_group_' + fieldIndex" :options="groupOptions"
+                                        :searchable="false" :placeholder="$t('forms.group.noGroup')"
+                                        :aria-label="$t('forms.group.moveTo')" :modelValue="field.parentGroup ?? null"
+                                        @update:modelValue="(v) => moveToGroup(fieldIndex, v)" />
                                 </div>
                             </div>
                             <div>
@@ -889,6 +895,8 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useTerminology } from '@/composables/useTerminology'
+import { toRaw } from 'vue'
+import { blockKey } from '@/composables/blockKey'
 import type { Error } from '@/types'
 import { formService } from '@/components/api/user/FormService'
 
@@ -1013,6 +1021,7 @@ watch(() => props.selectedForm, (selectedForm: any) => {
         state.form.title = selectedForm.title
         state.form.description = selectedForm.description
         state.form.fields = selectedForm.fields
+        ungroupOrphans(state.form.fields ?? [])
         if (selectedForm.document_title) {
             state.form.document_title = selectedForm.document_title
         }
@@ -1237,17 +1246,70 @@ function insertField(field: any) {
 
     field.parentGroup = target
 
-    let last = state.form.fields.findIndex((f: any) => f.groupId === target)
+    state.form.fields.splice(endOfGroup(target) + 1, 0, field)
+}
+
+/** Each block keeps its own editors when blocks move, whatever its position. */
+function keyOf(field: object): string {
+    return blockKey(toRaw(field))
+}
+
+/** The index of a group's last block: the group itself when it is empty. */
+function endOfGroup(groupId: string): number {
+    let last = state.form.fields.findIndex((f: any) => f.groupId === groupId)
     for (let i = last + 1; i < state.form.fields.length; i++) {
-        if (state.form.fields[i]?.parentGroup === target) last = i
+        if (state.form.fields[i]?.parentGroup === groupId) last = i
         else break
     }
 
-    state.form.fields.splice(last + 1, 0, field)
+    return last
 }
 
 function childrenOf(groupId: string) {
     return state.form.fields.filter((f: any) => f.parentGroup === groupId)
+}
+
+const groupOptions = computed(() => state.form.fields
+    .filter((f: any) => f?.type === 'group' && f.groupId)
+    .map((f: any) => ({ value: f.groupId, label: f.value || t('forms.group.title') })))
+
+/**
+ * Moves a block into a group, at the end of it, or out of its group, just past
+ * what is left of it. Either way a group's blocks stay right after the group.
+ * Before this a block could only join a group when it was first added.
+ */
+function moveToGroup(fieldIndex: number, groupId: string | null) {
+    const fields = state.form.fields
+    const field = fields[fieldIndex]
+    const from = field?.parentGroup ?? null
+
+    if (!field || (groupId ?? null) === from) return
+    if (groupId && !fields.some((f: any) => f?.type === 'group' && f.groupId === groupId)) return
+
+    fields.splice(fieldIndex, 1)
+
+    if (groupId) {
+        field.parentGroup = groupId
+        fields.splice(endOfGroup(groupId) + 1, 0, field)
+
+        return
+    }
+
+    delete field.parentGroup
+    fields.splice(from ? endOfGroup(from) + 1 : fieldIndex, 0, field)
+}
+
+/**
+ * A block still naming a group the template no longer has. Deleting a group
+ * used to leave its blocks pointing at it, and every report hid them. Shown,
+ * and saved, as an ordinary block.
+ */
+function ungroupOrphans(fields: any[]) {
+    const groupIds = new Set(fields.filter((f: any) => f?.type === 'group').map((f: any) => f.groupId))
+
+    for (const field of fields) {
+        if (field?.parentGroup && !groupIds.has(field.parentGroup)) delete field.parentGroup
+    }
 }
 
 function addGroup() {
@@ -1381,7 +1443,15 @@ function duplicateField(fieldIndex: number) {
 }
 
 function removeField(fieldIndex: number) {
-    state.form.fields.splice(fieldIndex, 1)
+    const [removed] = state.form.fields.splice(fieldIndex, 1)
+
+    // Deleting a group keeps what was inside it, as ordinary blocks where they
+    // were. (The other choice would be deleting them along with the group.)
+    if (removed?.type === 'group') {
+        ungroupOrphans(state.form.fields)
+        if (state.addTarget === removed.groupId) state.addTarget = null
+    }
+
     if (state.form.fields?.length === 0) {
         state.showFieldsAdder = true
     }

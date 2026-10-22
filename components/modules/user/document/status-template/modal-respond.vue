@@ -31,6 +31,7 @@
                                                         :field="JSON.parse(formField?.field)" :fieldIndex="fieldIndex"
                                                         :number="fieldIndex + 1"
                                                         :citizenUuid="scaleCitizenUuid"
+                                                        :goalUuid="formField._goalUuid ?? ''"
                                                         v-model="formField.responses" />
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'group_title'"
                                                         class="px-5 py-3 font-semibold text-primary border-l-4 border-primary bg-primary/5">
@@ -260,6 +261,8 @@ import { formService } from '@/components/api/user/FormService'
 import { documentTemplateService } from '@/components/api/user/DocumentTemplateService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { scaleAnswerPayload } from '@/composables/scaleAnswer'
+import { tableAnswerPayload } from '@/composables/tableAnswer'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { googledriveService } from '~/components/api/user/GoogleDriveService'
@@ -338,7 +341,7 @@ async function fetchForm() {
                 }))
             }
             if (response.data?.form_fields) {
-                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value)
+                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value, formUuid ?? '')
             }
 
             state.form = response
@@ -396,13 +399,13 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -450,13 +453,13 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -512,13 +515,13 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -570,13 +573,13 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
