@@ -628,7 +628,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 9</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount + calendarNoteSwitchCount }} / 9</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
                             </span>
                         </button>
@@ -705,6 +705,26 @@
                                 <p>
                                     {{ $t('settings.company.form.bookingNoteNotifications') }}
                                 </p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.calendar_note_required_enabled"
+                                        @toggleSwitch="state.formCompany.calendar_note_required_enabled = !state.formCompany.calendar_note_required_enabled" :label="$t('settings.company.form.calendarNoteRequired')" />
+                                    <p>
+                                        {{ $t('settings.company.form.calendarNoteRequired') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.calendarNoteRequiredHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.missing_note_coordinator_reminder_enabled"
+                                        @toggleSwitch="state.formCompany.missing_note_coordinator_reminder_enabled = !state.formCompany.missing_note_coordinator_reminder_enabled" :label="$t('settings.company.form.missingNoteCoordinatorReminder')" />
+                                    <p>
+                                        {{ $t('settings.company.form.missingNoteCoordinatorReminder') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.missingNoteCoordinatorReminderHint') }}.</p>
                             </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.certificate_reminder_all_recipients_enabled"
@@ -1007,6 +1027,8 @@ const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+// The two note switches of the Other section, counted apart from otherCount.
+const calendarNoteSwitchCount = computed(() => [state.formCompany.calendar_note_required_enabled, state.formCompany.missing_note_coordinator_reminder_enabled].filter(Boolean).length)
 const { isAtLeast, can } = usePermissions()
 
 // --- Company modules (admin enable/disable whole modules) ---
@@ -1077,6 +1099,8 @@ const state = reactive({
         epikrise_enabled: false,
         missing_note_reminder_enabled: false,
         booking_note_notifications_enabled: false,
+        calendar_note_required_enabled: false,
+        missing_note_coordinator_reminder_enabled: false,
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
@@ -1213,6 +1237,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             epikrise_enabled: newValue?.company?.epikrise_enabled === true,
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
+            calendar_note_required_enabled: newValue?.company?.calendar_note_required_enabled === true,
+            missing_note_coordinator_reminder_enabled: newValue?.company?.missing_note_coordinator_reminder_enabled === true,
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
@@ -1482,6 +1508,8 @@ async function submitForm() {
                 epikrise_enabled: state.formCompany.epikrise_enabled,
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
+                calendar_note_required_enabled: state.formCompany.calendar_note_required_enabled,
+                missing_note_coordinator_reminder_enabled: state.formCompany.missing_note_coordinator_reminder_enabled,
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,

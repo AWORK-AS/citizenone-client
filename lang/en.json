@@ -7571,7 +7571,8 @@
             "successfullyDeleted": "Event successfully deleted",
             "successfullyUpdated": "Event successfully updated",
             "statusSuccessfullyUpdated": "Event status successfully updated",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} successfully created"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} successfully created",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} created and the booking marked as completed"
         },
         "calendar": "Calendar",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7649,6 +7650,19 @@
             "label": "Note missing",
             "help": "The booking has ended but no journal note has been written yet. Click to write it."
         },
+        "noteHeader": {
+            "label": "Booking",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Case no. {number}",
+            "responsible": "Responsible",
+            "primaryCoordinator": "Primary coordinator",
+            "bookingOwner": "Responsible for the booking",
+            "statusLabel": "Status",
+            "planned": "Planned"
+        },
+        "saveAndComplete": "Save and mark as completed",
+        "completeOnSaveHint": "Saving the @:terms.journalNote{''} marks the booking as completed.",
+        "noteBodyRequired": "Write the @:terms.journalNote{''} text before marking the booking as completed.",
         "status": {
             "completed": "Completed",
             "notCompleted": "Not completed"
@@ -11324,6 +11338,10 @@
                 "chatCprWarning": "Warn about CPR numbers in chat",
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
+                "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
+                "calendarNoteRequiredHint": "Choosing Completed on a booking with a @:terms.citizen{''} opens the @:terms.journalNote{''}, and the booking is completed when it is saved. Not completed needs no note",
+                "missingNoteCoordinatorReminder": "Remind the coordinator about a missing @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "A day after a booking ended without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
@@ -16163,6 +16181,8 @@
         "unassignedWonTooltip": "See the won cases nobody is on yet, and hand them out",
         "brief": {
             "bookings_missing_note": "One booking has ended without a @:terms.journalNote{''} | {n} bookings have ended without a @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "One booking on a case you coordinate has no @:terms.journalNote{''} | {n} bookings on cases you coordinate have no @:terms.journalNote{''}",
+            "department_bookings_missing_note": "One booking in your departments has no @:terms.journalNote{''} | {n} bookings in your departments have no @:terms.journalNote{''}",
             "goals_running_out": "One goal is due within a week | {n} goals are due within a week",
             "heading": "Needs your attention",
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
