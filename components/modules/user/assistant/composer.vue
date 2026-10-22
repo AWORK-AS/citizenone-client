@@ -56,6 +56,16 @@
                 </div>
             </div>
 
+            <!-- What Cody is told about where you are. Said out loud, because an
+            assistant that quietly knows which page you are on reads as one that
+            is watching you. -->
+            <p v-if="page" class="mb-2 flex items-center gap-1.5 text-xs text-gray-600" role="status">
+                <Icon name="ph:map-pin" class="size-3.5 shrink-0 text-cody-deep" aria-hidden="true" />
+                <span class="min-w-0 truncate">
+                    {{ $t('assistants.pageContext.seeing', { page: $t(`assistants.pageContext.pages.${page.key}`) }) }}
+                </span>
+            </p>
+
             <!-- The field first, the tools under it. They used to share one row,
             so a question of any length wrapped into a box that could not grow and
             the first line was clipped out of sight. -->
@@ -181,6 +191,7 @@ const { locale } = useI18n()
 
 const {
     state,
+    page,
     onComposerFocusRequest,
     sendMessage,
     handleEnterKey,

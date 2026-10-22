@@ -1145,6 +1145,38 @@
         },
         "dataAndAccess": "Om data og tilgang",
         "reviewShort": "Cody kan ta feil - les svaret gjennom.",
+        "pageContext": {
+            "seeing": "Cody kan se at du er på: {page}",
+            "pages": {
+                "my_day": "Min dag",
+                "overview": "Oversikt",
+                "citizen_list": "@:terms.citizens{''}",
+                "citizen_profile": "@:terms.citizen{''}",
+                "citizen_journals": "Journal",
+                "citizen_medicine": "Medisiner",
+                "citizen_plans_goals": "Planer og mål",
+                "citizen_documents": "Dokumenter",
+                "citizen_calendar": "Kalender",
+                "citizen_contacts": "Kontakter",
+                "citizen_nursing": "Sykepleiefaglige områder",
+                "citizen_wellbeing": "Trivsel",
+                "citizen_timeline": "Tidslinje",
+                "duty_schedule": "Vaktplan",
+                "employee_schedule": "Vaktplan for ansatt",
+                "calendar": "Kalender",
+                "messages": "Meldinger",
+                "mail": "E-post",
+                "journal_feed": "Journalnotater",
+                "missed_doses": "Manglende doser",
+                "reminders": "Påminnelser",
+                "procedures": "Prosedyrer",
+                "reports": "Rapporter",
+                "inquiries": "Henvendelser",
+                "employees": "Ansatte",
+                "economy": "Økonomi",
+                "settings": "Innstillinger"
+            }
+        },
         "cards": {
             "badges": {
                 "draft": "Utkast",
