@@ -92,7 +92,7 @@
         <div class="space-y-3 px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
             <div>
                 <div class="space-y-8 mt-5" v-if="state.form.fields?.length > 0">
-                    <div v-for="(field, fieldIndex) in state.form.fields" :key="fieldIndex" class="space-y-3"
+                    <div v-for="(field, fieldIndex) in state.form.fields" :key="keyOf(field)" class="space-y-3"
                         :class="field.parentGroup && 'ml-8 border-l-2 border-dashed border-primary/40 pl-4'"
                         @dragover.prevent="onFieldDragOver($event, fieldIndex)"
                         @dragleave="onFieldDragLeave($event, fieldIndex)" @drop.prevent="onFieldDrop(fieldIndex)">
@@ -895,6 +895,8 @@ import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useUserStore } from '@/store/user'
 import { useTerminology } from '@/composables/useTerminology'
+import { toRaw } from 'vue'
+import { blockKey } from '@/composables/blockKey'
 import type { Error } from '@/types'
 import { formService } from '@/components/api/user/FormService'
 
@@ -1245,6 +1247,11 @@ function insertField(field: any) {
     field.parentGroup = target
 
     state.form.fields.splice(endOfGroup(target) + 1, 0, field)
+}
+
+/** Each block keeps its own editors when blocks move, whatever its position. */
+function keyOf(field: object): string {
+    return blockKey(toRaw(field))
 }
 
 /** The index of a group's last block: the group itself when it is empty. */
