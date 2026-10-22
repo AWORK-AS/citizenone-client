@@ -17,11 +17,33 @@
                         </div>
 
                         <div class="space-y-4">
+                            <!-- Colleagues and citizens are picked from two separate lists, never one
+                                 mixed dropdown, so sensitive information meant for a colleague is not
+                                 sent to a citizen by mistake. Only offered when there are citizens to
+                                 write to; otherwise it is colleagues, as before. -->
+                            <div class="space-y-1" v-if="hasCitizens">
+                                <FormLabel for="recipient_type" :label="$t('messages.recipientType')" />
+                                <div id="recipient_type" role="radiogroup" :aria-label="$t('messages.recipientType')"
+                                    class="grid grid-cols-2 gap-2" data-testid="chat-recipient-type">
+                                    <button v-for="option in recipientTypes" :key="option.value" type="button" role="radio"
+                                        :aria-checked="state.recipientType === option.value"
+                                        :data-testid="`chat-recipient-type-${option.value}`"
+                                        @click="setRecipientType(option.value)"
+                                        :class="['flex items-center justify-center gap-2 rounded-lg border px-3 py-2.5 text-sm font-medium transition-colors',
+                                            state.recipientType === option.value
+                                                ? (option.value === 'citizens' ? 'border-amber-500 bg-amber-50 text-amber-900' : 'border-primary bg-primary-50 text-primary')
+                                                : 'border-gray-200 bg-white text-gray-600 hover:border-gray-300']">
+                                        <Icon :name="option.icon" class="h-4 w-4" aria-hidden="true" />
+                                        {{ option.label }}
+                                    </button>
+                                </div>
+                            </div>
+
                             <!-- Writing to a whole employee group: picking one fills the
                                  recipients with its members, which stays editable
                                  afterwards, so the group is a shortcut and not a
                                  second kind of conversation. -->
-                            <div class="space-y-1" v-if="userStore.getUser?.company?.group_chat_enabled">
+                            <div class="space-y-1" v-if="userStore.getUser?.company?.group_chat_enabled && state.recipientType === 'employees'">
                                 <FormLabel for="employee_groups" :label="$t('messages.employeeGroups')" />
                                 <FormSelectMultiple id="employee_groups" :options="state.options.employeeGroups"
                                     :placeholder="$t('messages.selectEmployeeGroups')"
@@ -30,16 +52,23 @@
                             </div>
 
                             <div class="space-y-1">
-                                <FormLabel for="receivers" :label="$t('messages.recipients')" />
-                                <FormSelectMultiple id="receivers" :options="state.options.receivers"
-                                    :placeholder="$t('messages.selectRecipients')"
+                                <FormLabel for="receivers" :label="receiversLabel" />
+                                <FormSelectMultiple id="receivers" :key="`multi-${state.recipientType}`" :options="receiverOptions"
+                                    :placeholder="receiversPlaceholder"
                                     v-model="state.formChat.receivers"
                                     v-if="userStore.getUser?.company?.group_chat_enabled" />
-                                <FormSelect id="receivers" :options="state.options.receivers"
-                                    :placeholder="$t('messages.selectRecipients')"
+                                <FormSelect id="receivers" :key="`single-${state.recipientType}`" :options="receiverOptions"
+                                    :placeholder="receiversPlaceholder"
                                     v-model="state.formChat.receivers" v-else />
                                 <FormError :error="v$?.formChat?.receivers?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state?.error?.errors?.receiver_uuid?.[0]" />
+                            </div>
+
+                            <!-- Said once more before sending: the message goes to a citizen, not a colleague. -->
+                            <div v-if="state.recipientType === 'citizens'" role="note" data-testid="chat-citizen-warning"
+                                class="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2.5 text-sm text-amber-900">
+                                <Icon name="ph:warning" class="mt-0.5 h-4 w-4 shrink-0 text-amber-600" aria-hidden="true" />
+                                <span>{{ $t('messages.citizenRecipientWarning') }}</span>
                             </div>
 
                             <div class="space-y-1">
@@ -96,6 +125,7 @@ import type { Error } from '@/types'
 import { userService } from '@/components/api/user/UserService'
 import { useDepartmentStore } from '@/store/department'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
+import { citizenRecipientOptions, employeeRecipientOptions, recipientTypeOf, type RecipientType } from '@/composables/chatRecipients'
 
 const props = defineProps({
     isModalOpen: {
@@ -122,14 +152,37 @@ const state = reactive({
     },
     isPageLoading: false,
     isSending: false,
+    // Colleagues or citizens: one list at a time, never mixed.
+    recipientType: 'employees' as RecipientType,
     options: {
         employeeGroups: [] as any[],
-        receivers: [] as any[],
+        employees: [] as any[],
+        citizens: [] as any[],
     },
     // The group's members, so deselecting a group takes its members out again
     // without touching anyone who was picked by hand.
     groupMembers: {} as Record<string, string[]>,
 })
+
+const hasCitizens = computed(() => state.options.citizens.length > 0)
+
+const recipientTypes = computed(() => [
+    { value: 'employees' as RecipientType, label: t('messages.recipientTypeEmployees'), icon: 'ph:users-three' },
+    { value: 'citizens' as RecipientType, label: t('messages.recipientTypeCitizens'), icon: 'ph:user-circle' },
+])
+
+const receiverOptions = computed(() => state.recipientType === 'citizens' ? state.options.citizens : state.options.employees)
+const receiversLabel = computed(() => state.recipientType === 'citizens' ? t('messages.citizenRecipients') : t('messages.recipients'))
+const receiversPlaceholder = computed(() => state.recipientType === 'citizens' ? t('messages.selectCitizenRecipients') : t('messages.selectRecipients'))
+
+// Changing the type starts the choice over, so nobody picked from the other list is carried along.
+function setRecipientType(type: RecipientType) {
+    if (state.recipientType === type) return
+    state.recipientType = type
+    state.formChat.employeeGroups = []
+    state.formChat.receivers = userStore.getUser?.company?.group_chat_enabled ? [] : ''
+    v$.value.$reset()
+}
 
 const canSend = computed(() => {
     const hasRecipients = Array.isArray(state.formChat.receivers)
@@ -143,9 +196,6 @@ onMounted(() => {
     fetchAllAvailableChatUsers()
     if (userStore.getUser?.company?.group_chat_enabled) {
         fetchEmployeeGroups()
-    }
-    if (userUuid) {
-        state.formChat.receivers.push(userUuid)
     }
 })
 
@@ -203,43 +253,35 @@ async function fetchAllAvailableChatUsers() {
         const params = {
             department: departmentStore.getSelectedDepartmentName
         }
-        const response = await userService.getAllUsers(params)
-        if (response.data) {
-            let options: any = []
-            response.data.forEach(
-                (user: any) => options.push({
-                    value: user?.uuid,
-                    label: user?.firstname + " " + (user?.lastname ?? ''),
-                })
-            )
-            state.options.receivers = [...options, ...await fetchPatients()]
-        }
+        const [response, citizens] = await Promise.all([userService.getAllUsers(params), fetchCitizens()])
+        state.options.employees = employeeRecipientOptions(response?.data)
+        state.options.citizens = citizens
+        preselectFromQuery()
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
 }
 
-// A clinic with the patient portal can open a conversation with a patient, as
-// the mobile app already can. The list used to be colleagues only. The chat
-// members list is the source: it holds the citizens with portal access (role
-// Citizen) next to the staff, who are already listed above. Labelled with the
-// company's own word for a citizen, since the select has no option groups.
-async function fetchPatients() {
+// A clinic with the patient portal can open a conversation with a patient. The chat members list is the
+// source: it holds the citizens with portal access (role Citizen) next to the staff.
+async function fetchCitizens() {
     if (!userStore.getUser?.company?.patient_access_activated) return []
 
     try {
         const response = await messageService.getAllAvailableUsers()
-        return (response?.data ?? [])
-            .filter((person: any) => person?.role === 'Citizen')
-            .map((person: any) => ({
-                value: person?.uuid,
-                label: `${person?.firstname ?? ''} ${person?.lastname ?? ''}`.trim() + ` (${t('terms.citizen')})`,
-            }))
+        return citizenRecipientOptions(response?.data)
     } catch {
-        // Colleagues stay selectable if the patient list cannot be loaded.
+        // Colleagues stay selectable if the citizen list cannot be loaded.
         return []
     }
+}
+
+// "Write to" from someone's page opens on the list that person is in.
+function preselectFromQuery() {
+    if (typeof userUuid !== 'string' || !userUuid) return
+    state.recipientType = recipientTypeOf(userUuid, state.options.citizens) ?? 'employees'
+    state.formChat.receivers = userStore.getUser?.company?.group_chat_enabled ? [userUuid] : userUuid
 }
 
 async function fetchEmployeeGroups() {
@@ -285,6 +327,7 @@ async function sendMessage() {
                 const chatUuid = response?.data?.chat?.uuid
                 state.formChat.receivers = []
                 state.formChat.employeeGroups = []
+                state.recipientType = 'employees'
                 state.formChat.subject = ''
                 state.formChat.message = ''
                 state.formChat.files = []
