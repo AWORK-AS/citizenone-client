@@ -396,7 +396,16 @@
                         <!-- Settings behind the page currently open -->
                         <ModulesUserNavbarPageSettings />
 
-                        <!-- Bulletin board, release notes and support -->
+                        <!-- Support opens the chat in one click. It was three: the help
+                             menu, then the support panel, then "Chat with support". -->
+                        <button type="button" @click="openSupportChat"
+                            :title="$t('support.chatWithSupport')"
+                            class="inline-flex h-9 items-center gap-x-1.5 rounded-full px-2.5 text-sm font-medium text-primary hover:bg-surface-100 hover:text-primary-700 transition-colors">
+                            <Icon name="ph:lifebuoy" class="h-5 w-5" aria-hidden="true" />
+                            <span class="hidden sm:inline">{{ $t('support.support') }}</span>
+                        </button>
+
+                        <!-- Bulletin board, release notes, and the guides, courses and tour -->
                         <ModulesUserNavbarHelpMenu
                             :unreadNewsCount="!userStore.getUser?.is_read_news ? userStore?.getUnreadNewsCount : 0"
                             @openNews="navigateToNews()" @openSupport="openSupport" />
@@ -1738,6 +1747,12 @@ async function stopImpersonation() {
 
 function openSupport() {
     state.slideOver.isSupportOpen = true
+}
+
+// The chat widget loads separately and may be missing (blocked, still loading):
+// then the support panel, with the phone number and the guides, is the way in.
+function openSupportChat() {
+    if (!useObiyenChat().revealAndOpenChat()) openSupport()
 }
 
 function selectLanguage() {
