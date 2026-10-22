@@ -19027,6 +19027,22 @@
         "moveUp": "Flytta {column} upp",
         "moveDown": "Flytta {column} ned"
     },
+    "managerSuggestion": {
+        "button": "Föreslå för min chef",
+        "title": "Föreslå för din chef",
+        "to": "Skicka till",
+        "message": "Meddelande",
+        "defaultMessage": "Jag har provat {app} i CitizenOne och tror att det kan spara oss tid för det vi egentligen är här för.",
+        "noPersonalData": "Skriv inte personnummer eller andra personuppgifter här.",
+        "personalNumber": "Det ser ut som ett personnummer. Ta bort det innan du skickar.",
+        "tooLong": "Meddelandet får vara högst {max} tecken.",
+        "calm": "Det är ingen brådska. Din chef får ett kort meddelande och en länk till appen.",
+        "send": "Skicka förslag",
+        "sent": "Tack. Ditt förslag har skickats.",
+        "already": "Du har redan skickat förslaget till dem nyligen.",
+        "limit": "Du har skickat det här förslaget flera gånger nyligen. Låt det vila ett tag.",
+        "failed": "Förslaget kunde inte skickas. Försök igen senare."
+    },
     "apiErrors": {
         "loadScheduleFailed": "Det gick inte att hämta schemadata",
         "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",

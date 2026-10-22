@@ -19123,6 +19123,22 @@
         "moveUp": "Move {column} up",
         "moveDown": "Move {column} down"
     },
+    "managerSuggestion": {
+        "button": "Suggest to my manager",
+        "title": "Suggest to your manager",
+        "to": "Send to",
+        "message": "Message",
+        "defaultMessage": "I have tried {app} in CitizenOne and think it could save us time for what we are really here to do.",
+        "noPersonalData": "Do not write personal identity numbers or other personal data here.",
+        "personalNumber": "This looks like a personal identity number. Remove it before sending.",
+        "tooLong": "The message can be at most {max} characters.",
+        "calm": "There is no rush. Your manager gets a short note and a link to the app.",
+        "send": "Send suggestion",
+        "sent": "Thank you. Your suggestion has been sent.",
+        "already": "You have already sent the suggestion to them recently.",
+        "limit": "You have sent this suggestion several times recently. Let it rest for a while.",
+        "failed": "The suggestion could not be sent. Please try again later."
+    },
     "apiErrors": {
         "loadScheduleFailed": "Failed to load schedule data",
         "loadSalaryDkFailed": "Failed to load Salary.dk data",
