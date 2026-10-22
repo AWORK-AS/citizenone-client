@@ -107,17 +107,20 @@ export function useObiyenChat() {
         getBubble()?.style.setProperty('display', 'none')
     }
 
-    function revealAndOpenChat() {
+    /** False when the widget has not loaded, so the caller can offer another way to reach support. */
+    function revealAndOpenChat(): boolean {
         // Identify at the moment the chat is opened, not on every page load:
         // this is the first point where we know support is actually wanted.
         identify()
 
         const bubble = getBubble()
-        if (bubble) {
-            bubble.style.display = ''
-            try { sessionStorage.setItem(REVEALED_KEY, '1') } catch { /* ignore */ }
-            bubble.click()
-        }
+        if (!bubble) return false
+
+        bubble.style.display = ''
+        try { sessionStorage.setItem(REVEALED_KEY, '1') } catch { /* ignore */ }
+        bubble.click()
+
+        return true
     }
 
     /**

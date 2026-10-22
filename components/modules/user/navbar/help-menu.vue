@@ -37,9 +37,9 @@
                     <MenuItem v-slot="{ active }">
                     <button type="button" @click="emit('openSupport')"
                         :class="[active ? 'bg-surface-100' : '', ITEM_CLASS]">
-                        <Icon name="material-symbols:support" class="h-5 w-5 shrink-0 text-primary"
+                        <Icon name="ph:book-open" class="h-5 w-5 shrink-0 text-primary"
                             aria-hidden="true" />
-                        <span class="flex-1 text-left">{{ $t('support.support') }}</span>
+                        <span class="flex-1 text-left">{{ $t('support.helpAndResources') }}</span>
                     </button>
                     </MenuItem>
                 </MenuItems>
