@@ -12689,7 +12689,7 @@
                     "grantStorage": "Grant storage",
                     "description": "Assigns a storage package to the company and creates a pending manual invoice for the amount. Buying a different package swaps the current one (with a prorated credit); the same package again is rejected.",
                     "packageLabel": "Storage package",
-                    "used": "{used} GB used of {quota} GB",
+                    "used": "{used} used of {quota} GB",
                     "none": "No storage package granted - quota is {quota} GB.",
                     "remove": "Remove",
                     "confirmRemove": "Remove the {package} storage package? The company's quota will revert to its plan default.",
