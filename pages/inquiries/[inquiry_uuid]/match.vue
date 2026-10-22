@@ -146,7 +146,7 @@
                     <!-- Who fits, and how well -->
                     <div class="space-y-3 lg:col-span-2">
                         <!-- Finds a consultant by name among everyone the match returns,
-                             whatever the criteria say about her. -->
+                             whatever the criteria say about them. -->
                         <div class="relative">
                             <Icon name="ph:magnifying-glass"
                                 class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
@@ -210,14 +210,16 @@
                                             class="rounded-full bg-[#fbe9e5] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c0442c]">
                                             {{ $t('consultantMatch.notReady') }}
                                         </span>
-                                        <!-- Archived consultants are matched too; this says she has to be
-                                             reactivated and given a licence before the case. -->
+                                        <!-- Archived consultants are matched too ("Inaktiv - kan kontaktes");
+                                             this says they have to be reactivated and given a licence
+                                             before the case. Whoever must not be contacted never
+                                             comes back from the match. -->
                                         <span v-if="result.is_archived" :title="$t('consultantMatch.archivedHint')"
                                             class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
                                             {{ $t('consultantMatch.archived') }}
                                         </span>
-                                        <!-- Distance from the case to her home; approximate
-                                             when her home is only known by postal code. -->
+                                        <!-- Distance from the case to their home; approximate
+                                             when their home is only known by postal code. -->
                                         <span v-if="state.locationGeocoded"
                                             class="inline-flex items-center gap-1 rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
                                             :class="distanceClass(result)">
@@ -240,7 +242,7 @@
                                 </NuxtLink>
                             </div>
 
-                            <!-- What she does not meet is the reason she is not a
+                            <!-- What they do not meet is the reason they are not a
                                  full match, so it is stated rather than implied. -->
                             <div v-if="result.unmet.length" class="mt-3 flex flex-wrap gap-1.5">
                                 <span v-for="key in result.unmet" :key="key"
@@ -472,7 +474,14 @@ async function invite() {
     try {
         const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked)
         state.picked = []
-        successAlert(`${t('alert.success')}!`, response?.message ?? t('consultantMatch.asked'))
+        // An inactive (archived) consultant is asked but gets no mail or app
+        // notice, so the coordinator has to reach them directly. Without
+        // `invitees` (an older backend) the message is as before.
+        const notNotified = (response?.invitees ?? []).filter((invitee: any) => invitee.notified === false).length
+        const message = response?.message ?? t('consultantMatch.asked')
+        successAlert(`${t('alert.success')}!`, notNotified
+            ? `${message} ${t('consultantMatch.notNotified', { count: notNotified }, notNotified)}`
+            : message)
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
     }
@@ -492,6 +501,8 @@ function profileLine(result: any) {
     return [
         p.municipality_name,
         p.consultant_status ? t('consultantProfile.statuses.' + p.consultant_status) : '',
+        // Why they are inactive, e.g. absent.
+        p.status_reason ? t('consultantProfile.contact.reasons.' + p.status_reason) : '',
         p.has_car ? t('consultantProfile.form.hasCar') : '',
         p.max_travel_km ? `${p.max_travel_km} km` : '',
         p.desired_weekly_hours ? `${p.desired_weekly_hours} t/uge` : '',

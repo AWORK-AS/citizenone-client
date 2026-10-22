@@ -84,10 +84,7 @@ onMounted(() => {
 })
 
 function coordinatorName(role: string) {
-    const contact = (state.coordinators as any)[role]
-    if (!contact) return ''
-
-    return `${contact.firstname ?? ''} ${contact.lastname ?? ''}`.trim()
+    return contactDisplayName((state.coordinators as any)[role])
 }
 
 async function fetchCoordinators() {

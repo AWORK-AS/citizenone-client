@@ -35,7 +35,7 @@
                                     </td>
                                     <td width="16%">
                                         <span :class="usageTextClass(company)">
-                                            {{ formatGb(company?.storage_used_gb) }} GB
+                                            {{ formatStorageUsed(company?.storage_used_bytes, company?.storage_used_gb) }}
                                         </span>
                                     </td>
                                     <td width="16%">
@@ -73,6 +73,7 @@
 
 <script setup lang="ts">
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import { dashboardService } from '@/components/api/superadmin/DashboardService'
 import type { Error } from '@/types'
 
@@ -101,6 +102,7 @@ const state = reactive({
     },
 })
 
+const { formatStorageUsed } = useStorageFormat()
 const formatGb = (value: any) => Number(value ?? 0).toLocaleString('da-DK', { maximumFractionDigits: 2 })
 
 function usagePercent(company: any) {

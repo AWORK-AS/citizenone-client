@@ -2,7 +2,20 @@
 	<NuxtLayout>
 		<NuxtPage />
 		<!-- `classes` names the element the toast rules in main.css style. -->
-		<notifications class="mt-24" classes="co-toast" />
+		<notifications class="mt-24" classes="co-toast">
+			<!-- Same markup as the library's own toast, plus an optional action button (data.action). -->
+			<template #body="{ item, close, class: toastClass }">
+				<div :class="['vue-notification-template', toastClass]" @click="close()">
+					<div v-if="item.title" class="notification-title">{{ item.title }}</div>
+					<div class="notification-content">{{ item.text }}</div>
+					<button v-if="item.data?.action" type="button"
+						class="mt-2 text-sm font-semibold underline underline-offset-2 text-primary focus:outline-none focus-visible:ring-2 focus-visible:ring-primary rounded"
+						@click.stop="item.data.action.run(); close()">
+						{{ item.data.action.label }}
+					</button>
+				</div>
+			</template>
+		</notifications>
 		<!-- Asked by every chat composer before a message that seems to hold a CPR number. -->
 		<DialogCprWarning />
 	</NuxtLayout>

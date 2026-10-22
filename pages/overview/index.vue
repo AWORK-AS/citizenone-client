@@ -156,7 +156,8 @@
                         {{ $t('overview.stats.acrossCitizens', { n: state.stats.latestCitizensJournal?.data?.length ?? 0 }) }}
                     </div>
                 </div>
-                <div class="stat-card" v-if="hasMedicineModule">
+                <div class="stat-card cursor-pointer hover:ring-secondary hover:ring-2 transition-all"
+                    @click="navigateTo('/medicine-missed-doses')" v-if="hasMedicineModule">
                     <div class="stat-label">
                         <span class="w-2 h-2 rounded-full bg-accent-orange"></span>
                         {{ $t('overview.stats.medicationsDue') || 'Medications due' }}
@@ -233,14 +234,15 @@
                 </div>
                 <!-- Medicine: citizens with a deviation or missed dose today -->
                 <div class="stat-card" v-if="medicineActionCitizens.length > 0">
-                    <div class="stat-label">
+                    <NuxtLink to="/medicine-missed-doses" class="stat-label hover:text-primary transition-colors">
                         <Icon name="ph:pill" class="h-4 w-4 text-red-500" />
                         {{ $t('overview.medicineAction.title') }}
                         <span
                             class="ml-1 inline-flex items-center justify-center rounded-full bg-slate-100 px-1.5 text-[11px] text-slate-600">
                             {{ medicineActionCitizens.length }}
                         </span>
-                    </div>
+                        <Icon name="ph:arrow-right" class="size-3 ml-auto" />
+                    </NuxtLink>
                     <ul class="mt-2 -mx-1.5 space-y-0.5">
                         <li v-for="citizen in medicineActionCitizens.slice(0, 3)" :key="citizen.uuid || citizen.name"
                             @click="citizen.uuid && navigateTo(`/citizens/${citizen.uuid}/medicine-journals`)"
@@ -501,6 +503,7 @@ import { useDailyOverviewStore } from '@/store/daily-overview'
 import { useDailyOverviewLayout } from '@/composables/useDailyOverviewLayout'
 import { useDepartmentStore } from '@/store/department'
 import { useConfetti } from '@/composables/useConfetti'
+import { countEventsOnDay } from '@/composables/overviewToday'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
@@ -638,7 +641,9 @@ const greetingPart = computed(() => {
     const hour = moment().hour()
     return hour < 12 ? 'morning' : (hour < 18 ? 'afternoon' : 'evening')
 })
-const todaysEventsCount = computed(() => state.stats.citizenCalendarEvents?.data?.length ?? 0)
+// The briefing says what is on today; the fetched range is usually the whole
+// week, so its length is not the answer.
+const todaysEventsCount = computed(() => countEventsOnDay(state.stats.citizenCalendarEvents?.data))
 
 // The recent journal notes feed always opens on the last seven days, no matter
 // where the date navigator above stands - that is the window staff catch up on.

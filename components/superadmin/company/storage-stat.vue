@@ -6,8 +6,8 @@
         <p class="text-[26px] font-bold" :class="textClass">
             <Icon v-if="isLoading && !hasData" name="ph:spinner" class="w-5 h-5 text-[#D0D5DD] animate-spin" />
             <template v-else>
-                {{ formatStorageGb(usedGb) }}
-                <span class="text-[16px] font-normal text-[#8891A4]">/ {{ formatStorageGb(quotaGb) }} GB</span>
+                {{ formatStorageUsed(usedBytes, usedGb) }}
+                <span class="text-[16px] font-normal text-[#8891A4]">/ {{ formatQuotaGb(quotaGb) }}</span>
             </template>
         </p>
         <div class="mt-2 h-1.5 bg-[#EAECF0] rounded-full overflow-hidden">
@@ -20,11 +20,13 @@
 </template>
 
 <script setup lang="ts">
-import { useCompanyStorage, formatStorageGb } from '@/composables/companyStorage'
+import { useCompanyStorage } from '@/composables/companyStorage'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 
 const props = defineProps<{ companyUuid: string }>()
 
-const { isLoading, hasData, usedGb, quotaGb, percent, textClass, barClass, load } = useCompanyStorage(props.companyUuid)
+const { formatStorageUsed, formatQuotaGb } = useStorageFormat()
+const { isLoading, hasData, usedGb, usedBytes, quotaGb, percent, textClass, barClass, load } = useCompanyStorage(props.companyUuid)
 
 onMounted(() => load())
 </script>

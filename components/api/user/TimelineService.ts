@@ -1,8 +1,9 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class TimelineService extends BaseAPIService {
-    async getTimeline(citizenUuid: any): Promise<any> {
-        return await this.request(`/user/timeline/citizens/${citizenUuid}`, 'GET')
+    // params: { page, per_page }. Without them the backend returns its first 200 entries.
+    async getTimeline(citizenUuid: any, params?: object): Promise<any> {
+        return await this.request(`/user/timeline/citizens/${citizenUuid}`, 'GET', params)
     }
 
     async addEvent(citizenUuid: any, params: object): Promise<any> {

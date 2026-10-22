@@ -1881,11 +1881,17 @@ onMounted(() => {
     fetchAllMonths()
     favoriteEmployees.ensureLoaded()
     document.addEventListener('click', closeRequestMenu)
+    window.addEventListener('keydown', handleKeyDown)
 })
 
 onUnmounted(() => {
     document.removeEventListener('click', closeRequestMenu)
+    window.removeEventListener('keydown', handleKeyDown)
 })
+
+function handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Escape') stopCopying()
+}
 
 function isFavorited(employee: any) {
     return employee?.is_favorited_by_viewer || favoriteEmployees.isFavorited(employee?.uuid)

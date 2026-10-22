@@ -45,6 +45,18 @@
                         </div>
 
                         <ModulesUserCitizenTimelineEntryList :timeline="state.timeline" @delete="deleteEvent" />
+
+                        <div ref="olderSentinel" class="flex justify-center py-2">
+                            <FormButton v-if="state.hasMore" buttonStyle="secondary" :disabled="state.isLoadingOlder"
+                                @click="loadOlder">
+                                <Icon v-if="state.isLoadingOlder" name="ph:spinner" class="h-4 w-4 animate-spin"
+                                    aria-hidden="true" />
+                                {{ $t('citizens.timeline.loadOlder') }}
+                            </FormButton>
+                            <p v-else-if="state.timeline.length > 0" class="text-xs text-gray-500">
+                                {{ $t('citizens.timeline.allLoaded') }}
+                            </p>
+                        </div>
                     </div>
                 </LoadingSpinner>
             </div>
@@ -57,6 +69,7 @@
 
 <script setup lang="ts">
 import { timelineService } from '@/components/api/user/TimelineService'
+import { TIMELINE_PAGE_SIZE, mergeTimelinePage, timelineHasMore } from '@/composables/timelinePaging'
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from 'vue-i18n'
@@ -82,26 +95,81 @@ const state = reactive({
     isPageLoading: false,
     isAddOpen: false,
     timeline: [] as any[],
+    page: 1,
+    hasMore: false,
+    isLoadingOlder: false,
 })
+
+const olderSentinel = ref<HTMLElement | null>(null)
+let olderObserver: IntersectionObserver | null = null
 
 onMounted(() => {
     fetchTimeline()
+
+    // Scrolling to the end of the list loads the next older page; the button
+    // stays for keyboard users and for when the observer is unavailable.
+    if (typeof IntersectionObserver !== 'undefined') {
+        olderObserver = new IntersectionObserver((entries) => {
+            if (entries.some(entry => entry.isIntersecting)) {
+                loadOlder()
+            }
+        }, { rootMargin: '200px' })
+        if (olderSentinel.value) {
+            olderObserver.observe(olderSentinel.value)
+        }
+    }
+})
+
+// The list sits inside the loading spinner, so the sentinel is replaced each
+// time the timeline reloads; follow it.
+watch(olderSentinel, (element, previous) => {
+    if (previous) {
+        olderObserver?.unobserve(previous)
+    }
+    if (element) {
+        olderObserver?.observe(element)
+    }
+})
+
+onBeforeUnmount(() => {
+    olderObserver?.disconnect()
 })
 
 watch(locale, () => {
     fetchTimeline()
 })
 
+// Starts over from the newest page: on load, after adding or deleting an
+// event, and when the language changes.
 async function fetchTimeline() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await timelineService.getTimeline(citizenUuid)
+        const response = await timelineService.getTimeline(citizenUuid, { page: 1, per_page: TIMELINE_PAGE_SIZE })
         state.timeline = response?.data ?? []
+        state.page = 1
+        state.hasMore = timelineHasMore(response?.meta)
     } catch (error: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+async function loadOlder() {
+    if (!state.hasMore || state.isLoadingOlder || state.isPageLoading) {
+        return
+    }
+    state.isLoadingOlder = true
+    try {
+        const nextPage = state.page + 1
+        const response = await timelineService.getTimeline(citizenUuid, { page: nextPage, per_page: TIMELINE_PAGE_SIZE })
+        state.timeline = mergeTimelinePage(state.timeline, response?.data ?? [])
+        state.page = nextPage
+        state.hasMore = timelineHasMore(response?.meta)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoadingOlder = false
 }
 
 async function deleteEvent(uuid: string) {

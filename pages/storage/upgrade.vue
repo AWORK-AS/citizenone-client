@@ -47,7 +47,7 @@
                                             </div>
                                             <div class="flex items-center">
                                                 <span class="inline-block w-3 h-3 bg-yellow-500 mr-2"></span>
-                                                {{ $t('storage.documents') }} {{ state.usage?.used_storage }}
+                                                {{ $t('storage.documents') }} {{ formatStorageOr(state.usage?.used_storage_bytes, state.usage?.used_storage) }}
                                             </div>
                                             <div v-if="state.oneDriveQuota" class="flex items-center">
                                                 <span class="inline-block w-3 h-3 bg-blue-500 mr-2"></span>
@@ -206,8 +206,11 @@ import { userSubscriptionService } from '@/components/api/user/UserSubscriptionS
 import { storageService } from '@/components/api/user/StorageService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useUserStore } from '@/store/user'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const { formatStorageOr } = useStorageFormat()
 
 const userStore = useUserStore() as any
 

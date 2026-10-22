@@ -495,6 +495,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { reactive, computed, watch, onMounted } from 'vue'
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
@@ -1196,7 +1197,7 @@ function buildResultsFromErrors(errors: any[], allRegistrations: any[]): any[] {
         if (!employeeErrors.has(empId)) {
             employeeErrors.set(empId, [])
         }
-        employeeErrors.get(empId)!.push(err.message || 'Unknown error')
+        employeeErrors.get(empId)!.push(err.message || translateMessage('apiErrors.unknownError', 'Unknown error'))
     }
 
     for (const [empId, msgs] of employeeErrors) {

@@ -1,4 +1,10 @@
 {
+    "journalDraft": {
+        "offer": "Du har et notat som ikke ble lagret (kl. {time}).",
+        "restore": "Gjenopprett",
+        "discard": "Forkast",
+        "confirmClose": "Notatet er ikke lagret. Vil du lukke likevel? Teksten lagres som kladd i denne fanen."
+    },
     "nps": {
         "question": "Hvor sannsynlig er det at du vil anbefale CitizenOne til en kollega?",
         "unlikely": "Ikke i det hele tatt",
@@ -103,7 +109,10 @@
             "selectAll": "Velg alle",
             "banner": "{count} konvertert(e) sak(er) har ennå ingen saksbehandler.",
             "claimCases": "Ta saker",
-            "claimed": "1 sak tildelt | {count} saker tildelt"
+            "claimed": "1 sak tildelt | {count} saker tildelt",
+            "open": "Åpne",
+            "openCase": "Åpne @:terms.citizen{''}",
+            "openInquiry": "Åpne henvendelse"
         }
     },
     "managementEconomy": {
@@ -1845,6 +1854,9 @@
                 "successfullyCopied": "{journal} kopiert vellykket",
                 "successfullyMoved": "{journal} flyttet vellykket",
                 "successfullyUpdated": "Journal oppdatert vellykket",
+                "surveysNotCompleted": "Notatet er lagret, men {n} spørreskjema ble ikke registrert.",
+                "surveysRetry": "Prøv igjen",
+                "surveysRetried": "Spørreskjemaene er registrert.",
                 "unlockJournal": "{journal} låst opp vellykket",
                 "unpinJournal": "{journal} festet fjernet vellykket"
             },
@@ -1951,6 +1963,7 @@
                 "title": "Tittel",
                 "usePredefinedcontent": "Bruk foruddefineret innhold",
                 "createJournalTitle": "Create journal title",
+                "autosaveFailed": "Kunne ikke lagre automatisk. De siste endringene er ikke lagret ennå - prøver igjen.",
                 "showJournalTitles": "Vis journaltitler",
                 "titlePlaceholder": "Velg eller skriv en tittel",
                 "dictate": "Dikter",
@@ -2762,6 +2775,7 @@
                     "interventionHoursSuccessfullyAdded": "Innsatstimer lagt til vellykket",
                     "interventionHoursSuccessfullyUpdated": "Innsatstimer oppdatert vellykket"
                 },
+                "hourType": "Timetype",
                 "datetimeEnd": "Dato og tid slutt",
                 "datetimeStart": "Dato og tid start",
                 "note": "Bemærkning",
@@ -3108,7 +3122,10 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Der opstod en feil.",
                 "anErrorOccurredRetry": "Der opstod en feil. Prøv igjen.",
+                "historyUnavailable": "Vi kunne ikke hente hvilke doser som allerede er gitt. Prøv igjen før du registrerer, så ingen dose blir gitt dobbelt.",
+                "retry": "Prøv igjen",
                 "registeredForDays": "Registreret for {n} dag(e).",
+                "partialFailure": "Registrert for {ok} dag(er). Mislyktes for: {dates} ({reason}). De mislykte datoene er fortsatt valgt - prøv igen.",
                 "overdueMinutes": "{minutes} min forsinket",
                 "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
                 "overdueHours": "{hours}t forsinket",
@@ -3731,6 +3748,8 @@
             "description": "Beskrivelse",
             "descriptionPlaceholder": "Legg til en beskrivelse",
             "viewFullTimeline": "Vis hele tidslinjen",
+            "loadOlder": "Vis eldre",
+            "allLoaded": "Alle hendelser er vist",
             "alert": {
                 "successfullyAdded": "Tidslinjehendelse lagt til",
                 "deletedSuccessfully": "Tidslinjehendelse slettet"
@@ -4973,7 +4992,8 @@
         "showFewerShifts": "Vis bare de første vaktene",
         "quickEditTime": {
             "tooltip": "Klikk for å redigere tidspunktet",
-            "hint": "Enter for å lagre · Esc for å avbryte"
+            "hint": "Enter for å lagre · Esc for å avbryte",
+            "saveFailed": "Vakttidspunktet kunne ikke oppdateres."
         },
         "activityLogs": "Aktivitetslogs",
         "activityLogsForDate": "Aktivitetslogg for {date}",
@@ -7089,6 +7109,7 @@
                 "count": "Antall forekomster"
             },
             "consecutiveDays": "Sammenhængende dager",
+            "periodDaysPlaceholder": "f.eks. 30",
             "dutyShiftRuleName": "Navn",
             "evaluatingShiftsFrom": "Evaluerer vakter fra",
             "inactive": "Inaktiv",
@@ -7550,7 +7571,8 @@
             "successfullyDeleted": "Arrangement slettet vellykket",
             "successfullyUpdated": "Arrangement ble oppdatert vellykket",
             "statusSuccessfullyUpdated": "Hendelsestatus er oppdatert",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} er opprettet"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} er opprettet",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} er opprettet, og avtalen er merket som fullført"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7620,6 +7642,7 @@
         "createJournalNote": "Opprett @:terms.journalNote{''}",
         "markAsCompleted": "Merk som fullført",
         "markAsNotCompleted": "Merk som ikke fullført",
+        "registerTime": "Registrer tid",
         "statusMenuLabel": "Merk \"{title}\" som fullført eller ikke fullført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
@@ -7627,6 +7650,19 @@
             "label": "Mangler notat",
             "help": "Bookingen er over, men det er ikke skrevet et journalnotat ennå. Klikk for å skrive det."
         },
+        "noteHeader": {
+            "label": "Avtale",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Saksnr. {number}",
+            "responsible": "Ansvarlig",
+            "primaryCoordinator": "Primær koordinator",
+            "bookingOwner": "Ansvarlig for avtalen",
+            "statusLabel": "Status",
+            "planned": "Planlagt"
+        },
+        "saveAndComplete": "Lagre og merk som fullført",
+        "completeOnSaveHint": "Når du lagrer @:terms.journalNote{''}, merkes avtalen som fullført.",
+        "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''} før avtalen merkes som fullført.",
         "status": {
             "completed": "Fullført",
             "notCompleted": "Ikke fullført"
@@ -8507,6 +8543,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "@.capitalize:terms.citizenDefinite{'s'} CPR-nummer",
+            "cprWhenWon": "Må først fylles ut når henvendelsen vinnes.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Vurderer du, at @:terms.citizenDefinite{''} er inden for målgruppen av §109?",
@@ -8640,11 +8677,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Godta invitasjon",
+        "accepting": "Godtar invitasjon",
         "alert": {
             "invalidInvitationLink": "Ugyldig invitationslink"
         },
+        "errorBody": "Invitasjonen kunne ikke godtas akkurat nå. Prøv igjen senere",
+        "errorTitle": "Noe gikk galt",
+        "expiredBody": "Invitasjonslenken er utløpt. Be den som inviterte deg om å sende en ny invitasjon",
+        "expiredTitle": "Invitasjonen er utløpt",
+        "invalidBody": "Invitasjonslenken er ugyldig. Be den som inviterte deg om å sende en ny invitasjon",
+        "invalidTitle": "Ugyldig invitasjon",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Logg inn for at fortsette",
+        "notAdminBody": "Bare administratorer kan godta denne invitasjonen",
+        "notAdminTitle": "Invitasjonen ble ikke godtatt",
+        "readyBody": "Trykk på knappen nedenfor for å bli administrator i organisasjonen",
+        "readyTitle": "Du er invitert",
+        "wrongUserBody": "Invitasjonen er til en annen bruker. Logg ut, og åpne lenken igjen som den den ble sendt til",
+        "wrongUserTitle": "Logget inn som en annen",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har vellykket accepteret invitationen"
     },
     "invoiceDetails": {
@@ -10902,6 +10953,8 @@
             "level": "Level",
             "hideInternalJournals": "Kan ikke se interne notater",
             "hideInternalJournalsHelp": "Ansatte med denne rollen ser ikke notater merket som interne, med mindre de har skrevet dem selv. Har en ansatt flere roller, er det nok at én av dem er merket.",
+            "seesHrData": "Kan se HR-opplysninger og ansattdokumenter",
+            "seesHrDataHelp": "Ansatte med denne rollen ser kollegers HR-opplysninger, ansattdokumenter (kontrakter, politiattester, attester m.m.), lønnsfelt, adresser og nødkontakter og kan håndtere dem. Uten den ser de bare sine egne. Administratorer ser dem alltid.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
@@ -11175,6 +11228,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
+                "inquiryWonRequiresCpr": "CPR-nummer påkrevd når en henvendelse er vunnet",
                 "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
@@ -11279,8 +11333,16 @@
                 "chatCprWarning": "Advar om CPR-numre i chat",
                 "missingNoteReminder": "Påminn om avtaler uten @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Varsle om @:terms.journalNotes{''} opprettet fra en avtale",
+                "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrevd ved Fullført",
+                "calendarNoteRequiredHint": "Velger man Fullført på en avtale med en @:terms.citizen{''}, åpnes @:terms.journalNote{''}, og avtalen merkes som fullført når det lagres. Ikke fullført krever ikke notat",
+                "missingNoteCoordinatorReminder": "Påminn koordinator om manglende @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "Et døgn etter at en avtale sluttet uten notat, får sakens primære koordinator også en påminnelse, og koordinatorer og ledere ser avtalene på Min dag. Krever at påminnelsen om avtaler uten notat er slått på",
                 "certificateReminderAllRecipients": "Påminnelser om attester til alle administratorer og den ansatte",
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
+                "hideCitizenRatesFromStaff": "Skjul timepris og dekningsgrad for ansatte",
+                "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
+                "careHourTypes": "Velg timetype på innsatstimer",
+                "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
                 "patientHideClinicContactHint": "Pasientene ser bare klinikkens navn. Adresse og telefon står fortsatt på fakturaene deres",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
@@ -12608,7 +12670,7 @@
                     "grantStorage": "Tildel lagring",
                     "description": "Tildeler en lagringspakke til bedriften og oppretter en ventende manuell faktura for beløpet. Kjøp av en annen pakke erstatter den nåværende (med en forholdsmessig kreditt); samme pakke igjen blir avvist.",
                     "packageLabel": "Lagringspakke",
-                    "used": "{used} GB brukt av {quota} GB",
+                    "used": "{used} brukt av {quota} GB",
                     "none": "Ingen lagringspakke tildelt - kvoten er {quota} GB.",
                     "remove": "Fjern",
                     "confirmRemove": "Fjern lagringspakken {package}? Bedriftens kvote går tilbake til planens standard.",
@@ -16023,6 +16085,8 @@
         "unassignedWonTooltip": "Se de vunne sakene som ingen står på ennå, og fordel dem",
         "brief": {
             "bookings_missing_note": "En avtale er ferdig uten et @:terms.journalNote{''} | {n} avtaler er ferdige uten et @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "En avtale på en sak du koordinerer mangler et @:terms.journalNote{''} | {n} avtaler på saker du koordinerer mangler et @:terms.journalNote{''}",
+            "department_bookings_missing_note": "En avtale i avdelingene dine mangler et @:terms.journalNote{''} | {n} avtaler i avdelingene dine mangler et @:terms.journalNote{''}",
             "goals_running_out": "Ett mål går ut innen en uke | {n} mål går ut innen en uke",
             "heading": "Krever din oppmerksomhet",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
@@ -17490,6 +17554,27 @@
             "saved": "Profilen er lagret",
             "skillsSaved": "Kompetansene er lagret",
             "saveFailed": "Kunne ikke lagres"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktes",
+                "do_not_contact": "Skal ikke kontaktes",
+                "terminated": "Avsluttet"
+            },
+            "doNotContact": "Skal ikke kontaktes",
+            "reason": "Årsak",
+            "note": "Notat",
+            "hint": "Merket «Skal ikke kontaktes» er konsulenten utenfor matchingen og kan verken spørres, velges til en sak eller reaktiveres. En arkivert konsulent uten merking og uten sluttdato er med i matchingen som «Inaktiv – kan kontaktes».",
+            "reasons": {
+                "resigned": "Sluttet",
+                "paused": "På pause",
+                "absent": "Fraværende",
+                "do_not_contact": "Skal ikke kontaktes",
+                "cannot_contact": "Kan ikke kontaktes",
+                "other": "Annet"
+            }
         }
     },
     "inquiryDetail": {
@@ -17553,8 +17638,9 @@
         "clear": "Nullstill",
         "noConsultants": "Ingen konsulenter funnet.",
         "notReady": "Kan ikke settes på sak",
-        "archived": "Arkivert",
+        "archived": "Inaktiv – kan kontaktes",
         "archivedHint": "Reaktiveres med en lisens når konsulenten velges til saken",
+        "notNotified": "{count} konsulent fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne. | {count} konsulenter fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne.",
         "nameSearch": "Søk konsulent på navn",
         "openProfile": "Åpne profil",
         "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
@@ -17651,7 +17737,9 @@
             "external_contact": "Annen ekstern",
             "doctor": "Lege",
             "dentist": "Tannlege",
-            "our_contact_person": "Vår kontaktperson"
+            "our_contact_person": "Vår kontaktperson",
+            "advisor": "Rådgiver",
+            "municipality": "Kommune"
         },
         "form": {
             "type": "Type",
@@ -17664,7 +17752,13 @@
             "employee": "Medarbeider",
             "coordinatorRole": "Koordinatorrolle",
             "noRole": "Ingen",
-            "isPrimary": "Primær part"
+            "isPrimary": "Primær part",
+            "role": "Rolle",
+            "roleConsultant": "Konsulent",
+            "relationship": "Relasjon",
+            "noRelationships": "Det finnes ingen relasjoner ennå.",
+            "addRelationships": "Legg til relasjoner under Innstillinger",
+            "askAdminForRelationships": "En administrator kan legge dem til under Innstillinger."
         }
     },
     "inquiryInvitations": {
@@ -17689,7 +17783,10 @@
             "yes": "Ja takk",
             "no": "Nei takk",
             "answered": "Du har svart"
-        }
+        },
+        "cannotBeChosen": "Merket etter invitasjonen og kan ikke velges til saken",
+        "contactDirectly": "Kontakt direkte",
+        "contactDirectlyHint": "Inaktive konsulenter får ingen e-post eller varsel i appen om saken. Kontakt dem direkte. Utpek reaktiverer dem med en lisens."
     },
     "taskBoards": {
         "actions": {
@@ -18945,5 +19042,20 @@
         "already": "Du har allerede sendt forslaget til dem nylig.",
         "limit": "Du har sendt dette forslaget flere ganger nylig. La det hvile en stund.",
         "failed": "Forslaget kunne ikke sendes. Prøv igjen senere."
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Kunne ikke hente vaktplandata",
+        "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
+        "createShiftFailed": "Vakten kunne ikke opprettes.",
+        "employeeNotLinked": "Den ansatte er ennå ikke koblet til en lokal bruker.",
+        "unknownError": "Ukjent feil",
+        "serverError": "Serverfeil. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
+        "generic": "Noe gikk galt. Prøv igjen. Hvis problemet vedvarer, kontakt systemadministratoren din",
+        "unauthorized": "Ikke autorisert",
+        "somethingWentWrongWith": "Noe gikk galt: {message}",
+        "downloadFailed": "Det oppstod en feil under nedlastingen.",
+        "importFailed": "Det oppstod en feil under importen.",
+        "openFileFailed": "Det oppstod en feil under åpning av filen.",
+        "deleteFailed": "Det oppstod en feil under slettingen."
     }
 }
