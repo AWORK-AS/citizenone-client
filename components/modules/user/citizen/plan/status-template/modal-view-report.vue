@@ -242,6 +242,7 @@ import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalSer
 import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { scaleAnswerOf } from '@/composables/scaleAnswer'
+import { tableAnswerOf } from '@/composables/tableAnswer'
 import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
 
@@ -357,14 +358,10 @@ function iterationTitle(index: number): string {
     return iterationLabels.value[key] || String(number)
 }
 
+// An answer stored wrapped by an earlier save still shows its rows.
 function tableRows(fieldResponse: any): any[][] {
-    const value = fieldResponse?.response
-    try {
-        const parsed = typeof value === 'string' ? JSON.parse(value) : value
-        if (Array.isArray(parsed) && parsed.length) return parsed
-    } catch {
-        // fall through to the template's own rows
-    }
+    const rows = tableAnswerOf(fieldResponse?.response)
+    if (rows?.length) return rows
 
     return parseField(fieldResponse)?.rows ?? []
 }

@@ -1,5 +1,6 @@
 import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
 import { scaleAnswerOf } from '@/composables/scaleAnswer'
+import { tableAnswerOf } from '@/composables/tableAnswer'
 
 /**
  * A repeating group unfolds before the fill-in renders, not inside the template.
@@ -141,11 +142,13 @@ export function useFormGroups() {
             // one, or ticking a box in the reopened report fails. A ruler's
             // comes back as the object it sends: put back as the stored string,
             // an untouched ruler sent that string encoded once more and showed
-            // empty from then on.
+            // empty from then on. A table's comes back as its rows for the same
+            // reason: as the string, an untouched table lost its content.
             const type = parse(field)?.type
             field.responses = type === 'checkbox'
                 ? asList(hit.response)
-                : type === 'scale' ? (scaleAnswerOf(hit.response) ?? '') : hit.response
+                : type === 'scale' ? (scaleAnswerOf(hit.response) ?? '')
+                    : type === 'table' ? (tableAnswerOf(hit.response) ?? '') : hit.response
         }
     }
 

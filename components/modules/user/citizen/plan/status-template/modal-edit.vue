@@ -356,6 +356,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
 import { scaleAnswerPayload } from '@/composables/scaleAnswer'
+import { tableAnswerPayload } from '@/composables/tableAnswer'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
@@ -725,7 +726,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
@@ -805,7 +806,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }

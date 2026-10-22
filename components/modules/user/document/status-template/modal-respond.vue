@@ -262,6 +262,7 @@ import { documentTemplateService } from '@/components/api/user/DocumentTemplateS
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { scaleAnswerPayload } from '@/composables/scaleAnswer'
+import { tableAnswerPayload } from '@/composables/tableAnswer'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { googledriveService } from '~/components/api/user/GoogleDriveService'
@@ -398,7 +399,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
@@ -452,7 +453,7 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
@@ -514,7 +515,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
@@ -572,7 +573,7 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
