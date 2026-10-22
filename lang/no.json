@@ -3416,6 +3416,16 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "De 12 helsefaglige områdene",
+                "description": "Siste vurdering, problemstatus og åpne behandlinger innen hvert område. Trykk på et område for å se mer.",
+                "onlyWithContent": "Vis bare områder med innhold",
+                "empty": "Ingenting registrert ennå",
+                "nothingYet": "Det er ikke registrert noe på de helsefaglige områdene ennå.",
+                "latestStatus": "Siste status",
+                "openTreatments": "{count} åpen behandling | {count} åpne behandlinger",
+                "loadFailed": "Områdene kunne ikke hentes. Prøv igjen."
+            },
             "checklists": {
                 "addItem": "Legg til punkt",
                 "checklists": "Sjekklister",
