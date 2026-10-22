@@ -27,6 +27,16 @@ const state = reactive({
             ]
         },
         {
+            // What patients book in the portal and the app: a treatment with a
+            // clinician and times. Events and courses stay on Bookings.
+            name: 'calendar.tabs.treatments',
+            isTranslateName: true,
+            href: `/calendar/bookings/treatments`,
+            routeNames: [
+                'calendar-bookings-treatments',
+            ]
+        },
+        {
             // The times patients have actually taken. The bookings tab beside
             // it is what a clinic offers; this is what came back.
             name: 'calendar.tabs.appointments',
@@ -45,6 +55,9 @@ function changeTab(value: any) {
     }
     else if (value === t('calendar.tabs.bookings')) {
         navigateTo(`/calendar/bookings`)
+    }
+    else if (value === t('calendar.tabs.treatments')) {
+        navigateTo(`/calendar/bookings/treatments`)
     }
     else if (value === t('calendar.tabs.appointments')) {
         navigateTo(`/calendar/bookings/appointments`)
