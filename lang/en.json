@@ -16755,6 +16755,7 @@
         "frequency": "Frequency",
         "instant": "Instant",
         "hourly": "Hourly digest",
+        "daily": "Daily digest",
         "required": "Required",
         "save": "Save notification types",
         "saved": "Notification types saved",

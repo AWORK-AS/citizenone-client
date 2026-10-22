@@ -16659,6 +16659,7 @@
         "frequency": "Frekvens",
         "instant": "Umiddelbart",
         "hourly": "Samling hver time",
+        "daily": "Daglig samling",
         "required": "Påkrevd",
         "save": "Lagre varslingstyper",
         "saved": "Varslingstyper lagret",

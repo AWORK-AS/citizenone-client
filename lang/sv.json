@@ -16659,6 +16659,7 @@
         "frequency": "Frekvens",
         "instant": "Direkt",
         "hourly": "Sammanställning varje timme",
+        "daily": "Daglig sammanställning",
         "required": "Obligatorisk",
         "save": "Spara aviseringstyper",
         "saved": "Aviseringstyper sparade",
