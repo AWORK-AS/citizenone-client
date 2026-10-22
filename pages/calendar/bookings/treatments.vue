@@ -102,6 +102,7 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { bookingServiceService } from '@/components/api/user/BookingServiceService'
 import { useAlert } from '@/composables/alert'
+import { shouldLeaveBookingPages } from '@/composables/bookingAccess'
 import { useUserStore } from '@/store/user'
 
 const runtimeConfig = useRuntimeConfig()
@@ -138,9 +139,10 @@ const state = reactive({
 
 onMounted(fetchTreatments)
 
-// The same gate as the Bookings tab beside it.
+// The same gate as the Bookings tab beside it, but only once the user has loaded: the store is `{}` on a
+// cold load, and deciding from that sent people with booking access back to the calendar.
 watch(() => userStore.user, (user) => {
-    if (user && !user?.has_booking_app_access) {
+    if (shouldLeaveBookingPages(user)) {
         navigateTo('/calendar')
     }
 }, { immediate: true })
