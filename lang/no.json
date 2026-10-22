@@ -19121,6 +19121,46 @@
         "moveUp": "Flytt {column} opp",
         "moveDown": "Flytt {column} ned"
     },
+    "billingOverview": {
+        "title": "Hva betaler jeg for",
+        "intro": "Alle de faste kortbetalingene deres til CitizenOne, med innhold, pris og dato for neste trekk. Hvert kjøp trekkes i dag for seg, på den dagen i måneden det ble kjøpt.",
+        "loading": "Henter oversikten...",
+        "failed": "Oversikten kunne ikke hentes. Prøv igjen om litt.",
+        "forbidden": "Bare administratorer og roller som kan kjøpe lisenser, kan se hva virksomheten betaler.",
+        "inclVat": "inkl. mva.",
+        "summary": {
+            "monthly": "Fast pris per måned",
+            "monthlyHint": "Ekskl. mva. og gebyrer. Årlige abonnementer er regnet om til måned.",
+            "charges": "Kortbetalinger per måned",
+            "chargesHint": "Trekkes den {days} i måneden",
+            "fees": "Servicegebyrer per måned",
+            "feesHint": "{fee} per kortbetaling",
+            "next": "Neste trekk"
+        },
+        "charge": {
+            "monthly": "Månedlig trekk den {day}.",
+            "yearly": "Årlig trekk den {day}. {month}",
+            "next": "Neste trekk {date}"
+        },
+        "table": {
+            "product": "Produkt",
+            "quantity": "Antall",
+            "unitPrice": "Stykkpris",
+            "amount": "Beløp",
+            "vat": "Mva. (25 %)",
+            "serviceFee": "Servicegebyr",
+            "total": "Trekkes fra kortet"
+        },
+        "kind": {
+            "plan": "Abonnement",
+            "app": "App",
+            "storage": "Lagringsplass",
+            "add_on": "Tillegg"
+        },
+        "empty": "Det er ingen faste kortbetalinger på kontoen deres.",
+        "agreementNote": "Noe av det dere bruker, faktureres etter avtalen deres og vises derfor ikke her.",
+        "notIncluded": "Ikke med her: betalingsgebyrer for nettbetalinger, som legges på app-trekket for forrige måned, og påfylling av SMS og Cody, som trekkes når saldoen er lav."
+    },
     "managerSuggestion": {
         "button": "Foreslå for lederen min",
         "title": "Foreslå for lederen din",
