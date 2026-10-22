@@ -9985,7 +9985,11 @@
             "forgotten": "Forgotten",
             "pending": "Pending",
             "noEvaluationsToShow": "No effect evaluations to show",
-            "clickToEvaluate": "Click to evaluate"
+            "clickToEvaluate": "Click to evaluate",
+            "quickDose": {
+                "title": "Record dose",
+                "moreOptions": "More options"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Deviated",

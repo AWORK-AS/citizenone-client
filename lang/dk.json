@@ -9985,7 +9985,11 @@
             "forgotten": "Glemt",
             "pending": "Afventer",
             "noEvaluationsToShow": "Ingen effektevalueringer at vise",
-            "clickToEvaluate": "Klik for at evaluere"
+            "clickToEvaluate": "Klik for at evaluere",
+            "quickDose": {
+                "title": "Registrer dosis",
+                "moreOptions": "Flere muligheder"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
