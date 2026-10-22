@@ -127,6 +127,15 @@ export function createCodyChat() {
     const { errorAlert } = useAlert()
     const citizenStore = useCitizenStore() as any
     const route = useRoute()
+    const page = useCodyPageContext()
+
+    // The open page goes with every question, so "her" and "ham" mean what is
+    // on the screen. Only the key and the citizen's uuid - see useCodyPageContext.
+    function appendPage(formData: FormData) {
+        if (!page.value) return
+        formData.append('page[key]', page.value.key)
+        if (page.value.citizenUuid) formData.append('page[citizen_uuid]', page.value.citizenUuid)
+    }
 
     const state = reactive({
         error: {} as Error,
@@ -753,6 +762,7 @@ export function createCodyChat() {
             if (state.aiElements.vectorStoreId) formData.append('vector_store_id', state.aiElements.vectorStoreId)
             state.lastRequest.citizenUuids.forEach((uuid) => formData.append('citizen_uuids[]', uuid))
             state.lastRequest.employeeUuids.forEach((uuid) => formData.append('employee_uuids[]', uuid))
+            appendPage(formData)
 
             const response = await requestAnswer(formData)
             if (response?.data) applyAnswer(response)
@@ -909,6 +919,7 @@ export function createCodyChat() {
                 formData.append('employee_uuids[]', entity.uuid)
             }
         })
+        appendPage(formData)
 
         state.lastRequest.prompt = state.newMessage
         state.lastRequest.citizenUuids = state.mentionedEntities.filter((e) => e.type === 'citizen').map((e) => e.uuid)
@@ -923,6 +934,7 @@ export function createCodyChat() {
 
     return {
         state,
+        page,
         showStarters,
         filteredConversations,
         onComposerFocusRequest,
