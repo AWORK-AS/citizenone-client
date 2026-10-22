@@ -26,10 +26,6 @@
                     {{ $t('cody.adoption.sent') }}
                 </span>
 
-                <button v-if="variant === 'adminTrial'" type="button"
-                    class="text-sm text-primary underline underline-offset-2" @click="navigateTo(appPath)">
-                    {{ $t('cody.adoption.readMore') }}
-                </button>
                 <button v-if="variant === 'trial' && isAdmin" type="button"
                     class="text-sm font-semibold text-primary underline underline-offset-2" @click="navigateTo(appPath)">
                     {{ $t('cody.adoption.buy') }}

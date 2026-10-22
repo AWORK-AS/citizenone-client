@@ -1010,7 +1010,7 @@
     "cody": {
         "adoption": {
             "headline": "Give your team time back with Cody",
-            "headlineBody": "Cody saves 2.37 hours of administration per employee per day on average, measured among active users.",
+            "headlineBody": "Cody gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
             "tryFree": "Try Cody free for 14 days",
             "tryFreeShort": "Try free for 14 days",
             "readMore": "Read more",
@@ -1077,12 +1077,12 @@
         "rateLimitedToday": "Today's included Cody answers are used. With extra capacity you can carry on today - otherwise it resets at midnight.",
         "limitBuyMore": "Buy more capacity",
         "limitAskAdmin": "Ask your administrator for more capacity.",
-        "companyDataMissing": "Answered without access to your data. The search index has not been created yet.",
-        "companyDataBuilding": "Answered without access to your data. The search index is still being built.",
+        "companyDataMissing": "Cody AI could not see your data for this answer, because access is not set up yet. Contact support and we will help.",
+        "companyDataBuilding": "Cody AI is still getting your data ready and could not use it for this answer. Try again shortly.",
         "askAnything": "Ask anything, or type {'@'} to mention someone",
         "mentionSomeone": "Mention a @:terms.citizen{''} or employee",
-        "searchScopeHint": "AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
-        "reviewNotice": "AI-generated content may contain errors — always review before relying on it",
+        "searchScopeHint": "Cody AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
+        "reviewNotice": "Content from Cody AI may contain errors. Always review it before relying on it",
         "dataGovernanceNotice": "Read how CitizenOne protects your data in our",
         "previewBeforeSending": "Preview what will be sent",
         "fileSizeExceeds": "Total file size must not exceed 10MB",
@@ -1119,7 +1119,7 @@
             "duration": "{ms} ms"
         },
         "identity": {
-            "name": "Cody",
+            "name": "Cody AI",
             "tagline": "Your everyday assistant",
             "scope": "Only sees what you have access to"
         },
@@ -1145,6 +1145,22 @@
         },
         "dataAndAccess": "About data and access",
         "reviewShort": "Cody can be wrong - read the answer through.",
+        "renameConversation": "Rename conversation",
+        "removeAttachment": "Remove {name}",
+        "deleteConversation": "Delete conversation",
+        "feedback": {
+            "up": "Good answer",
+            "down": "Bad answer",
+            "thanks": "Thanks for your feedback",
+            "question": "What was wrong?",
+            "failed": "Your feedback was not saved. Try again.",
+            "reasons": {
+                "wrong": "Wrong",
+                "incomplete": "Missing something",
+                "not_helpful": "Not helpful",
+                "other": "Other"
+            }
+        },
         "cards": {
             "badges": {
                 "draft": "Draft",
@@ -1160,7 +1176,7 @@
         },
         "couldNotAnswer": "I could not answer that. Try again - and if it keeps happening, tell an administrator.",
         "budgetSpent": "Your extra capacity is spent, and today's included answers are used too. Top up to carry on today.",
-        "ownDailyLimit": "You have used your own daily AI allowance. Your administrator can raise it.",
+        "ownDailyLimit": "You have used your own daily Cody AI allowance. Your administrator can raise it.",
         "dictate": {
             "start": "Dictate",
             "stop": "Stop recording",
@@ -1172,7 +1188,7 @@
                 "insecure": "Dictation needs a secure connection (https).",
                 "failed": "Could not transcribe the recording. Try again.",
                 "limit": "Today's dictation or Cody answers are used. It resets at midnight.",
-                "budget": "Your extra capacity is spent. An administrator can top up under Settings → AI usage."
+                "budget": "Your extra capacity is spent. An administrator can top up under Settings → Cody AI usage."
             }
         },
         "attachFile": "Attach file",
@@ -18287,13 +18303,13 @@
         }
     },
     "aiUsage": {
-        "title": "AI usage",
+        "title": "Cody AI usage",
         "loading": "Loading usage ...",
         "failed": "Usage could not be loaded right now. Try again shortly.",
-        "forbidden": "You don't have access to AI usage. Ask an administrator in your company for access.",
+        "forbidden": "You don't have access to Cody AI usage. Ask an administrator in your company for access.",
         "today": "Today",
         "ofAllowance": "{used} of {allowance} answers",
-        "allowanceExplainer": "Your daily room follows the number of AI licences you hold. It resets at midnight.",
+        "allowanceExplainer": "Your daily room follows the number of Cody AI licences you hold. It resets at midnight.",
         "balance": "Balance",
         "balanceExplainer": "Only used for answers beyond what your licences cover each day - at the same price per answer as the licence. The balance does not expire.",
         "buyMore": "Buy more",
@@ -18302,10 +18318,10 @@
         "uses": "Used",
         "amount": "Amount",
         "minutes": "{count} min",
-        "noneThisMonth": "No AI use this month yet.",
+        "noneThisMonth": "No Cody AI use this month yet.",
         "purchases": "Purchases",
         "features": {
-            "assistant": "Ask AI",
+            "assistant": "Ask Cody AI",
             "transcribe": "Dictation",
             "journal": "Journal suggestions",
             "handover": "Shift handover",
@@ -18316,7 +18332,7 @@
             "subtitle": "Choose an amount to start with. You can always buy more later.",
             "other": "Other",
             "bonus": "+{percent}% extra",
-            "capacity": "AI capacity",
+            "capacity": "Cody AI capacity",
             "toPay": "To pay",
             "pay": "Pay {amount}",
             "terms": "By paying you accept CitizenOne's terms and conditions. Capacity does not expire, and is only drawn down when an answer is delivered.",

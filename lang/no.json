@@ -1010,7 +1010,7 @@
     "cody": {
         "adoption": {
             "headline": "Gi de ansatte tid tilbake med Cody",
-            "headlineBody": "Cody sparer i snitt 2,37 timer administrasjon per ansatt per dag, målt blant aktive brukere.",
+            "headlineBody": "Cody gir oversikt over dagen, finner opplysninger og skriver utkast til journalnotater, slik at mer tid går til kjerneoppgaven.",
             "tryFree": "Prøv Cody gratis i 14 dager",
             "tryFreeShort": "Prøv gratis i 14 dager",
             "readMore": "Les mer",
@@ -1077,12 +1077,12 @@
         "rateLimitedToday": "Dagens inkluderte Cody-svar er brukt. Med ekstra kapasitet kan dere fortsette i dag - ellers nullstilles det ved midnatt.",
         "limitBuyMore": "Kjøp mer kapasitet",
         "limitAskAdmin": "Be administratoren din om mer kapasitet.",
-        "companyDataMissing": "Svaret er gitt uten tilgang til deres data. Søkeindeksen er ikke opprettet ennå.",
-        "companyDataBuilding": "Svaret er gitt uten tilgang til deres data. Søkeindeksen bygges fortsatt.",
+        "companyDataMissing": "Cody AI kunne ikke se dataene deres i dette svaret, fordi tilgangen ikke er satt opp ennå. Kontakt support, så hjelper vi.",
+        "companyDataBuilding": "Cody AI holder på å gjøre dataene deres klare og kunne ikke bruke dem i dette svaret. Prøv igjen om litt.",
         "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
         "mentionSomeone": "Nevn en @:terms.citizen{''} eller ansatt",
-        "searchScopeHint": "AI kan søke i alle @:terms.citizen{''}-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
-        "reviewNotice": "AI-generert innhold kan inneholde feil — se alltid gjennom det før du stoler på det",
+        "searchScopeHint": "Cody AI kan søke i alle @:terms.citizen{''}-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
+        "reviewNotice": "Innhold fra Cody AI kan inneholde feil. Se alltid gjennom det før du stoler på det",
         "dataGovernanceNotice": "Les hvordan CitizenOne beskytter dine opplysninger i vår",
         "previewBeforeSending": "Forhåndsvis før sending",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
@@ -1119,7 +1119,7 @@
             "duration": "{ms} ms"
         },
         "identity": {
-            "name": "Cody",
+            "name": "Cody AI",
             "tagline": "Assistenten din i hverdagen",
             "scope": "Ser bare det du har tilgang til"
         },
@@ -1145,6 +1145,22 @@
         },
         "dataAndAccess": "Om data og tilgang",
         "reviewShort": "Cody kan ta feil - les svaret gjennom.",
+        "renameConversation": "Gi nytt navn til samtalen",
+        "removeAttachment": "Fjern {name}",
+        "deleteConversation": "Slett samtalen",
+        "feedback": {
+            "up": "Godt svar",
+            "down": "Dårlig svar",
+            "thanks": "Takk for tilbakemeldingen",
+            "question": "Hva var galt?",
+            "failed": "Tilbakemeldingen ble ikke lagret. Prøv igjen.",
+            "reasons": {
+                "wrong": "Feil",
+                "incomplete": "Mangler noe",
+                "not_helpful": "Hjalp ikke",
+                "other": "Annet"
+            }
+        },
         "cards": {
             "badges": {
                 "draft": "Utkast",
@@ -1160,7 +1176,7 @@
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igjen - og fortsetter det, si det til en administrator.",
         "budgetSpent": "Den ekstra kapasiteten er brukt, og dagens inkluderte svar er også brukt. Fyll på for å fortsette i dag.",
-        "ownDailyLimit": "Du har brukt din egen dagsgrense for AI. Administratoren din kan heve den.",
+        "ownDailyLimit": "Du har brukt din egen dagsgrense for Cody AI. Administratoren din kan heve den.",
         "dictate": {
             "start": "Diktér",
             "stop": "Stopp opptak",
@@ -1172,7 +1188,7 @@
                 "insecure": "Diktering krever en sikker tilkobling (https).",
                 "failed": "Kunne ikke skrive ned opptaket. Prøv igjen.",
                 "limit": "Dagens diktering eller Cody-svar er brukt. Det nullstilles ved midnatt.",
-                "budget": "Den ekstra kapasiteten er brukt. En administrator kan fylle på under Innstillinger → AI-bruk."
+                "budget": "Den ekstra kapasiteten er brukt. En administrator kan fylle på under Innstillinger → Cody AI-bruk."
             }
         },
         "attachFile": "Legg ved fil",
@@ -18191,13 +18207,13 @@
         }
     },
     "aiUsage": {
-        "title": "AI-bruk",
+        "title": "Cody AI-bruk",
         "loading": "Henter bruk ...",
         "failed": "Bruken kunne ikke hentes akkurat nå. Prøv igjen om litt.",
-        "forbidden": "Du har ikke tilgang til AI-bruken. Be en administrator i virksomheten om tilgang.",
+        "forbidden": "Du har ikke tilgang til Cody AI-bruken. Be en administrator i virksomheten om tilgang.",
         "today": "I dag",
         "ofAllowance": "{used} av {allowance} svar",
-        "allowanceExplainer": "Den daglige rammen følger antallet AI-lisenser dere har. Den nullstilles ved midnatt.",
+        "allowanceExplainer": "Den daglige rammen følger antallet Cody AI-lisenser dere har. Den nullstilles ved midnatt.",
         "balance": "Saldo",
         "balanceExplainer": "Brukes bare til svar utover det lisensene deres dekker per dag - til samme pris per svar som lisensen. Saldoen utløper ikke.",
         "buyMore": "Kjøp mer",
@@ -18206,10 +18222,10 @@
         "uses": "Bruk",
         "amount": "Beløp",
         "minutes": "{count} min",
-        "noneThisMonth": "Ingen bruk av AI denne måneden ennå.",
+        "noneThisMonth": "Ingen bruk av Cody AI denne måneden ennå.",
         "purchases": "Kjøp",
         "features": {
-            "assistant": "Spør AI",
+            "assistant": "Spør Cody AI",
             "transcribe": "Diktering",
             "journal": "Journalforslag",
             "handover": "Vaktoverlevering",
@@ -18220,7 +18236,7 @@
             "subtitle": "Velg et beløp å starte med. Dere kan alltid kjøpe mer senere.",
             "other": "Annet",
             "bonus": "+{percent}% ekstra",
-            "capacity": "AI-kapasitet",
+            "capacity": "Cody AI-kapasitet",
             "toPay": "Å betale",
             "pay": "Betal {amount}",
             "terms": "Ved å betale aksepterer dere CitizenOnes vilkår og betingelser. Kapasiteten utløper ikke, og trekkes kun ned når et svar leveres.",

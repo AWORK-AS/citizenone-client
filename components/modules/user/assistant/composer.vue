@@ -6,17 +6,17 @@
             spent on small print nobody re-reads. The one that has to be seen stays
             visible; search scope and the governance link sit one click away, which
             is also where someone actually goes looking for them. -->
-            <div class="mb-2 flex items-center gap-2 text-[11.5px] text-gray-400">
+            <div class="mb-2 flex items-center gap-2 text-xs text-gray-600">
                 <span class="size-1.5 shrink-0 rounded-full bg-amber-500" aria-hidden="true"></span>
                 <span class="min-w-0 flex-1 truncate">{{ $t('assistants.reviewShort') }}</span>
                 <button type="button" @click="state.showDataNotice = !state.showDataNotice"
-                    class="shrink-0 border-b border-gray-200 text-gray-500 transition-colors hover:border-primary/40 hover:text-primary">
+                    class="shrink-0 border-b border-gray-300 text-gray-600 transition-colors hover:border-primary/40 hover:text-primary">
                     {{ $t('assistants.dataAndAccess') }}
                 </button>
             </div>
 
             <div v-if="state.showDataNotice"
-                class="mb-2 flex flex-col gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 text-[11.5px] text-gray-500">
+                class="mb-2 flex flex-col gap-1.5 rounded-lg bg-gray-50 px-3 py-2.5 text-xs text-gray-600">
                 <div class="flex items-start gap-1.5">
                     <Icon name="ph:info" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
                     <span>{{ $t('assistants.searchScopeHint') }}</span>
@@ -36,7 +36,7 @@
                     class="flex items-center gap-1.5 bg-gray-100 text-xs text-gray-600 pl-2.5 pr-1.5 py-1.5 rounded-md">
                     <Icon name="ph:file" class="h-3.5 w-3.5 text-gray-400" />
                     <span class="max-w-[150px] truncate">{{ file.name }}</span>
-                    <button type="button" @click="removeFile(index)"
+                    <button type="button" @click="removeFile(index)" :aria-label="$t('assistants.removeAttachment', { name: file.name })"
                         class="text-gray-300 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors">
                         <Icon name="ph:x" class="h-3 w-3" />
                     </button>
@@ -123,11 +123,13 @@
                         accept=".pdf,.doc,.docx,.xls,.xlsx,.csv,.txt,.jpg,.jpeg,.png" class="hidden"
                         @change="onFilesSelected" />
                     <button type="button" @click="fileInput?.click()" :title="$t('assistants.attachFile')"
-                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-cody/5 hover:text-cody-deep">
+                        :aria-label="$t('assistants.attachFile')"
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-cody/5 hover:text-cody-deep">
                         <Icon name="ph:paperclip" class="h-5 w-5" />
                     </button>
                     <button type="button" @click="insertMentionTrigger" :title="$t('assistants.mentionSomeone')"
-                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-cody/5 hover:text-cody-deep">
+                        :aria-label="$t('assistants.mentionSomeone')"
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-cody/5 hover:text-cody-deep">
                         <Icon name="ph:at" class="h-5 w-5" />
                     </button>
                     <!-- Hands are the scarce thing in a care setting: staff are
@@ -135,21 +137,23 @@
                     <button v-if="dictation.isSupported.value" type="button" @click="dictation.toggle"
                         :disabled="dictation.isTranscribing.value"
                         :title="$t(dictation.isRecording.value ? 'assistants.dictate.stop' : 'assistants.dictate.start')"
+                        :aria-label="$t(dictation.isRecording.value ? 'assistants.dictate.stop' : 'assistants.dictate.start')"
                         :aria-pressed="dictation.isRecording.value"
                         class="flex size-8 shrink-0 items-center justify-center rounded-lg transition-colors disabled:opacity-40"
                         :class="dictation.isRecording.value
                             ? 'bg-red-50 text-red-600'
-                            : 'text-gray-400 hover:bg-cody/5 hover:text-cody-deep'">
+                            : 'text-gray-500 hover:bg-cody/5 hover:text-cody-deep'">
                         <Icon :name="dictation.isRecording.value ? 'ph:stop-circle-fill'
                             : (dictation.isTranscribing.value ? 'ph:circle-notch' : 'ph:microphone')"
                             :class="['h-5 w-5', dictation.isTranscribing.value && 'animate-spin']" />
                     </button>
                     <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
+                        :aria-label="$t('assistants.previewBeforeSending')"
                         :disabled="!state.newMessage.trim()"
-                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-cody/5 hover:text-cody-deep disabled:opacity-30 disabled:hover:bg-transparent">
+                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-cody/5 hover:text-cody-deep disabled:opacity-30 disabled:hover:bg-transparent">
                         <Icon name="ph:eye" class="h-5 w-5" />
                     </button>
-                    <button type="button" @click="sendMessage"
+                    <button type="button" @click="sendMessage" :title="$t('assistants.send')" :aria-label="$t('assistants.send')"
                         :disabled="!state.newMessage.trim() && state.files.length === 0"
                         class="ml-auto flex size-8 shrink-0 items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
                         :class="state.newMessage.trim() || state.files.length > 0
