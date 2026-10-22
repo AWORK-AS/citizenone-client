@@ -219,8 +219,8 @@
                             <FormButton buttonStyle="action" class="rounded-md shrink-0"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                                 v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                                <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.openFmkOnline') }}
                             </FormButton>
                         </div>
                         <!-- Secondary actions overflow -->
@@ -262,8 +262,8 @@
                                         <button type="button"
                                             @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
-                                            <Icon name="mdi:cloud-refresh-outline" class="size-4" />
-                                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                            <Icon name="ph:arrow-square-out" class="size-4" />
+                                            {{ $t('citizens.medicineJournals.openFmkOnline') }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -383,8 +383,8 @@
                             <FormButton buttonStyle="action" class="rounded-md"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                                 v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                                <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.openFmkOnline') }}
                             </FormButton>
                         </div>
                     </div>
@@ -1418,7 +1418,7 @@ const paletteCommands = computed(() => {
     }
     cmds.push({ id: 'focus-search', group: A, icon: 'ph:magnifying-glass', hint: '/', label: t('search'), run: () => focusSearch() })
     if (isAtLeast('Admin') || can('update_citizen_medicine')) {
-        cmds.push({ id: 'fmk', group: A, icon: 'mdi:cloud-refresh-outline', label: t('citizens.medicineJournals.synchronizeWithFMK'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
+        cmds.push({ id: 'fmk', group: A, icon: 'ph:arrow-square-out', label: t('citizens.medicineJournals.openFmkOnline'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
     }
     cmds.push({ id: 'download', group: A, icon: 'ph:download', label: t('citizens.medicineJournals.downloadOverview'), run: () => { state.modal.isDownloadMedicineOverviewOpen = true } })
     cmds.push({ id: 'filter', group: A, icon: 'ic:outline-filter-list', label: t('filter'), run: () => { state.modal.isFilterMedicineOpen = true } })

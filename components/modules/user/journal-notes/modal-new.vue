@@ -32,7 +32,8 @@
                         <ModulesUserCitizenJournalForm v-if="state.selectedCitizenUuids.length > 0"
                             formType="create" :selectedJournal="state.formJournal"
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                            @closeModal="closeModal" @submitForm="saveJournal"
+                            @closeModal="closeModal" @dirtyChange="(dirty: boolean) => formDirty = dirty"
+                            :draftCitizenUuid="state.selectedCitizenUuids[0]" @submitForm="saveJournal"
                             @planGoalSubgoalSelected="onPlanGoalSubgoalSelected" />
                     </div>
                 </LoadingSpinner>
@@ -109,8 +110,11 @@ import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { clearDraft, draftKey } from '@/composables/journalNoteDraft'
+import { useUserStore } from '@/store/user'
 
 const { successAlert } = useAlert()
+const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
@@ -228,7 +232,20 @@ function resetForm() {
     }
 }
 
+// The form says when it holds writing; closing then asks first, so Esc, a click outside or
+// Cancel cannot throw a note away. A draft is kept in this tab either way (journalNoteDraft.ts).
+const formDirty = ref(false)
+
 function closeModal() {
+    if (formDirty.value && !window.confirm(t('journalDraft.confirmClose'))) return
+    formDirty.value = false
+    emit('close')
+}
+
+/** After a save: nothing to protect any more. */
+function closeAfterSave() {
+    clearDraft(sessionStorage, draftKey(userStore.getUser?.uuid, state.selectedCitizenUuids[0]))
+    formDirty.value = false
     emit('close')
 }
 
@@ -336,7 +353,7 @@ async function saveJournal(journalDetails: any) {
         const response = await journalService.saveJournal(params)
         if (response?.data) {
             refreshJournal()
-            closeModal()
+            closeAfterSave()
             successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {

@@ -12,7 +12,7 @@
         </p>
 
         <div v-for="conversation in filteredConversations" :key="conversation.uuid"
-            class="group flex items-center gap-2 rounded-lg px-3 py-2.5 cursor-pointer transition-colors"
+            class="group flex items-center gap-2 rounded-lg px-3 py-1.5 cursor-pointer transition-colors focus-within:bg-gray-50"
             :class="conversation.uuid === state.activeConversationUuid ? 'bg-primary/10' : 'hover:bg-gray-50'"
             @click="conversation.uuid !== state.editingUuid && selectConversation(conversation)">
             <Icon name="ph:chat-circle-text" class="h-4 w-4 text-gray-400 shrink-0" aria-hidden="true" />
@@ -20,20 +20,30 @@
                 @click.stop @keydown.enter="saveTitle(conversation)" @keydown.esc="cancelEditing"
                 @blur="saveTitle(conversation)"
                 class="flex-1 min-w-0 text-sm bg-white border border-primary/40 rounded px-1.5 py-0.5 outline-none" />
-            <span v-else class="flex-1 min-w-0 text-sm truncate"
-                :class="conversation.uuid === state.activeConversationUuid ? 'text-primary font-medium' : 'text-gray-700'">
+            <!-- A button, so the list can be worked from the keyboard too. -->
+            <button v-else type="button" class="flex-1 min-w-0 text-left text-sm truncate focus:outline-none"
+                :class="conversation.uuid === state.activeConversationUuid ? 'text-primary font-medium' : 'text-gray-700'"
+                @click.stop="selectConversation(conversation)">
                 {{ conversation.title || $t('assistants.history.untitled') }}
-            </span>
-            <span v-if="conversation.uuid !== state.editingUuid" class="shrink-0 flex items-center gap-1.5">
-                <span class="text-xs text-gray-400 group-hover:hidden">
+            </button>
+            <!-- Rename and delete used to exist only under a hovering mouse, so on
+            a tablet - where most care staff are - a conversation could be neither
+            renamed nor deleted. They now show on hover, on keyboard focus, and
+            always on a device that cannot hover. -->
+            <span v-if="conversation.uuid !== state.editingUuid" class="shrink-0 flex items-center gap-1">
+                <span class="text-xs text-gray-500 tabular-nums">
                     {{ formatCompactRelativeTime(conversation.updated_at) }}
                 </span>
-                <span class="hidden group-hover:flex items-center gap-1.5">
-                    <button type="button" class="text-gray-300 hover:text-primary"
+                <span class="flex items-center opacity-0 transition-opacity group-hover:opacity-100 group-focus-within:opacity-100 [@media(hover:none)]:opacity-100">
+                    <button type="button" :aria-label="$t('assistants.renameConversation')"
+                        :title="$t('assistants.renameConversation')"
+                        class="flex size-7 items-center justify-center rounded text-gray-500 hover:bg-gray-100 hover:text-primary"
                         @click.stop="startEditing(conversation)">
                         <Icon name="ph:pencil-simple" class="h-3.5 w-3.5" aria-hidden="true" />
                     </button>
-                    <button type="button" class="text-gray-300 hover:text-red-500"
+                    <button type="button" :aria-label="$t('assistants.deleteConversation')"
+                        :title="$t('assistants.deleteConversation')"
+                        class="flex size-7 items-center justify-center rounded text-gray-500 hover:bg-red-50 hover:text-red-600"
                         @click.stop="confirmDeleteConversation(conversation)">
                         <Icon name="ph:trash" class="h-3.5 w-3.5" aria-hidden="true" />
                     </button>

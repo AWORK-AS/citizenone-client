@@ -26,6 +26,8 @@ export interface EmployeeHrDetails {
     working_hours_comment: string | null
     not_work_with: string | null
     sim_card: string | null
+    contact_status: string | null
+    onboarding_status: string | null
     // Only present when the backend allows the caller to see bank data.
     can_see_bank?: boolean
     tax_card_type?: HrTaxCardType | null

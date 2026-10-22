@@ -89,6 +89,7 @@
                                                         :field="JSON.parse(formField?.field)" :fieldIndex="fieldIndex"
                                                         :number="fieldIndex + 1"
                                                         :citizenUuid="scaleCitizenUuid"
+                                                        :goalUuid="formField._goalUuid ?? ''"
                                                         v-model="formField.responses" />
                                                     <div v-if="JSON.parse(formField?.field)?.type === 'group_title'"
                                                         class="px-5 py-3 font-semibold text-primary border-l-4 border-primary bg-primary/5">
@@ -114,7 +115,7 @@
                                                                             class="text-red-600">*</span>
                                                                     </h3>
                                                                     <FormTextField :name="'text_field_' + fieldIndex"
-                                                                        placeholder="Enter your answer"
+                                                                        :placeholder="$t('forms.fields.enterYourAnswer')"
                                                                         v-model="formField.responses" />
                                                                 </div>
                                                             </div>
@@ -135,7 +136,7 @@
                                                                             class="text-red-600">*</span>
                                                                     </h3>
                                                                     <FormTextArea :name="'textarea_' + fieldIndex"
-                                                                        placeholder="Enter your answer"
+                                                                        :placeholder="$t('forms.fields.enterYourAnswer')"
                                                                         v-model="formField.responses" />
                                                                 </div>
                                                             </div>
@@ -158,7 +159,7 @@
                                                                     <div class="relative">
                                                                         <FormDateField
                                                                             :name="'date_field_' + fieldIndex"
-                                                                            placeholder="Enter your answer"
+                                                                            :placeholder="$t('forms.fields.enterYourAnswer')"
                                                                             v-model="formField.responses" />
                                                                         <Icon name="ph:calendar"
                                                                             class="h-5 w-5 absolute right-4 top-2.5 text-gray-500"
@@ -222,7 +223,7 @@
                                                                                 class="flex items-center gap-x-2 cursor-pointer">
                                                                                 <FormCheckbox
                                                                                     :name="`choice_${fieldIndex}_${checkboxIndex}`"
-                                                                                    :checked="formField.responses?.includes(checkbox)"
+                                                                                    :value="Array.isArray(formField.responses) && formField.responses.includes(checkbox)"
                                                                                     @change="changeCheckbox(fieldIndex, checkbox)" />
                                                                                 <h3>{{ checkbox }}</h3>
                                                                             </label>
@@ -354,13 +355,15 @@ import { useI18n } from "vue-i18n"
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useAlert } from '@/composables/alert'
+import { scaleAnswerPayload } from '@/composables/scaleAnswer'
+import { tableAnswerPayload } from '@/composables/tableAnswer'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { useCitizenStore } from '@/store/citizen'
 
-const { expandGroups, responseKey } = useFormGroups()
+const { expandGroups, responseKey, restoreResponses } = useFormGroups()
 
 // The scale loads the citizen's earlier measurements. The citizen comes from the
 // route on a citizen page and from the store when a modal was opened without
@@ -524,23 +527,13 @@ async function fetchForm() {
                 }))
             }
             if (response.data?.form_fields) {
-                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value)
+                response.data.form_fields = await expandGroups(response.data.form_fields, scaleCitizenUuid.value, formUuid ?? '')
             }
 
             state.form = response
 
             if (state.form?.data?.form_fields && state.status?.field_responses) {
-                for (let i = 0; i < state.form.data.form_fields.length; i++) {
-                    const formField = state.form.data.form_fields[i];
-
-                    for (let j = 0; j < state.status.field_responses.length; j++) {
-                        const fieldResponse = state.status.field_responses[j];
-
-                        if (formField.id === fieldResponse.form_field_id) {
-                            state.form.data.form_fields[i].responses = state.status.field_responses[j].response
-                        }
-                    }
-                }
+                restoreResponses(state.form.data.form_fields, state.status.field_responses)
             }
 
         }
@@ -733,13 +726,13 @@ async function submitResponse() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -813,13 +806,13 @@ async function submitResponseAndDownloadPDF() {
             }
 
             if (fieldType === 'table') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? []))
+                params.append(`responses[${fieldUuid}]`, tableAnswerPayload(formField.responses))
 
                 return
             }
 
             if (fieldType === 'scale') {
-                params.append(`responses[${fieldUuid}]`, JSON.stringify(formField.responses ?? { scores: [] }))
+                params.append(`responses[${fieldUuid}]`, scaleAnswerPayload(formField.responses))
 
                 return
             }
@@ -838,7 +831,7 @@ async function submitResponseAndDownloadPDF() {
         })
         const response = await formFieldService.savePlanGoalSubgoalResponsesAndDownloadPdfOnEdit(props.selectedStatus.uuid, params)
         if (response) {
-            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfully')}.`)
+            successAlert(`${t('alert.success')}!`, `${t('plansandgoals.editStatusTemplate.alert.statusTemplateSuccessfullyUpdated')}.`)
             closeModal()
             state.currentStep = 1
             const filename = state.form?.data?.document_title || state.form?.data?.title || 'download'

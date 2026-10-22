@@ -247,6 +247,13 @@
                                     {{ $t('inquiryPipeline.enableLabel') }}
                                 </p>
                             </div>
+                            <div v-if="hasInquiryPipelineApp" class="space-y-1 flex items-center gap-x-2">
+                                <FormSwitch :value="state.formCompany.inquiry_won_requires_cpr_enabled"
+                                    @toggleSwitch="state.formCompany.inquiry_won_requires_cpr_enabled = !state.formCompany.inquiry_won_requires_cpr_enabled" :label="$t('settings.company.form.inquiryWonRequiresCpr')" />
+                                <p>
+                                    {{ $t('settings.company.form.inquiryWonRequiresCpr') }}
+                                </p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.relative_chat_enabled"
                                     @toggleSwitch="state.formCompany.relative_chat_enabled = !state.formCompany.relative_chat_enabled" :label="$t('settings.company.form.relativeChat')" />
@@ -621,7 +628,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount }} / 9</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount + calendarNoteSwitchCount }} / 9</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
                             </span>
                         </button>
@@ -699,6 +706,26 @@
                                     {{ $t('settings.company.form.bookingNoteNotifications') }}
                                 </p>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.calendar_note_required_enabled"
+                                        @toggleSwitch="state.formCompany.calendar_note_required_enabled = !state.formCompany.calendar_note_required_enabled" :label="$t('settings.company.form.calendarNoteRequired')" />
+                                    <p>
+                                        {{ $t('settings.company.form.calendarNoteRequired') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.calendarNoteRequiredHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.missing_note_coordinator_reminder_enabled"
+                                        @toggleSwitch="state.formCompany.missing_note_coordinator_reminder_enabled = !state.formCompany.missing_note_coordinator_reminder_enabled" :label="$t('settings.company.form.missingNoteCoordinatorReminder')" />
+                                    <p>
+                                        {{ $t('settings.company.form.missingNoteCoordinatorReminder') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.missingNoteCoordinatorReminderHint') }}.</p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.certificate_reminder_all_recipients_enabled"
                                     @toggleSwitch="state.formCompany.certificate_reminder_all_recipients_enabled = !state.formCompany.certificate_reminder_all_recipients_enabled" :label="$t('settings.company.form.certificateReminderAllRecipients')" />
@@ -719,6 +746,26 @@
                                 <p>
                                     {{ $t('settings.company.form.citizenCalendarShift') }}
                                 </p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.hide_citizen_rates_from_staff_enabled"
+                                        @toggleSwitch="state.formCompany.hide_citizen_rates_from_staff_enabled = !state.formCompany.hide_citizen_rates_from_staff_enabled" :label="$t('settings.company.form.hideCitizenRatesFromStaff')" />
+                                    <p>
+                                        {{ $t('settings.company.form.hideCitizenRatesFromStaff') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.hideCitizenRatesFromStaffHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.care_hour_types_enabled"
+                                        @toggleSwitch="state.formCompany.care_hour_types_enabled = !state.formCompany.care_hour_types_enabled" :label="$t('settings.company.form.careHourTypes')" />
+                                    <p>
+                                        {{ $t('settings.company.form.careHourTypes') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.careHourTypesHint') }}.</p>
                             </div>
                         </div>
                         </div>
@@ -822,6 +869,9 @@ import { useCompanyStore } from '@/store/company'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+// Saving the company is for its Admins; the API refuses everyone else too.
+definePageMeta({ middleware: 'require-admin' })
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
@@ -975,11 +1025,13 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.epikrise_enabled].filter(Boolean).length)
+const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.care_hour_types_enabled, state.formCompany.epikrise_enabled].filter(Boolean).length)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+// The two note switches of the Other section, counted apart from otherCount.
+const calendarNoteSwitchCount = computed(() => [state.formCompany.calendar_note_required_enabled, state.formCompany.missing_note_coordinator_reminder_enabled].filter(Boolean).length)
 const { isAtLeast, can } = usePermissions()
 
 // --- Company modules (admin enable/disable whole modules) ---
@@ -1050,9 +1102,14 @@ const state = reactive({
         epikrise_enabled: false,
         missing_note_reminder_enabled: false,
         booking_note_notifications_enabled: false,
+        calendar_note_required_enabled: false,
+        missing_note_coordinator_reminder_enabled: false,
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
+        hide_citizen_rates_from_staff_enabled: false,
+        care_hour_types_enabled: false,
         citizen_calendar_shift_enabled: false,
+        inquiry_won_requires_cpr_enabled: false,
         patient_portal_hide_clinic_contact: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
@@ -1183,9 +1240,14 @@ watch(() => userStore.getUser, (newValue: any) => {
             epikrise_enabled: newValue?.company?.epikrise_enabled === true,
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
+            calendar_note_required_enabled: newValue?.company?.calendar_note_required_enabled === true,
+            missing_note_coordinator_reminder_enabled: newValue?.company?.missing_note_coordinator_reminder_enabled === true,
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
+            hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
+            care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
             citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
+            inquiry_won_requires_cpr_enabled: newValue?.company?.inquiry_won_requires_cpr_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
@@ -1449,9 +1511,14 @@ async function submitForm() {
                 epikrise_enabled: state.formCompany.epikrise_enabled,
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
+                calendar_note_required_enabled: state.formCompany.calendar_note_required_enabled,
+                missing_note_coordinator_reminder_enabled: state.formCompany.missing_note_coordinator_reminder_enabled,
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
+                hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
+                care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
                 citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
+                inquiry_won_requires_cpr_enabled: state.formCompany.inquiry_won_requires_cpr_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,

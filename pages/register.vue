@@ -39,6 +39,8 @@
                             <div>
                                 <p class="text-sm font-semibold text-[#0f4c75]">{{ $t('register.sharedBannerTitle') }}</p>
                                 <p class="text-xs text-[#64748b] mt-0.5">{{ $t('register.sharedBannerDescription') }}</p>
+                                <!-- "Giv en måned, få en måned": the referred side's half of the offer. -->
+                                <p class="text-xs text-[#64748b] mt-0.5" data-testid="register-referral-note">{{ $t('referralProgram.registerNote') }}</p>
                             </div>
                         </div>
                         <div v-if="state.oauthProvider"

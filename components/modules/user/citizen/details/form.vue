@@ -362,8 +362,9 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
                         <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
-                        <FormTextField id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
+                        <FormTextField v-if="!isHidden('pricing')" id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
                             v-model="state.formCitizen.pricing" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.pricing?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.pricing?.[0]" />
                     </div>
@@ -394,6 +395,18 @@
                     <FormSelect id="secondary_case_worker_uuid" :options="state.options.caseworkers"
                         v-model="state.formCitizen.secondary_case_worker_uuid" />
                     <FormError :error="props?.error?.errors?.secondary_case_worker_uuid?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="props.formType !== 'create' && citizenUuid">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="own_doctor" :label="$t('citizens.doctor.ownDoctor')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddOwnDoctorOpen = true">
+                            {{ state.ownDoctor ? $t('citizens.doctor.changeOwnDoctor') : $t('citizens.doctor.addOwnDoctor') }}
+                        </span>
+                    </div>
+                    <p id="own_doctor" class="text-sm text-gray-700">
+                        {{ ownDoctorLabel || $t('citizens.doctor.noOwnDoctor') }}
+                    </p>
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('paying_municipality')">
                     <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
@@ -432,8 +445,9 @@
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('hourly_rate')">
                     <FormLabel for="hourly_rate" :label="$t('citizens.form.hourlyRate')" />
-                    <FormTextField id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
+                    <FormTextField v-if="!isHidden('hourly_rate')" id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
                         v-model="state.formCitizen.hourly_rate" />
+                    <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                     <FormError :error="v$?.formCitizen?.hourly_rate?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
                 </div>
@@ -1186,6 +1200,9 @@
         <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
             @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers"
             v-if="state.modal.isAddCaseworkerOpen" />
+        <ModulesUserCitizenContactModalNewDoctor :isModalOpen="state.modal.isAddOwnDoctorOpen" :primaryGp="true"
+            @close="state.modal.isAddOwnDoctorOpen = false" @refreshCaseworkers="fetchOwnDoctor"
+            v-if="state.modal.isAddOwnDoctorOpen" />
         <ModulesUserCitizenDetailsModalLocateCitizen :isModalOpen="state.modal.isLocateCitizenOpen"
             :initialLocation="state.selectedCitizenLocation" :currentAddress="{
                 street: state.formCitizen.street,
@@ -1202,6 +1219,7 @@ import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
+import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { roomService } from '@/components/api/user/RoomService'
 import { consentDeclarationTypeService } from '@/components/api/user/ConsentDeclarationTypeService'
@@ -1311,6 +1329,8 @@ const selectedSectionLabel = computed(() => {
 const { parse: parseCpr } = useDanishCpr()
 
 const state = reactive({
+    // The citizen's primary GP (a contact of type doctor flagged is_primary_gp), null when none.
+    ownDoctor: null as any,
     // True while the birthday field's current value came from the CPR number and
     // has not been edited by hand since - drives the hint text under the field.
     autoFilledFromSsn: false,
@@ -1452,6 +1472,7 @@ const state = reactive({
     modal: {
         isAddAddictionOpen: false,
         isAddCaseworkerOpen: false,
+        isAddOwnDoctorOpen: false,
         isAddDepartmentOpen: false,
         isAddDiagnosisOpen: false,
         isAddForeignCityOpen: false,
@@ -1798,6 +1819,7 @@ onMounted(async () => {
         }
     } catch (e) { /* silent — all fields visible on error */ }
     fetchCitizenCaseWorkers()
+    fetchOwnDoctor()
     fetchConsentDeclarationTypes()
     fetchDepartments()
     fetchRooms()
@@ -1819,6 +1841,21 @@ onMounted(async () => {
 const isValidDate = (y: string, m: string, d: string): boolean => {
     const date = new Date(parseInt(y), parseInt(m) - 1, parseInt(d)) // Month is zero-based
     return date && date.getFullYear() === parseInt(y) && (date.getMonth() + 1) === parseInt(m) && date.getDate() === parseInt(d)
+}
+
+const ownDoctorLabel = computed(() => {
+    const d = state.ownDoctor
+    if (!d) return ''
+    const name = [d.firstname, d.lastname].filter(Boolean).join(' ')
+    return [name, d.clinic_name || d.company_name, d.phone].filter(Boolean).join(', ')
+})
+
+async function fetchOwnDoctor() {
+    if (props.formType === 'create' || !citizenUuid) return
+    try {
+        const response = await citizenDoctorService.getAllCitizenDoctors(citizenUuid)
+        state.ownDoctor = (response?.data ?? []).find((doctor: any) => doctor.is_primary_gp) ?? null
+    } catch (e) { /* silent: the row just shows "none" */ }
 }
 
 async function fetchCitizenCaseWorkers() {

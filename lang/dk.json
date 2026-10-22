@@ -1,4 +1,35 @@
 {
+    "invoiceMail": {
+        "noticeTitle": "Fakturaer sendes ikke længere på mail",
+        "noticeBody": "Fremover får I ikke en mail, hver gang et abonnement, en app eller en optankning trækkes automatisk. Alle fakturaer og kvitteringer ligger her under Fakturaer. Mislykkede betalinger får I stadig besked om på mail.",
+        "autoSendLabel": "Send fakturaer til bogholder automatisk",
+        "autoSendHint": "Når den er slået til, får modtagerne herunder en kopi af hver automatisk faktura.",
+        "autoSendSaved": "Indstillingen er gemt"
+    },
+    "referralProgram": {
+        "title": "Giv en måned, få en måned",
+        "intro": "Når en virksomhed, du anbefaler, opretter en konto via dit link og betaler sin første faktura, får I begge en gratis måned.",
+        "npsTitle": "Vil du give CitizenOne videre?",
+        "npsBody": "Send dit personlige link til en virksomhed, der kunne have gavn af CitizenOne. Bliver de kunde, får I begge en gratis måned.",
+        "copy": "Kopiér link",
+        "copied": "Kopieret",
+        "statusReferred": "Oprettet via dit link: {count}",
+        "statusPending": "Venter på deres første betaling: {count}",
+        "statusMonths": "Gratis måneder på vej: {count}",
+        "termsTitle": "Vilkår",
+        "terms1": "I får begge en gratis måned, når den virksomhed, du har anbefalet, har betalt sin første faktura.",
+        "terms2": "Den gratis måned er en måned af jeres grundabonnement, ekskl. moms. Apps, tilkøb og gebyrer er ikke med, og den kan ikke udbetales.",
+        "terms3": "Vi trækker den fra en af jeres kommende fakturaer, normalt den næste.",
+        "terms4": "En virksomhed kan højst få {cap} gratis måneder om året. Jeres egen organisation, eller en med samme CVR-nummer eller maildomæne, tæller ikke.",
+        "terms5": "Anbefal os kun til nogen, du tror, får glæde af det. Der er ingen forpligtelse, og den virksomhed, du anbefaler, bestemmer selv.",
+        "registerNote": "Når I har betalt jeres første faktura, får I en gratis måned."
+    },
+    "journalDraft": {
+        "offer": "Du har et notat, der ikke blev gemt (kl. {time}).",
+        "restore": "Gendan",
+        "discard": "Kassér",
+        "confirmClose": "Notatet er ikke gemt. Vil du lukke alligevel? Teksten gemmes som kladde i denne fane."
+    },
     "nps": {
         "question": "Hvor sandsynligt er det, at du vil anbefale CitizenOne til en kollega?",
         "unlikely": "Slet ikke",
@@ -103,7 +134,10 @@
             "selectAll": "Vælg alle",
             "banner": "{count} konverteret(e) sag(er) har endnu ingen sagsbehandler.",
             "claimCases": "Tag sager",
-            "claimed": "1 sag tildelt | {count} sager tildelt"
+            "claimed": "1 sag tildelt | {count} sager tildelt",
+            "open": "Åbn",
+            "openCase": "Åbn @:terms.citizen{''}",
+            "openInquiry": "Åbn henvendelse"
         }
     },
     "managementEconomy": {
@@ -1010,7 +1044,7 @@
     "cody": {
         "adoption": {
             "headline": "Giv jeres medarbejdere tid tilbage med Cody",
-            "headlineBody": "Cody sparer i gennemsnit 2,37 timer administration pr. medarbejder pr. dag, målt blandt aktive brugere.",
+            "headlineBody": "Cody giver overblik over dagen, finder oplysninger og skriver udkast til journalnotater, så der bliver mere tid til kerneopgaven.",
             "tryFree": "Prøv Cody gratis i 14 dage",
             "tryFreeShort": "Prøv gratis i 14 dage",
             "readMore": "Læs mere",
@@ -1077,12 +1111,12 @@
         "rateLimitedToday": "Dagens inkluderede Cody-svar er brugt. Med ekstra kapacitet kan I fortsætte i dag - ellers nulstilles det ved midnat.",
         "limitBuyMore": "Køb mere kapacitet",
         "limitAskAdmin": "Bed din administrator om mere kapacitet.",
-        "companyDataMissing": "Svaret er givet uden adgang til jeres data. Søgeindekset er ikke oprettet endnu.",
-        "companyDataBuilding": "Svaret er givet uden adgang til jeres data. Søgeindekset er stadig ved at blive bygget.",
+        "companyDataMissing": "Cody AI kunne ikke se jeres data i dette svar, fordi adgangen ikke er sat op endnu. Kontakt support, så hjælper vi.",
+        "companyDataBuilding": "Cody AI er ved at gøre jeres data klar og kunne ikke bruge dem i dette svar. Prøv igen om lidt.",
         "askAnything": "Spørg om hvad som helst, eller skriv {'@'} for at nævne nogen",
         "mentionSomeone": "Nævn en @:terms.citizen{''} eller medarbejder",
-        "searchScopeHint": "AI kan søge i alle @:terms.citizen{''}-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
-        "reviewNotice": "AI-genereret indhold kan indeholde fejl — gennemgå det altid, før du stoler på det",
+        "searchScopeHint": "Cody AI kan søge i alle @:terms.citizen{''}-/medarbejderoplysninger, du har adgang til, medmindre du tagger en bestemt person med {'@'}",
+        "reviewNotice": "Indhold fra Cody AI kan indeholde fejl. Gennemgå det altid, før du stoler på det",
         "dataGovernanceNotice": "Læs hvordan CitizenOne beskytter dine data i vores",
         "previewBeforeSending": "Se forhåndsvisning før afsendelse",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
@@ -1119,7 +1153,7 @@
             "duration": "{ms} ms"
         },
         "identity": {
-            "name": "Cody",
+            "name": "Cody AI",
             "tagline": "Din assistent i hverdagen",
             "scope": "Ser kun det du har adgang til"
         },
@@ -1145,6 +1179,54 @@
         },
         "dataAndAccess": "Om data og adgang",
         "reviewShort": "Cody kan tage fejl - læs svaret igennem.",
+        "pageContext": {
+            "seeing": "Cody kan se, at du er på: {page}",
+            "pages": {
+                "my_day": "Min dag",
+                "overview": "Overblik",
+                "citizen_list": "@:terms.citizens{''}",
+                "citizen_profile": "@:terms.citizen{''}",
+                "citizen_journals": "Journal",
+                "citizen_medicine": "Medicin",
+                "citizen_plans_goals": "Planer og mål",
+                "citizen_documents": "Dokumenter",
+                "citizen_calendar": "Kalender",
+                "citizen_contacts": "Kontakter",
+                "citizen_nursing": "Sygeplejefaglige områder",
+                "citizen_wellbeing": "Trivsel",
+                "citizen_timeline": "Tidslinje",
+                "duty_schedule": "Vagtplan",
+                "employee_schedule": "Vagtplan for medarbejder",
+                "calendar": "Kalender",
+                "messages": "Beskeder",
+                "mail": "Mail",
+                "journal_feed": "Journalnotater",
+                "missed_doses": "Manglende doser",
+                "reminders": "Påmindelser",
+                "procedures": "Procedurer",
+                "reports": "Rapporter",
+                "inquiries": "Henvendelser",
+                "employees": "Medarbejdere",
+                "economy": "Økonomi",
+                "settings": "Indstillinger"
+            }
+        },
+        "renameConversation": "Omdøb samtale",
+        "removeAttachment": "Fjern {name}",
+        "deleteConversation": "Slet samtale",
+        "feedback": {
+            "up": "Godt svar",
+            "down": "Dårligt svar",
+            "thanks": "Tak for din feedback",
+            "question": "Hvad var galt?",
+            "failed": "Din feedback blev ikke gemt. Prøv igen.",
+            "reasons": {
+                "wrong": "Forkert",
+                "incomplete": "Mangler noget",
+                "not_helpful": "Hjalp ikke",
+                "other": "Andet"
+            }
+        },
         "cards": {
             "badges": {
                 "draft": "Udkast",
@@ -1160,7 +1242,7 @@
         },
         "couldNotAnswer": "Jeg kunne ikke svare på det. Prøv igen - og bliver det ved, så sig det til en administrator.",
         "budgetSpent": "Jeres ekstra kapacitet er brugt, og dagens inkluderede svar er også brugt. Fyld op for at fortsætte i dag.",
-        "ownDailyLimit": "Du har brugt din egen dagsgrænse for AI. Din administrator kan hæve den.",
+        "ownDailyLimit": "Du har brugt din egen dagsgrænse for Cody AI. Din administrator kan hæve den.",
         "dictate": {
             "start": "Diktér",
             "stop": "Stop optagelse",
@@ -1172,7 +1254,7 @@
                 "insecure": "Diktering kræver en sikker forbindelse (https).",
                 "failed": "Kunne ikke skrive optagelsen ned. Prøv igen.",
                 "limit": "Dagens diktering eller Cody-svar er brugt. Det nulstilles ved midnat.",
-                "budget": "Jeres ekstra kapacitet er brugt. En administrator kan fylde op under Indstillinger → AI-forbrug."
+                "budget": "Jeres ekstra kapacitet er brugt. En administrator kan fylde op under Indstillinger → Cody AI-forbrug."
             }
         },
         "attachFile": "Vedhæft fil",
@@ -1845,6 +1927,9 @@
                 "successfullyCopied": "{journal} kopieret succesfuldt",
                 "successfullyMoved": "{journal} flyttet succesfuldt",
                 "successfullyUpdated": "Journal opdateret med succes",
+                "surveysNotCompleted": "Notatet er gemt, men {n} spørgeskema(er) blev ikke registreret.",
+                "surveysRetry": "Prøv igen",
+                "surveysRetried": "Spørgeskemaerne er registreret.",
                 "unlockJournal": "{journal} låst op med succes",
                 "unpinJournal": "{journal} fastgørelse fjernet med succes"
             },
@@ -1951,6 +2036,7 @@
                 "title": "Titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
                 "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
+                "autosaveFailed": "Kunne ikke gemme automatisk. Dine seneste ændringer er ikke gemt endnu - prøver igen.",
                 "showJournalTitles": "Vis journaltitler",
                 "titlePlaceholder": "Vælg eller skriv en titel",
                 "dictate": "Diktér",
@@ -2122,6 +2208,11 @@
         "departments": "Afdelinger",
         "diagnoses": "Diagnoser",
         "doctor": {
+            "addOwnDoctor": "Tilføj egen læge",
+            "changeOwnDoctor": "Skift egen læge",
+            "noOwnDoctor": "Ingen egen læge tilføjet",
+            "ownDoctor": "Egen læge",
+            "ownDoctorAdded": "Egen læge tilføjet",
             "addNewDoctor": "Tilføj ny læge",
             "alert": {
                 "newDoctorSuccessfullyAdded": "Ny læge tilføjet med succes"
@@ -2762,6 +2853,7 @@
                     "interventionHoursSuccessfullyAdded": "Indsatstimer tilføjet med succes",
                     "interventionHoursSuccessfullyUpdated": "Indsatstimer opdateret med succes"
                 },
+                "hourType": "Timetype",
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
                 "note": "Bemærkning",
@@ -3108,7 +3200,10 @@
                 "legendScheduled": "Planlagt",
                 "anErrorOccurred": "Der opstod en fejl.",
                 "anErrorOccurredRetry": "Der opstod en fejl. Prøv igen.",
+                "historyUnavailable": "Vi kunne ikke hente, hvilke doser der allerede er givet. Prøv igen, før du registrerer, så der ikke bliver givet dobbelt.",
+                "retry": "Prøv igen",
                 "registeredForDays": "Registreret for {n} dag(e).",
+                "partialFailure": "Registreret for {ok} dag(e). Mislykkedes for: {dates} ({reason}). De mislykkede datoer er stadig valgt - prøv igen.",
                 "overdueMinutes": "{minutes} min forsinket",
                 "overdueHoursMinutes": "{hours}t {minutes}min forsinket",
                 "overdueHours": "{hours}t forsinket",
@@ -3270,6 +3365,7 @@
                 "weekly": "Ugentligt"
             },
             "synchronizeWithFMK": "Synkroniser med FMK",
+            "openFmkOnline": "Åbn FMK-online",
             "table": {
                 "actions": {
                     "activate": "Aktiver",
@@ -3320,6 +3416,16 @@
             "noJournalToDisplay": "Ingen journal at vise"
         },
         "nursingAreas": {
+            "areaOverview": {
+                "title": "De 12 sundhedsfaglige områder",
+                "description": "Seneste vurdering, problemstatus og åbne behandlinger inden for hvert område. Tryk på et område for at se mere.",
+                "onlyWithContent": "Vis kun områder med indhold",
+                "empty": "Intet registreret endnu",
+                "nothingYet": "Der er ikke registreret noget på de sundhedsfaglige områder endnu.",
+                "latestStatus": "Seneste status",
+                "openTreatments": "{count} åben behandling | {count} åbne behandlinger",
+                "loadFailed": "Områderne kunne ikke hentes. Prøv igen."
+            },
             "checklists": {
                 "addItem": "Tilføj punkt",
                 "checklists": "Tjeklister",
@@ -3731,6 +3837,8 @@
             "description": "Beskrivelse",
             "descriptionPlaceholder": "Tilføj en beskrivelse",
             "viewFullTimeline": "Vis hele tidslinjen",
+            "loadOlder": "Vis ældre",
+            "allLoaded": "Alle hændelser er vist",
             "alert": {
                 "successfullyAdded": "Tidslinjehændelse tilføjet",
                 "deletedSuccessfully": "Tidslinjehændelse slettet"
@@ -4973,7 +5081,8 @@
         "showFewerShifts": "Vis kun de første vagter",
         "quickEditTime": {
             "tooltip": "Klik for at redigere tidspunktet",
-            "hint": "Enter for at gemme · Esc for at annullere"
+            "hint": "Enter for at gemme · Esc for at annullere",
+            "saveFailed": "Vagttidspunktet kunne ikke opdateres."
         },
         "danlon_sync": "Synkroniser til Danløn",
         "danlon_sync_description": "Overfør planlagte timer og tillæg fra dine vagtplaner til Danløn lønsystem. Vælg medarbejdere, vælg en datoperiode og kortlæg vagttyper til Danløn-koder før synkronisering.",
@@ -7089,6 +7198,7 @@
                 "count": "Antal forekomster"
             },
             "consecutiveDays": "Sammenhængende dage",
+            "periodDaysPlaceholder": "fx 30",
             "dutyShiftRuleName": "Navn",
             "evaluatingShiftsFrom": "Evaluerer vagter fra",
             "inactive": "Inaktiv",
@@ -7550,7 +7660,8 @@
             "successfullyDeleted": "Begivenhed slettet med succes",
             "successfullyUpdated": "Begivenhed blev opdateret med succes",
             "statusSuccessfullyUpdated": "Begivenhedsstatus opdateret med succes",
-            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} oprettet med succes"
+            "journalSuccessfullyCreated": "@.capitalize:terms.journalNote{''} oprettet med succes",
+            "journalCreatedAndCompleted": "@.capitalize:terms.journalNote{''} oprettet, og aftalen er markeret som gennemført"
         },
         "calendar": "Kalender",
         "citizens": "@.capitalize:terms.citizens{''}",
@@ -7620,6 +7731,7 @@
         "createJournalNote": "Opret @:terms.journalNote{''}",
         "markAsCompleted": "Markér som gennemført",
         "markAsNotCompleted": "Markér som ikke gennemført",
+        "registerTime": "Registrér tid",
         "statusMenuLabel": "Markér \"{title}\" som gennemført eller ikke gennemført",
         "viewJournalNote": "Se @:terms.journalNote{''}",
         "linkedNote": "Tilknyttet @:terms.journalNote{''}: {title}",
@@ -7627,6 +7739,19 @@
             "label": "Mangler notat",
             "help": "Bookingen er slut, men der er ikke skrevet et journalnotat endnu. Klik for at skrive det."
         },
+        "noteHeader": {
+            "label": "Aftale",
+            "case": "@.capitalize:terms.citizen{''}",
+            "caseNumber": "Sagsnr. {number}",
+            "responsible": "Ansvarlig",
+            "primaryCoordinator": "Primær koordinator",
+            "bookingOwner": "Ansvarlig for aftalen",
+            "statusLabel": "Status",
+            "planned": "Planlagt"
+        },
+        "saveAndComplete": "Gem og markér som gennemført",
+        "completeOnSaveHint": "Når du gemmer @:terms.journalNote{''}, markeres aftalen som gennemført.",
+        "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''}, før aftalen markeres som gennemført.",
         "status": {
             "completed": "Gennemført",
             "notCompleted": "Ikke gennemført"
@@ -8082,6 +8207,12 @@
             "title": "Medicinstatustyper",
             "description": "Vælg hvilke statusser medarbejdere kan vælge, når de registrerer en dosis. \"Givet\" forbliver altid aktiveret."
         },
+        "selfAdministered": {
+            "title": "Selvadministreret medicin",
+            "description": "Vælg om selvadministreret medicin stadig hører til personalets medicinrunde.",
+            "showInRounds": "Vis i Medicinoversigt og Min dag",
+            "hiddenHint": "Slået fra: medicinen står stadig på medicinkortet, men vises ikke i Medicinoversigt eller Min dag, og der sendes ingen påmindelser eller udløbsadvarsler om den."
+        },
         "fields": {
             "addictions": "Afhængigheder",
             "allocatedHours": "Tildelte timer",
@@ -8361,6 +8492,8 @@
             "blocksInside": "blokke i gruppen",
             "addingInside": "Næste blok lægges ind i gruppen",
             "addAtEnd": "Læg den nederst i stedet",
+            "moveTo": "Flyt ind i en gruppe",
+            "noGroup": "Ingen gruppe",
             "hint": "Blokkene i gruppen gentages én gang pr. mål på @:terms.citizenDefinite{''}. Indsæt feltet for gentagelsens navn, hvor målets navn skal stå.",
             "noIterations": "@.capitalize:terms.citizenDefinite{''} har ingen mål endnu, så denne gruppe er tom."
         }
@@ -8507,6 +8640,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "cpr": "@.capitalize:terms.citizenDefinite{'s'} CPR-nummer",
+            "cprWhenWon": "Skal først udfyldes, når henvendelsen vindes.",
             "crisisCenter": {
                 "fields": {
                     "assessment": "Vurderer du, at @:terms.citizenDefinite{''} er inden for målgruppen af §109?",
@@ -8640,11 +8774,25 @@
         }
     },
     "invitation": {
+        "acceptInvitation": "Accepter invitation",
+        "accepting": "Accepterer invitation",
         "alert": {
             "invalidInvitationLink": "Ugyldigt invitationslink"
         },
+        "errorBody": "Invitationen kunne ikke accepteres lige nu. Prøv igen senere",
+        "errorTitle": "Noget gik galt",
+        "expiredBody": "Invitationslinket er udløbet. Bed den, der inviterede dig, om at sende en ny invitation",
+        "expiredTitle": "Invitationen er udløbet",
+        "invalidBody": "Invitationslinket er ugyldigt. Bed den, der inviterede dig, om at sende en ny invitation",
+        "invalidTitle": "Ugyldig invitation",
         "invitationAccepted": "Invitation accepteret",
         "loginToContinue": "Log ind for at fortsætte",
+        "notAdminBody": "Kun administratorer kan acceptere denne invitation",
+        "notAdminTitle": "Invitationen blev ikke accepteret",
+        "readyBody": "Tryk på knappen nedenfor for at blive administrator i organisationen",
+        "readyTitle": "Du er blevet inviteret",
+        "wrongUserBody": "Invitationen er til en anden bruger. Log ud, og åbn linket igen som den, den blev sendt til",
+        "wrongUserTitle": "Logget ind som en anden",
         "youHaveSuccessfullyAcceptedTheInvitation": "Du har med succes accepteret invitationen"
     },
     "invoiceDetails": {
@@ -9908,7 +10056,11 @@
             "forgotten": "Glemt",
             "pending": "Afventer",
             "noEvaluationsToShow": "Ingen effektevalueringer at vise",
-            "clickToEvaluate": "Klik for at evaluere"
+            "clickToEvaluate": "Klik for at evaluere",
+            "quickDose": {
+                "title": "Registrer dosis",
+                "moreOptions": "Flere muligheder"
+            }
         },
         "medicineDeviationStatistics": {
             "deviated": "Afveget",
@@ -10907,6 +11059,8 @@
             "level": "Niveau",
             "hideInternalJournals": "Kan ikke se interne noter",
             "hideInternalJournalsHelp": "Medarbejdere med denne rolle ser ikke noter markeret som interne, medmindre de selv har skrevet dem. Har en medarbejder flere roller, er det nok at én af dem er markeret.",
+            "seesHrData": "Kan se HR-oplysninger og medarbejderdokumenter",
+            "seesHrDataHelp": "Medarbejdere med denne rolle ser kollegers HR-oplysninger, medarbejderdokumenter (kontrakter, straffeattester, attester m.m.), lønfelter, adresser og nødkontakter og kan håndtere dem. Uden den ser de kun deres egne. Administratorer ser dem altid.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
@@ -11180,6 +11334,7 @@
         "company": {
             "form": {
                 "citizenCalendarShift": "Nye begivenheder i @:terms.citizenDefinite{'s'} kalender kan også oprette en vagt til en medarbejder",
+                "inquiryWonRequiresCpr": "CPR påkrævet ved vundet henvendelse",
                 "2fa": "To-faktor-godkendelse",
                 "accountantEmail": "Revisor eller regnskabs e-mail (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
@@ -11284,8 +11439,16 @@
                 "chatCprWarning": "Advar om CPR-numre i chat",
                 "missingNoteReminder": "Påmind om aftaler uden @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Giv besked om @:terms.journalNotes{''} oprettet fra en aftale",
+                "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrævet ved Gennemført",
+                "calendarNoteRequiredHint": "Vælger man Gennemført på en aftale med en @:terms.citizen{''}, åbnes @:terms.journalNote{''}, og aftalen markeres som gennemført, når det gemmes. Ikke gennemført kræver intet notat",
+                "missingNoteCoordinatorReminder": "Påmind koordinator om manglende @:terms.journalNote{''}",
+                "missingNoteCoordinatorReminderHint": "Et døgn efter en aftale sluttede uden notat, får sagens primære koordinator også en påmindelse, og koordinatorer og ledere ser aftalerne på Min dag. Kræver, at påmindelsen om aftaler uden notat er slået til",
                 "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
                 "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
+                "hideCitizenRatesFromStaff": "Skjul timepris og dækningsgrad for medarbejdere",
+                "hideCitizenRatesFromStaffHint": "Ledere, administratorer og medarbejdere med økonomirettigheder ser dem stadig",
+                "careHourTypes": "Vælg timetype på indsatstimer",
+                "careHourTypesHint": "Besøgs-, transport- eller administrationstid på hver registrering, også fra en aftale (Registrér tid)",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
@@ -11899,14 +12062,21 @@
     },
     "supportAccess": {
         "title": "CitizenOne's adgang",
-        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i fire timer og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
+        "intro": "Her godkender I, når CitizenOne beder om at gå ind på en af jeres brugeres konti. Ingen kommer ind uden et ja fra jer. Et ja gælder i den varighed der er anmodet om og lukker derefter af sig selv, I kan trække det tilbage undervejs, og nederst står hver gang nogen har været inde.",
         "pending": {
             "heading": "Venter på jeres svar",
             "empty": "Der er ingen anmodninger lige nu.",
             "wantsAccessTo": "Beder om adgang til {name}s konto",
             "answerBefore": "Svar inden",
             "approve": "Godkend",
-            "deny": "Afvis"
+            "deny": "Afvis",
+            "duration": {
+                "h4": "Adgang i 4 timer efter godkendelse",
+                "h24": "Adgang i 1 døgn efter godkendelse",
+                "h168": "Adgang i 7 dage efter godkendelse",
+                "h720": "Adgang i 30 dage efter godkendelse",
+                "hours": "Adgang i {count} timer efter godkendelse"
+            }
         },
         "active": {
             "heading": "Adgang lige nu",
@@ -11921,7 +12091,8 @@
             "basis": "Grundlag",
             "reason": "Begrundelse",
             "approved": "Godkendt af jer",
-            "breakGlass": "Uden godkendelse"
+            "breakGlass": "Uden godkendelse",
+            "endedBySupport": "Afsluttet af supporten"
         },
         "alert": {
             "approved": "Adgangen er godkendt",
@@ -12172,6 +12343,53 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igen om lidt."
     },
     "superadmin": {
+        "referrals": {
+            "header": "Anbefalinger",
+            "subtitle": "Virksomheder der er oprettet via en kundes link, og de gratis måneder de har givet.",
+            "manualHint": "Gratis måneder trækkes ikke fra automatisk. Træk måneden fra virksomhedens næste faktura, og markér den derefter som givet med faktura- eller kreditnotanummeret.",
+            "cards": {
+                "referrals": "Anbefalinger",
+                "pending": "Venter på første betaling",
+                "rewarded": "Belønnet",
+                "rejected": "Afvist",
+                "toApply": "Gratis måneder at give"
+            },
+            "status": {
+                "pending": "Venter på første betaling",
+                "rewarded": "Belønnet",
+                "rejected": "Afvist"
+            },
+            "reasons": {
+                "same_company": "Samme virksomhed",
+                "same_cvr": "Samme CVR-nummer",
+                "same_email_domain": "Samme admin-maildomæne"
+            },
+            "role": {
+                "referrer": "Anbefalede",
+                "referred": "Blev anbefalet"
+            },
+            "creditStatus": {
+                "earned": "Skal gives",
+                "applied": "Givet",
+                "void": "Annulleret"
+            },
+            "allStatuses": "Alle statusser",
+            "referrer": "Anbefalet af",
+            "referred": "Ny kunde",
+            "signedUp": "Oprettet",
+            "statusColumn": "Status",
+            "credits": "Gratis måneder",
+            "qualifyingInvoice": "Første betaling: faktura {number}, {amount} kr.",
+            "capped": "Den anbefalende kunde fik ingen måned (årligt loft nået eller ikke længere aktiv).",
+            "amount": "{amount} kr. ekskl. moms",
+            "noAmount": "Ingen abonnementspris fundet",
+            "apply": "Markér som givet",
+            "void": "Annullér",
+            "notePlaceholder": "Faktura- eller kreditnotanummer, eller hvorfor den annulleres",
+            "save": "Gem",
+            "cancel": "Tilbage",
+            "empty": "Ingen virksomheder er oprettet via en kundes link i perioden."
+        },
         "nps": {
             "title": "Anbefalinger (NPS)",
             "subtitle": "Svar fra administratorer de sidste 90 dage. NPS = andel 9-10 minus andel 0-6.",
@@ -12194,6 +12412,31 @@
             }
     },
         "funnel": {
+            "loops": {
+                "title": "Vækstløkker",
+                "subtitle": "Kunder der bringer mere med sig: medarbejdere der foreslår en app til deres leder, og kunder der deler CitizenOne.",
+                "period": "Periode",
+                "empty": "Intet i perioden.",
+                "suggestions": {
+                    "title": "Foreslå til min leder",
+                    "hint": "Én app i én virksomhed tæller én gang, fra det første forslag. Købt = et betalt abonnement på appen inden for {days} dage. Åben = vinduet er ikke lukket endnu og tæller ikke med i raten.",
+                    "sends": "Sendt",
+                    "recipients": "Modtagere",
+                    "apps": "Foreslåede apps",
+                    "converted": "Købt",
+                    "open": "Åben",
+                    "rate": "Købt inden for {days} dage"
+                },
+                "referrals": {
+                    "title": "Delte links",
+                    "hint": "Delinger af \"Del CitizenOne\"-linket, virksomheder oprettet via et (talt i den periode de blev oprettet), og hvor mange af dem der har betalt en faktura.",
+                    "shares": "Delinger",
+                    "signedUp": "Oprettet",
+                    "paid": "Betalt",
+                    "rate": "Oprettede der har betalt",
+                    "medianDays": "median {days} dage til første betaling"
+                }
+            },
             "title": "Vækst-tragt",
             "subtitle": "Firmaer der oprettede sig i perioden, pr. tilmeldingskanal, og hvor langt de er nået: egne borgere, første notat og betaling.",
             "stages": {
@@ -12645,7 +12888,7 @@
                     "grantStorage": "Tildel lager",
                     "description": "Tildeler en lagerpakke til virksomheden og opretter en afventende manuel faktura for beløbet. Køb af en anden pakke erstatter den nuværende (med en forholdsmæssig kredit); den samme pakke igen bliver afvist.",
                     "packageLabel": "Lagerpakke",
-                    "used": "{used} GB brugt af {quota} GB",
+                    "used": "{used} brugt af {quota} GB",
                     "none": "Ingen lagerpakke tildelt - kvoten er {quota} GB.",
                     "remove": "Fjern",
                     "confirmRemove": "Fjern lagerpakken {package}? Virksomhedens kvote vender tilbage til planens standard.",
@@ -13410,6 +13653,7 @@
             "labelImage": "Billede"
         },
         "sidebar": {
+            "referrals": "Anbefalinger",
             "nps": "Anbefalinger (NPS)",
             "roadmap": "Roadmap",
             "apps": "Apps",
@@ -13468,7 +13712,7 @@
         "supportAccess": {
             "pageTitle": "Adgang hos kunder",
             "header": "Adgang hos kunder",
-            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i fire timer. Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
+            "subtitle": "Anmodninger om at gå ind på en kundes konto. Kunden svarer, og et ja gælder i den valgte varighed (4 timer til 7 dage). Svarer de ikke inden for tolv timer, bortfalder anmodningen.",
             "loading": "Henter anmodninger",
             "empty": "Du har ikke bedt om adgang til nogen konti.",
             "status": {
@@ -13485,7 +13729,9 @@
                 "reason": "Begrundelse",
                 "deadline": "Frist",
                 "accessUntil": "Adgang til",
-                "answerBefore": "Svar inden"
+                "answerBefore": "Svar inden",
+                "duration": "Varighed",
+                "endedBy": "Afsluttet af {name} {time}"
             },
             "dialog": {
                 "heading": "Bed kunden om adgang",
@@ -13496,10 +13742,26 @@
                 "caseReference": "Sagsnummer",
                 "caseReferencePlaceholder": "Valgfrit",
                 "send": "Send anmodning",
-                "terms": "Siger kunden ja, gælder adgangen i fire timer og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log."
+                "terms": "Siger kunden ja, gælder adgangen i den valgte varighed og lukker derefter af sig selv. De kan trække den tilbage undervejs, og alt hvad der sker imens, står i deres log.",
+                "duration": "Varighed",
+                "durationHint": "Kunden ser varigheden og kan trække adgangen tilbage når som helst."
+            },
+            "duration": {
+                "h4": "4 timer",
+                "h24": "1 døgn",
+                "h168": "7 dage",
+                "h720": "30 dage",
+                "hours": "{count} timer"
+            },
+            "end": {
+                "button": "Afslut adgang",
+                "confirm": "Afslutte adgangen nu?",
+                "yes": "Ja, afslut",
+                "done": "Adgangen er afsluttet"
             },
             "alert": {
-                "requested": "Anmodningen er sendt til kunden"
+                "requested": "Anmodningen er sendt til kunden",
+                "reused": "Du har allerede en godkendt adgang, der stadig gælder. Den bruges uændret, og der er ikke sendt en ny anmodning."
             }
         },
         "emailTemplates": {
@@ -14716,6 +14978,7 @@
     },
     "support": {
         "chatWithSupport": "Chat med support",
+        "helpAndResources": "Hjælp og ressourcer",
         "courseDetails": "Hvis du og dine kollegaer har brug for et kursus i CitizenOne, så klik på knappen nedenfor for at se, hvad vi kan tilbyde, så I bliver godt klædt på",
         "findGuidesHere": "Find vejledninger her",
         "getAGuidedTour": "Få en guided video-tour",
@@ -16119,6 +16382,8 @@
         "unassignedWonTooltip": "Se de vundne sager, som ingen står på endnu, og fordel dem",
         "brief": {
             "bookings_missing_note": "En aftale er slut uden et @:terms.journalNote{''} | {n} aftaler er slut uden et @:terms.journalNote{''}",
+            "coordinated_bookings_missing_note": "En aftale på en sag, du koordinerer, mangler et @:terms.journalNote{''} | {n} aftaler på sager, du koordinerer, mangler et @:terms.journalNote{''}",
+            "department_bookings_missing_note": "En aftale i dine afdelinger mangler et @:terms.journalNote{''} | {n} aftaler i dine afdelinger mangler et @:terms.journalNote{''}",
             "goals_running_out": "Et mål udløber inden for en uge | {n} mål udløber inden for en uge",
             "heading": "Kræver din opmærksomhed",
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
@@ -16600,6 +16865,7 @@
         "frequency": "Frekvens",
         "instant": "Med det samme",
         "hourly": "Timevis samling",
+        "daily": "Daglig samling",
         "required": "Påkrævet",
         "save": "Gem notifikationstyper",
         "saved": "Notifikationstyper gemt",
@@ -17500,6 +17766,8 @@
             "threeMonthInterviewAt": "3-måneders samtale afholdt",
             "terminationReason": "Fratrædelsesårsag",
             "simCard": "Simkort",
+            "contactStatus": "Kontaktstatus",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Øvrigt arbejde",
             "workingHoursComment": "Kommentar til arbejdstider",
             "notWorkWith": "Ønsker ikke arbejde med",
@@ -17586,6 +17854,27 @@
             "saved": "Profilen er gemt",
             "skillsSaved": "Kompetencerne er gemt",
             "saveFailed": "Kunne ikke gemmes"
+        },
+        "contact": {
+            "title": "Kontaktstatus",
+            "statuses": {
+                "active": "Aktiv",
+                "inactive": "Inaktiv – kan kontaktes",
+                "do_not_contact": "Må ikke kontaktes",
+                "terminated": "Ophørt"
+            },
+            "doNotContact": "Må ikke kontaktes",
+            "reason": "Årsag",
+            "note": "Note",
+            "hint": "Markeret som \"Må ikke kontaktes\" er konsulenten ude af matchningen og kan hverken spørges, vælges til en sag eller genaktiveres. En arkiveret konsulent uden markering og uden fratrædelsesdato er med i matchningen som \"Inaktiv – kan kontaktes\".",
+            "reasons": {
+                "resigned": "Fratrådt",
+                "paused": "På pause",
+                "absent": "Fraværende",
+                "do_not_contact": "Må ikke kontaktes",
+                "cannot_contact": "Kan ikke kontaktes",
+                "other": "Andet"
+            }
         }
     },
     "inquiryDetail": {
@@ -17649,8 +17938,9 @@
         "clear": "Nulstil",
         "noConsultants": "Ingen konsulenter fundet.",
         "notReady": "Kan ikke sættes på sag",
-        "archived": "Arkiveret",
+        "archived": "Inaktiv – kan kontaktes",
         "archivedHint": "Genaktiveres med en licens, når konsulenten vælges til sagen",
+        "notNotified": "{count} konsulent fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne. | {count} konsulenter fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne.",
         "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
         "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
@@ -17747,7 +18037,9 @@
             "external_contact": "Anden ekstern",
             "doctor": "Læge",
             "dentist": "Tandlæge",
-            "our_contact_person": "Vores kontaktperson"
+            "our_contact_person": "Vores kontaktperson",
+            "advisor": "Rådgiver",
+            "municipality": "Kommune"
         },
         "form": {
             "type": "Type",
@@ -17760,7 +18052,13 @@
             "employee": "Medarbejder",
             "coordinatorRole": "Koordinatorrolle",
             "noRole": "Ingen",
-            "isPrimary": "Primær part"
+            "isPrimary": "Primær part",
+            "role": "Rolle",
+            "roleConsultant": "Konsulent",
+            "relationship": "Relation",
+            "noRelationships": "Der er ingen relationer endnu.",
+            "addRelationships": "Tilføj relationer under Indstillinger",
+            "askAdminForRelationships": "En administrator kan tilføje dem under Indstillinger."
         }
     },
     "inquiryInvitations": {
@@ -17785,7 +18083,10 @@
             "yes": "Ja tak",
             "no": "Nej tak",
             "answered": "Du har svaret"
-        }
+        },
+        "cannotBeChosen": "Markeret efter invitationen og kan ikke vælges til sagen",
+        "contactDirectly": "Kontakt direkte",
+        "contactDirectlyHint": "Inaktive konsulenter får ingen mail eller besked i appen om sagen. Kontakt dem direkte. Udpeg genaktiverer dem med en licens."
     },
     "taskBoards": {
         "actions": {
@@ -18287,13 +18588,13 @@
         }
     },
     "aiUsage": {
-        "title": "AI-forbrug",
+        "title": "Cody AI-forbrug",
         "loading": "Henter forbrug ...",
         "failed": "Forbruget kunne ikke hentes lige nu. Prøv igen om lidt.",
-        "forbidden": "Du har ikke adgang til AI-forbruget. Bed en administrator i jeres virksomhed om adgang.",
+        "forbidden": "Du har ikke adgang til Cody AI-forbruget. Bed en administrator i jeres virksomhed om adgang.",
         "today": "I dag",
         "ofAllowance": "{used} af {allowance} svar",
-        "allowanceExplainer": "Jeres daglige ramme følger antallet af AI-licenser, I har. Den nulstilles ved midnat.",
+        "allowanceExplainer": "Jeres daglige ramme følger antallet af Cody AI-licenser, I har. Den nulstilles ved midnat.",
         "balance": "Saldo",
         "balanceExplainer": "Bruges kun til svar ud over det, jeres licenser dækker om dagen - til samme pris pr. svar som licensen. Saldoen udløber ikke.",
         "buyMore": "Køb mere",
@@ -18302,10 +18603,10 @@
         "uses": "Forbrug",
         "amount": "Beløb",
         "minutes": "{count} min.",
-        "noneThisMonth": "Ingen brug af AI denne måned endnu.",
+        "noneThisMonth": "Ingen brug af Cody AI denne måned endnu.",
         "purchases": "Køb",
         "features": {
-            "assistant": "Spørg AI",
+            "assistant": "Spørg Cody AI",
             "transcribe": "Diktering",
             "journal": "Journalforslag",
             "handover": "Vagtoverlevering",
@@ -18316,7 +18617,7 @@
             "subtitle": "Vælg et beløb at starte med. I kan altid købe mere senere.",
             "other": "Andet",
             "bonus": "+{percent}% ekstra",
-            "capacity": "AI-kapacitet",
+            "capacity": "Cody AI-kapacitet",
             "toPay": "At betale",
             "pay": "Betal {amount}",
             "terms": "Ved at betale accepterer I CitizenOnes vilkår og betingelser. Kapaciteten udløber ikke, og der trækkes kun fra den når et svar bliver leveret.",
@@ -19025,5 +19326,76 @@
     "tableColumns": {
         "moveUp": "Flyt {column} op",
         "moveDown": "Flyt {column} ned"
+    },
+    "billingOverview": {
+        "title": "Hvad betaler jeg for",
+        "intro": "Alle jeres faste kortbetalinger til CitizenOne, med indhold, pris og dato for næste træk. Hvert køb trækkes i dag for sig, på den dag i måneden det blev købt.",
+        "loading": "Henter oversigten...",
+        "failed": "Oversigten kunne ikke hentes. Prøv igen om lidt.",
+        "forbidden": "Kun administratorer og roller, der må købe licenser, kan se hvad virksomheden betaler.",
+        "inclVat": "inkl. moms",
+        "summary": {
+            "monthly": "Fast pris pr. måned",
+            "monthlyHint": "Ekskl. moms og gebyrer. Årlige abonnementer er omregnet til måned.",
+            "charges": "Kortbetalinger pr. måned",
+            "chargesHint": "Trækkes d. {days} i måneden",
+            "fees": "Servicegebyrer pr. måned",
+            "feesHint": "{fee} pr. kortbetaling",
+            "next": "Næste træk"
+        },
+        "charge": {
+            "monthly": "Månedligt træk d. {day}.",
+            "yearly": "Årligt træk d. {day}. {month}",
+            "next": "Næste træk {date}"
+        },
+        "table": {
+            "product": "Produkt",
+            "quantity": "Antal",
+            "unitPrice": "Stykpris",
+            "amount": "Beløb",
+            "vat": "Moms (25 %)",
+            "serviceFee": "Servicegebyr",
+            "total": "Trækkes på kortet"
+        },
+        "kind": {
+            "plan": "Abonnement",
+            "app": "App",
+            "storage": "Lagerplads",
+            "add_on": "Tilkøb"
+        },
+        "empty": "Der er ingen faste kortbetalinger på jeres konto.",
+        "agreementNote": "Noget af det I bruger, faktureres efter jeres aftale og er derfor ikke med her.",
+        "notIncluded": "Ikke med her: betalingsgebyrer for online-betalinger, som lægges på app-trækket for den foregående måned, og optankning af SMS og Cody, som trækkes når saldoen er lav."
+    },
+    "managerSuggestion": {
+        "button": "Foreslå til min leder",
+        "title": "Foreslå til din leder",
+        "to": "Send til",
+        "message": "Besked",
+        "defaultMessage": "Jeg har prøvet {app} i CitizenOne og tror, det kan spare os tid til det, vi egentlig er her for.",
+        "noPersonalData": "Skriv ikke personnumre eller andre persondata her.",
+        "personalNumber": "Det ligner et personnummer. Fjern det, før du sender.",
+        "tooLong": "Beskeden må højst være {max} tegn.",
+        "calm": "Der er ingen hast. Din leder får en lille besked og et link til appen.",
+        "send": "Send forslag",
+        "sent": "Tak. Dit forslag er sendt.",
+        "already": "Du har allerede sendt forslaget til dem for nylig.",
+        "limit": "Du har sendt dette forslag flere gange for nylig. Lad det hvile lidt.",
+        "failed": "Forslaget kunne ikke sendes. Prøv igen senere."
+    },
+    "apiErrors": {
+        "loadScheduleFailed": "Kunne ikke hente vagtplansdata",
+        "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
+        "createShiftFailed": "Vagten kunne ikke oprettes.",
+        "employeeNotLinked": "Medarbejderen er endnu ikke knyttet til en lokal bruger.",
+        "unknownError": "Ukendt fejl",
+        "serverError": "Serverfejl. Prøv igen. Hvis problemet fortsætter, så kontakt din systemadministrator",
+        "generic": "Noget gik galt. Prøv igen. Hvis problemet fortsætter, så kontakt din systemadministrator",
+        "unauthorized": "Ikke autoriseret",
+        "somethingWentWrongWith": "Noget gik galt: {message}",
+        "downloadFailed": "Der opstod en fejl under download.",
+        "importFailed": "Der opstod en fejl under importen.",
+        "openFileFailed": "Der opstod en fejl under åbning af filen.",
+        "deleteFailed": "Der opstod en fejl under sletningen."
     }
 }

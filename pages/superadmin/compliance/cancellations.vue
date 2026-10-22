@@ -278,6 +278,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString, localMonthString } from '@/composables/localDate'
 import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
@@ -308,13 +309,13 @@ const modal = reactive({
         product_name: '',
         reason: '',
         mrr_lost: null as number | null,
-        cancelled_at: new Date().toISOString().split('T')[0],
+        cancelled_at: localDateString(),
         notes: '',
     }
 })
 
 // ── Computed ──────────────────────────────────────────────────────────────
-const thisMonth = new Date().toISOString().slice(0, 7)
+const thisMonth = localMonthString()
 
 const thisMonthCount = computed(() =>
     cancellations.value.filter(c => c.cancelled_at?.startsWith(thisMonth)).length
@@ -369,7 +370,7 @@ const filteredCancellations = computed(() => {
     if (periodFilter.value === 'this_month') list = list.filter(c => c.cancelled_at?.startsWith(thisMonth))
     if (periodFilter.value === 'last_month') {
         const d = new Date(); d.setMonth(d.getMonth() - 1)
-        const m = d.toISOString().slice(0, 7)
+        const m = localMonthString(d)
         list = list.filter(c => c.cancelled_at?.startsWith(m))
     }
     if (periodFilter.value === 'this_year') {
@@ -423,7 +424,7 @@ function openModal(existing?: any) {
         product_name: existing?.product_name ?? existing?.license?.product?.name ?? '',
         reason: existing?.reason ?? '',
         mrr_lost: existing?.mrr_lost ?? null,
-        cancelled_at: existing?.cancelled_at ?? new Date().toISOString().split('T')[0],
+        cancelled_at: existing?.cancelled_at ?? localDateString(),
         notes: existing?.notes ?? '',
     }
     modal.open = true

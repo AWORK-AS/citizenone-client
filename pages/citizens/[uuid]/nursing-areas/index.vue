@@ -37,6 +37,8 @@
 
                 <div>
                     <div class="mt-8 space-y-5">
+                        <ModulesUserCitizenNursingAreasAreaOverview :citizenUuid="String(citizenUuid)" />
+
                         <Disclosure as="div" v-slot="{ open }" :key="'laegejournal-' + openSection"
                             class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary"
                             :defaultOpen="openSection === 'laegejournal'">

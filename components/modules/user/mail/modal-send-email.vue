@@ -205,6 +205,7 @@ import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { secureMailSendOutcome } from '@/composables/secureMailSendOutcome'
 
 const props = defineProps({
     isModalOpen: {
@@ -218,7 +219,7 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['close', 'refreshSentEmails'])
-const { successAlert } = useAlert()
+const { successAlert, warningAlert } = useAlert()
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const file = ref<HTMLInputElement | null>(null)
@@ -470,30 +471,42 @@ async function sendEmail() {
         state.formEmail.citizen_files.forEach((file: any) => formData.append('citizen_files[]', file))
         state.formEmail.company_files.forEach((file: any) => formData.append('company_files[]', file))
         const response = await mailSMTPService.sendMail(formData)
-        if (response?.message === 'Success.' || response?.message === 'Succes.') {
+        if (secureMailSendOutcome(response).kind === 'sent') {
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('mail.form.alert.emailSuccessfullySent')}.`)
             emit('refreshSentEmails')
-            state.formEmail = {
-                recipient: [],
-                subject: '',
-                content: '',
-                encrypt_message: true,
-                password: '',
-                confirm_password: '',
-                password_hint: '',
-                fileOption: 'Attach file from computer',
-                files: [],
-                citizens_uuid: [],
-                citizen_files: [],
-                company_files: [],
-            }
-            v$.value.$reset()
+            resetForm()
         }
     } catch (error: any) {
-        state.error = error
+        const outcome = secureMailSendOutcome(undefined, error)
+        if (outcome.kind === 'saved_not_delivered') {
+            closeModal()
+            warningAlert(t('alert.warning'), outcome.message)
+            emit('refreshSentEmails')
+            resetForm()
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
+}
+
+function resetForm() {
+    state.formEmail = {
+        recipient: [],
+        subject: '',
+        content: '',
+        encrypt_message: true,
+        password: '',
+        confirm_password: '',
+        password_hint: '',
+        fileOption: 'Attach file from computer',
+        files: [],
+        citizens_uuid: [],
+        citizen_files: [],
+        company_files: [],
+    }
+    v$.value.$reset()
 }
 </script>
 
