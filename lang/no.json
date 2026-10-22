@@ -1,4 +1,11 @@
 {
+    "invoiceMail": {
+        "noticeTitle": "Fakturaer sendes ikke lenger på e-post",
+        "noticeBody": "Fremover får dere ikke en e-post hver gang et abonnement, en app eller en påfylling trekkes automatisk. Alle fakturaer og kvitteringer ligger her under Fakturaer. Dere får fortsatt beskjed på e-post hvis en betaling mislykkes.",
+        "autoSendLabel": "Send fakturaer til regnskapsfører automatisk",
+        "autoSendHint": "Når den er slått på, får mottakerne nedenfor en kopi av hver automatiske faktura.",
+        "autoSendSaved": "Innstillingen er lagret"
+    },
     "referralProgram": {
         "title": "Gi en måned, få en måned",
         "intro": "Når en virksomhet du anbefaler oppretter en konto via lenken din og betaler sin første faktura, får dere begge en gratis måned.",

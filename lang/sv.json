@@ -1,4 +1,11 @@
 {
+    "invoiceMail": {
+        "noticeTitle": "Fakturor skickas inte längre via e-post",
+        "noticeBody": "Framöver får ni inte ett e-postmeddelande varje gång en prenumeration, en app eller en påfyllning dras automatiskt. Alla fakturor och kvitton finns här under Fakturor. Ni får fortfarande e-post om en betalning misslyckas.",
+        "autoSendLabel": "Skicka fakturor till bokföraren automatiskt",
+        "autoSendHint": "När den är på får mottagarna nedan en kopia av varje automatisk faktura.",
+        "autoSendSaved": "Inställningen har sparats"
+    },
     "referralProgram": {
         "title": "Ge en månad, få en månad",
         "intro": "När en verksamhet som du rekommenderar skapar ett konto via din länk och betalar sin första faktura får ni båda en gratis månad.",
