@@ -17564,6 +17564,8 @@
             "threeMonthInterviewAt": "3-month interview held",
             "terminationReason": "Reason for leaving",
             "simCard": "SIM card",
+            "contactStatus": "Contact status",
+            "onboardingStatus": "Onboarding",
             "otherWork": "Other work",
             "workingHoursComment": "Comment on working hours",
             "notWorkWith": "Does not wish to work with",
