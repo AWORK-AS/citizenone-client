@@ -24,7 +24,10 @@
                                                 <span>{{ document?.name }}</span>
                                             </div>
                                         </td>
-                                        <td width="40%">
+                                        <td v-if="props.dateField" width="15%">
+                                            {{ document?.[props.dateField] ? formatDateToReadable(document[props.dateField]) : '-' }}
+                                        </td>
+                                        <td :width="props.dateField ? '25%' : '40%'">
                                             <span>{{ document?.note }}</span>
                                         </td>
                                         <td width="30%">
@@ -58,9 +61,11 @@
                         <Pagination :data="state.documents" @previous="previous" @next="next" />
                     </div>
                 </div>
-                <ModulesUserEmployeeDocumentBoxModalNew :fileType="props.fileType" :isModalOpen="state.modal.isAddNewDocumentOpen"
+                <ModulesUserEmployeeDocumentBoxModalNew :fileType="props.fileType" :dateField="props.dateField"
+                    :dateLabel="props.dateLabel" :dateHelp="props.dateHelp" :isModalOpen="state.modal.isAddNewDocumentOpen"
                     @close="state.modal.isAddNewDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
-                <ModulesUserEmployeeDocumentBoxModalEdit :isModalOpen="state.modal.isEditDocumentOpen"
+                <ModulesUserEmployeeDocumentBoxModalEdit :isModalOpen="state.modal.isEditDocumentOpen" :dateField="props.dateField"
+                    :dateLabel="props.dateLabel" :dateHelp="props.dateHelp"
                     :selectedEmployeeDocument="state.selectedEmployeeDocument"
                     @close="state.modal.isEditDocumentOpen = false" @refreshEmployeeDocuments="fetchDocuments" />
                 <DialogConfirmation :isModalOpen="state.modal.isArchiveDocumentOpen"
@@ -83,6 +88,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { saveAs } from 'file-saver'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -100,12 +106,28 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // Optional: the one date this box asks for, 'issued_at' (e.g. when a CV
+    // was written) or 'expires_at' (e.g. a work permit's end date), with the
+    // translation keys of its label and help text. Without it, no date.
+    dateField: {
+        type: String,
+        default: '',
+    },
+    dateLabel: {
+        type: String,
+        default: '',
+    },
+    dateHelp: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close'])
 const router = useRouter()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
+const { formatDateToReadable } = useDatetimeFormatter()
 // Without download_documents a document can still be viewed, but not saved.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
@@ -114,6 +136,7 @@ let currentTablePage = 1
 const state = reactive({
     columnHeaders: [
         { name: 'employees.documents.table.file', isTranslateName: true, },
+        ...(props.dateField ? [{ name: props.dateLabel, isTranslateName: true }] : []),
         { name: 'employees.documents.table.note', isTranslateName: true, },
         { name: '' },
     ],

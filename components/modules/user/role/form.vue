@@ -58,6 +58,59 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.seesHrDataHelp') }}</p>
             </div>
 
+            <!-- Certificate and CV reminders: whose this role's people receive, for every
+                 employee or for holders of chosen roles. An Admin's call: the backend ignores
+                 it from anyone else (App\Support\CertificateReminderRecipients). -->
+            <div v-if="isAtLeast('Admin')" class="space-y-2">
+                <div class="space-y-1">
+                    <div class="w-fit flex items-center cursor-pointer"
+                        @click="state.formRole.receives_certificate_reminders = !state.formRole.receives_certificate_reminders">
+                        <FormCheckbox id="receives_certificate_reminders"
+                            :value="state.formRole.receives_certificate_reminders" />
+                        {{ $t('roles.form.certificateReminders') }}
+                    </div>
+                    <p class="text-xs text-slate-500">{{ $t('roles.form.certificateRemindersHelp') }}</p>
+                </div>
+                <div v-if="state.formRole.receives_certificate_reminders" class="ml-7 space-y-2">
+                    <label class="flex w-fit items-center gap-2.5 text-sm text-slate-700 cursor-pointer">
+                        <input type="radio" value="all" v-model="state.formRole.certificate_reminder_scope"
+                            class="size-4 border-slate-300 text-primary focus:ring-primary" />
+                        {{ $t('roles.form.certificateRemindersForAll') }}
+                    </label>
+                    <label class="flex w-fit items-center gap-2.5 text-sm text-slate-700 cursor-pointer">
+                        <input type="radio" value="roles" v-model="state.formRole.certificate_reminder_scope"
+                            class="size-4 border-slate-300 text-primary focus:ring-primary" />
+                        {{ $t('roles.form.certificateRemindersForRoles') }}
+                    </label>
+                    <div v-if="state.formRole.certificate_reminder_scope === 'roles'"
+                        class="rounded-xl border border-slate-200 p-4">
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-x-4 gap-y-1.5">
+                            <label v-for="role in reminderRoleOptions" :key="role.value"
+                                class="flex items-center gap-2.5 text-sm text-slate-700 cursor-pointer rounded-md px-1.5 py-1 hover:bg-slate-50">
+                                <input type="checkbox"
+                                    class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
+                                    :value="role.value" v-model="state.formRole.certificate_reminder_role_ids" />
+                                {{ role.label }}
+                            </label>
+                        </div>
+                    </div>
+                    <FormError v-if="state.reminderRolesMissing"
+                        :error="$t('roles.form.certificateRemindersRolesPlaceholder')" />
+                    <FormError :error="props?.error?.errors?.certificate_reminder_for?.[0]" />
+                </div>
+            </div>
+
+            <!-- The role's people are consultants, which decides what Employees → Attester →
+                 Mangler asks them for (App\Support\RequiredEmployeeDocuments). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.counts_as_consultant = !state.formRole.counts_as_consultant">
+                    <FormCheckbox id="counts_as_consultant" :value="state.formRole.counts_as_consultant" />
+                    {{ $t('roles.form.countsAsConsultant') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.countsAsConsultantHelp') }}</p>
+            </div>
+
             <!-- Permissions: grouped by area so a role is built area-by-area instead of from one long flat list -->
             <div class="space-y-2">
                 <div class="flex items-center justify-between flex-wrap gap-2">
@@ -172,6 +225,7 @@
 import { permissionService } from '@/components/api/user/PermissionService'
 import { pageService } from '@/components/api/user/PageService'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
+import { roleService } from '@/components/api/user/RoleService'
 import { getPermissionLabel, usePermissions } from '@/composables/usePermissions'
 import { PERMISSION_GROUP_ORDER, permissionGroup, permissionGroupLabel } from '@/composables/permissionGroups'
 import { useVuelidate } from "@vuelidate/core"
@@ -218,7 +272,15 @@ const state = reactive({
         level: '20',
         hide_internal_journals: false,
         sees_hr_data: false,
+        // certificate_reminder_for as the form shows it; submitForm() turns it back
+        // into null (not a recipient), [] (every employee) or role ids.
+        receives_certificate_reminders: false,
+        certificate_reminder_scope: 'all' as 'all' | 'roles',
+        certificate_reminder_role_ids: [] as number[],
+        counts_as_consultant: false,
     },
+    reminderRoles: [] as any[],
+    reminderRolesMissing: false,
     permissions: [] as any[],
     pages: [] as any[],
     employeeGroups: [] as any[],
@@ -241,6 +303,9 @@ const isInitializing = ref(true)
 onMounted(() => {
     fetchAllPages()
     fetchAllEmployeeGroups()
+    if (isAtLeast('Admin')) {
+        fetchReminderRoles()
+    }
     if (props.formType === 'create') {
         fetchAllPermissions()
     }
@@ -260,6 +325,8 @@ watch(() => props.selectedRole, (newValue: any) => {
             level: String(newValue.level ?? 20),
             hide_internal_journals: !!newValue.hide_internal_journals,
             sees_hr_data: !!newValue.sees_hr_data,
+            ...certificateReminderFields(newValue.certificate_reminder_for),
+            counts_as_consultant: !!newValue.counts_as_consultant,
         }
         fetchAllPermissions()
         nextTick(() => { isInitializing.value = false })
@@ -334,6 +401,37 @@ async function fetchAllEmployeeGroups() {
     emit('isPageLoading', false)
 }
 
+// The roles whose holders a reminder role can be limited to: the company's own and
+// the shared ones (Settings → Roller's list).
+async function fetchReminderRoles() {
+    try {
+        const response = await roleService.getAllRoles()
+        state.reminderRoles = response?.data ?? []
+    } catch (_) {
+        state.reminderRoles = []
+    }
+}
+
+const reminderRoleOptions = computed(() => {
+    return state.reminderRoles
+        .map((role: any) => ({ value: Number(role.id), label: role.name }))
+        .sort((a: any, b: any) => a.label.localeCompare(b.label))
+})
+
+function certificateReminderFields(value: any) {
+    const ids = Array.isArray(value) ? value.map((id: any) => Number(id)) : []
+    return {
+        receives_certificate_reminders: Array.isArray(value),
+        certificate_reminder_scope: (ids.length ? 'roles' : 'all') as 'all' | 'roles',
+        certificate_reminder_role_ids: ids,
+    }
+}
+
+function certificateReminderFor(): number[] | null {
+    if (!state.formRole.receives_certificate_reminders) return null
+    return state.formRole.certificate_reminder_scope === 'roles' ? [...state.formRole.certificate_reminder_role_ids] : []
+}
+
 const employeeGroupOptions = computed(() => {
     return state.employeeGroups
         .map((group: any) => ({ value: group.uuid, label: group.name }))
@@ -394,8 +492,13 @@ function toggleGroup(group: any, checked: boolean) {
 function submitForm() {
     state.error = {}
     v$.value.$validate()
-    if (!v$.value.$error) {
-        emit('submitForm', { ...state.formRole })
+    // "For employees with these roles" needs at least one role, or it would read as everyone.
+    state.reminderRolesMissing = state.formRole.receives_certificate_reminders
+        && state.formRole.certificate_reminder_scope === 'roles'
+        && state.formRole.certificate_reminder_role_ids.length === 0
+    if (!v$.value.$error && !state.reminderRolesMissing) {
+        const { receives_certificate_reminders, certificate_reminder_scope, certificate_reminder_role_ids, ...role } = state.formRole
+        emit('submitForm', { ...role, certificate_reminder_for: certificateReminderFor() })
     }
 }
 </script>

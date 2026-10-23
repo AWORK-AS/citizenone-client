@@ -733,6 +733,35 @@
                                     {{ $t('settings.company.form.certificateReminderAllRecipients') }}
                                 </p>
                             </div>
+                            <!-- Certificate and CV reminders: a copy of every reminder mail to a shared
+                                 mailbox, and CV reminders after a number of months (empty: off).
+                                 An Admin's call; the backend ignores them from anyone else. -->
+                            <div v-if="isAtLeast('Admin')" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl">
+                                <div class="space-y-1">
+                                    <FormLabel for="certificate_reminder_email"
+                                        :label="$t('settings.company.form.certificateReminderEmail')" />
+                                    <FormTextField id="certificate_reminder_email" name="certificate_reminder_email"
+                                        :placeholder="$t('settings.company.form.certificateReminderEmail')"
+                                        v-model="state.formCompany.certificate_reminder_email" />
+                                    <p class="text-xs text-[#8891A4]">
+                                        {{ $t('settings.company.form.certificateReminderEmailHelp') }}
+                                    </p>
+                                    <FormError :error="state?.error?.errors?.certificate_reminder_email?.[0]" />
+                                </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="cv_reminder_months"
+                                        :label="$t('settings.company.form.cvReminderMonths')" />
+                                    <!-- No :min here: FormNumberField turns an empty value into the
+                                         minimum, and empty means no CV reminders. The backend refuses 0. -->
+                                    <FormNumberField id="cv_reminder_months" name="cv_reminder_months"
+                                        :placeholder="$t('settings.company.form.cvReminderMonths')"
+                                        v-model="state.formCompany.cv_reminder_months" />
+                                    <p class="text-xs text-[#8891A4]">
+                                        {{ $t('settings.company.form.cvReminderMonthsHelp') }}
+                                    </p>
+                                    <FormError :error="state?.error?.errors?.cv_reminder_months?.[0]" />
+                                </div>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.calendar_done_creates_care_hours_enabled"
                                     @toggleSwitch="state.formCompany.calendar_done_creates_care_hours_enabled = !state.formCompany.calendar_done_creates_care_hours_enabled" :label="$t('settings.company.form.calendarDoneCreatesCareHours')" />
@@ -1083,6 +1112,8 @@ const state = reactive({
         cvr: '',
         website: '',
         accountant_email: '',
+        certificate_reminder_email: '',
+        cv_reminder_months: '',
         phone: '',
         street: '',
         region: '',
@@ -1221,6 +1252,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
             accountant_email: newValue?.company?.accountant_email,
+            certificate_reminder_email: newValue?.company?.certificate_reminder_email ?? '',
+            cv_reminder_months: newValue?.company?.cv_reminder_months?.toString() ?? '',
             phone: newValue?.company?.phone,
             street: address?.street ?? '',
             region: address?.region?.uuid ?? '',
@@ -1492,6 +1525,9 @@ async function submitForm() {
                 cvr: state.formCompany.cvr,
                 website: state.formCompany.website,
                 accountant_email: state.formCompany.accountant_email,
+                // Only an Admin's are saved; empty means none / off.
+                certificate_reminder_email: state.formCompany.certificate_reminder_email || null,
+                cv_reminder_months: state.formCompany.cv_reminder_months ? Number(state.formCompany.cv_reminder_months) : null,
                 phone: state.formCompany.phone,
                 street: state.formCompany.street,
                 region_uuid: state.formCompany.region,

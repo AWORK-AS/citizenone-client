@@ -7437,6 +7437,9 @@
                     "documentSuccessfullyUpdated": "Dokument oppdatert vellykket"
                 },
                 "expiresOn": "Utløper {date}",
+                "cvDatedAt": "CV datert",
+                "cvDatedAtHelp": "Brukes til CV-påminnelsen. Uten dato teller opplastingsdatoen.",
+                "expiresAt": "Utløper",
                 "file": "Fil",
                 "issuedAt": "Innhentet den",
                 "name": "Navn",
@@ -7473,10 +7476,37 @@
                 "status": "Status"
             },
             "statuses": {
+                "missing": "Mangler",
                 "expired": "Utløpt",
                 "expiring_soon": "Utløper snart",
                 "valid": "Gyldig",
                 "no_expiry": "Ingen utløpsdato"
+            },
+            "tabs": {
+                "expiry": "Utløp",
+                "missing": "Mangler",
+                "search": "Søk i dokumenter"
+            },
+            "missing": {
+                "empty": "Ingen mangler dokumenter",
+                "rule": "Konsulenter (roller merket som konsulentroller) må ha barneomsorgsattest, CV, utdanningspapirer og kontrakt, og førerkort hvis de kjører. Alle andre må ha barneomsorgsattest og politiattest.",
+                "consultant": "Konsulent",
+                "filters": {
+                    "status": "Status",
+                    "allStatuses": "Alle",
+                    "role": "Rolle",
+                    "allRoles": "Alle roller",
+                    "department": "Avdeling",
+                    "allDepartments": "Alle avdelinger"
+                }
+            },
+            "search": {
+                "placeholder": "Søk på ansatt eller filnavn",
+                "allTypes": "Alle typer",
+                "empty": "Ingen dokumenter funnet",
+                "file": "Fil",
+                "uploaded": "Lastet opp",
+                "view": "Vis"
             },
             "empty": "Ingen attester funnet"
         },
@@ -11114,6 +11144,13 @@
             "hideInternalJournalsHelp": "Ansatte med denne rollen ser ikke notater merket som interne, med mindre de har skrevet dem selv. Har en ansatt flere roller, er det nok at én av dem er merket.",
             "seesHrData": "Kan se HR-opplysninger og ansattdokumenter",
             "seesHrDataHelp": "Ansatte med denne rollen ser kollegers HR-opplysninger, ansattdokumenter (kontrakter, politiattester, attester m.m.), lønnsfelt, adresser og nødkontakter og kan håndtere dem. Uten den ser de bare sine egne. Administratorer ser dem alltid.",
+            "certificateReminders": "Mottar påminnelser om attester",
+            "certificateRemindersHelp": "Personer med denne rollen får påminnelser om attester som utløper og utdaterte CV-er, på e-post og i CitizenOne. Så snart en rolle har dette, går påminnelsene til disse rollene og den ansatte i stedet for til administratorene.",
+            "certificateRemindersForAll": "For alle ansatte",
+            "certificateRemindersForRoles": "For ansatte med rollene",
+            "certificateRemindersRolesPlaceholder": "Velg roller",
+            "countsAsConsultant": "Ansatte med denne rollen er konsulenter",
+            "countsAsConsultantHelp": "Brukes i Ansatte → Attester → Mangler: konsulenter må i tillegg til barneomsorgsattesten ha CV, utdanningspapirer og kontrakt.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
@@ -11389,6 +11426,10 @@
                 "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
                 "inquiryWonRequiresCpr": "CPR-nummer påkrevd når en henvendelse er vunnet",
                 "2fa": "To-faktor-godkendelse",
+                "certificateReminderEmail": "Felles postkasse for attestpåminnelser",
+                "certificateReminderEmailHelp": "Får en kopi av alle påminnelser om attester og CV-er.",
+                "cvReminderMonths": "CV-påminnelse etter (måneder)",
+                "cvReminderMonthsHelp": "Minner den ansatte og mottakerne av attestpåminnelser én gang når den nyeste CV-en er eldre enn dette. La feltet stå tomt for ingen CV-påminnelser.",
                 "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma oppdatert vellykket"
@@ -16349,6 +16390,13 @@
         }
     },
     "myDay": {
+        "certificates": {
+            "title": "Attester som mangler eller utløper",
+            "missing": "{count} mangler",
+            "expired": "{count} utløpt",
+            "expiringSoon": "{count} utløper innen 60 dager",
+            "open": "Åpne oversikt"
+        },
         "unassignedWon": "Vunne saker uten koordinator",
         "unassignedWonCount": "1 sak venter | {count} saker venter",
         "unassignedWonOpen": "Fordel saker",

@@ -7437,6 +7437,9 @@
                     "documentSuccessfullyUpdated": "Document successfully updated"
                 },
                 "expiresOn": "Expires {date}",
+                "cvDatedAt": "CV dated",
+                "cvDatedAtHelp": "Used for the CV reminder. Without a date, the upload date counts.",
+                "expiresAt": "Expires on",
                 "file": "File",
                 "issuedAt": "Obtained on",
                 "name": "Name",
@@ -7473,10 +7476,37 @@
                 "status": "Status"
             },
             "statuses": {
+                "missing": "Missing",
                 "expired": "Expired",
                 "expiring_soon": "Expiring soon",
                 "valid": "Valid",
                 "no_expiry": "No expiry date"
+            },
+            "tabs": {
+                "expiry": "Expiry",
+                "missing": "Missing",
+                "search": "Search documents"
+            },
+            "missing": {
+                "empty": "Nobody is missing a document",
+                "rule": "Consultants (roles marked as consultant roles) need a child protection certificate, CV, education papers and a contract, plus a driving licence if they drive. Everyone else needs a child protection certificate and a criminal record.",
+                "consultant": "Consultant",
+                "filters": {
+                    "status": "Status",
+                    "allStatuses": "All",
+                    "role": "Role",
+                    "allRoles": "All roles",
+                    "department": "Department",
+                    "allDepartments": "All departments"
+                }
+            },
+            "search": {
+                "placeholder": "Search by employee or file name",
+                "allTypes": "All types",
+                "empty": "No documents found",
+                "file": "File",
+                "uploaded": "Uploaded",
+                "view": "View"
             },
             "empty": "No certificates found"
         },
@@ -11119,6 +11149,13 @@
             "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
             "seesHrData": "Can see HR details and employee documents",
             "seesHrDataHelp": "Employees with this role see colleagues' HR details, employee documents (contracts, criminal records, certificates and more), pay fields, addresses and emergency contacts, and can manage them. Without it, they see only their own. Administrators always see them.",
+            "certificateReminders": "Receives certificate reminders",
+            "certificateRemindersHelp": "People with this role get the reminders about expiring certificates and outdated CVs, by e-mail and in CitizenOne. Once any role has this, reminders go to these roles and the employee instead of to the administrators.",
+            "certificateRemindersForAll": "For all employees",
+            "certificateRemindersForRoles": "For employees with these roles",
+            "certificateRemindersRolesPlaceholder": "Choose roles",
+            "countsAsConsultant": "Employees with this role are consultants",
+            "countsAsConsultantHelp": "Used by Employees → Certificates → Missing: consultants need a CV, education papers and a contract on top of the child protection certificate.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -11394,6 +11431,10 @@
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
                 "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
                 "2fa": "Two factor authentication",
+                "certificateReminderEmail": "Shared mailbox for certificate reminders",
+                "certificateReminderEmailHelp": "Gets a copy of every certificate and CV reminder e-mail.",
+                "cvReminderMonths": "CV reminder after (months)",
+                "cvReminderMonthsHelp": "Reminds the employee and the reminder recipients once when the newest CV is older than this. Leave empty for no CV reminders.",
                 "accountantEmail": "Auditor or accounting e-mail (@:terms.citizens{''}' wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
@@ -16434,6 +16475,13 @@
         }
     },
     "myDay": {
+        "certificates": {
+            "title": "Certificates missing or expiring",
+            "missing": "{count} missing",
+            "expired": "{count} expired",
+            "expiringSoon": "{count} expiring within 60 days",
+            "open": "Open overview"
+        },
         "unassignedWon": "Won cases without a coordinator",
         "unassignedWonCount": "1 case waiting | {count} cases waiting",
         "unassignedWonOpen": "Assign cases",
