@@ -72,7 +72,7 @@
                         {{ $t('registrationRules.mileage') }}
                     </label>
                     <select id="registration-rules-mileage" v-model="state.draft.mileageChoice"
-                        class="mt-1.5 block h-10 w-full max-w-sm rounded-lg border border-gray-200 px-3 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-primary">
+                        class="mt-1.5 block h-10 w-full max-w-lg rounded-lg border border-gray-200 px-3 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-primary">
                         <option value="transport">
                             {{ state.rules.transport_granted ? $t('registrationRules.followTransportGranted') : $t('registrationRules.followTransportNotGranted') }}
                         </option>
@@ -108,7 +108,7 @@
             <div v-if="props.canEdit" class="mt-5 border-t border-gray-100 pt-4">
                 <p class="text-xs font-semibold text-gray-700">{{ $t('registrationRules.consultants.title') }}</p>
                 <p class="mt-0.5 max-w-xl text-xs text-gray-500">{{ $t('registrationRules.consultants.hint') }}</p>
-                <p v-if="!consultants.length" class="mt-2 text-xs text-gray-400">
+                <p v-if="state.loaded && !consultants.length" class="mt-2 text-xs text-gray-400">
                     {{ $t('registrationRules.consultants.empty') }}
                 </p>
                 <ul class="mt-2 divide-y divide-gray-100">
@@ -194,6 +194,8 @@ const props = defineProps({
 
 const state = reactive({
     isLoading: false,
+    // Set once the first load ends, so "no employees" doesn't flash before it.
+    loaded: false,
     editing: false,
     rules: {
         restricts_visit_types: false,
@@ -298,6 +300,7 @@ async function load() {
     } catch (_) {
         // Without rules everything is allowed; the read-only view says so.
     }
+    state.loaded = true
     state.isLoading = false
 }
 
