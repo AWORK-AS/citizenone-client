@@ -6,7 +6,8 @@
 
                 <div class="space-y-1" v-if="!props.citizenUuid">
                     <FormLabel for="citizen" :label="$t('citizens.invoices.form.citizen')" />
-                    <FormSelect id="citizen" :options="citizenOptions" v-model="state.citizenUuid"
+                    <FormSelect id="citizen" :options="state.citizenOptions" :filter-results="false"
+                        @search-change="citizenSearch.search" v-model="state.citizenUuid"
                         :placeholder="$t('citizens.invoices.form.citizenPlaceholder')" />
                 </div>
 
@@ -144,6 +145,7 @@
 <script setup lang="ts">
 import { citizenInvoiceService } from '@/components/api/user/CitizenInvoiceService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { createCitizenSearch } from '@/composables/citizenPicker'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps<{
@@ -162,17 +164,12 @@ const { t, locale } = useI18n()
 const state = reactive({
     form: emptyForm(),
     citizenUuid: null as string | null,
-    citizens: [] as any[],
+    citizenOptions: [] as { value: string; label: string }[],
     templates: [] as any[],
     templateUuid: null as string | null,
     isSaving: false,
     error: '',
 })
-
-const citizenOptions = computed(() => state.citizens.map((citizen: any) => ({
-    value: citizen.uuid,
-    label: `${citizen.firstname} ${citizen.lastname}`.trim(),
-})))
 
 const templateOptions = computed(() => state.templates.map((template: any) => ({
     value: template.uuid,
@@ -212,14 +209,20 @@ function applyTemplate() {
     state.templateUuid = null
 }
 
-async function loadCitizens() {
-    try {
-        const response = await citizenService.getCitizens({ per_page: 500 })
-        state.citizens = response?.data || []
-    } catch (error: any) {
-        state.error = error?.message || ''
-    }
+// First page on open, then a debounced server search while typing, so the
+// picker no longer pulls 500 citizens up front.
+const citizenSearch = createCitizenSearch({
+    fetchPage: async (params) => (await citizenService.getCitizens(params))?.data ?? [],
+    onOptions: (options) => { state.citizenOptions = options },
+    onError: (error: any) => { state.error = error?.message || '' },
+    getSelected: () => state.citizenUuid,
+})
+
+function loadCitizens() {
+    return citizenSearch.load()
 }
+
+onBeforeUnmount(() => citizenSearch.cancel())
 
 async function loadTemplates() {
     try {

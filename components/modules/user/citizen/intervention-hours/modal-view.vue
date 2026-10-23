@@ -10,7 +10,9 @@
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_start) }} -
                         {{ formatDateToReadable(state.timeAccountFilter.formDateRange.date_end) }}
                     </button>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <!-- Left out where the company keeps the rate from this person
+                         (Settings -> Company); the server sends neither figure then. -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!ratesHidden">
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
                             <div class="border-l-4 border-secondary shadow-md rounded-md px-4 py-3">
                                 <p class="text-xs">
@@ -226,6 +228,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
+import { areCitizenRatesHidden } from '@/composables/citizenRates'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCitizenStore } from '@/store/citizen'
@@ -291,6 +294,10 @@ const state = reactive({
     },
 })
 
+// hidden_fields names the rate when the company keeps it from this person;
+// the margin endpoint says so too, for a citizen loaded before the switch.
+const ratesHidden = computed(() => areCitizenRatesHidden(citizenStore.getSelectedCitizen, state.contributionMargin))
+
 function closeModal() {
     emit('close')
 }
@@ -313,6 +320,9 @@ watch(() => props.isModalOpen, (isModalOpen: boolean) => {
 })
 
 async function fetchContributionMargin() {
+    if (areCitizenRatesHidden(citizenStore.getSelectedCitizen)) {
+        return
+    }
     state.error = {}
     state.isContributionMarginLoading = true
     try {

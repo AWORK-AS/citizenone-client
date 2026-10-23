@@ -120,6 +120,7 @@ const systemMasterOn = computed(() => props.systemMasterEnabled ?? state.master.
 const frequencyOptions = computed(() => [
     { value: 'instant', label: t('notificationPreferences.instant') },
     { value: 'hourly', label: t('notificationPreferences.hourly') },
+    { value: 'daily', label: t('notificationPreferences.daily') },
 ])
 
 function isLocked(category: any): boolean {

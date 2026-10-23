@@ -89,3 +89,25 @@ describe('canOpenPage', () => {
         assert.equal(canOpenPage(null, 'Journals'), false)
     })
 })
+
+import { navItemModuleEnabled, economyNavVisible } from '../../composables/pageAccess.ts'
+
+describe('sidebar module gating', () => {
+    test('an entry follows its module', () => {
+        assert.equal(navItemModuleEnabled('Journal Notes', ['Calendar']), false)
+        assert.equal(navItemModuleEnabled('Journal Notes', ['Journals']), true)
+        assert.equal(navItemModuleEnabled('Mail', ['Journals']), false)
+    })
+    test('no module list, or an unmapped entry, stays visible', () => {
+        assert.equal(navItemModuleEnabled('Journal Notes', []), true)
+        assert.equal(navItemModuleEnabled('Journal Notes', null), true)
+        assert.equal(navItemModuleEnabled('Messages', ['Calendar']), true)
+    })
+    test('economy needs a granted page, not just the default-on modules', () => {
+        assert.equal(economyNavVisible(user([], [])), false)
+        assert.equal(economyNavVisible(user([], ['Economy'])), true)
+        assert.equal(economyNavVisible(user([], ['Management & Economy'])), true)
+        assert.equal(economyNavVisible(user(['Calendar'], ['Economy'])), false)
+        assert.equal(economyNavVisible(user(['Billing'], ['Economy'])), true)
+    })
+})

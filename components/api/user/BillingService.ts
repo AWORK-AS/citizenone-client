@@ -16,6 +16,11 @@ class BillingService extends BaseAPIService {
         return await this.request(`/user/billing/payment-method`, 'POST')
     }
 
+    // Every recurring card charge, its lines and next date. Admin or manage_licenses.
+    async getOverview(): Promise<any> {
+        return await this.request(`/user/billing/overview`, 'GET')
+    }
+
     // Collects the outstanding amount against the card now on file.
     async retry(): Promise<any> {
         return await this.request(`/user/billing/retry`, 'POST')

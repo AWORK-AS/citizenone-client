@@ -66,15 +66,19 @@
                         <p class="font-semibold text-lg">{{ report?.form?.title }}</p>
                         <p class="text-sm mb-4">{{ report?.form?.description }}</p>
                         <div v-if="report?.field_response?.length > 0">
-                            <div v-for="(fieldResponse, fieldIndex) in report?.field_response" :key="fieldIndex"
-                                class="bg-gray-100 rounded-md mt-4 p-4" style="border-top: 2px solid #174560;">
+                            <template v-for="(fieldResponse, fieldIndex) in orderedResponses" :key="fieldIndex">
+                            <p v-if="iterationTitle(fieldIndex)"
+                                class="mt-6 px-3 py-2 font-semibold text-primary border-l-4 border-primary bg-primary/5">
+                                {{ iterationTitle(fieldIndex) }}
+                            </p>
+                            <div class="bg-gray-100 rounded-md mt-4 p-4" style="border-top: 2px solid #174560;">
 
                                 <ModulesUserFormBlockStatic
                                     v-if="['heading', 'subheading', 'paragraph', 'guidance', 'pagebreak'].includes(parseField(fieldResponse)?.type)"
                                     :field="parseField(fieldResponse)" />
 
-                                <!-- TEXTFIELD -->
-                                <template v-if="parseField(fieldResponse)?.type === 'textfield'">
+                                <!-- TEXTFIELD (else-if: a heading is drawn once, not also as a link below) -->
+                                <template v-else-if="parseField(fieldResponse)?.type === 'textfield'">
                                     <p class="mb-3">{{ fieldIndex + 1 }}. {{ parseField(fieldResponse)?.value }}</p>
                                     <div class="px-4">
                                         <div class="w-full px-3 py-3 rounded-md text-sm bg-white"
@@ -149,18 +153,61 @@
                                     </div>
                                 </template>
 
+                                <!-- TABLE: drawn, not printed as JSON -->
+                                <template v-else-if="parseField(fieldResponse)?.type === 'table'">
+                                    <p v-if="parseField(fieldResponse)?.value" class="mb-3">{{ fieldIndex + 1 }}. {{ parseField(fieldResponse)?.value }}</p>
+                                    <div class="px-4 overflow-x-auto">
+                                        <table class="w-full table-fixed border-collapse text-sm bg-white">
+                                            <thead v-if="(parseField(fieldResponse)?.columns ?? []).some((c: any) => c)">
+                                                <tr>
+                                                    <th v-for="(column, columnIndex) in parseField(fieldResponse)?.columns"
+                                                        :key="columnIndex"
+                                                        class="border border-gray-300 bg-gray-50 px-2 py-1 text-left font-semibold break-words">
+                                                        {{ column }}
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="(row, rowIndex) in tableRows(fieldResponse)" :key="rowIndex">
+                                                    <td v-for="(cell, cellIndex) in row" :key="cellIndex"
+                                                        class="border border-gray-300 px-2 py-1 align-top whitespace-pre-wrap break-words">
+                                                        {{ cell ?? '' }}
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </template>
+
+                                <!-- RULER: each party's score and the day it was measured -->
+                                <template v-else-if="parseField(fieldResponse)?.type === 'scale'">
+                                    <p class="mb-3">{{ fieldIndex + 1 }}. {{ parseField(fieldResponse)?.value }}</p>
+                                    <div class="px-4 space-y-1 text-sm">
+                                        <div v-for="(rater, raterIndex) in parseField(fieldResponse)?.raters ?? []"
+                                            :key="raterIndex" class="flex justify-between gap-x-4 bg-white rounded px-3 py-1.5">
+                                            <span>{{ rater.label }}</span>
+                                            <span class="font-semibold">{{ scaleScore(fieldResponse, rater.key) }}</span>
+                                        </div>
+                                        <p v-if="scaleAnswer(fieldResponse)?.measured_at" class="text-xs text-gray-500 pt-1">
+                                            {{ $t('forms.scale.measuredAt') }} {{ formatDateToReadable(scaleAnswer(fieldResponse).measured_at) }}
+                                        </p>
+                                    </div>
+                                </template>
+
                                 <!-- UPLOADFILE -->
                                 <template v-else>
                                     <p class="mb-3">{{ fieldIndex + 1 }}. {{ parseField(fieldResponse)?.value }}</p>
                                     <div class="px-4">
+                                        <!-- A link is one long word; break-all keeps it inside the box. -->
                                         <a v-if="fieldResponse.response" :href="fieldResponse.response" target="_blank"
-                                            class="text-blue-600 underline">
+                                            class="text-blue-600 underline break-all">
                                             {{ fieldResponse.response }}
                                         </a>
                                         <span v-else class="text-sm text-gray-400">-</span>
                                     </div>
                                 </template>
                             </div>
+                            </template>
                         </div>
 
                         <div v-else class="text-center text-sm text-gray-500 py-4">
@@ -191,8 +238,17 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { planGoalSubgoalService } from '@/components/api/user/PlanGoalSubgoalService'
+import { citizenScaleScoreService } from '@/components/api/user/CitizenScaleScoreService'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { scaleAnswerOf } from '@/composables/scaleAnswer'
+import { tableAnswerOf } from '@/composables/tableAnswer'
+import { useI18n } from 'vue-i18n'
 import { saveAs } from 'file-saver'
+
+const { formatDateToReadable } = useDatetimeFormatter()
+const { locale } = useI18n()
 
 const props = defineProps({
     isModalOpen: {
@@ -215,6 +271,112 @@ const state = reactive({
 
 function closeModal() {
     emit('close')
+}
+
+/**
+ * The answers in the order the template asks its questions, each goal's
+ * answers together. Stored order is not that order: an answer first given in
+ * a reopened draft was stored after everything else.
+ */
+const orderedResponses = computed(() => {
+    const rows = [...(props.report?.field_response ?? [])]
+    const firstSeen = new Map<string, number>()
+    const groupPlace = new Map<string, number>()
+
+    for (const row of [...rows].sort((a: any, b: any) => a.id - b.id)) {
+        if (row.iteration_key && !firstSeen.has(row.iteration_key)) firstSeen.set(row.iteration_key, firstSeen.size)
+    }
+
+    // Each question's place in the template, as the fill-in shows them. A
+    // template never saved again after it was made has every sort_order at 0,
+    // so the question's id settles the order.
+    const fieldId = (row: any) => Number(row.form_field_id ?? row.form_field?.id ?? 0)
+    const fieldOrder = new Map<number, number>()
+    for (const row of [...rows].sort((a: any, b: any) =>
+        Number(a.form_field?.sort_order ?? 0) - Number(b.form_field?.sort_order ?? 0) || fieldId(a) - fieldId(b))) {
+        if (!fieldOrder.has(fieldId(row))) fieldOrder.set(fieldId(row), fieldOrder.size)
+    }
+    const order = (row: any) => fieldOrder.get(fieldId(row)) ?? 0
+
+    // A group sits just before its first question. An answer outside any
+    // repetition was given to a question whose group is gone, which the
+    // fill-in shows as an ordinary question, so it keeps its own place.
+    const groupOf = (row: any) => row.iteration_key ? parseField(row)?.parentGroup : null
+
+    for (const row of rows) {
+        const group = groupOf(row)
+        if (group && (!groupPlace.has(group) || order(row) < groupPlace.get(group)!)) groupPlace.set(group, order(row))
+    }
+
+    const place = (row: any) => {
+        const group = groupOf(row)
+        return group ? groupPlace.get(group)! - 0.5 : order(row)
+    }
+
+    return rows.sort((a: any, b: any) =>
+        place(a) - place(b)
+        || (firstSeen.get(a.iteration_key) ?? -1) - (firstSeen.get(b.iteration_key) ?? -1)
+        || order(a) - order(b)
+        || a.id - b.id)
+})
+
+// Names for the goals and parties a report repeats for.
+const iterationLabels = ref<Record<string, string>>({})
+
+async function fetchIterationLabels() {
+    iterationLabels.value = {}
+    const citizenUuid = props.report?.model?.citizen?.uuid
+    if (!citizenUuid || !(props.report?.field_response ?? []).some((row: any) => row.iteration_key)) return
+
+    const labels: Record<string, string> = {}
+    for (const repeatFor of ['goals', 'contacts']) {
+        try {
+            const response = await citizenScaleScoreService.getGroupIterations(citizenUuid, { repeat_for: repeatFor, include_completed: 1, count: 3 })
+            for (const iteration of response?.data ?? []) labels[iteration.key] = iteration.label
+        } catch {
+            // Without names the goals are still kept apart, just not named.
+        }
+    }
+    iterationLabels.value = labels
+}
+
+watch(() => props.isModalOpen, (open: boolean) => {
+    if (open) fetchIterationLabels()
+}, { immediate: true })
+
+/** A heading in front of each goal's answers. */
+function iterationTitle(index: number): string {
+    const rows = orderedResponses.value
+    const key = rows[index]?.iteration_key
+    if (!key || rows[index - 1]?.iteration_key === key) return ''
+
+    // The goal's or party's name; its number when the name can't be fetched.
+    const group = parseField(rows[index])?.parentGroup
+    const number = new Set(rows.slice(0, index + 1)
+        .filter((row: any) => row.iteration_key && parseField(row)?.parentGroup === group)
+        .map((row: any) => row.iteration_key)).size
+
+    return iterationLabels.value[key] || String(number)
+}
+
+// An answer stored wrapped by an earlier save still shows its rows.
+function tableRows(fieldResponse: any): any[][] {
+    const rows = tableAnswerOf(fieldResponse?.response)
+    if (rows?.length) return rows
+
+    return parseField(fieldResponse)?.rows ?? []
+}
+
+// An answer stored wrapped by an earlier save still shows its scores.
+function scaleAnswer(fieldResponse: any): any {
+    return scaleAnswerOf(fieldResponse?.response) ?? {}
+}
+
+function scaleScore(fieldResponse: any, raterKey: string): string {
+    const hit = (scaleAnswer(fieldResponse)?.scores ?? []).find((score: any) => score.rater_key === raterKey)
+    if (!hit || hit.score === null || hit.score === undefined) return '–'
+
+    return new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK').format(Number(hit.score))
 }
 
 function parseField(fieldResponse: any) {
@@ -253,7 +415,7 @@ async function openReport() {
             setTimeout(() => URL.revokeObjectURL(url), 60000)
         }
     } catch (error: any) {
-        state.error = error?.message || 'An error occurred while opening the file.'
+        state.error = error?.message || translateMessage('apiErrors.openFileFailed', 'An error occurred while opening the file.')
     }
     state.isOpening = false
 }
@@ -272,7 +434,7 @@ async function downloadReport() {
             saveAs(response, `${filename}.pdf`)
         }
     } catch (error: any) {
-        state.error = error?.message || 'An error occurred during the download.'
+        state.error = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
     }
     state.isDownloading = false
 }

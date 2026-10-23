@@ -5,6 +5,10 @@ class NursingAreasService extends BaseAPIService {
         return await this.request(`/user/nursing-areas`, 'GET', params)
     }
 
+    async getCitizenAreaOverview(params: object): Promise<any> {
+        return await this.request(`/user/nursing-areas/citizen/overview`, 'GET', params)
+    }
+
     async getNursingProfessionalRecord(nursingProfessionalRecordUuid: any): Promise<any> {
         return await this.request(`/user/nursing-areas/${nursingProfessionalRecordUuid}`, 'GET')
     }

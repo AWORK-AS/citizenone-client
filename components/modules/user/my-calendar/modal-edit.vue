@@ -32,12 +32,23 @@
                             <Icon name="ph:x-circle" class="h-4 w-4 text-red-700" aria-hidden="true" />
                             {{ $t('events.markAsNotCompleted') }}
                         </FormButton>
+                        <!-- Visit, transport or admin time on this booking's citizen, as
+                             Indsatstimer. Not tied to the booking: "not done" leaves it. -->
+                        <FormButton v-if="canRegisterTime" type="button" buttonStyle="action"
+                            @click="state.modal.isRegisterTimeOpen = true">
+                            <Icon name="ph:clock" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('events.registerTime') }}
+                        </FormButton>
                     </div>
                     <div class="mt-4">
                         <ModulesUserMyCalendarForm formType="update" :selectedSchedule="props.selectedSchedule"
                             :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                             @closeModal="closeModal" @submitForm="updateSchedule" />
                     </div>
+                    <ModulesUserCitizenInterventionHoursModalNew v-if="canRegisterTime"
+                        :isModalOpen="state.modal.isRegisterTimeOpen" :citizenUuid="props.selectedSchedule?.citizen?.uuid"
+                        :presetStart="props.selectedSchedule?.date_time_start" :presetEnd="props.selectedSchedule?.date_time_end"
+                        @close="state.modal.isRegisterTimeOpen = false" />
                     <ModulesUserMyCalendarModalDelete :isModalOpen="state.modal.isDeleteScheduleOpen"
                         :selectedSchedule="props.selectedSchedule" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                         @close="state.modal.isDeleteScheduleOpen = false" />
@@ -50,6 +61,8 @@
 <script setup lang="ts">
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
+import { isCareHourTypesOn } from '@/composables/careHourTypes'
+import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -74,10 +87,20 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isDeleteScheduleOpen: false,
+        isRegisterTimeOpen: false,
     },
 })
 
+// A booking on a citizen, where the company switched hour types on
+// (Settings -> Company). The first citizen, as item 7's done hours.
+const userStore = useUserStore() as any
+const canRegisterTime = computed(() => !!props.selectedSchedule?.uuid
+    && !props.selectedSchedule?.is_shift
+    && !!props.selectedSchedule?.citizen?.uuid
+    && isCareHourTypesOn(userStore.getUser?.company))
+
 function closeModal() {
+    state.modal.isRegisterTimeOpen = false
     emit('close')
 }
 

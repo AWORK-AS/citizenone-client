@@ -31,7 +31,7 @@
                 <div class="flex items-center justify-between text-[13px] mb-1">
                     <span class="text-[#1F2533]">{{ categoryLabel(item.category) }}</span>
                     <span class="text-[#5C6478]">
-                        {{ formatStorageSize(item.bytes) }}
+                        {{ formatStorage(item.used_bytes ?? item.bytes) }}
                         <span class="text-[#8891A4] ml-1">({{ item.percent }}%)</span>
                     </span>
                 </div>
@@ -43,18 +43,21 @@
 
         <p v-if="storage?.storage_limit_gb !== null && storage?.storage_limit_gb !== undefined"
             class="text-[11px] text-[#8891A4] mt-4">
-            {{ $t('superadmin.companies.storage.manualLimit', { limit: formatStorageGb(storage.storage_limit_gb) }) }}
+            {{ $t('superadmin.companies.storage.manualLimit', { limit: formatStorageGb(storage.storage_limit_gb, storageLocale(locale)) }) }}
         </p>
     </div>
 </template>
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
-import { useCompanyStorage, formatStorageGb, formatStorageSize } from '@/composables/companyStorage'
+import { useCompanyStorage, formatStorageGb } from '@/composables/companyStorage'
+import { useStorageFormat } from '@/composables/useStorageFormat'
+import { storageLocale } from '@/composables/storageFormat'
 
 const props = defineProps<{ companyUuid: string }>()
 
 const { t, locale } = useI18n()
+const { formatStorage } = useStorageFormat()
 const { storage, isLoading, hasData, breakdown, load } = useCompanyStorage(props.companyUuid)
 
 // Keys come from the backend breakdown (StorageCalculator) and are stable.

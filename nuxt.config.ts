@@ -80,9 +80,10 @@ export default defineNuxtConfig({
           defer: true,
         },
         // Google Tag Manager. Not inside the duty schedule embedded on a
-        // customer's website: their visitors are not ours to track.
+        // customer's website: their visitors are not ours to track. Not on the
+        // company-invitation page either: its link carries a signed grant.
         {
-          innerHTML: `if(!location.pathname.startsWith('/embed/duty-schedules/'))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THK4R7KD');`,
+          innerHTML: `if(!location.pathname.startsWith('/embed/duty-schedules/')&&!location.pathname.startsWith('/accept-company-invite'))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THK4R7KD');`,
           tagPosition: 'head',
         },
       ],

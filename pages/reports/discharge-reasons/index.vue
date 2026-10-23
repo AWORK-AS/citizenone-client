@@ -60,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString } from '@/composables/localDate'
 definePageMeta({ middleware: 'require-page', requiredPage: 'Citizens' })
 
 import { dischargeReasonService } from '@/components/api/user/DischargeReasonService'
@@ -74,7 +75,7 @@ const breadcrumbLinks = [
 const today = new Date()
 const state = reactive({
     from: `${today.getFullYear()}-01-01`,
-    to: today.toISOString().slice(0, 10),
+    to: localDateString(today),
     isLoading: false,
     report: { total: 0, reasons: [] as any[] },
 })

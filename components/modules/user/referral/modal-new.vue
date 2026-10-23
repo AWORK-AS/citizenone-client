@@ -9,8 +9,8 @@
                         <div class="space-y-3">
                             <div class="space-y-1">
                                 <FormLabel for="citizen_uuid" :label="$t('referrals.citizen')" />
-                                <FormSelect id="citizen_uuid" :options="state.options.citizens"
-                                    v-model="state.formReferral.citizen_uuid" />
+                                <FormSelect id="citizen_uuid" :options="state.options.citizens" :filter-results="false"
+                                    @search-change="citizenSearch.search" v-model="state.formReferral.citizen_uuid" />
                                 <FormError :error="v$?.formReferral?.citizen_uuid?.$errors[0]?.$message.toString()" />
                                 <FormError :error="state.error?.errors?.citizen_uuid?.[0]" />
                             </div>
@@ -121,6 +121,7 @@
 
 <script setup lang="ts">
 import { referralService } from '@/components/api/user/ReferralService'
+import { createCitizenSearch } from '@/composables/citizenPicker'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useVuelidate } from '@vuelidate/core'
@@ -248,19 +249,20 @@ async function loadOptions() {
     await Promise.all([fetchCitizens(), fetchDepartments()])
 }
 
-async function fetchCitizens() {
-    try {
-        const response = await citizenService.getCitizens({ per_page: 500 })
-        if (response?.data) {
-            state.options.citizens = response.data.map((c: any) => ({
-                value: c.uuid,
-                label: `${c.firstname} ${c.lastname}`,
-            }))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
+// First page on open, then a debounced server search while typing, so the
+// picker no longer pulls 500 citizens up front.
+const citizenSearch = createCitizenSearch({
+    fetchPage: async (params) => (await citizenService.getCitizens(params))?.data ?? [],
+    onOptions: (options) => { state.options.citizens = options },
+    onError: (error: any) => { state.error = error },
+    getSelected: () => state.formReferral.citizen_uuid,
+})
+
+function fetchCitizens() {
+    return citizenSearch.load()
 }
+
+onBeforeUnmount(() => citizenSearch.cancel())
 
 async function fetchDepartments() {
     try {
