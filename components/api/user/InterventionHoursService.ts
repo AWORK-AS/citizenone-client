@@ -47,6 +47,11 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/contribution-margin`, 'GET', params)
     }
 
+    // Hours migrated from the previous system, per month and hour type. Admins only.
+    async getHistory(citizenUuid: any): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/${citizenUuid}/history`, 'GET')
+    }
+
     async getTimeAccount(citizenUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/summary-hours`, 'GET', params)
     }
