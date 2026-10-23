@@ -9326,7 +9326,8 @@
             "loggingIn": "Logger ind",
             "or": "Eller",
             "password": "Adgangskode",
-            "rememberMeFor14Days": "Husk mig i 14 dage"
+            "rememberMeFor14Days": "Husk mig i 14 dage",
+            "rememberMeFor30Days": "Husk mig i 30 dage"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet af AWORK Group A/S",
         "headlineLine1": "Alt samlet i",

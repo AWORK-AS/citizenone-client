@@ -55,7 +55,7 @@
                                     class="w-5 h-5 accent-primary cursor-pointer focus:ring-transparent" />
                                 <label for="remember-me"
                                     class="ml-3 block text-sm leading-6 text-gray-700 cursor-pointer">
-                                    {{ $t('login.form.rememberMeFor14Days') }}
+                                    {{ $t('login.form.rememberMeFor30Days') }}
                                 </label>
                             </div>
                             <div class="text-sm leading-6">

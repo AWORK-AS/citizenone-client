@@ -160,7 +160,7 @@
 				<div class="row-forgot">
 					<label class="remember">
 						<input v-model="state.rememberMe" type="checkbox" />
-						{{ $t('login.form.rememberMeFor14Days') }}
+						{{ $t('login.form.rememberMeFor30Days') }}
 					</label>
 					<a class="forgot-link" @click="navigateTo('/forgot-password')">
 						{{ $t('login.form.forgotPassword') }}?

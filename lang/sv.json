@@ -9326,7 +9326,8 @@
             "loggingIn": "Logger in",
             "or": "Eller",
             "password": "Lösenord",
-            "rememberMeFor14Days": "Kom ihåg mig i 14 dagar"
+            "rememberMeFor14Days": "Kom ihåg mig i 14 dagar",
+            "rememberMeFor30Days": "Kom ihåg mig i 30 dagar"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet av AWORK Group A/S",
         "headlineLine1": "Fremtidens",
