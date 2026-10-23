@@ -17605,6 +17605,20 @@
             "fallbackTitle": "The contract fields on the stay are used for now",
             "fallbackText": "No contract period has been created yet. The billing extraction uses the contract price and contract hours from the stay. Create a contract period to manage price, hours split and billing from here.",
             "history": "Contract periods",
+            "migratedHours": {
+                "title": "Hours from the previous system",
+                "hoursShort": "hours",
+                "description": "The registrations from the previous system per month and hour type. They are history: never invoiced, paid or counted in a time account again.",
+                "month": "Month",
+                "kilometers": "Km",
+                "total": "Total",
+                "types": {
+                    "contact": "Contact time",
+                    "admin": "Administration",
+                    "transport": "Transport",
+                    "other": "Other"
+                }
+            },
             "noPeriods": "No contract periods yet.",
             "period": "Period",
             "department": "Customer and department",
@@ -19026,6 +19040,10 @@
             "hint": "Choose a score from 0 to {max}; half steps are allowed. A row without a score is not saved.",
             "clear": "Clear",
             "wholeCase": "Overall"
+        },
+        "changeWheel": {
+            "title": "Change wheel",
+            "description": "Scores per goal from the previous system, one line per goal of the intervention."
         },
         "development": {
             "title": "Wellbeing development",

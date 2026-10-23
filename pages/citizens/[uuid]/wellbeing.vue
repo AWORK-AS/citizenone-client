@@ -46,6 +46,18 @@
                         :relationship="party.relationship" :isPrimary="party.isPrimary" />
                 </div>
 
+                <!-- The change wheel from the previous system: a curve per goal of
+                     the intervention. Only shown where the citizen has scores. -->
+                <ModulesUserCitizenWellbeingDevelopmentChart :citizenUuid="String(citizenUuid)" scaleKey="forandringshjul"
+                    hideWhenEmpty class="mt-6 rounded-lg border border-gray-200 bg-white p-4">
+                    <template #title>
+                        <div>
+                            <h2 class="text-sm font-semibold text-gray-900">{{ $t('wellbeing.changeWheel.title') }}</h2>
+                            <p class="mt-1 text-xs text-gray-500">{{ $t('wellbeing.changeWheel.description') }}</p>
+                        </div>
+                    </template>
+                </ModulesUserCitizenWellbeingDevelopmentChart>
+
                 <p v-if="!state.isLoading && parties.length === 1" class="text-xs text-gray-400">
                     {{ $t('wellbeing.noRelations') }}
                     <NuxtLink :to="`/citizens/${citizenUuid}/relations`" class="text-secondary hover:underline">

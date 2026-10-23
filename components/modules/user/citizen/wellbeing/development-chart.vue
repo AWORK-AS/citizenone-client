@@ -1,5 +1,6 @@
 <template>
-    <div class="space-y-4">
+    <div v-if="!(hideWhenEmpty && state.loaded && state.series.length === 0)" class="space-y-4">
+        <slot name="title" />
         <div class="flex flex-wrap items-end gap-3">
             <div class="w-44">
                 <FormLabel for="wellbeing_from" :label="$t('wellbeing.development.from')" />
@@ -41,6 +42,12 @@ const props = defineProps({
         type: String,
         default: 'trivsel',
     },
+    // A scale few citizens have (the change wheel) shows nothing rather than an
+    // empty chart when this one has none.
+    hideWhenEmpty: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const { t } = useI18n()
@@ -55,10 +62,12 @@ const state = reactive({
     to: '' as string,
     maxScore: 10,
     series: [] as any[],
+    loaded: false,
 })
 
 function seriesLabel(series: any): string {
-    const who = series.child_name || series.contact_name || t('wellbeing.ruler.wholeCase')
+    // The change wheel scores each of the case's goals: the goal is the line.
+    const who = series.goal_name || series.child_name || series.contact_name || t('wellbeing.ruler.wholeCase')
     // A party other than staff (a parent, the child) is part of what the line
     // means, so it is named.
     const rater = series.rater_key && series.rater_key !== 'staff'
@@ -108,6 +117,7 @@ async function fetchDevelopment() {
         state.series = []
     }
     state.isLoading = false
+    state.loaded = true
 }
 
 watch(() => [state.from, state.to], () => {

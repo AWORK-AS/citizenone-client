@@ -17520,6 +17520,20 @@
             "fallbackTitle": "Kontraktfeltene på oppholdet brukes inntil videre",
             "fallbackText": "Det er ennå ikke opprettet en kontraktperiode. Faktureringsuttrekket bruker kontraktpris og kontrakttimer fra oppholdet. Opprett en kontraktperiode for å styre pris, timefordeling og fakturering herfra.",
             "history": "Kontraktperioder",
+            "migratedHours": {
+                "title": "Timer fra det tidligere systemet",
+                "hoursShort": "timer",
+                "description": "Registreringene fra det tidligere systemet per måned og timetype. De er historikk: de faktureres, lønnskjøres og telles aldri igjen i tidskontoer.",
+                "month": "Måned",
+                "kilometers": "Km",
+                "total": "Totalt",
+                "types": {
+                    "contact": "Kontakttid",
+                    "admin": "Administrasjon",
+                    "transport": "Kjøring",
+                    "other": "Annet"
+                }
+            },
             "noPeriods": "Ingen kontraktperioder ennå.",
             "period": "Periode",
             "department": "Kunde og avdeling",
@@ -18941,6 +18955,10 @@
             "hint": "Velg en score fra 0 til {max}, halve trinn er tillatt. En rad uten score lagres ikke.",
             "clear": "Tøm",
             "wholeCase": "Samlet"
+        },
+        "changeWheel": {
+            "title": "Endringshjulet",
+            "description": "Poeng per mål fra det tidligere systemet, én linje per mål i innsatsen."
         },
         "development": {
             "title": "Trivselsutvikling",
