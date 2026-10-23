@@ -19484,6 +19484,19 @@
             "failed": "Something went wrong. Try again."
         }
     },
+    "templateLibrary": {
+        "title": "Templates",
+        "intro": "Pick a template, fill it in and save the result as a new PDF in the folder you choose. The template itself is never changed.",
+        "standardTitle": "Standard templates",
+        "ownTitle": "Your own templates",
+        "questions": "{count} questions",
+        "fillIn": "Fill in",
+        "search": "Search templates",
+        "noMatches": "No templates match your search.",
+        "ownEmpty": "You have no templates of your own yet.",
+        "createOwn": "Create a template",
+        "loadFailed": "The templates could not be loaded. Please try again."
+    },
     "videoConsultation": {
         "title": "Video consultation",
         "with": "With {name}",

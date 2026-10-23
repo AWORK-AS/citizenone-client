@@ -19484,6 +19484,19 @@
             "failed": "Noget gik galt. Prøv igen."
         }
     },
+    "templateLibrary": {
+        "title": "Skabeloner",
+        "intro": "Vælg en skabelon, udfyld den, og gem resultatet som en ny PDF i den mappe, du ønsker. Selve skabelonen ændres ikke.",
+        "standardTitle": "Standardskabeloner",
+        "ownTitle": "Jeres egne skabeloner",
+        "questions": "{count} spørgsmål",
+        "fillIn": "Udfyld",
+        "search": "Søg i skabeloner",
+        "noMatches": "Ingen skabeloner matcher søgningen.",
+        "ownEmpty": "I har ingen egne skabeloner endnu.",
+        "createOwn": "Opret en skabelon",
+        "loadFailed": "Skabelonerne kunne ikke hentes. Prøv igen."
+    },
     "videoConsultation": {
         "title": "Videokonsultation",
         "with": "Med {name}",
