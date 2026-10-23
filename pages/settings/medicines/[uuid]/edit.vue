@@ -25,11 +25,13 @@
 </template>
 
 <script setup lang="ts">
+import { useUserStore } from '@/store/user'
 import { medicineService } from '@/components/api/user/MedicineService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const userStore = useUserStore() as any
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -78,7 +80,8 @@ async function fetchMedicine() {
                 no_name: response?.data?.no_name ?? '',
                 sv_name: response?.data?.sv_name ?? '',
                 active_ingredients: response?.data?.ingredients ?? '',
-            }
+                renewal_survey: response?.data?.renewal_survey ?? null,
+            } as any
         }
     } catch (error: any) {
         state.error = error
@@ -99,6 +102,10 @@ async function updateMedicine(medicineDetails: any) {
         params.append('no_name', medicineDetails.no_name)
         params.append('sv_name', medicineDetails.sv_name)
         params.append('ingredients', medicineDetails.active_ingredients)
+        // Only sent where the form shows it, so saving elsewhere never clears a link.
+        if (medicineDetails.renewal_survey_uuid !== undefined && userStore.getUser?.prescription_renewals_enabled) {
+            params.append('renewal_survey_uuid', medicineDetails.renewal_survey_uuid ?? '')
+        }
         const response = await medicineService.updateMedicine(medicineUuid, params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('medicines.form.alert.medicineSuccessfullyUpdated')}.`)

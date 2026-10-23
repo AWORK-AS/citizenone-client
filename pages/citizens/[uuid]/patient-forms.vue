@@ -72,6 +72,8 @@
                                 <span :class="['text-xs font-medium rounded-full px-3 py-1', statusOf(assignment).classes]">
                                     {{ $t(`patientForms.status.${statusOf(assignment).key}`) }}
                                 </span>
+                                <ModulesUserQuestionnaireInboxReviewStatus v-if="assignment.review_status"
+                                    :status="assignment.review_status" :review="assignment.review" />
                                 <FormButton v-if="assignment.status === 'completed'" type="button" buttonStyle="cancel"
                                     buttonSize="xs" @click="openAnswers(assignment)">
                                     <Icon name="ph:eye" class="h-4 w-4" />

@@ -125,6 +125,13 @@
                                 </FormButton>
                             </Tooltip>
 
+                            <FormButton buttonStyle="action" @click="state.modal.isTemplateLibraryOpen = true"
+                                v-if="(state.viewMode === 'local' || state.viewMode === 'google-drive' || state.isInsideOneDrive) && (isAtLeast('Admin') || can('manage_status_reports'))"
+                                data-testid="open-template-library">
+                                <Icon name="ph:files" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('templateLibrary.title') }}
+                            </FormButton>
+
                             <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true"
                                 v-if="(state.viewMode === 'local' || state.viewMode === 'google-drive' || state.isInsideOneDrive) && (isAtLeast('Admin') || can('manage_status_reports'))">
                                 <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
@@ -512,7 +519,10 @@
                     <ModulesUserDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
                         :variant="state.isInsideOneDrive ? 'onedrive' : state.viewMode"
                         :parentFolderId="state.viewMode === 'google-drive' ? (state.googleDriveFolderId || undefined) : undefined"
-                        :onedriveFolders="oneDriveFoldersForModal" @close="state.modal.isCreateTemplateOpen = false" />
+                        :onedriveFolders="oneDriveFoldersForModal" :presetFormUuid="state.pickedTemplateUuid"
+                        :presetFolderUuid="currentLocalFolderUuid" @close="closeCreateTemplate" />
+                    <ModulesUserDocumentTemplateLibraryModal :isModalOpen="state.modal.isTemplateLibraryOpen" area="company"
+                        @close="state.modal.isTemplateLibraryOpen = false" @pick="openPickedTemplate" />
                     <DialogConfirmation :isModalOpen="state.modal.isActiveGoogleDriveOpen"
                         :title="$t('drive.googleDrive')"
                         :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
@@ -637,6 +647,24 @@ function canDownloadDocument(document: any): boolean {
 }
 const { t } = useI18n()
 const router = useRouter()
+
+// Task #94: a template from the templates library is filled in through the create-template flow,
+// saved by default in the local folder the user is in.
+const currentLocalFolderUuid = computed(() => {
+    const folderUuid = router?.currentRoute?.value?.query?.folder_uuid
+    return state.viewMode === 'local' && !state.isInsideOneDrive && typeof folderUuid === 'string' ? folderUuid : ''
+})
+
+function openPickedTemplate(formUuid: string) {
+    state.pickedTemplateUuid = formUuid
+    state.modal.isTemplateLibraryOpen = false
+    state.modal.isCreateTemplateOpen = true
+}
+
+function closeCreateTemplate() {
+    state.modal.isCreateTemplateOpen = false
+    state.pickedTemplateUuid = ''
+}
 const documentFile = ref(null) as any
 let currentTablePage = 1
 let lastOneDriveSearchRequestId = 0;
@@ -760,11 +788,14 @@ const state = reactive({
     googleDriveFolderId: null as string | null,
     googleDriveFolderStack: [] as string[],
     oneDriveFolderStack: [] as string[],
+    // The template picked in the templates library, filled in through "Opret skabelon".
+    pickedTemplateUuid: '',
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isActiveGoogleDriveOpen: false,
         isCreateTemplateOpen: false,
+        isTemplateLibraryOpen: false,
         isCreateDocumentFileOpen: false,
         isCreateGoogleDriveFolderOpen: false,
         isDeleteDirectoryOpen: false,

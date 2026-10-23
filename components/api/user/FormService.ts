@@ -35,6 +35,19 @@ class FormService extends BaseAPIService {
         return await this.request(`/user/community-form-templates/${templateUuid}/import`, 'POST')
     }
 
+    /**
+     * Task #94: the "Templates" library of a documents area - the standard
+     * questionnaires (WHO-5, SCL-10) and the company's own forms.
+     */
+    async getTemplateLibrary(area: 'citizen' | 'company'): Promise<any> {
+        return await this.request(`/user/form-template-library`, 'GET', { area })
+    }
+
+    /** The company's own copy of a standard template, made the first time it is used. */
+    async useStandardTemplate(key: string, area: 'citizen' | 'company'): Promise<any> {
+        return await this.request(`/user/form-template-library/${key}/use`, 'POST', { area })
+    }
+
     /** Renders the template as the document it will produce, including unsaved edits. */
     async previewForm(params: object): Promise<Blob | null> {
         return await this.requestBlob(`/user/forms/preview`, 'POST', params)

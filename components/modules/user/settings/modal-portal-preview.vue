@@ -188,6 +188,11 @@ const SECTIONS: Record<string, any[]> = {
             preview: 'settings.company.form.portalPreviewPriceEstimates',
         },
         {
+            key: 'prescriptions', icon: 'ph:prescription',
+            label: 'settings.company.form.portalSectionPrescriptions',
+            preview: 'settings.company.form.portalPreviewPrescriptions',
+        },
+        {
             key: 'support', icon: 'material-symbols:support',
             label: 'settings.company.form.portalSectionSupport',
             preview: 'settings.company.form.portalPreviewSupport',

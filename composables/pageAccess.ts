@@ -18,7 +18,8 @@
 export function companyHasModule(modulePages: unknown, name: string): boolean {
     // No rows means every module. That is the default for a company that has
     // never opened Settings -> Company -> Moduler, and the same reading the
-    // server and the app both take, so the three cannot disagree.
+    // server and the app both take, so the three cannot disagree. A company that
+    // switched every module off is sent ['__none__'] instead, which names nothing.
     return !Array.isArray(modulePages) || modulePages.length === 0 || modulePages.includes(name)
 }
 
