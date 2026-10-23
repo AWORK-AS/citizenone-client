@@ -17302,6 +17302,20 @@
             "fallbackTitle": "Avtalsfälten på vistelsen används tills vidare",
             "fallbackText": "Ingen avtalsperiod har skapats ännu. Faktureringsuttaget använder avtalspris och avtalstimmar från vistelsen. Skapa en avtalsperiod för att styra pris, timfördelning och fakturering härifrån.",
             "history": "Avtalsperioder",
+            "migratedHours": {
+                "title": "Timmar från det tidigare systemet",
+                "hoursShort": "timmar",
+                "description": "Registreringarna från det tidigare systemet per månad och timtyp. De är historik: de faktureras, löneförs och räknas aldrig igen i tidskonton.",
+                "month": "Månad",
+                "kilometers": "Km",
+                "total": "Totalt",
+                "types": {
+                    "contact": "Kontakttid",
+                    "admin": "Administration",
+                    "transport": "Körning",
+                    "other": "Annat"
+                }
+            },
             "noPeriods": "Inga avtalsperioder ännu.",
             "period": "Period",
             "department": "Kund och avdelning",
@@ -18723,6 +18737,10 @@
             "hint": "Välj ett värde från 0 till {max}, halva steg är tillåtna. En rad utan värde sparas inte.",
             "clear": "Rensa",
             "wholeCase": "Samlat"
+        },
+        "changeWheel": {
+            "title": "Förändringshjulet",
+            "description": "Poäng per mål från det tidigare systemet, en linje per mål i insatsen."
         },
         "development": {
             "title": "Välmåendeutveckling",

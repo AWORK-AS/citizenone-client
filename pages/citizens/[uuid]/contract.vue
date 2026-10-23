@@ -221,6 +221,7 @@
                             </div>
                         </div>
                     </div>
+                    <ModulesUserCitizenContractHoursHistory v-if="isAtLeast('Admin')" :citizenUuid="String(citizenUuid)" class="mt-6" />
                 </LoadingSpinner>
             </div>
 
