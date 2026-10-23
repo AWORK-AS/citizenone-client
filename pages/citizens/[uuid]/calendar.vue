@@ -59,14 +59,14 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <LoadingSpinner :isActive="state.isPageLoading">
-                        <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarDefaultView :myCalendarEvents="state.myCalendarEvents" statusActions
                             @changeMonthYear="changeMonthYear" @deleteMyCalendarEvent="deleteMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
                             @createJournalFromEvent="handleCreateJournalFromEvent"
                             @viewMyCalendarEvent="viewMyCalendarEvent"
                             @createEvent="openCreateEventModal"
                             v-if="state.calendarView === 'default'" />
-                        <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents"
+                        <ModulesUserCitizenCalendarWeekView :myCalendarEvents="state.myCalendarEvents" statusActions
                             @changeDatePerWeek="changeDatePerWeek" v-if="state.calendarView === 'week'"
                             @viewMyCalendarEvent="viewMyCalendarEvent"
                             @markEventAsStatus="handleMarkEventAsStatus"
@@ -82,17 +82,18 @@
                 </div>
 
                 <ModulesUserCitizenCalendarModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen"
-                    :presetDate="state.newEventPresetDate"
+                    :presetDate="state.newEventPresetDate" allowShift
                     @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
                 <ModulesUserCitizenCalendarModalView :isModalOpen="state.modal.isViewEventOpen"
                     :selectedSchedule="state.selectedSchedule" @close="state.modal.isViewEventOpen = false"
+                    statusActions @markEventAsStatus="markStatusFromModal"
                     @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
                 <ModulesUserMyCalendarModalEventJournalPrompt :isModalOpen="state.modal.isEventJournalPromptOpen"
                     @close="state.modal.isEventJournalPromptOpen = false"
                     @yes="handleJournalPromptYes"
                     @no="state.modal.isEventJournalPromptOpen = false" />
                 <ModulesUserMyCalendarModalCreateJournal :isModalOpen="state.modal.isCreateEventJournalOpen"
-                    :selectedEvent="state.selectedSchedule"
+                    :selectedEvent="state.selectedSchedule" :completeOnSave="state.completeJournalOnSave"
                     @close="state.modal.isCreateEventJournalOpen = false"
                     @journalCreated="fetchMyCalendarEvents" />
             </div>
@@ -108,6 +109,8 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { usePermissions } from '@/composables/usePermissions'
+import { isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone } from '@/composables/calendarNoteRequired'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -117,6 +120,7 @@ const customPagesStore = useCustomPagesStore() as any
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
+const userStore = useUserStore() as any
 const breadcrumbLinks = [
     {
         name: 'citizens.tabs.calendar',
@@ -136,7 +140,12 @@ const state = reactive({
         isEventJournalPromptOpen: false,
         isCreateEventJournalOpen: false,
     },
+    // The note form was opened by "done" and its save marks the booking done.
+    completeJournalOnSave: false,
     selectedSchedule: null as any,
+    // The event the view modal was opened from, as the calendar has it:
+    // selectedSchedule is a trimmed copy for the modal.
+    viewedEvent: null as any,
     selectedDate: {
         end_date: moment().endOf('month').format('YYYY-MM-DD'),
         start_date: moment().startOf('month').format('YYYY-MM-DD'),
@@ -289,6 +298,7 @@ function viewMyCalendarEvent(selectedCalendarEvent: any) {
         journal: selectedCalendarEvent.journal,
         citizen_uuid: citizenUuid,
     }
+    state.viewedEvent = selectedCalendarEvent
     state.modal.isViewEventOpen = true
 }
 
@@ -319,6 +329,15 @@ async function deleteMyCalendarEvent(selectedCalendarEvent: any, scope: string |
 
 async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'completed' | 'not_completed') {
     state.error = {}
+    const company = userStore.getUser?.company
+
+    // Where the company requires a note before "done", a booking without one
+    // goes straight to the note form; its save marks the booking done.
+    if (status === 'completed' && needsNoteBeforeDone(selectedCalendarEvent, company)) {
+        openNoteToComplete(selectedCalendarEvent)
+        return
+    }
+
     state.isPageLoading = true
     state.selectedSchedule = selectedCalendarEvent
     try {
@@ -326,21 +345,46 @@ async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'comp
         if (response?.data) {
             fetchMyCalendarEvents()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.statusSuccessfullyUpdated')}.`)
-            state.modal.isEventJournalPromptOpen = true
+            // The optional "write a note?" prompt, as before. Not after "done"
+            // where a note is required: the booking already has one.
+            if (!(status === 'completed' && isCalendarNoteRequiredOn(company))) {
+                state.modal.isEventJournalPromptOpen = true
+            }
         }
     } catch (error: any) {
-        state.error = error
+        // The linked note is a draft, or the list was out of date.
+        if (isNoteRequiredError(error)) {
+            openNoteToComplete(selectedCalendarEvent)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }
 
+function openNoteToComplete(selectedCalendarEvent: any) {
+    state.selectedSchedule = selectedCalendarEvent
+    state.completeJournalOnSave = true
+    state.modal.isCreateEventJournalOpen = true
+}
+
+// The view modal's done / not done buttons: same request as the event menu.
+// The full event goes on, because the journal prompt that follows reads its
+// start and its citizen.
+function markStatusFromModal(status: 'completed' | 'not_completed') {
+    state.modal.isViewEventOpen = false
+    handleMarkEventAsStatus(state.viewedEvent, status)
+}
+
 function handleCreateJournalFromEvent(selectedCalendarEvent: any) {
     state.selectedSchedule = selectedCalendarEvent
+    state.completeJournalOnSave = false
     state.modal.isCreateEventJournalOpen = true
 }
 
 function handleJournalPromptYes() {
     state.modal.isEventJournalPromptOpen = false
+    state.completeJournalOnSave = false
     state.modal.isCreateEventJournalOpen = true
 }
 </script>

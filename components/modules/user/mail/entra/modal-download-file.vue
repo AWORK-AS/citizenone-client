@@ -103,6 +103,7 @@
 </template>
 
 <script setup lang="ts">
+import { translateMessage } from '@/composables/translateMessage'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -394,7 +395,7 @@ async function downloadAttachment() {
                 }
             }
         } catch (error: any) {
-            state.error.message = error?.message || 'An error occurred during the download.'
+            state.error.message = error?.message || translateMessage('apiErrors.downloadFailed', 'An error occurred during the download.')
         }
         state.isPageLoading = false
     }

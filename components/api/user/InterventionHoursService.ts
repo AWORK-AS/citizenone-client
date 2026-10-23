@@ -37,6 +37,12 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/download/employee/${employeeUuid}/reports`, 'GET', params)
     }
 
+    // The hour types a hand-made registration can take; empty unless the
+    // company switched them on.
+    async getHourTypes(): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/hour-types/list`, 'GET')
+    }
+
     async getContributionMargin(citizenUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/contribution-margin`, 'GET', params)
     }

@@ -91,7 +91,9 @@
                     <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.assessment') }}
                     </h3>
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                    <!-- Bottom-aligned: a question that wraps to two lines would
+                         otherwise push its answer below the one beside it. -->
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 sm:items-end">
                         <div class="space-y-1" v-if="asksFor('vacant_place_available')">
                             <FormLabel for="vacant_place_available"
                                 :label="$t('inquiries.form.shelter.fields.vacantPlaceAvailable')" />
@@ -186,6 +188,8 @@
                 </section>
                 <ModulesUserInquiryMatchNeedsBlock :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
                     :error="props.error" @update="(value: any) => matchNeeds = value" />
+                <!-- Whatever else the edit carries, saved by the same button. -->
+                <slot name="after-fields" />
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -203,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-import { asksFor as asksForField } from '@/composables/inquiryForms'
+import { asksFor as asksForField, shownOnInquiry } from '@/composables/inquiryForms'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -249,8 +253,22 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
  * without a service type, or a type nobody has configured, asks for all of
  * them - which is what every form did before the setting existed.
  */
-function asksFor(field: string): boolean {
+function formAsks(field: string): boolean {
     return asksForField(field, props.form as any, props.serviceType as any)
+}
+
+/**
+ * Whether the field is shown. An edit shows the same fields as the inquiry
+ * page - what the inquiry's form asks for plus anything already filled in, or
+ * every field for an inquiry from before forms - so each one the page lists
+ * can be corrected here. Read off the inquiry as loaded, so a field does not
+ * vanish while it is being cleared. Only what the form asks for is required,
+ * so a field it leaves out never blocks a save.
+ */
+function asksFor(field: string): boolean {
+    if (props.formType !== 'update') return formAsks(field)
+
+    return shownOnInquiry(field, props.form as any, props.selectedInquiry as any)
 }
 
 const { t, locale } = useI18n()
@@ -458,9 +476,9 @@ onMounted(() => {
         inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
         first_name: props.selectedInquiry?.firstname,
         last_name: props.selectedInquiry?.lastname,
-        vacant_place_available: props.formType === 'update' ? (props.selectedInquiry?.vacant_place_available ? 'yes' : 'no') : '',
-        in_shelter_target_group: props.formType === 'update' ? (props.selectedInquiry?.in_shelter_target_group ? 'yes' : 'no') : '',
-        fits_in_target_group: props.formType === 'update' ? (props.selectedInquiry?.fits_in_target_group ? 'yes' : 'no') : '',
+        vacant_place_available: yesNoFrom(props.selectedInquiry?.vacant_place_available),
+        in_shelter_target_group: yesNoFrom(props.selectedInquiry?.in_shelter_target_group),
+        fits_in_target_group: yesNoFrom(props.selectedInquiry?.fits_in_target_group),
         non_admission_reason: props.selectedInquiry?.non_admission_reason || '',
         not_in_service_target_group_reason: props.selectedInquiry?.not_in_service_target_group_reason || '',
         referral_destination: props.selectedInquiry?.referral_destination || '',
@@ -470,6 +488,17 @@ onMounted(() => {
         notes: props.selectedInquiry?.notes || ''
     }
 })
+
+// An edit reads a stored boolean as the yes/no the select offers, and an
+// unanswered question (null) as empty - not as a "no" nobody gave. A new
+// inquiry's own draft is already yes/no or empty.
+function yesNoFrom(value: any) {
+    if (props.formType !== 'update') return value || ''
+    if (value === true) return 'yes'
+    if (value === false) return 'no'
+
+    return ''
+}
 
 watch(() => props.selectedInquiry, (newValue: any) => {
     if (newValue != null) {
@@ -484,9 +513,11 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             inquiry_service_type_uuid: props.selectedInquiry?.service_type?.uuid ?? null,
             first_name: props.selectedInquiry?.firstname,
             last_name: props.selectedInquiry?.lastname,
-            vacant_place_available: props.selectedInquiry?.vacant_place_available || '',
-            in_shelter_target_group: props.selectedInquiry?.in_shelter_target_group || '',
-            fits_in_target_group: props.selectedInquiry?.fits_in_target_group || '',
+            // Stored as booleans, chosen as yes/no: read the same way as on mount,
+            // or a refresh while editing empties the three questions.
+            vacant_place_available: yesNoFrom(props.selectedInquiry?.vacant_place_available),
+            in_shelter_target_group: yesNoFrom(props.selectedInquiry?.in_shelter_target_group),
+            fits_in_target_group: yesNoFrom(props.selectedInquiry?.fits_in_target_group),
             non_admission_reason: props.selectedInquiry?.non_admission_reason || '',
             not_in_service_target_group_reason: props.selectedInquiry?.not_in_service_target_group_reason || '',
             referral_destination: props.selectedInquiry?.referral_destination || '',
@@ -506,12 +537,12 @@ const rules = computed(() => {
             },
             // A field the form does not show cannot be filled in, so it is not
             // required: requiring it made the form impossible to send.
-            ...(asksFor('inquirer_name') ? {
+            ...(formAsks('inquirer_name') ? {
                 inquirer_name: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             } : {}),
-            ...(asksFor('conversation_summary') ? {
+            ...(formAsks('conversation_summary') ? {
                 conversation_summary: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },

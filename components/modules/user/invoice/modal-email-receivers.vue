@@ -2,6 +2,15 @@
     <div>
         <Modal size="xl" :title="$t('invoices.email.emailReceivers')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
+                <div v-if="state.autoSend.isAvailable"
+                    class="mb-5 flex items-start justify-between gap-4 rounded-lg border border-gray-200 p-4">
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-gray-900">{{ $t('invoiceMail.autoSendLabel') }}</p>
+                        <p class="mt-1 text-xs text-gray-500">{{ $t('invoiceMail.autoSendHint') }}</p>
+                    </div>
+                    <FormSwitch :value="state.autoSend.enabled" :disabled="state.autoSend.isSaving"
+                        :label="$t('invoiceMail.autoSendLabel')" @toggleSwitch="toggleAutoSend" />
+                </div>
                 <div class="flex justify-end items-center mb-5">
                     <FormButton buttonStyle="action" @click="state.modal.isNewReceiverOpen = true">
                         <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
@@ -96,6 +105,13 @@ const state = reactive({
         isEditReceiverOpen: false,
     },
     selectedInvoiceReceiver: {} as any,
+    // Only billing admins may read or change it; for anyone else the request
+    // is refused and the toggle simply stays hidden.
+    autoSend: {
+        isAvailable: false,
+        enabled: false,
+        isSaving: false,
+    },
     sortData: {
         sortField: 'id',
         sortOrder: 'descend',
@@ -109,8 +125,32 @@ function closeModal() {
 watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
         fetchInvoiceReceivers()
+        fetchAutoSendSetting()
     }
 })
+
+async function fetchAutoSendSetting() {
+    try {
+        const response = await invoiceReceiverService.getAutoSendSetting()
+        state.autoSend.enabled = !!response?.data?.auto_send_invoices_to_accountant
+        state.autoSend.isAvailable = true
+    } catch {
+        state.autoSend.isAvailable = false
+    }
+}
+
+async function toggleAutoSend() {
+    state.error = {}
+    state.autoSend.isSaving = true
+    try {
+        const response = await invoiceReceiverService.updateAutoSendSetting(!state.autoSend.enabled)
+        state.autoSend.enabled = !!response?.data?.auto_send_invoices_to_accountant
+        successAlert(`${t('alert.success')}!`, `${t('invoiceMail.autoSendSaved')}.`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.autoSend.isSaving = false
+}
 
 async function fetchInvoiceReceivers() {
     state.error = {}

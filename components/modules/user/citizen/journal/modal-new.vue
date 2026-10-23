@@ -23,7 +23,8 @@
                     </div>
                     <ModulesUserCitizenJournalForm formType="create" :selectedJournal="state.formJournal"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveJournal"
+                        @closeModal="closeModal" @dirtyChange="(dirty: boolean) => formDirty = dirty"
+                        :draftCitizenUuid="String(citizenUuid ?? '')" @submitForm="saveJournal"
                         @planGoalSubgoalSelected="onPlanGoalSubgoalSelected" />
                 </LoadingSpinner>
             </template>
@@ -113,12 +114,15 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { planService } from '@/components/api/user/PlanService'
 import { journalService } from '@/components/api/user/JournalService'
 import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
-import { surveyService } from '@/components/api/user/SurveyService'
+import { useSurveyCompletion } from '@/composables/useSurveyCompletion'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { clearDraft, draftKey } from '@/composables/journalNoteDraft'
+import { useUserStore } from '@/store/user'
 
 const { successAlert } = useAlert()
+const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
@@ -136,6 +140,8 @@ const props = defineProps({
         default: false,
     },
 })
+
+const { completeAnsweredSurveys } = useSurveyCompletion()
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const emit = defineEmits(['close', 'refreshJournal'])
@@ -196,7 +202,20 @@ const state = reactive({
     },
 })
 
+// The form says when it holds writing; closing then asks first, so Esc, a click outside or
+// Cancel cannot throw a note away. A draft is kept in this tab either way (journalNoteDraft.ts).
+const formDirty = ref(false)
+
 function closeModal() {
+    if (formDirty.value && !window.confirm(t('journalDraft.confirmClose'))) return
+    formDirty.value = false
+    emit('close')
+}
+
+/** After a save: nothing to protect any more. */
+function closeAfterSave() {
+    clearDraft(sessionStorage, draftKey(userStore.getUser?.uuid, String(citizenUuid ?? '')))
+    formDirty.value = false
     emit('close')
 }
 
@@ -290,6 +309,7 @@ async function saveJournal(journalDetails: any) {
             content: journalDetails.formJournal.content,
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
+            is_internal: journalDetails.formJournal.is_internal ?? false,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_medical_record: props.isMedicalRecord,
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
@@ -307,7 +327,7 @@ async function saveJournal(journalDetails: any) {
         if (response?.data) {
             await completeAnsweredSurveys(response.data.uuid, journalDetails.pending_survey_answers)
             refreshJournal()
-            closeModal()
+            closeAfterSave()
             successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyAdded')}.`)
         }
     } catch (error: any) {
@@ -316,17 +336,4 @@ async function saveJournal(journalDetails: any) {
     state.isPageLoading = false
 }
 
-async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers: any[]) {
-    if (!Array.isArray(pendingSurveyAnswers) || pendingSurveyAnswers.length === 0) return
-    for (const entry of pendingSurveyAnswers) {
-        try {
-            await surveyService.completeAssignment(entry.assignment_uuid, {
-                answers: entry.answers,
-                citizen_journal_uuid: journalUuid,
-            })
-        } catch (error: any) {
-            // one survey failing to complete must not block the journal note itself
-        }
-    }
-}
 </script>

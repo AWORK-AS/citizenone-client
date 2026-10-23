@@ -66,6 +66,10 @@
                                     class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
                                     {{ $t('inquiryFields.required') }}
                                 </span>
+                                <span v-if="field.carry_to_citizen"
+                                    class="rounded-full bg-[#e6f4ef] px-2 py-px text-[11px] font-semibold text-[#2f7a5f]">
+                                    {{ $t('inquiryFieldSettings.carriedBadge') }}
+                                </span>
                                 <span v-if="!field.is_active"
                                     class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-semibold text-slate-400">
                                     {{ $t('inquiryFieldSettings.inactive') }}
@@ -142,8 +146,8 @@
                             </div>
                             <div>
                                 <FormLabel for="field-stage" :label="$t('inquiryFieldSettings.form.stage')" />
-                                <FormSelect id="field-stage" v-model="state.form.stage_uuid" :options="stageOptions"
-                                    :searchable="false" />
+                                <FormSelect id="field-stage" :modelValue="orAll(state.form.stage_uuid)" :options="stageOptions"
+                                    :searchable="false" @update:modelValue="(value: any) => state.form.stage_uuid = fromAll(value)" />
                                 <p class="mt-1 text-[11px] text-gray-400">
                                     {{ $t('inquiryFieldSettings.form.stageHint') }}
                                 </p>
@@ -167,8 +171,9 @@
                         <div>
                             <FormLabel for="field-service-type"
                                 :label="$t('inquiryFieldSettings.form.serviceType')" />
-                            <FormSelect id="field-service-type" v-model="state.form.service_type_uuid"
-                                :options="serviceTypeOptions" :searchable="false" />
+                            <FormSelect id="field-service-type" :modelValue="orAll(state.form.service_type_uuid)"
+                                :options="serviceTypeOptions" :searchable="false"
+                                @update:modelValue="(value: any) => state.form.service_type_uuid = fromAll(value)" />
                             <p class="mt-1 text-[11px] text-gray-400">
                                 {{ $t('inquiryFieldSettings.form.serviceTypeHint') }}
                             </p>
@@ -176,8 +181,9 @@
 
                         <div>
                             <FormLabel for="field-form" :label="$t('inquiryFieldSettings.form.form')" />
-                            <FormSelect id="field-form" v-model="state.form.form_uuid"
-                                :options="formOptions" :searchable="false" />
+                            <FormSelect id="field-form" :modelValue="orAll(state.form.form_uuid)"
+                                :options="formOptions" :searchable="false"
+                                @update:modelValue="(value: any) => state.form.form_uuid = fromAll(value)" />
                             <p class="mt-1 text-[11px] text-gray-400">
                                 {{ $t('inquiryFieldSettings.form.formHint') }}
                             </p>
@@ -241,6 +247,16 @@
                                 <FormCheckbox :value="state.form.is_active" />
                                 <span class="text-sm">{{ $t('inquiryFieldSettings.form.isActive') }}</span>
                             </div>
+                            <!-- Off by default: only the fields a company picks become fields on
+                                 the indsats; the rest stay in the intake journal entry. -->
+                            <div class="flex w-fit cursor-pointer items-center gap-2"
+                                @click="state.form.carry_to_citizen = !state.form.carry_to_citizen">
+                                <FormCheckbox :value="state.form.carry_to_citizen" />
+                                <span class="text-sm">{{ $t('inquiryFieldSettings.form.carryToCitizen') }}</span>
+                            </div>
+                            <p class="text-[11px] text-gray-400">
+                                {{ $t('inquiryFieldSettings.form.carryToCitizenHint') }}
+                            </p>
                         </div>
 
                         <div class="grid grid-cols-1 gap-3 pt-2 md:grid-cols-2">
@@ -322,6 +338,7 @@ function emptyForm() {
         form_uuid: null as string | null,
         is_required: false,
         is_active: true,
+        carry_to_citizen: false,
     }
 }
 
@@ -342,8 +359,21 @@ const typeOptions = computed(() =>
     TYPES.map((type) => ({ value: type, label: t('inquiryFieldSettings.types.' + type) }))
 )
 
+// "Applies throughout", "All service types" and "All forms" are real choices
+// stored as null, but the dropdown reads null as nothing chosen and shows an
+// empty box. So the dropdown carries a stand-in, and the form keeps null.
+const ALL = 'all'
+
+function orAll(value: string | null) {
+    return value ?? ALL
+}
+
+function fromAll(value: any): string | null {
+    return value === ALL || value === undefined ? null : value
+}
+
 const stageOptions = computed(() => [
-    { value: null, label: t('inquiryFields.appliesThroughout') },
+    { value: ALL, label: t('inquiryFields.appliesThroughout') },
     ...state.stages.map((stage: any) => ({ value: stage.uuid, label: stage.name })),
 ])
 
@@ -354,7 +384,7 @@ const sourceOptions = computed(() =>
 )
 
 const serviceTypeOptions = computed(() => [
-    { value: null, label: t('inquiryFieldSettings.allServiceTypes') },
+    { value: ALL, label: t('inquiryFieldSettings.allServiceTypes') },
     ...state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label })),
 ])
 
@@ -364,7 +394,7 @@ const builtinNames = computed(() => ({
 }))
 
 const formOptions = computed(() => [
-    { value: null, label: t('inquiryFieldSettings.allForms') },
+    { value: ALL, label: t('inquiryFieldSettings.allForms') },
     ...state.forms.map((form: any) => ({ value: form.uuid, label: formLabel(form, builtinNames.value) })),
 ])
 
@@ -484,6 +514,7 @@ function openEdit(field: any) {
         form_uuid: field.form?.uuid ?? null,
         is_required: !!field.is_required,
         is_active: !!field.is_active,
+        carry_to_citizen: !!field.carry_to_citizen,
     }
     state.formError = {}
     state.isFormOpen = true
@@ -501,6 +532,7 @@ function payload() {
         help_text: state.form.help_text.trim() || null,
         is_required: state.form.is_required,
         is_active: state.form.is_active,
+        carry_to_citizen: state.form.carry_to_citizen,
     }
 
     // The type is fixed after creation, so it is only sent when creating.

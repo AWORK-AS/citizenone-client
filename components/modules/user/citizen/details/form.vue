@@ -39,9 +39,10 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="social_security_number" :label="$t('citizens.form.ssn')" />
-                        <FormTextField id="social_security_number" name="social_security_number"
+                        <FormTextField v-if="!isHidden('social_security_number')" id="social_security_number" name="social_security_number"
                             :placeholder="$t('citizens.form.ssnPlaceholder')" :maxLength="11"
                             v-model="formattedSocialSecurityNumber" @input="updateSocialSecurityNumber" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.social_security_number?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
                         <!-- Only a hint against creating a duplicate: saving is never blocked. -->
@@ -65,7 +66,8 @@
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="birthday" :label="$t('citizens.form.birthday')" />
-                        <FormDateField id="birthday" name="birthday" v-model="state.formCitizen.birthday" showAge />
+                        <FormDateField v-if="!isHidden('birthday')" id="birthday" name="birthday" v-model="state.formCitizen.birthday" showAge />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <p v-if="state.autoFilledFromSsn" class="flex items-center gap-x-1 text-xs text-tertiary">
                             <Icon name="ph:magic-wand" class="h-3.5 w-3.5" aria-hidden="true" />
                             {{ $t('citizens.form.autoFilledFromSsn') }}
@@ -84,8 +86,9 @@
                     </div>
                     <div class="space-y-1">
                         <FormLabel for="email" :label="$t('citizens.form.emailAddress')" />
-                        <FormTextField id="email" name="email" placeholder="navn@eksempel.dk"
+                        <FormTextField v-if="!isHidden('email')" id="email" name="email" placeholder="navn@eksempel.dk"
                             v-model="state.formCitizen.email" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.email?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.email?.[0]" />
                     </div>
@@ -93,7 +96,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                     <div class="space-y-1">
                         <FormLabel for="phone" :label="$t('citizens.form.phone')" />
-                        <FormTextField id="phone" name="phone" v-model="state.formCitizen.phone" />
+                        <FormTextField v-if="!isHidden('phone')" id="phone" name="phone" v-model="state.formCitizen.phone" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.phone?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
@@ -128,19 +132,20 @@
                 <div class="space-y-1">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="street" :label="$t('citizens.form.street')" />
-                        <div class="flex gap-x-1 items-center" @click="state.modal.isLocateCitizenOpen = true">
+                        <div v-if="!isHidden('address')" class="flex gap-x-1 items-center" @click="state.modal.isLocateCitizenOpen = true">
                             <Icon name="ph:map-pin" class="text-tertiary w-4 h-4" />
                             <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800">
                                 {{ $t('citizens.form.locateCitizen') }}
                             </span>
                         </div>
                     </div>
-                    <FormTextField id="street" name="street" :placeholder="$t('citizens.form.street')"
+                    <FormTextField v-if="!isHidden('address')" id="street" name="street" :placeholder="$t('citizens.form.street')"
                         v-model="state.formCitizen.street" />
+                    <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                     <FormError :error="v$?.formCitizen?.street?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.street?.[0]" />
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isHidden('address')">
                     <div class="space-y-1">
                         <FormLabel for="region" :label="$t('citizens.form.region')" />
                         <FormSelect id="region" :options="state.options.regions" v-model="state.formCitizen.region"
@@ -156,7 +161,7 @@
                         <FormError :error="props?.error?.errors?.municipality_uuid?.[0]" />
                     </div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="!isHidden('address')">
                     <div class="space-y-1">
                         <FormLabel for="city" :label="$t('citizens.form.city')" />
                         <FormTextField id="city" name="city" :placeholder="$t('citizens.form.city')"
@@ -239,7 +244,7 @@
                         </p>
                     </div>
                 </Tooltip>
-                <div class="space-y-1" v-if="isFieldVisible('diagnoses')">
+                <div class="space-y-1" v-if="isFieldVisible('diagnoses') && !isHidden('diagnoses')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="diagnoses" :label="$t('citizens.form.diagnoses')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -252,7 +257,7 @@
                     <FormError :error="v$?.formCitizen?.diagnoses?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.diagnoses?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="isFieldVisible('medication_allergies')">
+                <div class="space-y-1" v-if="isFieldVisible('medication_allergies') && !isHidden('allergies')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="medication_allergies" :label="$t('citizens.form.medicationAllergies')" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -265,7 +270,7 @@
                     <FormError :error="v$?.formCitizen?.medication_allergies?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.medication_allergies?.[0]" />
                 </div>
-                <div class="space-y-1" v-if="isFieldVisible('addictions')">
+                <div class="space-y-1" v-if="isFieldVisible('addictions') && !isHidden('addictions')">
                     <div class="flex justify-between items-center py-0.5">
                         <FormLabel for="addictions" :label="customPagesStore.getCustomPagesName?.addictions" />
                         <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
@@ -344,12 +349,22 @@
                             v-model="state.formCitizen.reporting_starts_on" />
                         <FormError :error="props?.error?.errors?.reporting_starts_on?.[0]" />
                     </div>
+                    <!-- An internal deadline for the draft, ahead of each reporting date. -->
+                    <div class="space-y-1" v-if="state.formCitizen.reporting_frequency">
+                        <FormLabel for="report_draft_days_before" :label="$t('citizens.form.reportDraftDaysBefore')" />
+                        <FormNumberField id="report_draft_days_before" name="report_draft_days_before" :min="1"
+                            :placeholder="$t('citizens.form.reportDraftDaysBeforePlaceholder')"
+                            v-model="state.formCitizen.report_draft_days_before" />
+                        <p class="text-xs text-gray-500">{{ $t('citizens.form.reportDraftDaysBeforeHint') }}</p>
+                        <FormError :error="props?.error?.errors?.report_draft_days_before?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3" v-if="isFieldVisible('pricing')">
                     <div class="space-y-1">
                         <FormLabel for="pricing" :label="$t('citizens.form.pricing')" />
-                        <FormTextField id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
+                        <FormTextField v-if="!isHidden('pricing')" id="pricing" name="pricing" :placeholder="$t('citizens.form.pricing')"
                             v-model="state.formCitizen.pricing" />
+                        <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                         <FormError :error="v$?.formCitizen?.pricing?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.pricing?.[0]" />
                     </div>
@@ -380,6 +395,18 @@
                     <FormSelect id="secondary_case_worker_uuid" :options="state.options.caseworkers"
                         v-model="state.formCitizen.secondary_case_worker_uuid" />
                     <FormError :error="props?.error?.errors?.secondary_case_worker_uuid?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="props.formType !== 'create' && citizenUuid">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="own_doctor" :label="$t('citizens.doctor.ownDoctor')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.modal.isAddOwnDoctorOpen = true">
+                            {{ state.ownDoctor ? $t('citizens.doctor.changeOwnDoctor') : $t('citizens.doctor.addOwnDoctor') }}
+                        </span>
+                    </div>
+                    <p id="own_doctor" class="text-sm text-gray-700">
+                        {{ ownDoctorLabel || $t('citizens.doctor.noOwnDoctor') }}
+                    </p>
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('paying_municipality')">
                     <FormLabel for="paying_municipality" :label="$t('citizens.form.payingMunicipality')" />
@@ -418,8 +445,9 @@
                 </div>
                 <div class="space-y-1" v-if="isFieldVisible('hourly_rate')">
                     <FormLabel for="hourly_rate" :label="$t('citizens.form.hourlyRate')" />
-                    <FormTextField id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
+                    <FormTextField v-if="!isHidden('hourly_rate')" id="hourly_rate" name="hourly_rate" :placeholder="$t('citizens.form.hourlyRate')"
                         v-model="state.formCitizen.hourly_rate" />
+                    <p v-else class="flex items-center gap-1.5 py-2 text-sm text-gray-500"><Icon name="ph:lock-simple" class="h-4 w-4" aria-hidden="true" />{{ $t('citizens.form.hiddenForRole') }}</p>
                     <FormError :error="v$?.formCitizen?.hourly_rate?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.hourly_rate?.[0]" />
                 </div>
@@ -452,7 +480,7 @@
                         <FormError :error="props?.error?.errors?.allocated_monthly_hours?.[0]" />
                     </div>
                 </div>
-                <div class="space-y-1" v-if="isFieldVisible('note')">
+                <div class="space-y-1" v-if="isFieldVisible('note') && !isHidden('note')">
                     <p class="text-sm text-gray-600">{{ $t('citizens.form.note') }}</p>
                     <ckeditor :editor="editor" v-model="state.formCitizen.note" :config="editorNoteConfig" />
                     <FormError :error="v$?.formCitizen?.note?.$errors[0]?.$message.toString()" />
@@ -1172,6 +1200,9 @@
         <ModulesUserCitizenContactModalNewCaseworker :isModalOpen="state.modal.isAddCaseworkerOpen"
             @close="state.modal.isAddCaseworkerOpen = false" @refreshCaseworkers="fetchCitizenCaseWorkers"
             v-if="state.modal.isAddCaseworkerOpen" />
+        <ModulesUserCitizenContactModalNewDoctor :isModalOpen="state.modal.isAddOwnDoctorOpen" :primaryGp="true"
+            @close="state.modal.isAddOwnDoctorOpen = false" @refreshCaseworkers="fetchOwnDoctor"
+            v-if="state.modal.isAddOwnDoctorOpen" />
         <ModulesUserCitizenDetailsModalLocateCitizen :isModalOpen="state.modal.isLocateCitizenOpen"
             :initialLocation="state.selectedCitizenLocation" :currentAddress="{
                 street: state.formCitizen.street,
@@ -1188,6 +1219,7 @@ import moment from 'moment'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { citizenCaseworkerService } from '@/components/api/user/CitizenCaseworkerService'
+import { citizenDoctorService } from '@/components/api/user/CitizenDoctorService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { roomService } from '@/components/api/user/RoomService'
 import { consentDeclarationTypeService } from '@/components/api/user/ConsentDeclarationTypeService'
@@ -1265,6 +1297,14 @@ const emit = defineEmits(['isPageLoading', 'submitForm'])
 
 const formConfig = ref<Record<string, boolean>>({})
 
+// Fields the company limited to roles the signed-in person does not hold. The
+// API leaves their values out and names them here; the form shows a lock
+// instead of an empty input that would look editable but never save.
+const hiddenFields = computed(() => new Set<string>((props.selectedCitizen as any)?.hidden_fields ?? []))
+function isHidden(attribute: string): boolean {
+    return hiddenFields.value.has(attribute)
+}
+
 function isFieldVisible(fieldKey: string): boolean {
     if (Object.keys(formConfig.value).length === 0) return true
     return formConfig.value[fieldKey] !== false
@@ -1289,6 +1329,8 @@ const selectedSectionLabel = computed(() => {
 const { parse: parseCpr } = useDanishCpr()
 
 const state = reactive({
+    // The citizen's primary GP (a contact of type doctor flagged is_primary_gp), null when none.
+    ownDoctor: null as any,
     // True while the birthday field's current value came from the CPR number and
     // has not been edited by hand since - drives the hint text under the field.
     autoFilledFromSsn: false,
@@ -1359,6 +1401,7 @@ const state = reactive({
             conversation_summary: '',
             reporting_frequency: '',
             reporting_starts_on: '',
+            report_draft_days_before: '',
             inquiry_date: '',
             inquirer_name: '',
             outcome: '',
@@ -1429,6 +1472,7 @@ const state = reactive({
     modal: {
         isAddAddictionOpen: false,
         isAddCaseworkerOpen: false,
+        isAddOwnDoctorOpen: false,
         isAddDepartmentOpen: false,
         isAddDiagnosisOpen: false,
         isAddForeignCityOpen: false,
@@ -1642,6 +1686,7 @@ watch(() => props.selectedCitizen, async (selectedCitizen: any) => {
                 conversation_summary: selectedCitizen.inquiryData?.conversation_summary || '',
                 reporting_frequency: selectedCitizen.reporting_frequency || '',
                 reporting_starts_on: selectedCitizen.reporting_starts_on || '',
+                report_draft_days_before: selectedCitizen.report_draft_days_before ? String(selectedCitizen.report_draft_days_before) : '',
                 inquiry_date: selectedCitizen.inquiryData?.inquiry_date || '',
                 inquirer_name: selectedCitizen.inquiryData?.inquirer_name || '',
                 outcome: selectedCitizen.inquiryData?.outcome || '',
@@ -1774,6 +1819,7 @@ onMounted(async () => {
         }
     } catch (e) { /* silent — all fields visible on error */ }
     fetchCitizenCaseWorkers()
+    fetchOwnDoctor()
     fetchConsentDeclarationTypes()
     fetchDepartments()
     fetchRooms()
@@ -1795,6 +1841,21 @@ onMounted(async () => {
 const isValidDate = (y: string, m: string, d: string): boolean => {
     const date = new Date(parseInt(y), parseInt(m) - 1, parseInt(d)) // Month is zero-based
     return date && date.getFullYear() === parseInt(y) && (date.getMonth() + 1) === parseInt(m) && date.getDate() === parseInt(d)
+}
+
+const ownDoctorLabel = computed(() => {
+    const d = state.ownDoctor
+    if (!d) return ''
+    const name = [d.firstname, d.lastname].filter(Boolean).join(' ')
+    return [name, d.clinic_name || d.company_name, d.phone].filter(Boolean).join(', ')
+})
+
+async function fetchOwnDoctor() {
+    if (props.formType === 'create' || !citizenUuid) return
+    try {
+        const response = await citizenDoctorService.getAllCitizenDoctors(citizenUuid)
+        state.ownDoctor = (response?.data ?? []).find((doctor: any) => doctor.is_primary_gp) ?? null
+    } catch (e) { /* silent: the row just shows "none" */ }
 }
 
 async function fetchCitizenCaseWorkers() {

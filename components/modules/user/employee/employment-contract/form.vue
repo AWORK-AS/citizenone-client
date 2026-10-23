@@ -27,6 +27,17 @@
             <FormError :error="v$?.formEmployeeDocument?.name?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
+        <!-- Task #97: upload the contract and send it to the employee to sign in one step. -->
+        <label v-if="props.formType === 'create' && props.allowSignatureRequest"
+            class="flex cursor-pointer items-start gap-3 rounded-lg border border-gray-200 bg-gray-50 px-3 py-3"
+            data-testid="contract-send-on-upload">
+            <input v-model="state.formEmployeeDocument.request_signature" type="checkbox"
+                class="mt-0.5 h-5 w-5 rounded border-gray-300 text-[#174560] focus:ring-[#174560]" />
+            <span>
+                <span class="block text-sm font-medium text-gray-800">{{ $t('employees.documents.signature.sendOnUpload') }}</span>
+                <span class="block text-xs text-gray-500">{{ $t('employees.documents.signature.sendOnUploadHint') }}</span>
+            </span>
+        </label>
         <div class="space-y-1">
             <FormLabel for="note" :label="$t('employees.documents.form.note')" />
             <FormTextArea id="note" name="note" :placeholder="$t('employees.documents.form.note')"
@@ -66,6 +77,11 @@ const props = defineProps({
         type: Object,
         required: false,
     },
+    // Task #97: offer to send the uploaded contract to the employee to sign.
+    allowSignatureRequest: {
+        type: Boolean,
+        default: false,
+    },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const file = ref<HTMLInputElement | null>(null)
@@ -77,6 +93,7 @@ const state = reactive({
         file: '',
         name: props.selectedEmployeeDocument?.name,
         note: props.selectedEmployeeDocument?.note,
+        request_signature: true,
     } as any,
 })
 
@@ -100,6 +117,7 @@ watch(() => props.selectedEmployeeDocument, (newValue: any) => {
             file: '',
             name: newValue.name,
             note: newValue.note,
+            request_signature: true,
         }
     }
 })

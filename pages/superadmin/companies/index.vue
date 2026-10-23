@@ -68,8 +68,10 @@
                         @change="handleSourceChange">
                         <option value="">{{ $t('superadmin.companies.source.all') }}</option>
                         <option value="google_ads">Google Ads</option>
+                        <option value="share">{{ $t('superadmin.companies.source.share') }}</option>
                         <option value="search">{{ $t('superadmin.companies.source.search') }}</option>
                         <option value="findsocialetilbud">FindSocialeTilbud</option>
+                        <option value="product">{{ $t('superadmin.companies.source.product') }}</option>
                         <option value="campaign">{{ $t('superadmin.companies.source.campaign') }}</option>
                         <option value="referral">{{ $t('superadmin.companies.source.referral') }}</option>
                         <option value="direct">{{ $t('superadmin.companies.source.direct') }}</option>
@@ -144,7 +146,7 @@
                             <td class="co-td">
                                 <span v-if="company?.signup_source?.channel"
                                     class="inline-block rounded-full px-2 py-0.5 text-[11px] font-semibold"
-                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-[#E8F6FB] text-[#1F7FA3]' : 'bg-[#F2F4F7] text-[#5C6478]'"
+                                    :class="company.signup_source.channel === 'google_ads' ? 'bg-[#E8F6FB] text-[#1F7FA3]' : company.signup_source.channel === 'share' ? 'bg-[#E9F7EA] text-[#2E7D32]' : 'bg-[#F2F4F7] text-[#5C6478]'"
                                     :title="[company.signup_source.detail, company.signup_source.landing_page].filter(Boolean).join(' · ')">
                                     {{ company.signup_source.label }}
                                 </span>
@@ -157,7 +159,7 @@
                                 <div v-if="company?.storage_used_gb !== null && company?.storage_used_gb !== undefined"
                                     class="min-w-[110px]">
                                     <p class="text-[13px]" :class="storageTextClass(company)">
-                                        {{ formatGb(company.storage_used_gb) }}
+                                        {{ formatStorageUsed(company.storage_used_bytes, company.storage_used_gb) }}
                                         <span class="text-[#8891A4]">/ {{ formatGb(company.storage_quota_gb) }} GB</span>
                                     </p>
                                     <div class="mt-1 h-1 bg-[#F5F6F8] rounded-full overflow-hidden">
@@ -231,6 +233,7 @@ import { companyService } from '@/components/api/superadmin/CompanyService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { useStorageFormat } from '@/composables/useStorageFormat'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
 
@@ -239,6 +242,7 @@ const { formatLocalized } = useDatetimeFormatter()
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
 const { t } = useI18n()
+const { formatStorageUsed } = useStorageFormat()
 const { formatAmount } = useAmountFormatter()
 
 /**

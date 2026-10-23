@@ -36,6 +36,28 @@
                 </div>
             </div>
 
+            <!-- Internal journal notes are hidden from this role's people. An Admin's call:
+                 the backend ignores it from anyone else. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.hide_internal_journals = !state.formRole.hide_internal_journals">
+                    <FormCheckbox id="hide_internal_journals" :value="state.formRole.hide_internal_journals" />
+                    {{ $t('roles.form.hideInternalJournals') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.hideInternalJournalsHelp') }}</p>
+            </div>
+
+            <!-- Colleagues' HR details and employee documents. An Admin's call: the backend
+                 ignores it from anyone else (App\Support\HrDataAccess). -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.sees_hr_data = !state.formRole.sees_hr_data">
+                    <FormCheckbox id="sees_hr_data" :value="state.formRole.sees_hr_data" />
+                    {{ $t('roles.form.seesHrData') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.seesHrDataHelp') }}</p>
+            </div>
+
             <!-- Permissions: grouped by area so a role is built area-by-area instead of from one long flat list -->
             <div class="space-y-2">
                 <div class="flex items-center justify-between flex-wrap gap-2">
@@ -150,7 +172,7 @@
 import { permissionService } from '@/components/api/user/PermissionService'
 import { pageService } from '@/components/api/user/PageService'
 import { employeeGroupService } from '@/components/api/user/EmployeeGroupService'
-import { getPermissionLabel } from '@/composables/usePermissions'
+import { getPermissionLabel, usePermissions } from '@/composables/usePermissions'
 import { PERMISSION_GROUP_ORDER, permissionGroup, permissionGroupLabel } from '@/composables/permissionGroups'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
@@ -194,6 +216,8 @@ const state = reactive({
         employee_group_uuid: [] as any[],
         is_name_editable: true,
         level: '20',
+        hide_internal_journals: false,
+        sees_hr_data: false,
     },
     permissions: [] as any[],
     pages: [] as any[],
@@ -234,6 +258,8 @@ watch(() => props.selectedRole, (newValue: any) => {
             employee_group_uuid: Array.isArray(newValue.employee_groups) ? newValue.employee_groups.map((g: any) => g.uuid) : [],
             is_name_editable: newValue.is_name_editable || false,
             level: String(newValue.level ?? 20),
+            hide_internal_journals: !!newValue.hide_internal_journals,
+            sees_hr_data: !!newValue.sees_hr_data,
         }
         fetchAllPermissions()
         nextTick(() => { isInitializing.value = false })
@@ -254,6 +280,8 @@ const rules = computed(() => {
         },
     }
 })
+
+const { isAtLeast } = usePermissions()
 
 const v$ = useVuelidate(rules, state)
 

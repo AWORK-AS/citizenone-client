@@ -37,7 +37,7 @@
                         <li v-for="item in brief.items" :key="item.key"
                             class="flex items-stretch gap-1.5 rounded-lg bg-white ring-1 ring-gray-200 transition-colors hover:ring-primary/40">
                             <button type="button"
-                                class="flex min-h-11 flex-1 items-start gap-3 rounded-l-lg px-3 py-2 text-left"
+                                class="flex min-h-11 min-w-0 flex-1 items-start gap-3 rounded-l-lg px-3 py-2 text-left"
                                 @click="navigateTo(item.link)">
                                 <span class="mt-1 size-2 shrink-0 rounded-full" :class="{
                                     'bg-red-500': item.severity === 'critical',
@@ -269,6 +269,9 @@
                                     </span>
                                     <span v-if="row.secondary" class="text-xxs text-gray-400">
                                         {{ $t('myDay.distributionSecondary', { count: row.secondary }) }}
+                                    </span>
+                                    <span v-if="row.intake" class="text-xxs text-gray-400">
+                                        {{ $t('myDay.distributionIntake', { count: row.intake }) }}
                                     </span>
                                 </li>
                             </ul>

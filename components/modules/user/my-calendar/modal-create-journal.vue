@@ -5,6 +5,13 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
+                    <ModulesUserMyCalendarNoteBookingHeader :context="state.noteContext" class="mb-4" />
+                    <!-- Opened by "done" where the company requires a note first:
+                         saving the note is what marks the booking done. -->
+                    <p v-if="props.completeOnSave" class="mb-4 flex items-start gap-x-2 rounded-lg bg-green-50 px-3 py-2 text-sm text-green-800 ring-1 ring-green-200">
+                        <Icon name="ph:check-circle" class="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
+                        {{ $t('events.completeOnSaveHint') }}
+                    </p>
                     <form @submit.prevent="saveJournal" class="space-y-4">
                         <div class="grid md:grid-cols-2 gap-x-3">
                             <div class="space-y-1">
@@ -19,7 +26,7 @@
                             </div>
                             <div class="space-y-1">
                                 <FormLabel for="journal_date" :label="$t('citizens.citizenJournals.form.date')" />
-                                <FormDateField id="journal_date" name="journal_date" placeholder="Date"
+                                <FormDateField id="journal_date" name="journal_date" :placeholder="$t('forms.fields.date')"
                                     v-model="state.formJournal.date" />
                                 <FormError :error="state.error?.errors?.date?.[0]" />
                             </div>
@@ -79,7 +86,7 @@
                             <ckeditor :editor="editor" v-model="state.formJournal.content"
                                 :config="editorConfig"></ckeditor>
                             <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
-                            <FormError :error="state.error?.errors?.content?.[0]" />
+                            <FormError :error="state.error?.errors?.content?.[0] || state.contentError" />
                         </div>
                         <div class="space-y-1">
                             <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
@@ -150,19 +157,31 @@
                                 v-model="state.formJournal.risk_assessment_tags" />
                             <FormError :error="state.error?.errors?.risk_assessment_tags_uuid?.[0]" />
                         </div>
-                        <div>
+                        <!-- A draft isn't a note yet, so it can't complete the booking. -->
+                        <div v-if="!props.completeOnSave">
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.formJournal.is_draft = !state.formJournal.is_draft">
                                 <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
                                 {{ $t('citizens.citizenJournals.form.draft') }}
                             </div>
                         </div>
+                        <!-- Internal notes are hidden from the roles an Admin has marked "cannot see
+                             internal notes". The note is the current user's own, so they may set it. -->
+                        <div class="space-y-1">
+                            <div class="w-fit flex items-center cursor-pointer"
+                                @click="state.formJournal.is_internal = !state.formJournal.is_internal">
+                                <FormCheckbox id="is_internal" :value="state.formJournal.is_internal" />
+                                {{ $t('citizens.citizenJournals.form.internal') }}
+                            </div>
+                            <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.internalHelp') }}</p>
+                            <FormError :error="state.error?.errors?.is_internal?.[0]" />
+                        </div>
                         <div class="grid grid-cols-2 gap-3 mt-6">
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal">
                                 {{ $t('cancel') }}
                             </FormButton>
                             <FormButton type="submit" buttonStyle="primary">
-                                {{ $t('save') }}
+                                {{ props.completeOnSave ? $t('events.saveAndComplete') : $t('save') }}
                             </FormButton>
                         </div>
                     </form>
@@ -179,6 +198,7 @@ import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
 import { Mention } from 'ckeditor5'
 import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
 import { journalNotePlanGoalSubgoalUuid } from '@/utils/journal-plan-link'
+import { hasNoteBody } from '@/composables/calendarNoteRequired'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { planService } from '@/components/api/user/PlanService'
@@ -209,6 +229,12 @@ const props = defineProps({
         type: Object,
         required: true,
     },
+    // Opened by "done" where the company requires a note first: the save
+    // also marks the booking done (mark_completed), in one request.
+    completeOnSave: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const emit = defineEmits(['close', 'journalCreated'])
@@ -234,6 +260,8 @@ const state = reactive({
     error: {} as Error,
     citizenUuid: '' as string,
     planError: '',
+    contentError: '',
+    noteContext: null as any,
     formJournal: {
         title: '',
         date: moment().format('YYYY-MM-DD'),
@@ -241,6 +269,7 @@ const state = reactive({
         content: '',
         journal_note_tags: [] as string[],
         is_draft: false,
+        is_internal: false,
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
@@ -285,6 +314,7 @@ watch(() => props.isModalOpen, (newValue: boolean) => {
             state.formJournal.date = moment(props.selectedEvent.date_time_start).format('YYYY-MM-DD')
         }
         resolveCitizenUuid()
+        fetchNoteContext()
         fetchColleagues()
         if (state.citizenUuid) {
             fetchPlans()
@@ -305,6 +335,8 @@ function resolveCitizenUuid() {
 
 function resetForm() {
     state.error = {}
+    state.contentError = ''
+    state.noteContext = null
     state.formJournal = {
         title: '',
         date: moment().format('YYYY-MM-DD'),
@@ -312,6 +344,7 @@ function resetForm() {
         content: '',
         journal_note_tags: [],
         is_draft: false,
+        is_internal: false,
         copy_journal_note_to_plan_or_goal_or_subgoal: false,
         journal_note_plan: '',
         journal_note_goal: '',
@@ -333,6 +366,20 @@ function resetForm() {
     state.planError = ''
     state.options.journal_note_tags = []
     state.options.risk_assessment_tags = []
+}
+
+// The header above the form. Quiet on failure: the note can be written without it.
+async function fetchNoteContext() {
+    const uuid = props.selectedEvent?.uuid
+    if (!uuid) return
+    try {
+        const response = await myCalendarService.getNoteContext(uuid)
+        if (props.selectedEvent?.uuid === uuid) {
+            state.noteContext = response?.data ?? null
+        }
+    } catch {
+        state.noteContext = null
+    }
 }
 
 async function fetchPlans() {
@@ -501,13 +548,23 @@ async function saveJournal() {
             return
         }
 
+        // "Done" needs a note with something written in it, not only the
+        // title prefilled from the booking (the server refuses it too).
+        state.contentError = ''
+        if (props.completeOnSave && !hasNoteBody(state.formJournal.content)) {
+            state.contentError = t('events.noteBodyRequired')
+            state.isPageLoading = false
+            return
+        }
+
         const params: any = {
             title: state.formJournal.title,
             date: state.formJournal.date,
             score: state.formJournal.score,
             content: state.formJournal.content,
             journal_note_tags_uuid: state.formJournal.journal_note_tags,
-            is_draft: state.formJournal.is_draft,
+            is_draft: props.completeOnSave ? false : state.formJournal.is_draft,
+            is_internal: state.formJournal.is_internal,
             copy_journal_note_to_plan_or_goal_or_subgoal: state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
             assessment: state.formJournal.assessment,
             risk_assessment_tags_uuid: state.formJournal.risk_assessment_tags,
@@ -519,12 +576,15 @@ async function saveJournal() {
         if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal && journal_note_plan_goal_subgoal_uuid) {
             params.journal_note_plan_goal_subgoal_uuid = journal_note_plan_goal_subgoal_uuid
         }
+        if (props.completeOnSave) {
+            params.mark_completed = true
+        }
 
         const response = await myCalendarService.createJournalFromEvent(uuid, params)
         if (response?.data) {
             emit('journalCreated')
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('events.alert.journalSuccessfullyCreated')}.`)
+            successAlert(`${t('alert.success')}!`, `${t(props.completeOnSave ? 'events.alert.journalCreatedAndCompleted' : 'events.alert.journalSuccessfullyCreated')}.`)
         }
     } catch (error: any) {
         state.error = error

@@ -3,6 +3,23 @@
         <LoadingSpinner :isActive="state.isPageLoading">
             <Alert type="danger" :text="state?.error?.message"
                 v-if="state.error?.message && state.error.message.length > 0" />
+            <!-- A suggestion only: nothing is created unless the user chooses to. -->
+            <div v-if="showEpikriseHint"
+                class="mb-4 flex flex-col gap-3 rounded-xl border border-primary/20 bg-primary/5 px-4 py-3 sm:flex-row sm:items-center"
+                role="status">
+                <Icon name="ph:file-text" class="h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                <p class="grow text-sm text-slate-700">{{ $t('epikrise.dischargeHint.text') }}</p>
+                <div class="flex items-center gap-2">
+                    <FormButton type="button" buttonStyle="action" @click="state.modal.isNewEpikriseOpen = true">
+                        {{ $t('epikrise.dischargeHint.create') }}
+                    </FormButton>
+                    <button type="button"
+                        class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-surface-100 hover:text-primary"
+                        :aria-label="$t('epikrise.dischargeHint.dismiss')" @click="dismissEpikriseHint">
+                        <Icon name="heroicons:x-mark" class="h-5 w-5" aria-hidden="true" />
+                    </button>
+                </div>
+            </div>
             <div class="grid grid-cols-12 gap-6 relative">
                 <div :class="[
                     ['citizens-uuid-medicine-journals', 'citizens-uuid-journals'].includes($route.name as any) ? 'col-span-12 lg:col-span-9' : 'col-span-12',
@@ -94,7 +111,7 @@
                                         </p>
                                         <!-- Only customers who came from another system have one,
                                              so the line is left out rather than shown empty. -->
-                                        <Tooltip v-if="state.selectedCitizen?.data?.case_number"
+                                        <Tooltip v-if="state.selectedCitizen?.data?.case_number && showsCitizenField('Case number')"
                                             :text="$t('citizens.form.caseNumberHint')" class="w-fit">
                                             <p class="mt-0.5 text-sm text-slate-500 tabular-nums">
                                                 {{ $t('citizens.table.caseNumber') }}: {{ state.selectedCitizen.data.case_number }}
@@ -178,7 +195,7 @@
                                             {{ state.selectedCitizen?.data?.email }}
                                         </p>
                                     </div>
-                                    <div class="flex items-start gap-x-2" v-if="state.selectedCitizen?.data?.phone">
+                                    <div class="flex items-start gap-x-2" v-if="state.selectedCitizen?.data?.phone && showsCitizenField('Phone')">
                                         <Tooltip :text="$t('citizens.form.phone')" class="flex items-center mt-0.5 shrink-0">
                                             <Icon name="ph:phone" class="h-4 w-4 text-slate-400" aria-hidden="true" />
                                         </Tooltip>
@@ -186,7 +203,7 @@
                                             {{ state.selectedCitizen?.data?.phone }}
                                         </p>
                                     </div>
-                                    <div class="flex items-start gap-x-2" v-if="spokenLanguagesSummary">
+                                    <div class="flex items-start gap-x-2" v-if="spokenLanguagesSummary && showsCitizenField('Spoken languages')">
                                         <Tooltip :text="$t('citizens.form.spokenLanguages')" class="flex items-center mt-0.5 shrink-0">
                                             <Icon name="ph:translate" class="h-4 w-4 text-slate-400" aria-hidden="true" />
                                         </Tooltip>
@@ -195,7 +212,7 @@
                                         </p>
                                     </div>
                                     <div class="flex items-start gap-x-2"
-                                        v-if="primaryCaseworkerName">
+                                        v-if="primaryCaseworkerName && showsCitizenField('Case worker')">
                                         <Tooltip :text="term('caseworker', $t('citizens.form.primaryCaseworker'))"
                                             class="flex items-center mt-0.5 shrink-0">
                                             <Icon name="ph:user" class="h-4 w-4 text-slate-400" aria-hidden="true" />
@@ -471,6 +488,11 @@
                 :citizenName="`${state.selectedCitizen?.data?.firstname || ''} ${state.selectedCitizen?.data?.lastname || ''}`"
                 :workingMinutes="state.workingMinutes" @close="state.modal.isConfirmWorkingOpen = false"
                 @confirmed="onWorkConfirmed" @dismissed="onWorkDismissed" />
+
+            <ModulesUserEpikriseModalNew v-if="epikrise.canCreate.value" :isModalOpen="state.modal.isNewEpikriseOpen"
+                :citizenUuid="citizenUuid" :admissionDate="state.selectedCitizen?.data?.date_admitted ?? ''"
+                :dischargeDate="state.selectedCitizen?.data?.date_discharged ?? ''"
+                @close="state.modal.isNewEpikriseOpen = false" @created="onEpikriseCreated" />
         </LoadingSpinner>
     </div>
 </template>
@@ -480,11 +502,13 @@ import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { reportService } from '@/components/api/user/ReportService'
 import { timelineService } from '@/components/api/user/TimelineService'
+import { TIMELINE_PAGE_SIZE } from '@/composables/timelinePaging'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useCitizenFieldVisibility } from '@/composables/useCitizenFieldVisibility'
 import { useConfetti } from '@/composables/useConfetti'
 import { useRecentCitizens } from '@/composables/useRecentCitizens'
 import { useContinuity } from '@/composables/useContinuity'
@@ -511,6 +535,9 @@ const userStore = useUserStore() as any
 // industry that writes no care plans; the company can switch it back on under "What do you use?".
 const hasCarePlans = computed(() => userStore.getUser?.company?.onboarding_preferences?.modules?.carePlans !== false)
 const { isAtLeast, can } = usePermissions()
+// Which fields the company shows, and to which roles. Shared with the hover card.
+const { showsCitizenField } = useCitizenFieldVisibility()
+const epikrise = useEpikrise()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
 const isDesktopApp = useIsDesktopApp()
 
@@ -537,7 +564,9 @@ const state = reactive({
         isDevelopmentGraphOpen: false,
         isEmploymentProgramOpen: false,
         isRiskHistoryOpen: false,
+        isNewEpikriseOpen: false,
     },
+    epikriseHintDismissed: false,
     selectedCitizen: {} as any,
     showExpandedNote: false,
     noteOverflows: false,
@@ -573,6 +602,35 @@ const primaryCaseworkerName = computed(() => {
     if (!caseworker?.firstname && !caseworker?.lastname) return null
     return [caseworker?.firstname, caseworker?.lastname].filter(Boolean).join(' ')
 })
+
+// The hint is remembered per citizen and discharge date, so a new discharge asks again.
+const epikriseHintKey = computed(() => `epikrise-hint-dismissed:${citizenUuid}:${state.selectedCitizen?.data?.date_discharged ?? ''}`)
+
+const showEpikriseHint = computed(() =>
+    epikrise.canCreate.value
+    && !!state.selectedCitizen?.data?.date_discharged
+    && !state.epikriseHintDismissed
+    && !String(router.currentRoute.value.name ?? '').startsWith('citizens-uuid-epikriser'))
+
+watch(epikriseHintKey, (key: string) => {
+    try {
+        state.epikriseHintDismissed = localStorage.getItem(key) === '1'
+    } catch {
+        state.epikriseHintDismissed = false
+    }
+}, { immediate: true })
+
+function dismissEpikriseHint() {
+    state.epikriseHintDismissed = true
+    try {
+        localStorage.setItem(epikriseHintKey.value, '1')
+    } catch { /* the hint simply comes back next time */ }
+}
+
+function onEpikriseCreated(created: any) {
+    state.modal.isNewEpikriseOpen = false
+    if (created?.uuid) navigateTo(`/citizens/${citizenUuid}/epikriser/${created.uuid}`)
+}
 
 const { celebrate } = useConfetti()
 const { recordVisit } = useRecentCitizens()
@@ -813,7 +871,8 @@ function toggleTimeline() {
 async function fetchTimeline() {
     state.isTimelineLoading = true
     try {
-        const response = await timelineService.getTimeline(citizenUuid)
+        // A preview: the newest page only, with a link to the full timeline.
+        const response = await timelineService.getTimeline(citizenUuid, { page: 1, per_page: TIMELINE_PAGE_SIZE })
         state.timelineEntries = response?.data ?? []
     } catch (error: any) {
         state.error = error
@@ -1009,27 +1068,6 @@ function switchToInterventionHours() {
     state.modal.isViewPatienCareHoursOpen = true
 }
 
-/**
- * Which of the citizen's fields this company shows.
- *
- * Every one of these used to start with `isAtLeast('Admin') ||`, which meant the
- * setting had no effect on the person most likely to be looking at it: an admin
- * saw every field whatever the company had chosen, so a dental clinic met
- * Indsats timer, EAN-nummer and Visitationskommune on every patient however it
- * configured itself. An admin now sees what the company configured, and can
- * change it in settings.
- *
- * A company that has never configured the list keeps exactly what it has today -
- * admins see everything, everyone else sees nothing - because reading the empty
- * list as "show everything" would hand social security numbers and diagnoses to
- * staff who cannot see them now.
- */
-function showsCitizenField(name: string): boolean {
-    const displays = userStore.getUser?.company?.citizen_displays
-    const configured = Array.isArray(displays) && displays.length > 0
-    if (!configured) return isAtLeast('Admin')
-    return displays.some((display: any) => display.en_name === name)
-}
 
 function hasSocialSecurityNumberAccess() {
     return showsCitizenField('Social security number')

@@ -9,6 +9,8 @@ type AppDestination = { path: string; open?: boolean }
 const APP_LINKS: Record<string, AppDestination> = {
     // Integrations
     'economic': { path: '/settings/economic' },
+    'dinero': { path: '/settings/dinero' },
+    'billy': { path: '/settings/billy' },
     'power-bi': { path: '/settings/power-bi' },
     'microsoft-sso': { path: '/settings/company' },
     // Portal apps: who has a login, and what each audience may see

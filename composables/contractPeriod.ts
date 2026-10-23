@@ -182,3 +182,19 @@ export function customFieldsPayload(
         }
     })
 }
+
+/**
+ * The departments the form offers: the listed (active) ones, plus any extra one
+ * it must still show, such as the one an edited period points at (it may have
+ * been made inactive since) or one just created from the form. An extra that
+ * is already listed, for example after the list was fetched again, is skipped.
+ */
+export function departmentChoices(listed: any[], extras: any[]): any[] {
+    const choices = [...(listed ?? [])]
+
+    for (const extra of extras ?? []) {
+        if (extra?.uuid && !choices.some(choice => choice.uuid === extra.uuid)) choices.push(extra)
+    }
+
+    return choices
+}

@@ -33,7 +33,7 @@
                         <!-- A refusal is something Cody says, so it sits where the
                         answer would have been rather than in a red banner at the top
                         of the panel, detached from the question that caused it. -->
-                        <p v-if="message.failed" class="text-sm leading-relaxed text-gray-500">{{ message.text }}</p>
+                        <p v-if="message.failed" class="text-sm leading-relaxed text-gray-600">{{ message.text }}</p>
                         <div v-else class="ai-answer text-sm text-gray-800 leading-relaxed"
                             v-safe-html="formatMessage(message?.text)" />
 
@@ -68,11 +68,11 @@
                         <!-- What the answer was actually built from. The backend already
                         resolved these for the audit trail. -->
                         <p v-if="message.sources?.length"
-                            class="mt-2 flex flex-wrap items-center gap-1 text-xs text-gray-400">
+                            class="mt-2 flex flex-wrap items-center gap-1 text-xs text-gray-500">
                             <Icon name="ph:database" class="size-3.5 shrink-0" aria-hidden="true" />
                             <span>{{ $t('assistants.basedOn') }}:</span>
                             <span v-for="source in message.sources" :key="source.uuid"
-                                class="rounded bg-gray-100 px-1.5 py-0.5 text-gray-500">
+                                class="rounded bg-gray-100 px-1.5 py-0.5 text-gray-600">
                                 {{ source.name }}
                             </span>
                         </p>
@@ -84,7 +84,7 @@
                         <div v-if="index > 0 && !message.failed" class="flex items-center gap-1 mt-2 -ml-1.5">
                             <button type="button" @click="copyAnswer(message, index)"
                                 :title="$t('assistants.actions.copy')"
-                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
+                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors">
                                 <Icon :name="state.copiedIndex === index ? 'ph:check' : 'ph:copy'"
                                     class="h-3.5 w-3.5" />
                                 {{ state.copiedIndex === index ? $t('assistants.actions.copied') :
@@ -93,7 +93,7 @@
                             <button type="button" v-if="assistantStore.insertTargetLabel"
                                 @click="assistantStore.requestInsert(formatMessage(message?.text))"
                                 :title="assistantStore.insertTargetLabel"
-                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors">
+                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors">
                                 <Icon name="ph:arrow-line-down" class="h-3.5 w-3.5" />
                                 {{ $t('assistants.actions.insert') }}
                             </button>
@@ -101,14 +101,47 @@
                                 v-if="index === state.messages.length - 1 && state.lastRequest.prompt"
                                 @click="regenerateAnswer" :disabled="state.isGeneratingResponse"
                                 :title="$t('assistants.actions.regenerate')"
-                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-400 hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-40">
+                                class="flex items-center gap-1 px-1.5 py-1 rounded text-xs text-gray-500 hover:text-primary hover:bg-primary/5 transition-colors disabled:opacity-40">
                                 <Icon name="ph:arrow-clockwise" class="h-3.5 w-3.5" />
                                 {{ $t('assistants.actions.regenerate') }}
                             </button>
+                            <template v-if="message.uuid">
+                                <button v-for="rating in RATINGS" :key="rating.value" type="button"
+                                    @click="rateAnswer(message, rating.value)"
+                                    :aria-label="$t(`assistants.feedback.${rating.value}`)"
+                                    :aria-pressed="message.feedback === rating.value"
+                                    :title="$t(`assistants.feedback.${rating.value}`)"
+                                    :class="['flex size-7 items-center justify-center rounded transition-colors hover:bg-primary/5',
+                                        message.feedback === rating.value ? 'text-primary' : 'text-gray-500 hover:text-primary',
+                                        rating.value === 'up' && 'ml-auto']">
+                                    <Icon :name="message.feedback === rating.value ? `${rating.icon}-fill` : rating.icon"
+                                        class="h-3.5 w-3.5" aria-hidden="true" />
+                                </button>
+                            </template>
                         </div>
+
+                        <!-- Why it was bad, in one tap. Asked only right after the thumbs
+                        down, and never required: the thumbs alone is already saved. -->
+                        <div v-if="message.feedbackGiven && message.feedback === 'down'"
+                            class="mt-1.5 flex flex-wrap items-center gap-1.5">
+                            <span class="text-xs text-gray-600">{{ $t('assistants.feedback.question') }}</span>
+                            <button v-for="reason in ANSWER_FEEDBACK_REASONS" :key="reason" type="button"
+                                @click="rateAnswer(message, 'down', reason)"
+                                :aria-pressed="message.feedbackReason === reason"
+                                :class="['rounded-full border px-2.5 py-1 text-xs transition-colors',
+                                    message.feedbackReason === reason
+                                        ? 'border-primary bg-primary/10 text-primary'
+                                        : 'border-gray-200 text-gray-600 hover:border-primary/40']">
+                                {{ $t(`assistants.feedback.reasons.${reason}`) }}
+                            </button>
+                        </div>
+                        <p v-if="message.feedbackGiven && (message.feedback === 'up' || message.feedbackReason)"
+                            role="status" class="mt-1.5 text-xs text-gray-600">
+                            {{ $t('assistants.feedback.thanks') }}
+                        </p>
                         <button v-if="message.failed && state.lastRequest.prompt" type="button"
                             @click="regenerateAnswer" :disabled="state.isGeneratingResponse"
-                            class="mt-2 -ml-1.5 flex items-center gap-1 rounded px-1.5 py-1 text-xs text-gray-400 transition-colors hover:bg-primary/5 hover:text-primary disabled:opacity-40">
+                            class="mt-2 -ml-1.5 flex items-center gap-1 rounded px-1.5 py-1 text-xs text-gray-500 transition-colors hover:bg-primary/5 hover:text-primary disabled:opacity-40">
                             <Icon name="ph:arrow-clockwise" class="h-3.5 w-3.5" />
                             {{ $t('assistants.actions.regenerate') }}
                         </button>
@@ -188,7 +221,7 @@
 import { useI18n } from 'vue-i18n'
 import { useAssistantStore } from '@/store/assistant'
 import { useUserStore } from '@/store/user'
-import { useCodyChat } from '@/composables/useCodyChat'
+import { useCodyChat, ANSWER_FEEDBACK_REASONS } from '@/composables/useCodyChat'
 
 /**
  * The conversation itself: what was asked, what Cody answered, what it read to
@@ -208,6 +241,7 @@ const {
     showStarters,
     formatMessage,
     copyAnswer,
+    rateAnswer,
     regenerateAnswer,
     useStarter,
     stopGenerating,
@@ -224,6 +258,11 @@ const QUICK_ACTIONS = [
     { key: 'journal', icon: 'ph:pencil-simple-line' },
     { key: 'files', icon: 'ph:paperclip' },
     { key: 'shifts', icon: 'ph:calendar-blank' },
+] as const
+
+const RATINGS = [
+    { value: 'up', icon: 'ph:thumbs-up' },
+    { value: 'down', icon: 'ph:thumbs-down' },
 ] as const
 
 // Greets by the clock, and by first name only: the surname makes it read like

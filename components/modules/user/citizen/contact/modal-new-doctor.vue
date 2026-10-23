@@ -140,6 +140,11 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // Saves the new doctor as the citizen's own (primary) GP.
+    primaryGp: {
+        type: Boolean,
+        default: false,
+    },
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -303,12 +308,13 @@ async function saveContact() {
             municipality_uuid: state.formContact.municipality,
             city_uuid: state.formContact.city,
             post_code: state.formContact.post_code,
+            ...(props.primaryGp ? { is_primary_gp: true, clinic_name: state.formContact.company_name || null } : {}),
         }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {
             refreshCaseworkers()
             closeModal()
-            successAlert(`${t('alert.success')}!`, `${t('citizens.doctor.alert.newDoctorSuccessfullyAdded')}.`)
+            successAlert(`${t('alert.success')}!`, `${props.primaryGp ? t('citizens.doctor.ownDoctorAdded') : t('citizens.doctor.alert.newDoctorSuccessfullyAdded')}.`)
         }
     } catch (error: any) {
         state.error = error

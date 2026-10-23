@@ -295,8 +295,9 @@
                         <span class="text-xs font-medium text-slate-500">{{ $t('citizens.filters.activeFilters') }}:</span>
                         <button type="button" v-for="chip in activeFilterChips" :key="chip.key"
                             class="inline-flex items-center gap-1 rounded-full bg-slate-100 px-3 py-1 text-xs text-slate-700 hover:bg-slate-200"
+                            :aria-label="$t('citizens.filters.removeFilter', { name: chip.text })"
                             @click="removeFilter(chip.key)">
-                            {{ chip.label }}
+                            {{ chip.text }}
                             <Icon name="ph:x" class="size-3" aria-hidden="true" />
                         </button>
                         <button type="button" class="text-xs font-medium text-tertiary hover:underline"
@@ -412,60 +413,64 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td width="20%" v-if="state.visibleColumns.includes('email')">
-                                        <p v-if="citizen?.email">{{ citizen?.email }}</p>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('ssn')">
-                                        <span>{{ citizen?.social_security_number }}</span>
-                                        <!-- The case number sits under the CPR rather than in a column
-                                             of its own: only the customers who migrated from another
-                                             system have one, and an always-empty column costs every
-                                             other customer a column's width. -->
-                                        <p v-if="citizen?.case_number" class="text-xxs text-gray-500">
-                                            {{ $t('citizens.table.caseNumber') }}: {{ citizen.case_number }}
-                                        </p>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('phone')">
-                                        <span>{{ citizen?.phone }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('section')">
-                                        <span>{{ citizen?.section?.label }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('municipality')">
-                                        <span>{{ citizen?.responsible_municipality?.name }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('coordinator')">
-                                        <span v-if="citizen?.coordinator_name">{{ citizen.coordinator_name }}</span>
-                                        <span v-else-if="citizen?.primary_case_worker">
-                                            {{ citizen.primary_case_worker.firstname }}
-                                            {{ citizen.primary_case_worker.lastname }}
-                                        </span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('consultant')">
-                                        <span>{{ citizen?.consultant?.name }}</span>
-                                    </td>
-                                    <td width="12%" v-if="state.visibleColumns.includes('startup_status')">
-                                        <span v-if="citizen?.startup_status"
-                                            class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-semibold"
-                                            :class="startupStatusClass(citizen.startup_status)">
-                                            {{ $t(`citizens.table.startupStatuses.${citizen.startup_status}`) }}
-                                        </span>
-                                    </td>
-                                    <td width="10%" v-if="state.visibleColumns.includes('phase')">
-                                        <span v-if="citizen?.phase">{{ $t(`citizens.table.phases.${citizen.phase}`) }}</span>
-                                    </td>
-                                    <td width="10%" v-if="state.visibleColumns.includes('scope')">
-                                        <span>{{ formatScope(citizen) }}</span>
-                                    </td>
-                                    <td width="12%" v-if="state.visibleColumns.includes('geography')">
-                                        <span>{{ [citizen?.region_name, citizen?.address?.post_code].filter(Boolean).join(', ') }}</span>
-                                    </td>
-                                    <td width="15%" v-if="state.visibleColumns.includes('department')">
-                                        <span>{{ citizen?.departments?.map((d: any) => d?.name).join(', ') }}</span>
-                                    </td>
-                                    <td width="12%" v-if="state.visibleColumns.includes('admitted')">
-                                        <span>{{ citizen?.date_admitted }}</span>
-                                    </td>
+                                    <!-- The optional cells follow the order the user chose, the same
+                                         list the headers are built from, so they always line up. -->
+                                    <template v-for="column in state.visibleColumns" :key="column">
+                                        <td width="20%" v-if="column === 'email'">
+                                            <p v-if="citizen?.email">{{ citizen?.email }}</p>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'ssn'">
+                                            <span>{{ citizen?.social_security_number }}</span>
+                                            <!-- The case number sits under the CPR rather than in a column
+                                                 of its own: only the customers who migrated from another
+                                                 system have one, and an always-empty column costs every
+                                                 other customer a column's width. -->
+                                            <p v-if="citizen?.case_number" class="text-xxs text-gray-500">
+                                                {{ $t('citizens.table.caseNumber') }}: {{ citizen.case_number }}
+                                            </p>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'phone'">
+                                            <span>{{ citizen?.phone }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'section'">
+                                            <span>{{ citizen?.section?.label }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'municipality'">
+                                            <span>{{ citizen?.responsible_municipality?.name }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'coordinator'">
+                                            <span v-if="citizen?.coordinator_name">{{ citizen.coordinator_name }}</span>
+                                            <span v-else-if="citizen?.primary_case_worker">
+                                                {{ citizen.primary_case_worker.firstname }}
+                                                {{ citizen.primary_case_worker.lastname }}
+                                            </span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'consultant'">
+                                            <span>{{ citizen?.consultant?.name }}</span>
+                                        </td>
+                                        <td width="12%" v-else-if="column === 'startup_status'">
+                                            <span v-if="citizen?.startup_status"
+                                                class="inline-flex items-center rounded-full px-2.5 py-[3px] text-[11.5px] font-semibold"
+                                                :class="startupStatusClass(citizen.startup_status)">
+                                                {{ $t(`citizens.table.startupStatuses.${citizen.startup_status}`) }}
+                                            </span>
+                                        </td>
+                                        <td width="10%" v-else-if="column === 'phase'">
+                                            <span v-if="citizen?.phase">{{ $t(`citizens.table.phases.${citizen.phase}`) }}</span>
+                                        </td>
+                                        <td width="10%" v-else-if="column === 'scope'">
+                                            <span>{{ formatScope(citizen) }}</span>
+                                        </td>
+                                        <td width="12%" v-else-if="column === 'geography'">
+                                            <span>{{ [citizen?.region_name, citizen?.address?.post_code].filter(Boolean).join(', ') }}</span>
+                                        </td>
+                                        <td width="15%" v-else-if="column === 'department'">
+                                            <span>{{ citizen?.departments?.map((d: any) => d?.name).join(', ') }}</span>
+                                        </td>
+                                        <td width="12%" v-else-if="column === 'admitted'">
+                                            <span>{{ citizen?.date_admitted }}</span>
+                                        </td>
+                                    </template>
                                     <td width="20%">
                                         <div class="flex items-center justify-end gap-1.5">
                                             <Tooltip v-if="isInterventionCheckinEnabled"
@@ -535,6 +540,7 @@
             </div>
 
             <ModulesUserCitizenModalFilter :isModalOpen="state.modal.isFilterOpen" :filter="state.propertyFilter"
+                :filters="offeredFilters"
                 @close="state.modal.isFilterOpen = false" @setFilter="applyFilter" />
             <ModulesUserCitizenModalColumns :isModalOpen="state.modal.isColumnsOpen" :modelValue="state.visibleColumns"
                 @close="state.modal.isColumnsOpen = false" @save="saveVisibleColumns" />
@@ -594,6 +600,9 @@ import { citizenInquiryService } from '@/components/api/user/CitizenInquiryServi
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { useI18n } from 'vue-i18n'
 import { usePermissions } from '@/composables/usePermissions'
+import { useCitizenFieldVisibility } from '@/composables/useCitizenFieldVisibility'
+import { useCitizenListFilterOptions } from '@/composables/useCitizenListFilterOptions'
+import { CITIZEN_LIST_FILTERS, activeCitizenListFilters, availableCitizenListFilters } from '@/utils/citizenListFilters'
 
 const runtimeConfig = useRuntimeConfig()
 const { tt } = useTerminology()
@@ -733,7 +742,14 @@ function formatScope(citizen: any) {
     return ''
 }
 
+// The user's own order is kept; only keys this page no longer knows are
+// dropped. Headers and cells are both built from this list, so they line up.
+function normalizeColumns(columns: string[]): string[] {
+    return columns.filter((key, index) => key in OPTIONAL_COLUMN_HEADERS && columns.indexOf(key) === index)
+}
+
 function rebuildColumnHeaders() {
+    state.visibleColumns = normalizeColumns(state.visibleColumns)
     state.columnHeaders = [
         { name: 'citizens.table.name', isTranslateName: true, sorter: true, key: 'firstname' },
         ...state.visibleColumns.map((key) => OPTIONAL_COLUMN_HEADERS[key]).filter(Boolean),
@@ -744,6 +760,7 @@ function rebuildColumnHeaders() {
 async function saveVisibleColumns(columns: string[]) {
     state.visibleColumns = columns
     rebuildColumnHeaders()
+    columns = state.visibleColumns
     state.modal.isColumnsOpen = false
     try {
         await userService.updateCitizensListColumns(columns)
@@ -769,9 +786,19 @@ function applySavedColumns(saved: any) {
 // (or the first one, on a cold load) can arrive later than onMounted.
 watch(() => userStore.getUser?.citizens_list_columns, (saved) => applySavedColumns(saved))
 
+// Same for the saved filter; it is only taken once, so it never overrides a
+// filter changed on the page since.
+watch(() => userStore.getUser?.citizens_list_filters, (saved) => {
+    if (applySavedFilter(saved)) {
+        citizenStore.setCurrentPageNumber(1)
+        fetchCitizens()
+    }
+})
+
 onMounted(() => {
     applySavedColumns(userStore.getUser?.citizens_list_columns)
     rebuildColumnHeaders()
+    applySavedFilter(userStore.getUser?.citizens_list_filters)
 
     fetchCitizens()
     ensurePinnedLoaded()
@@ -1020,19 +1047,19 @@ function handleSearch(value: any) {
     fetchCitizens()
 }
 
+let savedFilterApplied = false
+
+// The filters on offer come from CITIZEN_LIST_FILTERS; a filter on a card
+// field this person may not see is left out (the server ignores it as well).
+const { mayRoleSeeField } = useCitizenFieldVisibility()
+const { load: loadFilterOptions, valueLabel } = useCitizenListFilterOptions()
+const offeredFilters = computed(() => availableCitizenListFilters(mayRoleSeeField))
+
 /**
  * Only the properties that are actually set are sent, so an untouched filter
  * costs nothing and the query string stays readable.
  */
-const activeFilterParams = computed(() => {
-    const params: Record<string, any> = {}
-    for (const [key, value] of Object.entries(state.propertyFilter)) {
-        if (value === null || value === undefined || value === '') continue
-        params[key] = value
-    }
-
-    return params
-})
+const activeFilterParams = computed(() => activeCitizenListFilters(state.propertyFilter, offeredFilters.value))
 
 const activeFilterCount = computed(() => Object.keys(activeFilterParams.value).length)
 
@@ -1045,33 +1072,28 @@ const isFiltered = computed(() => {
 
 const emptyFilteredMessage = computed(() => tt('citizens.emptyFiltered'))
 
-const activeFilterChips = computed(() => {
-    const labels: Record<string, string> = {
-        admitted_from: t('citizens.filters.admittedFrom'),
-        admitted_to: t('citizens.filters.admittedTo'),
-        coordinator: t('citizens.coordinators.title'),
-        coordinator_role: t('citizens.filters.coordinatorRole'),
-        consultant: t('citizens.filters.consultant'),
-        municipality_uuid: t('citizens.table.municipality'),
-        region_uuid: t('citizens.filters.region'),
-        section_uuid: t('citizens.table.section'),
-        phase: t('citizens.table.phase'),
-        startup_status: t('citizens.table.startupStatus'),
-        weekly_hours_from: t('citizens.filters.weeklyHoursFrom'),
-        weekly_hours_to: t('citizens.filters.weeklyHoursTo'),
-        gender: t('citizens.form.gender'),
-        requires_interpreter: t('citizens.filters.requiresInterpreter'),
-        risk_level: t('citizens.filters.riskLevel'),
-        spoken_language: t('citizens.filters.spokenLanguage'),
-    }
+const activeFilterChips = computed(() => Object.entries(activeFilterParams.value).map(([key, value]) => {
+    const filter = CITIZEN_LIST_FILTERS.find((item) => item.key === key)
+    const label = filter ? t(filter.label) : key
+    const shown = filter ? valueLabel(filter, value) : String(value)
 
-    return Object.keys(activeFilterParams.value).map((key) => ({ key, label: labels[key] ?? key }))
-})
+    return { key, text: shown ? `${label}: ${shown}` : label }
+}))
+
+// A chip names the value it filters on, which for a select means the list
+// its options come from.
+watch(activeFilterParams, (params) => {
+    const used = CITIZEN_LIST_FILTERS.filter((item) => item.key in params)
+    if (used.length) loadFilterOptions(used)
+}, { immediate: true })
 
 function applyFilter(filter: Record<string, any>) {
-    state.propertyFilter = { ...filter }
+    // A filter chosen here wins over a saved one that arrives later.
+    savedFilterApplied = true
+    state.propertyFilter = activeCitizenListFilters(filter, offeredFilters.value)
     citizenStore.setCurrentPageNumber(1)
     fetchCitizens()
+    saveFilter()
 }
 
 function removeFilter(key: string) {
@@ -1083,6 +1105,28 @@ function removeFilter(key: string) {
 function clearFilters() {
     state.dataFilter.search = ''
     applyFilter({})
+}
+
+// The last filter is kept on the account, like the columns, so the list opens
+// the way it was left, on any device.
+async function saveFilter() {
+    const filters = { ...state.propertyFilter }
+    try {
+        await userService.updateCitizensListFilters(filters)
+        if (userStore.getUser) {
+            userStore.setUser({ ...userStore.getUser, citizens_list_filters: filters })
+        }
+    } catch (error: any) {
+        // Not being able to remember the filter should not get in the way of using it.
+    }
+}
+
+function applySavedFilter(saved: any) {
+    if (savedFilterApplied || !saved || typeof saved !== 'object') return false
+    savedFilterApplied = true
+    state.propertyFilter = activeCitizenListFilters(saved, offeredFilters.value)
+
+    return activeFilterCount.value > 0
 }
 
 function changePageLength(event: any) {

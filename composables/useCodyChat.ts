@@ -73,7 +73,19 @@ export interface CodyMessage {
     cards?: AnswerCard[]
     /** A turn that produced no answer, shown where the answer would be. */
     failed?: boolean
+    /** The stored answer, so it can be rated. Absent on an answer that was not saved. */
+    uuid?: string | null
+    feedback?: AnswerRating
+    feedbackReason?: AnswerFeedbackReason | null
+    /** Rated in this session: the thanks line shows, and the reasons stay open after a thumbs down. */
+    feedbackGiven?: boolean
 }
+
+export type AnswerRating = 'up' | 'down' | null
+
+export const ANSWER_FEEDBACK_REASONS = ['wrong', 'incomplete', 'not_helpful', 'other'] as const
+
+export type AnswerFeedbackReason = typeof ANSWER_FEEDBACK_REASONS[number]
 
 export type CodyChat = ReturnType<typeof createCodyChat>
 
@@ -115,6 +127,15 @@ export function createCodyChat() {
     const { errorAlert } = useAlert()
     const citizenStore = useCitizenStore() as any
     const route = useRoute()
+    const page = useCodyPageContext()
+
+    // The open page goes with every question, so "her" and "ham" mean what is
+    // on the screen. Only the key and the citizen's uuid - see useCodyPageContext.
+    function appendPage(formData: FormData) {
+        if (!page.value) return
+        formData.append('page[key]', page.value.key)
+        if (page.value.citizenUuid) formData.append('page[citizen_uuid]', page.value.citizenUuid)
+    }
 
     const state = reactive({
         error: {} as Error,
@@ -432,7 +453,13 @@ export function createCodyChat() {
         try {
             const res = await aiConversationService.getConversationMessages(conversation.uuid)
             const messages = res?.data?.messages ?? []
-            state.messages = messages.map((m: any) => ({ type: m.role === 'user' ? 'user' : 'bot', text: m.content }))
+            state.messages = messages.map((m: any) => ({
+                type: m.role === 'user' ? 'user' : 'bot',
+                text: m.content,
+                uuid: m.uuid ?? null,
+                feedback: m.feedback ?? null,
+                feedbackReason: m.feedback_reason ?? null,
+            }))
             state.aiElements.conversationId = conversation.openai_conversation_id
             state.activeConversationUuid = conversation.uuid
             state.view = 'chat'
@@ -545,6 +572,7 @@ export function createCodyChat() {
         if (error?.status === 402) {
             return {
                 message: error?.message ?? t('assistants.budgetSpent'),
+                isLimit: true,
                 isDaily: true,
                 canBuy: canBuyCapacity() || error?.can_manage_licenses === true,
             }
@@ -557,7 +585,7 @@ export function createCodyChat() {
         // who to ask; the company message says only that somebody else spent it
         // - and offers a purchase that would not help.
         if (error?.limit === 'user_daily') {
-            return { message: error?.message ?? t('assistants.ownDailyLimit') }
+            return { message: error?.message ?? t('assistants.ownDailyLimit'), isLimit: true }
         }
 
         const seconds = Number(error.retryAfter) || 0
@@ -571,6 +599,7 @@ export function createCodyChat() {
         if (isDaily) {
             return {
                 message: t('assistants.rateLimitedToday'),
+                isLimit: true,
                 isDaily: true,
                 // Only the daily ceiling is worth offering a purchase against, and only
                 // to someone allowed to make one. The permission is read from the user
@@ -583,7 +612,7 @@ export function createCodyChat() {
             }
         }
 
-        return { message: t('assistants.rateLimited', { minutes: Math.max(1, Math.ceil(seconds / 60)) }) }
+        return { message: t('assistants.rateLimited', { minutes: Math.max(1, Math.ceil(seconds / 60)) }), isLimit: true }
     }
 
     // The model answers in markdown. This used to return the raw string, so
@@ -691,6 +720,7 @@ export function createCodyChat() {
         state.messages.push({
             type: 'bot',
             text: response?.data?.answer,
+            uuid: response?.message_uuid ?? response?.data?.message_uuid ?? null,
             sources: response?.sources ?? [],
             companyDataStatus: response?.company_data_status ?? 'ready',
             // Copied, not referenced: the next question resets these, and an
@@ -732,6 +762,7 @@ export function createCodyChat() {
             if (state.aiElements.vectorStoreId) formData.append('vector_store_id', state.aiElements.vectorStoreId)
             state.lastRequest.citizenUuids.forEach((uuid) => formData.append('citizen_uuids[]', uuid))
             state.lastRequest.employeeUuids.forEach((uuid) => formData.append('employee_uuids[]', uuid))
+            appendPage(formData)
 
             const response = await requestAnswer(formData)
             if (response?.data) applyAnswer(response)
@@ -756,6 +787,37 @@ export function createCodyChat() {
             }, 2000)
         } catch {
             errorAlert(`${t('alert.somethingWentWrong')}!`, t('assistants.actions.copyFailed'))
+        }
+    }
+
+    /**
+     * A thumbs up or down on one answer.
+     *
+     * A customer left over answers they found wrong, and nothing in the product
+     * let anyone say so at the time. Fixed reasons only, no free text: a comment
+     * box under an answer about a citizen would collect that citizen's health
+     * data in a place nobody is looking after.
+     *
+     * Pressing the rating that is already set takes it back. The change shows at
+     * once and is undone if the server refuses it.
+     */
+    async function rateAnswer(message: CodyMessage, rating: AnswerRating, reason: AnswerFeedbackReason | null = null) {
+        if (!message.uuid) return
+
+        const previous = { feedback: message.feedback ?? null, feedbackReason: message.feedbackReason ?? null }
+        const next = rating !== null && rating === previous.feedback && reason === null ? null : rating
+
+        message.feedback = next
+        message.feedbackReason = next === 'down' ? reason : null
+        message.feedbackGiven = next !== null
+
+        try {
+            await aiConversationService.rateMessage(message.uuid, { rating: next, reason: message.feedbackReason })
+        } catch {
+            message.feedback = previous.feedback
+            message.feedbackReason = previous.feedbackReason
+            message.feedbackGiven = false
+            errorAlert(t('alert.error'), t('assistants.feedback.failed'))
         }
     }
 
@@ -857,6 +919,7 @@ export function createCodyChat() {
                 formData.append('employee_uuids[]', entity.uuid)
             }
         })
+        appendPage(formData)
 
         state.lastRequest.prompt = state.newMessage
         state.lastRequest.citizenUuids = state.mentionedEntities.filter((e) => e.type === 'citizen').map((e) => e.uuid)
@@ -871,6 +934,7 @@ export function createCodyChat() {
 
     return {
         state,
+        page,
         showStarters,
         filteredConversations,
         onComposerFocusRequest,
@@ -892,6 +956,7 @@ export function createCodyChat() {
         regenerateAnswer,
         formatMessage,
         copyAnswer,
+        rateAnswer,
         useStarter,
         handleEnterKey,
         onFilesSelected,

@@ -84,6 +84,83 @@
                                 {{ app.is_one_time_fee ? $t('apps.orderNow') : $t('apps.activate') }}
                             </FormButton>
 
+                            <!-- Free trial. The card is saved through the same checkout a purchase
+                                 uses; nothing is charged until the trial ends. -->
+                            <div v-if="app.trial_enabled && trial" class="space-y-2 border-t border-gray-100 pt-3">
+                                <template v-if="trial.available && isAdmin">
+                                    <div v-if="offeredFrequencies.length > 1" role="radiogroup" :aria-label="$t('appTrial.frequency')"
+                                        class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1 text-xs font-semibold">
+                                        <button v-for="f in offeredFrequencies" :key="f" type="button" role="radio"
+                                            :aria-checked="trialForm.frequency === f"
+                                            class="rounded-md px-2 py-1.5 transition-colors"
+                                            :class="trialForm.frequency === f ? 'bg-white text-primary shadow-sm' : 'text-gray-600'"
+                                            @click="trialForm.frequency = f as 'monthly' | 'yearly'">
+                                            {{ f === 'monthly' ? $t('appTrial.monthly') : $t('appTrial.yearly') }}
+                                        </button>
+                                    </div>
+                                    <label v-if="app.is_quantifiable" class="flex items-center justify-between gap-2 text-sm text-gray-600">
+                                        {{ $t('appTrial.seats') }}
+                                        <input v-model.number="trialForm.seats" type="number" min="1" step="1"
+                                            class="w-20 rounded-md border border-gray-300 px-2 py-1 text-right text-sm" />
+                                    </label>
+                                    <p v-if="quoting" class="text-xs text-gray-500" role="status">{{ $t('appTrial.quoting') }}</p>
+                                    <p v-else-if="quoteFailed" class="text-xs text-red-600" role="alert">{{ $t('appTrial.quoteFailed') }}</p>
+                                    <p v-else-if="quote" class="text-xs text-gray-500">{{ finePrint }}</p>
+                                    <div v-if="activation.priceChange" role="alert"
+                                        class="space-y-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-sm text-amber-900">
+                                        <p>{{ $t('appTrial.priceChanged', { amount: formatPrice(activation.priceChange.amount) }) }}</p>
+                                        <FormButton type="button" buttonStyle="primary" class="w-full justify-center"
+                                            @click="confirmTrialPrice()">
+                                            {{ $t('appTrial.confirmPrice') }}
+                                        </FormButton>
+                                    </div>
+                                    <FormButton v-else type="button" buttonStyle="primary" class="w-full justify-center"
+                                        :disabled="activation.isBusy || quoting || quoteFailed || !quote" @click="beginTrial()">
+                                        {{ $t('appTrial.tryFree', { days: trialDays }) }}
+                                    </FormButton>
+                                </template>
+
+                                <div v-else-if="trial.status === 'active' || trial.status === 'converting'" role="status"
+                                    class="space-y-1 rounded-lg border border-[#2dbab2] bg-white p-3 text-sm">
+                                    <p class="font-semibold text-primary">{{ $t('appTrial.activeTitle') }}</p>
+                                    <p class="text-gray-600">{{ $t('appTrial.freeUntil', { date: fmtDate(trial.ends_at) }) }}</p>
+                                    <p v-if="trial.first_charge_at" class="text-gray-600">
+                                        {{ $t('appTrial.firstCharge', { date: fmtDate(trial.first_charge_at), amount: formatPrice(trial.amount_gross) }) }}
+                                    </p>
+                                    <FormButton v-if="trial.can_cancel" type="button" buttonStyle="cancel"
+                                        class="mt-2 w-full justify-center" @click="confirmCancelOpen = true">
+                                        {{ $t('appTrial.cancel') }}
+                                    </FormButton>
+                                </div>
+
+                                <div v-else-if="trial.status === 'cancelled'" role="status"
+                                    class="space-y-1 rounded-lg border border-gray-200 bg-white p-3 text-sm">
+                                    <p class="text-gray-700">{{ $t('appTrial.cancelled', { date: fmtDate(trial.ends_at) }) }}</p>
+                                    <button v-if="trial.can_cancel !== false && isAdmin" type="button"
+                                        class="font-semibold text-primary underline underline-offset-2" @click="undoCancel()">
+                                        {{ $t('appTrial.undo') }}
+                                    </button>
+                                </div>
+
+                                <div v-else-if="trial.status === 'charge_failed'" role="alert"
+                                    class="space-y-1 rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">
+                                    <p class="font-semibold">{{ $t('appTrial.chargeFailedTitle') }}</p>
+                                    <p>{{ $t('appTrial.chargeFailedBody') }}</p>
+                                    <button v-if="isAdmin" type="button" class="font-semibold underline underline-offset-2"
+                                        @click="navigateTo('/settings/subscription')">
+                                        {{ $t('appTrial.chargeFailedLink') }}
+                                    </button>
+                                </div>
+                                <p v-if="trialError" class="text-xs text-red-600">{{ trialError }}</p>
+                            </div>
+                            <DialogConfirmation :isModalOpen="confirmCancelOpen" :title="$t('appTrial.cancelTitle')"
+                                :message="$t('appTrial.cancelBody', { date: fmtDate(trial?.ends_at) })"
+                                :confirmLabel="$t('appTrial.cancel')"
+                                @close="confirmCancelOpen = false" @confirm="cancelTrial()" />
+
+                            <ModulesUserAppsSuggestToManager :appUuid="app.uuid" :appName="app.name"
+                                :priceText="suggestionPriceText" :isBuyer="isAdmin" :appActivated="!!app.user_activated" />
+
                             <FormButton type="button" buttonStyle="action" class="w-full justify-center"
                                 @click="state.isContactOpen = true">
                                 {{ $t('apps.contactUs') }}
@@ -176,13 +253,19 @@ import { appService } from '@/components/api/user/AppService'
 import { useI18n } from 'vue-i18n'
 import { appBadgeFor, useAppPrice } from '@/composables/appPrice'
 import { useAppActivation } from '@/composables/appActivation'
+import { formatPrice } from '@/composables/customerSpecialPrice'
+import { userService } from '@/components/api/user/UserService'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t, locale } = useI18n()
 const { appPrice, formatAmount } = useAppPrice()
-const { activation, requestActivation, activate } = useAppActivation({ checkoutContainerId: 'app-page-checkout' })
+const { activation, requestActivation, activate, startTrial, confirmTrialPrice } = useAppActivation({
+    checkoutContainerId: 'app-page-checkout',
+    onTrialStarted: async () => { await fetchApp(); await refreshUser(); loadCodyAdoption(true) },
+})
 
 const state = reactive({
     app: null as any,
@@ -244,7 +327,122 @@ async function openPartner(link: string) {
     }
 }
 
-onMounted(fetchApp)
+const userStore = useUserStore() as any
+const { can } = usePermissions()
+// The backend's can_manage (adoption status) or the licence permission decides; the
+// role name alone is only a fallback. The backend still enforces whatever is shown.
+const isAdmin = computed(() => !!codyStatus.value?.can_manage || can('manage_licenses')
+    || !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin'))
+// The price as the card above shows it, for the "suggest to my manager" dialog.
+const suggestionPriceText = computed(() => {
+    if (price.value.isFree) return t('apps.free')
+    const unit = price.value.unit ? `/${String(price.value.unit).toLowerCase()}` : ''
+    return `${formatAmount(price.value.discountedAmount)}${unit} ${t('excludeVat')}`
+})
+const trial = computed(() => state.app?.trial ?? null)
+const trialDays = computed(() => Number(trial.value?.days ?? state.app?.trial_days ?? 14))
+const quotes = computed(() => trial.value?.quotes ?? {})
+// A frequency without a quote cannot be priced, so it is not offered.
+const offeredFrequencies = computed(() => (['monthly', 'yearly'] as const).filter(f => !!quotes.value?.[f]))
+const trialForm = reactive({ frequency: 'monthly' as 'monthly' | 'yearly', seats: 1 })
+const quote = ref<any>(null)
+const quoting = ref(false)
+const quoteFailed = ref(false)
+let quoteSeq = 0
+let quoteTimer: any = null
+const confirmCancelOpen = ref(false)
+const trialError = ref('')
+
+watch(trial, (value) => {
+    const offered = offeredFrequencies.value
+    if (value?.frequency && (!offered.length || offered.includes(value.frequency))) trialForm.frequency = value.frequency
+    else if (offered.length && !offered.includes(trialForm.frequency)) trialForm.frequency = offered[0]
+    if (value?.seats) trialForm.seats = Number(value.seats) || 1
+}, { immediate: true })
+
+// Re-quote whenever the choice changes. Only the latest response is used.
+function requestQuote() {
+    if (!state.app?.uuid || !trial.value?.available) return
+    clearTimeout(quoteTimer)
+    quote.value = null
+    quoteFailed.value = false
+    quoting.value = true
+    activation.priceChange = null
+    const seq = ++quoteSeq
+    quoteTimer = setTimeout(async () => {
+        try {
+            const result = await appService.getTrialQuote(state.app.uuid, {
+                frequency: trialForm.frequency,
+                ...(state.app?.is_quantifiable ? { seats: Math.max(1, Number(trialForm.seats) || 1) } : {}),
+            })
+            if (seq !== quoteSeq) return
+            quote.value = result?.amount_gross != null ? result : null
+            quoteFailed.value = !quote.value
+        } catch (_) {
+            if (seq !== quoteSeq) return
+            quoteFailed.value = true
+        }
+        if (seq === quoteSeq) quoting.value = false
+    }, 300)
+}
+
+watch(() => [trialForm.frequency, trialForm.seats, state.app?.uuid, trial.value?.available], requestQuote, { immediate: true })
+
+function fmtDate(value: any) {
+    if (!value) return ''
+    const date = new Date(value)
+    return isNaN(date.getTime()) ? '' : date.toLocaleDateString(locale.value === 'en' ? 'en-GB' : 'da-DK', { day: 'numeric', month: 'long', year: 'numeric' })
+}
+
+// For a trial that has not started, the end date is today plus the trial length.
+const finePrint = computed(() => {
+    const end = new Date()
+    end.setDate(end.getDate() + trialDays.value)
+    const amount = quote.value ? formatPrice(quote.value.amount_gross) : ''
+    return t('appTrial.finePrint', {
+        date: fmtDate(end),
+        amount,
+        period: trialForm.frequency === 'monthly' ? t('appTrial.perMonth') : t('appTrial.perYear'),
+        charge: fmtDate(end),
+    })
+})
+
+async function beginTrial() {
+    trialError.value = ''
+    await startTrial(state.app, {
+        frequency: trialForm.frequency,
+        ...(state.app?.is_quantifiable ? { seats: Math.max(1, Number(trialForm.seats) || 1) } : {}),
+    }, quote.value?.amount_gross)
+}
+
+async function runTrialAction(action: () => Promise<any>) {
+    trialError.value = ''
+    try {
+        await action()
+        await fetchApp()
+        await refreshUser()
+        loadCodyAdoption(true)
+    } catch (error: any) {
+        trialError.value = error?.message || t('appTrial.failed')
+    }
+}
+
+const cancelTrial = () => runTrialAction(() => appService.cancelTrial(state.app.uuid))
+const undoCancel = () => runTrialAction(() => appService.undoCancelTrial(state.app.uuid))
+
+const { load: loadCodyAdoption, status: codyStatus } = useCodyAdoption()
+
+// A trial can switch an app on (Cody sets has_ai_access on the user), so re-read the user.
+async function refreshUser() {
+    try {
+        const response = await userService.getUser()
+        if (response?.data) userStore.setUser(response.data)
+    } catch (_) { /* the next request picks it up */ }
+}
+
+onMounted(() => {
+    fetchApp()
+})
 
 async function fetchApp() {
     state.error = {}

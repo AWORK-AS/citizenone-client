@@ -27,13 +27,16 @@
                         <span class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-semibold text-slate-500">
                             {{ $t('inquiryParties.types.' + (party.title || 'external_contact')) }}
                         </span>
+                        <span v-if="party.relationship?.name" class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-semibold text-slate-500">
+                            {{ party.relationship.name }}
+                        </span>
                         <Tooltip v-if="party.is_primary" :text="$t('inquiryParties.primaryHint')">
                             <span class="rounded-full bg-primary/10 px-2 py-px text-[11px] font-semibold text-primary">
                                 {{ $t('inquiryParties.primary') }}
                             </span>
                         </Tooltip>
                         <span v-if="party.coordinator_role" class="rounded-full bg-[#e6f6ee] px-2 py-px text-[11px] font-semibold text-[#177a53]">
-                            {{ party.coordinator_role === 'primary' ? $t('citizens.coordinators.badgePrimary') : $t('citizens.coordinators.badgeSecondary') }}
+                            {{ roleBadge(party.coordinator_role) }}
                         </span>
                         <span v-if="party.email || party.phone" class="text-[11px] text-gray-400">
                             {{ [party.email, party.phone].filter(Boolean).join(' · ') }}
@@ -64,6 +67,21 @@
                 <div class="space-y-1">
                     <FormLabel for="party_title" :label="$t('inquiryParties.form.type')" />
                     <FormSelect id="party_title" :options="typeOptions" v-model="state.draft.title" :searchable="false" />
+                </div>
+                <!-- What a relative is to the person the case is about, from the
+                     company's own list; carried to the indsats with the contact. -->
+                <div v-if="state.draft.title === 'relatives'" class="space-y-1">
+                    <FormLabel for="party_relationship" :label="$t('inquiryParties.form.relationship')" />
+                    <FormSelect v-if="state.relationshipOptions.length" id="party_relationship"
+                        :options="state.relationshipOptions" v-model="state.draft.relationship_uuid" />
+                    <p v-else class="text-xs text-gray-500">
+                        {{ $t('inquiryParties.form.noRelationships') }}
+                        <NuxtLink v-if="isAtLeast('Admin')" to="/settings/relationships" class="font-semibold text-primary hover:underline">
+                            {{ $t('inquiryParties.form.addRelationships') }}
+                        </NuxtLink>
+                        <template v-else>{{ $t('inquiryParties.form.askAdminForRelationships') }}</template>
+                    </p>
+                    <FormError :error="state.errors?.relationship_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="party_company" :label="$t('inquiryParties.form.organisation')" />
@@ -101,8 +119,9 @@
                     <FormError :error="state.errors?.user_uuid?.[0]" />
                 </div>
                 <div class="space-y-1">
-                    <FormLabel for="party_role" :label="$t('inquiryParties.form.coordinatorRole')" />
+                    <FormLabel for="party_role" :label="$t('inquiryParties.form.role')" />
                     <FormSelect id="party_role" :options="roleOptions" v-model="state.draft.coordinator_role" :searchable="false" />
+                    <FormError :error="state.errors?.coordinator_role?.[0]" />
                 </div>
             </div>
 
@@ -122,6 +141,7 @@
 <script setup lang="ts">
 import { inquiryPartyService } from '@/components/api/user/InquiryPartyService'
 import { userService } from '@/components/api/user/UserService'
+import { relationshipService } from '@/components/api/user/RelationshipService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -139,7 +159,7 @@ const props = defineProps({
 const { isAtLeast, can } = usePermissions()
 const canEdit = computed(() => isAtLeast('Admin') || can('update'))
 
-const TYPES = ['case_manager', 'relatives', 'external_contact', 'doctor', 'dentist']
+const TYPES = ['case_manager', 'advisor', 'municipality', 'relatives', 'external_contact', 'doctor', 'dentist']
 
 const emptyDraft = () => ({
     title: 'case_manager' as string | null,
@@ -149,6 +169,7 @@ const emptyDraft = () => ({
     email: '',
     phone: '',
     user_uuid: null as string | null,
+    relationship_uuid: null as string | null,
     coordinator_role: null as string | null,
     is_primary: false,
 })
@@ -160,6 +181,7 @@ const state = reactive({
     draft: emptyDraft(),
     errors: {} as Record<string, string[]>,
     employeeOptions: [] as any[],
+    relationshipOptions: [] as any[],
 })
 
 const typeOptions = computed(() => TYPES.map((type) => ({ value: type, label: t('inquiryParties.types.' + type) })))
@@ -167,7 +189,19 @@ const roleOptions = computed(() => [
     { value: null, label: t('inquiryParties.form.noRole') },
     { value: 'primary', label: t('citizens.coordinators.primary') },
     { value: 'secondary', label: t('citizens.coordinators.secondary') },
+    { value: 'intake', label: t('citizens.coordinators.intake') },
+    // On the case but not as its coordinator; a case can have several.
+    { value: 'consultant', label: t('inquiryParties.form.roleConsultant') },
 ])
+
+function roleBadge(role: string) {
+    if (role === 'primary') return t('citizens.coordinators.badgePrimary')
+    if (role === 'secondary') return t('citizens.coordinators.badgeSecondary')
+    if (role === 'intake') return t('citizens.coordinators.badgeIntake')
+    if (role === 'consultant') return t('inquiryParties.form.roleConsultant')
+
+    return ''
+}
 
 function partyName(party: any) {
     const name = `${party.firstname ?? ''} ${party.lastname ?? ''}`.trim()
@@ -199,6 +233,17 @@ async function startAdding() {
             state.employeeOptions = []
         }
     }
+    if (!state.relationshipOptions.length) {
+        try {
+            const response = await relationshipService.getAllRelationships()
+            state.relationshipOptions = (response?.data ?? []).map((relationship: any) => ({
+                value: relationship.uuid,
+                label: relationship.name,
+            }))
+        } catch (_) {
+            state.relationshipOptions = []
+        }
+    }
 }
 
 async function save() {
@@ -208,6 +253,8 @@ async function save() {
         ? { user_uuid: draft.user_uuid, coordinator_role: draft.coordinator_role, is_primary: draft.is_primary }
         : {
             title: draft.title,
+            // Only a relative is something to the person the case is about.
+            relationship_uuid: draft.title === 'relatives' ? draft.relationship_uuid : null,
             firstname: draft.firstname || null,
             lastname: draft.lastname || null,
             company_name: draft.company_name || null,

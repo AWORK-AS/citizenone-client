@@ -38,8 +38,14 @@ export interface DiscoverGroup {
 
 const migration: DiscoverGroup = {
     key: 'migration', icon: 'ph:download-simple', adminOnly: true,
-    steps: [{ key: 'import', action: 'import' }],
+    // Done as soon as the company has people of its own, imported or not.
+    steps: [{ key: 'import', action: 'import', doneKey: 'citizens' }],
 }
+
+// The first note is the moment the product starts paying back. The overview
+// already opens the new-note modal on ?action=new-note (the desktop Dock uses
+// the same link), so the step reuses that instead of a second modal here.
+const firstNote: DiscoverStep = { key: 'firstNote', route: '/overview?action=new-note' }
 
 const getStarted: DiscoverGroup = {
     key: 'komIGang', icon: 'ph:buildings',
@@ -83,6 +89,7 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
             steps: [
                 { key: 'citizens', route: '/citizens', doneKey: 'citizens' },
                 { key: 'citizenData', route: '/citizens' },
+                firstNote,
             ],
         },
         dutySchedule,
@@ -98,6 +105,7 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
             steps: [
                 { key: 'patients', route: '/citizens', doneKey: 'citizens' },
                 { key: 'patientData', route: '/citizens' },
+                firstNote,
             ],
         },
         {
@@ -122,6 +130,7 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
             steps: [
                 { key: 'citizens', route: '/citizens', doneKey: 'citizens' },
                 { key: 'citizenData', route: '/citizens' },
+                firstNote,
             ],
         },
         {
@@ -144,6 +153,7 @@ const DEFAULT_JOURNEY: DiscoverGroup[] = [
         steps: [
             { key: 'citizens', route: '/citizens', doneKey: 'citizens' },
             { key: 'citizenData', route: '/citizens' },
+            firstNote,
         ],
     },
     documentation,
@@ -168,11 +178,13 @@ const MODULE_OPTIONS = [
     { key: 'priceEstimates', icon: 'ph:receipt', industries: ['dental'] },
 ]
 
+/** The journey for an industry `system_name`, or the neutral one. Pure, for tests. */
+export function journeyFor(systemName: string | null | undefined): DiscoverGroup[] {
+    return (systemName && JOURNEYS[systemName]) || DEFAULT_JOURNEY
+}
+
 export function useDiscoverJourney(systemName: () => string | null | undefined) {
-    const journey = computed<DiscoverGroup[]>(() => {
-        const key = systemName()
-        return (key && JOURNEYS[key]) || DEFAULT_JOURNEY
-    })
+    const journey = computed<DiscoverGroup[]>(() => journeyFor(systemName()))
 
     const moduleOptions = computed(() => {
         const key = systemName()

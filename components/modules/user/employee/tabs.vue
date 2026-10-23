@@ -12,7 +12,7 @@ const language = useI18n()
 const router = useRouter()
 const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
-const { isAtLeast } = usePermissions()
+const { isAtLeast, seesHrData } = usePermissions()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
 
@@ -20,6 +20,12 @@ const isInquiryPipelineEnabled = computed(() => !!userStore.getUser?.company?.in
 // they may see working hours (the same rule the backend enforces).
 const canSeeMonthlySheet = computed(() =>
     isAtLeast('Manager') || (userStore.getUser?.uuid === employeeUuid && !!userStore.getUser?.show_working_hours))
+
+// The backend lets those who see HR data (Admins and roles with "can see HR details
+// and employee documents") read and write HR details, and an employee read their
+// own; it answers 403 to anyone else.
+const canSeeHrDetails = computed(() =>
+    seesHrData() || userStore.getUser?.uuid === employeeUuid)
 
 function buildTabs() {
     return [
@@ -63,6 +69,14 @@ function buildTabs() {
                 'employees-employee_uuid-mileage-log',
             ]
         },
+        ...(canSeeHrDetails.value ? [{
+            name: 'employees.tabs.hrDetails',
+            isTranslateName: true,
+            href: `/employees/${employeeUuid}/hr-details`,
+            routeNames: [
+                'employees-employee_uuid-hr-details',
+            ]
+        }] : []),
         ...(isInquiryPipelineEnabled.value ? [{
             name: 'employees.tabs.consultantProfile',
             isTranslateName: true,

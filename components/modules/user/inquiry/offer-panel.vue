@@ -107,6 +107,21 @@
                     : $t('inquiryOffer.newDraft') }}
             </p>
 
+            <!-- The customer the offer is for: its special price for the
+                 indsatstype (særpris) comes before the standard price. -->
+            <div v-if="customerOptions.length" class="mb-3">
+                <FormLabel for="offer-customer" :label="$t('inquiryOffer.customer')" />
+                <FormSelect id="offer-customer" :options="customerOptions" v-model="state.form.customer_department_uuid"
+                    :placeholder="$t('inquiryOffer.customerPlaceholder')" />
+                <p v-if="usesSpecialPrice" class="mt-1 flex items-center gap-1.5 text-[12px] text-slate-600">
+                    <span class="co-badge co-badge-blue">{{ $t('inquiryOffer.specialPrice') }}</span>
+                    {{ $t('inquiryOffer.specialPriceApplies') }}
+                </p>
+                <p v-else-if="chosenCustomerUuid && state.result" class="mt-1 text-[12px] text-slate-400">
+                    {{ $t('inquiryOffer.noSpecialPrice') }}
+                </p>
+            </div>
+
             <div class="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
                 <div v-for="key in NUMERIC_INPUTS" :key="key">
                     <FormLabel :for="`offer-${key}`" :label="$t('inquiryOffer.inputs.' + key)" />
@@ -305,9 +320,13 @@
 </template>
 
 <script setup lang="ts">
+import { localDateString, addDaysToLocalDate } from '@/composables/localDate'
 import { inquiryOfferService } from '@/components/api/user/InquiryOfferService'
 import { inquiryLostReasonService } from '@/components/api/user/InquiryLostReasonService'
+import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { useAlert } from '@/composables/alert'
+import { customerChoices, knownCustomerUuid, specialPriceApplies } from '@/composables/customerSpecialPrice'
+import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 
 const props = defineProps({
@@ -323,6 +342,7 @@ const emit = defineEmits(['changed'])
 const { t } = useI18n()
 const { successAlert, errorAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
+const userStore = useUserStore() as any
 
 const NUMERIC_INPUTS = [
     'contact_hours_per_session',
@@ -353,6 +373,7 @@ function emptyForm(): any {
         reports_per_month: '',
         duration_weeks: '',
         price_date: '',
+        customer_department_uuid: null,
         supervision: false,
         room: false,
         special_language: null,
@@ -382,24 +403,32 @@ const state = reactive({
     lostReasons: [] as any[],
     lostReasonMissing: false,
     deleteFor: null as any,
+    customers: [] as any[],
 })
 
 const latest = computed(() => state.offers[0] ?? null)
+
+// Customer departments live in the social-welfare sector; elsewhere there is
+// nothing to choose and the field is not shown.
+const isSocialWelfare = computed(() => userStore.getUser?.company?.industry?.system_name === 'social_welfare')
+const customerOptions = computed(() => customerChoices(state.customers, state.form.customer_department_uuid))
+const chosenCustomerUuid = computed(() => knownCustomerUuid(state.form.customer_department_uuid, state.customers))
+const usesSpecialPrice = computed(() => specialPriceApplies(state.result))
 
 const specialLanguageNames = computed(() =>
     (state.context?.languages ?? []).filter((language: any) => language.is_special).map((language: any) => language.name).join(', ')
 )
 
 const sendDeadlinePreview = computed(() => {
-    const base = state.send.sent_at ? new Date(state.send.sent_at) : new Date()
+    const base = state.send.sent_at || localDateString()
     const days = Number(state.send.deadline_days || 0)
-    base.setDate(base.getDate() + days)
 
-    return formatDateToReadable(base.toISOString().slice(0, 10))
+    return formatDateToReadable(addDaysToLocalDate(base, days))
 })
 
 onMounted(() => {
     fetchAll()
+    fetchCustomers()
 })
 
 watch(() => props.inquiryUuid, () => fetchAll())
@@ -418,6 +447,22 @@ async function fetchAll() {
         state.offers = []
     }
 }
+
+async function fetchCustomers() {
+    if (!isSocialWelfare.value) return
+
+    try {
+        const response = await socialWelfareService.getCustomerDepartments({})
+        state.customers = response?.data ?? []
+    } catch (_) {
+        state.customers = []
+    }
+}
+
+// A calculation started before the customers arrived left the customer out.
+watch(() => state.customers, () => {
+    if (state.editing && state.form.customer_department_uuid) recalculate()
+})
 
 function formatAmount(value: any) {
     if (value === null || value === undefined || value === '') return '-'
@@ -446,6 +491,8 @@ function statusClass(offer: any) {
 function catalogueValue(key: string) {
     const assumption = (state.result?.assumptions ?? []).find((item: any) => item.key === key)
 
+    if (assumption?.source === 'customer') return `${assumption.value ?? ''} · ${t('inquiryOffer.specialPrice')}`
+
     return assumption && assumption.source !== 'manual' ? String(assumption.value ?? '') : t('inquiryOffer.fromCatalogue')
 }
 
@@ -455,6 +502,7 @@ function formFromInputs(inputs: any): any {
         form[key] = inputs?.[key] === undefined || inputs?.[key] === null ? '' : String(inputs[key])
     }
     form.price_date = inputs?.price_date ?? ''
+    form.customer_department_uuid = inputs?.customer_department_uuid ?? null
     form.supervision = !!inputs?.supervision
     form.room = !!inputs?.room
     form.special_language = inputs?.special_language ?? null
@@ -472,6 +520,11 @@ function payload(): any {
         if (state.form[key] !== '' && state.form[key] !== null) body[key] = Number(state.form[key])
     }
     if (state.form.price_date) body.price_date = state.form.price_date
+    // Only a customer still in the list, so one deleted since an older offer
+    // is dropped rather than refused. Without one the key is left out and the
+    // request is what it was before customers could be chosen.
+    const customer = knownCustomerUuid(state.form.customer_department_uuid, state.customers)
+    if (customer) body.customer_department_uuid = customer
     body.supervision = !!state.form.supervision
     body.room = !!state.form.room
     body.special_language = state.form.special_language
@@ -554,7 +607,7 @@ async function saveDraft() {
 function openSend(offer: any) {
     state.sendFor = offer
     state.send = {
-        sent_at: new Date().toISOString().slice(0, 10),
+        sent_at: localDateString(),
         deadline_days: String(state.context?.deadline_days ?? 10),
     }
 }
@@ -595,7 +648,7 @@ function openRespond(offer: any) {
     state.lostReasonMissing = false
     state.respond = {
         decision: 'accepted',
-        responded_at: new Date().toISOString().slice(0, 10),
+        responded_at: localDateString(),
         remarks: '',
         rejection_reason: '',
         start_wishes: '',

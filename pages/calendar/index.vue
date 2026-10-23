@@ -23,7 +23,7 @@
 
             <div :class="[
                 userStore.getUser?.has_booking_app_access && 'mt-8',
-                'flex justify-end items-center mb-5 gap-x-2'
+                'flex flex-wrap justify-end items-center mb-5 gap-x-2 gap-y-2'
             ]">
                 <FormButton buttonStyle="action" @click="state.modal.isCompletionStatisticsOpen = true">
                     <Icon name="ph:chart-bar" class="h-4 w-4" aria-hidden="true" />
@@ -87,7 +87,7 @@
             </div>
 
             <div class="grid lg:grid-cols-6 gap-3">
-                <div class="flex items-center gap-x-4 lg:col-span-3">
+                <div class="flex flex-wrap items-center gap-x-4 gap-y-2 lg:col-span-3">
                     <div class="inline-flex items-center gap-x-0.5 rounded-lg bg-gray-100 p-0.5">
                         <Tooltip v-for="opt in viewOptions" :key="opt.value" position="bottom"
                             :text="$t('calendar.shortcuts.view', { view: $t(opt.label), key: opt.key })">
@@ -249,7 +249,7 @@
 
             <ModulesUserMyCalendarModalEdit :isModalOpen="state.modal.isEditEventOpen"
                 :selectedSchedule="state.selectedSchedule" @close="state.modal.isEditEventOpen = false"
-                @duplicateEvent="duplicateMyCalendarEvent"
+                @duplicateEvent="duplicateMyCalendarEvent" @markEventAsStatus="markStatusFromModal"
                 @deleteMyCalendarEvent="deleteMyCalendarEvent" @refreshSchedules="fetchMyCalendarEvents" />
 
 
@@ -262,7 +262,7 @@
                 @no="state.modal.isEventJournalPromptOpen = false" />
 
             <ModulesUserMyCalendarModalCreateJournal :isModalOpen="state.modal.isCreateEventJournalOpen"
-                :selectedEvent="state.selectedSchedule"
+                :selectedEvent="state.selectedSchedule" :completeOnSave="state.completeJournalOnSave"
                 @close="state.modal.isCreateEventJournalOpen = false"
                 @journalCreated="fetchMyCalendarEvents" />
 
@@ -287,6 +287,7 @@ import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { duplicateFields } from '@/composables/calendarEventPresentation'
+import { isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone } from '@/composables/calendarNoteRequired'
 // import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
@@ -336,6 +337,8 @@ const state = reactive({
         isCreateEventJournalOpen: false,
         isCompletionStatisticsOpen: false,
     },
+    // The note form was opened by "done" and its save marks the booking done.
+    completeJournalOnSave: false,
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     newEventPresetDate: '',
     // The event "Duplicate" was clicked on; the new-event modals start from it.
@@ -802,6 +805,15 @@ function subscribe() {
 
 async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'completed' | 'not_completed') {
     state.error = {}
+    const company = userStore.getUser?.company
+
+    // Where the company requires a note before "done", a booking without one
+    // goes straight to the note form; its save marks the booking done.
+    if (status === 'completed' && needsNoteBeforeDone(selectedCalendarEvent, company)) {
+        openNoteToComplete(selectedCalendarEvent)
+        return
+    }
+
     state.isPageLoading = true
     state.selectedSchedule = selectedCalendarEvent
     try {
@@ -809,22 +821,44 @@ async function handleMarkEventAsStatus(selectedCalendarEvent: any, status: 'comp
         if (response?.data) {
             fetchMyCalendarEvents()
             successAlert(`${t('alert.success')}!`, `${t('events.alert.statusSuccessfullyUpdated')}.`)
-            if (selectedCalendarEvent?.type === 'citizens') {
+            // The optional "write a note?" prompt, as before. Not after "done"
+            // where a note is required: the booking already has one.
+            if (selectedCalendarEvent?.type === 'citizens'
+                && !(status === 'completed' && isCalendarNoteRequiredOn(company))) {
                 state.modal.isEventJournalPromptOpen = true
             }
         }
     } catch (error: any) {
-        state.error = error
+        // The linked note is a draft, or the list was out of date.
+        if (isNoteRequiredError(error)) {
+            openNoteToComplete(selectedCalendarEvent)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }
 
+function openNoteToComplete(selectedCalendarEvent: any) {
+    state.selectedSchedule = selectedCalendarEvent
+    state.completeJournalOnSave = true
+    state.modal.isCreateEventJournalOpen = true
+}
+
+// The edit modal's done / not done buttons: same request as the event menu.
+function markStatusFromModal(status: 'completed' | 'not_completed') {
+    state.modal.isEditEventOpen = false
+    handleMarkEventAsStatus(state.selectedSchedule, status)
+}
+
 function handleCreateJournalFromEvent(selectedCalendarEvent: any) {
     state.selectedSchedule = selectedCalendarEvent
+    state.completeJournalOnSave = false
     state.modal.isCreateEventJournalOpen = true
 }
 
 function handleJournalPromptYes() {
+    state.completeJournalOnSave = false
     state.modal.isCreateEventJournalOpen = true
 }
 

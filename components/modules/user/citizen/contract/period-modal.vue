@@ -70,10 +70,17 @@
                                     selectedDepartment.payment_terms_days !== null ? $t('socialWelfare.customerDepartments.days', { days: selectedDepartment.payment_terms_days }) : null]
                                     .filter(Boolean).join(' · ') }}
                             </p>
-                            <NuxtLink v-else-if="!props.departments.length" to="/settings/customer-departments"
+                            <NuxtLink v-else-if="!props.departments.length && !canCreateDepartment" to="/settings/customer-departments"
                                 class="text-[12px] text-primary hover:underline">
                                 {{ $t('socialWelfare.contract.createDepartment') }}
                             </NuxtLink>
+                            <!-- Opens the customer form on top, so what is typed here is kept. -->
+                            <button v-if="canCreateDepartment" type="button"
+                                class="inline-flex items-center gap-1 text-[12px] text-primary hover:underline"
+                                @click="state.isDepartmentModalOpen = true">
+                                <Icon name="ph:plus" class="w-3 h-3" aria-hidden="true" />
+                                {{ $t('socialWelfare.contract.addDepartment') }}
+                            </button>
                         </div>
 
                         <!-- Price -->
@@ -330,6 +337,29 @@
                             </div>
                         </div>
 
+                        <!-- Notice given on the contract. Recorded only: the end date still decides what is billed. -->
+                        <div class="space-y-3 border-t border-surface-200 pt-5">
+                            <Tooltip :text="$t('socialWelfare.contract.cancelledHelp')" wrap position="top">
+                                <label class="flex items-center gap-2 text-sm font-medium text-slate-700">
+                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                        v-model="state.form.is_cancelled" @change="onCancelledToggle" />
+                                    {{ $t('socialWelfare.contract.cancelled') }}
+                                </label>
+                            </Tooltip>
+                            <div v-if="state.form.is_cancelled" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                                <div class="space-y-1">
+                                    <FormLabel :label="$t('socialWelfare.contract.cancelledAt')" />
+                                    <input type="date" class="co-cell-input w-full" v-model="state.form.cancelled_at" required />
+                                    <FormError :error="state.error?.errors?.cancelled_at?.[0]" />
+                                </div>
+                                <div class="space-y-1 md:col-span-2">
+                                    <FormLabel :label="$t('socialWelfare.contract.cancellationNote')" />
+                                    <textarea rows="2" class="co-cell-input w-full" v-model="state.form.cancellation_note"></textarea>
+                                    <FormError :error="state.error?.errors?.cancellation_note?.[0]" />
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="space-y-1 border-t border-surface-200 pt-5">
                             <FormLabel :label="$t('socialWelfare.contract.note')" />
                             <textarea rows="2" class="co-cell-input w-full" v-model="state.form.note"></textarea>
@@ -344,18 +374,22 @@
                     </div>
                 </LoadingSpinner>
             </form>
+            <ModulesUserEconomyCustomerDepartmentModal :isModalOpen="state.isDepartmentModalOpen" :department="null"
+                @close="state.isDepartmentModalOpen = false" @saved="departmentCreated" />
         </template>
     </Modal>
 </template>
 
 <script setup lang="ts">
+import { localDateString, addDaysToLocalDate } from '@/composables/localDate'
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import {
-    PRESET_KINDS, blankPresets, customFieldValues, customFieldsPayload, grantedTotal as sumGranted,
+    PRESET_KINDS, blankPresets, customFieldValues, customFieldsPayload, departmentChoices, grantedTotal as sumGranted,
     hourEntriesFromPeriod, hoursPayload, linesPayload, splitLines,
 } from '@/composables/contractPeriod'
+import { usePermissions } from '@/composables/usePermissions'
 import type { HourEntry } from '@/composables/contractPeriod'
 import type { ContractFieldDefinition, ContractHourType, PaymentTerm, ReviewItem } from '@/types/contract'
 import { useI18n } from 'vue-i18n'
@@ -374,11 +408,15 @@ const props = defineProps({
     stays: { type: Array as () => any[], required: false, default: () => [] },
     departments: { type: Array as () => any[], required: false, default: () => [] },
 })
-const emit = defineEmits(['close', 'saved'])
+const emit = defineEmits(['close', 'saved', 'departmentCreated'])
 
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { formatAmount } = useAmountFormatter()
+const { isAtLeast, can } = usePermissions()
+
+// Same gate as the API's customer department guard: Admin, or create, or update.
+const canCreateDepartment = computed(() => isAtLeast('Admin') || can('create') || can('update'))
 
 const frequencies = ['monthly', 'quarterly', 'half_yearly', 'yearly']
 const presetKinds = PRESET_KINDS
@@ -404,6 +442,9 @@ const blank = () => ({
     economic_product_number: '',
     show_cpr_on_invoice: false,
     show_case_number_on_invoice: false,
+    is_cancelled: false,
+    cancelled_at: '',
+    cancellation_note: '',
     note: '',
     lines: [] as any[],
 })
@@ -418,17 +459,17 @@ const state = reactive({
     hours: [] as HourEntry[],
     presets: blankPresets(),
     customFields: {} as Record<string, any>,
+    isDepartmentModalOpen: false,
+    // Departments created from this form, shown until the page's list has them.
+    createdDepartments: [] as any[],
 })
 
 // The active departments, plus the one an edited period already points at even
-// if it has since been made inactive, so saving does not silently drop it.
-const departmentOptions = computed(() => {
-    const current = props.period?.customer_department
-
-    return current && !props.departments.some((d: any) => d.uuid === current.uuid)
-        ? [...props.departments, current]
-        : props.departments
-})
+// if it has since been made inactive, so saving does not silently drop it, and
+// any created from here before the page's list has caught up.
+const departmentOptions = computed(() =>
+    departmentChoices(props.departments, [props.period?.customer_department, ...state.createdDepartments])
+)
 
 const selectedDepartment = computed(() =>
     departmentOptions.value.find((d: any) => d.uuid === state.form.customer_department_uuid) ?? null
@@ -499,6 +540,12 @@ function fieldVisibility(definition: ContractFieldDefinition): string {
     ].filter(Boolean).join(' · ') || t('socialWelfare.contract.fieldHidden')
 }
 
+function onCancelledToggle() {
+    if (state.form.is_cancelled && !state.form.cancelled_at) {
+        state.form.cancelled_at = localDateString()
+    }
+}
+
 function fromPeriod(source: any, asNew: boolean) {
     const form = blank()
 
@@ -528,6 +575,10 @@ function fromPeriod(source: any, asNew: boolean) {
     form.show_cpr_on_invoice = !!source.show_cpr_on_invoice
     form.show_case_number_on_invoice = !!source.show_case_number_on_invoice
     form.note = asNew ? '' : (source.note ?? '')
+    // Notice belongs to the period it was given on, never to the next one.
+    form.is_cancelled = !asNew && !!source.cancelled_at
+    form.cancelled_at = asNew ? '' : (source.cancelled_at ?? '')
+    form.cancellation_note = asNew ? '' : (source.cancellation_note ?? '')
 
     const { presets, custom } = splitLines(source.lines ?? [], asNew)
     state.presets = presets
@@ -576,6 +627,8 @@ watch(() => props.isModalOpen, async (open) => {
     state.error = {} as Error
     state.review = null
     state.reviewConfirmed = false
+    state.isDepartmentModalOpen = false
+    state.createdDepartments = []
 
     // The catalogues first: a legacy period maps its three hour fields onto the
     // system types, which needs the types to be known.
@@ -598,14 +651,21 @@ function templateSource() {
 }
 
 function today(): string {
-    return new Date().toISOString().slice(0, 10)
+    return localDateString()
 }
 
 function nextDay(date: string): string {
-    const d = new Date(`${date}T12:00:00`)
-    d.setDate(d.getDate() + 1)
+    return addDaysToLocalDate(date, 1)
+}
 
-    return d.toISOString().slice(0, 10)
+// A department created on top of this form is picked straight away; the page
+// fetches its list again so the next period offers it too.
+function departmentCreated(department: any) {
+    if (!department?.uuid) return
+
+    state.createdDepartments.push(department)
+    state.form.customer_department_uuid = department.uuid
+    emit('departmentCreated', department)
 }
 
 function addLine() {
@@ -656,6 +716,8 @@ function payload() {
         show_cpr_on_invoice: state.form.show_cpr_on_invoice,
         show_case_number_on_invoice: state.form.show_case_number_on_invoice,
         note: textOrNull(state.form.note),
+        cancelled_at: state.form.is_cancelled ? textOrNull(state.form.cancelled_at) : null,
+        cancellation_note: state.form.is_cancelled ? textOrNull(state.form.cancellation_note) : null,
         // Only sent once the user has confirmed; the API asks for it with a 422
         // when it is missing on a new period.
         ...(state.reviewConfirmed ? { review_confirmed: true } : {}),

@@ -13,7 +13,8 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
-  "connect-src 'self' https:",
+  // wss: for the video consultations' media server (LiveKit Cloud).
+  "connect-src 'self' https: wss://*.livekit.cloud",
   // The last three carry release-note videos, which are linked rather than
   // uploaded; without them the embed breaks the day this policy is enforced.
   // blob: is the in-app document viewer's PDF frame.
@@ -33,7 +34,10 @@ const securityHeaders = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'SAMEORIGIN',
   'Referrer-Policy': 'strict-origin-when-cross-origin',
-  'Permissions-Policy': 'camera=(), microphone=(), geolocation=(self)',
+  // Camera and microphone for this site only (no embedded third party): video
+  // consultations need both, and dictation the microphone. `()` switched them
+  // off on every page, whatever the user allowed.
+  'Permissions-Policy': 'camera=(self), microphone=(self), geolocation=(self)',
   'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
   'Content-Security-Policy-Report-Only': contentSecurityPolicy,
 }
@@ -76,9 +80,10 @@ export default defineNuxtConfig({
           defer: true,
         },
         // Google Tag Manager. Not inside the duty schedule embedded on a
-        // customer's website: their visitors are not ours to track.
+        // customer's website: their visitors are not ours to track. Not on the
+        // company-invitation page either: its link carries a signed grant.
         {
-          innerHTML: `if(!location.pathname.startsWith('/embed/duty-schedules/'))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THK4R7KD');`,
+          innerHTML: `if(!location.pathname.startsWith('/embed/duty-schedules/')&&!location.pathname.startsWith('/accept-company-invite'))(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-THK4R7KD');`,
           tagPosition: 'head',
         },
       ],

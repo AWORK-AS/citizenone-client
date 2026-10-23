@@ -219,8 +219,8 @@
                             <FormButton buttonStyle="action" class="rounded-md shrink-0"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                                 v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                                <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.openFmkOnline') }}
                             </FormButton>
                         </div>
                         <!-- Secondary actions overflow -->
@@ -262,8 +262,8 @@
                                         <button type="button"
                                             @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                                             :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
-                                            <Icon name="mdi:cloud-refresh-outline" class="size-4" />
-                                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                            <Icon name="ph:arrow-square-out" class="size-4" />
+                                            {{ $t('citizens.medicineJournals.openFmkOnline') }}
                                         </button>
                                         </MenuItem>
                                     </div>
@@ -383,8 +383,8 @@
                             <FormButton buttonStyle="action" class="rounded-md"
                                 @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                                 v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                                <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                                <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                                {{ $t('citizens.medicineJournals.openFmkOnline') }}
                             </FormButton>
                         </div>
                     </div>
@@ -494,7 +494,7 @@
                                                     </span>
                                                 </Tooltip>
                                                 <Tooltip
-                                                    v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
+                                                    v-if="isFieldVisible('current_stocks') && medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
                                                     :text="$t('citizens.medicineJournals.page.lowStockOnly', { n: medicine?.current_stocks })">
                                                     <span
                                                         class="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
@@ -1058,7 +1058,7 @@
                                                 {{ medicine?.current_stocks }}
                                             </span>
                                             <Tooltip
-                                                v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
+                                                v-if="isFieldVisible('current_stocks') && medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
                                                 :text="$t('citizens.medicineJournals.page.lowStock')">
                                                 <Icon name="ph:warning" class="size-4 text-amber-500" />
                                             </Tooltip>
@@ -1157,7 +1157,8 @@
                     :selectedMedicine="state.selectedMedicine" @close="closeViewMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
                 <ModulesUserCitizenMedicineModalNew :isModalOpen="state.modal.isAddMedicineOpen"
-                    @close="state.modal.isAddMedicineOpen = false" @refreshMedicines="fetchCitizenMedicines" />
+                    :renewal="renewalToPrescribe" @close="closeAddMedicineModal"
+                    @refreshMedicines="fetchCitizenMedicines" @prescribed="renewalToPrescribe = null" />
                 <ModulesUserCitizenMedicineModalEdit :isModalOpen="state.modal.isEditMedicineOpen"
                     :selectedMedicine="state.selectedMedicine" @close="closeEditMedicineModal"
                     @refreshMedicines="fetchCitizenMedicines" />
@@ -1242,6 +1243,8 @@ import moment from 'moment'
 import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/vue'
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
+import { prescriptionRenewalService } from '@/components/api/user/PrescriptionRenewalService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
@@ -1362,6 +1365,26 @@ const state = reactive({
 
 let clockInterval: any
 
+// Whether the "Current stocks" field is switched on for this company
+// (Settings > Medicine form fields). A company that doesn't track stock at
+// all shouldn't see stock-derived low-stock warnings either.
+const medicineFormConfig = ref<Record<string, boolean>>({})
+
+function isFieldVisible(fieldKey: string): boolean {
+    if (Object.keys(medicineFormConfig.value).length === 0) return true
+    return medicineFormConfig.value[fieldKey] !== false
+}
+
+async function fetchMedicineFormConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine' })
+        const config = response?.data?.find((c: any) => c.form_type === 'edit')
+        if (config?.form_fields) {
+            medicineFormConfig.value = config.form_fields
+        }
+    } catch (e) { /* silent — all fields visible on error */ }
+}
+
 onMounted(() => {
     citizenMedicineStore.resetFilterByActiveInactiveDeactivated()
     citizenMedicineStore.setFilterMedicationType('all')
@@ -1369,8 +1392,38 @@ onMounted(() => {
     // (another citizen, or a closed tab). Start clean.
     citizenMedicineStore.resetSelectedMedicine()
     fetchCitizenMedicines()
+    fetchMedicineFormConfig()
+    openRenewalFromQuery()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
+
+// "Create prescription" in the renewal inbox lands here with ?renewal=<uuid>: the add dialog opens with the
+// request's medicine chosen, and saving closes the request.
+const renewalToPrescribe = ref<any>(null)
+
+async function openRenewalFromQuery() {
+    const renewalUuid = router.currentRoute.value.query?.renewal
+    if (typeof renewalUuid !== 'string' || !renewalUuid) return
+    try {
+        const response = await prescriptionRenewalService.getRequest(renewalUuid)
+        const renewal = response?.data
+        if (renewal && renewal.citizen?.uuid === citizenUuid && ['pending', 'approved'].includes(renewal.status)) {
+            renewalToPrescribe.value = renewal
+            state.modal.isAddMedicineOpen = true
+        }
+    } catch {
+        // Not allowed or gone: the page works as usual.
+    }
+}
+
+function closeAddMedicineModal() {
+    state.modal.isAddMedicineOpen = false
+    if (renewalToPrescribe.value || router.currentRoute.value.query?.renewal) {
+        renewalToPrescribe.value = null
+        const { renewal: _renewal, ...query } = router.currentRoute.value.query
+        router.replace({ query })
+    }
+}
 
 onUnmounted(() => {
     citizenMedicineStore.resetSelectedMedicine()
@@ -1396,7 +1449,7 @@ const paletteCommands = computed(() => {
     }
     cmds.push({ id: 'focus-search', group: A, icon: 'ph:magnifying-glass', hint: '/', label: t('search'), run: () => focusSearch() })
     if (isAtLeast('Admin') || can('update_citizen_medicine')) {
-        cmds.push({ id: 'fmk', group: A, icon: 'mdi:cloud-refresh-outline', label: t('citizens.medicineJournals.synchronizeWithFMK'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
+        cmds.push({ id: 'fmk', group: A, icon: 'ph:arrow-square-out', label: t('citizens.medicineJournals.openFmkOnline'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
     }
     cmds.push({ id: 'download', group: A, icon: 'ph:download', label: t('citizens.medicineJournals.downloadOverview'), run: () => { state.modal.isDownloadMedicineOverviewOpen = true } })
     cmds.push({ id: 'filter', group: A, icon: 'ic:outline-filter-list', label: t('filter'), run: () => { state.modal.isFilterMedicineOpen = true } })
@@ -1545,6 +1598,11 @@ const stats = computed(() => {
             entries.forEach((d: any) => {
                 const s = d?.status
                 if (s === 'given' || s === 'delivered') given++
+                // Self-administered medicine is handed out periodically, not given dose
+                // by dose, so an unlogged slot is never actually overdue - it just
+                // hasn't been (and won't be) logged per dose. Matches the missed-dose
+                // notification/list suppression already in place for is_self_administered.
+                else if (m?.is_self_administered) pending++
                 else if (isMissed(d?.time)) overdue++
                 else if (isDueSoon(d?.time)) dueSoon++
                 else pending++
@@ -1568,13 +1626,14 @@ const alarmBanners = computed(() => {
             const entries: any[] = m?.dosage_status_by_date?.[today] ?? []
             entries.forEach((d: any) => {
                 if (d?.status) return
+                // Self-administered medicine is handed out periodically, not given dose
+                // by dose - an unlogged slot is expected, not overdue, so it never
+                // raises the overdue banner (matches the missed-dose notification/list
+                // suppression already in place for is_self_administered).
+                if (m?.is_self_administered) return
                 if (isMissed(d?.time)) {
                     const mins = minutesSince(d?.time)
-                    // A self-administered medicine is handed out, not given (task #115).
-                    const overdueKey = m?.is_self_administered
-                        ? 'citizens.medicineJournals.selfAdministered.overdue'
-                        : 'citizens.medicineJournals.page.medicineIsOverdue'
-                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t(overdueKey, { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
                 } else if (isDueSoon(d?.time)) {
                     banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
                 }

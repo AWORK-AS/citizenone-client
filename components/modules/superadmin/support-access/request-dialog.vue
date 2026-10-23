@@ -43,6 +43,20 @@
                                     <input v-model="state.caseReference" type="text" class="co-input"
                                         :placeholder="$t('superadmin.supportAccess.dialog.caseReferencePlaceholder')" />
                                 </div>
+
+                                <div>
+                                    <label class="co-label">
+                                        {{ $t('superadmin.supportAccess.dialog.duration') }}
+                                    </label>
+                                    <select v-model="state.accessHours" class="co-input">
+                                        <option v-for="hours in DURATION_OPTIONS" :key="hours" :value="hours">
+                                            {{ $t('superadmin.supportAccess.duration.h' + hours) }}
+                                        </option>
+                                    </select>
+                                    <p class="text-[11px] text-[#8891A4] mt-1">
+                                        {{ $t('superadmin.supportAccess.dialog.durationHint') }}
+                                    </p>
+                                </div>
                             </div>
 
                             <p class="text-[11px] text-[#8891A4] mt-4">
@@ -96,7 +110,11 @@ const emit = defineEmits<{ close: []; requested: [] }>()
 const { successAlert } = useAlert()
 const { t } = useI18n()
 
+// Skal matche det backenden accepterer. 4 timer er standarden.
+const DURATION_OPTIONS = [4, 24, 168]
+
 const state = reactive({
+    accessHours: 4,
     reason: '',
     caseReference: '',
     error: '',
@@ -109,6 +127,7 @@ watch(() => props.isOpen, (open) => {
     if (open) {
         state.reason = ''
         state.caseReference = ''
+        state.accessHours = 4
         state.error = ''
     }
 })
@@ -124,13 +143,16 @@ async function send() {
     state.error = ''
 
     try {
-        await supportAccessService.requestAccess({
+        const res: any = await supportAccessService.requestAccess({
             user_uuid: props.accountUuid,
             reason: state.reason.trim(),
             case_reference: state.caseReference.trim() || null,
+            access_hours: state.accessHours,
         })
 
-        successAlert(`${t('alert.success')}!`, t('superadmin.supportAccess.alert.requested'))
+        // Backend genbruger en adgang der allerede er godkendt og stadig gælder, uden at forlænge den.
+        const reused = res?.reused_existing_grant ?? res?.data?.reused_existing_grant
+        successAlert(`${t('alert.success')}!`, t(reused ? 'superadmin.supportAccess.alert.reused' : 'superadmin.supportAccess.alert.requested'))
         emit('requested')
         close()
     } catch (error: any) {

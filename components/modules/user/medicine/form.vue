@@ -57,6 +57,15 @@
                 <FormError :error="v$?.formMedicine?.active_ingredients?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.active_ingredients?.[0]" />
             </div>
+            <!-- The questionnaire a patient answers when asking to renew a prescription for this medicine. -->
+            <div v-if="canLinkRenewalSurvey" class="space-y-1" data-testid="medicine-renewal-survey">
+                <FormLabel for="renewal_survey_uuid" :label="$t('prescriptionRenewals.settings.renewalSurvey')" />
+                <FormSelect id="renewal_survey_uuid" :options="surveyOptions" :searchable="true" :canClear="true"
+                    :canDeselect="true" :placeholder="$t('prescriptionRenewals.settings.noRenewalSurvey')"
+                    v-model="state.formMedicine.renewal_survey_uuid" />
+                <p class="text-xs text-gray-500">{{ $t('prescriptionRenewals.settings.renewalSurveyHelp') }}</p>
+                <FormError :error="props?.error?.errors?.renewal_survey_uuid?.[0]" />
+            </div>
         </div>
         <div class="mt-6">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -74,9 +83,11 @@
 
 <script setup lang="ts">
 import { useVuelidate } from "@vuelidate/core"
-import { required, helpers } from '@vuelidate/validators'
+import { helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { surveyService } from '@/components/api/user/SurveyService'
+import { useUserStore } from '@/store/user'
 
 const props = defineProps({
     error: {
@@ -110,7 +121,22 @@ const state = reactive({
         no_name: '',
         sv_name: '',
         active_ingredients: '',
+        renewal_survey_uuid: '' as string | null,
     },
+})
+
+const userStore = useUserStore() as any
+const canLinkRenewalSurvey = computed(() => !!userStore.getUser?.prescription_renewals_enabled && userStore.getUser?.is_surveys_active !== false)
+const surveyOptions = ref<{ value: string, label: string }[]>([])
+
+onMounted(async () => {
+    if (!canLinkRenewalSurvey.value) return
+    try {
+        const response = await surveyService.getAllSurveys()
+        surveyOptions.value = (response?.data ?? []).map((survey: any) => ({ value: survey.uuid, label: survey.title }))
+    } catch {
+        surveyOptions.value = []
+    }
 })
 
 watch(() => props.selectedMedicine, (newValue: any) => {
@@ -125,6 +151,7 @@ watch(() => props.selectedMedicine, (newValue: any) => {
             no_name: newValue.no_name ?? '',
             sv_name: newValue.sv_name ?? '',
             active_ingredients: newValue.active_ingredients,
+            renewal_survey_uuid: newValue.renewal_survey?.uuid ?? null,
         }
     }
 })
@@ -132,17 +159,10 @@ watch(() => props.selectedMedicine, (newValue: any) => {
 const rules = computed(() => {
     return {
         formMedicine: {
-            en_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            // One name is enough; missing translations fall back to it.
             dk_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            no_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
-            sv_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                atLeastOneName: helpers.withMessage(() => t('medicines.form.atLeastOneName'), () =>
+                    ['en_name', 'dk_name', 'no_name', 'sv_name'].some((key) => String((state.formMedicine as any)[key] ?? '').trim() !== '')),
             },
         },
     }

@@ -239,6 +239,7 @@
                             <slot />
                         </div>
                     </div>
+                    <ModulesPortalAttribution />
                 </main>
             </div>
         </div>
@@ -354,6 +355,15 @@ const navigation = ref([
         ]
     },
     {
+        name: 'Prescriptions',
+        label: 'patientPrescriptions.title',
+        href: '/patient/prescriptions',
+        icon: 'ph:prescription',
+        activeRouteNames: [
+            'patient-prescriptions',
+        ]
+    },
+    {
         name: 'Documents',
         label: 'patient.nav.documents',
         href: '/patient/documents',
@@ -378,6 +388,7 @@ const visibleNavigation = computed(() => {
         Forms: 'forms',
         Journal: 'journals',
         PriceEstimates: 'price_estimates',
+        Prescriptions: 'prescriptions',
         Documents: 'documents',
     }
 

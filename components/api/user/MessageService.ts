@@ -13,6 +13,14 @@ class MessageService extends BaseAPIService {
         return await this.request(`/user/chats/${chatUuid}/clear`, 'POST')
     }
 
+    async pinChat(chatUuid: any): Promise<any> {
+        return await this.request(`/user/chats/${chatUuid}/pin`, 'POST')
+    }
+
+    async unpinChat(chatUuid: any): Promise<any> {
+        return await this.request(`/user/chats/${chatUuid}/pin`, 'DELETE')
+    }
+
     async fetchChatHistory(params: object): Promise<any> {
         return await this.request(`/user/chat-messages`, 'GET', params)
     }

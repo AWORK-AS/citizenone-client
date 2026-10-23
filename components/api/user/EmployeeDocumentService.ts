@@ -31,6 +31,32 @@ class EmployeeDocumentService extends BaseAPIService {
         return await this.requestBlob(`/user/employee-documents/${documentUuid}/view`, 'GET')
     }
 
+    // Task #33: send an employment contract to the employee to sign.
+    async requestSignature(documentUuid: any): Promise<any> {
+        return await this.request(`/user/employee-documents/${documentUuid}/signature-request`, 'POST')
+    }
+
+    async withdrawSignatureRequest(documentUuid: any): Promise<any> {
+        return await this.request(`/user/employee-documents/${documentUuid}/signature-request`, 'DELETE')
+    }
+
+    async downloadSignatureCertificate(documentUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/employee-documents/${documentUuid}/signature-certificate`, 'GET')
+    }
+
+    // The signed-in employee's own contracts to read and sign.
+    async getMyContracts(): Promise<any> {
+        return await this.request(`/user/my-contracts`, 'GET')
+    }
+
+    async viewMyContract(documentUuid: any): Promise<Blob | null> {
+        return await this.requestBlob(`/user/my-contracts/${documentUuid}/file`, 'GET')
+    }
+
+    async signMyContract(documentUuid: any, params: { accepted: boolean, signed_name: string }): Promise<any> {
+        return await this.request(`/user/my-contracts/${documentUuid}/sign`, 'POST', params)
+    }
+
     async getExpiryOverview(): Promise<any> {
         return await this.request(`/user/certificates/expiry-overview`, 'GET')
     }

@@ -243,6 +243,8 @@ async function fetchCitizen() {
                 is_discharge_reminded: response?.data?.is_discharge_reminded ?? false,
                 section: response?.data?.section?.uuid?.toString() ?? '',
                 pricing: response?.data?.pricing ?? '',
+                // form.vue shows a lock instead of an input for these.
+                hidden_fields: response?.data?.hidden_fields ?? [],
                 pricing_start_date: response?.data?.pricing_start_date ?? '',
                 primary_case_worker_uuid: response?.data?.primary_case_worker?.uuid?.toString() ?? '',
                 secondary_case_worker_uuid: response?.data?.secondary_case_worker?.uuid?.toString() ?? '',
@@ -378,6 +380,8 @@ async function updateCitizen(citizenDetails: any) {
         // requirement is lifted, and the reminder goes with it.
         params.append('reporting_frequency', citizenDetails.reporting_frequency ?? '')
         params.append('reporting_starts_on', citizenDetails.reporting_starts_on ?? '')
+        // Only meaningful with a frequency; cleared with it.
+        params.append('report_draft_days_before', citizenDetails.reporting_frequency ? (citizenDetails.report_draft_days_before ?? '') : '')
         params.append('birthday', citizenDetails.birthday)
         params.append('phone', citizenDetails.phone)
         params.append('departments_uuid', JSON.stringify(citizenDetails.departments))

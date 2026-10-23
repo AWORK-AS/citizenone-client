@@ -30,17 +30,19 @@ export type SuperadminNavGroups = {
 
 export const superadminNav: SuperadminNavGroups = {
     oversigt: [
-        { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', permission: 'view_dashboard', routes: ['superadmin-dashboard', 'superadmin-analytics'] },
+        { name: 'Dashboard', label: 'superadmin.sidebar.dashboard', href: '/superadmin/dashboard', icon: 'material-symbols:dashboard', permission: 'view_dashboard', routes: ['superadmin-dashboard', 'superadmin-analytics', 'superadmin-funnel'] },
         { name: 'Companies', label: 'superadmin.sidebar.companies', href: '/superadmin/companies', icon: 'ph:buildings', permission: 'view_companies', routes: ['superadmin-companies', 'superadmin-companies-new', 'superadmin-companies-company_uuid-edit', 'superadmin-companies-company_uuid-accounts', 'superadmin-companies-company_uuid-accounts-new', 'superadmin-companies-company_uuid-accounts-account_uuid-edit', 'superadmin-companies-company_uuid-invoices', 'superadmin-companies-company_uuid-license-overview', 'superadmin-companies-company_uuid-apps', 'superadmin-companies-company_uuid-overview'] },
         { name: 'Users', label: 'superadmin.sidebar.users', href: '/superadmin/users', icon: 'ph:users-three', permission: 'view_team', routes: ['superadmin-users', 'superadmin-users-new', 'superadmin-users-edit-uuid'] },
         { name: 'TeamRoles', label: 'superadmin.sidebar.teamRoles', href: '/superadmin/team-roles', icon: 'ph:shield-check', permission: 'view_team', routes: ['superadmin-team-roles'] },
         { name: 'SalesInquiries', label: 'superadmin.sidebar.salesInquiries', href: '/superadmin/sales-inquiries', icon: 'ph:tray', permission: 'view_sales_inquiries', routes: ['superadmin-sales-inquiries'] },
+        { name: 'Nps', label: 'superadmin.sidebar.nps', href: '/superadmin/nps', icon: 'ph:smiley', permission: 'view_companies', routes: ['superadmin-nps'] },
         { name: 'SupportAccess', label: 'superadmin.sidebar.supportAccess', href: '/superadmin/support-access', icon: 'ph:lock-key', permission: 'impersonate_users', routes: ['superadmin-support-access'] },
     ],
     okonomi: [
         { name: 'Invoices', label: 'superadmin.sidebar.invoices', href: '/superadmin/invoices', icon: 'ph:invoice', permission: 'view_financials', routes: ['superadmin-invoices', 'superadmin-invoices-invoice_uuid'] },
         { name: 'Orders', label: 'superadmin.sidebar.orders', href: '/superadmin/orders', icon: 'ph:database', permission: 'view_financials', routes: ['superadmin-orders'] },
         { name: 'PaymentFees', label: 'superadmin.sidebar.paymentFees', href: '/superadmin/payment-fees', icon: 'ph:percent', permission: 'view_financials', routes: ['superadmin-payment-fees'] },
+        { name: 'Referrals', label: 'superadmin.sidebar.referrals', href: '/superadmin/referrals', icon: 'ph:gift', permission: 'view_financials', routes: ['superadmin-referrals'] },
     ],
     platform: [
         { name: 'Apps', label: 'superadmin.sidebar.apps', href: '/superadmin/apps', icon: 'ic:baseline-apps', permission: 'view_apps', routes: ['superadmin-apps', 'superadmin-apps-new', 'superadmin-apps-appUuid-edit'] },
@@ -48,6 +50,7 @@ export const superadminNav: SuperadminNavGroups = {
         { name: 'Sales Campaign', label: 'superadmin.sidebar.salesCampaign', href: '/superadmin/sales-campaign', icon: 'ph:megaphone-simple', permission: 'view_marketing', routes: ['superadmin-sales-campaign', 'superadmin-sales-campaign-new', 'superadmin-sales-campaign-edit-uuid'] },
         { name: 'Polls', label: 'superadmin.sidebar.polls', href: '/superadmin/polls', icon: 'ph:chart-bar-horizontal', permission: 'view_marketing', routes: ['superadmin-polls', 'superadmin-polls-new', 'superadmin-polls-pollUuid', 'superadmin-polls-pollUuid-edit'] },
         { name: 'Coupons', label: 'superadmin.sidebar.coupons', href: '/superadmin/coupons', icon: 'ic:outline-discount', permission: 'view_marketing', routes: ['superadmin-coupons', 'superadmin-coupons-new', 'superadmin-coupons-couponUuid-edit'] },
+        { name: 'PlatformShares', label: 'superadmin.sidebar.platformShares', href: '/superadmin/platform-shares', icon: 'ph:share-network', permission: 'view_marketing', routes: ['superadmin-platform-shares'] },
         { name: 'StorageUsage', label: 'superadmin.sidebar.storageUsage', href: '/superadmin/dashboard/company-storage', icon: 'ph:hard-drives', permission: 'view_dashboard', routes: ['superadmin-dashboard-company-storage'] },
         { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', permission: 'view_apps', routes: ['superadmin-storage-packages'] },
         { name: 'Industries', label: 'superadmin.sidebar.industries', href: '/superadmin/industries', icon: 'ph:buildings', permission: 'view_content', routes: ['superadmin-industries'] },

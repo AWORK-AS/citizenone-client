@@ -51,11 +51,12 @@
 </template>
 
 <script setup lang="ts">
-import { formLabel } from '@/composables/inquiryForms'
+import { CONTACTED_BY_LABELS, formLabel, listItemName, shownOnInquiry } from '@/composables/inquiryForms'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useCustomPagesStore } from '@/store/custom-pages'
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 
 const props = defineProps({
@@ -68,19 +69,30 @@ const props = defineProps({
 const emit = defineEmits(['edit', 'fieldsSaved'])
 
 const { formatDateToReadable } = useDatetimeFormatter()
+const { labelFor: spokenLanguageLabel, fetchAll: fetchSpokenLanguages } = useSpokenLanguages()
+
+// The inquiry carries a language's English name only; the register has the
+// Danish one too. Until it has loaded (or if it can't), the English name shows.
+const spokenLanguages = ref<any[]>([])
+
+onMounted(async () => {
+    try {
+        spokenLanguages.value = await fetchSpokenLanguages()
+    } catch {
+        spokenLanguages.value = []
+    }
+})
+
+function languageName(language: any) {
+    if (!language) return ''
+
+    return spokenLanguageLabel(spokenLanguages.value.find((item: any) => item.uuid === language.uuid)) || language.name || ''
+}
 
 // The same option values the two forms offer, so a stored value reads here
 // exactly as it read in the dropdown that set it.
 const OPTION_LABELS: Record<string, Record<string, string>> = {
-    contacted_by: {
-        the_citizen_themselves: 'inquiries.form.options.contactedBy.theCitizenThemselves',
-        family_friend_neighbor_colleague_acquaintance: 'inquiries.form.options.contactedBy.familyFriends',
-        municipal_employee: 'inquiries.form.options.contactedBy.municipalEmployee',
-        police_prison_and_probation_service: 'inquiries.form.options.contactedBy.police',
-        healthcare_professional: 'inquiries.form.options.contactedBy.healthcareProfessional',
-        employee_from_another_crisis_center: 'inquiries.form.options.contactedBy.employeeFromAnotherCrisisCenter',
-        other: 'inquiries.form.options.contactedBy.other',
-    },
+    contacted_by: CONTACTED_BY_LABELS,
     assessment: {
         yes: 'inquiries.form.options.assessment.yes',
         no: 'inquiries.form.options.assessment.no',
@@ -125,6 +137,9 @@ const OPTION_LABELS: Record<string, Record<string, string>> = {
 }
 
 function option(group: string, value: any) {
+    // The yes/no questions are stored as booleans: false is an answer ("No"),
+    // only null means nobody answered.
+    if (typeof value === 'boolean') value = value ? 'yes' : 'no'
     if (!value) return ''
     const key = OPTION_LABELS[group]?.[value]
     // An unmapped value is still worth showing raw - better than an empty box
@@ -145,8 +160,9 @@ function reportingKey(value: string) {
     return value.replace(/_([a-z])/g, (_, c) => c.toUpperCase())
 }
 
+// Departments have a name; topics, reasons and guidance an en_name/dk_name.
 function names(list: any) {
-    return (list ?? []).map((item: any) => item?.name).filter(Boolean).join(', ')
+    return (list ?? []).map((item: any) => listItemName(item, locale.value)).filter(Boolean).join(', ')
 }
 
 const isShelter = computed(() => props.inquiry?.inquiry_type === 'shelter')
@@ -172,57 +188,67 @@ const subline = computed(() => [
     names(props.inquiry?.departments),
 ].filter(Boolean).join(' · '))
 
-const sections = computed(() => {
+// The rows the page shows. A built-in field (one with a key) shows when the
+// inquiry's form asks for it or it already has an answer; an inquiry from
+// before forms shows them all. A section left with no rows is not shown.
+const sections = computed(() => allSections.value
+    .map((section) => ({
+        ...section,
+        fields: section.fields.filter((field: any) => !field.key || shownOnInquiry(field.key, props.inquiry?.form, props.inquiry)),
+    }))
+    .filter((section) => section.fields.length > 0))
+
+const allSections = computed(() => {
     const inq = props.inquiry ?? {}
 
     const assessment = isShelter.value
         ? [
-            { label: t('inquiries.form.shelter.fields.vacantPlaceAvailable'), value: option('yes_no', inq.vacant_place_available) },
-            { label: t('inquiries.form.shelter.fields.inShelterTargetGroup'), value: option('yes_no', inq.in_shelter_target_group) },
-            { label: t('inquiries.form.shelter.fields.fitsInTargetGroup'), value: option('yes_no', inq.fits_in_target_group) },
-            { label: t('inquiries.form.shelter.fields.nonAdmissionReason'), value: option('non_admission_reason', inq.non_admission_reason), wide: true },
-            { label: t('inquiries.form.shelter.fields.notInServiceTargetGroupReason'), value: option('not_in_service_target_group_reason', inq.not_in_service_target_group_reason), wide: true },
-            { label: t('inquiries.form.shelter.fields.referralDestination'), value: option('referral_destination', inq.referral_destination), wide: true },
+            { key: 'vacant_place_available', label: t('inquiries.form.shelter.fields.vacantPlaceAvailable'), value: option('yes_no', inq.vacant_place_available) },
+            { key: 'in_shelter_target_group', label: t('inquiries.form.shelter.fields.inShelterTargetGroup'), value: option('yes_no', inq.in_shelter_target_group) },
+            { key: 'fits_in_target_group', label: t('inquiries.form.shelter.fields.fitsInTargetGroup'), value: option('yes_no', inq.fits_in_target_group) },
+            { key: 'non_admission_reason', label: t('inquiries.form.shelter.fields.nonAdmissionReason'), value: option('non_admission_reason', inq.non_admission_reason), wide: true },
+            { key: 'not_in_service_target_group_reason', label: t('inquiries.form.shelter.fields.notInServiceTargetGroupReason'), value: option('not_in_service_target_group_reason', inq.not_in_service_target_group_reason), wide: true },
+            { key: 'referral_destination', label: t('inquiries.form.shelter.fields.referralDestination'), value: option('referral_destination', inq.referral_destination), wide: true },
         ]
         : [
-            { label: t('inquiries.form.crisisCenter.fields.topic'), value: names(inq.topics), wide: true },
-            { label: t('inquiries.form.crisisCenter.fields.assessment'), value: option('assessment', inq.target_group_crisis_center) },
-            { label: t('inquiries.form.crisisCenter.fields.receivedVisit'), value: option('yes_no', inq.received_visit) },
-            { label: t('inquiries.form.crisisCenter.fields.notOfferedInterview'), value: names(inq.no_assessment_reasons), wide: true },
-            { label: t('inquiries.form.crisisCenter.fields.guidance'), value: names(inq.guidances), wide: true },
+            { key: 'topic', label: t('inquiries.form.crisisCenter.fields.topic'), value: names(inq.topics), wide: true },
+            { key: 'assessment', label: t('inquiries.form.crisisCenter.fields.assessment'), value: option('assessment', inq.target_group_crisis_center) },
+            { key: 'received_visit', label: t('inquiries.form.crisisCenter.fields.receivedVisit'), value: option('yes_no', inq.received_visit) },
+            { key: 'assessment_reason', label: t('inquiries.form.crisisCenter.fields.notOfferedInterview'), value: names(inq.no_assessment_reasons), wide: true },
+            { key: 'guidance', label: t('inquiries.form.crisisCenter.fields.guidance'), value: names(inq.guidances), wide: true },
         ]
 
     const citizen = [
-        { label: t('inquiries.form.cpr'), value: inq.cpr },
+        { key: 'cpr', label: t('inquiries.form.cpr'), value: inq.cpr },
         ...(isShelter.value
-            ? [{ label: t('inquiries.form.shelter.fields.cprMissingReason'), value: option('cpr_missing_reason', inq.cpr_missing_reason) }]
+            ? [{ key: 'cpr_missing_reason', label: t('inquiries.form.shelter.fields.cprMissingReason'), value: option('cpr_missing_reason', inq.cpr_missing_reason) }]
             : []),
-        { label: t('inquiries.form.firstname'), value: inq.firstname },
-        { label: t('inquiries.form.lastname'), value: inq.lastname },
+        { key: 'first_name', label: t('inquiries.form.firstname'), value: inq.firstname },
+        { key: 'last_name', label: t('inquiries.form.lastname'), value: inq.lastname },
     ]
 
     return [
         {
             key: 'inquiry',
             fields: [
-                { label: t('inquiries.table.dateOfInquiry'), value: inq.inquiry_date ? formatDateToReadable(inq.inquiry_date) : '' },
-                { label: departmentLabel.value, value: names(inq.departments) },
+                { key: 'inquiry_date', label: t('inquiries.table.dateOfInquiry'), value: inq.inquiry_date ? formatDateToReadable(inq.inquiry_date) : '' },
+                { key: 'department_uuid', label: departmentLabel.value, value: names(inq.departments) },
                 ...(isShelter.value
                     ? []
-                    : [{ label: t('inquiries.form.crisisCenter.fields.contactedBy'), value: option('contacted_by', inq.contacted_by) }]),
+                    : [{ key: 'contacted_by', label: t('inquiries.form.crisisCenter.fields.contactedBy'), value: option('contacted_by', inq.contacted_by) }]),
                 // Citizen-initiated or authority-initiated (paragraph 75).
                 { label: t('inquiryOrigin.label'), value: inq.origin ? t('inquiryOrigin.' + inq.origin) : '' },
                 { label: t('inquiryServiceTypes.single'), value: inq.service_type?.label ?? '' },
-                { label: t('inquiryContact.label'), value: contactSummary(inq.company_contact), wide: true },
-                { label: t('inquiries.table.inquirerName'), value: inq.inquirer_name },
+                { key: 'company_contact', label: t('inquiryContact.label'), value: contactSummary(inq.company_contact), wide: true },
+                { key: 'inquirer_name', label: t('inquiries.table.inquirerName'), value: inq.inquirer_name },
             ],
         },
         { key: 'citizen', fields: citizen },
         {
             key: 'matchNeeds',
             fields: [
-                { label: t('inquiryMatchNeeds.primaryLanguage'), value: inq.primary_spoken_language?.name ?? '' },
-                { label: t('inquiryMatchNeeds.secondaryLanguage'), value: inq.secondary_spoken_language?.name ?? '' },
+                { label: t('inquiryMatchNeeds.primaryLanguage'), value: languageName(inq.primary_spoken_language) },
+                { label: t('inquiryMatchNeeds.secondaryLanguage'), value: languageName(inq.secondary_spoken_language) },
                 {
                     label: t('inquiryMatchNeeds.location'),
                     value: [inq.location_address, inq.location_postal_code].filter(Boolean).join(', '),
@@ -232,16 +258,22 @@ const sections = computed(() => {
                     label: t('citizens.form.reportingFrequency'),
                     value: inq.reporting_frequency ? t('citizens.form.reportingOptions.' + reportingKey(inq.reporting_frequency)) : '',
                 },
+                {
+                    label: t('citizens.form.reportDraftDaysBefore'),
+                    value: inq.reporting_frequency && inq.report_draft_days_before
+                        ? t('citizens.form.reportDraftDaysBeforeValue', { days: inq.report_draft_days_before })
+                        : '',
+                },
             ],
         },
         { key: 'assessment', fields: assessment },
         {
             key: 'outcome',
             fields: [
-                { label: t('inquiries.table.outcome'), value: inq.outcome },
-                { label: t('inquiries.table.purpose'), value: inq.purpose },
-                { label: t('inquiries.form.notes'), value: inq.notes, wide: true },
-                { label: t('inquiries.table.conversationSummary'), value: inq.conversation_summary, wide: true },
+                { key: 'outcome', label: t('inquiries.table.outcome'), value: inq.outcome },
+                { key: 'purpose', label: t('inquiries.table.purpose'), value: inq.purpose },
+                { key: 'notes', label: t('inquiries.form.notes'), value: inq.notes, wide: true },
+                { key: 'conversation_summary', label: t('inquiries.table.conversationSummary'), value: inq.conversation_summary, wide: true },
             ],
         },
     ]

@@ -4,8 +4,21 @@
             v-if="props.error?.message && props.error.message.length > 0" />
         <Alert type="danger" :text="state?.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
+        <!-- An unsaved note from earlier in this tab (closed by accident, or the session ran out). -->
+        <div v-if="state.draftOffer" role="status"
+            class="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-sm text-amber-900">
+            <span>{{ $t('journalDraft.offer', { time: draftTime(state.draftOffer.savedAt) }) }}</span>
+            <span class="flex gap-3">
+                <button type="button" class="font-semibold underline" @click="restoreDraft">{{ $t('journalDraft.restore') }}</button>
+                <button type="button" class="underline" @click="discardDraft">{{ $t('journalDraft.discard') }}</button>
+            </span>
+        </div>
         <div class="space-y-3" :class="{ 'pointer-events-none select-text opacity-90': props.readonly }">
-            <div v-if="state.isAutoSaving" class="flex items-center gap-x-1">
+            <div v-if="state.saveFailed" class="flex items-center gap-x-1 text-red-600">
+                <Icon name="ph:warning-circle" class="w-5 h-5" />
+                <span class="text-base">{{ $t('citizens.citizenJournals.form.autosaveFailed') }}</span>
+            </div>
+            <div v-else-if="state.isAutoSaving" class="flex items-center gap-x-1">
                 <Icon name="ph:spinner" class="w-5 h-5 spin" />
                 <div>
                     <span class="text-base">
@@ -42,7 +55,7 @@
                 </div>
                 <div class="space-y-1">
                     <FormLabel for="date" :label="$t('citizens.citizenJournals.form.date')" />
-                    <FormDateField id="date" name="date" placeholder="Date" v-model="state.formJournal.date" />
+                    <FormDateField id="date" name="date" :placeholder="$t('forms.fields.date')" v-model="state.formJournal.date" />
                     <FormError :error="v$?.formJournal?.date?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.date?.[0]" />
                 </div>
@@ -90,18 +103,6 @@
                         <p class="text-gray-500">{{ entry.question }}</p>
                         <p class="font-medium">{{ entry.answer }}</p>
                     </div>
-                </div>
-            </div>
-            <div class="space-y-3" v-if="state.pendingSurveys.length > 0">
-                <p class="text-sm font-medium text-gray-700">
-                    {{ $t('citizens.citizenJournals.form.attachedSurveys') }}
-                </p>
-                <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
-                    class="bg-gray-50 rounded-md p-4 space-y-3">
-                    <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
-                    <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
-                        :questions="assignment?.survey?.questions ?? []"
-                        :answers="state.surveyAnswers[assignment.uuid]" />
                 </div>
             </div>
             <!-- The level feeds the development graph, which is a care-plan measure. -->
@@ -218,7 +219,8 @@
                     </div>
                 </div>
                 <div class="co-editor">
-                    <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"></ckeditor>
+                    <ckeditor :editor="editor" v-model="state.formJournal.content" :config="editorContentConfig"
+                        @ready="onContentEditorReady" @focus="contentEditorUsed = true"></ckeditor>
                     <!-- The audit's "always review AI output" reminder belongs where the
                     text was generated, not only in the assistant. -->
                     <p v-if="state.formJournal.is_ai_used"
@@ -230,6 +232,29 @@
                 <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
+            </div>
+            <!-- A questionnaire the patient has not answered yet. It used to sit open above the note, so
+                 writing a note meant scrolling past every question first (Trium). The journal page now warns
+                 about it; here it stays folded under the note, for staff who fill it in with the patient. -->
+            <div class="rounded-lg border border-amber-200 bg-amber-50" v-if="state.pendingSurveys.length > 0"
+                data-testid="journal-pending-surveys">
+                <button type="button" class="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm text-amber-900"
+                    :aria-expanded="state.isPendingSurveysOpen" @click="state.isPendingSurveysOpen = !state.isPendingSurveysOpen">
+                    <span class="flex items-center gap-2">
+                        <Icon name="ph:clipboard-text" class="size-4 shrink-0" aria-hidden="true" />
+                        {{ $t('citizens.citizenJournals.form.fillPendingSurveys', { count: state.pendingSurveys.length }) }}
+                    </span>
+                    <Icon :name="state.isPendingSurveysOpen ? 'ph:caret-up' : 'ph:caret-down'" class="size-4 shrink-0" aria-hidden="true" />
+                </button>
+                <div v-if="state.isPendingSurveysOpen" class="space-y-3 border-t border-amber-200 bg-white p-3 rounded-b-lg">
+                    <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
+                        class="bg-gray-50 rounded-md p-4 space-y-3">
+                        <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
+                        <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
+                            :questions="assignment?.survey?.questions ?? []"
+                            :answers="state.surveyAnswers[assignment.uuid]" />
+                    </div>
+                </div>
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
@@ -416,6 +441,18 @@
                     {{ $t('citizens.citizenJournals.form.draft') }}
                 </div>
             </div>
+            <!-- Internal notes are hidden from the roles an Admin has marked "cannot see
+                 internal notes". Only the author or an Admin may change it. -->
+            <div class="space-y-1">
+                <div class="w-fit flex items-center"
+                    :class="canChangeInternal ? 'cursor-pointer' : 'cursor-not-allowed opacity-60'"
+                    @click="canChangeInternal && (state.formJournal.is_internal = !state.formJournal.is_internal)">
+                    <FormCheckbox id="is_internal" :value="state.formJournal.is_internal" />
+                    {{ $t('citizens.citizenJournals.form.internal') }}
+                </div>
+                <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.internalHelp') }}</p>
+                <FormError :error="props?.error?.errors?.is_internal?.[0]" />
+            </div>
             <div class="space-y-1" v-if="isDentalClinic">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.is_visible_to_patient = !state.formJournal.is_visible_to_patient">
@@ -458,6 +495,9 @@
 
         <ModulesUserJournalContentModalSelect :isModalOpen="state.modal.isSelectJournalContent"
             @close="state.modal.isSelectJournalContent = false" @select="onSelectJournalContent" />
+        <ModulesUserJournalContentModalChoices :isModalOpen="state.modal.isChoosingJournalContent"
+            :content="state.choicesContent" @close="state.modal.isChoosingJournalContent = false"
+            @insert="onChoicesInsert" />
 
         <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
             :title="$t('citizens.documents.upgradeStorage')"
@@ -539,6 +579,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+import { countChoiceLists } from '@/composables/journalChoiceLists'
+import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
 
 const { isAtLeast } = usePermissions()
 
@@ -559,8 +601,13 @@ const props = defineProps({
         type: Boolean,
         default: false,
     },
+    /** The citizen a new note is for. Turns on the tab-local draft (composables/journalNoteDraft.ts). */
+    draftCitizenUuid: {
+        type: String,
+        default: null,
+    },
 })
-const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected'])
+const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm', 'planGoalSubgoalSelected', 'dirtyChange'])
 const citizenStore = useCitizenStore() as any
 const departmentStore = useDepartmentStore() as any
 const userStore = useUserStore() as any
@@ -589,6 +636,9 @@ const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any
 const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
+// Bumped on every edit, so a save that was in flight while the person kept
+// typing does not clear the changes it did not contain.
+let changeVersion = 0
 let isInitialized = true
 let suppressChangeTracking = true
 // Tracks the template text last auto-inserted from a selected title, so
@@ -636,6 +686,8 @@ const editorNoteConfig = ref({
 
 const state = reactive({
     isAutoSaving: false,
+    saveFailed: false,
+    isSaveInFlight: false,
     error: {} as Error,
     formJournal: {
         id: '',
@@ -654,6 +706,7 @@ const state = reactive({
         risk_assessment_subgoal: '',
         title: '',
         is_draft: false,
+        is_internal: false,
         is_visible_to_patient: false,
         is_ai_used: false,
         assessment: null,
@@ -674,14 +727,19 @@ const state = reactive({
     // only used to explain what unticking the box does.
     linkedToPlan: false,
     pendingSurveys: [] as any[],
+    isPendingSurveysOpen: false,
     surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
+    draftOffer: null as JournalNoteDraft | null,
     modal: {
         isAddJournalNoteTagsOpen: false,
         isUpgradeStorageOpen: false,
         isSelectJournalContent: false,
+        isChoosingJournalContent: false,
         isAiGeneratePreviewOpen: false,
     },
+    // A predefined text with choice lists, while its options are being chosen.
+    choicesContent: '',
     // Audit P2.1/P2.2: lets the user see and deselect specific journals/plans
     // before AI generation, rather than the AI silently having access to
     // everything with no visibility or control.
@@ -1082,6 +1140,7 @@ watch(() => state.formJournal, () => {
 
     // Only mark changes for update form
     if (props.formType === 'update') {
+        changeVersion++
         state.hasChanges = true
         state.isAutoSaving = true
     }
@@ -1123,6 +1182,7 @@ async function setFormJournalFromSelected(journal: any) {
         risk_assessment_subgoal: '',
         title: journal.title,
         is_draft: journal.is_draft,
+        is_internal: journal.is_internal ?? false,
         is_visible_to_patient: journal.is_visible_to_patient ?? false,
         is_ai_used: journal.is_ai_used ?? false,
         assessment: journal.assessment,
@@ -1219,13 +1279,33 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function submitForm() {
+    // An autosave tick must not start a second request while one is in flight;
+    // an explicit Save always goes through.
+    if (state.isSaveInFlight && state.isAutoSaving) return
     v$.value.$validate()
     if (missingRequiredSurveyQuestions().length > 0) {
         state.error = { message: `${t('validation.thisFieldIsRequired')}.` } as any
         return
     }
     if (!v$.value.$error && state.hasChanges) {
-        state.hasChanges = false
+        const versionAtSend = changeVersion
+        // Only the autosaving edit form tracks the result; create forms close
+        // on success and keep their data on failure, as before.
+        const tracked = props.formType === 'update'
+        if (tracked) state.isSaveInFlight = true
+        else state.hasChanges = false
+        // hasChanges stays true until the parent reports success, so the form
+        // never shows "saved" for a request that failed or is still running.
+        const done = (ok: boolean) => {
+            state.isSaveInFlight = false
+            if (ok) {
+                state.saveFailed = false
+                if (changeVersion === versionAtSend) state.hasChanges = false
+            } else {
+                state.saveFailed = true
+                state.hasChanges = true
+            }
+        }
         emit('submitForm', {
             isAutoSaving: state.isAutoSaving,
             formJournal: state.formJournal,
@@ -1233,6 +1313,7 @@ function submitForm() {
             // Only sent when the ruler is shown, so saving from a form without
             // it leaves the note's scores alone.
             ...(isWellbeingRulerEnabled.value ? { wellbeing_scores: wellbeingPayload() } : {}),
+            ...(tracked ? { done } : {}),
         })
     }
 }
@@ -1242,10 +1323,68 @@ function closeUpgradeStorageModal() {
     state.error = {}
 }
 
+// The content editor itself, kept out of Vue's reactivity: CKEditor must not
+// be proxied. Used to insert a predefined text where the cursor is.
+let contentEditor: any = null
+const contentEditorUsed = ref(false)
+
+function onContentEditorReady(editor: any) {
+    contentEditor = editor
+}
+
+// A predefined text with choice lists ("{tablet | serum}") asks for the
+// options first; one without goes straight in.
 function onSelectJournalContent(selected: any) {
-    state.formJournal.content = selected.content
     state.modal.isSelectJournalContent = false
+    if (countChoiceLists(selected?.content) > 0) {
+        state.choicesContent = selected.content
+        state.modal.isChoosingJournalContent = true
+        return
+    }
+    insertJournalContent(selected?.content ?? '')
+}
+
+function onChoicesInsert(html: string) {
+    state.modal.isChoosingJournalContent = false
+    insertJournalContent(html)
+}
+
+// Into the note where the cursor is, keeping what is already written, so
+// several predefined texts can make up one note. It used to replace the whole
+// content. Before the editor has been clicked into, the text goes at the end.
+function insertJournalContent(html: string) {
+    if (!html) return
+    if (!contentEditor || !state.formJournal.content) {
+        state.formJournal.content = html
+    } else {
+        const model = contentEditor.model
+        if (!contentEditorUsed.value) {
+            model.change((writer: any) => writer.setSelection(writer.createPositionAt(model.document.getRoot(), 'end')))
+        }
+        const fragment = contentEditor.data.toModel(contentEditor.data.processor.toView(html))
+        const range = model.insertContent(fragment)
+        keepWordsApart(model, range)
+    }
     state.userPredefinedContents = true
+}
+
+// Inserted text that lands against a word on either side would run into it
+// ("serum" + "Slut."), so a space goes in where one is missing. Punctuation
+// is left alone: no space before a full stop or after an opening bracket.
+function keepWordsApart(model: any, range: any) {
+    if (!range) return
+    // The characters of a block, with anything that is not text (an image, a line break) as a placeholder.
+    const charAt = (parent: any, offset: number) => {
+        if (!parent || offset < 0) return ''
+        const chars = Array.from(parent.getChildren()).map((child: any) => (child.is('$text') ? child.data : '\u0000')).join('')
+        return chars.charAt(offset)
+    }
+    const after = charAt(range.end.parent, range.end.offset)
+    const before = charAt(range.start.parent, range.start.offset - 1)
+    model.change((writer: any) => {
+        if (after && after !== '\u0000' && !/[\s.,;:!?)\]}]/.test(after)) writer.insertText(' ', range.end)
+        if (before && before !== '\u0000' && !/[\s(\[{]/.test(before)) writer.insertText(' ', range.start)
+    })
 }
 
 const triggerContentFileInput = () => {
@@ -1557,6 +1696,51 @@ watch(dictation.error, (problem) => {
 // The panel never touches the editor: it only asks, and the answer lands here.
 const assistantStore = useAssistantStore()
 
+// ─── Draft of a new note (create only) ─────────────────────────
+const draftStorageKey = computed(() => props.formType === 'create'
+    ? draftKey(userStore.getUser?.uuid, props.draftCitizenUuid)
+    : null)
+let draftTimer: ReturnType<typeof setTimeout> | null = null
+
+function draftTime(savedAt: number): string {
+    return new Date(savedAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+}
+
+function restoreDraft() {
+    const draft = state.draftOffer
+    if (!draft) return
+    // Title first: picking a saved title can fill in its content template, which the restored
+    // text must then win over.
+    state.formJournal.title = draft.title
+    nextTick(() => {
+        state.formJournal.content = draft.content
+        state.formJournal.note = draft.note
+    })
+    state.draftOffer = null
+}
+
+function discardDraft() {
+    clearDraft(sessionStorage, draftStorageKey.value)
+    state.draftOffer = null
+}
+
+onMounted(() => {
+    if (!draftStorageKey.value || props.readonly) return
+    state.draftOffer = loadDraft(sessionStorage, draftStorageKey.value)
+})
+
+watch(() => [state.formJournal.title, state.formJournal.content, state.formJournal.note], () => {
+    if (props.formType !== 'create' || props.readonly) return
+    const dirty = hasWriting(state.formJournal)
+    emit('dirtyChange', dirty)
+    // While a draft is on offer, typing must not overwrite it before the user has chosen.
+    if (!draftStorageKey.value || state.draftOffer) return
+    if (draftTimer) clearTimeout(draftTimer)
+    draftTimer = setTimeout(() => saveDraft(sessionStorage, draftStorageKey.value, state.formJournal), 800)
+})
+
+onBeforeUnmount(() => { if (draftTimer) clearTimeout(draftTimer) })
+
 onMounted(() => assistantStore.offerInsertTarget(t('sidebar.journalNotes')))
 onBeforeUnmount(() => assistantStore.withdrawInsertTarget())
 
@@ -1632,6 +1816,12 @@ async function fetchAllTeeth() {
     }
     emit('isPageLoading', false)
 }
+
+// Who marks a note internal decides who reads it, so the author or an Admin
+// may change it. A new note is always the current user's own.
+const canChangeInternal = computed(() => props.formType === 'create'
+    || isAtLeast('Admin')
+    || (props.selectedJournal as any)?.user?.uuid === userStore.getUser?.uuid)
 
 async function fetchColleagues() {
     try {

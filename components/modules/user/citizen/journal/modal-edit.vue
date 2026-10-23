@@ -18,13 +18,14 @@
 
 <script setup lang="ts">
 import { journalService } from '@/components/api/user/JournalService'
-import { surveyService } from '@/components/api/user/SurveyService'
+import { useSurveyCompletion } from '@/composables/useSurveyCompletion'
 import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
+const { completeAnsweredSurveys } = useSurveyCompletion()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -69,6 +70,7 @@ async function updateJournal(journalDetails: any) {
             ...journalNotePlanLinkParams(journalDetails.formJournal, true),
             journal_note_tags_uuid: journalDetails.formJournal.journal_note_tags,
             is_draft: journalDetails.formJournal.is_draft,
+            is_internal: journalDetails.formJournal.is_internal ?? false,
             is_visible_to_patient: journalDetails.formJournal.is_visible_to_patient ?? false,
             is_ai_used: journalDetails.formJournal.is_ai_used ?? false,
             assessment: journalDetails.formJournal.assessment,
@@ -91,23 +93,12 @@ async function updateJournal(journalDetails: any) {
                 successAlert(`${t('alert.success')}!`, `${t('citizens.citizenJournals.alert.successfullyUpdated')}.`)
             }
         }
+        journalDetails.done?.(true)
     } catch (error: any) {
         state.error = error
+        journalDetails.done?.(false)
     }
     state.isPageLoading = false
 }
 
-async function completeAnsweredSurveys(journalUuid: string, pendingSurveyAnswers: any[]) {
-    if (!Array.isArray(pendingSurveyAnswers) || pendingSurveyAnswers.length === 0) return
-    for (const entry of pendingSurveyAnswers) {
-        try {
-            await surveyService.completeAssignment(entry.assignment_uuid, {
-                answers: entry.answers,
-                citizen_journal_uuid: journalUuid,
-            })
-        } catch (error: any) {
-            // one survey failing to complete must not block the journal note itself
-        }
-    }
-}
 </script>

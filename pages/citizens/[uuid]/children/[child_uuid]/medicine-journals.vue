@@ -113,6 +113,8 @@
                                 }}
                                 {{ alarm.medicineName }} — {{ $t('citizens.medicineJournals.page.scheduledAt') }}
                                 {{ alarm.time }}
+                                <ModulesUserCitizenMedicineSelfAdministeredBadge v-if="alarm.medicine?.is_self_administered"
+                                    class="ml-1 align-middle" />
                             </p>
                             <p
                                 :class="['text-xs mt-0.5', alarm.type === 'overdue' ? 'text-red-600' : 'text-amber-600']">
@@ -122,7 +124,9 @@
                         <button v-if="alarm.type === 'overdue'"
                             class="shrink-0 text-xs bg-red-600 text-white px-3 py-1.5 rounded-lg hover:bg-red-700 transition-colors"
                             @click="quickGive(alarm)">
-                            {{ $t('citizens.medicineJournals.page.giveNow') }}
+                            {{ alarm.medicine?.is_self_administered
+                                ? $t('citizens.medicineJournals.selfAdministered.handOutNow')
+                                : $t('citizens.medicineJournals.page.giveNow') }}
                         </button>
                     </div>
                 </div>
@@ -188,8 +192,8 @@
                         <FormButton buttonStyle="action" class="rounded-md"
                             @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
                             v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                            <Icon name="mdi:cloud-refresh-outline" class="h-4 w-4" />
-                            {{ $t('citizens.medicineJournals.synchronizeWithFMK') }}
+                            <Icon name="ph:arrow-square-out" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.openFmkOnline') }}
                         </FormButton>
                         <!-- <FormButton buttonStyle="action" class="rounded-md" @click="state.modal.isAnbrudOpen = true">
                             <Icon name="ph:drop" class="h-4 w-4" />
@@ -374,7 +378,7 @@
                                                 </span>
                                             </Tooltip>
                                             <Tooltip
-                                                v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
+                                                v-if="isFieldVisible('current_stocks') && medicine?.current_stocks !== null && medicine?.current_stocks <= 5 && medicine?.current_stocks >= 0"
                                                 :text="$t('citizens.medicineJournals.page.lowStockOnly', { n: medicine?.current_stocks })">
                                                 <span
                                                     class="inline-flex items-center gap-1 text-xs bg-amber-100 text-amber-700 border border-amber-200 px-1.5 py-0.5 rounded font-medium">
@@ -877,7 +881,7 @@
                                                 {{ medicine?.current_stocks }}
                                             </span>
                                             <Tooltip
-                                                v-if="medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
+                                                v-if="isFieldVisible('current_stocks') && medicine?.current_stocks !== null && medicine?.current_stocks <= 5"
                                                 :text="$t('citizens.medicineJournals.page.lowStock')">
                                                 <Icon name="ph:warning" class="size-4 text-amber-500" />
                                             </Tooltip>
@@ -1035,6 +1039,7 @@
 import moment from 'moment'
 import { medicineJournalService } from '@/components/api/user/MedicineJournalService'
 import { medicineHistoryService } from '@/components/api/user/MedicineHistoryService'
+import { formFieldConfigService } from '@/components/api/user/FormFieldConfigService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { medicineDoseTiming } from '@/composables/medicineDoseTiming'
@@ -1159,12 +1164,33 @@ const state = reactive({
 
 let clockInterval: any
 
+// Whether the "Current stocks" field is switched on for this company
+// (Settings > Medicine form fields). A company that doesn't track stock at
+// all shouldn't see stock-derived low-stock warnings either.
+const medicineFormConfig = ref<Record<string, boolean>>({})
+
+function isFieldVisible(fieldKey: string): boolean {
+    if (Object.keys(medicineFormConfig.value).length === 0) return true
+    return medicineFormConfig.value[fieldKey] !== false
+}
+
+async function fetchMedicineFormConfig() {
+    try {
+        const response = await formFieldConfigService.getFormConfigs({ entity_type: 'citizen_medicine' })
+        const config = response?.data?.find((c: any) => c.form_type === 'edit')
+        if (config?.form_fields) {
+            medicineFormConfig.value = config.form_fields
+        }
+    } catch (e) { /* silent — all fields visible on error */ }
+}
+
 onMounted(() => {
     citizenMedicineStore.setFilterMedicationType('all')
     // The store is persisted, so a selection can outlive the page it was made on
     // (another citizen, or a closed tab). Start clean.
     citizenMedicineStore.resetSelectedMedicine()
     fetchCitizenMedicines()
+    fetchMedicineFormConfig()
     clockInterval = setInterval(() => { state.now = new Date() }, 60_000)
 })
 
@@ -1290,7 +1316,11 @@ const alarmBanners = computed(() => {
                 if (d?.status) return
                 if (isMissed(d?.time)) {
                     const mins = minutesSince(d?.time)
-                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.medicineIsOverdue', { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
+                    // A self-administered medicine is handed out, not given (task #115).
+                    const overdueKey = m?.is_self_administered
+                        ? 'citizens.medicineJournals.selfAdministered.overdue'
+                        : 'citizens.medicineJournals.page.medicineIsOverdue'
+                    banners.push({ uuid: `${m.uuid}_${d.time}`, type: 'overdue', medicineName: name, time: d.time, message: t(overdueKey, { time: formatMinutesSince(mins) }), medicine: m, dosage: d })
                 } else if (isDueSoon(d?.time)) {
                     banners.push({ uuid: `${m.uuid}_${d.time}_soon`, type: 'soon', medicineName: name, time: d.time, message: t('citizens.medicineJournals.page.dueInMinutes', { minutes: minutesUntil(d?.time) }) })
                 }

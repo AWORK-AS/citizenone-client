@@ -80,7 +80,7 @@ describe('Milo opens with questions about the page', () => {
         const plugin = read('plugins/obiyen-chat.client.ts')
         assert.match(plugin, /nuxtApp\.hook\('app:mounted', \(\) => \{\n\s*suggestInApp\(\)/)
         assert.match(plugin, /\(nuxtApp as any\)\.\$i18nGlobal/) // plugins/i18n.ts provides it; there is no $i18n
-        assert.match(plugin, /if \(to\.path !== from\.path\) suggestInApp\(\)/)
+        assert.match(plugin, /if \(to\.path !== from\.path\) \{\n\s*suggestInApp\(\)/)
         // Discreet: never opens on its own inside the app.
         assert.match(plugin, /s\.setAttribute\("data-proactive", "off"\)/)
         assert.match(chat, /t\('helpGuide\.miloHelpLabel'\)/)

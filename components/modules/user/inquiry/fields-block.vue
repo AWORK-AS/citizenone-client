@@ -135,8 +135,10 @@
             </div>
         </section>
 
-        <!-- Nothing to save until something actually changed. -->
-        <div v-if="isDirty" class="flex items-center justify-end gap-3 border-t border-surface-200 pt-4">
+        <!-- Nothing to save until something actually changed. Inside the edit
+             form the form's own button saves these too, so this bar would be a
+             second way to do the same thing. -->
+        <div v-if="isDirty && !props.embedded" class="flex items-center justify-end gap-3 border-t border-surface-200 pt-4">
             <FormButton type="button" buttonStyle="cancel" @click="reset">
                 {{ $t('cancel') }}
             </FormButton>
@@ -154,6 +156,7 @@
 <script setup lang="ts">
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
 import { useAlert } from '@/composables/alert'
+import { lookupOptionLabel, sortByLabel } from '@/composables/spokenLanguageNames'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useI18n } from 'vue-i18n'
 
@@ -163,11 +166,23 @@ const { t, locale } = useI18n()
 const props = defineProps({
     inquiryUuid: {
         type: String,
-        required: true,
+        default: '',
+    },
+    // Set instead of inquiryUuid to show the fields carried over to an
+    // indsats, kept on the citizen and saved there.
+    citizenUuid: {
+        type: String,
+        default: '',
+    },
+    // Part of the inquiry's edit form: saved by that form's button, which
+    // also says it worked, instead of by a bar of its own.
+    embedded: {
+        type: Boolean,
+        default: false,
     },
 })
 
-const emit = defineEmits(['saved'])
+const emit = defineEmits(['saved', 'loaded'])
 
 const WIDE_TYPES = ['textarea', 'multiselect']
 
@@ -196,7 +211,19 @@ onMounted(() => {
     fetchFields()
 })
 
-watch(() => props.inquiryUuid, () => fetchFields())
+watch(() => [props.inquiryUuid, props.citizenUuid], () => fetchFields())
+
+function loadFields() {
+    return props.citizenUuid
+        ? inquiryFieldService.getCitizenFields(props.citizenUuid)
+        : inquiryFieldService.getFields(props.inquiryUuid)
+}
+
+function storeFields(answers: Record<string, any>) {
+    return props.citizenUuid
+        ? inquiryFieldService.saveCitizenFields(props.citizenUuid, answers)
+        : inquiryFieldService.saveFields(props.inquiryUuid, answers)
+}
 
 function normalisedDraft(source: Record<string, any>) {
     // Sort the keys so two equal sets of answers always stringify the same way.
@@ -213,10 +240,18 @@ function isWide(field: any) {
 }
 
 function lookupOptions(field: any) {
-    return (field.lookup_options ?? []).map((option: any) => ({
-        value: option.uuid,
-        label: option.is_special ? `${option.label} (${t('inquiryOffer.specialLanguage').toLowerCase()})` : option.label,
-    }))
+    const options = (field.lookup_options ?? []).map((option: any) => {
+        const label = lookupOptionLabel(option, locale.value)
+
+        return {
+            value: option.uuid,
+            label: option.is_special ? `${label} (${t('inquiryOffer.specialLanguage').toLowerCase()})` : label,
+        }
+    })
+
+    // Spoken languages read in the order of the names shown (Danish for a Danish
+    // user); every other register keeps the order the server chose for it.
+    return field.options?.source === 'spoken_languages' ? sortByLabel(options, locale.value) : options
 }
 
 // The lookup field a new customer department is being created for.
@@ -245,7 +280,7 @@ function specialChosen(field: any): string[] {
 
     return (field.lookup_options ?? [])
         .filter((option: any) => option.is_special && chosen.includes(option.uuid))
-        .map((option: any) => option.label)
+        .map((option: any) => lookupOptionLabel(option, locale.value))
 }
 
 function choiceOptions(field: any) {
@@ -326,14 +361,15 @@ function groupFields(fields: any[]) {
     for (const field of fields) {
         // A field with no stage is asked for throughout, so it is grouped on its
         // own rather than attached to whichever stage happens to come first.
-        const key = field.stage?.uuid ?? 'always'
+        // On the citizen the stages are over, so the fields read as one group.
+        const key = props.citizenUuid ? 'citizen' : (field.stage?.uuid ?? 'always')
         let group = groups.find((candidate) => candidate.key === key)
 
         if (!group) {
             group = {
                 key,
-                title: field.stage?.name ?? t('inquiryFields.appliesThroughout'),
-                color: field.stage?.color ?? null,
+                title: props.citizenUuid ? t('citizenFields.title') : (field.stage?.name ?? t('inquiryFields.appliesThroughout')),
+                color: props.citizenUuid ? null : (field.stage?.color ?? null),
                 fields: [],
             }
             groups.push(group)
@@ -347,7 +383,7 @@ function groupFields(fields: any[]) {
 
 async function fetchFields() {
     try {
-        const response = await inquiryFieldService.getFields(props.inquiryUuid)
+        const response = await loadFields()
         state.fields = response?.data ?? []
         state.groups = groupFields(state.fields)
 
@@ -362,13 +398,16 @@ async function fetchFields() {
         state.fields = []
         state.groups = []
     }
+    // How many fields there are, so a page can leave out the frame around none.
+    emit('loaded', state.fields.length)
 }
 
 function reset() {
     draft.value = { ...loaded.value }
 }
 
-async function save() {
+async function save(): Promise<boolean> {
+    let saved = false
     state.isSaving = true
     try {
         // Only what changed is sent, so a field another user filled in meanwhile
@@ -380,7 +419,7 @@ async function save() {
             }
         }
 
-        const response = await inquiryFieldService.saveFields(props.inquiryUuid, changed)
+        const response = await storeFields(changed)
         state.fields = response?.data ?? state.fields
         state.groups = groupFields(state.fields)
 
@@ -391,11 +430,19 @@ async function save() {
         loaded.value = answers
         draft.value = { ...answers }
 
-        successAlert(`${t('alert.success')}!`, `${t('inquiryFields.alert.saved')}.`)
+        if (!props.embedded) {
+            successAlert(`${t('alert.success')}!`, `${t('inquiryFields.alert.saved')}.`)
+        }
         emit('saved')
+        saved = true
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryFields.alert.saveFailed'))
     }
     state.isSaving = false
+
+    return saved
 }
+
+// The edit form saves these with its own button.
+defineExpose({ save, isDirty })
 </script>

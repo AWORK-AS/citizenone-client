@@ -38,7 +38,7 @@ export function permissionGroup(name: string): string {
     if (/citizen_calendar|schedule/.test(name) || name === 'delete_calendar') return 'calendar'
     if (/citizen_economy/.test(name)) return 'economy'
     if (/citizen_contact|citizen_children/.test(name)) return 'contact'
-    if (/referral|report/.test(name)) return 'reports'
+    if (/referral|report|epikrise/.test(name)) return 'reports'
     if (CITIZEN_LEVEL.has(name)) return 'citizen'
     return 'other'
 }

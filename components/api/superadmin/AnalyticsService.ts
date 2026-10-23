@@ -10,6 +10,13 @@ class AnalyticsService extends BaseAPIService {
 
     // What today's agreements are scheduled to bill, month by month, N years
     // ahead. Money, so view_financials only.
+    // The growth funnel: of the companies that signed up between from and to,
+    // how many got their own citizens in, wrote a first note and pay today,
+    // per signup channel. view_management.
+    async getFunnel(params: { from: string, to: string }): Promise<any> {
+        return await this.request(`/superadmin/analytics/funnel`, 'GET', params)
+    }
+
     async getRevenueForecast(years: number): Promise<any> {
         return await this.request(`/superadmin/analytics/revenue-forecast`, 'GET', { years })
     }

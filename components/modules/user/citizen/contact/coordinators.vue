@@ -14,7 +14,7 @@
 
         <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" class="mt-3" />
 
-        <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        <div class="mt-4 grid grid-cols-1 gap-4 md:grid-cols-3">
             <div class="space-y-1" v-for="role in ROLES" :key="role.key">
                 <FormLabel :for="`coordinator_${role.key}`" :label="$t(role.label)" />
 
@@ -65,15 +65,16 @@ const { isAtLeast, can } = usePermissions()
 const ROLES = [
     { key: 'primary', label: 'citizens.coordinators.primary' },
     { key: 'secondary', label: 'citizens.coordinators.secondary' },
+    { key: 'intake', label: 'citizens.coordinators.intake' },
 ] as const
 
 const canEdit = computed(() => isAtLeast('Admin') || can('update_citizen_contact'))
 
 const state = reactive({
-    coordinators: { primary: null as any, secondary: null as any },
+    coordinators: { primary: null as any, secondary: null as any, intake: null as any },
     employeeOptions: [] as any[],
     error: {} as Error,
-    form: { primary: null as string | null, secondary: null as string | null },
+    form: { primary: null as string | null, secondary: null as string | null, intake: null as string | null },
     isEditing: false,
     isSaving: false,
 })
@@ -83,10 +84,7 @@ onMounted(() => {
 })
 
 function coordinatorName(role: string) {
-    const contact = (state.coordinators as any)[role]
-    if (!contact) return ''
-
-    return `${contact.firstname ?? ''} ${contact.lastname ?? ''}`.trim()
+    return contactDisplayName((state.coordinators as any)[role])
 }
 
 async function fetchCoordinators() {
@@ -96,6 +94,7 @@ async function fetchCoordinators() {
         state.coordinators = {
             primary: response?.data?.primary ?? null,
             secondary: response?.data?.secondary ?? null,
+            intake: response?.data?.intake ?? null,
         }
     } catch (error: any) {
         state.error = error
@@ -110,6 +109,7 @@ async function startEditing() {
     state.form = {
         primary: state.coordinators.primary?.employee?.uuid ?? null,
         secondary: state.coordinators.secondary?.employee?.uuid ?? null,
+        intake: state.coordinators.intake?.employee?.uuid ?? null,
     }
     state.isEditing = true
 
@@ -138,10 +138,12 @@ async function save() {
         const response = await citizenContactService.updateCoordinators(props.citizenUuid, {
             primary_user_uuid: state.form.primary,
             secondary_user_uuid: state.form.secondary,
+            intake_user_uuid: state.form.intake,
         })
         state.coordinators = {
             primary: response?.data?.primary ?? null,
             secondary: response?.data?.secondary ?? null,
+            intake: response?.data?.intake ?? null,
         }
         state.isEditing = false
         successAlert(`${t('alert.success')}!`, `${t('citizens.coordinators.saved')}.`)

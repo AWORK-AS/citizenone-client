@@ -4,11 +4,11 @@
             <template #modal-body>
                 <div class="space-y-4" v-if="contact">
                     <div class="flex items-center gap-x-3">
-                        <img :src="contact?.employee?.image ?? avatarUrl(`${(contact?.firstname || '') + ' ' + (contact?.lastname || '')}`)"
+                        <img :src="contact?.employee?.image ?? avatarUrl(contactDisplayName(contact))"
                             class="rounded-full w-14 h-14 object-cover border-2 border-tertiary/40" />
                         <div>
                             <p class="text-base font-semibold text-gray-900">
-                                {{ contact?.firstname }} {{ contact?.lastname }}
+                                {{ contactDisplayName(contact) }}
                             </p>
                             <p class="text-xs text-gray-500" v-if="roleLabel">{{ roleLabel }}</p>
                         </div>

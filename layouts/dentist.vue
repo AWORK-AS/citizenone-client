@@ -71,7 +71,7 @@
                                         </li>
                                         <li class="mt-auto space-y-2">
                                             <ModulesDentistSidebarSubscribeButton
-                                                v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
+                                                v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null" />
                                             <ModulesDentistSidebarCompanyId />
                                         </li>
                                     </ul>
@@ -160,7 +160,7 @@
                     </div>
                     <div class="flex items-center gap-x-1 lg:gap-x-3">
                         <ModulesUserNavbarSubscribeButton
-                            v-if="state.showSubscribeButton && userStore.getUser?.user_subscription === null"
+                            v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/dentist/journal-notifications')">
@@ -231,6 +231,16 @@
                                             </div>
                                         </div>
                                     </MenuItem>
+                                    <!-- Task #33: contracts sent to the employee to read and sign. -->
+                                    <MenuItem>
+                                        <div @click="navigateTo('/my-contracts')" data-testid="menu-my-contracts"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:signature" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('myContracts.title') }}
+                                            </div>
+                                        </div>
+                                    </MenuItem>
                                     <MenuItem>
                                         <div @click="navigateTo('/employees')"
                                             class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
@@ -273,6 +283,15 @@
                                             <div class="flex items-center gap-x-3">
                                                 <Icon name="ph:list-checks" class="h-5 w-5" aria-hidden="true" />
                                                 {{ $t('navbar.procedures') }}
+                                            </div>
+                                        </div>
+                                    </MenuItem>
+                                    <MenuItem>
+                                        <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
+                                            class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <div class="flex items-center gap-x-3">
+                                                <Icon name="ph:share-network" class="h-5 w-5" aria-hidden="true" />
+                                                {{ $t('navbar.shareCitizenOne') }}
                                             </div>
                                         </div>
                                     </MenuItem>
@@ -340,6 +359,8 @@
             @close="state.slideOver.isLanguageSwitcherOpen = false" />
         <ModulesDentistSupportSlideOver :isOpen="state.slideOver.isSupportOpen"
             @close="state.slideOver.isSupportOpen = false" />
+        <ModulesUserPlatformShareModal :isModalOpen="state.modal.isPlatformShareOpen"
+            @close="state.modal.isPlatformShareOpen = false" v-if="state.modal.isPlatformShareOpen" />
         <ModulesDentistWishListModalContactUs :isModalOpen="state.modal.isContactUsOpen"
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
     </LoadingSpinner>
@@ -369,6 +390,7 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
+const showUpgrade = useCanPurchase()
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 
@@ -393,6 +415,7 @@ const state = reactive({
     isPageLoading: false,
     modal: {
         isContactUsOpen: false,
+        isPlatformShareOpen: false,
     },
     showSubscribeButton: false,
     slideOver: {

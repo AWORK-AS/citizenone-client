@@ -145,6 +145,16 @@
 
                     <!-- Who fits, and how well -->
                     <div class="space-y-3 lg:col-span-2">
+                        <!-- Finds a consultant by name among everyone the match returns,
+                             whatever the criteria say about them. -->
+                        <div class="relative">
+                            <Icon name="ph:magnifying-glass"
+                                class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                            <input id="match-name" v-model="state.nameQuery" type="search"
+                                :placeholder="$t('consultantMatch.nameSearch')" :aria-label="$t('consultantMatch.nameSearch')"
+                                class="w-full rounded-lg border border-gray-200 bg-white py-2 pl-9 pr-3 text-sm focus:border-secondary focus:outline-none"
+                                @focus="!state.hasSearched && !state.isSearching && search()" />
+                        </div>
                         <div v-if="state.hasSearched" class="flex flex-wrap items-center justify-between gap-3">
                             <p class="text-xs text-slate-400">
                                 {{ $t('consultantMatch.resultSummary', {
@@ -169,12 +179,12 @@
                             </FormButton>
                         </div>
 
-                        <p v-if="state.hasSearched && !state.results.length"
+                        <p v-if="state.hasSearched && !shownResults.length"
                             class="rounded-lg border border-gray-200 bg-white px-4 py-6 text-sm text-gray-400">
                             {{ $t('consultantMatch.noConsultants') }}
                         </p>
 
-                        <div v-for="result in state.results" :key="result.uuid"
+                        <div v-for="result in shownResults" :key="result.uuid"
                             class="rounded-lg border bg-white p-4"
                             :class="result.match === 'full' ? 'border-[#1f9d6b]/40' : 'border-gray-200'">
                             <div class="flex flex-wrap items-start justify-between gap-3">
@@ -200,8 +210,16 @@
                                             class="rounded-full bg-[#fbe9e5] px-2.5 py-[3px] text-[11.5px] font-bold text-[#c0442c]">
                                             {{ $t('consultantMatch.notReady') }}
                                         </span>
-                                        <!-- Distance from the case to her home; approximate
-                                             when her home is only known by postal code. -->
+                                        <!-- Archived consultants are matched too ("Inaktiv - kan kontaktes");
+                                             this says they have to be reactivated and given a licence
+                                             before the case. Whoever must not be contacted never
+                                             comes back from the match. -->
+                                        <span v-if="result.is_archived" :title="$t('consultantMatch.archivedHint')"
+                                            class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
+                                            {{ $t('consultantMatch.archived') }}
+                                        </span>
+                                        <!-- Distance from the case to their home; approximate
+                                             when their home is only known by postal code. -->
                                         <span v-if="state.locationGeocoded"
                                             class="inline-flex items-center gap-1 rounded-full px-2.5 py-[3px] text-[11.5px] font-bold"
                                             :class="distanceClass(result)">
@@ -224,7 +242,7 @@
                                 </NuxtLink>
                             </div>
 
-                            <!-- What she does not meet is the reason she is not a
+                            <!-- What they do not meet is the reason they are not a
                                  full match, so it is stated rather than implied. -->
                             <div v-if="result.unmet.length" class="mt-3 flex flex-wrap gap-1.5">
                                 <span v-for="key in result.unmet" :key="key"
@@ -261,6 +279,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useAlert } from '@/composables/alert'
+import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
@@ -268,6 +287,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t } = useI18n()
+const { labelFor, toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
 
@@ -329,6 +349,7 @@ const state = reactive({
     municipalities: [] as any[],
     regions: [] as any[],
     results: [] as any[],
+    nameQuery: '',
     picked: [] as string[],
     isInviting: false,
     inquiry: null as any,
@@ -354,7 +375,7 @@ const locationStatus = computed(() => {
 })
 
 const secondaryLanguageName = computed(() =>
-    state.languages.find((l: any) => l.uuid === state.form.secondary_spoken_language_uuid)?.name ?? ''
+    labelFor(state.languages.find((l: any) => l.uuid === state.form.secondary_spoken_language_uuid))
 )
 
 function distanceText(result: any) {
@@ -385,11 +406,22 @@ function setSort(sort: 'match' | 'distance') {
 
 const fullCount = computed(() => state.results.filter((r: any) => r.match === 'full').length)
 
+// Every word typed must be found in the first or last name, so "anna jen" finds Anna Jensen.
+const shownResults = computed(() => {
+    const words = state.nameQuery.toLocaleLowerCase().split(/\s+/).filter(Boolean)
+    if (!words.length) return state.results
+
+    return state.results.filter((r: any) => {
+        const name = `${r.firstname ?? ''} ${r.lastname ?? ''}`.toLocaleLowerCase()
+        return words.every((word) => name.includes(word))
+    })
+})
+
 const municipalityOptions = computed(() =>
     state.municipalities.map((m: any) => ({ value: m.uuid, label: m.name }))
 )
 const regionOptions = computed(() => state.regions.map((r: any) => ({ value: r.uuid, label: r.name })))
-const languageOptions = computed(() => state.languages.map((l: any) => ({ value: l.uuid, label: l.name })))
+const languageOptions = computed(() => toOptions(state.languages))
 const statusOptions = computed(() =>
     ['available', 'partially_available', 'unavailable', 'inactive']
         .map((value) => ({ value, label: t('consultantProfile.statuses.' + value) }))
@@ -442,7 +474,14 @@ async function invite() {
     try {
         const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked)
         state.picked = []
-        successAlert(`${t('alert.success')}!`, response?.message ?? t('consultantMatch.asked'))
+        // An inactive (archived) consultant is asked but gets no mail or app
+        // notice, so the coordinator has to reach them directly. Without
+        // `invitees` (an older backend) the message is as before.
+        const notNotified = (response?.invitees ?? []).filter((invitee: any) => invitee.notified === false).length
+        const message = response?.message ?? t('consultantMatch.asked')
+        successAlert(`${t('alert.success')}!`, notNotified
+            ? `${message} ${t('consultantMatch.notNotified', { count: notNotified }, notNotified)}`
+            : message)
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
     }
@@ -462,6 +501,8 @@ function profileLine(result: any) {
     return [
         p.municipality_name,
         p.consultant_status ? t('consultantProfile.statuses.' + p.consultant_status) : '',
+        // Why they are inactive, e.g. absent.
+        p.status_reason ? t('consultantProfile.contact.reasons.' + p.status_reason) : '',
         p.has_car ? t('consultantProfile.form.hasCar') : '',
         p.max_travel_km ? `${p.max_travel_km} km` : '',
         p.desired_weekly_hours ? `${p.desired_weekly_hours} t/uge` : '',

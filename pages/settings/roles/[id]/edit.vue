@@ -79,6 +79,8 @@ async function fetchRole() {
                 pages: response?.data?.pages ?? [],
                 employee_groups: response?.data?.employee_groups ?? [],
                 level: String(response?.data?.level ?? 20),
+                hide_internal_journals: response?.data?.hide_internal_journals ?? false,
+                sees_hr_data: response?.data?.sees_hr_data ?? false,
             }
             response?.data?.permissions.forEach((permission: any) => {
                 state.formRole.permissions.push(permission?.uuid)
@@ -97,6 +99,8 @@ async function updateRole(roleDetails: any) {
         const params = {
             name: roleDetails.name,
             level: roleDetails.level,
+            hide_internal_journals: roleDetails.hide_internal_journals ?? false,
+            sees_hr_data: roleDetails.sees_hr_data ?? false,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
             employee_group_uuid: roleDetails.employee_group_uuid ?? [],

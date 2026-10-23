@@ -67,6 +67,9 @@
                             <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                             <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
                                 v-model="state.formInquiry.cpr" />
+                            <p v-if="cprOnlyWhenWon" class="text-[11px] text-slate-400">
+                                {{ $t('inquiries.form.cprWhenWon') }}
+                            </p>
                             <FormError :error="v$?.formInquiry?.cpr?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.cpr?.[0]" />
                         </div>
@@ -90,7 +93,9 @@
                     <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.assessment') }}
                     </h3>
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
+                    <!-- Bottom-aligned: a question that wraps to two lines would
+                         otherwise push its answer below the one beside it. -->
+                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 sm:items-end">
                         <div class="space-y-1 sm:col-span-2" v-if="asksFor('topic')">
                             <FormLabel for="topic" :label="$t('inquiries.form.crisisCenter.fields.topic')" />
                             <FormSelectMultiple id="topic" :options="state.options.about_list"
@@ -171,6 +176,8 @@
                 </section>
                 <ModulesUserInquiryMatchNeedsBlock :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
                     :error="props.error" @update="(value: any) => matchNeeds = value" />
+                <!-- Whatever else the edit carries, saved by the same button. -->
+                <slot name="after-fields" />
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -188,11 +195,12 @@
 </template>
 
 <script setup lang="ts">
-import { asksFor as asksForField } from '@/composables/inquiryForms'
+import { asksFor as asksForField, shownOnInquiry } from '@/composables/inquiryForms'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { departmentService } from '@/components/api/user/DepartmentService'
@@ -234,12 +242,32 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
  * without a service type, or a type nobody has configured, asks for all of
  * them - which is what every form did before the setting existed.
  */
-function asksFor(field: string): boolean {
+function formAsks(field: string): boolean {
     return asksForField(field, props.form as any, props.serviceType as any)
+}
+
+/**
+ * Whether the field is shown. An edit shows the same fields as the inquiry
+ * page - what the inquiry's form asks for plus anything already filled in, or
+ * every field for an inquiry from before forms - so each one the page lists
+ * can be corrected here. Read off the inquiry as loaded, so a field does not
+ * vanish while it is being cleared. Only what the form asks for is required,
+ * so a field it leaves out never blocks a save.
+ */
+function asksFor(field: string): boolean {
+    if (props.formType !== 'update') return formAsks(field)
+
+    return shownOnInquiry(field, props.form as any, props.selectedInquiry as any)
 }
 
 const { t, locale } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
+const userStore = useUserStore() as any
+
+// The company may ask for the CPR number only once the inquiry is won (moved
+// to won or converted), so it can be taken and worked on without one. Off,
+// the form requires it as it always has.
+const cprOnlyWhenWon = computed(() => userStore.getUser?.company?.inquiry_won_requires_cpr_enabled === true)
 
 const completedByLabel = computed(() => customPagesStore.getCustomPagesName?.completedBy || t('inquiries.form.inquirerName'))
 const dateOfInquiryLabel = computed(() => customPagesStore.getCustomPagesName?.dateOfInquiry || t('inquiries.form.dateOfInquiry'))
@@ -327,7 +355,7 @@ onMounted(() => {
         purpose: props.selectedInquiry?.purpose,
         topic_uuid: props.selectedInquiry?.topics?.map((topic: any) => topic.uuid) || [],
         target_group_crisis_center: props.selectedInquiry?.target_group_crisis_center || [],
-        received_visit: props.formType === 'update' ? (props.selectedInquiry?.received_visit ? 'yes' : 'no') : '',
+        received_visit: yesNoFrom(props.selectedInquiry?.received_visit),
         assessment_uuid: props.selectedInquiry?.no_assessment_reasons?.map((reason: any) => reason.uuid) || [],
         guidance_uuid: props.selectedInquiry?.guidances?.map((guidance: any) => guidance.uuid) || [],
         conversation_summary: props.selectedInquiry?.conversation_summary,
@@ -341,6 +369,17 @@ onMounted(() => {
     fetchAssessmentReasonListOptions()
     fetchGuidanceListOptions()
 })
+
+// An edit reads a stored boolean as the yes/no the select offers, and an
+// unanswered question (null) as empty - not as a "no" nobody gave. A new
+// inquiry's own draft is already yes/no or empty.
+function yesNoFrom(value: any) {
+    if (props.formType !== 'update') return value || ''
+    if (value === true) return 'yes'
+    if (value === false) return 'no'
+
+    return ''
+}
 
 watch(() => props.selectedInquiry, (newValue: any) => {
     if (newValue != null) {
@@ -357,11 +396,16 @@ watch(() => props.selectedInquiry, (newValue: any) => {
             contacted_by: newValue.contacted_by || '',
             outcome: newValue.outcome,
             purpose: newValue.purpose,
-            topic_uuid: newValue.topic_uuid || [],
+            // A new inquiry's draft holds uuids; a saved inquiry holds the
+            // entries themselves. Reading only the first emptied all three on
+            // a refresh while editing, and the next save wiped them.
+            topic_uuid: newValue.topic_uuid ?? newValue.topics?.map((topic: any) => topic.uuid) ?? [],
             target_group_crisis_center: newValue.target_group_crisis_center || [],
-            received_visit: newValue.received_visit || '',
-            assessment_uuid: newValue.assessment_uuid || [],
-            guidance_uuid: newValue.guidance_uuid || [],
+            // Stored as a boolean, chosen as yes/no: read the same way as on mount,
+            // or a refresh while editing empties the question.
+            received_visit: yesNoFrom(newValue.received_visit),
+            assessment_uuid: newValue.assessment_uuid ?? newValue.no_assessment_reasons?.map((reason: any) => reason.uuid) ?? [],
+            guidance_uuid: newValue.guidance_uuid ?? newValue.guidances?.map((guidance: any) => guidance.uuid) ?? [],
             conversation_summary: newValue.conversation_summary,
             notes: newValue.notes || ''
         }
@@ -371,20 +415,22 @@ watch(() => props.selectedInquiry, (newValue: any) => {
 const rules = computed(() => {
     return {
         formInquiry: {
-            cpr: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
+            ...(cprOnlyWhenWon.value ? {} : {
+                cpr: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                },
+            }),
             inquiry_date: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
             // A field the form does not show cannot be filled in, so it is not
             // required: requiring it made the form impossible to send.
-            ...(asksFor('inquirer_name') ? {
+            ...(formAsks('inquirer_name') ? {
                 inquirer_name: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
             } : {}),
-            ...(asksFor('conversation_summary') ? {
+            ...(formAsks('conversation_summary') ? {
                 conversation_summary: {
                     required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                 },
