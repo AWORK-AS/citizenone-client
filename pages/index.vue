@@ -80,7 +80,7 @@
 				:deviceUuid="state.deviceUuid" @close="state.modal.isDeviceOtpOpen = false" />
 
 
-			<form class="form-card" @submit.prevent="login">
+			<form v-if="!state.code.step" class="form-card" @submit.prevent="login">
 				<Alert type="danger" :text="state?.error?.message"
 					v-if="state.error?.message && state.error.message.length > 0" />
 				<div class="flex items-center justify-between mb-1">
@@ -171,6 +171,14 @@
 					{{ state.isPageLoading ? $t('login.form.login') + '...' : $t('login.form.login') }}
 				</button>
 
+				<!-- Portal users (citizens, patients, relatives) can get a one-time code by email instead.
+				     The answer is the same for any address, so nothing here reveals who has an account. -->
+				<div class="code-link-row">
+					<a class="forgot-link" role="button" tabindex="0" @click="requestCode()" @keydown.enter="requestCode()">
+						{{ $t('login.emailCode.link') }}
+					</a>
+				</div>
+
 				<div class="or-row">
 					<div class="or-line"></div><span class="or-txt">
 						{{ $t('login.form.or') }}
@@ -214,6 +222,43 @@
 					{{ $t('login.isoNote') }}
 				</div>
 			</form>
+
+			<form v-else class="form-card" @submit.prevent="submitCode()">
+				<Alert type="danger" :text="state?.error?.message"
+					v-if="state.error?.message && state.error.message.length > 0" />
+				<h1 class="form-title">
+					{{ $t('login.emailCode.title') }}
+				</h1>
+				<p class="form-sub" role="status">
+					{{ state.code.notice || $t('login.emailCode.sentTo') }}
+				</p>
+				<p class="form-sub !mt-0 font-semibold">{{ state.formLogin.email }}</p>
+
+				<div class="field">
+					<label for="co-code">
+						{{ $t('login.emailCode.codeLabel') }}
+					</label>
+					<input id="co-code" ref="codeInput" v-model="state.code.value" type="text" inputmode="numeric"
+						pattern="[0-9]*" maxlength="12" autocomplete="one-time-code" placeholder="000000"
+						class="code-input" :disabled="state.isPageLoading" @input="onCodeInput" />
+				</div>
+
+				<button class="btn-primary" type="submit" :disabled="state.isPageLoading || !canSubmitCode">
+					{{ state.isPageLoading ? $t('login.form.login') + '...' : $t('login.form.login') }}
+				</button>
+
+				<div class="alt-links">
+					<button type="button" class="forgot-link bg-transparent border-0 p-0 disabled:opacity-60 disabled:cursor-not-allowed"
+						:disabled="state.code.cooldown > 0 || state.isPageLoading" @click="requestCode(true)">
+						{{ state.code.cooldown > 0
+							? $t('login.emailCode.resendIn', { seconds: state.code.cooldown })
+							: $t('login.emailCode.resend') }}
+					</button>
+					<a class="forgot-link" role="button" tabindex="0" @click="backToPassword()" @keydown.enter="backToPassword()">
+						{{ $t('login.emailCode.backToPassword') }}
+					</a>
+				</div>
+			</form>
 		</div>
 		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
 			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
@@ -232,6 +277,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { EMAIL_CODE_LENGTH, EMAIL_CODE_RESEND_SECONDS, isPlausibleEmail, sanitizeEmailCode, shouldSubmitEmailCode } from '@/composables/emailLoginCode'
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -264,6 +310,14 @@ const state = reactive({
 	showPassword: false,
 	isSsoRedirecting: false,
 	ssoNeedsEmail: false,
+	// Sign-in with a code mailed to a portal user.
+	code: {
+		step: false,
+		value: '',
+		lastSubmitted: null as string | null,
+		cooldown: 0,
+		notice: '',
+	},
 })
 
 // The SSO hint is a pointer, not an error: it goes as soon as there is an email.
@@ -356,6 +410,33 @@ function staffLandingRoute(user: any) {
 	return user?.role === 'Admin' ? '/discover' : '/my-day'
 }
 
+// What every sign-in that ends in a session runs: password, and the code mailed
+// to a portal user. Keeping it in one place means a portal user lands exactly
+// where a password sign-in would put them.
+async function finishLogin(data: any) {
+	await setSessionToken(data?.token)
+	// A stray _original_token from a past impersonation session that
+	// never went through "Log out as client" (plain logout, a 401,
+	// closing the tab) must not carry over into a fresh, non-impersonated
+	// login and make the impersonation banner show for the wrong session.
+	localStorage.removeItem("_original_token")
+	departmentStore.resetSelectedDepartment()
+	departmentStore.resetSelectedDepartmentColor()
+	departmentStore.resetSelectedDepartmentName()
+	userStore.setUser(data?.user)
+	userStore.setLanguage(data?.user?.language?.code)
+	language.locale.value = data?.user?.language?.code
+	// A deep-link redirect (?redirect=) always wins; the first-login
+	// override only applies where resolvePostLoginRedirect() would
+	// otherwise have fallen back to the plain staff default.
+	const target = resolvePostLoginRedirect(data?.user?.role, data?.user)
+	if (target === '/overview' && isFirstSession(data?.user)) {
+		navigateTo(staffLandingRoute(data?.user))
+	} else {
+		navigateTo(target)
+	}
+}
+
 async function login() {
 	state.error = {}
 	v$.value.$validate()
@@ -382,27 +463,7 @@ async function login() {
 				if (response.data?.user?.is_google_2fa_enabled) {
 					state.modal.isGoogle2faVerificationOpen = true
 				} else {
-					await setSessionToken(response.data?.token)
-					// A stray _original_token from a past impersonation session that
-					// never went through "Log out as client" (plain logout, a 401,
-					// closing the tab) must not carry over into a fresh, non-impersonated
-					// login and make the impersonation banner show for the wrong session.
-					localStorage.removeItem("_original_token")
-					departmentStore.resetSelectedDepartment()
-					departmentStore.resetSelectedDepartmentColor()
-					departmentStore.resetSelectedDepartmentName()
-					userStore.setUser(response?.data?.user)
-					userStore.setLanguage(response?.data?.user?.language?.code)
-					language.locale.value = response?.data?.user?.language?.code
-					// A deep-link redirect (?redirect=) always wins; the first-login
-					// override only applies where resolvePostLoginRedirect() would
-					// otherwise have fallen back to the plain staff default.
-					const target = resolvePostLoginRedirect(response.data.user?.role, response.data.user)
-					if (target === '/overview' && isFirstSession(response.data.user)) {
-						navigateTo(staffLandingRoute(response.data.user))
-					} else {
-						navigateTo(target)
-					}
+					await finishLogin(response.data)
 				}
 			}
 		} catch (error: any) {
@@ -436,6 +497,100 @@ async function signInAsStaff() {
 	} catch (error: any) {
 		state.error = error
 	}
+}
+
+// --- Sign in with a code by email -------------------------------------------
+
+const codeInput = ref<HTMLInputElement | null>(null)
+let cooldownTimer: ReturnType<typeof setInterval> | null = null
+
+const canSubmitCode = computed(() =>
+	state.code.value.length === EMAIL_CODE_LENGTH && state.code.value !== state.code.lastSubmitted
+)
+
+function startCooldown() {
+	if (cooldownTimer) clearInterval(cooldownTimer)
+	state.code.cooldown = EMAIL_CODE_RESEND_SECONDS
+	cooldownTimer = setInterval(() => {
+		state.code.cooldown = Math.max(0, state.code.cooldown - 1)
+		if (state.code.cooldown === 0 && cooldownTimer) {
+			clearInterval(cooldownTimer)
+			cooldownTimer = null
+		}
+	}, 1000)
+}
+
+onBeforeUnmount(() => {
+	if (cooldownTimer) clearInterval(cooldownTimer)
+})
+
+// First request moves to the code step; "send a new code" repeats it in place.
+async function requestCode(isResend = false) {
+	state.error = {}
+	if (!isPlausibleEmail(state.formLogin.email)) {
+		state.error = { message: t('login.emailCode.invalidEmail') } as Error
+		return
+	}
+	if (isResend && state.code.cooldown > 0) return
+
+	state.isPageLoading = true
+	try {
+		const response = await authService.requestEmailLoginCode(state.formLogin.email.trim())
+		state.code.notice = response?.message ?? ''
+		state.code.value = ''
+		state.code.lastSubmitted = null
+		state.code.step = true
+		startCooldown()
+		await nextTick()
+		codeInput.value?.focus()
+	} catch (error: any) {
+		state.error = error?.status === 429
+			? { message: t('login.emailCode.tooManyRequests') } as Error
+			: error
+	}
+	state.isPageLoading = false
+}
+
+function onCodeInput() {
+	state.code.value = sanitizeEmailCode(state.code.value)
+	if (shouldSubmitEmailCode(state.code.value, state.code.lastSubmitted)) {
+		submitCode()
+	}
+}
+
+async function submitCode() {
+	const code = state.code.value
+	if (state.isPageLoading || !shouldSubmitEmailCode(code, state.code.lastSubmitted)) return
+
+	state.error = {}
+	state.code.lastSubmitted = code
+	state.isPageLoading = true
+	try {
+		const response = await authService.verifyEmailLoginCode({
+			email: state.formLogin.email.trim(),
+			otp: code,
+		})
+		if (!response?.data?.token) throw response
+		await finishLogin(response.data)
+	} catch (error: any) {
+		state.error = error?.status === 429
+			? { message: t('login.emailCode.tooManyRequests') } as Error
+			: error
+	}
+	state.isPageLoading = false
+}
+
+function backToPassword() {
+	state.code.step = false
+	state.code.value = ''
+	state.code.lastSubmitted = null
+	state.code.notice = ''
+	state.error = {}
+	if (cooldownTimer) {
+		clearInterval(cooldownTimer)
+		cooldownTimer = null
+	}
+	state.code.cooldown = 0
 }
 
 function setLang(lang: string) {
@@ -1189,6 +1344,18 @@ async function loginWithGoogle() {
 	color: #475569;
 	text-align: center;
 	margin: 8px 0 0;
+}
+
+.code-link-row {
+	text-align: center;
+	margin: -4px 0 16px;
+}
+
+.code-input {
+	text-align: center;
+	font-size: 24px !important;
+	letter-spacing: 0.4em;
+	font-variant-numeric: tabular-nums;
 }
 
 .alt-links {
