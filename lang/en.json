@@ -4074,6 +4074,8 @@
             },
             "selectType": "Do you want to register transport or work time?",
             "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
+            "selectHourType": "What are you registering?",
+            "selectHourTypeMessage": "Choose the type of time you are starting now. It can be changed afterwards under Intervention hours.",
             "timeRegistration": "Time registration",
             "transport": "Transport",
             "work": "Work",

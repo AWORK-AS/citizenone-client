@@ -4074,6 +4074,8 @@
             },
             "selectType": "Vil du registrere transport eller arbejdstid?",
             "selectTypeMessage": "Registrér din tid nemt, vælg arbejde eller transport for at komme i gang.",
+            "selectHourType": "Hvad registrerer du?",
+            "selectHourTypeMessage": "Vælg den type tid, du starter nu. Den kan rettes bagefter under Indsatstimer.",
             "timeRegistration": "Tidsregistrering",
             "transport": "Transport",
             "work": "Arbejde",

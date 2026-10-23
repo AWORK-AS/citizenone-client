@@ -467,6 +467,7 @@
             <ModulesUserCitizenRiskHistoryModalView :isModalOpen="state.modal.isRiskHistoryOpen"
                 :citizenUuid="citizenUuid" @close="state.modal.isRiskHistoryOpen = false" />
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
+                :hourTypes="checkInHourTypes" :showTransport="isTransportRegistrationEnabled"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
                 @open-work="workLogin" />
             <ModulesUserCitizenTimeRegistrationModalTransport type="login"
@@ -501,6 +502,7 @@
 <script setup lang="ts">
 import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
+import { useCheckInHourTypes } from '@/composables/useCheckInHourTypes'
 import { reportService } from '@/components/api/user/ReportService'
 import { timelineService } from '@/components/api/user/TimelineService'
 import { TIMELINE_PAGE_SIZE } from '@/composables/timelinePaging'
@@ -598,6 +600,9 @@ const isInterventionCheckinEnabled = computed(() => {
     return userStore.getUser?.company?.intervention_checkin_enabled === true
 })
 
+// The hour types chosen when checking in; empty unless the company uses them.
+const { checkInHourTypes, fetchHourTypes, checkInPayload } = useCheckInHourTypes()
+
 const primaryCaseworkerName = computed(() => {
     const caseworker = state.selectedCitizen?.data?.primary_case_worker
     if (!caseworker?.firstname && !caseworker?.lastname) return null
@@ -666,6 +671,7 @@ onMounted(() => {
     fetchCitizen()
     fetchFollowUpReminderCount()
     fetchTimeline()
+    fetchHourTypes()
 
     if (isTransportRegistrationEnabled.value) {
         const savedLocationState = locationTracking.getSavedTrackingState()
@@ -908,7 +914,7 @@ async function fetchFollowUpReminderCount() {
 }
 
 function selectTimeInType() {
-    if (!isTransportRegistrationEnabled.value) {
+    if (!isTransportRegistrationEnabled.value && !checkInHourTypes.value.length) {
         workLogin()
         return
     }
@@ -916,12 +922,12 @@ function selectTimeInType() {
     state.modal.isTimeInTypeModalOpen = true
 }
 
-async function workLogin() {
+async function workLogin(hourTypeUuid?: string) {
     state.error = {}
     state.isPageLoading = true
     try {
         if (!state.selectedCitizen?.data?.is_checked_in) {
-            const params = {}
+            const params = checkInPayload(hourTypeUuid)
             const response = await interventionHoursService.checkin(citizenUuid, params)
             if (response?.data) {
                 const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid

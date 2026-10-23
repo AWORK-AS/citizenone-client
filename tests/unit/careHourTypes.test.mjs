@@ -8,7 +8,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    defaultHourTypeUuid, hourTypeChoices, hourTypePayload, isCareHourTypesOn,
+    checkInHourTypeChoices, defaultHourTypeUuid, hourTypeChoices, hourTypePayload, isCareHourTypesOn,
 } from '../../composables/careHourTypes.ts'
 import { areCitizenRatesHidden } from '../../composables/citizenRates.ts'
 
@@ -89,5 +89,18 @@ describe('areCitizenRatesHidden', () => {
         assert.equal(areCitizenRatesHidden({ hourly_rate: null }, { message: 'The citizen has no hourly rate.' }), false)
         assert.equal(areCitizenRatesHidden(null, undefined), false)
         assert.equal(areCitizenRatesHidden({}, { data: { contribution_margin: '-12.000,00' } }), false)
+    })
+})
+
+describe('checkInHourTypeChoices', () => {
+    test('every type when transport has no button of its own', () => {
+        assert.deepEqual(checkInHourTypeChoices([contact, admin, transport, own], false), [contact, admin, transport, own])
+    })
+    test('without the transport type when transport has its own button', () => {
+        assert.deepEqual(checkInHourTypeChoices([contact, admin, transport, own], true), [contact, admin, own])
+    })
+    test('nothing without types', () => {
+        assert.deepEqual(checkInHourTypeChoices([], true), [])
+        assert.deepEqual(checkInHourTypeChoices(undefined, false), [])
     })
 })
