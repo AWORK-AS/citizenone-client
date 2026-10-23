@@ -223,6 +223,7 @@
 
 <script setup lang="ts">
 import { authService } from '@/components/api/user/AuthService'
+import { authService as superadminAuthService } from '@/components/api/superadmin/AuthService'
 import { userService } from '@/components/api/user/UserService'
 import { isFirstSession } from '@/composables/welcomeTour'
 import { useVuelidate } from "@vuelidate/core"
@@ -405,9 +406,35 @@ async function login() {
 				}
 			}
 		} catch (error: any) {
-			state.error = error
+			// Our own team is turned away here and belongs in /superadmin. The desktop
+			// app has no address bar to get there, so the same credentials are tried
+			// on the superadmin login instead of leaving them at an error.
+			if (error?.code === 'platform_staff') {
+				await signInAsStaff()
+			} else {
+				state.error = error
+			}
 		}
 		state.isPageLoading = false
+	}
+}
+
+async function signInAsStaff() {
+	try {
+		const response = await superadminAuthService.login({
+			email: state.formLogin.email,
+			password: state.formLogin.password,
+		})
+		if (response.data) {
+			await setSessionToken(response.data?.token)
+			localStorage.removeItem("_original_token")
+			userStore.setUser(response?.data?.user)
+			userStore.setLanguage(response?.data?.user?.language?.code)
+			language.locale.value = response?.data?.user?.language?.code
+			navigateTo('/superadmin/dashboard')
+		}
+	} catch (error: any) {
+		state.error = error
 	}
 }
 
