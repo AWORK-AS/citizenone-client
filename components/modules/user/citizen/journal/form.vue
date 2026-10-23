@@ -105,18 +105,6 @@
                     </div>
                 </div>
             </div>
-            <div class="space-y-3" v-if="state.pendingSurveys.length > 0">
-                <p class="text-sm font-medium text-gray-700">
-                    {{ $t('citizens.citizenJournals.form.attachedSurveys') }}
-                </p>
-                <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
-                    class="bg-gray-50 rounded-md p-4 space-y-3">
-                    <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
-                    <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
-                        :questions="assignment?.survey?.questions ?? []"
-                        :answers="state.surveyAnswers[assignment.uuid]" />
-                </div>
-            </div>
             <!-- The level feeds the development graph, which is a care-plan measure. -->
             <div class="space-y-1" v-if="hasCarePlans && isFieldVisible('score')">
                 <FormLabel for="score" :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
@@ -244,6 +232,29 @@
                 <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
                 <FormError :error="v$?.formJournal?.content?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.content?.[0]" />
+            </div>
+            <!-- A questionnaire the patient has not answered yet. It used to sit open above the note, so
+                 writing a note meant scrolling past every question first (Trium). The journal page now warns
+                 about it; here it stays folded under the note, for staff who fill it in with the patient. -->
+            <div class="rounded-lg border border-amber-200 bg-amber-50" v-if="state.pendingSurveys.length > 0"
+                data-testid="journal-pending-surveys">
+                <button type="button" class="flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left text-sm text-amber-900"
+                    :aria-expanded="state.isPendingSurveysOpen" @click="state.isPendingSurveysOpen = !state.isPendingSurveysOpen">
+                    <span class="flex items-center gap-2">
+                        <Icon name="ph:clipboard-text" class="size-4 shrink-0" aria-hidden="true" />
+                        {{ $t('citizens.citizenJournals.form.fillPendingSurveys', { count: state.pendingSurveys.length }) }}
+                    </span>
+                    <Icon :name="state.isPendingSurveysOpen ? 'ph:caret-up' : 'ph:caret-down'" class="size-4 shrink-0" aria-hidden="true" />
+                </button>
+                <div v-if="state.isPendingSurveysOpen" class="space-y-3 border-t border-amber-200 bg-white p-3 rounded-b-lg">
+                    <div v-for="assignment in state.pendingSurveys" :key="assignment.uuid"
+                        class="bg-gray-50 rounded-md p-4 space-y-3">
+                        <h3 class="text-sm font-semibold">{{ assignment?.survey?.title }}</h3>
+                        <ModulesSharedSurveyFill :ref="(el: any) => setSurveyFillRef(assignment.uuid, el)"
+                            :questions="assignment?.survey?.questions ?? []"
+                            :answers="state.surveyAnswers[assignment.uuid]" />
+                    </div>
+                </div>
             </div>
             <div class="space-y-1">
                 <div class="flex justify-between items-center py-0.5">
@@ -716,6 +727,7 @@ const state = reactive({
     // only used to explain what unticking the box does.
     linkedToPlan: false,
     pendingSurveys: [] as any[],
+    isPendingSurveysOpen: false,
     surveyAnswers: {} as Record<string, Record<string, any>>,
     hasChanges: false,
     draftOffer: null as JournalNoteDraft | null,

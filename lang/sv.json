@@ -24,6 +24,70 @@
         "terms5": "Rekommendera oss bara till någon som du tror har nytta av det. Det finns ingen förpliktelse, och verksamheten som du rekommenderar bestämmer själv.",
         "registerNote": "När ni har betalat er första faktura får ni en gratis månad."
     },
+    "bookableTreatments": {
+        "title": "Bokningsbara behandlingar",
+        "intro": "Behandlingar är det som patienterna bokar i patientportalen och appen, till exempel ett besök på 30 minuter. Skapa en behandling, välj behandlaren och lägg till de tider som kan bokas.",
+        "new": "Ny behandling",
+        "edit": "Redigera behandling",
+        "created": "Behandlingen har skapats. Lägg nu till tiderna den kan bokas.",
+        "updated": "Behandlingen har uppdaterats.",
+        "deleted": "Behandlingen har tagits bort.",
+        "deleteConfirm": "Ta bort behandlingen ”{name}” och dess tider? En behandling som har bokats kan inte tas bort; stäng av onlinebokning i stället.",
+        "form": {
+            "name": "Namn",
+            "namePlaceholder": "t.ex. Besök, 30 min",
+            "description": "Beskrivning",
+            "descriptionPlaceholder": "Vad patienten kan förvänta sig (valfritt)",
+            "clinician": "Behandlare",
+            "clinicianHint": "Bokningen hamnar i den här personens kalender.",
+            "department": "Avdelning",
+            "departmentAll": "Alla behandlarens avdelningar",
+            "departmentHint": "Bara patienter på den här avdelningen kan boka den.",
+            "price": "Pris (kr)",
+            "onlineBooking": "Onlinebokning",
+            "onlineBookingHint": "Patienterna kan boka den i portalen och appen.",
+            "video": "Videobesök",
+            "videoHint": "Besöket hålls som videosamtal."
+        },
+        "table": {
+            "name": "Namn",
+            "clinician": "Behandlare",
+            "department": "Avdelning",
+            "price": "Pris",
+            "onlineBooking": "Onlinebokning",
+            "upcoming": "Bokningsbara tider",
+            "online": "På",
+            "offline": "Av",
+            "free": "Gratis",
+            "noTimes": "Inga tider än",
+            "upcomingCount": "{count} tid | {count} tider",
+            "times": "Tider"
+        },
+        "times": {
+            "title": "Tider för {name}",
+            "add": "Lägg till tider",
+            "from": "Från",
+            "to": "Till",
+            "weekdays": "Dessa dagar",
+            "weekdaysHint": "Tiderna nedan läggs till på varje vald dag mellan de två datumen. Tider som redan finns ändras inte.",
+            "start": "Start",
+            "end": "Slut",
+            "seats": "Platser",
+            "addRow": "Lägg till en tid till",
+            "removeRow": "Ta bort den här tiden",
+            "create": "Lägg till tider",
+            "created": "Inga nya tider lades till | 1 tid tillagd | {count} tider tillagda",
+            "upcoming": "Kommande tider ({count})",
+            "none": "Inga kommande tider. Patienterna kan inte boka behandlingen förrän du lägger till några.",
+            "booked": "{count} bokad | {count} bokade",
+            "seatsLeft": "{count} platser kvar | {count} plats kvar | {count} platser kvar",
+            "delete": "Ta bort tid",
+            "cannotDelete": "Någon har bokat den här tiden, så den kan inte tas bort",
+            "clear": "Ta bort alla obokade tider",
+            "clearConfirm": "Ta bort alla kommande tider som ingen har bokat? Bokade tider behålls.",
+            "cleared": "Obokade tider har tagits bort."
+        }
+    },
     "journalDraft": {
         "offer": "Du har en anteckning som inte sparades (kl. {time}).",
         "restore": "Återställ",
@@ -193,7 +257,61 @@
         "Management & Economy": "Ledning & ekonomi",
         "Billing": "Fakturering",
         "Revenue report": "Intäktsrapport",
-        "Findsocialetilbud": "FindSocialeTilbud.dk"
+        "Findsocialetilbud": "FindSocialeTilbud.dk",
+        "Messages": "Meddelanden",
+        "Reminders": "Påminnelser",
+        "Bullet Board": "Anslagstavla",
+        "Forms": "Formulär",
+        "Tasks": "Uppgifter",
+        "AI assistant": "AI-assistent",
+        "Staff workload": "Personalbelastning"
+    },
+    "companyModulesCard": {
+        "title": "Moduler",
+        "description": "Välj vilka moduler verksamheten använder. En modul som är avstängd döljs för alla i verksamheten, både på webben och i appen.",
+        "onlyHides": "När en modul stängs av döljs den bara i menyn. Inga data raderas och du kan slå på den igen när som helst.",
+        "useRecommended": "Använd rekommenderad uppsättning för min bransch",
+        "recommendedFor": "Den rekommenderade uppsättningen är de moduler vi föreslår för {industry}. Den fyller bara i reglagen. Inget ändras förrän du trycker Spara.",
+        "noRecommendation": "Det finns ingen rekommenderad uppsättning för din bransch, så alla moduler förblir tillgängliga.",
+        "allOn": "Slå på alla",
+        "allOff": "Stäng av alla",
+        "noneWarning": "Alla moduler är avstängda. Bara det grundläggande, som översikt och klientkort, visas.",
+        "saved": "Moduler uppdaterade.",
+        "groups": {
+            "clients": "Klienter",
+            "daily": "Dagligt arbete",
+            "staff": "Personal",
+            "economy": "Ekonomi",
+            "other": "Övrigt"
+        },
+        "help": {
+            "journals": "Journalanteckningar på varje klient, med AI-hjälp att skriva dem.",
+            "documents": "Fillagring för dokument om klienter och verksamheten.",
+            "contacts": "Anhöriga och andra kontakter för en klient.",
+            "emails": "Koppla din egen e-post och se e-post på varje klient.",
+            "medicineCard": "Läkemedelslistor och registrering av given medicin.",
+            "health": "Hälsoområden och omvårdnadsbedömningar.",
+            "plansAndGoals": "Handlingsplaner med mål och delmål för varje klient.",
+            "wellbeing": "Mätningar av välbefinnande över tid.",
+            "reports": "Rapporter skrivna om en klient.",
+            "calendar": "Möten, bokningar och onlinebokning från er webbplats.",
+            "messages": "Chatta med kollegor och med klienter via klientportalen.",
+            "reminders": "Personliga och gemensamma påminnelser.",
+            "aiAssistant": "AI-assistenten i toppfältet.",
+            "forms": "Bygg egna formulär och frågeformulär.",
+            "tasks": "Uppgiftstavlor för arbete som inte hör till en klient.",
+            "bulletBoard": "Nyheter och meddelanden till hela verksamheten.",
+            "inquiries": "Pipeline för nya förfrågningar och remisser.",
+            "findsocialetilbud": "Genväg till FindSocialeTilbud.dk.",
+            "dutySchedule": "Schemaläggning för personalen.",
+            "attendance": "Närvaroregistrering och protokoll.",
+            "employeeGroup": "Grupper av anställda för åtkomst och planering.",
+            "staffWorkload": "Översikt över belastningen för varje anställd.",
+            "billing": "Fakturor för de tjänster ni levererar.",
+            "revenueReport": "Översikt över er omsättning.",
+            "economy": "Klienters kassor och utgifter.",
+            "managementEconomy": "Ledningsöversikt över verksamhetens ekonomi."
+        }
     },
     "discover": {
         "welcome": "Välkommen, {name}",
@@ -1693,6 +1811,7 @@
         },
         "tabs": {
             "bookings": "Bokningar",
+            "treatments": "Behandlingar",
             "events": "Händelser",
             "appointments": "Bokade tider"
         },
@@ -2047,6 +2166,10 @@
                 "notifyColleaguesPlaceholder": "Välj kollegor att meddela",
                 "notifyColleaguesHint": "Valda kollegor får en avisering om denna anteckning.",
                 "attachedSurveys": "Enkäter att besvara",
+                "fillPendingSurveys": "Obesvarat frågeformulär ({count}) - fyll i det här tillsammans med @:terms.citizenDefinite{''}",
+                "pendingSurveysWarningTitle": "Obesvarat frågeformulär",
+                "pendingSurveysWarningText": "Ska fyllas i av @:terms.citizenDefinite{''}: {titles}",
+                "pendingSurveysWarningOpen": "Se frågeformulär",
                 "linkedSurveys": "Kopplade enkäter",
                 "quickJournalTitles": "Sparade journaltitlar",
                 "moreJournalTitles": "+{count} fler"
@@ -9656,6 +9779,12 @@
         "recipients": "Mottagare",
         "recipientsHint": "Välj vem du vill skriva till och skriv ditt meddelande.",
         "selectRecipients": "Sök kollegor...",
+        "recipientType": "Mottagartyp",
+        "recipientTypeEmployees": "Kollegor",
+        "recipientTypeCitizens": "@.capitalize:terms.citizens{''}",
+        "citizenRecipients": "@.capitalize:terms.citizens{''}",
+        "selectCitizenRecipients": "Sök @:terms.citizens{''}...",
+        "citizenRecipientWarning": "Meddelandet skickas till @:terms.citizenDefinite{''}, inte till en kollega. Kontrollera att det inte innehåller uppgifter som bara är till för kollegor.",
         "subjectOptional": "Ämne (valfritt)",
         "subjectPlaceholder": "Vad handlar det om?",
         "messagePlaceholder": "Skriv ditt meddelande...",
@@ -11585,6 +11714,8 @@
                 "receiveVacantShiftNotificationsRegardless": "Ta emot aviseringar om lediga pass, oavsett mina andra aviseringsinställningar",
                 "region": "Region",
                 "registerTransport": "Registrer transport",
+                "useOfForceInJournal": "Tvångsåtgärder i journalen",
+                "useOfForceInJournalHelp": "Visar \"Rapportera tvångsåtgärd\" och tidigare tvångsåtgärder på journalsidan. Stäng av om ni inte arbetar med tvångsåtgärder.",
                 "sundayShiftCalculation": "Aktivera söndagsvagtberegning",
                 "remove": "Ta bort firmalogo",
                 "street": "Gata",
@@ -11675,8 +11806,10 @@
                 "portalNeverUnsharedJournalNotes": "Journalanteckningar som inte är markerade som delade",
                 "portalSectionForms": "Formulär",
                 "portalSectionPriceEstimates": "Kostnadsförslag",
+                "portalSectionPrescriptions": "Receptförnyelse",
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
                 "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
+                "portalPreviewPrescriptions": "Patienten ser sina nuvarande recept och kan be kliniken förnya dem. Förfrågan kommer in i inkorgen Receptförnyelser.",
                 "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
             }
         },
@@ -17015,6 +17148,91 @@
             "edit": "Redigera epikrismall"
         }
     },
+    "inactiveEmployees": {
+        "title": "Inaktiva medarbetare",
+        "messageSingle": "{name} har varit inaktiv i 3 månader (senast aktiv {date}).",
+        "messageSingleNever": "{name} har aldrig loggat in och har varit inaktiv i 3 månader.",
+        "messageMany": "{count} medarbetare har varit inaktiva i 3 månader eller mer.",
+        "licenseNote": "De använder fortfarande en licens tills de arkiveras.",
+        "neverLoggedIn": "Har aldrig loggat in",
+        "lastActive": "Senast aktiv {when}",
+        "archive": "Arkivera",
+        "keepActive": "Behåll aktiv",
+        "viewEmployee": "Visa medarbetare",
+        "remindLater": "Påminn mig senare",
+        "close": "Stäng",
+        "archiveConfirm": "Är du säker på att du vill arkivera {name}? Medarbetaren använder då inte längre en licens.",
+        "licenseFreed": "Licens frigjord",
+        "columnHeader": "Senast aktiv",
+        "never": "Aldrig",
+        "filter": "Inaktiv i 3+ månader"
+    },
+    "questionnaireInbox": {
+        "title": "Formulärinkorg",
+        "subtitle": "Formulär och enkäter som patienter har skickat tillbaka, för granskning",
+        "tabs": {
+            "to_review": "Att granska",
+            "approved": "Godkända",
+            "declined": "Avslagna",
+            "all": "Alla"
+        },
+        "status": {
+            "to_review": "Att granska",
+            "approved": "Godkänd",
+            "declined": "Avslagen"
+        },
+        "type": {
+            "form": "Formulär",
+            "survey": "Enkät"
+        },
+        "filters": {
+            "search": "Patient",
+            "searchPlaceholder": "Sök på patientens namn",
+            "questionnaire": "Formulär",
+            "allQuestionnaires": "Alla formulär",
+            "from": "Återlämnad från",
+            "to": "Återlämnad till",
+            "sentByMe": "Skickade av mig",
+            "clear": "Rensa filter"
+        },
+        "empty": {
+            "to_review": "Inga formulär väntar på granskning",
+            "approved": "Inga godkända formulär",
+            "declined": "Inga avslagna formulär",
+            "all": "Inga formulär har återlämnats ännu"
+        },
+        "score": "Poäng",
+        "returned": "Återlämnad",
+        "sentBy": "Skickad av",
+        "handledBeforeInbox": "Hanterad före inkorgen",
+        "reviewedBy": "Av {name}",
+        "backToList": "Tillbaka till inkorgen",
+        "openProfile": "Öppna patientens profil",
+        "openMedicineList": "Öppna läkemedelslistan",
+        "openPdf": "Öppna PDF",
+        "answers": "Svar",
+        "noAnswers": "Det finns inga svar att visa.",
+        "review": {
+            "title": "Granskning",
+            "note": "Anteckning",
+            "notePlaceholder": "Till exempel: Recept förnyat i 3 månader",
+            "noteHint": "Valfri vid godkännande. Obligatorisk vid avslag.",
+            "approve": "Godkänn",
+            "decline": "Avslå",
+            "reopen": "Öppna igen",
+            "declineTitle": "Avslå formulär",
+            "declineConfirm": "Vill du avslå det här formuläret? Motiveringen sparas tillsammans med det.",
+            "declineReasonRequired": "Skriv en kort motivering till avslaget.",
+            "noteTooLong": "Anteckningen får vara högst {max} tecken.",
+            "approvedBy": "Godkänd av {name} den {date}",
+            "declinedBy": "Avslagen av {name} den {date}"
+        },
+        "alert": {
+            "approved": "Formuläret är godkänt.",
+            "declined": "Formuläret är avslaget.",
+            "reopened": "Formuläret är tillbaka under Att granska."
+        }
+    },
     "plansAndGoalsExport": {
         "title": "Export av planer och mål",
         "description": "Ladda ner planer, mål och delmål som en zip-fil med PDF-rapporter för många medborgare samtidigt. Lämna urvalet tomt för att exportera hela företaget.",
@@ -19317,6 +19535,19 @@
             "failed": "Något gick fel. Försök igen."
         }
     },
+    "templateLibrary": {
+        "title": "Mallar",
+        "intro": "Välj en mall, fyll i den och spara resultatet som en ny PDF i den mapp du vill. Själva mallen ändras aldrig.",
+        "standardTitle": "Standardmallar",
+        "ownTitle": "Era egna mallar",
+        "questions": "{count} frågor",
+        "fillIn": "Fyll i",
+        "search": "Sök bland mallar",
+        "noMatches": "Inga mallar matchar sökningen.",
+        "ownEmpty": "Ni har inga egna mallar ännu.",
+        "createOwn": "Skapa en mall",
+        "loadFailed": "Mallarna kunde inte hämtas. Försök igen."
+    },
     "videoConsultation": {
         "title": "Videokonsultation",
         "with": "Med {name}",
@@ -19433,6 +19664,82 @@
         "already": "Du har redan skickat förslaget till dem nyligen.",
         "limit": "Du har skickat det här förslaget flera gånger nyligen. Låt det vila ett tag.",
         "failed": "Förslaget kunde inte skickas. Försök igen senare."
+    },
+    "prescriptionRenewals": {
+        "title": "Receptförnyelser",
+        "intro": "Förfrågningar från patienter om att förnya ett recept. En förfrågan kommer hit när patienten har besvarat frågeformuläret som hör till läkemedlet. Godkänn den och skapa receptet, eller avslå den med en motivering till patienten.",
+        "filter": "Filtrera efter status",
+        "all": "Alla",
+        "empty": "Det finns inga förfrågningar här.",
+        "open": "Öppna",
+        "columns": {
+            "patient": "Patient",
+            "medicine": "Läkemedel",
+            "status": "Status",
+            "received": "Mottagen"
+        },
+        "statuses": {
+            "awaiting_answers": "Väntar på frågeformulär",
+            "pending": "Att bedöma",
+            "approved": "Godkänd",
+            "rejected": "Avslagen",
+            "prescribed": "Recept skapat"
+        },
+        "detail": {
+            "title": "Förfrågan om receptförnyelse",
+            "currentPrescription": "Nuvarande recept",
+            "endsOn": "Slutar",
+            "patientNote": "Meddelande från patienten",
+            "questionnaire": "Frågeformulär",
+            "notAnsweredYet": "Patienten har ännu inte besvarat frågeformuläret.",
+            "noQuestionnaire": "Inget frågeformulär är kopplat till detta läkemedel.",
+            "decision": "Beslut",
+            "decidedBy": "Av {name}, {date}",
+            "noteToPatient": "Meddelande till patienten",
+            "notePlaceholder": "Måste fyllas i vid avslag. Patienten ser det i appen.",
+            "approve": "Godkänn",
+            "reject": "Avslå",
+            "approved": "Förfrågan har godkänts. Patienten har fått besked.",
+            "rejected": "Förfrågan har avslagits. Patienten har fått besked.",
+            "prescribeHelp": "Förfrågan är godkänd. Skapa receptet på patientens läkemedelskort.",
+            "prescribe": "Skapa recept",
+            "openMedicineCard": "Öppna läkemedelskortet"
+        },
+        "prescribe": {
+            "banner": "Förnyelse av {medicine}",
+            "bannerHelp": "När receptet sparas stängs patientens förfrågan om förnyelse.",
+            "done": "Receptet har skapats och förfrågan om förnyelse är stängd."
+        },
+        "settings": {
+            "renewalSurvey": "Frågeformulär vid receptförnyelse",
+            "noRenewalSurvey": "Inget frågeformulär",
+            "renewalSurveyHelp": "Skickas till patienten när de ber om att få ett recept på detta läkemedel förnyat, t.ex. ett frågeformulär om håravfall."
+        }
+    },
+    "patientPrescriptions": {
+        "title": "Recept",
+        "intro": "Dina nuvarande recept. Be kliniken förnya ett när det håller på att ta slut.",
+        "yourPrescriptions": "Dina recept",
+        "empty": "Du har inga recept från kliniken.",
+        "validUntil": "Giltigt till {date}",
+        "requestRenewal": "Begär förnyelse",
+        "answerQuestionnaire": "Besvara frågeformuläret",
+        "yourRequests": "Dina förfrågningar",
+        "requestedOn": "Begärd {date}",
+        "clinicNote": "Från kliniken",
+        "confirm": "Vill du be kliniken förnya ditt recept på {medicine}?",
+        "questionnaireNext": "Därefter besvarar du ett kort frågeformulär så att kliniken kan bedöma förnyelsen.",
+        "noteLabel": "Meddelande till kliniken (valfritt)",
+        "notePlaceholder": "T.ex. hur behandlingen går",
+        "send": "Skicka förfrågan",
+        "sent": "Din förfrågan har skickats till kliniken.",
+        "statuses": {
+            "awaiting_answers": "Väntar på dina svar",
+            "pending": "Hos kliniken",
+            "approved": "Godkänd",
+            "rejected": "Avslagen",
+            "prescribed": "Förnyat"
+        }
     },
     "apiErrors": {
         "notSavedTitle": "Inte sparat",

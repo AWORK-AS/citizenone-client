@@ -20,6 +20,9 @@ export const useUserStore = defineStore('userStore', {
         setUserSystemNotificationCount(count) {
             this.user.unread_system_notification_count = count
         },
+        setQuestionnaireInboxToReviewCount(count) {
+            this.user.questionnaire_inbox_to_review_count = count
+        },
         minusUserNotificationCount() {
             this.user.unread_notification_count = this.user.unread_notification_count - 1
         },

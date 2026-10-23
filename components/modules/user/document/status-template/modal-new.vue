@@ -77,7 +77,17 @@ const props = defineProps({
     onedriveFolders: {
         type: Array as () => { value: string, label: string }[],
         default: () => []
-    }
+    },
+    // Set when a template was picked in the templates library (task #94).
+    presetFormUuid: {
+        type: String,
+        default: '',
+    },
+    // The folder the user is in, offered as the place to save the report.
+    presetFolderUuid: {
+        type: String,
+        default: '',
+    },
 })
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
@@ -118,8 +128,14 @@ function resetForm() {
 
 watch(() => props.isModalOpen, (isModalOpen: any) => {
     if (isModalOpen) {
-        fetchAllFolders()
-        fetchAllForms()
+        fetchAllFolders().then(() => {
+            if (props.presetFolderUuid && state.options.folders.some((option: any) => option.value === props.presetFolderUuid)) {
+                state.formTemplate.folder_uuid = props.presetFolderUuid
+            }
+        })
+        fetchAllForms().then(() => {
+            if (props.presetFormUuid) state.formTemplate.form_uuid = props.presetFormUuid
+        })
     }
 })
 

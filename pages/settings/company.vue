@@ -692,6 +692,18 @@
                                     Social- og Boligstyrelsen
                                 </p>
                             </div>
+                            <!-- The red "Report use of force" block on the journal page. Off for a company that never
+                                 uses force, e.g. a clinic; the dental industry never sees it at all. -->
+                            <div class="space-y-1 flex items-start gap-x-2" data-testid="use-of-force-switch"
+                                v-if="userStore.getUser?.industry !== 'Dentists and dental hygienists'">
+                                <FormSwitch :value="state.formCompany.use_of_force_enabled"
+                                    :label="$t('settings.company.form.useOfForceInJournal')"
+                                    @toggleSwitch="state.formCompany.use_of_force_enabled = !state.formCompany.use_of_force_enabled" />
+                                <div>
+                                    <p>{{ $t('settings.company.form.useOfForceInJournal') }}</p>
+                                    <p class="text-xs text-gray-500">{{ $t('settings.company.form.useOfForceInJournalHelp') }}</p>
+                                </div>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.missing_note_reminder_enabled"
                                     @toggleSwitch="state.formCompany.missing_note_reminder_enabled = !state.formCompany.missing_note_reminder_enabled" :label="$t('settings.company.form.missingNoteReminder')" />
@@ -864,28 +876,7 @@
                     </div>
                 </form>
 
-                <!-- Company modules — admin enables/disables whole modules for the company -->
-                <div class="mt-8 card" v-if="isAtLeast('Admin') && moduleState.pages.length">
-                    <div class="card-header">
-                        <h3 class="text-sm font-semibold text-slate-900">Moduler</h3>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-sm text-slate-500 mb-4">Vælg hvilke moduler virksomheden bruger. Slået fra skjuler modulet for alle i virksomheden.</p>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                            <div v-for="page in moduleState.pages" :key="page.uuid"
-                                class="flex items-center justify-between rounded-lg border border-slate-100 px-3 py-2.5">
-                                <span class="text-sm text-slate-800">{{ $t(`companyModules.${page.name}`) }}</span>
-                                <FormSwitch :value="moduleState.enabled.includes(page.uuid)"
-                                    :label="$t(`companyModules.${page.name}`)" @toggleSwitch="toggleModule(page.uuid)" />
-                            </div>
-                        </div>
-                        <div class="mt-5">
-                            <FormButton type="button" buttonStyle="primary" class="w-full" @click="saveModules">
-                                {{ $t('save') }}
-                            </FormButton>
-                        </div>
-                    </div>
-                </div>
+                <ModulesUserSettingsCompanyModules v-if="isAtLeast('Admin')" />
 
                 <ModulesUserSettingsCompanySso v-if="isAtLeast('Admin')" />
             </LoadingSpinner>
@@ -901,7 +892,6 @@ import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { citizenDisplayService } from '@/components/api/user/CitizenDisplayService'
 import { roleService } from '@/components/api/user/RoleService'
-import { companyService } from '@/components/api/user/CompanyService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useCompanyStore } from '@/store/company'
@@ -974,6 +964,7 @@ const portalAudiences = computed(() => {
                 { key: 'documents', label: 'settings.company.form.portalSectionDocuments' },
                 { key: 'forms', label: 'settings.company.form.portalSectionForms' },
                 { key: 'price_estimates', label: 'settings.company.form.portalSectionPriceEstimates' },
+                { key: 'prescriptions', label: 'settings.company.form.portalSectionPrescriptions' },
                 { key: 'support', label: 'settings.company.form.portalSectionSupport' },
             ],
         })
@@ -984,9 +975,14 @@ const portalAudiences = computed(() => {
 
 const totalSectionCount = computed(() => portalAudiences.value.reduce((total: number, audience: any) => total + audience.sections.length, 0))
 
-// An unset section means visible, matching the backend default.
+// Sections that start hidden until an admin turns them on, matching PortalVisibilityService::HIDDEN_UNTIL_ENABLED.
+const HIDDEN_UNTIL_ENABLED: Record<string, string[]> = { patient: ['prescriptions'] }
+
+// An unset section means visible, matching the backend default - except the ones above.
 function isSectionVisible(audience: string, section: string) {
-    return state.formCompany.portal_visibility?.[audience]?.[section] !== false
+    const value = state.formCompany.portal_visibility?.[audience]?.[section]
+    if (value === undefined || value === null) return !(HIDDEN_UNTIL_ENABLED[audience] ?? []).includes(section)
+    return value !== false
 }
 
 // Opening a section exposes records to people outside the organization, so it
@@ -1076,36 +1072,6 @@ const { t } = useI18n()
 const calendarNoteSwitchCount = computed(() => [state.formCompany.calendar_note_required_enabled, state.formCompany.missing_note_coordinator_reminder_enabled].filter(Boolean).length)
 const { isAtLeast, can } = usePermissions()
 
-// --- Company modules (admin enable/disable whole modules) ---
-const moduleState = reactive<{ pages: any[]; enabled: string[] }>({ pages: [], enabled: [] })
-
-async function fetchCompanyModules() {
-    try {
-        const response = await companyService.getCompanyModules()
-        moduleState.pages = response?.pages ?? []
-        moduleState.enabled = response?.enabled_page_uuids ?? []
-    } catch (e) { /* leave empty */ }
-}
-
-function toggleModule(uuid: string) {
-    const i = moduleState.enabled.indexOf(uuid)
-    if (i === -1) moduleState.enabled.push(uuid)
-    else moduleState.enabled.splice(i, 1)
-}
-
-async function saveModules() {
-    try {
-        await companyService.updateCompanyModules({ page_uuids: moduleState.enabled })
-        // Update the in-memory user so the sidebar regenerates live (no reload).
-        const enabledNames = moduleState.pages.filter((p: any) => moduleState.enabled.includes(p.uuid)).map((p: any) => p.name)
-        const u: any = userStore.getUser
-        if (u?.company) userStore.setUser({ ...u, company: { ...u.company, module_pages: enabledNames } })
-        successAlert(`${t('alert.success')}!`, 'Moduler opdateret.')
-    } catch (e) { }
-}
-
-onMounted(fetchCompanyModules)
-
 // Company logo for PDF branding
 const logoInput = ref<HTMLInputElement | null>(null)
 const logoPreviewUrl = ref('')
@@ -1171,6 +1137,7 @@ const state = reactive({
         duty_schedule_default_sort: 'alphabetical',
         compensatory_time_enabled: false,
         social_og_boligstyrelsen: false,
+        use_of_force_enabled: true,
         quick_risk_assessment_enabled: false,
         one_journal_note_per_day_enabled: false,
         // Shown as "show"; stored as hide_citizenone_attribution, which is off by default.
@@ -1205,6 +1172,22 @@ const state = reactive({
 })
 
 // Unsaved-changes guard: warn before navigating away or reloading with edits.
+/**
+ * Use of force is a module choice (onboarding_preferences.modules.useOfForce), not a company column, and the
+ * endpoint stores the whole preferences blob - so the other choices are sent back unchanged.
+ */
+async function saveUseOfForceChoice() {
+    const company: any = userStore.getUser?.company
+    const preferences = company?.onboarding_preferences ?? {}
+    if ((preferences?.modules?.useOfForce !== false) === state.formCompany.use_of_force_enabled) return
+
+    const updated = { ...preferences, modules: { ...(preferences?.modules ?? {}), useOfForce: state.formCompany.use_of_force_enabled } }
+    await companyService.updateOnboardingPreferences({ onboarding_preferences: updated })
+    const currentUser: any = { ...userStore.getUser }
+    currentUser.company = { ...currentUser.company, onboarding_preferences: updated }
+    userStore.setUser(currentUser)
+}
+
 const isDirty = ref(false)
 const formReady = ref(false)
 
@@ -1315,6 +1298,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             duty_schedule_default_sort: newValue?.company?.duty_schedule_default_sort ?? 'alphabetical',
             compensatory_time_enabled: newValue?.company?.compensatory_time_enabled ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
+            // Stored with the company's module choices; on unless a company turned it off.
+            use_of_force_enabled: newValue?.company?.onboarding_preferences?.modules?.useOfForce !== false,
             quick_risk_assessment_enabled: newValue?.company?.quick_risk_assessment_enabled ? true : false,
             one_journal_note_per_day_enabled: newValue?.company?.one_journal_note_per_day_enabled ? true : false,
             show_citizenone_attribution: newValue?.company?.hide_citizenone_attribution !== true,
@@ -1624,6 +1609,7 @@ async function submitForm() {
                     currentUser.company = { ...currentUser.company, ...response.data }
                     userStore.setUser(currentUser)
                 }
+                await saveUseOfForceChoice()
                 // After the company is stored, so its fresh roles are the ones kept.
                 await saveDisplayRoles()
                 successAlert(`${t('alert.success')}!`, `${t('settings.company.form.alert.successfullyUpdated')}.`)
