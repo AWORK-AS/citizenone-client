@@ -740,6 +740,36 @@
                                     {{ $t('settings.company.form.calendarDoneCreatesCareHours') }}
                                 </p>
                             </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.journal_note_time_registration_enabled"
+                                        @toggleSwitch="state.formCompany.journal_note_time_registration_enabled = !state.formCompany.journal_note_time_registration_enabled" :label="$t('settings.company.form.journalNoteTimeRegistration')" />
+                                    <p>
+                                        {{ $t('settings.company.form.journalNoteTimeRegistration') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.journalNoteTimeRegistrationHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.care_hour_payroll_lock_enabled"
+                                        @toggleSwitch="state.formCompany.care_hour_payroll_lock_enabled = !state.formCompany.care_hour_payroll_lock_enabled" :label="$t('settings.company.form.careHourPayrollLock')" />
+                                    <p>
+                                        {{ $t('settings.company.form.careHourPayrollLock') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.careHourPayrollLockHint') }}.</p>
+                                <!-- Also under Time Logs -> Intervention Hours. Shown once the switch is saved on. -->
+                                <FormButton type="button" buttonStyle="action" buttonSize="xs" class="w-fit"
+                                    v-if="userStore.getUser?.company?.care_hour_payroll_lock_enabled === true"
+                                    @click="isPayrollMonthsOpen = true">
+                                    <Icon name="ph:lock" class="size-4" aria-hidden="true" />
+                                    {{ $t('timeLogs.payrollMonths.button') }}
+                                </FormButton>
+                                <ModulesUserSettingsTimeLogsPayrollMonthsModal
+                                    v-if="userStore.getUser?.company?.care_hour_payroll_lock_enabled === true"
+                                    :isModalOpen="isPayrollMonthsOpen" @close="isPayrollMonthsOpen = false" />
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.citizen_calendar_shift_enabled"
                                     @toggleSwitch="state.formCompany.citizen_calendar_shift_enabled = !state.formCompany.citizen_calendar_shift_enabled" :label="$t('settings.company.form.citizenCalendarShift')" />
@@ -875,6 +905,8 @@ definePageMeta({ middleware: 'require-admin' })
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
+// Payroll months, opened under the "Close months for payroll" switch.
+const isPayrollMonthsOpen = ref(false)
 // Counting absence toward norm hours is a Pro-plan feature.
 const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 // Inquiry pipeline (kanban) is a licensed app - the toggle only makes sense,
@@ -1111,6 +1143,8 @@ const state = reactive({
         citizen_calendar_shift_enabled: false,
         inquiry_won_requires_cpr_enabled: false,
         patient_portal_hide_clinic_contact: false,
+        journal_note_time_registration_enabled: false,
+        care_hour_payroll_lock_enabled: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
@@ -1249,6 +1283,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
             inquiry_won_requires_cpr_enabled: newValue?.company?.inquiry_won_requires_cpr_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
+            journal_note_time_registration_enabled: newValue?.company?.journal_note_time_registration_enabled === true,
+            care_hour_payroll_lock_enabled: newValue?.company?.care_hour_payroll_lock_enabled === true,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
@@ -1520,6 +1556,8 @@ async function submitForm() {
                 citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
                 inquiry_won_requires_cpr_enabled: state.formCompany.inquiry_won_requires_cpr_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
+                journal_note_time_registration_enabled: state.formCompany.journal_note_time_registration_enabled,
+                care_hour_payroll_lock_enabled: state.formCompany.care_hour_payroll_lock_enabled,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,

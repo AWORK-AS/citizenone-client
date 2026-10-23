@@ -15,6 +15,12 @@
                         <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('citizens.interventionHours.download.download') }}
                     </FormButton>
+                    <!-- Months closed for payroll: Admins, where the company switched it on. -->
+                    <FormButton buttonStyle="action" v-if="canManagePayrollMonths"
+                        @click="state.modal.isPayrollMonthsOpen = true">
+                        <Icon name="ph:lock" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('timeLogs.payrollMonths.button') }}
+                    </FormButton>
                 </div>
                 <div class="mt-5 space-y-5">
                     <Alert type="danger" :text="state?.error?.message"
@@ -48,6 +54,13 @@
                                             <Badge type="primary" class="text-xxs"
                                                 v-if="inteventionHours?.is_from_duty_schedule">
                                                 {{ $t('citizens.interventionHours.table.fromDutySchedule') }}
+                                            </Badge>
+                                            <Badge type="primary" class="text-xxs"
+                                                v-if="inteventionHours?.from_journal_note">
+                                                {{ $t('citizens.interventionHours.table.fromJournalNote') }}
+                                            </Badge>
+                                            <Badge type="inactive" class="text-xxs" v-if="inteventionHours?.is_paid_out">
+                                                {{ $t('citizens.interventionHours.table.paidOut') }}
                                             </Badge>
                                         </div>
                                     </td>
@@ -111,6 +124,9 @@
                 <ModulesUserSettingsTimeLogsInterventionHoursModalFilter @setFilter="setFilter"
                     :isModalOpen="state.modal.isFilterDutyScheduleOpen"
                     @close="state.modal.isFilterDutyScheduleOpen = false" />
+                <ModulesUserSettingsTimeLogsPayrollMonthsModal v-if="canManagePayrollMonths"
+                    :isModalOpen="state.modal.isPayrollMonthsOpen"
+                    @close="state.modal.isPayrollMonthsOpen = false" @changed="fetchInterventionHours()" />
             </template>
         </Modal>
     </div>
@@ -124,6 +140,8 @@ import { useNumberFormatter } from '@/composables/numberFormatter'
 // import { useCitizenStore } from '@/store/citizen'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
+import { useUserStore } from '@/store/user'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -138,7 +156,12 @@ const { t } = useI18n()
 const { formatNumber } = useNumberFormatter()
 const language = useI18n()
 const { successAlert } = useAlert()
+const { isAtLeast } = usePermissions()
+const userStore = useUserStore() as any
 const emit = defineEmits(['close', 'refreshCitizenDetails'])
+// The server answers 404 without the switch and 403 below Admin.
+const canManagePayrollMonths = computed(() => isAtLeast('Admin')
+    && userStore.getUser?.company?.care_hour_payroll_lock_enabled === true)
 let currentTablePage = 1
 
 const state = reactive({
@@ -176,6 +199,7 @@ const state = reactive({
         isTimeAccountDateRangeOpen: false,
         isViewInterventionHourLogOpen: false,
         isFilterDutyScheduleOpen: false,
+        isPayrollMonthsOpen: false,
     },
     interventionHours: [] as any,
     selectedInterventionHours: {} as any,

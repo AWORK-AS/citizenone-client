@@ -1900,6 +1900,12 @@
         },
         "citizenJournals": {
             "aiUsed": "CitizenOne AI blev brugt",
+            "registeredTime": "Registreret tid",
+            "registerTime": {
+                "title": "Registrér tid",
+                "hint": "Valgfrit. Når notatet gemmes, gemmes også én indsatstime for dig på sagen, knyttet til notatet.",
+                "remove": "Registrér ikke tid"
+            },
             "actions": {
                 "addToFavorite": "Føj til favoritter",
                 "copy": "Kopiér",
@@ -2878,6 +2884,8 @@
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vagtplan",
+                "fromJournalNote": "Fra notat",
+                "paidOut": "Udbetalt",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer",
                 "transport": "Transportere",
@@ -11445,6 +11453,10 @@
                 "missingNoteCoordinatorReminderHint": "Et døgn efter en aftale sluttede uden notat, får sagens primære koordinator også en påmindelse, og koordinatorer og ledere ser aftalerne på Min dag. Kræver, at påmindelsen om aftaler uden notat er slået til",
                 "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
                 "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
+                "journalNoteTimeRegistration": "Registrér tid fra et notat uden booking",
+                "journalNoteTimeRegistrationHint": "Notatformularen på en sag får et valgfrit afsnit Registrér tid. Gemmes notatet med det udfyldt, gemmes også en indsatstime for forfatteren, knyttet til notatet",
+                "careHourPayrollLock": "Luk måneder for løn",
+                "careHourPayrollLockHint": "En administrator lukker en måned under Tidslogge → Indsatstimer → Lønmåneder. Indsatstimer i en lukket måned vises som udbetalt og kan ikke tilføjes, ændres eller slettes, før måneden genåbnes",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dækningsgrad for medarbejdere",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og medarbejdere med økonomirettigheder ser dem stadig",
                 "careHourTypes": "Vælg timetype på indsatstimer",
@@ -15172,6 +15184,25 @@
         "timeAccounts": "Timekonti"
     },
     "timeLogs": {
+        "payrollMonths": {
+            "button": "Lønmåneder",
+            "title": "Lønmåneder",
+            "hint": "Luk en måned, når lønnen for den er kørt. Indsatstimer i en lukket måned er udbetalt: ingen kan tilføje, ændre eller slette dem, før en administrator genåbner måneden. Kun en måned, der er slut, kan lukkes.",
+            "month": "Måned",
+            "status": "Status",
+            "registrations": "Registreringer",
+            "open": "Åben",
+            "closed": "Lukket",
+            "closedBy": "Lukket {date} af {name}",
+            "reopenedBy": "Genåbnet {date} af {name}",
+            "close": "Luk måned",
+            "reopen": "Genåbn",
+            "confirmClose": "Luk {month} for løn? Indsatstimerne i den bliver udbetalt og låst.",
+            "confirmCloseOpenRows": "{count} registreringer i {month} er stadig i gang (tjekket ind eller en kørsel i gang). De kan stadig afsluttes og bliver så også låst.",
+            "confirmReopen": "Genåbn {month}? Indsatstimerne i den kan ændres igen.",
+            "closedAlert": "{month} er lukket for løn",
+            "reopenedAlert": "{month} er åben igen"
+        },
         "download": {
             "date": "Dato",
             "download": "Download",

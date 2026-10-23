@@ -25,7 +25,12 @@
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @dirtyChange="(dirty: boolean) => formDirty = dirty"
                         :draftCitizenUuid="String(citizenUuid ?? '')" @submitForm="saveJournal"
-                        @planGoalSubgoalSelected="onPlanGoalSubgoalSelected" />
+                        @planGoalSubgoalSelected="onPlanGoalSubgoalSelected">
+                        <template #extra v-if="showsTimeRegistration">
+                            <ModulesUserCitizenJournalTimeRegistration v-model="state.timeRegistration"
+                                :error="state.error" />
+                        </template>
+                    </ModulesUserCitizenJournalForm>
                 </LoadingSpinner>
             </template>
             <template #modal-right>
@@ -120,9 +125,11 @@ import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { clearDraft, draftKey } from '@/composables/journalNoteDraft'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const { successAlert } = useAlert()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { t } = useI18n()
 
@@ -150,9 +157,36 @@ let currentTablePage = 1
 watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
         state.selectedContext = { plan: '', goal: '', subgoal: '' }
+        state.timeRegistration = emptyTimeRegistration()
         fetchPlans()
     }
 })
+
+// Time registered with the note, where the company switched it on, for those
+// who may register time by hand (Admin or the per-employee create tick); the
+// server checks the same. Left closed, the note is saved exactly as before.
+const showsTimeRegistration = computed(() => userStore.getUser?.company?.journal_note_time_registration_enabled === true
+    && (isAtLeast('Admin') || can('create')))
+
+function emptyTimeRegistration() {
+    return { enabled: false, date_time_start: '', date_time_end: '', contract_hour_type_uuid: '' }
+}
+
+/** What a save adds: only a filled-in, open section; nothing otherwise. */
+function timeRegistrationParams() {
+    const time = state.timeRegistration
+    if (!showsTimeRegistration.value || !time.enabled || !time.date_time_start) {
+        return {}
+    }
+
+    return {
+        care_hour: {
+            date_time_start: time.date_time_start,
+            date_time_end: time.date_time_end,
+            ...(time.contract_hour_type_uuid ? { contract_hour_type_uuid: time.contract_hour_type_uuid } : {}),
+        },
+    }
+}
 
 const state = reactive({
     dataFilter: [],
@@ -196,6 +230,7 @@ const state = reactive({
     slideOver: {
         isGoalOpen: false
     },
+    timeRegistration: emptyTimeRegistration(),
     sortData: {
         sortField: 'completion_date',
         sortOrder: 'descend',
@@ -322,6 +357,7 @@ async function saveJournal(journalDetails: any) {
             // Present only when the form showed the wellbeing ruler.
             ...(journalDetails.wellbeing_scores ? { wellbeing_scores: journalDetails.wellbeing_scores } : {}),
             mentioned_user_uuids: journalDetails.formJournal.mentioned_user_uuids ?? [],
+            ...timeRegistrationParams(),
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {

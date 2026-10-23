@@ -469,6 +469,11 @@
                 </div>
             </div>
         </div>
+        <!-- Extra fields a caller adds above Save, e.g. time registered with a
+             new note (citizen/journal/modal-new.vue). Empty everywhere else. -->
+        <div class="mt-4" v-if="$slots.extra">
+            <slot name="extra" />
+        </div>
         <div class="mt-6 border-t border-gray-100 pt-5">
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <FormButton type="button" buttonStyle="cancel" @click="emit('closeModal')">

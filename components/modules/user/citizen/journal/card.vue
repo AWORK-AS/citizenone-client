@@ -68,6 +68,17 @@
                     <p class="mt-1 text-xs text-muted-400">
                         <span>{{ formatDateToReadable(journal.date) }}</span>
                     </p>
+                    <!-- Time registered with the note; only sent where the company does that. -->
+                    <div class="mt-1 flex flex-wrap items-center gap-1.5 text-xs text-gray-600"
+                        v-for="hour in (journal.care_hours ?? [])" :key="hour.uuid" data-testid="journal-registered-time">
+                        <Icon name="ph:clock" class="size-3.5 text-gray-400" aria-hidden="true" />
+                        <span>{{ $t('citizens.citizenJournals.registeredTime') }}:</span>
+                        <span>{{ formatDateTimeToReadable(hour.date_time_start) }} – {{ formatTimeOnly(hour.date_time_end) }}</span>
+                        <span v-if="hour.contract_hour_type?.name">· {{ hour.contract_hour_type.name }}</span>
+                        <Badge type="inactive" class="w-fit text-xxs" v-if="hour.is_paid_out">
+                            {{ $t('citizens.interventionHours.table.paidOut') }}
+                        </Badge>
+                    </div>
                     <div class="mt-1">
                         <Badge type="primary" class="w-fit" v-if="journal.score">
                             <p class="text-xxs" v-if="journal.score === 1">
@@ -212,8 +223,13 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useTerminology } from '@/composables/useTerminology'
 import { useI18n } from 'vue-i18n'
+import moment from 'moment'
 
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
+
+function formatTimeOnly(dateTime: string | null) {
+    return dateTime ? moment(dateTime).format('HH:mm') : ''
+}
 const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
