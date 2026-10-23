@@ -10,6 +10,8 @@ export type CitizenWeekRow = {
     firstname: string | null
     lastname: string | null
     weekly_hours: number
+    planned_hours?: number
+    unplanned_hours?: number
     used_hours: number
     remaining_hours: number
 }
@@ -64,4 +66,25 @@ export function formatWeekHours(hours: number, language: string | undefined): st
     const text = String(Math.round((Number(hours) || 0) * 100) / 100)
 
     return language?.startsWith('en') ? text : text.replace('.', ',')
+}
+
+/** How much of the week is booked in the calendar, 0-100, for the bar. */
+export function planProgress(row: Pick<CitizenWeekRow, 'weekly_hours' | 'planned_hours'>): number {
+    return weekProgress({ weekly_hours: row.weekly_hours, used_hours: row.planned_hours ?? 0 })
+}
+
+/** 'over' when more is booked than given, 'done' when all is booked, 'open' while hours are left to place. */
+export function planStatus(row: Pick<CitizenWeekRow, 'unplanned_hours'>): 'over' | 'done' | 'open' {
+    return weekStatus({ remaining_hours: row.unplanned_hours ?? 0 })
+}
+
+/**
+ * The day whose week the calendar's hours panel shows: the day or week on
+ * screen, else today (the month view spans several weeks).
+ */
+export function panelWeekDate(view: string, range: { start_date?: string, end_date?: string } | null | undefined, today: string): string {
+    if (!range?.start_date) return today
+    if (view === 'week') return range.start_date
+    if (range.start_date === range.end_date) return range.start_date
+    return today
 }

@@ -56,6 +56,9 @@
                                     used: formatWeekHours(row.used_hours, locale),
                                     given: formatWeekHours(row.weekly_hours, locale),
                                 }) }}
+                                <template v-if="row.planned_hours != null">
+                                    · {{ $t('myDay.citizenHours.planned', { hours: formatWeekHours(row.planned_hours, locale) }) }}
+                                </template>
                             </span>
                         </div>
                     </NuxtLink>

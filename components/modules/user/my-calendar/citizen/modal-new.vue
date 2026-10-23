@@ -5,6 +5,7 @@
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserMyCalendarCitizenForm formType="create" :selectedSchedule="state.formSchedule" :duplicateOf="props.duplicateOf"
+                        :presetCitizenUuid="props.isModalOpen ? props.presetCitizenUuid : ''"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveSchedule" />
                 </LoadingSpinner>
@@ -39,6 +40,11 @@ const props = defineProps({
     duplicateOf: {
         type: Object,
         default: null,
+    },
+    // The citizen to start with, e.g. "Plan" from the hours panel.
+    presetCitizenUuid: {
+        type: String,
+        default: '',
     },
 })
 const emit = defineEmits(['close', 'refreshSchedules'])

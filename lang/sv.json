@@ -1858,6 +1858,15 @@
                 "Saturday": "lördag",
                 "Sunday": "söndag"
             }
+        },
+        "hoursPanel": {
+            "title": "Mina timmar per @:terms.citizen{''} · vecka {week}",
+            "summary": "{planned} av {given} h planerade",
+            "plan": "Planera",
+            "plannedOfGiven": "{planned} av {given} h",
+            "toPlan": "{hours} h kvar att planera",
+            "allPlanned": "Alla timmar är planerade",
+            "overPlanned": "{hours} h för mycket planerat"
         }
     },
     "calendarTags": {
@@ -16603,6 +16612,7 @@
             "remaining": "{hours} h kvar",
             "title": "Mina timmar per @:terms.citizen{''}",
             "usedOfGiven": "{used} av {given} h",
+            "planned": "{hours} h planerade",
             "week": "Vecka {week}"
         }
     },
