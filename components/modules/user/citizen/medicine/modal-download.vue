@@ -106,7 +106,11 @@ async function downloadMedicineOverview() {
     try {
         const params = {
             citizen_uuid: citizenUuid,
-            citizen_medicine_uuid: citizenMedicineStore.getSelectedMedicines,
+            // The backend expects a JSON-encoded string here, not a raw array -
+            // a GET query param serializes an array as repeated/bracketed keys,
+            // which json_decode() on the other end can't read, so an unselected
+            // (or un-stringified) value silently fell back to "whole overview".
+            citizen_medicine_uuid: JSON.stringify(citizenMedicineStore.getSelectedMedicines ?? []),
             date_start: state.formDownload.date_start,
             date_end: state.formDownload.date_end,
         }
