@@ -202,7 +202,7 @@ function isNow(event: any) {
 }
 
 function isOverdue(event: any) {
-    if (!event || event.completion_status === 'completed') return false
+    if (!event || ['completed', 'cancelled'].includes(event.completion_status)) return false
     return !isNow(event) && moment(event.date_time_end).isBefore(moment())
 }
 

@@ -1858,6 +1858,21 @@
                 "Saturday": "Saturday",
                 "Sunday": "Sunday"
             }
+        },
+        "cancel": {
+            "action": "Cancel",
+            "title": "Cancel event",
+            "intro": "The event is marked as cancelled and stays in the calendar. Hours from the event are freed.",
+            "reason": "Reason",
+            "reasonPlaceholder": "E.g. the family called in sick",
+            "move": "Move to a new time",
+            "submit": "Cancel event",
+            "submitAndMove": "Cancel and move event",
+            "done": "The event is cancelled",
+            "doneAndMoved": "The event is cancelled and moved",
+            "cancelled": "Cancelled",
+            "movedTo": "Moved to {time}",
+            "movedFrom": "Moved here from {time}"
         }
     },
     "calendarTags": {
