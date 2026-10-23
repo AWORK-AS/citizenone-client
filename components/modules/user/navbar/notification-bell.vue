@@ -151,9 +151,11 @@
 import { useI18n } from 'vue-i18n'
 import { notificationService } from '@/components/api/user/NotificationService'
 import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 
 const { t } = useI18n()
 const userStore = useUserStore() as any
+const { seesHrData } = usePermissions()
 const bellRef = ref<HTMLElement | null>(null)
 const state = reactive({
     isOpen: false,
@@ -199,6 +201,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('shiftrequest')) return 'shift_request'
     if (type.toLowerCase().includes('inquiryrecruitment')) return 'inquiry_recruitment'
     if (type.toLowerCase().includes('certificateexpiry')) return 'certificate_expiry'
+    if (type.toLowerCase().includes('cvoutdated')) return 'cv_outdated'
     if (type.toLowerCase().includes('whistleblowerreport')) return 'whistleblower'
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
     if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
@@ -223,6 +226,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     shift_request: { bg: 'bg-primary/10', icon: 'mdi:calendar-plus', color: 'text-primary' },
     inquiry_recruitment: { bg: 'bg-secondary/10', icon: 'ph:user-plus', color: 'text-secondary' },
     certificate_expiry: { bg: 'bg-accent-orange/10', icon: 'ph:certificate', color: 'text-accent-orange' },
+    cv_outdated: { bg: 'bg-accent-orange/10', icon: 'ph:file-text', color: 'text-accent-orange' },
     whistleblower: { bg: 'bg-primary/10', icon: 'ph:megaphone-simple', color: 'text-primary' },
     booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
     patient_booking: { bg: 'bg-primary/10', icon: 'ph:calendar-check', color: 'text-primary' },
@@ -638,14 +642,23 @@ async function handleNotifClick(notif: any) {
             navigateTo(`/inquiries/${inquiryUuid}`)
         }
     }
-    // A certificate about to expire: admins go to the certificate overview,
-    // which is Admin only. The holder has no page of their own documents, so
-    // for them the item is only marked read (above).
+    // A certificate about to expire: those who see HR data (Admins and roles
+    // with the HR setting) go to the certificate overview, which is theirs only.
+    // The holder has no page of their own documents, so for them the item is
+    // only marked read (above).
     if (getCategory(notif.type) === 'certificate_expiry') {
-        const isAdmin = !!userStore.getUser?.roles?.some((role: any) => role.name === 'Admin')
-        if (isAdmin) {
+        if (seesHrData()) {
             state.isOpen = false
             navigateTo('/employees/certificates')
+        }
+    }
+    // An outdated CV: to the employee's profile, where the CV box is, for those
+    // who see HR data; the holder's item is only marked read, as above.
+    if (getCategory(notif.type) === 'cv_outdated') {
+        const holderUuid = notif.data?.content?.holder_uuid
+        if (seesHrData() && holderUuid && !notif.data?.content?.is_holder) {
+            state.isOpen = false
+            navigateTo(`/employees/${holderUuid}/view-details`)
         }
     }
     // A patient booked or cancelled a time online: to Booked times on that

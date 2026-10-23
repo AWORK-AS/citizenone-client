@@ -1,6 +1,6 @@
 <template>
     <section v-if="state.summary || state.loading"
-        class="flex items-start gap-3 rounded-xl bg-primary-25 px-5 py-4 ring-1 ring-primary/15">
+        class="flex items-start gap-3 rounded-xl bg-ai-bg px-5 py-4 ring-1 ring-ai-border">
         <ModulesUserNavbarCodyMark :size="20" :working="state.loading" class="mt-0.5 shrink-0" />
 
         <div class="min-w-0 flex-1">
@@ -10,7 +10,7 @@
                 v-safe-html="state.summary" />
 
             <button v-if="!state.loading" type="button"
-                class="mt-2 text-xs font-semibold text-primary hover:underline"
+                class="mt-2 text-xs font-semibold text-ai-ink hover:underline"
                 @click="askMore">
                 {{ $t('myDay.cody.askMore') }}
             </button>

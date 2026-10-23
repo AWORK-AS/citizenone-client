@@ -3540,6 +3540,64 @@
         },
         "nursingAreas": {
             "areaOverview": {
+                "covers": "Hva som hører inn under",
+                "watch": "Følg med på",
+                "showGuide": "Hva betyr området?",
+                "openGoals": "Åpne mål",
+                "disclaimer": "Ved tvil eller forverring: kontakt den helsefaglig ansvarlige eller legen.",
+                "activeProblems": "Aktive problemer",
+                "potentialProblems": "Mulige problemer",
+                "seeHealth": "Se Helse",
+                "guide": {
+                    "functional_level": {
+                        "covers": "Hvor mye personen klarer selv i hverdagen: personlig hygiene, påkledning, å spise, komme seg rundt og delta i aktiviteter.",
+                        "watch": "Ting personen plutselig ikke klarer selv lenger, mer behov for hjelp, eller at personen trekker seg fra aktiviteter."
+                    },
+                    "musculoskeletal_system": {
+                        "covers": "Muskler, ledd og skjelett: å gå, stå, balanse og bevegelighet.",
+                        "watch": "Fall eller nesten-fall, ustø gange, stivhet, hovne eller ømme ledd, og at personen beveger seg mindre enn før."
+                    },
+                    "nutrition": {
+                        "covers": "Mat og drikke: appetitt, vekt, hvor mye personen spiser og drikker, og om det er vanskelig å tygge eller svelge.",
+                        "watch": "Vekttap, at personen spiser eller drikker mindre, hoster under måltider, tørr munn eller mørk urin."
+                    },
+                    "skin_and_mucous_membranes": {
+                        "covers": "Hud, munn og slimhinner: sår, rødhet, tørr eller skjør hud og munnhygiene.",
+                        "watch": "Røde flekker som ikke forsvinner (særlig der personen sitter eller ligger), nye sår, kløe, utslett og vondt i munnen."
+                    },
+                    "communication": {
+                        "covers": "Å forstå og bli forstått: tale, syn, hørsel og hvordan personen uttrykker behov og følelser.",
+                        "watch": "Endringer i tale eller forståelse, dårligere syn eller hørsel, og tegn på at personen ikke klarer å gjøre seg forstått."
+                    },
+                    "psychosocial_conditions": {
+                        "covers": "Trivsel, humør, relasjoner, nettverk og hvordan personen har det med andre og seg selv.",
+                        "watch": "Tristhet, uro, isolasjon, konflikter, endret atferd, bruk av alkohol eller rusmidler, og utsagn om å ha det vondt."
+                    },
+                    "respiration_and_circulation": {
+                        "covers": "Pust og sirkulasjon: åndedrett, hoste, puls, blodtrykk og hevelser.",
+                        "watch": "Tung pust, ny eller vedvarende hoste, blålige lepper, hovne bein, svimmelhet og hjertebank."
+                    },
+                    "sexuality": {
+                        "covers": "Kropp, seksualitet, grenser og prevensjon, på personens egne premisser.",
+                        "watch": "Usikkerhet eller bekymring for egen kropp, grenseoverskridende situasjoner og endringer personen selv nevner."
+                    },
+                    "pain_and_sensory_impressions": {
+                        "covers": "Smerter og sanser: vondt, ubehag, syn, hørsel, følesans og hvordan personen reagerer på lyd og lys.",
+                        "watch": "Tegn på smerter (grimaser, uro, at personen skåner et sted), nye smerter og overfølsomhet eller nedsatt følelse."
+                    },
+                    "sleep_and_rest": {
+                        "covers": "Søvn, hvile og døgnrytme: når og hvor godt personen sover, og om personen får hvilt.",
+                        "watch": "Søvnløshet, nattlig uro, at personen sover mye mer enn før, tretthet på dagtid og snudd døgnrytme."
+                    },
+                    "knowledge_and_development": {
+                        "covers": "Hva personen vet og forstår om egen situasjon og sykdom, hukommelse og evne til å lære nytt.",
+                        "watch": "Glemsomhet, forvirring, at personen ikke forstår eller husker avtaler og behandling, og spørsmål personen går med."
+                    },
+                    "excretion_of_waste": {
+                        "covers": "Vannlating og avføring: hvor ofte, hvordan det ser ut, og om personen klarer toalettbesøk selv.",
+                        "watch": "Forstoppelse, diaré, smerter ved vannlating, ufrivillig vannlating, blod i urin eller avføring og sterkt luktende urin."
+                    }
+                },
                 "title": "De 12 helsefaglige områdene",
                 "description": "Siste vurdering, problemstatus og åpne behandlinger innen hvert område. Trykk på et område for å se mer.",
                 "onlyWithContent": "Vis bare områder med innhold",
@@ -7502,6 +7560,9 @@
                     "documentSuccessfullyUpdated": "Dokument oppdatert vellykket"
                 },
                 "expiresOn": "Utløper {date}",
+                "cvDatedAt": "CV datert",
+                "cvDatedAtHelp": "Brukes til CV-påminnelsen. Uten dato teller opplastingsdatoen.",
+                "expiresAt": "Utløper",
                 "file": "Fil",
                 "issuedAt": "Innhentet den",
                 "name": "Navn",
@@ -7538,10 +7599,37 @@
                 "status": "Status"
             },
             "statuses": {
+                "missing": "Mangler",
                 "expired": "Utløpt",
                 "expiring_soon": "Utløper snart",
                 "valid": "Gyldig",
                 "no_expiry": "Ingen utløpsdato"
+            },
+            "tabs": {
+                "expiry": "Utløp",
+                "missing": "Mangler",
+                "search": "Søk i dokumenter"
+            },
+            "missing": {
+                "empty": "Ingen mangler dokumenter",
+                "rule": "Konsulenter (roller merket som konsulentroller) må ha barneomsorgsattest, CV, utdanningspapirer og kontrakt, og førerkort hvis de kjører. Alle andre må ha barneomsorgsattest og politiattest.",
+                "consultant": "Konsulent",
+                "filters": {
+                    "status": "Status",
+                    "allStatuses": "Alle",
+                    "role": "Rolle",
+                    "allRoles": "Alle roller",
+                    "department": "Avdeling",
+                    "allDepartments": "Alle avdelinger"
+                }
+            },
+            "search": {
+                "placeholder": "Søk på ansatt eller filnavn",
+                "allTypes": "Alle typer",
+                "empty": "Ingen dokumenter funnet",
+                "file": "Fil",
+                "uploaded": "Lastet opp",
+                "view": "Vis"
             },
             "empty": "Ingen attester funnet"
         },
@@ -9800,7 +9888,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Usannsynlig sluttposisjon - strekningen er ikke medregnet.",
             "implausible_start_coordinate": "Usannsynlig startposisjon - strekningen er ikke medregnet.",
-            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet."
+            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet.",
+            "over_monthly_limit": "Over månedens km-grense på innsatsen."
         },
         "summary": {
             "allTime": "All tid",
@@ -11185,6 +11274,13 @@
             "hideInternalJournalsHelp": "Ansatte med denne rollen ser ikke notater merket som interne, med mindre de har skrevet dem selv. Har en ansatt flere roller, er det nok at én av dem er merket.",
             "seesHrData": "Kan se HR-opplysninger og ansattdokumenter",
             "seesHrDataHelp": "Ansatte med denne rollen ser kollegers HR-opplysninger, ansattdokumenter (kontrakter, politiattester, attester m.m.), lønnsfelt, adresser og nødkontakter og kan håndtere dem. Uten den ser de bare sine egne. Administratorer ser dem alltid.",
+            "certificateReminders": "Mottar påminnelser om attester",
+            "certificateRemindersHelp": "Personer med denne rollen får påminnelser om attester som utløper og utdaterte CV-er, på e-post og i CitizenOne. Så snart en rolle har dette, går påminnelsene til disse rollene og den ansatte i stedet for til administratorene.",
+            "certificateRemindersForAll": "For alle ansatte",
+            "certificateRemindersForRoles": "For ansatte med rollene",
+            "certificateRemindersRolesPlaceholder": "Velg roller",
+            "countsAsConsultant": "Ansatte med denne rollen er konsulenter",
+            "countsAsConsultantHelp": "Brukes i Ansatte → Attester → Mangler: konsulenter må i tillegg til barneomsorgsattesten ha CV, utdanningspapirer og kontrakt.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
@@ -11460,6 +11556,10 @@
                 "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
                 "inquiryWonRequiresCpr": "CPR-nummer påkrevd når en henvendelse er vunnet",
                 "2fa": "To-faktor-godkendelse",
+                "certificateReminderEmail": "Felles postkasse for attestpåminnelser",
+                "certificateReminderEmailHelp": "Får en kopi av alle påminnelser om attester og CV-er.",
+                "cvReminderMonths": "CV-påminnelse etter (måneder)",
+                "cvReminderMonthsHelp": "Minner den ansatte og mottakerne av attestpåminnelser én gang når den nyeste CV-en er eldre enn dette. La feltet stå tomt for ingen CV-påminnelser.",
                 "accountantEmail": "Revisor eller regnskabs e-post (@:terms.citizensDefinite{'s'} wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma oppdatert vellykket"
@@ -11573,6 +11673,8 @@
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
+                "mileageRequiresTransport": "Kjøring bare der transport er innvilget",
+                "mileageRequiresTransportHint": "En innsats tillater bare kjøring når kontraktsperioden den dagen har transporttimer (eller, uten kontraktsperiode, når det aksepterte tilbudet har transport), med mindre noen har valgt annet på innsatsen eller for den ansatte. Utlegg påvirkes ikke",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
                 "patientHideClinicContactHint": "Pasientene ser bare klinikkens navn. Adresse og telefon står fortsatt på fakturaene deres",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
@@ -16424,6 +16526,13 @@
         }
     },
     "myDay": {
+        "certificates": {
+            "title": "Attester som mangler eller utløper",
+            "missing": "{count} mangler",
+            "expired": "{count} utløpt",
+            "expiringSoon": "{count} utløper innen 60 dager",
+            "open": "Åpne oversikt"
+        },
         "unassignedWon": "Vunne saker uten koordinator",
         "unassignedWonCount": "1 sak venter | {count} saker venter",
         "unassignedWonOpen": "Fordel saker",
@@ -18199,6 +18308,7 @@
         "empty": "Ingen konsulenter er spurt ennå.",
         "selected": "Valgt",
         "select": "Utpek",
+        "selectTitle": "Velg {name}",
         "markInterested": "Sa ja",
         "markDeclined": "Sa nei",
         "askedBy": "spurt av {name}",
@@ -18912,7 +19022,33 @@
         "catalogueEmpty": "Det er ingen besøkstyper. Opprett dem under",
         "saveHint": "Gjelder fra nå for nye registreringer",
         "saved": "Registreringsreglene er lagret",
-        "saveFailed": "Reglene kunne ikke lagres"
+        "saveFailed": "Reglene kunne ikke lagres",
+        "followsTransportGranted": "Følger transportbevilgningen: transport er innvilget",
+        "followsTransportNotGranted": "Følger transportbevilgningen: transport er ikke innvilget",
+        "followTransportGranted": "Følg transportbevilgningen (innvilget nå: tillatt)",
+        "followTransportNotGranted": "Følg transportbevilgningen (ikke innvilget nå: ikke tillatt)",
+        "consultants": {
+            "title": "Regler per ansatt",
+            "hint": "En ansatts egen regel går foran innsatsens for den ansatte. Grenser telles per kalendermåned på denne innsatsen.",
+            "empty": "Det er ingen ansatte på innsatsen ennå.",
+            "thisMonth": "Denne måneden på innsatsen: {km} km, {amount} kr utlegg",
+            "set": "Sett egen regel",
+            "change": "Endre",
+            "remove": "Fjern egen regel",
+            "own": "egen regel",
+            "archived": "Arkivert",
+            "kmLimitShort": "maks {km} km per måned",
+            "amountLimitShort": "maks {amount} kr utlegg per måned",
+            "mileage": "Kjøring",
+            "expenses": "Utlegg",
+            "followCase": "Som innsatsen",
+            "kmLimit": "Kjøregrense per måned (km)",
+            "amountLimit": "Utleggsgrense per måned (kr)",
+            "noLimit": "Ingen grense",
+            "forNewEmployees": "Registreringsregler for disse ansatte (valgfritt)",
+            "forNewEmployeesHint": "La det stå for å bruke innsatsens regler. Lagres for hver ansatt valgt ovenfor.",
+            "forSelectedHint": "Valgfritt: hva konsulenten kan registrere på innsatsen. La det stå for å bruke innsatsens regler. Følger med når henvendelsen blir en innsats."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",
@@ -19606,6 +19742,8 @@
         }
     },
     "apiErrors": {
+        "notSavedTitle": "Ikke lagret",
+        "notSaved": "Endringen din ble ikke lagret. Sjekk tilkoblingen, og prøv igjen.",
         "loadScheduleFailed": "Kunne ikke hente vaktplandata",
         "loadSalaryDkFailed": "Kunne ikke hente Salary.dk-data",
         "createShiftFailed": "Vakten kunne ikke opprettes.",

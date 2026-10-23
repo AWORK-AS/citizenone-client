@@ -3540,6 +3540,64 @@
         },
         "nursingAreas": {
             "areaOverview": {
+                "covers": "Vad som ingår",
+                "watch": "Håll utkik efter",
+                "showGuide": "Vad betyder området?",
+                "openGoals": "Öppna mål",
+                "disclaimer": "Vid tvekan eller försämring: kontakta den hälsoansvariga eller läkaren.",
+                "activeProblems": "Aktiva problem",
+                "potentialProblems": "Möjliga problem",
+                "seeHealth": "Se Hälsa",
+                "guide": {
+                    "functional_level": {
+                        "covers": "Hur mycket personen klarar själv i vardagen: personlig hygien, påklädning, att äta, ta sig runt och delta i aktiviteter.",
+                        "watch": "Saker personen plötsligt inte längre klarar själv, ökat behov av hjälp, eller att personen drar sig undan aktiviteter."
+                    },
+                    "musculoskeletal_system": {
+                        "covers": "Muskler, leder och skelett: att gå, stå, balans och rörlighet.",
+                        "watch": "Fall eller nära fall, ostadig gång, stelhet, svullna eller ömma leder, och att personen rör sig mindre än förut."
+                    },
+                    "nutrition": {
+                        "covers": "Mat och dryck: aptit, vikt, hur mycket personen äter och dricker, och om det är svårt att tugga eller svälja.",
+                        "watch": "Viktminskning, att personen äter eller dricker mindre, hostar vid måltider, torr mun eller mörk urin."
+                    },
+                    "skin_and_mucous_membranes": {
+                        "covers": "Hud, mun och slemhinnor: sår, rodnad, torr eller skör hud och munhygien.",
+                        "watch": "Röda fläckar som inte försvinner (särskilt där personen sitter eller ligger), nya sår, klåda, utslag och ont i munnen."
+                    },
+                    "communication": {
+                        "covers": "Att förstå och bli förstådd: tal, syn, hörsel och hur personen uttrycker behov och känslor.",
+                        "watch": "Förändringar i tal eller förståelse, sämre syn eller hörsel, och tecken på att personen inte kan göra sig förstådd."
+                    },
+                    "psychosocial_conditions": {
+                        "covers": "Trivsel, humör, relationer, nätverk och hur personen har det med andra och sig själv.",
+                        "watch": "Nedstämdhet, oro, isolering, konflikter, förändrat beteende, bruk av alkohol eller droger, och att personen säger att personen mår dåligt."
+                    },
+                    "respiration_and_circulation": {
+                        "covers": "Andning och cirkulation: andning, hosta, puls, blodtryck och svullnader.",
+                        "watch": "Andnöd, ny eller ihållande hosta, blåaktiga läppar, svullna ben, yrsel och hjärtklappning."
+                    },
+                    "sexuality": {
+                        "covers": "Kropp, sexualitet, gränser och preventivmedel, på personens egna villkor.",
+                        "watch": "Osäkerhet eller oro kring den egna kroppen, gränsöverskridande situationer och förändringar personen själv nämner."
+                    },
+                    "pain_and_sensory_impressions": {
+                        "covers": "Smärta och sinnen: värk, obehag, syn, hörsel, känsel och hur personen reagerar på ljud och ljus.",
+                        "watch": "Tecken på smärta (grimaser, oro, att personen skyddar ett ställe), ny smärta och överkänslighet eller nedsatt känsel."
+                    },
+                    "sleep_and_rest": {
+                        "covers": "Sömn, vila och dygnsrytm: när och hur bra personen sover, och om personen får vila.",
+                        "watch": "Sömnlöshet, nattlig oro, att personen sover mycket mer än förut, trötthet under dagen och vänd dygnsrytm."
+                    },
+                    "knowledge_and_development": {
+                        "covers": "Vad personen vet och förstår om sin situation och sjukdom, minne och förmåga att lära sig nytt.",
+                        "watch": "Glömska, förvirring, att personen inte förstår eller minns tider och behandling, och frågor personen går och bär på."
+                    },
+                    "excretion_of_waste": {
+                        "covers": "Urin och avföring: hur ofta, hur det ser ut, och om personen klarar toalettbesök själv.",
+                        "watch": "Förstoppning, diarré, sveda vid urinering, inkontinens, blod i urin eller avföring och starkt luktande urin."
+                    }
+                },
                 "title": "De 12 hälsoområdena",
                 "description": "Senaste bedömning, problemstatus och öppna behandlingar inom varje område. Tryck på ett område för att se mer.",
                 "onlyWithContent": "Visa bara områden med innehåll",
@@ -7502,6 +7560,9 @@
                     "documentSuccessfullyUpdated": "Dokument uppdaterad"
                 },
                 "expiresOn": "Går ut {date}",
+                "cvDatedAt": "CV daterat",
+                "cvDatedAtHelp": "Används för CV-påminnelsen. Utan datum räknas uppladdningsdatumet.",
+                "expiresAt": "Går ut",
                 "file": "Fil",
                 "issuedAt": "Inhämtad den",
                 "name": "Namn",
@@ -7538,10 +7599,37 @@
                 "status": "Status"
             },
             "statuses": {
+                "missing": "Saknas",
                 "expired": "Utgånget",
                 "expiring_soon": "Går snart ut",
                 "valid": "Giltigt",
                 "no_expiry": "Inget utgångsdatum"
+            },
+            "tabs": {
+                "expiry": "Utgång",
+                "missing": "Saknas",
+                "search": "Sök i dokument"
+            },
+            "missing": {
+                "empty": "Ingen saknar dokument",
+                "rule": "Konsulter (roller markerade som konsultroller) behöver barnintyg, CV, utbildningsbevis och kontrakt, samt körkort om de kör. Alla andra behöver barnintyg och belastningsregisterutdrag.",
+                "consultant": "Konsult",
+                "filters": {
+                    "status": "Status",
+                    "allStatuses": "Alla",
+                    "role": "Roll",
+                    "allRoles": "Alla roller",
+                    "department": "Avdelning",
+                    "allDepartments": "Alla avdelningar"
+                }
+            },
+            "search": {
+                "placeholder": "Sök på anställd eller filnamn",
+                "allTypes": "Alla typer",
+                "empty": "Inga dokument hittades",
+                "file": "Fil",
+                "uploaded": "Uppladdad",
+                "view": "Visa"
             },
             "empty": "Inga intyg hittades"
         },
@@ -9800,7 +9888,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Orimlig slutposition - sträckan räknas inte med.",
             "implausible_start_coordinate": "Orimlig startposition - sträckan räknas inte med.",
-            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med."
+            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med.",
+            "over_monthly_limit": "Över månadens km-gräns på insatsen."
         },
         "summary": {
             "allTime": "All tid",
@@ -11185,6 +11274,13 @@
             "hideInternalJournalsHelp": "Medarbetare med den här rollen ser inte anteckningar markerade som interna, om de inte själva har skrivit dem. Har en medarbetare flera roller räcker det att en av dem är markerad.",
             "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
             "seesHrDataHelp": "Medarbetare med den här rollen ser kollegors HR-uppgifter, medarbetardokument (avtal, belastningsregisterutdrag, intyg m.m.), lönefält, adresser och nödkontakter och kan hantera dem. Utan den ser de bara sina egna. Administratörer ser dem alltid.",
+            "certificateReminders": "Tar emot påminnelser om intyg",
+            "certificateRemindersHelp": "Personer med den här rollen får påminnelser om intyg som går ut och inaktuella CV:n, via e-post och i CitizenOne. Så snart en roll har detta går påminnelserna till dessa roller och medarbetaren i stället för till administratörerna.",
+            "certificateRemindersForAll": "För alla medarbetare",
+            "certificateRemindersForRoles": "För medarbetare med rollerna",
+            "certificateRemindersRolesPlaceholder": "Välj roller",
+            "countsAsConsultant": "Medarbetare med den här rollen är konsulter",
+            "countsAsConsultantHelp": "Används i Anställda → Intyg → Saknas: konsulter behöver utöver barnintyget CV, utbildningsbevis och kontrakt.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11460,6 +11556,10 @@
                 "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
                 "inquiryWonRequiresCpr": "Personnummer krävs när en förfrågan är vunnen",
                 "2fa": "Tvåfaktorsautentisering",
+                "certificateReminderEmail": "Gemensam brevlåda för intygspåminnelser",
+                "certificateReminderEmailHelp": "Får en kopia av alla påminnelser om intyg och CV:n.",
+                "cvReminderMonths": "CV-påminnelse efter (månader)",
+                "cvReminderMonthsHelp": "Påminner medarbetaren och mottagarna av intygspåminnelser en gång när det senaste CV:t är äldre än så. Lämna tomt för inga CV-påminnelser.",
                 "accountantEmail": "Revisor eller regnskabs e-post (borgernes wallet transaktioner)",
                 "alert": {
                     "successfullyUpdated": "Firma uppdaterad"
@@ -11573,6 +11673,8 @@
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
+                "mileageRequiresTransport": "Körning bara där transport är beviljad",
+                "mileageRequiresTransportHint": "En insats tillåter bara körning när avtalsperioden den dagen har transporttimmar (eller, utan avtalsperiod, när det accepterade erbjudandet har transport), om ingen har valt annat på insatsen eller för medarbetaren. Utlägg påverkas inte",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
@@ -16424,6 +16526,13 @@
         }
     },
     "myDay": {
+        "certificates": {
+            "title": "Intyg som saknas eller går ut",
+            "missing": "{count} saknas",
+            "expired": "{count} utgångna",
+            "expiringSoon": "{count} går ut inom 60 dagar",
+            "open": "Öppna översikt"
+        },
         "unassignedWon": "Vunna ärenden utan koordinator",
         "unassignedWonCount": "1 ärende väntar | {count} ärenden väntar",
         "unassignedWonOpen": "Fördela ärenden",
@@ -18199,6 +18308,7 @@
         "empty": "Inga konsulter är tillfrågade än.",
         "selected": "Vald",
         "select": "Utse",
+        "selectTitle": "Välj {name}",
         "markInterested": "Sa ja",
         "markDeclined": "Sa nej",
         "askedBy": "tillfrågad av {name}",
@@ -18912,7 +19022,33 @@
         "catalogueEmpty": "Det finns inga besökstyper. Skapa dem under",
         "saveHint": "Gäller från och med nu för nya registreringar",
         "saved": "Registreringsreglerna är sparade",
-        "saveFailed": "Reglerna kunde inte sparas"
+        "saveFailed": "Reglerna kunde inte sparas",
+        "followsTransportGranted": "Följer transportbeviljandet: transport är beviljad",
+        "followsTransportNotGranted": "Följer transportbeviljandet: ingen transport är beviljad",
+        "followTransportGranted": "Följ transportbeviljandet (beviljad nu: tillåten)",
+        "followTransportNotGranted": "Följ transportbeviljandet (inte beviljad nu: inte tillåten)",
+        "consultants": {
+            "title": "Regler per medarbetare",
+            "hint": "En medarbetares egen regel går före insatsens för medarbetaren. Gränser räknas per kalendermånad på den här insatsen.",
+            "empty": "Det finns inga medarbetare på insatsen än.",
+            "thisMonth": "Den här månaden på insatsen: {km} km, {amount} kr utlägg",
+            "set": "Ange egen regel",
+            "change": "Ändra",
+            "remove": "Ta bort egen regel",
+            "own": "egen regel",
+            "archived": "Arkiverad",
+            "kmLimitShort": "max {km} km per månad",
+            "amountLimitShort": "max {amount} kr utlägg per månad",
+            "mileage": "Körning",
+            "expenses": "Utlägg",
+            "followCase": "Som insatsen",
+            "kmLimit": "Körgräns per månad (km)",
+            "amountLimit": "Utläggsgräns per månad (kr)",
+            "noLimit": "Ingen gräns",
+            "forNewEmployees": "Registreringsregler för dessa medarbetare (valfritt)",
+            "forNewEmployeesHint": "Lämna som det är för att använda insatsens regler. Sparas för varje medarbetare som valts ovan.",
+            "forSelectedHint": "Valfritt: vad konsulten får registrera på insatsen. Lämna som det är för att använda insatsens regler. Följer med när förfrågan blir en insats."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov av rekrytering",
@@ -19606,6 +19742,8 @@
         }
     },
     "apiErrors": {
+        "notSavedTitle": "Inte sparat",
+        "notSaved": "Din ändring sparades inte. Kontrollera anslutningen och försök igen.",
         "loadScheduleFailed": "Det gick inte att hämta schemadata",
         "loadSalaryDkFailed": "Det gick inte att hämta Salary.dk-data",
         "createShiftFailed": "Passet kunde inte skapas.",

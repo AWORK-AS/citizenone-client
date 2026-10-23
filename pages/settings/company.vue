@@ -628,7 +628,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupOther') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount + calendarNoteSwitchCount }} / 9</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ otherCount + calendarNoteSwitchCount }} / {{ otherTotal }}</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.other }" />
                             </span>
                         </button>
@@ -745,6 +745,35 @@
                                     {{ $t('settings.company.form.certificateReminderAllRecipients') }}
                                 </p>
                             </div>
+                            <!-- Certificate and CV reminders: a copy of every reminder mail to a shared
+                                 mailbox, and CV reminders after a number of months (empty: off).
+                                 An Admin's call; the backend ignores them from anyone else. -->
+                            <div v-if="isAtLeast('Admin')" class="grid grid-cols-1 md:grid-cols-2 gap-3 max-w-2xl">
+                                <div class="space-y-1">
+                                    <FormLabel for="certificate_reminder_email"
+                                        :label="$t('settings.company.form.certificateReminderEmail')" />
+                                    <FormTextField id="certificate_reminder_email" name="certificate_reminder_email"
+                                        :placeholder="$t('settings.company.form.certificateReminderEmail')"
+                                        v-model="state.formCompany.certificate_reminder_email" />
+                                    <p class="text-xs text-[#8891A4]">
+                                        {{ $t('settings.company.form.certificateReminderEmailHelp') }}
+                                    </p>
+                                    <FormError :error="state?.error?.errors?.certificate_reminder_email?.[0]" />
+                                </div>
+                                <div class="space-y-1">
+                                    <FormLabel for="cv_reminder_months"
+                                        :label="$t('settings.company.form.cvReminderMonths')" />
+                                    <!-- No :min here: FormNumberField turns an empty value into the
+                                         minimum, and empty means no CV reminders. The backend refuses 0. -->
+                                    <FormNumberField id="cv_reminder_months" name="cv_reminder_months"
+                                        :placeholder="$t('settings.company.form.cvReminderMonths')"
+                                        v-model="state.formCompany.cv_reminder_months" />
+                                    <p class="text-xs text-[#8891A4]">
+                                        {{ $t('settings.company.form.cvReminderMonthsHelp') }}
+                                    </p>
+                                    <FormError :error="state?.error?.errors?.cv_reminder_months?.[0]" />
+                                </div>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.calendar_done_creates_care_hours_enabled"
                                     @toggleSwitch="state.formCompany.calendar_done_creates_care_hours_enabled = !state.formCompany.calendar_done_creates_care_hours_enabled" :label="$t('settings.company.form.calendarDoneCreatesCareHours')" />
@@ -778,6 +807,16 @@
                                     </p>
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.careHourTypesHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.registration_mileage_requires_transport_enabled"
+                                        @toggleSwitch="state.formCompany.registration_mileage_requires_transport_enabled = !state.formCompany.registration_mileage_requires_transport_enabled" :label="$t('settings.company.form.mileageRequiresTransport')" />
+                                    <p>
+                                        {{ $t('settings.company.form.mileageRequiresTransport') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.mileageRequiresTransportHint') }}.</p>
                             </div>
                         </div>
                         </div>
@@ -1021,7 +1060,10 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherCount = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.care_hour_types_enabled, state.formCompany.epikrise_enabled].filter(Boolean).length)
+const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.care_hour_types_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.epikrise_enabled])
+const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
+// Out of every switch counted above plus the two note switches (was a fixed 9).
+const otherTotal = computed(() => otherSwitches.value.length + 2)
 const companyStore = useCompanyStore()
 const language = useI18n()
 const { successAlert } = useAlert()
@@ -1049,6 +1091,8 @@ const state = reactive({
         cvr: '',
         website: '',
         accountant_email: '',
+        certificate_reminder_email: '',
+        cv_reminder_months: '',
         phone: '',
         street: '',
         region: '',
@@ -1074,6 +1118,7 @@ const state = reactive({
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
         care_hour_types_enabled: false,
+        registration_mileage_requires_transport_enabled: false,
         citizen_calendar_shift_enabled: false,
         inquiry_won_requires_cpr_enabled: false,
         patient_portal_hide_clinic_contact: false,
@@ -1204,6 +1249,8 @@ watch(() => userStore.getUser, (newValue: any) => {
             cvr: newValue?.company?.cvr,
             website: newValue?.company?.website,
             accountant_email: newValue?.company?.accountant_email,
+            certificate_reminder_email: newValue?.company?.certificate_reminder_email ?? '',
+            cv_reminder_months: newValue?.company?.cv_reminder_months?.toString() ?? '',
             phone: newValue?.company?.phone,
             street: address?.street ?? '',
             region: address?.region?.uuid ?? '',
@@ -1229,6 +1276,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
             care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
+            registration_mileage_requires_transport_enabled: newValue?.company?.registration_mileage_requires_transport_enabled === true,
             citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
             inquiry_won_requires_cpr_enabled: newValue?.company?.inquiry_won_requires_cpr_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
@@ -1477,6 +1525,9 @@ async function submitForm() {
                 cvr: state.formCompany.cvr,
                 website: state.formCompany.website,
                 accountant_email: state.formCompany.accountant_email,
+                // Only an Admin's are saved; empty means none / off.
+                certificate_reminder_email: state.formCompany.certificate_reminder_email || null,
+                cv_reminder_months: state.formCompany.cv_reminder_months ? Number(state.formCompany.cv_reminder_months) : null,
                 phone: state.formCompany.phone,
                 street: state.formCompany.street,
                 region_uuid: state.formCompany.region,
@@ -1502,6 +1553,7 @@ async function submitForm() {
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
                 care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
+                registration_mileage_requires_transport_enabled: state.formCompany.registration_mileage_requires_transport_enabled,
                 citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
                 inquiry_won_requires_cpr_enabled: state.formCompany.inquiry_won_requires_cpr_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,

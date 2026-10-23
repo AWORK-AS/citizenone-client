@@ -66,17 +66,42 @@
                 </template>
                 <Tooltip v-if="canManage && !invitation.is_selected && invitation.status !== 'declined' && canBeChosen(invitation)"
                     :text="$t('inquiryInvitations.select')">
-                    <FormButton type="button" buttonStyle="primary" @click="select(invitation)">
+                    <FormButton type="button" buttonStyle="primary" @click="openSelect(invitation)">
                         {{ $t('inquiryInvitations.select') }}
                     </FormButton>
                 </Tooltip>
             </div>
         </div>
+
+        <!-- Choosing the consultant, with what they may register on the case
+             (optional; carried to the indsats when the inquiry is won). -->
+        <Modal size="md" :title="$t('inquiryInvitations.selectTitle', { name: state.selecting ? consultantName(state.selecting) : '' })"
+            :show="state.selecting !== null" @close="state.selecting = null">
+            <template #modal-body>
+                <div class="space-y-3">
+                    <p class="text-[13px] text-slate-600">{{ $t('registrationRules.consultants.forSelectedHint') }}</p>
+                    <ModulesUserRegistrationRulesUserRuleFields v-model="state.ruleDraft" idPrefix="select-rule" />
+                    <div class="flex justify-end gap-2 pt-2">
+                        <FormButton type="button" buttonStyle="cancel" @click="state.selecting = null">{{ $t('cancel') }}</FormButton>
+                        <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving" @click="confirmSelect">
+                            {{ $t('inquiryInvitations.select') }}
+                        </FormButton>
+                    </div>
+                </div>
+            </template>
+        </Modal>
     </div>
 </template>
 
 <script setup lang="ts">
 import { inquiryConsultantInvitationService } from '@/components/api/user/InquiryConsultantInvitationService'
+import {
+    registrationRuleService,
+    fromUserRuleDraft,
+    toUserRuleDraft,
+    userRuleIsSet,
+    type UserRuleDraft,
+} from '@/components/api/user/RegistrationRuleService'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
@@ -95,6 +120,9 @@ const props = defineProps({
 
 const state = reactive({
     invitations: [] as any[],
+    selecting: null as any,
+    ruleDraft: toUserRuleDraft(null) as UserRuleDraft,
+    isSaving: false,
 })
 
 const canManage = computed(() => (userStore.getUser?.roles?.[0]?.level ?? 0) >= 60)
@@ -163,12 +191,32 @@ async function respond(invitation: any, status: 'interested' | 'declined') {
     }
 }
 
-async function select(invitation: any) {
+function openSelect(invitation: any) {
+    state.ruleDraft = toUserRuleDraft(null)
+    state.selecting = invitation
+}
+
+// The choice first; then the consultant's own rule, when one was given. A
+// refused rule leaves the choice made and says so.
+async function confirmSelect() {
+    const invitation = state.selecting
+    if (!invitation) return
+    state.isSaving = true
     try {
         await inquiryConsultantInvitationService.select(invitation.uuid)
+        const rule = fromUserRuleDraft(state.ruleDraft)
+        if (userRuleIsSet(rule) && invitation.consultant?.uuid) {
+            try {
+                await registrationRuleService.saveUserRule('inquiry', props.inquiryUuid, invitation.consultant.uuid, rule)
+            } catch (error: any) {
+                errorAlert(t('alert.warning'), error?.message ?? t('registrationRules.saveFailed'))
+            }
+        }
+        state.selecting = null
         await fetchInvitations()
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryInvitations.failed'))
     }
+    state.isSaving = false
 }
 </script>

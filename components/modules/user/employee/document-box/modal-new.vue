@@ -3,7 +3,8 @@
         <Modal size="md" :title="$t('employees.documents.newDocument')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <ModulesUserEmployeeDocumentBoxForm formType="create"
+                    <ModulesUserEmployeeDocumentBoxForm formType="create" :dateField="props.dateField"
+                        :dateLabel="props.dateLabel" :dateHelp="props.dateHelp"
                         :selectedEmployeeDocument="state.formEmployeeDocument" :error="state.error"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value" @closeModal="closeModal"
                         @submitForm="saveEmployeeDocument" />
@@ -33,6 +34,21 @@ const props = defineProps({
         type: String,
         required: true,
     },
+    // Optional: the one date this box asks for, 'issued_at' (e.g. when a CV
+    // was written) or 'expires_at' (e.g. a work permit's end date), with the
+    // translation keys of its label and help text. Without it, no date.
+    dateField: {
+        type: String,
+        default: '',
+    },
+    dateLabel: {
+        type: String,
+        default: '',
+    },
+    dateHelp: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close', 'refreshEmployeeDocuments'])
 
@@ -41,6 +57,7 @@ const state = reactive({
     formEmployeeDocument: {
         file: '',
         note: '',
+        date: '',
     },
     isPageLoading: false,
 })
@@ -62,6 +79,9 @@ async function saveEmployeeDocument(employeeDocumentDetails: any) {
         params.append('file', employeeDocumentDetails.file)
         params.append('file_type', props.fileType)
         params.append('note', employeeDocumentDetails.note)
+        if (props.dateField && employeeDocumentDetails.date) {
+            params.append(props.dateField, employeeDocumentDetails.date)
+        }
         const response = await employeeDocumentService.saveDocument(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('employees.documents.form.alert.documentSuccessfullySaved')}.`)

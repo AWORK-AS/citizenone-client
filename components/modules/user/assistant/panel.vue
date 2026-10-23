@@ -68,7 +68,7 @@
                 <div v-if="state.error?.isDaily" class="mx-4 -mt-1 mb-1 flex items-center">
                     <Tooltip v-if="state.error?.canBuy" :text="$t('aiUsage.buyHint')" wrap>
                         <button type="button" @click="goToApps"
-                            class="rounded-lg bg-primary px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90">
+                            class="rounded-lg bg-ai-ink px-3 py-1.5 text-sm font-medium text-white transition-opacity hover:opacity-90">
                             {{ $t('assistants.limitBuyMore') }}
                         </button>
                     </Tooltip>

@@ -27,6 +27,12 @@
             <FormError :error="v$?.formEmployeeDocument?.name?.$errors[0]?.$message.toString()" />
             <FormError :error="props?.error?.errors?.name?.[0]" />
         </div>
+        <div class="space-y-1" v-if="props.dateField">
+            <FormLabel :for="props.dateField" :label="$t(props.dateLabel)" />
+            <FormDateField :id="props.dateField" :name="props.dateField" v-model="state.formEmployeeDocument.date" />
+            <p v-if="props.dateHelp" class="text-xs text-gray-500">{{ $t(props.dateHelp) }}</p>
+            <FormError :error="props?.error?.errors?.[props.dateField]?.[0]" />
+        </div>
         <div class="space-y-1">
             <FormLabel for="note" :label="$t('employees.documents.form.note')" />
             <FormTextArea id="note" name="note" :placeholder="$t('employees.documents.form.note')"
@@ -66,6 +72,21 @@ const props = defineProps({
         type: Object,
         required: false,
     },
+    // Optional: the one date this box asks for, 'issued_at' (e.g. when a CV
+    // was written) or 'expires_at' (e.g. a work permit's end date), with the
+    // translation keys of its label and help text. Without it, no date.
+    dateField: {
+        type: String,
+        default: '',
+    },
+    dateLabel: {
+        type: String,
+        default: '',
+    },
+    dateHelp: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 const file = ref<HTMLInputElement | null>(null)
@@ -77,6 +98,7 @@ const state = reactive({
         file: '',
         name: props.selectedEmployeeDocument?.name,
         note: props.selectedEmployeeDocument?.note,
+        date: (props.dateField && props.selectedEmployeeDocument?.[props.dateField]) || '',
     } as any,
 })
 
@@ -100,6 +122,7 @@ watch(() => props.selectedEmployeeDocument, (newValue: any) => {
             file: '',
             name: newValue.name,
             note: newValue.note,
+            date: (props.dateField && newValue[props.dateField]) || '',
         }
     }
 })

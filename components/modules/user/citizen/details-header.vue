@@ -20,6 +20,7 @@
                     </button>
                 </div>
             </div>
+            <ModulesUserCitizenNursingAreasActiveProblems :citizenUuid="citizenUuid" />
             <div class="grid grid-cols-12 gap-6 relative">
                 <div :class="[
                     ['citizens-uuid-medicine-journals', 'citizens-uuid-journals'].includes($route.name as any) ? 'col-span-12 lg:col-span-9' : 'col-span-12',
@@ -994,6 +995,12 @@ async function transportLogin(transportLoginDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+        // Refused by the case's registration rules (mileage not allowed, or
+        // the month's kilometres used up): close the dialog so the message
+        // above shows.
+        if (error?.errors?.citizen_uuid) {
+            state.modal.isTransportLoginOpen = false
+        }
     }
     state.isPageLoading = false
 }
