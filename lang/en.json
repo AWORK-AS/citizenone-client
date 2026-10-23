@@ -3417,6 +3417,64 @@
         },
         "nursingAreas": {
             "areaOverview": {
+                "covers": "What it covers",
+                "watch": "Watch for",
+                "showGuide": "What does this area mean?",
+                "openGoals": "Open goals",
+                "disclaimer": "If in doubt or things get worse, contact the person responsible for health or the doctor.",
+                "activeProblems": "Active problems",
+                "potentialProblems": "Possible problems",
+                "seeHealth": "See Health",
+                "guide": {
+                    "functional_level": {
+                        "covers": "How much the person manages in everyday life: personal hygiene, dressing, eating, getting around and taking part in activities.",
+                        "watch": "Things the person suddenly can no longer do alone, a growing need for help, or withdrawing from activities."
+                    },
+                    "musculoskeletal_system": {
+                        "covers": "Muscles, joints and bones: walking, standing, balance and mobility.",
+                        "watch": "Falls or near falls, unsteady walking, stiffness, swollen or sore joints, and moving less than before."
+                    },
+                    "nutrition": {
+                        "covers": "Food and drink: appetite, weight, how much the person eats and drinks, and whether chewing or swallowing is hard.",
+                        "watch": "Weight loss, eating or drinking less, coughing while eating, a dry mouth or dark urine."
+                    },
+                    "skin_and_mucous_membranes": {
+                        "covers": "Skin, mouth and mucous membranes: wounds, redness, dry or fragile skin and oral hygiene.",
+                        "watch": "Red patches that do not fade (especially where the person sits or lies), new wounds, itching, rashes and a sore mouth."
+                    },
+                    "communication": {
+                        "covers": "Understanding and being understood: speech, sight, hearing and how the person expresses needs and feelings.",
+                        "watch": "Changes in speech or understanding, worse sight or hearing, and signs the person cannot make themselves understood."
+                    },
+                    "psychosocial_conditions": {
+                        "covers": "Wellbeing, mood, relationships, network and how the person feels about others and themselves.",
+                        "watch": "Sadness, restlessness, isolation, conflicts, changed behaviour, alcohol or drug use, and saying they feel bad."
+                    },
+                    "respiration_and_circulation": {
+                        "covers": "Breathing and circulation: breathing, coughing, pulse, blood pressure and swelling.",
+                        "watch": "Shortness of breath, a new or lasting cough, bluish lips, swollen legs, dizziness and palpitations."
+                    },
+                    "sexuality": {
+                        "covers": "Body, sexuality, boundaries and contraception, on the person's own terms.",
+                        "watch": "Worries about their own body, situations that cross boundaries, and changes the person mentions."
+                    },
+                    "pain_and_sensory_impressions": {
+                        "covers": "Pain and the senses: pain, discomfort, sight, hearing, touch and how the person reacts to sound and light.",
+                        "watch": "Signs of pain (grimacing, restlessness, guarding a spot), new pain, and oversensitivity or reduced feeling."
+                    },
+                    "sleep_and_rest": {
+                        "covers": "Sleep, rest and daily rhythm: when and how well the person sleeps, and whether they get rest.",
+                        "watch": "Sleeplessness, restless nights, sleeping much more than before, tiredness during the day and a reversed day-night rhythm."
+                    },
+                    "knowledge_and_development": {
+                        "covers": "What the person knows and understands about their situation and illness, memory and the ability to learn.",
+                        "watch": "Forgetfulness, confusion, not understanding or remembering appointments and treatment, and questions on their mind."
+                    },
+                    "excretion_of_waste": {
+                        "covers": "Urine and stool: how often, how it looks, and whether the person manages the toilet alone.",
+                        "watch": "Constipation, diarrhoea, pain when urinating, incontinence, blood in urine or stool, and strong-smelling urine."
+                    }
+                },
                 "title": "The 12 health areas",
                 "description": "Latest assessment, problem status and open treatments in each area. Tap an area to see more.",
                 "onlyWithContent": "Only show areas with content",
@@ -7379,6 +7437,9 @@
                     "documentSuccessfullyUpdated": "Document successfully updated"
                 },
                 "expiresOn": "Expires {date}",
+                "cvDatedAt": "CV dated",
+                "cvDatedAtHelp": "Used for the CV reminder. Without a date, the upload date counts.",
+                "expiresAt": "Expires on",
                 "file": "File",
                 "issuedAt": "Obtained on",
                 "name": "Name",
@@ -7415,10 +7476,37 @@
                 "status": "Status"
             },
             "statuses": {
+                "missing": "Missing",
                 "expired": "Expired",
                 "expiring_soon": "Expiring soon",
                 "valid": "Valid",
                 "no_expiry": "No expiry date"
+            },
+            "tabs": {
+                "expiry": "Expiry",
+                "missing": "Missing",
+                "search": "Search documents"
+            },
+            "missing": {
+                "empty": "Nobody is missing a document",
+                "rule": "Consultants (roles marked as consultant roles) need a child protection certificate, CV, education papers and a contract, plus a driving licence if they drive. Everyone else needs a child protection certificate and a criminal record.",
+                "consultant": "Consultant",
+                "filters": {
+                    "status": "Status",
+                    "allStatuses": "All",
+                    "role": "Role",
+                    "allRoles": "All roles",
+                    "department": "Department",
+                    "allDepartments": "All departments"
+                }
+            },
+            "search": {
+                "placeholder": "Search by employee or file name",
+                "allTypes": "All types",
+                "empty": "No documents found",
+                "file": "File",
+                "uploaded": "Uploaded",
+                "view": "View"
             },
             "empty": "No certificates found"
         },
@@ -9671,7 +9759,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Implausible end position - that leg is not counted.",
             "implausible_start_coordinate": "Implausible start position - that leg is not counted.",
-            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted."
+            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted.",
+            "over_monthly_limit": "Over the monthly km limit on this case."
         },
         "summary": {
             "allTime": "All time",
@@ -11061,6 +11150,13 @@
             "hideInternalJournalsHelp": "Employees with this role do not see notes marked internal unless they wrote them. If an employee has several roles, one marked role is enough.",
             "seesHrData": "Can see HR details and employee documents",
             "seesHrDataHelp": "Employees with this role see colleagues' HR details, employee documents (contracts, criminal records, certificates and more), pay fields, addresses and emergency contacts, and can manage them. Without it, they see only their own. Administrators always see them.",
+            "certificateReminders": "Receives certificate reminders",
+            "certificateRemindersHelp": "People with this role get the reminders about expiring certificates and outdated CVs, by e-mail and in CitizenOne. Once any role has this, reminders go to these roles and the employee instead of to the administrators.",
+            "certificateRemindersForAll": "For all employees",
+            "certificateRemindersForRoles": "For employees with these roles",
+            "certificateRemindersRolesPlaceholder": "Choose roles",
+            "countsAsConsultant": "Employees with this role are consultants",
+            "countsAsConsultantHelp": "Used by Employees → Certificates → Missing: consultants need a CV, education papers and a contract on top of the child protection certificate.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -11336,6 +11432,10 @@
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
                 "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
                 "2fa": "Two factor authentication",
+                "certificateReminderEmail": "Shared mailbox for certificate reminders",
+                "certificateReminderEmailHelp": "Gets a copy of every certificate and CV reminder e-mail.",
+                "cvReminderMonths": "CV reminder after (months)",
+                "cvReminderMonthsHelp": "Reminds the employee and the reminder recipients once when the newest CV is older than this. Leave empty for no CV reminders.",
                 "accountantEmail": "Auditor or accounting e-mail (@:terms.citizens{''}' wallet transactions)",
                 "alert": {
                     "successfullyUpdated": "Company successfully updated"
@@ -11449,6 +11549,8 @@
                 "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
                 "careHourTypes": "Choose an hour type on intervention hours",
                 "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
+                "mileageRequiresTransport": "Mileage only where transport is granted",
+                "mileageRequiresTransportHint": "A case allows mileage only when its contract period that day has transport hours (or, without a contract period, the accepted offer has transport), unless someone chose otherwise on the case or for the employee. Expenses are not affected",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
                 "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
@@ -16376,6 +16478,13 @@
         }
     },
     "myDay": {
+        "certificates": {
+            "title": "Certificates missing or expiring",
+            "missing": "{count} missing",
+            "expired": "{count} expired",
+            "expiringSoon": "{count} expiring within 60 days",
+            "open": "Open overview"
+        },
         "unassignedWon": "Won cases without a coordinator",
         "unassignedWonCount": "1 case waiting | {count} cases waiting",
         "unassignedWonOpen": "Assign cases",
@@ -18066,6 +18175,7 @@
         "empty": "No consultants have been asked yet.",
         "selected": "Chosen",
         "select": "Choose",
+        "selectTitle": "Choose {name}",
         "markInterested": "Said yes",
         "markDeclined": "Said no",
         "askedBy": "asked by {name}",
@@ -18779,7 +18889,33 @@
         "catalogueEmpty": "There are no visit types. Create them under",
         "saveHint": "Applies to new registrations from now on",
         "saved": "The registration rules are saved",
-        "saveFailed": "The rules could not be saved"
+        "saveFailed": "The rules could not be saved",
+        "followsTransportGranted": "Follows the transport grant: transport is granted",
+        "followsTransportNotGranted": "Follows the transport grant: no transport is granted",
+        "followTransportGranted": "Follow the transport grant (granted now: allowed)",
+        "followTransportNotGranted": "Follow the transport grant (not granted now: not allowed)",
+        "consultants": {
+            "title": "Rules per employee",
+            "hint": "An employee's own rule overrides the case for them. Limits count per calendar month on this case.",
+            "empty": "No employees on this case yet.",
+            "thisMonth": "This month on this case: {km} km, {amount} kr. expenses",
+            "set": "Set own rule",
+            "change": "Change",
+            "remove": "Remove own rule",
+            "own": "own rule",
+            "archived": "Archived",
+            "kmLimitShort": "max {km} km a month",
+            "amountLimitShort": "max {amount} kr. expenses a month",
+            "mileage": "Mileage",
+            "expenses": "Expenses",
+            "followCase": "As the case",
+            "kmLimit": "Mileage limit per month (km)",
+            "amountLimit": "Expense limit per month (kr.)",
+            "noLimit": "No limit",
+            "forNewEmployees": "Registration rules for these employees (optional)",
+            "forNewEmployeesHint": "Leave as it is to use the case's rules. Saved for each employee chosen above.",
+            "forSelectedHint": "Optional: what the consultant may register on the case. Leave as it is to use the case's rules. Carried over when the inquiry becomes a case."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Needs recruitment",
@@ -19384,6 +19520,8 @@
         "failed": "The suggestion could not be sent. Please try again later."
     },
     "apiErrors": {
+        "notSavedTitle": "Not saved",
+        "notSaved": "Your change was not saved. Check your connection and try again.",
         "loadScheduleFailed": "Failed to load schedule data",
         "loadSalaryDkFailed": "Failed to load Salary.dk data",
         "createShiftFailed": "Could not create the shift.",

@@ -8,22 +8,22 @@
 
                 <div class="mt-5 flex flex-col gap-2 sm:flex-row">
                     <template v-if="isAdmin">
-                        <FormButton v-if="trialAvailable" type="button" buttonStyle="primary" class="w-full justify-center"
+                        <FormButton v-if="trialAvailable" type="button" buttonStyle="primary" class="w-full justify-center !bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink"
                             @click="go(appPath)">
                             {{ $t('cody.adoption.tryFreeShort') }}
                         </FormButton>
                         <FormButton type="button" :buttonStyle="trialAvailable ? 'cancel' : 'primary'"
-                            class="w-full justify-center" @click="go('/apps')">
+                            class="w-full justify-center" :class="!trialAvailable && '!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink'" @click="go('/apps')">
                             {{ $t('cody.adoption.goToStore') }}
                         </FormButton>
                     </template>
                     <template v-else>
                         <span v-if="requestState === 'sent' || requestState === 'recent'"
-                            class="text-sm font-medium text-primary" role="status">
-                            <Icon name="ph:check-circle" class="mr-1 inline h-4 w-4 text-[#2dbab2]" aria-hidden="true" />
+                            class="text-sm font-medium text-ai-ink" role="status">
+                            <Icon name="ph:check-circle" class="mr-1 inline h-4 w-4 text-ai" aria-hidden="true" />
                             {{ $t('cody.adoption.sent') }}
                         </span>
-                        <FormButton v-else type="button" buttonStyle="primary" class="w-full justify-center"
+                        <FormButton v-else type="button" buttonStyle="primary" class="w-full justify-center !bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink"
                             :disabled="requestState === 'sending'" @click="requestFromAdmin()">
                             {{ $t('cody.adoption.askAdmin') }}
                         </FormButton>

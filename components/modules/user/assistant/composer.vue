@@ -10,7 +10,7 @@
                 <span class="size-1.5 shrink-0 rounded-full bg-amber-500" aria-hidden="true"></span>
                 <span class="min-w-0 flex-1 truncate">{{ $t('assistants.reviewShort') }}</span>
                 <button type="button" @click="state.showDataNotice = !state.showDataNotice"
-                    class="shrink-0 border-b border-gray-300 text-gray-600 transition-colors hover:border-primary/40 hover:text-primary">
+                    class="shrink-0 border-b border-gray-300 text-gray-600 transition-colors hover:border-ai-border hover:text-ai-ink">
                     {{ $t('assistants.dataAndAccess') }}
                 </button>
             </div>
@@ -45,12 +45,12 @@
 
             <div v-if="state.mentionedEntities.length > 0" class="flex flex-wrap gap-1.5 mb-2">
                 <div v-for="entity in state.mentionedEntities" :key="entity.uuid"
-                    class="flex items-center gap-1.5 bg-primary/10 text-xs text-primary pl-2.5 pr-1.5 py-1.5 rounded-md">
+                    class="flex items-center gap-1.5 bg-ai-bg text-xs text-ai-ink pl-2.5 pr-1.5 py-1.5 rounded-md">
                     <Icon :name="entity.type === 'employee' ? 'ph:identification-badge' : 'ph:at'"
                         class="h-3.5 w-3.5" />
                     <span class="max-w-[150px] truncate">{{ entity.label }}</span>
                     <button type="button" @click="removeMentionedEntity(entity.uuid)"
-                        class="text-primary/50 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors">
+                        class="text-ai-ink/50 hover:text-red-500 hover:bg-red-50 rounded p-0.5 transition-colors">
                         <Icon name="ph:x" class="h-3 w-3" />
                     </button>
                 </div>
@@ -167,7 +167,7 @@
                         :disabled="!state.newMessage.trim() && state.files.length === 0"
                         class="ml-auto flex size-8 shrink-0 items-center justify-center rounded-lg transition-all disabled:cursor-not-allowed"
                         :class="state.newMessage.trim() || state.files.length > 0
-                            ? 'bg-primary text-white shadow-sm hover:bg-primary/90'
+                            ? 'bg-ai-ink text-white shadow-sm hover:bg-ai-ink/90'
                             : 'bg-gray-200 text-gray-400'">
                         <Icon name="ph:paper-plane-tilt" class="h-5 w-5" />
                     </button>

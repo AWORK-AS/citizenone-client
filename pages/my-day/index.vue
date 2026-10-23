@@ -247,6 +247,35 @@
                             </div>
                         </section>
 
+                        <!-- Certificates and documents that are missing, expired or run out within
+                             60 days: the count, and the way to Employees → Attester → Mangler. Only
+                             for those who see HR data, and only when there is something. -->
+                        <section v-if="certificateTotal > 0" :id="`card-certificates`"
+                            class="rounded-xl bg-white ring-1 ring-gray-200 p-5 lg:col-span-2">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <Icon name="ph:certificate" class="size-5 text-tertiary" />
+                                <div class="min-w-0 flex-1">
+                                    <h3 class="font-semibold text-gray-900">{{ $t('myDay.certificates.title') }}</h3>
+                                    <p class="flex flex-wrap gap-x-3 text-xs text-gray-500">
+                                        <span v-if="state.certificateCounts.missing">
+                                            {{ $t('myDay.certificates.missing', { count: state.certificateCounts.missing }) }}
+                                        </span>
+                                        <span v-if="state.certificateCounts.expired">
+                                            {{ $t('myDay.certificates.expired', { count: state.certificateCounts.expired }) }}
+                                        </span>
+                                        <span v-if="state.certificateCounts.expiring_soon">
+                                            {{ $t('myDay.certificates.expiringSoon', { count: state.certificateCounts.expiring_soon }) }}
+                                        </span>
+                                    </p>
+                                </div>
+                                <NuxtLink to="/employees/certificates?view=missing">
+                                    <FormButton type="button" buttonStyle="action">
+                                        {{ $t('myDay.certificates.open') }}
+                                    </FormButton>
+                                </NuxtLink>
+                            </div>
+                        </section>
+
                         <!-- Who is carrying what, and what is on nobody. Read here
                              rather than by opening every case, which is how a team
                              works out who covers for somebody away. -->
@@ -306,6 +335,7 @@ import { dailyOverviewService } from '@/components/api/user/DailyOverviewService
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
 import { citizenInquiryService } from '@/components/api/user/CitizenInquiryService'
 import { reminderService } from '@/components/api/user/ReminderService'
+import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
 import { usePermissions } from '@/composables/usePermissions'
 import { useAssistantStore, describeBriefItem, type BriefItem } from '@/store/assistant'
 
@@ -332,7 +362,7 @@ const monthNames: Record<string, string[]> = {
 const userStore = useUserStore() as any
 const assistantStore = useAssistantStore()
 const departmentStore = useDepartmentStore() as any
-const { isAtLeast, can } = usePermissions()
+const { isAtLeast, can, seesHrData } = usePermissions()
 
 const today = moment().format('YYYY-MM-DD')
 
@@ -340,6 +370,7 @@ const state = reactive({
     isLoading: false,
     distribution: { coordinators: [] as any[], unassigned: 0 },
     unassignedWon: 0,
+    certificateCounts: { missing: 0, expired: 0, expiring_soon: 0 },
     unassignedWonOpen: false,
     shifts: [] as any[],
     events: [] as any[],
@@ -541,7 +572,29 @@ onMounted(() => {
     fetchBrief()
     fetchDistribution()
     fetchUnassignedWon()
+    fetchCertificateCounts()
 })
+
+const certificateTotal = computed(() => state.certificateCounts.missing
+    + state.certificateCounts.expired + state.certificateCounts.expiring_soon)
+
+// Only for those who see HR data (the overview refuses anyone else); the counts
+// come with the overview, before any filter.
+async function fetchCertificateCounts() {
+    if (!seesHrData()) return
+
+    try {
+        const response = await employeeDocumentService.getMissingOverview()
+        const counts = response?.meta?.counts ?? {}
+        state.certificateCounts = {
+            missing: Number(counts.missing ?? 0),
+            expired: Number(counts.expired ?? 0),
+            expiring_soon: Number(counts.expiring_soon ?? 0),
+        }
+    } catch (_) {
+        state.certificateCounts = { missing: 0, expired: 0, expiring_soon: 0 }
+    }
+}
 
 const unassignedWon = computed(() => state.unassignedWon)
 

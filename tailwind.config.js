@@ -71,15 +71,29 @@ export default {
           800: '#0f4657',
           900: '#0b3946',
         },
-        /* Sidebar specific */
+        /* AI, and only AI: Cody, "Spørg AI", Milo and anything an assistant
+           wrote. Blue stays the one action colour. `ai` (the guide's teal) is a
+           fill, edge or accent only: 2.2:1 on white, so no text on it and no
+           white text in it. Text and icons use `ai-ink` (5.8:1 on white), on
+           `ai-bg` (the guide's Teal Light) for a pill or button. */
+        ai: {
+          DEFAULT: '#2dbab2',
+          ink: '#10716b',
+          bg: '#f0faf9',
+          border: '#8fd4cd',
+        },
+        /* Sidebar specific. White, per the brand guide: navy behind the
+           navigation is on its "don't" list. These were the old navy values,
+           kept looking right only by the !important override in main.css.
+           The active item is light blue, not teal: teal is for AI only. */
         sidebar: {
-          DEFAULT: '#0f2b46',
-          dark: '#0a1f33',
-          light: '#143a5c',
-          hover: '#1a4a6e',
-          active: '#2dbab2',
-          text: '#94b8d4',
-          'text-active': '#FFFFFF',
+          DEFAULT: '#ffffff',
+          dark: '#ffffff',
+          light: '#f8fafc',
+          hover: '#f3f4f6',
+          active: '#eff6ff',
+          text: '#6b7280',
+          'text-active': '#0f4c75',
         },
         /* Semantic accent colors for stats/badges */
         accent: {
