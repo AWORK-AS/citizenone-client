@@ -58,7 +58,10 @@ async function updateExpense(expenseDetails: any) {
         params.append('expense_date', expenseDetails.expense_date)
         params.append('amount', expenseDetails.amount)
         params.append('is_existing_file_removed', expenseDetails.is_existing_file_removed ? '1' : '0')
-        if (expenseDetails.receipt) {
+        // Only a newly chosen file: the form holds {} or the existing receipt's
+        // details otherwise, which the server refuses as "not a file" (as
+        // document/expense/modal-edit.vue already does).
+        if (expenseDetails.receipt && expenseDetails.receipt instanceof File) {
             params.append('receipt', expenseDetails.receipt)
         }
 

@@ -9671,7 +9671,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Usannsynlig sluttposisjon - strekningen er ikke medregnet.",
             "implausible_start_coordinate": "Usannsynlig startposisjon - strekningen er ikke medregnet.",
-            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet."
+            "implausible_stop_coordinate": "Usannsynlig stoppposisjon - strekningen er ikke medregnet.",
+            "over_monthly_limit": "Over månedens km-grense på innsatsen."
         },
         "summary": {
             "allTime": "All tid",
@@ -11444,6 +11445,8 @@
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
+                "mileageRequiresTransport": "Kjøring bare der transport er innvilget",
+                "mileageRequiresTransportHint": "En innsats tillater bare kjøring når kontraktsperioden den dagen har transporttimer (eller, uten kontraktsperiode, når det aksepterte tilbudet har transport), med mindre noen har valgt annet på innsatsen eller for den ansatte. Utlegg påvirkes ikke",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i pasientportalen",
                 "patientHideClinicContactHint": "Pasientene ser bare klinikkens navn. Adresse og telefon står fortsatt på fakturaene deres",
                 "relativeChatRecipientsHint": "Velg hvem pårørende kan sende meldinger til",
@@ -17981,6 +17984,7 @@
         "empty": "Ingen konsulenter er spurt ennå.",
         "selected": "Valgt",
         "select": "Utpek",
+        "selectTitle": "Velg {name}",
         "markInterested": "Sa ja",
         "markDeclined": "Sa nei",
         "askedBy": "spurt av {name}",
@@ -18694,7 +18698,33 @@
         "catalogueEmpty": "Det er ingen besøkstyper. Opprett dem under",
         "saveHint": "Gjelder fra nå for nye registreringer",
         "saved": "Registreringsreglene er lagret",
-        "saveFailed": "Reglene kunne ikke lagres"
+        "saveFailed": "Reglene kunne ikke lagres",
+        "followsTransportGranted": "Følger transportbevilgningen: transport er innvilget",
+        "followsTransportNotGranted": "Følger transportbevilgningen: transport er ikke innvilget",
+        "followTransportGranted": "Følg transportbevilgningen (innvilget nå: tillatt)",
+        "followTransportNotGranted": "Følg transportbevilgningen (ikke innvilget nå: ikke tillatt)",
+        "consultants": {
+            "title": "Regler per ansatt",
+            "hint": "En ansatts egen regel går foran innsatsens for den ansatte. Grenser telles per kalendermåned på denne innsatsen.",
+            "empty": "Det er ingen ansatte på innsatsen ennå.",
+            "thisMonth": "Denne måneden på innsatsen: {km} km, {amount} kr utlegg",
+            "set": "Sett egen regel",
+            "change": "Endre",
+            "remove": "Fjern egen regel",
+            "own": "egen regel",
+            "archived": "Arkivert",
+            "kmLimitShort": "maks {km} km per måned",
+            "amountLimitShort": "maks {amount} kr utlegg per måned",
+            "mileage": "Kjøring",
+            "expenses": "Utlegg",
+            "followCase": "Som innsatsen",
+            "kmLimit": "Kjøregrense per måned (km)",
+            "amountLimit": "Utleggsgrense per måned (kr)",
+            "noLimit": "Ingen grense",
+            "forNewEmployees": "Registreringsregler for disse ansatte (valgfritt)",
+            "forNewEmployeesHint": "La det stå for å bruke innsatsens regler. Lagres for hver ansatt valgt ovenfor.",
+            "forSelectedHint": "Valgfritt: hva konsulenten kan registrere på innsatsen. La det stå for å bruke innsatsens regler. Følger med når henvendelsen blir en innsats."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",

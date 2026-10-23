@@ -40,6 +40,21 @@
                     <FormError :error="v$?.formContact?.employees?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.employees_uuid?.[0]" />
                 </div>
+                <!-- Optional: what these employees may register on the case (mileage,
+                     expenses, monthly limits). Saved for each of them with the contact. -->
+                <div v-if="props.formType === 'create' && state.formContact.title === 'our_contact_person' && canManageRules"
+                    class="rounded-lg border border-gray-200 p-3">
+                    <button type="button" class="flex w-full items-center justify-between text-left text-sm font-semibold text-gray-800"
+                        :aria-expanded="state.showRegistrationRule" @click="state.showRegistrationRule = !state.showRegistrationRule">
+                        {{ $t('registrationRules.consultants.forNewEmployees') }}
+                        <Icon :name="state.showRegistrationRule ? 'ph:caret-up' : 'ph:caret-down'" class="size-4 text-gray-500" />
+                    </button>
+                    <div v-if="state.showRegistrationRule" class="mt-3 space-y-2">
+                        <p class="text-xs text-gray-500">{{ $t('registrationRules.consultants.forNewEmployeesHint') }}</p>
+                        <ModulesUserRegistrationRulesUserRuleFields v-model="state.formContact.registration_rule"
+                            idPrefix="new-contact-rule" />
+                    </div>
+                </div>
                 <div class="space-y-1"
                     v-if="props.formType === 'update' && state.formContact.title === 'our_contact_person'">
                     <FormLabel for="employee" :label="$t('citizens.contacts.form.employee')" />
@@ -282,6 +297,8 @@ import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
 import type { Error } from '@/types'
 import { zipLookerService } from '~/components/api/ziplooker/ZipLookerService'
+import { toUserRuleDraft } from '@/components/api/user/RegistrationRuleService'
+import { usePermissions } from '@/composables/usePermissions'
 
 const props = defineProps({
     error: {
@@ -302,6 +319,9 @@ const { t } = useI18n()
 const language = useI18n()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
+const { isAtLeast, can } = usePermissions()
+// Who may set registration rules on a case (as the rules panel on Kontrakt).
+const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
 
 // Contact types that can be given third-party chat access. Mirrors
 // ContactAccessService::THIRD_PARTY_TITLES on the backend.
@@ -309,6 +329,7 @@ const THIRD_PARTY_TITLES = ['third_party', 'external_contact', 'case_manager', '
 
 const state = reactive({
     error: {} as Error,
+    showRegistrationRule: false,
     formContact: {
         id: '',
         uuid: '',
@@ -318,6 +339,8 @@ const state = reactive({
         company_name: '',
         employee: '',
         employees: [],
+        // Optional per-employee registration rule, for a new "our contact person".
+        registration_rule: toUserRuleDraft(null),
         firstname: '',
         lastname: '',
         email: '',
@@ -386,6 +409,7 @@ onMounted(async () => {
         company_name: contact?.company_name ?? '',
         employee: contact?.employee?.uuid ?? '',
         employees: contact?.employees ?? [],
+        registration_rule: toUserRuleDraft(null),
         firstname: contact?.firstname ?? '',
         lastname: contact?.lastname ?? '',
         email: contact?.email ?? '',
@@ -442,6 +466,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         company_name: newValue?.company_name ?? '',
         employee: newValue?.employee?.uuid ?? '',
         employees: newValue?.employees ?? [],
+        registration_rule: toUserRuleDraft(null),
         firstname: newValue?.firstname ?? '',
         lastname: newValue?.lastname ?? '',
         email: newValue?.email ?? '',

@@ -9671,7 +9671,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Orimlig slutposition - sträckan räknas inte med.",
             "implausible_start_coordinate": "Orimlig startposition - sträckan räknas inte med.",
-            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med."
+            "implausible_stop_coordinate": "Orimlig stoppposition - sträckan räknas inte med.",
+            "over_monthly_limit": "Över månadens km-gräns på insatsen."
         },
         "summary": {
             "allTime": "All tid",
@@ -11444,6 +11445,8 @@
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
+                "mileageRequiresTransport": "Körning bara där transport är beviljad",
+                "mileageRequiresTransportHint": "En insats tillåter bara körning när avtalsperioden den dagen har transporttimmar (eller, utan avtalsperiod, när det accepterade erbjudandet har transport), om ingen har valt annat på insatsen eller för medarbetaren. Utlägg påverkas inte",
                 "patientHideClinicContact": "Dölj klinikens adress och telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterna ser bara klinikens namn. Adress och telefon står fortfarande på era fakturor",
                 "relativeChatRecipientsHint": "Välj vem anhöriga får skicka meddelanden till",
@@ -17981,6 +17984,7 @@
         "empty": "Inga konsulter är tillfrågade än.",
         "selected": "Vald",
         "select": "Utse",
+        "selectTitle": "Välj {name}",
         "markInterested": "Sa ja",
         "markDeclined": "Sa nej",
         "askedBy": "tillfrågad av {name}",
@@ -18694,7 +18698,33 @@
         "catalogueEmpty": "Det finns inga besökstyper. Skapa dem under",
         "saveHint": "Gäller från och med nu för nya registreringar",
         "saved": "Registreringsreglerna är sparade",
-        "saveFailed": "Reglerna kunde inte sparas"
+        "saveFailed": "Reglerna kunde inte sparas",
+        "followsTransportGranted": "Följer transportbeviljandet: transport är beviljad",
+        "followsTransportNotGranted": "Följer transportbeviljandet: ingen transport är beviljad",
+        "followTransportGranted": "Följ transportbeviljandet (beviljad nu: tillåten)",
+        "followTransportNotGranted": "Följ transportbeviljandet (inte beviljad nu: inte tillåten)",
+        "consultants": {
+            "title": "Regler per medarbetare",
+            "hint": "En medarbetares egen regel går före insatsens för medarbetaren. Gränser räknas per kalendermånad på den här insatsen.",
+            "empty": "Det finns inga medarbetare på insatsen än.",
+            "thisMonth": "Den här månaden på insatsen: {km} km, {amount} kr utlägg",
+            "set": "Ange egen regel",
+            "change": "Ändra",
+            "remove": "Ta bort egen regel",
+            "own": "egen regel",
+            "archived": "Arkiverad",
+            "kmLimitShort": "max {km} km per månad",
+            "amountLimitShort": "max {amount} kr utlägg per månad",
+            "mileage": "Körning",
+            "expenses": "Utlägg",
+            "followCase": "Som insatsen",
+            "kmLimit": "Körgräns per månad (km)",
+            "amountLimit": "Utläggsgräns per månad (kr)",
+            "noLimit": "Ingen gräns",
+            "forNewEmployees": "Registreringsregler för dessa medarbetare (valfritt)",
+            "forNewEmployeesHint": "Lämna som det är för att använda insatsens regler. Sparas för varje medarbetare som valts ovan.",
+            "forSelectedHint": "Valfritt: vad konsulten får registrera på insatsen. Lämna som det är för att använda insatsens regler. Följer med när förfrågan blir en insats."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov av rekrytering",

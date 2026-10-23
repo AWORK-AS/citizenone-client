@@ -994,6 +994,12 @@ async function transportLogin(transportLoginDetails: any) {
         }
     } catch (error: any) {
         state.error = error
+        // Refused by the case's registration rules (mileage not allowed, or
+        // the month's kilometres used up): close the dialog so the message
+        // above shows.
+        if (error?.errors?.citizen_uuid) {
+            state.modal.isTransportLoginOpen = false
+        }
     }
     state.isPageLoading = false
 }

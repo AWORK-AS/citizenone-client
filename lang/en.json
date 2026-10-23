@@ -9671,7 +9671,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Implausible end position - that leg is not counted.",
             "implausible_start_coordinate": "Implausible start position - that leg is not counted.",
-            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted."
+            "implausible_stop_coordinate": "Implausible stop position - that leg is not counted.",
+            "over_monthly_limit": "Over the monthly km limit on this case."
         },
         "summary": {
             "allTime": "All time",
@@ -11449,6 +11450,8 @@
                 "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
                 "careHourTypes": "Choose an hour type on intervention hours",
                 "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
+                "mileageRequiresTransport": "Mileage only where transport is granted",
+                "mileageRequiresTransportHint": "A case allows mileage only when its contract period that day has transport hours (or, without a contract period, the accepted offer has transport), unless someone chose otherwise on the case or for the employee. Expenses are not affected",
                 "patientHideClinicContact": "Hide the clinic's address and phone in the patient portal",
                 "patientHideClinicContactHint": "Patients see only the clinic's name. The address and phone still appear on your invoices",
                 "relativeChatRecipientsHint": "Choose who relatives are allowed to message",
@@ -18066,6 +18069,7 @@
         "empty": "No consultants have been asked yet.",
         "selected": "Chosen",
         "select": "Choose",
+        "selectTitle": "Choose {name}",
         "markInterested": "Said yes",
         "markDeclined": "Said no",
         "askedBy": "asked by {name}",
@@ -18779,7 +18783,33 @@
         "catalogueEmpty": "There are no visit types. Create them under",
         "saveHint": "Applies to new registrations from now on",
         "saved": "The registration rules are saved",
-        "saveFailed": "The rules could not be saved"
+        "saveFailed": "The rules could not be saved",
+        "followsTransportGranted": "Follows the transport grant: transport is granted",
+        "followsTransportNotGranted": "Follows the transport grant: no transport is granted",
+        "followTransportGranted": "Follow the transport grant (granted now: allowed)",
+        "followTransportNotGranted": "Follow the transport grant (not granted now: not allowed)",
+        "consultants": {
+            "title": "Rules per employee",
+            "hint": "An employee's own rule overrides the case for them. Limits count per calendar month on this case.",
+            "empty": "No employees on this case yet.",
+            "thisMonth": "This month on this case: {km} km, {amount} kr. expenses",
+            "set": "Set own rule",
+            "change": "Change",
+            "remove": "Remove own rule",
+            "own": "own rule",
+            "archived": "Archived",
+            "kmLimitShort": "max {km} km a month",
+            "amountLimitShort": "max {amount} kr. expenses a month",
+            "mileage": "Mileage",
+            "expenses": "Expenses",
+            "followCase": "As the case",
+            "kmLimit": "Mileage limit per month (km)",
+            "amountLimit": "Expense limit per month (kr.)",
+            "noLimit": "No limit",
+            "forNewEmployees": "Registration rules for these employees (optional)",
+            "forNewEmployeesHint": "Leave as it is to use the case's rules. Saved for each employee chosen above.",
+            "forSelectedHint": "Optional: what the consultant may register on the case. Leave as it is to use the case's rules. Carried over when the inquiry becomes a case."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Needs recruitment",
