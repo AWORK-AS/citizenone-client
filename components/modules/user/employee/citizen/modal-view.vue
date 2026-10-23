@@ -33,8 +33,19 @@
                                                 </p>
                                             </Badge>
                                         </td>
+                                        <td v-if="weeklyHoursOn" class="tabular-nums whitespace-nowrap">
+                                            <span v-if="citizen?.contact_weekly_hours != null">
+                                                {{ $t('employees.citizens.hoursAWeek', { hours: formatWeekHours(citizen.contact_weekly_hours, locale) }) }}
+                                            </span>
+                                            <span v-else class="text-gray-400">-</span>
+                                        </td>
                                         <td width="20%">
                                             <div class="flex items-end gap-2">
+                                                <FormButton v-if="weeklyHoursOn" type="button" buttonStyle="action"
+                                                    @click="openWeeklyHours(citizen)">
+                                                    <Icon name="ph:hourglass-medium" class="size-4" />
+                                                    {{ $t('employees.citizens.table.actions.weeklyHours') }}
+                                                </FormButton>
                                                 <FormButton type="button" buttonStyle="action"
                                                     @click="confirmDeleteCitizen(citizen)">
                                                     <Icon name="ph:trash" class="size-4" />
@@ -51,6 +62,8 @@
                 </div>
                 <ModulesUserEmployeeCitizenModalNew :isModalOpen="state.modal.isAssignCitizenOpen"
                     @close="closeAssignModal" />
+                <ModulesUserEmployeeCitizenModalNew :isModalOpen="state.modal.isWeeklyHoursOpen"
+                    :citizen="state.selectedCitizen" @close="closeWeeklyHoursModal" />
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteCitizenOpen"
                     :message="$t('employees.citizens.table.confirmation.deleteCitizenConfirmation') + '?'"
                     @close="state.modal.isDeleteCitizenOpen = false" @confirm="deleteCitizen" />
@@ -63,6 +76,8 @@
 import { citizenService } from '@/components/api/user/CitizenService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
+import { useUserStore } from '@/store/user'
+import { formatWeekHours, isContactWeeklyHoursOn } from '@/composables/citizenWeeklyHours'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -74,7 +89,9 @@ const props = defineProps({
 const emit = defineEmits(['close'])
 const router = useRouter()
 const { successAlert } = useAlert()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const userStore = useUserStore() as any
+const weeklyHoursOn = computed(() => isContactWeeklyHoursOn(userStore.getUser?.company))
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
 let currentTablePage = 1
 
@@ -82,6 +99,9 @@ const state = reactive({
     columnHeaders: [
         { name: 'employees.citizens.table.firstname', isTranslateName: true, },
         { name: 'employees.citizens.table.lastname', isTranslateName: true, },
+        ...(isContactWeeklyHoursOn(userStore.getUser?.company)
+            ? [{ name: 'employees.citizens.table.weeklyHours', isTranslateName: true }]
+            : []),
         { name: '' },
     ],
     citizens: [] as any,
@@ -89,6 +109,7 @@ const state = reactive({
     modal: {
         isAssignCitizenOpen: false,
         isDeleteCitizenOpen: false,
+        isWeeklyHoursOpen: false,
     },
     isTableLoading: false,
     selectedCitizen: [] as any,
@@ -106,6 +127,16 @@ watch(() => props.isModalOpen, (isModalOpen: any) => {
 
 function closeModal() {
     emit('close')
+}
+
+function openWeeklyHours(citizen: any) {
+    state.selectedCitizen = citizen
+    state.modal.isWeeklyHoursOpen = true
+}
+
+function closeWeeklyHoursModal() {
+    state.modal.isWeeklyHoursOpen = false
+    fetchAssignedCitizens()
 }
 
 function closeAssignModal() {

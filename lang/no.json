@@ -3013,7 +3013,9 @@
                 "hourlyRate": "Timepris",
                 "monthlyAllocation": "Månedlig tildeling",
                 "timeAccount": "Tidskonto",
-                "weeklyAllocation": "Ukentlig tildeling"
+                "weeklyAllocation": "Ukentlig tildeling",
+                "overBy": "{hours} t over tildelingen",
+                "remaining": "{hours} t igjen"
             },
             "view": {
                 "citizen": "@.capitalize:terms.citizen{''}",
@@ -7504,7 +7506,8 @@
             "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
-                    "delete": "Slett"
+                    "delete": "Slett",
+                    "weeklyHours": "Timer"
                 },
                 "alert": {
                     "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet vellykket"
@@ -7513,8 +7516,17 @@
                     "deleteCitizenConfirmation": "Er du sikker på at du vil slette denne @:terms.citizen{''}"
                 },
                 "firstname": "Fornavn",
-                "lastname": "Etternavn"
-            }
+                "lastname": "Etternavn",
+                "weeklyHours": "Timer per uke"
+            },
+            "editWeeklyHours": "Timer per uke",
+            "hoursAWeek": "{hours} t/uke",
+            "save": "Lagre",
+            "weeklyHoursHint": "Valgfritt. La feltet stå tomt hvis det ikke er avtalt et antall timer",
+            "weeklyHoursInvalid": "Angi et tall mellom 0 og 168",
+            "weeklyHoursPlaceholder": "F.eks. 10",
+            "weeklyHoursQuestion": "Hvor mange timer per uke skal medarbeideren bruke med denne @:terms.citizen{''}?",
+            "weeklyHoursSaved": "Timer per uke lagret"
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på at du vil arkivere denne medarbeider",
@@ -11810,7 +11822,9 @@
                 "portalPreviewForms": "Pasienten fyller ut skjemaene dere sender, f.eks. før et besøk.",
                 "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem.",
                 "portalPreviewPrescriptions": "Pasienten ser sine nåværende resepter og kan be klinikken om å fornye dem. Forespørselen kommer inn i innboksen Reseptfornyelser.",
-                "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}"
+                "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}",
+                "contactWeeklyHours": "Timer per uke per medarbeider og @:terms.citizen{''}",
+                "contactWeeklyHoursHint": "Angi ved tildeling hvor mange timer per uke medarbeideren skal bruke med en @:terms.citizen{''}. Medarbeideren ser timene og forbruket på Min dag"
             }
         },
         "licenseOverview": {
@@ -16579,7 +16593,18 @@
         "distributionUnassigned": "{count} uten koordinator",
         "distributionIntake": "{count} i mottak",
         "distributionPrimary": "{count} primære",
-        "distributionSecondary": "{count} sekundære"
+        "distributionSecondary": "{count} sekundære",
+        "citizenHours": {
+            "done": "Alle timer brukt",
+            "nextWeek": "Neste uke",
+            "none": "Du har ingen @:terms.citizen{''} med timer per uke",
+            "over": "{hours} t over",
+            "previousWeek": "Forrige uke",
+            "remaining": "{hours} t igjen",
+            "title": "Mine timer per @:terms.citizen{''}",
+            "usedOfGiven": "{used} av {given} t",
+            "week": "Uke {week}"
+        }
     },
     "handover": {
         "button": "Vaktoversikt",
