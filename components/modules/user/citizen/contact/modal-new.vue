@@ -15,11 +15,12 @@
 
 <script setup lang="ts">
 import { citizenContactService } from '@/components/api/user/CitizenContactService'
+import { registrationRuleService, fromUserRuleDraft, userRuleIsSet } from '@/components/api/user/RegistrationRuleService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 
 const props = defineProps({
@@ -133,6 +134,9 @@ async function saveContact(contactDetails: any) {
         }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {
+            if (contactDetails.title === 'our_contact_person') {
+                await saveRegistrationRules(contactDetails)
+            }
             refreshContacts()
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t('citizens.contacts.form.alert.contactSuccessfullyAdded')}.`)
@@ -141,5 +145,21 @@ async function saveContact(contactDetails: any) {
         state.error = error
     }
     state.isPageLoading = false
+}
+
+// The optional rule from the form, for each employee just put on the case.
+// The contact is saved either way; a refused rule is said, not hidden.
+async function saveRegistrationRules(contactDetails: any) {
+    const rule = contactDetails.registration_rule ? fromUserRuleDraft(contactDetails.registration_rule) : null
+    if (!rule || !userRuleIsSet(rule) || !citizenUuid) return
+
+    // "All employees" is not one person: a rule is set per employee.
+    for (const employeeUuid of (contactDetails.employees ?? []).filter((uuid: string) => uuid !== 'all-employees')) {
+        try {
+            await registrationRuleService.saveUserRule('citizen', String(citizenUuid), employeeUuid, rule)
+        } catch (error: any) {
+            errorAlert(t('alert.warning'), error?.message ?? t('registrationRules.saveFailed'))
+        }
+    }
 }
 </script>

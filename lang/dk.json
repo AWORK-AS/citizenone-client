@@ -9759,7 +9759,8 @@
         "reviewReason": {
             "implausible_end_coordinate": "Usandsynlig slutposition - strækningen er ikke medregnet.",
             "implausible_start_coordinate": "Usandsynlig startposition - strækningen er ikke medregnet.",
-            "implausible_stop_coordinate": "Usandsynlig stopposition - strækningen er ikke medregnet."
+            "implausible_stop_coordinate": "Usandsynlig stopposition - strækningen er ikke medregnet.",
+            "over_monthly_limit": "Over månedens km-grænse på indsatsen."
         },
         "summary": {
             "allTime": "Al tid",
@@ -11548,6 +11549,8 @@
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og medarbejdere med økonomirettigheder ser dem stadig",
                 "careHourTypes": "Vælg timetype på indsatstimer",
                 "careHourTypesHint": "Besøgs-, transport- eller administrationstid på hver registrering, også fra en aftale (Registrér tid)",
+                "mileageRequiresTransport": "Kørsel kun hvor transport er bevilget",
+                "mileageRequiresTransportHint": "En indsats tillader kun kørsel, når kontraktperioden den dag har transporttimer (eller, uden kontraktperiode, når det accepterede tilbud har transport), medmindre nogen har valgt andet på indsatsen eller for medarbejderen. Udlæg påvirkes ikke",
                 "patientHideClinicContact": "Skjul klinikkens adresse og telefon i patientportalen",
                 "patientHideClinicContactHint": "Patienterne ser kun klinikkens navn. Adresse og telefon står stadig på jeres fakturaer",
                 "relativeChatRecipientsHint": "Vælg hvem pårørende må sende beskeder til",
@@ -18172,6 +18175,7 @@
         "empty": "Ingen konsulenter er spurgt endnu.",
         "selected": "Valgt",
         "select": "Udpeg",
+        "selectTitle": "Udpeg {name}",
         "markInterested": "Sagde ja",
         "markDeclined": "Sagde nej",
         "askedBy": "spurgt af {name}",
@@ -18885,7 +18889,33 @@
         "catalogueEmpty": "Der er ingen besøgstyper. Opret dem under",
         "saveHint": "Gælder fra nu for nye registreringer",
         "saved": "Registreringsreglerne er gemt",
-        "saveFailed": "Reglerne kunne ikke gemmes"
+        "saveFailed": "Reglerne kunne ikke gemmes",
+        "followsTransportGranted": "Følger transportbevillingen: der er bevilget transport",
+        "followsTransportNotGranted": "Følger transportbevillingen: der er ikke bevilget transport",
+        "followTransportGranted": "Følg transportbevillingen (bevilget nu: tilladt)",
+        "followTransportNotGranted": "Følg transportbevillingen (ikke bevilget nu: ikke tilladt)",
+        "consultants": {
+            "title": "Regler pr. medarbejder",
+            "hint": "En medarbejders egen regel går forud for indsatsens for vedkommende. Grænser tælles pr. kalendermåned på denne indsats.",
+            "empty": "Der er ingen medarbejdere på indsatsen endnu.",
+            "thisMonth": "Denne måned på indsatsen: {km} km, {amount} kr. udlæg",
+            "set": "Sæt egen regel",
+            "change": "Ret",
+            "remove": "Fjern egen regel",
+            "own": "egen regel",
+            "archived": "Arkiveret",
+            "kmLimitShort": "maks. {km} km pr. måned",
+            "amountLimitShort": "maks. {amount} kr. udlæg pr. måned",
+            "mileage": "Kørsel",
+            "expenses": "Udlæg",
+            "followCase": "Som indsatsen",
+            "kmLimit": "Kørselsgrænse pr. måned (km)",
+            "amountLimit": "Udlægsgrænse pr. måned (kr.)",
+            "noLimit": "Ingen grænse",
+            "forNewEmployees": "Registreringsregler for disse medarbejdere (valgfrit)",
+            "forNewEmployeesHint": "Lad det stå for at bruge indsatsens regler. Gemmes for hver medarbejder valgt ovenfor.",
+            "forSelectedHint": "Valgfrit: hvad konsulenten må registrere på indsatsen. Lad det stå for at bruge indsatsens regler. Følger med, når henvendelsen bliver til en indsats."
+        }
     },
     "inquiryRecruitment": {
         "needsRecruitment": "Behov for rekruttering",
