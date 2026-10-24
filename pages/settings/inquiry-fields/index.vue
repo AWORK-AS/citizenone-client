@@ -53,9 +53,9 @@
                                 <span class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-semibold text-slate-500">
                                     {{ $t('inquiryFieldSettings.types.' + field.type) }}
                                 </span>
-                                <span v-if="field.service_type"
+                                <span v-for="type in fieldServiceTypes(field)" :key="type.uuid"
                                     class="rounded-full bg-[#eee9fb] px-2 py-px text-[11px] font-semibold text-[#6b54c9]">
-                                    {{ field.service_type.label }}
+                                    {{ type.label }}
                                 </span>
                                 <Tooltip v-if="field.form" :text="$t('inquiryFieldSettings.form.formHint')">
                                     <span class="rounded-full bg-primary/10 px-2 py-px text-[11px] font-semibold text-primary">
@@ -168,14 +168,20 @@
                             </div>
                         </div>
 
+                        <!-- "All service types" is its own choice, so it can be picked
+                             back after one or more types were chosen. -->
                         <div>
                             <FormLabel for="field-service-type"
-                                :label="$t('inquiryFieldSettings.form.serviceType')" />
-                            <FormSelect id="field-service-type" :modelValue="orAll(state.form.service_type_uuid)"
-                                :options="serviceTypeOptions" :searchable="false"
-                                @update:modelValue="(value: any) => state.form.service_type_uuid = fromAll(value)" />
+                                :label="$t('inquiryFieldSettings.form.serviceTypesLabel')" />
+                            <div class="mb-2 flex w-fit cursor-pointer items-center gap-2"
+                                @click="toggleAllServiceTypes">
+                                <FormCheckbox :value="state.form.all_service_types" />
+                                <span class="text-sm">{{ $t('inquiryFieldSettings.allServiceTypes') }}</span>
+                            </div>
+                            <FormSelectMultiple v-if="!state.form.all_service_types" id="field-service-type"
+                                v-model="state.form.service_type_uuids" :options="serviceTypeOptions" />
                             <p class="mt-1 text-[11px] text-gray-400">
-                                {{ $t('inquiryFieldSettings.form.serviceTypeHint') }}
+                                {{ $t('inquiryFieldSettings.form.serviceTypesHint') }}
                             </p>
                         </div>
 
@@ -334,7 +340,8 @@ function emptyForm() {
         wellbeing: false,
         source: 'municipalities',
         multiple: false,
-        service_type_uuid: null as string | null,
+        all_service_types: true,
+        service_type_uuids: [] as string[],
         form_uuid: null as string | null,
         is_required: false,
         is_active: true,
@@ -383,10 +390,21 @@ const sourceOptions = computed(() =>
     LOOKUP_SOURCES.map((source) => ({ value: source, label: sourceLabel(source) }))
 )
 
-const serviceTypeOptions = computed(() => [
-    { value: ALL, label: t('inquiryFieldSettings.allServiceTypes') },
-    ...state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label })),
-])
+const serviceTypeOptions = computed(() =>
+    state.serviceTypes.map((type: any) => ({ value: type.uuid, label: type.label }))
+)
+
+// The types a field is asked on; none means every type. Older answers carry
+// the single service_type only.
+function fieldServiceTypes(field: any): any[] {
+    if (Array.isArray(field.service_types) && field.service_types.length) return field.service_types
+    return field.service_type?.uuid ? [field.service_type] : []
+}
+
+function toggleAllServiceTypes() {
+    state.form.all_service_types = !state.form.all_service_types
+    if (state.form.all_service_types) state.form.service_type_uuids = []
+}
 
 const builtinNames = computed(() => ({
     shelter: customPagesStore.getCustomPagesName?.shelter || t('inquiries.form.options.inquiryType.shelter'),
@@ -411,6 +429,8 @@ const canSubmit = computed(() => {
     // A lookup with no source would resolve to an empty list, so the server
     // refuses it as well.
     if (state.form.type === 'lookup' && !state.form.source) return false
+    // Narrowed to types, but none picked: say "all" instead.
+    if (!state.form.all_service_types && state.form.service_type_uuids.length === 0) return false
 
     return true
 })
@@ -510,7 +530,8 @@ function openEdit(field: any) {
         wellbeing: !!field.options?.wellbeing,
         source: field.options?.source ?? 'municipalities',
         multiple: !!field.options?.multiple,
-        service_type_uuid: field.service_type?.uuid ?? null,
+        all_service_types: fieldServiceTypes(field).length === 0,
+        service_type_uuids: fieldServiceTypes(field).map((type: any) => type.uuid),
         form_uuid: field.form?.uuid ?? null,
         is_required: !!field.is_required,
         is_active: !!field.is_active,
@@ -540,7 +561,7 @@ function payload() {
         body.type = state.form.type
     }
 
-    body.service_type_uuid = state.form.service_type_uuid
+    body.service_type_uuids = state.form.all_service_types ? [] : state.form.service_type_uuids
     body.form_uuid = state.form.form_uuid
 
     if (isChoiceType.value) {

@@ -62,6 +62,9 @@
             <p v-if="offer.response_remarks" class="mt-1 whitespace-pre-line text-[12px] text-slate-600">
                 {{ offer.response_remarks }}
             </p>
+            <p v-if="offer.status === 'revised'" class="mt-1 text-[11px] text-slate-400">
+                {{ $t('inquiryOffer.revisedReadOnly') }}
+            </p>
 
             <div class="mt-2 flex flex-wrap items-center gap-2">
                 <FormButton v-if="offer.status === 'draft'" type="button" buttonStyle="action" @click="startEdit(offer)">
@@ -263,13 +266,13 @@
             <template #modal-body>
                 <div class="space-y-3">
                     <div class="flex gap-2">
-                        <button v-for="decision in ['accepted', 'rejected']" :key="decision" type="button"
+                        <button v-for="decision in ['accepted', 'rejected', 'revised']" :key="decision" type="button"
                             class="flex-1 rounded-lg border px-3 py-2 text-[13px] font-semibold transition-colors"
                             :class="state.respond.decision === decision
                                 ? 'border-secondary bg-[#f0fafd] text-secondary'
                                 : 'border-surface-200 text-slate-600 hover:bg-surface-50'"
                             @click="state.respond.decision = decision">
-                            {{ $t('inquiryOffer.statuses.' + decision) }}
+                            {{ decision === 'revised' ? $t('inquiryOffer.reviseDecision') : $t('inquiryOffer.statuses.' + decision) }}
                         </button>
                     </div>
                     <div>
@@ -295,13 +298,15 @@
                         <FormTextArea id="respond-wishes" name="respond-wishes" :rows="2"
                             :placeholder="$t('inquiryOffer.startWishesPlaceholder')" v-model="state.respond.start_wishes" />
                     </div>
-                    <div>
+                    <!-- A rejection asks the same as losing the case: the reason and
+                         Årsag til afvisning, nothing else. -->
+                    <div v-if="state.respond.decision !== 'rejected'">
                         <FormLabel for="respond-remarks" :label="$t('inquiryOffer.remarks')" />
                         <FormTextArea id="respond-remarks" name="respond-remarks" :rows="2"
                             :placeholder="$t('inquiryOffer.remarks')" v-model="state.respond.remarks" />
                     </div>
                     <p class="text-[11px] text-slate-400">
-                        {{ state.respond.decision === 'accepted' ? $t('inquiryOffer.acceptHint') : $t('inquiryOffer.rejectHint') }}
+                        {{ respondHint }}
                     </p>
                     <div class="flex justify-end gap-2 pt-2">
                         <FormButton type="button" buttonStyle="cancel" @click="state.respondFor = null">{{ $t('cancel') }}</FormButton>
@@ -481,6 +486,7 @@ function statusClass(offer: any) {
         accepted: 'bg-[#e6f6ee] text-[#177a53]',
         rejected: 'bg-[#fdf1ee] text-[#c0442c]',
         superseded: 'bg-surface-100 text-slate-400',
+        revised: 'bg-surface-100 text-slate-400',
     }[offer.status as string] ?? 'bg-surface-100 text-slate-500'
 }
 
@@ -643,6 +649,12 @@ async function fetchLostReasons() {
     }
 }
 
+const respondHint = computed(() => ({
+    accepted: t('inquiryOffer.acceptHint'),
+    rejected: t('inquiryOffer.rejectHint'),
+    revised: t('inquiryOffer.reviseHint'),
+} as Record<string, string>)[state.respond.decision] ?? '')
+
 function openRespond(offer: any) {
     state.respondFor = offer
     state.lostReasonMissing = false
@@ -667,15 +679,20 @@ async function respond() {
         const response = await inquiryOfferService.respondToOffer(state.respondFor.uuid, {
             decision: state.respond.decision,
             responded_at: state.respond.responded_at || null,
-            remarks: state.respond.remarks || null,
+            remarks: state.respond.decision === 'rejected' ? null : (state.respond.remarks || null),
             rejection_reason: state.respond.decision === 'rejected' ? (state.respond.rejection_reason || null) : null,
             start_wishes: state.respond.decision === 'accepted' ? (state.respond.start_wishes || null) : null,
             lost_reason_uuid: state.respond.decision === 'rejected' ? (state.respond.lost_reason_uuid || null) : null,
         })
+        const decision = state.respond.decision
         state.respondFor = null
         await fetchAll()
         emit('changed')
         stageFeedback(response?.stage, t('inquiryOffer.answerSaved'))
+        // Revising answers with the new draft, opened straight away to adjust.
+        if (decision === 'revised' && response?.data?.status === 'draft') {
+            startEdit(response.data)
+        }
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryOffer.saveFailed'))
     } finally {

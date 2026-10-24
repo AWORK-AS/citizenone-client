@@ -7,7 +7,7 @@
                     {{ props.target === 'inquiry' ? $t('registrationRules.inquiryHint') : $t('registrationRules.citizenHint') }}
                 </p>
             </div>
-            <Tooltip v-if="props.canEdit && !state.editing" :text="$t('registrationRules.edit')">
+            <Tooltip v-if="canEdit && !state.editing" :text="$t('registrationRules.edit')">
                 <FormButton type="button" buttonStyle="action" :aria-label="$t('registrationRules.edit')"
                     @click="startEdit">
                     <Icon name="ph:pencil-simple" class="size-4" />
@@ -16,8 +16,13 @@
         </div>
 
         <LoadingSpinner :isActive="state.isLoading">
+            <!-- Nobody has set the rules yet: nothing is shown as chosen. -->
+            <div v-if="!state.editing && isUnset" class="mt-3 text-sm">
+                <p class="text-gray-900">{{ $t('registrationRules.notSet') }}</p>
+                <p class="mt-0.5 text-xs text-gray-500">{{ $t('registrationRules.notSetHint') }}</p>
+            </div>
             <!-- Read-only: what a consultant may register here. -->
-            <dl v-if="!state.editing" class="mt-3 grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
+            <dl v-else-if="!state.editing" class="mt-3 grid grid-cols-1 gap-3 text-sm sm:grid-cols-3">
                 <div>
                     <dt class="text-xs text-gray-500">{{ $t('registrationRules.visitTypes') }}</dt>
                     <dd class="mt-0.5 text-gray-900">
@@ -73,6 +78,7 @@
                     </label>
                     <select id="registration-rules-mileage" v-model="state.draft.mileageChoice"
                         class="mt-1.5 block h-10 w-full max-w-lg rounded-lg border border-gray-200 px-3 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-primary">
+                        <option value="" disabled>{{ $t('registrationRules.choose') }}</option>
                         <option value="transport">
                             {{ state.rules.transport_granted ? $t('registrationRules.followTransportGranted') : $t('registrationRules.followTransportNotGranted') }}
                         </option>
@@ -80,24 +86,38 @@
                         <option value="no">{{ $t('registrationRules.notAllowed') }}</option>
                     </select>
                 </div>
-                <div class="flex flex-wrap gap-6">
-                    <label v-if="!state.rules.requires_transport" class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-                        <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
-                            v-model="state.draft.mileage_allowed" />
-                        {{ $t('registrationRules.mileageAllowed') }}
-                    </label>
-                    <label class="flex items-center gap-2 text-sm text-slate-700 cursor-pointer">
-                        <input type="checkbox" class="size-4 rounded border-slate-300 text-primary focus:ring-primary"
-                            v-model="state.draft.expenses_allowed" />
-                        {{ $t('registrationRules.expensesAllowed') }}
-                    </label>
+                <!-- A choice each, starting empty until the rules have been set:
+                     a ticked or unticked box would already be an answer. -->
+                <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div v-if="!state.rules.requires_transport">
+                        <label for="registration-rules-mileage-plain" class="text-xs font-semibold text-gray-700">
+                            {{ $t('registrationRules.mileage') }}
+                        </label>
+                        <select id="registration-rules-mileage-plain" v-model="state.draft.mileageChoice"
+                            class="mt-1.5 block h-10 w-full rounded-lg border border-gray-200 px-3 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-primary">
+                            <option value="" disabled>{{ $t('registrationRules.choose') }}</option>
+                            <option value="yes">{{ $t('registrationRules.allowed') }}</option>
+                            <option value="no">{{ $t('registrationRules.notAllowed') }}</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="registration-rules-expenses" class="text-xs font-semibold text-gray-700">
+                            {{ $t('registrationRules.expenses') }}
+                        </label>
+                        <select id="registration-rules-expenses" v-model="state.draft.expensesChoice"
+                            class="mt-1.5 block h-10 w-full rounded-lg border border-gray-200 px-3 text-sm text-gray-900 focus:border-primary focus:outline-none focus:ring-primary">
+                            <option value="" disabled>{{ $t('registrationRules.choose') }}</option>
+                            <option value="yes">{{ $t('registrationRules.allowed') }}</option>
+                            <option value="no">{{ $t('registrationRules.notAllowed') }}</option>
+                        </select>
+                    </div>
                 </div>
                 <div class="flex items-center gap-2">
                     <FormButton type="button" buttonStyle="cancel" @click="state.editing = false">
                         {{ $t('cancel') }}
                     </FormButton>
                     <Tooltip :text="$t('registrationRules.saveHint')">
-                        <FormButton type="button" buttonStyle="primary" @click="save">
+                        <FormButton type="button" buttonStyle="primary" :disabled="!draftComplete" @click="save">
                             {{ $t('save') }}
                         </FormButton>
                     </Tooltip>
@@ -105,7 +125,7 @@
             </div>
 
             <!-- Each consultant's own rule on the case: it overrides the case for them. -->
-            <div v-if="props.canEdit" class="mt-5 border-t border-gray-100 pt-4">
+            <div v-if="canEdit" class="mt-5 border-t border-gray-100 pt-4">
                 <p class="text-xs font-semibold text-gray-700">{{ $t('registrationRules.consultants.title') }}</p>
                 <p class="mt-0.5 max-w-xl text-xs text-gray-500">{{ $t('registrationRules.consultants.hint') }}</p>
                 <p v-if="state.loaded && !consultants.length" class="mt-2 text-xs text-gray-400">
@@ -213,15 +233,26 @@ const state = reactive({
     } as any,
     visitTypes: [] as any[],
     draft: {
-        allTypes: true,
+        allTypes: false,
         typeUuids: [] as string[],
-        mileage_allowed: true,
-        mileageChoice: 'transport' as 'transport' | 'yes' | 'no',
-        expenses_allowed: true,
+        mileageChoice: '' as '' | 'transport' | 'yes' | 'no',
+        expensesChoice: '' as '' | 'yes' | 'no',
     },
     editingUser: null as string | null,
     userDraft: toUserRuleDraft(null) as UserRuleDraft,
 })
+
+// The page's own check, narrowed by the server's answer when it gives one
+// (manage_registration_rules; consultant roles do not hold it).
+const canEdit = computed(() => props.canEdit && state.rules.can_edit !== false)
+// Nothing is shown as chosen until someone sets the rules. An older backend
+// leaves is_set out, and then the rules read as before.
+const isUnset = computed(() => state.rules.is_set === false)
+// Every question answered: a visit type choice, mileage and expenses.
+const draftComplete = computed(() =>
+    (state.draft.allTypes || state.draft.typeUuids.length > 0)
+    && state.draft.mileageChoice !== ''
+    && state.draft.expensesChoice !== '')
 
 // The case's own rule, before any consultant's.
 const caseMileage = computed(() => state.rules.case_mileage_allowed ?? state.rules.mileage_allowed)
@@ -311,13 +342,14 @@ async function startEdit() {
     } catch (_) {
         state.visitTypes = []
     }
-    state.draft = {
-        allTypes: !state.rules.restricts_visit_types,
-        typeUuids: state.rules.allowed_visit_types.map((type: any) => type.uuid),
-        mileage_allowed: caseMileage.value,
-        mileageChoice: followsTransport.value ? 'transport' : (caseMileage.value ? 'yes' : 'no'),
-        expenses_allowed: caseExpenses.value,
-    }
+    state.draft = isUnset.value
+        ? { allTypes: false, typeUuids: [], mileageChoice: '', expensesChoice: '' }
+        : {
+            allTypes: !state.rules.restricts_visit_types,
+            typeUuids: state.rules.allowed_visit_types.map((type: any) => type.uuid),
+            mileageChoice: followsTransport.value ? 'transport' : (caseMileage.value ? 'yes' : 'no'),
+            expensesChoice: caseExpenses.value ? 'yes' : 'no',
+        }
     state.editing = true
 }
 
@@ -331,11 +363,11 @@ async function save() {
                 mileage_allowed: state.draft.mileageChoice === 'transport' ? !!state.rules.transport_granted : state.draft.mileageChoice === 'yes',
                 mileage_follows_transport: state.draft.mileageChoice === 'transport',
             }
-            : { mileage_allowed: state.draft.mileage_allowed }
+            : { mileage_allowed: state.draft.mileageChoice === 'yes' }
         const response = await registrationRuleService.saveRules(props.target, props.uuid, {
             allowed_visit_type_uuids: state.draft.allTypes ? null : [...state.draft.typeUuids],
             ...mileage,
-            expenses_allowed: state.draft.expenses_allowed,
+            expenses_allowed: state.draft.expensesChoice === 'yes',
         })
         if (response?.data) state.rules = response.data
         state.editing = false

@@ -8951,7 +8951,7 @@
                     "topic": "Hva handler henvendelsen om?"
                 }
             },
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "@.capitalize:terms.citizenDefinite{'s'} fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "@.capitalize:terms.citizenDefinite{'s'} etternavn",
@@ -9052,7 +9052,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "createdBy": "Opprettet av",
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Etternavn",
@@ -17990,6 +17990,8 @@
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
             "serviceType": "Bare for innsatstype",
             "serviceTypeHint": "Velg en type hvis feltet bare skal spørres der. Ellers spørres det uansett type.",
+            "serviceTypesLabel": "Innsatstyper",
+            "serviceTypesHint": "Fjern haken ved Alle innsatstyper for å velge én eller flere typer feltet bare skal spørres på.",
             "form": "Skjema",
             "formHint": "Feltet spørres bare på dette skjemaet."
         },
@@ -18301,7 +18303,8 @@
         "events": {
             "offer_sent": "Tilbud sendt",
             "offer_accepted": "Tilbud godkjent",
-            "offer_rejected": "Tilbud avvist"
+            "offer_rejected": "Tilbud avvist",
+            "offer_revised": "Tilbud revideres"
         }
     },
     "consultantMatch": {
@@ -19159,6 +19162,9 @@
         "expenses": "Utlegg",
         "allowed": "Tillatt",
         "notAllowed": "Ikke tillatt",
+        "notSet": "Ikke angitt ennå",
+        "notSetHint": "Besøkstyper, kjøring og utlegg velges når noen med rettigheten Administrere registreringsregler angir dem. Inntil da gjelder virksomhetens standard.",
+        "choose": "Velg",
         "mileageAllowed": "Kjøring kan registreres",
         "expensesAllowed": "Utlegg kan registreres",
         "catalogueEmpty": "Det er ingen besøkstyper. Opprett dem under",
@@ -19207,6 +19213,13 @@
             "recipientCount": "Beskjeden når {count} medarbeider(e).",
             "nobody": "Ingen får beskjed ennå. Velg en gruppe eller en medarbeider.",
             "saved": "Rekrutteringsteamet er lagret"
+        }
+    },
+    "inquiryWon": {
+        "modal": {
+            "title": "Merk som vunnet",
+            "hint": "Registrer kommunens svar, som når tilbudet godkjennes. Et tilbud som venter på svar, merkes som godkjent.",
+            "confirm": "Merk som vunnet"
         }
     },
     "inquiryLost": {
@@ -19278,7 +19291,8 @@
             "sent": "Sendt",
             "accepted": "Godkjent",
             "rejected": "Avvist",
-            "superseded": "Erstattet"
+            "superseded": "Erstattet",
+            "revised": "Revidert"
         },
         "specialLanguage": "Spesialspråk",
         "overdue": "Fristen er overskredet",
@@ -19350,6 +19364,9 @@
         "remarks": "Merknader",
         "acceptHint": "Henvendelsen flyttes til den vunne fasen. Når den konverteres, overføres pris og timer til kontraktfeltene.",
         "rejectHint": "Henvendelsen flyttes til den tapte fasen, og årsaken lagres i beslutningsloggen.",
+        "reviseDecision": "Revider",
+        "reviseHint": "Tilbudet lagres som historikk og kan ikke lenger redigeres. En ny versjon opprettes som utkast, så du kan rette den og sende den igjen.",
+        "revisedReadOnly": "Historisk tilbud. Kan ikke redigeres.",
         "confirmDelete": "Vil du slette utkastet",
         "fromCatalogue": "fra katalogen",
         "customer": "Kunde og avdeling",
@@ -19490,6 +19507,10 @@
         "builtinHint": "Følger registreringen av henvendelser etter den danske serviceloven § 110 og § 109. Kan slås av, men ikke slettes.",
         "serviceTypeHint": "Henvendelser på dette skjemaet får innsatstypen valgt på forhånd.",
         "fieldCount": "{count} faste felt",
+        "arrangeHint": "Flytt de faste feltene og deres egne felt dit de skal stå på skjemaet. Felt som bare spørres på en bestemt innsatstype, vises bare når den er valgt.",
+        "arrangeOwnField": "Eget felt",
+        "arrangeReset": "Bruk standardrekkefølgen",
+        "arrangeSaved": "Plasseringen er lagret",
         "noneActive": "Ingen skjemaer er slått på. Slå på ett under Innstillinger → Henvendelsesskjemaer.",
         "form": {
             "name": "Navn",
@@ -19502,6 +19523,7 @@
             "switchOn": "Slå på skjemaet",
             "fields": "Velg faste felt",
             "ownFields": "Egne felt på skjemaet",
+            "arrange": "Plasser feltene",
             "rename": "Gi skjemaet nytt navn",
             "delete": "Slett skjemaet"
         },

@@ -260,7 +260,8 @@ const breadcrumbLinks = [
 ]
 
 // Same gate as the API: Admin or the update permission.
-const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
+// Its own right, so consultant roles do not set the rules for their own work.
+const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
 const canWrite = computed(() => isAtLeast('Admin') || can('create_citizen_economy') || can('update_citizen_economy'))
 
 const state = reactive({

@@ -4,15 +4,27 @@
             :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
+                    <!-- The company's own fields sit inside the form, above Save, and
+                         follow the service type as it is picked, so they are there
+                         from the start rather than only on the saved inquiry. -->
                     <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" formType="create" :selectedInquiry="state.formInquiry"
                         :form="props.form" :serviceType="preselectedServiceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveCrisisCenterInquiry" />
+                        @closeModal="closeModal" @submitForm="saveCrisisCenterInquiry">
+                        <template #after-fields="{ serviceTypeUuid, fieldOrder }">
+                            <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues"
+                                :formUuid="props.form?.uuid ?? null" :serviceTypeUuid="serviceTypeUuid ?? null" :fieldOrder="fieldOrder ?? null" />
+                        </template>
+                    </ModulesUserInquiryModalCrisisCenterForm>
                     <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" formType="create" :selectedInquiry="state.formInquiry"
                         :form="props.form" :serviceType="preselectedServiceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
-                        @closeModal="closeModal" @submitForm="saveShelterInquiry" />
-                    <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues" :formUuid="props.form?.uuid ?? null" class="mt-6" />
+                        @closeModal="closeModal" @submitForm="saveShelterInquiry">
+                        <template #after-fields="{ serviceTypeUuid, fieldOrder }">
+                            <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues"
+                                :formUuid="props.form?.uuid ?? null" :serviceTypeUuid="serviceTypeUuid ?? null" :fieldOrder="fieldOrder ?? null" />
+                        </template>
+                    </ModulesUserInquiryModalShelterForm>
                 </LoadingSpinner>
             </template>
         </Modal>
