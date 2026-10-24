@@ -9312,6 +9312,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Tilbage til adgangskode",
+            "codeLabel": "6-cifret kode",
+            "invalidEmail": "Skriv en gyldig mailadresse først.",
+            "link": "Få en kode på mail i stedet",
+            "resend": "Send ny kode",
+            "resendIn": "Send ny kode om {seconds} s",
+            "sentTo": "Hvis din konto kan logge ind med kode, har vi sendt den til",
+            "title": "Tjek din mail",
+            "tooManyRequests": "For mange forsøg. Vent lidt og prøv igen."
+        },
         "activeUsers": "Aktive brugere",
         "description": "Journalisering, planer og mål, medicin, dokumentation og vagtplan i ét system til sociale tilbud, bosteder, behandlingssteder og kommuner - uanset om I er terapeuter, psykologer, læger eller tandlæger. Det, der blev skrevet i går, er det, din kollega møder i dag.",
         "doYouNeedHelp": "Har du brug for hjælp",
@@ -9326,7 +9337,8 @@
             "loggingIn": "Logger ind",
             "or": "Eller",
             "password": "Adgangskode",
-            "rememberMeFor14Days": "Husk mig i 14 dage"
+            "rememberMeFor14Days": "Husk mig i 14 dage",
+            "rememberMeFor30Days": "Husk mig i 30 dage"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet af AWORK Group A/S",
         "headlineLine1": "Alt samlet i",
@@ -11560,6 +11572,8 @@
             "form": {
                 "citizenCalendarShift": "Nye begivenheder i @:terms.citizenDefinite{'s'} kalender kan også oprette en vagt til en medarbejder",
                 "inquiryWonRequiresCpr": "CPR påkrævet ved vundet henvendelse",
+                "portalEmailLogin": "Login med kode på mail for borgere, patienter og pårørende",
+                "portalEmailLoginHint": "De får en 6-cifret kode på mail i stedet for at skrive en adgangskode. Login med adgangskode virker stadig",
                 "2fa": "To-faktor-godkendelse",
                 "certificateReminderEmail": "Fællespostkasse til attestpåmindelser",
                 "certificateReminderEmailHelp": "Får en kopi af alle påmindelser om attester og CV'er.",

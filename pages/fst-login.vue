@@ -155,7 +155,7 @@
 				<div class="fst-row-forgot">
 					<label class="fst-remember">
 						<input v-model="state.remember_me" type="checkbox" />
-						{{ $t('login.form.rememberMeFor14Days') }}
+						{{ $t('login.form.rememberMeFor30Days') }}
 					</label>
 					<a class="fst-forgot-link" @click="navigateTo('/fst-forgot-password')">
 						{{ $t('login.form.forgotPassword') }}?

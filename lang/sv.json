@@ -9312,6 +9312,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Tillbaka till lösenord",
+            "codeLabel": "6-siffrig kod",
+            "invalidEmail": "Ange en giltig e-postadress först.",
+            "link": "Få en kod via e-post i stället",
+            "resend": "Skicka ny kod",
+            "resendIn": "Skicka ny kod om {seconds} s",
+            "sentTo": "Om ditt konto kan logga in med kod har vi skickat den till",
+            "title": "Kontrollera din e-post",
+            "tooManyRequests": "För många försök. Vänta en stund och försök igen."
+        },
         "activeUsers": "Aktiva användare",
         "description": "Allt från journalnotater och handleplaner till vagtplanlägning och rapportering - totalt i én platform, bygget till dem där arbetar med mennesker.",
         "doYouNeedHelp": "Har du använd för hjälp",
@@ -9326,7 +9337,8 @@
             "loggingIn": "Logger in",
             "or": "Eller",
             "password": "Lösenord",
-            "rememberMeFor14Days": "Kom ihåg mig i 14 dagar"
+            "rememberMeFor14Days": "Kom ihåg mig i 14 dagar",
+            "rememberMeFor30Days": "Kom ihåg mig i 30 dagar"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet av AWORK Group A/S",
         "headlineLine1": "Fremtidens",
@@ -11555,6 +11567,8 @@
             "form": {
                 "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
                 "inquiryWonRequiresCpr": "Personnummer krävs när en förfrågan är vunnen",
+                "portalEmailLogin": "Inloggning med kod via e-post för medborgare, patienter och anhöriga",
+                "portalEmailLoginHint": "De får en 6-siffrig kod via e-post i stället för att skriva ett lösenord. Inloggning med lösenord fungerar fortfarande",
                 "2fa": "Tvåfaktorsautentisering",
                 "certificateReminderEmail": "Gemensam brevlåda för intygspåminnelser",
                 "certificateReminderEmailHelp": "Får en kopia av alla påminnelser om intyg och CV:n.",

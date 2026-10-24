@@ -9312,6 +9312,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Back to password",
+            "codeLabel": "6-digit code",
+            "invalidEmail": "Enter a valid email address first.",
+            "link": "Get a code by email instead",
+            "resend": "Send a new code",
+            "resendIn": "Send a new code in {seconds}s",
+            "sentTo": "If your account can sign in with a code, we have sent it to",
+            "title": "Check your email",
+            "tooManyRequests": "Too many attempts. Wait a little while and try again."
+        },
         "activeUsers": "Active users",
         "description": "From journal notes and care plans to shift scheduling and reporting - all gathered in one platform, built for those who work with people.",
         "doYouNeedHelp": "Do you need help",
@@ -9326,7 +9337,8 @@
             "loggingIn": "Logging in",
             "or": "Or",
             "password": "Password",
-            "rememberMeFor14Days": "Remember me for 14 days"
+            "rememberMeFor14Days": "Remember me for 14 days",
+            "rememberMeFor30Days": "Remember me for 30 days"
         },
         "gdprNote": "GDPR-compliant · Hosted in the EU · Developed by AWORK Group A/S",
         "headlineLine1": "The future's",
@@ -11560,6 +11572,8 @@
             "form": {
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
                 "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
+                "portalEmailLogin": "Sign in with a code by email for citizens, patients and relatives",
+                "portalEmailLoginHint": "They get a 6-digit code by email instead of typing a password. Password login keeps working",
                 "2fa": "Two factor authentication",
                 "certificateReminderEmail": "Shared mailbox for certificate reminders",
                 "certificateReminderEmailHelp": "Gets a copy of every certificate and CV reminder e-mail.",
