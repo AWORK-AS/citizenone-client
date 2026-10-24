@@ -18286,7 +18286,8 @@
         "events": {
             "offer_sent": "Offert skickad",
             "offer_accepted": "Offert godkänd",
-            "offer_rejected": "Offert avvisad"
+            "offer_rejected": "Offert avvisad",
+            "offer_revised": "Offert revideras"
         }
     },
     "consultantMatch": {
@@ -19259,7 +19260,8 @@
             "sent": "Skickad",
             "accepted": "Godkänd",
             "rejected": "Avvisad",
-            "superseded": "Ersatt"
+            "superseded": "Ersatt",
+            "revised": "Reviderad"
         },
         "specialLanguage": "Specialspråk",
         "overdue": "Fristen har passerats",
@@ -19331,6 +19333,9 @@
         "remarks": "Anmärkningar",
         "acceptHint": "Förfrågan flyttas till den vunna fasen. När den konverteras förs pris och timmar över till kontraktsfälten.",
         "rejectHint": "Förfrågan flyttas till den förlorade fasen, och orsaken sparas i beslutsloggen.",
+        "reviseDecision": "Revidera",
+        "reviseHint": "Offerten sparas som historik och kan inte längre redigeras. En ny version skapas som utkast så att du kan ändra den och skicka den igen.",
+        "revisedReadOnly": "Historisk offert. Kan inte redigeras.",
         "confirmDelete": "Vill du radera utkastet",
         "fromCatalogue": "från katalogen",
         "customer": "Kund och avdelning",

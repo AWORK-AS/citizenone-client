@@ -18286,7 +18286,8 @@
         "events": {
             "offer_sent": "Tilbud sendt",
             "offer_accepted": "Tilbud godkjent",
-            "offer_rejected": "Tilbud avvist"
+            "offer_rejected": "Tilbud avvist",
+            "offer_revised": "Tilbud revideres"
         }
     },
     "consultantMatch": {
@@ -19259,7 +19260,8 @@
             "sent": "Sendt",
             "accepted": "Godkjent",
             "rejected": "Avvist",
-            "superseded": "Erstattet"
+            "superseded": "Erstattet",
+            "revised": "Revidert"
         },
         "specialLanguage": "Spesialspråk",
         "overdue": "Fristen er overskredet",
@@ -19331,6 +19333,9 @@
         "remarks": "Merknader",
         "acceptHint": "Henvendelsen flyttes til den vunne fasen. Når den konverteres, overføres pris og timer til kontraktfeltene.",
         "rejectHint": "Henvendelsen flyttes til den tapte fasen, og årsaken lagres i beslutningsloggen.",
+        "reviseDecision": "Revider",
+        "reviseHint": "Tilbudet lagres som historikk og kan ikke lenger redigeres. En ny versjon opprettes som utkast, så du kan rette den og sende den igjen.",
+        "revisedReadOnly": "Historisk tilbud. Kan ikke redigeres.",
         "confirmDelete": "Vil du slette utkastet",
         "fromCatalogue": "fra katalogen",
         "customer": "Kunde og avdeling",

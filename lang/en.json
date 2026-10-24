@@ -18371,7 +18371,8 @@
         "events": {
             "offer_sent": "Offer sent",
             "offer_accepted": "Offer accepted",
-            "offer_rejected": "Offer rejected"
+            "offer_rejected": "Offer rejected",
+            "offer_revised": "Offer to be revised"
         }
     },
     "consultantMatch": {
@@ -19344,7 +19345,8 @@
             "sent": "Sent",
             "accepted": "Accepted",
             "rejected": "Rejected",
-            "superseded": "Replaced"
+            "superseded": "Replaced",
+            "revised": "Revised"
         },
         "specialLanguage": "Special language",
         "overdue": "Deadline passed",
@@ -19416,6 +19418,9 @@
         "remarks": "Remarks",
         "acceptHint": "The inquiry moves to the won stage. When it is converted, price and hours are carried over to the contract fields.",
         "rejectHint": "The inquiry moves to the lost stage, and the reason is kept in the decision log.",
+        "reviseDecision": "Revise",
+        "reviseHint": "The offer is kept as history and can no longer be edited. A new version is created as a draft for you to adjust and send again.",
+        "revisedReadOnly": "Historical offer. Cannot be edited.",
         "confirmDelete": "Do you want to delete the draft",
         "fromCatalogue": "from the catalogue",
         "customer": "Customer and department",

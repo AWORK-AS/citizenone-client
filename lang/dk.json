@@ -18371,7 +18371,8 @@
         "events": {
             "offer_sent": "Tilbud sendt",
             "offer_accepted": "Tilbud godkendt",
-            "offer_rejected": "Tilbud afvist"
+            "offer_rejected": "Tilbud afvist",
+            "offer_revised": "Tilbud revideres"
         }
     },
     "consultantMatch": {
@@ -19344,7 +19345,8 @@
             "sent": "Sendt",
             "accepted": "Godkendt",
             "rejected": "Afvist",
-            "superseded": "Erstattet"
+            "superseded": "Erstattet",
+            "revised": "Revideret"
         },
         "specialLanguage": "Særsprog",
         "overdue": "Fristen er overskredet",
@@ -19416,6 +19418,9 @@
         "remarks": "Bemærkninger",
         "acceptHint": "Henvendelsen flyttes til den vundne fase. Når den konverteres, overføres pris og timer til kontraktfelterne.",
         "rejectHint": "Henvendelsen flyttes til den tabte fase, og årsagen gemmes i beslutningsloggen.",
+        "reviseDecision": "Revider",
+        "reviseHint": "Tilbuddet gemmes som historik og kan ikke længere redigeres. En ny version oprettes som kladde, så du kan rette den og sende den igen.",
+        "revisedReadOnly": "Historisk tilbud. Kan ikke redigeres.",
         "confirmDelete": "Vil du slette kladden",
         "fromCatalogue": "fra kataloget",
         "customer": "Kunde og afdeling",
