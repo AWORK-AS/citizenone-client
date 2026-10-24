@@ -17976,6 +17976,8 @@
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
             "serviceType": "Endast för insatstyp",
             "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ.",
+            "serviceTypesLabel": "Insatstyper",
+            "serviceTypesHint": "Avmarkera Alla insatstyper för att välja en eller flera typer som fältet bara ska efterfrågas på.",
             "form": "Formulär",
             "formHint": "Fältet frågas bara på det här formuläret."
         },

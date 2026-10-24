@@ -18061,6 +18061,8 @@
             "sourceHint": "The field takes its choices from a register you already maintain.",
             "serviceType": "Only for service type",
             "serviceTypeHint": "Pick a type if the field is only asked for there. Otherwise it is asked whatever the type is.",
+            "serviceTypesLabel": "Service types",
+            "serviceTypesHint": "Untick All service types to pick one or more types the field is only asked on.",
             "form": "Form",
             "formHint": "The field is asked only on this form."
         },

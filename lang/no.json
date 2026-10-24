@@ -17976,6 +17976,8 @@
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
             "serviceType": "Bare for innsatstype",
             "serviceTypeHint": "Velg en type hvis feltet bare skal spørres der. Ellers spørres det uansett type.",
+            "serviceTypesLabel": "Innsatstyper",
+            "serviceTypesHint": "Fjern haken ved Alle innsatstyper for å velge én eller flere typer feltet bare skal spørres på.",
             "form": "Skjema",
             "formHint": "Feltet spørres bare på dette skjemaet."
         },

@@ -18061,6 +18061,8 @@
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
             "serviceType": "Kun for indsatstype",
             "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type.",
+            "serviceTypesLabel": "Indsatstyper",
+            "serviceTypesHint": "Fjern fluebenet ved Alle indsatstyper for at vælge en eller flere typer, feltet kun skal spørges på.",
             "form": "Formular",
             "formHint": "Feltet spørges kun på denne formular."
         },
