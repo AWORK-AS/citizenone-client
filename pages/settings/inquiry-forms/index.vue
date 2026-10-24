@@ -110,6 +110,12 @@
                                         <Icon name="ph:list-checks" class="size-4" />
                                     </FormButton>
                                 </Tooltip>
+                                <Tooltip :text="$t('inquiryForms.actions.arrange')">
+                                    <FormButton type="button" buttonStyle="action"
+                                        :aria-label="$t('inquiryForms.actions.arrange')" @click="toggleArrange(form)">
+                                        <Icon name="ph:arrows-down-up" class="size-4" />
+                                    </FormButton>
+                                </Tooltip>
                                 <Tooltip v-if="pipelineEnabled" :text="$t('inquiryForms.actions.ownFields')">
                                     <FormButton type="button" buttonStyle="action"
                                         :aria-label="$t('inquiryForms.actions.ownFields')"
@@ -167,6 +173,47 @@
                                 </FormButton>
                             </div>
                         </div>
+
+                        <!-- Where each field sits on the form: the built-in fields and
+                             the company's own, moved anywhere in one list. -->
+                        <div v-if="state.arrangeFor === form.uuid" class="w-full rounded-md bg-gray-50 px-4 py-3">
+                            <p class="mb-2 text-xs text-gray-500">{{ $t('inquiryForms.arrangeHint') }}</p>
+                            <ol class="divide-y divide-gray-100 rounded-md border border-gray-200 bg-white">
+                                <li v-for="(key, position) in state.arrangement" :key="key"
+                                    class="flex items-center gap-2 px-3 py-1.5">
+                                    <span class="w-6 text-right text-xs tabular-nums text-gray-400">{{ position + 1 }}</span>
+                                    <span class="min-w-0 flex-1 truncate text-sm text-slate-700">{{ arrangeLabel(key) }}</span>
+                                    <span v-if="key.startsWith('field:')"
+                                        class="rounded-full bg-[#eee9fb] px-2 py-px text-[11px] font-semibold text-[#6b54c9]">
+                                        {{ $t('inquiryForms.arrangeOwnField') }}
+                                    </span>
+                                    <FormButton type="button" buttonStyle="action" :disabled="position === 0"
+                                        :aria-label="$t('inquiryPipelineStages.actions.moveUp')"
+                                        @click="moveField(position, -1)">
+                                        <Icon name="ph:arrow-up" class="size-4" />
+                                    </FormButton>
+                                    <FormButton type="button" buttonStyle="action"
+                                        :disabled="position === state.arrangement.length - 1"
+                                        :aria-label="$t('inquiryPipelineStages.actions.moveDown')"
+                                        @click="moveField(position, 1)">
+                                        <Icon name="ph:arrow-down" class="size-4" />
+                                    </FormButton>
+                                </li>
+                            </ol>
+                            <div class="mt-3 flex flex-wrap items-center gap-2">
+                                <FormButton type="button" buttonStyle="cancel" @click="state.arrangeFor = ''">
+                                    {{ $t('cancel') }}
+                                </FormButton>
+                                <FormButton v-if="form.field_order?.length" type="button" buttonStyle="action"
+                                    @click="saveArrangement(form, [])">
+                                    {{ $t('inquiryForms.arrangeReset') }}
+                                </FormButton>
+                                <FormButton type="button" buttonStyle="primary"
+                                    @click="saveArrangement(form, state.arrangement)">
+                                    {{ $t('save') }}
+                                </FormButton>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- Inquiries from the company's own website form. -->
@@ -185,8 +232,10 @@ definePageMeta({ middleware: 'require-page', requiredPage: 'Inquiries' })
 
 import { inquiryFormService } from '@/components/api/user/InquiryFormService'
 import { inquiryServiceTypeService } from '@/components/api/user/InquiryServiceTypeService'
+import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
+import { inquiryPipelineStageService } from '@/components/api/user/InquiryPipelineStageService'
 import { useAlert } from '@/composables/alert'
-import { formLabel, lockReason, toggleField, type InquiryForm } from '@/composables/inquiryForms'
+import { formLabel, lockReason, toggleField, orderedFieldKeys, type InquiryForm } from '@/composables/inquiryForms'
 import { CORE_FIELD_LABELS } from '@/composables/inquiryCoreFieldLabels'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
@@ -227,6 +276,10 @@ const state = reactive({
     selection: [] as string[],
     isDeleteOpen: false,
     selected: null as InquiryForm | null,
+    arrangeFor: '',
+    arrangement: [] as string[],
+    ownFields: [] as any[],
+    entryStageUuid: null as string | null,
 })
 
 const serviceTypeOptions = computed(() => [
@@ -260,6 +313,68 @@ async function fetchServiceTypes() {
     }
 }
 
+// The company's own fields that can be asked when an inquiry is created: no
+// stage or the stage a new inquiry starts in.
+async function fetchOwnFields() {
+    try {
+        const [fields, stages] = await Promise.all([
+            inquiryFieldService.getDefinitions(),
+            inquiryPipelineStageService.getStages(),
+        ])
+        const stageList = stages?.data ?? []
+        state.entryStageUuid = (stageList.find((stage: any) => stage.system_role === 'new') ?? stageList[0])?.uuid ?? null
+        state.ownFields = (fields?.data ?? []).filter((field: any) =>
+            field.is_active && (!field.stage || field.stage.uuid === state.entryStageUuid))
+    } catch (_) {
+        state.ownFields = []
+    }
+}
+
+function ownFieldsFor(form: InquiryForm) {
+    return state.ownFields.filter((field: any) => !field.form || field.form.uuid === form.uuid)
+}
+
+function arrangeLabel(key: string): string {
+    if (!key.startsWith('field:')) return fieldLabel(key)
+
+    return state.ownFields.find((field: any) => 'field:' + field.uuid === key)?.label ?? key
+}
+
+async function toggleArrange(form: InquiryForm) {
+    if (state.arrangeFor === form.uuid) {
+        state.arrangeFor = ''
+
+        return
+    }
+
+    state.fieldsFor = ''
+    if (pipelineEnabled.value && !state.ownFields.length) await fetchOwnFields()
+    state.arrangement = orderedFieldKeys(form.field_order, form.core_fields,
+        ownFieldsFor(form).map((field: any) => field.uuid))
+    state.arrangeFor = form.uuid
+}
+
+function moveField(position: number, direction: number) {
+    const target = position + direction
+    if (target < 0 || target >= state.arrangement.length) return
+
+    const reordered = [...state.arrangement]
+    const [moved] = reordered.splice(position, 1)
+    reordered.splice(target, 0, moved)
+    state.arrangement = reordered
+}
+
+async function saveArrangement(form: InquiryForm, order: string[]) {
+    try {
+        await inquiryFormService.updateForm(form.uuid, { field_order: [...order] })
+        state.arrangeFor = ''
+        await fetchForms()
+        successAlert(`${t('alert.success')}!`, `${t('inquiryForms.arrangeSaved')}.`)
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('inquiryForms.alert.saveFailed'))
+    }
+}
+
 function fieldLabel(field: string): string {
     const key = CORE_FIELD_LABELS[field]
 
@@ -289,6 +404,7 @@ function toggleFields(form: InquiryForm) {
         return
     }
 
+    state.arrangeFor = ''
     state.fieldsFor = form.uuid
     state.selection = [...form.core_fields]
 }

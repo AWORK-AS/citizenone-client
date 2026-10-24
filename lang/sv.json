@@ -19471,6 +19471,10 @@
         "builtinHint": "Följer registreringen av förfrågningar enligt danska serviceloven § 110 och § 109. Kan stängas av men inte tas bort.",
         "serviceTypeHint": "Förfrågningar på det här formuläret får insatstypen vald i förväg.",
         "fieldCount": "{count} fasta fält",
+        "arrangeHint": "Flytta de fasta fälten och era egna fält dit de ska stå på formuläret. Fält som bara efterfrågas på en viss insatstyp visas bara när den är vald.",
+        "arrangeOwnField": "Eget fält",
+        "arrangeReset": "Använd standardordningen",
+        "arrangeSaved": "Placeringen är sparad",
         "noneActive": "Inga formulär är påslagna. Slå på ett under Inställningar → Förfrågningsformulär.",
         "form": {
             "name": "Namn",
@@ -19483,6 +19487,7 @@
             "switchOn": "Slå på formuläret",
             "fields": "Välj fasta fält",
             "ownFields": "Egna fält på formuläret",
+            "arrange": "Placera fälten",
             "rename": "Byt namn på formuläret",
             "delete": "Ta bort formuläret"
         },

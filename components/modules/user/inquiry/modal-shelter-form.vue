@@ -3,20 +3,20 @@
         <form @submit.prevent="submitForm()">
             <Alert type="danger" :text="props?.error?.message"
                 v-if="props.error?.message && props.error.message.length > 0" />
-            <div class="space-y-6">
-                <section>
-                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+            <div :class="customLayout ? 'grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2' : 'space-y-6'">
+                <section :class="customLayout && 'contents'">
+                    <h3 v-if="!customLayout" class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.inquiry') }}
                     </h3>
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1" v-if="asksFor('inquiry_date')">
+                    <div :class="customLayout ? 'contents' : 'grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2'">
+                        <div class="space-y-1" v-if="asksFor('inquiry_date')" :style="orderStyle('inquiry_date')">
                             <FormLabel for="inquiry_date" :label="dateOfInquiryLabel" />
                             <FormDateField id="inquiry_date" name="inquiry_date"
                                 :placeholder="dateOfInquiryLabel" v-model="state.formInquiry.inquiry_date" />
                             <FormError :error="v$?.formInquiry?.inquiry_date?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.inquiry_date?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="asksFor('department_uuid')">
+                        <div class="space-y-1" v-if="asksFor('department_uuid')" :style="orderStyle('department_uuid')">
                             <FormLabel for="department_uuid" :label="departmentLabel" />
                             <FormSelectMultiple id="department_uuid" :options="state.options.departments"
                                 v-model="state.formInquiry.department_uuid" />
@@ -24,7 +24,7 @@
                         </div>
                         <!-- Hidden when the type was already chosen on the way in:
                              asking again invites two answers to the same question. -->
-                        <div class="space-y-1" v-if="!props.serviceType">
+                        <div class="space-y-1" v-if="!props.serviceType" :style="orderStyle('inquiry_service_type')">
                             <FormLabel for="inquiry_service_type"
                                 :label="$t('inquiryServiceTypes.single')" />
                             <FormSelect id="inquiry_service_type" :options="state.options.serviceTypes"
@@ -34,7 +34,7 @@
                                 {{ $t('inquiryServiceTypes.hint') }}
                             </p>
                         </div>
-                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('company_contact')">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('company_contact')" :style="orderStyle('company_contact')">
                             <FormLabel for="company_contact" :label="$t('inquiryContact.label')" />
                             <ModulesUserInquiryContactPicker :contact="props.selectedInquiry?.company_contact"
                                 @update:contactUuid="(uuid: any) => state.formInquiry.company_contact_uuid = uuid" />
@@ -42,7 +42,7 @@
                                 {{ $t('inquiryContact.hint') }}
                             </p>
                         </div>
-                        <div class="space-y-1" v-if="asksFor('inquirer_name')">
+                        <div class="space-y-1" v-if="asksFor('inquirer_name')" :style="orderStyle('inquirer_name')">
                             <FormLabel for="inquirer_name" :label="completedByLabel" />
                             <FormTextField id="inquirer_name" name="inquirer_name"
                                 :placeholder="completedByLabel" v-model="state.formInquiry.inquirer_name" />
@@ -51,12 +51,12 @@
                         </div>
                     </div>
                 </section>
-                <section>
-                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <section :class="customLayout && 'contents'">
+                    <h3 v-if="!customLayout" class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.citizen') }}
                     </h3>
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1" v-if="asksFor('cpr')">
+                    <div :class="customLayout ? 'contents' : 'grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2'">
+                        <div class="space-y-1" v-if="asksFor('cpr')" :style="orderStyle('cpr')">
                             <FormLabel for="cpr" :label="$t('inquiries.form.cpr')" />
                             <FormTextField id="cpr" name="cpr" :placeholder="$t('inquiries.form.cpr')"
                                 v-model="state.formInquiry.cpr" />
@@ -64,21 +64,21 @@
                             <FormError :error="props?.error?.errors?.cpr?.[0]" />
                         </div>
                         <!-- Question 2b: CPR Missing Reason - Only show if CPR is empty -->
-                        <div class="space-y-1" v-if="asksFor('cpr_missing_reason') && (showCprMissingReason)">
+                        <div class="space-y-1" v-if="asksFor('cpr_missing_reason') && (showCprMissingReason)" :style="orderStyle('cpr_missing_reason')">
                             <FormLabel for="cpr_missing_reason" :label="$t('inquiries.form.shelter.fields.cprMissingReason')" />
                             <FormSelect id="cpr_missing_reason" :options="state.options.cprMissingReason"
                                 v-model="state.formInquiry.cpr_missing_reason" />
                             <FormError :error="v$?.formInquiry?.cpr_missing_reason?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.cpr_missing_reason?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="asksFor('first_name')">
+                        <div class="space-y-1" v-if="asksFor('first_name')" :style="orderStyle('first_name')">
                             <FormLabel for="first_name" :label="$t('inquiries.form.firstname')" />
                             <FormTextField id="first_name" name="first_name" :placeholder="$t('inquiries.form.firstname')"
                                 v-model="state.formInquiry.first_name" />
                             <FormError :error="v$?.formInquiry?.first_name?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.first_name?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="asksFor('last_name')">
+                        <div class="space-y-1" v-if="asksFor('last_name')" :style="orderStyle('last_name')">
                             <FormLabel for="last_name" :label="$t('inquiries.form.lastname')" />
                             <FormTextField id="last_name" name="last_name" :placeholder="$t('inquiries.form.lastname')"
                                 v-model="state.formInquiry.last_name" />
@@ -87,14 +87,14 @@
                         </div>
                     </div>
                 </section>
-                <section v-if="['vacant_place_available', 'in_shelter_target_group', 'fits_in_target_group', 'non_admission_reason', 'not_in_service_target_group_reason', 'referral_destination'].some(asksFor)">
-                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <section v-if="['vacant_place_available', 'in_shelter_target_group', 'fits_in_target_group', 'non_admission_reason', 'not_in_service_target_group_reason', 'referral_destination'].some(asksFor)" :class="customLayout && 'contents'">
+                    <h3 v-if="!customLayout" class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.assessment') }}
                     </h3>
                     <!-- Bottom-aligned: a question that wraps to two lines would
                          otherwise push its answer below the one beside it. -->
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 sm:items-end">
-                        <div class="space-y-1" v-if="asksFor('vacant_place_available')">
+                    <div :class="customLayout ? 'contents' : 'grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2 sm:items-end'">
+                        <div class="space-y-1" v-if="asksFor('vacant_place_available')" :style="orderStyle('vacant_place_available')">
                             <FormLabel for="vacant_place_available"
                                 :label="$t('inquiries.form.shelter.fields.vacantPlaceAvailable')" />
                             <FormSelect id="vacant_place_available" :options="state.options.yesNo"
@@ -102,7 +102,7 @@
                             <FormError :error="v$?.formInquiry?.vacant_place_available?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.vacant_place_available?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="asksFor('in_shelter_target_group')">
+                        <div class="space-y-1" v-if="asksFor('in_shelter_target_group')" :style="orderStyle('in_shelter_target_group')">
                             <FormLabel for="in_shelter_target_group"
                                 :label="$t('inquiries.form.shelter.fields.inShelterTargetGroup')" />
                             <FormSelect id="in_shelter_target_group" :options="state.options.yesNo"
@@ -111,7 +111,7 @@
                             <FormError :error="props?.error?.errors?.in_shelter_target_group?.[0]" />
                         </div>
                         <!-- Question 5: Fits in Target Group - Only show if in_shelter_target_group is "yes" -->
-                        <div class="space-y-1" v-if="asksFor('fits_in_target_group') && (showFitsInTargetGroup)">
+                        <div class="space-y-1" v-if="asksFor('fits_in_target_group') && (showFitsInTargetGroup)" :style="orderStyle('fits_in_target_group')">
                             <FormLabel for="fits_in_target_group"
                                 :label="$t('inquiries.form.shelter.fields.fitsInTargetGroup')" />
                             <FormSelect id="fits_in_target_group" :options="state.options.yesNo"
@@ -120,7 +120,7 @@
                             <FormError :error="props?.error?.errors?.fits_in_target_group?.[0]" />
                         </div>
                         <!-- Question 6a: Non Admission Reason - Only if in target group + fits target group + space available -->
-                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('non_admission_reason') && (showNonAdmissionReason)">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('non_admission_reason') && (showNonAdmissionReason)" :style="orderStyle('non_admission_reason')">
                             <FormLabel for="non_admission_reason"
                                 :label="$t('inquiries.form.shelter.fields.nonAdmissionReason')" />
                             <FormSelect id="non_admission_reason" :options="state.options.nonAdmissionReason"
@@ -129,7 +129,7 @@
                             <FormError :error="props?.error?.errors?.non_admission_reason?.[0]" />
                         </div>
                         <!-- Question 6b: Not In Service Target Group Reason - Only if in target group + doesn't fit -->
-                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('not_in_service_target_group_reason') && (showNotInServiceTargetGroupReason)">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('not_in_service_target_group_reason') && (showNotInServiceTargetGroupReason)" :style="orderStyle('not_in_service_target_group_reason')">
                             <FormLabel for="not_in_service_target_group_reason"
                                 :label="$t('inquiries.form.shelter.fields.notInServiceTargetGroupReason')" />
                             <FormSelect id="not_in_service_target_group_reason"
@@ -140,7 +140,7 @@
                             <FormError :error="props?.error?.errors?.not_in_service_target_group_reason?.[0]" />
                         </div>
                         <!-- Question 7: Referral Destination - Show in rejection scenarios -->
-                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('referral_destination') && (showReferralDestination)">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('referral_destination') && (showReferralDestination)" :style="orderStyle('referral_destination')">
                             <FormLabel for="referral_destination"
                                 :label="$t('inquiries.form.shelter.fields.referralDestination')" />
                             <FormSelect id="referral_destination" :options="state.options.referralDestination"
@@ -150,33 +150,33 @@
                         </div>
                     </div>
                 </section>
-                <section v-if="['outcome', 'purpose', 'notes', 'conversation_summary'].some(asksFor)">
-                    <h3 class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                <section v-if="['outcome', 'purpose', 'notes', 'conversation_summary'].some(asksFor)" :class="customLayout && 'contents'">
+                    <h3 v-if="!customLayout" class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.outcome') }}
                     </h3>
-                    <div class="grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2">
-                        <div class="space-y-1" v-if="asksFor('outcome')">
+                    <div :class="customLayout ? 'contents' : 'grid grid-cols-1 gap-x-4 gap-y-3 sm:grid-cols-2'">
+                        <div class="space-y-1" v-if="asksFor('outcome')" :style="orderStyle('outcome')">
                             <FormLabel for="outcome" :label="$t('inquiries.form.outcome')" />
                             <FormTextField id="outcome" name="outcome" :placeholder="$t('inquiries.form.outcome')"
                                 v-model="state.formInquiry.outcome" />
                             <FormError :error="v$?.formInquiry?.outcome?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.outcome?.[0]" />
                         </div>
-                        <div class="space-y-1" v-if="asksFor('purpose') && (isPurposeActive)">
+                        <div class="space-y-1" v-if="asksFor('purpose') && (isPurposeActive)" :style="orderStyle('purpose')">
                             <FormLabel for="purpose" :label="$t('inquiries.form.purpose')" />
                             <FormTextField id="purpose" name="purpose" :placeholder="$t('inquiries.form.purpose')"
                                 v-model="state.formInquiry.purpose" />
                             <FormError :error="v$?.formInquiry?.purpose?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.purpose?.[0]" />
                         </div>
-                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('notes') && (isNotesActive)">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('notes') && (isNotesActive)" :style="orderStyle('notes')">
                             <FormLabel for="notes" :label="$t('inquiries.form.notes')" />
                             <FormTextArea id="notes" name="notes" :placeholder="$t('inquiries.form.notes')"
                                 v-model="state.formInquiry.notes" />
                             <FormError :error="v$?.formInquiry?.notes?.$errors[0]?.$message.toString()" />
                             <FormError :error="props?.error?.errors?.notes?.[0]" />
                         </div>
-                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('conversation_summary')">
+                        <div class="space-y-1 sm:col-span-2" v-if="asksFor('conversation_summary')" :style="orderStyle('conversation_summary')">
                             <FormLabel for="conversation_summary" :label="$t('inquiries.form.conversationSummary')" />
                             <FormTextArea id="conversation_summary" name="conversation_summary"
                                 :placeholder="$t('inquiries.form.conversationSummary')"
@@ -186,10 +186,10 @@
                         </div>
                     </div>
                 </section>
-                <ModulesUserInquiryMatchNeedsBlock :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
+                <ModulesUserInquiryMatchNeedsBlock :class="customLayout && 'sm:col-span-2'" :style="customLayout ? { order: 3000 } : undefined" :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
                     :error="props.error" @update="(value: any) => matchNeeds = value" />
                 <!-- Whatever else the edit carries, saved by the same button. -->
-                <slot name="after-fields" :serviceTypeUuid="state.formInquiry.inquiry_service_type_uuid" />
+                <slot name="after-fields" :serviceTypeUuid="state.formInquiry.inquiry_service_type_uuid" :fieldOrder="customLayout ? (props.form as any)?.field_order : null" />
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -207,7 +207,7 @@
 </template>
 
 <script setup lang="ts">
-import { asksFor as asksForField, shownOnInquiry } from '@/composables/inquiryForms'
+import { asksFor as asksForField, shownOnInquiry, hasFieldOrder, fieldOrderIndex } from '@/composables/inquiryForms'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
@@ -247,6 +247,21 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
+
+// A form with its own field order drops the standard sections and lays every
+// field, built-in and own, out in one grid in that order. Only when creating:
+// the edit shows what the inquiry holds, in the standard layout.
+const customLayout = computed(() => props.formType === 'create' && hasFieldOrder(props.form as any))
+
+function orderStyle(key: string) {
+    if (!customLayout.value) return undefined
+    // The service type decides which own fields are asked, so it comes first.
+    if (key === 'inquiry_service_type') return { order: -1 }
+
+    const available: string[] = (props.form as any)?.available_core_fields ?? []
+
+    return { order: fieldOrderIndex(props.form as any, key, available.indexOf(key)) }
+}
 
 /**
  * Whether this kind of inquiry asks for a built-in field. A form opened

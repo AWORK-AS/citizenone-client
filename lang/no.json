@@ -19471,6 +19471,10 @@
         "builtinHint": "Følger registreringen av henvendelser etter den danske serviceloven § 110 og § 109. Kan slås av, men ikke slettes.",
         "serviceTypeHint": "Henvendelser på dette skjemaet får innsatstypen valgt på forhånd.",
         "fieldCount": "{count} faste felt",
+        "arrangeHint": "Flytt de faste feltene og deres egne felt dit de skal stå på skjemaet. Felt som bare spørres på en bestemt innsatstype, vises bare når den er valgt.",
+        "arrangeOwnField": "Eget felt",
+        "arrangeReset": "Bruk standardrekkefølgen",
+        "arrangeSaved": "Plasseringen er lagret",
         "noneActive": "Ingen skjemaer er slått på. Slå på ett under Innstillinger → Henvendelsesskjemaer.",
         "form": {
             "name": "Navn",
@@ -19483,6 +19487,7 @@
             "switchOn": "Slå på skjemaet",
             "fields": "Velg faste felt",
             "ownFields": "Egne felt på skjemaet",
+            "arrange": "Plasser feltene",
             "rename": "Gi skjemaet nytt navn",
             "delete": "Slett skjemaet"
         },

@@ -12,6 +12,9 @@ export interface InquiryForm {
     available_core_fields?: string[]
     locked_core_fields?: string[]
     registration_fields?: string[]
+    // Built-in keys and "field:<uuid>" for own fields, in the order the form
+    // shows them. Null for the standard layout.
+    field_order?: string[] | null
     service_type?: { uuid: string, name: string, label: string } | null
     is_active: boolean
     sort_order: number
@@ -164,4 +167,34 @@ export function toggleField(form: InquiryForm, field: string): string[] {
     const order = form.available_core_fields ?? [...current]
 
     return order.filter((key) => current.has(key))
+}
+
+/**
+ * Whether the form has its own field order. Without one the form keeps its
+ * standard sections.
+ */
+export function hasFieldOrder(form: Pick<InquiryForm, 'field_order'> | null | undefined): boolean {
+    return Array.isArray(form?.field_order) && form!.field_order!.length > 0
+}
+
+/**
+ * The CSS order of one field on a form with its own field order. A field the
+ * order does not mention keeps its standard place after the ones it does.
+ * Built-in fields are keyed by name, own fields as "field:<uuid>".
+ */
+export function fieldOrderIndex(form: Pick<InquiryForm, 'field_order'> | null | undefined, key: string, fallback = 0): number {
+    const index = (form?.field_order ?? []).indexOf(key)
+
+    return index >= 0 ? index : 1000 + fallback
+}
+
+/**
+ * The items the form builder places: the built-in fields the form asks for
+ * and the form's own fields, in the saved order first and anything new after.
+ */
+export function orderedFieldKeys(saved: string[] | null | undefined, builtin: string[], own: string[]): string[] {
+    const all = [...builtin, ...own.map((uuid) => 'field:' + uuid)]
+    const kept = (saved ?? []).filter((key) => all.includes(key))
+
+    return [...kept, ...all.filter((key) => !kept.includes(key))]
 }

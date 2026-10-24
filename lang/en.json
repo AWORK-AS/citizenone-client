@@ -19556,6 +19556,10 @@
         "builtinHint": "Follows the registration of inquiries under sections 110 and 109 of the Danish Social Services Act. Can be switched off, not deleted.",
         "serviceTypeHint": "Inquiries on this form get the service type chosen in advance.",
         "fieldCount": "{count} built-in fields",
+        "arrangeHint": "Move the built-in fields and your own fields to where they should sit on the form. Fields asked only on one service type show only when that type is chosen.",
+        "arrangeOwnField": "Own field",
+        "arrangeReset": "Use the standard order",
+        "arrangeSaved": "The arrangement is saved",
         "noneActive": "No forms are switched on. Switch one on under Settings → Inquiry forms.",
         "form": {
             "name": "Name",
@@ -19568,6 +19572,7 @@
             "switchOn": "Switch the form on",
             "fields": "Choose built-in fields",
             "ownFields": "Own fields on the form",
+            "arrange": "Arrange the fields",
             "rename": "Rename the form",
             "delete": "Delete the form"
         },

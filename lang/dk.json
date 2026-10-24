@@ -19556,6 +19556,10 @@
         "builtinHint": "Følger registreringen af henvendelser efter servicelovens § 110 og § 109. Kan slås fra, men ikke slettes.",
         "serviceTypeHint": "Henvendelser på denne formular får indsatstypen valgt på forhånd.",
         "fieldCount": "{count} faste felter",
+        "arrangeHint": "Flyt de faste felter og jeres egne felter hen, hvor de skal stå på formularen. Felter, der kun spørges på en bestemt indsatstype, vises kun når den er valgt.",
+        "arrangeOwnField": "Eget felt",
+        "arrangeReset": "Brug standardrækkefølgen",
+        "arrangeSaved": "Placeringen er gemt",
         "noneActive": "Ingen formularer er slået til. Slå en til under Indstillinger → Henvendelsesformularer.",
         "form": {
             "name": "Navn",
@@ -19568,6 +19572,7 @@
             "switchOn": "Slå formularen til",
             "fields": "Vælg faste felter",
             "ownFields": "Egne felter på formularen",
+            "arrange": "Placér felterne",
             "rename": "Omdøb formularen",
             "delete": "Slet formularen"
         },

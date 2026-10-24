@@ -11,18 +11,18 @@
                         :form="props.form" :serviceType="preselectedServiceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveCrisisCenterInquiry">
-                        <template #after-fields="{ serviceTypeUuid }">
+                        <template #after-fields="{ serviceTypeUuid, fieldOrder }">
                             <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues"
-                                :formUuid="props.form?.uuid ?? null" :serviceTypeUuid="serviceTypeUuid ?? null" />
+                                :formUuid="props.form?.uuid ?? null" :serviceTypeUuid="serviceTypeUuid ?? null" :fieldOrder="fieldOrder ?? null" />
                         </template>
                     </ModulesUserInquiryModalCrisisCenterForm>
                     <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" formType="create" :selectedInquiry="state.formInquiry"
                         :form="props.form" :serviceType="preselectedServiceType"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="saveShelterInquiry">
-                        <template #after-fields="{ serviceTypeUuid }">
+                        <template #after-fields="{ serviceTypeUuid, fieldOrder }">
                             <ModulesUserInquiryCreationFieldsBlock v-model="state.fieldValues"
-                                :formUuid="props.form?.uuid ?? null" :serviceTypeUuid="serviceTypeUuid ?? null" />
+                                :formUuid="props.form?.uuid ?? null" :serviceTypeUuid="serviceTypeUuid ?? null" :fieldOrder="fieldOrder ?? null" />
                         </template>
                     </ModulesUserInquiryModalShelterForm>
                 </LoadingSpinner>

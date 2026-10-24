@@ -1,11 +1,14 @@
 <template>
-    <section v-if="state.fields.length" class="space-y-3.5">
-        <h3 class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
+    <!-- With a field order the form lays its fields out in one grid, and these
+         take their places among the built-in ones instead of a block of their own. -->
+    <section v-if="state.fields.length" :class="ordered ? 'contents' : 'space-y-3.5'">
+        <h3 v-if="!ordered" class="text-[11px] font-bold uppercase tracking-wider text-slate-400">
             {{ $t('inquiryFields.additionalDetails') }}
         </h3>
 
-        <div class="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2">
-            <div v-for="field in state.fields" :key="field.uuid" :class="isWide(field) ? 'sm:col-span-2' : ''">
+        <div :class="ordered ? 'contents' : 'grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2'">
+            <div v-for="(field, index) in state.fields" :key="field.uuid" :class="isWide(field) ? 'sm:col-span-2' : ''"
+                :style="ordered ? { order: fieldOrderIndex({ field_order: props.fieldOrder }, 'field:' + field.uuid, 100 + index) } : undefined">
                 <div class="mb-1.5 flex items-center gap-1.5">
                     <p class="text-xs font-bold text-slate-500">{{ field.label }}</p>
                     <span v-if="field.is_required"
@@ -109,6 +112,7 @@
 
 <script setup lang="ts">
 import { inquiryFieldService } from '@/components/api/user/InquiryFieldService'
+import { fieldOrderIndex } from '@/composables/inquiryForms'
 import { employmentService } from '@/components/api/user/EmploymentService'
 import { lookupOptionLabel, sortByLabel } from '@/composables/spokenLanguageNames'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
@@ -134,9 +138,17 @@ const props = defineProps({
         required: false,
         default: null,
     },
+    // The form's own field order, when it has one.
+    fieldOrder: {
+        type: Array,
+        required: false,
+        default: null,
+    },
 })
 
 const emit = defineEmits(['update:modelValue'])
+
+const ordered = computed(() => Array.isArray(props.fieldOrder) && props.fieldOrder.length > 0)
 
 const WIDE_TYPES = ['textarea', 'multiselect']
 
