@@ -8937,7 +8937,7 @@
                     "topic": "What is the inquiry about?"
                 }
             },
-            "dateOfInquiry": "Date of inquiry",
+            "dateOfInquiry": "Date of the inquiry",
             "firstname": "@.capitalize:terms.citizen{''} first name",
             "inquirerName": "Inquirer name",
             "lastname": "@.capitalize:terms.citizen{''} last name",
@@ -9038,7 +9038,7 @@
             },
             "conversationSummary": "Conversation summary",
             "createdBy": "Created by",
-            "dateOfInquiry": "Date of inquiry",
+            "dateOfInquiry": "Date of the inquiry",
             "firstname": "First name",
             "inquirerName": "Inquirer name",
             "lastname": "Last name",

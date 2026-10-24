@@ -8937,7 +8937,7 @@
                     "topic": "Hva handler henvendelsen om?"
                 }
             },
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "@.capitalize:terms.citizenDefinite{'s'} fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "@.capitalize:terms.citizenDefinite{'s'} etternavn",
@@ -9038,7 +9038,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "createdBy": "Opprettet av",
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Etternavn",
