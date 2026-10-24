@@ -13,6 +13,10 @@
                                     :placeholder="$t('citizens.interventionHours.download.filter.filterDate')" />
                                 <FormError :error="v$?.filter.date_range?.$errors[0]?.$message.toString()" />
                             </div>
+                            <!-- The filters chosen on Indsatstimer go with the download. -->
+                            <p v-if="filtersActive" class="text-xs text-gray-600">
+                                {{ $t('citizens.interventionHours.download.followsFilters') }}
+                            </p>
                         </div>
                         <div class="mt-6">
                             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -36,6 +40,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
+import { activeCareHourFilterCount, careHourFilterParams, emptyCareHourFilters, type CareHourFilters } from '@/composables/careHourFilters'
 import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import type { Error } from '@/types'
@@ -47,8 +52,14 @@ const props = defineProps({
         type: Boolean,
         required: true,
     },
+    // The filters on Indsatstimer (hour types, work/transport, employees).
+    filters: {
+        type: Object,
+        default: () => emptyCareHourFilters(),
+    },
 })
 const emit = defineEmits(['close'])
+const filtersActive = computed(() => activeCareHourFilterCount(props.filters as CareHourFilters) > 0)
 
 const { t } = useI18n()
 const language = useI18n()
@@ -101,6 +112,7 @@ async function downloadInterventionHours() {
                 citizen_uuid: citizenUuid,
                 start_date: state.downloadForm.start_date,
                 end_date: state.downloadForm.end_date,
+                ...careHourFilterParams(props.filters as CareHourFilters),
             }
             const response = await interventionHoursService.downloadInterventionHours(params)
             if (response) {

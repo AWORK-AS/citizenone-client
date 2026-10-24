@@ -3005,7 +3005,8 @@
                 "downloadInterventionHours": "Download intervention hours",
                 "filter": {
                     "filterDate": "Filter date"
-                }
+                },
+                "followsFilters": "The download follows the chosen filters."
             },
             "editInterventionHours": "Edit intervention hours",
             "filter": {
@@ -3079,6 +3080,17 @@
                 "type": "Type",
                 "viewInterventionHourLog": "View intervention hour log",
                 "work": "Work"
+            },
+            "byType": {
+                "title": "Hours per type:"
+            },
+            "filters": {
+                "hourTypes": "Hour types",
+                "kind": "Work or transport",
+                "employees": "Employees",
+                "all": "All",
+                "withoutType": "Without hour type",
+                "clear": "Clear filters"
             }
         },
         "medicationAllergies": "Medication allergies (CAVE)",
