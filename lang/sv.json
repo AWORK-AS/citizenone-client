@@ -18192,7 +18192,10 @@
             "maxTravelKm": "Kör upp till (km)",
             "desiredWeeklyHours": "Önskat timantal per vecka",
             "stepAssessment": "Stegbedömning",
-            "hasCar": "Har bil"
+            "hasCar": "Har bil",
+            "hasDriversLicense": "Har körkort",
+            "drivingWillingness": "Villighet att köra",
+            "drivingWillingnessPlaceholder": "T.ex. gärna, bara i närområdet"
         },
         "statuses": {
             "available": "Ledig",

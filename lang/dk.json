@@ -18277,7 +18277,10 @@
             "maxTravelKm": "Kører op til (km)",
             "desiredWeeklyHours": "Ønsket timetal pr. uge",
             "stepAssessment": "Trinvurdering",
-            "hasCar": "Har bil"
+            "hasCar": "Har bil",
+            "hasDriversLicense": "Har kørekort",
+            "drivingWillingness": "Villighed til at køre",
+            "drivingWillingnessPlaceholder": "F.eks. gerne, kun i nærområdet"
         },
         "statuses": {
             "available": "Ledig",
