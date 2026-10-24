@@ -10,7 +10,9 @@
                     </div>
                     <!-- Done / not done, as in the calendar's event menu: here too because a
                          narrow event in the day/week grid has no room for that menu. -->
-                    <div v-if="props.statusActions && props.selectedSchedule?.uuid"
+                    <ModulesUserMyCalendarCancelPanel v-if="props.statusActions" :event="props.selectedSchedule"
+                        @cancelled="onCancelled" />
+                    <div v-if="props.statusActions && canMarkStatus(props.selectedSchedule)"
                         class="mt-2 flex flex-wrap items-center justify-end gap-2">
                         <FormButton v-if="props.selectedSchedule?.completion_status !== 'completed'" type="button"
                             buttonStyle="action" @click="emit('markEventAsStatus', 'completed')">
@@ -106,6 +108,7 @@
 
 
 <script setup lang="ts">
+import { canMarkStatus } from '@/composables/calendarCancel'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { isCareHourTypesOn } from '@/composables/careHourTypes'
 import { useUserStore } from '@/store/user'
@@ -129,6 +132,12 @@ const props = defineProps({
     },
 })
 const emit = defineEmits(['close', 'refreshSchedules', 'deleteMyCalendarEvent', 'markEventAsStatus'])
+
+// Cancelled (and maybe moved): the calendar reloads to show both events.
+function onCancelled() {
+    emit('refreshSchedules')
+    emit('close')
+}
 
 const state = reactive({
     error: {} as Error,

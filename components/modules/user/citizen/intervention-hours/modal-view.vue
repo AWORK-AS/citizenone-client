@@ -69,6 +69,9 @@
                                 ]">
                                     {{ state.timeAccount?.data?.daily ?? '-' }}
                                 </p>
+                                <p v-if="state.timeAccount?.data?.daily_remaining != null" class="text-xs text-gray-500 tabular-nums">
+                                    {{ remainingLabel(state.timeAccount.data.daily_remaining) }}
+                                </p>
                             </div>
                         </LoadingSpinner>
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
@@ -91,6 +94,9 @@
                                 ]">
                                     {{ state.timeAccount?.data?.weekly ?? '-' }}
                                 </p>
+                                <p v-if="state.timeAccount?.data?.weekly_remaining != null" class="text-xs text-gray-500 tabular-nums">
+                                    {{ remainingLabel(state.timeAccount.data.weekly_remaining) }}
+                                </p>
                             </div>
                         </LoadingSpinner>
                         <LoadingSpinner :isActive="state.isTimeAccountLoading">
@@ -112,6 +118,9 @@
                                     'text-sm'
                                 ]">
                                     {{ state.timeAccount?.data?.monthly ?? '-' }}
+                                </p>
+                                <p v-if="state.timeAccount?.data?.monthly_remaining != null" class="text-xs text-gray-500 tabular-nums">
+                                    {{ remainingLabel(state.timeAccount.data.monthly_remaining) }}
                                 </p>
                             </div>
                         </LoadingSpinner>
@@ -297,6 +306,14 @@ const state = reactive({
 // hidden_fields names the rate when the company keeps it from this person;
 // the margin endpoint says so too, for a citizen loaded before the switch.
 const ratesHidden = computed(() => areCitizenRatesHidden(citizenStore.getSelectedCitizen, state.contributionMargin))
+
+// Hours left of an allocation after the chosen period, or how far over it went.
+function remainingLabel(remaining: number) {
+    const hours = formatNumber(language.locale.value, Math.abs(remaining))
+    return remaining < 0
+        ? language.t('citizens.interventionHours.timeAccount.overBy', { hours })
+        : language.t('citizens.interventionHours.timeAccount.remaining', { hours })
+}
 
 function closeModal() {
     emit('close')

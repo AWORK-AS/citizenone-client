@@ -557,6 +557,7 @@
 
 
             <ModulesUserCitizenTimeRegistrationModalType :isModalOpen="state.modal.isTimeInTypeModalOpen"
+                :hourTypes="checkInHourTypes" :showTransport="isTransportRegistrationEnabled"
                 @close="state.modal.isTimeInTypeModalOpen = false" @openTransport="openTransportLogin"
                 @open-work="workLogin" />
             <ModulesUserCitizenTimeRegistrationModalTransport type="login"
@@ -590,6 +591,7 @@ import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { userService } from '@/components/api/user/UserService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
+import { useCheckInHourTypes } from '@/composables/useCheckInHourTypes'
 import { useDepartmentStore } from '@/store/department'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
@@ -675,6 +677,9 @@ const exportInquiryDepartmentOptions = computed(() => [
 const isTransportRegistrationEnabled = computed(() => {
     return userStore.getUser?.can_register_transport === true
 })
+
+// The hour types chosen when checking in; empty unless the company uses them.
+const { checkInHourTypes, fetchHourTypes, checkInPayload } = useCheckInHourTypes()
 
 const isShelterOrCrisisCenter = computed(() => {
     return userStore.getUser?.company?.industry?.system_name === 'social_welfare'
@@ -796,6 +801,7 @@ watch(() => userStore.getUser?.citizens_list_filters, (saved) => {
 })
 
 onMounted(() => {
+    fetchHourTypes()
     applySavedColumns(userStore.getUser?.citizens_list_columns)
     rebuildColumnHeaders()
     applySavedFilter(userStore.getUser?.citizens_list_filters)
@@ -1226,7 +1232,7 @@ function toggleLogin(citizen: any) {
 }
 
 function selectTimeInType() {
-    if (!isTransportRegistrationEnabled.value) {
+    if (!isTransportRegistrationEnabled.value && !checkInHourTypes.value.length) {
         workLogin()
         return
     }
@@ -1234,12 +1240,12 @@ function selectTimeInType() {
     state.modal.isTimeInTypeModalOpen = true
 }
 
-async function workLogin() {
+async function workLogin(hourTypeUuid?: string) {
     state.error = {}
     state.isTableLoading = true
     try {
         if (!state.selectedCitizen?.is_checked_in) {
-            const params = {}
+            const params = checkInPayload(hourTypeUuid)
             const response = await interventionHoursService.checkin(state.selectedCitizen.uuid, params)
             if (response?.data) {
                 const careHourUuid = response.data.uuid || response.data.citizen_care_hour_uuid

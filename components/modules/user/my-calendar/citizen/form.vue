@@ -289,6 +289,11 @@ const props = defineProps({
         type: Object,
         default: null,
     },
+    // A citizen the new event starts with, e.g. "Plan" from the hours panel.
+    presetCitizenUuid: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['closeModal', 'submitForm'])
 const { t } = useI18n()
@@ -493,6 +498,13 @@ watch(() => props.duplicateOf, (event: any, previous: any) => {
     state.formSchedule.is_video_consultation = !!event.is_video_consultation
     state.formSchedule.calendar_tag_uuid = fields.calendar_tag_uuid as any
         state.formSchedule.citizens = (fields.ownerCitizens.length ? fields.ownerCitizens : fields.inviteeCitizens) as any
+}, { immediate: true })
+
+// "Plan" from the hours panel: the new event starts on that citizen.
+watch(() => props.presetCitizenUuid, (uuid: string) => {
+    if (uuid) {
+        state.formSchedule.citizens = [uuid] as any
+    }
 }, { immediate: true })
 
 const rules = computed(() => {

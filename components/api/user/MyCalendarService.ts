@@ -53,6 +53,11 @@ class MyCalendarService extends BaseAPIService {
     async getCompletionStatistics(params: object): Promise<any> {
         return await this.request(`/user/my-calendars/completion/statistics`, 'GET', params)
     }
+
+    /** Cancels (aflyser) an event, with a reason, and moves it when reschedule_start/end are given. */
+    async cancel(scheduleUuid: string, params: { reason?: string | null, reschedule_start?: string, reschedule_end?: string }): Promise<any> {
+        return await this.request(`/user/my-calendars/${scheduleUuid}/cancel`, 'POST', params)
+    }
 }
 
 export const myCalendarService = new MyCalendarService()

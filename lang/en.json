@@ -1858,6 +1858,30 @@
                 "Saturday": "Saturday",
                 "Sunday": "Sunday"
             }
+        },
+        "hoursPanel": {
+            "title": "My hours per @:terms.citizen{''} · week {week}",
+            "summary": "{planned} of {given} h planned",
+            "plan": "Plan",
+            "plannedOfGiven": "{planned} of {given} h",
+            "toPlan": "{hours} h still to plan",
+            "allPlanned": "All hours are planned",
+            "overPlanned": "{hours} h planned too many"
+        },
+        "cancel": {
+            "action": "Cancel",
+            "title": "Cancel event",
+            "intro": "The event is marked as cancelled and stays in the calendar. Hours from the event are freed.",
+            "reason": "Reason",
+            "reasonPlaceholder": "E.g. the family called in sick",
+            "move": "Move to a new time",
+            "submit": "Cancel event",
+            "submitAndMove": "Cancel and move event",
+            "done": "The event is cancelled",
+            "doneAndMoved": "The event is cancelled and moved",
+            "cancelled": "Cancelled",
+            "movedTo": "Moved to {time}",
+            "movedFrom": "Moved here from {time}"
         }
     },
     "calendarTags": {
@@ -3013,7 +3037,9 @@
                 "hourlyRate": "Hourly rate",
                 "monthlyAllocation": "Monthly allocation",
                 "timeAccount": "Time account",
-                "weeklyAllocation": "Weekly allocation"
+                "weeklyAllocation": "Weekly allocation",
+                "overBy": "{hours} h over the allocation",
+                "remaining": "{hours} h left"
             },
             "view": {
                 "citizen": "@.capitalize:terms.citizen{''}",
@@ -3103,6 +3129,8 @@
             },
             "download": "Download",
             "downloadOverview": "Download overview",
+            "downloadCurrentList": "Download current medicine list",
+            "currentListFileName": "Current medicine list",
             "editMedicine": "Edit medicine",
             "form": {
                 "activateMedicine": "Activate medicine",
@@ -4074,6 +4102,8 @@
             },
             "selectType": "Do you want to register transport or work time?",
             "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
+            "selectHourType": "What are you registering?",
+            "selectHourTypeMessage": "Choose the type of time you are starting now. It can be changed afterwards under Intervention hours.",
             "timeRegistration": "Time registration",
             "transport": "Transport",
             "work": "Work",
@@ -7504,7 +7534,8 @@
             "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
-                    "delete": "Delete"
+                    "delete": "Delete",
+                    "weeklyHours": "Hours"
                 },
                 "alert": {
                     "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} successfully deleted"
@@ -7513,8 +7544,17 @@
                     "deleteCitizenConfirmation": "Are you sure you want to delete this @:terms.citizen{''}"
                 },
                 "firstname": "First name",
-                "lastname": "Last name"
-            }
+                "lastname": "Last name",
+                "weeklyHours": "Hours a week"
+            },
+            "editWeeklyHours": "Hours a week",
+            "hoursAWeek": "{hours} h/week",
+            "save": "Save",
+            "weeklyHoursHint": "Optional. Leave empty when no number of hours is agreed",
+            "weeklyHoursInvalid": "Enter a number from 0 to 168",
+            "weeklyHoursPlaceholder": "E.g. 10",
+            "weeklyHoursQuestion": "How many hours a week is the employee to spend with this @:terms.citizen{''}?",
+            "weeklyHoursSaved": "Hours a week saved"
         },
         "confirmation": {
             "archiveConfirmation": "Are you sure you want to archive this employee",
@@ -9312,6 +9352,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Back to password",
+            "codeLabel": "6-digit code",
+            "invalidEmail": "Enter a valid email address first.",
+            "link": "Get a code by email instead",
+            "resend": "Send a new code",
+            "resendIn": "Send a new code in {seconds}s",
+            "sentTo": "If your account can sign in with a code, we have sent it to",
+            "title": "Check your email",
+            "tooManyRequests": "Too many attempts. Wait a little while and try again."
+        },
         "activeUsers": "Active users",
         "description": "From journal notes and care plans to shift scheduling and reporting - all gathered in one platform, built for those who work with people.",
         "doYouNeedHelp": "Do you need help",
@@ -9326,7 +9377,8 @@
             "loggingIn": "Logging in",
             "or": "Or",
             "password": "Password",
-            "rememberMeFor14Days": "Remember me for 14 days"
+            "rememberMeFor14Days": "Remember me for 14 days",
+            "rememberMeFor30Days": "Remember me for 30 days"
         },
         "gdprNote": "GDPR-compliant · Hosted in the EU · Developed by AWORK Group A/S",
         "headlineLine1": "The future's",
@@ -11560,6 +11612,8 @@
             "form": {
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
                 "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
+                "portalEmailLogin": "Sign in with a code by email for citizens, patients and relatives",
+                "portalEmailLoginHint": "They get a 6-digit code by email instead of typing a password. Password login keeps working",
                 "2fa": "Two factor authentication",
                 "certificateReminderEmail": "Shared mailbox for certificate reminders",
                 "certificateReminderEmailHelp": "Gets a copy of every certificate and CV reminder e-mail.",
@@ -11815,7 +11869,9 @@
                 "portalPreviewForms": "The patient fills in the forms you send them, e.g. before a visit.",
                 "portalPreviewPriceEstimates": "The patient sees the price estimates you have shared with them.",
                 "portalPreviewPrescriptions": "The patient sees their current prescriptions and can ask the clinic to renew them. The request comes into the Prescription renewals inbox.",
-                "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}"
+                "oneJournalNotePerDay": "Only one journal note per day per @:terms.citizen{''}",
+                "contactWeeklyHours": "Hours a week per employee and @:terms.citizen{''}",
+                "contactWeeklyHoursHint": "When assigning, set how many hours a week the employee is to spend with a @:terms.citizen{''}. The employee sees the hours and what is used on My day"
             }
         },
         "licenseOverview": {
@@ -16664,7 +16720,19 @@
         "distributionUnassigned": "{count} with no coordinator",
         "distributionIntake": "{count} intake",
         "distributionPrimary": "{count} primary",
-        "distributionSecondary": "{count} secondary"
+        "distributionSecondary": "{count} secondary",
+        "citizenHours": {
+            "done": "All hours used",
+            "nextWeek": "Next week",
+            "none": "You have no @:terms.citizen{''} with hours a week",
+            "over": "{hours} h over",
+            "previousWeek": "Previous week",
+            "remaining": "{hours} h left",
+            "title": "My hours per @:terms.citizen{''}",
+            "usedOfGiven": "{used} of {given} h",
+            "planned": "{hours} h planned",
+            "week": "Week {week}"
+        }
     },
     "handover": {
         "button": "Shift overview",

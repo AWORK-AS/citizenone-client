@@ -1858,6 +1858,30 @@
                 "Saturday": "lördag",
                 "Sunday": "söndag"
             }
+        },
+        "hoursPanel": {
+            "title": "Mina timmar per @:terms.citizen{''} · vecka {week}",
+            "summary": "{planned} av {given} h planerade",
+            "plan": "Planera",
+            "plannedOfGiven": "{planned} av {given} h",
+            "toPlan": "{hours} h kvar att planera",
+            "allPlanned": "Alla timmar är planerade",
+            "overPlanned": "{hours} h för mycket planerat"
+        },
+        "cancel": {
+            "action": "Ställ in",
+            "title": "Ställ in händelse",
+            "intro": "Händelsen markeras som inställd och ligger kvar i kalendern. Timmar från händelsen frigörs.",
+            "reason": "Orsak",
+            "reasonPlaceholder": "T.ex. familjen har sjukanmält sig",
+            "move": "Flytta till en ny tid",
+            "submit": "Ställ in händelse",
+            "submitAndMove": "Ställ in och flytta händelse",
+            "done": "Händelsen är inställd",
+            "doneAndMoved": "Händelsen är inställd och flyttad",
+            "cancelled": "Inställd",
+            "movedTo": "Flyttad till {time}",
+            "movedFrom": "Flyttad hit från {time}"
         }
     },
     "calendarTags": {
@@ -3013,7 +3037,9 @@
                 "hourlyRate": "Timepris",
                 "monthlyAllocation": "Månadsvis tilldelning",
                 "timeAccount": "Tidskonto",
-                "weeklyAllocation": "Veckovis tilldelning"
+                "weeklyAllocation": "Veckovis tilldelning",
+                "overBy": "{hours} h över tilldelningen",
+                "remaining": "{hours} h kvar"
             },
             "view": {
                 "citizen": "@.capitalize:terms.citizen{''}",
@@ -3103,6 +3129,8 @@
             },
             "download": "Ladda ner",
             "downloadOverview": "Ladda ner översikt",
+            "downloadCurrentList": "Ladda ner aktuell läkemedelslista",
+            "currentListFileName": "Aktuell läkemedelslista",
             "editMedicine": "Redigera Medicin",
             "form": {
                 "activateMedicine": "Aktivera medicin",
@@ -4074,6 +4102,8 @@
             },
             "selectType": "Vill du registrere transport eller arbetstid?",
             "selectTypeMessage": "Registrér din tid lätt, välj arbete eller transport för att komme pågår.",
+            "selectHourType": "Vad registrerar du?",
+            "selectHourTypeMessage": "Välj den typ av tid du startar nu. Den kan ändras efteråt under Indsatstimer.",
             "timeRegistration": "Tidsregistrering",
             "transport": "Transport",
             "work": "Arbete",
@@ -7504,7 +7534,8 @@
             "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
-                    "delete": "Radera"
+                    "delete": "Radera",
+                    "weeklyHours": "Timmar"
                 },
                 "alert": {
                     "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} raderad"
@@ -7513,8 +7544,17 @@
                     "deleteCitizenConfirmation": "Är du säker på att du vill radera denna @:terms.citizen{''}"
                 },
                 "firstname": "Förnamn",
-                "lastname": "Efternamn"
-            }
+                "lastname": "Efternamn",
+                "weeklyHours": "Timmar per vecka"
+            },
+            "editWeeklyHours": "Timmar per vecka",
+            "hoursAWeek": "{hours} h/vecka",
+            "save": "Spara",
+            "weeklyHoursHint": "Valfritt. Lämna fältet tomt om inget antal timmar är avtalat",
+            "weeklyHoursInvalid": "Ange ett tal mellan 0 och 168",
+            "weeklyHoursPlaceholder": "T.ex. 10",
+            "weeklyHoursQuestion": "Hur många timmar per vecka ska medarbetaren lägga på denna @:terms.citizen{''}?",
+            "weeklyHoursSaved": "Timmar per vecka sparade"
         },
         "confirmation": {
             "archiveConfirmation": "Är du säker på att du vill arkivere denna anställd",
@@ -9312,6 +9352,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Tillbaka till lösenord",
+            "codeLabel": "6-siffrig kod",
+            "invalidEmail": "Ange en giltig e-postadress först.",
+            "link": "Få en kod via e-post i stället",
+            "resend": "Skicka ny kod",
+            "resendIn": "Skicka ny kod om {seconds} s",
+            "sentTo": "Om ditt konto kan logga in med kod har vi skickat den till",
+            "title": "Kontrollera din e-post",
+            "tooManyRequests": "För många försök. Vänta en stund och försök igen."
+        },
         "activeUsers": "Aktiva användare",
         "description": "Allt från journalnotater och handleplaner till vagtplanlägning och rapportering - totalt i én platform, bygget till dem där arbetar med mennesker.",
         "doYouNeedHelp": "Har du använd för hjälp",
@@ -9326,7 +9377,8 @@
             "loggingIn": "Logger in",
             "or": "Eller",
             "password": "Lösenord",
-            "rememberMeFor14Days": "Kom ihåg mig i 14 dagar"
+            "rememberMeFor14Days": "Kom ihåg mig i 14 dagar",
+            "rememberMeFor30Days": "Kom ihåg mig i 30 dagar"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet av AWORK Group A/S",
         "headlineLine1": "Fremtidens",
@@ -11555,6 +11607,8 @@
             "form": {
                 "citizenCalendarShift": "Nya händelser i @:terms.citizenDefinite{'s'} kalender kan även skapa ett pass för en anställd",
                 "inquiryWonRequiresCpr": "Personnummer krävs när en förfrågan är vunnen",
+                "portalEmailLogin": "Inloggning med kod via e-post för medborgare, patienter och anhöriga",
+                "portalEmailLoginHint": "De får en 6-siffrig kod via e-post i stället för att skriva ett lösenord. Inloggning med lösenord fungerar fortfarande",
                 "2fa": "Tvåfaktorsautentisering",
                 "certificateReminderEmail": "Gemensam brevlåda för intygspåminnelser",
                 "certificateReminderEmailHelp": "Får en kopia av alla påminnelser om intyg och CV:n.",
@@ -11810,7 +11864,9 @@
                 "portalPreviewForms": "Patienten fyller i formulären ni skickar, t.ex. före ett besök.",
                 "portalPreviewPriceEstimates": "Patienten ser de kostnadsförslag ni har delat med dem.",
                 "portalPreviewPrescriptions": "Patienten ser sina nuvarande recept och kan be kliniken förnya dem. Förfrågan kommer in i inkorgen Receptförnyelser.",
-                "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}"
+                "oneJournalNotePerDay": "Endast en journalanteckning per dag per @:terms.citizen{''}",
+                "contactWeeklyHours": "Timmar per vecka per medarbetare och @:terms.citizen{''}",
+                "contactWeeklyHoursHint": "Ange vid tilldelning hur många timmar per vecka medarbetaren ska lägga på en @:terms.citizen{''}. Medarbetaren ser timmarna och förbrukningen på Min dag"
             }
         },
         "licenseOverview": {
@@ -16579,7 +16635,19 @@
         "distributionUnassigned": "{count} utan koordinator",
         "distributionIntake": "{count} i mottagning",
         "distributionPrimary": "{count} primära",
-        "distributionSecondary": "{count} sekundära"
+        "distributionSecondary": "{count} sekundära",
+        "citizenHours": {
+            "done": "Alla timmar använda",
+            "nextWeek": "Nästa vecka",
+            "none": "Du har ingen @:terms.citizen{''} med timmar per vecka",
+            "over": "{hours} h över",
+            "previousWeek": "Föregående vecka",
+            "remaining": "{hours} h kvar",
+            "title": "Mina timmar per @:terms.citizen{''}",
+            "usedOfGiven": "{used} av {given} h",
+            "planned": "{hours} h planerade",
+            "week": "Vecka {week}"
+        }
     },
     "handover": {
         "button": "Skiftöversikt",
