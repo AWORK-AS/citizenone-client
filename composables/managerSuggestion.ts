@@ -54,3 +54,19 @@ export function suggestionOutcome(result: { sent?: boolean, reason?: string } | 
     if (result?.reason === 'limit_reached') return 'limit'
     return 'none'
 }
+
+export type StaffAskState = 'send' | 'already' | 'no_recipient' | 'company_has' | 'none'
+
+/**
+ * What the Cody preview tells staff who cannot buy, from the backend's own answer.
+ * The reasons are the ones ManagerSuggestionService returns; anything else (a missing
+ * answer, a limit, no company) keeps the preview quiet rather than guessing.
+ */
+export function staffAskState(status: SuggestionStatus | null): StaffAskState {
+    if (!status) return 'none'
+    if (status.can_suggest && status.recipients.length > 0) return 'send'
+    if (status.reason === 'already_suggested') return 'already'
+    if (status.reason === 'no_recipient') return 'no_recipient'
+    if (status.reason === 'already_bought') return 'company_has'
+    return 'none'
+}

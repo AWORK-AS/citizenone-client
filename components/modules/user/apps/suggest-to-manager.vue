@@ -1,7 +1,7 @@
 <template>
     <div v-if="offered">
-        <FormButton type="button" buttonStyle="cancel" class="w-full justify-center" @click="open()">
-            {{ $t('managerSuggestion.button') }}
+        <FormButton type="button" :buttonStyle="buttonStyle ?? 'cancel'" class="w-full justify-center" @click="open()">
+            {{ buttonLabel || $t('managerSuggestion.button') }}
         </FormButton>
 
         <Modal size="xs" :title="$t('managerSuggestion.title')" :show="isOpen" @close="isOpen = false">
@@ -52,12 +52,14 @@
         <p v-if="confirmed" class="mt-2 text-xs text-gray-600" role="status">{{ confirmed }}</p>
     </div>
     <p v-else-if="confirmed" class="text-xs text-gray-600" role="status">{{ confirmed }}</p>
+    <!-- Where the button cannot be offered, the Cody preview still says why instead of going quiet. -->
+    <p v-else-if="showStates && stateText" class="text-sm text-gray-600" role="status">{{ stateText }}</p>
 </template>
 
 <script setup lang="ts">
 import { managerSuggestionService } from '@/components/api/user/ManagerSuggestionService'
 import {
-    SUGGESTION_MESSAGE_MAX, initialSelection, messageProblem, shouldOfferSuggestion, suggestionOutcome, toggleRecipient,
+    SUGGESTION_MESSAGE_MAX, initialSelection, messageProblem, shouldOfferSuggestion, staffAskState, suggestionOutcome, toggleRecipient,
     type SuggestionStatus,
 } from '@/composables/managerSuggestion'
 import { useI18n } from 'vue-i18n'
@@ -71,6 +73,13 @@ const props = defineProps<{
     priceText?: string
     isBuyer: boolean
     appActivated: boolean
+    /** Overrides for the Cody preview, which reuses this flow as its main action. */
+    buttonLabel?: string
+    buttonStyle?: string
+    /** Say why there is no button (already asked, nobody to ask) instead of rendering nothing. */
+    showStates?: boolean
+    /** Called after a successful send. */
+    onSent?: () => void
 }>()
 
 const { t } = useI18n()
@@ -85,6 +94,15 @@ const confirmed = ref('')
 
 const offered = computed(() => shouldOfferSuggestion({ isBuyer: props.isBuyer, appActivated: props.appActivated, status: status.value }))
 const problem = computed(() => messageProblem(message.value))
+const stateText = computed(() => {
+    if (props.isBuyer || props.appActivated) return ''
+    switch (staffAskState(status.value)) {
+        case 'already': return t('cody.preview.alreadyAsked')
+        case 'no_recipient': return t('cody.preview.noRecipient')
+        case 'company_has': return t('cody.preview.companyHasCody')
+        default: return ''
+    }
+})
 
 async function load() {
     status.value = null
@@ -114,6 +132,7 @@ async function send() {
         if (outcome === 'sent') {
             isOpen.value = false
             confirmed.value = t('managerSuggestion.sent')
+            props.onSent?.()
             await load()
         } else if (outcome === 'already') errorText.value = t('managerSuggestion.already')
         else if (outcome === 'limit') errorText.value = t('managerSuggestion.limit')

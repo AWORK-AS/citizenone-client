@@ -297,7 +297,7 @@
             "calendar": "Möten, bokningar och onlinebokning från er webbplats.",
             "messages": "Chatta med kollegor och med klienter via klientportalen.",
             "reminders": "Personliga och gemensamma påminnelser.",
-            "aiAssistant": "AI-assistenten i toppfältet.",
+            "aiAssistant": "Cody, AI-assistenten i toppfältet.",
             "forms": "Bygg egna formulär och frågeformulär.",
             "tasks": "Uppgiftstavlor för arbete som inte hör till en klient.",
             "bulletBoard": "Nyheter och meddelanden till hela verksamheten.",
@@ -1160,6 +1160,26 @@
         }
     },
     "cody": {
+        "preview": {
+            "name": "Cody",
+            "chip": "AI",
+            "tagline": "Din assistent i vardagen",
+            "bulletShift": "Förbered passet med en översikt över dagen",
+            "bulletMissing": "Hitta snabbt det du saknar",
+            "bulletNotes": "Skriv journalanteckningar snabbare",
+            "examplesTitle": "Exempel på vad du kan fråga",
+            "example1": "Vad är viktigast att börja med i dag?",
+            "example2": "Vilka doser är inte registrerade än?",
+            "example3": "Hjälp mig skriva en anteckning om dagens besök",
+            "examplesNote": "Bara exempel. Inget skickas.",
+            "askManager": "Be din chef om Cody",
+            "startTrial": "Starta gratis 14-dagars prov",
+            "whyAdmin": "Bara ert företag kan slå på Cody, eftersom frågor behandlas av en AI-leverantör. Din chef eller administratör bestämmer.",
+            "alreadyAsked": "Du har redan bett din chef om Cody.",
+            "noRecipient": "Vi hittade ingen chef att skicka detta till. Kontakta support.",
+            "companyHasCody": "Ert företag har Cody. Be din administratör om en plats.",
+            "adminTitle": "Prova Cody med hela teamet"
+        },
         "adoption": {
             "headline": "Ge era medarbetare tid tillbaka med Cody",
             "headlineBody": "Cody ger en överblick över dagen, hittar uppgifter och skriver utkast till journalanteckningar, så att mer tid går till kärnuppgiften.",
@@ -2153,7 +2173,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Välj en plan eller ett enkeltmål.",
                 "singleGoal": "Enkeltmål",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Förbered med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut ökad risk",
                     "increasedRisk": "Ökad risk",
@@ -10407,7 +10427,7 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "note": "Anteckning",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Förbered med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut ökad risk",
                     "increasedRisk": "Ökad risk",

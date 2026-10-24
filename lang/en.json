@@ -297,7 +297,7 @@
             "calendar": "Appointments, bookings and online booking from your website.",
             "messages": "Chat with colleagues and with clients through the client portal.",
             "reminders": "Personal and shared reminders.",
-            "aiAssistant": "The AI assistant in the top bar.",
+            "aiAssistant": "Cody, the AI assistant in the top bar.",
             "forms": "Build your own forms and questionnaires.",
             "tasks": "Task boards for work that is not tied to a client.",
             "bulletBoard": "News and announcements for the whole company.",
@@ -1160,6 +1160,26 @@
         }
     },
     "cody": {
+        "preview": {
+            "name": "Cody",
+            "chip": "AI",
+            "tagline": "Your everyday assistant",
+            "bulletShift": "Prepare your shift with an overview of the day",
+            "bulletMissing": "Find what you are missing, fast",
+            "bulletNotes": "Write journal notes faster",
+            "examplesTitle": "Examples of what you can ask",
+            "example1": "What is most important to start with today?",
+            "example2": "Which doses have not been registered yet?",
+            "example3": "Help me draft a note about today's visit",
+            "examplesNote": "Examples only. Nothing is sent.",
+            "askManager": "Ask your manager about Cody",
+            "startTrial": "Start free 14-day trial",
+            "whyAdmin": "Only your company can switch Cody on, because questions are processed by an AI provider. Your manager or administrator decides.",
+            "alreadyAsked": "You have already asked your manager about Cody.",
+            "noRecipient": "We could not find a manager to send this to. Contact support.",
+            "companyHasCody": "Your company has Cody. Ask your administrator for a seat.",
+            "adminTitle": "Try Cody with your whole team"
+        },
         "adoption": {
             "headline": "Give your team time back with Cody",
             "headlineBody": "Cody gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
@@ -2153,7 +2173,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Select a plan or a single goal.",
                 "singleGoal": "Single goal",
-                "prepareWithAI": "Prepare with AI",
+                "prepareWithAI": "Prepare with Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -10412,7 +10432,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "note": "Note",
-                "prepareWithAI": "Prepare with AI",
+                "prepareWithAI": "Prepare with Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",

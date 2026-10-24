@@ -21,6 +21,25 @@
                 <div id="app-page-checkout" class="mx-auto max-w-sm md:max-w-md"></div>
 
                 <div v-if="app && !activation.isCheckoutOpen" class="space-y-8">
+                    <!-- Cody, for someone who can buy it and has not tried it: the trial is the first
+                         thing on the page, so a colleague's request (the notification and mail link
+                         here) ends in one click rather than a scroll. The same trial, quote and
+                         checkout as the card below; nothing here starts anything by itself. -->
+                    <div v-if="showCodyTrialStrip" role="region" :aria-label="$t('cody.adoption.headline')"
+                        class="flex flex-wrap items-center gap-4 rounded-2xl border border-ai bg-ai-bg p-4">
+                        <ModulesUserAssistantCodyFigure :size="48" />
+                        <div class="min-w-[14rem] flex-1">
+                            <p class="text-base font-semibold text-gray-900">{{ $t('cody.preview.adminTitle') }}</p>
+                            <p class="text-sm text-gray-600">{{ $t('cody.adoption.headlineBody') }}</p>
+                            <p v-if="quote" class="mt-1 text-xs text-gray-500">{{ finePrint }}</p>
+                        </div>
+                        <FormButton type="button" buttonStyle="primary" class="w-full justify-center md:w-auto"
+                            :disabled="activation.isBusy || quoting || quoteFailed || !quote || !!activation.priceChange"
+                            @click="beginTrial()">
+                            {{ $t('appTrial.tryFree', { days: trialDays }) }}
+                        </FormButton>
+                    </div>
+
                     <!-- Header: what it is, who makes it, and what it costs. -->
                     <div class="flex flex-wrap items-start gap-6">
                         <div v-if="useIconTile"
@@ -340,6 +359,8 @@ const suggestionPriceText = computed(() => {
     return `${formatAmount(price.value.discountedAmount)}${unit} ${t('excludeVat')}`
 })
 const trial = computed(() => state.app?.trial ?? null)
+const showCodyTrialStrip = computed(() => state.app?.generic_name === 'citizenone-ai'
+    && isAdmin.value && !!state.app?.trial_enabled && !!trial.value?.available && !state.app?.user_activated)
 const trialDays = computed(() => Number(trial.value?.days ?? state.app?.trial_days ?? 14))
 const quotes = computed(() => trial.value?.quotes ?? {})
 // A frequency without a quote cannot be priced, so it is not offered.

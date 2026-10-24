@@ -297,7 +297,7 @@
             "calendar": "Aftaler, bookinger og online booking fra jeres hjemmeside.",
             "messages": "Chat med kolleger og med klienter via klientportalen.",
             "reminders": "Personlige og fælles påmindelser.",
-            "aiAssistant": "AI-assistenten i topbjælken.",
+            "aiAssistant": "Cody, AI-assistenten i topbjælken.",
             "forms": "Byg jeres egne formularer og spørgeskemaer.",
             "tasks": "Opgavetavler til arbejde, der ikke hører til en klient.",
             "bulletBoard": "Nyheder og meddelelser til hele virksomheden.",
@@ -1160,6 +1160,26 @@
         }
     },
     "cody": {
+        "preview": {
+            "name": "Cody",
+            "chip": "AI",
+            "tagline": "Din assistent i hverdagen",
+            "bulletShift": "Forbered din vagt med overblik over dagen",
+            "bulletMissing": "Find hurtigt det, du mangler",
+            "bulletNotes": "Skriv journalnotater hurtigere",
+            "examplesTitle": "Eksempler på, hvad du kan spørge om",
+            "example1": "Hvad er vigtigst at starte med i dag?",
+            "example2": "Hvilke doser er endnu ikke registreret?",
+            "example3": "Hjælp mig med at skrive et notat om dagens besøg",
+            "examplesNote": "Kun eksempler. Der sendes ikke noget.",
+            "askManager": "Bed din leder om Cody",
+            "startTrial": "Start gratis 14-dages prøve",
+            "whyAdmin": "Kun jeres virksomhed kan slå Cody til, fordi spørgsmål behandles af en AI-leverandør. Din leder eller administrator beslutter.",
+            "alreadyAsked": "Du har allerede bedt din leder om Cody.",
+            "noRecipient": "Vi kunne ikke finde en leder at sende det til. Kontakt support.",
+            "companyHasCody": "Jeres virksomhed har Cody. Bed din administrator om en plads.",
+            "adminTitle": "Prøv Cody med hele teamet"
+        },
         "adoption": {
             "headline": "Giv jeres medarbejdere tid tilbage med Cody",
             "headlineBody": "Cody giver overblik over dagen, finder oplysninger og skriver udkast til journalnotater, så der bliver mere tid til kerneopgaven.",
@@ -2153,7 +2173,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Vælg en plan eller et enkeltmål.",
                 "singleGoal": "Enkeltmål",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Udarbejd med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -10412,7 +10432,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "note": "Note",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Udarbejd med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",

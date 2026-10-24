@@ -216,6 +216,14 @@
                             </div>
                             {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
                         </FormButton>
+                        <!-- No seat: the same place shows what Cody would do and how to ask for it. -->
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                            v-else-if="codyPreviewOffered" @click="openCodyPreview()">
+                            <div class="flex items-center">
+                                <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
+                        </FormButton>
                     </div>
                 </div>
                 <div class="co-editor">
@@ -363,6 +371,14 @@
                         </button>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
                             v-if="userStore.getUser?.has_ai_access" @click="openAiGeneratePreview('note')">
+                            <div class="flex items-center">
+                                <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
+                            </div>
+                            {{ $t('citizens.citizenJournals.form.prepareWithAI') }}
+                        </FormButton>
+                        <!-- No seat: the same place shows what Cody would do and how to ask for it. -->
+                        <FormButton buttonStyle="AI" buttonSize="xs" class="px-4"
+                            v-else-if="codyPreviewOffered" @click="openCodyPreview()">
                             <div class="flex items-center">
                                 <Icon name="ph:sparkle" class="h-4 w-4" aria-hidden="true" />
                             </div>
@@ -574,6 +590,7 @@ import { useAssistantStore } from '@/store/assistant'
 import { useDictation } from '@/composables/useDictation'
 import { useCitizenStore } from '@/store/citizen'
 import { useUserStore } from '@/store/user'
+import { companyHasModule } from '@/composables/pageAccess'
 import { useI18n } from "vue-i18n"
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
@@ -1695,6 +1712,12 @@ watch(dictation.error, (problem) => {
 // note, so the user does not copy out of one panel and paste into the other.
 // The panel never touches the editor: it only asks, and the answer lands here.
 const assistantStore = useAssistantStore()
+const codyPreviewOffered = computed(() => companyHasModule(userStore.getUser?.company?.module_pages, 'AI assistant'))
+const { promptOpen: codyPromptOpen, load: loadCodyAdoption } = useCodyAdoption()
+function openCodyPreview() {
+    loadCodyAdoption()
+    codyPromptOpen.value = true
+}
 
 // ─── Draft of a new note (create only) ─────────────────────────
 const draftStorageKey = computed(() => props.formType === 'create'
