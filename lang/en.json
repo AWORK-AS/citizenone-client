@@ -2155,6 +2155,18 @@
                 "date": "Date",
                 "draft": "Draft",
                 "internal": "Internal note",
+                "visit": {
+                    "date": "Visit date",
+                    "timeStart": "Visit from",
+                    "timeEnd": "Visit until",
+                    "help": "With a visit date, the visit is shown in the calendar of @:terms.citizenDefinite{''} and in your own."
+                },
+                "careHours": {
+                    "register": "Register intervention hours",
+                    "timeStart": "From",
+                    "timeEnd": "To",
+                    "help": "The hours are registered on {date}."
+                },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
@@ -8037,6 +8049,7 @@
             "planned": "Planned"
         },
         "saveAndComplete": "Save and mark as completed",
+        "noteNeedsCitizen": "The booking is not linked to a @:terms.citizen{''}, so a note cannot be written for it.",
         "completeOnSaveHint": "Saving the @:terms.journalNote{''} marks the booking as completed.",
         "noteBodyRequired": "Write the @:terms.journalNote{''} text before marking the booking as completed.",
         "status": {
@@ -18396,6 +18409,10 @@
         },
         "form": {
             "spokenLanguages": "Spoken languages",
+            "travelsUpToKm": "Will travel up to (km)",
+            "minAvailableHours": "Minimum hours the consultant has available",
+            "languagesAndDialects": "Languages and dialects",
+            "languagesHint": "Languages the employee speaks. A consultant matches if they speak any of the chosen languages.",
             "minTravelKm": "Must travel at least (km)",
             "minWeeklyHours": "At least hours per week",
             "minStep": "At least step assessment",

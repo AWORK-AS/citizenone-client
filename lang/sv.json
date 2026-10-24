@@ -2155,6 +2155,18 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "internal": "Intern anteckning",
+                "visit": {
+                    "date": "Besöksdatum",
+                    "timeStart": "Besök från",
+                    "timeEnd": "Besök till",
+                    "help": "Med ett besöksdatum visas besöket i kalendern för @:terms.citizenDefinite{''} och i din egen."
+                },
+                "careHours": {
+                    "register": "Registrera insatstimmar",
+                    "timeStart": "Från",
+                    "timeEnd": "Till",
+                    "help": "Timmarna registreras den {date}."
+                },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
@@ -8037,6 +8049,7 @@
             "planned": "Planerad"
         },
         "saveAndComplete": "Spara och markera som slutförd",
+        "noteNeedsCitizen": "Bokningen är inte kopplad till en @:terms.citizen{''}, så det går inte att skriva en anteckning till den.",
         "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
         "noteBodyRequired": "Skriv texten i @:terms.journalNote{''} innan bokningen markeras som slutförd.",
         "status": {
@@ -18311,6 +18324,10 @@
         },
         "form": {
             "spokenLanguages": "Talade språk",
+            "travelsUpToKm": "Kör upp till (km)",
+            "minAvailableHours": "Minsta antal timmar konsulten har tillgängliga",
+            "languagesAndDialects": "Språk och dialekter",
+            "languagesHint": "Språk medarbetaren talar. Konsulten matchar om hen talar något av de valda språken.",
             "minTravelKm": "Måste köra minst (km)",
             "minWeeklyHours": "Minst timmar per vecka",
             "minStep": "Minst stegbedömning",

@@ -2155,6 +2155,18 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Intern note",
+                "visit": {
+                    "date": "Besøgsdato",
+                    "timeStart": "Besøg fra",
+                    "timeEnd": "Besøg til",
+                    "help": "Med en besøgsdato kommer besøget i kalenderen for @:terms.citizenDefinite{''} og i din egen."
+                },
+                "careHours": {
+                    "register": "Registrér indsatstimer",
+                    "timeStart": "Fra",
+                    "timeEnd": "Til",
+                    "help": "Timerne registreres den {date}."
+                },
                 "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
@@ -8037,6 +8049,7 @@
             "planned": "Planlagt"
         },
         "saveAndComplete": "Gem og markér som gennemført",
+        "noteNeedsCitizen": "Aftalen er ikke knyttet til en @:terms.citizen{''}, så der kan ikke skrives en note til den.",
         "completeOnSaveHint": "Når du gemmer @:terms.journalNote{''}, markeres aftalen som gennemført.",
         "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''}, før aftalen markeres som gennemført.",
         "status": {
@@ -18396,6 +18409,10 @@
         },
         "form": {
             "spokenLanguages": "Talte sprog",
+            "travelsUpToKm": "Kører op til (km)",
+            "minAvailableHours": "Minimum antal timer konsulenten har til rådighed",
+            "languagesAndDialects": "Sprog og dialekter",
+            "languagesHint": "Sprog medarbejderen taler. Konsulenten matcher, hvis vedkommende taler et af de valgte sprog.",
             "minTravelKm": "Skal køre mindst (km)",
             "minWeeklyHours": "Mindst timer pr. uge",
             "minStep": "Mindst trinvurdering",

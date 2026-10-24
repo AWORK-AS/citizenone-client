@@ -349,6 +349,8 @@ async function saveJournal(journalDetails: any) {
             score: journalDetails.formJournal.score,
             teeth_uuid: journalDetails.formJournal.teeth,
             field_answers: journalDetails.formJournal.field_answers ?? [],
+            // Visit date and intervention hours (journal form).
+            ...(journalDetails.visitAndHours ?? {}),
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {
