@@ -131,6 +131,9 @@
                             <p v-else class="text-sm text-gray-400">{{ $t('myDay.noEvents') }}</p>
                         </section>
 
+                        <!-- Hours a week per citizen; renders nothing unless the company uses it. -->
+                        <ModulesUserDailyOverviewCitizenHours />
+
                         <!-- Meds due -->
                         <section v-if="hasMedicineModule" :id="`card-meds`" class="rounded-xl bg-white ring-1 ring-gray-200 p-5">
                             <div class="flex items-center gap-2 mb-3">
