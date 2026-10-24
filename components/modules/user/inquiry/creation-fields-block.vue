@@ -128,6 +128,12 @@ const props = defineProps({
         required: false,
         default: null,
     },
+    // The service type picked so far; fields tied to other types are left out.
+    serviceTypeUuid: {
+        type: String,
+        required: false,
+        default: null,
+    },
 })
 
 const emit = defineEmits(['update:modelValue'])
@@ -152,6 +158,8 @@ const draft = ref<Record<string, any>>({ ...props.modelValue })
 onMounted(() => {
     fetchFields()
 })
+
+watch(() => props.serviceTypeUuid, () => fetchFields())
 
 function isWide(field: any) {
     return WIDE_TYPES.includes(field.type) || (field.type === 'lookup' && field.options?.multiple)
@@ -250,8 +258,19 @@ async function createJobcenter(field: any) {
 
 async function fetchFields() {
     try {
-        const response = await inquiryFieldService.getFieldsForCreation({ form_uuid: props.formUuid })
+        const response = await inquiryFieldService.getFieldsForCreation({
+            form_uuid: props.formUuid,
+            service_type_uuid: props.serviceTypeUuid,
+        })
         state.fields = response?.data ?? []
+
+        // An answer to a field the new type no longer asks for is not sent.
+        const shown = new Set(state.fields.map((field: any) => field.uuid))
+        const kept = Object.fromEntries(Object.entries(draft.value).filter(([uuid]) => shown.has(uuid)))
+        if (Object.keys(kept).length !== Object.keys(draft.value).length) {
+            draft.value = kept
+            emit('update:modelValue', { ...kept })
+        }
     } catch (_) {
         state.fields = []
     }

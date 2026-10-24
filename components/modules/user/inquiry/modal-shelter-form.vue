@@ -189,7 +189,7 @@
                 <ModulesUserInquiryMatchNeedsBlock :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
                     :error="props.error" @update="(value: any) => matchNeeds = value" />
                 <!-- Whatever else the edit carries, saved by the same button. -->
-                <slot name="after-fields" />
+                <slot name="after-fields" :serviceTypeUuid="state.formInquiry.inquiry_service_type_uuid" />
             </div>
             <div class="mt-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
