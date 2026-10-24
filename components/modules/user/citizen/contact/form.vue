@@ -321,7 +321,7 @@ const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
 // Who may set registration rules on a case (as the rules panel on Kontrakt).
-const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
+const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
 
 // Contact types that can be given third-party chat access. Mirrors
 // ContactAccessService::THIRD_PARTY_TITLES on the backend.

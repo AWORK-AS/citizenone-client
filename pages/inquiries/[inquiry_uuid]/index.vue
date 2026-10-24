@@ -224,6 +224,9 @@
             <ModulesUserInquiryModalMarkLost :isModalOpen="state.isLostOpen" @close="state.isLostOpen = false"
                 @confirm="confirmLost" />
 
+            <ModulesUserInquiryModalMarkWon :isModalOpen="state.isWonOpen" @close="state.isWonOpen = false"
+                @confirm="confirmWon" />
+
             <DialogConfirmation :isModalOpen="state.isConvertOpen"
                 :message="$t('inquiries.table.confirmation.convertAsCitizenConfirmation') + '?'"
                 @close="state.isConvertOpen = false" @confirm="convert" />
@@ -251,7 +254,8 @@ const { tt } = useTerminology()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { isAtLeast, can } = usePermissions()
 // Same gate as the API: Admin or the update permission.
-const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
+// Its own right, so consultant roles do not set the rules for their own work.
+const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
 
 const inquiryUuid = String(route.params.inquiry_uuid)
 
@@ -270,6 +274,8 @@ const state = reactive({
     isEditOpen: false,
     isLostOpen: false,
     pendingLostSlug: '' as string,
+    isWonOpen: false,
+    pendingWonSlug: '' as string,
     missingFields: [] as string[],
     nextStage: null as any,
     stages: [] as any[],
@@ -367,7 +373,8 @@ async function onOfferChanged() {
     historyPanel.value?.fetchHistory?.()
 }
 
-// Losing a case asks why first: the reason, a note and the estimated price.
+// Losing a case asks why first: the date of the answer, the reason and Årsag
+// til afvisning. Winning it asks what approving the offer asks.
 function moveTo(slug: string) {
     const target = state.stages.find((stage: any) => stage.slug === slug)
 
@@ -377,12 +384,23 @@ function moveTo(slug: string) {
         return
     }
 
+    if (target?.system_role === 'won' && state.inquiry?.pipeline_status !== slug) {
+        state.pendingWonSlug = slug
+        state.isWonOpen = true
+        return
+    }
+
     submitMove(slug)
 }
 
 function confirmLost(details: Record<string, any>) {
     state.isLostOpen = false
     submitMove(state.pendingLostSlug, details)
+}
+
+function confirmWon(details: Record<string, any>) {
+    state.isWonOpen = false
+    submitMove(state.pendingWonSlug, details)
 }
 
 async function toggleNeedsRecruitment() {

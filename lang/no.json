@@ -2155,6 +2155,18 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Internt notat",
+                "visit": {
+                    "date": "Besøksdato",
+                    "timeStart": "Besøk fra",
+                    "timeEnd": "Besøk til",
+                    "help": "Med en besøksdato vises besøket i kalenderen til @:terms.citizenDefinite{''} og i din egen."
+                },
+                "careHours": {
+                    "register": "Registrer innsatstimer",
+                    "timeStart": "Fra",
+                    "timeEnd": "Til",
+                    "help": "Timene registreres {date}."
+                },
                 "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "aiGenerate": {
@@ -3049,6 +3061,7 @@
                 "datetimeEnd": "Dato og tid slutt",
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vaktplan",
+                "historical": "Fra WorkZone",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer",
                 "transport": "Transportere",
@@ -8036,6 +8049,7 @@
             "planned": "Planlagt"
         },
         "saveAndComplete": "Lagre og merk som fullført",
+        "noteNeedsCitizen": "Avtalen er ikke knyttet til en @:terms.citizen{''}, så det kan ikke skrives et notat til den.",
         "completeOnSaveHint": "Når du lagrer @:terms.journalNote{''}, merkes avtalen som fullført.",
         "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''} før avtalen merkes som fullført.",
         "status": {
@@ -8937,7 +8951,7 @@
                     "topic": "Hva handler henvendelsen om?"
                 }
             },
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "@.capitalize:terms.citizenDefinite{'s'} fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "@.capitalize:terms.citizenDefinite{'s'} etternavn",
@@ -9038,7 +9052,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "createdBy": "Opprettet av",
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Etternavn",
@@ -17976,6 +17990,8 @@
             "sourceHint": "Feltet henter valgmulighetene sine fra registeret dere allerede vedlikeholder.",
             "serviceType": "Bare for innsatstype",
             "serviceTypeHint": "Velg en type hvis feltet bare skal spørres der. Ellers spørres det uansett type.",
+            "serviceTypesLabel": "Innsatstyper",
+            "serviceTypesHint": "Fjern haken ved Alle innsatstyper for å velge én eller flere typer feltet bare skal spørres på.",
             "form": "Skjema",
             "formHint": "Feltet spørres bare på dette skjemaet."
         },
@@ -18178,7 +18194,10 @@
             "maxTravelKm": "Kjører opp til (km)",
             "desiredWeeklyHours": "Ønsket timetall per uke",
             "stepAssessment": "Trinnvurdering",
-            "hasCar": "Har bil"
+            "hasCar": "Har bil",
+            "hasDriversLicense": "Har førerkort",
+            "drivingWillingness": "Villighet til å kjøre",
+            "drivingWillingnessPlaceholder": "F.eks. gjerne, bare i nærområdet"
         },
         "statuses": {
             "available": "Ledig",
@@ -18284,7 +18303,8 @@
         "events": {
             "offer_sent": "Tilbud sendt",
             "offer_accepted": "Tilbud godkjent",
-            "offer_rejected": "Tilbud avvist"
+            "offer_rejected": "Tilbud avvist",
+            "offer_revised": "Tilbud revideres"
         }
     },
     "consultantMatch": {
@@ -18310,6 +18330,10 @@
         },
         "form": {
             "spokenLanguages": "Talte språk",
+            "travelsUpToKm": "Kjører opp til (km)",
+            "minAvailableHours": "Minimum antall timer konsulenten har tilgjengelig",
+            "languagesAndDialects": "Språk og dialekter",
+            "languagesHint": "Språk medarbeideren snakker. Konsulenten matcher hvis vedkommende snakker ett av de valgte språkene.",
             "minTravelKm": "Må kjøre minst (km)",
             "minWeeklyHours": "Minst timer per uke",
             "minStep": "Minst trinnvurdering",
@@ -19138,6 +19162,9 @@
         "expenses": "Utlegg",
         "allowed": "Tillatt",
         "notAllowed": "Ikke tillatt",
+        "notSet": "Ikke angitt ennå",
+        "notSetHint": "Besøkstyper, kjøring og utlegg velges når noen med rettigheten Administrere registreringsregler angir dem. Inntil da gjelder virksomhetens standard.",
+        "choose": "Velg",
         "mileageAllowed": "Kjøring kan registreres",
         "expensesAllowed": "Utlegg kan registreres",
         "catalogueEmpty": "Det er ingen besøkstyper. Opprett dem under",
@@ -19186,6 +19213,13 @@
             "recipientCount": "Beskjeden når {count} medarbeider(e).",
             "nobody": "Ingen får beskjed ennå. Velg en gruppe eller en medarbeider.",
             "saved": "Rekrutteringsteamet er lagret"
+        }
+    },
+    "inquiryWon": {
+        "modal": {
+            "title": "Merk som vunnet",
+            "hint": "Registrer kommunens svar, som når tilbudet godkjennes. Et tilbud som venter på svar, merkes som godkjent.",
+            "confirm": "Merk som vunnet"
         }
     },
     "inquiryLost": {
@@ -19257,7 +19291,8 @@
             "sent": "Sendt",
             "accepted": "Godkjent",
             "rejected": "Avvist",
-            "superseded": "Erstattet"
+            "superseded": "Erstattet",
+            "revised": "Revidert"
         },
         "specialLanguage": "Spesialspråk",
         "overdue": "Fristen er overskredet",
@@ -19329,6 +19364,9 @@
         "remarks": "Merknader",
         "acceptHint": "Henvendelsen flyttes til den vunne fasen. Når den konverteres, overføres pris og timer til kontraktfeltene.",
         "rejectHint": "Henvendelsen flyttes til den tapte fasen, og årsaken lagres i beslutningsloggen.",
+        "reviseDecision": "Revider",
+        "reviseHint": "Tilbudet lagres som historikk og kan ikke lenger redigeres. En ny versjon opprettes som utkast, så du kan rette den og sende den igjen.",
+        "revisedReadOnly": "Historisk tilbud. Kan ikke redigeres.",
         "confirmDelete": "Vil du slette utkastet",
         "fromCatalogue": "fra katalogen",
         "customer": "Kunde og avdeling",
@@ -19469,6 +19507,10 @@
         "builtinHint": "Følger registreringen av henvendelser etter den danske serviceloven § 110 og § 109. Kan slås av, men ikke slettes.",
         "serviceTypeHint": "Henvendelser på dette skjemaet får innsatstypen valgt på forhånd.",
         "fieldCount": "{count} faste felt",
+        "arrangeHint": "Flytt de faste feltene og deres egne felt dit de skal stå på skjemaet. Felt som bare spørres på en bestemt innsatstype, vises bare når den er valgt.",
+        "arrangeOwnField": "Eget felt",
+        "arrangeReset": "Bruk standardrekkefølgen",
+        "arrangeSaved": "Plasseringen er lagret",
         "noneActive": "Ingen skjemaer er slått på. Slå på ett under Innstillinger → Henvendelsesskjemaer.",
         "form": {
             "name": "Navn",
@@ -19481,6 +19523,7 @@
             "switchOn": "Slå på skjemaet",
             "fields": "Velg faste felt",
             "ownFields": "Egne felt på skjemaet",
+            "arrange": "Plasser feltene",
             "rename": "Gi skjemaet nytt navn",
             "delete": "Slett skjemaet"
         },

@@ -2155,6 +2155,18 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "internal": "Intern anteckning",
+                "visit": {
+                    "date": "Besöksdatum",
+                    "timeStart": "Besök från",
+                    "timeEnd": "Besök till",
+                    "help": "Med ett besöksdatum visas besöket i kalendern för @:terms.citizenDefinite{''} och i din egen."
+                },
+                "careHours": {
+                    "register": "Registrera insatstimmar",
+                    "timeStart": "Från",
+                    "timeEnd": "Till",
+                    "help": "Timmarna registreras den {date}."
+                },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
@@ -3049,6 +3061,7 @@
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "fromDutySchedule": "Från tjänsteschema",
+                "historical": "Fr\u00e5n WorkZone",
                 "note": "Anmärkning",
                 "totalHours": "Totalt timmar",
                 "transport": "Transportere",
@@ -8036,6 +8049,7 @@
             "planned": "Planerad"
         },
         "saveAndComplete": "Spara och markera som slutförd",
+        "noteNeedsCitizen": "Bokningen är inte kopplad till en @:terms.citizen{''}, så det går inte att skriva en anteckning till den.",
         "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
         "noteBodyRequired": "Skriv texten i @:terms.journalNote{''} innan bokningen markeras som slutförd.",
         "status": {
@@ -8937,7 +8951,7 @@
                     "topic": "Vad handler henvendelsen om?"
                 }
             },
-            "dateOfInquiry": "Datum för förfrågningar",
+            "dateOfInquiry": "Datum för förfrågan",
             "firstname": "@.capitalize:terms.citizenDefinite{'s'} förnamn",
             "inquirerName": "Namn på spörger",
             "lastname": "@.capitalize:terms.citizenDefinite{'s'} efternamn",
@@ -9038,7 +9052,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "createdBy": "Skapad av",
-            "dateOfInquiry": "Datum för förfrågningar",
+            "dateOfInquiry": "Datum för förfrågan",
             "firstname": "Förnamn",
             "inquirerName": "Namn på spörger",
             "lastname": "Efternamn",
@@ -17976,6 +17990,8 @@
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
             "serviceType": "Endast för insatstyp",
             "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ.",
+            "serviceTypesLabel": "Insatstyper",
+            "serviceTypesHint": "Avmarkera Alla insatstyper för att välja en eller flera typer som fältet bara ska efterfrågas på.",
             "form": "Formulär",
             "formHint": "Fältet frågas bara på det här formuläret."
         },
@@ -18178,7 +18194,10 @@
             "maxTravelKm": "Kör upp till (km)",
             "desiredWeeklyHours": "Önskat timantal per vecka",
             "stepAssessment": "Stegbedömning",
-            "hasCar": "Har bil"
+            "hasCar": "Har bil",
+            "hasDriversLicense": "Har körkort",
+            "drivingWillingness": "Villighet att köra",
+            "drivingWillingnessPlaceholder": "T.ex. gärna, bara i närområdet"
         },
         "statuses": {
             "available": "Ledig",
@@ -18284,7 +18303,8 @@
         "events": {
             "offer_sent": "Offert skickad",
             "offer_accepted": "Offert godkänd",
-            "offer_rejected": "Offert avvisad"
+            "offer_rejected": "Offert avvisad",
+            "offer_revised": "Offert revideras"
         }
     },
     "consultantMatch": {
@@ -18310,6 +18330,10 @@
         },
         "form": {
             "spokenLanguages": "Talade språk",
+            "travelsUpToKm": "Kör upp till (km)",
+            "minAvailableHours": "Minsta antal timmar konsulten har tillgängliga",
+            "languagesAndDialects": "Språk och dialekter",
+            "languagesHint": "Språk medarbetaren talar. Konsulten matchar om hen talar något av de valda språken.",
             "minTravelKm": "Måste köra minst (km)",
             "minWeeklyHours": "Minst timmar per vecka",
             "minStep": "Minst stegbedömning",
@@ -19138,6 +19162,9 @@
         "expenses": "Utlägg",
         "allowed": "Tillåtet",
         "notAllowed": "Inte tillåtet",
+        "notSet": "Inte angivet än",
+        "notSetHint": "Besökstyper, körning och utlägg väljs när någon med behörigheten Hantera registreringsregler anger dem. Tills dess gäller företagets standard.",
+        "choose": "Välj",
         "mileageAllowed": "Körning får registreras",
         "expensesAllowed": "Utlägg får registreras",
         "catalogueEmpty": "Det finns inga besökstyper. Skapa dem under",
@@ -19186,6 +19213,13 @@
             "recipientCount": "Meddelandet når {count} medarbetare.",
             "nobody": "Ingen meddelas ännu. Välj en grupp eller en medarbetare.",
             "saved": "Rekryteringsteamet har sparats"
+        }
+    },
+    "inquiryWon": {
+        "modal": {
+            "title": "Markera som vunnen",
+            "hint": "Registrera kommunens svar, som när offerten godkänns. En offert som väntar på svar markeras som godkänd.",
+            "confirm": "Markera som vunnen"
         }
     },
     "inquiryLost": {
@@ -19257,7 +19291,8 @@
             "sent": "Skickad",
             "accepted": "Godkänd",
             "rejected": "Avvisad",
-            "superseded": "Ersatt"
+            "superseded": "Ersatt",
+            "revised": "Reviderad"
         },
         "specialLanguage": "Specialspråk",
         "overdue": "Fristen har passerats",
@@ -19329,6 +19364,9 @@
         "remarks": "Anmärkningar",
         "acceptHint": "Förfrågan flyttas till den vunna fasen. När den konverteras förs pris och timmar över till kontraktsfälten.",
         "rejectHint": "Förfrågan flyttas till den förlorade fasen, och orsaken sparas i beslutsloggen.",
+        "reviseDecision": "Revidera",
+        "reviseHint": "Offerten sparas som historik och kan inte längre redigeras. En ny version skapas som utkast så att du kan ändra den och skicka den igen.",
+        "revisedReadOnly": "Historisk offert. Kan inte redigeras.",
         "confirmDelete": "Vill du radera utkastet",
         "fromCatalogue": "från katalogen",
         "customer": "Kund och avdelning",
@@ -19469,6 +19507,10 @@
         "builtinHint": "Följer registreringen av förfrågningar enligt danska serviceloven § 110 och § 109. Kan stängas av men inte tas bort.",
         "serviceTypeHint": "Förfrågningar på det här formuläret får insatstypen vald i förväg.",
         "fieldCount": "{count} fasta fält",
+        "arrangeHint": "Flytta de fasta fälten och era egna fält dit de ska stå på formuläret. Fält som bara efterfrågas på en viss insatstyp visas bara när den är vald.",
+        "arrangeOwnField": "Eget fält",
+        "arrangeReset": "Använd standardordningen",
+        "arrangeSaved": "Placeringen är sparad",
         "noneActive": "Inga formulär är påslagna. Slå på ett under Inställningar → Förfrågningsformulär.",
         "form": {
             "name": "Namn",
@@ -19481,6 +19523,7 @@
             "switchOn": "Slå på formuläret",
             "fields": "Välj fasta fält",
             "ownFields": "Egna fält på formuläret",
+            "arrange": "Placera fälten",
             "rename": "Byt namn på formuläret",
             "delete": "Ta bort formuläret"
         },

@@ -39,27 +39,14 @@
                                     @update:modelValue="(value: any) => setSkills(type, value)" />
                             </div>
 
-                            <div>
-                                <FormLabel for="crit-primary-language"
-                                    :label="$t('inquiryMatchNeeds.primaryLanguage')" />
-                                <FormSelect id="crit-primary-language" searchable
-                                    v-model="state.form.primary_spoken_language_uuid" :options="languageOptions" />
-                            </div>
-
-                            <div>
-                                <FormLabel for="crit-secondary-language"
-                                    :label="$t('inquiryMatchNeeds.secondaryLanguage')" />
-                                <FormSelect id="crit-secondary-language" searchable
-                                    v-model="state.form.secondary_spoken_language_uuid"
-                                    :options="languageOptions.filter((o: any) => o.value !== state.form.primary_spoken_language_uuid)" />
-                                <p class="mt-1 text-[11px] text-slate-400">{{ $t('consultantMatch.form.secondaryHint') }}</p>
-                            </div>
-
+                            <!-- One language filter: met when the consultant speaks any
+                                 of the chosen languages. The other filters combine with AND. -->
                             <div>
                                 <FormLabel for="crit-languages"
-                                    :label="$t('consultantMatch.form.spokenLanguages')" />
+                                    :label="$t('consultantMatch.form.languagesAndDialects')" />
                                 <FormSelectMultiple id="crit-languages" v-model="state.form.spoken_language_uuids"
                                     :options="languageOptions" />
+                                <p class="mt-1 text-[11px] text-slate-400">{{ $t('consultantMatch.form.languagesHint') }}</p>
                             </div>
 
                             <div>
@@ -83,12 +70,12 @@
 
                             <div class="grid grid-cols-2 gap-3">
                                 <div>
-                                    <FormLabel for="crit-km" :label="$t('consultantMatch.form.minTravelKm')" />
+                                    <FormLabel for="crit-km" :label="$t('consultantMatch.form.travelsUpToKm')" />
                                     <FormTextField id="crit-km" name="crit-km" v-model="state.form.min_travel_km"
                                         placeholder="0" />
                                 </div>
                                 <div>
-                                    <FormLabel for="crit-hours" :label="$t('consultantMatch.form.minWeeklyHours')" />
+                                    <FormLabel for="crit-hours" :label="$t('consultantMatch.form.minAvailableHours')" />
                                     <FormTextField id="crit-hours" name="crit-hours"
                                         v-model="state.form.min_weekly_hours" placeholder="0" />
                                 </div>
@@ -226,12 +213,6 @@
                                             <Icon name="ph:map-pin" class="size-3" />
                                             {{ distanceText(result) }}
                                         </span>
-                                        <!-- The secondary language is a plus, never a miss,
-                                             so only having it is shown. -->
-                                        <span v-if="result.secondary_language_match === true"
-                                            class="rounded-full bg-[#e6f6ee] px-2.5 py-[3px] text-[11.5px] font-bold text-[#177a53]">
-                                            {{ $t('consultantMatch.secondaryLanguageMet', { language: secondaryLanguageName }) }}
-                                        </span>
                                     </div>
                                         <p class="mt-1 text-xs text-slate-500">{{ profileLine(result) }}</p>
                                     </div>
@@ -287,7 +268,7 @@ import type { Error } from '@/types'
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
 const { t } = useI18n()
-const { labelFor, toOptions } = useSpokenLanguages()
+const { toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
 
@@ -326,17 +307,19 @@ function emptyForm() {
         consultant_status: [] as string[],
         min_step_assessment: null as number | null,
         min_weekly_hours: '',
-        primary_spoken_language_uuid: null as string | null,
-        secondary_spoken_language_uuid: null as string | null,
         within_travel_range_only: false,
         sort: 'match' as 'match' | 'distance',
     }
 }
 
-// The inquiry's own language needs, as the starting point of a search.
+// The inquiry's own languages (primary and secondary), as the starting point
+// of a search. Either one is enough for a consultant to match.
 function prefillLanguagesFromInquiry() {
-    state.form.primary_spoken_language_uuid = state.inquiry?.primary_spoken_language?.uuid ?? null
-    state.form.secondary_spoken_language_uuid = state.inquiry?.secondary_spoken_language?.uuid ?? null
+    const uuids = [
+        state.inquiry?.primary_spoken_language?.uuid,
+        state.inquiry?.secondary_spoken_language?.uuid,
+    ].filter((uuid): uuid is string => typeof uuid === 'string' && uuid !== '')
+    state.form.spoken_language_uuids = [...new Set([...state.form.spoken_language_uuids, ...uuids])]
 }
 
 const state = reactive({
@@ -373,10 +356,6 @@ const locationStatus = computed(() => {
     // promising a point that never comes.
     return state.inquiry?.location_geocoding_enabled === false ? t('inquiryMatchNeeds.unavailable') : t('inquiryMatchNeeds.pending')
 })
-
-const secondaryLanguageName = computed(() =>
-    labelFor(state.languages.find((l: any) => l.uuid === state.form.secondary_spoken_language_uuid))
-)
 
 function distanceText(result: any) {
     if (result.distance_km === null || result.distance_km === undefined) {
@@ -505,6 +484,8 @@ function profileLine(result: any) {
         p.status_reason ? t('consultantProfile.contact.reasons.' + p.status_reason) : '',
         p.has_car ? t('consultantProfile.form.hasCar') : '',
         p.max_travel_km ? `${p.max_travel_km} km` : '',
+        p.has_drivers_license ? t('consultantProfile.form.hasDriversLicense') : '',
+        p.driving_willingness ? `${t('consultantProfile.form.drivingWillingness')}: ${p.driving_willingness}` : '',
         p.desired_weekly_hours ? `${p.desired_weekly_hours} t/uge` : '',
         p.step_assessment ? `${t('consultantProfile.form.stepAssessment')} ${p.step_assessment}` : '',
     ].filter(Boolean).join(' · ')
@@ -605,8 +586,6 @@ async function search() {
         // become a requirement nobody can meet.
         // The case being matched: its location is where distances run from.
         const payload: Record<string, any> = { inquiry_uuid: inquiryUuid, sort: state.form.sort }
-        if (state.form.primary_spoken_language_uuid) payload.primary_spoken_language_uuid = state.form.primary_spoken_language_uuid
-        if (state.form.secondary_spoken_language_uuid) payload.secondary_spoken_language_uuid = state.form.secondary_spoken_language_uuid
         if (state.form.within_travel_range_only) payload.within_travel_range_only = true
         if (state.form.skill_uuids.length) payload.skill_uuids = state.form.skill_uuids
         if (state.form.spoken_language_uuids.length) payload.spoken_language_uuids = state.form.spoken_language_uuids

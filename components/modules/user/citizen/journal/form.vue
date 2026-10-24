@@ -450,7 +450,67 @@
                 </div>
             </div>
             </div>
-            <div class="space-y-1">
+            <!-- The visit the note is about: put in the citizen's and the author's
+                 calendar. A note written from a booking is about that booking. -->
+            <div class="space-y-1" v-if="!props.bookingLinked">
+                <div class="grid md:grid-cols-3 gap-x-3 gap-y-2">
+                    <div class="space-y-1">
+                        <FormLabel for="visit_date" :label="$t('citizens.citizenJournals.form.visit.date')" />
+                        <FormDateField id="visit_date" name="visit_date" :placeholder="$t('forms.fields.date')"
+                            v-model="state.formJournal.visit_date" />
+                        <FormError :error="props?.error?.errors?.visit_date?.[0]" />
+                    </div>
+                    <template v-if="state.formJournal.visit_date">
+                        <div class="space-y-1">
+                            <FormLabel for="visit_time_start" :label="$t('citizens.citizenJournals.form.visit.timeStart')" />
+                            <FormTimeField id="visit_time_start" name="visit_time_start"
+                                v-model:value="state.formJournal.visit_time_start" />
+                            <FormError :error="props?.error?.errors?.visit_time_start?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="visit_time_end" :label="$t('citizens.citizenJournals.form.visit.timeEnd')" />
+                            <FormTimeField id="visit_time_end" name="visit_time_end"
+                                v-model:value="state.formJournal.visit_time_end" />
+                            <FormError :error="props?.error?.errors?.visit_time_end?.[0]" />
+                        </div>
+                    </template>
+                </div>
+                <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.visit.help') }}</p>
+            </div>
+            <!-- Intervention hours registered with a new note, on the visit date or
+                 else the note's date. -->
+            <div class="space-y-2" v-if="props.formType === 'create'">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formJournal.register_care_hours = !state.formJournal.register_care_hours">
+                    <FormCheckbox id="register_care_hours" :value="state.formJournal.register_care_hours" />
+                    {{ $t('citizens.citizenJournals.form.careHours.register') }}
+                </div>
+                <div class="grid md:grid-cols-3 gap-x-3 gap-y-2" v-if="state.formJournal.register_care_hours">
+                    <div class="space-y-1">
+                        <FormLabel for="care_hours_start" :label="$t('citizens.citizenJournals.form.careHours.timeStart')" />
+                        <FormTimeField id="care_hours_start" name="care_hours_start"
+                            v-model:value="state.formJournal.care_hours_start" />
+                        <FormError :error="props?.error?.errors?.['care_hours.date_time_start']?.[0]" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="care_hours_end" :label="$t('citizens.citizenJournals.form.careHours.timeEnd')" />
+                        <FormTimeField id="care_hours_end" name="care_hours_end"
+                            v-model:value="state.formJournal.care_hours_end" />
+                        <FormError :error="props?.error?.errors?.['care_hours.date_time_end']?.[0]" />
+                    </div>
+                    <div class="space-y-1" v-if="careHourTypeOptions.length > 0">
+                        <FormLabel for="care_hours_type" :label="$t('citizens.interventionHours.form.hourType')" />
+                        <FormSelect id="care_hours_type" :options="careHourTypeOptions" :searchable="false"
+                            :canClear="false" :canDeselect="false"
+                            v-model="state.formJournal.care_hours_type" />
+                        <FormError :error="props?.error?.errors?.['care_hours.contract_hour_type_uuid']?.[0]" />
+                    </div>
+                </div>
+                <p class="text-xs text-gray-500" v-if="state.formJournal.register_care_hours">
+                    {{ $t('citizens.citizenJournals.form.careHours.help', { date: careHoursDate || '-' }) }}
+                </p>
+            </div>
+            <div class="space-y-1" v-if="!props.hideDraft">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.is_draft = !state.formJournal.is_draft">
                     <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
@@ -596,6 +656,9 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useDepartmentStore } from '@/store/department'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+import type { PropType } from 'vue'
+import { useCareHourTypes } from '@/composables/careHourTypeList'
+import { defaultHourTypeUuid, hourTypeChoices, hourTypePayload } from '@/composables/careHourTypes'
 import { countChoiceLists } from '@/composables/journalChoiceLists'
 import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
 
@@ -621,6 +684,26 @@ const props = defineProps({
     /** The citizen a new note is for. Turns on the tab-local draft (composables/journalNoteDraft.ts). */
     draftCitizenUuid: {
         type: String,
+        default: null,
+    },
+    /** The citizen the note is about, where the page is not a citizen's (the calendar). */
+    citizenUuid: {
+        type: String,
+        default: null,
+    },
+    /** Written from a booking: the booking is the visit, so no visit date is asked for. */
+    bookingLinked: {
+        type: Boolean,
+        default: false,
+    },
+    /** A note that also completes a booking cannot be a draft. */
+    hideDraft: {
+        type: Boolean,
+        default: false,
+    },
+    /** Times to start the intervention hours from ('HH:mm'), e.g. the booking's. */
+    presetCareHours: {
+        type: Object as PropType<{ start: string, end: string } | null>,
         default: null,
     },
 })
@@ -649,7 +732,7 @@ const { t } = useI18n()
 const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const router = useRouter()
-const citizenUuid = router?.currentRoute?.value?.params?.uuid
+const citizenUuid = props.citizenUuid || router?.currentRoute?.value?.params?.uuid
 const contentFileInput = ref(null) as any
 const riskAssessmentFileInput = ref(null) as any
 let autoSaveInterval = null as any
@@ -734,6 +817,7 @@ const state = reactive({
         is_for_teeth: false,
         mentioned_user_uuids: [],
         field_answers: [] as Array<{ journal_title_field_uuid: string, response: string | string[] }>,
+        ...emptyVisitAndHours(),
     } as any,
     selectedJournalTitleFields: [] as Array<{ uuid: string, label: string, field_type: string, options: string[] }>,
     // The "jump to a sub-goal" shortcut's own selection - kept separate from
@@ -817,6 +901,50 @@ const state = reactive({
 })
 
 const WELLBEING_CASE_KEY = 'case'
+
+// Visit date and intervention hours (backend: JournalVisitService).
+function emptyVisitAndHours() {
+    return {
+        visit_date: '',
+        visit_time_start: '',
+        visit_time_end: '',
+        register_care_hours: false,
+        care_hours_start: '',
+        care_hours_end: '',
+        care_hours_type: '',
+    }
+}
+
+const { types: careHourTypes, loadHourTypes: loadCareHourTypes } = useCareHourTypes()
+const careHourTypeOptions = computed(() => hourTypeChoices(careHourTypes.value))
+
+// The hours are registered on the visit date, or else on the note's date.
+const careHoursDate = computed(() => state.formJournal.visit_date || state.formJournal.date || '')
+
+function applyPresetCareHours() {
+    if (!props.presetCareHours) return
+    state.formJournal.register_care_hours = true
+    state.formJournal.care_hours_start = props.presetCareHours.start
+    state.formJournal.care_hours_end = props.presetCareHours.end
+}
+
+function visitAndHoursPayload() {
+    const form = state.formJournal
+    const payload: Record<string, any> = {}
+    if (!props.bookingLinked) {
+        payload.visit_date = form.visit_date || null
+        payload.visit_time_start = form.visit_date && form.visit_time_start ? form.visit_time_start : null
+        payload.visit_time_end = form.visit_date && form.visit_time_end ? form.visit_time_end : null
+    }
+    if (props.formType === 'create' && form.register_care_hours && form.care_hours_start && form.care_hours_end) {
+        payload.care_hours = {
+            date_time_start: `${careHoursDate.value} ${form.care_hours_start}`,
+            date_time_end: `${careHoursDate.value} ${form.care_hours_end}`,
+            ...hourTypePayload(careHourTypeOptions.value.length > 0, form.care_hours_type),
+        }
+    }
+    return payload
+}
 
 // Opt-in per company, and only where the note is about one known citizen.
 const isWellbeingRulerEnabled = computed(() => {
@@ -1008,6 +1136,12 @@ watch(() => state.subgoalShortcut, async (subgoalUuid: any) => {
 onMounted(() => {
     suppressChangeTracking = true
 
+    // Create only: setting it on an edit would read as a change and autosave.
+    if (props.formType === 'create') loadCareHourTypes().then(() => {
+        if (!state.formJournal.care_hours_type) {
+            state.formJournal.care_hours_type = defaultHourTypeUuid(careHourTypes.value)
+        }
+    })
     fetchFormFieldConfig()
     fetchAllPlans()
     fetchSingleGoalsForJournalNote()
@@ -1209,7 +1343,12 @@ async function setFormJournalFromSelected(journal: any) {
         is_for_teeth: journal.is_for_teeth,
         teeth: [],
         mentioned_user_uuids: [],
+        ...emptyVisitAndHours(),
+        visit_date: journal.visit_date ?? '',
+        visit_time_start: journal.visit_time_start ?? '',
+        visit_time_end: journal.visit_time_end ?? '',
     }
+    if (props.formType === 'create') applyPresetCareHours()
     journal.journal_tags?.forEach((journalTag: any) => {
         state.formJournal.journal_note_tags.push(journalTag?.uuid)
     })
@@ -1326,6 +1465,8 @@ function submitForm() {
         emit('submitForm', {
             isAutoSaving: state.isAutoSaving,
             formJournal: state.formJournal,
+            // Spread into the save request by the modals (create and edit).
+            visitAndHours: visitAndHoursPayload(),
             pending_survey_answers: collectAnsweredSurveyPayloads(),
             // Only sent when the ruler is shown, so saving from a form without
             // it leaves the note's scores alone.
