@@ -195,6 +195,9 @@
             </div>
 
             <div class="mt-5 space-y-5">
+                <!-- The employee's hours a week per citizen: given, booked, still to place. -->
+                <ModulesUserMyCalendarHoursPanel :date="hoursPanelDate" :refreshKey="state.hoursPanelRefresh"
+                    @plan="planForCitizen" />
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
                 <!-- A failed load says so, in place of the grid: an empty
@@ -243,7 +246,8 @@
                 :selectedDate="state.newEventPresetDate" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForMyselfOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarCitizenModalNew :isModalOpen="state.modal.isAddEventForCitizenOpen" :duplicateOf="state.duplicateOf"
-                @close="state.modal.isAddEventForCitizenOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
+                :presetCitizenUuid="state.planCitizenUuid"
+                @close="state.modal.isAddEventForCitizenOpen = false; state.planCitizenUuid = ''" @refreshSchedules="fetchMyCalendarEvents" />
             <ModulesUserMyCalendarEmployeeModalNew :isModalOpen="state.modal.isAddEventForEmployeeOpen" :duplicateOf="state.duplicateOf"
                 @close="state.modal.isAddEventForEmployeeOpen = false" @refreshSchedules="fetchMyCalendarEvents" />
 
@@ -287,6 +291,7 @@ import type { Error } from '@/types'
 import { employeeGroupService } from '~/components/api/user/EmployeeGroupService'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { duplicateFields } from '@/composables/calendarEventPresentation'
+import { panelWeekDate } from '@/composables/citizenWeeklyHours'
 import { isCalendarNoteRequiredOn, isNoteRequiredError, needsNoteBeforeDone } from '@/composables/calendarNoteRequired'
 // import { saveAs } from 'file-saver'
 
@@ -341,6 +346,9 @@ const state = reactive({
     completeJournalOnSave: false,
     pendingEventStatus: '' as 'completed' | 'not_completed' | '',
     newEventPresetDate: '',
+    // The hours panel: the citizen "Plan" was pressed on, and a reload counter.
+    planCitizenUuid: '',
+    hoursPanelRefresh: 0,
     // The event "Duplicate" was clicked on; the new-event modals start from it.
     duplicateOf: null as any,
     myCalendarEvents: [] as any,
@@ -605,7 +613,20 @@ function changeEmployeeGroupUuid(employeeGroupUuid: any) {
 // wrong period (and merge one request's shifts into another's events).
 let eventsRequestId = 0
 
+// The week the hours panel shows: the day or week on screen, else this week.
+const hoursPanelDate = computed(() => panelWeekDate(state.calendarView, state.selectedDate, moment().format('YYYY-MM-DD')))
+
+// "Plan" in the hours panel: a new booking on that citizen.
+function planForCitizen(citizenUuid: string) {
+    state.duplicateOf = null
+    state.newEventPresetDate = ''
+    state.planCitizenUuid = citizenUuid
+    state.modal.isAddEventForCitizenOpen = true
+}
+
 async function fetchMyCalendarEvents() {
+    // A booking saved, moved or deleted changes the hours booked too.
+    state.hoursPanelRefresh++
     const requestId = ++eventsRequestId
     state.isEventsLoading = true
     try {

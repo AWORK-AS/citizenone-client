@@ -87,7 +87,7 @@
                                     <div role="button" tabindex="0"
                                         class="flex cursor-pointer items-center gap-x-1.5 rounded-md px-1.5 py-1 transition hover:bg-gray-100 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                                         :class="[
-                                            myCalendarEvent?.completion_status === 'completed' && 'opacity-70',
+                                            ['completed', 'cancelled'].includes(myCalendarEvent?.completion_status) && 'opacity-70',
                                             isNow(myCalendarEvent) && 'bg-red-50 ring-1 ring-inset ring-red-300',
                                             isOverdue(myCalendarEvent) && 'ring-1 ring-inset ring-amber-300',
                                         ]"
@@ -106,7 +106,7 @@
                                             ],
                                         ]"></span>
                                         <span class="min-w-0 flex-1 truncate text-[11px] font-medium"
-                                            :class="myCalendarEvent?.completion_status === 'completed' ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
+                                            :class="['completed', 'cancelled'].includes(myCalendarEvent?.completion_status) ? 'text-gray-400 line-through' : 'text-gray-800 group-hover/event:text-gray-900'">
                                             {{ myCalendarEvent?.title }}
                                         </span>
                                         <Icon v-if="myCalendarEvent?.journal_id" name="ph:notebook"
@@ -145,7 +145,7 @@
                                                             {{ $t('citizens.calendar.viewSchedule') }}
                                                         </a>
                                                         </MenuItem>
-                                                        <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'completed'">
+                                                        <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                 @click.stop="markEventAsStatus(myCalendarEvent, 'completed')">
@@ -154,7 +154,7 @@
                                                             </a>
                                                             </MenuItem>
                                                         </template>
-                                                        <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'not_completed'">
+                                                        <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'not_completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                                             <MenuItem v-slot="{ active }">
                                                             <a href="#" :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
                                                                 @click.stop="markEventAsStatus(myCalendarEvent, 'not_completed')">
@@ -230,7 +230,7 @@
                 <div class="min-w-0 flex-1">
                     <div class="flex items-center gap-x-2">
                         <h4 class="truncate font-semibold text-gray-900"
-                            :class="myCalendarEvent?.completion_status === 'completed' && 'text-gray-400 line-through'">
+                            :class="['completed', 'cancelled'].includes(myCalendarEvent?.completion_status) && 'text-gray-400 line-through'">
                             {{ myCalendarEvent?.title }}
                         </h4>
                         <span v-if="myCalendarEvent?.completion_status === 'completed'"
@@ -242,6 +242,11 @@
                             class="inline-flex items-center gap-x-1 rounded-full bg-red-100 px-2 py-0.5 text-[11px] font-medium text-red-700">
                             <Icon name="ph:x-circle" class="h-3.5 w-3.5" />
                             {{ $t('events.completionStatistics.notCompleted') }}
+                        </span>
+                        <span v-else-if="myCalendarEvent?.completion_status === 'cancelled'"
+                            class="inline-flex items-center gap-x-1 rounded-full bg-gray-100 px-2 py-0.5 text-[11px] font-medium text-gray-700">
+                            <Icon name="ph:prohibit" class="h-3.5 w-3.5" />
+                            {{ $t('calendar.cancel.cancelled') }}
                         </span>
                     </div>
                     <p v-if="myCalendarEvent?.description" class="mt-0.5 truncate text-sm text-gray-600">
@@ -276,7 +281,7 @@
                                     {{ $t('citizens.calendar.viewSchedule') }}
                                 </a>
                                 </MenuItem>
-                                <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'completed'">
+                                <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active && 'bg-gray-100', 'text-green-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -286,7 +291,7 @@
                                     </a>
                                     </MenuItem>
                                 </template>
-                                <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'not_completed'">
+                                <template v-if="props.eventActions && myCalendarEvent?.completion_status !== 'not_completed' && myCalendarEvent?.completion_status !== 'cancelled'">
                                     <MenuItem v-slot="{ active }">
                                     <a href="#"
                                         :class="[active && 'bg-gray-100', 'text-red-700', 'flex items-center gap-x-1.5 px-4 py-2 text-sm']"
@@ -469,7 +474,7 @@ function visibleEvents(day: any) {
 }
 
 function isOverdue(event: any) {
-    if (!event || event.completion_status === 'completed') return false
+    if (!event || ['completed', 'cancelled'].includes(event.completion_status)) return false
     return !isNow(event) && moment(event.date_time_end).isBefore(moment())
 }
 

@@ -1858,6 +1858,30 @@
                 "Saturday": "lørdag",
                 "Sunday": "søndag"
             }
+        },
+        "hoursPanel": {
+            "title": "Mine timer per @:terms.citizen{''} · uke {week}",
+            "summary": "{planned} av {given} t planlagt",
+            "plan": "Planlegg",
+            "plannedOfGiven": "{planned} av {given} t",
+            "toPlan": "{hours} t gjenstår å planlegge",
+            "allPlanned": "Alle timer er planlagt",
+            "overPlanned": "{hours} t planlagt for mye"
+        },
+        "cancel": {
+            "action": "Avlys",
+            "title": "Avlys avtale",
+            "intro": "Avtalen merkes som avlyst og blir stående i kalenderen. Timer fra avtalen frigjøres.",
+            "reason": "Årsak",
+            "reasonPlaceholder": "F.eks. familien har meldt avbud pga. sykdom",
+            "move": "Flytt til nytt tidspunkt",
+            "submit": "Avlys avtale",
+            "submitAndMove": "Avlys og flytt avtale",
+            "done": "Avtalen er avlyst",
+            "doneAndMoved": "Avtalen er avlyst og flyttet",
+            "cancelled": "Avlyst",
+            "movedTo": "Flyttet til {time}",
+            "movedFrom": "Flyttet hit fra {time}"
         }
     },
     "calendarTags": {
@@ -3013,7 +3037,9 @@
                 "hourlyRate": "Timepris",
                 "monthlyAllocation": "Månedlig tildeling",
                 "timeAccount": "Tidskonto",
-                "weeklyAllocation": "Ukentlig tildeling"
+                "weeklyAllocation": "Ukentlig tildeling",
+                "overBy": "{hours} t over tildelingen",
+                "remaining": "{hours} t igjen"
             },
             "view": {
                 "citizen": "@.capitalize:terms.citizen{''}",
@@ -3103,6 +3129,8 @@
             },
             "download": "Last ned",
             "downloadOverview": "Last ned oversigt",
+            "downloadCurrentList": "Last ned aktuell medisinliste",
+            "currentListFileName": "Aktuell medisinliste",
             "editMedicine": "Rediger Medisin",
             "form": {
                 "activateMedicine": "Aktiver medisin",
@@ -4074,6 +4102,8 @@
             },
             "selectType": "Vil du registrere transport eller arbeidstid?",
             "selectTypeMessage": "Registrér din tid nemt, velg arbeide eller transport for at komme i gang.",
+            "selectHourType": "Hva registrerer du?",
+            "selectHourTypeMessage": "Velg typen tid du starter nå. Den kan endres etterpå under Innsatstimer.",
             "timeRegistration": "Tidsregistrering",
             "transport": "Transport",
             "work": "Arbeide",
@@ -7504,7 +7534,8 @@
             "citizens": "@.capitalize:terms.citizens{''}",
             "table": {
                 "actions": {
-                    "delete": "Slett"
+                    "delete": "Slett",
+                    "weeklyHours": "Timer"
                 },
                 "alert": {
                     "citizenSuccessfullyDeleted": "@.capitalize:terms.citizen{''} slettet vellykket"
@@ -7513,8 +7544,17 @@
                     "deleteCitizenConfirmation": "Er du sikker på at du vil slette denne @:terms.citizen{''}"
                 },
                 "firstname": "Fornavn",
-                "lastname": "Etternavn"
-            }
+                "lastname": "Etternavn",
+                "weeklyHours": "Timer per uke"
+            },
+            "editWeeklyHours": "Timer per uke",
+            "hoursAWeek": "{hours} t/uke",
+            "save": "Lagre",
+            "weeklyHoursHint": "Valgfritt. La feltet stå tomt hvis det ikke er avtalt et antall timer",
+            "weeklyHoursInvalid": "Angi et tall mellom 0 og 168",
+            "weeklyHoursPlaceholder": "F.eks. 10",
+            "weeklyHoursQuestion": "Hvor mange timer per uke skal medarbeideren bruke med denne @:terms.citizen{''}?",
+            "weeklyHoursSaved": "Timer per uke lagret"
         },
         "confirmation": {
             "archiveConfirmation": "Er du sikker på at du vil arkivere denne medarbeider",
@@ -9312,6 +9352,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Tilbake til passord",
+            "codeLabel": "6-sifret kode",
+            "invalidEmail": "Skriv inn en gyldig e-postadresse først.",
+            "link": "Få en kode på e-post i stedet",
+            "resend": "Send ny kode",
+            "resendIn": "Send ny kode om {seconds} s",
+            "sentTo": "Hvis kontoen din kan logge inn med kode, har vi sendt den til",
+            "title": "Sjekk e-posten din",
+            "tooManyRequests": "For mange forsøk. Vent litt og prøv igjen."
+        },
         "activeUsers": "Aktive @:terms.citizens{''}",
         "description": "Alt fra journalnotater og handleplaner til vaktplanleggning og rapportering - samlet i én platform, bygget til dem der arbeider med mennesker.",
         "doYouNeedHelp": "Har du bruk for hjelp",
@@ -11556,6 +11607,8 @@
             "form": {
                 "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
                 "inquiryWonRequiresCpr": "CPR-nummer påkrevd når en henvendelse er vunnet",
+                "portalEmailLogin": "Innlogging med kode på e-post for borgere, pasienter og pårørende",
+                "portalEmailLoginHint": "De får en 6-sifret kode på e-post i stedet for å skrive passord. Innlogging med passord fungerer fortsatt",
                 "2fa": "To-faktor-godkendelse",
                 "certificateReminderEmail": "Felles postkasse for attestpåminnelser",
                 "certificateReminderEmailHelp": "Får en kopi av alle påminnelser om attester og CV-er.",
@@ -11811,7 +11864,9 @@
                 "portalPreviewForms": "Pasienten fyller ut skjemaene dere sender, f.eks. før et besøk.",
                 "portalPreviewPriceEstimates": "Pasienten ser prisoverslagene dere har delt med dem.",
                 "portalPreviewPrescriptions": "Pasienten ser sine nåværende resepter og kan be klinikken om å fornye dem. Forespørselen kommer inn i innboksen Reseptfornyelser.",
-                "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}"
+                "oneJournalNotePerDay": "Kun ett journalnotat per dag per @:terms.citizen{''}",
+                "contactWeeklyHours": "Timer per uke per medarbeider og @:terms.citizen{''}",
+                "contactWeeklyHoursHint": "Angi ved tildeling hvor mange timer per uke medarbeideren skal bruke med en @:terms.citizen{''}. Medarbeideren ser timene og forbruket på Min dag"
             }
         },
         "licenseOverview": {
@@ -16580,7 +16635,19 @@
         "distributionUnassigned": "{count} uten koordinator",
         "distributionIntake": "{count} i mottak",
         "distributionPrimary": "{count} primære",
-        "distributionSecondary": "{count} sekundære"
+        "distributionSecondary": "{count} sekundære",
+        "citizenHours": {
+            "done": "Alle timer brukt",
+            "nextWeek": "Neste uke",
+            "none": "Du har ingen @:terms.citizen{''} med timer per uke",
+            "over": "{hours} t over",
+            "previousWeek": "Forrige uke",
+            "remaining": "{hours} t igjen",
+            "title": "Mine timer per @:terms.citizen{''}",
+            "usedOfGiven": "{used} av {given} t",
+            "planned": "{hours} t planlagt",
+            "week": "Uke {week}"
+        }
     },
     "handover": {
         "button": "Vaktoversikt",

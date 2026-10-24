@@ -106,6 +106,11 @@ class DailyOverviewService extends BaseAPIService {
         return await this.request(`/user/daily-overview/next-shift`, 'GET')
     }
 
+    /** Hours a week per citizen for the signed-in employee: given, used and left, for the week of `date` (default this week). */
+    async getMyCitizenHours(params: { date?: string }): Promise<any> {
+        return await this.request(`/user/daily-overview/my-citizen-hours`, 'GET', params)
+    }
+
     /** Who is on duty on `date` (default today), for the `department` name or the whole company when blank. */
     async getOnDuty(params: { date?: string; department?: string }): Promise<any> {
         return await this.request(`/user/daily-overview/on-duty`, 'GET', params)
