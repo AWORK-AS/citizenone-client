@@ -3049,6 +3049,7 @@
                 "datetimeEnd": "Dato og tid slutt",
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vaktplan",
+                "historical": "Fra WorkZone",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer",
                 "transport": "Transportere",
