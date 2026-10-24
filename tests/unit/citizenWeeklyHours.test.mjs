@@ -7,7 +7,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    formatWeekHours, isContactWeeklyHoursOn, parseWeeklyHours, weekProgress, weekStatus,
+    formatWeekHours, isContactWeeklyHoursOn, panelWeekDate, parseWeeklyHours, planProgress, planStatus, weekProgress, weekStatus,
 } from '../../composables/citizenWeeklyHours.ts'
 
 describe('isContactWeeklyHoursOn', () => {
@@ -62,5 +62,30 @@ describe('formatWeekHours', () => {
         assert.equal(formatWeekHours(7.5, 'dk'), '7,5')
         assert.equal(formatWeekHours(7.5, 'en'), '7.5')
         assert.equal(formatWeekHours(1.234, 'sv'), '1,23')
+    })
+})
+
+describe('planProgress / planStatus', () => {
+    test('booked share of the hours given', () => {
+        assert.equal(planProgress({ weekly_hours: 10, planned_hours: 6.5 }), 65)
+        assert.equal(planProgress({ weekly_hours: 10 }), 0)
+    })
+    test('open, done, over by what is left to place', () => {
+        assert.equal(planStatus({ unplanned_hours: 3.5 }), 'open')
+        assert.equal(planStatus({ unplanned_hours: 0 }), 'done')
+        assert.equal(planStatus({ unplanned_hours: -1 }), 'over')
+    })
+})
+
+describe('panelWeekDate', () => {
+    test('the week on screen', () => {
+        assert.equal(panelWeekDate('week', { start_date: '2026-10-19', end_date: '2026-10-25' }, '2026-10-23'), '2026-10-19')
+    })
+    test('the day on screen', () => {
+        assert.equal(panelWeekDate('default', { start_date: '2026-11-03', end_date: '2026-11-03' }, '2026-10-23'), '2026-11-03')
+    })
+    test('today for a month or nothing', () => {
+        assert.equal(panelWeekDate('month', { start_date: '2026-09-28', end_date: '2026-11-08' }, '2026-10-23'), '2026-10-23')
+        assert.equal(panelWeekDate('default', null, '2026-10-23'), '2026-10-23')
     })
 })

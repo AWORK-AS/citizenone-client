@@ -1859,6 +1859,15 @@
                 "Sunday": "Sunday"
             }
         },
+        "hoursPanel": {
+            "title": "My hours per @:terms.citizen{''} · week {week}",
+            "summary": "{planned} of {given} h planned",
+            "plan": "Plan",
+            "plannedOfGiven": "{planned} of {given} h",
+            "toPlan": "{hours} h still to plan",
+            "allPlanned": "All hours are planned",
+            "overPlanned": "{hours} h planned too many"
+        },
         "cancel": {
             "action": "Cancel",
             "title": "Cancel event",
@@ -16721,6 +16730,7 @@
             "remaining": "{hours} h left",
             "title": "My hours per @:terms.citizen{''}",
             "usedOfGiven": "{used} of {given} h",
+            "planned": "{hours} h planned",
             "week": "Week {week}"
         }
     },

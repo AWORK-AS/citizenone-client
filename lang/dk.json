@@ -1859,6 +1859,15 @@
                 "Sunday": "søndag"
             }
         },
+        "hoursPanel": {
+            "title": "Mine timer pr. @:terms.citizen{''} · uge {week}",
+            "summary": "{planned} af {given} t planlagt",
+            "plan": "Planlæg",
+            "plannedOfGiven": "{planned} af {given} t",
+            "toPlan": "{hours} t mangler at blive planlagt",
+            "allPlanned": "Alle timer er planlagt",
+            "overPlanned": "{hours} t planlagt for meget"
+        },
         "cancel": {
             "action": "Aflys",
             "title": "Aflys aftale",
@@ -16721,6 +16730,7 @@
             "remaining": "{hours} t tilbage",
             "title": "Mine timer pr. @:terms.citizen{''}",
             "usedOfGiven": "{used} af {given} t",
+            "planned": "{hours} t planlagt",
             "week": "Uge {week}"
         }
     },
