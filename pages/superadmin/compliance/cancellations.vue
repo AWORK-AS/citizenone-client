@@ -168,8 +168,7 @@
             </div>
 
             <!-- Modal: Register / Edit cancellation -->
-            <div v-if="modal.open" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4"
-                @click.self="modal.open = false">
+            <div v-if="modal.open" class="fixed inset-0 bg-black/40 z-50 flex items-center justify-center p-4">
                 <div class="bg-white rounded-2xl shadow-2xl w-full max-w-[500px] overflow-hidden">
                     <!-- Header -->
                     <div class="px-6 py-5 border-b border-[#EAECF0]">
