@@ -46,3 +46,11 @@ export function defaultHourTypeUuid(types: CareHourType[]): string {
 export function hourTypePayload(shown: boolean, uuid: string | null | undefined): { contract_hour_type_uuid?: string } {
     return shown && uuid ? { contract_hour_type_uuid: uuid } : {}
 }
+
+/**
+ * The hour types offered at check-in. A drive has its own button when the
+ * person registers transport, so the transport type is left out there.
+ */
+export function checkInHourTypeChoices(types: CareHourType[], transportHasOwnButton: boolean): CareHourType[] {
+    return (types ?? []).filter((type) => !(transportHasOwnButton && type.system_key === 'transport'))
+}

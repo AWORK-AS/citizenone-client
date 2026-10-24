@@ -4076,6 +4076,8 @@
             },
             "selectType": "Vill du registrere transport eller arbetstid?",
             "selectTypeMessage": "Registrér din tid lätt, välj arbete eller transport för att komme pågår.",
+            "selectHourType": "Vad registrerar du?",
+            "selectHourTypeMessage": "Välj den typ av tid du startar nu. Den kan ändras efteråt under Indsatstimer.",
             "timeRegistration": "Tidsregistrering",
             "transport": "Transport",
             "work": "Arbete",
