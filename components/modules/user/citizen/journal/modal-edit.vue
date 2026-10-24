@@ -7,6 +7,7 @@
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <ModulesUserCitizenJournalForm formType="update" :selectedJournal="props.selectedJournal"
                         :readonly="props.readonly" :error="state.error"
+                        :bookingLinked="props.selectedJournal?.is_from_booking === true"
                         @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateJournal" />
                 </LoadingSpinner>
@@ -81,6 +82,8 @@ async function updateJournal(journalDetails: any) {
             field_answers: journalDetails.formJournal.field_answers ?? [],
             // Present only when the form showed the wellbeing ruler.
             ...(journalDetails.wellbeing_scores ? { wellbeing_scores: journalDetails.wellbeing_scores } : {}),
+            // Visit date and intervention hours (journal form).
+            ...(journalDetails.visitAndHours ?? {}),
         }
         const response = await journalService.updateJournal(journalUuid, params)
         if (response?.data) {

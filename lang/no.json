@@ -2155,6 +2155,18 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Internt notat",
+                "visit": {
+                    "date": "Besøksdato",
+                    "timeStart": "Besøk fra",
+                    "timeEnd": "Besøk til",
+                    "help": "Med en besøksdato vises besøket i kalenderen til @:terms.citizenDefinite{''} og i din egen."
+                },
+                "careHours": {
+                    "register": "Registrer innsatstimer",
+                    "timeStart": "Fra",
+                    "timeEnd": "Til",
+                    "help": "Timene registreres {date}."
+                },
                 "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "aiGenerate": {
@@ -8036,6 +8048,7 @@
             "planned": "Planlagt"
         },
         "saveAndComplete": "Lagre og merk som fullført",
+        "noteNeedsCitizen": "Avtalen er ikke knyttet til en @:terms.citizen{''}, så det kan ikke skrives et notat til den.",
         "completeOnSaveHint": "Når du lagrer @:terms.journalNote{''}, merkes avtalen som fullført.",
         "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''} før avtalen merkes som fullført.",
         "status": {

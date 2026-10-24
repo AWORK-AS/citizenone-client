@@ -1,10 +1,8 @@
 <template>
     <div>
-        <Modal size="md" :title="$t('events.createJournalNote')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="2xl" :title="$t('events.createJournalNote')" :show="props.isModalOpen" @close="closeModal">
             <template #modal-body>
                 <LoadingSpinner :isActive="state.isPageLoading">
-                    <Alert type="danger" :text="state.error?.message"
-                        v-if="state.error?.message && state.error.message.length > 0" />
                     <ModulesUserMyCalendarNoteBookingHeader :context="state.noteContext" class="mb-4" />
                     <!-- Opened by "done" where the company requires a note first:
                          saving the note is what marks the booking done. -->
@@ -12,179 +10,15 @@
                         <Icon name="ph:check-circle" class="mt-0.5 h-4 w-4 shrink-0" aria-hidden="true" />
                         {{ $t('events.completeOnSaveHint') }}
                     </p>
-                    <form @submit.prevent="saveJournal" class="space-y-4">
-                        <div class="grid md:grid-cols-2 gap-x-3">
-                            <div class="space-y-1">
-                                <FormLabel for="journal_title" :label="$t('citizens.citizenJournals.form.title')" />
-                                <FormComboField id="journal_title" name="journal_title"
-                                    :placeholder="$t('citizens.citizenJournals.form.titlePlaceholder')"
-                                    :toggleLabel="$t('citizens.citizenJournals.form.showJournalTitles')"
-                                    :quickPicks="6" :quickPicksLabel="$t('citizens.citizenJournals.form.quickJournalTitles')"
-                                    :quickPicksMoreText="(count: number) => $t('citizens.citizenJournals.form.moreJournalTitles', { count })"
-                                    :options="state.options.journal_titles" v-model="state.formJournal.title" />
-                                <FormError :error="state.error?.errors?.title?.[0]" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="journal_date" :label="$t('citizens.citizenJournals.form.date')" />
-                                <FormDateField id="journal_date" name="journal_date" :placeholder="$t('forms.fields.date')"
-                                    v-model="state.formJournal.date" />
-                                <FormError :error="state.error?.errors?.date?.[0]" />
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="journal_score"
-                                :label="$t('citizens.citizenJournals.form.currentLevels.currentLevel')" />
-                            <FormSelect id="journal_score" :options="state.options.scores"
-                                v-model="state.formJournal.score" />
-                            <FormError :error="state.error?.errors?.score?.[0]" />
-                        </div>
-                        <div v-if="state.citizenUuid">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
-                                <FormCheckbox id="copy_to_plan"
-                                    :value="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal" />
-                                {{ $t('citizens.citizenJournals.form.copyJournalNoteToPlanOrGoalOrSubgoal') }}
-                            </div>
-                        </div>
-                        <!-- A single goal (enkeltmål) belongs to no plan, so it is picked instead of
-                             a plan and goal; picking one clears the other. -->
-                        <div class="grid md:grid-cols-2 gap-x-3 gap-y-2"
-                            v-if="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal && state.citizenUuid">
-                            <div class="space-y-1">
-                                <FormLabel for="journal_note_plan"
-                                    :label="$t('citizens.citizenJournals.form.plan')" />
-                                <FormSelect id="journal_note_plan" :options="state.options.plans"
-                                    v-model="state.formJournal.journal_note_plan"
-                                    @change="(uuid: any) => onPlanChange(uuid)" />
-                                <FormError :error="state.planError" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="journal_note_goal"
-                                    :label="$t('citizens.citizenJournals.form.goal')" />
-                                <FormSelect id="journal_note_goal" :options="state.options.goals"
-                                    v-model="state.formJournal.journal_note_goal"
-                                    @change="(uuid: any) => onGoalChange(uuid)" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="journal_note_single_goal"
-                                    :label="$t('citizens.citizenJournals.form.singleGoal')" />
-                                <FormSelect id="journal_note_single_goal" :options="state.options.singleGoals"
-                                    v-model="state.formJournal.journal_note_single_goal"
-                                    @change="(uuid: any) => onSingleGoalChange(uuid)" />
-                            </div>
-                            <div class="space-y-1">
-                                <FormLabel for="journal_note_subgoal"
-                                    :label="$t('citizens.citizenJournals.form.subgoal')" />
-                                <FormSelect id="journal_note_subgoal" :options="state.options.subgoals"
-                                    v-model="state.formJournal.journal_note_subgoal" />
-                            </div>
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('citizens.citizenJournals.form.content') }}
-                            </p>
-                            <ckeditor :editor="editor" v-model="state.formJournal.content"
-                                :config="editorConfig"></ckeditor>
-                            <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.mentions.hint') }}</p>
-                            <FormError :error="state.error?.errors?.content?.[0] || state.contentError" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel :label="$t('citizens.citizenJournals.form.notifyColleagues')" />
-                            <FormSelectMultiple id="mentioned_colleagues" :options="state.options.colleagues"
-                                :placeholder="$t('citizens.citizenJournals.form.notifyColleaguesPlaceholder')"
-                                v-model="state.formJournal.mentioned_user_uuids" />
-                            <p class="text-xs text-gray-400">{{ $t('citizens.citizenJournals.form.notifyColleaguesHint') }}</p>
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="journal_note_tags"
-                                :label="$t('citizens.citizenJournals.form.journalNoteTags')" />
-                            <FormSelectMultiple id="journal_note_tags" :options="state.options.journal_note_tags"
-                                v-model="state.formJournal.journal_note_tags" />
-                            <FormError :error="state.error?.errors?.journal_note_tags_uuid?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ customPagesStore.getCustomPagesName?.riskAssessment }}
-                            </p>
-                            <RadioGroup v-model="state.formJournal.assessment"
-                                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
-                                <RadioGroupOption as="template" v-for="(assessment, index) in state.options.assessments"
-                                    :key="index" :value="assessment.value" v-slot="{ active, checked }">
-                                    <div :class="[
-                                        active ? 'ring-1 ring-offset-2' : '',
-                                        assessment.title === 'None' && 'ring-primary',
-                                        assessment.title === 'No risk' && 'ring-green-700',
-                                        assessment.title === 'Increased risk' && 'ring-yellow-500',
-                                        assessment.title === 'Acute increased risk' && 'ring-red-600',
-                                        checked && assessment.title === 'None' && 'bg-primary text-white ring-0 hover:bg-primary',
-                                        checked && assessment.title === 'No risk' && 'bg-green-700 text-white ring-0 hover:bg-green-700',
-                                        checked && assessment.title === 'Increased risk' && 'bg-yellow-500 text-white ring-0 hover:bg-yellow-500',
-                                        checked && assessment.title === 'Acute increased risk' && 'bg-red-600 text-white ring-0 hover:bg-red-600',
-                                        !active && !checked && assessment.title === 'None' && 'border border-primary ring-inset',
-                                        !active && !checked && assessment.title === 'No risk' && 'border border-green-700 ring-inset',
-                                        !active && !checked && assessment.title === 'Increased risk' && 'border border-yellow-500 ring-inset',
-                                        !active && !checked && assessment.title === 'Acute increased risk' && 'border border-red-600 ring-inset',
-                                        active && checked ? 'text-white ring-1' : '',
-                                        'cursor-pointer flex items-center justify-center rounded-full px-2 py-2 text-xs']">
-                                        <span v-if="assessment.title === 'None'">
-                                            {{ $t('citizens.citizenJournals.form.risk.none') }}
-                                        </span>
-                                        <span v-if="assessment.title === 'No risk'">
-                                            {{ $t('citizens.citizenJournals.form.risk.noRisk') }}
-                                        </span>
-                                        <span v-if="assessment.title === 'Increased risk'">
-                                            {{ $t('citizens.citizenJournals.form.risk.increasedRisk') }}
-                                        </span>
-                                        <span v-if="assessment.title === 'Acute increased risk'">
-                                            {{ $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk') }}
-                                        </span>
-                                    </div>
-                                </RadioGroupOption>
-                            </RadioGroup>
-                        </div>
-                        <div class="space-y-1" v-if="state.formJournal.assessment !== null">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('citizens.citizenJournals.form.note') }}
-                            </p>
-                            <ckeditor :editor="editor" v-model="state.formJournal.note"
-                                :config="editorConfig"></ckeditor>
-                            <FormError :error="state.error?.errors?.note?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="risk_assessment_tags"
-                                :label="customPagesStore.getCustomPagesName?.riskAssessment + ' ' + $t('citizens.citizenJournals.form.tags')" />
-                            <FormSelectMultiple id="risk_assessment_tags" :options="state.options.risk_assessment_tags"
-                                v-model="state.formJournal.risk_assessment_tags" />
-                            <FormError :error="state.error?.errors?.risk_assessment_tags_uuid?.[0]" />
-                        </div>
-                        <!-- A draft isn't a note yet, so it can't complete the booking. -->
-                        <div v-if="!props.completeOnSave">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.formJournal.is_draft = !state.formJournal.is_draft">
-                                <FormCheckbox id="is_draft" :value="state.formJournal.is_draft" />
-                                {{ $t('citizens.citizenJournals.form.draft') }}
-                            </div>
-                        </div>
-                        <!-- Internal notes are hidden from the roles an Admin has marked "cannot see
-                             internal notes". The note is the current user's own, so they may set it. -->
-                        <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.formJournal.is_internal = !state.formJournal.is_internal">
-                                <FormCheckbox id="is_internal" :value="state.formJournal.is_internal" />
-                                {{ $t('citizens.citizenJournals.form.internal') }}
-                            </div>
-                            <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.internalHelp') }}</p>
-                            <FormError :error="state.error?.errors?.is_internal?.[0]" />
-                        </div>
-                        <div class="grid grid-cols-2 gap-3 mt-6">
-                            <FormButton type="button" buttonStyle="cancel" @click="closeModal">
-                                {{ $t('cancel') }}
-                            </FormButton>
-                            <FormButton type="submit" buttonStyle="primary">
-                                {{ props.completeOnSave ? $t('events.saveAndComplete') : $t('save') }}
-                            </FormButton>
-                        </div>
-                    </form>
+                    <Alert type="danger" :text="$t('events.noteNeedsCitizen')" v-if="!citizenUuid" />
+                    <Alert type="danger" :text="state.contentError" v-if="state.contentError" />
+                    <!-- The same form as a note written in the journal, so a note from
+                         a booking has every option a normal note has. -->
+                    <ModulesUserCitizenJournalForm v-if="citizenUuid" formType="create"
+                        :selectedJournal="state.formJournal" :error="state.error" :citizenUuid="citizenUuid"
+                        :bookingLinked="true" :hideDraft="props.completeOnSave" :presetCareHours="presetCareHours"
+                        @isPageLoading="(value: boolean) => state.isPageLoading = value"
+                        @closeModal="closeModal" @submitForm="saveJournal" />
                 </LoadingSpinner>
             </template>
         </Modal>
@@ -193,32 +27,18 @@
 
 <script setup lang="ts">
 import moment from 'moment'
-import ClassicEditor from '@/utils/editor'
-import { AutoCapitalize } from '@/utils/editor-auto-capitalize'
-import { Mention } from 'ckeditor5'
-import { MentionCustomization, mentionConfig } from '@/utils/journal-mentions'
-import { journalNotePlanGoalSubgoalUuid } from '@/utils/journal-plan-link'
 import { hasNoteBody } from '@/composables/calendarNoteRequired'
-import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
-import { planService } from '@/components/api/user/PlanService'
-import { goalService } from '@/components/api/user/GoalService'
-import { subgoalService } from '@/components/api/user/SubgoalService'
-import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
-import { journalTitleService } from '@/components/api/user/JournalTitleService'
-import { userService } from '@/components/api/user/UserService'
-import { useUserStore } from '@/store/user'
-import { useDepartmentStore } from '@/store/department'
-import { useCustomPagesStore } from '@/store/custom-pages'
+import { journalService } from '@/components/api/user/JournalService'
+import { journalNotePlanLinkParams } from '@/utils/journal-plan-link'
+import { useSurveyCompletion } from '@/composables/useSurveyCompletion'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
 const { t } = useI18n()
-const departmentStore = useDepartmentStore() as any
-const customPagesStore = useCustomPagesStore() as any
-const userStore = useUserStore() as any
+const { completeAnsweredSurveys } = useSurveyCompletion()
 
 const props = defineProps({
     isModalOpen: {
@@ -239,134 +59,50 @@ const props = defineProps({
 
 const emit = defineEmits(['close', 'journalCreated'])
 
-const editor = ref(ClassicEditor)
-const editorConfig = ref({
-    toolbar: ['undo', 'redo', 'heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'],
-    heading: {
-        options: [
-            { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-            { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-            { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
-            { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
-        ]
-    },
-    extraPlugins: [Mention, MentionCustomization, AutoCapitalize],
-    // @ tags a colleague (notified) or a citizen (initials only), as in the journal.
-    mention: mentionConfig(),
-}) as any
-
 const state = reactive({
     isPageLoading: false,
     error: {} as Error,
-    citizenUuid: '' as string,
-    planError: '',
     contentError: '',
     noteContext: null as any,
-    formJournal: {
-        title: '',
-        date: moment().format('YYYY-MM-DD'),
-        score: '',
-        content: '',
-        journal_note_tags: [] as string[],
-        is_draft: false,
-        is_internal: false,
-        copy_journal_note_to_plan_or_goal_or_subgoal: false,
-        journal_note_plan: '',
-        journal_note_goal: '',
-        journal_note_single_goal: '',
-        journal_note_subgoal: '',
-        assessment: null as any,
-        note: '',
-        risk_assessment_tags: [] as string[],
-        mentioned_user_uuids: [] as string[],
-    },
-    options: {
-        scores: [
-            { value: 1, label: `1. ${t('citizens.citizenJournals.form.currentLevels.minorChallenges')}` },
-            { value: 2, label: `2. ${t('citizens.citizenJournals.form.currentLevels.moderateChallenges')}` },
-            { value: 3, label: `3. ${t('citizens.citizenJournals.form.currentLevels.significantChallenges')}` },
-            { value: 4, label: `4. ${t('citizens.citizenJournals.form.currentLevels.severeChallenges')}` },
-            { value: 5, label: `5. ${t('citizens.citizenJournals.form.currentLevels.verySubstantialChallenges')}` },
-        ],
-        assessments: [
-            { value: null, title: 'None' },
-            { value: 'no risk', title: 'No risk' },
-            { value: 'increased risk', title: 'Increased risk' },
-            { value: 'acute increased risk', title: 'Acute increased risk' },
-        ] as any[],
-        plans: [] as any[],
-        goals: [] as any[],
-        singleGoals: [] as any[],
-        subgoals: [] as any[],
-        journal_titles: [] as any[],
-        journal_note_tags: [] as any[],
-        risk_assessment_tags: [] as any[],
-        colleagues: [] as any[],
-    },
+    formJournal: {} as any,
 })
 
-watch(() => props.isModalOpen, (newValue: boolean) => {
-    if (newValue && props.selectedEvent) {
-        resetForm()
-        state.formJournal.title = props.selectedEvent.title || ''
-        // The note is about the visit, so it is dated when the booking started.
-        if (props.selectedEvent.date_time_start) {
-            state.formJournal.date = moment(props.selectedEvent.date_time_start).format('YYYY-MM-DD')
-        }
-        resolveCitizenUuid()
-        fetchNoteContext()
-        fetchColleagues()
-        if (state.citizenUuid) {
-            fetchPlans()
-            fetchSingleGoals()
-            fetchJournalNoteTags()
-            fetchJournalTitles()
-        }
-    }
-})
-
-function resolveCitizenUuid() {
-    const event = props.selectedEvent
-    const citizenOwner = event?.calendar_owners?.find(
+// The citizen the booking is for.
+const citizenUuid = computed(() => {
+    const owner = props.selectedEvent?.calendar_owners?.find(
         (o: any) => o.owner_type === 'App\\Models\\Citizen'
     )
-    state.citizenUuid = citizenOwner?.owner?.uuid || ''
-}
+    return owner?.owner?.uuid || ''
+})
 
-function resetForm() {
+// The hours start from the booking's own times.
+const presetCareHours = computed(() => {
+    const start = props.selectedEvent?.date_time_start
+    const end = props.selectedEvent?.date_time_end
+    if (!start || !end) return null
+    return { start: moment(start).format('HH:mm'), end: moment(end).format('HH:mm') }
+})
+
+watch(() => props.isModalOpen, (open: boolean) => {
+    if (!open || !props.selectedEvent) return
     state.error = {}
     state.contentError = ''
     state.noteContext = null
+    // The note is about the visit, so it is dated when the booking started.
     state.formJournal = {
-        title: '',
-        date: moment().format('YYYY-MM-DD'),
-        score: '',
+        title: props.selectedEvent.title || '',
+        date: props.selectedEvent.date_time_start
+            ? moment(props.selectedEvent.date_time_start).format('YYYY-MM-DD')
+            : moment().format('YYYY-MM-DD'),
         content: '',
-        journal_note_tags: [],
         is_draft: false,
         is_internal: false,
-        copy_journal_note_to_plan_or_goal_or_subgoal: false,
-        journal_note_plan: '',
-        journal_note_goal: '',
-        journal_note_single_goal: '',
-        journal_note_subgoal: '',
         assessment: null,
         note: '',
-        risk_assessment_tags: [],
-        mentioned_user_uuids: [],
+        score: '',
     }
-    seen.plan = ''
-    seen.goal = ''
-    seen.single = ''
-    state.options.plans = []
-    state.options.goals = []
-    state.options.singleGoals = []
-    state.options.subgoals = []
-    state.options.journal_titles = []
-    state.planError = ''
-    state.options.journal_note_tags = []
-    state.options.risk_assessment_tags = []
-}
+    fetchNoteContext()
+}, { immediate: true })
 
 // The header above the form. Quiet on failure: the note can be written without it.
 async function fetchNoteContext() {
@@ -382,206 +118,55 @@ async function fetchNoteContext() {
     }
 }
 
-async function fetchPlans() {
-    try {
-        const response = await planService.getAllPlans(state.citizenUuid)
-        if (response?.data) {
-            state.options.plans = response.data.map((plan: any) => ({
-                value: plan.uuid,
-                label: plan.name,
-            }))
-        }
-    } catch (error: any) {
-        state.error = error
+function riskAssessmentLinkUuid(form: any): string {
+    return form.risk_assessment_subgoal || form.risk_assessment_goal || form.risk_assessment_plan || ''
+}
+
+async function saveJournal(journalDetails: any) {
+    const form = journalDetails.formJournal
+
+    // "Done" needs a note with something written in it, not only the title
+    // prefilled from the booking (the server refuses it too).
+    state.contentError = ''
+    if (props.completeOnSave && !hasNoteBody(form.content)) {
+        state.contentError = t('events.noteBodyRequired')
+        return
     }
-}
 
-async function fetchSingleGoals() {
-    try {
-        const response = await goalService.getAllGoalsPerCitizen(state.citizenUuid)
-        state.options.singleGoals = (response?.data ?? []).map((goal: any) => ({
-            value: goal.uuid,
-            label: goal.name,
-        }))
-    } catch (error: any) {
-        state.error = error
-    }
-}
-
-// A Multiselect also emits `change` when its value is set from outside, so
-// clearing the single goal because a plan was picked would come back as a
-// "single goal cleared" and clear the plan in turn. `seen` holds the value each
-// level was last given - by the user or by us - and a change matching it is
-// just that echo.
-const seen = { plan: '', goal: '', single: '' }
-
-async function onPlanChange(planUuid: string) {
-    const next = planUuid || ''
-    if (next === seen.plan) return
-    seen.plan = next
-    seen.goal = ''
-    seen.single = ''
-    state.formJournal.journal_note_single_goal = ''
-    state.planError = ''
-    await fetchGoalsForPlan(next)
-}
-
-async function onGoalChange(goalUuid: string) {
-    const next = goalUuid || ''
-    if (next === seen.goal) return
-    seen.goal = next
-    await fetchSubgoalsForGoal(next)
-}
-
-async function onSingleGoalChange(goalUuid: string) {
-    const next = goalUuid || ''
-    if (next === seen.single) return
-    seen.single = next
-    if (next) {
-        seen.plan = ''
-        seen.goal = ''
-        state.formJournal.journal_note_plan = ''
-        state.formJournal.journal_note_goal = ''
-        state.options.goals = []
-    }
-    state.planError = ''
-    await fetchSubgoalsForGoal(next)
-}
-
-async function fetchGoalsForPlan(planUuid: string) {
-    state.formJournal.journal_note_goal = ''
-    state.formJournal.journal_note_subgoal = ''
-    state.options.goals = []
-    state.options.subgoals = []
-    if (!planUuid) return
-    try {
-        const response = await goalService.getAllGoalsPerPlan(planUuid)
-        if (response?.data) {
-            state.options.goals = response.data.map((goal: any) => ({
-                value: goal.uuid,
-                label: goal.name,
-            }))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-}
-
-async function fetchSubgoalsForGoal(goalUuid: string) {
-    state.formJournal.journal_note_subgoal = ''
-    state.options.subgoals = []
-    if (!goalUuid) return
-    try {
-        const response = await subgoalService.getAllSubgoals(goalUuid)
-        if (response?.data) {
-            state.options.subgoals = response.data.map((subgoal: any) => ({
-                value: subgoal.uuid,
-                label: subgoal.name,
-            }))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-}
-
-async function fetchJournalNoteTags() {
-    try {
-        const response = await journalNoteTagService.getAllJournalNoteTags({
-            department: departmentStore.getSelectedDepartmentName,
-        })
-        if (response?.data) {
-            const tags = response.data.map((tag: any) => ({
-                value: tag.uuid,
-                label: tag.name,
-            }))
-            state.options.journal_note_tags = tags
-            state.options.risk_assessment_tags = tags
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-}
-
-async function fetchJournalTitles() {
-    try {
-        const response = await journalTitleService.getAllJournalTitles()
-        if (response?.data) {
-            state.options.journal_titles = response.data.map((item: any) => ({
-                value: item.title,
-                label: item.title,
-            }))
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-}
-
-async function fetchColleagues() {
-    if (state.options.colleagues.length) return
-    try {
-        const response = await userService.getAllUsersWithoutAllUsersOption()
-        const list = Array.isArray(response) ? response : (response?.data ?? [])
-        const currentUuid = userStore.getUser?.uuid
-        state.options.colleagues = list
-            .filter((item: any) => item?.uuid && item.uuid !== currentUuid)
-            .map((item: any) => ({
-                value: item.uuid,
-                label: `${item.firstname} ${item.lastname ?? ''}`.trim(),
-            }))
-    } catch (error: any) {
-        state.error = error
-    }
-}
-
-async function saveJournal() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const uuid = props.selectedEvent?.uuid
-        const journal_note_plan_goal_subgoal_uuid = journalNotePlanGoalSubgoalUuid(state.formJournal)
-
-        // A goal or sub-goal is reached through its plan or single goal.
-        if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal
-            && !state.formJournal.journal_note_plan && !state.formJournal.journal_note_single_goal) {
-            state.planError = t('citizens.citizenJournals.form.selectPlanOrSingleGoal')
-            state.isPageLoading = false
-            return
-        }
-
-        // "Done" needs a note with something written in it, not only the
-        // title prefilled from the booking (the server refuses it too).
-        state.contentError = ''
-        if (props.completeOnSave && !hasNoteBody(state.formJournal.content)) {
-            state.contentError = t('events.noteBodyRequired')
-            state.isPageLoading = false
-            return
-        }
-
         const params: any = {
-            title: state.formJournal.title,
-            date: state.formJournal.date,
-            score: state.formJournal.score,
-            content: state.formJournal.content,
-            journal_note_tags_uuid: state.formJournal.journal_note_tags,
-            is_draft: props.completeOnSave ? false : state.formJournal.is_draft,
-            is_internal: state.formJournal.is_internal,
-            copy_journal_note_to_plan_or_goal_or_subgoal: state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal,
-            assessment: state.formJournal.assessment,
-            risk_assessment_tags_uuid: state.formJournal.risk_assessment_tags,
-            mentioned_user_uuids: state.formJournal.mentioned_user_uuids ?? [],
-        }
-        if (state.formJournal.assessment !== null) {
-            params.note = state.formJournal.note
-        }
-        if (state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal && journal_note_plan_goal_subgoal_uuid) {
-            params.journal_note_plan_goal_subgoal_uuid = journal_note_plan_goal_subgoal_uuid
+            citizen_uuid: citizenUuid.value,
+            my_calendar_uuid: props.selectedEvent?.uuid,
+            title: form.title,
+            date: form.date,
+            ...journalNotePlanLinkParams(form),
+            copy_risk_assessment_to_plan_or_goal_or_subgoal: form.copy_risk_assessment_to_plan_or_goal_or_subgoal,
+            risk_assessment_plan_goal_subgoal_uuid: riskAssessmentLinkUuid(form),
+            content: form.content,
+            journal_note_tags_uuid: form.journal_note_tags,
+            is_draft: props.completeOnSave ? false : form.is_draft,
+            is_internal: form.is_internal ?? false,
+            is_visible_to_patient: form.is_visible_to_patient ?? false,
+            is_ai_used: form.is_ai_used ?? false,
+            assessment: form.assessment,
+            note: form.note,
+            risk_assessment_tags_uuid: form.risk_assessment_tags,
+            score: form.score,
+            teeth_uuid: form.teeth,
+            field_answers: form.field_answers ?? [],
+            ...(journalDetails.wellbeing_scores ? { wellbeing_scores: journalDetails.wellbeing_scores } : {}),
+            mentioned_user_uuids: form.mentioned_user_uuids ?? [],
+            ...(journalDetails.visitAndHours ?? {}),
         }
         if (props.completeOnSave) {
             params.mark_completed = true
         }
 
-        const response = await myCalendarService.createJournalFromEvent(uuid, params)
+        const response = await journalService.saveJournal(params)
         if (response?.data) {
+            await completeAnsweredSurveys(response.data.uuid, journalDetails.pending_survey_answers)
             emit('journalCreated')
             closeModal()
             successAlert(`${t('alert.success')}!`, `${t(props.completeOnSave ? 'events.alert.journalCreatedAndCompleted' : 'events.alert.journalSuccessfullyCreated')}.`)

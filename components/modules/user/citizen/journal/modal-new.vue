@@ -322,6 +322,8 @@ async function saveJournal(journalDetails: any) {
             // Present only when the form showed the wellbeing ruler.
             ...(journalDetails.wellbeing_scores ? { wellbeing_scores: journalDetails.wellbeing_scores } : {}),
             mentioned_user_uuids: journalDetails.formJournal.mentioned_user_uuids ?? [],
+            // Visit date and intervention hours (journal form).
+            ...(journalDetails.visitAndHours ?? {}),
         }
         const response = await journalService.saveJournal(params)
         if (response?.data) {
