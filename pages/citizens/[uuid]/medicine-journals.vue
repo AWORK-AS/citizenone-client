@@ -277,6 +277,13 @@
                                             {{ $t('citizens.medicineJournals.downloadOverview') }}
                                         </button>
                                         </MenuItem>
+                                        <MenuItem v-slot="{ active }">
+                                        <button type="button" @click="downloadCurrentMedicineList()"
+                                            :class="[active ? 'bg-gray-100 text-gray-900' : 'text-gray-700', 'flex w-full items-center gap-2 px-4 py-2 text-sm']">
+                                            <Icon name="ph:list-checks" class="size-4" />
+                                            {{ $t('citizens.medicineJournals.downloadCurrentList') }}
+                                        </button>
+                                        </MenuItem>
                                         <MenuItem v-if="isAtLeast('Admin') || can('update_form_field_config')"
                                             v-slot="{ active }">
                                         <button type="button" @click="navigateTo('/citizens/medicine-form-config')"
@@ -1255,9 +1262,10 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
 // Giving medication registers a dose, not an edit of the medicine - mirror the backend rule in CitizenMedicineHistoryService.
@@ -1302,6 +1310,19 @@ function getDosageName(medicine: any): string {
 }
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
+
+// The current list: what the citizen takes now. "Download oversigt" is the
+// log of given doses for a period, which is not what staff hand to a doctor.
+async function downloadCurrentMedicineList() {
+    try {
+        const blob = await medicineJournalService.downloadCurrentMedicineList(citizenUuid)
+        if (blob) {
+            saveAs(blob, `${t('citizens.medicineJournals.currentListFileName')}.pdf`)
+        }
+    } catch (error: any) {
+        errorAlert(`${t('alert.error')}!`, error?.message ?? '')
+    }
+}
 let currentTablePage = 1
 
 const breadcrumbLinks = [
@@ -1452,6 +1473,7 @@ const paletteCommands = computed(() => {
         cmds.push({ id: 'fmk', group: A, icon: 'ph:arrow-square-out', label: t('citizens.medicineJournals.openFmkOnline'), run: () => navigateToExternalLink('https://fmk-online.dk/fmk') })
     }
     cmds.push({ id: 'download', group: A, icon: 'ph:download', label: t('citizens.medicineJournals.downloadOverview'), run: () => { state.modal.isDownloadMedicineOverviewOpen = true } })
+    cmds.push({ id: 'download-current-list', group: A, icon: 'ph:list-checks', label: t('citizens.medicineJournals.downloadCurrentList'), run: () => downloadCurrentMedicineList() })
     cmds.push({ id: 'filter', group: A, icon: 'ic:outline-filter-list', label: t('filter'), run: () => { state.modal.isFilterMedicineOpen = true } })
 
     const nav = (cond: boolean, label: string, icon: string, href: string) => {

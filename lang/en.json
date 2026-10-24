@@ -3103,6 +3103,8 @@
             },
             "download": "Download",
             "downloadOverview": "Download overview",
+            "downloadCurrentList": "Download current medicine list",
+            "currentListFileName": "Current medicine list",
             "editMedicine": "Edit medicine",
             "form": {
                 "activateMedicine": "Activate medicine",
