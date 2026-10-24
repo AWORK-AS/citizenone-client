@@ -3049,6 +3049,7 @@
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "fromDutySchedule": "Från tjänsteschema",
+                "historical": "Fr\u00e5n WorkZone",
                 "note": "Anmärkning",
                 "totalHours": "Totalt timmar",
                 "transport": "Transportere",

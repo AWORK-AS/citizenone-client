@@ -197,6 +197,10 @@
                                                 v-if="inteventionHours?.is_from_duty_schedule">
                                                 {{ $t('citizens.interventionHours.table.fromDutySchedule') }}
                                             </Badge>
+                                            <!-- Migrated from the previous system: history, read only. -->
+                                            <Badge type="harmless" class="text-xxs" v-if="inteventionHours?.is_historical">
+                                                {{ $t('citizens.interventionHours.table.historical') }}
+                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="10%">
@@ -213,7 +217,8 @@
                                     <td width="15%">
                                         <div class="flex items-end gap-2">
                                             <FormButton type="button" buttonStyle="action"
-                                                @click="viewInterventionHourLog(inteventionHours)">
+                                                @click="viewInterventionHourLog(inteventionHours)"
+                                                v-if="!inteventionHours?.is_historical">
                                                 <Icon name="ph:eye" class="size-4" />
                                                 {{ $t('citizens.interventionHours.table.actions.view') }}
                                             </FormButton>

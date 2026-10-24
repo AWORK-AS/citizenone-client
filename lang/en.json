@@ -3049,6 +3049,7 @@
                 "datetimeEnd": "Date time end",
                 "datetimeStart": "Date time start",
                 "fromDutySchedule": "From duty schedule",
+                "historical": "From WorkZone",
                 "note": "Note",
                 "totalHours": "Total hours",
                 "transport": "Transport",
