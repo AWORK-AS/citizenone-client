@@ -3120,6 +3120,8 @@
             },
             "download": "Last ned",
             "downloadOverview": "Last ned oversigt",
+            "downloadCurrentList": "Last ned aktuell medisinliste",
+            "currentListFileName": "Aktuell medisinliste",
             "editMedicine": "Rediger Medisin",
             "form": {
                 "activateMedicine": "Aktiver medisin",

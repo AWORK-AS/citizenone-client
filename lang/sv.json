@@ -3120,6 +3120,8 @@
             },
             "download": "Ladda ner",
             "downloadOverview": "Ladda ner översikt",
+            "downloadCurrentList": "Ladda ner aktuell läkemedelslista",
+            "currentListFileName": "Aktuell läkemedelslista",
             "editMedicine": "Redigera Medicin",
             "form": {
                 "activateMedicine": "Aktivera medicin",
