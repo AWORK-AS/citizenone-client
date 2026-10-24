@@ -298,7 +298,9 @@
                         <FormTextArea id="respond-wishes" name="respond-wishes" :rows="2"
                             :placeholder="$t('inquiryOffer.startWishesPlaceholder')" v-model="state.respond.start_wishes" />
                     </div>
-                    <div>
+                    <!-- A rejection asks the same as losing the case: the reason and
+                         Årsag til afvisning, nothing else. -->
+                    <div v-if="state.respond.decision !== 'rejected'">
                         <FormLabel for="respond-remarks" :label="$t('inquiryOffer.remarks')" />
                         <FormTextArea id="respond-remarks" name="respond-remarks" :rows="2"
                             :placeholder="$t('inquiryOffer.remarks')" v-model="state.respond.remarks" />
@@ -677,7 +679,7 @@ async function respond() {
         const response = await inquiryOfferService.respondToOffer(state.respondFor.uuid, {
             decision: state.respond.decision,
             responded_at: state.respond.responded_at || null,
-            remarks: state.respond.remarks || null,
+            remarks: state.respond.decision === 'rejected' ? null : (state.respond.remarks || null),
             rejection_reason: state.respond.decision === 'rejected' ? (state.respond.rejection_reason || null) : null,
             start_wishes: state.respond.decision === 'accepted' ? (state.respond.start_wishes || null) : null,
             lost_reason_uuid: state.respond.decision === 'rejected' ? (state.respond.lost_reason_uuid || null) : null,

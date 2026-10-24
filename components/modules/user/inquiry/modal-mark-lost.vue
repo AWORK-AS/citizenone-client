@@ -20,7 +20,7 @@
                     </p>
 
                     <div class="space-y-1">
-                        <FormLabel for="lost-note" :label="$t('inquiryLost.modal.note')" />
+                        <FormLabel for="lost-note" :label="$t('inquiryOffer.rejectionReason')" />
                         <FormTextArea name="lost-note" id="lost-note" v-model="state.form.lost_reason_note"
                             :placeholder="$t('inquiryLost.modal.notePlaceholder')" :rows="3" />
                     </div>
