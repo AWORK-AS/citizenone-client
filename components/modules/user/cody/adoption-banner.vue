@@ -10,7 +10,7 @@
             <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-2">
                 <FormButton v-if="variant === 'adminTrial'" type="button" buttonStyle="primary" buttonSize="xs" class="!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink"
                     @click="navigateTo(appPath)">
-                    {{ $t('cody.adoption.tryFree') }}
+                    {{ $t('cody.adoption.tryFree', { days: trialDays(status?.trial?.days) }) }}
                 </FormButton>
                 <FormButton v-else-if="variant === 'adminEnable'" type="button" buttonStyle="primary" buttonSize="xs" class="!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink"
                     @click="navigateTo(appPath)">
@@ -45,6 +45,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { trialDays } from '@/composables/managerSuggestion'
 import { formatPrice } from '@/composables/customerSpecialPrice'
 
 const { t } = useI18n()
