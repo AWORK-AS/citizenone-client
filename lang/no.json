@@ -1161,6 +1161,9 @@
     },
     "cody": {
         "preview": {
+            "askedOn": "Du ba lederen din om Cody {date}.",
+            "askedBy": "Etterspurt av: {names}",
+            "askedMore": "+{count}",
             "name": "Cody",
             "chip": "AI",
             "tagline": "Din assistent i hverdagen",
@@ -1173,7 +1176,7 @@
             "example3": "Hjelp meg med å skrive et notat om dagens besøk",
             "examplesNote": "Bare eksempler. Ingenting sendes.",
             "askManager": "Be lederen din om Cody",
-            "startTrial": "Start gratis 14-dagers prøve",
+            "startTrial": "Start gratis {days}-dagers prøve",
             "whyAdmin": "Bare virksomheten deres kan slå på Cody, fordi spørsmål behandles av en AI-leverandør. Lederen eller administratoren din avgjør.",
             "alreadyAsked": "Du har allerede bedt lederen din om Cody.",
             "noRecipient": "Vi fant ingen leder å sende dette til. Kontakt support.",
@@ -1183,7 +1186,7 @@
         "adoption": {
             "headline": "Gi de ansatte tid tilbake med Cody",
             "headlineBody": "Cody gir oversikt over dagen, finner opplysninger og skriver utkast til journalnotater, slik at mer tid går til kjerneoppgaven.",
-            "tryFree": "Prøv Cody gratis i 14 dager",
+            "tryFree": "Prøv Cody gratis i {days} dager",
             "tryFreeShort": "Prøv gratis i 14 dager",
             "readMore": "Les mer",
             "enableTitle": "Gi de ansatte tid tilbake med Cody",

@@ -31,6 +31,7 @@
                         <div class="min-w-[14rem] flex-1">
                             <p class="text-base font-semibold text-gray-900">{{ $t('cody.preview.adminTitle') }}</p>
                             <p class="text-sm text-gray-600">{{ $t('cody.adoption.headlineBody') }}</p>
+                            <p v-if="askedByLine" class="mt-1 text-sm font-medium text-ai-ink">{{ askedByLine }}</p>
                             <p v-if="quote" class="mt-1 text-xs text-gray-500">{{ finePrint }}</p>
                         </div>
                         <FormButton type="button" buttonStyle="primary" class="w-full justify-center md:w-auto"
@@ -275,6 +276,8 @@ import { useAppActivation } from '@/composables/appActivation'
 import { formatPrice } from '@/composables/customerSpecialPrice'
 import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
+import { trialDays as trialDaysOf, suggesterSummary } from '@/composables/managerSuggestion'
+import { managerSuggestionService } from '@/components/api/user/ManagerSuggestionService'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -359,9 +362,24 @@ const suggestionPriceText = computed(() => {
     return `${formatAmount(price.value.discountedAmount)}${unit} ${t('excludeVat')}`
 })
 const trial = computed(() => state.app?.trial ?? null)
+// Who asked, from the backend (purchasers only). An older backend sends nothing and the line stays away.
+const suggesters = ref<{ firstname: string, suggested_at: string }[]>([])
+const askedByLine = computed(() => {
+    const { names, more } = suggesterSummary(suggesters.value)
+    if (!names.length) return ''
+    return t('cody.preview.askedBy', { names: names.join(', ') + (more ? ` ${t('cody.preview.askedMore', { count: more })}` : '') })
+})
 const showCodyTrialStrip = computed(() => state.app?.generic_name === 'citizenone-ai'
     && isAdmin.value && !!state.app?.trial_enabled && !!trial.value?.available && !state.app?.user_activated)
-const trialDays = computed(() => Number(trial.value?.days ?? state.app?.trial_days ?? 14))
+watch(() => [state.app?.uuid, showCodyTrialStrip.value], async () => {
+    suggesters.value = []
+    if (!showCodyTrialStrip.value || !state.app?.uuid) return
+    try {
+        const status = await managerSuggestionService.getStatus(state.app.uuid)
+        suggesters.value = status?.recent_suggesters ?? []
+    } catch (_) { /* the strip works without it */ }
+})
+const trialDays = computed(() => trialDaysOf(trial.value?.days, state.app?.trial_days))
 const quotes = computed(() => trial.value?.quotes ?? {})
 // A frequency without a quote cannot be priced, so it is not offered.
 const offeredFrequencies = computed(() => (['monthly', 'yearly'] as const).filter(f => !!quotes.value?.[f]))

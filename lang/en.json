@@ -1161,6 +1161,9 @@
     },
     "cody": {
         "preview": {
+            "askedOn": "You asked your manager about Cody on {date}.",
+            "askedBy": "Asked for by: {names}",
+            "askedMore": "+{count}",
             "name": "Cody",
             "chip": "AI",
             "tagline": "Your everyday assistant",
@@ -1173,7 +1176,7 @@
             "example3": "Help me draft a note about today's visit",
             "examplesNote": "Examples only. Nothing is sent.",
             "askManager": "Ask your manager about Cody",
-            "startTrial": "Start free 14-day trial",
+            "startTrial": "Start free {days}-day trial",
             "whyAdmin": "Only your company can switch Cody on, because questions are processed by an AI provider. Your manager or administrator decides.",
             "alreadyAsked": "You have already asked your manager about Cody.",
             "noRecipient": "We could not find a manager to send this to. Contact support.",
@@ -1183,7 +1186,7 @@
         "adoption": {
             "headline": "Give your team time back with Cody",
             "headlineBody": "Cody gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
-            "tryFree": "Try Cody free for 14 days",
+            "tryFree": "Try Cody free for {days} days",
             "tryFreeShort": "Try free for 14 days",
             "readMore": "Read more",
             "enableTitle": "Give your team time back with Cody",

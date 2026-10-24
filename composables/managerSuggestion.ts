@@ -8,6 +8,10 @@ export interface SuggestionStatus {
     reason: string | null
     remaining: number
     recipients: { uuid: string, name: string }[]
+    /** ISO time of this user's latest suggestion of the app; absent on an older backend. */
+    last_suggested_at?: string | null
+    /** Purchasers only: who asked recently. Absent or empty on an older backend. */
+    recent_suggesters?: { firstname: string, suggested_at: string }[]
 }
 
 export type SuggestionOutcome = 'sent' | 'already' | 'limit' | 'none'
@@ -69,4 +73,26 @@ export function staffAskState(status: SuggestionStatus | null): StaffAskState {
     if (status.reason === 'no_recipient') return 'no_recipient'
     if (status.reason === 'already_bought') return 'company_has'
     return 'none'
+}
+
+/** The trial length to print: the backend's number, else the app's, else 14. */
+export function trialDays(...candidates: Array<number | string | null | undefined>): number {
+    for (const c of candidates) {
+        const n = Number(c)
+        if (c !== null && c !== undefined && c !== '' && Number.isFinite(n) && n > 0) return n
+    }
+    return 14
+}
+
+/** First names for the "asked for by" line: distinct, at most `max`, and how many are left. */
+export function suggesterSummary(
+    list: Array<{ firstname?: string | null }> | null | undefined,
+    max = 3,
+): { names: string[], more: number } {
+    const names: string[] = []
+    for (const s of list ?? []) {
+        const name = String(s?.firstname ?? '').trim()
+        if (name && !names.includes(name)) names.push(name)
+    }
+    return { names: names.slice(0, max), more: Math.max(0, names.length - max) }
 }

@@ -82,7 +82,7 @@ const props = defineProps<{
     onSent?: () => void
 }>()
 
-const { t } = useI18n()
+const { t, locale } = useI18n()
 
 const status = ref<SuggestionStatus | null>(null)
 const isOpen = ref(false)
@@ -97,7 +97,12 @@ const problem = computed(() => messageProblem(message.value))
 const stateText = computed(() => {
     if (props.isBuyer || props.appActivated) return ''
     switch (staffAskState(status.value)) {
-        case 'already': return t('cody.preview.alreadyAsked')
+        case 'already': {
+            const at = status.value?.last_suggested_at ? new Date(status.value.last_suggested_at) : null
+            if (!at || isNaN(at.getTime())) return t('cody.preview.alreadyAsked')
+            const date = at.toLocaleDateString(locale.value === 'en' ? 'en-GB' : locale.value === 'sv' ? 'sv-SE' : locale.value === 'no' ? 'nb-NO' : 'da-DK', { day: 'numeric', month: 'long', year: 'numeric' })
+            return t('cody.preview.askedOn', { date })
+        }
         case 'no_recipient': return t('cody.preview.noRecipient')
         case 'company_has': return t('cody.preview.companyHasCody')
         default: return ''

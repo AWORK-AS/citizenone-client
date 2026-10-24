@@ -11,6 +11,7 @@ export interface CodyAdoptionStatus {
         available: boolean
         status: string | null
         active: boolean
+        days?: number | null
         ends_at: string | null
         days_left: number | null
         first_charge_at?: string | null

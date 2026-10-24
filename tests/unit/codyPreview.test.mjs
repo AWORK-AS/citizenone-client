@@ -47,3 +47,21 @@ describe('staffAskState', () => {
         assert.equal(staffAskState({ ...base, reason: 'no_company' }), 'none')
     })
 })
+
+import { trialDays, suggesterSummary } from '../../composables/managerSuggestion.ts'
+
+describe('trialDays', () => {
+    test('prefers the first usable number, falls back to 14', () => {
+        assert.equal(trialDays(30, 14), 30)
+        assert.equal(trialDays(null, '7'), 7)
+        assert.equal(trialDays(undefined, 0, null), 14)
+    })
+})
+
+describe('suggesterSummary', () => {
+    test('distinct first names, capped, with the remainder counted', () => {
+        const list = ['Sofie', 'Ali', 'Sofie', 'Eva', 'Jon', ' '].map(firstname => ({ firstname }))
+        assert.deepEqual(suggesterSummary(list, 3), { names: ['Sofie', 'Ali', 'Eva'], more: 1 })
+        assert.deepEqual(suggesterSummary(undefined), { names: [], more: 0 })
+    })
+})

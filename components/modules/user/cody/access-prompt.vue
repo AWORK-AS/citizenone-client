@@ -36,7 +36,7 @@
                 <div class="mt-5 space-y-2">
                     <template v-if="audience === 'buyer'">
                         <FormButton type="button" buttonStyle="primary" class="w-full justify-center" @click="go(appPath)">
-                            {{ trialAvailable ? $t('cody.preview.startTrial') : $t('cody.adoption.buy') }}
+                            {{ trialAvailable ? $t('cody.preview.startTrial', { days: trialLength }) : $t('cody.adoption.buy') }}
                         </FormButton>
                         <p v-if="trialAvailable && priceLine" class="text-center text-xs text-gray-500">{{ priceLine }}</p>
                     </template>
@@ -56,6 +56,7 @@
 import { useI18n } from 'vue-i18n'
 import { companyHasModule as hasCompanyModule } from '@/composables/pageAccess'
 import { formatPrice } from '@/composables/customerSpecialPrice'
+import { trialDays } from '@/composables/managerSuggestion'
 import { isCodyShortcut, previewAudience } from '@/composables/codyPreview'
 import { useUserStore } from '@/store/user'
 
@@ -78,6 +79,7 @@ const audience = computed(() => previewAudience({
 }))
 // A seat arriving while the screen is open (a trial just started) closes it.
 const open = computed(() => promptOpen.value && (audience.value === 'buyer' || audience.value === 'staff'))
+const trialLength = computed(() => trialDays(status.value?.trial?.days))
 const appUuid = computed(() => status.value?.app_uuid ?? '')
 
 const priceLine = computed(() => {
