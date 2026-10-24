@@ -18323,6 +18323,10 @@
         },
         "form": {
             "spokenLanguages": "Talte språk",
+            "travelsUpToKm": "Kjører opp til (km)",
+            "minAvailableHours": "Minimum antall timer konsulenten har tilgjengelig",
+            "languagesAndDialects": "Språk og dialekter",
+            "languagesHint": "Språk medarbeideren snakker. Konsulenten matcher hvis vedkommende snakker ett av de valgte språkene.",
             "minTravelKm": "Må kjøre minst (km)",
             "minWeeklyHours": "Minst timer per uke",
             "minStep": "Minst trinnvurdering",

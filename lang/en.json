@@ -18408,6 +18408,10 @@
         },
         "form": {
             "spokenLanguages": "Spoken languages",
+            "travelsUpToKm": "Will travel up to (km)",
+            "minAvailableHours": "Minimum hours the consultant has available",
+            "languagesAndDialects": "Languages and dialects",
+            "languagesHint": "Languages the employee speaks. A consultant matches if they speak any of the chosen languages.",
             "minTravelKm": "Must travel at least (km)",
             "minWeeklyHours": "At least hours per week",
             "minStep": "At least step assessment",

@@ -18408,6 +18408,10 @@
         },
         "form": {
             "spokenLanguages": "Talte sprog",
+            "travelsUpToKm": "Kører op til (km)",
+            "minAvailableHours": "Minimum antal timer konsulenten har til rådighed",
+            "languagesAndDialects": "Sprog og dialekter",
+            "languagesHint": "Sprog medarbejderen taler. Konsulenten matcher, hvis vedkommende taler et af de valgte sprog.",
             "minTravelKm": "Skal køre mindst (km)",
             "minWeeklyHours": "Mindst timer pr. uge",
             "minStep": "Mindst trinvurdering",
