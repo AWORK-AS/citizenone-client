@@ -1858,6 +1858,21 @@
                 "Saturday": "lørdag",
                 "Sunday": "søndag"
             }
+        },
+        "cancel": {
+            "action": "Aflys",
+            "title": "Aflys aftale",
+            "intro": "Aftalen markeres som aflyst og bliver stående i kalenderen. Timer fra aftalen frigives.",
+            "reason": "Årsag",
+            "reasonPlaceholder": "Fx familien har meldt afbud pga. sygdom",
+            "move": "Flyt til nyt tidspunkt",
+            "submit": "Aflys aftale",
+            "submitAndMove": "Aflys og flyt aftale",
+            "done": "Aftalen er aflyst",
+            "doneAndMoved": "Aftalen er aflyst og flyttet",
+            "cancelled": "Aflyst",
+            "movedTo": "Flyttet til {time}",
+            "movedFrom": "Flyttet hertil fra {time}"
         }
     },
     "calendarTags": {

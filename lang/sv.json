@@ -1858,6 +1858,21 @@
                 "Saturday": "lördag",
                 "Sunday": "söndag"
             }
+        },
+        "cancel": {
+            "action": "Ställ in",
+            "title": "Ställ in händelse",
+            "intro": "Händelsen markeras som inställd och ligger kvar i kalendern. Timmar från händelsen frigörs.",
+            "reason": "Orsak",
+            "reasonPlaceholder": "T.ex. familjen har sjukanmält sig",
+            "move": "Flytta till en ny tid",
+            "submit": "Ställ in händelse",
+            "submitAndMove": "Ställ in och flytta händelse",
+            "done": "Händelsen är inställd",
+            "doneAndMoved": "Händelsen är inställd och flyttad",
+            "cancelled": "Inställd",
+            "movedTo": "Flyttad till {time}",
+            "movedFrom": "Flyttad hit från {time}"
         }
     },
     "calendarTags": {

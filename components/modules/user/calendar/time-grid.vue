@@ -91,7 +91,7 @@
                                         leave-to-class="transform opacity-0 scale-95">
                                         <MenuItems :style="{ left: menuPos.x + 'px', top: menuPos.y + 'px' }"
                                             class="fixed z-[60] w-60 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
-                                            <MenuItem v-if="ev.raw?.completion_status !== 'completed'" v-slot="{ active }">
+                                            <MenuItem v-if="ev.raw?.completion_status !== 'completed' && ev.raw?.completion_status !== 'cancelled'" v-slot="{ active }">
                                                 <button type="button"
                                                     :class="[active && 'bg-gray-100', 'text-green-700', 'flex w-full items-center gap-x-1.5 px-4 py-2 text-left text-sm']"
                                                     @click.stop="$emit('markStatus', ev.raw, 'completed')">
@@ -99,7 +99,7 @@
                                                     {{ $t('events.markAsCompleted') }}
                                                 </button>
                                             </MenuItem>
-                                            <MenuItem v-if="ev.raw?.completion_status !== 'not_completed'" v-slot="{ active }">
+                                            <MenuItem v-if="ev.raw?.completion_status !== 'not_completed' && ev.raw?.completion_status !== 'cancelled'" v-slot="{ active }">
                                                 <button type="button"
                                                     :class="[active && 'bg-gray-100', 'text-red-700', 'flex w-full items-center gap-x-1.5 px-4 py-2 text-left text-sm']"
                                                     @click.stop="$emit('markStatus', ev.raw, 'not_completed')">
@@ -229,7 +229,7 @@ const laidOut = computed(() => {
                     uuid: c.raw.uuid || `${c.raw.id}`,
                     raw: c.raw,
                     title: c.raw.title,
-                    completed: c.raw.completion_status === 'completed',
+                    completed: ['completed', 'cancelled'].includes(c.raw.completion_status),
                     hasNote: !!c.raw.journal_id,
                     isNow: isNow(c.raw),
                     colorClass: colorClass(c.raw.type),

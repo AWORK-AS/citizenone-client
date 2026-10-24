@@ -20,7 +20,8 @@
                     </div>
                     <!-- Done / not done, as in the calendar's event menu: here too because a
                          narrow event in the day/week grid has no room for that menu. -->
-                    <div v-if="props.selectedSchedule?.uuid && !props.selectedSchedule?.is_shift"
+                    <ModulesUserMyCalendarCancelPanel :event="props.selectedSchedule" @cancelled="onCancelled" />
+                    <div v-if="canMarkStatus(props.selectedSchedule)"
                         class="mt-2 flex flex-wrap items-center justify-end gap-2">
                         <FormButton v-if="props.selectedSchedule?.completion_status !== 'completed'" type="button"
                             buttonStyle="action" @click="emit('markEventAsStatus', 'completed')">
@@ -59,6 +60,7 @@
 </template>
 
 <script setup lang="ts">
+import { canMarkStatus } from '@/composables/calendarCancel'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { useAlert } from '@/composables/alert'
 import { isCareHourTypesOn } from '@/composables/careHourTypes'
@@ -107,6 +109,12 @@ function closeModal() {
 function deleteMyCalendarEvent(isDeleteFuture: boolean) {
     state.modal.isDeleteScheduleOpen = false
     emit('deleteMyCalendarEvent', props.selectedSchedule, isDeleteFuture)
+}
+
+// Cancelled (and maybe moved): the calendar reloads to show both events.
+function onCancelled() {
+    emit('refreshSchedules')
+    closeModal()
 }
 
 function refreshSchedules() {
