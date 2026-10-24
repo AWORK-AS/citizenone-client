@@ -18263,7 +18263,10 @@
             "maxTravelKm": "Will travel up to (km)",
             "desiredWeeklyHours": "Desired hours per week",
             "stepAssessment": "Step assessment",
-            "hasCar": "Has a car"
+            "hasCar": "Has a car",
+            "hasDriversLicense": "Has a driving licence",
+            "drivingWillingness": "Willingness to drive",
+            "drivingWillingnessPlaceholder": "E.g. happy to, only locally"
         },
         "statuses": {
             "available": "Available",

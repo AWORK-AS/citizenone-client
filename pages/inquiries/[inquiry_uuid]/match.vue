@@ -505,6 +505,8 @@ function profileLine(result: any) {
         p.status_reason ? t('consultantProfile.contact.reasons.' + p.status_reason) : '',
         p.has_car ? t('consultantProfile.form.hasCar') : '',
         p.max_travel_km ? `${p.max_travel_km} km` : '',
+        p.has_drivers_license ? t('consultantProfile.form.hasDriversLicense') : '',
+        p.driving_willingness ? `${t('consultantProfile.form.drivingWillingness')}: ${p.driving_willingness}` : '',
         p.desired_weekly_hours ? `${p.desired_weekly_hours} t/uge` : '',
         p.step_assessment ? `${t('consultantProfile.form.stepAssessment')} ${p.step_assessment}` : '',
     ].filter(Boolean).join(' · ')
