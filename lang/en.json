@@ -1867,6 +1867,21 @@
             "toPlan": "{hours} h still to plan",
             "allPlanned": "All hours are planned",
             "overPlanned": "{hours} h planned too many"
+        },
+        "cancel": {
+            "action": "Cancel",
+            "title": "Cancel event",
+            "intro": "The event is marked as cancelled and stays in the calendar. Hours from the event are freed.",
+            "reason": "Reason",
+            "reasonPlaceholder": "E.g. the family called in sick",
+            "move": "Move to a new time",
+            "submit": "Cancel event",
+            "submitAndMove": "Cancel and move event",
+            "done": "The event is cancelled",
+            "doneAndMoved": "The event is cancelled and moved",
+            "cancelled": "Cancelled",
+            "movedTo": "Moved to {time}",
+            "movedFrom": "Moved here from {time}"
         }
     },
     "calendarTags": {
@@ -3114,6 +3129,8 @@
             },
             "download": "Download",
             "downloadOverview": "Download overview",
+            "downloadCurrentList": "Download current medicine list",
+            "currentListFileName": "Current medicine list",
             "editMedicine": "Edit medicine",
             "form": {
                 "activateMedicine": "Activate medicine",
@@ -4085,6 +4102,8 @@
             },
             "selectType": "Do you want to register transport or work time?",
             "selectTypeMessage": "Track your time easily, choose work or transport to get started.",
+            "selectHourType": "What are you registering?",
+            "selectHourTypeMessage": "Choose the type of time you are starting now. It can be changed afterwards under Intervention hours.",
             "timeRegistration": "Time registration",
             "transport": "Transport",
             "work": "Work",
@@ -9333,6 +9352,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Back to password",
+            "codeLabel": "6-digit code",
+            "invalidEmail": "Enter a valid email address first.",
+            "link": "Get a code by email instead",
+            "resend": "Send a new code",
+            "resendIn": "Send a new code in {seconds}s",
+            "sentTo": "If your account can sign in with a code, we have sent it to",
+            "title": "Check your email",
+            "tooManyRequests": "Too many attempts. Wait a little while and try again."
+        },
         "activeUsers": "Active users",
         "description": "From journal notes and care plans to shift scheduling and reporting - all gathered in one platform, built for those who work with people.",
         "doYouNeedHelp": "Do you need help",
@@ -9347,7 +9377,8 @@
             "loggingIn": "Logging in",
             "or": "Or",
             "password": "Password",
-            "rememberMeFor14Days": "Remember me for 14 days"
+            "rememberMeFor14Days": "Remember me for 14 days",
+            "rememberMeFor30Days": "Remember me for 30 days"
         },
         "gdprNote": "GDPR-compliant · Hosted in the EU · Developed by AWORK Group A/S",
         "headlineLine1": "The future's",
@@ -11581,6 +11612,8 @@
             "form": {
                 "citizenCalendarShift": "New events in the @:terms.citizen{''} calendar can also create a shift for an employee",
                 "inquiryWonRequiresCpr": "CPR number required when an inquiry is won",
+                "portalEmailLogin": "Sign in with a code by email for citizens, patients and relatives",
+                "portalEmailLoginHint": "They get a 6-digit code by email instead of typing a password. Password login keeps working",
                 "2fa": "Two factor authentication",
                 "certificateReminderEmail": "Shared mailbox for certificate reminders",
                 "certificateReminderEmailHelp": "Gets a copy of every certificate and CV reminder e-mail.",

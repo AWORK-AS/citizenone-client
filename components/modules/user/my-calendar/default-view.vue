@@ -239,7 +239,7 @@ function isNow(event: any) {
 }
 
 function isOverdue(event: any) {
-    if (!event || event.completion_status === 'completed' || event.is_shift) return false
+    if (!event || ['completed', 'cancelled'].includes(event.completion_status) || event.is_shift) return false
     return !isNow(event) && moment(event.date_time_end).isBefore(moment())
 }
 

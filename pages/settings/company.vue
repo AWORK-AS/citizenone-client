@@ -254,6 +254,19 @@
                                     {{ $t('settings.company.form.inquiryWonRequiresCpr') }}
                                 </p>
                             </div>
+                            <!-- Portal users sign in with a code by email instead of a password. The backend only sends it to portal users of a company with this on; staff are never offered it. -->
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.portal_email_login_enabled"
+                                        @toggleSwitch="state.formCompany.portal_email_login_enabled = !state.formCompany.portal_email_login_enabled" :label="$t('settings.company.form.portalEmailLogin')" />
+                                    <p>
+                                        {{ $t('settings.company.form.portalEmailLogin') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500 ml-12">
+                                    {{ $t('settings.company.form.portalEmailLoginHint') }}.
+                                </p>
+                            </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.relative_chat_enabled"
                                     @toggleSwitch="state.formCompany.relative_chat_enabled = !state.formCompany.relative_chat_enabled" :label="$t('settings.company.form.relativeChat')" />
@@ -1133,6 +1146,7 @@ const state = reactive({
         citizen_calendar_shift_enabled: false,
         inquiry_won_requires_cpr_enabled: false,
         patient_portal_hide_clinic_contact: false,
+        portal_email_login_enabled: false,
         portal_visibility: {} as any,
         checkin_enabled: false,
         inquiry_pipeline_enabled: false,
@@ -1292,6 +1306,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             citizen_calendar_shift_enabled: newValue?.company?.citizen_calendar_shift_enabled === true,
             inquiry_won_requires_cpr_enabled: newValue?.company?.inquiry_won_requires_cpr_enabled === true,
             patient_portal_hide_clinic_contact: newValue?.company?.patient_portal_hide_clinic_contact ? true : false,
+            portal_email_login_enabled: newValue?.company?.portal_email_login_enabled === true,
             portal_visibility: newValue?.company?.portal_visibility ?? {},
             checkin_enabled: newValue?.company?.checkin_enabled ? true : false,
             inquiry_pipeline_enabled: newValue?.company?.inquiry_pipeline_enabled ? true : false,
@@ -1570,6 +1585,7 @@ async function submitForm() {
                 citizen_calendar_shift_enabled: state.formCompany.citizen_calendar_shift_enabled,
                 inquiry_won_requires_cpr_enabled: state.formCompany.inquiry_won_requires_cpr_enabled,
                 patient_portal_hide_clinic_contact: state.formCompany.patient_portal_hide_clinic_contact,
+                portal_email_login_enabled: state.formCompany.portal_email_login_enabled,
                 portal_visibility: state.formCompany.portal_visibility,
                 checkin_enabled: state.formCompany.checkin_enabled,
                 inquiry_pipeline_enabled: state.formCompany.inquiry_pipeline_enabled,

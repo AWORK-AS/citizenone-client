@@ -55,6 +55,16 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/verify-email/${token}`, 'POST')
     }
 
+    // Sign in with a 6-digit code mailed to a portal user. The first call always
+    // answers with the same generic message, whether or not a code was sent.
+    async requestEmailLoginCode(email: string): Promise<any> {
+        return await this.request(`/auth/email-login`, 'POST', { email })
+    }
+
+    async verifyEmailLoginCode(params: { email: string, otp: string }): Promise<any> {
+        return await this.request(`/auth/email-login/verify`, 'POST', params)
+    }
+
     async verifyIpOtp(params: object): Promise<any> {
         return await this.request(`/auth/verify-ip-otp`, 'POST', params)
     }

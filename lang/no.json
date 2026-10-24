@@ -1867,6 +1867,21 @@
             "toPlan": "{hours} t gjenstår å planlegge",
             "allPlanned": "Alle timer er planlagt",
             "overPlanned": "{hours} t planlagt for mye"
+        },
+        "cancel": {
+            "action": "Avlys",
+            "title": "Avlys avtale",
+            "intro": "Avtalen merkes som avlyst og blir stående i kalenderen. Timer fra avtalen frigjøres.",
+            "reason": "Årsak",
+            "reasonPlaceholder": "F.eks. familien har meldt avbud pga. sykdom",
+            "move": "Flytt til nytt tidspunkt",
+            "submit": "Avlys avtale",
+            "submitAndMove": "Avlys og flytt avtale",
+            "done": "Avtalen er avlyst",
+            "doneAndMoved": "Avtalen er avlyst og flyttet",
+            "cancelled": "Avlyst",
+            "movedTo": "Flyttet til {time}",
+            "movedFrom": "Flyttet hit fra {time}"
         }
     },
     "calendarTags": {
@@ -3114,6 +3129,8 @@
             },
             "download": "Last ned",
             "downloadOverview": "Last ned oversigt",
+            "downloadCurrentList": "Last ned aktuell medisinliste",
+            "currentListFileName": "Aktuell medisinliste",
             "editMedicine": "Rediger Medisin",
             "form": {
                 "activateMedicine": "Aktiver medisin",
@@ -4085,6 +4102,8 @@
             },
             "selectType": "Vil du registrere transport eller arbeidstid?",
             "selectTypeMessage": "Registrér din tid nemt, velg arbeide eller transport for at komme i gang.",
+            "selectHourType": "Hva registrerer du?",
+            "selectHourTypeMessage": "Velg typen tid du starter nå. Den kan endres etterpå under Innsatstimer.",
             "timeRegistration": "Tidsregistrering",
             "transport": "Transport",
             "work": "Arbeide",
@@ -9333,6 +9352,17 @@
         }
     },
     "login": {
+        "emailCode": {
+            "backToPassword": "Tilbake til passord",
+            "codeLabel": "6-sifret kode",
+            "invalidEmail": "Skriv inn en gyldig e-postadresse først.",
+            "link": "Få en kode på e-post i stedet",
+            "resend": "Send ny kode",
+            "resendIn": "Send ny kode om {seconds} s",
+            "sentTo": "Hvis kontoen din kan logge inn med kode, har vi sendt den til",
+            "title": "Sjekk e-posten din",
+            "tooManyRequests": "For mange forsøk. Vent litt og prøv igjen."
+        },
         "activeUsers": "Aktive @:terms.citizens{''}",
         "description": "Alt fra journalnotater og handleplaner til vaktplanleggning og rapportering - samlet i én platform, bygget til dem der arbeider med mennesker.",
         "doYouNeedHelp": "Har du bruk for hjelp",
@@ -9347,7 +9377,8 @@
             "loggingIn": "Logger inn",
             "or": "Eller",
             "password": "Passord",
-            "rememberMeFor14Days": "Husk mig i 14 dager"
+            "rememberMeFor14Days": "Husk mig i 14 dager",
+            "rememberMeFor30Days": "Husk meg i 30 dager"
         },
         "gdprNote": "GDPR-compliant · Hosting i EU · Udviklet av AWORK Group A/S",
         "headlineLine1": "Fremtidens",
@@ -11576,6 +11607,8 @@
             "form": {
                 "citizenCalendarShift": "Nye arrangementer i @:terms.citizenDefinite{'s'} kalender kan også opprette en vakt for en medarbeider",
                 "inquiryWonRequiresCpr": "CPR-nummer påkrevd når en henvendelse er vunnet",
+                "portalEmailLogin": "Innlogging med kode på e-post for borgere, pasienter og pårørende",
+                "portalEmailLoginHint": "De får en 6-sifret kode på e-post i stedet for å skrive passord. Innlogging med passord fungerer fortsatt",
                 "2fa": "To-faktor-godkendelse",
                 "certificateReminderEmail": "Felles postkasse for attestpåminnelser",
                 "certificateReminderEmailHelp": "Får en kopi av alle påminnelser om attester og CV-er.",
