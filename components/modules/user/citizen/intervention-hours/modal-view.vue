@@ -126,6 +126,35 @@
                         </LoadingSpinner>
                     </div>
                 </div>
+                <!-- Hours per hour type in the period and filters: the figure a municipality
+                     asks for, e.g. contact time (ATA) apart from supervision. -->
+                <div v-if="hoursByType.length" class="mt-4 flex flex-wrap items-center gap-2">
+                    <span class="text-xs font-medium text-gray-500">{{ $t('citizens.interventionHours.byType.title') }}</span>
+                    <span v-for="entry in hoursByType" :key="entry.uuid ?? (entry.is_transportation ? 'transport' : 'work')"
+                        class="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-1 text-xs text-gray-700 tabular-nums">
+                        <span class="font-medium">{{ hoursByTypeLabel(entry, $t('citizens.interventionHours.table.work'), $t('citizens.interventionHours.table.transport')) }}</span>
+                        {{ formatNumber(language.locale.value, entry.hours) }} t
+                    </span>
+                </div>
+                <div class="mt-4 grid grid-cols-1 gap-3 md:grid-cols-3">
+                    <div v-if="hourTypeOptions.length > 1" class="space-y-1">
+                        <FormLabel for="filter_hour_types" :label="$t('citizens.interventionHours.filters.hourTypes')" />
+                        <FormSelectMultiple id="filter_hour_types" :options="hourTypeOptions" v-model="state.filters.types" />
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel for="filter_kind" :label="$t('citizens.interventionHours.filters.kind')" />
+                        <FormSelect id="filter_kind" :options="kindOptions" :searchable="false" v-model="state.filters.kind" />
+                    </div>
+                    <div v-if="employeeOptions.length > 1" class="space-y-1">
+                        <FormLabel for="filter_users" :label="$t('citizens.interventionHours.filters.employees')" />
+                        <FormSelectMultiple id="filter_users" :options="employeeOptions" v-model="state.filters.users" />
+                    </div>
+                </div>
+                <div v-if="activeFilters" class="mt-2 flex justify-end">
+                    <button type="button" class="text-xs font-medium text-primary hover:underline" @click="clearFilters">
+                        {{ $t('citizens.interventionHours.filters.clear') }}
+                    </button>
+                </div>
                 <div class="mt-6 flex items-center gap-x-2 justify-end">
                     <FormButton buttonStyle="action" @click="openTimeLogsModal">
                         <Icon name="ph:list-checks" class="h-4 w-4" aria-hidden="true" />
@@ -171,14 +200,12 @@
                                         </div>
                                     </td>
                                     <td width="10%">
-                                        <div v-if="inteventionHours?.is_transportation"
-                                            class="rounded-xl bg-green-100 text-green-800 px-2 py-1 text-xs font-semibold text-center w-fit">
-                                            {{ $t('citizens.interventionHours.table.transport') }}</div>
-                                        <div v-else
-                                            class="rounded-xl bg-teal-100 text-tertiary-800 px-2 py-1 text-xs font-semibold text-center w-fit">
-                                            {{ $t('citizens.interventionHours.table.work') }}</div>
-                                        <p v-if="inteventionHours?.contract_hour_type?.name" class="mt-1 text-xs text-gray-500">
-                                            {{ inteventionHours.contract_hour_type.name }}</p>
+                                        <!-- The hour type itself (Kontakttimer (ATA), Sparring...), else work or transport. -->
+                                        <div :class="[
+                                            inteventionHours?.is_transportation ? 'bg-green-100 text-green-800' : 'bg-teal-100 text-tertiary-800',
+                                            'rounded-xl px-2 py-1 text-xs font-semibold text-center w-fit',
+                                        ]">
+                                            {{ careHourTypeLabel(inteventionHours, $t('citizens.interventionHours.table.work'), $t('citizens.interventionHours.table.transport')) }}</div>
                                     </td>
                                     <td width="20%">
                                         {{ inteventionHours?.user?.firstname + ' ' + inteventionHours?.user?.lastname }}
@@ -218,7 +245,7 @@
                     @close="state.modal.isEditInterventionHoursOpen = false"
                     @refreshInterventionHours="refreshInterventionHours()" />
                 <ModulesUserCitizenInterventionHoursModalDownload
-                    :isModalOpen="state.modal.isDownloadInterventionHoursOpen"
+                    :isModalOpen="state.modal.isDownloadInterventionHoursOpen" :filters="state.filters"
                     @close="state.modal.isDownloadInterventionHoursOpen = false" />
                 <ModulesUserCitizenInterventionHoursModalDateRange :isModalOpen="state.modal.isTimeAccountDateRangeOpen"
                     :dateRange="state.timeAccountFilter.formDateRange"
@@ -238,6 +265,8 @@
 import moment from 'moment'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { areCitizenRatesHidden } from '@/composables/citizenRates'
+import { useCareHourTypes } from '@/composables/careHourTypeList'
+import { activeCareHourFilterCount, careHourFilterParams, careHourTypeLabel, emptyCareHourFilters, hourTypeFilterOptions, hoursByTypeLabel, type CareHourFilters } from '@/composables/careHourFilters'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useNumberFormatter } from '@/composables/numberFormatter'
 import { useCitizenStore } from '@/store/citizen'
@@ -273,6 +302,8 @@ const state = reactive({
         { name: '' },
     ],
     contributionMargin: {} as any,
+    // Hour type, work/transport and employee: the list, totals and download follow them.
+    filters: emptyCareHourFilters() as CareHourFilters,
     dataFilter: {
         search: ''
     },
@@ -307,6 +338,31 @@ const state = reactive({
 // the margin endpoint says so too, for a citizen loaded before the switch.
 const ratesHidden = computed(() => areCitizenRatesHidden(citizenStore.getSelectedCitizen, state.contributionMargin))
 
+const { types: hourTypes, loadHourTypes } = useCareHourTypes()
+const hoursByType = computed(() => state.timeAccount?.data?.hours_by_type ?? [])
+const hourTypeOptions = computed(() => hourTypes.value.length
+    ? hourTypeFilterOptions(hourTypes.value, t('citizens.interventionHours.filters.withoutType'))
+    : [])
+const kindOptions = computed(() => [
+    { value: '', label: t('citizens.interventionHours.filters.all') },
+    { value: 'work', label: t('citizens.interventionHours.table.work') },
+    { value: 'transport', label: t('citizens.interventionHours.table.transport') },
+])
+const employeeOptions = computed(() => (state.timeAccount?.data?.registered_by ?? [])
+    .map((person: any) => ({ value: person.uuid, label: person.name })))
+const activeFilters = computed(() => activeCareHourFilterCount(state.filters))
+
+function clearFilters() {
+    state.filters = emptyCareHourFilters()
+}
+
+// A changed filter reloads the list from page 1 and the totals.
+watch(() => careHourFilterParams(state.filters), () => {
+    currentTablePage = 1
+    fetchInterventionHours()
+    fetchTimeAccount()
+}, { deep: true })
+
 // Hours left of an allocation after the chosen period, or how far over it went.
 function remainingLabel(remaining: number) {
     const hours = formatNumber(language.locale.value, Math.abs(remaining))
@@ -330,6 +386,7 @@ function openTimeLogsModal() {
 
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
+        loadHourTypes()
         fetchContributionMargin()
         fetchTimeAccount()
         fetchInterventionHours()
@@ -364,6 +421,7 @@ async function fetchTimeAccount() {
         const params = {
             date_start: state.timeAccountFilter.formDateRange.date_start,
             date_end: state.timeAccountFilter.formDateRange.date_end,
+            ...careHourFilterParams(state.filters),
         }
         const response = await interventionHoursService.getTimeAccount(citizenUuid, params)
         if (response) {
@@ -391,6 +449,7 @@ async function fetchInterventionHours() {
             sortField: state.sortData.sortField,
             sortOrder: state.sortData.sortOrder,
             ...state.dataFilter,
+            ...careHourFilterParams(state.filters),
         }
         const response = await interventionHoursService.getInterventionHours(params)
         if (response) {

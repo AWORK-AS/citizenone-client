@@ -2982,7 +2982,8 @@
                 "downloadInterventionHours": "Last ned innsatstimer",
                 "filter": {
                     "filterDate": "Filtrer dato"
-                }
+                },
+                "followsFilters": "Nedlastingen følger de valgte filtrene."
             },
             "editInterventionHours": "Rediger innsatstimer",
             "filter": {
@@ -3056,6 +3057,17 @@
                 "type": "Type",
                 "viewInterventionHourLog": "Vis logg over innsatstimer",
                 "work": "Arbeidstid"
+            },
+            "byType": {
+                "title": "Timer per type:"
+            },
+            "filters": {
+                "hourTypes": "Timetyper",
+                "kind": "Arbeid eller transport",
+                "employees": "Medarbeidere",
+                "all": "Alle",
+                "withoutType": "Uten timetype",
+                "clear": "Fjern filtre"
             }
         },
         "medicationAllergies": "Medisinallergier (CAVE)",
