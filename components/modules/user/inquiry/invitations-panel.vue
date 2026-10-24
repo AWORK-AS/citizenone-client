@@ -79,8 +79,10 @@
             :show="state.selecting !== null" @close="state.selecting = null">
             <template #modal-body>
                 <div class="space-y-3">
-                    <p class="text-[13px] text-slate-600">{{ $t('registrationRules.consultants.forSelectedHint') }}</p>
-                    <ModulesUserRegistrationRulesUserRuleFields v-model="state.ruleDraft" idPrefix="select-rule" />
+                    <template v-if="canManageRules">
+                        <p class="text-[13px] text-slate-600">{{ $t('registrationRules.consultants.forSelectedHint') }}</p>
+                        <ModulesUserRegistrationRulesUserRuleFields v-model="state.ruleDraft" idPrefix="select-rule" />
+                    </template>
                     <div class="flex justify-end gap-2 pt-2">
                         <FormButton type="button" buttonStyle="cancel" @click="state.selecting = null">{{ $t('cancel') }}</FormButton>
                         <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving" @click="confirmSelect">
@@ -103,6 +105,7 @@ import {
     type UserRuleDraft,
 } from '@/components/api/user/RegistrationRuleService'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 
@@ -126,6 +129,10 @@ const state = reactive({
 })
 
 const canManage = computed(() => (userStore.getUser?.roles?.[0]?.level ?? 0) >= 60)
+// Setting what a consultant may register is its own right; without it the
+// consultant is chosen with no rule of their own.
+const { isAtLeast, can } = usePermissions()
+const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
 
 onMounted(() => {
     fetchInvitations()
@@ -205,7 +212,7 @@ async function confirmSelect() {
     try {
         await inquiryConsultantInvitationService.select(invitation.uuid)
         const rule = fromUserRuleDraft(state.ruleDraft)
-        if (userRuleIsSet(rule) && invitation.consultant?.uuid) {
+        if (canManageRules.value && userRuleIsSet(rule) && invitation.consultant?.uuid) {
             try {
                 await registrationRuleService.saveUserRule('inquiry', props.inquiryUuid, invitation.consultant.uuid, rule)
             } catch (error: any) {

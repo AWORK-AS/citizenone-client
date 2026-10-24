@@ -254,7 +254,8 @@ const { tt } = useTerminology()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { isAtLeast, can } = usePermissions()
 // Same gate as the API: Admin or the update permission.
-const canManageRules = computed(() => isAtLeast('Admin') || can('update'))
+// Its own right, so consultant roles do not set the rules for their own work.
+const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
 
 const inquiryUuid = String(route.params.inquiry_uuid)
 
