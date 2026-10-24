@@ -19276,6 +19276,13 @@
             "saved": "The recruitment team has been saved"
         }
     },
+    "inquiryWon": {
+        "modal": {
+            "title": "Mark as won",
+            "hint": "Register the municipality's answer, as when the offer is approved. An offer waiting for an answer is marked as approved.",
+            "confirm": "Mark as won"
+        }
+    },
     "inquiryLost": {
         "modal": {
             "title": "Mark as lost",

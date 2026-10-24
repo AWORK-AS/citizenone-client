@@ -19191,6 +19191,13 @@
             "saved": "Rekrutteringsteamet er lagret"
         }
     },
+    "inquiryWon": {
+        "modal": {
+            "title": "Merk som vunnet",
+            "hint": "Registrer kommunens svar, som når tilbudet godkjennes. Et tilbud som venter på svar, merkes som godkjent.",
+            "confirm": "Merk som vunnet"
+        }
+    },
     "inquiryLost": {
         "modal": {
             "title": "Marker som tapt",

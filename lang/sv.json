@@ -19191,6 +19191,13 @@
             "saved": "Rekryteringsteamet har sparats"
         }
     },
+    "inquiryWon": {
+        "modal": {
+            "title": "Markera som vunnen",
+            "hint": "Registrera kommunens svar, som när offerten godkänns. En offert som väntar på svar markeras som godkänd.",
+            "confirm": "Markera som vunnen"
+        }
+    },
     "inquiryLost": {
         "modal": {
             "title": "Markera som förlorat",

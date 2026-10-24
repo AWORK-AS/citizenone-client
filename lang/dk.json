@@ -19276,6 +19276,13 @@
             "saved": "Rekrutteringsteamet er gemt"
         }
     },
+    "inquiryWon": {
+        "modal": {
+            "title": "Marker som vundet",
+            "hint": "Registrer kommunens svar, som når tilbuddet godkendes. Et tilbud, der venter på svar, markeres som godkendt.",
+            "confirm": "Marker som vundet"
+        }
+    },
     "inquiryLost": {
         "modal": {
             "title": "Marker som tabt",

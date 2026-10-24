@@ -324,6 +324,8 @@
 
             <ModulesUserInquiryModalMarkLost :isModalOpen="pendingLost !== null" @close="pendingLost = null"
                 @confirm="confirmLost" />
+            <ModulesUserInquiryModalMarkWon :isModalOpen="pendingWon !== null" @close="pendingWon = null"
+                @confirm="confirmWon" />
 
             <ModulesUserInquiryModalUnassignedConverted :isModalOpen="state.modal.isUnassignedConvertedOpen"
                 @close="state.modal.isUnassignedConvertedOpen = false" @claimed="fetchUnassignedConvertedCount" />
@@ -470,10 +472,25 @@ function confirmLost(details: Record<string, any>) {
     }
 }
 
+// Dropping it on the won stage asks what approving the offer asks.
+const pendingWon = ref<{ inquiry: any, status: string } | null>(null)
+
+function confirmWon(details: Record<string, any>) {
+    const pending = pendingWon.value
+    pendingWon.value = null
+    if (pending) {
+        moveStage(pending.inquiry, pending.status, details)
+    }
+}
+
 async function moveStage(inquiry: any, status: string, details: Record<string, any> | null = null) {
     const target = state.pipelineStages.find((stage: any) => stage.slug === status)
     if (target?.system_role === 'lost' && details === null) {
         pendingLost.value = { inquiry, status }
+        return
+    }
+    if (target?.system_role === 'won' && details === null) {
+        pendingWon.value = { inquiry, status }
         return
     }
 
