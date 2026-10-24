@@ -55,11 +55,11 @@
                             </button>
                             <!-- The page already knows what this line says. Asking
                                  about it should not mean typing it out again. -->
-                            <button v-if="hasAi" type="button"
+                            <button v-if="hasAi || codyPreviewOffered" type="button"
                                 class="flex shrink-0 items-center rounded-r-lg px-2.5 text-gray-400 transition-colors hover:bg-primary-25 hover:text-primary"
                                 :aria-label="$t('myDay.brief.askCody', { subject: $t(`myDay.brief.${item.key}`, item.count) })"
                                 :title="$t('myDay.brief.askCodyShort')"
-                                @click="askCodyAbout(item)">
+                                @click="hasAi ? askCodyAbout(item) : openCodyPreview()">
                                 <ModulesUserNavbarCodyMark :size="17" />
                             </button>
                         </li>
@@ -332,6 +332,7 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
+import { companyHasModule } from '@/composables/pageAccess'
 import { useDepartmentStore } from '@/store/department'
 import { myCalendarService } from '@/components/api/user/MyCalendarService'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
@@ -543,6 +544,15 @@ const brief = reactive({ items: computed(() => assistantStore.brief) })
 const describe = describeBriefItem
 
 const hasAi = computed(() => !!userStore.getUser?.has_ai_access)
+
+// Without a seat the same button opens the Cody preview (what it does, ask your manager)
+// instead of disappearing. Nothing is asked of Cody from there.
+const codyPreviewOffered = computed(() => companyHasModule(userStore.getUser?.company?.module_pages, 'AI assistant'))
+const { promptOpen: codyPromptOpen, load: loadCodyAdoption } = useCodyAdoption()
+function openCodyPreview() {
+    loadCodyAdoption()
+    codyPromptOpen.value = true
+}
 
 /**
  * Hand the line the reader is looking at straight to Cody.
