@@ -19632,7 +19632,30 @@
         "noMatches": "Ingen maler samsvarer med søket.",
         "ownEmpty": "Dere har ingen egne maler ennå.",
         "createOwn": "Opprett en mal",
-        "loadFailed": "Malene kunne ikke hentes. Prøv igjen."
+        "loadFailed": "Malene kunne ikke hentes. Prøv igjen.",
+        "pdfTitle": "KRAP-skjemaer",
+        "pdfNote": "KRAP-skjemaene er utviklet av PsykologCentret / KRAP (krap.com). De fylles ut direkte i PDF-en.",
+        "pdfEditor": {
+            "fileName": "Filnavn",
+            "folder": "Lagre i mappe",
+            "rootFolder": "Øverste nivå",
+            "save": "Lagre PDF",
+            "intro": "Fyll ut feltene direkte i skjemaet. Bruk \"Legg til tekst\" for å skrive hvor som helst. Den utfylte PDF-en lagres som en ny fil, og malen endres ikke.",
+            "source": "Kilde: {source}",
+            "addText": "Legg til tekst",
+            "addTextHint": "Trykk der teksten skal stå.",
+            "done": "Ferdig",
+            "remove": "Fjern",
+            "textPlaceholder": "Skriv her",
+            "noFields": "Skjemaet har ingen felt. Bruk \"Legg til tekst\" for å skrive i det.",
+            "loadFailed": "Skjemaet kunne ikke åpnes. Prøv igjen.",
+            "saveFailed": "PDF-en kunne ikke lagres. Prøv igjen.",
+            "fileNameRequired": "Skriv inn et filnavn.",
+            "saved": "Skjemaet er lagret som en ny PDF.",
+            "discardTitle": "Lukke uten å lagre?",
+            "discardMessage": "Det du har fylt ut, blir ikke lagret.",
+            "discard": "Lukk uten å lagre"
+        }
     },
     "videoConsultation": {
         "title": "Videokonsultasjon",

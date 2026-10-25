@@ -19717,7 +19717,30 @@
         "noMatches": "No templates match your search.",
         "ownEmpty": "You have no templates of your own yet.",
         "createOwn": "Create a template",
-        "loadFailed": "The templates could not be loaded. Please try again."
+        "loadFailed": "The templates could not be loaded. Please try again.",
+        "pdfTitle": "KRAP worksheets",
+        "pdfNote": "The KRAP worksheets are made by PsykologCentret / KRAP (krap.com). They are filled in directly in the PDF.",
+        "pdfEditor": {
+            "fileName": "File name",
+            "folder": "Save in folder",
+            "rootFolder": "Top level",
+            "save": "Save PDF",
+            "intro": "Fill in the fields directly in the worksheet. Use \"Add text\" to write anywhere. The filled-in PDF is saved as a new file and the template is not changed.",
+            "source": "Source: {source}",
+            "addText": "Add text",
+            "addTextHint": "Tap where the text should go.",
+            "done": "Done",
+            "remove": "Remove",
+            "textPlaceholder": "Write here",
+            "noFields": "This worksheet has no fields. Use \"Add text\" to write on it.",
+            "loadFailed": "The worksheet could not be opened. Please try again.",
+            "saveFailed": "The PDF could not be saved. Please try again.",
+            "fileNameRequired": "Enter a file name.",
+            "saved": "The worksheet has been saved as a new PDF.",
+            "discardTitle": "Close without saving?",
+            "discardMessage": "What you have filled in will not be saved.",
+            "discard": "Close without saving"
+        }
     },
     "videoConsultation": {
         "title": "Video consultation",

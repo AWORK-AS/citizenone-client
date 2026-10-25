@@ -19632,7 +19632,30 @@
         "noMatches": "Inga mallar matchar sökningen.",
         "ownEmpty": "Ni har inga egna mallar ännu.",
         "createOwn": "Skapa en mall",
-        "loadFailed": "Mallarna kunde inte hämtas. Försök igen."
+        "loadFailed": "Mallarna kunde inte hämtas. Försök igen.",
+        "pdfTitle": "KRAP-formulär",
+        "pdfNote": "KRAP-formulären är utvecklade av PsykologCentret / KRAP (krap.com). De fylls i direkt i PDF:en.",
+        "pdfEditor": {
+            "fileName": "Filnamn",
+            "folder": "Spara i mapp",
+            "rootFolder": "Översta nivån",
+            "save": "Spara PDF",
+            "intro": "Fyll i fälten direkt i formuläret. Använd \"Lägg till text\" för att skriva var som helst. Den ifyllda PDF:en sparas som en ny fil och mallen ändras inte.",
+            "source": "Källa: {source}",
+            "addText": "Lägg till text",
+            "addTextHint": "Tryck där texten ska stå.",
+            "done": "Klar",
+            "remove": "Ta bort",
+            "textPlaceholder": "Skriv här",
+            "noFields": "Formuläret har inga fält. Använd \"Lägg till text\" för att skriva i det.",
+            "loadFailed": "Formuläret kunde inte öppnas. Försök igen.",
+            "saveFailed": "PDF:en kunde inte sparas. Försök igen.",
+            "fileNameRequired": "Ange ett filnamn.",
+            "saved": "Formuläret har sparats som en ny PDF.",
+            "discardTitle": "Stäng utan att spara?",
+            "discardMessage": "Det du har fyllt i sparas inte.",
+            "discard": "Stäng utan att spara"
+        }
     },
     "videoConsultation": {
         "title": "Videokonsultation",

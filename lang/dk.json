@@ -19717,7 +19717,30 @@
         "noMatches": "Ingen skabeloner matcher søgningen.",
         "ownEmpty": "I har ingen egne skabeloner endnu.",
         "createOwn": "Opret en skabelon",
-        "loadFailed": "Skabelonerne kunne ikke hentes. Prøv igen."
+        "loadFailed": "Skabelonerne kunne ikke hentes. Prøv igen.",
+        "pdfTitle": "KRAP-skemaer",
+        "pdfNote": "KRAP-skemaerne er udviklet af PsykologCentret / KRAP (krap.com). De udfyldes direkte i PDF'en.",
+        "pdfEditor": {
+            "fileName": "Filnavn",
+            "folder": "Gem i mappe",
+            "rootFolder": "Øverste niveau",
+            "save": "Gem PDF",
+            "intro": "Udfyld felterne direkte i skemaet. Brug \"Tilføj tekst\" for at skrive et vilkårligt sted. Den udfyldte PDF gemmes som en ny fil, og skabelonen ændres ikke.",
+            "source": "Kilde: {source}",
+            "addText": "Tilføj tekst",
+            "addTextHint": "Tryk der, hvor teksten skal stå.",
+            "done": "Færdig",
+            "remove": "Fjern",
+            "textPlaceholder": "Skriv her",
+            "noFields": "Skemaet har ingen felter. Brug \"Tilføj tekst\" for at skrive i det.",
+            "loadFailed": "Skemaet kunne ikke åbnes. Prøv igen.",
+            "saveFailed": "PDF'en kunne ikke gemmes. Prøv igen.",
+            "fileNameRequired": "Skriv et filnavn.",
+            "saved": "Skemaet er gemt som en ny PDF.",
+            "discardTitle": "Luk uden at gemme?",
+            "discardMessage": "Det, du har udfyldt, bliver ikke gemt.",
+            "discard": "Luk uden at gemme"
+        }
     },
     "videoConsultation": {
         "title": "Videokonsultation",

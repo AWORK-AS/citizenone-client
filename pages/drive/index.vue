@@ -522,7 +522,11 @@
                         :onedriveFolders="oneDriveFoldersForModal" :presetFormUuid="state.pickedTemplateUuid"
                         :presetFolderUuid="currentLocalFolderUuid" @close="closeCreateTemplate" />
                     <ModulesUserDocumentTemplateLibraryModal :isModalOpen="state.modal.isTemplateLibraryOpen" area="company"
-                        @close="state.modal.isTemplateLibraryOpen = false" @pick="openPickedTemplate" />
+                        @close="state.modal.isTemplateLibraryOpen = false" @pick="openPickedTemplate"
+                        @pickPdf="openPickedPdfTemplate" />
+                    <ModulesUserDocumentTemplateLibraryModalPdfEditor :isModalOpen="state.modal.isPdfEditorOpen"
+                        area="company" :template="state.pickedPdfTemplate" :presetFolderUuid="currentLocalFolderUuid"
+                        @close="closePdfEditor" @saved="refreshAfterPdfTemplate" />
                     <DialogConfirmation :isModalOpen="state.modal.isActiveGoogleDriveOpen"
                         :title="$t('drive.googleDrive')"
                         :message="$t('drive.googleDriveNotActivatedMessage') || 'Google Drive is not activated. Activate now?'"
@@ -661,6 +665,23 @@ function openPickedTemplate(formUuid: string) {
     state.modal.isCreateTemplateOpen = true
 }
 
+// A KRAP worksheet opens in the PDF editor and is saved as a new local file, by default in the
+// local folder the user is in.
+function openPickedPdfTemplate(template: any) {
+    state.pickedPdfTemplate = template
+    state.modal.isTemplateLibraryOpen = false
+    state.modal.isPdfEditorOpen = true
+}
+
+function closePdfEditor() {
+    state.modal.isPdfEditorOpen = false
+    state.pickedPdfTemplate = null
+}
+
+function refreshAfterPdfTemplate() {
+    if (state.viewMode === 'local' && !state.isInsideOneDrive) fetchDocuments()
+}
+
 function closeCreateTemplate() {
     state.modal.isCreateTemplateOpen = false
     state.pickedTemplateUuid = ''
@@ -790,12 +811,14 @@ const state = reactive({
     oneDriveFolderStack: [] as string[],
     // The template picked in the templates library, filled in through "Opret skabelon".
     pickedTemplateUuid: '',
+    pickedPdfTemplate: null as any,
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isActiveGoogleDriveOpen: false,
         isCreateTemplateOpen: false,
         isTemplateLibraryOpen: false,
+        isPdfEditorOpen: false,
         isCreateDocumentFileOpen: false,
         isCreateGoogleDriveFolderOpen: false,
         isDeleteDirectoryOpen: false,
