@@ -706,6 +706,65 @@
         }
     },
     "activityLogs": {
+        "filters": {
+            "kind": "Type",
+            "allKinds": "Alle hendelser",
+            "access": "Endringer i tilganger",
+            "employee": "Medarbeider",
+            "allEmployees": "Alle medarbeidere",
+            "role": "Rolle",
+            "allRoles": "Alle roller"
+        },
+        "access": {
+            "title": {
+                "employee": {
+                    "updated": "Tilgang endret for {name}",
+                    "created": "Ny medarbeider {name} fikk tilgang",
+                    "deleted": "Tilgang fjernet for {name}"
+                },
+                "role": {
+                    "updated": "Rollen \"{name}\" endret",
+                    "created": "Rollen \"{name}\" opprettet",
+                    "deleted": "Rollen \"{name}\" slettet"
+                }
+            },
+            "added": "{field} lagt til: {items}",
+            "removed": "{field} fjernet: {items}",
+            "changed": "{field}: {old} → {new}",
+            "unknownEmployee": "En medarbeider som ikke finnes lenger",
+            "unknownRole": "En rolle som ikke finnes lenger",
+            "fields": {
+                "roles": "Roller",
+                "permissions": "Rettigheter",
+                "departments": "Avdelinger",
+                "employeeGroups": "Medarbeidergrupper",
+                "pages": "Sidetilgang",
+                "name": "Navn",
+                "level": "Nivå",
+                "hideInternalJournals": "Kan ikke se interne notater",
+                "seesHrData": "Kan se HR-opplysninger og medarbeiderdokumenter",
+                "countsAsConsultant": "Teller som konsulent",
+                "certificateReminderFor": "Får påminnelser om sertifikater for"
+            },
+            "values": {
+                "yes": "Ja",
+                "no": "Nei",
+                "none": "Ingen",
+                "everyone": "Alle medarbeidere"
+            },
+            "sources": {
+                "employee_form": "Fra medarbeiderskjemaet",
+                "employee_groups": "Fra medarbeiderens grupper",
+                "group_form": "Fra medarbeidergruppen",
+                "bulk_edit": "Fra masseredigering",
+                "role_form": "Fra rolleskjemaet",
+                "superadmin": "Av CitizenOne support",
+                "import": "Fra en medarbeiderimport",
+                "zenegy": "Fra Zenegy-synkroniseringen",
+                "command_employees_assign_role": "Av systemet (rolletildeling)",
+                "migration_employee_roles": "Av systemet (datamigrering)"
+            }
+        },
         "activityLogs": "Aktivitetslogfiler",
         "logs": {
             "aCalendarHasBeenCreated": "En kalender er blitt opprettet",

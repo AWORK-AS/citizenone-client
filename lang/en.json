@@ -706,6 +706,65 @@
         }
     },
     "activityLogs": {
+        "filters": {
+            "kind": "Kind",
+            "allKinds": "All entries",
+            "access": "Access changes",
+            "employee": "Employee",
+            "allEmployees": "All employees",
+            "role": "Role",
+            "allRoles": "All roles"
+        },
+        "access": {
+            "title": {
+                "employee": {
+                    "updated": "Access changed for {name}",
+                    "created": "New employee {name} given access",
+                    "deleted": "Access removed for {name}"
+                },
+                "role": {
+                    "updated": "Role \"{name}\" changed",
+                    "created": "Role \"{name}\" created",
+                    "deleted": "Role \"{name}\" deleted"
+                }
+            },
+            "added": "{field} added: {items}",
+            "removed": "{field} removed: {items}",
+            "changed": "{field}: {old} → {new}",
+            "unknownEmployee": "An employee who no longer exists",
+            "unknownRole": "A role that no longer exists",
+            "fields": {
+                "roles": "Roles",
+                "permissions": "Rights",
+                "departments": "Departments",
+                "employeeGroups": "Employee groups",
+                "pages": "Page access",
+                "name": "Name",
+                "level": "Level",
+                "hideInternalJournals": "Cannot see internal notes",
+                "seesHrData": "Can see HR details and employee documents",
+                "countsAsConsultant": "Counts as consultant",
+                "certificateReminderFor": "Receives certificate reminders for"
+            },
+            "values": {
+                "yes": "Yes",
+                "no": "No",
+                "none": "None",
+                "everyone": "All employees"
+            },
+            "sources": {
+                "employee_form": "From the employee form",
+                "employee_groups": "From the employee's groups",
+                "group_form": "From the employee group",
+                "bulk_edit": "From bulk edit",
+                "role_form": "From the role form",
+                "superadmin": "By CitizenOne support",
+                "import": "From an employee import",
+                "zenegy": "From the Zenegy sync",
+                "command_employees_assign_role": "By the system (role assignment)",
+                "migration_employee_roles": "By the system (data migration)"
+            }
+        },
         "activityLogs": "Activity logs",
         "logs": {
             "aCalendarHasBeenCreated": "A calendar has been created",
