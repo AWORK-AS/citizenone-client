@@ -3061,6 +3061,7 @@
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vagtplan",
+                "paidOut": "Udbetalt",
                 "historical": "Fra WorkZone",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer",
@@ -11777,6 +11778,8 @@
                 "missingNoteCoordinatorReminderHint": "Et døgn efter en aftale sluttede uden notat, får sagens primære koordinator også en påmindelse, og koordinatorer og ledere ser aftalerne på Min dag. Kræver, at påmindelsen om aftaler uden notat er slået til",
                 "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
                 "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
+                "careHourPayrollLock": "Luk måneder for løn",
+                "careHourPayrollLockHint": "En administrator lukker en måned under Tidslogge → Indsatstimer → Lønmåneder. Indsatstimer i en lukket måned vises som udbetalt og kan ikke tilføjes, ændres eller slettes, før måneden genåbnes",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dækningsgrad for medarbejdere",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og medarbejdere med økonomirettigheder ser dem stadig",
                 "careHourTypes": "Vælg timetype på indsatstimer",
@@ -15512,6 +15515,25 @@
         "timeAccounts": "Timekonti"
     },
     "timeLogs": {
+        "payrollMonths": {
+            "button": "Lønmåneder",
+            "title": "Lønmåneder",
+            "hint": "Luk en måned, når lønnen for den er kørt. Indsatstimer i en lukket måned er udbetalt: ingen kan tilføje, ændre eller slette dem, før en administrator genåbner måneden. Kun en måned, der er slut, kan lukkes.",
+            "month": "Måned",
+            "status": "Status",
+            "registrations": "Registreringer",
+            "open": "Åben",
+            "closed": "Lukket",
+            "closedBy": "Lukket {date} af {name}",
+            "reopenedBy": "Genåbnet {date} af {name}",
+            "close": "Luk måned",
+            "reopen": "Genåbn",
+            "confirmClose": "Luk {month} for løn? Indsatstimerne i den bliver udbetalt og låst.",
+            "confirmCloseOpenRows": "{count} registreringer i {month} er stadig i gang (tjekket ind eller en kørsel i gang). De kan stadig afsluttes og bliver så også låst.",
+            "confirmReopen": "Genåbn {month}? Indsatstimerne i den kan ændres igen.",
+            "closedAlert": "{month} er lukket for løn",
+            "reopenedAlert": "{month} er åben igen"
+        },
         "download": {
             "date": "Dato",
             "download": "Download",

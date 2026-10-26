@@ -201,6 +201,9 @@
                                             <Badge type="harmless" class="text-xxs" v-if="inteventionHours?.is_historical">
                                                 {{ $t('citizens.interventionHours.table.historical') }}
                                             </Badge>
+                                            <Badge type="neutral" class="text-xxs" v-if="inteventionHours?.is_paid_out">
+                                                {{ $t('citizens.interventionHours.table.paidOut') }}
+                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="10%">

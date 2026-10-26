@@ -3061,6 +3061,7 @@
                 "datetimeEnd": "Date time end",
                 "datetimeStart": "Date time start",
                 "fromDutySchedule": "From duty schedule",
+                "paidOut": "Paid out",
                 "historical": "From WorkZone",
                 "note": "Note",
                 "totalHours": "Total hours",
@@ -11777,6 +11778,8 @@
                 "missingNoteCoordinatorReminderHint": "A day after a booking ended without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
+                "careHourPayrollLock": "Close months for payroll",
+                "careHourPayrollLockHint": "An administrator closes a month under Time Logs → Intervention Hours → Payroll months. Intervention hours in a closed month are shown as paid out and can't be added, changed or deleted until the month is reopened",
                 "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
                 "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
                 "careHourTypes": "Choose an hour type on intervention hours",
@@ -15512,6 +15515,25 @@
         "timeAccounts": "Time accounts"
     },
     "timeLogs": {
+        "payrollMonths": {
+            "button": "Payroll months",
+            "title": "Payroll months",
+            "hint": "Close a month once its payroll has run. Intervention hours in a closed month are paid out: nobody can add, change or delete them until an administrator reopens the month. Only a month that has ended can be closed.",
+            "month": "Month",
+            "status": "Status",
+            "registrations": "Registrations",
+            "open": "Open",
+            "closed": "Closed",
+            "closedBy": "Closed {date} by {name}",
+            "reopenedBy": "Reopened {date} by {name}",
+            "close": "Close month",
+            "reopen": "Reopen",
+            "confirmClose": "Close {month} for payroll? Its intervention hours become paid out and locked.",
+            "confirmCloseOpenRows": "{count} registrations in {month} are still running (checked in or a live trip). They can still be finished, and are then locked too.",
+            "confirmReopen": "Reopen {month}? Its intervention hours can be changed again.",
+            "closedAlert": "{month} is closed for payroll",
+            "reopenedAlert": "{month} is open again"
+        },
         "download": {
             "date": "Date",
             "download": "Download",
