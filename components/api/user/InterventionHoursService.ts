@@ -56,6 +56,11 @@ class InterventionHoursService extends BaseAPIService {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/summary-hours`, 'GET', params)
     }
 
+    // The citizen's hours a week split on the employees, for the week of params.date.
+    async getDistribution(citizenUuid: any, params: object): Promise<any> {
+        return await this.request(`/user/citizen-care-hours/${citizenUuid}/distribution`, 'GET', params)
+    }
+
     async checkin(citizenUuid: any, params: object): Promise<any> {
         return await this.request(`/user/citizen-care-hours/${citizenUuid}/time-in`, 'POST', params)
     }
