@@ -680,7 +680,10 @@ import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import type { PropType } from 'vue'
 import { useCareHourTypes } from '@/composables/careHourTypeList'
-import { defaultHourTypeUuid, extraLineHourTypeUuid, hourTypeChoices, hourTypePayload } from '@/composables/careHourTypes'
+import {
+    defaultHourTypeUuid, extraLineHourTypeUuid, firstLineTakesVisit, hourTypeChoices, journalCareHoursRequest, nextLineStart,
+    type CareHoursLine,
+} from '@/composables/careHourTypes'
 import { countChoiceLists } from '@/composables/journalChoiceLists'
 import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
 
@@ -935,8 +938,6 @@ function emptyVisitAndHours() {
     }
 }
 
-type CareHoursLine = { key: number, start: string, end: string, type: string }
-
 // Same cap as the backend (CitizenJournalStoreRequest).
 const MAX_CARE_HOURS_LINES = 10
 let careHoursLineKey = 0
@@ -968,9 +969,8 @@ const firstLineFollowsVisit = computed(() => {
 
 watch(visitTimes, (now, before) => {
     const first = state.formJournal.care_hours[0]
-    if (!now || !first || props.bookingLinked) return
-    const untouched = (!first.start && !first.end) || (!!before && first.start === before.start && first.end === before.end)
-    if (untouched) {
+    if (!now || props.bookingLinked) return
+    if (first && firstLineTakesVisit(first, before ?? null)) {
         first.start = now.start
         first.end = now.end
     }
@@ -988,7 +988,7 @@ function toggleCareHours() {
 function addCareHoursLine() {
     const lines = state.formJournal.care_hours
     if (lines.length >= MAX_CARE_HOURS_LINES) return
-    lines.push(careHoursLine(lines[lines.length - 1]?.end ?? '', '', extraLineHourTypeUuid(careHourTypes.value)))
+    lines.push(careHoursLine(nextLineStart(lines), '', extraLineHourTypeUuid(careHourTypes.value)))
 }
 
 // The keys of the lines in the order they were sent, so the server's
@@ -1019,17 +1019,9 @@ function visitAndHoursPayload() {
         payload.visit_time_end = form.visit_date && form.visit_time_end ? form.visit_time_end : null
     }
     if (props.formType === 'create' && form.register_care_hours && canRegisterCareHours.value) {
-        // A line left empty is not sent, as the single line was not before.
-        // One with only a time is, so the server says what is missing.
-        const sent = form.care_hours.filter((line) => line.start || line.end)
-        sentCareHoursKeys = sent.map((line) => line.key)
-        const lines = sent
-            .map((line) => ({
-                date_time_start: `${careHoursDate.value} ${line.start}`,
-                date_time_end: `${careHoursDate.value} ${line.end}`,
-                ...hourTypePayload(careHourTypeOptions.value.length > 0, line.type),
-            }))
-        if (lines.length > 0) payload.care_hours = lines
+        const request = journalCareHoursRequest(form.care_hours, careHoursDate.value, careHourTypeOptions.value.length > 0)
+        sentCareHoursKeys = request.keys
+        if (request.lines.length > 0) payload.care_hours = request.lines
     }
     return payload
 }
