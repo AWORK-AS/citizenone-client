@@ -251,7 +251,11 @@
                 <ModulesUserCitizenDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                     :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
                 <ModulesUserDocumentTemplateLibraryModal :isModalOpen="state.modal.isTemplateLibraryOpen" area="citizen"
-                    @close="state.modal.isTemplateLibraryOpen = false" @pick="openPickedTemplate" />
+                    @close="state.modal.isTemplateLibraryOpen = false" @pick="openPickedTemplate"
+                    @pickPdf="openPickedPdfTemplate" />
+                <ModulesUserDocumentTemplateLibraryModalPdfEditor :isModalOpen="state.modal.isPdfEditorOpen" area="citizen"
+                    :template="state.pickedPdfTemplate" :citizenUuid="citizenUuid" :presetFolderUuid="currentFolderUuid"
+                    @close="closePdfEditor" @saved="fetchDocuments" />
                 <ModulesUserCitizenDocumentStatusTemplateModalNew :isModalOpen="state.modal.isCreateTemplateOpen"
                     :presetFormUuid="state.pickedTemplateUuid" :presetFolderUuid="currentFolderUuid"
                     @close="closeCreateTemplate" @refreshDocuments="fetchDocuments" />
@@ -380,11 +384,13 @@ const state = reactive({
     selectedDocuments: [] as any[],
     // The template picked in the templates library, filled in through "Opret rapport".
     pickedTemplateUuid: '',
+    pickedPdfTemplate: null as any,
     modal: {
         isAddDirectoryOpen: false,
         isArchiveDocumentOpen: false,
         isCreateTemplateOpen: false,
         isTemplateLibraryOpen: false,
+        isPdfEditorOpen: false,
         isDeleteDirectoryOpen: false,
         isDeleteFileOpen: false,
         isEditDocumentOpen: false,
@@ -433,6 +439,18 @@ function openPickedTemplate(formUuid: string) {
     state.pickedTemplateUuid = formUuid
     state.modal.isTemplateLibraryOpen = false
     state.modal.isCreateTemplateOpen = true
+}
+
+// A KRAP worksheet opens in the PDF editor and is saved as a new file, by default in this folder.
+function openPickedPdfTemplate(template: any) {
+    state.pickedPdfTemplate = template
+    state.modal.isTemplateLibraryOpen = false
+    state.modal.isPdfEditorOpen = true
+}
+
+function closePdfEditor() {
+    state.modal.isPdfEditorOpen = false
+    state.pickedPdfTemplate = null
 }
 
 function closeCreateTemplate() {
