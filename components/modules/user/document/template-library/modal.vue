@@ -1,8 +1,9 @@
 <template>
     <!--
-        "Skabeloner" (task #94): the templates a report can be made from, in the citizen's and the
-        company's documents. Picking one hands it to the "create report" flow, where it is filled in
-        and saved as a new PDF in a folder of the user's choice - the template itself never changes.
+        "Skabeloner" (task #94): the templates a document can be made from, in the citizen's and the
+        company's documents. A questionnaire is handed to the "create report" flow; a KRAP worksheet
+        opens in the PDF editor. Either way it is saved as a new PDF in a folder of the user's choice -
+        the template itself never changes.
     -->
     <Modal size="lg" :title="$t('templateLibrary.title')" titleIcon="ph:files" titleIconColor="42AED9"
         :show="props.isModalOpen" @close="emit('close')">
@@ -41,6 +42,36 @@
                                 </span>
                             </button>
                         </div>
+                    </section>
+
+                    <section>
+                        <div class="mb-2 flex flex-wrap items-center justify-between gap-2">
+                            <h3 class="text-xs font-semibold uppercase tracking-wide text-gray-500">
+                                {{ $t('templateLibrary.pdfTitle') }}
+                            </h3>
+                            <input v-if="state.pdf.length > 6" v-model="state.pdfSearch" type="search"
+                                :placeholder="$t('templateLibrary.search')" data-testid="template-library-pdf-search"
+                                class="w-full rounded-lg border border-gray-200 px-3 py-1.5 text-sm outline-none focus:border-[#42AED9] sm:w-56" />
+                        </div>
+                        <ul v-if="pdfTemplates.length"
+                            class="max-h-80 divide-y divide-gray-100 overflow-y-auto rounded-xl border border-gray-200 bg-white">
+                            <li v-for="template in pdfTemplates" :key="template.key">
+                                <button type="button" :data-testid="`template-library-pdf-${template.key}`"
+                                    class="flex w-full items-center gap-3 px-4 py-2.5 text-left transition hover:bg-gray-50"
+                                    @click="emit('pickPdf', template)">
+                                    <span class="flex h-7 min-w-9 shrink-0 items-center justify-center rounded-md bg-[#42AED9]/10 px-1.5 text-xs font-semibold text-[#174560]">
+                                        {{ template.number }}
+                                    </span>
+                                    <span class="min-w-0 flex-1 truncate text-sm font-medium text-gray-900">{{ template.title }}</span>
+                                    <span class="hidden text-xs text-gray-400 sm:inline">{{ template.source }}</span>
+                                    <Icon name="ph:caret-right" class="size-4 shrink-0 text-gray-400" />
+                                </button>
+                            </li>
+                        </ul>
+                        <p v-else-if="!state.isLoading" class="rounded-xl border border-dashed border-gray-200 px-4 py-5 text-center text-sm text-gray-500">
+                            {{ $t('templateLibrary.noMatches') }}
+                        </p>
+                        <p class="mt-2 text-xs text-gray-500">{{ $t('templateLibrary.pdfNote') }}</p>
                     </section>
 
                     <section>
@@ -97,7 +128,8 @@ const props = defineProps({
     },
 })
 
-const emit = defineEmits(['close', 'pick'])
+// pick: a form (uuid) for the report flow; pickPdf: a KRAP worksheet for the PDF editor.
+const emit = defineEmits(['close', 'pick', 'pickPdf'])
 const { t } = useI18n()
 const { isAtLeast, can } = usePermissions()
 
@@ -105,11 +137,19 @@ const canManageForms = computed(() => isAtLeast('Admin') || can('manage_status_r
 
 const state = reactive({
     standard: [] as any[],
+    pdf: [] as any[],
     own: [] as any[],
     search: '',
+    pdfSearch: '',
     opening: '' as string,
     isLoading: false,
     error: '',
+})
+
+const pdfTemplates = computed(() => {
+    const term = state.pdfSearch.trim().toLowerCase()
+    if (!term) return state.pdf
+    return state.pdf.filter((template: any) => `${template.number} ${template.title}`.toLowerCase().includes(term))
 })
 
 const ownForms = computed(() => {
@@ -122,9 +162,11 @@ async function load() {
     state.isLoading = true
     state.error = ''
     state.search = ''
+    state.pdfSearch = ''
     try {
         const response = await formService.getTemplateLibrary(props.area)
         state.standard = response?.data?.standard ?? []
+        state.pdf = response?.data?.pdf ?? []
         state.own = response?.data?.own ?? []
     } catch (error: any) {
         state.error = error?.message || t('templateLibrary.loadFailed')

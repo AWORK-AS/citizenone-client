@@ -9,7 +9,8 @@ import VueI18nVitePlugin from '@intlify/unplugin-vue-i18n/vite'
 // flipping to an enforcing `Content-Security-Policy`.
 const contentSecurityPolicy = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com",
+  // cdnjs: PDF.js and pdf-lib in the PDF editor's frame (utils/pdfFormEditorHtml.ts).
+  "script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://cdnjs.cloudflare.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https:",
   "font-src 'self' data:",
