@@ -48,6 +48,11 @@ class FormService extends BaseAPIService {
         return await this.request(`/user/form-template-library/${key}/use`, 'POST', { area })
     }
 
+    // A KRAP worksheet's blank PDF (base64), for the PDF editor.
+    async getPdfTemplate(key: string, area: 'citizen' | 'company'): Promise<any> {
+        return await this.request(`/user/form-template-library/pdf/${key}`, 'GET', { area })
+    }
+
     /** Renders the template as the document it will produce, including unsaved edits. */
     async previewForm(params: object): Promise<Blob | null> {
         return await this.requestBlob(`/user/forms/preview`, 'POST', params)
