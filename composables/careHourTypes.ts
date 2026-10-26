@@ -39,6 +39,15 @@ export function defaultHourTypeUuid(types: CareHourType[]): string {
 }
 
 /**
+ * The type a further line on a journal note starts from. The first line is
+ * the visit; the one after it is usually the admin around it, so it starts
+ * as administration when the company has that type, else as the default.
+ */
+export function extraLineHourTypeUuid(types: CareHourType[]): string {
+    return (types ?? []).find((type) => type.system_key === 'admin')?.uuid ?? defaultHourTypeUuid(types)
+}
+
+/**
  * What a save adds for the type: only a chosen one, and only when the picker
  * showed. Left out, the server saves a new row without a type and leaves an
  * edited row's type alone, exactly as before.

@@ -8,7 +8,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    checkInHourTypeChoices, defaultHourTypeUuid, hourTypeChoices, hourTypePayload, isCareHourTypesOn,
+    checkInHourTypeChoices, defaultHourTypeUuid, extraLineHourTypeUuid, hourTypeChoices, hourTypePayload, isCareHourTypesOn,
 } from '../../composables/careHourTypes.ts'
 import { areCitizenRatesHidden } from '../../composables/citizenRates.ts'
 
@@ -102,5 +102,19 @@ describe('checkInHourTypeChoices', () => {
     test('nothing without types', () => {
         assert.deepEqual(checkInHourTypeChoices([], true), [])
         assert.deepEqual(checkInHourTypeChoices(undefined, false), [])
+    })
+})
+
+describe('extraLineHourTypeUuid', () => {
+    test('administration when the company has it', () => {
+        assert.equal(extraLineHourTypeUuid([contact, admin, transport]), 'a-1')
+    })
+    test('else the default type', () => {
+        assert.equal(extraLineHourTypeUuid([own, contact]), 'c-1')
+        assert.equal(extraLineHourTypeUuid([own]), 'o-1')
+    })
+    test('none without types', () => {
+        assert.equal(extraLineHourTypeUuid([]), '')
+        assert.equal(extraLineHourTypeUuid(undefined), '')
     })
 })

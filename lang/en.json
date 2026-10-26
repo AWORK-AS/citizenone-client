@@ -2159,13 +2159,16 @@
                     "date": "Visit date",
                     "timeStart": "Visit from",
                     "timeEnd": "Visit until",
-                    "help": "With a visit date, the visit is shown in the calendar of @:terms.citizenDefinite{''} and in your own."
+                    "help": "With a visit date, the visit is shown in the calendar of @:terms.citizenDefinite{''} and in your own. The visit does not register hours."
                 },
                 "careHours": {
                     "register": "Register intervention hours",
                     "timeStart": "From",
                     "timeEnd": "To",
-                    "help": "The hours are registered on {date}."
+                    "help": "The hours are registered on {date}.",
+                    "addLine": "Add more hours",
+                    "removeLine": "Remove line",
+                    "fromVisit": "Filled in from the visit. Change the time if it is not right."
                 },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",

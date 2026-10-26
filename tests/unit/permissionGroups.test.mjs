@@ -60,6 +60,7 @@ const build = (extra = {}) => buildPermissionMatrix({
 describe('permissionGroup', () => {
     test('maps names to the areas the role form has always used', () => {
         assert.equal(permissionGroup('create_citizen_journal'), 'journal')
+        assert.equal(permissionGroup('create_citizen_care_hours'), 'journal')
         assert.equal(permissionGroup('view_citizen_document'), 'journal')
         assert.equal(permissionGroup('download_documents'), 'journal')
         assert.equal(permissionGroup('update_citizen_medicine'), 'health')
