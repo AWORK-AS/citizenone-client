@@ -297,7 +297,7 @@
             "calendar": "Appointments, bookings and online booking from your website.",
             "messages": "Chat with colleagues and with clients through the client portal.",
             "reminders": "Personal and shared reminders.",
-            "aiAssistant": "The AI assistant in the top bar.",
+            "aiAssistant": "Cody, the AI assistant in the top bar.",
             "forms": "Build your own forms and questionnaires.",
             "tasks": "Task boards for work that is not tied to a client.",
             "bulletBoard": "News and announcements for the whole company.",
@@ -1160,10 +1160,33 @@
         }
     },
     "cody": {
+        "preview": {
+            "askedOn": "You asked your manager about Cody on {date}.",
+            "askedBy": "Asked for by: {names}",
+            "askedMore": "+{count}",
+            "name": "Cody",
+            "chip": "AI",
+            "tagline": "Your everyday assistant",
+            "bulletShift": "Prepare your shift with an overview of the day",
+            "bulletMissing": "Find what you are missing, fast",
+            "bulletNotes": "Write journal notes faster",
+            "examplesTitle": "Examples of what you can ask",
+            "example1": "What is most important to start with today?",
+            "example2": "Which doses have not been registered yet?",
+            "example3": "Help me draft a note about today's visit",
+            "examplesNote": "Examples only. Nothing is sent.",
+            "askManager": "Ask your manager about Cody",
+            "startTrial": "Start free {days}-day trial",
+            "whyAdmin": "Only your company can switch Cody on, because questions are processed by an AI provider. Your manager or administrator decides.",
+            "alreadyAsked": "You have already asked your manager about Cody.",
+            "noRecipient": "We could not find a manager to send this to. Contact support.",
+            "companyHasCody": "Your company has Cody. Ask your administrator for a seat.",
+            "adminTitle": "Try Cody with your whole team"
+        },
         "adoption": {
             "headline": "Give your team time back with Cody",
             "headlineBody": "Cody gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
-            "tryFree": "Try Cody free for 14 days",
+            "tryFree": "Try Cody free for {days} days",
             "tryFreeShort": "Try free for 14 days",
             "readMore": "Read more",
             "enableTitle": "Give your team time back with Cody",
@@ -2132,6 +2155,18 @@
                 "date": "Date",
                 "draft": "Draft",
                 "internal": "Internal note",
+                "visit": {
+                    "date": "Visit date",
+                    "timeStart": "Visit from",
+                    "timeEnd": "Visit until",
+                    "help": "With a visit date, the visit is shown in the calendar of @:terms.citizenDefinite{''} and in your own."
+                },
+                "careHours": {
+                    "register": "Register intervention hours",
+                    "timeStart": "From",
+                    "timeEnd": "To",
+                    "help": "The hours are registered on {date}."
+                },
                 "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
@@ -2153,7 +2188,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Select a plan or a single goal.",
                 "singleGoal": "Single goal",
-                "prepareWithAI": "Prepare with AI",
+                "prepareWithAI": "Prepare with Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -2982,7 +3017,8 @@
                 "downloadInterventionHours": "Download intervention hours",
                 "filter": {
                     "filterDate": "Filter date"
-                }
+                },
+                "followsFilters": "The download follows the chosen filters."
             },
             "editInterventionHours": "Edit intervention hours",
             "filter": {
@@ -3025,6 +3061,7 @@
                 "datetimeEnd": "Date time end",
                 "datetimeStart": "Date time start",
                 "fromDutySchedule": "From duty schedule",
+                "historical": "From WorkZone",
                 "note": "Note",
                 "totalHours": "Total hours",
                 "transport": "Transport",
@@ -3056,6 +3093,17 @@
                 "type": "Type",
                 "viewInterventionHourLog": "View intervention hour log",
                 "work": "Work"
+            },
+            "byType": {
+                "title": "Hours per type:"
+            },
+            "filters": {
+                "hourTypes": "Hour types",
+                "kind": "Work or transport",
+                "employees": "Employees",
+                "all": "All",
+                "withoutType": "Without hour type",
+                "clear": "Clear filters"
             }
         },
         "medicationAllergies": "Medication allergies (CAVE)",
@@ -8001,6 +8049,7 @@
             "planned": "Planned"
         },
         "saveAndComplete": "Save and mark as completed",
+        "noteNeedsCitizen": "The booking is not linked to a @:terms.citizen{''}, so a note cannot be written for it.",
         "completeOnSaveHint": "Saving the @:terms.journalNote{''} marks the booking as completed.",
         "noteBodyRequired": "Write the @:terms.journalNote{''} text before marking the booking as completed.",
         "status": {
@@ -8902,7 +8951,7 @@
                     "topic": "What is the inquiry about?"
                 }
             },
-            "dateOfInquiry": "Date of inquiry",
+            "dateOfInquiry": "Date of the inquiry",
             "firstname": "@.capitalize:terms.citizen{''} first name",
             "inquirerName": "Inquirer name",
             "lastname": "@.capitalize:terms.citizen{''} last name",
@@ -9003,7 +9052,7 @@
             },
             "conversationSummary": "Conversation summary",
             "createdBy": "Created by",
-            "dateOfInquiry": "Date of inquiry",
+            "dateOfInquiry": "Date of the inquiry",
             "firstname": "First name",
             "inquirerName": "Inquirer name",
             "lastname": "Last name",
@@ -10412,7 +10461,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "note": "Note",
-                "prepareWithAI": "Prepare with AI",
+                "prepareWithAI": "Prepare with Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -18026,6 +18075,8 @@
             "sourceHint": "The field takes its choices from a register you already maintain.",
             "serviceType": "Only for service type",
             "serviceTypeHint": "Pick a type if the field is only asked for there. Otherwise it is asked whatever the type is.",
+            "serviceTypesLabel": "Service types",
+            "serviceTypesHint": "Untick All service types to pick one or more types the field is only asked on.",
             "form": "Form",
             "formHint": "The field is asked only on this form."
         },
@@ -18228,7 +18279,10 @@
             "maxTravelKm": "Will travel up to (km)",
             "desiredWeeklyHours": "Desired hours per week",
             "stepAssessment": "Step assessment",
-            "hasCar": "Has a car"
+            "hasCar": "Has a car",
+            "hasDriversLicense": "Has a driving licence",
+            "drivingWillingness": "Willingness to drive",
+            "drivingWillingnessPlaceholder": "E.g. happy to, only locally"
         },
         "statuses": {
             "available": "Available",
@@ -18334,7 +18388,8 @@
         "events": {
             "offer_sent": "Offer sent",
             "offer_accepted": "Offer accepted",
-            "offer_rejected": "Offer rejected"
+            "offer_rejected": "Offer rejected",
+            "offer_revised": "Offer to be revised"
         }
     },
     "consultantMatch": {
@@ -18360,6 +18415,10 @@
         },
         "form": {
             "spokenLanguages": "Spoken languages",
+            "travelsUpToKm": "Will travel up to (km)",
+            "minAvailableHours": "Minimum hours the consultant has available",
+            "languagesAndDialects": "Languages and dialects",
+            "languagesHint": "Languages the employee speaks. A consultant matches if they speak any of the chosen languages.",
             "minTravelKm": "Must travel at least (km)",
             "minWeeklyHours": "At least hours per week",
             "minStep": "At least step assessment",
@@ -18647,10 +18706,20 @@
         }
     },
     "paymentStatus": {
+        "invoiceNumber": "Invoice",
+        "payTitle": "Pay your invoice",
+        "payIntro": "Pay invoice {number} with a new payment card. The card is saved for your upcoming payments.",
+        "payButton": "Pay with a new card",
+        "paidTitle": "Payment completed",
+        "paidBody": "The invoice is paid and your account is up to date.",
+        "goToOverview": "Go to overview",
+        "alreadyPaid": "This invoice has already been paid.",
+        "invoiceNotFound": "We could not find this invoice. Contact support and we will help.",
+        "paymentFailed": "The payment did not go through and nothing was charged. Try again with another card, or contact support.",
         "amountDue": "Amount due",
         "collecting": "Collecting the payment...",
         "contactSupport": "Contact support",
-        "couldNotStart": "We could not start the card renewal. Try again, or contact support.",
+        "couldNotStart": "We could not start the payment. Try again, or contact support.",
         "logOut": "Log out",
         "pleaseWait": "Please wait...",
         "stillUnpaid": "The card was updated, but the payment did not go through. Try again, or contact support.",
@@ -18667,7 +18736,7 @@
         },
         "renew": {
             "title": "Renew your subscription",
-            "intro": "Enter a valid payment card and we will collect the outstanding amount and reopen {company}.",
+            "intro": "Pay the outstanding invoice with a valid payment card and we will reopen {company}. The card is saved for your upcoming payments.",
             "invalidToken": "This link has expired or is not valid. Contact support and we will send a new one.",
             "successTitle": "Payment completed",
             "successBody": "Your account is open again. You can log in now.",
@@ -19188,6 +19257,9 @@
         "expenses": "Expenses",
         "allowed": "Allowed",
         "notAllowed": "Not allowed",
+        "notSet": "Not set yet",
+        "notSetHint": "Visit types, mileage and expenses are chosen when someone with the Manage registration rules right sets them. Until then the company's defaults apply.",
+        "choose": "Choose",
         "mileageAllowed": "Mileage may be registered",
         "expensesAllowed": "Expenses may be registered",
         "catalogueEmpty": "There are no visit types. Create them under",
@@ -19236,6 +19308,13 @@
             "recipientCount": "The message reaches {count} employee(s).",
             "nobody": "Nobody is told yet. Choose a group or an employee.",
             "saved": "The recruitment team has been saved"
+        }
+    },
+    "inquiryWon": {
+        "modal": {
+            "title": "Mark as won",
+            "hint": "Register the municipality's answer, as when the offer is approved. An offer waiting for an answer is marked as approved.",
+            "confirm": "Mark as won"
         }
     },
     "inquiryLost": {
@@ -19307,7 +19386,8 @@
             "sent": "Sent",
             "accepted": "Accepted",
             "rejected": "Rejected",
-            "superseded": "Replaced"
+            "superseded": "Replaced",
+            "revised": "Revised"
         },
         "specialLanguage": "Special language",
         "overdue": "Deadline passed",
@@ -19379,6 +19459,9 @@
         "remarks": "Remarks",
         "acceptHint": "The inquiry moves to the won stage. When it is converted, price and hours are carried over to the contract fields.",
         "rejectHint": "The inquiry moves to the lost stage, and the reason is kept in the decision log.",
+        "reviseDecision": "Revise",
+        "reviseHint": "The offer is kept as history and can no longer be edited. A new version is created as a draft for you to adjust and send again.",
+        "revisedReadOnly": "Historical offer. Cannot be edited.",
         "confirmDelete": "Do you want to delete the draft",
         "fromCatalogue": "from the catalogue",
         "customer": "Customer and department",
@@ -19519,6 +19602,10 @@
         "builtinHint": "Follows the registration of inquiries under sections 110 and 109 of the Danish Social Services Act. Can be switched off, not deleted.",
         "serviceTypeHint": "Inquiries on this form get the service type chosen in advance.",
         "fieldCount": "{count} built-in fields",
+        "arrangeHint": "Move the built-in fields and your own fields to where they should sit on the form. Fields asked only on one service type show only when that type is chosen.",
+        "arrangeOwnField": "Own field",
+        "arrangeReset": "Use the standard order",
+        "arrangeSaved": "The arrangement is saved",
         "noneActive": "No forms are switched on. Switch one on under Settings → Inquiry forms.",
         "form": {
             "name": "Name",
@@ -19531,6 +19618,7 @@
             "switchOn": "Switch the form on",
             "fields": "Choose built-in fields",
             "ownFields": "Own fields on the form",
+            "arrange": "Arrange the fields",
             "rename": "Rename the form",
             "delete": "Delete the form"
         },

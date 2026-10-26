@@ -211,6 +211,10 @@
                             <Icon name="ph:download" class="h-4 w-4" />
                             {{ $t('citizens.medicineJournals.downloadOverview') }}
                         </FormButton>
+                        <FormButton buttonStyle="action" class="rounded-md" @click="downloadCurrentMedicineList()">
+                            <Icon name="ph:list-checks" class="h-4 w-4" />
+                            {{ $t('citizens.medicineJournals.downloadCurrentList') }}
+                        </FormButton>
                     </div>
                 </div>
                 <div>
@@ -1049,9 +1053,10 @@ import { useCitizenMedicineStore } from '@/store/citizen-medicines'
 import { usePermissions } from '@/composables/usePermissions'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
+import { saveAs } from 'file-saver'
 
 const runtimeConfig = useRuntimeConfig()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const customPagesStore = useCustomPagesStore() as any
 const citizenMedicineStore = useCitizenMedicineStore() as any
@@ -1092,6 +1097,19 @@ function getDosageName(medicine: any): string {
 const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 const childUuid = router?.currentRoute?.value?.params?.child_uuid
+
+// Medicine on this page is the parent citizen's (citizen_uuid is the parent),
+// so the current list is the parent's too, named as such in the PDF.
+async function downloadCurrentMedicineList() {
+    try {
+        const blob = await medicineJournalService.downloadCurrentMedicineList(citizenUuid)
+        if (blob) {
+            saveAs(blob, `${t('citizens.medicineJournals.currentListFileName')}.pdf`)
+        }
+    } catch (error: any) {
+        errorAlert(`${t('alert.error')}!`, error?.message ?? '')
+    }
+}
 const { isAtLeast, can } = usePermissions()
 // Giving medication registers a dose, not an edit of the medicine - mirror the backend rule in CitizenMedicineHistoryService.
 const canGiveMedicine = computed(() => isAtLeast('Admin') || can('create_citizen_medicine') || can('update_citizen_medicine'))

@@ -28,7 +28,12 @@
                             {{ $t('paymentStatus.renew.intro', { company: state.companyName }) }}
                         </p>
 
-                        <div v-if="amountLabel" class="mt-4 rounded-lg bg-gray-50 px-4 py-3 flex items-baseline justify-between">
+                        <div v-if="state.invoiceNumber" class="mt-4 rounded-lg bg-gray-50 px-4 py-3 flex items-baseline justify-between">
+                            <span class="text-sm text-gray-600">{{ $t('paymentStatus.invoiceNumber') }}</span>
+                            <span class="text-base font-semibold text-[#1F2533]">{{ state.invoiceNumber }}</span>
+                        </div>
+
+                        <div v-if="amountLabel" class="mt-2 rounded-lg bg-gray-50 px-4 py-3 flex items-baseline justify-between">
                             <span class="text-sm text-gray-600">{{ $t('paymentStatus.amountDue') }}</span>
                             <span class="text-base font-semibold text-[#1F2533]">{{ amountLabel }}</span>
                         </div>
@@ -39,6 +44,12 @@
                             <Icon name="ph:spinner" class="h-4 w-4 animate-spin" aria-hidden="true" />
                             {{ $t('paymentStatus.collecting') }}
                         </p>
+
+                        <button v-if="state.canStart && !state.checkoutReady && !state.isCollecting" type="button"
+                            class="mt-5 w-full rounded-lg bg-[#00607A] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#004c61] disabled:opacity-60"
+                            :disabled="state.isStarting" @click="startPayment">
+                            {{ $t('paymentStatus.payButton') }}
+                        </button>
 
                         <div v-show="state.checkoutReady" id="renew-subscription-checkout" class="mt-4 mx-auto max-w-sm"></div>
                     </template>
@@ -59,25 +70,29 @@ import { subscriptionRenewalService } from '@/components/api/SubscriptionRenewal
 import { useI18n } from 'vue-i18n'
 
 /**
- * Card renewal for a suspended company, reached from the suspension email.
- * Deliberately outside the authenticated layout: the suspension is exactly
- * what stops the admin logging in, so requiring a login here would close the
- * only door out.
+ * Paying the failed invoice of a suspended company, reached from the
+ * suspension email. Deliberately outside the authenticated layout: the
+ * suspension is exactly what stops the admin logging in, so requiring a login
+ * here would close the only door out.
  */
 const runtimeConfig = useRuntimeConfig()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const route = useRoute()
 const token = String(route.query.token ?? '')
 
 let checkout = null as any
+let paymentId = '' as string
 
 const state = reactive({
     isPageLoading: true,
+    isStarting: false,
     isCollecting: false,
+    canStart: false,
     checkoutReady: false,
     isPaid: false,
     error: '' as string,
     companyName: '' as string,
+    invoiceNumber: '' as string,
     amountDue: 0 as number,
 })
 
@@ -92,16 +107,48 @@ async function collectOutstanding() {
     state.isCollecting = true
 
     try {
-        const response = await subscriptionRenewalService.complete(token)
+        const response = await subscriptionRenewalService.complete(token, paymentId)
         if (response?.data?.paid) {
             state.isPaid = true
             return
         }
-        state.error = t('paymentStatus.stillUnpaid')
+        state.error = t('paymentStatus.paymentFailed')
     } catch (error: any) {
-        state.error = error?.message ?? ''
+        state.error = error?.message || t('paymentStatus.paymentFailed')
     } finally {
         state.isCollecting = false
+    }
+}
+
+async function startPayment() {
+    state.error = ''
+    state.isStarting = true
+
+    try {
+        const response = await subscriptionRenewalService.pay(token)
+        paymentId = response?.data?.payment_id ?? ''
+
+        if (!paymentId) {
+            state.error = t('paymentStatus.couldNotStart')
+            return
+        }
+
+        state.checkoutReady = true
+        await nextTick()
+
+        checkout = new Dibs.Checkout({
+            checkoutKey: runtimeConfig?.public?.checkoutKey,
+            paymentId,
+            containerId: 'renew-subscription-checkout',
+            language: nexiCheckoutLanguage(locale.value),
+            theme: { buttonRadius: '5px' },
+        })
+
+        checkout.on('payment-completed', collectOutstanding)
+    } catch (error: any) {
+        state.error = error?.message || t('paymentStatus.couldNotStart')
+    } finally {
+        state.isStarting = false
     }
 }
 
@@ -116,25 +163,15 @@ onMounted(async () => {
         const response = await subscriptionRenewalService.show(token)
         const data = response?.data
 
-        if (!data?.payment_id) {
+        if (!data?.invoice_number) {
             state.error = t('paymentStatus.renew.invalidToken')
             return
         }
 
         state.companyName = data.company_name ?? ''
+        state.invoiceNumber = String(data.invoice_number)
         state.amountDue = Number(data.amount_due ?? 0)
-        state.checkoutReady = true
-        await nextTick()
-
-        checkout = new Dibs.Checkout({
-            checkoutKey: runtimeConfig?.public?.checkoutKey,
-            paymentId: data.payment_id,
-            containerId: 'renew-subscription-checkout',
-            language: 'da-DK',
-            theme: { buttonRadius: '5px' },
-        })
-
-        checkout.on('payment-completed', collectOutstanding)
+        state.canStart = true
     } catch (error: any) {
         state.error = error?.message ?? t('paymentStatus.renew.invalidToken')
     } finally {

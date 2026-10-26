@@ -9,7 +9,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 
-const { formLabel, activeForms, asksFor, lockReason, toggleField, yesNoToBoolean, listItemName, hasBuiltinValue, shownOnInquiry } = await import('../../composables/inquiryForms.ts')
+const { formLabel, activeForms, asksFor, lockReason, toggleField, yesNoToBoolean, listItemName, hasBuiltinValue, shownOnInquiry, hasFieldOrder, fieldOrderIndex, orderedFieldKeys } = await import('../../composables/inquiryForms.ts')
 
 const names = { shelter: 'Herberg', crisisCenter: 'Krisecenter' }
 
@@ -163,5 +163,27 @@ describe('shownOnInquiry', () => {
     test('but never hides an answer written in it', () => {
         assert.equal(shownOnInquiry('topic', trimmed, { topics: [{ uuid: 't' }] }), true)
         assert.equal(shownOnInquiry('received_visit', trimmed, { received_visit: false }), true)
+    })
+})
+
+describe('field order', () => {
+    test('a form without an order keeps the standard layout', () => {
+        assert.equal(hasFieldOrder({ field_order: null }), false)
+        assert.equal(hasFieldOrder({ field_order: [] }), false)
+        assert.equal(hasFieldOrder({ field_order: ['cpr'] }), true)
+    })
+
+    test('a listed field takes its place, an unlisted one comes after', () => {
+        const form = { field_order: ['first_name', 'field:abc', 'cpr'] }
+        assert.equal(fieldOrderIndex(form, 'field:abc'), 1)
+        assert.equal(fieldOrderIndex(form, 'cpr'), 2)
+        assert.equal(fieldOrderIndex(form, 'notes', 4), 1004)
+    })
+
+    test('the builder keeps the saved order and appends anything new', () => {
+        assert.deepEqual(
+            orderedFieldKeys(['field:b', 'cpr', 'gone'], ['inquiry_date', 'cpr'], ['a', 'b']),
+            ['field:b', 'cpr', 'inquiry_date', 'field:a'],
+        )
     })
 })

@@ -297,7 +297,7 @@
             "calendar": "Aftaler, bookinger og online booking fra jeres hjemmeside.",
             "messages": "Chat med kolleger og med klienter via klientportalen.",
             "reminders": "Personlige og fælles påmindelser.",
-            "aiAssistant": "AI-assistenten i topbjælken.",
+            "aiAssistant": "Cody, AI-assistenten i topbjælken.",
             "forms": "Byg jeres egne formularer og spørgeskemaer.",
             "tasks": "Opgavetavler til arbejde, der ikke hører til en klient.",
             "bulletBoard": "Nyheder og meddelelser til hele virksomheden.",
@@ -1160,10 +1160,33 @@
         }
     },
     "cody": {
+        "preview": {
+            "askedOn": "Du bad din leder om Cody den {date}.",
+            "askedBy": "Bedt om af: {names}",
+            "askedMore": "+{count}",
+            "name": "Cody",
+            "chip": "AI",
+            "tagline": "Din assistent i hverdagen",
+            "bulletShift": "Forbered din vagt med overblik over dagen",
+            "bulletMissing": "Find hurtigt det, du mangler",
+            "bulletNotes": "Skriv journalnotater hurtigere",
+            "examplesTitle": "Eksempler på, hvad du kan spørge om",
+            "example1": "Hvad er vigtigst at starte med i dag?",
+            "example2": "Hvilke doser er endnu ikke registreret?",
+            "example3": "Hjælp mig med at skrive et notat om dagens besøg",
+            "examplesNote": "Kun eksempler. Der sendes ikke noget.",
+            "askManager": "Bed din leder om Cody",
+            "startTrial": "Start gratis {days}-dages prøve",
+            "whyAdmin": "Kun jeres virksomhed kan slå Cody til, fordi spørgsmål behandles af en AI-leverandør. Din leder eller administrator beslutter.",
+            "alreadyAsked": "Du har allerede bedt din leder om Cody.",
+            "noRecipient": "Vi kunne ikke finde en leder at sende det til. Kontakt support.",
+            "companyHasCody": "Jeres virksomhed har Cody. Bed din administrator om en plads.",
+            "adminTitle": "Prøv Cody med hele teamet"
+        },
         "adoption": {
             "headline": "Giv jeres medarbejdere tid tilbage med Cody",
             "headlineBody": "Cody giver overblik over dagen, finder oplysninger og skriver udkast til journalnotater, så der bliver mere tid til kerneopgaven.",
-            "tryFree": "Prøv Cody gratis i 14 dage",
+            "tryFree": "Prøv Cody gratis i {days} dage",
             "tryFreeShort": "Prøv gratis i 14 dage",
             "readMore": "Læs mere",
             "enableTitle": "Giv jeres medarbejdere tid tilbage med Cody",
@@ -2132,6 +2155,18 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Intern note",
+                "visit": {
+                    "date": "Besøgsdato",
+                    "timeStart": "Besøg fra",
+                    "timeEnd": "Besøg til",
+                    "help": "Med en besøgsdato kommer besøget i kalenderen for @:terms.citizenDefinite{''} og i din egen."
+                },
+                "careHours": {
+                    "register": "Registrér indsatstimer",
+                    "timeStart": "Fra",
+                    "timeEnd": "Til",
+                    "help": "Timerne registreres den {date}."
+                },
                 "internalHelp": "Skjules for roller, hvor en administrator har sat \"Kan ikke se interne noter\". Kommer ikke med i Cody og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Indtast journalindhold manuelt",
                 "aiGenerate": {
@@ -2153,7 +2188,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Vælg en plan eller et enkeltmål.",
                 "singleGoal": "Enkeltmål",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Udarbejd med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -2982,7 +3017,8 @@
                 "downloadInterventionHours": "Download indsatstimer",
                 "filter": {
                     "filterDate": "Filtrer dato"
-                }
+                },
+                "followsFilters": "Downloaden følger de valgte filtre."
             },
             "editInterventionHours": "Rediger indsatstimer",
             "filter": {
@@ -3025,6 +3061,7 @@
                 "datetimeEnd": "Dato og tid slut",
                 "datetimeStart": "Dato og tid start",
                 "fromDutySchedule": "Fra vagtplan",
+                "historical": "Fra WorkZone",
                 "note": "Bemærkning",
                 "totalHours": "Samlet timer",
                 "transport": "Transportere",
@@ -3056,6 +3093,17 @@
                 "type": "Type",
                 "viewInterventionHourLog": "Vis log over indsatstimer",
                 "work": "Arbejdstid"
+            },
+            "byType": {
+                "title": "Timer pr. type:"
+            },
+            "filters": {
+                "hourTypes": "Timetyper",
+                "kind": "Arbejde eller transport",
+                "employees": "Medarbejdere",
+                "all": "Alle",
+                "withoutType": "Uden timetype",
+                "clear": "Ryd filtre"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -8001,6 +8049,7 @@
             "planned": "Planlagt"
         },
         "saveAndComplete": "Gem og markér som gennemført",
+        "noteNeedsCitizen": "Aftalen er ikke knyttet til en @:terms.citizen{''}, så der kan ikke skrives en note til den.",
         "completeOnSaveHint": "Når du gemmer @:terms.journalNote{''}, markeres aftalen som gennemført.",
         "noteBodyRequired": "Skriv teksten i @:terms.journalNote{''}, før aftalen markeres som gennemført.",
         "status": {
@@ -8902,7 +8951,7 @@
                     "topic": "Hvad handler henvendelsen om?"
                 }
             },
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "@.capitalize:terms.citizenDefinite{'s'} fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "@.capitalize:terms.citizenDefinite{'s'} efternavn",
@@ -9003,7 +9052,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "createdBy": "Oprettet af",
-            "dateOfInquiry": "Dato for henvendelser",
+            "dateOfInquiry": "Dato for henvendelsen",
             "firstname": "Fornavn",
             "inquirerName": "Navn på spørger",
             "lastname": "Efternavn",
@@ -10412,7 +10461,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "note": "Note",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Udarbejd med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -18026,6 +18075,8 @@
             "sourceHint": "Feltet henter sine valgmuligheder fra det register, I allerede vedligeholder.",
             "serviceType": "Kun for indsatstype",
             "serviceTypeHint": "Vælg en type, hvis feltet kun skal spørges der. Ellers spørges det uanset type.",
+            "serviceTypesLabel": "Indsatstyper",
+            "serviceTypesHint": "Fjern fluebenet ved Alle indsatstyper for at vælge en eller flere typer, feltet kun skal spørges på.",
             "form": "Formular",
             "formHint": "Feltet spørges kun på denne formular."
         },
@@ -18228,7 +18279,10 @@
             "maxTravelKm": "Kører op til (km)",
             "desiredWeeklyHours": "Ønsket timetal pr. uge",
             "stepAssessment": "Trinvurdering",
-            "hasCar": "Har bil"
+            "hasCar": "Har bil",
+            "hasDriversLicense": "Har kørekort",
+            "drivingWillingness": "Villighed til at køre",
+            "drivingWillingnessPlaceholder": "F.eks. gerne, kun i nærområdet"
         },
         "statuses": {
             "available": "Ledig",
@@ -18334,7 +18388,8 @@
         "events": {
             "offer_sent": "Tilbud sendt",
             "offer_accepted": "Tilbud godkendt",
-            "offer_rejected": "Tilbud afvist"
+            "offer_rejected": "Tilbud afvist",
+            "offer_revised": "Tilbud revideres"
         }
     },
     "consultantMatch": {
@@ -18360,6 +18415,10 @@
         },
         "form": {
             "spokenLanguages": "Talte sprog",
+            "travelsUpToKm": "Kører op til (km)",
+            "minAvailableHours": "Minimum antal timer konsulenten har til rådighed",
+            "languagesAndDialects": "Sprog og dialekter",
+            "languagesHint": "Sprog medarbejderen taler. Konsulenten matcher, hvis vedkommende taler et af de valgte sprog.",
             "minTravelKm": "Skal køre mindst (km)",
             "minWeeklyHours": "Mindst timer pr. uge",
             "minStep": "Mindst trinvurdering",
@@ -18647,10 +18706,20 @@
         }
     },
     "paymentStatus": {
+        "invoiceNumber": "Faktura",
+        "payTitle": "Betal jeres faktura",
+        "payIntro": "Betal faktura {number} med et nyt betalingskort. Kortet gemmes til jeres kommende betalinger.",
+        "payButton": "Betal med nyt kort",
+        "paidTitle": "Betalingen er gennemført",
+        "paidBody": "Fakturaen er betalt, og jeres konto er opdateret.",
+        "goToOverview": "Gå til oversigt",
+        "alreadyPaid": "Denne faktura er allerede betalt.",
+        "invoiceNotFound": "Vi kunne ikke finde fakturaen. Kontakt supporten, så hjælper vi.",
+        "paymentFailed": "Betalingen gik ikke igennem, og der er ikke trukket noget. Prøv igen med et andet kort, eller kontakt supporten.",
         "amountDue": "Udestående beløb",
         "collecting": "Vi trækker beløbet...",
         "contactSupport": "Kontakt support",
-        "couldNotStart": "Vi kunne ikke starte kortfornyelsen. Prøv igen, eller kontakt supporten.",
+        "couldNotStart": "Vi kunne ikke starte betalingen. Prøv igen, eller kontakt supporten.",
         "logOut": "Log ud",
         "pleaseWait": "Vent venligst...",
         "stillUnpaid": "Kortet er opdateret, men betalingen gik ikke igennem. Prøv igen, eller kontakt supporten.",
@@ -18667,7 +18736,7 @@
         },
         "renew": {
             "title": "Forny jeres abonnement",
-            "intro": "Indtast et gyldigt betalingskort, så trækker vi det udestående beløb og åbner {company} igen.",
+            "intro": "Betal den udestående faktura med et gyldigt betalingskort, så åbner vi {company} igen. Kortet gemmes til jeres kommende betalinger.",
             "invalidToken": "Linket er udløbet eller ugyldigt. Kontakt supporten, så sender vi et nyt.",
             "successTitle": "Betalingen er gennemført",
             "successBody": "Jeres konto er åben igen. I kan logge ind nu.",
@@ -19188,6 +19257,9 @@
         "expenses": "Udlæg",
         "allowed": "Tilladt",
         "notAllowed": "Ikke tilladt",
+        "notSet": "Ikke angivet endnu",
+        "notSetHint": "Besøgstyper, kørsel og udlæg vælges, når en med rettigheden Administrer registreringsregler angiver dem. Indtil da gælder virksomhedens standard.",
+        "choose": "Vælg",
         "mileageAllowed": "Kørsel må registreres",
         "expensesAllowed": "Udlæg må registreres",
         "catalogueEmpty": "Der er ingen besøgstyper. Opret dem under",
@@ -19236,6 +19308,13 @@
             "recipientCount": "Beskeden når {count} medarbejder(e).",
             "nobody": "Ingen får besked endnu. Vælg en gruppe eller en medarbejder.",
             "saved": "Rekrutteringsteamet er gemt"
+        }
+    },
+    "inquiryWon": {
+        "modal": {
+            "title": "Marker som vundet",
+            "hint": "Registrer kommunens svar, som når tilbuddet godkendes. Et tilbud, der venter på svar, markeres som godkendt.",
+            "confirm": "Marker som vundet"
         }
     },
     "inquiryLost": {
@@ -19307,7 +19386,8 @@
             "sent": "Sendt",
             "accepted": "Godkendt",
             "rejected": "Afvist",
-            "superseded": "Erstattet"
+            "superseded": "Erstattet",
+            "revised": "Revideret"
         },
         "specialLanguage": "Særsprog",
         "overdue": "Fristen er overskredet",
@@ -19379,6 +19459,9 @@
         "remarks": "Bemærkninger",
         "acceptHint": "Henvendelsen flyttes til den vundne fase. Når den konverteres, overføres pris og timer til kontraktfelterne.",
         "rejectHint": "Henvendelsen flyttes til den tabte fase, og årsagen gemmes i beslutningsloggen.",
+        "reviseDecision": "Revider",
+        "reviseHint": "Tilbuddet gemmes som historik og kan ikke længere redigeres. En ny version oprettes som kladde, så du kan rette den og sende den igen.",
+        "revisedReadOnly": "Historisk tilbud. Kan ikke redigeres.",
         "confirmDelete": "Vil du slette kladden",
         "fromCatalogue": "fra kataloget",
         "customer": "Kunde og afdeling",
@@ -19519,6 +19602,10 @@
         "builtinHint": "Følger registreringen af henvendelser efter servicelovens § 110 og § 109. Kan slås fra, men ikke slettes.",
         "serviceTypeHint": "Henvendelser på denne formular får indsatstypen valgt på forhånd.",
         "fieldCount": "{count} faste felter",
+        "arrangeHint": "Flyt de faste felter og jeres egne felter hen, hvor de skal stå på formularen. Felter, der kun spørges på en bestemt indsatstype, vises kun når den er valgt.",
+        "arrangeOwnField": "Eget felt",
+        "arrangeReset": "Brug standardrækkefølgen",
+        "arrangeSaved": "Placeringen er gemt",
         "noneActive": "Ingen formularer er slået til. Slå en til under Indstillinger → Henvendelsesformularer.",
         "form": {
             "name": "Navn",
@@ -19531,6 +19618,7 @@
             "switchOn": "Slå formularen til",
             "fields": "Vælg faste felter",
             "ownFields": "Egne felter på formularen",
+            "arrange": "Placér felterne",
             "rename": "Omdøb formularen",
             "delete": "Slet formularen"
         },

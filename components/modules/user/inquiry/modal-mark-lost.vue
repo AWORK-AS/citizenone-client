@@ -7,6 +7,14 @@
 
                     <p class="text-sm text-gray-500">{{ $t('inquiryLost.modal.hint') }}</p>
 
+                    <!-- The same as rejecting the offer: when the answer came, the
+                         reason and Årsag til afvisning. -->
+                    <div class="space-y-1">
+                        <FormLabel for="lost-responded-at" :label="$t('inquiryOffer.respondedAt')" />
+                        <FormDateField id="lost-responded-at" name="lost-responded-at"
+                            :placeholder="$t('inquiryOffer.respondedAt')" v-model="state.form.responded_at" />
+                    </div>
+
                     <!-- Without a list of reasons there is nothing to choose, and
                          the case can still be lost; the server says the same. -->
                     <div v-if="reasonOptions.length" class="space-y-1">
@@ -20,7 +28,7 @@
                     </p>
 
                     <div class="space-y-1">
-                        <FormLabel for="lost-note" :label="$t('inquiryLost.modal.note')" />
+                        <FormLabel for="lost-note" :label="$t('inquiryOffer.rejectionReason')" />
                         <FormTextArea name="lost-note" id="lost-note" v-model="state.form.lost_reason_note"
                             :placeholder="$t('inquiryLost.modal.notePlaceholder')" :rows="3" />
                     </div>
@@ -47,6 +55,7 @@
 
 <script setup lang="ts">
 import { inquiryLostReasonService } from '@/components/api/user/InquiryLostReasonService'
+import { localDateString } from '@/composables/localDate'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -67,6 +76,7 @@ const state = reactive({
         lost_reason_uuid: '' as string,
         lost_reason_note: '' as string,
         lost_estimated_price: '' as string,
+        responded_at: '' as string,
     },
 })
 
@@ -78,7 +88,7 @@ const reasonOptions = computed(() => state.reasons
 
 watch(() => props.isModalOpen, (isOpen: boolean) => {
     if (!isOpen) return
-    state.form = { lost_reason_uuid: '', lost_reason_note: '', lost_estimated_price: '' }
+    state.form = { lost_reason_uuid: '', lost_reason_note: '', lost_estimated_price: '', responded_at: localDateString() }
     state.reasonMissing = false
     fetchReasons()
 })
@@ -111,6 +121,7 @@ function confirm() {
         lost_reason_uuid: state.form.lost_reason_uuid || null,
         lost_reason_note: state.form.lost_reason_note?.trim() || null,
         lost_estimated_price: Number.isFinite(price as number) ? price : null,
+        responded_at: state.form.responded_at || null,
     })
 }
 </script>

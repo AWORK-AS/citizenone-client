@@ -297,7 +297,7 @@
             "calendar": "Möten, bokningar och onlinebokning från er webbplats.",
             "messages": "Chatta med kollegor och med klienter via klientportalen.",
             "reminders": "Personliga och gemensamma påminnelser.",
-            "aiAssistant": "AI-assistenten i toppfältet.",
+            "aiAssistant": "Cody, AI-assistenten i toppfältet.",
             "forms": "Bygg egna formulär och frågeformulär.",
             "tasks": "Uppgiftstavlor för arbete som inte hör till en klient.",
             "bulletBoard": "Nyheter och meddelanden till hela verksamheten.",
@@ -1160,10 +1160,33 @@
         }
     },
     "cody": {
+        "preview": {
+            "askedOn": "Du bad din chef om Cody den {date}.",
+            "askedBy": "Efterfrågat av: {names}",
+            "askedMore": "+{count}",
+            "name": "Cody",
+            "chip": "AI",
+            "tagline": "Din assistent i vardagen",
+            "bulletShift": "Förbered passet med en översikt över dagen",
+            "bulletMissing": "Hitta snabbt det du saknar",
+            "bulletNotes": "Skriv journalanteckningar snabbare",
+            "examplesTitle": "Exempel på vad du kan fråga",
+            "example1": "Vad är viktigast att börja med i dag?",
+            "example2": "Vilka doser är inte registrerade än?",
+            "example3": "Hjälp mig skriva en anteckning om dagens besök",
+            "examplesNote": "Bara exempel. Inget skickas.",
+            "askManager": "Be din chef om Cody",
+            "startTrial": "Starta gratis {days}-dagars prov",
+            "whyAdmin": "Bara ert företag kan slå på Cody, eftersom frågor behandlas av en AI-leverantör. Din chef eller administratör bestämmer.",
+            "alreadyAsked": "Du har redan bett din chef om Cody.",
+            "noRecipient": "Vi hittade ingen chef att skicka detta till. Kontakta support.",
+            "companyHasCody": "Ert företag har Cody. Be din administratör om en plats.",
+            "adminTitle": "Prova Cody med hela teamet"
+        },
         "adoption": {
             "headline": "Ge era medarbetare tid tillbaka med Cody",
             "headlineBody": "Cody ger en överblick över dagen, hittar uppgifter och skriver utkast till journalanteckningar, så att mer tid går till kärnuppgiften.",
-            "tryFree": "Prova Cody gratis i 14 dagar",
+            "tryFree": "Prova Cody gratis i {days} dagar",
             "tryFreeShort": "Prova gratis i 14 dagar",
             "readMore": "Läs mer",
             "enableTitle": "Ge era medarbetare tid tillbaka med Cody",
@@ -2132,6 +2155,18 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "internal": "Intern anteckning",
+                "visit": {
+                    "date": "Besöksdatum",
+                    "timeStart": "Besök från",
+                    "timeEnd": "Besök till",
+                    "help": "Med ett besöksdatum visas besöket i kalendern för @:terms.citizenDefinite{''} och i din egen."
+                },
+                "careHours": {
+                    "register": "Registrera insatstimmar",
+                    "timeStart": "Från",
+                    "timeEnd": "Till",
+                    "help": "Timmarna registreras den {date}."
+                },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
                 "aiGenerate": {
@@ -2153,7 +2188,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Välj en plan eller ett enkeltmål.",
                 "singleGoal": "Enkeltmål",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Förbered med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut ökad risk",
                     "increasedRisk": "Ökad risk",
@@ -2982,7 +3017,8 @@
                 "downloadInterventionHours": "Ladda ner indsatstimer",
                 "filter": {
                     "filterDate": "Filtrera datum"
-                }
+                },
+                "followsFilters": "Nedladdningen följer de valda filtren."
             },
             "editInterventionHours": "Redigera indsatstimer",
             "filter": {
@@ -3025,6 +3061,7 @@
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "fromDutySchedule": "Från tjänsteschema",
+                "historical": "Fr\u00e5n WorkZone",
                 "note": "Anmärkning",
                 "totalHours": "Totalt timmar",
                 "transport": "Transportere",
@@ -3056,6 +3093,17 @@
                 "type": "Typ",
                 "viewInterventionHourLog": "Visa logg över indsatstimer",
                 "work": "Arbetstid"
+            },
+            "byType": {
+                "title": "Timmar per typ:"
+            },
+            "filters": {
+                "hourTypes": "Timtyper",
+                "kind": "Arbete eller transport",
+                "employees": "Medarbetare",
+                "all": "Alla",
+                "withoutType": "Utan timtyp",
+                "clear": "Rensa filter"
             }
         },
         "medicationAllergies": "Medicinallergier (CAVE)",
@@ -8001,6 +8049,7 @@
             "planned": "Planerad"
         },
         "saveAndComplete": "Spara och markera som slutförd",
+        "noteNeedsCitizen": "Bokningen är inte kopplad till en @:terms.citizen{''}, så det går inte att skriva en anteckning till den.",
         "completeOnSaveHint": "När du sparar @:terms.journalNote{''} markeras bokningen som slutförd.",
         "noteBodyRequired": "Skriv texten i @:terms.journalNote{''} innan bokningen markeras som slutförd.",
         "status": {
@@ -8902,7 +8951,7 @@
                     "topic": "Vad handler henvendelsen om?"
                 }
             },
-            "dateOfInquiry": "Datum för förfrågningar",
+            "dateOfInquiry": "Datum för förfrågan",
             "firstname": "@.capitalize:terms.citizenDefinite{'s'} förnamn",
             "inquirerName": "Namn på spörger",
             "lastname": "@.capitalize:terms.citizenDefinite{'s'} efternamn",
@@ -9003,7 +9052,7 @@
             },
             "conversationSummary": "Samtalesammenfatning",
             "createdBy": "Skapad av",
-            "dateOfInquiry": "Datum för förfrågningar",
+            "dateOfInquiry": "Datum för förfrågan",
             "firstname": "Förnamn",
             "inquirerName": "Namn på spörger",
             "lastname": "Efternamn",
@@ -10407,7 +10456,7 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "note": "Anteckning",
-                "prepareWithAI": "Udarbejd med AI",
+                "prepareWithAI": "Förbered med Cody",
                 "risk": {
                     "acuteIncreasedRisk": "Akut ökad risk",
                     "increasedRisk": "Ökad risk",
@@ -17941,6 +17990,8 @@
             "sourceHint": "Fältet hämtar sina alternativ från det register ni redan underhåller.",
             "serviceType": "Endast för insatstyp",
             "serviceTypeHint": "Välj en typ om fältet bara ska efterfrågas där. Annars efterfrågas det oavsett typ.",
+            "serviceTypesLabel": "Insatstyper",
+            "serviceTypesHint": "Avmarkera Alla insatstyper för att välja en eller flera typer som fältet bara ska efterfrågas på.",
             "form": "Formulär",
             "formHint": "Fältet frågas bara på det här formuläret."
         },
@@ -18143,7 +18194,10 @@
             "maxTravelKm": "Kör upp till (km)",
             "desiredWeeklyHours": "Önskat timantal per vecka",
             "stepAssessment": "Stegbedömning",
-            "hasCar": "Har bil"
+            "hasCar": "Har bil",
+            "hasDriversLicense": "Har körkort",
+            "drivingWillingness": "Villighet att köra",
+            "drivingWillingnessPlaceholder": "T.ex. gärna, bara i närområdet"
         },
         "statuses": {
             "available": "Ledig",
@@ -18249,7 +18303,8 @@
         "events": {
             "offer_sent": "Offert skickad",
             "offer_accepted": "Offert godkänd",
-            "offer_rejected": "Offert avvisad"
+            "offer_rejected": "Offert avvisad",
+            "offer_revised": "Offert revideras"
         }
     },
     "consultantMatch": {
@@ -18275,6 +18330,10 @@
         },
         "form": {
             "spokenLanguages": "Talade språk",
+            "travelsUpToKm": "Kör upp till (km)",
+            "minAvailableHours": "Minsta antal timmar konsulten har tillgängliga",
+            "languagesAndDialects": "Språk och dialekter",
+            "languagesHint": "Språk medarbetaren talar. Konsulten matchar om hen talar något av de valda språken.",
             "minTravelKm": "Måste köra minst (km)",
             "minWeeklyHours": "Minst timmar per vecka",
             "minStep": "Minst stegbedömning",
@@ -18562,10 +18621,20 @@
         }
     },
     "paymentStatus": {
+        "invoiceNumber": "Faktura",
+        "payTitle": "Betala er faktura",
+        "payIntro": "Betala faktura {number} med ett nytt betalkort. Kortet sparas för era kommande betalningar.",
+        "payButton": "Betala med nytt kort",
+        "paidTitle": "Betalningen är genomförd",
+        "paidBody": "Fakturan är betald och ert konto är uppdaterat.",
+        "goToOverview": "Gå till översikten",
+        "alreadyPaid": "Den här fakturan är redan betald.",
+        "invoiceNotFound": "Vi kunde inte hitta fakturan. Kontakta supporten så hjälper vi er.",
+        "paymentFailed": "Betalningen gick inte igenom och inget har dragits. Försök igen med ett annat kort eller kontakta supporten.",
         "amountDue": "Utestående belopp",
         "collecting": "Vi drar beloppet...",
         "contactSupport": "Kontakta supporten",
-        "couldNotStart": "Vi kunde inte starta kortförnyelsen. Försök igen eller kontakta supporten.",
+        "couldNotStart": "Vi kunde inte starta betalningen. Försök igen eller kontakta supporten.",
         "logOut": "Logga ut",
         "pleaseWait": "Vänta...",
         "stillUnpaid": "Kortet är uppdaterat, men betalningen gick inte igenom. Försök igen eller kontakta supporten.",
@@ -18582,7 +18651,7 @@
         },
         "renew": {
             "title": "Förnya er prenumeration",
-            "intro": "Ange ett giltigt betalkort så drar vi det utestående beloppet och öppnar {company} igen.",
+            "intro": "Betala den utestående fakturan med ett giltigt betalkort så öppnar vi {company} igen. Kortet sparas för era kommande betalningar.",
             "invalidToken": "Länken har gått ut eller är ogiltig. Kontakta supporten så skickar vi en ny.",
             "successTitle": "Betalningen är genomförd",
             "successBody": "Ert konto är öppet igen. Ni kan logga in nu.",
@@ -19103,6 +19172,9 @@
         "expenses": "Utlägg",
         "allowed": "Tillåtet",
         "notAllowed": "Inte tillåtet",
+        "notSet": "Inte angivet än",
+        "notSetHint": "Besökstyper, körning och utlägg väljs när någon med behörigheten Hantera registreringsregler anger dem. Tills dess gäller företagets standard.",
+        "choose": "Välj",
         "mileageAllowed": "Körning får registreras",
         "expensesAllowed": "Utlägg får registreras",
         "catalogueEmpty": "Det finns inga besökstyper. Skapa dem under",
@@ -19151,6 +19223,13 @@
             "recipientCount": "Meddelandet når {count} medarbetare.",
             "nobody": "Ingen meddelas ännu. Välj en grupp eller en medarbetare.",
             "saved": "Rekryteringsteamet har sparats"
+        }
+    },
+    "inquiryWon": {
+        "modal": {
+            "title": "Markera som vunnen",
+            "hint": "Registrera kommunens svar, som när offerten godkänns. En offert som väntar på svar markeras som godkänd.",
+            "confirm": "Markera som vunnen"
         }
     },
     "inquiryLost": {
@@ -19222,7 +19301,8 @@
             "sent": "Skickad",
             "accepted": "Godkänd",
             "rejected": "Avvisad",
-            "superseded": "Ersatt"
+            "superseded": "Ersatt",
+            "revised": "Reviderad"
         },
         "specialLanguage": "Specialspråk",
         "overdue": "Fristen har passerats",
@@ -19294,6 +19374,9 @@
         "remarks": "Anmärkningar",
         "acceptHint": "Förfrågan flyttas till den vunna fasen. När den konverteras förs pris och timmar över till kontraktsfälten.",
         "rejectHint": "Förfrågan flyttas till den förlorade fasen, och orsaken sparas i beslutsloggen.",
+        "reviseDecision": "Revidera",
+        "reviseHint": "Offerten sparas som historik och kan inte längre redigeras. En ny version skapas som utkast så att du kan ändra den och skicka den igen.",
+        "revisedReadOnly": "Historisk offert. Kan inte redigeras.",
         "confirmDelete": "Vill du radera utkastet",
         "fromCatalogue": "från katalogen",
         "customer": "Kund och avdelning",
@@ -19434,6 +19517,10 @@
         "builtinHint": "Följer registreringen av förfrågningar enligt danska serviceloven § 110 och § 109. Kan stängas av men inte tas bort.",
         "serviceTypeHint": "Förfrågningar på det här formuläret får insatstypen vald i förväg.",
         "fieldCount": "{count} fasta fält",
+        "arrangeHint": "Flytta de fasta fälten och era egna fält dit de ska stå på formuläret. Fält som bara efterfrågas på en viss insatstyp visas bara när den är vald.",
+        "arrangeOwnField": "Eget fält",
+        "arrangeReset": "Använd standardordningen",
+        "arrangeSaved": "Placeringen är sparad",
         "noneActive": "Inga formulär är påslagna. Slå på ett under Inställningar → Förfrågningsformulär.",
         "form": {
             "name": "Namn",
@@ -19446,6 +19533,7 @@
             "switchOn": "Slå på formuläret",
             "fields": "Välj fasta fält",
             "ownFields": "Egna fält på formuläret",
+            "arrange": "Placera fälten",
             "rename": "Byt namn på formuläret",
             "delete": "Ta bort formuläret"
         },

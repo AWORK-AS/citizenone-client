@@ -3,7 +3,7 @@
         <Transition enter-active-class="transition-opacity duration-300" enter-from-class="opacity-0"
             enter-to-class="opacity-100" leave-active-class="transition-opacity duration-200"
             leave-from-class="opacity-100" leave-to-class="opacity-0">
-            <div v-if="props.open" class="fixed inset-0 bg-black/30 z-40" @click="close" />
+            <div v-if="props.open" class="fixed inset-0 bg-black/30 z-40" />
         </Transition>
         <Transition enter-active-class="transition-transform duration-300 ease-out"
             enter-from-class="translate-x-full" enter-to-class="translate-x-0"

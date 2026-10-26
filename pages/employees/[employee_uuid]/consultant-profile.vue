@@ -74,6 +74,11 @@
                                 placeholder="0" />
                         </div>
                         <div>
+                            <FormLabel for="driving" :label="$t('consultantProfile.form.drivingWillingness')" />
+                            <FormTextField id="driving" name="driving" v-model="state.form.driving_willingness"
+                                :placeholder="$t('consultantProfile.form.drivingWillingnessPlaceholder')" />
+                        </div>
+                        <div>
                             <FormLabel for="hours" :label="$t('consultantProfile.form.desiredWeeklyHours')" />
                             <FormTextField id="hours" name="hours" v-model="state.form.desired_weekly_hours"
                                 placeholder="0" />
@@ -96,6 +101,13 @@
                                 @click="state.form.has_car = !state.form.has_car">
                                 <FormCheckbox :value="!!state.form.has_car" />
                                 <span class="text-sm">{{ $t('consultantProfile.form.hasCar') }}</span>
+                            </div>
+                        </div>
+                        <div class="flex items-end">
+                            <div class="flex w-fit cursor-pointer items-center gap-2 pb-2.5"
+                                @click="state.form.has_drivers_license = !state.form.has_drivers_license">
+                                <FormCheckbox :value="!!state.form.has_drivers_license" />
+                                <span class="text-sm">{{ $t('consultantProfile.form.hasDriversLicense') }}</span>
                             </div>
                         </div>
                     </div>
@@ -285,7 +297,9 @@ const state = reactive({
         municipality_uuid: null as string | null,
         region_uuid: null as string | null,
         has_car: false,
+        has_drivers_license: false,
         max_travel_km: '',
+        driving_willingness: '',
         consultant_status: null as string | null,
         step_assessment: null as number | null,
         desired_weekly_hours: '',
@@ -432,6 +446,8 @@ function applyProfile(data: any) {
         municipality_uuid: profile.municipality_uuid ?? null,
         region_uuid: profile.region_uuid ?? null,
         has_car: !!profile.has_car,
+        has_drivers_license: !!profile.has_drivers_license,
+        driving_willingness: profile.driving_willingness ?? '',
         max_travel_km: profile.max_travel_km === null || profile.max_travel_km === undefined ? '' : String(profile.max_travel_km),
         consultant_status: profile.consultant_status ?? null,
         step_assessment: profile.step_assessment ?? null,
@@ -465,7 +481,9 @@ async function saveProfile() {
             municipality_uuid: state.form.municipality_uuid,
             region_uuid: state.form.region_uuid,
             has_car: state.form.has_car,
+            has_drivers_license: state.form.has_drivers_license,
             max_travel_km: state.form.max_travel_km === '' ? null : Number(state.form.max_travel_km),
+            driving_willingness: state.form.driving_willingness?.trim() || null,
             consultant_status: state.form.consultant_status,
             step_assessment: state.form.step_assessment,
             desired_weekly_hours: state.form.desired_weekly_hours === '' ? null : Number(state.form.desired_weekly_hours),
