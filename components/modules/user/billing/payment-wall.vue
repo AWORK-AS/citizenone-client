@@ -39,8 +39,8 @@
 
                 <button v-if="!state.checkoutReady" type="button"
                     class="w-full rounded-lg bg-[#00607A] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#004c61] disabled:opacity-60"
-                    :disabled="state.isStarting" @click="startCardUpdate">
-                    {{ state.isStarting ? $t('paymentStatus.pleaseWait') : $t('paymentStatus.updateCard') }}
+                    :disabled="state.isStarting" @click="startPayment">
+                    {{ state.isStarting ? $t('paymentStatus.pleaseWait') : (state.status?.failed_invoice_uuid ? $t('paymentStatus.payButton') : $t('paymentStatus.updateCard')) }}
                 </button>
             </div>
 
@@ -74,7 +74,7 @@ import { billingService } from '@/components/api/user/BillingService'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const supportEmail = 'support@citizenone.dk'
 
 let checkout = null as any
@@ -89,14 +89,31 @@ const state = reactive({
 
 const isOverdue = computed(() => ['past_due', 'suspended'].includes(state.status?.status))
 const isSuspended = computed(() => state.status?.status === 'suspended')
-const isBlocking = computed(() => isOverdue.value && !!state.status?.can_manage)
-const isNotice = computed(() => isOverdue.value && !state.status?.can_manage)
+// The pay page is where the wall's own button leads, and where the dunning
+// emails land. A blocking modal on top of it would hide the one thing that
+// fixes the problem.
+const route = useRoute()
+const onPayPage = computed(() => route.path.startsWith('/subscription/pay/'))
+const isBlocking = computed(() => isOverdue.value && !!state.status?.can_manage && !onPayPage.value)
+const isNotice = computed(() => isOverdue.value && !state.status?.can_manage && !onPayPage.value)
 
 const amountLabel = computed(() => {
     const amount = Number(state.status?.amount_due ?? 0)
     if (!amount) return ''
     return amount.toLocaleString('da-DK', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' kr.'
 })
+
+// The failed invoice is paid with a new card on its own page, which also saves
+// the card for the next charge. A standing with no invoice to name (which
+// should not happen) still falls back to replacing the card on file.
+function startPayment() {
+    if (state.status?.failed_invoice_uuid) {
+        navigateTo(`/subscription/pay/${state.status.failed_invoice_uuid}`)
+        return
+    }
+
+    startCardUpdate()
+}
 
 async function startCardUpdate() {
     state.error = ''
@@ -118,7 +135,7 @@ async function startCardUpdate() {
             checkoutKey: runtimeConfig?.public?.checkoutKey,
             paymentId,
             containerId: 'billing-wall-checkout',
-            language: 'da-DK',
+            language: nexiCheckoutLanguage(locale.value),
             theme: { buttonRadius: '5px' },
         })
 
