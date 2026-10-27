@@ -65,6 +65,7 @@
 </template>
 
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { activityLogService } from '@/components/api/user/ActivityLogService'
 import { roleService } from '@/components/api/user/RoleService'
