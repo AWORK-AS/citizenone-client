@@ -330,10 +330,9 @@ async function saveCitizen(citizenDetails: any) {
         }
     } catch (error: any) {
         state.error = error
-        if (error?.message === 'One citizen can be created in Free Basis Tier.') {
-            navigateTo(`/subscription?error=${error?.message}`)
-        } else if (error?.message === 'Én borger kan oprettes i Gratis Basis-niveau.') {
-            navigateTo(`/subscription?error=${error?.message}`)
+        // The free account's citizen limit: the backend sends a stable code, the message is translated.
+        if (error?.code === 'free_account_citizen_limit') {
+            navigateTo(`/subscription?error=${encodeURIComponent(error?.message ?? '')}`)
         }
     }
     state.isPageLoading = false
