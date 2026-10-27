@@ -91,6 +91,13 @@ describe('noteAfterConfirm - what "Ja" leads to', () => {
         assert.equal(noteAfterConfirm(proposal, { ok: false, error: { code: 'cody_memory_proposal_expired', status: 404 } }).kind, 'expired')
     })
 
+    test('a confirm already running for this person keeps the question to try again', () => {
+        assert.deepEqual(
+            noteAfterConfirm(proposal, { ok: false, error: { code: 'cody_memory_busy', status: 409 } }),
+            { kind: 'proposal', token: TOKEN, content: 'Foretrækker korte svar', failed: true },
+        )
+    })
+
     test('an unexplained failure keeps the question so it can be tried again', () => {
         assert.deepEqual(
             noteAfterConfirm(proposal, { ok: false, error: new Error('offline') }),

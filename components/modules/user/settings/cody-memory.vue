@@ -5,6 +5,7 @@
             {{ $t('settings.profile.codyMemory.limit', { count: state.limit }) }}
         </p>
         <p class="mt-0.5 text-xs text-gray-500">{{ $t('settings.profile.codyMemory.reset') }}</p>
+        <p class="mt-0.5 text-xs text-gray-500">{{ $t('settings.profile.codyMemory.freshConversations') }}</p>
 
         <div v-if="state.isLoading" class="mt-4 space-y-2" aria-hidden="true">
             <div v-for="n in 3" :key="n" class="h-10 animate-pulse rounded-md bg-gray-100" />
