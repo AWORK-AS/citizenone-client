@@ -3023,6 +3023,27 @@
                 },
                 "followsFilters": "The download follows the chosen filters."
             },
+            "distribution": {
+                "title": "Split on employees, week {week}",
+                "previousWeek": "Previous week",
+                "nextWeek": "Next week",
+                "summary": "Granted {granted} h a week, given out {distributed} h.",
+                "noGrant": "Given out {distributed} h a week. The citizen has no weekly allocation to hold it against.",
+                "over": "{hours} h too much given out.",
+                "done": "All is given out.",
+                "open": "{hours} h still to give out.",
+                "employee": "Employee",
+                "given": "Given",
+                "booked": "Booked",
+                "notBooked": "Not booked",
+                "used": "Used",
+                "left": "Left",
+                "givenFor": "Hours a week for {name}",
+                "empty": "No employees are on the citizen yet.",
+                "addEmployee": "Give hours to an employee",
+                "hoursAWeek": "Hours a week",
+                "add": "Add"
+            },
             "editInterventionHours": "Edit intervention hours",
             "filter": {
                 "allTypes": "All types",
@@ -3069,7 +3090,8 @@
                 "totalHours": "Total hours",
                 "transport": "Transport",
                 "type": "Type",
-                "work": "Work"
+                "work": "Work",
+                "running": "Running"
             },
             "timeAccount": {
                 "dailyAllocation": "Daily allocation",
@@ -3079,7 +3101,9 @@
                 "timeAccount": "Time account",
                 "weeklyAllocation": "Weekly allocation",
                 "overBy": "{hours} h over the allocation",
-                "remaining": "{hours} h left"
+                "remaining": "{hours} h left",
+                "remainingInSpan": "{hours} h left of {total} h in the period",
+                "overByInSpan": "{hours} h over the {total} h in the period"
             },
             "view": {
                 "citizen": "@.capitalize:terms.citizen{''}",

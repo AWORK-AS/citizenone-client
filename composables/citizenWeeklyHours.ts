@@ -88,3 +88,24 @@ export function panelWeekDate(view: string, range: { start_date?: string, end_da
     if (range.start_date === range.end_date) return range.start_date
     return today
 }
+
+/**
+ * How a citizen's granted hours a week are given out on the employees:
+ * 'over' when more is given out than granted, 'done' when all is given out,
+ * 'open' while some is left, null without a grant to hold it against.
+ */
+export function distributionStatus(undistributed: number | null | undefined): 'over' | 'done' | 'open' | null {
+    if (undistributed === null || undistributed === undefined) {
+        return null
+    }
+
+    return weekStatus({ remaining_hours: undistributed })
+}
+
+/** The same weekday `weeks` weeks on (back when negative), as YYYY-MM-DD. */
+export function shiftWeekDate(date: string, weeks: number): string {
+    const [year, month, day] = date.split('-').map(Number)
+    const shifted = new Date(Date.UTC(year, month - 1, day + weeks * 7))
+
+    return shifted.toISOString().slice(0, 10)
+}

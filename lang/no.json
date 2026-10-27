@@ -3023,6 +3023,27 @@
                 },
                 "followsFilters": "Nedlastingen følger de valgte filtrene."
             },
+            "distribution": {
+                "title": "Fordeling på medarbeidere, uke {week}",
+                "previousWeek": "Forrige uke",
+                "nextWeek": "Neste uke",
+                "summary": "Innvilget {granted} t i uken, fordelt {distributed} t.",
+                "noGrant": "Fordelt {distributed} t i uken. Brukeren har ingen ukentlig tildeling å holde det opp mot.",
+                "over": "{hours} t for mye fordelt.",
+                "done": "Alt er fordelt.",
+                "open": "{hours} t gjenstår å fordele.",
+                "employee": "Medarbeider",
+                "given": "Tildelt",
+                "booked": "Booket",
+                "notBooked": "Ikke booket",
+                "used": "Brukt",
+                "left": "Igjen",
+                "givenFor": "Timer i uken til {name}",
+                "empty": "Ingen medarbeidere er knyttet til brukeren ennå.",
+                "addEmployee": "Gi timer til en medarbeider",
+                "hoursAWeek": "Timer i uken",
+                "add": "Legg til"
+            },
             "editInterventionHours": "Rediger innsatstimer",
             "filter": {
                 "allTypes": "Alle typer",
@@ -3069,7 +3090,8 @@
                 "totalHours": "Samlet timer",
                 "transport": "Transportere",
                 "type": "Type",
-                "work": "Arbeidstid"
+                "work": "Arbeidstid",
+                "running": "Pågår"
             },
             "timeAccount": {
                 "dailyAllocation": "Daglig tildeling",
@@ -3079,7 +3101,9 @@
                 "timeAccount": "Tidskonto",
                 "weeklyAllocation": "Ukentlig tildeling",
                 "overBy": "{hours} t over tildelingen",
-                "remaining": "{hours} t igjen"
+                "remaining": "{hours} t igjen",
+                "remainingInSpan": "{hours} t igjen av {total} t i perioden",
+                "overByInSpan": "{hours} t over de {total} t i perioden"
             },
             "view": {
                 "citizen": "@.capitalize:terms.citizen{''}",
