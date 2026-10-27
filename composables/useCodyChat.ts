@@ -777,8 +777,8 @@ export function createCodyChat() {
 
     async function copyAnswer(message: any, index: number) {
         try {
-            const { $sanitizeHtml } = useNuxtApp()
-            const sanitized = $sanitizeHtml(formatMessage(message?.text))
+            const { $sanitizeAiHtml } = useNuxtApp()
+            const sanitized = $sanitizeAiHtml(formatMessage(message?.text))
             await navigator.clipboard.writeText(htmlToPlainText(sanitized))
             state.copiedIndex = index
             setTimeout(() => {

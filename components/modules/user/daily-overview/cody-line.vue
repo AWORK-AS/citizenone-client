@@ -7,7 +7,7 @@
             <p v-if="state.loading" class="text-sm text-gray-500">{{ $t('myDay.cody.reading') }}</p>
 
             <div v-else class="text-sm leading-relaxed text-gray-900 [&_p]:m-0 [&_p+p]:mt-1.5 [&_strong]:font-semibold"
-                v-safe-html="state.summary" />
+                v-safe-ai-html="state.summary" />
 
             <button v-if="!state.loading" type="button"
                 class="mt-2 text-xs font-semibold text-ai-ink hover:underline"

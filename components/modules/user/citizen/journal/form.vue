@@ -1912,7 +1912,8 @@ watch(() => assistantStore.pendingInsert, (html: string | null) => {
     if (!html) return
 
     const existing = state.formJournal.content ?? ''
-    state.formJournal.content = existing ? `${existing}<p></p>${html}` : html
+    const clean = useNuxtApp().$sanitizeAiHtml(html)
+    state.formJournal.content = existing ? `${existing}<p></p>${clean}` : clean
     state.formJournal.is_ai_used = true
     assistantStore.insertHandled()
 })
@@ -1929,7 +1930,7 @@ async function generateNoteForJournalContent(excludedJournalUuids: string[] = []
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
-            state.formJournal.content = response?.data?.answer
+            state.formJournal.content = useNuxtApp().$sanitizeAiHtml(response?.data?.answer)
             state.formJournal.is_ai_used = true
         }
     } catch (error: any) {
@@ -1950,7 +1951,7 @@ async function generateNoteForRiskAssessmentNote(excludedJournalUuids: string[] 
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
-            state.formJournal.note = response?.data?.answer
+            state.formJournal.note = useNuxtApp().$sanitizeAiHtml(response?.data?.answer)
             state.formJournal.is_ai_used = true
         }
     } catch (error: any) {

@@ -451,7 +451,7 @@ async function generateNoteForRiskAssessmentNote() {
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
-            state.formRiskAssessment.note = response?.data?.answer
+            state.formRiskAssessment.note = useNuxtApp().$sanitizeAiHtml(response?.data?.answer)
             state.isAiUsed = true
         }
     } catch (error: any) {

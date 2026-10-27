@@ -35,7 +35,7 @@
                         of the panel, detached from the question that caused it. -->
                         <p v-if="message.failed" class="text-sm leading-relaxed text-gray-600">{{ message.text }}</p>
                         <div v-else class="ai-answer text-sm text-gray-800 leading-relaxed"
-                            v-safe-html="formatMessage(message?.text)" />
+                            v-safe-ai-html="formatMessage(message?.text)" />
 
                         <!-- An answer with no company data behind it is not the same as an
                         answer that found nothing, and it used to look identical. -->
