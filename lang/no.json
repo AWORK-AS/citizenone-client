@@ -1104,9 +1104,9 @@
     },
     "archived": {
         "alert": {
-            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} genåbnet vellykket",
-            "documentSuccessfullyUnarchive": "Dokument genåbnet vellykket",
-            "employeeSuccessfullyUnarchive": "Medarbeider genåbnet vellykket",
+            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} gjenåpnet",
+            "documentSuccessfullyUnarchive": "Dokument gjenåpnet",
+            "employeeSuccessfullyUnarchive": "Medarbeider gjenåpnet",
             "goalSuccessfullyUnarchive": "Mål gjenopprettet vellykket",
             "planSuccessfullyUnarchive": "Plan gjenopprettet vellykket",
             "subgoalSuccessfullyUnarchive": "Delmål gjenopprettet vellykket",
@@ -1115,9 +1115,9 @@
             "employeeSuccessfullyDeleted": "Medarbeider slettet permanent"
         },
         "confirmation": {
-            "unarchiveCitizen": "Er du sikker på at du vil genåbne denne @:terms.citizen{''}",
-            "unarchiveDocument": "Er du sikker på at du vil genåbne dette dokument",
-            "unarchiveEmployee": "Er du sikker på at du vil genåbne denne medarbeider",
+            "unarchiveCitizen": "Er du sikker på at du vil gjenåpne denne @:terms.citizen{''}",
+            "unarchiveDocument": "Er du sikker på at du vil gjenåpne dette dokument",
+            "unarchiveEmployee": "Er du sikker på at du vil gjenåpne denne medarbeider",
             "unarchiveGoal": "Er du sikker på at du vil gjenopprette dette mål",
             "unarchivePlan": "Er du sikker på at du vil gjenopprette denne plan",
             "unarchiveSubgoal": "Er du sikker på at du vil gjenopprette dette delmål",
@@ -1131,10 +1131,10 @@
             "canBeDeleted": "Kan slettes",
             "readyForDeletion": "Klar for sletting",
             "actions": {
-                "unarchive": "Genåbn",
-                "unarchiveCitizen": "Genåbn @:terms.citizen{''}",
-                "unarchiveDocument": "Genåbn dokument",
-                "unarchiveEmployee": "Genåbn medarbeider",
+                "unarchive": "Gjenåpne",
+                "unarchiveCitizen": "Gjenåpne @:terms.citizen{''}",
+                "unarchiveDocument": "Gjenåpne dokument",
+                "unarchiveEmployee": "Gjenåpne medarbeider",
                 "delete": "Slett",
                 "deleteCitizen": "Slett @:terms.citizen{''}",
                 "deleteDocument": "Slett dokument",

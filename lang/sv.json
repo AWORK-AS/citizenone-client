@@ -1104,9 +1104,9 @@
     },
     "archived": {
         "alert": {
-            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} genåbnet",
-            "documentSuccessfullyUnarchive": "Dokument genåbnet",
-            "employeeSuccessfullyUnarchive": "Anställd genåbnet",
+            "citizenSuccessfullyUnarchive": "@.capitalize:terms.citizen{''} återöppnad",
+            "documentSuccessfullyUnarchive": "Dokument återöppnat",
+            "employeeSuccessfullyUnarchive": "Anställd återöppnad",
             "goalSuccessfullyUnarchive": "Mål gendannet",
             "planSuccessfullyUnarchive": "Plan gendannet",
             "subgoalSuccessfullyUnarchive": "Delmål gendannet",
@@ -1115,9 +1115,9 @@
             "employeeSuccessfullyDeleted": "Anställd permanent raderad"
         },
         "confirmation": {
-            "unarchiveCitizen": "Är du säker på att du vill genåbne denna @:terms.citizen{''}",
-            "unarchiveDocument": "Är du säker på att du vill genåbne detta dokument",
-            "unarchiveEmployee": "Är du säker på att du vill genåbne denna anställd",
+            "unarchiveCitizen": "Är du säker på att du vill återöppna denna @:terms.citizen{''}",
+            "unarchiveDocument": "Är du säker på att du vill återöppna detta dokument",
+            "unarchiveEmployee": "Är du säker på att du vill återöppna denna anställd",
             "unarchiveGoal": "Är du säker på att du vill gendanne detta mål",
             "unarchivePlan": "Är du säker på att du vill gendanne denna plan",
             "unarchiveSubgoal": "Är du säker på att du vill gendanne detta delmål",
