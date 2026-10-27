@@ -135,6 +135,11 @@ const CATEGORY_LABELS: Record<string, string> = {
 const OVERFLOW_ORDER = ['documentation', 'time', 'people', 'admin', 'care']
 const MOBILE_ORDER = ['care', 'documentation', 'time', 'people', 'admin']
 
+// Twelve tabs fitted on a wide screen and every one of them showed, which read as
+// one long undifferentiated row. Past this many, the rest go under "More" even when
+// there would be room.
+const MAX_INLINE = 7
+
 // Matches the `space-x-2` gap between tabs.
 const GAP_PX = 8
 
@@ -174,8 +179,8 @@ function buildGroups(order: string[], tabs: SectionTab[]) {
         .filter((group) => group.tabs.length > 0)
 }
 
-// Fills the row from the left. When everything fits there is no "More" button at
-// all; when it does not, the active tab is kept inline so the current section is
+// Fills the row from the left, up to MAX_INLINE tabs. When everything fits there is
+// no "More" button at all; when it does not, the active tab is kept inline so the current section is
 // never hidden behind the dropdown.
 function measure() {
     const nav = navRef.value
@@ -188,7 +193,7 @@ function measure() {
 
     const widths = tabElements.map((element) => element.getBoundingClientRect().width)
     const total = widths.reduce((sum, width) => sum + width, 0) + GAP_PX * Math.max(widths.length - 1, 0)
-    if (total <= available) {
+    if (total <= available && widths.length <= MAX_INLINE) {
         visibleIndexes.value = widths.map((_, index) => index)
         return
     }
@@ -203,6 +208,7 @@ function measure() {
         used += widths[activeIndex] + GAP_PX
     }
     for (let index = 0; index < widths.length; index++) {
+        if (chosen.size >= MAX_INLINE) break
         if (chosen.has(index)) continue
         if (used + widths[index] + GAP_PX > available) break
         chosen.add(index)

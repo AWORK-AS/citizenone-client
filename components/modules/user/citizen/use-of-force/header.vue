@@ -1,13 +1,13 @@
 <template>
     <LoadingSpinner :isActive="state.isPageLoading">
         <div class="flex flex-col gap-y-2">
-            <button type="button"
+            <button type="button" v-if="!props.headless"
                 class="flex w-full items-center justify-center gap-x-1.5 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100 hover:border-red-300 transition-colors"
                 @click="state.modal.isReportUseOfForceOpen = true">
                 <Icon name="ph:warning-circle" class="h-4 w-4" aria-hidden="true" />
                 {{ $t('citizens.useOfForce.reportUseOfForce') }}
             </button>
-            <div class="flex items-center justify-center gap-x-1" @click="state.slideOver.isReportUseOfForceOpen = true">
+            <div class="flex items-center justify-center gap-x-1" v-if="!props.headless" @click="state.slideOver.isReportUseOfForceOpen = true">
                 <Tooltip :text="$t('citizens.useOfForce.missingAttachmentToOneOrMoreRecord')"
                     v-if="props.selectedCitizen?.data?.is_missing_form" class="cursor-pointer">
                     <Icon name="ph:warning" class="h-5 w-5 text-yellow-500" aria-hidden="true" />
@@ -36,6 +36,11 @@ const props = defineProps({
         type: Object,
         required: false,
     },
+    // Renders only the modals, for a parent that offers its own buttons.
+    headless: {
+        type: Boolean,
+        default: false,
+    },
 })
 
 const router = useRouter()
@@ -53,6 +58,11 @@ const state = reactive({
     slideOver: {
         isReportUseOfForceOpen: false
     },
+})
+
+defineExpose({
+    openReport: () => { state.modal.isReportUseOfForceOpen = true },
+    openPrevious: () => { state.slideOver.isReportUseOfForceOpen = true },
 })
 
 async function saveUseOfForce(useOfForceDetails: any) {

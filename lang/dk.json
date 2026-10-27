@@ -2108,6 +2108,9 @@
             "protocol": "Protokol"
         },
         "birthdayToday": "Fødselsdag i dag",
+        "showDetails": "Vis detaljer",
+        "hideDetails": "Skjul detaljer",
+        "reportMenu": "Rapportér",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Begivenhed slettet med succes"

@@ -2108,6 +2108,9 @@
             "protocol": "Protokoll"
         },
         "birthdayToday": "Bursdag i dag",
+        "showDetails": "Vis detaljer",
+        "hideDetails": "Skjul detaljer",
+        "reportMenu": "Rapporter",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Arrangement slettet vellykket"

@@ -2108,6 +2108,9 @@
             "protocol": "Protocol"
         },
         "birthdayToday": "Birthday today",
+        "showDetails": "Show details",
+        "hideDetails": "Hide details",
+        "reportMenu": "Report",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Event successfully deleted"

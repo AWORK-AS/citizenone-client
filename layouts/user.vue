@@ -633,11 +633,14 @@
                                 <slot name="guided-tour"></slot>
                             </div>
                             <div class="mt-3 flex justify-between items-center order-2">
-                                <h1 class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
+                                <!-- Citizen pages name the citizen in their own header instead. -->
+                                <h1 v-if="$slots.header" class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
                                     <slot name="header"></slot>
                                 </h1>
-                                <slot name="new-feature"></slot>
-                                <slot name="settings"></slot>
+                                <div class="ms-auto flex items-center gap-x-3">
+                                    <slot name="new-feature"></slot>
+                                    <slot name="settings"></slot>
+                                </div>
                             </div>
                             <div class="mt-2 order-2" v-if="$slots['sub-header']">
                                 <h3 class="text-base text-slate-500">
