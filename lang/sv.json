@@ -2159,13 +2159,16 @@
                     "date": "Besöksdatum",
                     "timeStart": "Besök från",
                     "timeEnd": "Besök till",
-                    "help": "Med ett besöksdatum visas besöket i kalendern för @:terms.citizenDefinite{''} och i din egen."
+                    "help": "Med ett besöksdatum visas besöket i kalendern för @:terms.citizenDefinite{''} och i din egen. Besöket registrerar inga timmar."
                 },
                 "careHours": {
                     "register": "Registrera insatstimmar",
                     "timeStart": "Från",
                     "timeEnd": "Till",
-                    "help": "Timmarna registreras den {date}."
+                    "help": "Timmarna registreras den {date}.",
+                    "addLine": "Lägg till fler timmar",
+                    "removeLine": "Ta bort rad",
+                    "fromVisit": "Ifyllt från besöket. Ändra tiden om den inte stämmer."
                 },
                 "internalHelp": "Döljs för roller där en administratör har markerat \"Kan inte se interna anteckningar\". Tas inte med i Cody och kan inte kopieras till en plan.",
                 "enterJournalContent": "Ange journalindhold manuelt",
