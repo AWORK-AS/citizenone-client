@@ -43,38 +43,30 @@
                                     :citizenUuid="String(citizenUuid)" />
                             </div>
                         </div>
-                        <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
-                            <div class="flex items-center gap-x-5">
-                                <button class="flex items-center gap-x-1 text-sm text-primary group"
-                                    @click="state.modal.isFilterJournalOpen = true">
-                                    <Icon name="ic:outline-filter-list"
-                                        class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                                    <span class="group-hover:text-primary-700">
-                                        {{ $t('filter') }}
-                                    </span>
-                                </button>
-                                <!-- Rarely needed, so it sits with the filters rather than next to New note. -->
-                                <button v-if="isAtLeast('Admin') || can('view_citizen_journal')"
-                                    class="flex items-center gap-x-1.5 text-sm text-slate-600 hover:text-primary-700"
-                                    @click="showDeletedJournalHistories">
-                                    <Icon name="ph:trash" class="size-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
-                                </button>
-                            </div>
-                            <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" @click="showDownloadJournal"
-                                    v-if="isAtLeast('Admin') || can('view_citizen_journal')">
-                                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.download') }}
-                                </FormButton>
-                                <FormButton buttonStyle="primary" @click="state.modal.isAddJournalOpen = true"
-                                    v-if="isAtLeast('Admin') || can('create_citizen_journal')">
-                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.newNote') }}
-                                </FormButton>
-                            </div>
+                        <div class="flex items-center justify-end gap-x-2">
+                            <!-- Rarely needed, so a quiet link beside the actions. -->
+                            <button v-if="isAtLeast('Admin') || can('view_citizen_journal')"
+                                class="me-2 flex items-center gap-x-1.5 text-sm text-slate-600 hover:text-primary-700"
+                                @click="showDeletedJournalHistories">
+                                <Icon name="ph:trash" class="size-4" aria-hidden="true" />
+                                {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
+                            </button>
+                            <FormButton buttonStyle="action" @click="showDownloadJournal"
+                                v-if="isAtLeast('Admin') || can('view_citizen_journal')">
+                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.citizenJournals.download') }}
+                            </FormButton>
+                            <FormButton buttonStyle="primary" @click="state.modal.isAddJournalOpen = true"
+                                v-if="isAtLeast('Admin') || can('create_citizen_journal')">
+                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.citizenJournals.newNote') }}
+                            </FormButton>
                         </div>
 
+                        <!-- Filtering used to live in three places: a Filter modal (view, tags,
+                             author), the search row and the chip row, and the modal hid what was
+                             on. Everything now sits here and applies at once; what narrows the
+                             list is always visible and removable. -->
                         <div class="space-y-2">
                             <div class="flex flex-col md:flex-row md:items-center gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
@@ -85,14 +77,13 @@
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                     v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
                             </div>
-                            <!-- Sort and quick filters say what they do, and show when they are on. -->
                             <div class="flex flex-wrap items-center gap-2">
-                                <button type="button" :class="chipClass(false)" @click="toggleSortOrder"
-                                    data-testid="journal-sort">
-                                    <Icon :name="isNewestFirst ? 'ph:sort-descending' : 'ph:sort-ascending'"
-                                        class="size-4" aria-hidden="true" />
-                                    {{ isNewestFirst ? $t('citizens.citizenJournals.filter.newestFirst') : $t('citizens.citizenJournals.filter.oldestFirst') }}
-                                </button>
+                                <ModulesUserCitizenJournalFilterDropdown icon="ph:tag"
+                                    :label="term('journalNoteTag', $t('journalNoteTags.journalNoteTags'))"
+                                    :options="state.options.tags" v-model="state.filter.tags" />
+                                <ModulesUserCitizenJournalFilterDropdown icon="ph:user"
+                                    :label="$t('journalNoteTags.createdBy')"
+                                    :options="state.options.users" v-model="state.filter.created_by" />
                                 <button type="button" :class="chipClass(!!state.dataFilter.lock)"
                                     :aria-pressed="!!state.dataFilter.lock" @click="toggleQuickFilter('lock')">
                                     <Icon name="ph:lock" class="size-4" aria-hidden="true" />
@@ -108,6 +99,44 @@
                                     @click="resetFilter">
                                     {{ $t('citizens.citizenJournals.filter.resetFilters') }}
                                 </button>
+                                <!-- How the list is shown, not which notes: kept apart from the filters. -->
+                                <div class="ms-auto flex items-center gap-2">
+                                    <button type="button" :class="chipClass(false)" @click="toggleSortOrder"
+                                        data-testid="journal-sort">
+                                        <Icon :name="isNewestFirst ? 'ph:sort-descending' : 'ph:sort-ascending'"
+                                            class="size-4" aria-hidden="true" />
+                                        {{ isNewestFirst ? $t('citizens.citizenJournals.filter.newestFirst') : $t('citizens.citizenJournals.filter.oldestFirst') }}
+                                    </button>
+                                    <Menu as="div" class="relative">
+                                        <MenuButton :class="chipClass(false)">
+                                            <Icon name="ph:eye" class="size-4" aria-hidden="true" />
+                                            {{ $t('citizens.citizenJournals.filter.view') }}: {{ viewLabel(citizenJournalStore.getFilterView) }}
+                                            <Icon name="ph:caret-down" class="size-3" aria-hidden="true" />
+                                        </MenuButton>
+                                        <MenuItems
+                                            class="absolute right-0 z-30 mt-2 w-60 origin-top-right rounded-md bg-white p-1 shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                            <MenuItem v-for="view in VIEWS" :key="view" v-slot="{ active }">
+                                                <button type="button" @click="setView(view)"
+                                                    :class="[active && 'bg-gray-100', 'flex w-full items-center justify-between gap-2 rounded-md px-2 py-2.5 text-sm']">
+                                                    {{ viewLabel(view) }}
+                                                    <Icon v-if="citizenJournalStore.getFilterView === view" name="ph:check"
+                                                        class="size-4 text-primary" aria-hidden="true" />
+                                                </button>
+                                            </MenuItem>
+                                        </MenuItems>
+                                    </Menu>
+                                </div>
+                            </div>
+                            <div v-if="activePills.length" class="flex flex-wrap items-center gap-1.5">
+                                <span v-for="pill in activePills" :key="pill.key"
+                                    class="inline-flex items-center gap-1 rounded-full bg-primary-50 py-1 ps-2.5 pe-1 text-xs font-medium text-primary">
+                                    {{ pill.label }}
+                                    <button type="button" class="rounded-full p-0.5 hover:bg-primary-100"
+                                        :aria-label="`${$t('citizens.citizenJournals.filter.clear')}: ${pill.label}`"
+                                        @click="pill.remove()">
+                                        <Icon name="ph:x" class="size-3" aria-hidden="true" />
+                                    </button>
+                                </span>
                             </div>
                         </div>
                         <div class="mt-5 space-y-5 stagger-children">
@@ -134,8 +163,6 @@
                     </div>
                 </LoadingSpinner>
             </div>
-            <ModulesUserCitizenJournalModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
-                @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
             <ModulesUserCitizenJournalModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 @close="state.modal.isAddJournalOpen = false"
                 @refreshJournal="() => { fetchJournals(); pendingSurveysWarning?.refresh() }" />
@@ -174,6 +201,10 @@ import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { usePermissions } from '@/composables/usePermissions'
 import { useTerminology } from '@/composables/useTerminology'
+import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
+import { userService } from '@/components/api/user/UserService'
+import { useDepartmentStore } from '@/store/department'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
@@ -202,10 +233,16 @@ const state = reactive({
     filter: {
         date_range: [] as any,
         journal: '' as any,
+        tags: [] as string[],
+        created_by: [] as string[],
         view: "Standard view"
     },
     isPageLoading: false,
     journals: [] as any,
+    options: {
+        tags: [] as { value: string, label: string }[],
+        users: [] as { value: string, label: string }[],
+    },
     modal: {
         isAddJournalOpen: false,
         isCopyJournalOpen: false,
@@ -213,7 +250,6 @@ const state = reactive({
         isDeletedJournalHistoriesOpen: false,
         isDownloadJournalOpen: false,
         isEditJournalOpen: false,
-        isFilterJournalOpen: false,
         isMoveJournalOpen: false,
         isViewLogsOpen: false,
         isRecordHistoryOpen: false,
@@ -246,6 +282,7 @@ async function fetchWellbeingRulerConfig() {
 
 onMounted(() => {
     fetchWellbeingRulerConfig()
+    fetchFilterOptions()
 
     if (citizenJournalStore.getSortDataBy === 'Journal ascending') {
         state.sortData = {
@@ -296,11 +333,62 @@ watch(() => state.filter.date_range, (dates: any) => {
     fetchJournals()
 })
 
-function setFilter(filter: any) {
-    citizenJournalStore.setFilterView(filter.selectedView.title)
-    state.dataFilter.tags_uuid = JSON.stringify(filter.tags)
-    state.dataFilter.created_by = JSON.stringify(filter.created_by)
+const departmentStore = useDepartmentStore() as any
+
+const VIEWS = ['Standard view', 'Journal note view', 'Risk assessment view']
+
+function viewLabel(view: string) {
+    if (view === 'Journal note view') return term('journalNoteTag', t('citizens.citizenJournals.filter.journalNoteView'))
+    if (view === 'Risk assessment view') return customPagesStore.getCustomPagesName?.riskAssessment
+    return t('citizens.citizenJournals.filter.standardView')
+}
+
+function setView(view: string) {
+    citizenJournalStore.setFilterView(view)
+}
+
+watch(() => [state.filter.tags, state.filter.created_by], ([tags, createdBy]) => {
+    if (tags.length) {
+        state.dataFilter.tags_uuid = JSON.stringify(tags)
+    } else {
+        delete state.dataFilter.tags_uuid
+    }
+    if (createdBy.length) {
+        state.dataFilter.created_by = JSON.stringify(createdBy)
+    } else {
+        delete state.dataFilter.created_by
+    }
+    currentTablePage = 1
     fetchJournals()
+})
+
+const activePills = computed(() => {
+    const pill = (list: 'tags' | 'users', key: 'tags' | 'created_by', prefix: string) =>
+        state.filter[key].map((value) => ({
+            key: `${key}-${value}`,
+            label: `${prefix}: ${state.options[list].find((option) => option.value === value)?.label ?? value}`,
+            remove: () => { state.filter[key] = state.filter[key].filter((item) => item !== value) },
+        }))
+    return [
+        ...pill('tags', 'tags', term('journalNoteTag', t('journalNoteTags.journalNoteTags'))),
+        ...pill('users', 'created_by', t('journalNoteTags.createdBy')),
+    ]
+})
+
+async function fetchFilterOptions() {
+    try {
+        const [tags, users] = await Promise.all([
+            journalNoteTagService.getAllJournalNoteTags({ department: departmentStore.getSelectedDepartmentName }),
+            userService.getAllUsersWithoutAllUsersOption(),
+        ])
+        state.options.tags = (tags?.data ?? []).map((tag: any) => ({ value: tag?.uuid, label: tag?.name }))
+        state.options.users = (users?.data ?? []).map((user: any) => ({
+            value: user?.uuid,
+            label: `${user?.firstname ?? ''} ${user?.lastname ?? ''}`.trim(),
+        }))
+    } catch (error: any) {
+        state.error = error
+    }
 }
 
 async function fetchJournals() {
@@ -345,7 +433,9 @@ const hasActiveFilters = computed(() => !isNewestFirst.value
     || !!state.dataFilter.lock
     || !!state.dataFilter.favorite
     || !!state.filter.journal
-    || !!state.filter.date_range?.length)
+    || !!state.filter.date_range?.length
+    || !!state.filter.tags.length
+    || !!state.filter.created_by.length)
 
 function chipClass(active: boolean) {
     return [
@@ -396,6 +486,8 @@ function resetFilter() {
     }
     state.filter.date_range = []
     state.filter.journal = ''
+    state.filter.tags = []
+    state.filter.created_by = []
     fetchJournals()
 }
 

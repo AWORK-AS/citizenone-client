@@ -2197,6 +2197,8 @@
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
                 "favorites": "Favoriter",
+                "view": "Vy",
+                "clear": "Rensa",
                 "locked": "Låsta",
                 "journalNoteView": "Journalnotatvisning",
                 "newestFirst": "Nyaste först",

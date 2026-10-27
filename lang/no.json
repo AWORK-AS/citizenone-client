@@ -2197,6 +2197,8 @@
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
                 "favorites": "Favoritter",
+                "view": "Visning",
+                "clear": "Tøm",
                 "locked": "Låste",
                 "journalNoteView": "@.capitalize:terms.journalNote{''}visning",
                 "newestFirst": "Nyeste øverst",

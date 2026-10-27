@@ -2197,6 +2197,8 @@
                 "date": "Date",
                 "filterDate": "Filter date",
                 "favorites": "Favourites",
+                "view": "View",
+                "clear": "Clear",
                 "locked": "Locked",
                 "journalNoteView": "@.capitalize:terms.journalNote{''} view",
                 "newestFirst": "Newest first",
