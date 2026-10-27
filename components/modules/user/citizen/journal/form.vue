@@ -1937,11 +1937,19 @@ watch(dictation.error, (problem) => {
 // The panel never touches the editor: it only asks, and the answer lands here.
 const assistantStore = useAssistantStore()
 const codyPreviewOffered = computed(() => companyHasModule(userStore.getUser?.company?.module_pages, 'AI assistant'))
-const { promptOpen: codyPromptOpen, load: loadCodyAdoption } = useCodyAdoption()
+const { promptOpen: codyPromptOpen, load: loadCodyAdoption, status: codyStatus, recordNudge: recordCodyNudge } = useCodyAdoption()
+// The preview button is shown to everyone without a seat; it is measured as a nudge only
+// where Cody can still be bought (recordNudge skips a company that has it).
+const codyPreviewShown = computed(() => codyPreviewOffered.value && !userStore.getUser?.has_ai_access)
 function openCodyPreview() {
     loadCodyAdoption()
+    recordCodyNudge('click', 'journal_preview')
     codyPromptOpen.value = true
 }
+watch([codyPreviewShown, codyStatus], ([shown, status]) => {
+    if (shown && status) recordCodyNudge('impression', 'journal_preview')
+}, { immediate: true })
+onMounted(() => { if (codyPreviewShown.value) loadCodyAdoption() })
 
 // ─── Draft of a new note (create only) ─────────────────────────
 const draftStorageKey = computed(() => props.formType === 'create'

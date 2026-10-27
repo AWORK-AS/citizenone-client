@@ -1240,7 +1240,10 @@
             "alreadyAsked": "You have already asked your manager about Cody AI.",
             "noRecipient": "We could not find a manager to send this to. Contact support.",
             "companyHasCody": "Your company has Cody AI. Ask your administrator for a seat.",
-            "adminTitle": "Try Cody AI with your whole team"
+            "adminTitle": "Try Cody AI with your whole team",
+            "assignSelf": "Your company has Cody AI. You assign seats under Employees, including your own.",
+            "goToSeats": "Go to Employees",
+            "askAdminAccess": "Ask your administrator for access"
         },
         "adoption": {
             "headline": "Give your team time back with Cody AI",
@@ -1260,7 +1263,18 @@
             "requestFailed": "That did not work. Please try again shortly.",
             "promptTitle": "Bring Cody AI into your day",
             "goToStore": "Go to the App Store",
-            "thenAmount": "Then {amount}"
+            "thenAmount": "Then {amount}",
+            "demand": "1 of your employees asked for Cody AI in the last 30 days | {count} of your employees asked for Cody AI in the last 30 days",
+            "price": {
+                "month": "Then {amount}/mo.",
+                "monthSeats": "Then {amount}/mo. for {count} user | Then {amount}/mo. for {count} users",
+                "year": "Then {amount}/yr.",
+                "yearSeats": "Then {amount}/yr. for {count} user | Then {amount}/yr. for {count} users"
+            },
+            "seats": {
+                "title": "1 employee asked for access to Cody AI | {count} employees asked for access to Cody AI",
+                "assign": "Give them access | Give them access"
+            }
         }
     },
     "appTrial": {
@@ -12884,7 +12898,30 @@
             "smallSample": "few signups",
             "all": "All",
             "empty": "No signups in the period.",
-            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time."
+            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time.",
+            "codyNudges": {
+                "title": "Cody AI nudges for administrators",
+                "subtitle": "Impressions, clicks and how many companies started a trial or bought Cody AI within {days} days of first seeing it. Per week and surface.",
+                "week": "Week",
+                "surface": "Surface",
+                "footnote": "Impressions count once per person, surface and day. A company that already has Cody AI only appears under Assign seats. Internal companies are left out.",
+                "columns": {
+                    "impressions": "Impressions",
+                    "viewers": "People",
+                    "clicks": "Clicks",
+                    "try_free": "Try free",
+                    "buy": "Buy",
+                    "companies": "Companies",
+                    "trial_started": "Trial started",
+                    "bought": "Bought"
+                },
+                "surfaces": {
+                    "banner": "Admin banner",
+                    "prompt": "Cody AI dialog",
+                    "journal_preview": "Journal preview",
+                    "seats": "Assign seats"
+                }
+            }
         },
         "roadmap": {
             "title": "Roadmap",

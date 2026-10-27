@@ -1240,7 +1240,10 @@
             "alreadyAsked": "Du har allerede bedt lederen din om Cody AI.",
             "noRecipient": "Vi fant ingen leder å sende dette til. Kontakt support.",
             "companyHasCody": "Virksomheten din har Cody AI. Be administratoren din om en plass.",
-            "adminTitle": "Prøv Cody AI med hele teamet"
+            "adminTitle": "Prøv Cody AI med hele teamet",
+            "assignSelf": "Virksomheten din har Cody AI. Du tildeler plasser under Medarbeidere, også til deg selv.",
+            "goToSeats": "Gå til Medarbeidere",
+            "askAdminAccess": "Be administratoren din om tilgang"
         },
         "adoption": {
             "headline": "Gi de ansatte tid tilbake med Cody AI",
@@ -1260,7 +1263,18 @@
             "requestFailed": "Det gikk ikke. Prøv igjen om litt.",
             "promptTitle": "Ta Cody AI med inn i hverdagen",
             "goToStore": "Gå til App-butikken",
-            "thenAmount": "Deretter {amount}"
+            "thenAmount": "Deretter {amount}",
+            "demand": "1 av de ansatte deres har bedt om Cody AI de siste 30 dagene | {count} av de ansatte deres har bedt om Cody AI de siste 30 dagene",
+            "price": {
+                "month": "Deretter {amount}/mnd.",
+                "monthSeats": "Deretter {amount}/mnd. for {count} bruker | Deretter {amount}/mnd. for {count} brukere",
+                "year": "Deretter {amount}/år",
+                "yearSeats": "Deretter {amount}/år for {count} bruker | Deretter {amount}/år for {count} brukere"
+            },
+            "seats": {
+                "title": "1 medarbeider har bedt om tilgang til Cody AI | {count} medarbeidere har bedt om tilgang til Cody AI",
+                "assign": "Gi tilgang | Gi dem tilgang"
+            }
         }
     },
     "appTrial": {
@@ -12876,7 +12890,30 @@
             "smallSample": "få tall",
             "all": "Alle",
             "empty": "Ingen registreringer i perioden.",
-            "footnote": "Kohort: et firma teller i perioden det registrerte seg. Eksempeldata fra registreringen teller ikke. Betaler = aktivt Basis- eller Pro-abonnement i dag. Ukjent = opprettet før kildesporing (30.09.2026) eller av superadmin. Nyere perioder ser dårligere ut fordi firmaene har hatt kortere tid."
+            "footnote": "Kohort: et firma teller i perioden det registrerte seg. Eksempeldata fra registreringen teller ikke. Betaler = aktivt Basis- eller Pro-abonnement i dag. Ukjent = opprettet før kildesporing (30.09.2026) eller av superadmin. Nyere perioder ser dårligere ut fordi firmaene har hatt kortere tid.",
+            "codyNudges": {
+                "title": "Cody AI-påminnelser til administratorer",
+                "subtitle": "Visninger, klikk og hvor mange virksomheter som startet en prøveperiode eller kjøpte Cody AI innen {days} dager etter første visning. Per uke og flate.",
+                "week": "Uke",
+                "surface": "Flate",
+                "footnote": "Visninger telles én gang per person, flate og dag. En virksomhet som allerede har Cody AI, vises bare under Tildel plasser. Interne virksomheter er utelatt.",
+                "columns": {
+                    "impressions": "Visninger",
+                    "viewers": "Personer",
+                    "clicks": "Klikk",
+                    "try_free": "Prøv gratis",
+                    "buy": "Kjøp",
+                    "companies": "Virksomheter",
+                    "trial_started": "Prøve startet",
+                    "bought": "Kjøpt"
+                },
+                "surfaces": {
+                    "banner": "Admin-banner",
+                    "prompt": "Cody AI-dialog",
+                    "journal_preview": "Journal-forhåndsvisning",
+                    "seats": "Tildel plasser"
+                }
+            }
         },
         "roadmap": {
             "title": "Veikart",
