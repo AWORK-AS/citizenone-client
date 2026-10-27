@@ -7785,6 +7785,8 @@
             "motherTongue": "Modersmål",
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
+            "pageAccessFromRole": "Sideadgang følger medarbejderens rolle.",
+            "pageAccessEditRoles": "Ret den under Indstillinger → Roller",
             "password": "Adgangskode",
             "permissions": {
                 "create": "Opret",
