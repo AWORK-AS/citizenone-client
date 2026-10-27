@@ -1,6 +1,8 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedback'
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
+import { memoryNoteFor } from '@/composables/codyMemory'
+import type { CodyMemoryNote } from '@/composables/codyMemory'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { generalSearchService } from '@/components/api/user/GeneralSearchService'
@@ -81,6 +83,12 @@ export interface CodyMessage {
     feedbackReason?: AnswerFeedbackReason | null
     /** Rated in this session: the thanks line shows, and the reasons stay open after a thumbs down. */
     feedbackGiven?: boolean
+    /**
+     * What happened to Cody's memory on this answer, when it is worth saying:
+     * the one-time "Cody AI remembers this now" note, or that it could not
+     * remember because the storage is full.
+     */
+    memoryNote?: CodyMemoryNote | null
 }
 
 export { ANSWER_FEEDBACK_REASONS }
@@ -190,6 +198,8 @@ export function createCodyChat() {
         // The records this answer is about. Per-request like the receipts, and
         // moved onto the message when it lands.
         cards: [] as AnswerCard[],
+        // The storage-full note under an answer is shown once per session.
+        memoryStorageFullShown: false,
         // Kept so an answer can be re-asked without the user retyping the question.
         lastRequest: {
             prompt: '',
@@ -716,6 +726,9 @@ export function createCodyChat() {
     }
 
     function applyAnswer(response: any) {
+        const memoryNote = memoryNoteFor(response?.cody_memory, { storageFullShown: state.memoryStorageFullShown })
+        if (memoryNote?.kind === 'storage_full') state.memoryStorageFullShown = true
+
         state.messages.push({
             type: 'bot',
             text: response?.data?.answer,
@@ -732,6 +745,7 @@ export function createCodyChat() {
             cards: response?.cards?.length
                 ? (response.cards as AnswerCard[]).filter((card) => KNOWN_CARDS.includes(card.type))
                 : [...state.cards],
+            memoryNote,
         })
 
         if (response.conversation_id) {

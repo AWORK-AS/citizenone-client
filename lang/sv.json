@@ -1345,7 +1345,13 @@
             "my_messages": "Räknar olästa meddelanden",
             "create_task": "Skapar en uppgift",
             "draft_journal_note": "Skriver ett journalutkast",
-            "refer_to_milo": "Hänvisar till Milo"
+            "refer_to_milo": "Hänvisar till Milo",
+            "remember_about_me": "Kommer ihåg något om dig"
+        },
+        "memory": {
+            "firstSaved": "Cody AI har noterat något om hur du arbetar, så att nästa svar passar dig bättre.",
+            "seeWhat": "Se och radera det här",
+            "storageFull": "Cody AI kunde inte komma ihåg detta eftersom er lagringsplats är full. Svaret ovan är komplett."
         },
         "toolTrace": {
             "title": "Vad Cody AI läste",
@@ -12042,6 +12048,21 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Det här minns Cody AI",
+                "description": "Cody AI kan notera korta saker om hur du arbetar, till exempel att du föredrar korta svar. Det handlar bara om dig, aldrig om @:terms.citizens{''}. Bara du kan se det här.",
+                "limit": "Cody AI minns högst {count} saker. De äldsta oanvända glöms först. Resten sparas tills du själv raderar det.",
+                "reset": "Byter du avdelning eller roll börjar Cody AI om från början.",
+                "empty": "Cody AI har inte noterat något om dig ännu.",
+                "learnedAt": "Lärt {date}",
+                "forgetOne": "Glöm",
+                "forgetOneLabel": "Glöm: {content}",
+                "forgetAll": "Glöm allt",
+                "forgetAllTitle": "Glöm allt som Cody AI minns?",
+                "forgetAllMessage": "Allt som Cody AI har noterat om dig raderas. Det kan inte ångras.",
+                "loadFailed": "Det som Cody AI minns kunde inte hämtas just nu. Försök igen senare.",
+                "forgetFailed": "Det kunde inte raderas. Försök igen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderprenumeration",
                 "description": "Prenumerera på dina pass i din egen kalenderapp (Google Kalender, Apple Kalender, Outlook). Schemat uppdateras automatiskt.",
@@ -13476,7 +13497,8 @@
                     "tasks": "Uppgifter",
                     "company_files": "Företagsfiler",
                     "nursing_areas": "Vårdområden",
-                    "ai_conversations": "AI-samtal"
+                    "ai_conversations": "AI-samtal",
+                    "cody_memories": "Cody AI-minne"
                 }
             },
             "contract": {

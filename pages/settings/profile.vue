@@ -38,6 +38,26 @@
                     </DisclosurePanel>
                 </Disclosure>
 
+                <!-- What Cody AI remembers about this person. The one-time note in the
+                     Cody panel links here, so it opens itself when that is how you came. -->
+                <Disclosure as="div" v-slot="{ open }" :id="CODY_MEMORY_ANCHOR" :defaultOpen="openCodyMemory"
+                    class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary scroll-mt-20">
+                    <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
+                        <div class="flex items-center gap-x-2">
+                            <Icon name="ph:brain" class="h-4 w-4 text-ai-ink" aria-hidden="true" />
+                            <h3 class="font-semibold text-sm">
+                                {{ $t('settings.profile.codyMemory.title') }}
+                            </h3>
+                        </div>
+                        <Icon :name="open ? 'ic:round-keyboard-arrow-up' : 'ic:round-keyboard-arrow-down'"
+                            class="w-5 h-5" />
+                    </DisclosureButton>
+
+                    <DisclosurePanel as="dd" class="px-5 pb-5">
+                        <ModulesUserSettingsCodyMemory />
+                    </DisclosurePanel>
+                </Disclosure>
+
                 <Disclosure as="div" v-slot="{ open }"
                     class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary">
                     <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
@@ -88,6 +108,7 @@
 
 <script setup lang="ts">
 import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
+import { CODY_MEMORY_ANCHOR } from '@/composables/codyMemory'
 
 const runtimeConfig = useRuntimeConfig()
 const breadcrumbLinks = [
@@ -100,5 +121,14 @@ const breadcrumbLinks = [
 
 const state = reactive({
     isSubscribeOpen: false
+})
+
+const route = useRoute()
+const openCodyMemory = route.hash === `#${CODY_MEMORY_ANCHOR}`
+
+onMounted(() => {
+    if (openCodyMemory) {
+        nextTick(() => document.getElementById(CODY_MEMORY_ANCHOR)?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    }
 })
 </script>

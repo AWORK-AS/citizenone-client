@@ -49,6 +49,37 @@
                             </span>
                         </p>
 
+                        <!-- What Cody AI remembers. Teal, since it is the AI speaking
+                        about itself; the link goes to the one page where the user reads
+                        and deletes it. Shown once, on the answer that stored the first. -->
+                        <p v-if="message.memoryNote?.kind === 'first_saved'" role="status"
+                            class="mt-2 flex items-start gap-1.5 rounded-md bg-ai-bg px-2 py-1.5 text-xs text-ai-ink">
+                            <Icon name="ph:brain" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                            <span>
+                                {{ $t('assistants.memory.firstSaved') }}
+                                <NuxtLink :to="CODY_MEMORY_PAGE" class="font-medium underline underline-offset-2">
+                                    {{ $t('assistants.memory.seeWhat') }}
+                                </NuxtLink>
+                            </span>
+                        </p>
+
+                        <!-- Could not remember: the organisation's storage is full. The
+                        answer above is complete; only the memory was skipped. Upgrading
+                        is an action, so blue, and only offered to whoever may buy. -->
+                        <div v-if="message.memoryNote?.kind === 'storage_full'" role="status"
+                            class="mt-2 flex items-start gap-1.5 rounded-md bg-amber-50 px-2 py-1.5 text-xs text-amber-800">
+                            <Icon name="ph:hard-drives" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                            <div class="min-w-0">
+                                <p>{{ $t('assistants.memory.storageFull') }}</p>
+                                <p v-if="message.memoryNote.message" class="mt-0.5">{{ message.memoryNote.message }}</p>
+                                <button v-if="message.memoryNote.upgradeUrl" type="button"
+                                    class="mt-1 font-medium text-blue-700 underline underline-offset-2 hover:text-blue-800"
+                                    @click="navigateTo(message.memoryNote.upgradeUrl)">
+                                    {{ $t('citizens.documents.upgradeStorage') }}
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- The records the answer is about, drawn as the product draws
                         them. Every field was built by the server from a reference - the
                         model supplies neither the values nor the link. -->
@@ -228,6 +259,7 @@ import { useAssistantStore } from '@/store/assistant'
 import { useUserStore } from '@/store/user'
 import { useCodyChat, ANSWER_FEEDBACK_REASONS } from '@/composables/useCodyChat'
 import { starterMode } from '@/composables/codyStarters'
+import { CODY_MEMORY_PAGE } from '@/composables/codyMemory'
 
 /**
  * The conversation itself: what was asked, what Cody answered, what it read to

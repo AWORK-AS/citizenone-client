@@ -1345,7 +1345,13 @@
             "my_messages": "Teller uleste meldinger",
             "create_task": "Oppretter en oppgave",
             "draft_journal_note": "Skriver et journalutkast",
-            "refer_to_milo": "Henviser til Milo"
+            "refer_to_milo": "Henviser til Milo",
+            "remember_about_me": "Husker noe om deg"
+        },
+        "memory": {
+            "firstSaved": "Cody AI har notert noe om hvordan du jobber, slik at de neste svarene passer bedre for deg.",
+            "seeWhat": "Se og slett det her",
+            "storageFull": "Cody AI kunne ikke huske dette fordi lagringsplassen deres er full. Svaret over er komplett."
         },
         "toolTrace": {
             "title": "Hva Cody AI leste",
@@ -12042,6 +12048,21 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Dette husker Cody AI",
+                "description": "Cody AI kan notere korte ting om hvordan du jobber, for eksempel at du foretrekker korte svar. Det handler bare om deg, aldri om @:terms.citizens{''}. Bare du kan se dette.",
+                "limit": "Cody AI husker høyst {count} ting. De eldste ubrukte glemmes først. Resten lagres til du sletter det selv.",
+                "reset": "Bytter du avdeling eller rolle, begynner Cody AI på nytt.",
+                "empty": "Cody AI har ikke notert noe om deg ennå.",
+                "learnedAt": "Lært {date}",
+                "forgetOne": "Glem",
+                "forgetOneLabel": "Glem: {content}",
+                "forgetAll": "Glem alt",
+                "forgetAllTitle": "Glemme alt Cody AI husker?",
+                "forgetAllMessage": "Alt Cody AI har notert om deg blir slettet. Det kan ikke angres.",
+                "loadFailed": "Det Cody AI husker kunne ikke hentes akkurat nå. Prøv igjen senere.",
+                "forgetFailed": "Det kunne ikke slettes. Prøv igjen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderabonnement",
                 "description": "Abonner på vaktene dine i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vaktplanen oppdateres automatisk.",
@@ -13476,7 +13497,8 @@
                     "tasks": "Oppgaver",
                     "company_files": "Virksomhetsfiler",
                     "nursing_areas": "Pleieområder",
-                    "ai_conversations": "AI-samtaler"
+                    "ai_conversations": "AI-samtaler",
+                    "cody_memories": "Cody AI-minne"
                 }
             },
             "contract": {

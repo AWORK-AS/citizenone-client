@@ -1345,7 +1345,13 @@
             "my_messages": "Tæller ulæste beskeder",
             "create_task": "Opretter en opgave",
             "draft_journal_note": "Skriver et journaludkast",
-            "refer_to_milo": "Henviser til Milo"
+            "refer_to_milo": "Henviser til Milo",
+            "remember_about_me": "Husker noget om dig"
+        },
+        "memory": {
+            "firstSaved": "Cody AI har noteret noget om, hvordan du arbejder, så de næste svar passer bedre til dig.",
+            "seeWhat": "Se og slet det her",
+            "storageFull": "Cody AI kunne ikke huske det her, fordi jeres lagerplads er fuld. Svaret ovenfor er helt."
         },
         "toolTrace": {
             "title": "Hvad Cody AI læste",
@@ -12047,6 +12053,21 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Det husker Cody AI",
+                "description": "Cody AI kan notere korte ting om, hvordan du arbejder, fx at du foretrækker korte svar. Det handler kun om dig, aldrig om @:terms.citizens{''}. Kun du kan se det her.",
+                "limit": "Cody AI husker højst {count} ting. De ældste ubrugte glemmes først. Resten gemmes, indtil du selv sletter det.",
+                "reset": "Skifter du afdeling eller rolle, starter Cody AI forfra.",
+                "empty": "Cody AI har ikke noteret noget om dig endnu.",
+                "learnedAt": "Lært {date}",
+                "forgetOne": "Glem",
+                "forgetOneLabel": "Glem: {content}",
+                "forgetAll": "Glem alt",
+                "forgetAllTitle": "Glem alt, hvad Cody AI husker?",
+                "forgetAllMessage": "Alt det, Cody AI har noteret om dig, bliver slettet. Det kan ikke fortrydes.",
+                "loadFailed": "Det, Cody AI husker, kunne ikke hentes lige nu. Prøv igen senere.",
+                "forgetFailed": "Det kunne ikke slettes. Prøv igen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderabonnement",
                 "description": "Abonnér på dine vagter i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vagtplanen opdateres automatisk.",
@@ -13484,7 +13505,8 @@
                     "tasks": "Opgaver",
                     "company_files": "Virksomhedsfiler",
                     "nursing_areas": "Plejeområder",
-                    "ai_conversations": "AI-samtaler"
+                    "ai_conversations": "AI-samtaler",
+                    "cody_memories": "Cody AI-hukommelse"
                 }
             },
             "contract": {
