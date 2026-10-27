@@ -199,6 +199,10 @@ const router = useRouter()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { isAtLeast, can } = usePermissions()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
+// A treatment picked on the front page arrives as ?treatment=<uuid>: its statuses
+// open straight away, since documenting it is what the click was for. Before,
+// the click only unfolded this list and the treatment had to be found again.
+let pendingTreatmentUuid = (router?.currentRoute?.value?.query?.treatment as string) || null
 let currentTablePage = 1
 
 const state = reactive({
@@ -235,6 +239,7 @@ async function fetchTreatments() {
         const response = await treatmentService.getTreatments(params)
         if (response) {
             state.treatments = response
+            openPendingTreatment()
         }
     } catch (error: any) {
         state.error = error
@@ -255,6 +260,13 @@ function next() {
 function editTreatment(treatment: any) {
     state.selectedTreatment = treatment
     state.modal.isEditTreatmentOpen = true
+}
+
+function openPendingTreatment() {
+    if (!pendingTreatmentUuid) return
+    const treatment = state.treatments?.data?.find((t: any) => t?.uuid === pendingTreatmentUuid)
+    pendingTreatmentUuid = null
+    if (treatment) viewStatuses(treatment)
 }
 
 function viewStatuses(treatment: any) {
