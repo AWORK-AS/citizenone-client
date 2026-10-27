@@ -156,16 +156,19 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="mt-1 flex items-start gap-x-2" v-if="state.showDetails && (state.selectedCitizen?.data?.address?.street ||
+                            </div>
+                            <!-- Collapsed, the header is name, flags and CAVE: what someone needs
+                                 before writing a note. The rest is one click away and the choice
+                                 is remembered. -->
+                            <template v-if="state.showDetails">
+                            <dl class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-6 gap-y-3 border-t border-surface-100 pt-4">
+                                <div class="sm:col-span-2" v-if="(state.selectedCitizen?.data?.address?.street ||
                                     state.selectedCitizen?.data?.address?.region ||
                                     state.selectedCitizen?.data?.address?.municipality ||
                                     state.selectedCitizen?.data?.address?.city ||
                                     state.selectedCitizen?.data?.address?.post_code) && hasAddressAccess()">
-                                    <Tooltip :text="$t('citizens.address')" class="flex items-center mt-0.5 shrink-0">
-                                        <Icon name="ph:map-pin" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                    </Tooltip>
-                                    <p class="text-sm text-slate-700">
-                                        <span v-if="state.selectedCitizen?.data?.address?.street">
+                                    <dt class="text-xs text-slate-500">{{ $t('citizens.address') }}</dt>
+                                    <dd class="mt-0.5 text-sm text-slate-800"><span v-if="state.selectedCitizen?.data?.address?.street">
                                             {{ state.selectedCitizen?.data?.address?.street }},
                                         </span>
                                         <span v-if="state.selectedCitizen?.data?.address?.region?.name">
@@ -179,80 +182,36 @@
                                         </span>
                                         <span v-if="state.selectedCitizen?.data?.address?.post_code">
                                             {{ state.selectedCitizen?.data?.address?.post_code }}
-                                        </span>
-                                    </p>
-                                </div>
-                            </div>
-                            <!-- Collapsed, the header is name, flags and CAVE: what someone needs
-                                 before writing a note. The rest is one click away and the choice
-                                 is remembered. -->
-                            <template v-if="state.showDetails">
-                            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5">
-                                <div class="space-y-1">
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.birthday && hasBirthdayAccess()">
-                                        <Tooltip :text="$t('citizens.form.birthday')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:cake" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            {{ formatDateToReadable(state.selectedCitizen?.data?.birthday) }}
-                                        </p>
+                                        </span></dd>
+                                        </div>
+                                <div class="contents">
+                                    <div v-if="state.selectedCitizen?.data?.birthday && hasBirthdayAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.birthday') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ formatDateToReadable(state.selectedCitizen?.data?.birthday) }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.email && hasEmailAddressAccess()">
-                                        <Tooltip :text="$t('citizens.form.emailAddress')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:envelope-open" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            {{ state.selectedCitizen?.data?.email }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.email && hasEmailAddressAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.emailAddress') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.email }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2" v-if="state.selectedCitizen?.data?.phone && showsCitizenField('Phone')">
-                                        <Tooltip :text="$t('citizens.form.phone')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:phone" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            {{ state.selectedCitizen?.data?.phone }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.phone && showsCitizenField('Phone')">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.phone') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.phone }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2" v-if="spokenLanguagesSummary && showsCitizenField('Spoken languages')">
-                                        <Tooltip :text="$t('citizens.form.spokenLanguages')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:translate" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            {{ spokenLanguagesSummary }}
-                                        </p>
+                                    <div v-if="spokenLanguagesSummary && showsCitizenField('Spoken languages')">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.spokenLanguages') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ spokenLanguagesSummary }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="primaryCaseworkerName && showsCitizenField('Case worker')">
-                                        <Tooltip :text="term('caseworker', $t('citizens.form.primaryCaseworker'))"
-                                            class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:user" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ term('caseworker', $t('citizens.form.primaryCaseworker')) }}:</span>
-                                            {{ primaryCaseworkerName }}
-                                        </p>
+                                    <div v-if="primaryCaseworkerName && showsCitizenField('Case worker')">
+                                        <dt class="text-xs text-slate-500">{{ term('caseworker', $t('citizens.form.primaryCaseworker')) }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ primaryCaseworkerName }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.date_admitted && hasDateAdmittedAccess()">
-                                        <Tooltip :text="$t('citizens.form.dateAdmitted')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:calendar" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.dateAdmitted') }}:</span>
-                                            {{ formatDateToReadable(state.selectedCitizen?.data?.date_admitted) }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.date_admitted && hasDateAdmittedAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.dateAdmitted') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ formatDateToReadable(state.selectedCitizen?.data?.date_admitted) }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.date_discharged && hasDateDischargedAccess()">
-                                        <Tooltip :text="$t('citizens.form.dateDischarged')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:calendar" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.dateDischarged') }}:</span>
-                                            {{ formatDateToReadable(state.selectedCitizen?.data?.date_discharged) }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.date_discharged && hasDateDischargedAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.dateDischarged') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ formatDateToReadable(state.selectedCitizen?.data?.date_discharged) }}</dd>
                                     </div>
                                     <button
                                         class="flex items-center gap-x-2 text-sm text-slate-700 outline-none hover:text-primary"
@@ -282,128 +241,87 @@
                                         {{ $t('citizens.sections.employmentProgram') }}
                                     </button>
                                 </div>
-                                <div class="space-y-1">
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.ean_number && hasEANNumberAccess()">
-                                        <Tooltip :text="$t('citizens.form.eanNumber')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:file" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">EAN:</span>
-                                            {{ state.selectedCitizen?.data?.ean_number }}
-                                        </p>
+                                <div class="contents">
+                                    <div v-if="state.selectedCitizen?.data?.ean_number && hasEANNumberAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.eanNumber') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.ean_number }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.pricing && hasPricingAccess()">
-                                        <Tooltip :text="$t('citizens.form.pricing')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:money" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.pricing') }}:</span>
-                                            {{ formatNumber(language.locale.value,
-                                                state.selectedCitizen?.data?.pricing) }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.pricing && hasPricingAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.pricing') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ formatNumber(language.locale.value,
+                                                state.selectedCitizen?.data?.pricing) }}</dd>
+                                                </div>
+                                    <div v-if="state.selectedCitizen?.data?.pricing_start_date">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.pricingStartDate') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ formatDateToReadable(state.selectedCitizen?.data?.pricing_start_date) }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.pricing_start_date">
-                                        <Tooltip :text="$t('citizens.form.pricingStartDate')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:calendar" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.pricingStartDate') }}:</span>
-                                            {{ formatDateToReadable(state.selectedCitizen?.data?.pricing_start_date) }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.paying_municipality && hasPayingMunicipalityAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.payingMunicipality') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.paying_municipality?.name }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.paying_municipality && hasPayingMunicipalityAccess()">
-                                        <Tooltip :text="$t('citizens.form.payingMunicipality')"
-                                            class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:map-pin" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.payingMunicipality') }}:</span>
-                                            {{ state.selectedCitizen?.data?.paying_municipality?.name }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.assessment_municipality && hasAssessmentMunicipalityAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.assessmentMunicipality') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.assessment_municipality?.name }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.assessment_municipality && hasAssessmentMunicipalityAccess()">
-                                        <Tooltip :text="$t('citizens.form.assessmentMunicipality')"
-                                            class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:map-pin" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.assessmentMunicipality') }}:</span>
-                                            {{ state.selectedCitizen?.data?.assessment_municipality?.name }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.responsible_municipality && hasResponsibleMunicipalityAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.responsibleMunicipality') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.responsible_municipality?.name }}</dd>
                                     </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.responsible_municipality && hasResponsibleMunicipalityAccess()">
-                                        <Tooltip :text="$t('citizens.form.responsibleMunicipality')"
-                                            class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:map-pin" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            <span class="text-slate-500">{{ $t('citizens.form.responsibleMunicipality') }}:</span>
-                                            {{ state.selectedCitizen?.data?.responsible_municipality?.name }}
-                                        </p>
-                                    </div>
-                                    <div class="flex items-start gap-x-2"
-                                        v-if="state.selectedCitizen?.data?.transportation && hasTransportationAccess()">
-                                        <Tooltip :text="$t('citizens.form.transportation')" class="flex items-center mt-0.5 shrink-0">
-                                            <Icon name="ph:bus" class="h-4 w-4 text-slate-400" aria-hidden="true" />
-                                        </Tooltip>
-                                        <p class="text-sm text-slate-700">
-                                            {{ state.selectedCitizen?.data?.transportation }}
-                                        </p>
+                                    <div v-if="state.selectedCitizen?.data?.transportation && hasTransportationAccess()">
+                                        <dt class="text-xs text-slate-500">{{ $t('citizens.form.transportation') }}</dt>
+                                        <dd class="mt-0.5 text-sm text-slate-800">{{ state.selectedCitizen?.data?.transportation }}</dd>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="space-y-1.5">
-                                <div class="text-xs flex items-center flex-wrap gap-1.5"
-                                    v-if="state.selectedCitizen?.data?.departments?.length > 0 && hasDepartmentAccess()">
-                                    <p>{{ $t('citizens.departments') }}:</p>
+                            </dl>
+                            <dl class="flex flex-wrap gap-x-8 gap-y-3">
+                                <div v-if="state.selectedCitizen?.data?.departments?.length > 0 && hasDepartmentAccess()">
+                                    <dt class="text-xs text-slate-500">{{ $t('citizens.departments') }}</dt>
+                                    <dd class="mt-1 flex flex-wrap gap-1.5">
                                     <span v-for="(department, index) in state.selectedCitizen?.data?.departments"
                                         :key=index class="rounded-md bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
                                         {{ department?.name }}
                                     </span>
-                                </div>
-                                <div class="text-xs flex items-center flex-wrap gap-1.5"
-                                    v-if="state.selectedCitizen?.data?.addictions?.length > 0 && hasAddictionsAccess()">
-                                    <p>
-                                        {{ customPagesStore.getCustomPagesName?.addictions }}:
-                                    </p>
+                                </dd>
+                            </div>
+                                <div v-if="state.selectedCitizen?.data?.addictions?.length > 0 && hasAddictionsAccess()">
+                                    <dt class="text-xs text-slate-500">{{ customPagesStore.getCustomPagesName?.addictions }}</dt>
+                                    <dd class="mt-1 flex flex-wrap gap-1.5">
                                     <span v-for="(addiction, index) in state.selectedCitizen?.data?.addictions"
                                         :key=index class="rounded-md bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
                                         {{ addiction?.name }}
                                     </span>
-                                </div>
-                                <div class="text-xs flex items-center flex-wrap gap-1.5"
-                                    v-if="state.selectedCitizen?.data?.diagnoses?.length > 0 && hasDiagnosesAccess()">
-                                    <p>{{ $t('citizens.diagnoses') }}:</p>
+                                </dd>
+                            </div>
+                                <div v-if="state.selectedCitizen?.data?.diagnoses?.length > 0 && hasDiagnosesAccess()">
+                                    <dt class="text-xs text-slate-500">{{ $t('citizens.diagnoses') }}</dt>
+                                    <dd class="mt-1 flex flex-wrap gap-1.5">
                                     <span v-for="(diagnosis, index) in state.selectedCitizen?.data?.diagnoses"
                                         :key=index class="rounded-md bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
                                         {{ diagnosis?.name }}
                                     </span>
-                                </div>
-                                <div class="text-xs flex items-center flex-wrap gap-1.5"
-                                    v-if="state.selectedCitizen?.data?.allergies?.length > 0 && hasMedicationAllergiesAccess()">
-                                    <p>{{ $t('citizens.medicationAllergies') }}:</p>
+                                </dd>
+                            </div>
+                                <div v-if="state.selectedCitizen?.data?.allergies?.length > 0 && hasMedicationAllergiesAccess()">
+                                    <dt class="text-xs text-slate-500">{{ $t('citizens.medicationAllergies') }}</dt>
+                                    <dd class="mt-1 flex flex-wrap gap-1.5">
                                     <!-- Red, not the brand chip: CAVE is the one tag here that is a warning. -->
                                     <span v-for="(allergy, index) in state.selectedCitizen?.data?.allergies" :key=index
                                         class="rounded-md bg-red-50 px-2 py-0.5 text-xs font-semibold text-red-700 ring-1 ring-inset ring-red-200">
                                         {{ allergy?.name }}
                                     </span>
-                                </div>
-                                <div class="text-xs flex items-center flex-wrap gap-1.5"
-                                    v-if="state.selectedCitizen?.data?.rooms?.length > 0 && hasRoomsAccess() &&
+                                </dd>
+                            </div>
+                                <div v-if="state.selectedCitizen?.data?.rooms?.length > 0 && hasRoomsAccess() &&
                                         userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
-                                    <p>{{ $t('citizens.rooms') }}:</p>
+                                    <dt class="text-xs text-slate-500">{{ $t('citizens.rooms') }}</dt>
+                                    <dd class="mt-1 flex flex-wrap gap-1.5">
                                     <span v-for="(room, index) in state.selectedCitizen?.data?.rooms" :key=index
                                         class="rounded-md bg-primary-50 px-2 py-0.5 text-xs font-medium text-primary">
                                         {{ room?.name }}
                                     </span>
+                                    </dd>
                                 </div>
-                            </div>
+                            </dl>
                             <div ref="noteContentRef" class="text-sm text-gray-700"
                                 :class="state.showExpandedNote ? '' : 'line-clamp-1'"
                                 v-if="hasNoteAccess() && state.selectedCitizen?.data?.note">
