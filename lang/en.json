@@ -3275,6 +3275,7 @@
                 "viewSchedule": "View schedule"
             },
             "download": "Download",
+            "qrCode": "QR code",
             "downloadOverview": "Download overview",
             "downloadCurrentList": "Download current medicine list",
             "currentListFileName": "Current medicine list",
@@ -4587,6 +4588,7 @@
                 "note": "Note"
             },
             "newWallet": "New wallet",
+            "noWallets": "No wallets yet",
             "table": {
                 "actions": {
                     "delete": "Delete",

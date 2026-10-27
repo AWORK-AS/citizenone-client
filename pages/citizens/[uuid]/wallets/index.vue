@@ -43,10 +43,10 @@
                                     <img src="/img/icons/asset-02.svg" alt="Image failed to load"
                                         class="z-10 w-24 absolute -bottom-8 -right-8">
                                     <div class="flex items-center gap-x-1 absolute z-30 right-2">
-                                        <button class="hover:text-primar-800" @click="editWallet(wallet)">
+                                        <button class="hover:text-primary-800" :aria-label="$t('edit')" @click.stop="editWallet(wallet)">
                                             <Icon name="ph:pencil-simple" class="size-5" />
                                         </button>
-                                        <button class="hover:text-primar-800" @click="deleteWalletConfirmation(wallet)"
+                                        <button class="hover:text-primary-800" :aria-label="$t('delete')" @click.stop="deleteWalletConfirmation(wallet)"
                                             v-if="wallet?.is_deletable">
                                             <Icon name="ph:trash" class="size-5" />
                                         </button>
@@ -59,6 +59,17 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
+                    <!-- An empty list used to show nothing at all under the search field. -->
+                    <div v-if="state.wallets?.data?.length === 0"
+                        class="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-gray-200 py-12 text-center">
+                        <Icon name="ph:wallet" class="size-10 text-gray-300" aria-hidden="true" />
+                        <p class="text-sm text-slate-500">{{ $t('citizens.wallets.noWallets') }}</p>
+                        <FormButton v-if="isAtLeast('Admin') || can('create_citizen_economy')" buttonStyle="action"
+                            @click="state.modal.isAddWalletOpen = true">
+                            <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('citizens.wallets.newWallet') }}
+                        </FormButton>
                     </div>
                     <Pagination :data="state.wallets" @previous="previous" @next="next" />
                 </div>

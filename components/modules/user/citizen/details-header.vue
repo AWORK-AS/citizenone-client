@@ -23,7 +23,7 @@
             <ModulesUserCitizenNursingAreasActiveProblems :citizenUuid="citizenUuid" />
             <div class="grid grid-cols-12 gap-6 relative">
                 <div :class="[
-                    $route.name === 'citizens-uuid-medicine-journals' ? 'col-span-12 lg:col-span-9' : 'col-span-12',
+                    'col-span-12',
                     'w-full bg-white ring-1 ring-surface-200 rounded-xl p-5'
                 ]">
                     <div class="md:flex md:items-start md:gap-x-6">
@@ -149,6 +149,22 @@
                                                 </p>
                                             </div>
                                         </LoadingSpinner>
+                                        <!-- The QR card used to be a column of its own, stretching the
+                                             header to its height with empty space. -->
+                                        <div v-if="$route.name === 'citizens-uuid-medicine-journals'" class="flex justify-end px-4 pt-2">
+                                            <Popover class="relative">
+                                                <PopoverButton
+                                                    class="inline-flex items-center gap-x-1.5 rounded-lg border-1.5 border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 hover:border-blue-700">
+                                                    <Icon name="ph:qr-code" class="size-4" aria-hidden="true" />
+                                                    {{ $t('citizens.medicineJournals.qrCode') }}
+                                                    <Icon name="ph:caret-down" class="size-3" aria-hidden="true" />
+                                                </PopoverButton>
+                                                <PopoverPanel
+                                                    class="absolute right-0 z-30 mt-2 w-64 rounded-xl bg-white p-4 shadow-lg ring-1 ring-black/5">
+                                                    <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen" />
+                                                </PopoverPanel>
+                                            </Popover>
+                                        </div>
                                         <div v-if="$route.name === 'citizens-uuid-journals'" class="flex justify-end px-4 pt-2">
                                             <ModulesUserCitizenReportMenu :selectedCitizen="state.selectedCitizen"
                                                 :showUseOfForce="showUseOfForce"
@@ -367,10 +383,6 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-span-12 lg:col-span-3 flex flex-col justify-start gap-6 pt-1 h-full"
-                    v-if="$route.name === 'citizens-uuid-medicine-journals'">
-                    <ModulesUserCitizenMedicineQrHeader :selectedCitizen="state.selectedCitizen" />
-                </div>
             </div>
 
             <ModulesUserCitizenPlanStatusTemplateModalFollowUpNotifications
@@ -426,6 +438,7 @@
 </template>
 
 <script setup lang="ts">
+import { Popover, PopoverButton, PopoverPanel } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useCheckInHourTypes } from '@/composables/useCheckInHourTypes'

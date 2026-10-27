@@ -3275,6 +3275,7 @@
                 "viewSchedule": "Se plan"
             },
             "download": "Last ned",
+            "qrCode": "QR-kode",
             "downloadOverview": "Last ned oversigt",
             "downloadCurrentList": "Last ned aktuell medisinliste",
             "currentListFileName": "Aktuell medisinliste",
@@ -4586,7 +4587,8 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny lommebok",
+            "noWallets": "Ingen lommebøker ennå",
             "table": {
                 "actions": {
                     "delete": "Slett",
@@ -4599,7 +4601,7 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge",
+                "wallets": "Lommebøker",
                 "contract": "Kontrakt"
             },
             "wallets": "Økonomi"

@@ -631,10 +631,16 @@
                                 :class="isSchedulesPage && 'sticky top-[var(--sticky-header-offset,4rem)] z-40 -mx-4 sm:-mx-6 lg:-mx-6 px-4 sm:px-6 lg:px-6 -mt-6 lg:-mt-8 pt-6 lg:pt-8 pb-3 bg-surface-50 border-b border-surface-200'">
                                 <slot name="breadcrumb"></slot>
                                 <slot name="guided-tour"></slot>
+                                <!-- Without a heading (citizen pages name the citizen in their own
+                                     header) these icons would sit alone on a row of their own. -->
+                                <div v-if="!$slots.header && ($slots['new-feature'] || $slots.settings)"
+                                    class="ms-auto flex items-center gap-x-3">
+                                    <slot name="new-feature"></slot>
+                                    <slot name="settings"></slot>
+                                </div>
                             </div>
-                            <div class="mt-3 flex justify-between items-center order-2">
-                                <!-- Citizen pages name the citizen in their own header instead. -->
-                                <h1 v-if="$slots.header" class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
+                            <div class="mt-3 flex justify-between items-center order-2" v-if="$slots.header">
+                                <h1 class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
                                     <slot name="header"></slot>
                                 </h1>
                                 <div class="ms-auto flex items-center gap-x-3">

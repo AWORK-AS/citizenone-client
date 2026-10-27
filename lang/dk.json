@@ -3275,6 +3275,7 @@
                 "viewSchedule": "Se plan"
             },
             "download": "Download",
+            "qrCode": "QR-kode",
             "downloadOverview": "Download oversigt",
             "downloadCurrentList": "Download aktuel medicinliste",
             "currentListFileName": "Aktuel medicinliste",
@@ -4586,7 +4587,8 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny pung",
+            "noWallets": "Ingen punge endnu",
             "table": {
                 "actions": {
                     "delete": "Slet",

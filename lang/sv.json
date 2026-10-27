@@ -3275,6 +3275,7 @@
                 "viewSchedule": "Visa plan"
             },
             "download": "Ladda ner",
+            "qrCode": "QR-kod",
             "downloadOverview": "Ladda ner översikt",
             "downloadCurrentList": "Ladda ner aktuell läkemedelslista",
             "currentListFileName": "Aktuell läkemedelslista",
@@ -4586,7 +4587,8 @@
                 "name": "Namn",
                 "note": "Anteckning"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny plånbok",
+            "noWallets": "Inga plånböcker än",
             "table": {
                 "actions": {
                     "delete": "Radera",
@@ -4599,7 +4601,7 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge",
+                "wallets": "Plånböcker",
                 "contract": "Avtal"
             },
             "wallets": "Ekonomi"
