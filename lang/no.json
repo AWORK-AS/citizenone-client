@@ -297,7 +297,7 @@
             "calendar": "Avtaler, bookinger og nettbooking fra nettsiden deres.",
             "messages": "Chat med kolleger og med klienter via klientportalen.",
             "reminders": "Personlige og felles påminnelser.",
-            "aiAssistant": "Cody, AI-assistenten i topplinjen.",
+            "aiAssistant": "Cody AI, assistenten i topplinjen.",
             "forms": "Lag deres egne skjemaer og spørreskjemaer.",
             "tasks": "Oppgavetavler for arbeid som ikke hører til en klient.",
             "bulletBoard": "Nyheter og kunngjøringer for hele virksomheten.",
@@ -363,7 +363,7 @@
         "steps": {
             "firstNote": {
                 "title": "Skriv deres første journalnotat",
-                "desc": "Skriv et notat på en av eksempelpersonene eller en av deres egne. Med Cody kan dere diktere notatet i stedet for å skrive det.",
+                "desc": "Skriv et notat på en av eksempelpersonene eller en av deres egne. Med Cody AI kan dere diktere notatet i stedet for å skrive det.",
                 "cta": "Skriv notat"
             },
             "departments": {
@@ -1161,10 +1161,10 @@
     },
     "cody": {
         "preview": {
-            "askedOn": "Du ba lederen din om Cody {date}.",
+            "askedOn": "Du ba lederen din om Cody AI {date}.",
             "askedBy": "Etterspurt av: {names}",
             "askedMore": "+{count}",
-            "name": "Cody",
+            "name": "Cody AI",
             "chip": "AI",
             "tagline": "Din assistent i hverdagen",
             "bulletShift": "Forbered vakten med oversikt over dagen",
@@ -1175,31 +1175,31 @@
             "example2": "Hvilke doser er ikke registrert ennå?",
             "example3": "Hjelp meg med å skrive et notat om dagens besøk",
             "examplesNote": "Bare eksempler. Ingenting sendes.",
-            "askManager": "Be lederen din om Cody",
+            "askManager": "Be lederen din om Cody AI",
             "startTrial": "Start gratis {days}-dagers prøve",
-            "whyAdmin": "Bare virksomheten deres kan slå på Cody, fordi spørsmål behandles av en AI-leverandør. Lederen eller administratoren din avgjør.",
-            "alreadyAsked": "Du har allerede bedt lederen din om Cody.",
+            "whyAdmin": "Bare virksomheten deres kan slå på Cody AI, fordi spørsmål behandles av en AI-leverandør. Lederen eller administratoren din avgjør.",
+            "alreadyAsked": "Du har allerede bedt lederen din om Cody AI.",
             "noRecipient": "Vi fant ingen leder å sende dette til. Kontakt support.",
-            "companyHasCody": "Virksomheten din har Cody. Be administratoren din om en plass.",
-            "adminTitle": "Prøv Cody med hele teamet"
+            "companyHasCody": "Virksomheten din har Cody AI. Be administratoren din om en plass.",
+            "adminTitle": "Prøv Cody AI med hele teamet"
         },
         "adoption": {
-            "headline": "Gi de ansatte tid tilbake med Cody",
-            "headlineBody": "Cody gir oversikt over dagen, finner opplysninger og skriver utkast til journalnotater, slik at mer tid går til kjerneoppgaven.",
-            "tryFree": "Prøv Cody gratis i {days} dager",
+            "headline": "Gi de ansatte tid tilbake med Cody AI",
+            "headlineBody": "Cody AI gir oversikt over dagen, finner opplysninger og skriver utkast til journalnotater, slik at mer tid går til kjerneoppgaven.",
+            "tryFree": "Prøv Cody AI gratis i {days} dager",
             "tryFreeShort": "Prøv gratis i 14 dager",
             "readMore": "Les mer",
-            "enableTitle": "Gi de ansatte tid tilbake med Cody",
-            "turnOn": "Slå på Cody",
-            "trialLeft": "Cody-prøveperiode: {count} dag igjen | Cody-prøveperiode: {count} dager igjen",
-            "buy": "Kjøp Cody",
-            "requestTitle": "Vil du ha Cody?",
+            "enableTitle": "Gi de ansatte tid tilbake med Cody AI",
+            "turnOn": "Slå på Cody AI",
+            "trialLeft": "Cody AI-prøveperiode: {count} dag igjen | Cody AI-prøveperiode: {count} dager igjen",
+            "buy": "Kjøp Cody AI",
+            "requestTitle": "Vil du ha Cody AI?",
             "requestBody": "Be administratoren din om å slå den på.",
-            "askAdmin": "Be administratoren din slå på Cody",
+            "askAdmin": "Be administratoren din slå på Cody AI",
             "sent": "Sendt til administratoren deres",
             "noAdmin": "Vi fant ingen administrator å sende dette til.",
             "requestFailed": "Det gikk ikke. Prøv igjen om litt.",
-            "promptTitle": "Ta Cody med inn i hverdagen",
+            "promptTitle": "Ta Cody AI med inn i hverdagen",
             "goToStore": "Gå til App-butikken",
             "thenAmount": "Deretter {amount}"
         }
@@ -1237,7 +1237,7 @@
         }
     },
     "assistants": {
-        "askAI": "Spør Cody",
+        "askAI": "Spør Cody AI",
         "actions": {
             "copy": "Kopier",
             "copied": "Kopiert",
@@ -1249,17 +1249,18 @@
         "basedOn": "Basert på",
         "rateLimited": "Du har stilt mange spørsmål akkurat nå. Prøv igjen om {minutes} min.",
         "waitingCount": "{count} venter",
-        "rateLimitedToday": "Dagens inkluderte Cody-svar er brukt. Med ekstra kapasitet kan dere fortsette i dag - ellers nullstilles det ved midnatt.",
+        "rateLimitedToday": "Dagens inkluderte Cody AI-svar er brukt. Med ekstra kapasitet kan dere fortsette i dag - ellers nullstilles det ved midnatt.",
         "limitBuyMore": "Kjøp mer kapasitet",
         "limitAskAdmin": "Be administratoren din om mer kapasitet.",
         "companyDataMissing": "Cody AI kunne ikke se dataene deres i dette svaret, fordi tilgangen ikke er satt opp ennå. Kontakt support, så hjelper vi.",
         "companyDataBuilding": "Cody AI holder på å gjøre dataene deres klare og kunne ikke bruke dem i dette svaret. Prøv igjen om litt.",
-        "askAnything": "Spørg om hva som helst, eller skriv {'@'} for å nevne noen",
+        "askAnything": "Spør om journaler, medisin, planer, vakter eller dokumenter",
         "mentionSomeone": "Nevn en @:terms.citizen{''} eller ansatt",
         "searchScopeHint": "Cody AI kan søke i alle @:terms.citizen{''}-/ansattopplysninger du har tilgang til, med mindre du tagger en bestemt person med {'@'}",
         "reviewNotice": "Innhold fra Cody AI kan inneholde feil. Se alltid gjennom det før du stoler på det",
         "dataGovernanceNotice": "Les hvordan CitizenOne beskytter dine opplysninger i vår",
-        "previewBeforeSending": "Forhåndsvis før sending",
+        "previewBeforeSending": "Se nøyaktig hva som sendes til AI før du sender spørsmålet",
+        "previewShort": "Se hva som sendes",
         "fileSizeExceeds": "Den samlede filstørrelse må ikke overstige 10MB",
         "generatingResponse": "Genererer svar. Vent vennligst",
         "helloHowCanIAssistYouToday": "Hej, hvordan kan jeg hjelpe dig i dag",
@@ -1288,7 +1289,7 @@
             "refer_to_milo": "Henviser til Milo"
         },
         "toolTrace": {
-            "title": "Hva Cody leste",
+            "title": "Hva Cody AI leste",
             "unknown": "Bruker et verktøy",
             "failed": "Kunne ikke leses",
             "duration": "{ms} ms"
@@ -1310,7 +1311,8 @@
             "overview": "Gi meg en oversikt",
             "journal": "Skriv journalnotat",
             "files": "Finn vedlagte filer",
-            "shifts": "Hvilke vakter har jeg?"
+            "shifts": "Hvilke vakter har jeg?",
+            "fillHint": "skriv navn"
         },
         "quickPrompts": {
             "overview": "Gi meg en oversikt over dagen min",
@@ -1319,9 +1321,9 @@
             "shifts": "Hvilke vakter har jeg de neste sju dagene?"
         },
         "dataAndAccess": "Om data og tilgang",
-        "reviewShort": "Cody kan ta feil - les svaret gjennom.",
+        "reviewShort": "Cody AI kan ta feil - les svaret gjennom.",
         "pageContext": {
-            "seeing": "Cody kan se at du er på: {page}",
+            "seeing": "Cody AI kan se at du er på: {page}",
             "pages": {
                 "my_day": "Min dag",
                 "overview": "Oversikt",
@@ -1394,7 +1396,7 @@
                 "missing": "Ingen mikrofon funnet på denne maskinen.",
                 "insecure": "Diktering krever en sikker tilkobling (https).",
                 "failed": "Kunne ikke skrive ned opptaket. Prøv igjen.",
-                "limit": "Dagens diktering eller Cody-svar er brukt. Det nullstilles ved midnatt.",
+                "limit": "Dagens diktering eller Cody AI-svar er brukt. Det nullstilles ved midnatt.",
                 "budget": "Den ekstra kapasiteten er brukt. En administrator kan fylle på under Innstillinger → Cody AI-bruk."
             }
         },
@@ -1407,7 +1409,7 @@
             "support": "Milo er CitizenOnes supportassistent og kjenner systemet, innstillingene og kjente feil.",
             "sales": "Milo kan svare på priser, moduler, oppgraderinger og demoer.",
             "open": "Åpne Milo",
-            "nothingShared": "Cody sender ikke noe videre. Skriv spørsmålet ditt til Milo."
+            "nothingShared": "Cody AI sender ikke noe videre. Skriv spørsmålet ditt til Milo."
         }
     },
     "back": "Tilbake",
@@ -2167,7 +2169,7 @@
                     "timeEnd": "Til",
                     "help": "Timene registreres {date}."
                 },
-                "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody og kan ikke kopieres til en plan.",
+                "internalHelp": "Skjules for roller der en administrator har krysset av for \"Kan ikke se interne notater\". Tas ikke med i Cody AI og kan ikke kopieres til en plan.",
                 "enterJournalContent": "Skriv inn journalinnhold manuelt",
                 "aiGenerate": {
                     "title": "Utarbeid med AI",
@@ -2188,7 +2190,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Velg en plan eller et enkeltmål.",
                 "singleGoal": "Enkeltmål",
-                "prepareWithAI": "Utarbeid med Cody",
+                "prepareWithAI": "Utarbeid med Cody AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -10456,7 +10458,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "note": "Note",
-                "prepareWithAI": "Utarbeid med Cody",
+                "prepareWithAI": "Utarbeid med Cody AI",
                 "risk": {
                     "acuteIncreasedRisk": "Akut øget risiko",
                     "increasedRisk": "Øget risiko",
@@ -16651,8 +16653,8 @@
             "journal_mentions": "Du er tagget i et @:terms.journalNote{''} | Du er tagget i {n} @:terms.journalNotes{''}",
             "missed_doses": "En dose er ikke registrert som gitt | {n} doser er ikke registrert som gitt",
             "reminders_due": "En påminnelse forfaller i dag | {n} påminnelser forfaller i dag",
-            "askCody": "Spør Cody om {subject}",
-            "askCodyShort": "Spør Cody",
+            "askCody": "Spør Cody AI om {subject}",
+            "askCodyShort": "Spør Cody AI",
             "askCodyPrompt": "Fortell meg mer om: {subject}.{detail} Hva bør jeg gjøre med det nå?"
         },
         "title": "Min dag",
@@ -16675,8 +16677,8 @@
         "noReminders": "Ingen påminnelser i dag",
         "newTask": "Ny oppgave",
         "cody": {
-            "reading": "Cody leser dagen din ...",
-            "askMore": "Spør Cody om dagen din",
+            "reading": "Cody AI leser dagen din ...",
+            "askMore": "Spør Cody AI om dagen din",
             "askMorePrompt": "Gi meg en oversikt over dagen min. Hva er viktigst å ta først?",
             "prompt": "Her er hva som krever min oppmerksomhet i dag:\n{lines}\n\nSkriv to korte setninger om hvordan dagen min ser ut, og hva jeg bør ta først. Ingen overskrifter, ingen punktliste, ingen navn."
         },
@@ -19059,7 +19061,7 @@
         "allowanceThenBalance": "Deretter trekkes svarene fra saldoen deres.",
         "allowanceThenStop": "Når de er brukt, kan dere fortsette med forhåndsbetalt kapasitet.",
         "monthExplainer": "Det som er trukket fra saldoen. Svar innenfor dagens inkluderte antall koster ikke ekstra.",
-        "buyHint": "Kjøp forhåndsbetalt kapasitet til dager da dere bruker Cody mer enn lisensene dekker",
+        "buyHint": "Kjøp forhåndsbetalt kapasitet til dager da dere bruker Cody AI mer enn lisensene dekker",
         "offer": {
             "title": "Ekstra kapasitet til travle dager",
             "body": "Når dagens inkluderte svar er brukt, kan de ansatte fortsette med forhåndsbetalt kapasitet. Dere betaler bare for det som går utover lisensene, og saldoen utløper ikke.",
@@ -19844,7 +19846,7 @@
         },
         "empty": "Det er ingen faste kortbetalinger på kontoen deres.",
         "agreementNote": "Noe av det dere bruker, faktureres etter avtalen deres og vises derfor ikke her.",
-        "notIncluded": "Ikke med her: betalingsgebyrer for nettbetalinger, som legges på app-trekket for forrige måned, og påfylling av SMS og Cody, som trekkes når saldoen er lav."
+        "notIncluded": "Ikke med her: betalingsgebyrer for nettbetalinger, som legges på app-trekket for forrige måned, og påfylling av SMS og Cody AI, som trekkes når saldoen er lav."
     },
     "managerSuggestion": {
         "button": "Foreslå for lederen min",

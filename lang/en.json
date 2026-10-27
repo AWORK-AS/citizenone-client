@@ -297,7 +297,7 @@
             "calendar": "Appointments, bookings and online booking from your website.",
             "messages": "Chat with colleagues and with clients through the client portal.",
             "reminders": "Personal and shared reminders.",
-            "aiAssistant": "Cody, the AI assistant in the top bar.",
+            "aiAssistant": "Cody AI, the assistant in the top bar.",
             "forms": "Build your own forms and questionnaires.",
             "tasks": "Task boards for work that is not tied to a client.",
             "bulletBoard": "News and announcements for the whole company.",
@@ -363,7 +363,7 @@
         "steps": {
             "firstNote": {
                 "title": "Write your first journal note",
-                "desc": "Write a note on one of the example people or one of your own. With Cody you can dictate the note instead of typing it.",
+                "desc": "Write a note on one of the example people or one of your own. With Cody AI you can dictate the note instead of typing it.",
                 "cta": "Write note"
             },
             "departments": {
@@ -1161,10 +1161,10 @@
     },
     "cody": {
         "preview": {
-            "askedOn": "You asked your manager about Cody on {date}.",
+            "askedOn": "You asked your manager about Cody AI on {date}.",
             "askedBy": "Asked for by: {names}",
             "askedMore": "+{count}",
-            "name": "Cody",
+            "name": "Cody AI",
             "chip": "AI",
             "tagline": "Your everyday assistant",
             "bulletShift": "Prepare your shift with an overview of the day",
@@ -1175,31 +1175,31 @@
             "example2": "Which doses have not been registered yet?",
             "example3": "Help me draft a note about today's visit",
             "examplesNote": "Examples only. Nothing is sent.",
-            "askManager": "Ask your manager about Cody",
+            "askManager": "Ask your manager about Cody AI",
             "startTrial": "Start free {days}-day trial",
-            "whyAdmin": "Only your company can switch Cody on, because questions are processed by an AI provider. Your manager or administrator decides.",
-            "alreadyAsked": "You have already asked your manager about Cody.",
+            "whyAdmin": "Only your company can switch Cody AI on, because questions are processed by an AI provider. Your manager or administrator decides.",
+            "alreadyAsked": "You have already asked your manager about Cody AI.",
             "noRecipient": "We could not find a manager to send this to. Contact support.",
-            "companyHasCody": "Your company has Cody. Ask your administrator for a seat.",
-            "adminTitle": "Try Cody with your whole team"
+            "companyHasCody": "Your company has Cody AI. Ask your administrator for a seat.",
+            "adminTitle": "Try Cody AI with your whole team"
         },
         "adoption": {
-            "headline": "Give your team time back with Cody",
-            "headlineBody": "Cody gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
-            "tryFree": "Try Cody free for {days} days",
+            "headline": "Give your team time back with Cody AI",
+            "headlineBody": "Cody AI gives an overview of the day, finds information and drafts journal notes, so more time goes to the core work.",
+            "tryFree": "Try Cody AI free for {days} days",
             "tryFreeShort": "Try free for 14 days",
             "readMore": "Read more",
-            "enableTitle": "Give your team time back with Cody",
-            "turnOn": "Turn on Cody",
-            "trialLeft": "Cody trial: {count} day left | Cody trial: {count} days left",
-            "buy": "Buy Cody",
-            "requestTitle": "Want Cody?",
+            "enableTitle": "Give your team time back with Cody AI",
+            "turnOn": "Turn on Cody AI",
+            "trialLeft": "Cody AI trial: {count} day left | Cody AI trial: {count} days left",
+            "buy": "Buy Cody AI",
+            "requestTitle": "Want Cody AI?",
             "requestBody": "Ask your administrator to turn it on.",
-            "askAdmin": "Ask your administrator to turn on Cody",
+            "askAdmin": "Ask your administrator to turn on Cody AI",
             "sent": "Sent to your administrator",
             "noAdmin": "We could not find an administrator to send this to.",
             "requestFailed": "That did not work. Please try again shortly.",
-            "promptTitle": "Bring Cody into your day",
+            "promptTitle": "Bring Cody AI into your day",
             "goToStore": "Go to the App Store",
             "thenAmount": "Then {amount}"
         }
@@ -1237,7 +1237,7 @@
         }
     },
     "assistants": {
-        "askAI": "Ask Cody",
+        "askAI": "Ask Cody AI",
         "actions": {
             "copy": "Copy",
             "copied": "Copied",
@@ -1249,17 +1249,18 @@
         "basedOn": "Based on",
         "rateLimited": "You have asked a lot of questions just now. Try again in {minutes} min.",
         "waitingCount": "{count} waiting",
-        "rateLimitedToday": "Today's included Cody answers are used. With extra capacity you can carry on today - otherwise it resets at midnight.",
+        "rateLimitedToday": "Today's included Cody AI answers are used. With extra capacity you can carry on today - otherwise it resets at midnight.",
         "limitBuyMore": "Buy more capacity",
         "limitAskAdmin": "Ask your administrator for more capacity.",
         "companyDataMissing": "Cody AI could not see your data for this answer, because access is not set up yet. Contact support and we will help.",
         "companyDataBuilding": "Cody AI is still getting your data ready and could not use it for this answer. Try again shortly.",
-        "askAnything": "Ask anything, or type {'@'} to mention someone",
+        "askAnything": "Ask about journals, medicine, plans, shifts or documents",
         "mentionSomeone": "Mention a @:terms.citizen{''} or employee",
         "searchScopeHint": "Cody AI can search any @:terms.citizen{''}/employee record you have access to, unless you tag someone specific with {'@'}",
         "reviewNotice": "Content from Cody AI may contain errors. Always review it before relying on it",
         "dataGovernanceNotice": "Read how CitizenOne protects your data in our",
-        "previewBeforeSending": "Preview what will be sent",
+        "previewBeforeSending": "See exactly what is sent to the AI before you send the question",
+        "previewShort": "See what is sent",
         "fileSizeExceeds": "Total file size must not exceed 10MB",
         "generatingResponse": "Generating response. Please wait",
         "helloHowCanIAssistYouToday": "Hello, how can I assist you today",
@@ -1288,7 +1289,7 @@
             "refer_to_milo": "Referring to Milo"
         },
         "toolTrace": {
-            "title": "What Cody read",
+            "title": "What Cody AI read",
             "unknown": "Using a tool",
             "failed": "Could not be read",
             "duration": "{ms} ms"
@@ -1310,7 +1311,8 @@
             "overview": "Give me an overview",
             "journal": "Write a journal note",
             "files": "Find attached files",
-            "shifts": "What shifts do I have?"
+            "shifts": "What shifts do I have?",
+            "fillHint": "add a name"
         },
         "quickPrompts": {
             "overview": "Give me an overview of my day",
@@ -1319,9 +1321,9 @@
             "shifts": "What shifts do I have in the next seven days?"
         },
         "dataAndAccess": "About data and access",
-        "reviewShort": "Cody can be wrong - read the answer through.",
+        "reviewShort": "Cody AI can be wrong - read the answer through.",
         "pageContext": {
-            "seeing": "Cody can see you are on: {page}",
+            "seeing": "Cody AI can see you are on: {page}",
             "pages": {
                 "my_day": "My day",
                 "overview": "Overview",
@@ -1394,7 +1396,7 @@
                 "missing": "No microphone found on this machine.",
                 "insecure": "Dictation needs a secure connection (https).",
                 "failed": "Could not transcribe the recording. Try again.",
-                "limit": "Today's dictation or Cody answers are used. It resets at midnight.",
+                "limit": "Today's dictation or Cody AI answers are used. It resets at midnight.",
                 "budget": "Your extra capacity is spent. An administrator can top up under Settings → Cody AI usage."
             }
         },
@@ -1407,7 +1409,7 @@
             "support": "Milo is CitizenOne's support assistant and knows the system, its settings and known issues.",
             "sales": "Milo can answer questions about prices, modules, upgrades and demos.",
             "open": "Open Milo",
-            "nothingShared": "Cody passes nothing on. Ask Milo your question."
+            "nothingShared": "Cody AI passes nothing on. Ask Milo your question."
         }
     },
     "back": "Back",
@@ -2167,7 +2169,7 @@
                     "timeEnd": "To",
                     "help": "The hours are registered on {date}."
                 },
-                "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody and cannot be copied to a plan.",
+                "internalHelp": "Hidden from roles where an administrator has ticked \"Cannot see internal notes\". Left out of Cody AI and cannot be copied to a plan.",
                 "enterJournalContent": "Enter journal Content manually",
                 "forTeeth": "For teeth",
                 "aiGenerate": {
@@ -2188,7 +2190,7 @@
                 "plan": "Plan",
                 "selectPlanOrSingleGoal": "Select a plan or a single goal.",
                 "singleGoal": "Single goal",
-                "prepareWithAI": "Prepare with Cody",
+                "prepareWithAI": "Prepare with Cody AI",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -10461,7 +10463,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "note": "Note",
-                "prepareWithAI": "Prepare with Cody",
+                "prepareWithAI": "Prepare with Cody AI",
                 "risk": {
                     "acuteIncreasedRisk": "Acute increased risk",
                     "increasedRisk": "Increased risk",
@@ -16736,8 +16738,8 @@
             "journal_mentions": "You were tagged in a @:terms.journalNote{''} | You were tagged in {n} @:terms.journalNotes{''}",
             "missed_doses": "One dose is not registered as given | {n} doses are not registered as given",
             "reminders_due": "One reminder is due today | {n} reminders are due today",
-            "askCody": "Ask Cody about {subject}",
-            "askCodyShort": "Ask Cody",
+            "askCody": "Ask Cody AI about {subject}",
+            "askCodyShort": "Ask Cody AI",
             "askCodyPrompt": "Tell me more about: {subject}.{detail} What should I do about it now?"
         },
         "title": "My day",
@@ -16760,8 +16762,8 @@
         "noReminders": "No reminders today",
         "newTask": "New task",
         "cody": {
-            "reading": "Cody is reading your day ...",
-            "askMore": "Ask Cody about your day",
+            "reading": "Cody AI is reading your day ...",
+            "askMore": "Ask Cody AI about your day",
             "askMorePrompt": "Give me an overview of my day. What is most important to start with?",
             "prompt": "Here is what needs my attention today:\n{lines}\n\nWrite two short sentences about how my day looks and what I should take first. No headings, no bullet points, no names."
         },
@@ -19144,7 +19146,7 @@
         "allowanceThenBalance": "After that, answers are drawn from your balance.",
         "allowanceThenStop": "Once they are used, you can carry on with prepaid capacity.",
         "monthExplainer": "What was drawn from the balance. Answers within the day's included amount cost nothing extra.",
-        "buyHint": "Buy prepaid capacity for days when you use Cody more than your licences cover",
+        "buyHint": "Buy prepaid capacity for days when you use Cody AI more than your licences cover",
         "offer": {
             "title": "Extra capacity for busy days",
             "body": "When the day's included answers are used, staff can carry on with prepaid capacity. You only pay for what goes beyond your licences, and the balance does not expire.",
@@ -19929,7 +19931,7 @@
         },
         "empty": "There are no recurring card payments on your account.",
         "agreementNote": "Some of what you use is invoiced under your agreement and is therefore not shown here.",
-        "notIncluded": "Not included: payment fees for online payments, added to the app charge for the previous month, and SMS and Cody top-ups, charged when the balance runs low."
+        "notIncluded": "Not included: payment fees for online payments, added to the app charge for the previous month, and SMS and Cody AI top-ups, charged when the balance runs low."
     },
     "managerSuggestion": {
         "button": "Suggest to my manager",
