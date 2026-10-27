@@ -133,8 +133,8 @@
                             <ul role="list" v-show="!sidebarExpanded || groupIsOpen(group)" class="space-y-0.5">
                                 <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
-                                        :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                        :data-tour="SIDEBAR_TOUR_KEYS[item.name] ?? null"
+                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group/item']"
+                                        :data-tour="group.key === 'pinned' ? null : (SIDEBAR_TOUR_KEYS[item.name] ?? null)"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
                                         <img v-if="item.image" :src="item.image" :alt="item.name"
                                             class="h-5 w-5 shrink-0" />
@@ -147,6 +147,17 @@
                                             class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                         <Icon v-if="item.external && sidebarExpanded" name="ph:arrow-square-out"
                                             class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
+                                        <!-- Shown on hover; always in the Pinned group, so unpinning is easy to find. -->
+                                        <button v-if="sidebarExpanded && isPinnable(item)" type="button"
+                                            :class="['-my-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-white hover:text-primary focus:opacity-100',
+                                                navBadgeCount(item) > 0 || item.external ? '' : 'ml-auto',
+                                                group.key === 'pinned' ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100']"
+                                            :aria-label="isPinned(item) ? $t('sidebar.unpin') : $t('sidebar.pin')"
+                                            :title="isPinned(item) ? $t('sidebar.unpin') : $t('sidebar.pin')"
+                                            @click.stop="togglePin(item)">
+                                            <Icon :name="isPinned(item) ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-3.5 w-3.5"
+                                                aria-hidden="true" />
+                                        </button>
                                     </div>
                                 </li>
                             </ul>
@@ -165,6 +176,12 @@
                                 </span>
                             </div>
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
+                            <!-- Hiding menu items already existed, three levels deep in the profile settings. -->
+                            <NuxtLink v-if="sidebarExpanded" to="/settings/profile#sidebar-menu"
+                                class="flex items-center gap-x-2 px-3 py-1.5 text-xs text-slate-500 hover:text-primary">
+                                <Icon name="ph:sliders-horizontal" class="h-4 w-4 shrink-0" aria-hidden="true" />
+                                {{ $t('sidebar.customise') }}
+                            </NuxtLink>
                         </li>
                     </ul>
                 </nav>
@@ -808,6 +825,7 @@ import { companyHasModule as hasCompanyModule } from '@/composables/pageAccess'
 import { canUseQuestionnaireInbox } from '@/composables/questionnaireInbox'
 import type { Error } from '@/types'
 import { economyNavVisible, navItemModuleEnabled } from '@/composables/pageAccess'
+import { pinnedNames, withPin } from '@/utils/sidebarPreferences'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
@@ -839,12 +857,11 @@ const navigation = shallowRef<any[]>([])
 // with few modules never sees a heading over nothing. `footer` entries (only
 // onboarding today) sit at the bottom, away from the daily work.
 const NAV_GROUPS = [
+    // Only there once the user pins something; see pinnedNavItems.
+    { key: 'pinned', label: 'sidebar.groups.pinned', icon: 'ph:push-pin' },
     { key: 'daily', label: 'sidebar.groups.daily', icon: 'ph:house' },
     { key: 'documentation', label: 'sidebar.groups.documentation', icon: 'ph:notebook' },
     { key: 'organisation', label: 'sidebar.groups.organisation', icon: 'ph:buildings' },
-    // Sales and money were filed under Organisation next to the bulletin board.
-    // They are a different job, often done by different people.
-    { key: 'business', label: 'sidebar.groups.business', icon: 'ph:coins' },
     { key: 'shortcuts', label: 'sidebar.groups.shortcuts', icon: 'ph:star' },
 ]
 
@@ -860,12 +877,42 @@ const railLinks = computed(() => isDesktopApp
 const activeRailLink = computed(() => railLinks.value.find((item: any) =>
     route.path.startsWith(item.href.split('/').slice(0, 2).join('/'))) || null)
 
+// Rather than move menu items for everyone, each person can pin what they use most.
+// A pinned item is shown again at the top and stays in its own group too, so
+// nothing appears to have gone missing. Kept out of `navigation` so search and the
+// desktop rail do not list it twice.
+const pinnedNavItems = computed(() => pinnedNames(userStore.getUser?.sidebar_preferences)
+    .map((name) => navigation.value.find((item: any) => item.name === name && isPinnable(item)))
+    .filter(Boolean))
+
+function isPinnable(item: any) {
+    return item.name !== 'Overview' && !item.rawLabel && !['searchOnly', 'footer'].includes(item.group)
+}
+
+function isPinned(item: any) {
+    return pinnedNames(userStore.getUser?.sidebar_preferences).includes(item.name)
+}
+
+async function togglePin(item: any) {
+    const previous = userStore.getUser?.sidebar_preferences
+    const preferences = withPin(previous, item.name, !isPinned(item))
+    // Optimistic, like the settings page: the sidebar follows the store at once.
+    userStore.setUser({ ...userStore.getUser, sidebar_preferences: preferences })
+    try {
+        await userService.updateSidebarPreferences(preferences)
+    } catch (error) {
+        userStore.setUser({ ...userStore.getUser, sidebar_preferences: previous })
+    }
+}
+
 const navigationGroups = computed(() =>
     NAV_GROUPS
         .map((group) => ({
             ...group,
-            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key
-                && !railLinks.value.includes(item)),
+            items: group.key === 'pinned'
+                ? pinnedNavItems.value
+                : navigation.value.filter((item: any) => (item.group || 'daily') === group.key
+                    && !railLinks.value.includes(item)),
         }))
         .filter((group) => group.items.length > 0))
 
@@ -1454,7 +1501,7 @@ function generateSidebarLinks(user: any) {
     }
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
-        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:tray', group: 'business', activeRouteNames: ['inquiries'] })
+        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
     }
 
     // Task boards hold the work that belongs to nobody's citizen record, so they
@@ -1474,7 +1521,7 @@ function generateSidebarLinks(user: any) {
     }
 
     if (userHasLeadsActive) {
-        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:funnel', group: 'business', activeRouteNames: ['leads'] })
+        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', group: 'organisation', activeRouteNames: ['leads'] })
     }
 
     // Report templates had no way in at all: not in the sidebar, and the command
@@ -1539,7 +1586,7 @@ function generateSidebarLinks(user: any) {
             name: 'Economy',
             href: '/economy',
             icon: 'ph:chart-line-up',
-            group: 'business',
+            group: 'organisation',
             activeRouteNames: ['economy', 'management-economy', 'reports-employment-revenue', 'billing-employment'],
         })
     }
@@ -1553,7 +1600,7 @@ function generateSidebarLinks(user: any) {
             name: 'Invoicing',
             href: '/invoicing',
             icon: 'ph:receipt',
-            group: 'business',
+            group: 'organisation',
             activeRouteNames: ['invoicing', 'settings-services'],
         })
     }

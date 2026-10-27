@@ -12610,11 +12610,14 @@
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
         "discover": "Kom i gang",
+        "pin": "Fest øverst",
+        "unpin": "Løsne",
+        "customise": "Tilpass menyen",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",
-            "business": "Salg & økonomi",
+            "pinned": "Festet",
             "shortcuts": "Snarveier",
             "communication": "Kommunikasjon"
         },

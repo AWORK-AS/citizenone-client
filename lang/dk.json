@@ -12641,11 +12641,14 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
+        "pin": "Fastgør øverst",
+        "unpin": "Fjern fastgørelse",
+        "customise": "Tilpas menu",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
-            "business": "Salg & økonomi",
+            "pinned": "Fastgjort",
             "shortcuts": "Genveje",
             "communication": "Kommunikation"
         },

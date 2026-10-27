@@ -12641,11 +12641,14 @@
         "companyId": "Company ID",
         "coupons": "Coupons",
         "discover": "Get started",
+        "pin": "Pin to top",
+        "unpin": "Unpin",
+        "customise": "Customise menu",
         "groups": {
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",
-            "business": "Sales & finance",
+            "pinned": "Pinned",
             "shortcuts": "Shortcuts",
             "communication": "Communication"
         },
