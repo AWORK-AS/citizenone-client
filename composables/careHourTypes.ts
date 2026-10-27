@@ -39,6 +39,15 @@ export function defaultHourTypeUuid(types: CareHourType[]): string {
 }
 
 /**
+ * The type a further line on a journal note starts from. The first line is
+ * the visit; the one after it is usually the admin around it, so it starts
+ * as administration when the company has that type, else as the default.
+ */
+export function extraLineHourTypeUuid(types: CareHourType[]): string {
+    return (types ?? []).find((type) => type.system_key === 'admin')?.uuid ?? defaultHourTypeUuid(types)
+}
+
+/**
  * What a save adds for the type: only a chosen one, and only when the picker
  * showed. Left out, the server saves a new row without a type and leaves an
  * edited row's type alone, exactly as before.
@@ -54,3 +63,43 @@ export function hourTypePayload(shown: boolean, uuid: string | null | undefined)
 export function checkInHourTypeChoices(types: CareHourType[], transportHasOwnButton: boolean): CareHourType[] {
     return (types ?? []).filter((type) => !(transportHasOwnButton && type.system_key === 'transport'))
 }
+
+/** One hour line on a journal note, as the form edits it ('HH:mm' times). */
+export type CareHoursLine = { key: number, start: string, end: string, type: string }
+
+/**
+ * The care_hours a new note sends, and the keys of the lines in the order sent.
+ * An empty line is left out, as the single line was before; one with only a
+ * time is sent, so the server says what is missing. The keys map the server's
+ * care_hours.{n}.* errors back to the line they are about.
+ */
+export function journalCareHoursRequest(lines: CareHoursLine[], date: string, typesShown: boolean): { lines: Record<string, string>[], keys: number[] } {
+    const sent = (lines ?? []).filter((line) => line.start || line.end)
+
+    return {
+        lines: sent.map((line) => ({
+            date_time_start: `${date} ${line.start}`,
+            date_time_end: `${date} ${line.end}`,
+            ...hourTypePayload(typesShown, line.type),
+        })),
+        keys: sent.map((line) => line.key),
+    }
+}
+
+/**
+ * Whether the first line should take the visit's new time: when it is still
+ * empty, or still holds the visit's previous time. A time someone typed is
+ * left alone.
+ */
+export function firstLineTakesVisit(first: { start: string, end: string } | undefined, before: { start: string, end: string } | null): boolean {
+    if (!first) return false
+    if (!first.start && !first.end) return true
+
+    return !!before && first.start === before.start && first.end === before.end
+}
+
+/** A further line starts where the last one ended. */
+export function nextLineStart(lines: { end: string }[]): string {
+    return (lines ?? [])[(lines ?? []).length - 1]?.end ?? ''
+}
+

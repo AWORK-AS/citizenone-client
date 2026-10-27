@@ -253,18 +253,22 @@
                         {{ $t('employees.form.showCompensatoryHours') }}
                     </div>
                 </div>
-                <!-- Read-only: a user's pages are their roles' pages. This used to save
-                     per-employee pages that nothing reads, so a change looked unsaved. -->
-                <div class="space-y-1" v-if="isAtLeast('Admin')">
+                <!-- Page access comes from the employee's roles only (effective_pages). A
+                     per-employee picker used to sit here: it saved, said "success", and was
+                     never read, so admins thought access was granted when it was not. -->
+                <div class="space-y-1.5" v-if="isAtLeast('Admin')">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
-                    <div id="pages" class="flex flex-wrap items-center gap-1.5 min-h-[2rem]">
-                        <span v-for="label in rolePageLabels" :key="label" class="co-badge text-[12px]">{{ label }}</span>
-                        <span v-if="!rolePageLabels.length" class="text-sm text-slate-400">-</span>
-                    </div>
-                    <p class="text-[13px] text-slate-500">
+                    <p class="text-sm text-gray-600">
                         {{ $t('employees.form.pageAccessFromRole') }}
-                        <NuxtLink to="/settings/roles" class="text-primary hover:underline">{{ $t('employees.form.pageAccessEditRoles') }}</NuxtLink>
+                        <NuxtLink to="/settings/roles" class="text-primary underline hover:no-underline">
+                            {{ $t('employees.form.pageAccessEditRoles') }}
+                        </NuxtLink>
                     </p>
+                    <div v-if="rolePageNames.length" id="pages" class="flex flex-wrap gap-1.5">
+                        <span v-for="name in rolePageNames" :key="name"
+                            class="rounded-md bg-gray-100 px-2 py-0.5 text-xs text-gray-700">{{ name }}</span>
+                    </div>
+                    <p v-else class="text-sm text-gray-500">{{ $t('employees.form.pageAccessNone') }}</p>
                 </div>
         </FormSection>
         <FormSection :title="$t('employees.form.header.employmentInformation')" :description="$t('employees.form.header.comprehensiveEmploymentDetailsWithinTheOrganization')">
@@ -587,7 +591,6 @@ import { jobTitleService } from '@/components/api/user/JobTitleService'
 import { jobSpecialtyService } from '@/components/api/user/JobSpecialtyService'
 import { departmentService } from '@/components/api/user/DepartmentService'
 import { roleService } from '@/components/api/user/RoleService'
-import { pageService } from '@/components/api/user/PageService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { cityService } from '@/components/api/user/CityService'
@@ -715,6 +718,7 @@ const state = reactive({
         update: false,
         delete: false,
     },
+    rolePages: {} as Record<string, string[]>,
     options: {
         cities: [],
         departments: [],
@@ -905,6 +909,15 @@ watch(() => state.formEmployee.employment.employment_status, (newStatus: any, ol
     }
 })
 
+// The pages the chosen roles grant, which is all the employee can open.
+const rolePageNames = computed(() => {
+    const names = new Set<string>()
+    for (const role of state.formEmployee.roles ?? []) {
+        for (const name of state.rolePages[role] ?? []) names.add(name)
+    }
+    return [...names].sort((a, b) => a.localeCompare(b))
+})
+
 const rules = computed(() => {
     if (state.isChangePassword) {
         return {
@@ -940,12 +953,6 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
-
-// The pages the employee's roles grant, as loaded (`pages` on the user is
-// effective_pages). Set under Settings -> Roles, not here.
-const rolePageLabels = computed(() => (state.formEmployee.pages ?? [])
-    .map((uuid: string) => state.options.pages.find((page: any) => page.value === uuid)?.label)
-    .filter(Boolean))
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 
@@ -1042,7 +1049,6 @@ onMounted(() => {
     fetchDepartments()
     fetchRoles()
     fetchJobTitles()
-    fetchPages()
     fetchRegions()
     fetchNormPeriods()
     fetchEmploymentOptions()
@@ -1120,13 +1126,16 @@ async function fetchRoles() {
         const response = await roleService.getAllRoles()
         if (response) {
             let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
+            const rolePages: Record<string, string[]> = {}
+            response.data.forEach((item: any) => {
+                options.push({
                     value: item.name,
                     label: item.name,
                 })
-            )
+                rolePages[item.name] = (item.pages ?? []).map((page: any) => page.name)
+            })
             state.options.roleOptions = options
+            state.rolePages = rolePages
         }
     } catch (error: any) {
         state.error = error
@@ -1176,27 +1185,6 @@ async function fetchJobSpecialties(jobTitleUuids: any) {
                 })
             )
             state.options.jobSpecialties = options
-        }
-    } catch (error: any) {
-        state.error = error
-    }
-    emit('isPageLoading', false)
-}
-
-async function fetchPages() {
-    emit('isPageLoading', true)
-    state.error = {}
-    try {
-        const response = await pageService.getAllPages()
-        if (response) {
-            let options: any = []
-            response.data.forEach(
-                (item: any) => options.push({
-                    value: item.uuid,
-                    label: item.name,
-                })
-            )
-            state.options.pages = options
         }
     } catch (error: any) {
         state.error = error

@@ -50,6 +50,12 @@ export default defineNuxtConfig({
       // Overridden per locale in app.vue; this is what the document says before
       // i18n is ready.
       htmlAttrs: { lang: 'da' },
+      // The app is client-rendered, so without these the HTML Google fetches has no title or
+      // description at all; pages set their own once the script runs. "citizenone login" fell from
+      // position 1.6 to 6.6 for app.citizenone.dk/ in October 2026 while the page had no title,
+      // and a site audit listed every app URL as "empty title". This is what the login page says
+      // before the script, and what every other route says until it sets its own.
+      title: 'Log ind | CitizenOne',
       link: [
         // Crisp SVG favicon (the CitizenOne circle mark); .ico kept as fallback.
         { rel: 'icon', type: 'image/svg+xml', href: '/icon-citizenone.svg' },
@@ -63,6 +69,10 @@ export default defineNuxtConfig({
       ],
 
       meta: [
+        {
+          name: 'description',
+          content: 'Log ind i CitizenOne, journalsystemet til social- og sundhedssektoren. Medarbejdere, borgere og pårørende logger ind her.',
+        },
         // Farven på browserens og styresystemets kant, når appen kører installeret.
         // Samme værdi som manifestets theme_color, altså tailwinds primary.DEFAULT.
         { name: 'theme-color', content: '#0f4c75' },

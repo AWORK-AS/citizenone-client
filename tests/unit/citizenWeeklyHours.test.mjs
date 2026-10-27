@@ -7,7 +7,7 @@
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
-    formatWeekHours, isContactWeeklyHoursOn, panelWeekDate, parseWeeklyHours, planProgress, planStatus, weekProgress, weekStatus,
+    distributionStatus, formatWeekHours, isContactWeeklyHoursOn, shiftWeekDate, panelWeekDate, parseWeeklyHours, planProgress, planStatus, weekProgress, weekStatus,
 } from '../../composables/citizenWeeklyHours.ts'
 
 describe('isContactWeeklyHoursOn', () => {
@@ -87,5 +87,30 @@ describe('panelWeekDate', () => {
     test('today for a month or nothing', () => {
         assert.equal(panelWeekDate('month', { start_date: '2026-09-28', end_date: '2026-11-08' }, '2026-10-23'), '2026-10-23')
         assert.equal(panelWeekDate('default', null, '2026-10-23'), '2026-10-23')
+    })
+})
+
+describe('distributionStatus', () => {
+    test('over, done or open against the grant', () => {
+        assert.equal(distributionStatus(-5), 'over')
+        assert.equal(distributionStatus(0), 'done')
+        assert.equal(distributionStatus(30), 'open')
+    })
+
+    test('nothing without a grant', () => {
+        assert.equal(distributionStatus(null), null)
+        assert.equal(distributionStatus(undefined), null)
+    })
+})
+
+describe('shiftWeekDate', () => {
+    test('moves a week at a time, over month and year ends', () => {
+        assert.equal(shiftWeekDate('2026-10-26', 1), '2026-11-02')
+        assert.equal(shiftWeekDate('2026-10-26', -1), '2026-10-19')
+        assert.equal(shiftWeekDate('2026-12-28', 1), '2027-01-04')
+    })
+
+    test('keeps the day across the end of summer time', () => {
+        assert.equal(shiftWeekDate('2026-10-21', 1), '2026-10-28')
     })
 })

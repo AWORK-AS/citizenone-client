@@ -15,7 +15,7 @@
             v-else>
             <div v-for="(treatment, treatmentIndex) in state.treatments?.data" :key="treatmentIndex"
                 class="pl-4 pr-3 py-5 cursor-pointer hover:bg-gray-100"
-                @click="navigateTo(`/citizens/${treatment?.citizen?.uuid}/nursing-areas?open=treatments`)">
+                @click="navigateTo(`/citizens/${treatment?.citizen?.uuid}/nursing-areas?open=treatments&treatment=${treatment?.uuid}`)">
                 <div class="flex gap-x-2">
                     <img :src="treatment?.citizen?.image ?? avatarUrl(`${treatment?.citizen?.firstname + ' ' + (treatment?.citizen?.lastname ?? '')}`)"
                         class="rounded-full w-12 h-12 object-cover border-2 border-secondary" />

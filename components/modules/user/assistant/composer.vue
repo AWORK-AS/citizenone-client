@@ -157,11 +157,15 @@
                             : (dictation.isTranscribing.value ? 'ph:circle-notch' : 'ph:microphone')"
                             :class="['h-5 w-5', dictation.isTranscribing.value && 'animate-spin']" />
                     </button>
+                    <!-- Said in words, not an unlabelled eye: this shows exactly what is
+                    sent to the AI (after anonymising) before the question goes. -->
                     <button type="button" @click="togglePreview" :title="$t('assistants.previewBeforeSending')"
-                        :aria-label="$t('assistants.previewBeforeSending')"
+                        :aria-label="$t('assistants.previewShort')"
+                        :aria-expanded="state.preview.isOpen"
                         :disabled="!state.newMessage.trim()"
-                        class="flex size-8 shrink-0 items-center justify-center rounded-lg text-gray-500 transition-colors hover:bg-cody/5 hover:text-cody-deep disabled:opacity-30 disabled:hover:bg-transparent">
-                        <Icon name="ph:eye" class="h-5 w-5" />
+                        class="flex h-8 shrink-0 items-center gap-1 rounded-lg px-2 text-xs text-gray-600 transition-colors hover:bg-cody/5 hover:text-cody-deep disabled:opacity-40 disabled:hover:bg-transparent">
+                        <Icon name="ph:shield-check" class="h-4 w-4" aria-hidden="true" />
+                        <span class="whitespace-nowrap">{{ $t('assistants.previewShort') }}</span>
                     </button>
                     <button type="button" @click="sendMessage" :title="$t('assistants.send')" :aria-label="$t('assistants.send')"
                         :disabled="!state.newMessage.trim() && state.files.length === 0"
@@ -211,8 +215,12 @@ const fileInput = ref<HTMLInputElement | null>(null)
 const promptTextarea = ref<HTMLTextAreaElement | null>(null)
 
 onComposerFocusRequest(() => {
-    promptTextarea.value?.focus()
+    const field = promptTextarea.value
+    field?.focus()
     resize()
+    // Cursor after the text already there, so a starter that stops mid-sentence
+    // ("Skriv et journalnotat for ") is continued, not typed in front of.
+    if (field) field.setSelectionRange(field.value.length, field.value.length)
 })
 
 /**

@@ -118,7 +118,6 @@ async function saveEmployee(employeeDetails: any) {
         params.append('show_compensatory_hours', employeeDetails.show_compensatory_hours)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)
         params.append('mediarisk_uuid', JSON.stringify(employeeDetails.media_risks))
-        // No page_uuid: page access is the role's (Settings -> Roles), the form only shows it.
         params.append('street', employeeDetails.street)
         params.append('region_uuid', employeeDetails.region_uuid)
         params.append('municipality_uuid', employeeDetails.municipality_uuid)
