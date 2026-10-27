@@ -7873,6 +7873,9 @@
             "motherTongue": "Modersmål",
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
+            "pageAccessFromRole": "Sideadgang følger medarbejderens rolle og kan ikke sættes på den enkelte medarbejder.",
+            "pageAccessEditRoles": "Ret sideadgang under Indstillinger → Roller",
+            "pageAccessNone": "Rollen giver ikke adgang til nogen sider endnu.",
             "password": "Adgangskode",
             "permissions": {
                 "create": "Opret",

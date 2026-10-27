@@ -7872,7 +7872,10 @@
             },
             "motherTongue": "Modersmål",
             "municipality": "Kommun",
-            "pageAccess": "Sideadgang",
+            "pageAccess": "Sidåtkomst",
+            "pageAccessFromRole": "Sidåtkomsten följer den anställdas roll och kan inte ställas in för en enskild anställd.",
+            "pageAccessEditRoles": "Ändra sidåtkomst under Inställningar → Roller",
+            "pageAccessNone": "Rollen ger inte åtkomst till några sidor ännu.",
             "password": "Lösenord",
             "permissions": {
                 "create": "Skapa",

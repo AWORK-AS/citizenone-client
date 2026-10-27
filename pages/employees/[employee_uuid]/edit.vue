@@ -240,9 +240,6 @@ async function updateEmployee(employeeDetails: any) {
         params.append('show_compensatory_hours', employeeDetails.show_compensatory_hours)
         params.append('do_not_count_sick_leave', employeeDetails.do_not_count_sick_leave)
         params.append('media_risk_uuid', JSON.stringify(employeeDetails.media_risks))
-        if (employeeDetails.pages) {
-            params.append('page_uuid', JSON.stringify(employeeDetails.pages))
-        }
         params.append('street', employeeDetails.street)
         params.append('region_uuid', employeeDetails.region_uuid)
         params.append('municipality_uuid', employeeDetails.municipality_uuid)
