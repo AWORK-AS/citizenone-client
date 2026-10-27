@@ -43,39 +43,54 @@
                                     :citizenUuid="String(citizenUuid)" />
                             </div>
                         </div>
-                        <div class="flex items-center justify-end gap-x-2">
-                            <!-- Rarely needed, so a quiet link beside the actions. -->
-                            <button v-if="isAtLeast('Admin') || can('view_citizen_journal')"
-                                class="me-2 flex items-center gap-x-1.5 text-sm text-slate-600 hover:text-primary-700"
-                                @click="showDeletedJournalHistories">
-                                <Icon name="ph:trash" class="size-4" aria-hidden="true" />
-                                {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
-                            </button>
-                            <FormButton buttonStyle="action" @click="showDownloadJournal"
-                                v-if="isAtLeast('Admin') || can('view_citizen_journal')">
-                                <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.citizenJournals.download') }}
-                            </FormButton>
-                            <FormButton buttonStyle="primary" @click="state.modal.isAddJournalOpen = true"
-                                v-if="isAtLeast('Admin') || can('create_citizen_journal')">
-                                <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.citizenJournals.newNote') }}
-                            </FormButton>
-                        </div>
-
                         <!-- Filtering used to live in three places: a Filter modal (view, tags,
                              author), the search row and the chip row, and the modal hid what was
                              on. Everything now sits here and applies at once; what narrows the
-                             list is always visible and removable. -->
+                             list is always visible and removable. Search, date and the page's
+                             actions share one row instead of the actions floating alone above. -->
                         <div class="space-y-2">
-                            <div class="flex flex-col md:flex-row md:items-center gap-2">
-                                <FormTextField id="filter_journal" name="filter_journal"
-                                    :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
-                                    v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
-                                    @keyup.enter="filterJournal" />
-                                <FormDateRangeField id="date_range" name="date_range"
-                                    :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
-                                    v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
+                            <div class="flex flex-col lg:flex-row lg:items-center gap-2">
+                                <div class="relative flex-1">
+                                    <Icon name="ph:magnifying-glass" aria-hidden="true"
+                                        class="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-slate-400" />
+                                    <!-- Searches as you type; it used to wait for Enter or a click elsewhere. -->
+                                    <input id="filter_journal" name="filter_journal" type="text" autocomplete="off"
+                                        :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
+                                        v-model="state.filter.journal" @keyup.enter="filterJournal"
+                                        class="block h-11 w-full appearance-none rounded-lg border border-gray-200 bg-white pl-9 pr-9 text-sm text-gray-900 placeholder-gray-500 focus:border-primary-700 focus:outline-none focus:ring-1 focus:ring-primary-700" />
+                                    <button v-if="state.filter.journal" type="button"
+                                        :aria-label="$t('citizens.citizenJournals.filter.clear')"
+                                        class="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1 text-slate-400 hover:bg-gray-100 hover:text-slate-600"
+                                        @click="state.filter.journal = ''">
+                                        <Icon name="ph:x" class="size-3.5" aria-hidden="true" />
+                                    </button>
+                                </div>
+                                <div class="relative w-full lg:w-64">
+                                    <Icon name="ph:calendar-blank" aria-hidden="true"
+                                        class="pointer-events-none absolute left-3 top-1/2 z-20 size-4 -translate-y-1/2 text-slate-400" />
+                                    <FormDateRangeField id="date_range" name="date_range"
+                                        :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
+                                        v-model="state.filter.date_range" class="!pl-9 h-11 bg-white" />
+                                </div>
+                                <div class="flex items-center justify-end gap-x-2 lg:ms-2">
+                                    <!-- Rarely needed, so a quiet link beside the actions. -->
+                                    <button v-if="isAtLeast('Admin') || can('view_citizen_journal')"
+                                        class="me-1 flex items-center gap-x-1.5 whitespace-nowrap text-sm text-slate-600 hover:text-primary-700"
+                                        @click="showDeletedJournalHistories">
+                                        <Icon name="ph:trash" class="size-4" aria-hidden="true" />
+                                        {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
+                                    </button>
+                                    <FormButton buttonStyle="action" class="h-11" @click="showDownloadJournal"
+                                        v-if="isAtLeast('Admin') || can('view_citizen_journal')">
+                                        <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('citizens.citizenJournals.download') }}
+                                    </FormButton>
+                                    <FormButton buttonStyle="primary" class="h-11" @click="state.modal.isAddJournalOpen = true"
+                                        v-if="isAtLeast('Admin') || can('create_citizen_journal')">
+                                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                        {{ $t('citizens.citizenJournals.newNote') }}
+                                    </FormButton>
+                                </div>
                             </div>
                             <div class="flex flex-wrap items-center gap-2">
                                 <ModulesUserCitizenJournalFilterDropdown icon="ph:tag"
@@ -416,8 +431,20 @@ function showDeletedJournalHistories() {
     state.modal.isDeletedJournalHistoriesOpen = true
 }
 
+let searchTimer: ReturnType<typeof setTimeout> | undefined
+
+watch(() => state.filter.journal, () => {
+    clearTimeout(searchTimer)
+    searchTimer = setTimeout(filterJournal, 300)
+})
+
+onBeforeUnmount(() => clearTimeout(searchTimer))
+
 function filterJournal() {
+    clearTimeout(searchTimer)
+    if ((state.dataFilter.title ?? '') === state.filter.journal) return
     state.dataFilter.title = state.filter.journal
+    currentTablePage = 1
     fetchJournals()
 }
 
