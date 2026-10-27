@@ -2111,6 +2111,8 @@
         "showDetails": "Show details",
         "hideDetails": "Hide details",
         "reportMenu": "Report",
+        "showTimeline": "Show timeline",
+        "hideTimeline": "Hide timeline",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Event successfully deleted"

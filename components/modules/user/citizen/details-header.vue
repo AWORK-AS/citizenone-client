@@ -417,10 +417,7 @@
                             <div class="space-y-1">
                                 <button @click="toggleTimeline" class="text-primary text-xs hover:text-primary-700"
                                     v-if="state.timelineEntries.length > 0">
-                                    {{
-                                        state.showTimeline ? $t('showLess') : $t('showMore') }} {{
-                                        $t('citizens.tabs.timeline')
-                                    }}
+                                    {{ state.showTimeline ? $t('citizens.hideTimeline') : $t('citizens.showTimeline') }}
                                 </button>
                                 <div v-if="state.showTimeline">
                                     <LoadingSpinner :isActive="state.isTimelineLoading">

@@ -2111,6 +2111,8 @@
         "showDetails": "Vis detaljer",
         "hideDetails": "Skjul detaljer",
         "reportMenu": "Rapporter",
+        "showTimeline": "Vis tidslinje",
+        "hideTimeline": "Skjul tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Arrangement slettet vellykket"

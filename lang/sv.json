@@ -2111,6 +2111,8 @@
         "showDetails": "Visa detaljer",
         "hideDetails": "Dölj detaljer",
         "reportMenu": "Rapportera",
+        "showTimeline": "Visa tidslinje",
+        "hideTimeline": "Dölj tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Händelse raderad"

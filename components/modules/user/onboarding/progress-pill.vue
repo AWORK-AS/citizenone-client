@@ -1,7 +1,7 @@
 <template>
     <button v-if="visible" type="button" @click="navigateTo('/discover')"
         :aria-label="$t('discover.pill', { done, total })"
-        class="flex items-center gap-2 rounded-full border border-secondary-100 bg-secondary-25 px-2.5 py-1 text-sm font-medium text-primary hover:border-secondary-200 transition-colors">
+        class="flex shrink-0 items-center gap-2 whitespace-nowrap rounded-full border border-secondary-100 bg-secondary-25 px-2.5 py-1 text-sm font-medium text-primary hover:border-secondary-200 transition-colors">
         <svg class="size-5 -rotate-90" viewBox="0 0 20 20" aria-hidden="true">
             <circle cx="10" cy="10" r="8" fill="none" stroke-width="3" class="stroke-secondary-100" />
             <circle cx="10" cy="10" r="8" fill="none" stroke-width="3" stroke-linecap="round"
