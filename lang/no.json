@@ -7784,7 +7784,10 @@
             },
             "motherTongue": "Morsmål",
             "municipality": "Kommune",
-            "pageAccess": "Sideadgang",
+            "pageAccess": "Sidetilgang",
+            "pageAccessFromRole": "Sidetilgangen følger medarbeiderens rolle og kan ikke settes for én medarbeider.",
+            "pageAccessEditRoles": "Endre sidetilgang under Innstillinger → Roller",
+            "pageAccessNone": "Rollen gir ikke tilgang til noen sider ennå.",
             "password": "Passord",
             "permissions": {
                 "create": "Opprett",
