@@ -166,11 +166,16 @@
 
                 <div class="mt-3 grid grid-cols-1 gap-2 sm:grid-cols-2">
                     <button v-for="action in QUICK_ACTIONS" :key="action.key" type="button"
-                        @click="useStarter($t(`assistants.quickPrompts.${action.key}`))"
+                        @click="onStarter($t(`assistants.quickPrompts.${action.key}`))"
                         class="flex items-center gap-2.5 rounded-xl border border-gray-200 bg-white px-3 py-2.5 text-left transition-colors hover:border-cody/50 hover:bg-cody-pale">
                         <Icon :name="action.icon" class="size-4 shrink-0 text-cody-deep" aria-hidden="true" />
                         <span class="min-w-0 text-[13px] font-medium leading-snug text-gray-700">
                             {{ $t(`assistants.quick.${action.key}`) }}
+                        </span>
+                        <!-- An unfinished prompt says so: it will wait for a name. -->
+                        <span v-if="starterMode($t(`assistants.quickPrompts.${action.key}`)) === 'fill'"
+                            class="ml-auto shrink-0 text-xs text-gray-500">
+                            {{ $t('assistants.quick.fillHint') }} ...
                         </span>
                     </button>
                 </div>
@@ -222,6 +227,7 @@ import { useI18n } from 'vue-i18n'
 import { useAssistantStore } from '@/store/assistant'
 import { useUserStore } from '@/store/user'
 import { useCodyChat, ANSWER_FEEDBACK_REASONS } from '@/composables/useCodyChat'
+import { starterMode } from '@/composables/codyStarters'
 
 /**
  * The conversation itself: what was asked, what Cody answered, what it read to
@@ -253,6 +259,15 @@ const {
  * offering a capability that does not exist is the fastest way to make an
  * assistant look stupid, so shifts took that place.
  */
+// Starters behave like "Spørg Cody AI" on a brief line (see codyStarters.ts):
+// a complete prompt is asked at once, through the store so the panel adds the
+// page context exactly as it does for the brief; one that needs a name is put
+// in the field with the cursor at the end, and the button says so.
+function onStarter(prompt: string) {
+    if (starterMode(prompt) === 'send') assistantStore.askAbout(prompt)
+    else useStarter(prompt)
+}
+
 const QUICK_ACTIONS = [
     { key: 'overview', icon: 'ph:file-text' },
     { key: 'journal', icon: 'ph:pencil-simple-line' },
