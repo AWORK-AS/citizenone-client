@@ -7785,6 +7785,8 @@
             "motherTongue": "Modersmål",
             "municipality": "Kommun",
             "pageAccess": "Sideadgang",
+            "pageAccessFromRole": "Sidåtkomst följer medarbetarens roll.",
+            "pageAccessEditRoles": "Ändra den under Inställningar → Roller",
             "password": "Lösenord",
             "permissions": {
                 "create": "Skapa",

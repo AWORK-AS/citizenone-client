@@ -253,11 +253,18 @@
                         {{ $t('employees.form.showCompensatoryHours') }}
                     </div>
                 </div>
+                <!-- Read-only: a user's pages are their roles' pages. This used to save
+                     per-employee pages that nothing reads, so a change looked unsaved. -->
                 <div class="space-y-1" v-if="isAtLeast('Admin')">
                     <FormLabel for="pages" :label="$t('employees.form.pageAccess')" />
-                    <FormSelectMultiple id="pages" :options="state.options.pages" v-model="state.formEmployee.pages" />
-                    <FormError :error="v$?.formEmployee?.pages?.$errors[0]?.$message.toString()" />
-                    <FormError :error="props?.error?.errors?.page_uuid?.[0]" />
+                    <div id="pages" class="flex flex-wrap items-center gap-1.5 min-h-[2rem]">
+                        <span v-for="label in rolePageLabels" :key="label" class="co-badge text-[12px]">{{ label }}</span>
+                        <span v-if="!rolePageLabels.length" class="text-sm text-slate-400">-</span>
+                    </div>
+                    <p class="text-[13px] text-slate-500">
+                        {{ $t('employees.form.pageAccessFromRole') }}
+                        <NuxtLink to="/settings/roles" class="text-primary hover:underline">{{ $t('employees.form.pageAccessEditRoles') }}</NuxtLink>
+                    </p>
                 </div>
         </FormSection>
         <FormSection :title="$t('employees.form.header.employmentInformation')" :description="$t('employees.form.header.comprehensiveEmploymentDetailsWithinTheOrganization')">
@@ -933,6 +940,12 @@ const rules = computed(() => {
 })
 
 const v$ = useVuelidate(rules, state)
+
+// The pages the employee's roles grant, as loaded (`pages` on the user is
+// effective_pages). Set under Settings -> Roles, not here.
+const rolePageLabels = computed(() => (state.formEmployee.pages ?? [])
+    .map((uuid: string) => state.options.pages.find((page: any) => page.value === uuid)?.label)
+    .filter(Boolean))
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
 

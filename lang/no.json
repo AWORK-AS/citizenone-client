@@ -7785,6 +7785,8 @@
             "motherTongue": "Morsmål",
             "municipality": "Kommune",
             "pageAccess": "Sideadgang",
+            "pageAccessFromRole": "Sidetilgang følger den ansattes rolle.",
+            "pageAccessEditRoles": "Endre den under Innstillinger → Roller",
             "password": "Passord",
             "permissions": {
                 "create": "Opprett",

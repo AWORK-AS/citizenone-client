@@ -7785,6 +7785,8 @@
             "motherTongue": "Mother tongue",
             "municipality": "Municipality",
             "pageAccess": "Page access",
+            "pageAccessFromRole": "Page access comes from the employee's role.",
+            "pageAccessEditRoles": "Change it under Settings → Roles",
             "password": "Password",
             "permissions": {
                 "create": "Create",
