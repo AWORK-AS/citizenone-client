@@ -201,6 +201,7 @@ import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { usePermissions } from '@/composables/usePermissions'
 import { useTerminology } from '@/composables/useTerminology'
+import { journalListFilterParams, hasActiveJournalFilters } from '@/utils/journalFilters'
 import { journalNoteTagService } from '@/components/api/user/JournalNoteTagService'
 import { userService } from '@/components/api/user/UserService'
 import { useDepartmentStore } from '@/store/department'
@@ -348,16 +349,9 @@ function setView(view: string) {
 }
 
 watch(() => [state.filter.tags, state.filter.created_by], ([tags, createdBy]) => {
-    if (tags.length) {
-        state.dataFilter.tags_uuid = JSON.stringify(tags)
-    } else {
-        delete state.dataFilter.tags_uuid
-    }
-    if (createdBy.length) {
-        state.dataFilter.created_by = JSON.stringify(createdBy)
-    } else {
-        delete state.dataFilter.created_by
-    }
+    delete state.dataFilter.tags_uuid
+    delete state.dataFilter.created_by
+    Object.assign(state.dataFilter, journalListFilterParams(tags, createdBy))
     currentTablePage = 1
     fetchJournals()
 })
@@ -429,13 +423,15 @@ function filterJournal() {
 
 const isNewestFirst = computed(() => state.sortData.sortOrder !== 'ascend')
 
-const hasActiveFilters = computed(() => !isNewestFirst.value
-    || !!state.dataFilter.lock
-    || !!state.dataFilter.favorite
-    || !!state.filter.journal
-    || !!state.filter.date_range?.length
-    || !!state.filter.tags.length
-    || !!state.filter.created_by.length)
+const hasActiveFilters = computed(() => hasActiveJournalFilters({
+    sortOrder: state.sortData.sortOrder,
+    lock: state.dataFilter.lock,
+    favorite: state.dataFilter.favorite,
+    search: state.filter.journal ?? '',
+    dateRange: state.filter.date_range,
+    tags: state.filter.tags,
+    createdBy: state.filter.created_by,
+}))
 
 function chipClass(active: boolean) {
     return [

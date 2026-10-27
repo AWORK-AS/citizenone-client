@@ -19,6 +19,7 @@
 <script setup lang="ts">
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useCitizenStore } from '@/store/citizen'
+import { citizenNameFor } from '@/utils/citizenName'
 
 const route = useRoute()
 const customPagesStore = useCustomPagesStore() as any
@@ -26,10 +27,5 @@ const citizenStore = useCitizenStore() as any
 
 const citizenUuid = computed(() => String(route.params.uuid ?? ''))
 
-// The store still holds the previous citizen until the header has fetched this one.
-const citizenName = computed(() => {
-    const citizen = citizenStore.getSelectedCitizen
-    if (!citizen?.uuid || citizen.uuid !== citizenUuid.value) return ''
-    return `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim()
-})
+const citizenName = computed(() => citizenNameFor(citizenStore.getSelectedCitizen, citizenUuid.value))
 </script>
