@@ -23,8 +23,14 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="!isAnyModalOpen && state.error?.message && state.error.message.length > 0" />
 
-                <div class="flex justify-end">
-                    <FormButton buttonStyle="action" @click="openSendModal">
+                <div class="flex justify-end gap-x-2">
+                    <!-- New forms could only be made under Forms in the menu, so sending a
+                         new one meant leaving the patient and finding the way back. -->
+                    <FormButton v-if="canCreateForms" buttonStyle="action" @click="createNewForm">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('forms.newForm') }}
+                    </FormButton>
+                    <FormButton buttonStyle="primary" @click="openSendModal">
                         <Icon name="ph:paper-plane-tilt" class="h-4 w-4" />
                         {{ $t('patientForms.sendToPatient') }}
                     </FormButton>
@@ -197,6 +203,7 @@ import { useUserStore } from '@/store/user'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+import { usePermissions } from '@/composables/usePermissions'
 
 const runtimeConfig = useRuntimeConfig()
 const customPagesStore = useCustomPagesStore() as any
@@ -206,7 +213,12 @@ const { successAlert } = useAlert()
 const { t } = useI18n()
 const { build: buildConsentTemplate } = useConsentFormTemplate()
 const router = useRouter()
+const route = useRoute()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as string
+const { isAtLeast, can } = usePermissions()
+
+// Same gate as Forms itself (sidebar entry and the form list's admin view).
+const canCreateForms = computed(() => isAtLeast('Admin') || can('manage_status_reports'))
 
 const breadcrumbLinks = [
     { name: 'citizens.tabs.patientForms', translate: true, href: `/citizens/${citizenUuid}/patient-forms` },
@@ -313,10 +325,25 @@ function canResend(assignment: any) {
     return assignment.status !== 'completed' && ['email', 'sms'].includes(assignment.delivery)
 }
 
-onMounted(() => {
+onMounted(async () => {
     fetchAssignments()
-    fetchForms()
+    await fetchForms()
+
+    // Back from the form builder with the form just made: open Send with it picked.
+    const sendForm = route.query.send_form
+    if (typeof sendForm === 'string' && state.options.forms.some((form: any) => form.value === sendForm)) {
+        openSendModal()
+        state.selectedFormUuid = sendForm
+    }
+    if (sendForm !== undefined) {
+        const { send_form, ...rest } = route.query
+        router.replace({ query: rest })
+    }
 })
+
+function createNewForm() {
+    navigateTo({ path: '/forms/new', query: { return_to: route.path } })
+}
 
 async function fetchAssignments() {
     state.error = {}
