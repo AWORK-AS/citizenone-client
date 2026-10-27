@@ -1,4 +1,5 @@
 import DOMPurify from 'dompurify'
+import { AI_SANITIZE_CONFIG, hardenAiLink } from '@/composables/aiHtmlPolicy'
 
 /**
  * Audit C-07: sanitize externally-sourced HTML before it is inserted into the
@@ -17,6 +18,19 @@ export default defineNuxtPlugin((nuxtApp) => {
     }
   })
 
+  // Stricter profile for AI-generated output: no element or attribute that can
+  // load a remote resource (data exfiltration via prompt injection). DOMPurify
+  // hooks are global, so the AI path sanitizes on its own instance.
+  const aiPurify = DOMPurify(window)
+  aiPurify.addHook('afterSanitizeAttributes', (node) => {
+    if (node instanceof HTMLElement && node.tagName === 'A' && node.getAttribute('href')) {
+      hardenAiLink(node)
+    }
+  })
+
+  const sanitizeAi = (value: unknown): string =>
+    aiPurify.sanitize(value == null ? '' : String(value), AI_SANITIZE_CONFIG as any) as unknown as string
+
   const sanitize = (value: unknown): string =>
     DOMPurify.sanitize(value == null ? '' : String(value), {
       USE_PROFILES: { html: true },
@@ -32,10 +46,16 @@ export default defineNuxtPlugin((nuxtApp) => {
     updated: (el: HTMLElement, binding) => setHtml(el, binding.value),
   })
 
+  nuxtApp.vueApp.directive('safe-ai-html', {
+    mounted: (el: HTMLElement, binding) => { el.innerHTML = sanitizeAi(binding.value) },
+    updated: (el: HTMLElement, binding) => { el.innerHTML = sanitizeAi(binding.value) },
+  })
+
   // Also expose as $sanitizeHtml / useNuxtApp().$sanitizeHtml for imperative use.
   return {
     provide: {
       sanitizeHtml: sanitize,
+      sanitizeAiHtml: sanitizeAi,
     },
   }
 })

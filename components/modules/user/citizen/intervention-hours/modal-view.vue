@@ -70,7 +70,7 @@
                                     {{ state.timeAccount?.data?.daily ?? '-' }}
                                 </p>
                                 <p v-if="state.timeAccount?.data?.daily_remaining != null" class="text-xs text-gray-500 tabular-nums">
-                                    {{ remainingLabel(state.timeAccount.data.daily_remaining) }}
+                                    {{ remainingLabel(state.timeAccount.data.daily_remaining, state.timeAccount.data.daily_allocated_in_span, state.timeAccount.data.daily_allocated) }}
                                 </p>
                             </div>
                         </LoadingSpinner>
@@ -95,7 +95,7 @@
                                     {{ state.timeAccount?.data?.weekly ?? '-' }}
                                 </p>
                                 <p v-if="state.timeAccount?.data?.weekly_remaining != null" class="text-xs text-gray-500 tabular-nums">
-                                    {{ remainingLabel(state.timeAccount.data.weekly_remaining) }}
+                                    {{ remainingLabel(state.timeAccount.data.weekly_remaining, state.timeAccount.data.weekly_allocated_in_span, state.timeAccount.data.weekly_allocated) }}
                                 </p>
                             </div>
                         </LoadingSpinner>
@@ -120,12 +120,14 @@
                                     {{ state.timeAccount?.data?.monthly ?? '-' }}
                                 </p>
                                 <p v-if="state.timeAccount?.data?.monthly_remaining != null" class="text-xs text-gray-500 tabular-nums">
-                                    {{ remainingLabel(state.timeAccount.data.monthly_remaining) }}
+                                    {{ remainingLabel(state.timeAccount.data.monthly_remaining, state.timeAccount.data.monthly_allocated_in_span, state.timeAccount.data.monthly_allocated) }}
                                 </p>
                             </div>
                         </LoadingSpinner>
                     </div>
                 </div>
+                <ModulesUserCitizenInterventionHoursDistributionPanel v-if="props.isModalOpen && citizenUuid" ref="distributionPanel"
+                    :citizenUuid="String(citizenUuid)" />
                 <!-- Hours per hour type in the period and filters: the figure a municipality
                      asks for, e.g. contact time (ATA) apart from supervision. -->
                 <div v-if="hoursByType.length" class="mt-4 flex flex-wrap items-center gap-2">
@@ -192,7 +194,11 @@
                                     </td>
                                     <td width="10%">
                                         <div class="truncate">
-                                            {{ formatNumber(language.locale.value, inteventionHours?.total_hours) }}
+                                            <!-- A check-in still running has no hours until it is ended. -->
+                                            <Badge v-if="!inteventionHours?.date_time_end" type="pending" class="text-xxs">
+                                                {{ $t('citizens.interventionHours.table.running') }}
+                                            </Badge>
+                                            <template v-else>{{ formatNumber(language.locale.value, inteventionHours?.total_hours) }}</template>
                                             <Badge type="primary" class="text-xxs"
                                                 v-if="inteventionHours?.is_from_duty_schedule">
                                                 {{ $t('citizens.interventionHours.table.fromDutySchedule') }}
@@ -369,8 +375,15 @@ watch(() => careHourFilterParams(state.filters), () => {
 }, { deep: true })
 
 // Hours left of an allocation after the chosen period, or how far over it went.
-function remainingLabel(remaining: number) {
+// A day or week allocation over a longer period says what it adds up to there.
+function remainingLabel(remaining: number, inSpan?: number | null, allocated?: number | null) {
     const hours = formatNumber(language.locale.value, Math.abs(remaining))
+    if (inSpan != null && allocated != null && inSpan !== allocated) {
+        const total = formatNumber(language.locale.value, inSpan)
+        return remaining < 0
+            ? language.t('citizens.interventionHours.timeAccount.overByInSpan', { hours, total })
+            : language.t('citizens.interventionHours.timeAccount.remainingInSpan', { hours, total })
+    }
     return remaining < 0
         ? language.t('citizens.interventionHours.timeAccount.overBy', { hours })
         : language.t('citizens.interventionHours.timeAccount.remaining', { hours })
@@ -380,8 +393,10 @@ function closeModal() {
     emit('close')
 }
 
+const distributionPanel = ref<{ load: () => void } | null>(null)
 function refreshInterventionHours() {
     fetchInterventionHours()
+    distributionPanel.value?.load()
     emit('refreshCitizenDetails')
 }
 

@@ -478,37 +478,59 @@
                 <p class="text-xs text-gray-500">{{ $t('citizens.citizenJournals.form.visit.help') }}</p>
             </div>
             <!-- Intervention hours registered with a new note, on the visit date or
-                 else the note's date. -->
-            <div class="space-y-2" v-if="props.formType === 'create'">
-                <div class="w-fit flex items-center cursor-pointer"
-                    @click="state.formJournal.register_care_hours = !state.formJournal.register_care_hours">
+                 else the note's date. One line per hour type: the visit, and the
+                 admin around it. Hidden without the right, so a note is never
+                 refused for hours its author may not register. -->
+            <div class="space-y-2" v-if="props.formType === 'create' && canRegisterCareHours">
+                <div class="w-fit flex items-center cursor-pointer" @click="toggleCareHours">
                     <FormCheckbox id="register_care_hours" :value="state.formJournal.register_care_hours" />
                     {{ $t('citizens.citizenJournals.form.careHours.register') }}
                 </div>
-                <div class="grid md:grid-cols-3 gap-x-3 gap-y-2" v-if="state.formJournal.register_care_hours">
-                    <div class="space-y-1">
-                        <FormLabel for="care_hours_start" :label="$t('citizens.citizenJournals.form.careHours.timeStart')" />
-                        <FormTimeField id="care_hours_start" name="care_hours_start"
-                            v-model:value="state.formJournal.care_hours_start" />
-                        <FormError :error="props?.error?.errors?.['care_hours.date_time_start']?.[0]" />
+                <template v-if="state.formJournal.register_care_hours">
+                    <div v-for="(line, i) in state.formJournal.care_hours" :key="line.key"
+                        class="grid md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_minmax(0,1fr)_2.25rem] gap-x-3 gap-y-2 items-start">
+                        <div class="space-y-1">
+                            <FormLabel :for="`care_hours_start_${i}`" :label="$t('citizens.citizenJournals.form.careHours.timeStart')" />
+                            <FormTimeField :id="`care_hours_start_${i}`" :name="`care_hours_start_${i}`"
+                                v-model:value="line.start" />
+                            <FormError :error="careHoursError(line, 'date_time_start')" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel :for="`care_hours_end_${i}`" :label="$t('citizens.citizenJournals.form.careHours.timeEnd')" />
+                            <FormTimeField :id="`care_hours_end_${i}`" :name="`care_hours_end_${i}`"
+                                v-model:value="line.end" />
+                            <FormError :error="careHoursError(line, 'date_time_end')" />
+                        </div>
+                        <div class="space-y-1">
+                            <template v-if="careHourTypeOptions.length > 0">
+                                <FormLabel :for="`care_hours_type_${i}`" :label="$t('citizens.interventionHours.form.hourType')" />
+                                <FormSelect :id="`care_hours_type_${i}`" :options="careHourTypeOptions" :searchable="false"
+                                    :canClear="false" :canDeselect="false"
+                                    v-model="line.type" />
+                                <FormError :error="careHoursError(line, 'contract_hour_type_uuid')" />
+                            </template>
+                        </div>
+                        <div class="md:pt-6">
+                            <button v-if="state.formJournal.care_hours.length > 1" type="button"
+                                class="flex size-9 items-center justify-center rounded-md text-gray-500 hover:bg-gray-100 hover:text-red-600"
+                                :aria-label="$t('citizens.citizenJournals.form.careHours.removeLine')"
+                                :title="$t('citizens.citizenJournals.form.careHours.removeLine')"
+                                @click="removeCareHoursLine(i)">
+                                <Icon name="ph:trash" class="h-4 w-4" aria-hidden="true" />
+                            </button>
+                        </div>
                     </div>
-                    <div class="space-y-1">
-                        <FormLabel for="care_hours_end" :label="$t('citizens.citizenJournals.form.careHours.timeEnd')" />
-                        <FormTimeField id="care_hours_end" name="care_hours_end"
-                            v-model:value="state.formJournal.care_hours_end" />
-                        <FormError :error="props?.error?.errors?.['care_hours.date_time_end']?.[0]" />
-                    </div>
-                    <div class="space-y-1" v-if="careHourTypeOptions.length > 0">
-                        <FormLabel for="care_hours_type" :label="$t('citizens.interventionHours.form.hourType')" />
-                        <FormSelect id="care_hours_type" :options="careHourTypeOptions" :searchable="false"
-                            :canClear="false" :canDeselect="false"
-                            v-model="state.formJournal.care_hours_type" />
-                        <FormError :error="props?.error?.errors?.['care_hours.contract_hour_type_uuid']?.[0]" />
-                    </div>
-                </div>
-                <p class="text-xs text-gray-500" v-if="state.formJournal.register_care_hours">
-                    {{ $t('citizens.citizenJournals.form.careHours.help', { date: careHoursDate || '-' }) }}
-                </p>
+                    <button v-if="state.formJournal.care_hours.length < MAX_CARE_HOURS_LINES" type="button"
+                        class="inline-flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+                        @click="addCareHoursLine">
+                        <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('citizens.citizenJournals.form.careHours.addLine') }}
+                    </button>
+                    <p class="text-xs text-gray-500">
+                        <template v-if="firstLineFollowsVisit">{{ $t('citizens.citizenJournals.form.careHours.fromVisit') }}</template>
+                        {{ $t('citizens.citizenJournals.form.careHours.help', { date: careHoursDate || '-' }) }}
+                    </p>
+                </template>
             </div>
             <div class="space-y-1" v-if="!props.hideDraft">
                 <div class="w-fit flex items-center cursor-pointer"
@@ -658,11 +680,14 @@ import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import type { PropType } from 'vue'
 import { useCareHourTypes } from '@/composables/careHourTypeList'
-import { defaultHourTypeUuid, hourTypeChoices, hourTypePayload } from '@/composables/careHourTypes'
+import {
+    defaultHourTypeUuid, extraLineHourTypeUuid, firstLineTakesVisit, hourTypeChoices, journalCareHoursRequest, nextLineStart,
+    type CareHoursLine,
+} from '@/composables/careHourTypes'
 import { countChoiceLists } from '@/composables/journalChoiceLists'
 import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
 
-const { isAtLeast } = usePermissions()
+const { isAtLeast, can } = usePermissions()
 
 const props = defineProps({
     error: {
@@ -909,23 +934,80 @@ function emptyVisitAndHours() {
         visit_time_start: '',
         visit_time_end: '',
         register_care_hours: false,
-        care_hours_start: '',
-        care_hours_end: '',
-        care_hours_type: '',
+        care_hours: [] as CareHoursLine[],
     }
+}
+
+// Same cap as the backend (CitizenJournalStoreRequest).
+const MAX_CARE_HOURS_LINES = 10
+let careHoursLineKey = 0
+
+function careHoursLine(start = '', end = '', type = ''): CareHoursLine {
+    return { key: ++careHoursLineKey, start, end, type }
 }
 
 const { types: careHourTypes, loadHourTypes: loadCareHourTypes } = useCareHourTypes()
 const careHourTypeOptions = computed(() => hourTypeChoices(careHourTypes.value))
 
+// Registering hours has its own right; the general "create" still covers it
+// (backend: CitizenCareHourService::createCitizenCareHour).
+const canRegisterCareHours = computed(() => isAtLeast('Admin') || can('create_citizen_care_hours') || can('create'))
+
 // The hours are registered on the visit date, or else on the note's date.
 const careHoursDate = computed(() => state.formJournal.visit_date || state.formJournal.date || '')
 
+// The first line starts as the visit's time and keeps following it until
+// someone changes it, so the time is not typed twice when they are the same.
+const visitTimes = computed(() => state.formJournal.visit_date && state.formJournal.visit_time_start && state.formJournal.visit_time_end
+    ? { start: state.formJournal.visit_time_start, end: state.formJournal.visit_time_end }
+    : null)
+const firstLineFollowsVisit = computed(() => {
+    const first = state.formJournal.care_hours[0]
+    return !props.bookingLinked && !!visitTimes.value && !!first
+        && first.start === visitTimes.value.start && first.end === visitTimes.value.end
+})
+
+watch(visitTimes, (now, before) => {
+    const first = state.formJournal.care_hours[0]
+    if (!now || props.bookingLinked) return
+    if (first && firstLineTakesVisit(first, before ?? null)) {
+        first.start = now.start
+        first.end = now.end
+    }
+})
+
+function toggleCareHours() {
+    const form = state.formJournal
+    form.register_care_hours = !form.register_care_hours
+    if (form.register_care_hours && form.care_hours.length === 0) {
+        form.care_hours.push(careHoursLine(visitTimes.value?.start ?? '', visitTimes.value?.end ?? '', defaultHourTypeUuid(careHourTypes.value)))
+    }
+}
+
+// A further line starts where the one before it ended, as administration.
+function addCareHoursLine() {
+    const lines = state.formJournal.care_hours
+    if (lines.length >= MAX_CARE_HOURS_LINES) return
+    lines.push(careHoursLine(nextLineStart(lines), '', extraLineHourTypeUuid(careHourTypes.value)))
+}
+
+// The keys of the lines in the order they were sent, so the server's
+// care_hours.{n}.* errors land on the line they are about.
+let sentCareHoursKeys: number[] = []
+
+function careHoursError(line: CareHoursLine, field: string): string | undefined {
+    const index = sentCareHoursKeys.indexOf(line.key)
+    return index === -1 ? undefined : props?.error?.errors?.[`care_hours.${index}.${field}`]?.[0]
+}
+
+function removeCareHoursLine(index: number) {
+    state.formJournal.care_hours.splice(index, 1)
+}
+
 function applyPresetCareHours() {
-    if (!props.presetCareHours) return
+    if (!props.presetCareHours || !canRegisterCareHours.value) return
     state.formJournal.register_care_hours = true
-    state.formJournal.care_hours_start = props.presetCareHours.start
-    state.formJournal.care_hours_end = props.presetCareHours.end
+    state.formJournal.care_hours = [careHoursLine(props.presetCareHours.start, props.presetCareHours.end, defaultHourTypeUuid(careHourTypes.value))]
 }
 
 function visitAndHoursPayload() {
@@ -936,12 +1018,10 @@ function visitAndHoursPayload() {
         payload.visit_time_start = form.visit_date && form.visit_time_start ? form.visit_time_start : null
         payload.visit_time_end = form.visit_date && form.visit_time_end ? form.visit_time_end : null
     }
-    if (props.formType === 'create' && form.register_care_hours && form.care_hours_start && form.care_hours_end) {
-        payload.care_hours = {
-            date_time_start: `${careHoursDate.value} ${form.care_hours_start}`,
-            date_time_end: `${careHoursDate.value} ${form.care_hours_end}`,
-            ...hourTypePayload(careHourTypeOptions.value.length > 0, form.care_hours_type),
-        }
+    if (props.formType === 'create' && form.register_care_hours && canRegisterCareHours.value) {
+        const request = journalCareHoursRequest(form.care_hours, careHoursDate.value, careHourTypeOptions.value.length > 0)
+        sentCareHoursKeys = request.keys
+        if (request.lines.length > 0) payload.care_hours = request.lines
     }
     return payload
 }
@@ -1137,10 +1217,13 @@ onMounted(() => {
     suppressChangeTracking = true
 
     // Create only: setting it on an edit would read as a change and autosave.
+    // Lines made before the types arrived (a booking's preset) get theirs now.
     if (props.formType === 'create') loadCareHourTypes().then(() => {
-        if (!state.formJournal.care_hours_type) {
-            state.formJournal.care_hours_type = defaultHourTypeUuid(careHourTypes.value)
-        }
+        state.formJournal.care_hours.forEach((line, i) => {
+            if (!line.type) {
+                line.type = i === 0 ? defaultHourTypeUuid(careHourTypes.value) : extraLineHourTypeUuid(careHourTypes.value)
+            }
+        })
     })
     fetchFormFieldConfig()
     fetchAllPlans()
@@ -1912,7 +1995,8 @@ watch(() => assistantStore.pendingInsert, (html: string | null) => {
     if (!html) return
 
     const existing = state.formJournal.content ?? ''
-    state.formJournal.content = existing ? `${existing}<p></p>${html}` : html
+    const clean = useNuxtApp().$sanitizeAiHtml(html)
+    state.formJournal.content = existing ? `${existing}<p></p>${clean}` : clean
     state.formJournal.is_ai_used = true
     assistantStore.insertHandled()
 })
@@ -1929,7 +2013,7 @@ async function generateNoteForJournalContent(excludedJournalUuids: string[] = []
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
-            state.formJournal.content = response?.data?.answer
+            state.formJournal.content = useNuxtApp().$sanitizeAiHtml(response?.data?.answer)
             state.formJournal.is_ai_used = true
         }
     } catch (error: any) {
@@ -1950,7 +2034,7 @@ async function generateNoteForRiskAssessmentNote(excludedJournalUuids: string[] 
         }
         const response = await aIAssistantService.generateNote(params)
         if (response?.data) {
-            state.formJournal.note = response?.data?.answer
+            state.formJournal.note = useNuxtApp().$sanitizeAiHtml(response?.data?.answer)
             state.formJournal.is_ai_used = true
         }
     } catch (error: any) {
