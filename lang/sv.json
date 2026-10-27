@@ -5948,6 +5948,7 @@
                 "date": "Utbetalningsdatum",
                 "dateHint": "Välj datumet då timmarna betalades ut. Utbetalningen räknas i den månaden.",
                 "noAccountAssigned": "Denna anställd har inget aktivt tidkonto att registrera en utbetalning mot.",
+                "negativeBalanceWarning": "{employee} har {balance} timmar i kompensationssaldo. Efter utbetalningen blir saldot {after} timmar.",
                 "register": "Registrera utbetalning",
                 "title": "Registrera utbetalning"
             },
@@ -11806,6 +11807,8 @@
                 "dutyScheduleSortFirstShift": "Sortera schemat efter vem som börjar först (i stället för alfabetiskt)",
                 "isSortByStatus": "Tillåt visning av \"Vikarer\" längst ner i vagtplanen och \"Fast personal\" överst",
                 "compensatoryTimeEnabled": "Aktivera kompensationsledighet",
+                "payoutBeyondBalance": "Tillåt utbetalning utöver kompensationssaldot",
+                "payoutBeyondBalanceHint": "Den anställdas saldo kan bli negativt. Timmarna måste då arbetas in senare under perioden.",
                 "lockPastSchedules": "Lås tidigare tjänsteskeman",
                 "lockShiftsBeforeDate": "Lås pass före datum",
                 "clearLockShiftsBeforeDate": "Rensa datum",

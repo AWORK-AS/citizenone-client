@@ -6003,6 +6003,7 @@
                 "date": "Udbetalingsdato",
                 "dateHint": "Vælg den dato timerne blev udbetalt. Udbetalingen tæller med i den måned.",
                 "noAccountAssigned": "Denne medarbejder har ingen aktiv tidskonto at registrere en udbetaling på.",
+                "negativeBalanceWarning": "{employee} har {balance} timer i afspadseringssaldo. Efter udbetalingen bliver saldoen {after} timer.",
                 "register": "Registrer udbetaling",
                 "title": "Registrer udbetaling"
             },
@@ -11811,6 +11812,8 @@
                 "dutyScheduleSortFirstShift": "Sortér vagtplanen efter hvem der møder først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktivér afspadsering",
+                "payoutBeyondBalance": "Tillad udbetaling ud over afspadseringssaldoen",
+                "payoutBeyondBalanceHint": "Medarbejderens saldo kan blive negativ. Timerne skal så arbejdes ind senere i perioden.",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "lockShiftsBeforeDate": "Lås vagter før dato",
                 "clearLockShiftsBeforeDate": "Ryd dato",
