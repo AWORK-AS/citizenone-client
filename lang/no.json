@@ -5948,6 +5948,7 @@
                 "date": "Utbetalingsdato",
                 "dateHint": "Velg datoen timene ble utbetalt. Utbetalingen teller med i den måneden.",
                 "noAccountAssigned": "Denne ansatte har ingen aktiv timekonto å registrere en utbetaling på.",
+                "negativeBalanceWarning": "{employee} har {balance} timer i avspaseringssaldo. Etter utbetalingen blir saldoen {after} timer.",
                 "register": "Registrer utbetaling",
                 "title": "Registrer utbetaling"
             },
@@ -11808,6 +11809,8 @@
                 "dutyScheduleSortFirstShift": "Sorter vaktplanen etter hvem som møter først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillat visning av \"Vikarer\" nederst i vaktplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktiver avspasering",
+                "payoutBeyondBalance": "Tillat utbetaling utover avspaseringssaldoen",
+                "payoutBeyondBalanceHint": "Den ansattes saldo kan bli negativ. Timene må da arbeides inn senere i perioden.",
                 "lockPastSchedules": "Lås tidligere vaktplaner",
                 "lockShiftsBeforeDate": "Lås vakter før dato",
                 "clearLockShiftsBeforeDate": "Fjern dato",

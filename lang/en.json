@@ -6003,6 +6003,7 @@
                 "date": "Payout date",
                 "dateHint": "Choose the date the hours were paid out. The payout counts in that month.",
                 "noAccountAssigned": "This employee has no active time account to register a payout against.",
+                "negativeBalanceWarning": "{employee} has {balance} hours in their compensatory balance. After this payout, the balance will be {after} hours.",
                 "register": "Register payout",
                 "title": "Register payout"
             },
@@ -11813,6 +11814,8 @@
                 "dutyScheduleSortFirstShift": "Sort the duty schedule by who starts first (instead of alphabetically)",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "compensatoryTimeEnabled": "Enable compensatory time requests",
+                "payoutBeyondBalance": "Allow payouts beyond the compensatory balance",
+                "payoutBeyondBalanceHint": "The employee's balance can become negative. The hours must then be worked later in the period.",
                 "lockPastSchedules": "Lock past schedules",
                 "lockShiftsBeforeDate": "Lock shifts before date",
                 "clearLockShiftsBeforeDate": "Clear date",
