@@ -2,9 +2,10 @@
  * Unit tests for composables/codyMemory.ts - what the Cody AI panel and the
  * profile page show about what Cody remembers.
  *
- * The cases that would quietly go wrong: the storage-full note repeating on
- * every answer, the first-time note showing for a memory that was never
- * stored, and an upgrade link from the payload leaving the app.
+ * Cody AI asks before it remembers anything. The cases that would quietly go
+ * wrong: a proposal without a token being offered (a "Ja" that could only
+ * fail), a confirm failure that loses the question, a storage-full note on
+ * every answer, and an upgrade link from the server leaving the app.
  *
  *   node --test tests/unit/codyMemory.test.mjs
  */
@@ -12,6 +13,7 @@ import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import {
     memoryNoteFor,
+    noteAfterConfirm,
     safeUpgradeUrl,
     sortMemories,
     withoutMemory,
@@ -19,9 +21,10 @@ import {
     CODY_MEMORY_ANCHOR,
 } from '../../composables/codyMemory.ts'
 
+const TOKEN = 'a'.repeat(48)
+
 const payload = (overrides = {}) => ({
-    saved: 1,
-    first_saved: false,
+    proposal: null,
     storage_full: false,
     storage_message: null,
     upgrade_url: null,
@@ -31,39 +34,68 @@ const payload = (overrides = {}) => ({
 describe('memoryNoteFor - the note under an answer', () => {
     test('an answer that touched no memory shows nothing', () => {
         assert.equal(memoryNoteFor(null, { storageFullShown: false }), null)
-        assert.equal(memoryNoteFor(undefined, { storageFullShown: false }), null)
-    })
-
-    test('the first memory ever shows the one-time note', () => {
-        assert.deepEqual(memoryNoteFor(payload({ first_saved: true }), { storageFullShown: false }), { kind: 'first_saved' })
-    })
-
-    test('a later memory shows nothing', () => {
         assert.equal(memoryNoteFor(payload(), { storageFullShown: false }), null)
     })
 
-    test('a full storage quota says so, with the server message and the upgrade path', () => {
-        const note = memoryNoteFor(
-            payload({ saved: 0, storage_full: true, storage_message: 'Ikke nok plads', upgrade_url: '/storage/upgrade' }),
-            { storageFullShown: false },
+    test('a proposal becomes the question, with the server token', () => {
+        assert.deepEqual(
+            memoryNoteFor(payload({ proposal: { token: TOKEN, content: 'Foretrækker korte svar' } }), { storageFullShown: false }),
+            { kind: 'proposal', token: TOKEN, content: 'Foretrækker korte svar' },
         )
-        assert.deepEqual(note, { kind: 'storage_full', message: 'Ikke nok plads', upgradeUrl: '/storage/upgrade' })
+    })
+
+    test('a proposal without a token or text is not offered', () => {
+        assert.equal(memoryNoteFor(payload({ proposal: { token: '', content: 'x' } }), { storageFullShown: false }), null)
+        assert.equal(memoryNoteFor(payload({ proposal: { token: TOKEN, content: '  ' } }), { storageFullShown: false }), null)
+    })
+
+    test('a full storage quota says so, with the server message and the upgrade path', () => {
+        assert.deepEqual(
+            memoryNoteFor(payload({ storage_full: true, storage_message: 'Ikke nok plads', upgrade_url: '/storage/upgrade' }), { storageFullShown: false }),
+            { kind: 'storage_full', message: 'Ikke nok plads', upgradeUrl: '/storage/upgrade' },
+        )
     })
 
     test('storage full is shown once per session', () => {
         assert.equal(memoryNoteFor(payload({ storage_full: true }), { storageFullShown: true }), null)
     })
+})
 
-    test('storage full wins over the first-time note, since nothing was stored', () => {
-        assert.equal(
-            memoryNoteFor(payload({ storage_full: true, first_saved: true }), { storageFullShown: false }).kind,
-            'storage_full',
+describe('noteAfterConfirm - what "Ja" leads to', () => {
+    const proposal = { token: TOKEN, content: 'Foretrækker korte svar' }
+
+    test('the first memory ever carries the one-time note', () => {
+        assert.deepEqual(
+            noteAfterConfirm(proposal, { ok: true, body: { data: { content: 'Foretrækker korte svar' }, first_saved: true } }),
+            { kind: 'saved', content: 'Foretrækker korte svar', firstSaved: true },
         )
     })
 
-    test('someone who may not buy gets no upgrade path', () => {
-        const note = memoryNoteFor(payload({ storage_full: true, upgrade_url: null }), { storageFullShown: false })
-        assert.equal(note.upgradeUrl, null)
+    test('a later memory is simply saved', () => {
+        assert.equal(noteAfterConfirm(proposal, { ok: true, body: { data: {}, first_saved: false } }).firstSaved, false)
+    })
+
+    test('something already remembered says so', () => {
+        assert.equal(noteAfterConfirm(proposal, { ok: true, body: { already_known: true } }).kind, 'already_known')
+    })
+
+    test('a full quota on confirm becomes the upgrade note', () => {
+        assert.deepEqual(
+            noteAfterConfirm(proposal, { ok: false, error: { code: 'storage_quota_exceeded', message: 'Fuld', upgrade_url: '/storage/upgrade' } }),
+            { kind: 'storage_full', message: 'Fuld', upgradeUrl: '/storage/upgrade' },
+        )
+    })
+
+    test('a refusal on confirm and an expired token are said plainly', () => {
+        assert.equal(noteAfterConfirm(proposal, { ok: false, error: { code: 'cody_memory_refused' } }).kind, 'refused')
+        assert.equal(noteAfterConfirm(proposal, { ok: false, error: { code: 'cody_memory_proposal_expired', status: 404 } }).kind, 'expired')
+    })
+
+    test('an unexplained failure keeps the question so it can be tried again', () => {
+        assert.deepEqual(
+            noteAfterConfirm(proposal, { ok: false, error: new Error('offline') }),
+            { kind: 'proposal', token: TOKEN, content: 'Foretrækker korte svar', failed: true },
+        )
     })
 })
 
@@ -86,12 +118,8 @@ describe('the memory list', () => {
         { uuid: 'c', content: 'Unknown date', learned_at: null, last_used_at: null },
     ]
 
-    test('newest learned first, an unknown date last', () => {
+    test('newest learned first, an unknown date last, without changing the input', () => {
         assert.deepEqual(sortMemories(list).map((m) => m.uuid), ['b', 'a', 'c'])
-    })
-
-    test('sorting does not change the list it was given', () => {
-        sortMemories(list)
         assert.deepEqual(list.map((m) => m.uuid), ['a', 'b', 'c'])
     })
 

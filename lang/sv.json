@@ -1346,12 +1346,21 @@
             "create_task": "Skapar en uppgift",
             "draft_journal_note": "Skriver ett journalutkast",
             "refer_to_milo": "Hänvisar till Milo",
-            "remember_about_me": "Kommer ihåg något om dig"
+            "remember_about_me": "Föreslår något att komma ihåg"
         },
         "memory": {
-            "firstSaved": "Cody AI har noterat något om hur du arbetar, så att nästa svar passar dig bättre.",
-            "seeWhat": "Se och radera det här",
-            "storageFull": "Cody AI kunde inte komma ihåg detta eftersom er lagringsplats är full. Svaret ovan är komplett."
+            "ask": "Ska Cody AI komma ihåg: \"{content}\"?",
+            "askLabel": "Cody AI frågar om den får komma ihåg något",
+            "yes": "Ja",
+            "no": "Nej",
+            "saved": "Cody AI minns det nu.",
+            "firstSaved": "Cody AI minns det nu och använder det i nästa svar. Du kan alltid se och radera det.",
+            "alreadyKnown": "Det minns Cody AI redan.",
+            "seeWhat": "Se vad Cody AI minns",
+            "refused": "Cody AI kan inte komma ihåg detta. Det får bara handla om hur du själv arbetar.",
+            "expired": "Frågan har gått ut. Säg det till Cody AI igen om det fortfarande gäller.",
+            "failed": "Det sparades inte. Försök igen.",
+            "storageFull": "Cody AI kan inte komma ihåg nya saker eftersom er lagringsplats är full."
         },
         "toolTrace": {
             "title": "Vad Cody AI läste",
@@ -12050,7 +12059,7 @@
             "profile": "Profil",
             "codyMemory": {
                 "title": "Det här minns Cody AI",
-                "description": "Cody AI kan notera korta saker om hur du arbetar, till exempel att du föredrar korta svar. Det handlar bara om dig, aldrig om @:terms.citizens{''}. Bara du kan se det här.",
+                "description": "Cody AI kan fråga om den får komma ihåg korta saker om hur du arbetar, till exempel att du föredrar korta svar. Det sparas bara om du säger ja. Det handlar bara om dig, aldrig om @:terms.citizens{''}. Bara du kan se det här.",
                 "limit": "Cody AI minns högst {count} saker. De äldsta oanvända glöms först. Resten sparas tills du själv raderar det.",
                 "reset": "Byter du avdelning eller roll börjar Cody AI om från början.",
                 "empty": "Cody AI har inte noterat något om dig ännu.",

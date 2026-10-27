@@ -1346,12 +1346,21 @@
             "create_task": "Creating a task",
             "draft_journal_note": "Writing a journal draft",
             "refer_to_milo": "Referring to Milo",
-            "remember_about_me": "Remembering something about you"
+            "remember_about_me": "Suggesting something to remember"
         },
         "memory": {
-            "firstSaved": "Cody AI noted something about how you work, so the next answers fit you better.",
-            "seeWhat": "See and delete it here",
-            "storageFull": "Cody AI could not remember this, because your organisation's storage is full. The answer above is complete."
+            "ask": "Should Cody AI remember: \"{content}\"?",
+            "askLabel": "Cody AI asks whether it may remember something",
+            "yes": "Yes",
+            "no": "No",
+            "saved": "Cody AI remembers this now.",
+            "firstSaved": "Cody AI remembers this now and will use it in its next answers. You can always see and delete it.",
+            "alreadyKnown": "Cody AI already remembers this.",
+            "seeWhat": "See what Cody AI remembers",
+            "refused": "Cody AI cannot remember this. It may only be about how you yourself work.",
+            "expired": "The question has expired. Tell Cody AI again if it still applies.",
+            "failed": "It was not saved. Try again.",
+            "storageFull": "Cody AI cannot remember new things, because your organisation's storage is full."
         },
         "toolTrace": {
             "title": "What Cody AI read",
@@ -12055,7 +12064,7 @@
             "profile": "Profile",
             "codyMemory": {
                 "title": "What Cody AI remembers",
-                "description": "Cody AI can note short things about how you work, for example that you prefer short answers. It is only about you, never about @:terms.citizens{''}. Only you can see this.",
+                "description": "Cody AI can ask whether it may remember short things about how you work, for example that you prefer short answers. It is only kept if you say yes. It is only about you, never about @:terms.citizens{''}. Only you can see this.",
                 "limit": "Cody AI remembers at most {count} things. The oldest unused ones are forgotten first. The rest is kept until you delete it.",
                 "reset": "If you change department or role, Cody AI starts over.",
                 "empty": "Cody AI has not noted anything about you yet.",

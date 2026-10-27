@@ -1346,12 +1346,21 @@
             "create_task": "Opretter en opgave",
             "draft_journal_note": "Skriver et journaludkast",
             "refer_to_milo": "Henviser til Milo",
-            "remember_about_me": "Husker noget om dig"
+            "remember_about_me": "Foreslår noget at huske"
         },
         "memory": {
-            "firstSaved": "Cody AI har noteret noget om, hvordan du arbejder, så de næste svar passer bedre til dig.",
-            "seeWhat": "Se og slet det her",
-            "storageFull": "Cody AI kunne ikke huske det her, fordi jeres lagerplads er fuld. Svaret ovenfor er helt."
+            "ask": "Skal Cody AI huske: \"{content}\"?",
+            "askLabel": "Cody AI spørger, om den må huske noget",
+            "yes": "Ja",
+            "no": "Nej",
+            "saved": "Cody AI husker det nu.",
+            "firstSaved": "Cody AI husker det nu og bruger det i de næste svar. Du kan altid se og slette det.",
+            "alreadyKnown": "Det husker Cody AI allerede.",
+            "seeWhat": "Se hvad Cody AI husker",
+            "refused": "Cody AI kan ikke huske det. Det må kun handle om, hvordan du selv arbejder.",
+            "expired": "Spørgsmålet er udløbet. Sig det til Cody AI igen, hvis det stadig gælder.",
+            "failed": "Det blev ikke gemt. Prøv igen.",
+            "storageFull": "Cody AI kan ikke huske nye ting, fordi jeres lagerplads er fuld."
         },
         "toolTrace": {
             "title": "Hvad Cody AI læste",
@@ -12055,7 +12064,7 @@
             "profile": "Profil",
             "codyMemory": {
                 "title": "Det husker Cody AI",
-                "description": "Cody AI kan notere korte ting om, hvordan du arbejder, fx at du foretrækker korte svar. Det handler kun om dig, aldrig om @:terms.citizens{''}. Kun du kan se det her.",
+                "description": "Cody AI kan spørge, om den må huske korte ting om, hvordan du arbejder, fx at du foretrækker korte svar. Det gemmes kun, hvis du siger ja. Det handler kun om dig, aldrig om @:terms.citizens{''}. Kun du kan se det her.",
                 "limit": "Cody AI husker højst {count} ting. De ældste ubrugte glemmes først. Resten gemmes, indtil du selv sletter det.",
                 "reset": "Skifter du afdeling eller rolle, starter Cody AI forfra.",
                 "empty": "Cody AI har ikke noteret noget om dig endnu.",

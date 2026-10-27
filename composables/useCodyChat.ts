@@ -1,7 +1,8 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedback'
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
-import { memoryNoteFor } from '@/composables/codyMemory'
+import { memoryNoteFor, noteAfterConfirm } from '@/composables/codyMemory'
+import { codyMemoryService } from '@/components/api/user/CodyMemoryService'
 import type { CodyMemoryNote } from '@/composables/codyMemory'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -85,8 +86,8 @@ export interface CodyMessage {
     feedbackGiven?: boolean
     /**
      * What happened to Cody's memory on this answer, when it is worth saying:
-     * the one-time "Cody AI remembers this now" note, or that it could not
-     * remember because the storage is full.
+     * a sentence Cody AI asks to remember ("Ja / Nej"), what came of the
+     * answer, or that it cannot remember because the storage is full.
      */
     memoryNote?: CodyMemoryNote | null
 }
@@ -759,6 +760,35 @@ export function createCodyChat() {
         }
     }
 
+    /**
+     * "Ja" to the memory Cody AI proposed under this answer. Sends only the
+     * token; the note then says what came of it.
+     */
+    async function confirmMemory(message: CodyMessage) {
+        const note = message.memoryNote
+        if (note?.kind !== 'proposal' || note.busy) return
+
+        message.memoryNote = { ...note, busy: true, failed: false }
+        let next
+        try {
+            next = noteAfterConfirm(note, { ok: true, body: await codyMemoryService.confirm(note.token) })
+        } catch (error: any) {
+            next = noteAfterConfirm(note, { ok: false, error })
+        }
+        if (next.kind === 'storage_full') state.memoryStorageFullShown = true
+        message.memoryNote = next
+    }
+
+    /** "Nej": the question goes away and the server forgets the proposal. */
+    function declineMemory(message: CodyMessage) {
+        const note = message.memoryNote
+        if (note?.kind !== 'proposal') return
+
+        message.memoryNote = null
+        // Best effort: an unconfirmed proposal expires on its own anyway.
+        codyMemoryService.decline(note.token).catch(() => {})
+    }
+
     // Re-asks the last question on the same conversation. Attachments are not
     // resent - they already live on the conversation from the first send.
     async function regenerateAnswer() {
@@ -967,6 +997,8 @@ export function createCodyChat() {
         formatMessage,
         copyAnswer,
         rateAnswer,
+        confirmMemory,
+        declineMemory,
         useStarter,
         handleEnterKey,
         onFilesSelected,

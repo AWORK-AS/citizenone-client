@@ -1346,12 +1346,21 @@
             "create_task": "Oppretter en oppgave",
             "draft_journal_note": "Skriver et journalutkast",
             "refer_to_milo": "Henviser til Milo",
-            "remember_about_me": "Husker noe om deg"
+            "remember_about_me": "Foreslår noe å huske"
         },
         "memory": {
-            "firstSaved": "Cody AI har notert noe om hvordan du jobber, slik at de neste svarene passer bedre for deg.",
-            "seeWhat": "Se og slett det her",
-            "storageFull": "Cody AI kunne ikke huske dette fordi lagringsplassen deres er full. Svaret over er komplett."
+            "ask": "Skal Cody AI huske: \"{content}\"?",
+            "askLabel": "Cody AI spør om den kan huske noe",
+            "yes": "Ja",
+            "no": "Nei",
+            "saved": "Cody AI husker det nå.",
+            "firstSaved": "Cody AI husker det nå og bruker det i de neste svarene. Du kan alltid se og slette det.",
+            "alreadyKnown": "Det husker Cody AI allerede.",
+            "seeWhat": "Se hva Cody AI husker",
+            "refused": "Cody AI kan ikke huske dette. Det kan bare handle om hvordan du selv jobber.",
+            "expired": "Spørsmålet har utløpt. Si det til Cody AI igjen hvis det fortsatt gjelder.",
+            "failed": "Det ble ikke lagret. Prøv igjen.",
+            "storageFull": "Cody AI kan ikke huske nye ting fordi lagringsplassen deres er full."
         },
         "toolTrace": {
             "title": "Hva Cody AI leste",
@@ -12050,7 +12059,7 @@
             "profile": "Profil",
             "codyMemory": {
                 "title": "Dette husker Cody AI",
-                "description": "Cody AI kan notere korte ting om hvordan du jobber, for eksempel at du foretrekker korte svar. Det handler bare om deg, aldri om @:terms.citizens{''}. Bare du kan se dette.",
+                "description": "Cody AI kan spørre om den kan huske korte ting om hvordan du jobber, for eksempel at du foretrekker korte svar. Det lagres bare hvis du sier ja. Det handler bare om deg, aldri om @:terms.citizens{''}. Bare du kan se dette.",
                 "limit": "Cody AI husker høyst {count} ting. De eldste ubrukte glemmes først. Resten lagres til du sletter det selv.",
                 "reset": "Bytter du avdeling eller rolle, begynner Cody AI på nytt.",
                 "empty": "Cody AI har ikke notert noe om deg ennå.",
