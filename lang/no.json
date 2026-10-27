@@ -4162,6 +4162,7 @@
                 "care": "Behandling & pleie",
                 "documentation": "Dokumentasjon",
                 "time": "Tid & oppmøte",
+                "people": "Personer",
                 "admin": "Administrasjon"
             },
             "surveys": "Spørreskjemaer",
@@ -10910,6 +10911,7 @@
                 "reports": "Rapporter",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Flere handlinger",
                 "statuses": "Statuser",
                 "unarchive": "Gjenopprett",
                 "view": "Se"
@@ -12599,6 +12601,7 @@
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",
+            "business": "Salg & økonomi",
             "shortcuts": "Snarveier",
             "communication": "Kommunikasjon"
         },
@@ -17447,6 +17450,8 @@
         "selectedCount": "{count} innbygger(e) valgt",
         "noneSelectedHint": "Ingen innbyggere valgt - hele selskapet eksporteres",
         "clearSelection": "Fjern utvalg",
+        "thisCitizen": "Kun denne innbyggeren (PDF)",
+        "severalCitizens": "Flere innbyggere (zip)",
         "download": "Last ned",
         "downloading": "Forbereder nedlasting...",
         "table": {

@@ -833,6 +833,9 @@ const NAV_GROUPS = [
     { key: 'daily', label: 'sidebar.groups.daily', icon: 'ph:house' },
     { key: 'documentation', label: 'sidebar.groups.documentation', icon: 'ph:notebook' },
     { key: 'organisation', label: 'sidebar.groups.organisation', icon: 'ph:buildings' },
+    // Sales and money were filed under Organisation next to the bulletin board.
+    // They are a different job, often done by different people.
+    { key: 'business', label: 'sidebar.groups.business', icon: 'ph:coins' },
     { key: 'shortcuts', label: 'sidebar.groups.shortcuts', icon: 'ph:star' },
 ]
 
@@ -1206,6 +1209,7 @@ const commandPaletteItems = computed(() => {
         group: language.t('commandPalette.navigate'),
         icon: item.icon,
         label: getNavItemLabel(item),
+        onlyWhenSearching: item.group === 'searchOnly',
         run: () => navigateTo(item.href),
     }))
 
@@ -1322,6 +1326,7 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-tooth-chart',
             'citizens-uuid-price-estimates',
             'citizens-uuid-invoices',
+            'reports-plans-and-goals-export',
         ]
     })
     if (companyHasModule("Calendar")) {
@@ -1440,7 +1445,7 @@ function generateSidebarLinks(user: any) {
     }
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
-        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
+        nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:tray', group: 'business', activeRouteNames: ['inquiries'] })
     }
 
     // Task boards hold the work that belongs to nobody's citizen record, so they
@@ -1460,7 +1465,7 @@ function generateSidebarLinks(user: any) {
     }
 
     if (userHasLeadsActive) {
-        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:nuclear-plant-duotone', group: 'organisation', activeRouteNames: ['leads'] })
+        nav.push({ name: 'Leads', href: '/leads', icon: 'ph:funnel', group: 'business', activeRouteNames: ['leads'] })
     }
 
     // Report templates had no way in at all: not in the sidebar, and the command
@@ -1471,13 +1476,15 @@ function generateSidebarLinks(user: any) {
     // journal score live inside the citizen screen - so nothing in the industry
     // page set could reach this export. A dental clinic, which the industry
     // defaults switch care plans off for, still met it in the menu.
+    // The export is reached from Download on the citizen's Plans and goals tab,
+    // where people look for it. It stays in the palette for those who search.
     const hasCarePlans = user?.company?.onboarding_preferences?.modules?.carePlans !== false
     if (hasCarePlans && companyHasModule('Plans and goals') && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
         nav.push({
             name: 'Plans And Goals Export',
             href: '/reports/plans-and-goals-export',
             icon: 'ph:download-simple',
-            group: 'documentation',
+            group: 'searchOnly',
             activeRouteNames: ['reports-plans-and-goals-export'],
         })
     }
@@ -1523,7 +1530,7 @@ function generateSidebarLinks(user: any) {
             name: 'Economy',
             href: '/economy',
             icon: 'ph:chart-line-up',
-            group: 'organisation',
+            group: 'business',
             activeRouteNames: ['economy', 'management-economy', 'reports-employment-revenue', 'billing-employment'],
         })
     }
@@ -1537,7 +1544,7 @@ function generateSidebarLinks(user: any) {
             name: 'Invoicing',
             href: '/invoicing',
             icon: 'ph:receipt',
-            group: 'organisation',
+            group: 'business',
             activeRouteNames: ['invoicing', 'settings-services'],
         })
     }
@@ -1588,7 +1595,7 @@ function generateSidebarLinks(user: any) {
     // company-module/role/permission/industry checks already ran) - record that
     // for the sidebar-customization settings page before applying this user's own
     // show/hide choices.
-    const eligibleForToggle = nav.filter((item) => item.name !== 'Overview' && !item.rawLabel)
+    const eligibleForToggle = nav.filter((item) => item.name !== 'Overview' && !item.rawLabel && item.group !== 'searchOnly')
     sidebarNavStore.setEligibleItems(eligibleForToggle)
 
     const preferences = Array.isArray(user?.sidebar_preferences) ? user.sidebar_preferences : []

@@ -129,10 +129,11 @@ const CATEGORY_LABELS: Record<string, string> = {
     care: 'citizens.tabs.categories.care',
     documentation: 'citizens.tabs.categories.documentation',
     time: 'citizens.tabs.categories.time',
+    people: 'citizens.tabs.categories.people',
     admin: 'citizens.tabs.categories.admin',
 }
-const OVERFLOW_ORDER = ['documentation', 'time', 'admin', 'care']
-const MOBILE_ORDER = ['care', 'documentation', 'time', 'admin']
+const OVERFLOW_ORDER = ['documentation', 'time', 'people', 'admin', 'care']
+const MOBILE_ORDER = ['care', 'documentation', 'time', 'people', 'admin']
 
 // Matches the `space-x-2` gap between tabs.
 const GAP_PX = 8

@@ -4162,6 +4162,7 @@
                 "care": "Vård & behandling",
                 "documentation": "Dokumentation",
                 "time": "Tid & närvaro",
+                "people": "Personer",
                 "admin": "Administration"
             },
             "surveys": "Enkäter",
@@ -10910,6 +10911,7 @@
                 "reports": "Rapportera",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Fler åtgärder",
                 "statuses": "Statusar",
                 "unarchive": "Återställ",
                 "view": "Se"
@@ -12599,6 +12601,7 @@
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
+            "business": "Försäljning & ekonomi",
             "shortcuts": "Genvägar",
             "communication": "Kommunikation"
         },
@@ -17447,6 +17450,8 @@
         "selectedCount": "{count} medborgare valda",
         "noneSelectedHint": "Inga medborgare valda - hela företaget exporteras",
         "clearSelection": "Rensa urval",
+        "thisCitizen": "Endast denna medborgare (PDF)",
+        "severalCitizens": "Flera medborgare (zip)",
         "download": "Ladda ner",
         "downloading": "Förbereder nedladdning...",
         "table": {

@@ -4162,6 +4162,7 @@
                 "care": "Care & treatment",
                 "documentation": "Documentation",
                 "time": "Time & attendance",
+                "people": "People",
                 "admin": "Administration"
             },
             "surveys": "Surveys",
@@ -10915,6 +10916,7 @@
                 "reports": "Reports",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
+                "more": "More actions",
                 "statuses": "Statuses",
                 "unarchive": "Unarchive",
                 "view": "View"
@@ -12630,6 +12632,7 @@
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",
+            "business": "Sales & finance",
             "shortcuts": "Shortcuts",
             "communication": "Communication"
         },
@@ -17532,6 +17535,8 @@
         "selectedCount": "{count} @:terms.citizen{''}(s) selected",
         "noneSelectedHint": "No @:terms.citizens{''} selected - the whole company will be exported",
         "clearSelection": "Clear selection",
+        "thisCitizen": "This @:terms.citizen{''} only (PDF)",
+        "severalCitizens": "Several @:terms.citizens{''} (zip)",
         "download": "Download",
         "downloading": "Preparing download...",
         "table": {

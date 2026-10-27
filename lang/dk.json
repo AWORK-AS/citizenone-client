@@ -4162,6 +4162,7 @@
                 "care": "Behandling & pleje",
                 "documentation": "Dokumentation",
                 "time": "Tid & fremmøde",
+                "people": "Personer",
                 "admin": "Administration"
             },
             "surveys": "Spørgeskemaer",
@@ -10915,6 +10916,7 @@
                 "reports": "Rapporter",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Flere handlinger",
                 "statuses": "Statusser",
                 "unarchive": "Gendan",
                 "view": "Se"
@@ -12630,6 +12632,7 @@
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
+            "business": "Salg & økonomi",
             "shortcuts": "Genveje",
             "communication": "Kommunikation"
         },
@@ -17532,6 +17535,8 @@
         "selectedCount": "{count} @:terms.citizen{''}(e) valgt",
         "noneSelectedHint": "Ingen @:terms.citizens{''} valgt - hele virksomheden eksporteres",
         "clearSelection": "Ryd valg",
+        "thisCitizen": "Kun denne @:terms.citizen{''} (PDF)",
+        "severalCitizens": "Flere @:terms.citizens{''} (zip)",
         "download": "Download",
         "downloading": "Forbereder download...",
         "table": {
