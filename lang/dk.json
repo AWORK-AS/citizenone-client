@@ -2138,6 +2138,7 @@
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flyt",
+                "more": "Flere handlinger",
                 "pin": "Fastgør journal",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "share": "Del",
@@ -2190,12 +2191,14 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
+                "favorites": "Favoritter",
+                "locked": "Låste",
                 "journalNoteView": "@.capitalize:terms.journalNote{''}visning",
                 "newestFirst": "Nyeste øverst",
                 "oldestFirst": "Ældste øverst",
                 "resetFilters": "Nulstil filtre",
                 "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Søg i journal",
+                "searchJournal": "Søg i @:terms.journal{''}",
                 "showFavoritesOnly": "Vis kun favoritter",
                 "showLockedOnly": "Vis kun låste notater",
                 "standardView": "Standardvisning"
@@ -2216,6 +2219,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Intern note",
+                "locked": "Låst",
                 "visit": {
                     "date": "Besøgsdato",
                     "timeStart": "Besøg fra",

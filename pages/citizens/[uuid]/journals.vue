@@ -56,77 +56,70 @@
                             </div>
                         </div>
                         <div class="flex justify-between flex-col-reverse md:flex-row gap-3">
-                            <button class="flex items-center gap-x-1 text-sm text-primary group"
-                                @click="state.modal.isFilterJournalOpen = true">
-                                <Icon name="ic:outline-filter-list"
-                                    class="text-primary w-6 h-6 group-hover:text-primary-700" />
-                                <span class="group-hover:text-primary-700">
-                                    {{ $t('filter') }}
-                                </span>
-                            </button>
+                            <div class="flex items-center gap-x-5">
+                                <button class="flex items-center gap-x-1 text-sm text-primary group"
+                                    @click="state.modal.isFilterJournalOpen = true">
+                                    <Icon name="ic:outline-filter-list"
+                                        class="text-primary w-6 h-6 group-hover:text-primary-700" />
+                                    <span class="group-hover:text-primary-700">
+                                        {{ $t('filter') }}
+                                    </span>
+                                </button>
+                                <!-- Rarely needed, so it sits with the filters rather than next to New note. -->
+                                <button v-if="isAtLeast('Admin') || can('view_citizen_journal')"
+                                    class="flex items-center gap-x-1.5 text-sm text-slate-600 hover:text-primary-700"
+                                    @click="showDeletedJournalHistories">
+                                    <Icon name="ph:trash" class="size-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
+                                </button>
+                            </div>
                             <div class="flex items-center gap-x-2 justify-end">
-                                <FormButton buttonStyle="action" @click="state.modal.isAddJournalOpen = true"
-                                    v-if="isAtLeast('Admin') || can('create_citizen_journal')">
-                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.newNote') }}
-                                </FormButton>
                                 <FormButton buttonStyle="action" @click="showDownloadJournal"
                                     v-if="isAtLeast('Admin') || can('view_citizen_journal')">
                                     <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('citizens.citizenJournals.download') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="showDeletedJournalHistories"
-                                    v-if="isAtLeast('Admin') || can('view_citizen_journal')">
-                                    <Icon name="ph:clock-clockwise" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('citizens.citizenJournals.journalLogs.deletedNotes') }}
+                                <FormButton buttonStyle="primary" @click="state.modal.isAddJournalOpen = true"
+                                    v-if="isAtLeast('Admin') || can('create_citizen_journal')">
+                                    <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.newNote') }}
                                 </FormButton>
                             </div>
                         </div>
 
-                        <div>
+                        <div class="space-y-2">
                             <div class="flex flex-col md:flex-row md:items-center gap-2">
                                 <FormTextField id="filter_journal" name="filter_journal"
-                                    :placeholder="`${$t('search')} ${term('journal', $t('citizens.citizenJournals.filter.searchJournal'))}`"
+                                    :placeholder="$t('citizens.citizenJournals.filter.searchJournal')"
                                     v-model="state.filter.journal" class="flex-1" @blur="filterJournal"
                                     @keyup.enter="filterJournal" />
                                 <FormDateRangeField id="date_range" name="date_range"
                                     :placeholder="$t('citizens.citizenJournals.filter.filterDate')"
                                     v-model="state.filter.date_range" class="w-full md:w-72 h-11" />
-                                <div class="flex items-center gap-1.5 shrink-0">
-                                    <Tooltip :text="$t('citizens.citizenJournals.filter.oldestFirst')">
-                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.oldestFirst')" buttonSize="sm" :class="[
-                                            ['Journal ascending', ''].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                            'w-full md:w-fit']" @click="sortJournalAscending('Journal ascending')">
-                                            <Icon name="mdi:sort-ascending" class="size-4" />
-                                        </FormButton>
-                                    </Tooltip>
-                                    <Tooltip :text="$t('citizens.citizenJournals.filter.newestFirst')">
-                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.newestFirst')" buttonSize="sm" :class="[
-                                            ['Journal descending'].includes(citizenJournalStore.getSortDataBy) && 'border-secondary bg-secondary text-white',
-                                            'w-full md:w-fit']" @click="sortJournalDescending('Journal descending')">
-                                            <Icon name="mdi:sort-descending" class="size-4" />
-                                        </FormButton>
-                                    </Tooltip>
-                                    <Tooltip :text="$t('citizens.citizenJournals.filter.showLockedOnly')">
-                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.showLockedOnly')" buttonSize="sm" :class="[
-                                            citizenJournalStore.getFilterDataBy === 'Locked journals' && 'border-secondary bg-secondary text-white',
-                                            'w-full md:w-fit']" @click="fetchLockedJournals('Locked journals')">
-                                            <Icon name="ph:lock" class="size-4" />
-                                        </FormButton>
-                                    </Tooltip>
-                                    <Tooltip :text="$t('citizens.citizenJournals.filter.showFavoritesOnly')">
-                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.showFavoritesOnly')" buttonSize="sm" :class="[
-                                            citizenJournalStore.getFilterDataBy === 'Favorite journals' && 'border-secondary bg-secondary text-white',
-                                            'w-full md:w-fit']" @click="fetchFavoriteJournals('Favorite journals')">
-                                            <Icon name="ph:star" class="size-4" />
-                                        </FormButton>
-                                    </Tooltip>
-                                    <Tooltip :text="$t('citizens.citizenJournals.filter.resetFilters')">
-                                        <FormButton :aria-label="$t('citizens.citizenJournals.filter.resetFilters')" class="w-full md:w-fit" buttonSize="sm" @click="resetFilter">
-                                            <Icon name="mdi:refresh" class="size-4" />
-                                        </FormButton>
-                                    </Tooltip>
-                                </div>
+                            </div>
+                            <!-- Sort and quick filters say what they do, and show when they are on. -->
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button type="button" :class="chipClass(false)" @click="toggleSortOrder"
+                                    data-testid="journal-sort">
+                                    <Icon :name="isNewestFirst ? 'ph:sort-descending' : 'ph:sort-ascending'"
+                                        class="size-4" aria-hidden="true" />
+                                    {{ isNewestFirst ? $t('citizens.citizenJournals.filter.newestFirst') : $t('citizens.citizenJournals.filter.oldestFirst') }}
+                                </button>
+                                <button type="button" :class="chipClass(!!state.dataFilter.lock)"
+                                    :aria-pressed="!!state.dataFilter.lock" @click="toggleQuickFilter('lock')">
+                                    <Icon name="ph:lock" class="size-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.filter.locked') }}
+                                </button>
+                                <button type="button" :class="chipClass(!!state.dataFilter.favorite)"
+                                    :aria-pressed="!!state.dataFilter.favorite" @click="toggleQuickFilter('favorite')">
+                                    <Icon name="ph:star" class="size-4" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.filter.favorites') }}
+                                </button>
+                                <button v-if="hasActiveFilters" type="button"
+                                    class="ms-1 text-sm text-slate-600 underline-offset-2 hover:text-primary-700 hover:underline"
+                                    @click="resetFilter">
+                                    {{ $t('citizens.citizenJournals.filter.resetFilters') }}
+                                </button>
                             </div>
                         </div>
                         <div class="mt-5 space-y-5 stagger-children">
@@ -358,37 +351,49 @@ function filterJournal() {
     fetchJournals()
 }
 
-function sortJournalAscending(filterDataBy: any) {
-    citizenJournalStore.setSortDataBy(filterDataBy)
+const isNewestFirst = computed(() => state.sortData.sortOrder !== 'ascend')
+
+const hasActiveFilters = computed(() => !isNewestFirst.value
+    || !!state.dataFilter.lock
+    || !!state.dataFilter.favorite
+    || !!state.filter.journal
+    || !!state.filter.date_range?.length)
+
+function chipClass(active: boolean) {
+    return [
+        'inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm transition-colors',
+        active
+            ? 'border-primary bg-primary text-white'
+            : 'border-gray-200 bg-white text-slate-700 hover:border-primary hover:text-primary',
+    ]
+}
+
+function toggleSortOrder() {
+    const ascending = isNewestFirst.value
+    citizenJournalStore.setSortDataBy(ascending ? 'Journal ascending' : 'Journal descending')
     currentTablePage = 1
     state.sortData = {
         sortField: 'date',
-        sortOrder: 'ascend',
+        sortOrder: ascending ? 'ascend' : 'descend',
     }
     fetchJournals()
 }
 
-function sortJournalDescending(filterDataBy: any) {
-    citizenJournalStore.setSortDataBy(filterDataBy)
+// Locked and favourites can be combined, and clicking an active one turns it off again.
+function toggleQuickFilter(key: 'lock' | 'favorite') {
     currentTablePage = 1
-    state.sortData = {
-        sortField: 'date',
-        sortOrder: 'descend',
+    if (state.dataFilter[key]) {
+        delete state.dataFilter[key]
+    } else {
+        state.dataFilter[key] = true
     }
-    fetchJournals()
-}
-
-function fetchLockedJournals(filterDataBy: any) {
-    citizenJournalStore.setFilterDataBy(filterDataBy)
-    currentTablePage = 1
-    state.dataFilter.lock = true
-    fetchJournals()
-}
-
-function fetchFavoriteJournals(filterDataBy: any) {
-    citizenJournalStore.setFilterDataBy(filterDataBy)
-    currentTablePage = 1
-    state.dataFilter.favorite = true
+    if (state.dataFilter.lock) {
+        citizenJournalStore.setFilterDataBy('Locked journals')
+    } else if (state.dataFilter.favorite) {
+        citizenJournalStore.setFilterDataBy('Favorite journals')
+    } else {
+        citizenJournalStore.resetFilterDataBy()
+    }
     fetchJournals()
 }
 
