@@ -5,7 +5,7 @@
  */
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { initials, matches, pickerSections, rememberRecent } from '../../utils/citizenPicker.ts'
+import { initials, matches, pickerSections, pickerDepartments, rememberRecent } from '../../utils/citizenPicker.ts'
 
 const o = (value, label, pinned = false) => ({ value, label, pinned })
 const people = [o('a', 'Anna Lindberg (demo)'), o('b', 'Peter Holm', true), o('c', 'Søren Ørsted'), o('d', 'Ida-Marie Kjær')]
@@ -49,6 +49,27 @@ describe('pickerSections', () => {
     })
 })
 
+describe('departments', () => {
+    const nord = { uuid: 'n', name: 'Nord' }, syd = { uuid: 's', name: 'Syd' }
+    const staff = [
+        { value: 'a', label: 'Anna Lindberg', departments: [nord] },
+        { value: 'b', label: 'Peter Holm', departments: [syd] },
+        { value: 'c', label: 'Ida Holm', departments: [nord, syd] },
+        { value: 'd', label: 'Ole Uden' },
+    ]
+
+    test('lists each department once, by name', () => {
+        assert.deepEqual(pickerDepartments(staff), [nord, syd])
+        assert.deepEqual(pickerDepartments([{ value: 'x', label: 'X' }]), [])
+    })
+
+    test('browsing keeps to the chosen department, a search looks through everyone', () => {
+        assert.deepEqual(pickerSections(staff, '', [], [], 's').flatMap(s => s.options.map(o => o.value)), ['b', 'c'])
+        assert.deepEqual(pickerSections(staff, 'anna', [], [], 's')[0].options.map(o => o.value), ['a'])
+        assert.deepEqual(pickerSections(staff, '', [], [], null).flatMap(s => s.options.map(o => o.value)), ['a', 'b', 'c', 'd'])
+    })
+})
+
 test('rememberRecent keeps the newest first, without duplicates, capped', () => {
     assert.deepEqual(rememberRecent(['a', 'b'], 'b'), ['b', 'a'])
     assert.deepEqual(rememberRecent(['a', 'b', 'c', 'd', 'e'], 'f'), ['f', 'a', 'b', 'c', 'd'])
@@ -60,7 +81,7 @@ test('the picker is translated in all four languages', async () => {
     const missing = []
     for (const lang of ['dk', 'en', 'no', 'sv']) {
         const p = JSON.parse(fs.readFileSync(path.join(root, 'lang', `${lang}.json`), 'utf8')).citizenPicker
-        for (const key of ['search', 'addMore', 'remove', 'noResults']) if (!p?.[key]) missing.push(`${lang}: ${key}`)
+        for (const key of ['search', 'addMore', 'remove', 'noResults', 'allDepartments', 'searchesAll']) if (!p?.[key]) missing.push(`${lang}: ${key}`)
         for (const key of ['pinned', 'recent', 'all']) if (!p?.sections?.[key]) missing.push(`${lang}: sections.${key}`)
     }
     assert.deepEqual(missing, [])

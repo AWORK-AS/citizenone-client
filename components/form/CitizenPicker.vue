@@ -36,11 +36,22 @@
                     @keydown.esc.stop.prevent="selectedOptions.length && (searching = false)"
                     class="block w-full rounded-t-lg border-0 py-2.5 pl-9 pr-3 text-sm text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-0" />
             </div>
+            <!-- Department chips only where there is more than one to choose from. -->
+            <div v-if="departments.length > 1" class="flex flex-wrap items-center gap-1.5 border-t border-gray-100 px-3 py-2">
+                <button v-for="chip in [{ uuid: null, name: $t('citizenPicker.allDepartments') }, ...departments]"
+                    :key="chip.uuid ?? 'all'" type="button" @mousedown.prevent="department = chip.uuid"
+                    :aria-pressed="department === chip.uuid"
+                    class="rounded-full px-2.5 py-0.5 text-xs font-medium transition-colors"
+                    :class="department === chip.uuid ? 'bg-primary text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'">
+                    {{ chip.name }}
+                </button>
+                <span v-if="department && query.trim()" class="ml-1 text-xs text-gray-400">{{ $t('citizenPicker.searchesAll') }}</span>
+            </div>
             <ul :id="`${id}-list`" role="listbox" class="max-h-64 overflow-y-auto border-t border-gray-100 py-1">
                 <template v-for="section in sections" :key="section.key">
                     <li v-if="section.key !== 'matches'" role="presentation"
                         class="px-3 pb-1 pt-2 text-xxs font-semibold uppercase tracking-wide text-gray-400">
-                        {{ $t(`citizenPicker.sections.${section.key}`) }}
+                        {{ section.key === 'all' && departmentName ? departmentName : $t(`citizenPicker.sections.${section.key}`) }}
                     </li>
                     <li v-for="option in section.options" :key="option.value" :id="`${id}-opt-${option.value}`"
                         role="option" :aria-selected="flat[active]?.value === option.value"
@@ -51,6 +62,10 @@
                             {{ initials(option.label) }}
                         </span>
                         <span class="min-w-0 flex-1 truncate text-sm text-gray-900">{{ option.label }}</span>
+                        <span v-if="departments.length > 1 && option.departments?.length"
+                            class="shrink-0 truncate text-xs text-gray-400">
+                            {{ option.departments.map(d => d.name).join(', ') }}
+                        </span>
                         <Icon v-if="option.pinned" name="ph:star-fill" class="size-3.5 shrink-0 text-amber-400" aria-hidden="true" />
                     </li>
                 </template>
@@ -62,7 +77,8 @@
 
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
-import { initials, pickerSections, rememberRecent, type PickerOption } from '@/utils/citizenPicker'
+import { useDepartmentStore } from '@/store/department'
+import { initials, pickerDepartments, pickerSections, rememberRecent, type PickerOption } from '@/utils/citizenPicker'
 
 const props = defineProps<{ options: PickerOption[], modelValue: string[], id?: string }>()
 const emit = defineEmits<{ (e: 'update:modelValue', value: string[]): void }>()
@@ -84,7 +100,19 @@ const recent = ref<string[]>([])
 const selectedOptions = computed(() => (props.modelValue ?? [])
     .map(uuid => props.options.find(o => o.value === uuid))
     .filter((o): o is PickerOption => !!o))
-const sections = computed(() => pickerSections(props.options, query.value, recent.value, props.modelValue ?? []))
+const departments = computed(() => pickerDepartments(props.options))
+// Starts on the department picked in the topbar; "Alle afdelinger" there is no filter.
+const departmentStore = useDepartmentStore() as any
+const department = ref<string | null>(null)
+watch(departments, (list) => {
+    // The store holds the department object (or '' for all departments).
+    const chosen = departmentStore.getSelectedDepartment?.uuid
+    department.value = list.some(d => d.uuid === chosen) ? chosen : null
+}, { immediate: true })
+
+const departmentName = computed(() => departments.value.find(d => d.uuid === department.value)?.name ?? '')
+
+const sections = computed(() => pickerSections(props.options, query.value, recent.value, props.modelValue ?? [], department.value))
 const flat = computed(() => sections.value.flatMap(s => s.options))
 
 watch(query, () => { active.value = 0 })

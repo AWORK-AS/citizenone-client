@@ -152,7 +152,7 @@ async function fetchCitizens() {
         const response: any = await citizenService.getAllCitizens({})
         citizens.value = (response?.data ?? [])
             .filter((c: any) => c?.uuid && c.uuid !== 'all-citizens')
-            .map((c: any) => ({ value: c.uuid, label: [c.firstname, c.lastname].filter(Boolean).join(' '), pinned: !!c.is_pinned }))
+            .map((c: any) => ({ value: c.uuid, label: [c.firstname, c.lastname].filter(Boolean).join(' '), pinned: !!c.is_pinned, departments: c.departments ?? [] }))
     } catch (e) { citizens.value = [] }
 }
 

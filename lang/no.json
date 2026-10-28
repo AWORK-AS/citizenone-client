@@ -1,5 +1,7 @@
 {
     "citizenPicker": {
+        "allDepartments": "Alle",
+        "searchesAll": "Søker i alle avdelinger",
         "search": "Søk etter navn",
         "addMore": "Legg til flere",
         "remove": "Fjern {name}",

@@ -3,11 +3,17 @@
 // one you want is found by typing, and the ones you use daily are on top.
 // Pure, for tests/unit/citizenPicker.test.mjs.
 
+export interface PickerDepartment {
+    uuid: string
+    name: string
+}
+
 export interface PickerOption {
     value: string
     label: string
     pinned?: boolean
     image?: string | null
+    departments?: PickerDepartment[]
 }
 
 export interface PickerSection {
@@ -35,6 +41,13 @@ export function matches(option: PickerOption, query: string): boolean {
     return fold(query).split(/\s+/).filter(Boolean).every(q => words.some(w => w.startsWith(q)))
 }
 
+/** The departments the options belong to, by name, each once. */
+export function pickerDepartments(options: PickerOption[]): PickerDepartment[] {
+    const seen = new Map<string, PickerDepartment>()
+    for (const o of options) for (const d of o.departments ?? []) if (d?.uuid && !seen.has(d.uuid)) seen.set(d.uuid, d)
+    return [...seen.values()].sort((a, b) => a.name.localeCompare(b.name, 'da'))
+}
+
 /**
  * Sections to show. Without a query: pinned, then recently used, then everyone
  * else; each person once. With a query: one list of matches, pinned first.
@@ -45,12 +58,16 @@ export function pickerSections(
     query: string,
     recentUuids: string[],
     selected: string[] = [],
+    department: string | null = null,
 ): PickerSection[] {
-    const open = options.filter(o => o?.value && !selected.includes(o.value))
+    const all = options.filter(o => o?.value && !selected.includes(o.value))
+    // A search always looks through everyone, so nobody is locked out by the
+    // department filter; browsing without a query keeps to the department.
     if (query.trim()) {
-        const found = open.filter(o => matches(o, query))
+        const found = all.filter(o => matches(o, query))
         return [{ key: 'matches', options: [...found.filter(o => o.pinned), ...found.filter(o => !o.pinned)] }]
     }
+    const open = department ? all.filter(o => (o.departments ?? []).some(d => d.uuid === department)) : all
     const pinned = open.filter(o => o.pinned)
     const byUuid = new Map(open.map(o => [o.value, o]))
     const recent = recentUuids.map(u => byUuid.get(u)).filter((o): o is PickerOption => !!o && !o.pinned)
