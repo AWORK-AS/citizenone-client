@@ -2123,6 +2123,11 @@
             "protocol": "Protokoll"
         },
         "birthdayToday": "Födelsedag idag",
+        "showDetails": "Visa detaljer",
+        "hideDetails": "Dölj detaljer",
+        "reportMenu": "Rapportera",
+        "showTimeline": "Visa tidslinje",
+        "hideTimeline": "Dölj tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Händelse raderad"
@@ -2153,6 +2158,7 @@
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flytta",
+                "more": "Fler åtgärder",
                 "pin": "Fäst journal",
                 "removeFromFavorite": "Ta bort från favoriter",
                 "share": "Dela",
@@ -2205,12 +2211,16 @@
             "filter": {
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
+                "favorites": "Favoriter",
+                "view": "Vy",
+                "clear": "Rensa",
+                "locked": "Låsta",
                 "journalNoteView": "Journalnotatvisning",
                 "newestFirst": "Nyaste först",
                 "oldestFirst": "Äldsta först",
                 "resetFilters": "Återställ filter",
                 "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Sök i journal",
+                "searchJournal": "Sök i @:terms.journal{''}",
                 "showFavoritesOnly": "Visa endast favoriter",
                 "showLockedOnly": "Visa endast låsta anteckningar",
                 "standardView": "Standardvisning"
@@ -2231,6 +2241,7 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "internal": "Intern anteckning",
+                "locked": "Låst",
                 "visit": {
                     "date": "Besöksdatum",
                     "timeStart": "Besök från",
@@ -3279,6 +3290,7 @@
                 "viewSchedule": "Visa plan"
             },
             "download": "Ladda ner",
+            "qrCode": "QR-kod",
             "downloadOverview": "Ladda ner översikt",
             "downloadCurrentList": "Ladda ner aktuell läkemedelslista",
             "currentListFileName": "Aktuell läkemedelslista",
@@ -4177,6 +4189,7 @@
                 "care": "Vård & behandling",
                 "documentation": "Dokumentation",
                 "time": "Tid & närvaro",
+                "people": "Personer",
                 "admin": "Administration"
             },
             "surveys": "Enkäter",
@@ -4589,7 +4602,8 @@
                 "name": "Namn",
                 "note": "Anteckning"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny plånbok",
+            "noWallets": "Inga plånböcker än",
             "table": {
                 "actions": {
                     "delete": "Radera",
@@ -4602,7 +4616,7 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge",
+                "wallets": "Plånböcker",
                 "contract": "Avtal"
             },
             "wallets": "Ekonomi"
@@ -10925,6 +10939,7 @@
                 "reports": "Rapportera",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Fler åtgärder",
                 "statuses": "Statusar",
                 "unarchive": "Återställ",
                 "view": "Se"
@@ -12626,10 +12641,14 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom igång",
+        "pin": "Fäst överst",
+        "unpin": "Lossa",
+        "customise": "Anpassa menyn",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
+            "pinned": "Fästa",
             "shortcuts": "Genvägar",
             "communication": "Kommunikation"
         },
@@ -17479,6 +17498,8 @@
         "selectedCount": "{count} medborgare valda",
         "noneSelectedHint": "Inga medborgare valda - hela företaget exporteras",
         "clearSelection": "Rensa urval",
+        "thisCitizen": "Endast denna medborgare (PDF)",
+        "severalCitizens": "Flera medborgare (zip)",
         "download": "Ladda ner",
         "downloading": "Förbereder nedladdning...",
         "table": {

@@ -2123,6 +2123,11 @@
             "protocol": "Protokol"
         },
         "birthdayToday": "Fødselsdag i dag",
+        "showDetails": "Vis detaljer",
+        "hideDetails": "Skjul detaljer",
+        "reportMenu": "Rapportér",
+        "showTimeline": "Vis tidslinje",
+        "hideTimeline": "Skjul tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Begivenhed slettet med succes"
@@ -2153,6 +2158,7 @@
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flyt",
+                "more": "Flere handlinger",
                 "pin": "Fastgør journal",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "share": "Del",
@@ -2205,12 +2211,16 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
+                "favorites": "Favoritter",
+                "view": "Visning",
+                "clear": "Ryd",
+                "locked": "Låste",
                 "journalNoteView": "@.capitalize:terms.journalNote{''}visning",
                 "newestFirst": "Nyeste øverst",
                 "oldestFirst": "Ældste øverst",
                 "resetFilters": "Nulstil filtre",
                 "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Søg i journal",
+                "searchJournal": "Søg i @:terms.journal{''}",
                 "showFavoritesOnly": "Vis kun favoritter",
                 "showLockedOnly": "Vis kun låste notater",
                 "standardView": "Standardvisning"
@@ -2231,6 +2241,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Intern note",
+                "locked": "Låst",
                 "visit": {
                     "date": "Besøgsdato",
                     "timeStart": "Besøg fra",
@@ -3279,6 +3290,7 @@
                 "viewSchedule": "Se plan"
             },
             "download": "Download",
+            "qrCode": "QR-kode",
             "downloadOverview": "Download oversigt",
             "downloadCurrentList": "Download aktuel medicinliste",
             "currentListFileName": "Aktuel medicinliste",
@@ -4177,6 +4189,7 @@
                 "care": "Behandling & pleje",
                 "documentation": "Dokumentation",
                 "time": "Tid & fremmøde",
+                "people": "Personer",
                 "admin": "Administration"
             },
             "surveys": "Spørgeskemaer",
@@ -4589,7 +4602,8 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny pung",
+            "noWallets": "Ingen punge endnu",
             "table": {
                 "actions": {
                     "delete": "Slet",
@@ -10930,6 +10944,7 @@
                 "reports": "Rapporter",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Flere handlinger",
                 "statuses": "Statusser",
                 "unarchive": "Gendan",
                 "view": "Se"
@@ -12657,10 +12672,14 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom godt i gang",
+        "pin": "Fastgør øverst",
+        "unpin": "Fjern fastgørelse",
+        "customise": "Tilpas menu",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
+            "pinned": "Fastgjort",
             "shortcuts": "Genveje",
             "communication": "Kommunikation"
         },
@@ -17564,6 +17583,8 @@
         "selectedCount": "{count} @:terms.citizen{''}(e) valgt",
         "noneSelectedHint": "Ingen @:terms.citizens{''} valgt - hele virksomheden eksporteres",
         "clearSelection": "Ryd valg",
+        "thisCitizen": "Kun denne @:terms.citizen{''} (PDF)",
+        "severalCitizens": "Flere @:terms.citizens{''} (zip)",
         "download": "Download",
         "downloading": "Forbereder download...",
         "table": {

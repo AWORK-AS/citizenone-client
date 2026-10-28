@@ -9,25 +9,13 @@
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
-                        <div class="flex items-center">
-                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
-                                aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')"
-                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.citizens }}
-                            </button>
-                        </div>
+                        <ModulesUserCitizenBreadcrumbTrail />
                     </template>
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.tabs.medicineCard') }}</template>
 
             <div class="space-y-4">
-                <NuxtLink class="flex items-center gap-x-2 max-w-fit hover:cursor-pointer" to="/citizens">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
 
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
@@ -194,7 +182,7 @@
                             <Icon name="ic:outline-filter-list" class="w-5 h-5" />
                             <span>{{ $t('filter') }}</span>
                         </button>
-                        <FormButton buttonStyle="action" class="rounded-md shrink-0"
+                        <FormButton buttonStyle="primary" class="rounded-md shrink-0"
                             @click="state.modal.isAddMedicineOpen = true"
                             v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                             <Icon name="ph:plus" class="h-4 w-4" />
@@ -368,30 +356,13 @@
                         <p class="text-sm text-gray-400">
                             {{ $t('citizens.medicineJournals.page.noActiveMedicines') }}
                         </p>
+                        <!-- The other three actions are in the toolbar right above. -->
                         <div class="flex flex-wrap items-center justify-center gap-2">
-                            <FormButton buttonStyle="action" class="rounded-md"
+                            <FormButton buttonStyle="primary" class="rounded-md"
                                 @click="state.modal.isAddMedicineOpen = true"
                                 v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
                                 <Icon name="ph:plus" class="h-4 w-4" />
                                 {{ $t('citizens.medicineJournals.page.addMedicine') }}
-                            </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md"
-                                @click="state.modal.isNewPouringOpen = true"
-                                v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
-                                <Icon name="ph:flask" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.newPouring') }}
-                            </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md"
-                                @click="state.modal.isNewPlannedDeliveryOpen = true"
-                                v-if="isAtLeast('Admin') || can('create_citizen_medicine')">
-                                <Icon name="ph:package" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.newPlannedDelivery') }}
-                            </FormButton>
-                            <FormButton buttonStyle="action" class="rounded-md"
-                                @click="navigateToExternalLink('https://fmk-online.dk/fmk')"
-                                v-if="isAtLeast('Admin') || can('update_citizen_medicine')">
-                                <Icon name="ph:arrow-square-out" class="h-4 w-4" />
-                                {{ $t('citizens.medicineJournals.openFmkOnline') }}
                             </FormButton>
                         </div>
                     </div>

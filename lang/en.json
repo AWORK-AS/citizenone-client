@@ -2123,6 +2123,11 @@
             "protocol": "Protocol"
         },
         "birthdayToday": "Birthday today",
+        "showDetails": "Show details",
+        "hideDetails": "Hide details",
+        "reportMenu": "Report",
+        "showTimeline": "Show timeline",
+        "hideTimeline": "Hide timeline",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Event successfully deleted"
@@ -2153,6 +2158,7 @@
                 "journalLogs": "Journal logs",
                 "lock": "Lock journal",
                 "move": "Move",
+                "more": "More actions",
                 "pin": "Pin journal",
                 "removeFromFavorite": "Remove from favorite",
                 "share": "Share",
@@ -2205,12 +2211,16 @@
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
+                "favorites": "Favourites",
+                "view": "View",
+                "clear": "Clear",
+                "locked": "Locked",
                 "journalNoteView": "@.capitalize:terms.journalNote{''} view",
                 "newestFirst": "Newest first",
                 "oldestFirst": "Oldest first",
                 "resetFilters": "Reset filters",
                 "riskAssessmentView": "Risk assessment view",
-                "searchJournal": "Search journal",
+                "searchJournal": "Search @:terms.journal{''}",
                 "showFavoritesOnly": "Show favorites only",
                 "showLockedOnly": "Show locked notes only",
                 "standardView": "Standard view"
@@ -2231,6 +2241,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "internal": "Internal note",
+                "locked": "Locked",
                 "visit": {
                     "date": "Visit date",
                     "timeStart": "Visit from",
@@ -3279,6 +3290,7 @@
                 "viewSchedule": "View schedule"
             },
             "download": "Download",
+            "qrCode": "QR code",
             "downloadOverview": "Download overview",
             "downloadCurrentList": "Download current medicine list",
             "currentListFileName": "Current medicine list",
@@ -4177,6 +4189,7 @@
                 "care": "Care & treatment",
                 "documentation": "Documentation",
                 "time": "Time & attendance",
+                "people": "People",
                 "admin": "Administration"
             },
             "surveys": "Surveys",
@@ -4590,6 +4603,7 @@
                 "note": "Note"
             },
             "newWallet": "New wallet",
+            "noWallets": "No wallets yet",
             "table": {
                 "actions": {
                     "delete": "Delete",
@@ -10930,6 +10944,7 @@
                 "reports": "Reports",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
+                "more": "More actions",
                 "statuses": "Statuses",
                 "unarchive": "Unarchive",
                 "view": "View"
@@ -12657,10 +12672,14 @@
         "companyId": "Company ID",
         "coupons": "Coupons",
         "discover": "Get started",
+        "pin": "Pin to top",
+        "unpin": "Unpin",
+        "customise": "Customise menu",
         "groups": {
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",
+            "pinned": "Pinned",
             "shortcuts": "Shortcuts",
             "communication": "Communication"
         },
@@ -17564,6 +17583,8 @@
         "selectedCount": "{count} @:terms.citizen{''}(s) selected",
         "noneSelectedHint": "No @:terms.citizens{''} selected - the whole company will be exported",
         "clearSelection": "Clear selection",
+        "thisCitizen": "This @:terms.citizen{''} only (PDF)",
+        "severalCitizens": "Several @:terms.citizens{''} (zip)",
         "download": "Download",
         "downloading": "Preparing download...",
         "table": {

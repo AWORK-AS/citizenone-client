@@ -2123,6 +2123,11 @@
             "protocol": "Protokoll"
         },
         "birthdayToday": "Bursdag i dag",
+        "showDetails": "Vis detaljer",
+        "hideDetails": "Skjul detaljer",
+        "reportMenu": "Rapporter",
+        "showTimeline": "Vis tidslinje",
+        "hideTimeline": "Skjul tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Arrangement slettet vellykket"
@@ -2153,6 +2158,7 @@
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flytt",
+                "more": "Flere handlinger",
                 "pin": "Fest journal",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "share": "Del",
@@ -2205,12 +2211,16 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
+                "favorites": "Favoritter",
+                "view": "Visning",
+                "clear": "Tøm",
+                "locked": "Låste",
                 "journalNoteView": "@.capitalize:terms.journalNote{''}visning",
                 "newestFirst": "Nyeste øverst",
                 "oldestFirst": "Eldste øverst",
                 "resetFilters": "Nullstill filtre",
                 "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Søk i journal",
+                "searchJournal": "Søk i @:terms.journal{''}",
                 "showFavoritesOnly": "Vis kun favoritter",
                 "showLockedOnly": "Vis kun låste notater",
                 "standardView": "Standardvisning"
@@ -2231,6 +2241,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Internt notat",
+                "locked": "Låst",
                 "visit": {
                     "date": "Besøksdato",
                     "timeStart": "Besøk fra",
@@ -3279,6 +3290,7 @@
                 "viewSchedule": "Se plan"
             },
             "download": "Last ned",
+            "qrCode": "QR-kode",
             "downloadOverview": "Last ned oversigt",
             "downloadCurrentList": "Last ned aktuell medisinliste",
             "currentListFileName": "Aktuell medisinliste",
@@ -4177,6 +4189,7 @@
                 "care": "Behandling & pleie",
                 "documentation": "Dokumentasjon",
                 "time": "Tid & oppmøte",
+                "people": "Personer",
                 "admin": "Administrasjon"
             },
             "surveys": "Spørreskjemaer",
@@ -4589,7 +4602,8 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny lommebok",
+            "noWallets": "Ingen lommebøker ennå",
             "table": {
                 "actions": {
                     "delete": "Slett",
@@ -4602,7 +4616,7 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge",
+                "wallets": "Lommebøker",
                 "contract": "Kontrakt"
             },
             "wallets": "Økonomi"
@@ -10925,6 +10939,7 @@
                 "reports": "Rapporter",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Flere handlinger",
                 "statuses": "Statuser",
                 "unarchive": "Gjenopprett",
                 "view": "Se"
@@ -12626,10 +12641,14 @@
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
         "discover": "Kom i gang",
+        "pin": "Fest øverst",
+        "unpin": "Løsne",
+        "customise": "Tilpass menyen",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",
+            "pinned": "Festet",
             "shortcuts": "Snarveier",
             "communication": "Kommunikasjon"
         },
@@ -17479,6 +17498,8 @@
         "selectedCount": "{count} innbygger(e) valgt",
         "noneSelectedHint": "Ingen innbyggere valgt - hele selskapet eksporteres",
         "clearSelection": "Fjern utvalg",
+        "thisCitizen": "Kun denne innbyggeren (PDF)",
+        "severalCitizens": "Flere innbyggere (zip)",
         "download": "Last ned",
         "downloading": "Forbereder nedlasting...",
         "table": {

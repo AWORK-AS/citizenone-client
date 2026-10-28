@@ -1,12 +1,12 @@
 <template>
     <div class="flex flex-col gap-y-2">
-        <button type="button"
+        <button type="button" v-if="!props.headless"
             class="flex w-full items-center justify-center gap-x-1.5 rounded-lg bg-red-50 border border-red-200 px-3 py-2 text-xs font-semibold text-red-600 hover:bg-red-100 hover:border-red-300 transition-colors"
             @click="state.modal.isReportIncidentOpen = true">
             <Icon name="ph:warning-circle" class="h-4 w-4" aria-hidden="true" />
             {{ $t('citizens.incidents.reportIncident') }}
         </button>
-        <button type="button"
+        <button type="button" v-if="!props.headless"
             class="text-center text-xs font-medium text-slate-500 hover:text-red-600 transition-colors text-center"
             @click="state.slideOver.isReportIncidentOpen = true">
             {{ $t('citizens.incidents.seePreviousIncident') }}
@@ -19,6 +19,9 @@
 </template>
 
 <script setup lang="ts">
+// headless renders only the modals, for a parent that offers its own buttons.
+const props = defineProps<{ headless?: boolean }>()
+
 const state = reactive({
     modal: {
         isReportIncidentOpen: false
@@ -26,5 +29,10 @@ const state = reactive({
     slideOver: {
         isReportIncidentOpen: false
     },
+})
+
+defineExpose({
+    openReport: () => { state.modal.isReportIncidentOpen = true },
+    openPrevious: () => { state.slideOver.isReportIncidentOpen = true },
 })
 </script>

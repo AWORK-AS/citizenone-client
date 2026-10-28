@@ -23,6 +23,7 @@
 </template>
 
 <script setup lang="ts">
+import { withVisibility } from '@/utils/sidebarPreferences'
 import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 import { useSidebarNavStore } from '@/store/sidebar-nav'
@@ -98,10 +99,11 @@ function toggleItem(name: string) {
 async function save() {
     state.isSaving = true
     try {
-        const preferences = sidebarNavStore.eligibleItems.map((item: any) => ({
-            name: item.name,
-            visible: state.visibility[item.name] ?? true,
-        }))
+        // Merged into what is saved rather than rebuilt, so pins made from the
+        // sidebar survive saving this page.
+        const visibility = Object.fromEntries(sidebarNavStore.eligibleItems.map((item: any) =>
+            [item.name, state.visibility[item.name] ?? true]))
+        const preferences = withVisibility(userStore.getUser?.sidebar_preferences, visibility)
         await userService.updateSidebarPreferences(preferences)
         // Optimistic: the request just persisted exactly this array, so update the
         // store from it directly rather than depending on the response's shape -

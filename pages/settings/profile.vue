@@ -21,8 +21,9 @@
                     <ModulesUserSettingsProfile :isFirstLoad="true" />
                 </div>
 
-                <Disclosure as="div" v-slot="{ open }"
-                    class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary">
+                <!-- Opened by the sidebar's "Customise menu" link. -->
+                <Disclosure as="div" v-slot="{ open }" id="sidebar-menu" :defaultOpen="route.hash === '#sidebar-menu'"
+                    class="bg-white ring-1 ring-gray-200 rounded-md border-t-3 border-secondary scroll-mt-24">
                     <DisclosureButton class="w-full flex justify-between items-center text-left px-5 py-6">
                         <div class="flex items-center gap-x-2">
                             <h3 class="font-semibold text-sm">
@@ -111,6 +112,13 @@ import { Disclosure, DisclosureButton, DisclosurePanel } from '@headlessui/vue'
 import { CODY_MEMORY_ANCHOR } from '@/composables/codyMemory'
 
 const runtimeConfig = useRuntimeConfig()
+const route = useRoute()
+
+onMounted(() => {
+    if (route.hash === '#sidebar-menu') {
+        nextTick(() => document.getElementById('sidebar-menu')?.scrollIntoView({ behavior: 'smooth', block: 'start' }))
+    }
+})
 const breadcrumbLinks = [
     {
         name: 'settings.tabs.profile',

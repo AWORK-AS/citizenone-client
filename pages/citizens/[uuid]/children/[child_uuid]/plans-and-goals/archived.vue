@@ -58,7 +58,7 @@
                                     v-if="hasCreatePlanAccess()">
                                     <div>
                                         <MenuButton class="w-full md:w-fit">
-                                            <FormButton buttonStyle="action" class="w-full md:w-fit rounded-lg">
+                                            <FormButton buttonStyle="primary" class="w-full md:w-fit rounded-lg">
                                                 <Icon name="ph:plus" class="h-4 w-4" aria-hidden="true" />
                                                 {{ $t('plansandgoals.newPlanOrGoal') }}
                                             </FormButton>
@@ -101,10 +101,7 @@
                                     <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('plansandgoals.createStatusTemplate.createReport') }}
                                 </FormButton>
-                                <FormButton buttonStyle="action" @click="downloadPlansAndGoals">
-                                    <Icon name="ph:download" class="h-4 w-4" aria-hidden="true" />
-                                    {{ $t('plansandgoals.download') }}
-                                </FormButton>
+                                <ModulesUserCitizenPlanDownloadMenu @download="downloadPlansAndGoals" />
                                 <FormButton buttonStyle="action" @click="navigateTo('/vum-templates')">
                                     <Icon name="ph:files" class="h-4 w-4" aria-hidden="true" />
                                     {{ $t('plansandgoals.VUMTemplates.templates') }}
@@ -200,87 +197,13 @@
                                         </p>
                                     </div>
                                     <div>
-                                        <div class="flex items-center gap-2 flex-wrap md:flex-nowrap">
-                                            <Tooltip :text="$t('plansandgoals.table.actions.seeSubgoals')"
-                                                v-if="plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.seeSubgoals')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="viewSubgoals(plan)">
-                                                    <Icon name="ph:eye" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.seeGoals')" v-else>
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.seeGoals')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="viewPlan(plan)">
-                                                    <Icon name="ph:eye" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.edit')"
-                                                v-if="plan?.is_editable && plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.edit')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="editGoal(plan)">
-                                                    <Icon name="ph:pencil-duotone" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.edit')"
-                                                v-if="plan?.is_editable && !plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.edit')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="editPlan(plan)">
-                                                    <Icon name="ph:pencil-duotone" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.unarchive')"
-                                                v-if="plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.unarchive')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="confirmGoalUnarchive(plan)">
-                                                    <Icon name="ph:archive" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.unarchive')"
-                                                v-if="!plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.unarchive')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="confirmPlanUnarchive(plan)">
-                                                    <Icon name="ph:archive" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.graph')">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.graph')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="openChart(plan)">
-                                                    <Icon name="ph:chart-line" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.notes')">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.notes')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="viewNotes(plan)">
-                                                    <Icon name="ph:check-square-offset" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.reports')">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.reports')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="viewStatuses(plan)">
-                                                    <Icon name="ph:file" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.notifications')">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.notifications')" buttonStyle="primary" buttonSize="sm"
-                                                    @click="viewNotifications(plan)">
-                                                    <Icon name="ph:bell" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.delete')"
-                                                v-if="plan?.is_deletable && !plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.delete')" buttonStyle="danger" buttonSize="sm"
-                                                    @click="confirmPlanDeletion(plan)">
-                                                    <Icon name="heroicons:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('plansandgoals.table.actions.delete')"
-                                                v-if="plan?.is_deletable && plan?.is_single_goal">
-                                                <FormButton :aria-label="$t('plansandgoals.table.actions.delete')" buttonStyle="danger" buttonSize="sm"
-                                                    @click="confirmGoalDeletion(plan)">
-                                                    <Icon name="heroicons:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                        </div>
+                                        <ModulesUserCitizenPlanCardActions :plan="plan" archived
+                                            @view="plan?.is_single_goal ? viewSubgoals(plan) : viewPlan(plan)"
+                                            @edit="plan?.is_single_goal ? editGoal(plan) : editPlan(plan)"
+                                            @unarchive="plan?.is_single_goal ? confirmGoalUnarchive(plan) : confirmPlanUnarchive(plan)"
+                                            @chart="openChart(plan)" @notes="viewNotes(plan)" @statuses="viewStatuses(plan)"
+                                            @notifications="viewNotifications(plan)"
+                                            @delete="plan?.is_single_goal ? confirmGoalDeletion(plan) : confirmPlanDeletion(plan)" />
                                     </div>
                                 </div>
                             </div>

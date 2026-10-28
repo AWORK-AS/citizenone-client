@@ -9,24 +9,13 @@
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
-                        <div class="flex items-center">
-                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400" />
-                            <button @click="navigateTo('/citizens')"
-                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.citizens }}
-                            </button>
-                        </div>
+                        <ModulesUserCitizenBreadcrumbTrail />
                     </template>
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.tabs.toothChart') }}</template>
 
             <div class="space-y-5">
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
 
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />

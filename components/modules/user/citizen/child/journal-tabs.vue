@@ -103,7 +103,7 @@ watch(() => userStore.getUser, (newValue: any) => {
     if (can('Contacts')) {
         tabs.push({
             name: 'citizens.tabs.contacts', icon: 'ph:address-book', isTranslateName: true,
-            category: 'admin', primary: false,
+            category: 'people', primary: false,
             href: `${base}/contacts`, routeNames: [rn('contacts')],
         })
     }
