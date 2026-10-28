@@ -12043,6 +12043,14 @@
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "chatCprWarning": "Warn about CPR numbers in chat",
+                "birthdayNotifications": "Birthday notifications",
+                "birthdayNotificationsHint": "Everyone gets a notification each morning when a citizen or colleague has a birthday. Choose who it is about, or switch it off for the whole company",
+                "birthdayNotificationOptions": {
+                    "all": "Citizens and staff",
+                    "staff": "Staff only",
+                    "citizens": "Citizens only",
+                    "off": "Off"
+                },
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
                 "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",

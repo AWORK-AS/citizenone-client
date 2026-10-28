@@ -12043,6 +12043,14 @@
                 "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
                 "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
                 "chatCprWarning": "Advar om CPR-numre i chat",
+                "birthdayNotifications": "Fødselsdagsnotifikationer",
+                "birthdayNotificationsHint": "Alle får hver morgen en notifikation, når en borger eller kollega har fødselsdag. Vælg hvem den skal handle om, eller slå den fra for hele virksomheden",
+                "birthdayNotificationOptions": {
+                    "all": "Borgere og medarbejdere",
+                    "staff": "Kun medarbejdere",
+                    "citizens": "Kun borgere",
+                    "off": "Fra"
+                },
                 "missingNoteReminder": "Påmind om aftaler uden @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Giv besked om @:terms.journalNotes{''} oprettet fra en aftale",
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrævet ved Gennemført",

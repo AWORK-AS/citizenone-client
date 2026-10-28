@@ -12038,6 +12038,14 @@
                 "patientChatInbox": "Patienter skriver till hela kliniken (gemensam inkorg)",
                 "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
                 "chatCprWarning": "Varna för CPR-nummer i chatt",
+                "birthdayNotifications": "Födelsedagsnotiser",
+                "birthdayNotificationsHint": "Alla får en notis varje morgon när en klient eller kollega fyller år. Välj vem den ska handla om, eller stäng av den för hela företaget",
+                "birthdayNotificationOptions": {
+                    "all": "Klienter och anställda",
+                    "staff": "Bara anställda",
+                    "citizens": "Bara klienter",
+                    "off": "Av"
+                },
                 "missingNoteReminder": "Påminn om bokningar utan @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Meddela om @:terms.journalNotes{''} skapade från en bokning",
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} krävs vid Slutförd",
