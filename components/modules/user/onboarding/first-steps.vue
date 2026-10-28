@@ -131,6 +131,9 @@ const citizens = ref<{ value: string, label: string }[]>([])
 const index = ref(0)
 const noteOpen = ref(false)
 const finished = ref(false)
+// Saved here, so done here: the checklist leaves out notes on the demo citizens,
+// which are all a new account has, and the step would otherwise never turn green.
+const savedHere = ref(new Set<string>())
 
 // Shown until finished or skipped, the same marker the old tour used, so the
 // landing page after sign-in (Discover or My day) follows it.
@@ -138,7 +141,7 @@ const visible = computed(() => !finished.value && welcomeTourMode(userStore.getU
 const current = computed<FirstStep>(() => steps.value[index.value])
 
 function isDone(step: FirstStep) {
-    return stepDone(step, checklist.value)
+    return savedHere.value.has(step.key) || stepDone(step, checklist.value)
 }
 
 const ACTIONS: Record<string, () => void> = {
@@ -172,6 +175,7 @@ async function fetchCitizens() {
 
 async function onNoteSaved() {
     noteOpen.value = false
+    savedHere.value = new Set([...savedHere.value, 'note'])
     await fetchChecklist()
     if (isDone(current.value) && index.value < steps.value.length - 1) index.value++
 }
