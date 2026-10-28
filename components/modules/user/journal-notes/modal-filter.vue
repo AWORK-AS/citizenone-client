@@ -8,11 +8,11 @@
                     <div class="space-y-3">
                         <fieldset>
                             <legend class="text-sm text-gray-600">{{ $t('citizens.citizenJournals.filter.view') }}</legend>
-                            <RadioGroup v-model="state.filter.selectedView" class="mt-1 grid grid-cols-3 gap-1 rounded-lg bg-slate-100 p-1">
+                            <RadioGroup v-model="state.filter.selectedView" class="mt-1 flex flex-wrap gap-1 rounded-lg bg-slate-100 p-1">
                                 <RadioGroupOption as="template" v-for="viewFilter in state.options.viewFilterLists"
                                     :key="viewFilter.id" :value="viewFilter" v-slot="{ checked }">
                                     <button type="button"
-                                        :class="[checked ? 'bg-white text-primary shadow-xs ring-1 ring-slate-200' : 'text-slate-600 hover:text-slate-900', 'rounded-md px-2 py-1.5 text-xs font-medium transition-colors']">
+                                        :class="[checked ? 'bg-white text-primary shadow-xs ring-1 ring-slate-200' : 'text-slate-600 hover:text-slate-900', 'flex-auto rounded-md px-3 py-1.5 text-xs font-medium transition-colors']">
                                         {{ viewLabel(viewFilter.title) }}
                                     </button>
                                 </RadioGroupOption>
