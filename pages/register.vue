@@ -161,7 +161,9 @@
                              Microsoft signup signs in through the provider and is not asked. -->
                         <div class="space-y-1 py-1" v-if="!state.oauthProvider">
                             <FormLabel for="password" :label="$t('register.form.password')" />
-                            <FormPasswordField id="password" name="password"
+                            <!-- name doubles as autocomplete: "new-password" keeps the browser
+                                 from filling in a saved password the customer never chose. -->
+                            <FormPasswordField id="password" name="new-password"
                                 :placeholder="$t('register.form.passwordHint')"
                                 v-model="state.formRegister.password" />
                             <FormError :error="vRules1$?.formRegister?.password?.$errors[0]?.$message.toString()" />
