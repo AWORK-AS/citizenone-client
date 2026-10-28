@@ -445,6 +445,8 @@ async function saveModules() {
     moduleOptions.value.forEach(option => { answered[option.key] = modules[option.key] })
     const preferences = { modules: answered, hidden: [] as string[] }
     if (process.client) localStorage.setItem('co_discover_modules', JSON.stringify(modules))
+    // Platform staff may have no company of their own - nothing to save to.
+    if (!userStore.getUser?.company) return
     try {
         await companyService.updateOnboardingPreferences({ onboarding_preferences: preferences })
         // keep the in-memory user/company in sync so a reload reflects the choice
