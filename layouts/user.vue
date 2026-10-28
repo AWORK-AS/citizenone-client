@@ -747,8 +747,9 @@
             leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
-                 each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && cmdkTipGranted && !medicineToastVisible"
+                 each other. It shows once the alert is gone. Same for the Cody
+                 panel, which sits in that corner with its message box. -->
+            <div v-if="showCmdkTip && cmdkTipGranted && !cmdkTipHeldBack"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -1079,7 +1080,7 @@ function tryCmdkTip() {
 // lost to it and the covered control is reachable immediately after.
 function dismissCmdkTipIfClickOutside(event: PointerEvent) {
     // Not while it is held back: a click would mark as seen a tip nobody saw.
-    if (!showCmdkTip.value || !cmdkTipGranted.value || medicineToastVisible.value) return
+    if (!showCmdkTip.value || !cmdkTipGranted.value || cmdkTipHeldBack.value) return
     const target = event.target as HTMLElement | null
     if (target?.closest('button')) return
     dismissCmdkTip()
@@ -1746,6 +1747,8 @@ const tourGranted = usePromptSlot('tour', computed(() => welcomeTour.value.activ
 const checkinGranted = usePromptSlot('checkinReminder', computed(() => state.modal.isCheckinReminderOpen))
 const completionGranted = usePromptSlot('completionReminder', computed(() => state.modal.isPlanGoalSubgoalCompletionReminderOpen))
 const cmdkTipGranted = usePromptSlot('cmdkTip', showCmdkTip)
+const codyPanelShown = computed(() => assistantStore.isOpen && !!userStore.getUser?.has_ai_access && aiAssistantEnabled.value)
+const cmdkTipHeldBack = computed(() => medicineToastVisible.value || codyPanelShown.value)
 
 // Sidebar items the welcome tour points at.
 const SIDEBAR_TOUR_KEYS: Record<string, string> = {
