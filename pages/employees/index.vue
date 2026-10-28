@@ -67,6 +67,7 @@
                         </FormButton>
                     </div>
                 </div>
+                <ModulesUserEmployeeOnboardingStatus v-if="isAtLeast('Admin')" />
                 <div class="space-y-5">
                     <div v-if="state.error?.message && state.error.message.length > 0">
                         <div v-if="state?.error?.message === 'There are not enough Secure Mail licenses available.' || state?.error?.message === 'Der er ikke nok Sikker Mail licenser tilgængelige.'"

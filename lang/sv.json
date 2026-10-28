@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "Alla",
+        "searchesAll": "Söker i alla avdelningar",
+        "search": "Sök efter namn",
+        "addMore": "Lägg till fler",
+        "remove": "Ta bort {name}",
+        "noResults": "Ingen med det namnet.",
+        "sections": {
+            "pinned": "Fästa",
+            "recent": "Senast använda",
+            "all": "Alla"
+        }
+    },
+    "firstSteps": {
+        "help": "Kom ihåg att Milo finns här om du behöver hjälp.",
+        "askMilo": "Fråga Milo",
+        "label": "Kom igång · steg {current} av {total}",
+        "skip": "Hoppa över",
+        "progress": "Steg i guiden",
+        "noCitizens": "Du har inte tillgång till någon ännu. Fråga din chef.",
+        "done": "Klart",
+        "later": "Senare",
+        "next": "Nästa",
+        "finish": "Klar",
+        "back": "Tillbaka",
+        "staff": {
+            "citizens": {
+                "title": "Här är dina @:terms.citizens{''}",
+                "desc": "Det är dem du arbetar med. Klicka på ett namn för att se journal, planer och dokument. Du hittar dem alltid under @.capitalize:terms.citizens{''} i menyn."
+            },
+            "note": {
+                "title": "Skriv din första anteckning",
+                "desc": "Välj en @:terms.citizen{''}, ge anteckningen en rubrik och skriv vad som hände. Det tar en minut.",
+                "cta": "Skriv anteckning"
+            },
+            "app": {
+                "title": "Hämta appen",
+                "desc": "Skriv anteckningar och se din dag i telefonen. Skanna koden med kameran, eller tryck på din butik."
+            },
+            "day": {
+                "title": "Här börjar din dag",
+                "desc": "Min dag visar ditt nästa pass, dagens uppgifter och det som behöver uppmärksamhet. Meddelanden från kollegor hittar du under Chat.",
+                "cta": "Öppna Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "Vad använder ni?",
+                "desc": "Välj de delar ni behöver. Resten döljs, så menyn blir kort för alla.",
+                "cta": "Välj moduler"
+            },
+            "firstCitizen": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Ett namn räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Skriv din första anteckning",
+                "desc": "Välj en @:terms.citizen{''} och skriv en kort anteckning, så ser du hur journalen fungerar.",
+                "cta": "Skriv anteckning"
+            },
+            "colleagues": {
+                "title": "Bjud in dina kollegor",
+                "desc": "Lägg till dem en i taget, eller importera många på en gång från Excel under Personal. De får ett mejl och en kort guide när de loggar in.",
+                "cta": "Gå till personal"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Fakturor skickas inte längre via e-post",
         "noticeBody": "Framöver får ni inte ett e-postmeddelande varje gång en prenumeration, en app eller en påfyllning dras automatiskt. Alla fakturor och kvitton finns här under Fakturor. Ni får fortfarande e-post om en betalning misslyckas.",
@@ -314,6 +382,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Visa alla inställningar",
+        "next": {
+            "label": "Ditt nästa steg",
+            "citizens_added": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Namn och kontaktuppgifter räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Namn och kontaktuppgifter räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Skriv din första journalanteckning",
+                "desc": "Välj en @:terms.citizen{''} och skriv en kort anteckning. Det är här CitizenOne börjar spara tid åt dig.",
+                "cta": "Skriv anteckning"
+            },
+            "colleagues_invited": {
+                "title": "Bjud in en kollega",
+                "desc": "Kollegor får ett mejl och loggar in med sitt eget lösenord.",
+                "cta": "Gå till personal"
+            },
+            "duty_schedule_created": {
+                "title": "Lägg in det första passet",
+                "desc": "Skapa ett pass så att ni ser vem som jobbar.",
+                "cta": "Gå till schemat"
+            },
+            "medicine_added": {
+                "title": "Lägg till läkemedel",
+                "desc": "Lägg till läkemedel på en @:terms.citizen{''} så att det kan ges och kvitteras.",
+                "cta": "Gå till @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Skapa dina tjänster",
+                "desc": "Namn, längd och pris. Sedan kan tider bokas.",
+                "cta": "Gå till bokning"
+            },
+            "online_booking_enabled": {
+                "title": "Slå på onlinebokning",
+                "desc": "Låt @:terms.citizens{''} boka tid själva.",
+                "cta": "Gå till bokning"
+            },
+            "profile_completed": {
+                "title": "Lägg till en profilbild",
+                "desc": "Så att dina kollegor ser vem som skrev vad.",
+                "cta": "Gå till profil"
+            }
+        },
+        "restOfSetup": "Resten av inställningarna",
         "welcome": "Välkommen, {name}",
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
@@ -355,7 +473,7 @@
             "vagtplan": "Schema",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation",
-            "people": "Klienter",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik och bokning",
             "cases": "Ärenden och jobbcenter"
@@ -408,14 +526,14 @@
                 "cta": "Gå till Medicin"
             },
             "citizens": {
-                "title": "Skapa klienter",
-                "desc": "Lägg till klienterna ni arbetar med.",
-                "cta": "Gå till Klienter"
+                "title": "Skapa @:terms.citizens{''}",
+                "desc": "Lägg till @:terms.citizens{''} ni arbetar med.",
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata och kontaktpersoner",
                 "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
-                "cta": "Gå till Klienter"
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Skapa patienter",
@@ -2317,6 +2435,7 @@
                 "teeth": "Tänder",
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
+                "manageJournalTitles": "Redigera rubriker",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
@@ -7701,6 +7820,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} av {total} medarbetare har loggat in",
+            "pendingHint": "{count} har inte skapat lösenord ännu. Skicka inbjudan igen, eller ring dem.",
+            "allIn": "Alla har kommit in.",
+            "show": "Visa vilka",
+            "hide": "Dölj",
+            "resendAll": "Skicka igen till {count}",
+            "resendOne": "Skicka igen",
+            "invitedAt": "inbjuden {date}",
+            "confirm": "Skicka inbjudan igen till {count}? De får ett nytt mejl och den gamla länken slutar fungera."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Anställd arkiverad"
         },
@@ -11323,7 +11453,16 @@
         "youAreEditingARecurringShift": "Du redigerer en gentagende pass"
     },
     "register": {
+        "done": {
+            "title": "Kolla din inkorg",
+            "sentTo": "Vi har skickat ett mejl till {email}.",
+            "confirm": "Bekräfta din e-postadress med länken i mejlet.",
+            "activate": "Vi aktiverar ditt konto och skriver till dig när det är klart.",
+            "signIn": "Logga in med din e-post och lösenordet du just valde.",
+            "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "Minst 8 tecken",
             "agreetoTAC": "Du ska acceptere vilkår och betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "bySigningUpYouAgreeTo": "Vet att skapa dig accepterer du CitizenOne's",
@@ -12728,6 +12867,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alla era användarlicenser används. Köp fler här nedanför, så kan du lägga till medarbetaren sedan.",
         "addOnDeals": {
             "addOnDeals": "Extra användare och avdelningar",
             "checkout": "Betala och lägg till",
@@ -15750,10 +15890,11 @@
         "pleaseCompleteTemplate": "Fyll i mallen"
     },
     "verifyEmail": {
-        "emailVerified": "Email verifierad",
+        "waitingForActivation": "Tack. Vi aktiverar ditt konto och mejlar dig när du kan logga in.",
+        "emailVerified": "E-post bekräftad",
         "loginToContinue": "Logga in för att fortsätta",
-        "verifyEmail": "Verifiera email",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har verifierad din email"
+        "verifyEmail": "Bekräfta e-post",
+        "youHaveSuccessfullyVerifiedYourEmail": "Din e-postadress är bekräftad"
     },
     "view": "Se",
     "wish": {
@@ -16810,6 +16951,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "Inga pass, möten eller påminnelser i dag.",
+        "openCalendar": "Öppna kalendern",
         "certificates": {
             "title": "Intyg som saknas eller går ut",
             "missing": "{count} saknas",

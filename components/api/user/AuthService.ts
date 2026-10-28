@@ -51,6 +51,11 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/set-password`, 'POST', params)
     }
 
+    // The signup mail's link when the password was chosen on the form.
+    async confirmEmail(token: string): Promise<any> {
+        return await this.request(`/auth/confirm-email`, 'POST', { token })
+    }
+
     async verifyEmail(token: any): Promise<any> {
         return await this.request(`/auth/verify-email/${token}`, 'POST')
     }

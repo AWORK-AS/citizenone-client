@@ -806,6 +806,7 @@
 </template>
 
 <script setup lang="ts">
+import { welcomeTourMode } from '@/composables/welcomeTour'
 import { clearAllDrafts } from '@/composables/journalNoteDraft'
 import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -1184,7 +1185,9 @@ onMounted(() => {
     animateAssets()
     // Show the ⌘K discovery tip once, shortly after the app settles.
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
-        setTimeout(() => { showCmdkTip.value = true }, 3000)
+        // Not on top of the first-steps guide: one thing to read at a time. It
+        // comes on a later page load, once the guide is done.
+        setTimeout(() => { showCmdkTip.value = welcomeTourMode(userStore.getUser) !== 'tour' }, 3000)
     }
     document.addEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
 })
@@ -1710,24 +1713,13 @@ async function fetchUser() {
             // Plan/goal completion and check-in reminders are surfaced in the
             // notification bell (see NotificationBell) instead of blocking modals.
             guidedUserTourModalVisibility()
-            maybeRedirectToDiscover(response?.data)
         }
     } catch (error: any) { state.error = error }
 }
 
-// New companies (admin, no onboarding preferences set yet) land on Discover
-// once per session; once they save "what do you need" they land on the dashboard.
-function maybeRedirectToDiscover(user: any) {
-    if (typeof window === 'undefined') return
-    if (sessionStorage.getItem('discover_landing_done')) return
-    const prefs = user?.company?.onboarding_preferences
-    const isFresh = !prefs || (typeof prefs === 'object' && Object.keys(prefs).length === 0)
-    if (isAtLeast('Admin') && isFresh && routeName === 'overview') {
-        sessionStorage.setItem('discover_landing_done', '1')
-        navigateTo('/discover')
-    }
-}
-
+// No redirect from /overview to /discover here: sign-in already lands a new
+// admin on Discover (staffLandingRoute in pages/index.vue), and bouncing the
+// "Oversigt" menu item to a different page made the menu look broken.
 function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('plansGoalsSubgoalsReminderHidden'); const today = moment().format('YYYY-MM-DD')
     if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') state.modal.isPlanGoalSubgoalCompletionReminderOpen = true

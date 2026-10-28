@@ -36,6 +36,8 @@ export interface DiscoverGroup {
     adminOnly?: boolean
 }
 
+// After the people group, not first: an import is for someone switching
+// systems, and the first thing a new customer needs is one person and one note.
 const migration: DiscoverGroup = {
     key: 'migration', icon: 'ph:download-simple', adminOnly: true,
     // Done as soon as the company has people of its own, imported or not.
@@ -82,8 +84,6 @@ const documentation: DiscoverGroup = {
 
 const JOURNEYS: Record<string, DiscoverGroup[]> = {
     social_welfare: [
-        migration,
-        getStarted,
         {
             key: 'people', icon: 'ph:users-three',
             steps: [
@@ -92,14 +92,14 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
                 firstNote,
             ],
         },
+        migration,
+        getStarted,
         dutySchedule,
         medicine,
         documentation,
     ],
 
     dental: [
-        migration,
-        getStarted,
         {
             key: 'patients', icon: 'ph:tooth',
             steps: [
@@ -108,6 +108,8 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
                 firstNote,
             ],
         },
+        migration,
+        getStarted,
         {
             key: 'clinic', icon: 'ph:calendar-check', page: 'Calendar',
             steps: [
@@ -123,8 +125,6 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
     ],
 
     employment_services: [
-        migration,
-        getStarted,
         {
             key: 'people', icon: 'ph:users-three',
             steps: [
@@ -133,6 +133,8 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
                 firstNote,
             ],
         },
+        migration,
+        getStarted,
         {
             key: 'cases', icon: 'ph:briefcase', page: 'Economy',
             steps: [
@@ -146,8 +148,6 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
 }
 
 const DEFAULT_JOURNEY: DiscoverGroup[] = [
-    migration,
-    getStarted,
     {
         key: 'people', icon: 'ph:users-three',
         steps: [
@@ -156,6 +156,8 @@ const DEFAULT_JOURNEY: DiscoverGroup[] = [
             firstNote,
         ],
     },
+    migration,
+    getStarted,
     documentation,
     dutySchedule,
     medicine,

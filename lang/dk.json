@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "Alle",
+        "searchesAll": "Søger i alle afdelinger",
+        "search": "Søg efter navn",
+        "addMore": "Tilføj flere",
+        "remove": "Fjern {name}",
+        "noResults": "Ingen med det navn.",
+        "sections": {
+            "pinned": "Fastgjort",
+            "recent": "Senest brugt",
+            "all": "Alle"
+        }
+    },
+    "firstSteps": {
+        "help": "Husk, Milo er lige her, hvis du har brug for hjælp.",
+        "askMilo": "Spørg Milo",
+        "label": "Kom godt i gang · trin {current} af {total}",
+        "skip": "Spring over",
+        "progress": "Trin i guiden",
+        "noCitizens": "Du har ikke adgang til nogen endnu. Spørg din leder.",
+        "done": "Klaret",
+        "later": "Senere",
+        "next": "Næste",
+        "finish": "Færdig",
+        "back": "Tilbage",
+        "staff": {
+            "citizens": {
+                "title": "Her er dine @:terms.citizens{''}",
+                "desc": "Det er dem, du arbejder med. Klik på et navn for at se journal, planer og dokumenter. Du finder dem altid under @.capitalize:terms.citizens{''} i menuen."
+            },
+            "note": {
+                "title": "Skriv dit første notat",
+                "desc": "Vælg en @:terms.citizen{''}, giv notatet en titel og skriv, hvad der skete. Det tager et minut.",
+                "cta": "Skriv notat"
+            },
+            "app": {
+                "title": "Hent appen",
+                "desc": "Skriv notater og se din dag på telefonen. Scan koden med kameraet, eller tryk på din butik."
+            },
+            "day": {
+                "title": "Her starter din dag",
+                "desc": "Min dag viser din næste vagt, dagens opgaver og det, der kræver opmærksomhed. Beskeder fra kolleger finder du under Chat.",
+                "cta": "Åbn Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "Hvad bruger I?",
+                "desc": "Vælg de dele, I har brug for. Resten skjules, så menuen er kort for alle.",
+                "cta": "Vælg moduler"
+            },
+            "firstCitizen": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Skriv dit første notat",
+                "desc": "Vælg en @:terms.citizen{''} og skriv et kort notat. Så ser du, hvordan journalen virker.",
+                "cta": "Skriv notat"
+            },
+            "colleagues": {
+                "title": "Invitér dine kolleger",
+                "desc": "Opret dem én ad gangen, eller importér mange på én gang fra Excel under Personale. De får en mail og en kort guide, når de logger ind.",
+                "cta": "Gå til personale"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Fakturaer sendes ikke længere på mail",
         "noticeBody": "Fremover får I ikke en mail, hver gang et abonnement, en app eller en optankning trækkes automatisk. Alle fakturaer og kvitteringer ligger her under Fakturaer. Mislykkede betalinger får I stadig besked om på mail.",
@@ -314,6 +382,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Vis hele opsætningen",
+        "next": {
+            "label": "Dit næste skridt",
+            "citizens_added": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn og kontaktoplysninger er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn og kontaktoplysninger er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Skriv dit første journalnotat",
+                "desc": "Vælg en @:terms.citizen{''} og skriv et kort notat. Det er her, CitizenOne begynder at spare dig tid.",
+                "cta": "Skriv notat"
+            },
+            "colleagues_invited": {
+                "title": "Inviter en kollega",
+                "desc": "Kolleger får en mail og logger ind med deres egen adgangskode.",
+                "cta": "Gå til personale"
+            },
+            "duty_schedule_created": {
+                "title": "Læg den første vagt",
+                "desc": "Opret en vagt, så I kan se, hvem der er på.",
+                "cta": "Gå til vagtplan"
+            },
+            "medicine_added": {
+                "title": "Tilføj medicin",
+                "desc": "Tilføj medicin på en @:terms.citizen{''}, så den kan gives og kvitteres.",
+                "cta": "Gå til @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Opret dine ydelser",
+                "desc": "Navn, varighed og pris. Så kan der bookes tider.",
+                "cta": "Gå til booking"
+            },
+            "online_booking_enabled": {
+                "title": "Slå online booking til",
+                "desc": "Lad dine @:terms.citizens{''} booke tid selv.",
+                "cta": "Gå til booking"
+            },
+            "profile_completed": {
+                "title": "Tilføj et profilbillede",
+                "desc": "Så kan dine kolleger se, hvem der har skrevet hvad.",
+                "cta": "Gå til profil"
+            }
+        },
+        "restOfSetup": "Resten af opsætningen",
         "welcome": "Velkommen, {name}",
         "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
         "whatDoYouNeed": "Hvad skal du bruge?",
@@ -355,7 +473,7 @@
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation",
-            "people": "Borgere",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik & booking",
             "cases": "Sager & jobcenter"
@@ -408,14 +526,14 @@
                 "cta": "Gå til Medicin"
             },
             "citizens": {
-                "title": "Opret borgere",
-                "desc": "Opret de borgere I arbejder med.",
-                "cta": "Gå til Borgere"
+                "title": "Opret @:terms.citizens{''}",
+                "desc": "Opret de @:terms.citizens{''}, I arbejder med.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata & kontaktpersoner",
                 "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
-                "cta": "Gå til Borgere"
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Opret patienter",
@@ -2317,6 +2435,7 @@
                 "teeth": "Tænder",
                 "title": "Titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
+                "manageJournalTitles": "Redigér titler",
                 "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
                 "autosaveFailed": "Kunne ikke gemme automatisk. Dine seneste ændringer er ikke gemt endnu - prøver igen.",
                 "showJournalTitles": "Vis journaltitler",
@@ -7701,6 +7820,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} af {total} medarbejdere er logget ind",
+            "pendingHint": "{count} har ikke oprettet adgangskode endnu. Send invitationen igen, eller ring til dem.",
+            "allIn": "Alle er kommet ind.",
+            "show": "Vis hvem",
+            "hide": "Skjul",
+            "resendAll": "Send igen til {count}",
+            "resendOne": "Send igen",
+            "invitedAt": "inviteret {date}",
+            "confirm": "Send invitationen igen til {count}? De får en ny mail, og det gamle link holder op med at virke."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes"
         },
@@ -11328,7 +11458,16 @@
         "youAreEditingARecurringShift": "Du redigerer en gentagende vagt"
     },
     "register": {
+        "done": {
+            "title": "Tjek din indbakke",
+            "sentTo": "Vi har sendt en mail til {email}.",
+            "confirm": "Bekræft din e-mailadresse med linket i mailen.",
+            "activate": "Vi slår din konto til og skriver til dig, når den er klar.",
+            "signIn": "Log ind med din e-mail og den adgangskode, du lige har valgt.",
+            "noMail": "Ingen mail efter et par minutter? Kig i spam, eller skriv til support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "Mindst 8 tegn",
             "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "bySigningUpYouAgreeTo": "Ved at oprette dig accepterer du CitizenOne's",
@@ -12759,6 +12898,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alle jeres brugerlicenser er i brug. Køb flere herunder, så kan du oprette medarbejderen bagefter.",
         "addOnDeals": {
             "addOnDeals": "Ekstra brugere og afdelinger",
             "checkout": "Betal og tilføj",
@@ -15835,10 +15975,11 @@
         "pleaseCompleteTemplate": "Udfyld venligst skabelonen"
     },
     "verifyEmail": {
-        "emailVerified": "Email verificeret",
+        "waitingForActivation": "Tak. Vi slår din konto til og sender dig en mail, når du kan logge ind.",
+        "emailVerified": "E-mail bekræftet",
         "loginToContinue": "Log ind for at fortsætte",
-        "verifyEmail": "Verificer email",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har succesfuldt verificeret din email"
+        "verifyEmail": "Bekræft e-mail",
+        "youHaveSuccessfullyVerifiedYourEmail": "Din e-mailadresse er bekræftet"
     },
     "view": "Se",
     "wish": {
@@ -16895,6 +17036,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "Ingen vagter, aftaler eller påmindelser i dag.",
+        "openCalendar": "Åbn kalenderen",
         "certificates": {
             "title": "Attester der mangler eller udløber",
             "missing": "{count} mangler",
