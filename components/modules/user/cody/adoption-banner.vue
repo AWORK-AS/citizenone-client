@@ -61,6 +61,7 @@ import { bannerSurface, bannerVariant, demandCount, priceLine, type BannerVarian
 const SEATS_PATH = '/employees'
 
 const { t } = useI18n()
+const route = useRoute()
 const {
     status, isAdmin, hasAccess, requestState, appPath,
     load, requestFromAdmin, isDismissed, dismiss, recordNudge,
@@ -127,7 +128,11 @@ const priceText = computed(() => {
 function act(event: NudgeEvent, path: string) {
     const surface = bannerSurface(variant.value)
     if (surface) recordNudge(event, surface)
-    navigateTo(path)
+    // The seats banner also shows on the employee list it points to, where
+    // navigating there again did nothing. Bring the list into view instead.
+    const target = route.path === path ? document.querySelector('[data-cody-seats-target]') : null
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    else navigateTo(path)
 }
 
 // Counted when it is actually on screen, i.e. it has the prompt slot.
