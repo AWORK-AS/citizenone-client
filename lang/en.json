@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "All",
+        "searchesAll": "Searching all departments",
+        "search": "Search by name",
+        "addMore": "Add more",
+        "remove": "Remove {name}",
+        "noResults": "No one by that name.",
+        "sections": {
+            "pinned": "Pinned",
+            "recent": "Recently used",
+            "all": "Everyone"
+        }
+    },
+    "firstSteps": {
+        "help": "Remember, Milo is right here if you need help.",
+        "askMilo": "Ask Milo",
+        "label": "Getting started · step {current} of {total}",
+        "skip": "Skip",
+        "progress": "Guide steps",
+        "noCitizens": "You do not have access to anyone yet. Ask your manager.",
+        "done": "Done",
+        "later": "Later",
+        "next": "Next",
+        "finish": "Finish",
+        "back": "Back",
+        "staff": {
+            "citizens": {
+                "title": "These are your @:terms.citizens{''}",
+                "desc": "These are the people you work with. Click a name to see the journal, plans and documents. You always find them under @.capitalize:terms.citizens{''} in the menu."
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''}, give the note a title and write what happened. It takes a minute.",
+                "cta": "Write a note"
+            },
+            "app": {
+                "title": "Get the app",
+                "desc": "Write notes and see your day on your phone. Scan the code with your camera, or tap your store."
+            },
+            "day": {
+                "title": "This is where your day starts",
+                "desc": "My day shows your next shift, today's tasks and what needs attention. Messages from colleagues are under Chat.",
+                "cta": "Open Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "What do you use?",
+                "desc": "Pick the parts you need. The rest is hidden, so the menu stays short for everyone.",
+                "cta": "Choose modules"
+            },
+            "firstCitizen": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name is enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note to see how the journal works.",
+                "cta": "Write a note"
+            },
+            "colleagues": {
+                "title": "Invite your colleagues",
+                "desc": "Add them one at a time, or import many at once from Excel under Staff. They get an email and a short guide when they sign in.",
+                "cta": "Go to staff"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Invoices are no longer emailed",
         "noticeBody": "You will no longer get an email each time a subscription, app or top-up is charged automatically. All invoices and receipts are here under Invoices. You will still be emailed if a payment fails.",
@@ -314,6 +382,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Show the whole setup",
+        "next": {
+            "label": "Your next step",
+            "citizens_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Write your first journal note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note. This is where CitizenOne starts saving you time.",
+                "cta": "Write a note"
+            },
+            "colleagues_invited": {
+                "title": "Invite a colleague",
+                "desc": "Colleagues get an email and sign in with their own password.",
+                "cta": "Go to staff"
+            },
+            "duty_schedule_created": {
+                "title": "Add the first shift",
+                "desc": "Create a shift so you can see who is on.",
+                "cta": "Go to the duty schedule"
+            },
+            "medicine_added": {
+                "title": "Add medicine",
+                "desc": "Add medicine to a @:terms.citizen{''} so it can be given and signed for.",
+                "cta": "Go to @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Create your services",
+                "desc": "Name, duration and price. Then appointments can be booked.",
+                "cta": "Go to booking"
+            },
+            "online_booking_enabled": {
+                "title": "Turn on online booking",
+                "desc": "Let your @:terms.citizens{''} book appointments themselves.",
+                "cta": "Go to booking"
+            },
+            "profile_completed": {
+                "title": "Add a profile picture",
+                "desc": "So your colleagues can see who wrote what.",
+                "cta": "Go to profile"
+            }
+        },
+        "restOfSetup": "The rest of the setup",
         "welcome": "Welcome, {name}",
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
@@ -355,7 +473,7 @@
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
             "dokumentation": "Documentation",
-            "people": "Citizens",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patients",
             "clinic": "Clinic & booking",
             "cases": "Cases & jobcentre"
@@ -408,14 +526,14 @@
                 "cta": "Go to Medicine"
             },
             "citizens": {
-                "title": "Create citizens",
-                "desc": "Add the citizens you work with.",
-                "cta": "Go to Citizens"
+                "title": "Add @:terms.citizens{''}",
+                "desc": "Add the @:terms.citizens{''} you work with.",
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Master data & contacts",
                 "desc": "Fill in master data, contacts and caseworker.",
-                "cta": "Go to Citizens"
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Create patients",
@@ -2317,6 +2435,7 @@
                 "teeth": "Teeth",
                 "title": "Title",
                 "usePredefinedcontent": "Use predefined content",
+                "manageJournalTitles": "Edit titles",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Could not save automatically. Your latest changes are not saved yet - retrying.",
                 "showJournalTitles": "Show journal titles",
@@ -7708,6 +7827,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} of {total} employees have signed in",
+            "pendingHint": "{count} have not created a password yet. Send the invitation again, or give them a call.",
+            "allIn": "Everyone is in.",
+            "show": "Show who",
+            "hide": "Hide",
+            "resendAll": "Resend to {count}",
+            "resendOne": "Resend",
+            "invitedAt": "invited {date}",
+            "confirm": "Send the invitation again to {count}? They get a new email and the old link stops working."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Employee successfully archived"
         },
@@ -11354,7 +11484,16 @@
         "youAreEditingARecurringShift": "You are editing a recurring shift"
     },
     "register": {
+        "done": {
+            "title": "Check your inbox",
+            "sentTo": "We have sent an email to {email}.",
+            "confirm": "Confirm your email address with the link in the email.",
+            "activate": "We switch your account on and write to you when it is ready.",
+            "signIn": "Sign in with your email and the password you just chose.",
+            "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "At least 8 characters",
             "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
             "bySigningUpYouAgreeTo": "By signing up you agree to CitizenOne's",
@@ -11930,6 +12069,14 @@
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "chatCprWarning": "Warn about CPR numbers in chat",
+                "birthdayNotifications": "Birthday notifications",
+                "birthdayNotificationsHint": "Everyone gets a notification each morning when a citizen or colleague has a birthday. Choose who it is about, or switch it off for the whole company",
+                "birthdayNotificationOptions": {
+                    "all": "Citizens and staff",
+                    "staff": "Staff only",
+                    "citizens": "Citizens only",
+                    "off": "Off"
+                },
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
                 "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
@@ -12787,6 +12934,7 @@
     },
     "submit": "Submit",
     "subscription": {
+        "noUserLicense": "All your user licenses are in use. Buy more below, then add the employee.",
         "addOnDeals": {
             "addOnDeals": "Add-on deals",
             "checkout": "Checkout",
@@ -15865,10 +16013,11 @@
         "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
-        "emailVerified": "Email verified",
-        "loginToContinue": "Login to continue",
-        "verifyEmail": "Verify email",
-        "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email"
+        "waitingForActivation": "Thank you. We switch your account on and email you when you can sign in.",
+        "emailVerified": "Email confirmed",
+        "loginToContinue": "Sign in to continue",
+        "verifyEmail": "Confirm email",
+        "youHaveSuccessfullyVerifiedYourEmail": "Your email address is confirmed"
     },
     "view": "View",
     "wish": {
@@ -16925,6 +17074,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "No shifts, appointments or reminders today.",
+        "openCalendar": "Open the calendar",
         "certificates": {
             "title": "Certificates missing or expiring",
             "missing": "{count} missing",

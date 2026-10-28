@@ -1,5 +1,8 @@
 import { obiyenChatIdentityService } from '@/components/api/user/ObiyenChatIdentityService'
 import { forgetChatSession } from '@/composables/obiyenChatSession'
+import { codyAdoptionService } from '@/components/api/user/CodyAdoptionService'
+import { attributesKnownFromUser, obiyenChatAttributes } from '@/composables/obiyenChatAttributes'
+import { useUserStore } from '@/store/user'
 
 // Shared control for the Obiyen chat bubble: hidden by default, only shown
 // after the user explicitly clicks "Chat with support" (components/modules/
@@ -13,6 +16,28 @@ const REVEALED_KEY = 'obiyen_chat_revealed'
 // Fetched once per page load: the signature only changes when the logged-in
 // user does, and that comes with a fresh load.
 let identityPromise: Promise<any> | null = null
+
+// Whether the company has Cody, for a user without a Cody seat of their own.
+// Same lifetime as the identity: once per page load, forgotten on logout.
+let codyStatusPromise: Promise<any> | null = null
+
+/**
+ * The attributes sent with the identity (see obiyenChatAttributes). Never
+ * throws: without an answer the flag is simply false.
+ */
+async function chatAttributes() {
+    let user: any = null
+    try { user = (useUserStore() as any).user } catch { /* no store yet */ }
+
+    if (attributesKnownFromUser(user)) return obiyenChatAttributes(user, null)
+
+    if (!codyStatusPromise) {
+        const request = codyAdoptionService.getStatus().catch(() => null)
+        codyStatusPromise = request
+    }
+
+    return obiyenChatAttributes(user, await codyStatusPromise)
+}
 
 function getHost(): HTMLElement | null {
     if (typeof document === 'undefined') return null
@@ -76,6 +101,10 @@ export function useObiyenChat() {
                 // not match the signature.
                 company: identity.company ?? undefined,
                 profileHash: identity.profile_hash ?? undefined,
+                // Whether the company has Cody, so Milo tells a person who asks
+                // for their own data to use Cody rather than offering to sell it.
+                // Unsigned on purpose; a widget that does not know it ignores it.
+                attributes: await chatAttributes(),
             }
 
             // The widget publishes identify() as soon as its script evaluates,
@@ -222,6 +251,7 @@ export function useObiyenChat() {
         // The next person on this browser is a different user, and must not
         // inherit this one's signature.
         identityPromise = null
+        codyStatusPromise = null
         try { sessionStorage.removeItem(REVEALED_KEY) } catch { /* ignore */ }
         hideBubble()
         forgetChatSession()

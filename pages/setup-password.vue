@@ -296,11 +296,16 @@ async function setPassword() {
             token: state.token,
         }
         try {
-            await authService.setPassword(params)
+            const response: any = await authService.setPassword(params)
             successAlert(`${t('alert.success')}!`, `${t('alert.setupPassword.passwordSetupSucessfully')}.`)
-            // Samme sted som efter oprettelsen. Uden dette rammer en ny kunde login-skærmen
-            // to gange, først efter registreringen og igen efter at have sat sin adgangskode.
-            navigateTo('/?redirect=/discover')
+            // Straight in: the login page signs in with what was just typed.
+            const email = response?.data?.email
+            if (email) usePendingSignIn().hand({ email, password: state.formUser.password })
+            // Plain login: the same link is mailed to every invited employee, and
+            // ?redirect=/discover sent each of them to the admin's setup checklist.
+            // The login itself lands an admin's first session on Discover and
+            // everyone else on My day (staffLandingRoute in pages/index.vue).
+            navigateTo('/')
         } catch (error) {
             const err = error as Error
             state.error = err

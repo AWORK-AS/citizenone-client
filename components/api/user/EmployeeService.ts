@@ -53,6 +53,15 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/toggle/booking-license`, 'PUT')
     }
 
+    // Who has signed in after being invited, and a nudge for those who have not.
+    async getOnboardingStatus(): Promise<any> {
+        return await this.request(`/user/employees/onboarding-status`, 'GET')
+    }
+
+    async resendInvites(params: { uuids?: string[] }): Promise<any> {
+        return await this.request(`/user/employees/resend-invites`, 'POST', params)
+    }
+
     async inviteEmployee(params: object): Promise<any> {
         return await this.request(`/user/employees/company/send-admin-invitation`, 'POST', params)
     }
