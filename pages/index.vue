@@ -344,6 +344,14 @@ const v$ = useVuelidate(rules, state)
 onMounted(() => {
 	animateAssets()
 
+	// Arriving from "create your password": sign in with it, no second typing.
+	const pendingSignIn = usePendingSignIn().take()
+	if (pendingSignIn) {
+		state.formLogin.email = pendingSignIn.email
+		state.formLogin.password = pendingSignIn.password
+		nextTick(() => login())
+	}
+
 	const route = useRoute()
 	const impersonateToken = route.query.impersonate_token as string
 	if (impersonateToken) {

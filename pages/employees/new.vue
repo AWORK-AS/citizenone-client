@@ -28,6 +28,7 @@
 </template>
 
 <script setup lang="ts">
+import { isNoUserLicense } from '@/utils/licenseError'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
@@ -145,10 +146,10 @@ async function saveEmployee(employeeDetails: any) {
         }
     } catch (error: any) {
         state.error = error
-        if (error?.message === 'You have no available user license.') {
-            navigateTo(`/subscription?error=${error?.message}`)
-        } else if (error?.message === 'Du har ingen tilgængelige brugerlicenser til at oprette en ny medarbejder.') {
-            navigateTo(`/subscription?error=${error?.message}`)
+        // All user licenses are taken: straight to where more are bought, with a
+        // message that says so instead of the bare error.
+        if (isNoUserLicense(error)) {
+            navigateTo(`/subscription?error=${encodeURIComponent(t('subscription.noUserLicense'))}`)
         }
     }
     state.isPageLoading = false

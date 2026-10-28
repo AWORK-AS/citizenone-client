@@ -48,11 +48,14 @@
                                         <h2 class="text-xl font-extrabold text-gray-900">
                                             {{ $t('verifyEmail.emailVerified') }}!
                                         </h2>
-                                        <p class="mt-2 text-sm text-gray-600">
+                                        <p class="mt-2 text-sm text-gray-600" v-if="state.companyActive === false">
+                                            {{ $t('verifyEmail.waitingForActivation') }}
+                                        </p>
+                                        <p class="mt-2 text-sm text-gray-600" v-else>
                                             {{ $t('verifyEmail.youHaveSuccessfullyVerifiedYourEmail') }}.
                                         </p>
                                     </div>
-                                    <div class="mt-6">
+                                    <div class="mt-6" v-if="state.companyActive !== false">
                                         <FormButton type="button" buttonStyle="primary" class="w-full"
                                             @click="navigateTo('/')">
                                             {{ $t('verifyEmail.loginToContinue') }}
@@ -84,6 +87,8 @@ const userStore = useUserStore()
 const language = useI18n()
 const router = useRouter()
 const emailVerificationUuid = router?.currentRoute?.value?.query?.uuid
+// The signup mail when the password was chosen on the form; ?uuid= is the older link.
+const confirmationToken = router?.currentRoute?.value?.query?.token as string | undefined
 
 // Set language
 language.locale.value = userStore.getLanguage
@@ -91,6 +96,8 @@ language.locale.value = userStore.getLanguage
 const state = reactive({
     error: {} as Error,
     isPageLoading: false,
+    // false while the company still waits to be switched on: signing in would only fail.
+    companyActive: null as boolean | null,
     slideOver: {
         isLanguageSwitcherOpen: false
     },
@@ -122,7 +129,12 @@ async function verifyEmail() {
     state.error = {}
     state.isPageLoading = true
     try {
-        await authService.verifyEmail(emailVerificationUuid)
+        if (confirmationToken) {
+            const response: any = await authService.confirmEmail(confirmationToken)
+            state.companyActive = typeof response?.company_active === 'boolean' ? response.company_active : null
+        } else {
+            await authService.verifyEmail(emailVerificationUuid)
+        }
     } catch (error: any) {
         state.error = error
         if (error?.message) {
