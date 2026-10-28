@@ -5606,6 +5606,7 @@
             "preset": {
                 "applyPreset": "Anvend forudindstilling",
                 "applySuccess": "Forudindstilling blev anvendt på vagtplanskladder med succes!",
+                "applySuccessWithSkipped": "{created} vagter tilføjet. {skipped} vagter lå allerede i kladden og blev ikke tilføjet igen.",
                 "confirmation": {
                     "deletePresetConfirmation": "Er du sikker på, at du vil slette denne forudindstilling"
                 },
@@ -5645,7 +5646,12 @@
                 "viewPresets": "Se forudindstillinger",
                 "infoBox": {
                     "title": "Hvad er forudindstillinger?",
-                    "description": "En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at indlæse den i kladden - du kan derefter redigere og offentliggøre den."
+                    "description": "En forudindstilling er et gemt vagtmønster, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at kopiere dens vagter ind på de datoer, du vælger. Vagter, der allerede ligger i kladden, bliver ikke tilføjet igen. Du behøver ikke en forudindstilling for at gemme dit arbejde: kladden gemmes automatisk."
+                },
+                "applyInfoBox": {
+                    "title": "Hvilken periode skal forudindstillingen dække?",
+                    "description": "Vælg den periode i din kladde, som forudindstillingens vagter skal kopieres ind i. Systemet tilpasser automatisk vagterne til de valgte datoer. Vagter, der allerede ligger i kladden på de datoer, bliver ikke tilføjet igen.",
+                    "example": "Eksempel: Vælg mandag d. 14. april som startdato og søndag d. 20. april som slutdato for at fylde uge 16 ud med forudindstillingens vagtmønster."
                 },
                 "saveInfoBox": {
                     "title": "Gem din nuværende kladde som forudindstilling",
@@ -5658,7 +5664,7 @@
                 "step1": "Opret kladdevagter",
                 "step2": "Gem forudindstilling (valgfrit)",
                 "step3": "Offentliggør til vagtplan",
-                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge en kladde du har lavet før."
+                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge et vagtmønster i en anden periode. Din kladde gemmes automatisk."
             },
             "backToPublished": "Tilbage til den udgivede vagtplan",
             "contextBanner": {

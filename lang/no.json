@@ -5551,6 +5551,7 @@
             "preset": {
                 "applyPreset": "Bruk forhåndsinnstilling",
                 "applySuccess": "Forhåndsinnstilling ble brukt på vaktplankladdr vellykket!",
+                "applySuccessWithSkipped": "{created} vakter lagt til. {skipped} vakter lå allerede i kladden og ble ikke lagt til på nytt.",
                 "confirmation": {
                     "deletePresetConfirmation": "Er du sikker på at du vil slette denne forhåndsinnstilling"
                 },
@@ -5590,7 +5591,12 @@
                 "viewPresets": "Se forhåndsinnstillinger",
                 "infoBox": {
                     "title": "Hva er forhåndsinnstillinger?",
-                    "description": "En forhåndsinnstilling er en lagret version av din vaktplankladd, som du kan gjenbruke. Velg en forhåndsinnstilling nedenfor og klikk Bruk for at laste den i kladden - du kan deretter redigere og publisere den."
+                    "description": "En forhåndsinnstilling er et lagret vaktmønster som du kan gjenbruke. Velg en forhåndsinnstilling nedenfor og klikk Bruk for å kopiere vaktene inn på datoene du velger. Vakter som allerede ligger i kladden, blir ikke lagt til på nytt. Du trenger ikke en forhåndsinnstilling for å lagre arbeidet ditt: kladden lagres automatisk."
+                },
+                "applyInfoBox": {
+                    "title": "Hvilken periode skal forhåndsinnstillingen dekke?",
+                    "description": "Velg perioden i kladden som forhåndsinnstillingens vakter skal kopieres inn i. Vaktene tilpasses automatisk til datoene du velger. Vakter som allerede ligger i kladden på disse datoene, blir ikke lagt til på nytt.",
+                    "example": "Eksempel: Velg mandag 14. april som startdato og søndag 20. april som sluttdato for å fylle uke 16 med forhåndsinnstillingens vaktmønster."
                 },
                 "saveInfoBox": {
                     "title": "Lagre din nåværende kladde som forhåndsinnstilling",
@@ -5603,7 +5609,7 @@
                 "step1": "Opprett kladdevakter",
                 "step2": "Lagre forhåndsinnstilling (valgfrit)",
                 "step3": "Publiser til vaktplan",
-                "tip": "💡 Tip: Bruk 'maler' til faste vagtrulleringer, og 'forhåndsinnstillinger' til at gjenbruke en kladde du har lavet før."
+                "tip": "💡 Tips: Bruk 'maler' til faste vaktrotasjoner, og 'forhåndsinnstillinger' til å gjenbruke et vaktmønster i en annen periode. Kladden lagres automatisk."
             },
             "backToPublished": "Tilbake til den udgivede vaktplan",
             "contextBanner": {

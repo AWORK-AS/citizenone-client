@@ -86,15 +86,11 @@
                                             d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                     </svg>
                                     <div class="text-xs text-blue-700">
-                                        <p class="font-semibold text-blue-800 mb-1">Hvilken periode skal
-                                            forudindstillingen dække?</p>
-                                        <p>Vælg den periode i din kladde som forudindstillingens vagter skal kopieres
-                                            ind i. Systemet vil
-                                            automatisk tilpasse vagterne til de valgte datoer.</p>
-                                        <p class="mt-1 text-blue-600"><strong>Eksempel:</strong> Vælg mandag d. 14.
-                                            april som startdato og
-                                            søndag d. 20. april som slutdato for at fylde uge 16 ud med
-                                            forudindstillingens vagtmønster.</p>
+                                        <p class="font-semibold text-blue-800 mb-1">
+                                            {{ $t('dutySchedules.draft.preset.applyInfoBox.title') }}</p>
+                                        <p>{{ $t('dutySchedules.draft.preset.applyInfoBox.description') }}</p>
+                                        <p class="mt-1 text-blue-600">
+                                            {{ $t('dutySchedules.draft.preset.applyInfoBox.example') }}</p>
                                     </div>
                                 </div>
                                 <div class="space-y-1">
@@ -215,7 +211,7 @@ const props = defineProps({
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
-const emit = defineEmits(['close', 'refreshPresets'])
+const emit = defineEmits(['close', 'applied'])
 
 const state = reactive({
     error: {} as Error,
@@ -248,6 +244,13 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, state)
 
 function closeModal() {
+    // The modal stays mounted, so start the next preset on step 1 rather than on
+    // this one's preview and dates.
+    state.formDutySchedulePreset = { target_start_date: '', target_end_date: '' }
+    state.presetPreview = null
+    state.error = {}
+    handleBack()
+    v$.value.$reset()
     emit('close')
 }
 
@@ -303,9 +306,12 @@ async function applyPreset() {
             target_start_date: state.formDutySchedulePreset.target_start_date,
             target_end_date: state.formDutySchedulePreset.target_end_date,
         }
-        await draftSchedulePresetService.applyPreset(props.selectedPreset.uuid, params)
-        successAlert(`${t('alert.success')}!`, `${t('dutySchedules.draft.preset.applySuccess')}`)
-        emit('refreshPresets')
+        const response = await draftSchedulePresetService.applyPreset(props.selectedPreset.uuid, params)
+        const skipped = response?.data?.skipped_count ?? 0
+        successAlert(`${t('alert.success')}!`, skipped > 0
+            ? t('dutySchedules.draft.preset.applySuccessWithSkipped', { created: response.data.created_count, skipped })
+            : `${t('dutySchedules.draft.preset.applySuccess')}`)
+        emit('applied')
         closeModal()
     } catch (error: any) {
         state.error = error

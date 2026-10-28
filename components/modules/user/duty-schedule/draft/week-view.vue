@@ -2061,4 +2061,6 @@ function setTimeRange({ time_from, time_to }: { time_from: string; time_to: stri
     state.filter.time_to = time_to
     fetchDraftDutySchedule()
 }
+
+defineExpose({ refresh: fetchDraftDutySchedule })
 </script>
