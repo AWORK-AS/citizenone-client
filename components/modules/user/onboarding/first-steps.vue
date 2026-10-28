@@ -84,10 +84,11 @@
         </div>
 
         <!-- Milo, the support chat, is one click away for anyone who gets stuck. -->
-        <div class="mt-6 flex items-center gap-3 rounded-xl bg-ai-bg/60 px-3 py-2.5">
+        <!-- As wide as its content, so the button sits right after the sentence. -->
+        <div class="mt-6 flex w-fit max-w-full flex-wrap items-center gap-3 rounded-xl bg-ai-bg/60 py-2 pl-2 pr-2.5">
             <img src="/img/milo/milo-avatar.png" alt="" width="40" height="40"
                 class="size-10 shrink-0 rounded-xl object-cover" aria-hidden="true" />
-            <p class="flex-1 text-sm text-slate-700">{{ $t('firstSteps.help') }}</p>
+            <p class="text-sm text-slate-700">{{ $t('firstSteps.help') }}</p>
             <button type="button" @click="revealAndOpenChat()"
                 class="shrink-0 inline-flex items-center gap-1.5 rounded-lg bg-white px-3 py-1.5 text-sm font-semibold text-ai-ink ring-1 ring-ai/40 hover:bg-ai-bg">
                 <Icon name="ph:chat-circle-dots" class="size-4" aria-hidden="true" />
