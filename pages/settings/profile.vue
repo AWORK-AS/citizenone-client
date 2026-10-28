@@ -131,7 +131,6 @@ const state = reactive({
     isSubscribeOpen: false
 })
 
-const route = useRoute()
 const openCodyMemory = route.hash === `#${CODY_MEMORY_ANCHOR}`
 
 onMounted(() => {
