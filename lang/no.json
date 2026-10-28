@@ -13,6 +13,8 @@
         }
     },
     "firstSteps": {
+        "help": "Husk at Milo er rett her hvis du trenger hjelp.",
+        "askMilo": "Spør Milo",
         "label": "Kom i gang · steg {current} av {total}",
         "skip": "Hopp over",
         "progress": "Steg i guiden",

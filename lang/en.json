@@ -13,6 +13,8 @@
         }
     },
     "firstSteps": {
+        "help": "Remember, Milo is right here if you need help.",
+        "askMilo": "Ask Milo",
         "label": "Getting started · step {current} of {total}",
         "skip": "Skip",
         "progress": "Guide steps",
