@@ -7,6 +7,7 @@
 import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 import {
+    autoStartsTour,
     buildWelcomeSteps,
     hasToursSeen,
     restartRoute,
@@ -46,6 +47,13 @@ export function useWelcomeTour() {
     function startIfDue(user: any): 'legacy' | 'tour' | 'none' {
         const mode = welcomeTourMode(user)
         if (mode === 'tour' && !tour.value.launched) {
+            if (!autoStartsTour(user.tour_route)) {
+                // Recorded as seen, as skipping it would be, so the next sign-in
+                // lands on the overview and not on Discover again.
+                tour.value = { ...tour.value, launched: true }
+                markSeen()
+                return 'none'
+            }
             tour.value = { active: true, route: user.tour_route, index: 0, launched: true, restart: false }
         }
         return mode
@@ -69,9 +77,15 @@ export function useWelcomeTour() {
 
         if (openChat) revealAndOpenChat()
 
+        // Nothing to record for a replay.
+        if (wasRestart) return
+        await markSeen()
+    }
+
+    async function markSeen() {
         const user = userStore.getUser
-        // Nothing to record for a replay, or where the backend has no tour support.
-        if (wasRestart || !hasToursSeen(user) || user.tours_seen.welcome_web) return
+        // Nothing to record where the backend has no tour support.
+        if (!hasToursSeen(user) || user.tours_seen.welcome_web) return
         try {
             const response = await userService.markTourSeen('welcome_web')
             if (response?.tours_seen) userStore.setUser({ ...userStore.getUser, tours_seen: response.tours_seen })

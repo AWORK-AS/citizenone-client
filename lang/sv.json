@@ -314,6 +314,55 @@
         }
     },
     "discover": {
+        "next": {
+            "label": "Ditt nästa steg",
+            "citizens_added": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Namn och kontaktuppgifter räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Namn och kontaktuppgifter räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Skriv din första journalanteckning",
+                "desc": "Välj en @:terms.citizen{''} och skriv en kort anteckning. Det är här CitizenOne börjar spara tid åt dig.",
+                "cta": "Skriv anteckning"
+            },
+            "colleagues_invited": {
+                "title": "Bjud in en kollega",
+                "desc": "Kollegor får ett mejl och loggar in med sitt eget lösenord.",
+                "cta": "Gå till personal"
+            },
+            "duty_schedule_created": {
+                "title": "Lägg in det första passet",
+                "desc": "Skapa ett pass så att ni ser vem som jobbar.",
+                "cta": "Gå till schemat"
+            },
+            "medicine_added": {
+                "title": "Lägg till läkemedel",
+                "desc": "Lägg till läkemedel på en @:terms.citizen{''} så att det kan ges och kvitteras.",
+                "cta": "Gå till @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Skapa dina tjänster",
+                "desc": "Namn, längd och pris. Sedan kan tider bokas.",
+                "cta": "Gå till bokning"
+            },
+            "online_booking_enabled": {
+                "title": "Slå på onlinebokning",
+                "desc": "Låt @:terms.citizens{''} boka tid själva.",
+                "cta": "Gå till bokning"
+            },
+            "profile_completed": {
+                "title": "Lägg till en profilbild",
+                "desc": "Så att dina kollegor ser vem som skrev vad.",
+                "cta": "Gå till profil"
+            }
+        },
+        "restOfSetup": "Resten av inställningarna",
         "welcome": "Välkommen, {name}",
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
@@ -11323,7 +11372,16 @@
         "youAreEditingARecurringShift": "Du redigerer en gentagende pass"
     },
     "register": {
+        "done": {
+            "title": "Kolla din inkorg",
+            "sentTo": "Vi har skickat ett mejl till {email}.",
+            "confirm": "Bekräfta din e-postadress med länken i mejlet.",
+            "activate": "Vi aktiverar ditt konto och skriver till dig när det är klart.",
+            "signIn": "Logga in med din e-post och lösenordet du just valde.",
+            "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "Minst 8 tecken",
             "agreetoTAC": "Du ska acceptere vilkår och betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "bySigningUpYouAgreeTo": "Vet att skapa dig accepterer du CitizenOne's",
@@ -15750,6 +15808,7 @@
         "pleaseCompleteTemplate": "Fyll i mallen"
     },
     "verifyEmail": {
+        "waitingForActivation": "Tack. Vi aktiverar ditt konto och mejlar dig när du kan logga in.",
         "emailVerified": "Email verifierad",
         "loginToContinue": "Logga in för att fortsätta",
         "verifyEmail": "Verifiera email",

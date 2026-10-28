@@ -42,6 +42,15 @@ export function welcomeTourMode(user: any): WelcomeTourMode {
 }
 
 /**
+ * Whether the tour opens by itself. Only for staff: an admin's first page is
+ * Discover, whose next-step card says what to do, and a spotlight over it on
+ * arrival hid the very card it was meant to lead to. "Vis mig rundt" plays it.
+ */
+export function autoStartsTour(route: unknown): boolean {
+    return route === 'staff'
+}
+
+/**
  * First session, for the post-login landing page. With tours_seen the web
  * tour decides; is_first_login is no longer cleared on that path, so it cannot.
  */

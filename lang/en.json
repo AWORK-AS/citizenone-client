@@ -314,6 +314,55 @@
         }
     },
     "discover": {
+        "next": {
+            "label": "Your next step",
+            "citizens_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Write your first journal note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note. This is where CitizenOne starts saving you time.",
+                "cta": "Write a note"
+            },
+            "colleagues_invited": {
+                "title": "Invite a colleague",
+                "desc": "Colleagues get an email and sign in with their own password.",
+                "cta": "Go to staff"
+            },
+            "duty_schedule_created": {
+                "title": "Add the first shift",
+                "desc": "Create a shift so you can see who is on.",
+                "cta": "Go to the duty schedule"
+            },
+            "medicine_added": {
+                "title": "Add medicine",
+                "desc": "Add medicine to a @:terms.citizen{''} so it can be given and signed for.",
+                "cta": "Go to @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Create your services",
+                "desc": "Name, duration and price. Then appointments can be booked.",
+                "cta": "Go to booking"
+            },
+            "online_booking_enabled": {
+                "title": "Turn on online booking",
+                "desc": "Let your @:terms.citizens{''} book appointments themselves.",
+                "cta": "Go to booking"
+            },
+            "profile_completed": {
+                "title": "Add a profile picture",
+                "desc": "So your colleagues can see who wrote what.",
+                "cta": "Go to profile"
+            }
+        },
+        "restOfSetup": "The rest of the setup",
         "welcome": "Welcome, {name}",
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
@@ -11328,7 +11377,16 @@
         "youAreEditingARecurringShift": "You are editing a recurring shift"
     },
     "register": {
+        "done": {
+            "title": "Check your inbox",
+            "sentTo": "We have sent an email to {email}.",
+            "confirm": "Confirm your email address with the link in the email.",
+            "activate": "We switch your account on and write to you when it is ready.",
+            "signIn": "Sign in with your email and the password you just chose.",
+            "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "At least 8 characters",
             "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
             "bySigningUpYouAgreeTo": "By signing up you agree to CitizenOne's",
@@ -15835,6 +15893,7 @@
         "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
+        "waitingForActivation": "Thank you. We switch your account on and email you when you can sign in.",
         "emailVerified": "Email verified",
         "loginToContinue": "Login to continue",
         "verifyEmail": "Verify email",

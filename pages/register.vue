@@ -28,7 +28,7 @@
                     </div>
                     <img class="w-4" src="/img/icons/asset-app.png" :alt="$t('imageFailedToLoad')" />
                 </div>
-                <form class="mt-5" method="POST" @submit.prevent="register">
+                <form v-if="!state.registeredEmail" class="mt-5" method="POST" @submit.prevent="register">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="space-y-1">
@@ -157,6 +157,16 @@
                             <FormError :error="vRules1$?.formRegister?.email?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.email?.[0]" />
                         </div>
+                        <!-- Chosen here, so the mail only has to confirm the address. A Google or
+                             Microsoft signup signs in through the provider and is not asked. -->
+                        <div class="space-y-1 py-1" v-if="!state.oauthProvider">
+                            <FormLabel for="password" :label="$t('register.form.password')" />
+                            <FormPasswordField id="password" name="password"
+                                :placeholder="$t('register.form.passwordHint')"
+                                v-model="state.formRegister.password" />
+                            <FormError :error="vRules1$?.formRegister?.password?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.password?.[0]" />
+                        </div>
                         <div class="space-y-1 py-1">
                             <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
                             <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
@@ -216,6 +226,30 @@
                         </a>
                     </p>
                 </form>
+                <div v-else class="mt-10" data-testid="register-done">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-25 text-primary">
+                        <Icon name="ph:envelope-simple-open" class="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <h3 class="mt-4 font-bold text-2xl md:text-3xl">{{ $t('register.done.title') }}</h3>
+                    <p class="mt-2 text-sm text-gray-600">
+                        {{ $t('register.done.sentTo', { email: state.registeredEmail }) }}
+                    </p>
+                    <ol class="mt-6 space-y-4">
+                        <li class="flex gap-x-3">
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">1</span>
+                            <span class="text-sm text-gray-700">{{ $t('register.done.confirm') }}</span>
+                        </li>
+                        <li class="flex gap-x-3">
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">2</span>
+                            <span class="text-sm text-gray-700">{{ $t('register.done.activate') }}</span>
+                        </li>
+                        <li class="flex gap-x-3">
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">3</span>
+                            <span class="text-sm text-gray-700">{{ $t('register.done.signIn') }}</span>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-xs text-gray-500">{{ $t('register.done.noMail') }}</p>
+                </div>
             </div>
             <div class="hidden lg:block p-4">
                 <div class="co-panel">
@@ -297,6 +331,7 @@ language.locale.value = userStore.getLanguage
 
 const state = reactive({
     agreeToTermsValidation: false,
+    registeredEmail: '',
     error: {} as Error,
     formRegister: {
         industry: '',
@@ -306,6 +341,7 @@ const state = reactive({
         company_name: '',
         phone: '',
         email: '',
+        password: '',
         oauthProvider: '' as string,
         agreeToTerms: false
     } as any,
@@ -340,6 +376,12 @@ const rules1 = computed(() => {
             email: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
+            ...(state.oauthProvider ? {} : {
+                password: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                    minLength: helpers.withMessage(() => `${t('alert.setupPassword.required8Characters')}.`, minLength(8)),
+                },
+            }),
             // Optional since the signup form asked for a number the product never uses: it only ends
             // up in the new-user mail to support. A field that is not needed is a reason to leave.
         }
@@ -566,24 +608,16 @@ async function register() {
                     name: state.formRegister.company_name,
                     phone: state.formRegister.phone,
                     email: state.formRegister.email,
+                    ...(state.formRegister.password ? { password: state.formRegister.password } : {}),
                     ...signupSource.value,
                 }
                 const response = await authService.register(params)
                 if (response.data) {
                     pushSignUpEvent()
-                    successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
-                    // Onboardingen frem for login-formularen.
-                    //
-                    // Registreringen sendte brugeren til '/', altså login-siden. Endepunktet
-                    // returnerer ingen token, så klienten kan ikke logge hende ind, og '/' var
-                    // derfor det eneste den kunne gøre. Men resultatet var at en ny kunde ramte
-                    // login-skærmen umiddelbart efter at have oprettet sin konto, og aldrig så
-                    // /discover medmindre hun selv fandt "Kom godt i gang" i sidebaren.
-                    //
-                    // `?redirect` findes og honoreres af login i forvejen, så det første hun ser
-                    // efter at have logget ind er checklisten med importen fra det gamle system
-                    // som første trin. E-mailverifikationen er urørt: hun logger stadig ind.
-                    navigateTo('/?redirect=/discover')
+                    // The account cannot be signed into yet: the address has to be confirmed
+                    // and the company switched on. Sending her to the login form said neither,
+                    // so the page now says what happens next instead.
+                    state.registeredEmail = state.formRegister.email
                 }
             } catch (error: any) {
                 state.error = error
@@ -595,6 +629,7 @@ async function register() {
                     !!errors?.lastname?.length ||
                     !!errors?.name?.length ||
                     !!errors?.email?.length ||
+                    !!errors?.password?.length ||
                     !!errors?.phone?.length
 
                 if (hasStep1Error) {

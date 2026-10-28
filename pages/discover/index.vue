@@ -45,25 +45,30 @@
                             </Tooltip>
                             <span class="text-sm text-white/70">
                                 {{ $t('discover.stepsProgress', {
-                                    done: totalDone,
-                                    total: totalSteps
+                                    done: headerProgress.done,
+                                    total: headerProgress.total
                                 }) }}
                             </span>
                         </div>
                     </div>
-                    <!-- Overall progress ring -->
-                    <div class="hidden md:flex shrink-0 relative h-24 w-24 items-center justify-center">
-                        <svg viewBox="0 0 36 36" class="h-24 w-24 -rotate-90">
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="rgba(255,255,255,0.2)"
-                                stroke-width="3" />
-                            <circle cx="18" cy="18" r="15.915" fill="none" stroke="white" stroke-width="3"
-                                stroke-linecap="round" :stroke-dasharray="`${progressPct} 100`"
-                                class="transition-all duration-500" />
-                        </svg>
-                        <span class="absolute text-xl font-bold">{{ progressPct }}%</span>
-                    </div>
                 </div>
                 <Icon name="ph:compass" class="absolute -right-6 -bottom-8 h-48 w-48 text-white/10" />
+            </div>
+
+            <!-- The one thing to do next. The groups below are the rest of the setup,
+                 folded, so a new customer is not handed twelve steps at once. -->
+            <div v-if="next" data-testid="discover-next-step"
+                class="mt-6 rounded-2xl border-1.5 border-primary/20 bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div class="min-w-0">
+                    <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.next.label') }}</p>
+                    <p class="mt-1 text-lg font-semibold text-slate-900">{{ $t(`discover.next.${next.key}.title`) }}</p>
+                    <p class="mt-1 text-sm text-slate-600">{{ $t(`discover.next.${next.key}.desc`) }}</p>
+                </div>
+                <button type="button" @click="navigateTo(next.route)"
+                    class="shrink-0 inline-flex items-center justify-center gap-x-1.5 rounded-lg bg-primary text-white px-4 py-2.5 text-sm font-semibold hover:bg-[#0d3f61] transition-colors">
+                    {{ $t(`discover.next.${next.key}.cta`) }}
+                    <Icon name="ph:arrow-right" class="h-4 w-4" aria-hidden="true" />
+                </button>
             </div>
 
             <!-- Demo data -->
@@ -89,7 +94,8 @@
             </div>
 
             <!-- Step groups -->
-            <div class="mt-6 space-y-4">
+            <h2 class="mt-8 text-sm font-semibold text-slate-500">{{ $t('discover.restOfSetup') }}</h2>
+            <div class="mt-3 space-y-4">
                 <div v-for="group in visibleGroups" :key="group.key" class="card !p-0 overflow-hidden">
                     <button type="button" @click="toggle(group.key)"
                         class="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors">
@@ -289,6 +295,8 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 import { checklistDone, type ChecklistResponse } from '@/composables/welcomeTour'
+import { onboardingProgress } from '@/composables/onboardingProgress'
+import { nextStep } from '@/composables/discoverNextStep'
 
 const runtimeConfig = useRuntimeConfig()
 const isDesktopApp = useIsDesktopApp()
@@ -314,7 +322,8 @@ const modules = reactive<Record<string, boolean>>({
 })
 
 const state = reactive({
-    open: { migration: true, komIGang: true } as Record<string, boolean>,
+    // Folded: the next-step card above says where to start.
+    open: {} as Record<string, boolean>,
     done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
     modal: { whatDoYouNeed: false, appInfo: false, importMapper: false },
     isRemovingDemoData: false,
@@ -383,7 +392,15 @@ const visibleGroups = computed(() => journey.value.filter(g =>
 ))
 const totalSteps = computed(() => visibleGroups.value.reduce((n, g) => n + g.steps.length, 0))
 const totalDone = computed(() => visibleGroups.value.reduce((n, g) => n + groupDone(g), 0))
-const progressPct = computed(() => totalSteps.value ? Math.round((totalDone.value / totalSteps.value) * 100) : 0)
+
+// The header counts the backend checklist, the same milestones as the topbar
+// pill, so the two never disagree. The local step count stands in where an
+// older backend has no checklist.
+const headerProgress = computed(() => {
+    const fromChecklist = onboardingProgress(checklist.value?.steps)
+    return fromChecklist.total ? fromChecklist : { done: totalDone.value, total: totalSteps.value }
+})
+const next = computed(() => nextStep(checklist.value?.steps))
 const allDone = computed(() => totalSteps.value > 0 && totalDone.value === totalSteps.value)
 
 // Once the whole journey is done, graduate the Discover tab away.
