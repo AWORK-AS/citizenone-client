@@ -68,6 +68,7 @@ async function saveRole(roleDetails: any) {
             sees_hr_data: roleDetails.sees_hr_data ?? false,
             certificate_reminder_for: roleDetails.certificate_reminder_for ?? null,
             counts_as_consultant: roleDetails.counts_as_consultant ?? false,
+            only_assigned_citizens: roleDetails.only_assigned_citizens ?? false,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
             employee_group_uuid: roleDetails.employee_group_uuid ?? [],
