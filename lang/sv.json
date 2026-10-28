@@ -9924,6 +9924,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Ladda ner meddelanden",
+            "from": "Från",
+            "to": "Till",
+            "today": "Idag",
+            "last7": "Senaste 7 dagarna",
+            "last30": "Senaste 30 dagarna",
+            "all": "Alla",
+            "countOne": "1 meddelande tas med",
+            "countMany": "{count} meddelanden tas med",
+            "noMessages": "Inga meddelanden under perioden",
+            "invalidRange": "Startdatumet måste vara före slutdatumet",
+            "download": "Ladda ner PDF",
+            "downloading": "Laddar ner...",
+            "tooLarge": "Välj en kortare period (max. 12 månader / 5 000 meddelanden)",
+            "tooManyRequests": "För många nedladdningar. Försök igen om en minut.",
+            "personalData": "Innehåller personuppgifter — hantera med omsorg",
+            "error": "Meddelandena kunde inte laddas ner. Försök igen."
+        },
         "cprWarning": {
             "title": "Kontrollera innan du skickar",
             "message": "Meddelandet verkar innehålla ett CPR-nummer. Chatten är inte avsedd för känsliga personuppgifter.",
