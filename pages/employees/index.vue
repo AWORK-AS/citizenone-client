@@ -262,6 +262,7 @@
 </template>
 
 <script setup lang="ts">
+import { canGiveAiAccess as canGiveAiAccessFor } from '@/composables/codySeats'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import { useDepartmentStore } from '@/store/department'
 import { useEmployeeStore } from '@/store/employee'
@@ -277,12 +278,9 @@ const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
-// Handing out Cody seats is for whoever manages them, whether or not they hold
-// one themselves. Gating it on the admin's own seat hid the action from every
-// admin who had bought seats for their staff but not for themselves.
+// Handing out Cody seats is for whoever manages them, with or without one (see codySeats).
 const { status: codyStatus, load: loadCodyAdoption } = useCodyAdoption()
-const canGiveAiAccess = computed(() => !!userStore.getUser?.has_ai_access
-    || !!(codyStatus.value?.company_has_cody && codyStatus.value?.can_manage))
+const canGiveAiAccess = computed(() => canGiveAiAccessFor(userStore.getUser, codyStatus.value))
 const { successAlert } = useAlert()
 const { isAtLeast, seesHrData } = usePermissions()
 const { t, locale } = useI18n()

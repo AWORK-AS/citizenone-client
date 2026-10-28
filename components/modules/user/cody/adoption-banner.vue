@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { seatsActionOnPage } from '@/composables/codySeats'
 import { trialDays } from '@/composables/managerSuggestion'
 import { formatPrice } from '@/composables/customerSpecialPrice'
 import { bannerSurface, bannerVariant, demandCount, priceLine, type BannerVariant, type NudgeEvent } from '@/composables/codyNudge'
@@ -130,7 +131,7 @@ function act(event: NudgeEvent, path: string) {
     if (surface) recordNudge(event, surface)
     // The seats banner also shows on the employee list it points to, where
     // navigating there again did nothing. Bring the list into view instead.
-    const target = route.path === path ? document.querySelector('[data-cody-seats-target]') : null
+    const target = seatsActionOnPage(route.path, path) === 'scroll' ? document.querySelector('[data-cody-seats-target]') : null
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     else navigateTo(path)
 }
