@@ -1345,7 +1345,22 @@
             "my_messages": "Räknar olästa meddelanden",
             "create_task": "Skapar en uppgift",
             "draft_journal_note": "Skriver ett journalutkast",
-            "refer_to_milo": "Hänvisar till Milo"
+            "refer_to_milo": "Hänvisar till Milo",
+            "remember_about_me": "Föreslår något att komma ihåg"
+        },
+        "memory": {
+            "ask": "Ska Cody AI komma ihåg: \"{content}\"?",
+            "askLabel": "Cody AI frågar om den får komma ihåg något",
+            "yes": "Ja",
+            "no": "Nej",
+            "saved": "Cody AI minns det nu.",
+            "firstSaved": "Cody AI minns det nu och använder det i nästa svar. Du kan alltid se och radera det.",
+            "alreadyKnown": "Det minns Cody AI redan.",
+            "seeWhat": "Se vad Cody AI minns",
+            "refused": "Cody AI kan inte komma ihåg detta. Det får bara handla om hur du själv arbetar.",
+            "expired": "Frågan har gått ut. Säg det till Cody AI igen om det fortfarande gäller.",
+            "failed": "Det sparades inte. Försök igen.",
+            "storageFull": "Cody AI kan inte komma ihåg nya saker eftersom er lagringsplats är full."
         },
         "toolTrace": {
             "title": "Vad Cody AI läste",
@@ -12042,6 +12057,22 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Det här minns Cody AI",
+                "description": "Cody AI kan fråga om den får komma ihåg korta saker om hur du arbetar, till exempel att du föredrar korta svar. Det sparas bara om du säger ja. Det handlar bara om dig, aldrig om @:terms.citizens{''}. Bara du kan se det här.",
+                "limit": "Cody AI minns högst {count} saker. De äldsta oanvända glöms först. Resten sparas tills du själv raderar det.",
+                "reset": "Byter du avdelning eller roll börjar Cody AI om från början.",
+                "freshConversations": "När du raderar något börjar öppna samtal med Cody AI om.",
+                "empty": "Cody AI har inte noterat något om dig ännu.",
+                "learnedAt": "Lärt {date}",
+                "forgetOne": "Glöm",
+                "forgetOneLabel": "Glöm: {content}",
+                "forgetAll": "Glöm allt",
+                "forgetAllTitle": "Glöm allt som Cody AI minns?",
+                "forgetAllMessage": "Allt som Cody AI har noterat om dig raderas, och öppna samtal med Cody AI börjar om. Det kan inte ångras.",
+                "loadFailed": "Det som Cody AI minns kunde inte hämtas just nu. Försök igen senare.",
+                "forgetFailed": "Det kunde inte raderas. Försök igen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderprenumeration",
                 "description": "Prenumerera på dina pass i din egen kalenderapp (Google Kalender, Apple Kalender, Outlook). Schemat uppdateras automatiskt.",
@@ -13476,7 +13507,8 @@
                     "tasks": "Uppgifter",
                     "company_files": "Företagsfiler",
                     "nursing_areas": "Vårdområden",
-                    "ai_conversations": "AI-samtal"
+                    "ai_conversations": "AI-samtal",
+                    "cody_memories": "Cody AI-minne"
                 }
             },
             "contract": {

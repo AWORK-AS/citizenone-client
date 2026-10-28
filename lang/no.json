@@ -1345,7 +1345,22 @@
             "my_messages": "Teller uleste meldinger",
             "create_task": "Oppretter en oppgave",
             "draft_journal_note": "Skriver et journalutkast",
-            "refer_to_milo": "Henviser til Milo"
+            "refer_to_milo": "Henviser til Milo",
+            "remember_about_me": "Foreslår noe å huske"
+        },
+        "memory": {
+            "ask": "Skal Cody AI huske: \"{content}\"?",
+            "askLabel": "Cody AI spør om den kan huske noe",
+            "yes": "Ja",
+            "no": "Nei",
+            "saved": "Cody AI husker det nå.",
+            "firstSaved": "Cody AI husker det nå og bruker det i de neste svarene. Du kan alltid se og slette det.",
+            "alreadyKnown": "Det husker Cody AI allerede.",
+            "seeWhat": "Se hva Cody AI husker",
+            "refused": "Cody AI kan ikke huske dette. Det kan bare handle om hvordan du selv jobber.",
+            "expired": "Spørsmålet har utløpt. Si det til Cody AI igjen hvis det fortsatt gjelder.",
+            "failed": "Det ble ikke lagret. Prøv igjen.",
+            "storageFull": "Cody AI kan ikke huske nye ting fordi lagringsplassen deres er full."
         },
         "toolTrace": {
             "title": "Hva Cody AI leste",
@@ -12042,6 +12057,22 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Dette husker Cody AI",
+                "description": "Cody AI kan spørre om den kan huske korte ting om hvordan du jobber, for eksempel at du foretrekker korte svar. Det lagres bare hvis du sier ja. Det handler bare om deg, aldri om @:terms.citizens{''}. Bare du kan se dette.",
+                "limit": "Cody AI husker høyst {count} ting. De eldste ubrukte glemmes først. Resten lagres til du sletter det selv.",
+                "reset": "Bytter du avdeling eller rolle, begynner Cody AI på nytt.",
+                "freshConversations": "Når du sletter noe, starter åpne samtaler med Cody AI på nytt.",
+                "empty": "Cody AI har ikke notert noe om deg ennå.",
+                "learnedAt": "Lært {date}",
+                "forgetOne": "Glem",
+                "forgetOneLabel": "Glem: {content}",
+                "forgetAll": "Glem alt",
+                "forgetAllTitle": "Glemme alt Cody AI husker?",
+                "forgetAllMessage": "Alt Cody AI har notert om deg blir slettet, og åpne samtaler med Cody AI starter på nytt. Det kan ikke angres.",
+                "loadFailed": "Det Cody AI husker kunne ikke hentes akkurat nå. Prøv igjen senere.",
+                "forgetFailed": "Det kunne ikke slettes. Prøv igjen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderabonnement",
                 "description": "Abonner på vaktene dine i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vaktplanen oppdateres automatisk.",
@@ -13476,7 +13507,8 @@
                     "tasks": "Oppgaver",
                     "company_files": "Virksomhetsfiler",
                     "nursing_areas": "Pleieområder",
-                    "ai_conversations": "AI-samtaler"
+                    "ai_conversations": "AI-samtaler",
+                    "cody_memories": "Cody AI-minne"
                 }
             },
             "contract": {
