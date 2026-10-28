@@ -9930,6 +9930,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Last ned meldinger",
+            "from": "Fra",
+            "to": "Til",
+            "today": "I dag",
+            "last7": "Siste 7 dager",
+            "last30": "Siste 30 dager",
+            "all": "Alle",
+            "countOne": "1 melding tas med",
+            "countMany": "{count} meldinger tas med",
+            "noMessages": "Ingen meldinger i perioden",
+            "invalidRange": "Startdatoen må være før sluttdatoen",
+            "download": "Last ned PDF",
+            "downloading": "Laster ned...",
+            "tooLarge": "Velg en kortere periode (maks. 12 måneder / 5 000 meldinger)",
+            "tooManyRequests": "For mange nedlastinger. Prøv igjen om et minutt.",
+            "personalData": "Inneholder personopplysninger — håndter med omhu",
+            "error": "Meldingene kunne ikke lastes ned. Prøv igjen."
+        },
         "cprWarning": {
             "title": "Sjekk før du sender",
             "message": "Meldingen ser ut til å inneholde et CPR-nummer. Chatten er ikke ment for sensitive personopplysninger.",

@@ -9930,6 +9930,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Download beskeder",
+            "from": "Fra",
+            "to": "Til",
+            "today": "I dag",
+            "last7": "Seneste 7 dage",
+            "last30": "Seneste 30 dage",
+            "all": "Alle",
+            "countOne": "1 besked kommer med",
+            "countMany": "{count} beskeder kommer med",
+            "noMessages": "Ingen beskeder i perioden",
+            "invalidRange": "Startdatoen skal være før slutdatoen",
+            "download": "Download PDF",
+            "downloading": "Downloader...",
+            "tooLarge": "Vælg en kortere periode (maks. 12 måneder / 5.000 beskeder)",
+            "tooManyRequests": "For mange downloads. Prøv igen om et minut.",
+            "personalData": "Indeholder personoplysninger — håndtér med omhu",
+            "error": "Beskederne kunne ikke downloades. Prøv igen."
+        },
         "cprWarning": {
             "title": "Tjek før du sender",
             "message": "Beskeden ser ud til at indeholde et CPR-nummer. Chatten er ikke beregnet til følsomme personoplysninger.",

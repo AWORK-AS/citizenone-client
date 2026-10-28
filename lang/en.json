@@ -9930,6 +9930,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Download messages",
+            "from": "From",
+            "to": "To",
+            "today": "Today",
+            "last7": "Last 7 days",
+            "last30": "Last 30 days",
+            "all": "All",
+            "countOne": "1 message will be included",
+            "countMany": "{count} messages will be included",
+            "noMessages": "No messages in this period",
+            "invalidRange": "The start date must be before the end date",
+            "download": "Download PDF",
+            "downloading": "Downloading...",
+            "tooLarge": "Choose a shorter period (max. 12 months / 5,000 messages)",
+            "tooManyRequests": "Too many downloads. Please try again in a minute.",
+            "personalData": "Contains personal data — handle with care",
+            "error": "The messages could not be downloaded. Please try again."
+        },
         "cprWarning": {
             "title": "Check before sending",
             "message": "This message seems to contain a CPR number. Chat isn't meant for sensitive personal data.",
