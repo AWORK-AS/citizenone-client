@@ -53,10 +53,10 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <!-- A Manager can record an answer given over the phone, which
+                <!-- A coordinator can record an answer given over the phone, which
                      is why these are here and not only on the consultant's own
-                     screen. The right to ask and choose does not cover this. -->
-                <template v-if="canAnswerForConsultant && invitation.status === 'invited'">
+                     screen. -->
+                <template v-if="canManage && invitation.status === 'invited'">
                     <FormButton type="button" buttonStyle="action" @click="respond(invitation, 'interested')">
                         {{ $t('inquiryInvitations.markInterested') }}
                     </FormButton>
@@ -127,12 +127,10 @@ const state = reactive({
 })
 
 const { isAtLeast, can } = usePermissions()
-// Choosing the consultant: Manager and above, or a role given the right, as
-// the server checks it. Without the right in the payload this is Manager only.
+// Choosing the consultant, and recording an answer they gave over the phone:
+// Manager and above, or a role given the right, as the server checks it.
+// Without the right in the payload this is Manager only.
 const canManage = computed(() => isAtLeast('Manager') || can('manage_inquiry_invitations'))
-// Recording an answer for the consultant (over the phone) stays Manager on the
-// server, right or not.
-const canAnswerForConsultant = computed(() => isAtLeast('Manager'))
 // Setting what a consultant may register is its own right; without it the
 // consultant is chosen with no rule of their own.
 const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
