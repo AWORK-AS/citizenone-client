@@ -43,7 +43,8 @@
                                     {{ $t('welcomeTour.restart') }}
                                 </button>
                             </Tooltip>
-                            <span class="text-sm text-white/70">
+                            <!-- The guide below counts its own steps while it is open. -->
+                            <span v-if="!guideActive" class="text-sm text-white/70">
                                 {{ $t('discover.stepsProgress', {
                                     done: headerProgress.done,
                                     total: headerProgress.total
@@ -57,7 +58,10 @@
 
             <!-- The one thing to do next. The groups below are the rest of the setup,
                  folded, so a new customer is not handed twelve steps at once. -->
-            <div v-if="next" data-testid="discover-next-step"
+            <ModulesUserOnboardingFirstSteps v-if="isAdmin" role="admin" class="mt-6"
+                @openModules="state.modal.whatDoYouNeed = true" />
+
+            <div v-if="next && !guideActive" data-testid="discover-next-step"
                 class="mt-6 rounded-2xl border-1.5 border-primary/20 bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="min-w-0">
                     <p class="text-xs font-semibold uppercase tracking-wide text-primary">{{ $t('discover.next.label') }}</p>
@@ -93,9 +97,15 @@
                 </button>
             </div>
 
-            <!-- Step groups -->
-            <h2 class="mt-8 text-sm font-semibold text-slate-500">{{ $t('discover.restOfSetup') }}</h2>
-            <div class="mt-3 space-y-4">
+            <!-- Step groups. Behind a link while the first-steps guide is open, so
+                 a new admin sees one thing to do, not six groups. -->
+            <button v-if="guideActive && !state.showAllSetup" type="button" @click="state.showAllSetup = true"
+                class="mt-8 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline">
+                {{ $t('discover.showAllSetup') }}
+                <Icon name="ph:caret-down" class="size-4" aria-hidden="true" />
+            </button>
+            <h2 v-if="!guideActive || state.showAllSetup" class="mt-8 text-sm font-semibold text-slate-500">{{ $t('discover.restOfSetup') }}</h2>
+            <div v-if="!guideActive || state.showAllSetup" class="mt-3 space-y-4">
                 <div v-for="group in visibleGroups" :key="group.key" class="card !p-0 overflow-hidden">
                     <button type="button" @click="toggle(group.key)"
                         class="w-full flex items-center justify-between px-5 py-4 hover:bg-slate-50 transition-colors">
@@ -294,7 +304,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
-import { checklistDone, type ChecklistResponse } from '@/composables/welcomeTour'
+import { checklistDone, welcomeTourMode, type ChecklistResponse } from '@/composables/welcomeTour'
 import { onboardingProgress } from '@/composables/onboardingProgress'
 import { nextStep } from '@/composables/discoverNextStep'
 
@@ -327,6 +337,7 @@ const state = reactive({
     done: { departments: false, employees: false, citizens: false, shiftTags: false } as Record<string, boolean>,
     modal: { whatDoYouNeed: false, appInfo: false, importMapper: false },
     isRemovingDemoData: false,
+    showAllSetup: false,
 })
 
 const demoCitizenCount = ref(0)
@@ -401,6 +412,8 @@ const headerProgress = computed(() => {
     return fromChecklist.total ? fromChecklist : { done: totalDone.value, total: totalSteps.value }
 })
 const next = computed(() => nextStep(checklist.value?.steps))
+// The first-steps guide is on screen (same marker the card itself reads).
+const guideActive = computed(() => welcomeTourMode(userStore.getUser) === 'tour')
 const allDone = computed(() => totalSteps.value > 0 && totalDone.value === totalSteps.value)
 
 // Once the whole journey is done, graduate the Discover tab away.

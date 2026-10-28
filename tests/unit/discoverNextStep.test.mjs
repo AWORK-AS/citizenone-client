@@ -1,6 +1,6 @@
 /**
  * Unit tests for composables/discoverNextStep.ts - the one step Discover asks a
- * new company to take next - and for which admins the welcome tour opens by itself.
+ * new company to take next.
  *
  *   node --test tests/unit/discoverNextStep.test.mjs
  */
@@ -9,7 +9,6 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import { nextStep, NEXT_STEP_KEYS } from '../../composables/discoverNextStep.ts'
-import { autoStartsTour } from '../../composables/welcomeTour.ts'
 
 const clinic = (done = {}) => ['services_created', 'online_booking_enabled', 'clients_added', 'journal_note_written', 'colleagues_invited']
     .map(key => ({ key, done: !!done[key] }))
@@ -52,14 +51,5 @@ describe('nextStep', () => {
             }
         }
         assert.deepEqual(missing, [])
-    })
-})
-
-describe('autoStartsTour', () => {
-    test('opens by itself for staff only', () => {
-        assert.equal(autoStartsTour('staff'), true)
-        assert.equal(autoStartsTour('clinic_admin'), false)
-        assert.equal(autoStartsTour('care_home_admin'), false)
-        assert.equal(autoStartsTour(null), false)
     })
 })

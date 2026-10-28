@@ -7,7 +7,6 @@
 import { userService } from '@/components/api/user/UserService'
 import { useUserStore } from '@/store/user'
 import {
-    autoStartsTour,
     buildWelcomeSteps,
     hasToursSeen,
     restartRoute,
@@ -46,16 +45,10 @@ export function useWelcomeTour() {
 
     function startIfDue(user: any): 'legacy' | 'tour' | 'none' {
         const mode = welcomeTourMode(user)
-        if (mode === 'tour' && !tour.value.launched) {
-            if (!autoStartsTour(user.tour_route)) {
-                // Recorded as seen, as skipping it would be, so the next sign-in
-                // lands on the overview and not on Discover again.
-                tour.value = { ...tour.value, launched: true }
-                markSeen()
-                return 'none'
-            }
-            tour.value = { active: true, route: user.tour_route, index: 0, launched: true, restart: false }
-        }
+        // The first-steps guide on My day and Discover replaces the spotlight
+        // tour on arrival (it covered the page it was explaining). The tour
+        // still plays from "Vis mig rundt".
+        if (mode === 'tour') return 'none'
         return mode
     }
 
@@ -95,5 +88,10 @@ export function useWelcomeTour() {
         }
     }
 
-    return { tour, steps, startIfDue, restart, setIndex, close }
+    /** The first-steps guide was finished or skipped: what the tour used to record. */
+    async function finishFirstSteps() {
+        await markSeen()
+    }
+
+    return { tour, steps, startIfDue, restart, setIndex, close, finishFirstSteps }
 }

@@ -1,4 +1,53 @@
 {
+    "firstSteps": {
+        "label": "Kom igång · steg {current} av {total}",
+        "skip": "Hoppa över",
+        "progress": "Steg i guiden",
+        "noCitizens": "Du har inte tillgång till någon ännu. Fråga din chef.",
+        "done": "Klart",
+        "later": "Senare",
+        "next": "Nästa",
+        "finish": "Klar",
+        "back": "Tillbaka",
+        "staff": {
+            "citizens": {
+                "title": "Här är dina @:terms.citizens{''}",
+                "desc": "Det är dem du arbetar med. Klicka på ett namn för att se journal, planer och dokument. Du hittar dem alltid under @:terms.citizens{''} i menyn."
+            },
+            "note": {
+                "title": "Skriv din första anteckning",
+                "desc": "Välj en @:terms.citizen{''}, ge anteckningen en rubrik och skriv vad som hände. Det tar en minut.",
+                "cta": "Skriv anteckning"
+            },
+            "day": {
+                "title": "Här börjar din dag",
+                "desc": "Min dag visar ditt nästa pass, dagens uppgifter och det som behöver uppmärksamhet. Meddelanden från kollegor hittar du under Chat.",
+                "cta": "Öppna Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "Vad använder ni?",
+                "desc": "Välj de delar ni behöver. Resten döljs, så menyn blir kort för alla.",
+                "cta": "Välj moduler"
+            },
+            "firstCitizen": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Ett namn räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Skriv din första anteckning",
+                "desc": "Välj en @:terms.citizen{''} och skriv en kort anteckning, så ser du hur journalen fungerar.",
+                "cta": "Skriv anteckning"
+            },
+            "colleagues": {
+                "title": "Bjud in dina kollegor",
+                "desc": "Lägg till dem en i taget, eller importera många på en gång från Excel under Personal. De får ett mejl och en kort guide när de loggar in.",
+                "cta": "Gå till personal"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Fakturor skickas inte längre via e-post",
         "noticeBody": "Framöver får ni inte ett e-postmeddelande varje gång en prenumeration, en app eller en påfyllning dras automatiskt. Alla fakturor och kvitton finns här under Fakturor. Ni får fortfarande e-post om en betalning misslyckas.",
@@ -314,6 +363,7 @@
         }
     },
     "discover": {
+        "showAllSetup": "Visa alla inställningar",
         "next": {
             "label": "Ditt nästa steg",
             "citizens_added": {

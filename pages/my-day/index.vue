@@ -14,6 +14,10 @@
             </template>
 
             <div class="space-y-6">
+                <!-- A new colleague's first steps: their citizens, a first note, where
+                     the day is. Gone once finished or skipped. -->
+                <ModulesUserOnboardingFirstSteps v-if="!isAtLeast('Admin')" role="staff" />
+
                 <!-- Greeting -->
                 <div class="rounded-2xl bg-gradient-to-r from-primary to-secondary px-6 py-5 text-white shadow-sm">
                     <p class="text-lg font-semibold">{{ greeting }}, {{ firstName }} 👋</p>

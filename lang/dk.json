@@ -1,4 +1,53 @@
 {
+    "firstSteps": {
+        "label": "Kom godt i gang · trin {current} af {total}",
+        "skip": "Spring over",
+        "progress": "Trin i guiden",
+        "noCitizens": "Du har ikke adgang til nogen endnu. Spørg din leder.",
+        "done": "Klaret",
+        "later": "Senere",
+        "next": "Næste",
+        "finish": "Færdig",
+        "back": "Tilbage",
+        "staff": {
+            "citizens": {
+                "title": "Her er dine @:terms.citizens{''}",
+                "desc": "Det er dem, du arbejder med. Klik på et navn for at se journal, planer og dokumenter. Du finder dem altid under @:terms.citizens{''} i menuen."
+            },
+            "note": {
+                "title": "Skriv dit første notat",
+                "desc": "Vælg en @:terms.citizen{''}, giv notatet en titel og skriv, hvad der skete. Det tager et minut.",
+                "cta": "Skriv notat"
+            },
+            "day": {
+                "title": "Her starter din dag",
+                "desc": "Min dag viser din næste vagt, dagens opgaver og det, der kræver opmærksomhed. Beskeder fra kolleger finder du under Chat.",
+                "cta": "Åbn Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "Hvad bruger I?",
+                "desc": "Vælg de dele, I har brug for. Resten skjules, så menuen er kort for alle.",
+                "cta": "Vælg moduler"
+            },
+            "firstCitizen": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Skriv dit første notat",
+                "desc": "Vælg en @:terms.citizen{''} og skriv et kort notat. Så ser du, hvordan journalen virker.",
+                "cta": "Skriv notat"
+            },
+            "colleagues": {
+                "title": "Invitér dine kolleger",
+                "desc": "Opret dem én ad gangen, eller importér mange på én gang fra Excel under Personale. De får en mail og en kort guide, når de logger ind.",
+                "cta": "Gå til personale"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Fakturaer sendes ikke længere på mail",
         "noticeBody": "Fremover får I ikke en mail, hver gang et abonnement, en app eller en optankning trækkes automatisk. Alle fakturaer og kvitteringer ligger her under Fakturaer. Mislykkede betalinger får I stadig besked om på mail.",
@@ -314,6 +363,7 @@
         }
     },
     "discover": {
+        "showAllSetup": "Vis hele opsætningen",
         "next": {
             "label": "Dit næste skridt",
             "citizens_added": {

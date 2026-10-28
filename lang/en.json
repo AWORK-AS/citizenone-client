@@ -1,4 +1,53 @@
 {
+    "firstSteps": {
+        "label": "Getting started · step {current} of {total}",
+        "skip": "Skip",
+        "progress": "Guide steps",
+        "noCitizens": "You do not have access to anyone yet. Ask your manager.",
+        "done": "Done",
+        "later": "Later",
+        "next": "Next",
+        "finish": "Finish",
+        "back": "Back",
+        "staff": {
+            "citizens": {
+                "title": "These are your @:terms.citizens{''}",
+                "desc": "These are the people you work with. Click a name to see the journal, plans and documents. You always find them under @:terms.citizens{''} in the menu."
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''}, give the note a title and write what happened. It takes a minute.",
+                "cta": "Write a note"
+            },
+            "day": {
+                "title": "This is where your day starts",
+                "desc": "My day shows your next shift, today's tasks and what needs attention. Messages from colleagues are under Chat.",
+                "cta": "Open Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "What do you use?",
+                "desc": "Pick the parts you need. The rest is hidden, so the menu stays short for everyone.",
+                "cta": "Choose modules"
+            },
+            "firstCitizen": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name is enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note to see how the journal works.",
+                "cta": "Write a note"
+            },
+            "colleagues": {
+                "title": "Invite your colleagues",
+                "desc": "Add them one at a time, or import many at once from Excel under Staff. They get an email and a short guide when they sign in.",
+                "cta": "Go to staff"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Invoices are no longer emailed",
         "noticeBody": "You will no longer get an email each time a subscription, app or top-up is charged automatically. All invoices and receipts are here under Invoices. You will still be emailed if a payment fails.",
@@ -314,6 +363,7 @@
         }
     },
     "discover": {
+        "showAllSetup": "Show the whole setup",
         "next": {
             "label": "Your next step",
             "citizens_added": {
