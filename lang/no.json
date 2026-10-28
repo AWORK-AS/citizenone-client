@@ -27,7 +27,7 @@
         "staff": {
             "citizens": {
                 "title": "Her er dine @:terms.citizens{''}",
-                "desc": "Dette er de du jobber med. Klikk på et navn for å se journal, planer og dokumenter. Du finner dem alltid under @:terms.citizens{''} i menyen."
+                "desc": "Dette er de du jobber med. Klikk på et navn for å se journal, planer og dokumenter. Du finner dem alltid under @.capitalize:terms.citizens{''} i menyen."
             },
             "note": {
                 "title": "Skriv ditt første notat",
@@ -473,7 +473,7 @@
             "vagtplan": "Vaktplan",
             "medicin": "Medisin",
             "dokumentation": "Dokumentasjon",
-            "people": "Brukere",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Pasienter",
             "clinic": "Klinikk og booking",
             "cases": "Saker og NAV"
@@ -526,14 +526,14 @@
                 "cta": "Gå til Medisin"
             },
             "citizens": {
-                "title": "Opprett brukere",
-                "desc": "Legg til brukerne dere jobber med.",
-                "cta": "Gå til Brukere"
+                "title": "Opprett @:terms.citizens{''}",
+                "desc": "Legg til @:terms.citizens{''} dere jobber med.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata og kontaktpersoner",
                 "desc": "Fyll inn stamdata, kontaktpersoner og saksbehandler.",
-                "cta": "Gå til Brukere"
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Opprett pasienter",
@@ -2435,6 +2435,7 @@
                 "teeth": "Tænder",
                 "title": "Tittel",
                 "usePredefinedcontent": "Bruk foruddefineret innhold",
+                "manageJournalTitles": "Rediger titler",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Kunne ikke lagre automatisk. De siste endringene er ikke lagret ennå - prøver igjen.",
                 "showJournalTitles": "Vis journaltitler",
@@ -12866,6 +12867,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alle brukerlisensene deres er i bruk. Kjøp flere her, så kan du opprette den ansatte etterpå.",
         "addOnDeals": {
             "addOnDeals": "Ekstra @:terms.citizens{''} og avdelinger",
             "checkout": "Betal og legg til",
@@ -15889,10 +15891,10 @@
     },
     "verifyEmail": {
         "waitingForActivation": "Takk. Vi slår på kontoen din og sender deg en e-post når du kan logge inn.",
-        "emailVerified": "E-post verificeret",
-        "loginToContinue": "Logg inn for at fortsette",
-        "verifyEmail": "Verificer e-post",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har vellykket verificeret din e-post"
+        "emailVerified": "E-post bekreftet",
+        "loginToContinue": "Logg inn for å fortsette",
+        "verifyEmail": "Bekreft e-post",
+        "youHaveSuccessfullyVerifiedYourEmail": "E-postadressen din er bekreftet"
     },
     "view": "Se",
     "wish": {

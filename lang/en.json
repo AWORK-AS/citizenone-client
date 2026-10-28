@@ -27,7 +27,7 @@
         "staff": {
             "citizens": {
                 "title": "These are your @:terms.citizens{''}",
-                "desc": "These are the people you work with. Click a name to see the journal, plans and documents. You always find them under @:terms.citizens{''} in the menu."
+                "desc": "These are the people you work with. Click a name to see the journal, plans and documents. You always find them under @.capitalize:terms.citizens{''} in the menu."
             },
             "note": {
                 "title": "Write your first note",
@@ -473,7 +473,7 @@
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
             "dokumentation": "Documentation",
-            "people": "Citizens",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patients",
             "clinic": "Clinic & booking",
             "cases": "Cases & jobcentre"
@@ -526,14 +526,14 @@
                 "cta": "Go to Medicine"
             },
             "citizens": {
-                "title": "Create citizens",
-                "desc": "Add the citizens you work with.",
-                "cta": "Go to Citizens"
+                "title": "Add @:terms.citizens{''}",
+                "desc": "Add the @:terms.citizens{''} you work with.",
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Master data & contacts",
                 "desc": "Fill in master data, contacts and caseworker.",
-                "cta": "Go to Citizens"
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Create patients",
@@ -2435,6 +2435,7 @@
                 "teeth": "Teeth",
                 "title": "Title",
                 "usePredefinedcontent": "Use predefined content",
+                "manageJournalTitles": "Edit titles",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Could not save automatically. Your latest changes are not saved yet - retrying.",
                 "showJournalTitles": "Show journal titles",
@@ -12897,6 +12898,7 @@
     },
     "submit": "Submit",
     "subscription": {
+        "noUserLicense": "All your user licenses are in use. Buy more below, then add the employee.",
         "addOnDeals": {
             "addOnDeals": "Add-on deals",
             "checkout": "Checkout",
@@ -15974,10 +15976,10 @@
     },
     "verifyEmail": {
         "waitingForActivation": "Thank you. We switch your account on and email you when you can sign in.",
-        "emailVerified": "Email verified",
-        "loginToContinue": "Login to continue",
-        "verifyEmail": "Verify email",
-        "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email"
+        "emailVerified": "Email confirmed",
+        "loginToContinue": "Sign in to continue",
+        "verifyEmail": "Confirm email",
+        "youHaveSuccessfullyVerifiedYourEmail": "Your email address is confirmed"
     },
     "view": "View",
     "wish": {

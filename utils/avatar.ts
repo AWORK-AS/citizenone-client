@@ -26,14 +26,18 @@ export function avatarInitials(name: unknown): string {
         // A name built as "undefined undefined" or "null" by string concatenation
         // upstream is no name.
         .replace(/\b(undefined|null)\b/g, ' ')
+        // A bracketed note is not part of the name: "Anna Lindberg (demo)" is AL, not A(.
+        .replace(/\([^)]*\)/g, ' ')
         .replace(/[+_.@]/g, ' ')
         .trim()
         .split(/\s+/)
         .filter((word) => /\p{L}|\p{N}/u.test(word))
     if (words.length === 0) return '?'
 
-    const first = Array.from(words[0])[0]
-    const last = words.length > 1 ? Array.from(words[words.length - 1])[0] : ''
+    // The first letter or digit of a word, so stray punctuation never becomes an initial.
+    const lead = (word: string) => Array.from(word).find((c) => /\p{L}|\p{N}/u.test(c)) ?? ''
+    const first = lead(words[0])
+    const last = words.length > 1 ? lead(words[words.length - 1]) : ''
 
     return (first + last).toLocaleUpperCase('da-DK')
 }

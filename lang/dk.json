@@ -27,7 +27,7 @@
         "staff": {
             "citizens": {
                 "title": "Her er dine @:terms.citizens{''}",
-                "desc": "Det er dem, du arbejder med. Klik på et navn for at se journal, planer og dokumenter. Du finder dem altid under @:terms.citizens{''} i menuen."
+                "desc": "Det er dem, du arbejder med. Klik på et navn for at se journal, planer og dokumenter. Du finder dem altid under @.capitalize:terms.citizens{''} i menuen."
             },
             "note": {
                 "title": "Skriv dit første notat",
@@ -473,7 +473,7 @@
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation",
-            "people": "Borgere",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik & booking",
             "cases": "Sager & jobcenter"
@@ -526,14 +526,14 @@
                 "cta": "Gå til Medicin"
             },
             "citizens": {
-                "title": "Opret borgere",
-                "desc": "Opret de borgere I arbejder med.",
-                "cta": "Gå til Borgere"
+                "title": "Opret @:terms.citizens{''}",
+                "desc": "Opret de @:terms.citizens{''}, I arbejder med.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata & kontaktpersoner",
                 "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
-                "cta": "Gå til Borgere"
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Opret patienter",
@@ -2435,6 +2435,7 @@
                 "teeth": "Tænder",
                 "title": "Titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
+                "manageJournalTitles": "Redigér titler",
                 "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
                 "autosaveFailed": "Kunne ikke gemme automatisk. Dine seneste ændringer er ikke gemt endnu - prøver igen.",
                 "showJournalTitles": "Vis journaltitler",
@@ -12897,6 +12898,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alle jeres brugerlicenser er i brug. Køb flere herunder, så kan du oprette medarbejderen bagefter.",
         "addOnDeals": {
             "addOnDeals": "Ekstra brugere og afdelinger",
             "checkout": "Betal og tilføj",
@@ -15974,10 +15976,10 @@
     },
     "verifyEmail": {
         "waitingForActivation": "Tak. Vi slår din konto til og sender dig en mail, når du kan logge ind.",
-        "emailVerified": "Email verificeret",
+        "emailVerified": "E-mail bekræftet",
         "loginToContinue": "Log ind for at fortsætte",
-        "verifyEmail": "Verificer email",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har succesfuldt verificeret din email"
+        "verifyEmail": "Bekræft e-mail",
+        "youHaveSuccessfullyVerifiedYourEmail": "Din e-mailadresse er bekræftet"
     },
     "view": "Se",
     "wish": {

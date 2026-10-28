@@ -5,19 +5,10 @@
  */
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import { initials, matches, pickerSections, pickerDepartments, rememberRecent } from '../../utils/citizenPicker.ts'
+import { matches, pickerSections, pickerDepartments, rememberRecent } from '../../utils/citizenPicker.ts'
 
 const o = (value, label, pinned = false) => ({ value, label, pinned })
 const people = [o('a', 'Anna Lindberg (demo)'), o('b', 'Peter Holm', true), o('c', 'Søren Ørsted'), o('d', 'Ida-Marie Kjær')]
-
-describe('initials', () => {
-    test('first and last name, ignoring a bracketed note', () => {
-        assert.equal(initials('Anna Lindberg (demo)'), 'AL')
-        assert.equal(initials('Peter'), 'P')
-        assert.equal(initials('anna maria  lindberg'), 'AL')
-        assert.equal(initials(''), '?')
-    })
-})
 
 describe('matches', () => {
     test('every typed word starts a word of the name, case and accents ignored', () => {

@@ -78,7 +78,9 @@
 <script setup lang="ts">
 import { useUserStore } from '@/store/user'
 import { useDepartmentStore } from '@/store/department'
-import { initials, pickerDepartments, pickerSections, rememberRecent, type PickerOption } from '@/utils/citizenPicker'
+import { pickerDepartments, pickerSections, rememberRecent, type PickerOption } from '@/utils/citizenPicker'
+// The same initials as every avatar in the app.
+import { avatarInitials as initials } from '@/utils/avatar'
 
 const props = defineProps<{ options: PickerOption[], modelValue: string[], id?: string }>()
 const emit = defineEmits<{ (e: 'update:modelValue', value: string[]): void }>()

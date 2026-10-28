@@ -21,17 +21,6 @@ export interface PickerSection {
     options: PickerOption[]
 }
 
-/** "Anna Lindberg (demo)" -> "AL". Brackets and digits never become initials. */
-export function initials(label: string): string {
-    const words = String(label ?? '').replace(/\(.*?\)/g, ' ').split(/\s+/).filter(w => /^\p{L}/u.test(w))
-    if (!words.length) return '?'
-    const first = words[0][0]
-    const last = words.length > 1 ? words[words.length - 1][0] : ''
-    return (first + last).toUpperCase()
-}
-
-// Danish ø and æ are letters of their own, not accented o and a, so NFD leaves
-// them alone; someone typing "soren" still means Søren.
 const fold = (s: string) => s.toLowerCase().replace(/ø/g, 'o').replace(/æ/g, 'ae')
     .normalize('NFD').replace(/\p{M}/gu, '')
 

@@ -27,7 +27,7 @@
         "staff": {
             "citizens": {
                 "title": "Här är dina @:terms.citizens{''}",
-                "desc": "Det är dem du arbetar med. Klicka på ett namn för att se journal, planer och dokument. Du hittar dem alltid under @:terms.citizens{''} i menyn."
+                "desc": "Det är dem du arbetar med. Klicka på ett namn för att se journal, planer och dokument. Du hittar dem alltid under @.capitalize:terms.citizens{''} i menyn."
             },
             "note": {
                 "title": "Skriv din första anteckning",
@@ -473,7 +473,7 @@
             "vagtplan": "Schema",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation",
-            "people": "Klienter",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik och bokning",
             "cases": "Ärenden och jobbcenter"
@@ -526,14 +526,14 @@
                 "cta": "Gå till Medicin"
             },
             "citizens": {
-                "title": "Skapa klienter",
-                "desc": "Lägg till klienterna ni arbetar med.",
-                "cta": "Gå till Klienter"
+                "title": "Skapa @:terms.citizens{''}",
+                "desc": "Lägg till @:terms.citizens{''} ni arbetar med.",
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata och kontaktpersoner",
                 "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
-                "cta": "Gå till Klienter"
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Skapa patienter",
@@ -2435,6 +2435,7 @@
                 "teeth": "Tänder",
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
+                "manageJournalTitles": "Redigera rubriker",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
@@ -12866,6 +12867,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alla era användarlicenser används. Köp fler här nedanför, så kan du lägga till medarbetaren sedan.",
         "addOnDeals": {
             "addOnDeals": "Extra användare och avdelningar",
             "checkout": "Betala och lägg till",
@@ -15889,10 +15891,10 @@
     },
     "verifyEmail": {
         "waitingForActivation": "Tack. Vi aktiverar ditt konto och mejlar dig när du kan logga in.",
-        "emailVerified": "Email verifierad",
+        "emailVerified": "E-post bekräftad",
         "loginToContinue": "Logga in för att fortsätta",
-        "verifyEmail": "Verifiera email",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har verifierad din email"
+        "verifyEmail": "Bekräfta e-post",
+        "youHaveSuccessfullyVerifiedYourEmail": "Din e-postadress är bekräftad"
     },
     "view": "Se",
     "wish": {
