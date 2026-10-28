@@ -20286,5 +20286,43 @@
         "importFailed": "Det oppstod en feil under importen.",
         "openFileFailed": "Det oppstod en feil under åpning av filen.",
         "deleteFailed": "Det oppstod en feil under slettingen."
+    },
+    "signup": {
+        "title": "Opprett din gratis konto for å lagre arbeidet ditt",
+        "subtitle": "Arbeidet ditt fra citizenone.dk er lagret og venter på deg.",
+        "continueWithApple": "Fortsett med Apple",
+        "continueWithGoogle": "Fortsett med Google",
+        "continueWithEmail": "Fortsett med e-post",
+        "emailLabel": "E-postadresse",
+        "emailPlaceholder": "deg@arbeidsplassen.no",
+        "sendCode": "Send kode",
+        "back": "Tilbake",
+        "codeSent": "Vi har sendt en kode på 6 sifre til {email}.",
+        "codeLabel": "Kode på 6 sifre",
+        "verify": "Fortsett",
+        "changeEmail": "Bruk en annen e-post",
+        "resendCode": "Send en ny kode",
+        "haveAccount": "Har du allerede en konto med passord?",
+        "signIn": "Logg inn",
+        "complete": {
+            "title": "Fullfør kontoen din",
+            "heading": "Nesten ferdig",
+            "signedInAs": "Du registrerer deg som {email}.",
+            "submit": "Opprett konto",
+            "expiredTitle": "Registreringslenken er utløpt",
+            "expiredBody": "Start på nytt for å opprette kontoen din.",
+            "startAgain": "Start på nytt"
+        },
+        "pending": {
+            "title": "Vi gjennomgår kontoen din",
+            "body": "Takk. Vi gjennomgår hver ny konto før den slås på, og vi skriver til {email} når den er klar.",
+            "draftSaved": "Utkastet ditt fra citizenone.dk er lagret og venter på deg når du logger inn."
+        },
+        "drafts": {
+            "title": "Lagret fra citizenone.dk",
+            "delete": "Slett",
+            "deleteAria": "Slett lagret utkast: {tool}",
+            "tools": {}
+        }
     }
 }
