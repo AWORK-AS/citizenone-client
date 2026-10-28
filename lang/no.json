@@ -9824,7 +9824,7 @@
             "alwaysEncrypted": "Sikker post sendes alltid kryptert. Angi et passord som mottakeren trenger for å åpne meldingen.",
             "enterCode": "Skriv inn en selvvalgt kode",
             "message": "Melding",
-            "passwordHint": "Skriv et lite hint, der kan hjelpe mottakeren med at huske passordet",
+            "passwordHint": "Skriv et kort hint som hjelper mottakeren å huske passordet",
             "passwordHintPlaceholder": "Skriv inn hint til passordet",
             "reenterCode": "Skriv inn den selvvalgte kode igjen",
             "send": "Send",
@@ -12114,7 +12114,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Vaktplan & arbeidstid",
                 "groupOther": "Annet & integrasjoner",
-                "absenceCountsInNormHours": "Ferie og sykdom teller med i normtimer og avspasering",
+                "absenceCountsInNormHours": "Fravær teller med i normtimer og avspasering",
                 "upgradeToPro": "Oppgrader til Pro",
                 "whichHolidaysCount": "Hvilke helligdager skal telle med? (slå av dem som ikke gjelder for dere)",
                 "holidayState": {

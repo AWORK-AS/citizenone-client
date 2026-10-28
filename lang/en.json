@@ -12119,7 +12119,7 @@
                 "groupPlans": "Plans & goals",
                 "groupSchedule": "Schedule & working time",
                 "groupOther": "Other & integrations",
-                "absenceCountsInNormHours": "Count vacation and sick leave toward norm hours and compensatory time off",
+                "absenceCountsInNormHours": "Count leave toward norm hours and compensatory time off",
                 "upgradeToPro": "Upgrade to Pro",
                 "whichHolidaysCount": "Which public holidays should count? (turn off the ones that do not apply to you)",
                 "holidayState": {
