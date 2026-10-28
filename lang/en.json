@@ -5606,6 +5606,7 @@
             "preset": {
                 "applyPreset": "Apply preset",
                 "applySuccess": "Preset successfully applied to draft schedules!",
+                "applySuccessWithSkipped": "{created} shifts added. {skipped} shifts were already in the draft and were not added again.",
                 "confirmation": {
                     "deletePresetConfirmation": "Are you sure you want to delete this preset"
                 },
@@ -5645,7 +5646,12 @@
                 "viewPresets": "View presets",
                 "infoBox": {
                     "title": "What are presets?",
-                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft - you can then edit and publish it."
+                    "description": "A preset is a saved shift pattern you can reuse. Select a preset below and click Apply to copy its shifts into the dates you choose. Shifts that are already in the draft are not added again. You don't need a preset to keep your work: the draft is saved automatically."
+                },
+                "applyInfoBox": {
+                    "title": "Which period should the preset fill?",
+                    "description": "Choose the dates in your draft that the preset's shifts should be copied into. The shifts are adjusted to the dates you choose. Shifts that are already in the draft on those dates are not added again.",
+                    "example": "Example: choose Monday 14 April as the start date and Sunday 20 April as the end date to fill week 16 with the preset's shift pattern."
                 },
                 "saveInfoBox": {
                     "title": "Save your current draft as a preset",
@@ -5658,7 +5664,7 @@
                 "step1": "Create draft shifts",
                 "step2": "Save preset (optional)",
                 "step3": "Publish to schedule",
-                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a draft you've created before."
+                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a shift pattern in another period. Your draft is saved automatically."
             },
             "backToPublished": "Back to the published schedule",
             "contextBanner": {

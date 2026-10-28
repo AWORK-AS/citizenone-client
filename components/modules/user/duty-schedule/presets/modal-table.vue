@@ -75,7 +75,7 @@
                         @refreshPresets="fetchPresets" />
                     <ModulesUserDutySchedulePresetsModalApply :selectedPreset="state.selectedPreset"
                         :isModalOpen="state.modal.isApplyPresetOpen" @close="state.modal.isApplyPresetOpen = false"
-                        @refreshPresets="fetchPresets" />
+                        @applied="handleApplied" />
 
                     <DialogConfirmation :isModalOpen="state.modal.isDeletePresetOpen"
                         :message="`${$t('dutySchedules.draft.preset.confirmation.deletePresetConfirmation')} ${state.selectedPreset.name}?`"
@@ -103,7 +103,7 @@ const props = defineProps({
 const { t } = useI18n()
 const { successAlert } = useAlert()
 const { formatDateToReadable } = useDatetimeFormatter()
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'applied'])
 
 let currentTablePage = 1
 
@@ -219,5 +219,11 @@ async function deletePreset() {
 function applyPreset(preset: any) {
     state.selectedPreset = preset
     state.modal.isApplyPresetOpen = true
+}
+
+// Close the list too, so the refreshed draft behind it is visible straight away.
+function handleApplied() {
+    emit('applied')
+    closeModal()
 }
 </script>

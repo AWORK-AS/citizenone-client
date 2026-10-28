@@ -5551,6 +5551,7 @@
             "preset": {
                 "applyPreset": "Använd förinställning",
                 "applySuccess": "Förinställning blev använd på vagtplanskladder!",
+                "applySuccessWithSkipped": "{created} pass har lagts till. {skipped} pass fanns redan i utkastet och lades inte till igen.",
                 "confirmation": {
                     "deletePresetConfirmation": "Är du säker på att du vill radera denna förinställning"
                 },
@@ -5590,7 +5591,12 @@
                 "viewPresets": "Se förinställningar",
                 "infoBox": {
                     "title": "Vad är förinställningar?",
-                    "description": "En förinställning är en sparad version av din vagtplanskladde, som du kan genbruge. Välj en förinställning nedenfor och klicka Använd för att ladda den i kladden - du kan derefter redigere och publicera den."
+                    "description": "En förinställning är ett sparat schemamönster som du kan återanvända. Välj en förinställning nedan och klicka på Använd för att kopiera dess pass till de datum du väljer. Pass som redan finns i utkastet läggs inte till igen. Du behöver ingen förinställning för att spara ditt arbete: utkastet sparas automatiskt."
+                },
+                "applyInfoBox": {
+                    "title": "Vilken period ska förinställningen fylla?",
+                    "description": "Välj den period i utkastet som förinställningens pass ska kopieras till. Passen anpassas automatiskt till de datum du väljer. Pass som redan finns i utkastet på de datumen läggs inte till igen.",
+                    "example": "Exempel: Välj måndag 14 april som startdatum och söndag 20 april som slutdatum för att fylla vecka 16 med förinställningens schemamönster."
                 },
                 "saveInfoBox": {
                     "title": "Spara din nuvarande utkast som förinställning",
@@ -5603,7 +5609,7 @@
                 "step1": "Skapa kladdevagter",
                 "step2": "Spara förinställning (valfritt)",
                 "step3": "Publicera till tjänsteschema",
-                "tip": "💡 Tips: Använd 'skabeloner' till fasta vagtrulleringer, och 'förinställningar' till att genbruge en utkast du har gjort före."
+                "tip": "💡 Tips: Använd 'mallar' för fasta schemarotationer och 'förinställningar' för att återanvända ett schemamönster i en annan period. Utkastet sparas automatiskt."
             },
             "backToPublished": "Tillbaka till den udgivede tjänsteschema",
             "contextBanner": {
