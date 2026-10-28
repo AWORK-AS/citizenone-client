@@ -20294,7 +20294,7 @@
         "continueWithGoogle": "Fortsätt med Google",
         "continueWithEmail": "Fortsätt med e-post",
         "emailLabel": "E-postadress",
-        "emailPlaceholder": "du@arbetsplatsen.se",
+        "emailPlaceholder": "du{'@'}arbetsplatsen.se",
         "sendCode": "Skicka kod",
         "back": "Tillbaka",
         "codeSent": "Vi har skickat en kod med 6 siffror till {email}.",
@@ -20322,7 +20322,12 @@
             "title": "Sparat från citizenone.dk",
             "delete": "Ta bort",
             "deleteAria": "Ta bort sparat utkast: {tool}",
-            "tools": {}
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Formulär för tvångsåtgärd",
+                "daily-rhythm": "Dygnsrytmsplan",
+                "socialtilsyn": "Tillsynskontroll"
+            }
         }
     }
 }

@@ -20379,7 +20379,7 @@
         "continueWithGoogle": "Fortsæt med Google",
         "continueWithEmail": "Fortsæt med e-mail",
         "emailLabel": "E-mailadresse",
-        "emailPlaceholder": "dig@arbejdsplads.dk",
+        "emailPlaceholder": "dig{'@'}arbejdsplads.dk",
         "sendCode": "Send kode",
         "back": "Tilbage",
         "codeSent": "Vi har sendt en kode på 6 cifre til {email}.",
@@ -20407,7 +20407,12 @@
             "title": "Gemt fra citizenone.dk",
             "delete": "Slet",
             "deleteAria": "Slet gemt udkast: {tool}",
-            "tools": {}
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Skema til magtanvendelse",
+                "daily-rhythm": "Døgnrytmeplan",
+                "socialtilsyn": "Socialtilsyn-tjek"
+            }
         }
     }
 }

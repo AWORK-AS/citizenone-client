@@ -20379,7 +20379,7 @@
         "continueWithGoogle": "Continue with Google",
         "continueWithEmail": "Continue with Email",
         "emailLabel": "Email address",
-        "emailPlaceholder": "you@workplace.com",
+        "emailPlaceholder": "you{'@'}workplace.com",
         "sendCode": "Send code",
         "back": "Back",
         "codeSent": "We sent a 6-digit code to {email}.",
@@ -20407,7 +20407,12 @@
             "title": "Saved from citizenone.dk",
             "delete": "Delete",
             "deleteAria": "Delete saved draft: {tool}",
-            "tools": {}
+            "tools": {
+                "smart-goal": "SMART goal",
+                "restraint": "Use of force form",
+                "daily-rhythm": "Daily rhythm plan",
+                "socialtilsyn": "Social supervision check"
+            }
         }
     }
 }

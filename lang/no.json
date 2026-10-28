@@ -20294,7 +20294,7 @@
         "continueWithGoogle": "Fortsett med Google",
         "continueWithEmail": "Fortsett med e-post",
         "emailLabel": "E-postadresse",
-        "emailPlaceholder": "deg@arbeidsplassen.no",
+        "emailPlaceholder": "deg{'@'}arbeidsplassen.no",
         "sendCode": "Send kode",
         "back": "Tilbake",
         "codeSent": "Vi har sendt en kode på 6 sifre til {email}.",
@@ -20322,7 +20322,12 @@
             "title": "Lagret fra citizenone.dk",
             "delete": "Slett",
             "deleteAria": "Slett lagret utkast: {tool}",
-            "tools": {}
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Skjema for tvangsbruk",
+                "daily-rhythm": "Døgnrytmeplan",
+                "socialtilsyn": "Tilsynssjekk"
+            }
         }
     }
 }
