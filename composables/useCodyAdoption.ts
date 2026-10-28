@@ -1,7 +1,6 @@
 import { codyAdoptionService, type CodyAdoptionStatus } from '@/components/api/user/CodyAdoptionService'
 import { useUserStore } from '@/store/user'
-
-const DISMISS_DAYS = 14
+import { demandCount, isBannerDismissed, parseDismissRecord, type NudgeEvent, type NudgeSurface } from '@/composables/codyNudge'
 
 /**
  * Everything the "get Cody" prompts share: the status, the two actions, and the
@@ -52,23 +51,42 @@ export function useCodyAdoption() {
         return `cody-adoption-dismissed:${kind}:${userKey.value}`
     }
 
-    function isDismissed(kind: 'banner' | 'trial'): boolean {
+    // The banner and the seats banner remember the demand they were closed at, and come back
+    // when more staff have asked since (codyNudge.isBannerDismissed).
+    function isDismissed(kind: 'banner' | 'trial' | 'seats'): boolean {
         void dismissTick.value
         try {
             const raw = localStorage.getItem(storageKey(kind))
             if (!raw) return false
             if (kind === 'trial') return raw === new Date().toDateString()
-            return Date.now() - Number(raw) < DISMISS_DAYS * 86400000
+            return isBannerDismissed(parseDismissRecord(raw), demandCount(status.value), Date.now())
         } catch (_) {
             return false
         }
     }
 
-    function dismiss(kind: 'banner' | 'trial') {
+    function dismiss(kind: 'banner' | 'trial' | 'seats') {
         try {
-            localStorage.setItem(storageKey(kind), kind === 'trial' ? new Date().toDateString() : String(Date.now()))
+            localStorage.setItem(storageKey(kind), kind === 'trial'
+                ? new Date().toDateString()
+                : JSON.stringify({ at: Date.now(), count: demandCount(status.value) }))
         } catch (_) { /* ignore */ }
         dismissTick.value++
+    }
+
+    // Measuring the nudges. Impressions are sent once per surface per session (the backend
+    // also keeps one per day); a failure is ignored, a metric never blocks the page. A company
+    // that has Cody is not in the buy funnel, so nothing but the seats banner is sent for it.
+    const sentImpressions = useState<string[]>('cody-adoption-impressions', () => [])
+    function recordNudge(event: NudgeEvent, surface: NudgeSurface) {
+        const s = status.value
+        if (!s) return
+        if (surface !== 'seats' && s.company_has_cody) return
+        if (event === 'impression') {
+            if (sentImpressions.value.includes(surface)) return
+            sentImpressions.value = [...sentImpressions.value, surface]
+        }
+        codyAdoptionService.recordEvent(event, surface).catch(() => { /* ignore */ })
     }
 
     const isAdmin = computed(() => !!status.value?.can_manage)
@@ -88,6 +106,6 @@ export function useCodyAdoption() {
         appPath,
         status, isAdmin, trialActive, trialAvailable, hasAccess,
         requestState, promptOpen,
-        load, requestFromAdmin, isDismissed, dismiss,
+        load, requestFromAdmin, isDismissed, dismiss, recordNudge,
     }
 }

@@ -35,6 +35,7 @@ describe('which requests are a user change', () => {
         assert.equal(isUserChange('POST', '/auth/logout'), false)
         assert.equal(isUserChange('PUT', '/public/forms/x/submit'), false)
         assert.equal(isUserChange('POST', '/user/chat-gpt/preview-prompt'), false)
+        assert.equal(isUserChange('POST', '/user/cody/nudge-events'), false)
         assert.equal(isUserChange('PUT', '/user/emails/5/mark-read'), false)
         assert.equal(isUserChange('PUT', '/user/entra/5/mark-as-read'), false)
         assert.equal(isUserChange('PUT', '/patient/notifications/5/read'), false)
