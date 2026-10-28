@@ -91,12 +91,11 @@
 <script setup lang="ts">
 import { inquiryNoteService } from '@/components/api/user/InquiryNoteService'
 import { useAlert } from '@/composables/alert'
-import { useUserStore } from '@/store/user'
+import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 
 const { errorAlert } = useAlert()
 const { t } = useI18n()
-const userStore = useUserStore() as any
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 
 const props = defineProps({
@@ -123,12 +122,9 @@ const state = reactive({
     selected: null as any,
 })
 
-const canManage = computed(() => {
-    const level = userStore.getUser?.roles?.[0]?.level ?? 0
-
-    // Manager and above may correct a note on a case, matching the server.
-    return level >= 60
-})
+const { isAtLeast } = usePermissions()
+// Manager and above may correct a note on a case, matching the server.
+const canManage = computed(() => isAtLeast('Manager'))
 
 onMounted(() => {
     fetchNotes()
