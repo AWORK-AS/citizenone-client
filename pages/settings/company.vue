@@ -863,6 +863,7 @@
                                 @toggleSwitch="state.formCompany.is_ip_restriction_enabled = !state.formCompany.is_ip_restriction_enabled" :label="$t('settings.company.form.enableIpRestriction')" />
                             <p>{{ $t('settings.company.form.enableIpRestriction') }}</p>
                         </div>
+                        <p class="text-xs text-gray-500">{{ $t('settings.company.form.restrictionAdminsExempt') }}</p>
                         <template v-if="state.formCompany.is_ip_restriction_enabled">
                             <div class="space-y-1 max-w-xs">
                                 <FormLabel :label="$t('settings.company.form.ipRestrictionAction')" />
@@ -885,12 +886,18 @@
                                 @toggleSwitch="state.formCompany.is_device_restriction_enabled = !state.formCompany.is_device_restriction_enabled" :label="$t('settings.company.form.enableDeviceRestriction')" />
                             <p>{{ $t('settings.company.form.enableDeviceRestriction') }}</p>
                         </div>
+                        <p class="text-xs text-gray-500">{{ $t('settings.company.form.restrictionAdminsExempt') }}</p>
                         <template v-if="state.formCompany.is_device_restriction_enabled">
                             <div class="space-y-1 max-w-xs">
                                 <FormLabel :label="$t('settings.company.form.deviceRestrictionAction')" />
                                 <FormSelect
                                     :options="[{ value: 'block', label: $t('settings.company.form.actionBlock') }, { value: 'otp', label: $t('settings.company.form.actionOtp') }]"
                                     v-model="state.formCompany.device_restriction_action" />
+                                <p class="text-xs text-gray-500">
+                                    {{ state.formCompany.device_restriction_action === 'otp'
+                                        ? $t('settings.company.form.deviceActionOtpHelp')
+                                        : $t('settings.company.form.deviceActionBlockHelp') }}
+                                </p>
                             </div>
                             <div>
                                 <FormButton type="button" buttonStyle="action" @click="navigateTo('/settings/approved-devices')">
@@ -1386,7 +1393,7 @@ onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnloadHan
 
 onBeforeRouteLeave(() => {
     if (isDirty.value) {
-        return window.confirm('Du har ugemte ændringer. Vil du forlade siden uden at gemme?')
+        return window.confirm(t('alert.unsavedChangesLeave'))
     }
     return true
 })

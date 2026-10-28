@@ -14,6 +14,7 @@
 
             <div class="mt-8">
                 <div class="space-y-5">
+                    <p class="text-sm text-gray-600">{{ $t('approvedDevices.help') }}</p>
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <TableSearch @search="handleSearch" />
@@ -24,18 +25,22 @@
                                 v-if="!(state.isTableLoading || (state.approvedDevices?.data?.length === 0))">
                                 <tr v-for="(item, index) in state.approvedDevices?.data" :key="index">
                                     <td>{{ item.user?.firstname }} {{ item.user?.lastname }}</td>
-                                    <td>{{ item.device_uuid }}</td>
+                                    <td :title="item.user_agent || ''">{{ deviceLabel(item.user_agent) || '—' }}</td>
                                     <td>{{ item.label }}</td>
                                     <td>
-                                        <span :class="item.is_active
-                                            ? 'bg-green-100 text-green-700'
-                                            : 'bg-red-100 text-red-700'"
+                                        <span :class="STATUS_CLASSES[statusOf(item)]"
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium">
-                                            {{ item.is_active ? $t('approvedDevices.active') : $t('approvedDevices.inactive') }}
+                                            {{ $t(`approvedDevices.status.${statusOf(item)}`) }}
                                         </span>
                                     </td>
+                                    <td>{{ item.created_at ? formatDateToReadable(item.created_at) : '' }}</td>
                                     <td>
                                         <div class="flex items-end justify-end gap-2">
+                                            <FormButton v-if="statusOf(item) === 'waiting'" type="button"
+                                                buttonStyle="primary" @click="approveItem(item)">
+                                                <Icon name="ph:check" class="size-4" />
+                                                {{ $t('approvedDevices.table.actions.approve') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="editItem(item)">
                                                 <Icon name="ph:pencil" class="size-4" />
@@ -74,6 +79,8 @@
 <script setup lang="ts">
 import { approvedDeviceService } from '@/components/api/user/ApprovedDeviceService'
 import { useAlert } from '@/composables/alert'
+import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
+import { deviceLabel } from '@/utils/deviceLabel'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
@@ -83,6 +90,15 @@ definePageMeta({ middleware: 'require-admin' })
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const { successAlert } = useAlert()
+const { formatDateToReadable } = useDatetimeFormatter()
+
+type DeviceStatus = 'waiting' | 'approved' | 'off'
+
+const STATUS_CLASSES: Record<DeviceStatus, string> = {
+    waiting: 'bg-amber-100 text-amber-800',
+    approved: 'bg-green-100 text-green-700',
+    off: 'bg-red-100 text-red-700',
+}
 
 const breadcrumbLinks = [
     { name: 'settings.tabs.company', translate: true, href: '/settings/company' },
@@ -92,9 +108,10 @@ const breadcrumbLinks = [
 const state = reactive({
     columnHeaders: [
         { name: 'approvedDevices.table.user', value: 'user', isTranslateName: true },
-        { name: 'approvedDevices.table.deviceUuid', value: 'device_uuid', isTranslateName: true },
+        { name: 'approvedDevices.table.device', value: 'user_agent', isTranslateName: true },
         { name: 'approvedDevices.table.label', value: 'label', isTranslateName: true },
-        { name: 'approvedDevices.table.isActive', value: 'is_active', isTranslateName: true },
+        { name: 'approvedDevices.table.isActive', value: 'status', isTranslateName: true },
+        { name: 'approvedDevices.table.firstSeen', value: 'created_at', isTranslateName: true },
         { name: '', value: 'actions' },
     ],
     dataFilter: {
@@ -138,6 +155,25 @@ function handleSearch(value: any) {
     state.pagination.current_page = 1
     state.dataFilter.search = value?.[0] === '' ? [] : value
     fetchAll()
+}
+
+// Older responses had no status: active is approved, anything else is off.
+function statusOf(item: any): DeviceStatus {
+    if (item?.status === 'waiting' || item?.status === 'approved' || item?.status === 'off') return item.status
+    return item?.is_active ? 'approved' : 'off'
+}
+
+async function approveItem(item: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        await approvedDeviceService.update(item.uuid, { is_active: true })
+        successAlert(`${t('alert.success')}!`, `${t('approvedDevices.alert.approved')}.`)
+        await fetchAll()
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
 }
 
 function editItem(item: any) {

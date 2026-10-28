@@ -981,6 +981,7 @@
         }
     },
     "alert": {
+        "unsavedChangesLeave": "Du har ulagrede endringer. Vil du forlate siden uten å lagre?",
         "accountSuccessfullyCreated": "Din konto er blitt opprettet vellykket",
         "emailVerification": {
             "invalidEmailVerificationToken": "Ugyldig e-post verificerings-token"
@@ -12007,6 +12008,9 @@
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér tilgang",
                 "actionOtp": "Krev OTP-bekreftelse",
+                "restrictionAdminsExempt": "Administratorer blir aldri begrenset, så de kan alltid logge inn og endre disse innstillingene.",
+                "deviceActionBlockHelp": "En ny enhet avvises og venter i listen over godkjente enheter til en administrator godkjenner den.",
+                "deviceActionOtpHelp": "En ny enhet får en kode på e-post. Når den ansatte har skrevet den inn, er enheten godkjent.",
                 "proFeatureHint": "Denne funksjonen er en del av Pro-abonnementet. Oppgrader for å slå den på.",
                 "portalPreviewOpen": "Se hva de ser",
                 "portalPreviewTitle": "Slik ser {audience} det",
@@ -15817,13 +15821,22 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
+        "help": "Enheter legges til her når en ansatt logger inn på dem. Med \"Krev OTP-bekreftelse\" bekrefter den ansatte enheten med en kode som sendes på e-post. Med \"Blokér tilgang\" venter enheten her til en administrator godkjenner den. Administratorer blir aldri begrenset.",
+        "status": {
+            "waiting": "Venter på godkjenning",
+            "approved": "Godkjent",
+            "off": "Slått av"
+        },
         "table": {
             "user": "@.capitalize:terms.citizen{''}",
             "deviceUuid": "Enheds-UUID",
+            "device": "Enhet",
+            "firstSeen": "Først sett",
             "label": "Etikett",
             "isActive": "Status",
             "actions": {
                 "header": "Handlinger",
+                "approve": "Godkjenn",
                 "edit": "Rediger",
                 "delete": "Slett"
             }
@@ -15833,6 +15846,7 @@
         },
         "alert": {
             "added": "Enhed godkjent vellykket",
+            "approved": "Enheten er godkjent",
             "updated": "Godkjent enhed oppdatert vellykket",
             "deleted": "Godkjent enhed fjernet vellykket"
         }
