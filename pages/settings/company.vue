@@ -281,6 +281,14 @@
                                     {{ $t('settings.company.form.chatCprWarning') }}
                                 </p>
                             </div>
+                            <!-- Who the daily birthday notification is about, or off. Every user
+                                 got one for every citizen and colleague with no way to stop it. -->
+                            <div class="space-y-1 md:col-span-2">
+                                <FormLabel for="birthday_notifications" :label="$t('settings.company.form.birthdayNotifications')" />
+                                <FormSelect id="birthday_notifications" :options="birthdayNotificationOptions"
+                                    v-model="state.formCompany.birthday_notifications" />
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.birthdayNotificationsHint') }}.</p>
+                            </div>
                         </div>
                         <div v-if="state.formCompany.relative_chat_enabled"
                             class="mt-3 ml-6 pl-4 border-l-2 border-primary/20 space-y-3">
@@ -1073,6 +1081,11 @@ const visibleSectionCount = computed(() => portalAudiences.value.reduce((total: 
     total + audience.sections.filter((section: any) => isSectionVisible(audience.key, section.key)).length, 0))
 
 const accessCount = computed(() => [state.formCompany.is_2fa_enabled, state.formCompany.change_password_enabled].filter(Boolean).length)
+const birthdayNotificationOptions = computed(() => ['all', 'staff', 'citizens', 'off'].map((value) => ({
+    value,
+    label: t(`settings.company.form.birthdayNotificationOptions.${value}`),
+})))
+
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled, state.formCompany.chat_cpr_warning_enabled].filter(Boolean).length)
 const plansCount = computed(() => [
     state.formCompany.plans_enabled,
@@ -1132,6 +1145,7 @@ const state = reactive({
         relative_chat_contact_persons_enabled: true,
         patient_chat_inbox_enabled: false,
         chat_cpr_warning_enabled: false,
+        birthday_notifications: 'all',
         epikrise_enabled: false,
         missing_note_reminder_enabled: false,
         booking_note_notifications_enabled: false,
@@ -1292,6 +1306,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             relative_chat_contact_persons_enabled: newValue?.company?.relative_chat_contact_persons_enabled ? true : false,
             patient_chat_inbox_enabled: newValue?.company?.patient_chat_inbox_enabled ? true : false,
             chat_cpr_warning_enabled: newValue?.company?.chat_cpr_warning_enabled === true,
+            birthday_notifications: newValue?.company?.birthday_notifications ?? 'all',
             epikrise_enabled: newValue?.company?.epikrise_enabled === true,
             missing_note_reminder_enabled: newValue?.company?.missing_note_reminder_enabled === true,
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
@@ -1571,6 +1586,7 @@ async function submitForm() {
                 relative_chat_contact_persons_enabled: state.formCompany.relative_chat_contact_persons_enabled,
                 patient_chat_inbox_enabled: state.formCompany.patient_chat_inbox_enabled,
                 chat_cpr_warning_enabled: state.formCompany.chat_cpr_warning_enabled,
+                birthday_notifications: state.formCompany.birthday_notifications,
                 epikrise_enabled: state.formCompany.epikrise_enabled,
                 missing_note_reminder_enabled: state.formCompany.missing_note_reminder_enabled,
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,

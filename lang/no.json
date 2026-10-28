@@ -11899,6 +11899,14 @@
                 "patientChatInbox": "Pasienter skriver til hele klinikken (felles innboks)",
                 "patientChatInboxHint": "Pasientene kan ikke velge en bestemt ansatt. Alle aktive ansatte ser meldingen og kan svare",
                 "chatCprWarning": "Advar om CPR-numre i chat",
+                "birthdayNotifications": "Bursdagsvarsler",
+                "birthdayNotificationsHint": "Alle får et varsel hver morgen når en bruker eller kollega har bursdag. Velg hvem det skal gjelde, eller slå det av for hele virksomheten",
+                "birthdayNotificationOptions": {
+                    "all": "Brukere og medarbeidere",
+                    "staff": "Bare medarbeidere",
+                    "citizens": "Bare brukere",
+                    "off": "Av"
+                },
                 "missingNoteReminder": "Påminn om avtaler uten @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Varsle om @:terms.journalNotes{''} opprettet fra en avtale",
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrevd ved Fullført",
