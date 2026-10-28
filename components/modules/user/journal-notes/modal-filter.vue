@@ -7,79 +7,48 @@
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="space-y-3">
                         <fieldset>
-                            <RadioGroup v-model="state.filter.selectedView"
-                                class="mt-6 grid grid-cols-1 gap-y-6 sm:grid-cols-1 sm:gap-x-4">
+                            <legend class="text-sm text-gray-600">{{ $t('citizens.citizenJournals.filter.view') }}</legend>
+                            <RadioGroup v-model="state.filter.selectedView" class="mt-1 grid grid-cols-3 gap-1 rounded-lg bg-slate-100 p-1">
                                 <RadioGroupOption as="template" v-for="viewFilter in state.options.viewFilterLists"
-                                    :key="viewFilter.id" :value="viewFilter" :aria-label="viewFilter.title"
-                                    v-slot="{ active, checked }">
-                                    <div
-                                        :class="[active ? 'border-primary ring-1 ring-primary' : 'border-gray-300', 'relative flex cursor-pointer rounded-full border bg-white p-4 shadow-xs focus:outline-hidden']">
-                                        <span class="flex flex-1">
-                                            <span class="flex flex-col">
-                                                <p class="block text-sm font-medium text-gray-900">
-                                                    <span v-if="viewFilter.title === 'Standard view'">
-                                                        {{ $t('citizens.citizenJournals.filter.standardView') }}
-                                                    </span>
-                                                    <span v-if="viewFilter.title === 'Journal note view'">
-                                                        {{ $t('citizens.citizenJournals.filter.journalNoteView') }}
-                                                    </span>
-                                                    <span v-if="viewFilter.title === 'Risk assessment view'">
-                                                        {{ customPagesStore.getCustomPagesName?.riskAssessment }}
-                                                    </span>
-                                                </p>
-                                            </span>
-                                        </span>
-                                        <Icon name="ph:check-circle"
-                                            :class="[!checked ? 'invisible' : '', 'size-5 text-primary']"
-                                            aria-hidden="true" />
-                                        <span
-                                            :class="[active ? 'border' : 'border-1', checked ? 'border-primary' : 'border-transparent', 'pointer-events-none absolute -inset-px rounded-full']"
-                                            aria-hidden="true" />
-                                    </div>
+                                    :key="viewFilter.id" :value="viewFilter" v-slot="{ checked }">
+                                    <button type="button"
+                                        :class="[checked ? 'bg-white text-primary shadow-xs ring-1 ring-slate-200' : 'text-slate-600 hover:text-slate-900', 'rounded-md px-2 py-1.5 text-xs font-medium transition-colors']">
+                                        {{ viewLabel(viewFilter.title) }}
+                                    </button>
                                 </RadioGroupOption>
                             </RadioGroup>
                         </fieldset>
+                        <!-- One citizen and one department: that is what the overview filters on. -->
                         <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('journalNotes.citizen') }}
-                            </p>
-                            <FormSelectMultiple id="citizen_filter" :options="props.citizenOptions"
-                                :appendToBody="true" v-model="state.filter.citizens" />
+                            <label for="citizen_filter" class="text-sm text-gray-600">{{ $t('journalNotes.citizen') }}</label>
+                            <FormSelect id="citizen_filter" :options="props.citizenOptions" :searchable="true"
+                                :appendToBody="true" v-model="state.filter.citizen" />
+                        </div>
+                        <div v-if="state.options.departments.length > 1" class="space-y-1">
+                            <label for="department_filter" class="text-sm text-gray-600">{{ $t('journalNotes.department') }}</label>
+                            <FormSelect id="department_filter" :options="state.options.departments"
+                                :appendToBody="true" v-model="state.filter.department" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('journalNotes.department') }}
-                            </p>
-                            <FormSelectMultiple id="department_filter" :options="state.options.departments"
-                                :appendToBody="true" v-model="state.filter.departments" />
+                            <label for="assessment_filter" class="text-sm text-gray-600">{{ $t('journalNotes.assessment') }}</label>
+                            <FormSelect id="assessment_filter" :options="assessmentOptions" :searchable="false"
+                                :appendToBody="true" v-model="state.filter.assessment" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('journalNotes.assessment') }}
-                            </p>
-                            <select v-model="state.filter.assessment"
-                                class="block w-full rounded-md border border-gray-300 bg-white py-2 px-3 text-sm shadow-xs focus:border-primary focus:outline-hidden focus:ring-1 focus:ring-primary">
-                                <option value="">-</option>
-                                <option value="no risk">{{ $t('citizens.citizenJournals.form.risk.noRisk') }}</option>
-                                <option value="increased risk">{{ $t('citizens.citizenJournals.form.risk.increasedRisk') }}</option>
-                                <option value="acute increased risk">{{ $t('citizens.citizenJournals.form.risk.acuteIncreasedRisk') }}</option>
-                            </select>
-                        </div>
-                        <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('journalNoteTags.journalNoteTags') }}
-                            </p>
+                            <label for="tags" class="text-sm text-gray-600">{{ $t('journalNoteTags.journalNoteTags') }}</label>
                             <FormSelectMultiple id="tags" :options="state.options.tags" :appendToBody="true" v-model="state.filter.tags" />
                         </div>
                         <div class="space-y-1">
-                            <p class="text-sm text-gray-600">
-                                {{ $t('journalNoteTags.createdBy') }}
-                            </p>
+                            <label for="created_by" class="text-sm text-gray-600">{{ $t('journalNoteTags.createdBy') }}</label>
                             <FormSelectMultiple id="created_by" :options="state.options.users"
                                 :appendToBody="true" v-model="state.filter.created_by" />
                         </div>
                     </div>
-                    <div class="mt-6">
+                    <div class="mt-6 space-y-3">
+                        <button v-if="hasAny" type="button" @click="clearAll"
+                            class="text-sm text-slate-500 hover:text-slate-800">
+                            {{ $t('citizens.citizenJournals.filter.resetFilters') }}
+                        </button>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                             <FormButton type="button" buttonStyle="cancel" @click="closeModal()">
                                 {{ $t('cancel') }}
@@ -102,7 +71,10 @@ import { userService } from '@/components/api/user/UserService'
 import { RadioGroup, RadioGroupOption } from '@headlessui/vue'
 import { useCitizenJournalStore } from '@/store/citizen-journal'
 import { useCustomPagesStore } from '@/store/custom-pages'
+import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+
+const { t } = useI18n()
 
 const customPagesStore = useCustomPagesStore() as any
 const citizenJournalStore = useCitizenJournalStore()
@@ -116,19 +88,28 @@ const props = defineProps({
         type: Array as any,
         default: () => [],
     },
+    // What the page filters on now. Each opening starts from it, so Cancel drops
+    // the edits and a reset on the page clears the form too.
+    applied: {
+        type: Object as any,
+        default: () => ({}),
+    },
 })
 const emit = defineEmits(['close', 'setFilter'])
+
+type JournalNotesFilter = { assessment: string, citizen: string, department: string, tags: string[], created_by: string[] }
+type JournalNotesFilterChip = { key: keyof JournalNotesFilter, value: string, label: string }
+
+function emptyFilter(): JournalNotesFilter {
+    return { assessment: '', citizen: '', department: '', tags: [], created_by: [] }
+}
 
 const state = reactive({
     error: {} as Error,
     filter: {
-        assessment: '',
-        citizens: [] as any,
-        created_by: [] as any,
-        departments: [] as any,
+        ...emptyFilter(),
         selectedView: citizenJournalStore.getFilterView as any,
-        tags: [] as any,
-    },
+    } as any,
     isPageLoading: false,
     options: {
         departments: [] as any,
@@ -142,11 +123,50 @@ const state = reactive({
     }
 })
 
+const assessmentOptions = computed(() => [
+    { value: 'no risk', label: t('citizens.citizenJournals.form.risk.noRisk') },
+    { value: 'increased risk', label: t('citizens.citizenJournals.form.risk.increasedRisk') },
+    { value: 'acute increased risk', label: t('citizens.citizenJournals.form.risk.acuteIncreasedRisk') },
+])
+
+// A company that never named its risk page still gets a label, not an empty option.
+function viewLabel(title: string) {
+    if (title === 'Journal note view') return t('citizens.citizenJournals.filter.journalNoteView')
+    if (title === 'Risk assessment view') return customPagesStore.getCustomPagesName?.riskAssessment || t('citizens.citizenJournals.filter.riskAssessmentView')
+    return t('citizens.citizenJournals.filter.standardView')
+}
+
+const hasAny = computed(() => chipsFor(state.filter).length > 0)
+
 watch(() => props.isModalOpen, (isModalOpen: boolean) => {
     if (isModalOpen) {
-        state.filter.selectedView = state.options.viewFilterLists.find((item: any) => item.title === citizenJournalStore.getFilterView)
+        const applied = props.applied ?? {}
+        state.filter = {
+            ...emptyFilter(),
+            ...applied,
+            tags: [...(applied.tags ?? [])],
+            created_by: [...(applied.created_by ?? [])],
+            selectedView: state.options.viewFilterLists.find((item: any) => item.title === citizenJournalStore.getFilterView)
+                ?? state.options.viewFilterLists[0],
+        }
     }
 })
+
+function clearAll() {
+    state.filter = { ...emptyFilter(), selectedView: state.filter.selectedView }
+}
+
+/** One removable pill per value, labelled the way the form shows it. */
+function chipsFor(filter: any): JournalNotesFilterChip[] {
+    const label = (options: any[], value: string) => options.find((o: any) => o.value === value)?.label ?? value
+    const chips: JournalNotesFilterChip[] = []
+    if (filter.citizen) chips.push({ key: 'citizen', value: filter.citizen, label: label(props.citizenOptions, filter.citizen) })
+    if (filter.department) chips.push({ key: 'department', value: filter.department, label: filter.department })
+    if (filter.assessment) chips.push({ key: 'assessment', value: filter.assessment, label: label(assessmentOptions.value, filter.assessment) })
+    for (const tag of filter.tags ?? []) chips.push({ key: 'tags', value: tag, label: label(state.options.tags, tag) })
+    for (const user of filter.created_by ?? []) chips.push({ key: 'created_by', value: user, label: label(state.options.users, user) })
+    return chips
+}
 
 function closeModal() {
     emit('close')
@@ -204,13 +224,8 @@ async function fetchAllUsersWithoutAllUsersOption() {
 }
 
 function submitForm() {
-    emit('setFilter', state.filter)
+    const { selectedView, ...filter } = state.filter
+    emit('setFilter', { selectedView, filter: { ...emptyFilter(), ...filter, citizen: filter.citizen ?? '', department: filter.department ?? '', assessment: filter.assessment ?? '' }, chips: chipsFor(state.filter) })
     closeModal()
 }
 </script>
-
-<style>
-#journalNotesFilterForm .multiselect-dropdown {
-    max-height: 5rem !important;
-}
-</style>

@@ -9521,6 +9521,7 @@
         "wellbeingRulerDescription": "Når den er slått på, kan det gis en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn i saken. Scoren er valgfri og inngår i trivselsutviklingen og i statusrapportens trivselslinjal."
     },
     "journalNotes": {
+        "removeFilter": "Fjern filter: {name}",
         "title": "Journal notes",
         "citizen": "Citizen",
         "department": "Department",
