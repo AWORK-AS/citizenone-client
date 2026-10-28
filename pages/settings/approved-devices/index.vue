@@ -77,6 +77,9 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+// The login whitelists are for the company's Admins; the API refuses everyone else too.
+definePageMeta({ middleware: 'require-admin' })
+
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 const { successAlert } = useAlert()
