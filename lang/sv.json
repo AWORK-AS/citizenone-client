@@ -19,6 +19,10 @@
                 "desc": "Välj en @:terms.citizen{''}, ge anteckningen en rubrik och skriv vad som hände. Det tar en minut.",
                 "cta": "Skriv anteckning"
             },
+            "app": {
+                "title": "Hämta appen",
+                "desc": "Skriv anteckningar och se din dag i telefonen. Skanna koden med kameran, eller tryck på din butik."
+            },
             "day": {
                 "title": "Här börjar din dag",
                 "desc": "Min dag visar ditt nästa pass, dagens uppgifter och det som behöver uppmärksamhet. Meddelanden från kollegor hittar du under Chat.",
@@ -7800,6 +7804,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} av {total} medarbetare har loggat in",
+            "pendingHint": "{count} har inte skapat lösenord ännu. Skicka inbjudan igen, eller ring dem.",
+            "allIn": "Alla har kommit in.",
+            "show": "Visa vilka",
+            "hide": "Dölj",
+            "resendAll": "Skicka igen till {count}",
+            "resendOne": "Skicka igen",
+            "invitedAt": "inbjuden {date}",
+            "confirm": "Skicka inbjudan igen till {count}? De får ett nytt mejl och den gamla länken slutar fungera."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Anställd arkiverad"
         },
@@ -16919,6 +16934,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "Inga pass, möten eller påminnelser i dag.",
+        "openCalendar": "Öppna kalendern",
         "certificates": {
             "title": "Intyg som saknas eller går ut",
             "missing": "{count} saknas",

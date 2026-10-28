@@ -19,6 +19,10 @@
                 "desc": "Velg en @:terms.citizen{''}, gi notatet en tittel og skriv hva som skjedde. Det tar et minutt.",
                 "cta": "Skriv notat"
             },
+            "app": {
+                "title": "Last ned appen",
+                "desc": "Skriv notater og se dagen din på telefonen. Skann koden med kameraet, eller trykk på butikken din."
+            },
             "day": {
                 "title": "Her starter dagen din",
                 "desc": "Min dag viser neste vakt, dagens oppgaver og det som trenger oppmerksomhet. Meldinger fra kolleger finner du under Chat.",
@@ -7800,6 +7804,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} av {total} ansatte har logget inn",
+            "pendingHint": "{count} har ikke opprettet passord ennå. Send invitasjonen igjen, eller ring dem.",
+            "allIn": "Alle har kommet inn.",
+            "show": "Vis hvem",
+            "hide": "Skjul",
+            "resendAll": "Send igjen til {count}",
+            "resendOne": "Send igjen",
+            "invitedAt": "invitert {date}",
+            "confirm": "Sende invitasjonen igjen til {count}? De får en ny e-post, og den gamle lenken slutter å virke."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Medarbeider arkivert vellykket"
         },
@@ -16919,6 +16934,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "Ingen vakter, avtaler eller påminnelser i dag.",
+        "openCalendar": "Åpne kalenderen",
         "certificates": {
             "title": "Attester som mangler eller utløper",
             "missing": "{count} mangler",

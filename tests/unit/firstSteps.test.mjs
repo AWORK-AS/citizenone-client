@@ -14,8 +14,8 @@ import { welcomeTourMode } from '../../composables/welcomeTour.ts'
 const done = (...keys) => keys.map(key => ({ key, done: true }))
 
 describe('firstSteps', () => {
-    test('staff get their citizens, a first note and where the day is, in that order', () => {
-        assert.deepEqual(firstSteps('staff').map(s => s.key), ['citizens', 'note', 'day'])
+    test('staff get their citizens, a first note, the app and where the day is, in that order', () => {
+        assert.deepEqual(firstSteps('staff').map(s => s.key), ['citizens', 'note', 'app', 'day'])
     })
 
     test('an admin sets up modules, a first citizen, a first note and colleagues', () => {
@@ -71,6 +71,17 @@ test('every step has a title and description, and every step with an action a bu
                 }
             }
         }
+    }
+    assert.deepEqual(missing, [])
+})
+
+test('the invitation status on Staff is translated in all four languages', () => {
+    const root = path.resolve(import.meta.dirname, '../..')
+    const keys = ['signedIn', 'pendingHint', 'allIn', 'show', 'hide', 'resendAll', 'resendOne', 'invitedAt', 'confirm']
+    const missing = []
+    for (const lang of ['dk', 'en', 'no', 'sv']) {
+        const onboarding = JSON.parse(fs.readFileSync(path.join(root, 'lang', `${lang}.json`), 'utf8')).employees?.onboarding
+        for (const key of keys) if (!onboarding?.[key]) missing.push(`${lang}: employees.onboarding.${key}`)
     }
     assert.deepEqual(missing, [])
 })

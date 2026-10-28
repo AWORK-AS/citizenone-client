@@ -20,6 +20,7 @@ const STEPS: Record<FirstStepsRole, FirstStep[]> = {
     staff: [
         { key: 'citizens', doneBy: [] },
         { key: 'note', doneBy: ['journal_note_written'] },
+        { key: 'app', doneBy: [] },
         { key: 'day', doneBy: [] },
     ],
     admin: [

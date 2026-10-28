@@ -5,6 +5,8 @@
         class="rounded-2xl border-1.5 border-primary/20 bg-white p-6">
         <div class="flex items-start justify-between gap-4">
             <div>
+                <!-- On My day the guide is the greeting while it is open: one card, not two. -->
+                <p v-if="greeting" class="mb-3 text-xl font-semibold text-slate-900">{{ greeting }}</p>
                 <p class="text-xs font-semibold uppercase tracking-wide text-primary">
                     {{ $t('firstSteps.label', { current: index + 1, total: steps.length }) }}
                 </p>
@@ -41,6 +43,21 @@
             <li v-if="!citizens.length" class="text-sm text-slate-500">{{ $t('firstSteps.noCitizens') }}</li>
         </ul>
 
+        <!-- Staff: care work is often written on the phone. -->
+        <div v-if="current.key === 'app'" class="mt-4 flex flex-wrap gap-6">
+            <a v-for="store in APP_STORES" :key="store.key" :href="store.url" target="_blank" rel="noopener"
+                class="flex flex-col items-center gap-2 text-sm font-medium text-slate-700 hover:text-primary">
+                <span class="rounded-xl border border-slate-100 bg-slate-50 p-1.5">
+                    <QRCodeVue3 :value="store.url" :width="96" :height="96" :qrOptions="{ errorCorrectionLevel: 'M' }"
+                        :dotsOptions="{ type: 'rounded', color: '#205E77' }"
+                        :cornersSquareOptions="{ type: 'extra-rounded', color: '#205E77' }" />
+                </span>
+                <span class="inline-flex items-center gap-1.5">
+                    <Icon :name="store.icon" class="size-4" aria-hidden="true" />{{ store.label }}
+                </span>
+            </a>
+        </div>
+
         <p v-if="isDone(current)" class="mt-3 inline-flex items-center gap-1.5 text-sm font-medium text-emerald-700">
             <Icon name="ph:check-circle-fill" class="size-4" aria-hidden="true" />
             {{ $t('firstSteps.done') }}
@@ -67,6 +84,7 @@
         </div>
 
         <ModulesUserJournalNotesModalNew :isModalOpen="noteOpen" :citizenOptions="citizens"
+            :initialCitizenUuid="citizens.length === 1 ? citizens[0].value : ''"
             @close="noteOpen = false" @refreshJournal="onNoteSaved" />
     </section>
 </template>
@@ -79,7 +97,14 @@ import { welcomeTourMode } from '@/composables/welcomeTour'
 import { firstSteps, startIndex, stepDone, type FirstStep, type FirstStepsRole } from '@/composables/firstSteps'
 import type { ChecklistStep } from '@/composables/onboardingProgress'
 
-const props = defineProps<{ role: FirstStepsRole }>()
+const props = defineProps<{ role: FirstStepsRole, greeting?: string }>()
+const QRCodeVue3 = defineAsyncComponent(() => import('qrcode-vue3'))
+
+// The same store links as the app modal on Discover.
+const APP_STORES = [
+    { key: 'ios', label: 'App Store', icon: 'ph:apple-logo-fill', url: 'https://apps.apple.com/ph/app/citizenone/id6737061242' },
+    { key: 'android', label: 'Google Play', icon: 'ph:google-play-logo-fill', url: 'https://play.google.com/store/apps/details?id=com.aworkAS.CitizenOne&pcampaignid=web_share' },
+]
 // The admin's "what do you use" modal lives on Discover, which owns its state.
 const emit = defineEmits<{ (e: 'openModules'): void }>()
 

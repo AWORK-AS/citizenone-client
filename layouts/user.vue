@@ -805,6 +805,7 @@
 </template>
 
 <script setup lang="ts">
+import { welcomeTourMode } from '@/composables/welcomeTour'
 import { clearAllDrafts } from '@/composables/journalNoteDraft'
 import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -1183,7 +1184,9 @@ onMounted(() => {
     animateAssets()
     // Show the ⌘K discovery tip once, shortly after the app settles.
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
-        setTimeout(() => { showCmdkTip.value = true }, 3000)
+        // Not on top of the first-steps guide: one thing to read at a time. It
+        // comes on a later page load, once the guide is done.
+        setTimeout(() => { showCmdkTip.value = welcomeTourMode(userStore.getUser) !== 'tour' }, 3000)
     }
     document.addEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
 })

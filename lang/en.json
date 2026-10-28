@@ -19,6 +19,10 @@
                 "desc": "Pick a @:terms.citizen{''}, give the note a title and write what happened. It takes a minute.",
                 "cta": "Write a note"
             },
+            "app": {
+                "title": "Get the app",
+                "desc": "Write notes and see your day on your phone. Scan the code with your camera, or tap your store."
+            },
             "day": {
                 "title": "This is where your day starts",
                 "desc": "My day shows your next shift, today's tasks and what needs attention. Messages from colleagues are under Chat.",
@@ -7800,6 +7804,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} of {total} employees have signed in",
+            "pendingHint": "{count} have not created a password yet. Send the invitation again, or give them a call.",
+            "allIn": "Everyone is in.",
+            "show": "Show who",
+            "hide": "Hide",
+            "resendAll": "Resend to {count}",
+            "resendOne": "Resend",
+            "invitedAt": "invited {date}",
+            "confirm": "Send the invitation again to {count}? They get a new email and the old link stops working."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Employee successfully archived"
         },
@@ -17004,6 +17019,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "No shifts, appointments or reminders today.",
+        "openCalendar": "Open the calendar",
         "certificates": {
             "title": "Certificates missing or expiring",
             "missing": "{count} missing",

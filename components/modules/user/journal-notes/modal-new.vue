@@ -127,6 +127,12 @@ const props = defineProps({
         type: Array as any,
         default: () => [],
     },
+    // Chosen when the modal opens, e.g. the first-steps guide when the user
+    // has one citizen. Empty keeps the old behaviour: pick one.
+    initialCitizenUuid: {
+        type: String,
+        default: '',
+    },
 })
 const emit = defineEmits(['close', 'refreshJournal'])
 let currentTablePage = 1
@@ -191,7 +197,7 @@ const state = reactive({
 
 watch(() => props.isModalOpen, (newValue: any) => {
     if (newValue) {
-        state.selectedCitizenUuids = []
+        state.selectedCitizenUuids = props.initialCitizenUuid ? [props.initialCitizenUuid] : []
         state.citizenError = false
         state.selectedContext = { plan: '', goal: '', subgoal: '' }
         resetForm()
