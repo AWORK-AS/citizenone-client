@@ -12,7 +12,7 @@
 
             <template #header>{{ $t('forms.newForm') }}</template>
 
-            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/forms">
+            <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" :to="returnTo ?? '/forms'">
                 <Icon name="ph:arrow-left" size="20" class="text-black" />
                 <span>{{ $t('back') }}</span>
             </NuxtLink>
@@ -30,8 +30,14 @@ import { formService } from '@/components/api/user/FormService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+import { safeReturnPath } from '@/utils/returnPath'
 
 const runtimeConfig = useRuntimeConfig()
+const route = useRoute()
+
+// Opened from a patient's forms tab: go back there with the new form picked,
+// ready to send, instead of to the form list.
+const returnTo = safeReturnPath(route.query.return_to)
 const { successAlert } = useAlert()
 const { t } = useI18n()
 const breadcrumbLinks = [
@@ -76,7 +82,9 @@ async function saveForm(formDetails: any) {
         const response = await formService.saveForm(params)
         if (response.data) {
             successAlert(`${t('alert.success')}!`, `${t('forms.alert.formSuccessfullyAdded')}.`)
-            navigateTo('/forms')
+            navigateTo(returnTo
+                ? { path: returnTo, query: { send_form: response.data.uuid } }
+                : '/forms')
         }
     } catch (error: any) {
         state.error = error

@@ -15,6 +15,13 @@
                                 class="flex items-center gap-x-1 text-primary text-xs font-medium">
                                 <Icon name="ph:push-pin-fill" class="size-3.5" />
                             </div>
+                            <!-- Lock moved into the actions menu, so its state is shown here instead. -->
+                            <div v-if="journal.is_locked">
+                                <span class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-1 text-xs font-medium text-slate-600">
+                                    <Icon name="ph:lock" class="size-3" aria-hidden="true" />
+                                    {{ $t('citizens.citizenJournals.form.locked') }}
+                                </span>
+                            </div>
                             <div v-if="journal.is_internal">
                                 <span class="inline-flex items-center gap-1 rounded-full bg-surface-100 px-2 py-1 text-xs font-medium text-slate-600">
                                     <Icon name="ph:lock-simple" class="size-3" aria-hidden="true" />
@@ -141,66 +148,52 @@
                     :plansAndGoalsBasePath="plansAndGoalsBasePath" />
             </div>
             <div class="ms-auto">
+                <!-- Nine unlabelled icons of equal weight left people guessing which was
+                     which. Edit and favourite stay in reach; the rest sit in one labelled
+                     menu, and delete is set apart at the bottom. -->
                 <div class="flex items-center gap-x-2">
-                    <Tooltip :text="$t('citizens.citizenJournals.actions.edit')" v-if="journal?.is_editable">
-                        <FormButton :aria-label="$t('citizens.citizenJournals.actions.edit')" buttonStyle="primary"
-                            buttonSize="xs" @click="emit('edit', journal)">
-                            <Icon name="ph:pencil-duotone" class="size-4" />
-                        </FormButton>
-                    </Tooltip>
-                    <Tooltip :text="$t('citizens.citizenJournals.actions.copy')" v-if="journal?.is_copyable">
-                        <FormButton :aria-label="$t('citizens.citizenJournals.actions.copy')" buttonStyle="primary"
-                            buttonSize="xs" @click="emit('copy', journal)">
-                            <Icon name="ph:copy" class="size-4" />
-                        </FormButton>
-                    </Tooltip>
-                    <Tooltip :text="$t('citizens.citizenJournals.actions.move')" v-if="journal?.is_movable">
-                        <FormButton :aria-label="$t('citizens.citizenJournals.actions.move')" buttonStyle="primary"
-                            buttonSize="xs" @click="emit('move', journal)">
-                            <Icon name="ph:arrows-out-cardinal" class="size-4" />
-                        </FormButton>
-                    </Tooltip>
-                    <ModulesUserJournalFavoriteButton :journal="journal" @updated="(j: any) => emit('favorite-updated', j)" />
-                    <Tooltip
-                        :text="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`">
-                        <FormButton
-                            :aria-label="journal?.is_locked ? `Unlock ${term('journal', 'Journal')}` : `Lock ${term('journal', 'Journal')}`"
-                            buttonSize="xs" :class="[
-                                journal?.is_locked && 'border-primary bg-primary text-white',
-                                'w-full md:w-fit']" @click="emit('lock-unlock', journal.uuid)">
-                            <Icon name="ph:lock" class="size-4" v-if="journal.is_locked" />
-                            <Icon name="ph:lock-open" class="size-4" v-else />
-                        </FormButton>
-                    </Tooltip>
-                    <Tooltip
-                        :text="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`">
-                        <FormButton
-                            :aria-label="journal?.is_pinned ? `Unpin ${term('journal', 'Journal')}` : `Pin ${term('journal', 'Journal')}`"
-                            buttonSize="xs" :class="[
-                                journal?.is_pinned && 'border-primary bg-primary text-white',
-                                'w-full md:w-fit']" @click="emit('pin-unpin', journal.uuid)">
-                            <Icon name="ph:push-pin-fill" class="size-4" v-if="journal.is_pinned" />
-                            <Icon name="ph:push-pin" class="size-4" v-else />
-                        </FormButton>
-                    </Tooltip>
-                    <Tooltip :text="`${term('journal', 'Journal')} logs`">
-                        <FormButton :aria-label="`${term('journal', 'Journal')} logs`" buttonStyle="primary"
-                            buttonSize="xs" @click="emit('view-logs', journal)">
-                            <Icon name="ph:clock-clockwise" class="size-4" />
-                        </FormButton>
-                    </Tooltip>
-                    <Tooltip :text="$t('recordHistory.viewHistory')">
-                        <FormButton :aria-label="$t('recordHistory.viewHistory')" buttonStyle="action" buttonSize="xs"
-                            data-testid="journal-history" @click="emit('view-history', journal)">
-                            <Icon name="ph:clock-counter-clockwise" class="size-4" />
-                        </FormButton>
-                    </Tooltip>
-                    <Tooltip :text="$t('citizens.citizenJournals.actions.delete')">
-                        <FormButton :aria-label="$t('citizens.citizenJournals.actions.delete')" buttonStyle="danger"
-                            buttonSize="xs" @click="emit('delete', journal)" v-if="journal?.is_deletable">
-                            <Icon name="ph:trash-duotone" class="size-4" />
-                        </FormButton>
-                    </Tooltip>
+                    <FormButton v-if="journal?.is_editable" buttonStyle="action" buttonSize="xs" class="!px-3"
+                        @click="emit('edit', journal)">
+                        <Icon name="ph:pencil-simple" class="size-4" aria-hidden="true" />
+                        {{ $t('citizens.citizenJournals.actions.edit') }}
+                    </FormButton>
+                    <ModulesUserJournalFavoriteButton :journal="journal"
+                        :buttonClass="journal?.is_favorite ? '' : '!bg-blue-50 !text-blue-700 !border-blue-200 hover:!border-blue-700'"
+                        @updated="(j: any) => emit('favorite-updated', j)" />
+                    <Menu as="div" class="relative inline-block text-left">
+                        <MenuButton as="template">
+                            <FormButton buttonStyle="action" buttonSize="xs"
+                                :aria-label="$t('citizens.citizenJournals.actions.more')">
+                                <Icon name="ph:dots-three-outline-fill" class="size-4" aria-hidden="true" />
+                            </FormButton>
+                        </MenuButton>
+                        <transition enter-active-class="transition duration-100 ease-out"
+                            enter-from-class="transform scale-95 opacity-0" enter-to-class="transform scale-100 opacity-100"
+                            leave-active-class="transition duration-75 ease-in" leave-from-class="transform scale-100 opacity-100"
+                            leave-to-class="transform scale-95 opacity-0">
+                            <MenuItems
+                                class="absolute left-0 z-30 mt-2 w-60 origin-top-left divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black/5 focus:outline-none">
+                                <div class="px-1 py-1">
+                                    <MenuItem v-for="item in menuItems" :key="item.key" v-slot="{ active }">
+                                        <button type="button" @click="item.run()" :data-testid="item.testid"
+                                            :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-2 rounded-md px-2 py-2.5 text-sm']">
+                                            <Icon :name="item.icon" class="size-4 text-gray-500" aria-hidden="true" />
+                                            {{ item.label }}
+                                        </button>
+                                    </MenuItem>
+                                </div>
+                                <div class="px-1 py-1" v-if="journal?.is_deletable">
+                                    <MenuItem v-slot="{ active }">
+                                        <button type="button" @click="emit('delete', journal)"
+                                            :class="[active && 'bg-red-50', 'group flex w-full items-center gap-2 rounded-md px-2 py-2.5 text-sm text-red-600']">
+                                            <Icon name="ph:trash" class="size-4" aria-hidden="true" />
+                                            {{ $t('citizens.citizenJournals.actions.delete') }}
+                                        </button>
+                                    </MenuItem>
+                                </div>
+                            </MenuItems>
+                        </transition>
+                    </Menu>
                 </div>
             </div>
         </div>
@@ -212,13 +205,14 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useTerminology } from '@/composables/useTerminology'
 import { useI18n } from 'vue-i18n'
+import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 
 const { formatDateToReadable, formatDateTimeToReadable } = useDatetimeFormatter()
 const { term } = useTerminology()
 const customPagesStore = useCustomPagesStore() as any
 const language = useI18n()
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
     journal: any,
     filterView?: string,
     plansAndGoalsBasePath?: string,
@@ -237,4 +231,27 @@ const emit = defineEmits<{
     'view-history': [journal: any],
     delete: [journal: any],
 }>()
+
+const menuItems = computed(() => {
+    const journal = props.journal
+    const t = language.t
+    return [
+        journal?.is_copyable && { key: 'copy', icon: 'ph:copy', label: t('citizens.citizenJournals.actions.copy'), run: () => emit('copy', journal) },
+        journal?.is_movable && { key: 'move', icon: 'ph:arrows-out-cardinal', label: t('citizens.citizenJournals.actions.move'), run: () => emit('move', journal) },
+        {
+            key: 'pin',
+            icon: journal?.is_pinned ? 'ph:push-pin-slash' : 'ph:push-pin',
+            label: journal?.is_pinned ? t('citizens.citizenJournals.actions.unpin') : t('citizens.citizenJournals.actions.pin'),
+            run: () => emit('pin-unpin', journal.uuid),
+        },
+        {
+            key: 'lock',
+            icon: journal?.is_locked ? 'ph:lock-open' : 'ph:lock',
+            label: journal?.is_locked ? t('citizens.citizenJournals.actions.unlock') : t('citizens.citizenJournals.actions.lock'),
+            run: () => emit('lock-unlock', journal.uuid),
+        },
+        { key: 'logs', icon: 'ph:list-magnifying-glass', label: t('citizens.citizenJournals.actions.journalLogs'), run: () => emit('view-logs', journal) },
+        { key: 'history', icon: 'ph:clock-counter-clockwise', label: t('recordHistory.viewHistory'), testid: 'journal-history', run: () => emit('view-history', journal) },
+    ].filter(Boolean) as { key: string, icon: string, label: string, testid?: string, run: () => void }[]
+})
 </script>

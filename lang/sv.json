@@ -1240,7 +1240,10 @@
             "alreadyAsked": "Du har redan bett din chef om Cody AI.",
             "noRecipient": "Vi hittade ingen chef att skicka detta till. Kontakta support.",
             "companyHasCody": "Ert företag har Cody AI. Be din administratör om en plats.",
-            "adminTitle": "Prova Cody AI med hela teamet"
+            "adminTitle": "Prova Cody AI med hela teamet",
+            "assignSelf": "Ert företag har Cody AI. Du tilldelar platser under Anställda, även till dig själv.",
+            "goToSeats": "Gå till Anställda",
+            "askAdminAccess": "Be din administratör om tillgång"
         },
         "adoption": {
             "headline": "Ge era medarbetare tid tillbaka med Cody AI",
@@ -1260,7 +1263,18 @@
             "requestFailed": "Det gick inte. Försök igen om en stund.",
             "promptTitle": "Ta in Cody AI i vardagen",
             "goToStore": "Gå till App-butiken",
-            "thenAmount": "Därefter {amount}"
+            "thenAmount": "Därefter {amount}",
+            "demand": "1 av era anställda har bett om Cody AI de senaste 30 dagarna | {count} av era anställda har bett om Cody AI de senaste 30 dagarna",
+            "price": {
+                "month": "Därefter {amount}/mån.",
+                "monthSeats": "Därefter {amount}/mån. för {count} användare | Därefter {amount}/mån. för {count} användare",
+                "year": "Därefter {amount}/år",
+                "yearSeats": "Därefter {amount}/år för {count} användare | Därefter {amount}/år för {count} användare"
+            },
+            "seats": {
+                "title": "1 anställd har bett om tillgång till Cody AI | {count} anställda har bett om tillgång till Cody AI",
+                "assign": "Ge tillgång | Ge dem tillgång"
+            }
         }
     },
     "appTrial": {
@@ -1345,7 +1359,22 @@
             "my_messages": "Räknar olästa meddelanden",
             "create_task": "Skapar en uppgift",
             "draft_journal_note": "Skriver ett journalutkast",
-            "refer_to_milo": "Hänvisar till Milo"
+            "refer_to_milo": "Hänvisar till Milo",
+            "remember_about_me": "Föreslår något att komma ihåg"
+        },
+        "memory": {
+            "ask": "Ska Cody AI komma ihåg: \"{content}\"?",
+            "askLabel": "Cody AI frågar om den får komma ihåg något",
+            "yes": "Ja",
+            "no": "Nej",
+            "saved": "Cody AI minns det nu.",
+            "firstSaved": "Cody AI minns det nu och använder det i nästa svar. Du kan alltid se och radera det.",
+            "alreadyKnown": "Det minns Cody AI redan.",
+            "seeWhat": "Se vad Cody AI minns",
+            "refused": "Cody AI kan inte komma ihåg detta. Det får bara handla om hur du själv arbetar.",
+            "expired": "Frågan har gått ut. Säg det till Cody AI igen om det fortfarande gäller.",
+            "failed": "Det sparades inte. Försök igen.",
+            "storageFull": "Cody AI kan inte komma ihåg nya saker eftersom er lagringsplats är full."
         },
         "toolTrace": {
             "title": "Vad Cody AI läste",
@@ -2108,6 +2137,11 @@
             "protocol": "Protokoll"
         },
         "birthdayToday": "Födelsedag idag",
+        "showDetails": "Visa detaljer",
+        "hideDetails": "Dölj detaljer",
+        "reportMenu": "Rapportera",
+        "showTimeline": "Visa tidslinje",
+        "hideTimeline": "Dölj tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Händelse raderad"
@@ -2138,6 +2172,7 @@
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flytta",
+                "more": "Fler åtgärder",
                 "pin": "Fäst journal",
                 "removeFromFavorite": "Ta bort från favoriter",
                 "share": "Dela",
@@ -2190,12 +2225,16 @@
             "filter": {
                 "date": "Datum",
                 "filterDate": "Filtrera datum",
+                "favorites": "Favoriter",
+                "view": "Vy",
+                "clear": "Rensa",
+                "locked": "Låsta",
                 "journalNoteView": "Journalnotatvisning",
                 "newestFirst": "Nyaste först",
                 "oldestFirst": "Äldsta först",
                 "resetFilters": "Återställ filter",
                 "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Sök i journal",
+                "searchJournal": "Sök i @:terms.journal{''}",
                 "showFavoritesOnly": "Visa endast favoriter",
                 "showLockedOnly": "Visa endast låsta anteckningar",
                 "standardView": "Standardvisning"
@@ -2216,6 +2255,7 @@
                 "date": "Datum",
                 "draft": "Utkast",
                 "internal": "Intern anteckning",
+                "locked": "Låst",
                 "visit": {
                     "date": "Besöksdatum",
                     "timeStart": "Besök från",
@@ -3264,6 +3304,7 @@
                 "viewSchedule": "Visa plan"
             },
             "download": "Ladda ner",
+            "qrCode": "QR-kod",
             "downloadOverview": "Ladda ner översikt",
             "downloadCurrentList": "Ladda ner aktuell läkemedelslista",
             "currentListFileName": "Aktuell läkemedelslista",
@@ -4162,6 +4203,7 @@
                 "care": "Vård & behandling",
                 "documentation": "Dokumentation",
                 "time": "Tid & närvaro",
+                "people": "Personer",
                 "admin": "Administration"
             },
             "surveys": "Enkäter",
@@ -4574,7 +4616,8 @@
                 "name": "Namn",
                 "note": "Anteckning"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny plånbok",
+            "noWallets": "Inga plånböcker än",
             "table": {
                 "actions": {
                     "delete": "Radera",
@@ -4587,7 +4630,7 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge",
+                "wallets": "Plånböcker",
                 "contract": "Avtal"
             },
             "wallets": "Ekonomi"
@@ -10910,6 +10953,7 @@
                 "reports": "Rapportera",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Fler åtgärder",
                 "statuses": "Statusar",
                 "unarchive": "Återställ",
                 "view": "Se"
@@ -12042,6 +12086,22 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Det här minns Cody AI",
+                "description": "Cody AI kan fråga om den får komma ihåg korta saker om hur du arbetar, till exempel att du föredrar korta svar. Det sparas bara om du säger ja. Det handlar bara om dig, aldrig om @:terms.citizens{''}. Bara du kan se det här.",
+                "limit": "Cody AI minns högst {count} saker. De äldsta oanvända glöms först. Resten sparas tills du själv raderar det.",
+                "reset": "Byter du avdelning eller roll börjar Cody AI om från början.",
+                "freshConversations": "När du raderar något börjar öppna samtal med Cody AI om.",
+                "empty": "Cody AI har inte noterat något om dig ännu.",
+                "learnedAt": "Lärt {date}",
+                "forgetOne": "Glöm",
+                "forgetOneLabel": "Glöm: {content}",
+                "forgetAll": "Glöm allt",
+                "forgetAllTitle": "Glöm allt som Cody AI minns?",
+                "forgetAllMessage": "Allt som Cody AI har noterat om dig raderas, och öppna samtal med Cody AI börjar om. Det kan inte ångras.",
+                "loadFailed": "Det som Cody AI minns kunde inte hämtas just nu. Försök igen senare.",
+                "forgetFailed": "Det kunde inte raderas. Försök igen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderprenumeration",
                 "description": "Prenumerera på dina pass i din egen kalenderapp (Google Kalender, Apple Kalender, Outlook). Schemat uppdateras automatiskt.",
@@ -12595,10 +12655,14 @@
         "companyId": "Virksomheds-ID",
         "coupons": "Kuponer",
         "discover": "Kom igång",
+        "pin": "Fäst överst",
+        "unpin": "Lossa",
+        "customise": "Anpassa menyn",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentation",
             "organisation": "Organisation",
+            "pinned": "Fästa",
             "shortcuts": "Genvägar",
             "communication": "Kommunikation"
         },
@@ -12876,7 +12940,30 @@
             "smallSample": "få tal",
             "all": "Alla",
             "empty": "Inga registreringar under perioden.",
-            "footnote": "Kohort: ett företag räknas i den period det registrerade sig. Exempeldata från registreringen räknas inte. Betalar = aktivt Basis- eller Pro-abonnemang i dag. Okänd = skapat före källspårning (2026-09-30) eller av superadmin. Nyare perioder ser sämre ut eftersom företagen haft kortare tid."
+            "footnote": "Kohort: ett företag räknas i den period det registrerade sig. Exempeldata från registreringen räknas inte. Betalar = aktivt Basis- eller Pro-abonnemang i dag. Okänd = skapat före källspårning (2026-09-30) eller av superadmin. Nyare perioder ser sämre ut eftersom företagen haft kortare tid.",
+            "codyNudges": {
+                "title": "Cody AI-påminnelser till administratörer",
+                "subtitle": "Visningar, klick och hur många företag som startade en provperiod eller köpte Cody AI inom {days} dagar efter första visningen. Per vecka och yta.",
+                "week": "Vecka",
+                "surface": "Yta",
+                "footnote": "Visningar räknas en gång per person, yta och dag. Ett företag som redan har Cody AI visas bara under Tilldela platser. Interna företag är borttagna.",
+                "columns": {
+                    "impressions": "Visningar",
+                    "viewers": "Personer",
+                    "clicks": "Klick",
+                    "try_free": "Prova gratis",
+                    "buy": "Köp",
+                    "companies": "Företag",
+                    "trial_started": "Provperiod startad",
+                    "bought": "Köpt"
+                },
+                "surfaces": {
+                    "banner": "Admin-banner",
+                    "prompt": "Cody AI-dialog",
+                    "journal_preview": "Journal-förhandsvisning",
+                    "seats": "Tilldela platser"
+                }
+            }
         },
         "roadmap": {
             "title": "Färdplan",
@@ -13476,7 +13563,8 @@
                     "tasks": "Uppgifter",
                     "company_files": "Företagsfiler",
                     "nursing_areas": "Vårdområden",
-                    "ai_conversations": "AI-samtal"
+                    "ai_conversations": "AI-samtal",
+                    "cody_memories": "Cody AI-minne"
                 }
             },
             "contract": {
@@ -17447,6 +17535,8 @@
         "selectedCount": "{count} medborgare valda",
         "noneSelectedHint": "Inga medborgare valda - hela företaget exporteras",
         "clearSelection": "Rensa urval",
+        "thisCitizen": "Endast denna medborgare (PDF)",
+        "severalCitizens": "Flera medborgare (zip)",
         "download": "Ladda ner",
         "downloading": "Förbereder nedladdning...",
         "table": {

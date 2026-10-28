@@ -9,6 +9,19 @@ import { previewAudience, isCodyShortcut } from '../../composables/codyPreview.t
 import { staffAskState } from '../../composables/managerSuggestion.ts'
 
 describe('previewAudience', () => {
+    test('a company that has Cody is never offered it: admins assign, staff ask for a seat', () => {
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: false, canBuy: true, companyHasCody: true }), 'assign')
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: false, canBuy: false, companyHasCody: true }), 'askSeat')
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: true, canBuy: true, companyHasCody: true }), 'chat')
+    })
+    test('before the status is known nobody is offered a purchase', () => {
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: false, canBuy: true, companyHasCody: null }), 'pending')
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: false, canBuy: false, companyHasCody: null }), 'pending')
+    })
+    test('a company without Cody: unchanged', () => {
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: false, canBuy: true, companyHasCody: false }), 'buyer')
+        assert.equal(previewAudience({ moduleEnabled: true, hasAccess: false, canBuy: false, companyHasCody: false }), 'staff')
+    })
     test('module off: nothing to show', () => {
         assert.equal(previewAudience({ moduleEnabled: false, hasAccess: false, canBuy: true }), 'hidden')
     })
