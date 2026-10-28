@@ -1,95 +1,67 @@
 /**
- * Unit tests for composables/citizenPicker.ts, the debounce/merge logic behind
- * the search-as-you-type citizen pickers.
+ * Unit tests for utils/citizenPicker.ts - the searchable citizen picker in "Ny note".
  *
  *   node --test tests/unit/citizenPicker.test.mjs
  */
 import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
-import {
-    createCitizenSearch,
-    matchesAllWords,
-    nameParam,
-    toCitizenOption,
-    withSelected,
-} from '../../composables/citizenPicker.ts'
+import { initials, matches, pickerSections, rememberRecent } from '../../utils/citizenPicker.ts'
 
-const c = (uuid, firstname, lastname) => ({ uuid, firstname, lastname })
+const o = (value, label, pinned = false) => ({ value, label, pinned })
+const people = [o('a', 'Anna Lindberg (demo)'), o('b', 'Peter Holm', true), o('c', 'Søren Ørsted'), o('d', 'Ida-Marie Kjær')]
 
-function harness(pages, getSelected) {
-    const calls = []
-    const timers = []
-    const out = { options: null, errors: [] }
-    const search = createCitizenSearch({
-        fetchPage: async (p) => {
-            calls.push(p)
-            return typeof pages === 'function' ? pages(p) : pages
-        },
-        onOptions: (o) => { out.options = o },
-        onError: (e) => out.errors.push(e),
-        getSelected,
-        setTimer: (fn, ms) => { timers.push({ fn, ms, live: true }); return timers.length - 1 },
-        clearTimer: (t) => { timers[t].live = false },
-    })
-    const fire = () => timers.filter((t) => t.live).forEach((t) => { t.live = false; t.fn() })
-    return { search, calls, timers, out, fire }
-}
-const tick = () => new Promise((r) => setImmediate(r))
-
-describe('helpers', () => {
-    test('toCitizenOption builds a trimmed label', () => {
-        assert.deepEqual(toCitizenOption(c('1', 'Anna', '')), { value: '1', label: 'Anna' })
-    })
-    test('nameParam sends the first word only', () => {
-        assert.equal(nameParam('  anna  hansen '), 'anna')
-        assert.equal(nameParam(''), '')
-    })
-    test('matchesAllWords narrows multi-word queries', () => {
-        const o = [{ value: '1', label: 'Anna Hansen' }, { value: '2', label: 'Anna Berg' }]
-        assert.deepEqual(matchesAllWords(o, 'anna han').map((x) => x.value), ['1'])
-        assert.equal(matchesAllWords(o, 'anna').length, 2)
-    })
-    test('withSelected keeps a selection that is outside the page', () => {
-        const known = new Map([['9', { value: '9', label: 'Zed' }]])
-        const page = [{ value: '1', label: 'A' }]
-        assert.deepEqual(withSelected(page, '9', known).map((x) => x.value), ['9', '1'])
-        assert.equal(withSelected(page, '1', known), page)
-        assert.equal(withSelected(page, null, known), page)
+describe('initials', () => {
+    test('first and last name, ignoring a bracketed note', () => {
+        assert.equal(initials('Anna Lindberg (demo)'), 'AL')
+        assert.equal(initials('Peter'), 'P')
+        assert.equal(initials('anna maria  lindberg'), 'AL')
+        assert.equal(initials(''), '?')
     })
 })
 
-describe('createCitizenSearch', () => {
-    test('load fetches the first page without a name', async () => {
-        const h = harness([c('1', 'Anna', 'Hansen')])
-        await h.search.load()
-        assert.deepEqual(h.calls, [{ page_length: 50 }])
-        assert.equal(h.out.options.length, 1)
+describe('matches', () => {
+    test('every typed word starts a word of the name, case and accents ignored', () => {
+        assert.equal(matches(people[0], 'an lin'), true)
+        assert.equal(matches(people[0], 'lind'), true)
+        assert.equal(matches(people[0], 'berg'), false)
+        assert.equal(matches(people[2], 'soren'), true)
+        assert.equal(matches(people[3], 'marie'), true)
     })
-    test('typing is debounced into one request', async () => {
-        const h = harness([c('1', 'Anna', 'Hansen')])
-        h.search.search('a'); h.search.search('an'); h.search.search('ann')
-        assert.ok(h.timers.every((t) => t.ms === 300))
-        h.fire(); await tick()
-        assert.deepEqual(h.calls, [{ page_length: 50, name: 'ann' }])
+})
+
+describe('pickerSections', () => {
+    test('no query: pinned, recent, then the rest, each person once', () => {
+        const sections = pickerSections(people, '', ['c', 'b'])
+        assert.deepEqual(sections.map(s => [s.key, s.options.map(x => x.value)]), [
+            ['pinned', ['b']], ['recent', ['c']], ['all', ['a', 'd']],
+        ])
     })
-    test('the selected citizen stays when a search does not return them', async () => {
-        const h = harness((p) => p.name ? [c('2', 'Bo', 'Berg')] : [c('1', 'Anna', 'Hansen')], () => '1')
-        await h.search.load()
-        h.search.search('bo'); h.fire(); await tick()
-        assert.deepEqual(h.out.options.map((o) => o.value), ['1', '2'])
+
+    test('a query gives one list of matches with pinned first', () => {
+        const sections = pickerSections([...people, o('e', 'Anders Petersen', true)], 'a', [])
+        assert.deepEqual(sections.map(s => [s.key, s.options.map(x => x.value)]), [['matches', ['e', 'a']]])
     })
-    test('a stale response does not overwrite a newer one', async () => {
-        let release
-        const gate = new Promise((r) => { release = r })
-        const h = harness(async (p) => { if (p.name === 'a') await gate; return [c(p.name ?? 'x', p.name ?? 'x', '')] })
-        h.search.search('a'); h.fire()
-        h.search.search('b'); h.fire(); await tick()
-        release(); await tick()
-        assert.deepEqual(h.out.options.map((o) => o.value), ['b'])
+
+    test('selected people and empty sections are left out', () => {
+        const sections = pickerSections(people, '', [], ['b'])
+        assert.deepEqual(sections.map(s => s.key), ['all'])
+        assert.deepEqual(pickerSections(people, 'zzz', []), [{ key: 'matches', options: [] }])
     })
-    test('fetch errors go to onError', async () => {
-        const h = harness(() => { throw new Error('boom') })
-        await h.search.load()
-        assert.equal(h.out.errors.length, 1)
-    })
+})
+
+test('rememberRecent keeps the newest first, without duplicates, capped', () => {
+    assert.deepEqual(rememberRecent(['a', 'b'], 'b'), ['b', 'a'])
+    assert.deepEqual(rememberRecent(['a', 'b', 'c', 'd', 'e'], 'f'), ['f', 'a', 'b', 'c', 'd'])
+})
+
+test('the picker is translated in all four languages', async () => {
+    const fs = await import('node:fs'); const path = await import('node:path')
+    const root = path.resolve(import.meta.dirname, '../..')
+    const missing = []
+    for (const lang of ['dk', 'en', 'no', 'sv']) {
+        const p = JSON.parse(fs.readFileSync(path.join(root, 'lang', `${lang}.json`), 'utf8')).citizenPicker
+        for (const key of ['search', 'addMore', 'remove', 'noResults']) if (!p?.[key]) missing.push(`${lang}: ${key}`)
+        for (const key of ['pinned', 'recent', 'all']) if (!p?.sections?.[key]) missing.push(`${lang}: sections.${key}`)
+    }
+    assert.deepEqual(missing, [])
 })

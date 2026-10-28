@@ -1,4 +1,15 @@
 {
+    "citizenPicker": {
+        "search": "Søg efter navn",
+        "addMore": "Tilføj flere",
+        "remove": "Fjern {name}",
+        "noResults": "Ingen med det navn.",
+        "sections": {
+            "pinned": "Fastgjort",
+            "recent": "Senest brugt",
+            "all": "Alle"
+        }
+    },
     "firstSteps": {
         "label": "Kom godt i gang · trin {current} af {total}",
         "skip": "Spring over",

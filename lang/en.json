@@ -1,4 +1,15 @@
 {
+    "citizenPicker": {
+        "search": "Search by name",
+        "addMore": "Add more",
+        "remove": "Remove {name}",
+        "noResults": "No one by that name.",
+        "sections": {
+            "pinned": "Pinned",
+            "recent": "Recently used",
+            "all": "Everyone"
+        }
+    },
     "firstSteps": {
         "label": "Getting started · step {current} of {total}",
         "skip": "Skip",

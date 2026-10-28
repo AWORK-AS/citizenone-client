@@ -711,6 +711,8 @@ async function fetchAllCitizens() {
             state.citizenOptions = response.data.map((citizen: any) => ({
                 value: citizen?.uuid,
                 label: `${citizen?.firstname} ${citizen?.lastname}`,
+                // Read by the citizen picker in "Ny note": pinned citizens on top.
+                pinned: !!citizen?.is_pinned,
             }))
         }
     } catch {

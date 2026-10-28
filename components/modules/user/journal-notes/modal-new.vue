@@ -11,8 +11,9 @@
                             <p class="text-sm text-gray-600">
                                 {{ $t('journalNotes.citizen') }} <span class="text-red-500">*</span>
                             </p>
-                            <FormSelectMultiple id="citizen_select" :options="selectableCitizenOptions"
-                                :appendToBody="true" v-model="state.selectedCitizenUuids" />
+                            <!-- Mounted per opening, so the search field has focus. -->
+                            <FormCitizenPicker v-if="props.isModalOpen" id="citizen_select"
+                                :options="selectableCitizenOptions" v-model="state.selectedCitizenUuids" />
                             <p v-if="state.citizenError" class="text-xs text-red-500 mt-1">
                                 {{ $t('journalNotes.citizenRequired') }}
                             </p>
