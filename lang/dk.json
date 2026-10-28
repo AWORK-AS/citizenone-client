@@ -184,7 +184,13 @@
             "won": "Vundet",
             "lost": "Tabt"
         },
-        "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten.",
+        "viewToggle": "Tavle eller liste",
+        "viewBoard": "Tavle",
+        "viewList": "Liste",
+        "loadMore": "Vis flere ({count} mere)",
+        "stageFilter": "Fase",
+        "allStages": "Alle faser",
+        "stage": "Fase",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
             "myself": "Mig selv",

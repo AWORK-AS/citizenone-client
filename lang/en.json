@@ -184,7 +184,13 @@
             "won": "Won",
             "lost": "Lost"
         },
-        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
+        "viewToggle": "Board or list",
+        "viewBoard": "Board",
+        "viewList": "List",
+        "loadMore": "Show more ({count} more)",
+        "stageFilter": "Stage",
+        "allStages": "All stages",
+        "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
             "myself": "Myself",
