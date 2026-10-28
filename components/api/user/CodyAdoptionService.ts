@@ -21,6 +21,10 @@ export interface CodyAdoptionStatus {
         paid_seats_free?: number | null
     }
     requested_recently: boolean
+    /** Admins only: distinct staff who asked for Cody in the last 30 days. A count, never names. */
+    demand?: { staff_count: number, since: string } | null
+    /** Admins of a company without Cody only, outside a running trial. */
+    price?: { amount_gross: number, currency?: string, per: 'month' | 'year', seats: number } | null
     app_uuid?: string | null
     app_slug?: string | null
 }
@@ -39,6 +43,11 @@ class CodyAdoptionService extends BaseAPIService {
     async requestFromAdmin(): Promise<CodyRequestResult> {
         const response: any = await this.request(`${BASE}/request`, 'POST')
         return response?.data ?? response
+    }
+
+    // An impression or click of a nudge. Codes only; the backend decides what it keeps.
+    async recordEvent(event: string, surface: string): Promise<void> {
+        await this.request(`${BASE}/nudge-events`, 'POST', { event, surface })
     }
 }
 

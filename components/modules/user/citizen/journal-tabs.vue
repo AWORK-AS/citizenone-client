@@ -200,13 +200,13 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     if (can('Contacts')) {
         tabs.push({
             name: 'citizens.tabs.contacts', icon: 'ph:address-book', isTranslateName: true,
-            category: 'admin', primary: false,
+            category: 'people', primary: false,
             href: `/citizens/${citizenUuid}/contacts`,
             routeNames: ['citizens-uuid-contacts'],
         })
         tabs.push({
             name: 'citizenRelations.tab', icon: 'ph:users-three', isTranslateName: true,
-            category: 'admin', primary: false,
+            category: 'people', primary: false,
             href: `/citizens/${citizenUuid}/relations`,
             routeNames: ['citizens-uuid-relations'],
         })
@@ -214,7 +214,7 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     if (can('Employee Group')) {
         tabs.push({
             name: 'citizens.tabs.employeeGroups', icon: 'ph:users-three', isTranslateName: true,
-            category: 'admin', primary: false,
+            category: 'people', primary: false,
             href: `/citizens/${citizenUuid}/employee-groups`,
             routeNames: ['citizens-uuid-employee-groups'],
         })

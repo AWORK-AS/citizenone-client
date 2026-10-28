@@ -17,6 +17,12 @@ class AnalyticsService extends BaseAPIService {
         return await this.request(`/superadmin/analytics/funnel`, 'GET', params)
     }
 
+    // The Cody adoption nudges per ISO week and surface: impressions -> clicks -> trial
+    // started -> bought within 30 days. view_management.
+    async getCodyNudges(params: { from: string, to: string }): Promise<any> {
+        return await this.request(`/superadmin/analytics/cody-nudges`, 'GET', params)
+    }
+
     async getRevenueForecast(years: number): Promise<any> {
         return await this.request(`/superadmin/analytics/revenue-forecast`, 'GET', { years })
     }

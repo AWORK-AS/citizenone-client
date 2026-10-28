@@ -133,8 +133,8 @@
                             <ul role="list" v-show="!sidebarExpanded || groupIsOpen(group)" class="space-y-0.5">
                                 <li v-for="item in group.items" :key="item.name">
                                     <div @click="openNavItem(item)"
-                                        :class="item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive'"
-                                        :data-tour="SIDEBAR_TOUR_KEYS[item.name] ?? null"
+                                        :class="[item.activeRouteNames.includes($route.name) ? 'sidebar-item sidebar-item-active' : 'sidebar-item sidebar-item-inactive', 'group/item']"
+                                        :data-tour="group.key === 'pinned' ? null : (SIDEBAR_TOUR_KEYS[item.name] ?? null)"
                                         :title="!sidebarExpanded ? getNavItemLabel(item) : ''">
                                         <img v-if="item.image" :src="item.image" :alt="item.name"
                                             class="h-5 w-5 shrink-0" />
@@ -147,6 +147,17 @@
                                             class="ml-auto shrink-0">{{ navBadgeCount(item) }}</Badge>
                                         <Icon v-if="item.external && sidebarExpanded" name="ph:arrow-square-out"
                                             class="h-3.5 w-3.5 shrink-0 opacity-60" aria-hidden="true" />
+                                        <!-- Shown on hover; always in the Pinned group, so unpinning is easy to find. -->
+                                        <button v-if="sidebarExpanded && isPinnable(item)" type="button"
+                                            :class="['-my-2 inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-full text-slate-400 hover:bg-white hover:text-primary focus:opacity-100',
+                                                navBadgeCount(item) > 0 || item.external ? '' : 'ml-auto',
+                                                group.key === 'pinned' ? 'opacity-100' : 'opacity-0 group-hover/item:opacity-100']"
+                                            :aria-label="isPinned(item) ? $t('sidebar.unpin') : $t('sidebar.pin')"
+                                            :title="isPinned(item) ? $t('sidebar.unpin') : $t('sidebar.pin')"
+                                            @click.stop="togglePin(item)">
+                                            <Icon :name="isPinned(item) ? 'ph:push-pin-fill' : 'ph:push-pin'" class="h-3.5 w-3.5"
+                                                aria-hidden="true" />
+                                        </button>
                                     </div>
                                 </li>
                             </ul>
@@ -165,6 +176,12 @@
                                 </span>
                             </div>
                             <ModulesUserTimeRegistrationCheckInOut v-if="userStore.getUser?.checkin_enabled" />
+                            <!-- Hiding menu items already existed, three levels deep in the profile settings. -->
+                            <NuxtLink v-if="sidebarExpanded" to="/settings/profile#sidebar-menu"
+                                class="flex items-center gap-x-2 px-3 py-1.5 text-xs text-slate-500 hover:text-primary">
+                                <Icon name="ph:sliders-horizontal" class="h-4 w-4 shrink-0" aria-hidden="true" />
+                                {{ $t('sidebar.customise') }}
+                            </NuxtLink>
                         </li>
                     </ul>
                 </nav>
@@ -631,13 +648,22 @@
                                 :class="isSchedulesPage && 'sticky top-[var(--sticky-header-offset,4rem)] z-40 -mx-4 sm:-mx-6 lg:-mx-6 px-4 sm:px-6 lg:px-6 -mt-6 lg:-mt-8 pt-6 lg:pt-8 pb-3 bg-surface-50 border-b border-surface-200'">
                                 <slot name="breadcrumb"></slot>
                                 <slot name="guided-tour"></slot>
+                                <!-- Without a heading (citizen pages name the citizen in their own
+                                     header) these icons would sit alone on a row of their own. -->
+                                <div v-if="!$slots.header && ($slots['new-feature'] || $slots.settings)"
+                                    class="ms-auto flex items-center gap-x-3">
+                                    <slot name="new-feature"></slot>
+                                    <slot name="settings"></slot>
+                                </div>
                             </div>
-                            <div class="mt-3 flex justify-between items-center order-2">
+                            <div class="mt-3 flex justify-between items-center order-2" v-if="$slots.header">
                                 <h1 class="text-xl lg:text-2xl text-slate-900 font-semibold tracking-tight">
                                     <slot name="header"></slot>
                                 </h1>
-                                <slot name="new-feature"></slot>
-                                <slot name="settings"></slot>
+                                <div class="ms-auto flex items-center gap-x-3">
+                                    <slot name="new-feature"></slot>
+                                    <slot name="settings"></slot>
+                                </div>
                             </div>
                             <div class="mt-2 order-2" v-if="$slots['sub-header']">
                                 <h3 class="text-base text-slate-500">
@@ -799,6 +825,7 @@ import { companyHasModule as hasCompanyModule } from '@/composables/pageAccess'
 import { canUseQuestionnaireInbox } from '@/composables/questionnaireInbox'
 import type { Error } from '@/types'
 import { economyNavVisible, navItemModuleEnabled } from '@/composables/pageAccess'
+import { pinnedNames, withPin } from '@/utils/sidebarPreferences'
 
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
@@ -830,6 +857,8 @@ const navigation = shallowRef<any[]>([])
 // with few modules never sees a heading over nothing. `footer` entries (only
 // onboarding today) sit at the bottom, away from the daily work.
 const NAV_GROUPS = [
+    // Only there once the user pins something; see pinnedNavItems.
+    { key: 'pinned', label: 'sidebar.groups.pinned', icon: 'ph:push-pin' },
     { key: 'daily', label: 'sidebar.groups.daily', icon: 'ph:house' },
     { key: 'documentation', label: 'sidebar.groups.documentation', icon: 'ph:notebook' },
     { key: 'organisation', label: 'sidebar.groups.organisation', icon: 'ph:buildings' },
@@ -848,12 +877,42 @@ const railLinks = computed(() => isDesktopApp
 const activeRailLink = computed(() => railLinks.value.find((item: any) =>
     route.path.startsWith(item.href.split('/').slice(0, 2).join('/'))) || null)
 
+// Rather than move menu items for everyone, each person can pin what they use most.
+// A pinned item is shown again at the top and stays in its own group too, so
+// nothing appears to have gone missing. Kept out of `navigation` so search and the
+// desktop rail do not list it twice.
+const pinnedNavItems = computed(() => pinnedNames(userStore.getUser?.sidebar_preferences)
+    .map((name) => navigation.value.find((item: any) => item.name === name && isPinnable(item)))
+    .filter(Boolean))
+
+function isPinnable(item: any) {
+    return item.name !== 'Overview' && !item.rawLabel && !['searchOnly', 'footer'].includes(item.group)
+}
+
+function isPinned(item: any) {
+    return pinnedNames(userStore.getUser?.sidebar_preferences).includes(item.name)
+}
+
+async function togglePin(item: any) {
+    const previous = userStore.getUser?.sidebar_preferences
+    const preferences = withPin(previous, item.name, !isPinned(item))
+    // Optimistic, like the settings page: the sidebar follows the store at once.
+    userStore.setUser({ ...userStore.getUser, sidebar_preferences: preferences })
+    try {
+        await userService.updateSidebarPreferences(preferences)
+    } catch (error) {
+        userStore.setUser({ ...userStore.getUser, sidebar_preferences: previous })
+    }
+}
+
 const navigationGroups = computed(() =>
     NAV_GROUPS
         .map((group) => ({
             ...group,
-            items: navigation.value.filter((item: any) => (item.group || 'daily') === group.key
-                && !railLinks.value.includes(item)),
+            items: group.key === 'pinned'
+                ? pinnedNavItems.value
+                : navigation.value.filter((item: any) => (item.group || 'daily') === group.key
+                    && !railLinks.value.includes(item)),
         }))
         .filter((group) => group.items.length > 0))
 
@@ -1206,6 +1265,7 @@ const commandPaletteItems = computed(() => {
         group: language.t('commandPalette.navigate'),
         icon: item.icon,
         label: getNavItemLabel(item),
+        onlyWhenSearching: item.group === 'searchOnly',
         run: () => navigateTo(item.href),
     }))
 
@@ -1322,6 +1382,7 @@ function generateSidebarLinks(user: any) {
             'citizens-uuid-tooth-chart',
             'citizens-uuid-price-estimates',
             'citizens-uuid-invoices',
+            'reports-plans-and-goals-export',
         ]
     })
     if (companyHasModule("Calendar")) {
@@ -1471,13 +1532,15 @@ function generateSidebarLinks(user: any) {
     // journal score live inside the citizen screen - so nothing in the industry
     // page set could reach this export. A dental clinic, which the industry
     // defaults switch care plans off for, still met it in the menu.
+    // The export is reached from Download on the citizen's Plans and goals tab,
+    // where people look for it. It stays in the palette for those who search.
     const hasCarePlans = user?.company?.onboarding_preferences?.modules?.carePlans !== false
     if (hasCarePlans && companyHasModule('Plans and goals') && (isAtLeast('Admin') || can('save_and_download_citizen_plan'))) {
         nav.push({
             name: 'Plans And Goals Export',
             href: '/reports/plans-and-goals-export',
             icon: 'ph:download-simple',
-            group: 'documentation',
+            group: 'searchOnly',
             activeRouteNames: ['reports-plans-and-goals-export'],
         })
     }
@@ -1588,7 +1651,7 @@ function generateSidebarLinks(user: any) {
     // company-module/role/permission/industry checks already ran) - record that
     // for the sidebar-customization settings page before applying this user's own
     // show/hide choices.
-    const eligibleForToggle = nav.filter((item) => item.name !== 'Overview' && !item.rawLabel)
+    const eligibleForToggle = nav.filter((item) => item.name !== 'Overview' && !item.rawLabel && item.group !== 'searchOnly')
     sidebarNavStore.setEligibleItems(eligibleForToggle)
 
     const preferences = Array.isArray(user?.sidebar_preferences) ? user.sidebar_preferences : []

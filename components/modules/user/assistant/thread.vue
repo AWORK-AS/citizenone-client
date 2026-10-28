@@ -49,6 +49,69 @@
                             </span>
                         </p>
 
+                        <!-- What Cody AI asks to remember. Never stored on its own: the
+                        sentence is shown as a question, and only "Ja" keeps it. Teal, since
+                        it is the AI speaking about itself; the answer buttons are actions,
+                        so blue. -->
+                        <div v-if="message.memoryNote?.kind === 'proposal'" role="group"
+                            :aria-label="$t('assistants.memory.askLabel')"
+                            class="mt-2 rounded-md bg-ai-bg px-2.5 py-2 text-xs text-ai-ink">
+                            <p class="flex items-start gap-1.5">
+                                <Icon name="ph:brain" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                                <span>{{ $t('assistants.memory.ask', { content: message.memoryNote.content }) }}</span>
+                            </p>
+                            <p v-if="message.memoryNote.failed" class="mt-1 text-amber-800">
+                                {{ $t('assistants.memory.failed') }}
+                            </p>
+                            <div class="mt-1.5 flex items-center gap-2 pl-5">
+                                <button type="button" :disabled="message.memoryNote.busy"
+                                    class="rounded bg-primary px-2.5 py-1 font-medium text-white hover:bg-primary-600 disabled:opacity-50"
+                                    @click="confirmMemory(message)">
+                                    {{ $t('assistants.memory.yes') }}
+                                </button>
+                                <button type="button" :disabled="message.memoryNote.busy"
+                                    class="rounded border border-blue-200 bg-white px-2.5 py-1 font-medium text-blue-700 hover:border-blue-700 disabled:opacity-50"
+                                    @click="declineMemory(message)">
+                                    {{ $t('assistants.memory.no') }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <p v-else-if="message.memoryNote?.kind === 'saved' || message.memoryNote?.kind === 'already_known'"
+                            role="status" class="mt-2 flex items-start gap-1.5 rounded-md bg-ai-bg px-2 py-1.5 text-xs text-ai-ink">
+                            <Icon name="ph:brain" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                            <span>
+                                {{ message.memoryNote.kind === 'already_known'
+                                    ? $t('assistants.memory.alreadyKnown')
+                                    : (message.memoryNote.firstSaved ? $t('assistants.memory.firstSaved') : $t('assistants.memory.saved')) }}
+                                <NuxtLink :to="CODY_MEMORY_PAGE" class="font-medium underline underline-offset-2">
+                                    {{ $t('assistants.memory.seeWhat') }}
+                                </NuxtLink>
+                            </span>
+                        </p>
+
+                        <p v-else-if="message.memoryNote?.kind === 'refused' || message.memoryNote?.kind === 'expired'"
+                            role="status" class="mt-2 text-xs text-gray-600">
+                            {{ message.memoryNote.kind === 'refused' ? $t('assistants.memory.refused') : $t('assistants.memory.expired') }}
+                        </p>
+
+                        <!-- Cannot remember: the organisation's storage is full. The answer
+                        above is complete; only the memory was skipped. Upgrading is an
+                        action, so blue, and only offered to whoever may buy. -->
+                        <div v-else-if="message.memoryNote?.kind === 'storage_full'" role="status"
+                            class="mt-2 flex items-start gap-1.5 rounded-md bg-amber-50 px-2 py-1.5 text-xs text-amber-800">
+                            <Icon name="ph:hard-drives" class="mt-0.5 size-3.5 shrink-0" aria-hidden="true" />
+                            <div class="min-w-0">
+                                <p>{{ $t('assistants.memory.storageFull') }}</p>
+                                <p v-if="message.memoryNote.message" class="mt-0.5">{{ message.memoryNote.message }}</p>
+                                <button v-if="message.memoryNote.upgradeUrl" type="button"
+                                    class="mt-1 font-medium text-blue-700 underline underline-offset-2 hover:text-blue-800"
+                                    @click="navigateTo(message.memoryNote.upgradeUrl)">
+                                    {{ $t('citizens.documents.upgradeStorage') }}
+                                </button>
+                            </div>
+                        </div>
+
                         <!-- The records the answer is about, drawn as the product draws
                         them. Every field was built by the server from a reference - the
                         model supplies neither the values nor the link. -->
@@ -228,6 +291,7 @@ import { useAssistantStore } from '@/store/assistant'
 import { useUserStore } from '@/store/user'
 import { useCodyChat, ANSWER_FEEDBACK_REASONS } from '@/composables/useCodyChat'
 import { starterMode } from '@/composables/codyStarters'
+import { CODY_MEMORY_PAGE } from '@/composables/codyMemory'
 
 /**
  * The conversation itself: what was asked, what Cody answered, what it read to
@@ -248,6 +312,8 @@ const {
     formatMessage,
     copyAnswer,
     rateAnswer,
+    confirmMemory,
+    declineMemory,
     regenerateAnswer,
     useStarter,
     stopGenerating,

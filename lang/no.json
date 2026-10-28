@@ -1240,7 +1240,10 @@
             "alreadyAsked": "Du har allerede bedt lederen din om Cody AI.",
             "noRecipient": "Vi fant ingen leder å sende dette til. Kontakt support.",
             "companyHasCody": "Virksomheten din har Cody AI. Be administratoren din om en plass.",
-            "adminTitle": "Prøv Cody AI med hele teamet"
+            "adminTitle": "Prøv Cody AI med hele teamet",
+            "assignSelf": "Virksomheten din har Cody AI. Du tildeler plasser under Medarbeidere, også til deg selv.",
+            "goToSeats": "Gå til Medarbeidere",
+            "askAdminAccess": "Be administratoren din om tilgang"
         },
         "adoption": {
             "headline": "Gi de ansatte tid tilbake med Cody AI",
@@ -1260,7 +1263,18 @@
             "requestFailed": "Det gikk ikke. Prøv igjen om litt.",
             "promptTitle": "Ta Cody AI med inn i hverdagen",
             "goToStore": "Gå til App-butikken",
-            "thenAmount": "Deretter {amount}"
+            "thenAmount": "Deretter {amount}",
+            "demand": "1 av de ansatte deres har bedt om Cody AI de siste 30 dagene | {count} av de ansatte deres har bedt om Cody AI de siste 30 dagene",
+            "price": {
+                "month": "Deretter {amount}/mnd.",
+                "monthSeats": "Deretter {amount}/mnd. for {count} bruker | Deretter {amount}/mnd. for {count} brukere",
+                "year": "Deretter {amount}/år",
+                "yearSeats": "Deretter {amount}/år for {count} bruker | Deretter {amount}/år for {count} brukere"
+            },
+            "seats": {
+                "title": "1 medarbeider har bedt om tilgang til Cody AI | {count} medarbeidere har bedt om tilgang til Cody AI",
+                "assign": "Gi tilgang | Gi dem tilgang"
+            }
         }
     },
     "appTrial": {
@@ -1345,7 +1359,22 @@
             "my_messages": "Teller uleste meldinger",
             "create_task": "Oppretter en oppgave",
             "draft_journal_note": "Skriver et journalutkast",
-            "refer_to_milo": "Henviser til Milo"
+            "refer_to_milo": "Henviser til Milo",
+            "remember_about_me": "Foreslår noe å huske"
+        },
+        "memory": {
+            "ask": "Skal Cody AI huske: \"{content}\"?",
+            "askLabel": "Cody AI spør om den kan huske noe",
+            "yes": "Ja",
+            "no": "Nei",
+            "saved": "Cody AI husker det nå.",
+            "firstSaved": "Cody AI husker det nå og bruker det i de neste svarene. Du kan alltid se og slette det.",
+            "alreadyKnown": "Det husker Cody AI allerede.",
+            "seeWhat": "Se hva Cody AI husker",
+            "refused": "Cody AI kan ikke huske dette. Det kan bare handle om hvordan du selv jobber.",
+            "expired": "Spørsmålet har utløpt. Si det til Cody AI igjen hvis det fortsatt gjelder.",
+            "failed": "Det ble ikke lagret. Prøv igjen.",
+            "storageFull": "Cody AI kan ikke huske nye ting fordi lagringsplassen deres er full."
         },
         "toolTrace": {
             "title": "Hva Cody AI leste",
@@ -2108,6 +2137,11 @@
             "protocol": "Protokoll"
         },
         "birthdayToday": "Bursdag i dag",
+        "showDetails": "Vis detaljer",
+        "hideDetails": "Skjul detaljer",
+        "reportMenu": "Rapporter",
+        "showTimeline": "Vis tidslinje",
+        "hideTimeline": "Skjul tidslinje",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Arrangement slettet vellykket"
@@ -2138,6 +2172,7 @@
                 "journalLogs": "Journallogs",
                 "lock": "Lås journal",
                 "move": "Flytt",
+                "more": "Flere handlinger",
                 "pin": "Fest journal",
                 "removeFromFavorite": "Fjern fra favoritter",
                 "share": "Del",
@@ -2190,12 +2225,16 @@
             "filter": {
                 "date": "Dato",
                 "filterDate": "Filtrer dato",
+                "favorites": "Favoritter",
+                "view": "Visning",
+                "clear": "Tøm",
+                "locked": "Låste",
                 "journalNoteView": "@.capitalize:terms.journalNote{''}visning",
                 "newestFirst": "Nyeste øverst",
                 "oldestFirst": "Eldste øverst",
                 "resetFilters": "Nullstill filtre",
                 "riskAssessmentView": "Risikovurderingsvisning",
-                "searchJournal": "Søk i journal",
+                "searchJournal": "Søk i @:terms.journal{''}",
                 "showFavoritesOnly": "Vis kun favoritter",
                 "showLockedOnly": "Vis kun låste notater",
                 "standardView": "Standardvisning"
@@ -2216,6 +2255,7 @@
                 "date": "Dato",
                 "draft": "Udkast",
                 "internal": "Internt notat",
+                "locked": "Låst",
                 "visit": {
                     "date": "Besøksdato",
                     "timeStart": "Besøk fra",
@@ -3264,6 +3304,7 @@
                 "viewSchedule": "Se plan"
             },
             "download": "Last ned",
+            "qrCode": "QR-kode",
             "downloadOverview": "Last ned oversigt",
             "downloadCurrentList": "Last ned aktuell medisinliste",
             "currentListFileName": "Aktuell medisinliste",
@@ -4162,6 +4203,7 @@
                 "care": "Behandling & pleie",
                 "documentation": "Dokumentasjon",
                 "time": "Tid & oppmøte",
+                "people": "Personer",
                 "admin": "Administrasjon"
             },
             "surveys": "Spørreskjemaer",
@@ -4574,7 +4616,8 @@
                 "name": "Navn",
                 "note": "Note"
             },
-            "newWallet": "Ny wallet",
+            "newWallet": "Ny lommebok",
+            "noWallets": "Ingen lommebøker ennå",
             "table": {
                 "actions": {
                     "delete": "Slett",
@@ -4587,7 +4630,7 @@
             },
             "tabs": {
                 "expenses": "Utgifter",
-                "wallets": "Punge",
+                "wallets": "Lommebøker",
                 "contract": "Kontrakt"
             },
             "wallets": "Økonomi"
@@ -10911,6 +10954,7 @@
                 "reports": "Rapporter",
                 "seeGoals": "Se mål",
                 "seeSubgoals": "Se delmål",
+                "more": "Flere handlinger",
                 "statuses": "Statuser",
                 "unarchive": "Gjenopprett",
                 "view": "Se"
@@ -12045,6 +12089,22 @@
                 "phone": "Telefon"
             },
             "profile": "Profil",
+            "codyMemory": {
+                "title": "Dette husker Cody AI",
+                "description": "Cody AI kan spørre om den kan huske korte ting om hvordan du jobber, for eksempel at du foretrekker korte svar. Det lagres bare hvis du sier ja. Det handler bare om deg, aldri om @:terms.citizens{''}. Bare du kan se dette.",
+                "limit": "Cody AI husker høyst {count} ting. De eldste ubrukte glemmes først. Resten lagres til du sletter det selv.",
+                "reset": "Bytter du avdeling eller rolle, begynner Cody AI på nytt.",
+                "freshConversations": "Når du sletter noe, starter åpne samtaler med Cody AI på nytt.",
+                "empty": "Cody AI har ikke notert noe om deg ennå.",
+                "learnedAt": "Lært {date}",
+                "forgetOne": "Glem",
+                "forgetOneLabel": "Glem: {content}",
+                "forgetAll": "Glem alt",
+                "forgetAllTitle": "Glemme alt Cody AI husker?",
+                "forgetAllMessage": "Alt Cody AI har notert om deg blir slettet, og åpne samtaler med Cody AI starter på nytt. Det kan ikke angres.",
+                "loadFailed": "Det Cody AI husker kunne ikke hentes akkurat nå. Prøv igjen senere.",
+                "forgetFailed": "Det kunne ikke slettes. Prøv igjen."
+            },
             "shiftSubscription": {
                 "title": "Kalenderabonnement",
                 "description": "Abonner på vaktene dine i din egen kalender-app (Google Kalender, Apple Kalender, Outlook). Vaktplanen oppdateres automatisk.",
@@ -12598,10 +12658,14 @@
         "companyId": "Virksomhets-ID",
         "coupons": "Kuponer",
         "discover": "Kom i gang",
+        "pin": "Fest øverst",
+        "unpin": "Løsne",
+        "customise": "Tilpass menyen",
         "groups": {
             "daily": "Daglig drift",
             "documentation": "Dokumentasjon",
             "organisation": "Organisasjon",
+            "pinned": "Festet",
             "shortcuts": "Snarveier",
             "communication": "Kommunikasjon"
         },
@@ -12879,7 +12943,30 @@
             "smallSample": "få tall",
             "all": "Alle",
             "empty": "Ingen registreringer i perioden.",
-            "footnote": "Kohort: et firma teller i perioden det registrerte seg. Eksempeldata fra registreringen teller ikke. Betaler = aktivt Basis- eller Pro-abonnement i dag. Ukjent = opprettet før kildesporing (30.09.2026) eller av superadmin. Nyere perioder ser dårligere ut fordi firmaene har hatt kortere tid."
+            "footnote": "Kohort: et firma teller i perioden det registrerte seg. Eksempeldata fra registreringen teller ikke. Betaler = aktivt Basis- eller Pro-abonnement i dag. Ukjent = opprettet før kildesporing (30.09.2026) eller av superadmin. Nyere perioder ser dårligere ut fordi firmaene har hatt kortere tid.",
+            "codyNudges": {
+                "title": "Cody AI-påminnelser til administratorer",
+                "subtitle": "Visninger, klikk og hvor mange virksomheter som startet en prøveperiode eller kjøpte Cody AI innen {days} dager etter første visning. Per uke og flate.",
+                "week": "Uke",
+                "surface": "Flate",
+                "footnote": "Visninger telles én gang per person, flate og dag. En virksomhet som allerede har Cody AI, vises bare under Tildel plasser. Interne virksomheter er utelatt.",
+                "columns": {
+                    "impressions": "Visninger",
+                    "viewers": "Personer",
+                    "clicks": "Klikk",
+                    "try_free": "Prøv gratis",
+                    "buy": "Kjøp",
+                    "companies": "Virksomheter",
+                    "trial_started": "Prøve startet",
+                    "bought": "Kjøpt"
+                },
+                "surfaces": {
+                    "banner": "Admin-banner",
+                    "prompt": "Cody AI-dialog",
+                    "journal_preview": "Journal-forhåndsvisning",
+                    "seats": "Tildel plasser"
+                }
+            }
         },
         "roadmap": {
             "title": "Veikart",
@@ -13481,7 +13568,8 @@
                     "tasks": "Oppgaver",
                     "company_files": "Virksomhetsfiler",
                     "nursing_areas": "Pleieområder",
-                    "ai_conversations": "AI-samtaler"
+                    "ai_conversations": "AI-samtaler",
+                    "cody_memories": "Cody AI-minne"
                 }
             },
             "contract": {
@@ -17452,6 +17540,8 @@
         "selectedCount": "{count} innbygger(e) valgt",
         "noneSelectedHint": "Ingen innbyggere valgt - hele selskapet eksporteres",
         "clearSelection": "Fjern utvalg",
+        "thisCitizen": "Kun denne innbyggeren (PDF)",
+        "severalCitizens": "Flere innbyggere (zip)",
         "download": "Last ned",
         "downloading": "Forbereder nedlasting...",
         "table": {

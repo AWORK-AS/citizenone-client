@@ -1240,7 +1240,10 @@
             "alreadyAsked": "You have already asked your manager about Cody AI.",
             "noRecipient": "We could not find a manager to send this to. Contact support.",
             "companyHasCody": "Your company has Cody AI. Ask your administrator for a seat.",
-            "adminTitle": "Try Cody AI with your whole team"
+            "adminTitle": "Try Cody AI with your whole team",
+            "assignSelf": "Your company has Cody AI. You assign seats under Employees, including your own.",
+            "goToSeats": "Go to Employees",
+            "askAdminAccess": "Ask your administrator for access"
         },
         "adoption": {
             "headline": "Give your team time back with Cody AI",
@@ -1260,7 +1263,18 @@
             "requestFailed": "That did not work. Please try again shortly.",
             "promptTitle": "Bring Cody AI into your day",
             "goToStore": "Go to the App Store",
-            "thenAmount": "Then {amount}"
+            "thenAmount": "Then {amount}",
+            "demand": "1 of your employees asked for Cody AI in the last 30 days | {count} of your employees asked for Cody AI in the last 30 days",
+            "price": {
+                "month": "Then {amount}/mo.",
+                "monthSeats": "Then {amount}/mo. for {count} user | Then {amount}/mo. for {count} users",
+                "year": "Then {amount}/yr.",
+                "yearSeats": "Then {amount}/yr. for {count} user | Then {amount}/yr. for {count} users"
+            },
+            "seats": {
+                "title": "1 employee asked for access to Cody AI | {count} employees asked for access to Cody AI",
+                "assign": "Give them access | Give them access"
+            }
         }
     },
     "appTrial": {
@@ -1345,7 +1359,22 @@
             "my_messages": "Counting unread messages",
             "create_task": "Creating a task",
             "draft_journal_note": "Writing a journal draft",
-            "refer_to_milo": "Referring to Milo"
+            "refer_to_milo": "Referring to Milo",
+            "remember_about_me": "Suggesting something to remember"
+        },
+        "memory": {
+            "ask": "Should Cody AI remember: \"{content}\"?",
+            "askLabel": "Cody AI asks whether it may remember something",
+            "yes": "Yes",
+            "no": "No",
+            "saved": "Cody AI remembers this now.",
+            "firstSaved": "Cody AI remembers this now and will use it in its next answers. You can always see and delete it.",
+            "alreadyKnown": "Cody AI already remembers this.",
+            "seeWhat": "See what Cody AI remembers",
+            "refused": "Cody AI cannot remember this. It may only be about how you yourself work.",
+            "expired": "The question has expired. Tell Cody AI again if it still applies.",
+            "failed": "It was not saved. Try again.",
+            "storageFull": "Cody AI cannot remember new things, because your organisation's storage is full."
         },
         "toolTrace": {
             "title": "What Cody AI read",
@@ -2108,6 +2137,11 @@
             "protocol": "Protocol"
         },
         "birthdayToday": "Birthday today",
+        "showDetails": "Show details",
+        "hideDetails": "Hide details",
+        "reportMenu": "Report",
+        "showTimeline": "Show timeline",
+        "hideTimeline": "Hide timeline",
         "calendar": {
             "alert": {
                 "successfullyDeleted": "Event successfully deleted"
@@ -2138,6 +2172,7 @@
                 "journalLogs": "Journal logs",
                 "lock": "Lock journal",
                 "move": "Move",
+                "more": "More actions",
                 "pin": "Pin journal",
                 "removeFromFavorite": "Remove from favorite",
                 "share": "Share",
@@ -2190,12 +2225,16 @@
             "filter": {
                 "date": "Date",
                 "filterDate": "Filter date",
+                "favorites": "Favourites",
+                "view": "View",
+                "clear": "Clear",
+                "locked": "Locked",
                 "journalNoteView": "@.capitalize:terms.journalNote{''} view",
                 "newestFirst": "Newest first",
                 "oldestFirst": "Oldest first",
                 "resetFilters": "Reset filters",
                 "riskAssessmentView": "Risk assessment view",
-                "searchJournal": "Search journal",
+                "searchJournal": "Search @:terms.journal{''}",
                 "showFavoritesOnly": "Show favorites only",
                 "showLockedOnly": "Show locked notes only",
                 "standardView": "Standard view"
@@ -2216,6 +2255,7 @@
                 "date": "Date",
                 "draft": "Draft",
                 "internal": "Internal note",
+                "locked": "Locked",
                 "visit": {
                     "date": "Visit date",
                     "timeStart": "Visit from",
@@ -3264,6 +3304,7 @@
                 "viewSchedule": "View schedule"
             },
             "download": "Download",
+            "qrCode": "QR code",
             "downloadOverview": "Download overview",
             "downloadCurrentList": "Download current medicine list",
             "currentListFileName": "Current medicine list",
@@ -4162,6 +4203,7 @@
                 "care": "Care & treatment",
                 "documentation": "Documentation",
                 "time": "Time & attendance",
+                "people": "People",
                 "admin": "Administration"
             },
             "surveys": "Surveys",
@@ -4575,6 +4617,7 @@
                 "note": "Note"
             },
             "newWallet": "New wallet",
+            "noWallets": "No wallets yet",
             "table": {
                 "actions": {
                     "delete": "Delete",
@@ -10916,6 +10959,7 @@
                 "reports": "Reports",
                 "seeGoals": "See goals",
                 "seeSubgoals": "See subgoals",
+                "more": "More actions",
                 "statuses": "Statuses",
                 "unarchive": "Unarchive",
                 "view": "View"
@@ -12050,6 +12094,22 @@
                 "phone": "Phone"
             },
             "profile": "Profile",
+            "codyMemory": {
+                "title": "What Cody AI remembers",
+                "description": "Cody AI can ask whether it may remember short things about how you work, for example that you prefer short answers. It is only kept if you say yes. It is only about you, never about @:terms.citizens{''}. Only you can see this.",
+                "limit": "Cody AI remembers at most {count} things. The oldest unused ones are forgotten first. The rest is kept until you delete it.",
+                "reset": "If you change department or role, Cody AI starts over.",
+                "freshConversations": "When you delete something, open conversations with Cody AI start fresh.",
+                "empty": "Cody AI has not noted anything about you yet.",
+                "learnedAt": "Learned {date}",
+                "forgetOne": "Forget",
+                "forgetOneLabel": "Forget: {content}",
+                "forgetAll": "Forget everything",
+                "forgetAllTitle": "Forget everything Cody AI remembers?",
+                "forgetAllMessage": "Everything Cody AI has noted about you will be deleted, and open conversations with Cody AI start fresh. This cannot be undone.",
+                "loadFailed": "What Cody AI remembers could not be loaded right now. Try again later.",
+                "forgetFailed": "It could not be deleted. Try again."
+            },
             "shiftSubscription": {
                 "title": "Calendar subscription",
                 "description": "Subscribe to your shifts in your own calendar app (Google Calendar, Apple Calendar, Outlook). Your schedule updates automatically.",
@@ -12629,10 +12689,14 @@
         "companyId": "Company ID",
         "coupons": "Coupons",
         "discover": "Get started",
+        "pin": "Pin to top",
+        "unpin": "Unpin",
+        "customise": "Customise menu",
         "groups": {
             "daily": "Daily work",
             "documentation": "Documentation",
             "organisation": "Organisation",
+            "pinned": "Pinned",
             "shortcuts": "Shortcuts",
             "communication": "Communication"
         },
@@ -12887,7 +12951,30 @@
             "smallSample": "few signups",
             "all": "All",
             "empty": "No signups in the period.",
-            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time."
+            "footnote": "Cohort: a company counts in the period it signed up. Example data from signup does not count. Paying = an active Basis or Pro subscription today. Unknown = created before source tracking (2026-09-30) or by superadmin. Recent periods look worse because their companies have had less time.",
+            "codyNudges": {
+                "title": "Cody AI nudges for administrators",
+                "subtitle": "Impressions, clicks and how many companies started a trial or bought Cody AI within {days} days of first seeing it. Per week and surface.",
+                "week": "Week",
+                "surface": "Surface",
+                "footnote": "Impressions count once per person, surface and day. A company that already has Cody AI only appears under Assign seats. Internal companies are left out.",
+                "columns": {
+                    "impressions": "Impressions",
+                    "viewers": "People",
+                    "clicks": "Clicks",
+                    "try_free": "Try free",
+                    "buy": "Buy",
+                    "companies": "Companies",
+                    "trial_started": "Trial started",
+                    "bought": "Bought"
+                },
+                "surfaces": {
+                    "banner": "Admin banner",
+                    "prompt": "Cody AI dialog",
+                    "journal_preview": "Journal preview",
+                    "seats": "Assign seats"
+                }
+            }
         },
         "roadmap": {
             "title": "Roadmap",
@@ -13489,7 +13576,8 @@
                     "tasks": "Tasks",
                     "company_files": "Company files",
                     "nursing_areas": "Nursing areas",
-                    "ai_conversations": "AI conversations"
+                    "ai_conversations": "AI conversations",
+                    "cody_memories": "Cody AI memory"
                 }
             },
             "contract": {
@@ -17537,6 +17625,8 @@
         "selectedCount": "{count} @:terms.citizen{''}(s) selected",
         "noneSelectedHint": "No @:terms.citizens{''} selected - the whole company will be exported",
         "clearSelection": "Clear selection",
+        "thisCitizen": "This @:terms.citizen{''} only (PDF)",
+        "severalCitizens": "Several @:terms.citizens{''} (zip)",
         "download": "Download",
         "downloading": "Preparing download...",
         "table": {

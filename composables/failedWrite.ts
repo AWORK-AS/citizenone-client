@@ -20,9 +20,11 @@ export function isUnexplainedFailure(status: number | null | undefined): boolean
 
 // Writes that are not a user's change: signing in and out (the login screen has
 // its own errors), public pages, previews, read receipts and the background
-// location log. A failure there is not "your change was not saved".
+// location log, and the Cody nudge metrics. A failure there is not "your change
+// was not saved".
 const NOT_A_CHANGE = [
     /^\/?(auth|public)\//,
+    /nudge-events/,
     /logout/,
     /preview/,
     /mark-?(as-)?read|\/read$/,

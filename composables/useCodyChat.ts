@@ -1,6 +1,9 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
 import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedback'
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
+import { memoryNoteFor, noteAfterConfirm } from '@/composables/codyMemory'
+import { codyMemoryService } from '@/components/api/user/CodyMemoryService'
+import type { CodyMemoryNote } from '@/composables/codyMemory'
 import { aiConversationService } from '@/components/api/user/AiConversationService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { generalSearchService } from '@/components/api/user/GeneralSearchService'
@@ -81,6 +84,12 @@ export interface CodyMessage {
     feedbackReason?: AnswerFeedbackReason | null
     /** Rated in this session: the thanks line shows, and the reasons stay open after a thumbs down. */
     feedbackGiven?: boolean
+    /**
+     * What happened to Cody's memory on this answer, when it is worth saying:
+     * a sentence Cody AI asks to remember ("Ja / Nej"), what came of the
+     * answer, or that it cannot remember because the storage is full.
+     */
+    memoryNote?: CodyMemoryNote | null
 }
 
 export { ANSWER_FEEDBACK_REASONS }
@@ -190,6 +199,8 @@ export function createCodyChat() {
         // The records this answer is about. Per-request like the receipts, and
         // moved onto the message when it lands.
         cards: [] as AnswerCard[],
+        // The storage-full note under an answer is shown once per session.
+        memoryStorageFullShown: false,
         // Kept so an answer can be re-asked without the user retyping the question.
         lastRequest: {
             prompt: '',
@@ -716,6 +727,9 @@ export function createCodyChat() {
     }
 
     function applyAnswer(response: any) {
+        const memoryNote = memoryNoteFor(response?.cody_memory, { storageFullShown: state.memoryStorageFullShown })
+        if (memoryNote?.kind === 'storage_full') state.memoryStorageFullShown = true
+
         state.messages.push({
             type: 'bot',
             text: response?.data?.answer,
@@ -732,6 +746,7 @@ export function createCodyChat() {
             cards: response?.cards?.length
                 ? (response.cards as AnswerCard[]).filter((card) => KNOWN_CARDS.includes(card.type))
                 : [...state.cards],
+            memoryNote,
         })
 
         if (response.conversation_id) {
@@ -743,6 +758,35 @@ export function createCodyChat() {
         if (response.file_ids) {
             state.aiElements.fileIds.push(...response.file_ids)
         }
+    }
+
+    /**
+     * "Ja" to the memory Cody AI proposed under this answer. Sends only the
+     * token; the note then says what came of it.
+     */
+    async function confirmMemory(message: CodyMessage) {
+        const note = message.memoryNote
+        if (note?.kind !== 'proposal' || note.busy) return
+
+        message.memoryNote = { ...note, busy: true, failed: false }
+        let next
+        try {
+            next = noteAfterConfirm(note, { ok: true, body: await codyMemoryService.confirm(note.token) })
+        } catch (error: any) {
+            next = noteAfterConfirm(note, { ok: false, error })
+        }
+        if (next.kind === 'storage_full') state.memoryStorageFullShown = true
+        message.memoryNote = next
+    }
+
+    /** "Nej": the question goes away and the server forgets the proposal. */
+    function declineMemory(message: CodyMessage) {
+        const note = message.memoryNote
+        if (note?.kind !== 'proposal') return
+
+        message.memoryNote = null
+        // Best effort: an unconfirmed proposal expires on its own anyway.
+        codyMemoryService.decline(note.token).catch(() => {})
     }
 
     // Re-asks the last question on the same conversation. Attachments are not
@@ -953,6 +997,8 @@ export function createCodyChat() {
         formatMessage,
         copyAnswer,
         rateAnswer,
+        confirmMemory,
+        declineMemory,
         useStarter,
         handleEnterKey,
         onFilesSelected,

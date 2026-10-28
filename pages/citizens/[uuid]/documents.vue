@@ -9,19 +9,11 @@
             <template #breadcrumb>
                 <Breadcrumb :links="breadcrumbLinks">
                     <template #custom-link>
-                        <div class="flex items-center">
-                            <Icon name="heroicons:chevron-right" class="size-3 shrink-0 text-gray-400"
-                                aria-hidden="true" />
-                            <button @click="navigateTo('/citizens')"
-                                class="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                                {{ customPagesStore.getCustomPagesName?.citizens }}
-                            </button>
-                        </div>
+                        <ModulesUserCitizenBreadcrumbTrail />
                     </template>
                 </Breadcrumb>
             </template>
 
-            <template #header>{{ $t('citizens.tabs.documents') }}</template>
             <template #new-feature>
                 <Tooltip :text="$t('features.seeNewFeatures')" position="left">
                     <Icon name="ph:question" class="h-6 w-6 cursor-pointer" aria-hidden="true"
@@ -40,16 +32,12 @@
                         {{ $t('citizens.documents.uploadFile') }}
                     </span>
                 </div>
-                <NuxtLink class="flex items-center gap-x-2 mb-3 max-w-fit hover:cursor-pointer" to="/citizens">
-                    <Icon name="ph:arrow-left" size="20" class="text-black" />
-                    <span>{{ $t('back') }}</span>
-                </NuxtLink>
 
                 <ModulesUserCitizenDetailsHeader />
                 <ModulesUserCitizenJournalTabs />
 
                 <div class="flex">
-                    <div class="mt-8 ml-auto flex justify-end items-center gap-x-3">
+                    <div class="ml-auto flex justify-end items-center gap-x-3">
                         <FormButton v-if="showDraftButton" buttonStyle="action"
                             @click="viewDirectory(selectedDocument, true)">
                             <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
@@ -62,31 +50,15 @@
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading"
                             v-if="isAtLeast('Admin') || can('create_citizen_document')">
-                            <FormButton buttonStyle="action" @click="triggerFileInput">
+                            <FormButton buttonStyle="primary" @click="triggerFileInput">
                                 <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
                                 {{ $t('citizens.documents.uploadFile') }}
                             </FormButton>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
                         </LoadingSpinner>
-                        <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureOpen = true">
-                            <Icon name="ph:folder-notch-open" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('folderStructure.folderStructure') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isTemplateLibraryOpen = true"
-                            v-if="isAtLeast('Admin') || can('create_citizen_document')" data-testid="open-template-library">
-                            <Icon name="ph:files" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('templateLibrary.title') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isCreateTemplateOpen = true"
-                            v-if="isAtLeast('Admin') || can('create_citizen_document')">
-                            <Icon name="ph:file" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.documents.createTemplate.createReport') }}
-                        </FormButton>
-                        <FormButton buttonStyle="action" @click="state.modal.isViewShareLinksOpen = true"
-                            v-if="canDownloadDocuments">
-                            <Icon name="ph:paper-plane-tilt" class="h-4 w-4" aria-hidden="true" />
-                            {{ $t('citizens.documents.sendLink.sentLinks') }}
-                        </FormButton>
+                        <!-- Four rarely used tools sat at the same weight as Upload. -->
+                        <ModulesUserCitizenRowActionMenu buttonSize="" :label="$t('more')"
+                            :items="toolbarActions" />
                     </div>
                 </div>
 
@@ -160,76 +132,20 @@
                                         </span>
                                     </td>
                                     <td width="15%">
-                                        <div class="flex items-end justify-end gap-2">
-                                            <Tooltip :text="$t('citizens.documents.table.actions.view')">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.view')" type="button" buttonStyle="primary"
-                                                    @click="viewDirectory(document)" v-if="document?.type === 'folder'">
-                                                    <Icon name="ph:eye" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.download')"
-                                                v-if="document?.file_url && canDownloadDocuments">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.download')" type="button" buttonStyle="primary"
-                                                    @click="downloadFile(document)">
-                                                    <Icon name="ph:download-simple" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="shareLabel(document)"
-                                                v-if="document?.type === 'file' && !is_draft">
-                                                <FormButton :aria-label="shareLabel(document)" type="button" buttonStyle="primary"
-                                                    @click="confirmDocumentShareUnshare(document)">
-                                                    <Icon name="ph:share" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.sendLink')"
-                                                v-if="!is_draft && canDownloadDocuments">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.sendLink')" type="button" buttonStyle="primary"
-                                                    @click="openSendLink(document)">
-                                                    <Icon name="ph:paper-plane-tilt" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.move')"
-                                                v-if="document?.type === 'file' && !is_draft">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.move')" type="button" buttonStyle="primary"
-                                                    @click="moveFileConfirmation(document)">
-                                                    <Icon name="ph:arrows-out" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.edit')"
-                                                v-if="isAtLeast('Admin') || can('update_citizen_document')">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.edit')" type="button" buttonStyle="primary"
-                                                    @click="editDocument(document)">
-                                                    <Icon name="ph:pencil-simple" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.access')"
-                                                v-if="isAtLeast('Admin') && !is_draft">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.access')" type="button" buttonStyle="primary"
-                                                    @click="viewDocumentAccess(document)">
-                                                    <Icon name="ph:lock" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.archive')"
-                                                v-if="!is_draft">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.archive')" type="button" buttonStyle="primary"
-                                                    @click="confirmDocumentArchiving(document)">
-                                                    <Icon name="ph:archive-light" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')"
-                                                v-if="document?.type === 'folder' && (isAtLeast('Admin') || can('delete_citizen_document'))">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.delete')" type="button" buttonStyle="danger"
-                                                    @click="deleteDirectoryConfirmation(document)">
-                                                    <Icon name="ph:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
-                                            <Tooltip :text="$t('citizens.documents.table.actions.delete')"
-                                                v-else-if="isAtLeast('Admin') || can('delete_citizen_document')">
-                                                <FormButton :aria-label="$t('citizens.documents.table.actions.delete')" type="button" buttonStyle="danger"
-                                                    @click="deleteFileConfirmation(document)">
-                                                    <Icon name="ph:trash" class="size-4" />
-                                                </FormButton>
-                                            </Tooltip>
+                                        <!-- Up to ten unlabelled dark icons ran off the edge of the row.
+                                             Opening stays one labelled click; the rest is in the menu. -->
+                                        <div class="flex items-center justify-end gap-2">
+                                            <FormButton v-if="document?.type === 'folder'" type="button" buttonStyle="action"
+                                                buttonSize="xs" class="!px-3" @click="viewDirectory(document)">
+                                                <Icon name="ph:folder-open" class="size-4" aria-hidden="true" />
+                                                {{ $t('citizens.documents.table.actions.view') }}
+                                            </FormButton>
+                                            <FormButton v-else-if="document?.file_url && canDownloadDocuments" type="button"
+                                                buttonStyle="action" buttonSize="xs" class="!px-3" @click="downloadFile(document)">
+                                                <Icon name="ph:download-simple" class="size-4" aria-hidden="true" />
+                                                {{ $t('citizens.documents.table.actions.download') }}
+                                            </FormButton>
+                                            <ModulesUserCitizenRowActionMenu :items="documentActions(document)" />
                                         </div>
                                     </td>
                                 </tr>
@@ -332,6 +248,32 @@ const userStore = useUserStore() as any
 // With the patient portal, sharing is how a document reaches the patient's app
 // (and the patient is told), so the button and the question say so.
 const hasPatientPortal = computed(() => !!userStore.getUser?.has_patient_app)
+
+const toolbarActions = computed(() => {
+    const canCreate = isAtLeast('Admin') || can('create_citizen_document')
+    return [
+        { key: 'structure', icon: 'ph:folder-notch-open', label: t('folderStructure.folderStructure'), run: () => { state.modal.isViewFolderStructureOpen = true } },
+        canCreate && { key: 'templates', icon: 'ph:files', label: t('templateLibrary.title'), run: () => { state.modal.isTemplateLibraryOpen = true } },
+        canCreate && { key: 'report', icon: 'ph:file-plus', label: t('citizens.documents.createTemplate.createReport'), run: () => { state.modal.isCreateTemplateOpen = true } },
+        canDownloadDocuments.value && { key: 'links', icon: 'ph:paper-plane-tilt', label: t('citizens.documents.sendLink.sentLinks'), run: () => { state.modal.isViewShareLinksOpen = true } },
+    ]
+})
+
+function documentActions(document: any) {
+    const canDelete = isAtLeast('Admin') || can('delete_citizen_document')
+    return [
+        document?.type === 'file' && { key: 'share', icon: 'ph:share', label: shareLabel(document), run: () => confirmDocumentShareUnshare(document) },
+        canDownloadDocuments.value && { key: 'send', icon: 'ph:paper-plane-tilt', label: t('citizens.documents.table.actions.sendLink'), run: () => openSendLink(document) },
+        document?.type === 'file' && { key: 'move', icon: 'ph:arrows-out', label: t('citizens.documents.table.actions.move'), run: () => moveFileConfirmation(document) },
+        (isAtLeast('Admin') || can('update_citizen_document')) && { key: 'edit', icon: 'ph:pencil-simple', label: t('citizens.documents.table.actions.edit'), run: () => editDocument(document) },
+        isAtLeast('Admin') && { key: 'access', icon: 'ph:lock', label: t('citizens.documents.table.actions.access'), run: () => viewDocumentAccess(document) },
+        { key: 'archive', icon: 'ph:archive', label: t('citizens.documents.table.actions.archive'), run: () => confirmDocumentArchiving(document) },
+        canDelete && {
+            key: 'delete', icon: 'ph:trash', label: t('citizens.documents.table.actions.delete'), danger: true,
+            run: () => document?.type === 'folder' ? deleteDirectoryConfirmation(document) : deleteFileConfirmation(document),
+        },
+    ]
+}
 
 function shareLabel(document: any) {
     if (hasPatientPortal.value) {

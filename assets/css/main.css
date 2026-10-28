@@ -1051,7 +1051,11 @@ button.outline-none.rounded-full:hover {
 /* Sidebar nav items */
 .sidebar-item { border-radius: 9999px !important; color: #6b7280 !important; }
 .sidebar-item:hover { background-color: #f3f4f6 !important; color: #0f1a2e !important; }
-.sidebar-item-active { background-color: #eff6ff !important; color: #0f4c75 !important; }
+/* The active page and a hovered item both read as a tinted pill, so it was hard to
+   tell which page you were on. The active one also gets a blue edge and heavier
+   text, and keeps its colour on hover. */
+.sidebar-item-active,
+.sidebar-item-active:hover { background-color: #eff6ff !important; color: #0f4c75 !important; font-weight: 600 !important; box-shadow: inset 3px 0 0 #0f4c75 !important; }
 .sidebar-item-inactive { color: #6b7280 !important; background: transparent !important; }
 .sidebar-item-inactive:hover { background-color: #f3f4f6 !important; color: #0f1a2e !important; }
 .sidebar-section-label { color: #9ca3af !important; }

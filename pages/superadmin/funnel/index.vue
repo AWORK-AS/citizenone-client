@@ -193,6 +193,38 @@
                                 </div>
                             </div>
                         </section>
+                        <!-- Cody nudges for admins: impression -> click -> trial started -> bought, per surface and week. -->
+                        <section v-if="state.nudges" class="mt-8" data-testid="funnel-cody-nudges">
+                            <h2 class="text-[17px] font-semibold text-[#1F2533]">{{ $t('superadmin.funnel.codyNudges.title') }}</h2>
+                            <p class="text-sm text-[#5C6478] mt-0.5 max-w-2xl">{{ $t('superadmin.funnel.codyNudges.subtitle', { days: state.nudges.attribution_days }) }}</p>
+                            <div class="mt-4 bg-white border border-[#EAECF0] rounded-xl p-4 overflow-x-auto">
+                                <table class="w-full text-sm">
+                                    <thead class="text-left text-[12px] text-[#5C6478]">
+                                        <tr>
+                                            <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.codyNudges.week') }}</th>
+                                            <th class="py-2 pr-3 font-medium">{{ $t('superadmin.funnel.codyNudges.surface') }}</th>
+                                            <th v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 font-medium text-right">{{ $t(`superadmin.funnel.codyNudges.columns.${col}`) }}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="divide-y divide-[#EAECF0]">
+                                        <tr v-if="!nudgeRows.length"><td :colspan="NUDGE_COLUMNS.length + 2" class="py-4 text-center text-[#8891A4]">{{ $t('superadmin.funnel.loops.empty') }}</td></tr>
+                                        <tr v-for="row in nudgeRows" :key="`${row.week}-${row.surface}`">
+                                            <td class="py-2 pr-3 text-[#1F2533]">{{ row.week }}</td>
+                                            <td class="py-2 pr-3 text-[#1F2533]">{{ $t(`superadmin.funnel.codyNudges.surfaces.${row.surface}`) }}</td>
+                                            <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ row[col] }}</td>
+                                        </tr>
+                                    </tbody>
+                                    <tfoot class="font-semibold">
+                                        <tr v-for="surface in state.nudges.surfaces" :key="surface">
+                                            <td class="py-2 pr-3 text-[#1F2533]">{{ $t('superadmin.funnel.all') }}</td>
+                                            <td class="py-2 pr-3 text-[#1F2533]">{{ $t(`superadmin.funnel.codyNudges.surfaces.${surface}`) }}</td>
+                                            <td v-for="col in NUDGE_COLUMNS" :key="col" class="py-2 px-2 text-right tabular-nums">{{ state.nudges.totals?.[surface]?.[col] ?? 0 }}</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <p class="mt-2 text-[12px] text-[#8891A4] max-w-3xl">{{ $t('superadmin.funnel.codyNudges.footnote') }}</p>
+                        </section>
                     </LoadingSpinner>
                 </template>
             </div>
@@ -209,6 +241,7 @@ import { useI18n } from 'vue-i18n'
 import { analyticsService } from '@/components/api/superadmin/AnalyticsService'
 import { usePermissions } from '@/composables/usePermissions'
 import { FUNNEL_STAGES, activeBuckets, biggestDrop, isSmallSample, referralPaidRate, shareOfSignups, stepRate, suggestionConversion, type FunnelRow } from '@/composables/growthFunnel'
+import { nudgeReportRows } from '@/composables/codyNudge'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -225,6 +258,7 @@ const state = reactive({
     channels: [] as FunnelRow[],
     totals: null as FunnelRow | null,
     loops: null as any,
+    nudges: null as any,
     isLoading: false,
     error: {} as Error,
 })
@@ -241,6 +275,9 @@ const REFERRAL_COLUMNS = [
     { field: 'signed_up', label: 'signedUp' },
     { field: 'paid', label: 'paid' },
 ] as const
+
+const NUDGE_COLUMNS = ['impressions', 'viewers', 'clicks', 'try_free', 'buy', 'companies', 'trial_started', 'bought'] as const
+const nudgeRows = computed(() => nudgeReportRows(state.nudges))
 
 const suggestionRows = computed(() => activeBuckets(state.loops?.suggestions?.buckets, ['sends', 'suggested_apps', 'converted']))
 const referralRows = computed(() => activeBuckets(state.loops?.referrals?.buckets, ['shares', 'signed_up', 'paid']))
@@ -295,6 +332,12 @@ async function fetchFunnel() {
         state.loops = response?.growth_loops ?? null
     } catch (error: any) {
         state.error = error
+    }
+    // Its own request, so an older backend without it leaves the rest of the page alone.
+    try {
+        state.nudges = await analyticsService.getCodyNudges({ from: state.from, to: state.to })
+    } catch (_) {
+        state.nudges = null
     }
     state.isLoading = false
 }
