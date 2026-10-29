@@ -44,7 +44,8 @@
                                     {{ $t('superadmin.dashboard.clients') }}
                                 </p>
                                 <p class="co-stat-value">
-                                    {{ state.totalCompanies }}
+                                    <ModulesSuperadminDashboardMetricValue :value="state.totalCompanies"
+                                        metric-key="total_companies" :ready="state.loaded" />
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.activeCompanies') }}
@@ -66,7 +67,8 @@
                                     {{ $t('superadmin.dashboard.paying') }}
                                 </p>
                                 <p class="co-stat-value text-[#2E9E33]">
-                                    {{ state.payingCompanies }}
+                                    <ModulesSuperadminDashboardMetricValue :value="state.payingCompanies"
+                                        metric-key="paying_companies" :ready="state.loaded" />
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.activeSubscribers') }}
@@ -87,7 +89,8 @@
                                     {{ $t('superadmin.dashboard.users') }}
                                 </p>
                                 <p class="co-stat-value">
-                                    {{ state.totalUsers }}
+                                    <ModulesSuperadminDashboardMetricValue :value="state.totalUsers"
+                                        metric-key="total_users" :ready="state.loaded" />
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.registeredUsers') }}
@@ -109,7 +112,8 @@
                                     {{ $t('superadmin.dashboard.invoices') }}
                                 </p>
                                 <p class="co-stat-value">
-                                    {{ state.totalInvoices }}
+                                    <ModulesSuperadminDashboardMetricValue :value="state.totalInvoices"
+                                        metric-key="total_invoices" :ready="state.loaded" />
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.invoicesCreated') }}
@@ -180,7 +184,8 @@
                             {{ $t('superadmin.dashboard.totalPaidLicenses') }}
                         </p>
                         <p class="text-[22px] font-bold text-[#1F2533] mt-1">
-                            {{ state.totalPaidLicenses }}
+                            <ModulesSuperadminDashboardMetricValue :value="state.totalPaidLicenses"
+                                metric-key="total_paid_licenses" :ready="state.loaded" />
                         </p>
                     </div>
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
@@ -188,7 +193,8 @@
                             {{ $t('superadmin.dashboard.activeLicenses') }}
                         </p>
                         <p class="text-[22px] font-bold text-[#1F2533] mt-1">
-                            {{ state.totalActiveLicenses }}
+                            <ModulesSuperadminDashboardMetricValue :value="state.totalActiveLicenses"
+                                metric-key="total_active_licenses" :ready="state.loaded" />
                         </p>
                     </div>
                     <div class="bg-white border border-[#EAECF0] rounded-xl p-4 shadow-sm">
@@ -196,7 +202,8 @@
                             {{ $t('superadmin.dashboard.unusedLicenses') }}
                         </p>
                         <p class="text-[22px] font-bold text-[#1F2533] mt-1">
-                            {{ state.unusedLicenses }}
+                            <ModulesSuperadminDashboardMetricValue :value="state.unusedLicenses"
+                                metric-key="unused_licenses" :ready="state.loaded" />
                         </p>
                     </div>
                 </div>
@@ -409,6 +416,8 @@ const state = reactive({
     companiesActiveThisWeek: 0,
     quietCompanies: [] as any[],
     isLoading: false,
+    // Sat når nøgletallene er hentet, så standardværdien 0 ikke huskes som "sidst".
+    loaded: false,
     error: {} as any,
 })
 
@@ -478,6 +487,7 @@ async function fetchDashboard() {
             state.companiesActiveToday = response?.data?.companies_active_today ?? 0
             state.companiesActiveThisWeek = response?.data?.companies_active_this_week ?? 0
             state.quietCompanies = response?.data?.quiet_companies ?? []
+            state.loaded = true
         }
     } catch (e: any) { state.error = e }
 }

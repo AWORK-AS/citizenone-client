@@ -15661,6 +15661,7 @@
         },
         "metrics": {
             "contractMrr": "Contract MRR",
+            "sinceLastVisit": "since last visit",
             "contractArr": "Contract ARR {amount}",
             "cashMrr": "Cash MRR",
             "cashArr": "Cash ARR, next 12 months {amount}",
