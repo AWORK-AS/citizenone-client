@@ -2367,7 +2367,10 @@
             "form": {
                 "attachFile": "Legg ved fil",
                 "content": "Innhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopier journalnote til plan, mål, delmål eller enkeltmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopier journalnotat til plan, mål, delmål, enkeltmål eller behandling",
+                "activeTreatments": "Aktive behandlinger",
+                "activeTreatmentsHint": "Velg en behandling for å dokumentere på den. Notatet legges til blant behandlingens statuser.",
+                "treatment": "Behandling",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopier risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nåværende nivå",

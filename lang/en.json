@@ -2367,7 +2367,10 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal or single goal",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal, single goal or treatment",
+                "activeTreatments": "Active treatments",
+                "activeTreatmentsHint": "Pick a treatment to document on it. The note is added to the treatment's statuses.",
+                "treatment": "Treatment",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {
                     "currentLevel": "Current level",
