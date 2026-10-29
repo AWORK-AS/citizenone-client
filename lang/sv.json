@@ -252,7 +252,13 @@
             "won": "Vunnen",
             "lost": "Förlorad"
         },
-        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
+        "viewToggle": "Tavla eller lista",
+        "viewBoard": "Tavla",
+        "viewList": "Lista",
+        "loadMore": "Visa fler ({count} till)",
+        "stageFilter": "Fas",
+        "allStages": "Alla faser",
+        "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
             "myself": "Mig själv",
