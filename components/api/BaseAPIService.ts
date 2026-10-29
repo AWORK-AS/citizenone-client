@@ -714,12 +714,24 @@ class BaseAPIService {
         // page's own data), so an expired session 401s several times at once.
         // Only the first arrival should navigate: by the time the rest run,
         // window.location already points at "/" (with ?redirect= attached) from
-        // that first navigateTo, so once we're already there the rest must be
+        // that first navigation, so once we're already there the rest must be
         // no-ops — re-navigating to a bare "/" would wipe the redirect the
         // first call just set.
         if (window.location.pathname === '/') return
 
-        navigateTo({ path: '/', query: { redirect: window.location.pathname } })
+        // A full page load rather than navigateTo: a session ended for a new
+        // release (task 250) must log in on the new build, and an open tab is
+        // still running the old one until the page is loaded again.
+        BaseAPIService.reloadToLogin(window.location.pathname)
+    }
+
+    // The rest of a burst of parallel 401s arrive before the page has gone.
+    private static reloading = false
+
+    private static reloadToLogin(redirect: string) {
+        if (BaseAPIService.reloading) return
+        BaseAPIService.reloading = true
+        window.location.assign(`/?redirect=${encodeURIComponent(redirect)}`)
     }
 }
 
