@@ -20287,5 +20287,48 @@
         "importFailed": "Ett fel uppstod vid importen.",
         "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
         "deleteFailed": "Ett fel uppstod vid raderingen."
+    },
+    "signup": {
+        "title": "Skapa ditt kostnadsfria konto för att spara ditt arbete",
+        "subtitle": "Ditt arbete från citizenone.dk är sparat och väntar på dig.",
+        "continueWithApple": "Fortsätt med Apple",
+        "continueWithGoogle": "Fortsätt med Google",
+        "continueWithEmail": "Fortsätt med e-post",
+        "emailLabel": "E-postadress",
+        "emailPlaceholder": "du{'@'}arbetsplatsen.se",
+        "sendCode": "Skicka kod",
+        "back": "Tillbaka",
+        "codeSent": "Vi har skickat en kod med 6 siffror till {email}.",
+        "codeLabel": "Kod med 6 siffror",
+        "verify": "Fortsätt",
+        "changeEmail": "Använd en annan e-postadress",
+        "resendCode": "Skicka en ny kod",
+        "haveAccount": "Har du redan ett konto med lösenord?",
+        "signIn": "Logga in",
+        "complete": {
+            "title": "Slutför ditt konto",
+            "heading": "Nästan klart",
+            "signedInAs": "Du registrerar dig som {email}.",
+            "submit": "Skapa konto",
+            "expiredTitle": "Länken för registrering har gått ut",
+            "expiredBody": "Börja om för att skapa ditt konto.",
+            "startAgain": "Börja om"
+        },
+        "pending": {
+            "title": "Vi granskar ditt konto",
+            "body": "Tack. Vi granskar varje nytt konto innan det slås på, och vi skriver till {email} när det är klart.",
+            "draftSaved": "Ditt utkast från citizenone.dk är sparat och väntar på dig när du loggar in."
+        },
+        "drafts": {
+            "title": "Sparat från citizenone.dk",
+            "delete": "Ta bort",
+            "deleteAria": "Ta bort sparat utkast: {tool}",
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Formulär för tvångsåtgärd",
+                "daily-rhythm": "Dygnsrytmsplan",
+                "socialtilsyn": "Tillsynskontroll"
+            }
+        }
     }
 }

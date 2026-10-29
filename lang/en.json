@@ -20372,5 +20372,48 @@
         "importFailed": "An error occurred during the import.",
         "openFileFailed": "An error occurred while opening the file.",
         "deleteFailed": "An error occurred during the deletion."
+    },
+    "signup": {
+        "title": "Create your free account to save your progress",
+        "subtitle": "Your work from citizenone.dk is saved and waits for you.",
+        "continueWithApple": "Continue with Apple",
+        "continueWithGoogle": "Continue with Google",
+        "continueWithEmail": "Continue with Email",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "you{'@'}workplace.com",
+        "sendCode": "Send code",
+        "back": "Back",
+        "codeSent": "We sent a 6-digit code to {email}.",
+        "codeLabel": "6-digit code",
+        "verify": "Continue",
+        "changeEmail": "Use another email",
+        "resendCode": "Send a new code",
+        "haveAccount": "Already have an account with a password?",
+        "signIn": "Sign in",
+        "complete": {
+            "title": "Finish your account",
+            "heading": "Almost done",
+            "signedInAs": "You are signing up as {email}.",
+            "submit": "Create account",
+            "expiredTitle": "This sign-up link has expired",
+            "expiredBody": "Start again to create your account.",
+            "startAgain": "Start again"
+        },
+        "pending": {
+            "title": "We are reviewing your account",
+            "body": "Thank you. We review every new account before it is switched on, and we write to {email} when it is ready.",
+            "draftSaved": "Your draft from citizenone.dk is saved and will be waiting for you when you sign in."
+        },
+        "drafts": {
+            "title": "Saved from citizenone.dk",
+            "delete": "Delete",
+            "deleteAria": "Delete saved draft: {tool}",
+            "tools": {
+                "smart-goal": "SMART goal",
+                "restraint": "Use of force form",
+                "daily-rhythm": "Daily rhythm plan",
+                "socialtilsyn": "Social supervision check"
+            }
+        }
     }
 }
