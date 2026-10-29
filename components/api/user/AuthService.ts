@@ -6,8 +6,9 @@ class AuthService extends BaseAPIService {
     }
     
     // Microsoft single sign-on, through the company's own Entra tenant.
-    async microsoftSso(email: string): Promise<any> {
-        return await this.request(`/auth/sso/microsoft`, 'GET', { email })
+    // client=desktop sends the browser back to the desktop app after Microsoft.
+    async microsoftSso(email: string, client?: 'desktop'): Promise<any> {
+        return await this.request(`/auth/sso/microsoft`, 'GET', client ? { email, client } : { email })
     }
 
     // The one-time code the SSO callback hands back, for a login token.

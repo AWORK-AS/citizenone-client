@@ -33,8 +33,13 @@
 
                 <LoadingSpinner :isActive="state.isLoading">
                     <div class="space-y-6">
+                        <!-- A role layout only hides, so it has nothing to lock -->
+                        <div v-if="isRoleScope" class="card card-body">
+                            <p class="text-sm text-slate-600">{{ $t('dailyOverviewLayouts.roleIntro') }}</p>
+                        </div>
+
                         <!-- Lock -->
-                        <div class="card card-body">
+                        <div v-else class="card card-body">
                             <div class="flex items-start gap-x-3">
                                 <FormSwitch :value="state.isLocked" @toggleSwitch="state.isLocked = !state.isLocked" />
                                 <div>
@@ -54,7 +59,25 @@
                                     class="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
                                     <span class="text-sm text-slate-800">{{ $t(box.label) }}</span>
                                     <ModulesUserDailyOverviewLayoutStatePicker :modelValue="displayState(box.key)"
-                                        :locked="state.isLocked" @update:modelValue="setState(box.key, $event)" />
+                                        :locked="pickerLocked" @update:modelValue="setState(box.key, $event)" />
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Statistics sections, which only a role layout can hide -->
+                        <div v-if="isRoleScope" class="card">
+                            <div class="card-header">
+                                <div>
+                                    <h3 class="text-sm font-semibold text-slate-900">{{ $t('dailyOverviewLayouts.statisticsSections') }}</h3>
+                                    <p class="text-xs text-slate-500">{{ $t('dailyOverviewLayouts.statisticsSectionsHelp') }}</p>
+                                </div>
+                            </div>
+                            <ul class="divide-y divide-surface-100 px-5">
+                                <li v-for="section in statisticsSections" :key="section.key"
+                                    class="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between">
+                                    <span class="text-sm text-slate-800">{{ section.label }}</span>
+                                    <ModulesUserDailyOverviewLayoutStatePicker :modelValue="displayState(section.key)"
+                                        :locked="true" @update:modelValue="setState(section.key, $event)" />
                                 </li>
                             </ul>
                         </div>
@@ -83,7 +106,7 @@
                                     </div>
                                     <div class="flex items-center gap-x-2">
                                         <ModulesUserDailyOverviewLayoutStatePicker :modelValue="displayState(box.key)"
-                                            :locked="state.isLocked" @update:modelValue="setState(box.key, $event)" />
+                                            :locked="pickerLocked" @update:modelValue="setState(box.key, $event)" />
                                         <button type="button" class="rounded p-1.5 text-slate-400 hover:bg-surface-100 hover:text-slate-700"
                                             :aria-label="$t('edit')" @click="openBox(box)">
                                             <Icon name="ph:pencil-simple" class="h-4 w-4" />
@@ -116,7 +139,7 @@
                 :message="$t('dailyOverviewLayouts.deleteBoxConfirmation') + '?'"
                 @close="state.modal.isDeleteBoxOpen = false" @confirm="deleteBox" />
             <DialogConfirmation :isModalOpen="state.modal.isRemoveLayoutOpen"
-                :message="(state.scope ? $t('dailyOverviewLayouts.removeDepartmentLayoutConfirmation') : $t('dailyOverviewLayouts.removeCompanyLayoutConfirmation')) + '?'"
+                :message="removeConfirmation + '?'"
                 @close="state.modal.isRemoveLayoutOpen = false" @confirm="removeLayout" />
         </NuxtLayout>
     </div>
@@ -125,7 +148,9 @@
 <script setup lang="ts">
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { departmentService } from '@/components/api/user/DepartmentService'
-import { DAILY_OVERVIEW_BOXES, useDailyOverviewLayout, type BoxState } from '@/composables/useDailyOverviewLayout'
+import { roleService } from '@/components/api/user/RoleService'
+import { DAILY_OVERVIEW_BOXES, STATISTICS_SECTIONS, useDailyOverviewLayout, type BoxState } from '@/composables/useDailyOverviewLayout'
+import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useAlert } from '@/composables/alert'
@@ -133,6 +158,7 @@ import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore() as any
+const customPagesStore = useCustomPagesStore() as any
 const { isAtLeast, can } = usePermissions()
 const { successAlert } = useAlert()
 const { t } = useI18n()
@@ -142,10 +168,11 @@ const breadcrumbLinks = [
     { name: 'dailyOverviewLayouts.title', translate: true, href: '/settings/daily-overview' },
 ]
 
-// '' is the company default; otherwise a department uuid.
+// '' is the company default, 'role:{id}' a role; otherwise a department uuid.
 const state = reactive({
     scope: '' as string,
     departments: [] as any[],
+    roles: [] as any[],
     layouts: [] as any[],
     layout: null as any,
     customBoxes: [] as any[],
@@ -162,16 +189,49 @@ const state = reactive({
     },
 })
 
+// Admins always see everything, so their roles are not offered.
 const scopeOptions = computed(() => [
     { value: '', label: t('dailyOverviewLayouts.companyDefault') },
     ...state.departments.map((department: any) => ({ value: department.uuid, label: department.name })),
+    ...state.roles
+        .filter((role: any) => (role.level ?? 0) < 80)
+        .map((role: any) => ({ value: `role:${role.id}`, label: t('dailyOverviewLayouts.rolePrefix', { name: role.name }) })),
 ])
+
+const isRoleScope = computed(() => state.scope.startsWith('role:'))
+
+// A role layout only shows or hides, the same two states a locked layout has.
+const pickerLocked = computed(() => state.isLocked || isRoleScope.value)
+
+const statisticsSections = computed(() => STATISTICS_SECTIONS
+    .filter((section) => section.key !== 'showUseOfForceStatistics'
+        || userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false)
+    .map((section) => ({
+        key: section.key,
+        label: section.key === 'showRiskAssessment' && customPagesStore.getCustomPagesName?.riskAssessment
+            ? customPagesStore.getCustomPagesName.riskAssessment
+            : t(section.label),
+    })))
 
 const scopeStatus = computed(() => {
     if (state.layout?.exists) return t('dailyOverviewLayouts.hasOwnLayout')
+    if (isRoleScope.value) return t('dailyOverviewLayouts.roleSeesEverything')
     if (!state.scope) return t('dailyOverviewLayouts.noLayout')
     return t('dailyOverviewLayouts.usesCompanyDefault')
 })
+
+const removeConfirmation = computed(() => {
+    if (isRoleScope.value) return t('dailyOverviewLayouts.removeRoleLayoutConfirmation')
+    return state.scope
+        ? t('dailyOverviewLayouts.removeDepartmentLayoutConfirmation')
+        : t('dailyOverviewLayouts.removeCompanyLayoutConfirmation')
+})
+
+/** The request params naming the scope being edited. */
+function scopeParams(): Record<string, any> {
+    if (isRoleScope.value) return { role_id: Number(state.scope.slice('role:'.length)) }
+    return state.scope ? { department_uuid: state.scope } : {}
+}
 
 // Only Admins, or roles given manage_daily_overview, reach this page; the API
 // refuses everyone else anyway.
@@ -182,7 +242,7 @@ watch(() => userStore.getUser, (user: any) => {
 }, { immediate: true })
 
 onMounted(async () => {
-    await fetchDepartments()
+    await Promise.all([fetchDepartments(), fetchRoles()])
     await fetchScope()
 })
 
@@ -197,11 +257,20 @@ async function fetchDepartments() {
     }
 }
 
+async function fetchRoles() {
+    try {
+        const response = await roleService.getAllRoles()
+        state.roles = response?.data ?? []
+    } catch {
+        state.roles = []
+    }
+}
+
 async function fetchScope() {
     state.error = {}
     state.isLoading = true
     try {
-        const response = await dailyOverviewService.getLayoutScope(state.scope ? { department_uuid: state.scope } : {})
+        const response = await dailyOverviewService.getLayoutScope(scopeParams())
         applyLayout(response?.data)
     } catch (error: any) {
         state.error = error
@@ -217,8 +286,12 @@ function applyLayout(layout: any) {
     for (const box of state.customBoxes) state.states[box.key] = box.state ?? 'hidden'
 }
 
-/** In a locked layout every box is either shown to everyone or hidden. */
+/**
+ * In a locked layout every box is either shown to everyone or hidden. A role
+ * layout is shown (not hidden) unless it says hidden, custom boxes included.
+ */
 function displayState(key: string): BoxState {
+    if (isRoleScope.value) return state.states[key] === 'hidden' ? 'hidden' : 'mandatory'
     const value = state.states[key] ?? (key.startsWith('custom:') ? 'hidden' : 'optional')
     return state.isLocked && value === 'optional' ? 'mandatory' : value
 }
@@ -232,12 +305,17 @@ async function saveLayout() {
     state.isSaving = true
     try {
         const boxes: Record<string, BoxState> = {}
-        for (const key of [...DAILY_OVERVIEW_BOXES.map((box) => box.key), ...state.customBoxes.map((box: any) => box.key)]) {
+        const keys = [
+            ...DAILY_OVERVIEW_BOXES.map((box) => box.key),
+            ...(isRoleScope.value ? STATISTICS_SECTIONS.map((section) => section.key) : []),
+            ...state.customBoxes.map((box: any) => box.key),
+        ]
+        for (const key of keys) {
             boxes[key] = displayState(key)
         }
         const response = await dailyOverviewService.saveLayoutScope({
-            department_uuid: state.scope || null,
-            is_locked: state.isLocked,
+            ...scopeParams(),
+            is_locked: isRoleScope.value ? false : state.isLocked,
             boxes,
         })
         if (response?.data) {
@@ -255,7 +333,7 @@ async function removeLayout() {
     state.modal.isRemoveLayoutOpen = false
     state.error = {}
     try {
-        await dailyOverviewService.deleteLayoutScope(state.scope ? { department_uuid: state.scope } : {})
+        await dailyOverviewService.deleteLayoutScope(scopeParams())
         await fetchScope()
         refreshLayout()
         successAlert(`${t('alert.success')}!`, `${t('dailyOverviewLayouts.layoutRemoved')}.`)
@@ -271,15 +349,17 @@ function openBox(box: any) {
 
 /**
  * A new or edited box. Any unsaved choices on this page are kept; a new box
- * starts hidden here until the admin picks where it shows.
+ * starts hidden here until the admin picks where it shows. For a role it
+ * starts shown, as a role layout only takes away.
  */
 async function onBoxSaved(box: any) {
     state.modal.isBoxOpen = false
     const index = state.customBoxes.findIndex((entry: any) => entry.uuid === box.uuid)
     if (index >= 0) state.customBoxes.splice(index, 1, { ...state.customBoxes[index], ...box })
     else {
-        state.customBoxes.push({ ...box, state: 'hidden' })
-        state.states[box.key] = 'hidden'
+        const initial: BoxState = isRoleScope.value ? 'optional' : 'hidden'
+        state.customBoxes.push({ ...box, state: initial })
+        state.states[box.key] = initial
     }
     successAlert(`${t('alert.success')}!`, `${t('dailyOverviewLayouts.boxSaved')}.`)
 }

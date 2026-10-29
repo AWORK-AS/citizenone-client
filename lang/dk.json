@@ -9345,7 +9345,9 @@
         },
         "unknownType": {
             "title": "Henvendelsen mangler en type",
-            "hint": "Den kan ikke redigeres her, før den er sat til krisecenter eller herberg. Det sker typisk for importerede henvendelser."
+            "hint": "Vælg, hvilken type henvendelsen er, så kan du redigere den. Typen gemmes sammen med dine ændringer. Det sker typisk for importerede henvendelser.",
+            "chosen": "Gemmes som {type}.",
+            "change": "Skift type"
         },
         "review": {
             "edit": "Rediger",
@@ -19952,6 +19954,12 @@
         "boxDeleted": "Boksen er slettet",
         "managedByAdmin": "Din administrator har sat dette overblik op. Bokse med en lås er påkrævet.",
         "requiredByAdmin": "Påkrævet af din administrator",
+        "rolePrefix": "Rolle: {name}",
+        "roleIntro": "Et rollelayout skjuler kun. Det, det skjuler, ser personer med rollen hverken i overblikket eller på statistiksiden, heller ikke hvor virksomhedens eller afdelingens layout kræver det. Har man flere roller, ser man alt, som én af ens roller tillader. Administratorer ser altid alt.",
+        "roleSeesEverything": "Ser alt",
+        "statisticsSections": "Statistik",
+        "statisticsSectionsHelp": "Afsnit på statistiksiden.",
+        "removeRoleLayoutConfirmation": "Fjern rollens layout? Personer med rollen ser alt igen",
         "states": {
             "mandatory": "Påkrævet",
             "optional": "Brugerens valg",

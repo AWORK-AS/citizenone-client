@@ -175,10 +175,13 @@
                                     @click="openInquiry(inq)"
                                     class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
                                     :class="[dragged?.uuid === inq.uuid ? 'opacity-40' : '', RISK_STYLES[inq.risk_level]?.edge]">
-                                    <p class="text-[11px] font-bold text-secondary">
+                                    <!-- Clamped, with the whole text on hover: an imported
+                                         inquiry's heading can be a long case title. -->
+                                    <p class="truncate text-[11px] font-bold text-secondary" :title="inq.inquirer_name || undefined">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
-                                    <p class="mt-0.5 text-[13.5px] font-bold leading-snug text-slate-900">
+                                    <p class="mt-0.5 line-clamp-2 break-words text-[13.5px] font-bold leading-snug text-slate-900"
+                                        :title="inqTitle(inq)">
                                         {{ inqTitle(inq) }}
                                     </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
@@ -297,13 +300,13 @@
                                             </span>
                                         </td>
                                         <td width="15%">
-                                            <span>{{ inquiry?.inquirer_name }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.inquirer_name || undefined">{{ inquiry?.inquirer_name }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.firstname }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.firstname || undefined">{{ inquiry?.firstname }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.lastname }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.lastname || undefined">{{ inquiry?.lastname }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex flex-wrap gap-1">
@@ -314,13 +317,13 @@
                                             </div>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.outcome }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.outcome || undefined">{{ inquiry?.outcome }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.purpose }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.purpose || undefined">{{ inquiry?.purpose }}</span>
                                         </td>
                                         <td width="15%">
-                                            <span>{{ inquiry?.conversation_summary }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.conversation_summary || undefined">{{ inquiry?.conversation_summary }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
