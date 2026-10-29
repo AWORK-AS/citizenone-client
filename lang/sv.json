@@ -9521,6 +9521,7 @@
         "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal."
     },
     "journalNotes": {
+        "removeFilter": "Ta bort filter: {name}",
         "title": "Journal notes",
         "citizen": "Citizen",
         "department": "Department",
