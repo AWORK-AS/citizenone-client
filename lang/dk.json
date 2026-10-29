@@ -15906,7 +15906,7 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
-        "help": "Enheder kommer på listen, når en medarbejder logger ind på dem. Med \"Kræv OTP-bekræftelse\" bekræfter medarbejderen enheden med en kode, der sendes på e-mail. Med \"Blokér adgang\" venter enheden her, til en administrator godkender den. Administratorer bliver aldrig begrænset.",
+        "help": "Enheder kommer på listen, når en medarbejder logger ind på dem. Med \"Kræv OTP-bekræftelse\" bekræfter medarbejderen enheden med en kode, der sendes på e-mail. Med \"Blokér adgang\" venter enheden her, til en administrator godkender den. Slået fra betyder afvist: enheden kan ikke logge ind i nogen af tilstandene, heller ikke med koden fra e-mailen. Slet glemmer enheden, så medarbejderen kan tilføje den igen ved at logge ind. Administratorer bliver aldrig begrænset.",
         "status": {
             "waiting": "Venter på godkendelse",
             "approved": "Godkendt",
@@ -15922,6 +15922,7 @@
             "actions": {
                 "header": "Handlinger",
                 "approve": "Godkend",
+                "decline": "Afvis",
                 "edit": "Rediger",
                 "delete": "Slet"
             }
@@ -15932,6 +15933,7 @@
         "alert": {
             "added": "Enhed godkendt succesfuldt",
             "approved": "Enhed godkendt",
+            "declined": "Enhed afvist",
             "updated": "Godkendt enhed opdateret succesfuldt",
             "deleted": "Godkendt enhed fjernet succesfuldt"
         }

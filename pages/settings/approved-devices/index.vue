@@ -41,6 +41,11 @@
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('approvedDevices.table.actions.approve') }}
                                             </FormButton>
+                                            <FormButton v-if="statusOf(item) === 'waiting'" type="button"
+                                                buttonStyle="action" @click="declineItem(item)">
+                                                <Icon name="ph:x" class="size-4" />
+                                                {{ $t('approvedDevices.table.actions.decline') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="editItem(item)">
                                                 <Icon name="ph:pencil" class="size-4" />
@@ -157,23 +162,35 @@ function handleSearch(value: any) {
     fetchAll()
 }
 
-// Older responses had no status: active is approved, anything else is off.
+// Declined or switched off by an Admin (blocked_at) is off. Older responses had
+// no status: active is approved, anything else is off.
 function statusOf(item: any): DeviceStatus {
+    if (item?.blocked_at) return 'off'
     if (item?.status === 'waiting' || item?.status === 'approved' || item?.status === 'off') return item.status
     return item?.is_active ? 'approved' : 'off'
 }
 
-async function approveItem(item: any) {
+// Approve clears a decline; Decline makes the device off: refused in both
+// modes, even with the email code, until it is approved or deleted.
+async function setDecision(item: any, params: Record<string, boolean>, alertKey: string) {
     state.error = {}
     state.isTableLoading = true
     try {
-        await approvedDeviceService.update(item.uuid, { is_active: true })
-        successAlert(`${t('alert.success')}!`, `${t('approvedDevices.alert.approved')}.`)
+        await approvedDeviceService.update(item.uuid, params)
+        successAlert(`${t('alert.success')}!`, `${t(alertKey)}.`)
         await fetchAll()
     } catch (error: any) {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function approveItem(item: any) {
+    return setDecision(item, { is_active: true }, 'approvedDevices.alert.approved')
+}
+
+function declineItem(item: any) {
+    return setDecision(item, { blocked: true }, 'approvedDevices.alert.declined')
 }
 
 function editItem(item: any) {
