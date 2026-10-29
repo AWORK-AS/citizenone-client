@@ -8745,19 +8745,19 @@
         }
     },
     "forgotPassword": {
-        "checkInboxSub": "Vi skickar ett länk innan för få minuter",
-        "checkInboxTitle": "Kontrollera din indbakke",
-        "emailAddress": "E-post adress",
-        "enterEmailAssociated": "Ange e-mailadressen, där är kopplad din konto, för att nulstille din lösenord",
+        "checkInboxSub": "Vi skickar en länk inom några minuter",
+        "checkInboxTitle": "Kontrollera din inkorg",
+        "emailAddress": "E-postadress",
+        "enterEmailAssociated": "Ange e-postadressen som är kopplad till ditt konto för att återställa ditt lösenord",
         "forgotPassword": "Glömt lösenord",
-        "headlineLine1": "Återställ din",
+        "headlineLine1": "Återställ ditt",
         "headlineLine2": "lösenord.",
-        "linkValidSub": "Anmod om ett nytt länk om det utgår",
-        "linkValidTitle": "Linket är gyldigt i 60 min.",
-        "loginHereInstead": "Logga in här i stedet",
+        "linkValidSub": "Begär en ny länk om den går ut",
+        "linkValidTitle": "Länken är giltig i 60 min.",
+        "loginHereInstead": "Logga in här i stället",
         "or": "Eller",
-        "panelDescription": "Ange din e-postadress och vi skickar dig ett länk till att nulstille din lösenord.",
-        "requestPasswordReset": "Anmod om nulstilling av lösenord"
+        "panelDescription": "Ange din e-postadress så skickar vi en länk för att återställa ditt lösenord.",
+        "requestPasswordReset": "Begär återställning av lösenord"
     },
     "formFieldConfig": {
         "alert": {
@@ -9825,8 +9825,8 @@
             "alwaysEncrypted": "Säker post skickas alltid krypterad. Ange ett lösenord som mottagaren behöver för att öppna meddelandet.",
             "enterCode": "Ange en selvvalgt kod",
             "message": "Meddelande",
-            "passwordHint": "Skriv ett liten hint, där kan hjälpa modtageren med att huske adgangskoden",
-            "passwordHintPlaceholder": "Ange hint till adgangskoden",
+            "passwordHint": "Skriv en kort ledtråd som hjälper mottagaren att komma ihåg lösenordet",
+            "passwordHintPlaceholder": "Ange en ledtråd till lösenordet",
             "reenterCode": "Ange den selvvalgte kod igen",
             "send": "Skicka",
             "subject": "Emne",
@@ -12115,7 +12115,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Schema & arbetstid",
                 "groupOther": "Övrigt & integrationer",
-                "absenceCountsInNormHours": "Semester och sjukfrånvaro räknas med i normtimmar och kompledighet",
+                "absenceCountsInNormHours": "Frånvaro räknas med i normtimmar och kompledighet",
                 "upgradeToPro": "Uppgradera till Pro",
                 "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
                 "holidayState": {
@@ -12742,7 +12742,7 @@
             "endTimeDayOffsetSameDay": "Samma dag",
             "endTimeDayOffsetThreeDaysLater": "3 dagar senere",
             "endTimeDayOffsetTwoDaysLater": "2 dagar senere",
-            "markAsLeaveType": "Markera som fravärstype",
+            "markAsLeaveType": "Markera som frånvarotyp",
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
             "paycode": "Lönningskode",

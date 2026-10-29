@@ -12120,7 +12120,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Vagtplan & arbejdstid",
                 "groupOther": "Øvrigt & integrationer",
-                "absenceCountsInNormHours": "Ferie og sygdom tæller med i normtimer og afspadsering",
+                "absenceCountsInNormHours": "Fravær tæller med i normtimer og afspadsering",
                 "upgradeToPro": "Opgradér til Pro",
                 "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
                 "holidayState": {
