@@ -94,6 +94,9 @@
                     </button>
                 </div>
 
+                <!-- Drafts saved from the free tools on citizenone.dk. Hidden when there are none. -->
+                <ModulesUserSignupDraftsCard />
+
                 <LoadingSpinner :isActive="state.isLoading">
                     <div v-if="!dayIsEmpty" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                         <!-- My shifts -->

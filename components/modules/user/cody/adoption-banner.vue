@@ -53,6 +53,7 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { seatsActionOnPage } from '@/composables/codySeats'
 import { trialDays } from '@/composables/managerSuggestion'
 import { formatPrice } from '@/composables/customerSpecialPrice'
 import { bannerSurface, bannerVariant, demandCount, priceLine, type BannerVariant, type NudgeEvent } from '@/composables/codyNudge'
@@ -61,6 +62,7 @@ import { bannerSurface, bannerVariant, demandCount, priceLine, type BannerVarian
 const SEATS_PATH = '/employees'
 
 const { t } = useI18n()
+const route = useRoute()
 const {
     status, isAdmin, hasAccess, requestState, appPath,
     load, requestFromAdmin, isDismissed, dismiss, recordNudge,
@@ -127,7 +129,11 @@ const priceText = computed(() => {
 function act(event: NudgeEvent, path: string) {
     const surface = bannerSurface(variant.value)
     if (surface) recordNudge(event, surface)
-    navigateTo(path)
+    // The seats banner also shows on the employee list it points to, where
+    // navigating there again did nothing. Bring the list into view instead.
+    const target = seatsActionOnPage(route.path, path) === 'scroll' ? document.querySelector('[data-cody-seats-target]') : null
+    if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    else navigateTo(path)
 }
 
 // Counted when it is actually on screen, i.e. it has the prompt slot.

@@ -9528,6 +9528,7 @@
         "wellbeingRulerDescription": "Når den er slått på, kan det gis en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn i saken. Scoren er valgfri og inngår i trivselsutviklingen og i statusrapportens trivselslinjal."
     },
     "journalNotes": {
+        "removeFilter": "Fjern filter: {name}",
         "title": "Journal notes",
         "citizen": "Citizen",
         "department": "Department",
@@ -9831,7 +9832,7 @@
             "alwaysEncrypted": "Sikker post sendes alltid kryptert. Angi et passord som mottakeren trenger for å åpne meldingen.",
             "enterCode": "Skriv inn en selvvalgt kode",
             "message": "Melding",
-            "passwordHint": "Skriv et lite hint, der kan hjelpe mottakeren med at huske passordet",
+            "passwordHint": "Skriv et kort hint som hjelper mottakeren å huske passordet",
             "passwordHintPlaceholder": "Skriv inn hint til passordet",
             "reenterCode": "Skriv inn den selvvalgte kode igjen",
             "send": "Send",
@@ -12142,7 +12143,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Vaktplan & arbeidstid",
                 "groupOther": "Annet & integrasjoner",
-                "absenceCountsInNormHours": "Ferie og sykdom teller med i normtimer og avspasering",
+                "absenceCountsInNormHours": "Fravær teller med i normtimer og avspasering",
                 "upgradeToPro": "Oppgrader til Pro",
                 "whichHolidaysCount": "Hvilke helligdager skal telle med? (slå av dem som ikke gjelder for dere)",
                 "holidayState": {
@@ -20329,5 +20330,48 @@
         "importFailed": "Det oppstod en feil under importen.",
         "openFileFailed": "Det oppstod en feil under åpning av filen.",
         "deleteFailed": "Det oppstod en feil under slettingen."
+    },
+    "signup": {
+        "title": "Opprett din gratis konto for å lagre arbeidet ditt",
+        "subtitle": "Arbeidet ditt fra citizenone.dk er lagret og venter på deg.",
+        "continueWithApple": "Fortsett med Apple",
+        "continueWithGoogle": "Fortsett med Google",
+        "continueWithEmail": "Fortsett med e-post",
+        "emailLabel": "E-postadresse",
+        "emailPlaceholder": "deg{'@'}arbeidsplassen.no",
+        "sendCode": "Send kode",
+        "back": "Tilbake",
+        "codeSent": "Vi har sendt en kode på 6 sifre til {email}.",
+        "codeLabel": "Kode på 6 sifre",
+        "verify": "Fortsett",
+        "changeEmail": "Bruk en annen e-post",
+        "resendCode": "Send en ny kode",
+        "haveAccount": "Har du allerede en konto med passord?",
+        "signIn": "Logg inn",
+        "complete": {
+            "title": "Fullfør kontoen din",
+            "heading": "Nesten ferdig",
+            "signedInAs": "Du registrerer deg som {email}.",
+            "submit": "Opprett konto",
+            "expiredTitle": "Registreringslenken er utløpt",
+            "expiredBody": "Start på nytt for å opprette kontoen din.",
+            "startAgain": "Start på nytt"
+        },
+        "pending": {
+            "title": "Vi gjennomgår kontoen din",
+            "body": "Takk. Vi gjennomgår hver ny konto før den slås på, og vi skriver til {email} når den er klar.",
+            "draftSaved": "Utkastet ditt fra citizenone.dk er lagret og venter på deg når du logger inn."
+        },
+        "drafts": {
+            "title": "Lagret fra citizenone.dk",
+            "delete": "Slett",
+            "deleteAria": "Slett lagret utkast: {tool}",
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Skjema for tvangsbruk",
+                "daily-rhythm": "Døgnrytmeplan",
+                "socialtilsyn": "Tilsynssjekk"
+            }
+        }
     }
 }
