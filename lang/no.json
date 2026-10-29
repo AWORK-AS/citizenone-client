@@ -9345,7 +9345,9 @@
         },
         "unknownType": {
             "title": "Henvendelsen mangler en type",
-            "hint": "Den kan ikke redigeres her før den er satt til krisesenter eller herberge. Det skjer typisk for importerte henvendelser."
+            "hint": "Velg hvilken type henvendelsen er, så kan du redigere den. Typen lagres sammen med endringene dine. Det skjer typisk for importerte henvendelser.",
+            "chosen": "Lagres som {type}.",
+            "change": "Bytt type"
         },
         "review": {
             "edit": "Rediger",

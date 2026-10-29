@@ -6,7 +6,7 @@
                     <!-- Rediger means edit: the page behind already shows the review,
                          so the form opens straight away. Keyed on each open, so the
                          form always starts from the inquiry as it is now. -->
-                    <ModulesUserInquiryModalCrisisCenterForm v-if="props.selectedInquiry.inquiry_type === 'crisis_center'" :key="'crisis-' + state.openCount"
+                    <ModulesUserInquiryModalCrisisCenterForm v-if="inquiryType === 'crisis_center'" :key="'crisis-' + state.openCount"
                         formType="update" :selectedInquiry="props.selectedInquiry"
                         :form="props.selectedInquiry.form ?? null"
                         :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
@@ -16,7 +16,7 @@
                                 :inquiryUuid="props.selectedInquiry.uuid" />
                         </template>
                     </ModulesUserInquiryModalCrisisCenterForm>
-                    <ModulesUserInquiryModalShelterForm v-if="props.selectedInquiry.inquiry_type === 'shelter'" :key="'shelter-' + state.openCount"
+                    <ModulesUserInquiryModalShelterForm v-if="inquiryType === 'shelter'" :key="'shelter-' + state.openCount"
                         formType="update" :selectedInquiry="props.selectedInquiry"
                         :form="props.selectedInquiry.form ?? null" :error="state.error" @isPageLoading="(value: boolean) => state.isPageLoading = value"
                         @closeModal="closeModal" @submitForm="updateShelterInquiry">
@@ -25,10 +25,10 @@
                                 :inquiryUuid="props.selectedInquiry.uuid" />
                         </template>
                     </ModulesUserInquiryModalShelterForm>
-                    <!-- Neither form fits: the inquiry has no type, which happens to
-                         imported rows and to anything created straight through the API.
-                         Say so instead of showing an empty box. -->
-                    <div v-if="!hasKnownType" class="py-6 text-center">
+                    <!-- The inquiry has no type yet, which happens to imported rows and
+                         to anything created straight through the API. The user picks
+                         one here; saving the form then stores it on the inquiry. -->
+                    <div v-if="!hasKnownType && !state.chosenType" class="py-6 text-center">
                         <Icon name="ph:question" class="mx-auto size-8 text-gray-300" />
                         <p class="mt-2 text-sm font-semibold text-gray-700">
                             {{ $t('inquiries.unknownType.title') }}
@@ -36,6 +36,20 @@
                         <p class="mx-auto mt-1 max-w-sm text-xs text-gray-500">
                             {{ $t('inquiries.unknownType.hint') }}
                         </p>
+                        <div class="mt-4 flex flex-wrap justify-center gap-2">
+                            <FormButton type="button" buttonStyle="action" @click="state.chosenType = 'crisis_center'">
+                                {{ crisisCenterName }}
+                            </FormButton>
+                            <FormButton type="button" buttonStyle="action" @click="state.chosenType = 'shelter'">
+                                {{ shelterName }}
+                            </FormButton>
+                        </div>
+                    </div>
+                    <div v-if="!hasKnownType && state.chosenType" class="mb-3 flex items-center gap-x-2 text-xs text-gray-500">
+                        {{ $t('inquiries.unknownType.chosen', { type: modalTitle }) }}
+                        <button type="button" class="font-semibold text-primary hover:underline" @click="state.chosenType = ''">
+                            {{ $t('inquiries.unknownType.change') }}
+                        </button>
                     </div>
                 </LoadingSpinner>
             </template>
@@ -62,9 +76,12 @@ const hasKnownType = computed(() =>
     ['shelter', 'crisis_center'].includes(props.selectedInquiry?.inquiry_type)
 )
 
+// The inquiry's own type, or the one picked here for an inquiry that has none.
+const inquiryType = computed(() => hasKnownType.value ? props.selectedInquiry.inquiry_type : state.chosenType)
+
 const modalTitle = computed(() => {
-    if (props.selectedInquiry?.inquiry_type === 'shelter') return shelterName.value
-    if (props.selectedInquiry?.inquiry_type === 'crisis_center') return crisisCenterName.value
+    if (inquiryType.value === 'shelter') return shelterName.value
+    if (inquiryType.value === 'crisis_center') return crisisCenterName.value
     return t('inquiries.editInquiry')
 })
 
@@ -84,6 +101,7 @@ const state = reactive({
     error: {} as Error,
     isPageLoading: false,
     openCount: 0,
+    chosenType: '' as '' | 'shelter' | 'crisis_center',
 })
 
 // The custom fields in the form, saved by the same button as the rest.
@@ -94,6 +112,7 @@ watch(() => props.isModalOpen, (open: boolean) => {
     if (open) {
         state.openCount++
         state.error = {}
+        state.chosenType = ''
     }
 })
 
@@ -127,7 +146,7 @@ async function updateCrisisCenterInquiry(inquiryDetails: any) {
     try {
         const inquiryUuid = props.selectedInquiry.uuid
         const params = {
-            inquiry_type: inquiryDetails.inquiry_type,
+            inquiry_type: 'crisis_center',
             cpr: inquiryDetails.cpr,
             inquiry_date: inquiryDetails.inquiry_date,
             department_uuid: inquiryDetails.department_uuid,
@@ -164,7 +183,7 @@ async function updateShelterInquiry(inquiryDetails: any) {
     try {
         const inquiryUuid = props.selectedInquiry.uuid
         const params = {
-            inquiry_type: inquiryDetails.inquiry_type,
+            inquiry_type: 'shelter',
             cpr: inquiryDetails.cpr,
             cpr_missing_reason: inquiryDetails.cpr_missing_reason,
             inquiry_date: inquiryDetails.inquiry_date,

@@ -1,3 +1,5 @@
+import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
+
 // The query params the website hands to /signup. They travel with every step so the
 // backend can tie the draft and the campaign to the account that comes out the other end.
 export const SIGNUP_PASSTHROUGH_KEYS = ['draft', 'utm_source', 'utm_medium', 'utm_campaign', 'gclid', 'landing'] as const
@@ -15,6 +17,9 @@ export function socialRedirectUrl(apiBase: string, provider: 'google' | 'apple',
     // Empty values are sent too, the way the backend's redirect link is documented.
     const params = new URLSearchParams()
     for (const key of SIGNUP_PASSTHROUGH_KEYS) params.set(key, passthrough[key] ?? '')
+    // The desktop app opens provider pages in the system browser, so it asks the
+    // backend to send the browser back to it (citizenone://auth/...) afterwards.
+    if (useIsDesktopApp()) params.set('client', 'desktop')
     return `${apiBase}/auth/social/${provider}/redirect?${params.toString()}`
 }
 
