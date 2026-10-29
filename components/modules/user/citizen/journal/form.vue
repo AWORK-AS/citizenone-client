@@ -118,6 +118,32 @@
             <ModulesUserCitizenJournalWellbeingRuler v-if="isWellbeingRulerEnabled"
                 :rows="wellbeingRows" :modelValue="state.wellbeingScores"
                 @update:modelValue="onWellbeingChange" />
+            <!-- The citizen's active treatments, shown in the note so staff are
+                 reminded of them while they write. Picking one attaches the note
+                 to it, and the note lands among the treatment's statuses. -->
+            <div v-if="state.options.journal_note_treatments.length > 0"
+                class="rounded-md border border-primary/30 bg-primary/5 px-3 py-2 space-y-2">
+                <p class="text-sm font-medium text-gray-700">
+                    {{ $t('citizens.citizenJournals.form.activeTreatments') }}
+                </p>
+                <div class="flex flex-wrap gap-2">
+                    <button type="button" v-for="treatment in state.options.journal_note_treatments"
+                        :key="treatment.value"
+                        :aria-pressed="state.formJournal.journal_note_treatment === treatment.value"
+                        :class="['inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-medium transition-colors',
+                            state.formJournal.journal_note_treatment === treatment.value
+                                ? 'bg-primary text-white'
+                                : 'bg-white text-gray-700 border border-gray-300 hover:bg-gray-100']"
+                        @click="toggleTreatment(treatment.value)">
+                        <Icon :name="state.formJournal.journal_note_treatment === treatment.value ? 'ph:check' : 'ph:first-aid-kit'"
+                            class="size-4" aria-hidden="true" />
+                        {{ treatment.label }}
+                    </button>
+                </div>
+                <p class="text-xs text-gray-500">
+                    {{ $t('citizens.citizenJournals.form.activeTreatmentsHint') }}
+                </p>
+            </div>
             <div>
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = !state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal">
@@ -174,6 +200,12 @@
                         v-model="state.formJournal.journal_note_subgoal" />
                     <FormError :error="v$?.formJournal?.journal_note_subgoals?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.journal_note_subgoals?.[0]" />
+                </div>
+                <div class="space-y-1" v-if="state.options.journal_note_treatments.length > 0">
+                    <FormLabel for="journal_note_treatment" :label="$t('citizens.citizenJournals.form.treatment')" />
+                    <FormSelect id="journal_note_treatment" :options="state.options.journal_note_treatments"
+                        v-model="state.formJournal.journal_note_treatment"
+                        @change="(treatmentUuid: any) => onJournalNoteTreatmentChange(treatmentUuid)" />
                 </div>
             </div>
             <div class="space-y-1">
@@ -659,6 +691,7 @@ import { teethService } from '@/components/api/user/TeethService'
 import { planService } from '@/components/api/user/PlanService'
 import { goalService } from '@/components/api/user/GoalService'
 import { subgoalService } from '@/components/api/user/SubgoalService'
+import { treatmentService } from '@/components/api/user/TreatmentService'
 import { userService } from '@/components/api/user/UserService'
 import { surveyService } from '@/components/api/user/SurveyService'
 import { citizenChildService } from '@/components/api/user/CitizenChildService'
@@ -826,6 +859,7 @@ const state = reactive({
         journal_note_goal: '',
         journal_note_single_goal: '',
         journal_note_subgoal: '',
+        journal_note_treatment: '',
         copy_risk_assessment_to_plan_or_goal_or_subgoal: false,
         risk_assessment_plan: '',
         risk_assessment_goal: '',
@@ -898,6 +932,7 @@ const state = reactive({
         journal_note_subgoals: [],
         journal_note_subgoal_shortcuts: [] as any[],
         journal_note_subgoal_shortcuts_raw: [] as any[],
+        journal_note_treatments: [] as any[],
         journal_titles: [],
         journal_titles_raw: [] as any[],
         risk_assessment_plans: [],
@@ -1192,6 +1227,44 @@ async function fetchSubgoalShortcutOptions() {
     }
 }
 
+// The citizen's active treatments. A treatment stands outside the plan tree,
+// so it is offered on its own and replaces whatever plan item was picked.
+async function fetchActiveTreatments() {
+    if (!citizenUuid) return
+    try {
+        const response = await treatmentService.getTreatments({ citizen_uuid: citizenUuid })
+        state.options.journal_note_treatments = (response?.data ?? [])
+            .filter((treatment: any) => !treatment?.is_completed)
+            .map((treatment: any) => ({ value: treatment?.uuid, label: treatment?.name }))
+        keepAttachedItemsListed()
+    } catch (error: any) {
+        // Like the sub-goal shortcut: a convenience that must not block the note.
+    }
+}
+
+function clearPlanLevels() {
+    syncSeenLevels({})
+    state.formJournal.journal_note_plan = ''
+    state.formJournal.journal_note_goal = ''
+    state.formJournal.journal_note_single_goal = ''
+    state.options.journal_note_goals = []
+    clearSubgoals()
+}
+
+function onJournalNoteTreatmentChange(treatmentUuid: any) {
+    if (treatmentUuid) clearPlanLevels()
+}
+
+function toggleTreatment(treatmentUuid: string) {
+    if (state.formJournal.journal_note_treatment === treatmentUuid) {
+        state.formJournal.journal_note_treatment = ''
+        return
+    }
+    state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = true
+    state.formJournal.journal_note_treatment = treatmentUuid
+    clearPlanLevels()
+}
+
 watch(() => state.subgoalShortcut, async (subgoalUuid: any) => {
     if (!subgoalUuid) return
     const picked = state.options.journal_note_subgoal_shortcuts_raw.find((s: any) => s.uuid === subgoalUuid)
@@ -1209,6 +1282,8 @@ watch(() => state.subgoalShortcut, async (subgoalUuid: any) => {
 
     state.formJournal.copy_journal_note_to_plan_or_goal_or_subgoal = true
     const values = planGoalSubgoalValues(link)
+    // planGoalSubgoalValues has no treatment for this link, so the assign
+    // below clears a treatment picked before.
     syncSeenLevels(values)
     Object.assign(state.formJournal, values)
     await loadAttachedItemOptions(link)
@@ -1231,6 +1306,7 @@ onMounted(() => {
     fetchSingleGoalsForJournalNote()
     fetchAllGoalsForRiskAssessment()
     fetchSubgoalShortcutOptions()
+    fetchActiveTreatments()
     fetchAllJournalNoteTags()
     fetchAllJournalTitles()
     fetchAllTeeth()
@@ -1483,7 +1559,7 @@ const rules = computed(() => {
                 journal_note_plan: {
                     planOrSingleGoal: helpers.withMessage(
                         () => t('citizens.citizenJournals.form.selectPlanOrSingleGoal'),
-                        (_value: any, siblings: any) => !!(siblings?.journal_note_plan || siblings?.journal_note_single_goal),
+                        (_value: any, siblings: any) => !!(siblings?.journal_note_plan || siblings?.journal_note_single_goal || siblings?.journal_note_treatment),
                     ),
                 },
             },
@@ -2186,6 +2262,7 @@ async function onJournalNotePlanChange(planUuid: any) {
     seen.single = ''
     seen.goal = ''
     state.formJournal.journal_note_single_goal = ''
+    if (next) state.formJournal.journal_note_treatment = ''
     await fetchAllGoalsForJournalNote(next)
 }
 
@@ -2201,6 +2278,7 @@ async function onJournalNoteSingleGoalChange(singleGoalUuid: any) {
     if (next === seen.single) return
     seen.single = next
     if (next) {
+        state.formJournal.journal_note_treatment = ''
         seen.plan = ''
         seen.goal = ''
         state.formJournal.journal_note_plan = ''
@@ -2225,6 +2303,7 @@ function keepAttachedItemsListed() {
     ensure(state.options.journal_note_goals, attachedLink?.goal)
     ensure(state.options.journal_note_single_goals, attachedLink?.single_goal)
     ensure(state.options.journal_note_subgoals, attachedLink?.subgoal)
+    ensure(state.options.journal_note_treatments, attachedLink?.treatment)
 }
 
 // The values of every level the attached item sits under: plan > goal >
@@ -2235,6 +2314,7 @@ function planGoalSubgoalValues(link: any) {
         journal_note_goal: link?.goal?.uuid ?? '',
         journal_note_single_goal: link?.single_goal?.uuid ?? '',
         journal_note_subgoal: link?.subgoal?.uuid ?? '',
+        journal_note_treatment: link?.treatment?.uuid ?? '',
     }
 }
 
