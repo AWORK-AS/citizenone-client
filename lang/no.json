@@ -2367,7 +2367,10 @@
             "form": {
                 "attachFile": "Legg ved fil",
                 "content": "Innhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopier journalnote til plan, mål, delmål eller enkeltmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopier journalnotat til plan, mål, delmål, enkeltmål eller behandling",
+                "activeTreatments": "Aktive behandlinger",
+                "activeTreatmentsHint": "Velg en behandling for å dokumentere på den. Notatet legges til blant behandlingens statuser.",
+                "treatment": "Behandling",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopier risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nåværende nivå",
@@ -10607,6 +10610,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medisin afveget",
                 "myDailyEvents": "Mine daglige arrangementer",
+                "newsAndPoll": "Nyheter og avstemning fra CitizenOne",
                 "nextShift": "Neste vakt",
                 "onDutyToday": "På jobb i dag",
                 "plansAndGoals": "Planer og mål",
@@ -11501,7 +11505,6 @@
             "title": "Sjekk innboksen din",
             "sentTo": "Vi har sendt en e-post til {email}.",
             "confirm": "Bekreft e-postadressen din med lenken i e-posten.",
-            "activate": "Vi slår på kontoen din og skriver til deg når den er klar.",
             "signIn": "Logg inn med e-posten din og passordet du nettopp valgte.",
             "noMail": "Ingen e-post etter noen minutter? Sjekk søppelpost, eller skriv til support{'@'}citizenone.dk."
         },
@@ -15582,6 +15585,7 @@
         },
         "metrics": {
             "contractMrr": "Kontrakt-MRR",
+            "sinceLastVisit": "siden sist",
             "contractArr": "Kontrakt-ARR {amount}",
             "cashMrr": "Cash-MRR",
             "cashArr": "Cash-ARR, neste 12 mnd. {amount}",

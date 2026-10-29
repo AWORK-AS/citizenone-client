@@ -2367,7 +2367,10 @@
             "form": {
                 "attachFile": "Vedhæft fil",
                 "content": "Indhold",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål, delmål eller enkeltmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote til plan, mål, delmål, enkeltmål eller behandling",
+                "activeTreatments": "Aktive behandlinger",
+                "activeTreatmentsHint": "Vælg en behandling for at dokumentere på den. Notatet kommer med i behandlingens statusser.",
+                "treatment": "Behandling",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér risikovurdering til plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuværende niveau",
@@ -10612,6 +10615,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin afveget",
                 "myDailyEvents": "Mine daglige begivenheder",
+                "newsAndPoll": "Nyheder og afstemning fra CitizenOne",
                 "nextShift": "Næste vagt",
                 "onDutyToday": "På arbejde i dag",
                 "plansAndGoals": "Planer og mål",
@@ -11506,7 +11510,6 @@
             "title": "Tjek din indbakke",
             "sentTo": "Vi har sendt en mail til {email}.",
             "confirm": "Bekræft din e-mailadresse med linket i mailen.",
-            "activate": "Vi slår din konto til og skriver til dig, når den er klar.",
             "signIn": "Log ind med din e-mail og den adgangskode, du lige har valgt.",
             "noMail": "Ingen mail efter et par minutter? Kig i spam, eller skriv til support{'@'}citizenone.dk."
         },
@@ -15667,6 +15670,7 @@
         },
         "metrics": {
             "contractMrr": "Kontrakt-MRR",
+            "sinceLastVisit": "siden sidst",
             "contractArr": "Kontrakt-ARR {amount}",
             "cashMrr": "Cash-MRR",
             "cashArr": "Cash-ARR, næste 12 mdr. {amount}",

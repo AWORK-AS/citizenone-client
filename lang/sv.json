@@ -2367,7 +2367,10 @@
             "form": {
                 "attachFile": "Bifoga fil",
                 "content": "Innehåll",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote till plan, mål, delmål eller enkeltmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiera journalanteckning till plan, mål, delmål, enskilt mål eller behandling",
+                "activeTreatments": "Aktiva behandlingar",
+                "activeTreatmentsHint": "Välj en behandling för att dokumentera på den. Anteckningen läggs till bland behandlingens statusar.",
+                "treatment": "Behandling",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér riskbedömning till plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuvarande nivå",
@@ -10607,6 +10610,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin avvikit",
                 "myDailyEvents": "Mina daglige händelser",
+                "newsAndPoll": "Nyheter och omröstning från CitizenOne",
                 "nextShift": "Nästa pass",
                 "onDutyToday": "I tjänst i dag",
                 "plansAndGoals": "Planer och mål",
@@ -11501,7 +11505,6 @@
             "title": "Kolla din inkorg",
             "sentTo": "Vi har skickat ett mejl till {email}.",
             "confirm": "Bekräfta din e-postadress med länken i mejlet.",
-            "activate": "Vi aktiverar ditt konto och skriver till dig när det är klart.",
             "signIn": "Logga in med din e-post och lösenordet du just valde.",
             "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
         },
@@ -15582,6 +15585,7 @@
         },
         "metrics": {
             "contractMrr": "Kontrakt-MRR",
+            "sinceLastVisit": "sedan sist",
             "contractArr": "Kontrakt-ARR {amount}",
             "cashMrr": "Cash-MRR",
             "cashArr": "Cash-ARR, nästa 12 mån. {amount}",
