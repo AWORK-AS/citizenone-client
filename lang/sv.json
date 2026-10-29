@@ -15821,7 +15821,7 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
-        "help": "Enheter läggs till här när en anställd loggar in på dem. Med \"Kräv OTP-bekräftelse\" bekräftar den anställda enheten med en kod som skickas via e-post. Med \"Blokér åtkomst\" väntar enheten här tills en administratör godkänner den. Avstängd betyder nekad: enheten kan inte logga in i något av lägena, inte heller med koden från e-posten. Radera glömmer enheten, så att den anställda kan lägga till den igen genom att logga in. Administratörer begränsas aldrig.",
+        "help": "Enheter läggs till här när en anställd loggar in på dem. Med \"Kräv OTP-bekräftelse\" bekräftar den anställda enheten med en kod som skickas via e-post. Med \"Blokér åtkomst\" väntar enheten här tills en administratör godkänner den. Avstängd betyder nekad: enheten kan inte logga in i något av lägena, inte heller med koden från e-posten. Godkänn slår på en avstängd enhet igen, även efter Avvisa. Avstängd, Avvisa och Radera loggar också ut den anställda på den enheten. Radera glömmer enheten, så att den anställda kan lägga till den igen genom att logga in. Administratörer begränsas aldrig.",
         "status": {
             "waiting": "Väntar på godkännande",
             "approved": "Godkänd",

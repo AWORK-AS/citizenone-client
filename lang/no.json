@@ -15821,7 +15821,7 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
-        "help": "Enheter legges til her når en ansatt logger inn på dem. Med \"Krev OTP-bekreftelse\" bekrefter den ansatte enheten med en kode som sendes på e-post. Med \"Blokér tilgang\" venter enheten her til en administrator godkjenner den. Slått av betyr avvist: enheten kan ikke logge inn i noen av modusene, heller ikke med koden fra e-posten. Slett glemmer enheten, så den ansatte kan legge den til igjen ved å logge inn. Administratorer blir aldri begrenset.",
+        "help": "Enheter legges til her når en ansatt logger inn på dem. Med \"Krev OTP-bekreftelse\" bekrefter den ansatte enheten med en kode som sendes på e-post. Med \"Blokér tilgang\" venter enheten her til en administrator godkjenner den. Slått av betyr avvist: enheten kan ikke logge inn i noen av modusene, heller ikke med koden fra e-posten. Godkjenn slår en enhet som er slått av, på igjen, også etter Avvis. Slått av, Avvis og Slett logger også den ansatte ut på den enheten. Slett glemmer enheten, så den ansatte kan legge den til igjen ved å logge inn. Administratorer blir aldri begrenset.",
         "status": {
             "waiting": "Venter på godkjenning",
             "approved": "Godkjent",

@@ -105,9 +105,12 @@ async function verifyOtp() {
     try {
         let response: any
         if (props.otpType === 'ip') {
+            // device_uuid tags the token with this browser (task 613); the IP
+            // check itself doesn't use it.
             response = await authService.verifyIpOtp({
                 email: props.email,
                 otp: state.formOtp.otp,
+                ...(props.deviceUuid ? { device_uuid: props.deviceUuid } : {}),
             })
         } else {
             response = await authService.verifyDeviceOtp({

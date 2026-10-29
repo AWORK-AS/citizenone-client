@@ -36,7 +36,7 @@
                                     <td>{{ item.created_at ? formatDateToReadable(item.created_at) : '' }}</td>
                                     <td>
                                         <div class="flex items-end justify-end gap-2">
-                                            <FormButton v-if="statusOf(item) === 'waiting'" type="button"
+                                            <FormButton v-if="statusOf(item) !== 'approved'" type="button"
                                                 buttonStyle="primary" @click="approveItem(item)">
                                                 <Icon name="ph:check" class="size-4" />
                                                 {{ $t('approvedDevices.table.actions.approve') }}
@@ -170,8 +170,9 @@ function statusOf(item: any): DeviceStatus {
     return item?.is_active ? 'approved' : 'off'
 }
 
-// Approve clears a decline; Decline makes the device off: refused in both
-// modes, even with the email code, until it is approved or deleted.
+// Approve (on waiting and off rows) clears a decline; Decline makes the device
+// off: refused in both modes, even with the email code, and signed out on that
+// device, until it is approved or deleted.
 async function setDecision(item: any, params: Record<string, boolean>, alertKey: string) {
     state.error = {}
     state.isTableLoading = true

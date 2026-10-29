@@ -15906,7 +15906,7 @@
         "isActive": "Active",
         "active": "Active",
         "inactive": "Inactive",
-        "help": "Devices are added here when an employee signs in on them. With \"Require OTP verification\" the employee confirms the device with a code sent by email. With \"Block access\" the device waits here until an admin approves it. Off means refused: the device can't sign in in either mode, not even with the emailed code. Delete forgets the device, so the employee can add it again by signing in. Admins are never restricted.",
+        "help": "Devices are added here when an employee signs in on them. With \"Require OTP verification\" the employee confirms the device with a code sent by email. With \"Block access\" the device waits here until an admin approves it. Off means refused: the device can't sign in in either mode, not even with the emailed code. Approve turns an Off device back on, also after Decline. Off, Decline and Delete also sign the employee out on that device. Delete forgets the device, so the employee can add it again by signing in. Admins are never restricted.",
         "status": {
             "waiting": "Waiting for approval",
             "approved": "Approved",
