@@ -8273,7 +8273,15 @@
             "private": "Privat",
             "sendInvitation": "Send invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "reminder": {
+                "label": "Påmindelse",
+                "none": "Ingen påmindelse",
+                "atStart": "Når begivenheden starter",
+                "minutesBefore": "{count} minut før | {count} minutter før",
+                "hoursBefore": "{count} time før | {count} timer før",
+                "daysBefore": "{count} dag før | {count} dage før"
+            }
         },
         "holidays": "Helligdage",
         "invitees": "Inviterede",
