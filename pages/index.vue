@@ -205,20 +205,22 @@
 				</a>
 
 				<!-- Single sign-on with the company's Microsoft account, when the
-				     company has set it up. Uses the email typed above. -->
-				<Tooltip class="ms-wrap" :text="$t('login.sso.hint')" wrap>
-					<button class="btn-microsoft" type="button" :disabled="state.isPageLoading"
-						:aria-label="$t('login.sso.hint')" @click="loginWithMicrosoft">
-						<svg class="ms-logo" width="18" height="18" viewBox="0 0 21 21" aria-hidden="true">
-							<rect x="1" y="1" width="9" height="9" fill="#F25022" />
-							<rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
-							<rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
-							<rect x="11" y="11" width="9" height="9" fill="#FFB900" />
-						</svg>
-						{{ state.isSsoRedirecting ? $t('login.sso.redirecting') : $t('login.sso.microsoft') }}
-					</button>
-				</Tooltip>
-				<p v-if="state.ssoNeedsEmail" class="ms-hint" role="status">{{ $t('login.sso.enterEmail') }}</p>
+				     company has set it up. Uses the email typed above, so the hint
+				     says so above the button, where it is read before the click
+				     instead of in a tooltip nobody hovers. -->
+				<p class="ms-hint ms-hint-above" :class="{ 'ms-hint-alert': state.ssoNeedsEmail }" role="status">
+					{{ state.ssoNeedsEmail ? $t('login.sso.enterEmail') : $t('login.sso.hint') }}
+				</p>
+				<button class="btn-microsoft" type="button" :disabled="state.isPageLoading"
+					@click="loginWithMicrosoft">
+					<svg class="ms-logo" width="18" height="18" viewBox="0 0 21 21" aria-hidden="true">
+						<rect x="1" y="1" width="9" height="9" fill="#F25022" />
+						<rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
+						<rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
+						<rect x="11" y="11" width="9" height="9" fill="#FFB900" />
+					</svg>
+					{{ state.isSsoRedirecting ? $t('login.sso.redirecting') : $t('login.sso.microsoft') }}
+				</button>
 
 				<div class="alt-links">
 					<div class="signup-row">
@@ -1327,12 +1329,6 @@ async function loginWithGoogle() {
 /* Sign in with Microsoft: a white button with the Microsoft logo, as
    Microsoft's own branding guidance asks, so it reads as the second way in
    rather than as small print. */
-.ms-wrap,
-.ms-wrap > div {
-	display: block;
-	width: 100%;
-}
-
 .btn-microsoft {
 	width: 100%;
 	height: 46px;
@@ -1412,6 +1408,15 @@ async function loginWithGoogle() {
 	color: #475569;
 	text-align: center;
 	margin: 8px 0 0;
+}
+
+.ms-hint-above {
+	margin: 4px 0 8px;
+}
+
+.ms-hint-alert {
+	color: #0F4C75;
+	font-weight: 600;
 }
 
 .code-link-row {
