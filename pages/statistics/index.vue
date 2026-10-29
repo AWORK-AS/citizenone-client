@@ -101,8 +101,9 @@
                     </div>
                 </div>
 
-                <!-- News section -->
-                <div>
+                <!-- News section. Everyone gets it unless a role layout hides it;
+                     there is no personal switch for it. -->
+                <div v-if="layoutReady && !isHidden('showNewsAndPoll')">
                     <p class="text-lg font-semibold text-slate-900">
                         {{ $t('overview.from') }} CitizenOne<sup class="text-xs">&#8482;</sup>
                     </p>
