@@ -53,6 +53,7 @@ const FIELD_KEYS: Record<string, string> = {
     hide_internal_journals: 'activityLogs.access.fields.hideInternalJournals',
     sees_hr_data: 'activityLogs.access.fields.seesHrData',
     counts_as_consultant: 'activityLogs.access.fields.countsAsConsultant',
+    only_assigned_citizens: 'activityLogs.access.fields.onlyAssignedCitizens',
     certificate_reminder_for: 'activityLogs.access.fields.certificateReminderFor',
 }
 
