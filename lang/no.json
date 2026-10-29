@@ -11494,7 +11494,6 @@
             "title": "Sjekk innboksen din",
             "sentTo": "Vi har sendt en e-post til {email}.",
             "confirm": "Bekreft e-postadressen din med lenken i e-posten.",
-            "activate": "Vi slår på kontoen din og skriver til deg når den er klar.",
             "signIn": "Logg inn med e-posten din og passordet du nettopp valgte.",
             "noMail": "Ingen e-post etter noen minutter? Sjekk søppelpost, eller skriv til support{'@'}citizenone.dk."
         },

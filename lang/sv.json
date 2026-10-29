@@ -11494,7 +11494,6 @@
             "title": "Kolla din inkorg",
             "sentTo": "Vi har skickat ett mejl till {email}.",
             "confirm": "Bekräfta din e-postadress med länken i mejlet.",
-            "activate": "Vi aktiverar ditt konto och skriver till dig när det är klart.",
             "signIn": "Logga in med din e-post och lösenordet du just valde.",
             "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
         },
