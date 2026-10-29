@@ -686,7 +686,7 @@ async function loginWithMicrosoft() {
 	state.isPageLoading = true
 	state.isSsoRedirecting = true
 	try {
-		const response = await authService.microsoftSso(email)
+		const response = await authService.microsoftSso(email, useIsDesktopApp() ? 'desktop' : undefined)
 		if (response?.data?.url) {
 			window.location.href = response.data.url
 			return
