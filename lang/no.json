@@ -19867,6 +19867,12 @@
         "boxDeleted": "Boksen er slettet",
         "managedByAdmin": "Administratoren din har satt opp denne oversikten. Bokser med lås er påkrevd.",
         "requiredByAdmin": "Påkrevd av administratoren din",
+        "rolePrefix": "Rolle: {name}",
+        "roleIntro": "Et rollelayout skjuler bare. Det det skjuler, ser personer med rollen verken i oversikten eller på statistikksiden, heller ikke der virksomhetens eller avdelingens layout krever det. Den som har flere roller, ser alt som én av rollene tillater. Administratorer ser alltid alt.",
+        "roleSeesEverything": "Ser alt",
+        "statisticsSections": "Statistikk",
+        "statisticsSectionsHelp": "Seksjoner på statistikksiden.",
+        "removeRoleLayoutConfirmation": "Fjerne rollens layout? Personer med rollen ser alt igjen",
         "states": {
             "mandatory": "Påkrevd",
             "optional": "Brukerens valg",

@@ -19867,6 +19867,12 @@
         "boxDeleted": "Rutan har tagits bort",
         "managedByAdmin": "Din administratör har ställt in den här översikten. Rutor med lås är obligatoriska.",
         "requiredByAdmin": "Obligatorisk enligt din administratör",
+        "rolePrefix": "Roll: {name}",
+        "roleIntro": "En rollayout döljer bara. Det den döljer ser personer med rollen varken i översikten eller på statistiksidan, även där företagets eller avdelningens layout kräver det. Den som har flera roller ser allt som någon av rollerna tillåter. Administratörer ser alltid allt.",
+        "roleSeesEverything": "Ser allt",
+        "statisticsSections": "Statistik",
+        "statisticsSectionsHelp": "Avsnitt på statistiksidan.",
+        "removeRoleLayoutConfirmation": "Ta bort rollens layout? Personer med rollen ser allt igen",
         "states": {
             "mandatory": "Obligatorisk",
             "optional": "Användarens val",

@@ -19952,6 +19952,12 @@
         "boxDeleted": "The box has been deleted",
         "managedByAdmin": "Your administrator has set up this overview. Boxes with a lock are required.",
         "requiredByAdmin": "Required by your administrator",
+        "rolePrefix": "Role: {name}",
+        "roleIntro": "A role layout only hides. People with the role do not see what it hides on the overview or the Statistics page, even where the company or department layout requires it. Someone with several roles sees anything one of their roles allows. Administrators always see everything.",
+        "roleSeesEverything": "Sees everything",
+        "statisticsSections": "Statistics",
+        "statisticsSectionsHelp": "Sections on the Statistics page.",
+        "removeRoleLayoutConfirmation": "Remove this role's layout? People with the role see everything again",
         "states": {
             "mandatory": "Required",
             "optional": "User's choice",
