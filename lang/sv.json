@@ -252,7 +252,13 @@
             "won": "Vunnen",
             "lost": "Förlorad"
         },
-        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
+        "viewToggle": "Tavla eller lista",
+        "viewBoard": "Tavla",
+        "viewList": "Lista",
+        "loadMore": "Visa fler ({count} till)",
+        "stageFilter": "Fas",
+        "allStages": "Alla faser",
+        "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
             "myself": "Mig själv",
@@ -862,6 +868,7 @@
                 "hideInternalJournals": "Kan inte se interna anteckningar",
                 "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
                 "countsAsConsultant": "Räknas som konsult",
+                "onlyAssignedCitizens": "Ser bara tilldelade insatser",
                 "certificateReminderFor": "Får påminnelser om certifikat för"
             },
             "values": {
@@ -5062,6 +5069,7 @@
         "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
         "coordinators": {
             "badgeIntake": "Mottagningskoordinator",
+            "badgeConsultant": "Konsult",
             "badgePrimary": "Primär koordinator",
             "badgeSecondary": "Sekundär koordinator",
             "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
@@ -11683,6 +11691,8 @@
             "certificateRemindersRolesPlaceholder": "Välj roller",
             "countsAsConsultant": "Medarbetare med den här rollen är konsulter",
             "countsAsConsultantHelp": "Används i Anställda → Intyg → Saknas: konsulter behöver utöver barnintyget CV, utbildningsbevis och kontrakt.",
+            "onlyAssignedCitizens": "Ser bara tilldelade insatser",
+            "onlyAssignedCitizensHelp": "Medarbetare med den här rollen ser bara de brukare (insatser) de är kopplade till under Kontakter, även planer, mål, journaler och dokument. Avdelning och nivå utökar det inte. Administratörer ser alltid allt.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",

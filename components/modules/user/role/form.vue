@@ -111,6 +111,17 @@
                 <p class="text-xs text-slate-500">{{ $t('roles.form.countsAsConsultantHelp') }}</p>
             </div>
 
+            <!-- The role's people see only the citizens they are attached to under Contacts,
+                 whatever their department or level (Citizen::scopeVisibleTo). Admin only. -->
+            <div v-if="isAtLeast('Admin')" class="space-y-1">
+                <div class="w-fit flex items-center cursor-pointer"
+                    @click="state.formRole.only_assigned_citizens = !state.formRole.only_assigned_citizens">
+                    <FormCheckbox id="only_assigned_citizens" :value="state.formRole.only_assigned_citizens" />
+                    {{ $t('roles.form.onlyAssignedCitizens') }}
+                </div>
+                <p class="text-xs text-slate-500">{{ $t('roles.form.onlyAssignedCitizensHelp') }}</p>
+            </div>
+
             <!-- Permissions: grouped by area so a role is built area-by-area instead of from one long flat list -->
             <div class="space-y-2">
                 <div class="flex items-center justify-between flex-wrap gap-2">
@@ -278,6 +289,7 @@ const state = reactive({
         certificate_reminder_scope: 'all' as 'all' | 'roles',
         certificate_reminder_role_ids: [] as number[],
         counts_as_consultant: false,
+        only_assigned_citizens: false,
     },
     reminderRoles: [] as any[],
     reminderRolesMissing: false,
@@ -327,6 +339,7 @@ watch(() => props.selectedRole, (newValue: any) => {
             sees_hr_data: !!newValue.sees_hr_data,
             ...certificateReminderFields(newValue.certificate_reminder_for),
             counts_as_consultant: !!newValue.counts_as_consultant,
+            only_assigned_citizens: !!newValue.only_assigned_citizens,
         }
         fetchAllPermissions()
         nextTick(() => { isInitializing.value = false })

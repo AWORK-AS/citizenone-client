@@ -83,6 +83,7 @@ async function fetchRole() {
                 sees_hr_data: response?.data?.sees_hr_data ?? false,
                 certificate_reminder_for: response?.data?.certificate_reminder_for ?? null,
                 counts_as_consultant: response?.data?.counts_as_consultant ?? false,
+                only_assigned_citizens: response?.data?.only_assigned_citizens ?? false,
             }
             response?.data?.permissions.forEach((permission: any) => {
                 state.formRole.permissions.push(permission?.uuid)
@@ -105,6 +106,7 @@ async function updateRole(roleDetails: any) {
             sees_hr_data: roleDetails.sees_hr_data ?? false,
             certificate_reminder_for: roleDetails.certificate_reminder_for ?? null,
             counts_as_consultant: roleDetails.counts_as_consultant ?? false,
+            only_assigned_citizens: roleDetails.only_assigned_citizens ?? false,
             permission_uuid: roleDetails.permissions,
             page_uuid: roleDetails.page_uuid ?? [],
             employee_group_uuid: roleDetails.employee_group_uuid ?? [],
