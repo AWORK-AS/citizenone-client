@@ -50,7 +50,18 @@
                 <Icon name="ph:upload-simple" class="w-4 h-4" />
                 {{ $t('socialWelfare.invoices.pushBilly') }}
             </FormButton>
+            <!-- Only invoices that never went out; the server checks again. -->
+            <FormButton v-if="canDelete && selectedDeletable.length" buttonStyle="action" :disabled="state.isWorking"
+                @click="state.isDeleteOpen = true">
+                <Icon name="ph:trash" class="w-4 h-4" />
+                {{ $t('socialWelfare.invoices.delete') }}
+            </FormButton>
         </div>
+
+        <DialogConfirmation :isModalOpen="state.isDeleteOpen" :title="$t('socialWelfare.invoices.deleteTitle')"
+            :message="deleteMessage" :confirmLabel="$t('socialWelfare.invoices.delete')"
+            @close="state.isDeleteOpen = false"
+            @confirm="run('delete', selectedDeletable.map((invoice: any) => invoice.uuid))" />
 
         <LoadingSpinner :isActive="state.isLoading">
             <p v-if="!state.invoices.length" class="px-5 py-8 text-center text-sm text-slate-400">
@@ -116,10 +127,12 @@
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { documentBlobViewer } from '@/composables/documentBlobViewer'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { deletableInvoices } from '@/composables/socialBilling'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
+const emit = defineEmits(['deleted'])
 const { formatAmount } = useAmountFormatter()
 const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
@@ -137,6 +150,25 @@ const state = reactive({
     dineroAvailable: false,
     billyAvailable: false,
     failures: {} as Record<string, string>,
+    isDeleteOpen: false,
+})
+
+// The same rule as the server: an Admin, or a role allowed to delete.
+const { isAtLeast, can } = usePermissions()
+const canDelete = computed(() => isAtLeast('Admin') || can('delete'))
+
+const selectedDeletable = computed(() =>
+    deletableInvoices(state.invoices.filter((invoice: any) => state.selected.includes(invoice.uuid)))
+)
+
+// Says how many go, and that sent or transferred ones are left alone.
+const deleteMessage = computed(() => {
+    const skipped = state.selected.length - selectedDeletable.value.length
+
+    return [
+        t('socialWelfare.invoices.deleteConfirm', { count: selectedDeletable.value.length }),
+        skipped > 0 ? t('socialWelfare.invoices.deleteSkipped', { count: skipped }) : null,
+    ].filter(Boolean).join(' ')
 })
 
 const statusOptions = computed(() => [
@@ -176,14 +208,14 @@ async function refresh() {
 
 // Each invoice is reported on its own, so the ones that went through are not
 // held back by one without a recipient.
-async function run(action: string) {
+async function run(action: string, uuids: string[] = state.selected) {
     state.error = {} as Error
     state.isWorking = true
     state.failures = {}
     try {
         const response = await socialWelfareService.bulkClientInvoices({
             action,
-            invoice_uuids: state.selected,
+            invoice_uuids: uuids,
             recipient: action === 'send_email' && state.recipient ? state.recipient : null,
         })
 
@@ -203,6 +235,10 @@ async function run(action: string) {
         const failures = { ...state.failures }
         await refresh()
         state.failures = failures
+
+        if (action === 'delete' && response?.succeeded > 0) {
+            emit('deleted')
+        }
     } catch (error: any) {
         state.error = error
     }

@@ -68,6 +68,14 @@ class MessageService extends BaseAPIService {
     async downloadAttachment(attachmentUuid: any): Promise<any> {
         return await this.request(`/user/chat-message-attachments/${attachmentUuid}/download`, 'POST')
     }
+
+    async previewExport(chatUuid: any, from: string, to: string): Promise<any> {
+        return await this.request(`/user/chats/${chatUuid}/export/preview`, 'GET', { from, to })
+    }
+
+    async downloadExport(chatUuid: any, from: string, to: string, onHeaders?: (headers: Headers) => void): Promise<Blob | null> {
+        return await this.requestBlob(`/user/chats/${chatUuid}/export`, 'GET', { from, to }, onHeaders)
+    }
 }
 
 export const messageService = new MessageService()

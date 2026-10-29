@@ -162,9 +162,14 @@
                         <ModulesUserNavbarSubscribeButton
                             v-if="showUpgrade && state.showSubscribeButton && userStore.getUser?.user_subscription === null"
                             class="hidden md:block" />
+                        <!-- Task #335: the bell is for every other notification; unread
+                             journal notes are text, so they get the note icon, as in the
+                             main layout. -->
+                        <ModulesUserNavbarNotificationBell class="mr-2" />
+
                         <button type="button" class="mr-4 p-2.5 relative text-primary hover:text-primary-700"
                             @click="navigateTo('/dentist/journal-notifications')">
-                            <Icon name="ph:bell" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
+                            <Icon name="ph:note" class="h-6 w-6 absolute top-0 left-0" aria-hidden="true" />
                             <Badge type="notification" class="w-fit absolute -top-4 left-4">
                                 {{ userStore.getUser?.unread_notification_count ?? 0 }}
                             </Badge>

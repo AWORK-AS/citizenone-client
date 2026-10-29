@@ -5725,6 +5725,7 @@
             "preset": {
                 "applyPreset": "Anvend forudindstilling",
                 "applySuccess": "Forudindstilling blev anvendt på vagtplanskladder med succes!",
+                "applySuccessWithSkipped": "{created} vagter tilføjet. {skipped} vagter lå allerede i kladden og blev ikke tilføjet igen.",
                 "confirmation": {
                     "deletePresetConfirmation": "Er du sikker på, at du vil slette denne forudindstilling"
                 },
@@ -5764,7 +5765,12 @@
                 "viewPresets": "Se forudindstillinger",
                 "infoBox": {
                     "title": "Hvad er forudindstillinger?",
-                    "description": "En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at indlæse den i kladden - du kan derefter redigere og offentliggøre den."
+                    "description": "En forudindstilling er et gemt vagtmønster, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at kopiere dens vagter ind på de datoer, du vælger. Vagter, der allerede ligger i kladden, bliver ikke tilføjet igen. Du behøver ikke en forudindstilling for at gemme dit arbejde: kladden gemmes automatisk."
+                },
+                "applyInfoBox": {
+                    "title": "Hvilken periode skal forudindstillingen dække?",
+                    "description": "Vælg den periode i din kladde, som forudindstillingens vagter skal kopieres ind i. Systemet tilpasser automatisk vagterne til de valgte datoer. Vagter, der allerede ligger i kladden på de datoer, bliver ikke tilføjet igen.",
+                    "example": "Eksempel: Vælg mandag d. 14. april som startdato og søndag d. 20. april som slutdato for at fylde uge 16 ud med forudindstillingens vagtmønster."
                 },
                 "saveInfoBox": {
                     "title": "Gem din nuværende kladde som forudindstilling",
@@ -5777,7 +5783,7 @@
                 "step1": "Opret kladdevagter",
                 "step2": "Gem forudindstilling (valgfrit)",
                 "step3": "Offentliggør til vagtplan",
-                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge en kladde du har lavet før."
+                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge et vagtmønster i en anden periode. Din kladde gemmes automatisk."
             },
             "backToPublished": "Tilbage til den udgivede vagtplan",
             "contextBanner": {
@@ -6253,6 +6259,7 @@
                 "date": "Udbetalingsdato",
                 "dateHint": "Vælg den dato timerne blev udbetalt. Udbetalingen tæller med i den måned.",
                 "noAccountAssigned": "Denne medarbejder har ingen aktiv tidskonto at registrere en udbetaling på.",
+                "negativeBalanceWarning": "{employee} har {balance} timer i afspadseringssaldo. Efter udbetalingen bliver saldoen {after} timer.",
                 "register": "Registrer udbetaling",
                 "title": "Registrer udbetaling"
             },
@@ -10054,6 +10061,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Download beskeder",
+            "from": "Fra",
+            "to": "Til",
+            "today": "I dag",
+            "last7": "Seneste 7 dage",
+            "last30": "Seneste 30 dage",
+            "all": "Alle",
+            "countOne": "1 besked kommer med",
+            "countMany": "{count} beskeder kommer med",
+            "noMessages": "Ingen beskeder i perioden",
+            "invalidRange": "Startdatoen skal være før slutdatoen",
+            "download": "Download PDF",
+            "downloading": "Downloader...",
+            "tooLarge": "Vælg en kortere periode (maks. 12 måneder / 5.000 beskeder)",
+            "tooManyRequests": "For mange downloads. Prøv igen om et minut.",
+            "personalData": "Indeholder personoplysninger — håndtér med omhu",
+            "error": "Beskederne kunne ikke downloades. Prøv igen."
+        },
         "cprWarning": {
             "title": "Tjek før du sender",
             "message": "Beskeden ser ud til at indeholde et CPR-nummer. Chatten er ikke beregnet til følsomme personoplysninger.",
@@ -12094,6 +12120,8 @@
                 "dutyScheduleSortFirstShift": "Sortér vagtplanen efter hvem der møder først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktivér afspadsering",
+                "payoutBeyondBalance": "Tillad udbetaling ud over afspadseringssaldoen",
+                "payoutBeyondBalanceHint": "Medarbejderens saldo kan blive negativ. Timerne skal så arbejdes ind senere i perioden.",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "lockShiftsBeforeDate": "Lås vagter før dato",
                 "clearLockShiftsBeforeDate": "Ryd dato",
@@ -13440,6 +13468,8 @@
                 "website": "Websted",
                 "activeImmediately": "Aktiv med det samme",
                 "activeImmediatelyDesc": "Virksomheden aktiveres øjeblikkeligt",
+                "vatExemptInvoicing": "Momsfri fakturering",
+                "vatExemptInvoicingDesc": "Giver virksomheden mulighed for at markere kunder som momsfrie. Fakturaer til de kunder laves uden moms.",
                 "address": "Adresse",
                 "addressPlaceholder": "Vejnavn 1, 1234 By",
                 "adminUser": "Administrator-bruger",
@@ -17850,6 +17880,10 @@
             "convertAllSelected": "Omdan alle valgte",
             "extras": "Diverse",
             "addExtra": "Tilføj diverse-linje",
+            "allTimings": "Alle",
+            "allFrequencies": "Alle",
+            "extraProductNumber": "Varenr.",
+            "extraProductNumberHelp": "Varenummeret i e-conomic. Er det tomt, bruger e-conomic det første produkt i jeres aftale.",
             "extraDescription": "Beskrivelse",
             "extraQuantity": "Antal",
             "extraPrice": "Pris",
@@ -17926,6 +17960,7 @@
             "customerGroup": "Kundegruppe",
             "customerDivision": "Kundeafdeling",
             "hasSpecialContract": "Særkontrakt",
+            "vatExempt": "Momsfri",
             "paymentTermsText": "Betalingsbetingelser, fuld tekst",
             "cooperationStatus": "Status på samarbejde",
             "cooperationStatusDate": "Dato for status",
@@ -17959,6 +17994,7 @@
                 "customerGroup": "Kundegruppen i WorkZone, f.eks. 3.",
                 "customerDivision": "Kundens afdeling i WorkZone, gemt med sin kode, f.eks. 1300, Jylland og Fyn.",
                 "hasSpecialContract": "Sæt kryds, hvis kunden har en særlig kontrakt.",
+                "vatExempt": "Sæt kryds, hvis fakturaer til denne kunde er uden moms, fx en kommune der køber sociale ydelser. Gælder fakturaer der laves fremover.",
                 "paymentTermsDays": "Antal dage fra listen under Betalingsbetingelser. Bruges på fakturaen.",
                 "paymentTermsText": "Den fulde tekst om betalingsbetingelser, som den står i aftalen.",
                 "priceRegulation": "Aftalen om prisregulering.",
@@ -18213,6 +18249,10 @@
             "pushEconomic": "Send til e-conomic som kladde",
             "pushDinero": "Send til Dinero som bilag",
             "pushBilly": "Send til Billy som kladde",
+            "delete": "Slet",
+            "deleteTitle": "Slet fakturaer",
+            "deleteConfirm": "{count} faktura(er) slettes. Deres timer og kontraktlinjer kan derefter faktureres igen.",
+            "deleteSkipped": "{count} valgte faktura(er) er sendt eller overført og bliver ikke slettet.",
             "empty": "Ingen fakturaer i denne visning.",
             "number": "Fakturanr.",
             "billTo": "Modtager",
@@ -18232,6 +18272,7 @@
                 "invoice_not_found": "Fakturaen blev ikke fundet",
                 "customer_failed": "Kunden kunne ikke oprettes i e-conomic",
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
+                "vat_exempt_invoice_failed": "Kladden kunne ikke oprettes i e-conomic. En momsfri faktura kræver en momsfri momszone i e-conomic (fx \"Indland, momsfri\")",
                 "dinero_not_connected": "Dinero er ikke forbundet",
                 "dinero_invoice_not_found": "Fakturaen blev ikke fundet",
                 "dinero_voucher_failed": "Bilaget kunne ikke oprettes i Dinero",
@@ -18240,6 +18281,8 @@
                 "billy_contact_failed": "Kunden kunne ikke oprettes i Billy",
                 "billy_product_failed": "Produktet kunne ikke oprettes i Billy (ingen indtægtskonto fundet)",
                 "billy_invoice_failed": "Fakturaen kunne ikke oprettes i Billy",
+                "billy_vat_exempt_rate_missing": "Billy har ingen aktiv salgsmomssats på 0 % til en momsfri faktura",
+                "not_deletable": "Sendte eller overførte fakturaer kan ikke slettes",
                 "billy_already_pushed": "Fakturaen er allerede sendt til Billy",
                 "billy_auth_failed": "Billy accepterede ikke adgangstoken",
                 "unknown_action": "Ukendt handling"

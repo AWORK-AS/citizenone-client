@@ -52,6 +52,26 @@
                             <option value="intervention">{{ $t('socialWelfare.billing.invoicePerIntervention') }}</option>
                         </select>
                     </div>
+                    <!-- Only contracts billed this way, e.g. what is billed in
+                         advance when next month is invoiced early. -->
+                    <div class="space-y-1">
+                        <FormLabel :label="$t('socialWelfare.contract.billingTiming')" />
+                        <select class="co-cell-input w-44" v-model="state.filter.billing_timing">
+                            <option value="">{{ $t('socialWelfare.billing.allTimings') }}</option>
+                            <option v-for="timing in ['in_advance', 'in_arrears']" :key="timing" :value="timing">
+                                {{ $t('socialWelfare.contract.billingTimings.' + timing) }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="space-y-1">
+                        <FormLabel :label="$t('socialWelfare.contract.billingFrequency')" />
+                        <select class="co-cell-input w-44" v-model="state.filter.billing_frequency">
+                            <option value="">{{ $t('socialWelfare.billing.allFrequencies') }}</option>
+                            <option v-for="frequency in ['monthly', 'quarterly', 'half_yearly', 'yearly']" :key="frequency" :value="frequency">
+                                {{ $t('socialWelfare.contract.frequencies.' + frequency) }}
+                            </option>
+                        </select>
+                    </div>
                     <FormButton buttonStyle="primary" @click="fetchExtraction" :disabled="state.isLoading">
                         <Icon name="ph:funnel" class="w-4 h-4" />
                         {{ $t('socialWelfare.billing.generate') }}
@@ -425,9 +445,18 @@
                                         <td class="co-td"></td>
                                         <td class="co-td"></td>
                                         <td class="co-td" colspan="3">
-                                            <input type="text" class="co-cell-input w-full"
-                                                :placeholder="$t('socialWelfare.billing.extraDescription')"
-                                                v-model="extra.description" />
+                                            <div class="flex gap-2">
+                                                <input type="text" class="co-cell-input w-full"
+                                                    :placeholder="$t('socialWelfare.billing.extraDescription')"
+                                                    v-model="extra.description" />
+                                                <!-- The item number (varenummer) in e-conomic. Left empty, e-conomic uses the agreement's first product. -->
+                                                <Tooltip :text="$t('socialWelfare.billing.extraProductNumberHelp')" wrap position="top">
+                                                    <input type="text" maxlength="50" class="co-cell-input w-32"
+                                                        :placeholder="$t('socialWelfare.billing.extraProductNumber')"
+                                                        :aria-label="$t('socialWelfare.billing.extraProductNumber')"
+                                                        v-model="extra.product_number" />
+                                                </Tooltip>
+                                            </div>
                                         </td>
                                         <td class="co-td">
                                             <input type="number" step="0.25" class="co-cell-input w-24"
@@ -478,7 +507,8 @@
                 </div>
             </LoadingSpinner>
 
-            <ModulesUserEconomySocialBillingInvoices ref="invoicesList" />
+            <!-- A deleted invoice gives its hours back, so the extraction above is read again. -->
+            <ModulesUserEconomySocialBillingInvoices ref="invoicesList" @deleted="state.hasFetched && fetchExtraction()" />
         </div>
     </div>
 </template>
@@ -488,6 +518,7 @@ import { saveAs } from 'file-saver'
 import { socialWelfareService } from '@/components/api/user/SocialWelfareService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useEconomyPeriod } from '@/composables/economyPeriod'
+import { billedSpan, extractionParams } from '@/composables/socialBilling'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
@@ -522,6 +553,8 @@ const state = reactive({
         from_date: '',
         to_date: '',
         group_by: 'customer',
+        billing_timing: '',
+        billing_frequency: '',
     },
 })
 
@@ -749,7 +782,7 @@ function toggleGroup(group: any, checked: boolean) {
 }
 
 function addExtra(group: any) {
-    group.extras.push({ description: '', quantity: '1', price: '' })
+    group.extras.push({ description: '', quantity: '1', price: '', product_number: '' })
 }
 
 // The card total is what the invoice would say: the selected placements plus
@@ -842,12 +875,14 @@ async function fetchExtraction() {
     state.error = {} as Error
     state.isLoading = true
     try {
-        const response = await socialWelfareService.getBillingExtraction(state.filter)
+        const response = await socialWelfareService.getBillingExtraction(extractionParams(state.filter))
         const data = response?.data ?? response ?? {}
         state.groups = (data.groups ?? []).map((group: any) => ({
             ...group,
             extras: [],
-            note: `${t('socialWelfare.billing.noteFor')} ${state.filter.from_date} - ${state.filter.to_date}`,
+            // The whole span billed, so a catch-up of an earlier month or a
+            // period billed in advance is named on the invoice too.
+            note: noteFor(billedSpan(group, state.filter.from_date, state.filter.to_date)),
             rows: (group.rows ?? []).map((row: any) => ({
                 ...row,
                 // Everything billable starts selected: the common case is the
@@ -871,6 +906,10 @@ async function fetchExtraction() {
         state.error = error
     }
     state.isLoading = false
+}
+
+function noteFor(span: { from: string, to: string }): string {
+    return `${t('socialWelfare.billing.noteFor')} ${span.from} - ${span.to}`
 }
 
 function defaultLineDescription(row: any): string {
@@ -927,6 +966,7 @@ function groupPayload(group: any, rows: any[]) {
                 description: String(extra.description).trim(),
                 quantity: Number(extra.quantity),
                 price: Number(extra.price),
+                product_number: String(extra.product_number ?? '').trim() || null,
             })),
         ],
     }

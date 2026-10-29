@@ -105,6 +105,13 @@
                             <Icon name="ph:users-three" class="h-5 w-5 text-gray-500" aria-hidden="true" />
                         </button>
                     </Tooltip>
+                    <Tooltip :text="$t('messages.export.title')" position="left">
+                        <button :aria-label="$t('messages.export.title')"
+                            class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
+                            @click="state.modal.isExportOpen = true">
+                            <Icon name="ph:download-simple" class="h-4 w-4 text-gray-500" aria-hidden="true" />
+                        </button>
+                    </Tooltip>
                 </div>
             </div>
 
@@ -299,6 +306,9 @@
             @refreshChatDetails="refreshChatDetails" />
         <ModulesUserMessagesGroupChatModalMembers :isModalOpen="state.modal.isManageGroupChatMembersOpen"
             @close="state.modal.isManageGroupChatMembersOpen = false" @refreshChat="fetchChat" />
+        <ModulesUserMessagesModalExport :isModalOpen="state.modal.isExportOpen"
+            :chatUuid="String($route.params.chat_uuid || '')" :chatName="exportChatName()"
+            @close="state.modal.isExportOpen = false" />
         <ModulesUserMessagesModalEditMessage :isModalOpen="state.modal.isEditChatMessageOpen"
             :selectedChat="state.selectedChat" @close="state.modal.isEditChatMessageOpen = false"
             @updateMessage="updateMessage" />
@@ -390,6 +400,7 @@ const state = reactive({
         isDeleteConfirmationOpen: false,
         isEditChatMessageOpen: false,
         isEditGroupNameOpen: false,
+        isExportOpen: false,
         isManageGroupChatMembersOpen: false,
         isUpgradeStorageOpen: false,
         isImagePreviewOpen: false,
@@ -521,6 +532,13 @@ function getChatHeaderName(): string {
     }
     const self = chatToSelf(state.chat?.data?.chat_members || [])
     return self[0] ? memberDisplayName(self[0]) : ''
+}
+
+// Used only for the exported file's fallback name.
+function exportChatName(): string {
+    return state.chat?.data?.type === 'group'
+        ? (state.chat?.data?.name || chatGroupMembers(state.chat?.data))
+        : getChatHeaderName()
 }
 
 function getChatHeaderAvatar(): string {
