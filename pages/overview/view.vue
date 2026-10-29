@@ -47,7 +47,7 @@
             </div>
 
             <div class="flex gap-x-3 justify-end">
-                <FormButton buttonStyle="action" @click="navigateTo('/inquiries')">
+                <FormButton v-if="userHasPage(userStore.getUser?.pages, 'Inquiries')" buttonStyle="action" @click="navigateTo('/inquiries')">
                     <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('inquiries.inquiries') }}
                 </FormButton>
@@ -82,6 +82,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
+import { userHasPage } from '@/composables/pageAccess'
 import { useDailyOverviewStore } from '@/store/daily-overview'
 
 const { formatLocalized } = useDatetimeFormatter()

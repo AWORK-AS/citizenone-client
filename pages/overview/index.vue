@@ -117,7 +117,7 @@
                         {{ $t('overview.viewAll') }}
                     </FormButton>
                     <FormButton buttonStyle="action" class="w-full md:w-fit shadow-sm" @click="navigateTo('/inquiries')"
-                        v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name)">
+                        v-if="userStore.getUser?.company?.industry?.system_name === 'social_welfare' && ['Crisis center', 'Shelter'].includes(userStore.getUser?.company?.facility_type?.en_name) && userHasPage(userStore.getUser?.pages, 'Inquiries')">
                         <Icon name="ph:list-bullets" class="h-4 w-4" aria-hidden="true" />
                         {{ $t('inquiries.inquiries') }}
                     </FormButton>
@@ -495,6 +495,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
+import { userHasPage } from '@/composables/pageAccess'
 import { dailyOverviewService } from '@/components/api/user/DailyOverviewService'
 import { citizenService } from '@/components/api/user/CitizenService'
 import { continuityService } from '@/components/api/user/ContinuityService'
