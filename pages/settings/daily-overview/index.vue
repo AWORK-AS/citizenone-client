@@ -189,11 +189,14 @@ const state = reactive({
     },
 })
 
-// Admins always see everything, so their roles are not offered.
+// Admins always see everything, so their roles are not offered. Only Admins
+// set role layouts; others with manage_daily_overview get the company and
+// departments (the server refuses a role scope for them too).
+const canManageRoleLayouts = computed(() => isAtLeast('Admin'))
 const scopeOptions = computed(() => [
     { value: '', label: t('dailyOverviewLayouts.companyDefault') },
     ...state.departments.map((department: any) => ({ value: department.uuid, label: department.name })),
-    ...state.roles
+    ...(canManageRoleLayouts.value ? state.roles : [])
         .filter((role: any) => (role.level ?? 0) < 80)
         .map((role: any) => ({ value: `role:${role.id}`, label: t('dailyOverviewLayouts.rolePrefix', { name: role.name }) })),
 ])
