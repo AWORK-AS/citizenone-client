@@ -8745,19 +8745,19 @@
         }
     },
     "forgotPassword": {
-        "checkInboxSub": "Vi skickar ett länk innan för få minuter",
-        "checkInboxTitle": "Kontrollera din indbakke",
-        "emailAddress": "E-post adress",
-        "enterEmailAssociated": "Ange e-mailadressen, där är kopplad din konto, för att nulstille din lösenord",
+        "checkInboxSub": "Vi skickar en länk inom några minuter",
+        "checkInboxTitle": "Kontrollera din inkorg",
+        "emailAddress": "E-postadress",
+        "enterEmailAssociated": "Ange e-postadressen som är kopplad till ditt konto för att återställa ditt lösenord",
         "forgotPassword": "Glömt lösenord",
-        "headlineLine1": "Återställ din",
+        "headlineLine1": "Återställ ditt",
         "headlineLine2": "lösenord.",
-        "linkValidSub": "Anmod om ett nytt länk om det utgår",
-        "linkValidTitle": "Linket är gyldigt i 60 min.",
-        "loginHereInstead": "Logga in här i stedet",
+        "linkValidSub": "Begär en ny länk om den går ut",
+        "linkValidTitle": "Länken är giltig i 60 min.",
+        "loginHereInstead": "Logga in här i stället",
         "or": "Eller",
-        "panelDescription": "Ange din e-postadress och vi skickar dig ett länk till att nulstille din lösenord.",
-        "requestPasswordReset": "Anmod om nulstilling av lösenord"
+        "panelDescription": "Ange din e-postadress så skickar vi en länk för att återställa ditt lösenord.",
+        "requestPasswordReset": "Begär återställning av lösenord"
     },
     "formFieldConfig": {
         "alert": {
@@ -9521,6 +9521,7 @@
         "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal."
     },
     "journalNotes": {
+        "removeFilter": "Ta bort filter: {name}",
         "title": "Journal notes",
         "citizen": "Citizen",
         "department": "Department",
@@ -9824,8 +9825,8 @@
             "alwaysEncrypted": "Säker post skickas alltid krypterad. Ange ett lösenord som mottagaren behöver för att öppna meddelandet.",
             "enterCode": "Ange en selvvalgt kod",
             "message": "Meddelande",
-            "passwordHint": "Skriv ett liten hint, där kan hjälpa modtageren med att huske adgangskoden",
-            "passwordHintPlaceholder": "Ange hint till adgangskoden",
+            "passwordHint": "Skriv en kort ledtråd som hjälper mottagaren att komma ihåg lösenordet",
+            "passwordHintPlaceholder": "Ange en ledtråd till lösenordet",
             "reenterCode": "Ange den selvvalgte kod igen",
             "send": "Skicka",
             "subject": "Emne",
@@ -12114,7 +12115,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Schema & arbetstid",
                 "groupOther": "Övrigt & integrationer",
-                "absenceCountsInNormHours": "Semester och sjukfrånvaro räknas med i normtimmar och kompledighet",
+                "absenceCountsInNormHours": "Frånvaro räknas med i normtimmar och kompledighet",
                 "upgradeToPro": "Uppgradera till Pro",
                 "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
                 "holidayState": {
@@ -12741,7 +12742,7 @@
             "endTimeDayOffsetSameDay": "Samma dag",
             "endTimeDayOffsetThreeDaysLater": "3 dagar senere",
             "endTimeDayOffsetTwoDaysLater": "2 dagar senere",
-            "markAsLeaveType": "Markera som fravärstype",
+            "markAsLeaveType": "Markera som frånvarotyp",
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
             "paycode": "Lönningskode",
@@ -20286,5 +20287,48 @@
         "importFailed": "Ett fel uppstod vid importen.",
         "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
         "deleteFailed": "Ett fel uppstod vid raderingen."
+    },
+    "signup": {
+        "title": "Skapa ditt kostnadsfria konto för att spara ditt arbete",
+        "subtitle": "Ditt arbete från citizenone.dk är sparat och väntar på dig.",
+        "continueWithApple": "Fortsätt med Apple",
+        "continueWithGoogle": "Fortsätt med Google",
+        "continueWithEmail": "Fortsätt med e-post",
+        "emailLabel": "E-postadress",
+        "emailPlaceholder": "du{'@'}arbetsplatsen.se",
+        "sendCode": "Skicka kod",
+        "back": "Tillbaka",
+        "codeSent": "Vi har skickat en kod med 6 siffror till {email}.",
+        "codeLabel": "Kod med 6 siffror",
+        "verify": "Fortsätt",
+        "changeEmail": "Använd en annan e-postadress",
+        "resendCode": "Skicka en ny kod",
+        "haveAccount": "Har du redan ett konto med lösenord?",
+        "signIn": "Logga in",
+        "complete": {
+            "title": "Slutför ditt konto",
+            "heading": "Nästan klart",
+            "signedInAs": "Du registrerar dig som {email}.",
+            "submit": "Skapa konto",
+            "expiredTitle": "Länken för registrering har gått ut",
+            "expiredBody": "Börja om för att skapa ditt konto.",
+            "startAgain": "Börja om"
+        },
+        "pending": {
+            "title": "Vi granskar ditt konto",
+            "body": "Tack. Vi granskar varje nytt konto innan det slås på, och vi skriver till {email} när det är klart.",
+            "draftSaved": "Ditt utkast från citizenone.dk är sparat och väntar på dig när du loggar in."
+        },
+        "drafts": {
+            "title": "Sparat från citizenone.dk",
+            "delete": "Ta bort",
+            "deleteAria": "Ta bort sparat utkast: {tool}",
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Formulär för tvångsåtgärd",
+                "daily-rhythm": "Dygnsrytmsplan",
+                "socialtilsyn": "Tillsynskontroll"
+            }
+        }
     }
 }

@@ -15,6 +15,23 @@ class AuthService extends BaseAPIService {
         return await this.request(`/auth/sso/exchange`, 'POST', { code })
     }
   
+    // "Create your free account to save your progress": email code, then the pending identity.
+    async signupEmail(params: object): Promise<any> {
+        return await this.request(`/auth/signup/email`, 'POST', params)
+    }
+
+    async signupEmailVerify(email: string, otp: string): Promise<any> {
+        return await this.request(`/auth/signup/email/verify`, 'POST', { email, otp })
+    }
+
+    async getSignup(signup: string): Promise<any> {
+        return await this.request(`/auth/signup/${encodeURIComponent(signup)}`, 'GET')
+    }
+
+    async completeSignup(params: object): Promise<any> {
+        return await this.request(`/auth/signup/complete`, 'POST', params)
+    }
+
     async googleLogin(): Promise<any> {
         return await this.request(`/auth/google/login`, 'GET')
     }

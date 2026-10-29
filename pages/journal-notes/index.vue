@@ -26,6 +26,10 @@
                                 <span class="group-hover:text-primary-700">
                                     {{ $t('filter') }}
                                 </span>
+                                <span v-if="state.appliedChips.length"
+                                    class="ml-1 rounded-full bg-primary px-1.5 text-xxs font-semibold leading-4 text-white">
+                                    {{ state.appliedChips.length }}
+                                </span>
                             </button>
                             <div class="flex items-center gap-x-2 justify-end">
                                 <FormButton :aria-label="$t('citizens.citizenJournals.newNote')" buttonStyle="action" data-tour="journal-note-new" @click="state.modal.isAddJournalOpen = true">
@@ -72,6 +76,23 @@
                                     <Icon name="mdi:refresh" class="size-4" />
                                 </FormButton>
                             </div>
+                            <!-- What the Filter dialog narrows the list to, so a short list explains itself. -->
+                            <ul v-if="state.appliedChips.length" class="mt-3 flex flex-wrap items-center gap-2">
+                                <li v-for="chip in state.appliedChips" :key="`${chip.key}-${chip.value}`"
+                                    class="inline-flex items-center gap-1 rounded-full bg-primary/5 py-1 pl-3 pr-1.5 text-sm text-slate-800 ring-1 ring-primary/20">
+                                    {{ chip.label }}
+                                    <button type="button" @click="removeChip(chip)"
+                                        :aria-label="$t('journalNotes.removeFilter', { name: chip.label })"
+                                        class="rounded-full p-0.5 text-slate-400 hover:bg-white hover:text-slate-700">
+                                        <Icon name="ph:x" class="size-3.5" aria-hidden="true" />
+                                    </button>
+                                </li>
+                                <li>
+                                    <button type="button" @click="clearAppliedFilter" class="text-sm text-slate-500 hover:text-slate-800">
+                                        {{ $t('citizens.citizenJournals.filter.clear') }}
+                                    </button>
+                                </li>
+                            </ul>
                         </div>
 
                         <div class="mt-5 space-y-5">
@@ -281,8 +302,8 @@
             </div>
 
             <ModulesUserJournalNotesModalFilter :isModalOpen="state.modal.isFilterJournalOpen"
-                :citizenOptions="state.citizenOptions" @close="state.modal.isFilterJournalOpen = false"
-                @setFilter="setFilter" />
+                :citizenOptions="state.citizenOptions" :applied="state.applied"
+                @close="state.modal.isFilterJournalOpen = false" @setFilter="setFilter" />
             <ModulesUserJournalNotesModalNew :isModalOpen="state.modal.isAddJournalOpen"
                 :citizenOptions="state.citizenOptions" @close="state.modal.isAddJournalOpen = false"
                 @refreshJournal="fetchJournals" />
@@ -342,11 +363,17 @@ const breadcrumbLinks = [
     },
 ]
 
+function emptyAppliedFilter() {
+    return { assessment: '', citizen: '', department: '', tags: [] as string[], created_by: [] as string[] }
+}
+
 const state = reactive({
     citizenOptions: [] as any,
+    applied: emptyAppliedFilter(),
+    appliedChips: [] as { key: string, value: string, label: string }[],
     dataFilter: (hasQueryDateRange
         ? { start_date: queryStartDate, end_date: queryEndDate }
-        : []) as any,
+        : {}) as any,
     error: {} as Error,
     filter: {
         date_range: (hasQueryDateRange ? [queryStartDate, queryEndDate] : []) as any,
@@ -402,15 +429,38 @@ watch(() => state.filter.date_range, (dates: any) => {
     fetchJournals()
 })
 
-function setFilter(filter: any) {
-    citizenJournalStore.setFilterView(filter.selectedView.title)
-    state.dataFilter.tagsUuid = JSON.stringify(filter.tags)
-    state.dataFilter.createdBy = JSON.stringify(filter.created_by)
-    state.dataFilter.citizen_uuid = filter.citizens?.[0] ?? ''
+function setFilter({ selectedView, filter, chips }: any) {
+    if (selectedView?.title) citizenJournalStore.setFilterView(selectedView.title)
+    state.applied = filter
+    state.appliedChips = chips
+    applyFilter()
+}
+
+function applyFilter() {
+    const applied = state.applied
+    state.dataFilter.tagsUuid = JSON.stringify(applied.tags)
+    state.dataFilter.createdBy = JSON.stringify(applied.created_by)
+    state.dataFilter.citizen_uuid = applied.citizen
     state.dataFilter.citizen_name = ''
-    state.dataFilter.department = filter.departments?.[0] ?? ''
-    state.dataFilter.assessment = filter.assessment ?? ''
+    state.dataFilter.assessment = applied.assessment
+    // Left out when empty, so the department picked in the topbar still applies.
+    if (applied.department) state.dataFilter.department = applied.department
+    else delete state.dataFilter.department
+    currentTablePage = 1
     fetchJournals()
+}
+
+function removeChip(chip: { key: string, value: string }) {
+    const applied: any = state.applied
+    applied[chip.key] = Array.isArray(applied[chip.key]) ? applied[chip.key].filter((v: string) => v !== chip.value) : ''
+    state.appliedChips = state.appliedChips.filter(c => !(c.key === chip.key && c.value === chip.value))
+    applyFilter()
+}
+
+function clearAppliedFilter() {
+    state.applied = emptyAppliedFilter()
+    state.appliedChips = []
+    applyFilter()
 }
 
 async function fetchJournals() {
@@ -474,6 +524,7 @@ function fetchLockedJournals(filterDataBy: any) {
     citizenJournalStore.setFilterDataBy(filterDataBy)
     currentTablePage = 1
     state.dataFilter.lock = true
+    delete state.dataFilter.favorite
     fetchJournals()
 }
 
@@ -481,6 +532,7 @@ function fetchFavoriteJournals(filterDataBy: any) {
     citizenJournalStore.setFilterDataBy(filterDataBy)
     currentTablePage = 1
     state.dataFilter.favorite = true
+    delete state.dataFilter.lock
     fetchJournals()
 }
 
@@ -488,7 +540,9 @@ function resetFilter() {
     citizenJournalStore.resetFilterDataBy()
     citizenJournalStore.resetSortDataBy()
     currentTablePage = 1
-    state.dataFilter = []
+    state.dataFilter = {}
+    state.applied = emptyAppliedFilter()
+    state.appliedChips = []
     state.sortData = { sortField: 'date', sortOrder: 'descend' }
     state.filter.date_range = []
     state.filter.journal = ''

@@ -9521,6 +9521,7 @@
         "wellbeingRulerDescription": "Når den er slået til, kan der gives en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn på sagen. Scoren er valgfri og indgår i trivselsudviklingen og i statusrapportens trivselslineal."
     },
     "journalNotes": {
+        "removeFilter": "Fjern filter: {name}",
         "title": "@.capitalize:terms.journalNotes{''}",
         "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Afdeling",
@@ -12119,7 +12120,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Vagtplan & arbejdstid",
                 "groupOther": "Øvrigt & integrationer",
-                "absenceCountsInNormHours": "Ferie og sygdom tæller med i normtimer og afspadsering",
+                "absenceCountsInNormHours": "Fravær tæller med i normtimer og afspadsering",
                 "upgradeToPro": "Opgradér til Pro",
                 "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
                 "holidayState": {
@@ -20371,5 +20372,48 @@
         "importFailed": "Der opstod en fejl under importen.",
         "openFileFailed": "Der opstod en fejl under åbning af filen.",
         "deleteFailed": "Der opstod en fejl under sletningen."
+    },
+    "signup": {
+        "title": "Opret din gratis konto for at gemme dit arbejde",
+        "subtitle": "Dit arbejde fra citizenone.dk er gemt og venter på dig.",
+        "continueWithApple": "Fortsæt med Apple",
+        "continueWithGoogle": "Fortsæt med Google",
+        "continueWithEmail": "Fortsæt med e-mail",
+        "emailLabel": "E-mailadresse",
+        "emailPlaceholder": "dig{'@'}arbejdsplads.dk",
+        "sendCode": "Send kode",
+        "back": "Tilbage",
+        "codeSent": "Vi har sendt en kode på 6 cifre til {email}.",
+        "codeLabel": "Kode på 6 cifre",
+        "verify": "Fortsæt",
+        "changeEmail": "Brug en anden e-mail",
+        "resendCode": "Send en ny kode",
+        "haveAccount": "Har du allerede en konto med adgangskode?",
+        "signIn": "Log ind",
+        "complete": {
+            "title": "Færdiggør din konto",
+            "heading": "Næsten færdig",
+            "signedInAs": "Du opretter dig som {email}.",
+            "submit": "Opret konto",
+            "expiredTitle": "Linket til oprettelse er udløbet",
+            "expiredBody": "Start forfra for at oprette din konto.",
+            "startAgain": "Start forfra"
+        },
+        "pending": {
+            "title": "Vi gennemgår din konto",
+            "body": "Tak. Vi gennemgår hver ny konto, før den tændes, og vi skriver til {email}, når den er klar.",
+            "draftSaved": "Dit udkast fra citizenone.dk er gemt og venter på dig, når du logger ind."
+        },
+        "drafts": {
+            "title": "Gemt fra citizenone.dk",
+            "delete": "Slet",
+            "deleteAria": "Slet gemt udkast: {tool}",
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Skema til magtanvendelse",
+                "daily-rhythm": "Døgnrytmeplan",
+                "socialtilsyn": "Socialtilsyn-tjek"
+            }
+        }
     }
 }
