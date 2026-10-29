@@ -615,7 +615,7 @@ async function register() {
                 }
                 const response = await authService.register(params)
                 if (response.data) {
-                    pushSignUpEvent()
+                    pushSignUpEvent(state.oauthProvider || 'email', signupSource.value)
                     // The account cannot be signed into yet: the address has to be confirmed
                     // and the company switched on. Sending her to the login form said neither,
                     // so the page now says what happens next instead.

@@ -19,3 +19,31 @@ export function signupSourceFromQuery(search: string): Record<string, string> {
 
     return found
 }
+
+const PAID_MEDIA = ['cpc', 'ppc', 'paid', 'paidsearch', 'paid_search', 'lead_form']
+const SEARCH_ENGINES = ['google.', 'bing.', 'duckduckgo.', 'yahoo.', 'ecosia.']
+const PRODUCT_UTM_SOURCE = 'citizenone_product'
+
+/**
+ * The channel the backend will store on the company, worked out here too so the `sign_up` event
+ * can carry it. GA4 sees a signup as "Direct", because the visit starts over on app.citizenone.dk,
+ * while the backend knows it came from Google. Same order and same names as
+ * App\Support\SignupSource::channel in citizenone-backend; change both or neither. The one
+ * difference: the backend only credits `share` to a code that exists, which the client cannot check.
+ */
+export function signupChannel(source: Record<string, string>): string {
+    const utmSource = (source.utm_source ?? '').trim().toLowerCase()
+    const medium = (source.utm_medium ?? '').trim().toLowerCase()
+    const referrer = (source.ref ?? '').trim().toLowerCase()
+
+    if (source.share) return 'share'
+    if (source.gclid) return 'google_ads'
+    if (utmSource.includes('google') && PAID_MEDIA.includes(medium)) return 'google_ads'
+    if (utmSource.includes('findsocialetilbud') || referrer.includes('findsocialetilbud')) return 'findsocialetilbud'
+    if (utmSource === PRODUCT_UTM_SOURCE) return 'product'
+    if (utmSource !== '') return 'campaign'
+    if (referrer !== '' && SEARCH_ENGINES.some((engine) => referrer.includes(engine))) return 'search'
+    if (referrer !== '') return 'referral'
+
+    return 'direct'
+}
