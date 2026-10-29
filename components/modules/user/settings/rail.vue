@@ -88,7 +88,6 @@ const ADMIN_ONLY_ROUTES = [
     'settings-import',
     'settings-whistleblower',
     'settings-power-bi',
-    'settings-zapier',
     'settings-economic',
     'settings-dinero',
     'settings-billy',

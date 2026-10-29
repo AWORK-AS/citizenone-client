@@ -109,7 +109,6 @@ export function useSettingsNav() {
                 key: 'apps', labelKey: 'settings.groups.apps', items: [
                     item('portalAccess.title', '/settings/portal-access', ['settings-portal-access']),
                     item('settings.tabs.powerBi', '/settings/power-bi', ['settings-power-bi']),
-                    item('settings.tabs.zapier', '/settings/zapier', ['settings-zapier']),
                     item('settings.tabs.economic', '/settings/economic', ['settings-economic']),
                     item('settings.tabs.dinero', '/settings/dinero', ['settings-dinero']),
                     item('settings.tabs.billy', '/settings/billy', ['settings-billy']),
