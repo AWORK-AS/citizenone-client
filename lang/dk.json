@@ -15660,6 +15660,7 @@
         },
         "metrics": {
             "contractMrr": "Kontrakt-MRR",
+            "sinceLastVisit": "siden sidst",
             "contractArr": "Kontrakt-ARR {amount}",
             "cashMrr": "Cash-MRR",
             "cashArr": "Cash-ARR, næste 12 mdr. {amount}",

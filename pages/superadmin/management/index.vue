@@ -48,7 +48,8 @@
                                     </Tooltip>
                                 </div>
                                 <p class="co-stat-value text-[#2E9E33]">
-                                    {{ formatAmount(state.recurringRevenue.mrr, 'DKK') }}
+                                    <ModulesSuperadminDashboardMetricValue :value="state.recurringRevenue.mrr"
+                                        metric-key="contract_mrr" :format="dkk" />
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.adoption.arr', { amount: formatAmount(state.recurringRevenue.contract_arr ?? state.recurringRevenue.arr, 'DKK') }) }}
@@ -89,7 +90,9 @@
                                     </Tooltip>
                                 </div>
                                 <p class="co-stat-value text-[#42AED9]">
-                                    {{ formatAmount(state.recurringRevenue.contracted_next_12_months, 'DKK') }}
+                                    <ModulesSuperadminDashboardMetricValue
+                                        :value="state.recurringRevenue.contracted_next_12_months"
+                                        metric-key="contracted_next_12_months" :format="dkk" />
                                 </p>
                                 <p class="co-stat-sub">
                                     {{ $t('superadmin.dashboard.adoption.contractedThreeYears', { amount: formatAmount(state.recurringRevenue.contracted_next_36_months, 'DKK') }) }}
@@ -284,6 +287,7 @@ import { useAmountFormatter } from '@/composables/amountFormatter'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
+const dkk = (value: number) => formatAmount(value, 'DKK')
 
 const state = reactive({
     revenue: 0,
