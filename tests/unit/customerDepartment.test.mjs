@@ -41,6 +41,13 @@ describe('form mapping', () => {
         assert.equal(payload.name, 'X')
     })
 
+    test('VAT-exempt maps onto the form and back, off by default', () => {
+        assert.equal(emptyDepartmentForm().vat_exempt, false)
+        assert.equal(formFromDepartment({ name: 'X', vat_exempt: true }).vat_exempt, true)
+        assert.equal(departmentPayload(formFromDepartment({ name: 'X', vat_exempt: true })).vat_exempt, true)
+        assert.equal(departmentPayload(formFromDepartment({ name: 'X' })).vat_exempt, false)
+    })
+
     test('empty terms and EAN are sent as null', () => {
         const payload = departmentPayload(emptyDepartmentForm())
 

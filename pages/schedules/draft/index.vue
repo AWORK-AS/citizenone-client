@@ -136,7 +136,7 @@
                     </p>
                 </div>
 
-                <ModulesUserDutyScheduleDraftWeekView
+                <ModulesUserDutyScheduleDraftWeekView ref="weekView"
                     v-if="state.calendarView === 'week' && state.hasContext"
                     :key="state.weekViewKey"
                     @openPresets="state.modal.isPresetsOpen = true"
@@ -171,7 +171,8 @@
             <ModulesUserDutySchedulePresetsModalNew :isModalOpen="state.modal.isSaveAsPresetOpen"
                 @close="state.modal.isSaveAsPresetOpen = false" />
             <ModulesUserDutySchedulePresetsModalTable :isModalOpen="state.modal.isPresetsOpen"
-                @close="state.modal.isPresetsOpen = false" />
+                @close="state.modal.isPresetsOpen = false"
+                @applied="weekView?.refresh()" />
             <ModulesUserDutyScheduleDraftModalDeleteAll :isModalOpen="state.modal.isDeleteAllOpen"
                 @close="state.modal.isDeleteAllOpen = false"
                 @deleted="reloadPage" />
@@ -187,6 +188,7 @@ import { useI18n } from 'vue-i18n'
 
 const customPagesStore = useCustomPagesStore() as any
 const departmentStore = useDepartmentStore() as any
+const weekView = ref<any>(null)
 
 const state = reactive({
     calendarView: 'week' as 'week' | 'month',

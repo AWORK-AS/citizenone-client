@@ -183,6 +183,21 @@
                         :class="state.formCompany.is_active ? 'translate-x-6' : 'translate-x-1'"></span>
                 </button>
             </div>
+
+            <!-- VAT-exempt invoicing: lets the company mark customers as VAT-exempt -->
+            <div v-if="formType === 'update'" class="flex items-center justify-between py-3">
+                <div>
+                    <p class="text-[13px] font-medium text-[#1F2533]">{{ $t('superadmin.companies.form.vatExemptInvoicing') }}</p>
+                    <p class="text-[11px] text-[#8891A4] mt-0.5">{{ $t('superadmin.companies.form.vatExemptInvoicingDesc') }}</p>
+                </div>
+                <button type="button"
+                    @click="state.formCompany.vat_exempt_invoicing_enabled = !state.formCompany.vat_exempt_invoicing_enabled"
+                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors flex-shrink-0"
+                    :style="state.formCompany.vat_exempt_invoicing_enabled ? 'background:#42AED9' : 'background:#D5D9E2'">
+                    <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform"
+                        :class="state.formCompany.vat_exempt_invoicing_enabled ? 'translate-x-6' : 'translate-x-1'"></span>
+                </button>
+            </div>
         </div>
 
         <!-- Action buttons -->
@@ -238,6 +253,7 @@ const state = reactive({
         address: '',
         website: '',
         is_active: true,
+        vat_exempt_invoicing_enabled: false,
         // create only
         firstname: '',
         lastname: '',
@@ -302,6 +318,7 @@ watch(() => props.selectedCompany, (company: any) => {
             phone: company.phone ?? '',
             website: company.website ?? '',
             is_active: company.is_active ?? true,
+            vat_exempt_invoicing_enabled: company.vat_exempt_invoicing_enabled === true,
         }
     }
 })
@@ -360,6 +377,9 @@ function submitForm() {
             phone: state.formCompany.phone,
             website: state.formCompany.website,
             is_active: state.formCompany.is_active,
+        }
+        if (props.formType === 'update') {
+            payload.vat_exempt_invoicing_enabled = state.formCompany.vat_exempt_invoicing_enabled
         }
         if (props.formType === 'create') {
             payload.address = state.formCompany.address

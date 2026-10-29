@@ -212,6 +212,9 @@ function getCategory(type: string): string {
     if (MEDICATION_TYPES.some((medicationType) => type.toLowerCase().includes(medicationType))) return 'medication'
     if (type.toLowerCase().includes('codyaccessrequest')) return 'cody_request'
     if (type.toLowerCase().includes('inactiveemployees')) return 'inactive_employees'
+    // Task #335: reminders and plans, goals and subgoals, which used to reach the phone only.
+    if (type.toLowerCase().includes('plangoalsubgoal')) return 'plan_goal'
+    if (type.split('\\').pop()?.toLowerCase() === 'remindernotification') return 'reminder'
     return 'other'
 }
 
@@ -236,6 +239,8 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     medication: { bg: 'bg-accent-orange/10', icon: 'ph:pill', color: 'text-accent-orange' },
     cody_request: { bg: 'bg-secondary/10', icon: 'ph:sparkle', color: 'text-secondary' },
     inactive_employees: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
+    reminder: { bg: 'bg-primary/10', icon: 'ph:alarm', color: 'text-primary' },
+    plan_goal: { bg: 'bg-secondary/10', icon: 'ph:target', color: 'text-secondary' },
     other: { bg: 'bg-gray-100', icon: 'ph:dots-three', color: 'text-gray-500' },
 }
 
@@ -685,6 +690,21 @@ async function handleNotifClick(notif: any) {
         if (employeeUuid) {
             state.isOpen = false
             navigateTo({ path: `/employees/${employeeUuid}/view-details`, query: { contracts: '1' } })
+        }
+    }
+    // Task #335: a reminder opens the reminders - or, for an employment case
+    // reminder, the citizen's employment cases. A plan, goal or subgoal opens
+    // the citizen's plans and goals.
+    if (getCategory(notif.type) === 'reminder') {
+        state.isOpen = false
+        const citizenUuid = notif.data?.content?.citizen_uuid
+        navigateTo(citizenUuid ? `/citizens/${citizenUuid}/employment-cases` : '/reminders')
+    }
+    if (getCategory(notif.type) === 'plan_goal') {
+        const citizenUuid = notif.data?.content?.citizen_uuid
+        if (citizenUuid) {
+            state.isOpen = false
+            navigateTo(`/citizens/${citizenUuid}/plans-and-goals/active`)
         }
     }
 }

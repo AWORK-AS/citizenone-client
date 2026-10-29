@@ -483,7 +483,7 @@
                             </span>
                             <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupSchedule') }}</span>
                             <span class="ml-auto flex items-center gap-3">
-                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ scheduleCount }} / 10</span>
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ scheduleCount }} / 11</span>
                                 <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.schedule }" />
                             </span>
                         </button>
@@ -558,6 +558,14 @@
                                 <p>
                                     {{ $t('settings.company.form.compensatoryTimeEnabled') }}
                                 </p>
+                            </div>
+                            <div class="space-y-1 flex items-start gap-x-2">
+                                <FormSwitch :value="state.formCompany.payout_beyond_balance_enabled"
+                                    @toggleSwitch="state.formCompany.payout_beyond_balance_enabled = !state.formCompany.payout_beyond_balance_enabled" :label="$t('settings.company.form.payoutBeyondBalance')" />
+                                <div>
+                                    <p>{{ $t('settings.company.form.payoutBeyondBalance') }}</p>
+                                    <p class="text-xs text-gray-500">{{ $t('settings.company.form.payoutBeyondBalanceHint') }}</p>
+                                </div>
                             </div>
                         </div>
                         <div v-if="isPro" class="space-y-1 flex items-center gap-x-2 mt-3">
@@ -1095,7 +1103,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_goals_enabled,
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
-const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
+const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
 const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.epikrise_enabled])
 const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
 // Out of every switch counted above plus the two note switches (was a fixed 9).
@@ -1175,6 +1183,7 @@ const state = reactive({
         is_sort_by_status: false,
         duty_schedule_default_sort: 'alphabetical',
         compensatory_time_enabled: false,
+        payout_beyond_balance_enabled: false,
         social_og_boligstyrelsen: false,
         use_of_force_enabled: true,
         quick_risk_assessment_enabled: false,
@@ -1339,6 +1348,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             is_sort_by_status: newValue?.company?.is_sort_by_status ? true : false,
             duty_schedule_default_sort: newValue?.company?.duty_schedule_default_sort ?? 'alphabetical',
             compensatory_time_enabled: newValue?.company?.compensatory_time_enabled ? true : false,
+            payout_beyond_balance_enabled: newValue?.company?.payout_beyond_balance_enabled ? true : false,
             social_og_boligstyrelsen: newValue?.company?.social_og_boligstyrelsen ? true : false,
             // Stored with the company's module choices; on unless a company turned it off.
             use_of_force_enabled: newValue?.company?.onboarding_preferences?.modules?.useOfForce !== false,
@@ -1619,6 +1629,7 @@ async function submitForm() {
                 is_sort_by_status: state.formCompany.is_sort_by_status,
                 duty_schedule_default_sort: state.formCompany.duty_schedule_default_sort,
                 compensatory_time_enabled: state.formCompany.compensatory_time_enabled,
+                payout_beyond_balance_enabled: state.formCompany.payout_beyond_balance_enabled,
                 social_og_boligstyrelsen: state.formCompany.social_og_boligstyrelsen,
                 quick_risk_assessment_enabled: state.formCompany.quick_risk_assessment_enabled,
                 one_journal_note_per_day_enabled: state.formCompany.one_journal_note_per_day_enabled,
