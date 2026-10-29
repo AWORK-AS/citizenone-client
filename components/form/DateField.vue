@@ -62,8 +62,17 @@ function localDay(value?: string): Date | null {
     return value ? moment(value, 'YYYY-MM-DD').toDate() : null
 }
 
+// The value for the picker. A plain 'YYYY-MM-DD' is that calendar day at local midnight, the same
+// way minDate/maxDate are read: new Date('2026-10-28') is UTC midnight, i.e. 01:00 or 02:00 in
+// Copenhagen, which is later than a maxDate of today, so the picker rejected today and emptied the
+// field. A value that carries a time is left to new Date, as before.
+function pickerValue(value?: string): Date | '' {
+    if (!value) return ''
+    return /^\d{4}-\d{2}-\d{2}$/.test(value) ? (localDay(value) as Date) : new Date(value)
+}
+
 const state = reactive({
-    dateValue: props.modelValue ? new Date(props.modelValue) : '',
+    dateValue: pickerValue(props.modelValue),
     datePickerConfig: {
         enableTime: false,
         // Updated dateFormat to include week number (w token for ISO week number)
@@ -109,7 +118,7 @@ watch(() => language.locale.value, (language: any) => {
 })
 
 watch(() => props.modelValue, (newValue: any) => {
-    state.dateValue = newValue ? new Date(newValue) : ''  // use Date object here, '' clears the picker
+    state.dateValue = pickerValue(newValue)  // a Date object, or '' to clear the picker
 })
 
 watch(() => props.disablePreviousWeeks, (newValue: any) => {

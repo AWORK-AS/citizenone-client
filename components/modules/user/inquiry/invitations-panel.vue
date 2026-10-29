@@ -106,12 +106,10 @@ import {
 } from '@/components/api/user/RegistrationRuleService'
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
-import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 
 const { errorAlert } = useAlert()
 const { t } = useI18n()
-const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const props = defineProps({
@@ -128,10 +126,13 @@ const state = reactive({
     isSaving: false,
 })
 
-const canManage = computed(() => (userStore.getUser?.roles?.[0]?.level ?? 0) >= 60)
+const { isAtLeast, can } = usePermissions()
+// Choosing the consultant, and recording an answer they gave over the phone:
+// Manager and above, or a role given the right, as the server checks it.
+// Without the right in the payload this is Manager only.
+const canManage = computed(() => isAtLeast('Manager') || can('manage_inquiry_invitations'))
 // Setting what a consultant may register is its own right; without it the
 // consultant is chosen with no rule of their own.
-const { isAtLeast, can } = usePermissions()
 const canManageRules = computed(() => isAtLeast('Admin') || can('manage_registration_rules'))
 
 onMounted(() => {

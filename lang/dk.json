@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "Alle",
+        "searchesAll": "Søger i alle afdelinger",
+        "search": "Søg efter navn",
+        "addMore": "Tilføj flere",
+        "remove": "Fjern {name}",
+        "noResults": "Ingen med det navn.",
+        "sections": {
+            "pinned": "Fastgjort",
+            "recent": "Senest brugt",
+            "all": "Alle"
+        }
+    },
+    "firstSteps": {
+        "help": "Husk, Milo er lige her, hvis du har brug for hjælp.",
+        "askMilo": "Spørg Milo",
+        "label": "Kom godt i gang · trin {current} af {total}",
+        "skip": "Spring over",
+        "progress": "Trin i guiden",
+        "noCitizens": "Du har ikke adgang til nogen endnu. Spørg din leder.",
+        "done": "Klaret",
+        "later": "Senere",
+        "next": "Næste",
+        "finish": "Færdig",
+        "back": "Tilbage",
+        "staff": {
+            "citizens": {
+                "title": "Her er dine @:terms.citizens{''}",
+                "desc": "Det er dem, du arbejder med. Klik på et navn for at se journal, planer og dokumenter. Du finder dem altid under @.capitalize:terms.citizens{''} i menuen."
+            },
+            "note": {
+                "title": "Skriv dit første notat",
+                "desc": "Vælg en @:terms.citizen{''}, giv notatet en titel og skriv, hvad der skete. Det tager et minut.",
+                "cta": "Skriv notat"
+            },
+            "app": {
+                "title": "Hent appen",
+                "desc": "Skriv notater og se din dag på telefonen. Scan koden med kameraet, eller tryk på din butik."
+            },
+            "day": {
+                "title": "Her starter din dag",
+                "desc": "Min dag viser din næste vagt, dagens opgaver og det, der kræver opmærksomhed. Beskeder fra kolleger finder du under Chat.",
+                "cta": "Åbn Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "Hvad bruger I?",
+                "desc": "Vælg de dele, I har brug for. Resten skjules, så menuen er kort for alle.",
+                "cta": "Vælg moduler"
+            },
+            "firstCitizen": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Skriv dit første notat",
+                "desc": "Vælg en @:terms.citizen{''} og skriv et kort notat. Så ser du, hvordan journalen virker.",
+                "cta": "Skriv notat"
+            },
+            "colleagues": {
+                "title": "Invitér dine kolleger",
+                "desc": "Opret dem én ad gangen, eller importér mange på én gang fra Excel under Personale. De får en mail og en kort guide, når de logger ind.",
+                "cta": "Gå til personale"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Fakturaer sendes ikke længere på mail",
         "noticeBody": "Fremover får I ikke en mail, hver gang et abonnement, en app eller en optankning trækkes automatisk. Alle fakturaer og kvitteringer ligger her under Fakturaer. Mislykkede betalinger får I stadig besked om på mail.",
@@ -314,6 +382,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Vis hele opsætningen",
+        "next": {
+            "label": "Dit næste skridt",
+            "citizens_added": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn og kontaktoplysninger er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Opret din første @:terms.citizen{''}",
+                "desc": "Navn og kontaktoplysninger er nok til at komme i gang. Resten kan udfyldes senere.",
+                "cta": "Opret @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Skriv dit første journalnotat",
+                "desc": "Vælg en @:terms.citizen{''} og skriv et kort notat. Det er her, CitizenOne begynder at spare dig tid.",
+                "cta": "Skriv notat"
+            },
+            "colleagues_invited": {
+                "title": "Inviter en kollega",
+                "desc": "Kolleger får en mail og logger ind med deres egen adgangskode.",
+                "cta": "Gå til personale"
+            },
+            "duty_schedule_created": {
+                "title": "Læg den første vagt",
+                "desc": "Opret en vagt, så I kan se, hvem der er på.",
+                "cta": "Gå til vagtplan"
+            },
+            "medicine_added": {
+                "title": "Tilføj medicin",
+                "desc": "Tilføj medicin på en @:terms.citizen{''}, så den kan gives og kvitteres.",
+                "cta": "Gå til @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Opret dine ydelser",
+                "desc": "Navn, varighed og pris. Så kan der bookes tider.",
+                "cta": "Gå til booking"
+            },
+            "online_booking_enabled": {
+                "title": "Slå online booking til",
+                "desc": "Lad dine @:terms.citizens{''} booke tid selv.",
+                "cta": "Gå til booking"
+            },
+            "profile_completed": {
+                "title": "Tilføj et profilbillede",
+                "desc": "Så kan dine kolleger se, hvem der har skrevet hvad.",
+                "cta": "Gå til profil"
+            }
+        },
+        "restOfSetup": "Resten af opsætningen",
         "welcome": "Velkommen, {name}",
         "subtitle": "Her er din hurtige guide til at få CitizenOne sat op og i gang for jeres team.",
         "whatDoYouNeed": "Hvad skal du bruge?",
@@ -355,7 +473,7 @@
             "vagtplan": "Vagtplan",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation",
-            "people": "Borgere",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik & booking",
             "cases": "Sager & jobcenter"
@@ -408,14 +526,14 @@
                 "cta": "Gå til Medicin"
             },
             "citizens": {
-                "title": "Opret borgere",
-                "desc": "Opret de borgere I arbejder med.",
-                "cta": "Gå til Borgere"
+                "title": "Opret @:terms.citizens{''}",
+                "desc": "Opret de @:terms.citizens{''}, I arbejder med.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata & kontaktpersoner",
                 "desc": "Udfyld stamdata, kontaktpersoner og sagsbehandler.",
-                "cta": "Gå til Borgere"
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Opret patienter",
@@ -2318,6 +2436,7 @@
                 "teeth": "Tænder",
                 "title": "Titel",
                 "usePredefinedcontent": "Brug foruddefineret indhold",
+                "manageJournalTitles": "Redigér titler",
                 "createJournalTitle": "Skab en journal titel baseret på skabeloner eller indtast manuelt",
                 "autosaveFailed": "Kunne ikke gemme automatisk. Dine seneste ændringer er ikke gemt endnu - prøver igen.",
                 "showJournalTitles": "Vis journaltitler",
@@ -5608,6 +5727,7 @@
             "preset": {
                 "applyPreset": "Anvend forudindstilling",
                 "applySuccess": "Forudindstilling blev anvendt på vagtplanskladder med succes!",
+                "applySuccessWithSkipped": "{created} vagter tilføjet. {skipped} vagter lå allerede i kladden og blev ikke tilføjet igen.",
                 "confirmation": {
                     "deletePresetConfirmation": "Er du sikker på, at du vil slette denne forudindstilling"
                 },
@@ -5647,7 +5767,12 @@
                 "viewPresets": "Se forudindstillinger",
                 "infoBox": {
                     "title": "Hvad er forudindstillinger?",
-                    "description": "En forudindstilling er en gemt version af din vagtplanskladde, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at indlæse den i kladden - du kan derefter redigere og offentliggøre den."
+                    "description": "En forudindstilling er et gemt vagtmønster, som du kan genbruge. Vælg en forudindstilling nedenfor og klik Anvend for at kopiere dens vagter ind på de datoer, du vælger. Vagter, der allerede ligger i kladden, bliver ikke tilføjet igen. Du behøver ikke en forudindstilling for at gemme dit arbejde: kladden gemmes automatisk."
+                },
+                "applyInfoBox": {
+                    "title": "Hvilken periode skal forudindstillingen dække?",
+                    "description": "Vælg den periode i din kladde, som forudindstillingens vagter skal kopieres ind i. Systemet tilpasser automatisk vagterne til de valgte datoer. Vagter, der allerede ligger i kladden på de datoer, bliver ikke tilføjet igen.",
+                    "example": "Eksempel: Vælg mandag d. 14. april som startdato og søndag d. 20. april som slutdato for at fylde uge 16 ud med forudindstillingens vagtmønster."
                 },
                 "saveInfoBox": {
                     "title": "Gem din nuværende kladde som forudindstilling",
@@ -5660,7 +5785,7 @@
                 "step1": "Opret kladdevagter",
                 "step2": "Gem forudindstilling (valgfrit)",
                 "step3": "Offentliggør til vagtplan",
-                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge en kladde du har lavet før."
+                "tip": "💡 Tip: Brug 'skabeloner' til faste vagtrulleringer, og 'forudindstillinger' til at genbruge et vagtmønster i en anden periode. Din kladde gemmes automatisk."
             },
             "backToPublished": "Tilbage til den udgivede vagtplan",
             "contextBanner": {
@@ -6136,6 +6261,7 @@
                 "date": "Udbetalingsdato",
                 "dateHint": "Vælg den dato timerne blev udbetalt. Udbetalingen tæller med i den måned.",
                 "noAccountAssigned": "Denne medarbejder har ingen aktiv tidskonto at registrere en udbetaling på.",
+                "negativeBalanceWarning": "{employee} har {balance} timer i afspadseringssaldo. Efter udbetalingen bliver saldoen {after} timer.",
                 "register": "Registrer udbetaling",
                 "title": "Registrer udbetaling"
             },
@@ -7703,6 +7829,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} af {total} medarbejdere er logget ind",
+            "pendingHint": "{count} har ikke oprettet adgangskode endnu. Send invitationen igen, eller ring til dem.",
+            "allIn": "Alle er kommet ind.",
+            "show": "Vis hvem",
+            "hide": "Skjul",
+            "resendAll": "Send igen til {count}",
+            "resendOne": "Send igen",
+            "invitedAt": "inviteret {date}",
+            "confirm": "Send invitationen igen til {count}? De får en ny mail, og det gamle link holder op med at virke."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Medarbejder arkiveret med succes"
         },
@@ -9393,6 +9530,7 @@
         "wellbeingRulerDescription": "Når den er slået til, kan der gives en trivselsscore fra 0 til 10 i @:terms.journalNotes{''}, en for hvert barn på sagen. Scoren er valgfri og indgår i trivselsudviklingen og i statusrapportens trivselslineal."
     },
     "journalNotes": {
+        "removeFilter": "Fjern filter: {name}",
         "title": "@.capitalize:terms.journalNotes{''}",
         "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Afdeling",
@@ -9925,6 +10063,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Download beskeder",
+            "from": "Fra",
+            "to": "Til",
+            "today": "I dag",
+            "last7": "Seneste 7 dage",
+            "last30": "Seneste 30 dage",
+            "all": "Alle",
+            "countOne": "1 besked kommer med",
+            "countMany": "{count} beskeder kommer med",
+            "noMessages": "Ingen beskeder i perioden",
+            "invalidRange": "Startdatoen skal være før slutdatoen",
+            "download": "Download PDF",
+            "downloading": "Downloader...",
+            "tooLarge": "Vælg en kortere periode (maks. 12 måneder / 5.000 beskeder)",
+            "tooManyRequests": "For mange downloads. Prøv igen om et minut.",
+            "personalData": "Indeholder personoplysninger — håndtér med omhu",
+            "error": "Beskederne kunne ikke downloades. Prøv igen."
+        },
         "cprWarning": {
             "title": "Tjek før du sender",
             "message": "Beskeden ser ud til at indeholde et CPR-nummer. Chatten er ikke beregnet til følsomme personoplysninger.",
@@ -11330,7 +11487,16 @@
         "youAreEditingARecurringShift": "Du redigerer en gentagende vagt"
     },
     "register": {
+        "done": {
+            "title": "Tjek din indbakke",
+            "sentTo": "Vi har sendt en mail til {email}.",
+            "confirm": "Bekræft din e-mailadresse med linket i mailen.",
+            "activate": "Vi slår din konto til og skriver til dig, når den er klar.",
+            "signIn": "Log ind med din e-mail og den adgangskode, du lige har valgt.",
+            "noMail": "Ingen mail efter et par minutter? Kig i spam, eller skriv til support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "Mindst 8 tegn",
             "agreetoTAC": "Du skal acceptere vilkår og betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "bySigningUpYouAgreeTo": "Ved at oprette dig accepterer du CitizenOne's",
@@ -11908,6 +12074,14 @@
                 "patientChatInbox": "Patienter skriver til hele klinikken (fælles indbakke)",
                 "patientChatInboxHint": "Patienterne kan ikke vælge en bestemt medarbejder. Alle aktive medarbejdere ser beskeden og kan svare",
                 "chatCprWarning": "Advar om CPR-numre i chat",
+                "birthdayNotifications": "Fødselsdagsnotifikationer",
+                "birthdayNotificationsHint": "Alle får hver morgen en notifikation, når en borger eller kollega har fødselsdag. Vælg hvem den skal handle om, eller slå den fra for hele virksomheden",
+                "birthdayNotificationOptions": {
+                    "all": "Borgere og medarbejdere",
+                    "staff": "Kun medarbejdere",
+                    "citizens": "Kun borgere",
+                    "off": "Fra"
+                },
                 "missingNoteReminder": "Påmind om aftaler uden @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Giv besked om @:terms.journalNotes{''} oprettet fra en aftale",
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrævet ved Gennemført",
@@ -11950,6 +12124,8 @@
                 "dutyScheduleSortFirstShift": "Sortér vagtplanen efter hvem der møder først (i stedet for alfabetisk)",
                 "isSortByStatus": "Tillad visning af \"Vikarer\" nederst i vagtplanen og \"Fast personale\" øverst",
                 "compensatoryTimeEnabled": "Aktivér afspadsering",
+                "payoutBeyondBalance": "Tillad udbetaling ud over afspadseringssaldoen",
+                "payoutBeyondBalanceHint": "Medarbejderens saldo kan blive negativ. Timerne skal så arbejdes ind senere i perioden.",
                 "lockPastSchedules": "Lås tidligere vagtplaner",
                 "lockShiftsBeforeDate": "Lås vagter før dato",
                 "clearLockShiftsBeforeDate": "Ryd dato",
@@ -11976,7 +12152,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Vagtplan & arbejdstid",
                 "groupOther": "Øvrigt & integrationer",
-                "absenceCountsInNormHours": "Ferie og sygdom tæller med i normtimer og afspadsering",
+                "absenceCountsInNormHours": "Fravær tæller med i normtimer og afspadsering",
                 "upgradeToPro": "Opgradér til Pro",
                 "whichHolidaysCount": "Hvilke helligdage skal tælle med? (slå fra dem der ikke gælder for jer)",
                 "holidayState": {
@@ -12763,6 +12939,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alle jeres brugerlicenser er i brug. Køb flere herunder, så kan du oprette medarbejderen bagefter.",
         "addOnDeals": {
             "addOnDeals": "Ekstra brugere og afdelinger",
             "checkout": "Betal og tilføj",
@@ -13295,6 +13472,8 @@
                 "website": "Websted",
                 "activeImmediately": "Aktiv med det samme",
                 "activeImmediatelyDesc": "Virksomheden aktiveres øjeblikkeligt",
+                "vatExemptInvoicing": "Momsfri fakturering",
+                "vatExemptInvoicingDesc": "Giver virksomheden mulighed for at markere kunder som momsfrie. Fakturaer til de kunder laves uden moms.",
                 "address": "Adresse",
                 "addressPlaceholder": "Vejnavn 1, 1234 By",
                 "adminUser": "Administrator-bruger",
@@ -15839,10 +16018,11 @@
         "pleaseCompleteTemplate": "Udfyld venligst skabelonen"
     },
     "verifyEmail": {
-        "emailVerified": "Email verificeret",
+        "waitingForActivation": "Tak. Vi slår din konto til og sender dig en mail, når du kan logge ind.",
+        "emailVerified": "E-mail bekræftet",
         "loginToContinue": "Log ind for at fortsætte",
-        "verifyEmail": "Verificer email",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har succesfuldt verificeret din email"
+        "verifyEmail": "Bekræft e-mail",
+        "youHaveSuccessfullyVerifiedYourEmail": "Din e-mailadresse er bekræftet"
     },
     "view": "Se",
     "wish": {
@@ -16899,6 +17079,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "Ingen vagter, aftaler eller påmindelser i dag.",
+        "openCalendar": "Åbn kalenderen",
         "certificates": {
             "title": "Attester der mangler eller udløber",
             "missing": "{count} mangler",
@@ -17702,6 +17884,10 @@
             "convertAllSelected": "Omdan alle valgte",
             "extras": "Diverse",
             "addExtra": "Tilføj diverse-linje",
+            "allTimings": "Alle",
+            "allFrequencies": "Alle",
+            "extraProductNumber": "Varenr.",
+            "extraProductNumberHelp": "Varenummeret i e-conomic. Er det tomt, bruger e-conomic det første produkt i jeres aftale.",
             "extraDescription": "Beskrivelse",
             "extraQuantity": "Antal",
             "extraPrice": "Pris",
@@ -17778,6 +17964,7 @@
             "customerGroup": "Kundegruppe",
             "customerDivision": "Kundeafdeling",
             "hasSpecialContract": "Særkontrakt",
+            "vatExempt": "Momsfri",
             "paymentTermsText": "Betalingsbetingelser, fuld tekst",
             "cooperationStatus": "Status på samarbejde",
             "cooperationStatusDate": "Dato for status",
@@ -17811,6 +17998,7 @@
                 "customerGroup": "Kundegruppen i WorkZone, f.eks. 3.",
                 "customerDivision": "Kundens afdeling i WorkZone, gemt med sin kode, f.eks. 1300, Jylland og Fyn.",
                 "hasSpecialContract": "Sæt kryds, hvis kunden har en særlig kontrakt.",
+                "vatExempt": "Sæt kryds, hvis fakturaer til denne kunde er uden moms, fx en kommune der køber sociale ydelser. Gælder fakturaer der laves fremover.",
                 "paymentTermsDays": "Antal dage fra listen under Betalingsbetingelser. Bruges på fakturaen.",
                 "paymentTermsText": "Den fulde tekst om betalingsbetingelser, som den står i aftalen.",
                 "priceRegulation": "Aftalen om prisregulering.",
@@ -18065,6 +18253,10 @@
             "pushEconomic": "Send til e-conomic som kladde",
             "pushDinero": "Send til Dinero som bilag",
             "pushBilly": "Send til Billy som kladde",
+            "delete": "Slet",
+            "deleteTitle": "Slet fakturaer",
+            "deleteConfirm": "{count} faktura(er) slettes. Deres timer og kontraktlinjer kan derefter faktureres igen.",
+            "deleteSkipped": "{count} valgte faktura(er) er sendt eller overført og bliver ikke slettet.",
             "empty": "Ingen fakturaer i denne visning.",
             "number": "Fakturanr.",
             "billTo": "Modtager",
@@ -18084,6 +18276,7 @@
                 "invoice_not_found": "Fakturaen blev ikke fundet",
                 "customer_failed": "Kunden kunne ikke oprettes i e-conomic",
                 "invoice_failed": "Kladden kunne ikke oprettes i e-conomic",
+                "vat_exempt_invoice_failed": "Kladden kunne ikke oprettes i e-conomic. En momsfri faktura kræver en momsfri momszone i e-conomic (fx \"Indland, momsfri\")",
                 "dinero_not_connected": "Dinero er ikke forbundet",
                 "dinero_invoice_not_found": "Fakturaen blev ikke fundet",
                 "dinero_voucher_failed": "Bilaget kunne ikke oprettes i Dinero",
@@ -18092,6 +18285,8 @@
                 "billy_contact_failed": "Kunden kunne ikke oprettes i Billy",
                 "billy_product_failed": "Produktet kunne ikke oprettes i Billy (ingen indtægtskonto fundet)",
                 "billy_invoice_failed": "Fakturaen kunne ikke oprettes i Billy",
+                "billy_vat_exempt_rate_missing": "Billy har ingen aktiv salgsmomssats på 0 % til en momsfri faktura",
+                "not_deletable": "Sendte eller overførte fakturaer kan ikke slettes",
                 "billy_already_pushed": "Fakturaen er allerede sendt til Billy",
                 "billy_auth_failed": "Billy accepterede ikke adgangstoken",
                 "unknown_action": "Ukendt handling"
@@ -20224,5 +20419,48 @@
         "importFailed": "Der opstod en fejl under importen.",
         "openFileFailed": "Der opstod en fejl under åbning af filen.",
         "deleteFailed": "Der opstod en fejl under sletningen."
+    },
+    "signup": {
+        "title": "Opret din gratis konto for at gemme dit arbejde",
+        "subtitle": "Dit arbejde fra citizenone.dk er gemt og venter på dig.",
+        "continueWithApple": "Fortsæt med Apple",
+        "continueWithGoogle": "Fortsæt med Google",
+        "continueWithEmail": "Fortsæt med e-mail",
+        "emailLabel": "E-mailadresse",
+        "emailPlaceholder": "dig{'@'}arbejdsplads.dk",
+        "sendCode": "Send kode",
+        "back": "Tilbage",
+        "codeSent": "Vi har sendt en kode på 6 cifre til {email}.",
+        "codeLabel": "Kode på 6 cifre",
+        "verify": "Fortsæt",
+        "changeEmail": "Brug en anden e-mail",
+        "resendCode": "Send en ny kode",
+        "haveAccount": "Har du allerede en konto med adgangskode?",
+        "signIn": "Log ind",
+        "complete": {
+            "title": "Færdiggør din konto",
+            "heading": "Næsten færdig",
+            "signedInAs": "Du opretter dig som {email}.",
+            "submit": "Opret konto",
+            "expiredTitle": "Linket til oprettelse er udløbet",
+            "expiredBody": "Start forfra for at oprette din konto.",
+            "startAgain": "Start forfra"
+        },
+        "pending": {
+            "title": "Vi gennemgår din konto",
+            "body": "Tak. Vi gennemgår hver ny konto, før den tændes, og vi skriver til {email}, når den er klar.",
+            "draftSaved": "Dit udkast fra citizenone.dk er gemt og venter på dig, når du logger ind."
+        },
+        "drafts": {
+            "title": "Gemt fra citizenone.dk",
+            "delete": "Slet",
+            "deleteAria": "Slet gemt udkast: {tool}",
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Skema til magtanvendelse",
+                "daily-rhythm": "Døgnrytmeplan",
+                "socialtilsyn": "Socialtilsyn-tjek"
+            }
+        }
     }
 }

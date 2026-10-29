@@ -37,11 +37,12 @@
                 <div class="space-y-1">
                     <div class="flex items-center py-0.5">
                         <FormLabel for="title" :label="$t('citizens.citizenJournals.form.title')" />
-                        <button type="button" class="ml-auto text-sm text-primary hover:text-primary-700"
+                        <!-- Where the saved titles are edited. An admin's job, so only
+                             they see it, and short enough to stay on one line. -->
+                        <button v-if="isAtLeast('Admin')" type="button"
+                            class="ml-auto text-xs text-primary hover:text-primary-700"
                             @click="navigateTo('/settings/journal-titles')">
-                            <span>
-                                {{ $t('citizens.citizenJournals.form.createJournalTitle') }}
-                            </span>
+                            {{ $t('citizens.citizenJournals.form.manageJournalTitles') }}
                         </button>
                     </div>
                     <FormComboField id="title" name="title"

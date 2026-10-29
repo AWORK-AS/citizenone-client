@@ -202,6 +202,12 @@
                                     {{ $t('socialWelfare.customerDepartments.hasSpecialContract') }}
                                 </label>
                             </Tooltip>
+                            <Tooltip v-if="vatExemptInvoicing" :text="$t('socialWelfare.customerDepartments.help.vatExempt')" wrap position="top">
+                                <label class="flex items-center gap-2 text-sm text-slate-700">
+                                    <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary" v-model="state.form.vat_exempt" />
+                                    {{ $t('socialWelfare.customerDepartments.vatExempt') }}
+                                </label>
+                            </Tooltip>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-1">
                                     <FormLabel :label="$t('socialWelfare.customerDepartments.paymentTermsDays')" />
@@ -360,6 +366,8 @@ const userStore = useUserStore() as any
 // The same rule as the special-price endpoints: the pipeline licensed and on,
 // and kept by whoever may keep the customer departments.
 const hasInquiryPipeline = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled)
+// Switched on per company by a superadmin.
+const vatExemptInvoicing = computed(() => !!userStore.getUser?.company?.vat_exempt_invoicing_enabled)
 const canEditSpecialPrices = computed(() => isAtLeast('Admin') || can('create') || can('update'))
 
 const state = reactive({

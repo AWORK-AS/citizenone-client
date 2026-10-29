@@ -72,3 +72,11 @@ describe('no third-party avatar service', () => {
         assert.deepEqual(hits, [])
     })
 })
+
+test('a bracketed note or stray punctuation never becomes an initial', async () => {
+    const { avatarInitials } = await import('../../utils/avatar.ts')
+    const assert = (await import('node:assert/strict')).default
+    assert.equal(avatarInitials('Anna Lindberg (demo)'), 'AL')
+    assert.equal(avatarInitials('Erik (demo)'), 'E')
+    assert.equal(avatarInitials('"Jens" Hansen'), 'JH')
+})
