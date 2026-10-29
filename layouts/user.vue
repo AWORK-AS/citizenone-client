@@ -747,8 +747,9 @@
             leave-from-class="opacity-100" leave-to-class="opacity-0 translate-y-2">
             <!-- Held back while a missed-medicine alert holds the same corner:
                  the alert matters, the tip does not, and stacked they covered
-                 each other. It shows once the alert is gone. -->
-            <div v-if="showCmdkTip && cmdkTipGranted && !medicineToastVisible"
+                 each other. It shows once the alert is gone. Same for the Cody
+                 panel, which sits in that corner with its message box. -->
+            <div v-if="showCmdkTip && cmdkTipGranted && !cmdkTipHeldBack"
                 class="fixed bottom-5 right-5 z-[60] w-72 rounded-xl border border-surface-200 bg-white p-4 shadow-xl">
                 <div class="flex items-start gap-x-3">
                     <div
@@ -805,6 +806,7 @@
 </template>
 
 <script setup lang="ts">
+import { welcomeTourMode } from '@/composables/welcomeTour'
 import { clearAllDrafts } from '@/composables/journalNoteDraft'
 import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -1079,7 +1081,7 @@ function tryCmdkTip() {
 // lost to it and the covered control is reachable immediately after.
 function dismissCmdkTipIfClickOutside(event: PointerEvent) {
     // Not while it is held back: a click would mark as seen a tip nobody saw.
-    if (!showCmdkTip.value || !cmdkTipGranted.value || medicineToastVisible.value) return
+    if (!showCmdkTip.value || !cmdkTipGranted.value || cmdkTipHeldBack.value) return
     const target = event.target as HTMLElement | null
     if (target?.closest('button')) return
     dismissCmdkTip()
@@ -1183,7 +1185,9 @@ onMounted(() => {
     animateAssets()
     // Show the ⌘K discovery tip once, shortly after the app settles.
     if (typeof localStorage !== 'undefined' && !localStorage.getItem(CMDK_TIP_KEY)) {
-        setTimeout(() => { showCmdkTip.value = true }, 3000)
+        // Not on top of the first-steps guide: one thing to read at a time. It
+        // comes on a later page load, once the guide is done.
+        setTimeout(() => { showCmdkTip.value = welcomeTourMode(userStore.getUser) !== 'tour' }, 3000)
     }
     document.addEventListener('pointerdown', dismissCmdkTipIfClickOutside, true)
 })
@@ -1709,24 +1713,13 @@ async function fetchUser() {
             // Plan/goal completion and check-in reminders are surfaced in the
             // notification bell (see NotificationBell) instead of blocking modals.
             guidedUserTourModalVisibility()
-            maybeRedirectToDiscover(response?.data)
         }
     } catch (error: any) { state.error = error }
 }
 
-// New companies (admin, no onboarding preferences set yet) land on Discover
-// once per session; once they save "what do you need" they land on the dashboard.
-function maybeRedirectToDiscover(user: any) {
-    if (typeof window === 'undefined') return
-    if (sessionStorage.getItem('discover_landing_done')) return
-    const prefs = user?.company?.onboarding_preferences
-    const isFresh = !prefs || (typeof prefs === 'object' && Object.keys(prefs).length === 0)
-    if (isAtLeast('Admin') && isFresh && routeName === 'overview') {
-        sessionStorage.setItem('discover_landing_done', '1')
-        navigateTo('/discover')
-    }
-}
-
+// No redirect from /overview to /discover here: sign-in already lands a new
+// admin on Discover (staffLandingRoute in pages/index.vue), and bouncing the
+// "Oversigt" menu item to a different page made the menu look broken.
 function plansGoalsSubgoalsCompletionReminderModalVisibility(response: any) {
     const lastHidden = localStorage.getItem('plansGoalsSubgoalsReminderHidden'); const today = moment().format('YYYY-MM-DD')
     if (lastHidden !== today && response?.data?.plans_goals_subgoals_reached_deadline_count > 0 && routeName !== 'plans-goals-subgoals-completions') state.modal.isPlanGoalSubgoalCompletionReminderOpen = true
@@ -1746,6 +1739,8 @@ const tourGranted = usePromptSlot('tour', computed(() => welcomeTour.value.activ
 const checkinGranted = usePromptSlot('checkinReminder', computed(() => state.modal.isCheckinReminderOpen))
 const completionGranted = usePromptSlot('completionReminder', computed(() => state.modal.isPlanGoalSubgoalCompletionReminderOpen))
 const cmdkTipGranted = usePromptSlot('cmdkTip', showCmdkTip)
+const codyPanelShown = computed(() => assistantStore.isOpen && !!userStore.getUser?.has_ai_access && aiAssistantEnabled.value)
+const cmdkTipHeldBack = computed(() => medicineToastVisible.value || codyPanelShown.value)
 
 // Sidebar items the welcome tour points at.
 const SIDEBAR_TOUR_KEYS: Record<string, string> = {

@@ -552,7 +552,14 @@ class BaseAPIService {
         }
     }
 
-    async requestBlob(url: string, method: string, params: object = {}): Promise<Blob | null> {
+    async requestBlob(
+        url: string,
+        method: string,
+        params: object = {},
+        // Optional: receives the response headers of a successful download, e.g.
+        // to read the file name from Content-Disposition.
+        onHeaders?: (headers: Headers) => void
+    ): Promise<Blob | null> {
         const runtimeConfig = useRuntimeConfig()
         const config: any = {
             baseURL: runtimeConfig.public.apiBaseURL,
@@ -562,6 +569,12 @@ class BaseAPIService {
                 Accept: 'application/json',
             },
             responseType: 'blob' as const,
+        }
+
+        if (onHeaders) {
+            config.onResponse = ({ response }: any) => {
+                if (response?.ok) onHeaders(response.headers)
+            }
         }
 
         if (method === 'GET') {
@@ -596,8 +609,13 @@ class BaseAPIService {
                 case 404:
                 case 409:
                 case 422:
-                case 429:
                     throw new APIError(await BaseAPIService.errorBodyOf(error.response._data))
+                case 429:
+                    // Status kept so a screen can show its own "try again in a minute".
+                    throw new APIError({
+                        ...(await BaseAPIService.errorBodyOf(error.response._data)),
+                        status: 429,
+                    })
                 case 401: {
                     const errorBody = await BaseAPIService.errorBodyOf(error.response._data)
                     if (BaseAPIService.isSessionExpired(errorBody)) {

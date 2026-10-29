@@ -29,6 +29,9 @@ export function emptyDepartmentForm() {
         customer_group: '',
         customer_division: '',
         has_special_contract: false,
+        // Only shown, and only saved by the server, when a superadmin has
+        // switched on VAT-exempt invoicing for the company.
+        vat_exempt: false,
         payment_terms_days: '' as any,
         payment_terms_text: '',
         // Vilkar
@@ -51,8 +54,8 @@ export function formFromDepartment(d: any) {
     for (const key of Object.keys(form)) {
         if (key === 'is_active') {
             form.is_active = d.is_active !== false
-        } else if (key === 'has_special_contract') {
-            form.has_special_contract = !!d.has_special_contract
+        } else if (key === 'has_special_contract' || key === 'vat_exempt') {
+            form[key] = !!d[key]
         } else if (key === 'municipality_uuid') {
             form.municipality_uuid = d.municipality_uuid ?? null
         } else {
@@ -78,6 +81,7 @@ export function departmentPayload(form: any) {
         ean_number: blankToNull(String(form.ean_number ?? '').replace(/\s/g, '')),
         payment_terms_days: blankToNull(form.payment_terms_days) === null ? null : Number(form.payment_terms_days),
         has_special_contract: !!form.has_special_contract,
+        vat_exempt: !!form.vat_exempt,
         is_active: !!form.is_active,
     }
 

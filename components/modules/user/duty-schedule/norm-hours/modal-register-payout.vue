@@ -54,12 +54,18 @@
 import { reactive, computed } from 'vue'
 import moment from 'moment'
 import { timeAccountService } from '@/components/api/user/TimeAccountService'
+import { dutyScheduleService } from '@/components/api/user/DutyScheduleService'
 import { useAlert } from '@/composables/alert'
+import { useNumberFormatter } from '@/composables/numberFormatter'
+import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const { successAlert } = useAlert()
-const { t } = useI18n()
+const language = useI18n()
+const { t } = language
+const { formatNumber } = useNumberFormatter()
+const userStore = useUserStore() as any
 
 const props = defineProps({
     isModalOpen: {
@@ -86,6 +92,10 @@ const state = reactive({
     options: {
         accounts: [] as any[],
     },
+    // The employee's compensatory balance for the current norm period - the figure
+    // the payout is checked against - so the confirmation can warn before it goes
+    // below zero. Null when it could not be read; the warning is then left out.
+    balance: null as number | null,
     modal: {
         isConfirmationOpen: false,
     },
@@ -95,11 +105,26 @@ const employeeName = computed(() => {
     return `${props.selectedEmployee?.firstname ?? ''} ${props.selectedEmployee?.lastname ?? ''}`.trim()
 })
 
+const payoutBeyondBalanceEnabled = computed(() => !!userStore.getUser?.company?.payout_beyond_balance_enabled)
+
 const confirmationMessage = computed(() => {
-    return t('dutySchedules.normHours.payout.confirmation', {
+    const message = t('dutySchedules.normHours.payout.confirmation', {
         amount: state.formData.amount,
         employee: employeeName.value,
     })
+
+    const amount = Number(state.formData.amount)
+    if (!payoutBeyondBalanceEnabled.value || state.balance === null || amount <= state.balance) {
+        return message
+    }
+
+    const warning = t('dutySchedules.normHours.payout.negativeBalanceWarning', {
+        employee: employeeName.value,
+        balance: formatNumber(language.locale.value, state.balance),
+        after: formatNumber(language.locale.value, state.balance - amount),
+    })
+
+    return `${warning} ${message}`
 })
 
 watch(() => props.isModalOpen, async (isModalOpen: boolean) => {
@@ -109,9 +134,30 @@ watch(() => props.isModalOpen, async (isModalOpen: boolean) => {
         state.formData.amount = ''
         state.formData.time_account_uuid = ''
         state.formData.date = moment().format('YYYY-MM-DD')
-        await fetchAssignedAccounts()
+        state.balance = null
+        await Promise.all([fetchAssignedAccounts(), fetchBalance()])
     }
 })
+
+async function fetchBalance() {
+    const normPeriod = props.selectedEmployee?.norm_period
+    if (!payoutBeyondBalanceEnabled.value || !normPeriod?.period_start || !normPeriod?.period_end) {
+        return
+    }
+
+    try {
+        const response = await dutyScheduleService.getCompensatoryVacationHours({
+            user_uuid: props.selectedEmployee.uuid,
+            start_date: moment(normPeriod.period_start).format('YYYY-MM-DD'),
+            end_date: moment(normPeriod.period_end).format('YYYY-MM-DD'),
+        })
+        const total = response?.data?.total_compensatory_hours
+        state.balance = total === undefined || total === null ? null : Number(total)
+    } catch {
+        // Without the balance the payout still works; only the warning is missing.
+        state.balance = null
+    }
+}
 
 async function fetchAssignedAccounts() {
     state.isPageLoading = true

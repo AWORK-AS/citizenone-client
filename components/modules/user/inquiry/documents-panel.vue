@@ -74,13 +74,11 @@
 <script setup lang="ts">
 import { inquiryDocumentService } from '@/components/api/user/InquiryDocumentService'
 import { useAlert } from '@/composables/alert'
-import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
 
 const { errorAlert } = useAlert()
 const { t } = useI18n()
-const userStore = useUserStore() as any
 const { formatDateToReadable } = useDatetimeFormatter()
 
 // Mirrors what the server accepts, so a rejected file is caught in the picker
@@ -104,9 +102,9 @@ const state = reactive({
     selected: null as any,
 })
 
-const canManage = computed(() => (userStore.getUser?.roles?.[0]?.level ?? 0) >= 60)
-
 const { isAtLeast, can } = usePermissions()
+// Manager and above may remove someone else's document, matching the server.
+const canManage = computed(() => isAtLeast('Manager'))
 // Without download_documents a document can still be viewed, but not saved.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
 

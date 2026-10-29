@@ -17,11 +17,12 @@ const INDUSTRIES = ['social_welfare', 'dental', 'employment_services', null, 'an
 const steps = journey => journey.flatMap(g => g.steps)
 
 describe('journeyFor', () => {
-    test('every journey starts with importing from the old system', () => {
+    test('every journey starts with its people, then the import from the old system', () => {
         for (const industry of INDUSTRIES) {
-            const [first] = journeyFor(industry)
-            assert.equal(first.key, 'migration', String(industry))
-            assert.deepEqual(first.steps.map(s => s.key), ['import'])
+            const [first, second] = journeyFor(industry)
+            assert.ok(['people', 'patients'].includes(first.key), String(industry))
+            assert.equal(second.key, 'migration', String(industry))
+            assert.deepEqual(second.steps.map(s => s.key), ['import'])
         }
     })
 

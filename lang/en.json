@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "All",
+        "searchesAll": "Searching all departments",
+        "search": "Search by name",
+        "addMore": "Add more",
+        "remove": "Remove {name}",
+        "noResults": "No one by that name.",
+        "sections": {
+            "pinned": "Pinned",
+            "recent": "Recently used",
+            "all": "Everyone"
+        }
+    },
+    "firstSteps": {
+        "help": "Remember, Milo is right here if you need help.",
+        "askMilo": "Ask Milo",
+        "label": "Getting started · step {current} of {total}",
+        "skip": "Skip",
+        "progress": "Guide steps",
+        "noCitizens": "You do not have access to anyone yet. Ask your manager.",
+        "done": "Done",
+        "later": "Later",
+        "next": "Next",
+        "finish": "Finish",
+        "back": "Back",
+        "staff": {
+            "citizens": {
+                "title": "These are your @:terms.citizens{''}",
+                "desc": "These are the people you work with. Click a name to see the journal, plans and documents. You always find them under @.capitalize:terms.citizens{''} in the menu."
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''}, give the note a title and write what happened. It takes a minute.",
+                "cta": "Write a note"
+            },
+            "app": {
+                "title": "Get the app",
+                "desc": "Write notes and see your day on your phone. Scan the code with your camera, or tap your store."
+            },
+            "day": {
+                "title": "This is where your day starts",
+                "desc": "My day shows your next shift, today's tasks and what needs attention. Messages from colleagues are under Chat.",
+                "cta": "Open Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "What do you use?",
+                "desc": "Pick the parts you need. The rest is hidden, so the menu stays short for everyone.",
+                "cta": "Choose modules"
+            },
+            "firstCitizen": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name is enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note to see how the journal works.",
+                "cta": "Write a note"
+            },
+            "colleagues": {
+                "title": "Invite your colleagues",
+                "desc": "Add them one at a time, or import many at once from Excel under Staff. They get an email and a short guide when they sign in.",
+                "cta": "Go to staff"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Invoices are no longer emailed",
         "noticeBody": "You will no longer get an email each time a subscription, app or top-up is charged automatically. All invoices and receipts are here under Invoices. You will still be emailed if a payment fails.",
@@ -320,6 +388,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Show the whole setup",
+        "next": {
+            "label": "Your next step",
+            "citizens_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Write your first journal note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note. This is where CitizenOne starts saving you time.",
+                "cta": "Write a note"
+            },
+            "colleagues_invited": {
+                "title": "Invite a colleague",
+                "desc": "Colleagues get an email and sign in with their own password.",
+                "cta": "Go to staff"
+            },
+            "duty_schedule_created": {
+                "title": "Add the first shift",
+                "desc": "Create a shift so you can see who is on.",
+                "cta": "Go to the duty schedule"
+            },
+            "medicine_added": {
+                "title": "Add medicine",
+                "desc": "Add medicine to a @:terms.citizen{''} so it can be given and signed for.",
+                "cta": "Go to @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Create your services",
+                "desc": "Name, duration and price. Then appointments can be booked.",
+                "cta": "Go to booking"
+            },
+            "online_booking_enabled": {
+                "title": "Turn on online booking",
+                "desc": "Let your @:terms.citizens{''} book appointments themselves.",
+                "cta": "Go to booking"
+            },
+            "profile_completed": {
+                "title": "Add a profile picture",
+                "desc": "So your colleagues can see who wrote what.",
+                "cta": "Go to profile"
+            }
+        },
+        "restOfSetup": "The rest of the setup",
         "welcome": "Welcome, {name}",
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
@@ -361,7 +479,7 @@
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
             "dokumentation": "Documentation",
-            "people": "Citizens",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patients",
             "clinic": "Clinic & booking",
             "cases": "Cases & jobcentre"
@@ -414,14 +532,14 @@
                 "cta": "Go to Medicine"
             },
             "citizens": {
-                "title": "Create citizens",
-                "desc": "Add the citizens you work with.",
-                "cta": "Go to Citizens"
+                "title": "Add @:terms.citizens{''}",
+                "desc": "Add the @:terms.citizens{''} you work with.",
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Master data & contacts",
                 "desc": "Fill in master data, contacts and caseworker.",
-                "cta": "Go to Citizens"
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Create patients",
@@ -2323,6 +2441,7 @@
                 "teeth": "Teeth",
                 "title": "Title",
                 "usePredefinedcontent": "Use predefined content",
+                "manageJournalTitles": "Edit titles",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Could not save automatically. Your latest changes are not saved yet - retrying.",
                 "showJournalTitles": "Show journal titles",
@@ -5612,6 +5731,7 @@
             "preset": {
                 "applyPreset": "Apply preset",
                 "applySuccess": "Preset successfully applied to draft schedules!",
+                "applySuccessWithSkipped": "{created} shifts added. {skipped} shifts were already in the draft and were not added again.",
                 "confirmation": {
                     "deletePresetConfirmation": "Are you sure you want to delete this preset"
                 },
@@ -5651,7 +5771,12 @@
                 "viewPresets": "View presets",
                 "infoBox": {
                     "title": "What are presets?",
-                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft - you can then edit and publish it."
+                    "description": "A preset is a saved shift pattern you can reuse. Select a preset below and click Apply to copy its shifts into the dates you choose. Shifts that are already in the draft are not added again. You don't need a preset to keep your work: the draft is saved automatically."
+                },
+                "applyInfoBox": {
+                    "title": "Which period should the preset fill?",
+                    "description": "Choose the dates in your draft that the preset's shifts should be copied into. The shifts are adjusted to the dates you choose. Shifts that are already in the draft on those dates are not added again.",
+                    "example": "Example: choose Monday 14 April as the start date and Sunday 20 April as the end date to fill week 16 with the preset's shift pattern."
                 },
                 "saveInfoBox": {
                     "title": "Save your current draft as a preset",
@@ -5664,7 +5789,7 @@
                 "step1": "Create draft shifts",
                 "step2": "Save preset (optional)",
                 "step3": "Publish to schedule",
-                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a draft you've created before."
+                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a shift pattern in another period. Your draft is saved automatically."
             },
             "backToPublished": "Back to the published schedule",
             "contextBanner": {
@@ -6140,6 +6265,7 @@
                 "date": "Payout date",
                 "dateHint": "Choose the date the hours were paid out. The payout counts in that month.",
                 "noAccountAssigned": "This employee has no active time account to register a payout against.",
+                "negativeBalanceWarning": "{employee} has {balance} hours in their compensatory balance. After this payout, the balance will be {after} hours.",
                 "register": "Register payout",
                 "title": "Register payout"
             },
@@ -7707,6 +7833,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} of {total} employees have signed in",
+            "pendingHint": "{count} have not created a password yet. Send the invitation again, or give them a call.",
+            "allIn": "Everyone is in.",
+            "show": "Show who",
+            "hide": "Hide",
+            "resendAll": "Resend to {count}",
+            "resendOne": "Resend",
+            "invitedAt": "invited {date}",
+            "confirm": "Send the invitation again to {count}? They get a new email and the old link stops working."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Employee successfully archived"
         },
@@ -9397,6 +9534,7 @@
         "wellbeingRulerDescription": "When switched on, a wellbeing score from 0 to 10 can be given in @:terms.journalNotes{''}, one for each child on the case. The score is optional and is part of the wellbeing development and the status report's wellbeing ruler."
     },
     "journalNotes": {
+        "removeFilter": "Remove filter: {name}",
         "title": "@.capitalize:terms.journalNotes{''}",
         "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Department",
@@ -9929,6 +10067,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Download messages",
+            "from": "From",
+            "to": "To",
+            "today": "Today",
+            "last7": "Last 7 days",
+            "last30": "Last 30 days",
+            "all": "All",
+            "countOne": "1 message will be included",
+            "countMany": "{count} messages will be included",
+            "noMessages": "No messages in this period",
+            "invalidRange": "The start date must be before the end date",
+            "download": "Download PDF",
+            "downloading": "Downloading...",
+            "tooLarge": "Choose a shorter period (max. 12 months / 5,000 messages)",
+            "tooManyRequests": "Too many downloads. Please try again in a minute.",
+            "personalData": "Contains personal data — handle with care",
+            "error": "The messages could not be downloaded. Please try again."
+        },
         "cprWarning": {
             "title": "Check before sending",
             "message": "This message seems to contain a CPR number. Chat isn't meant for sensitive personal data.",
@@ -11334,7 +11491,16 @@
         "youAreEditingARecurringShift": "You are editing a recurring shift"
     },
     "register": {
+        "done": {
+            "title": "Check your inbox",
+            "sentTo": "We have sent an email to {email}.",
+            "confirm": "Confirm your email address with the link in the email.",
+            "activate": "We switch your account on and write to you when it is ready.",
+            "signIn": "Sign in with your email and the password you just chose.",
+            "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "At least 8 characters",
             "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
             "bySigningUpYouAgreeTo": "By signing up you agree to CitizenOne's",
@@ -11910,6 +12076,14 @@
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "chatCprWarning": "Warn about CPR numbers in chat",
+                "birthdayNotifications": "Birthday notifications",
+                "birthdayNotificationsHint": "Everyone gets a notification each morning when a citizen or colleague has a birthday. Choose who it is about, or switch it off for the whole company",
+                "birthdayNotificationOptions": {
+                    "all": "Citizens and staff",
+                    "staff": "Staff only",
+                    "citizens": "Citizens only",
+                    "off": "Off"
+                },
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
                 "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
@@ -11952,6 +12126,8 @@
                 "dutyScheduleSortFirstShift": "Sort the duty schedule by who starts first (instead of alphabetically)",
                 "isSortByStatus": "Allow displaying \"Substitutes\" at the bottom of the shift plan and \"Permanent staff\" at the top",
                 "compensatoryTimeEnabled": "Enable compensatory time requests",
+                "payoutBeyondBalance": "Allow payouts beyond the compensatory balance",
+                "payoutBeyondBalanceHint": "The employee's balance can become negative. The hours must then be worked later in the period.",
                 "lockPastSchedules": "Lock past schedules",
                 "lockShiftsBeforeDate": "Lock shifts before date",
                 "clearLockShiftsBeforeDate": "Clear date",
@@ -11978,7 +12154,7 @@
                 "groupPlans": "Plans & goals",
                 "groupSchedule": "Schedule & working time",
                 "groupOther": "Other & integrations",
-                "absenceCountsInNormHours": "Count vacation and sick leave toward norm hours and compensatory time off",
+                "absenceCountsInNormHours": "Count leave toward norm hours and compensatory time off",
                 "upgradeToPro": "Upgrade to Pro",
                 "whichHolidaysCount": "Which public holidays should count? (turn off the ones that do not apply to you)",
                 "holidayState": {
@@ -12765,6 +12941,7 @@
     },
     "submit": "Submit",
     "subscription": {
+        "noUserLicense": "All your user licenses are in use. Buy more below, then add the employee.",
         "addOnDeals": {
             "addOnDeals": "Add-on deals",
             "checkout": "Checkout",
@@ -13297,6 +13474,8 @@
                 "website": "Website",
                 "activeImmediately": "Active immediately",
                 "activeImmediatelyDesc": "The company is activated immediately",
+                "vatExemptInvoicing": "VAT-exempt invoicing",
+                "vatExemptInvoicingDesc": "Lets the company mark customers as VAT-exempt. Invoices to those customers are made without VAT.",
                 "address": "Address",
                 "addressPlaceholder": "Street 1, 1234 City",
                 "adminUser": "Administrator user",
@@ -15841,10 +16020,11 @@
         "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
-        "emailVerified": "Email verified",
-        "loginToContinue": "Login to continue",
-        "verifyEmail": "Verify email",
-        "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email"
+        "waitingForActivation": "Thank you. We switch your account on and email you when you can sign in.",
+        "emailVerified": "Email confirmed",
+        "loginToContinue": "Sign in to continue",
+        "verifyEmail": "Confirm email",
+        "youHaveSuccessfullyVerifiedYourEmail": "Your email address is confirmed"
     },
     "view": "View",
     "wish": {
@@ -16901,6 +17081,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "No shifts, appointments or reminders today.",
+        "openCalendar": "Open the calendar",
         "certificates": {
             "title": "Certificates missing or expiring",
             "missing": "{count} missing",
@@ -17704,6 +17886,10 @@
             "convertAllSelected": "Convert all selected",
             "extras": "Extras",
             "addExtra": "Add extra line",
+            "allTimings": "All",
+            "allFrequencies": "All",
+            "extraProductNumber": "Item no.",
+            "extraProductNumberHelp": "The item number in e-conomic. Left empty, e-conomic uses the first product in your agreement.",
             "extraDescription": "Description",
             "extraQuantity": "Quantity",
             "extraPrice": "Price",
@@ -17780,6 +17966,7 @@
             "customerGroup": "Customer group",
             "customerDivision": "Customer division",
             "hasSpecialContract": "Special contract",
+            "vatExempt": "VAT-exempt",
             "paymentTermsText": "Payment terms, full text",
             "cooperationStatus": "Cooperation status",
             "cooperationStatusDate": "Date of status",
@@ -17813,6 +18000,7 @@
                 "customerGroup": "The customer group in WorkZone, e.g. 3.",
                 "customerDivision": "The customer's division in WorkZone, kept with its code, e.g. 1300, Jutland and Funen.",
                 "hasSpecialContract": "Tick if the customer has a special contract.",
+                "vatExempt": "Tick if invoices to this customer are without VAT, e.g. a municipality buying social services. Applies to invoices made from now on.",
                 "paymentTermsDays": "Number of days from the Payment terms list. Used on the invoice.",
                 "paymentTermsText": "The full payment terms text as written in the agreement.",
                 "priceRegulation": "The price regulation agreement.",
@@ -18067,6 +18255,10 @@
             "pushEconomic": "Send to e-conomic as draft",
             "pushDinero": "Send to Dinero as voucher",
             "pushBilly": "Send to Billy as draft",
+            "delete": "Delete",
+            "deleteTitle": "Delete invoices",
+            "deleteConfirm": "{count} invoice(s) will be deleted. Their hours and contract lines can then be billed again.",
+            "deleteSkipped": "{count} selected invoice(s) have been sent or transferred and are left as they are.",
             "empty": "No invoices in this view.",
             "number": "Invoice no.",
             "billTo": "Recipient",
@@ -18086,6 +18278,7 @@
                 "invoice_not_found": "The invoice was not found",
                 "customer_failed": "The customer could not be created in e-conomic",
                 "invoice_failed": "The draft could not be created in e-conomic",
+                "vat_exempt_invoice_failed": "The draft could not be created in e-conomic. A VAT-exempt invoice needs a VAT-exempt VAT zone in e-conomic (e.g. \"Domestic exempt\")",
                 "dinero_not_connected": "Dinero is not connected",
                 "dinero_invoice_not_found": "The invoice was not found",
                 "dinero_voucher_failed": "The voucher could not be created in Dinero",
@@ -18094,6 +18287,8 @@
                 "billy_contact_failed": "The contact could not be created in Billy",
                 "billy_product_failed": "The product could not be created in Billy (no revenue account found)",
                 "billy_invoice_failed": "The invoice could not be created in Billy",
+                "billy_vat_exempt_rate_missing": "Billy has no active 0% sales VAT rate for a VAT-exempt invoice",
+                "not_deletable": "Sent or transferred invoices cannot be deleted",
                 "billy_already_pushed": "The invoice has already been sent to Billy",
                 "billy_auth_failed": "Billy did not accept the access token",
                 "unknown_action": "Unknown action"
@@ -20226,5 +20421,48 @@
         "importFailed": "An error occurred during the import.",
         "openFileFailed": "An error occurred while opening the file.",
         "deleteFailed": "An error occurred during the deletion."
+    },
+    "signup": {
+        "title": "Create your free account to save your progress",
+        "subtitle": "Your work from citizenone.dk is saved and waits for you.",
+        "continueWithApple": "Continue with Apple",
+        "continueWithGoogle": "Continue with Google",
+        "continueWithEmail": "Continue with Email",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "you{'@'}workplace.com",
+        "sendCode": "Send code",
+        "back": "Back",
+        "codeSent": "We sent a 6-digit code to {email}.",
+        "codeLabel": "6-digit code",
+        "verify": "Continue",
+        "changeEmail": "Use another email",
+        "resendCode": "Send a new code",
+        "haveAccount": "Already have an account with a password?",
+        "signIn": "Sign in",
+        "complete": {
+            "title": "Finish your account",
+            "heading": "Almost done",
+            "signedInAs": "You are signing up as {email}.",
+            "submit": "Create account",
+            "expiredTitle": "This sign-up link has expired",
+            "expiredBody": "Start again to create your account.",
+            "startAgain": "Start again"
+        },
+        "pending": {
+            "title": "We are reviewing your account",
+            "body": "Thank you. We review every new account before it is switched on, and we write to {email} when it is ready.",
+            "draftSaved": "Your draft from citizenone.dk is saved and will be waiting for you when you sign in."
+        },
+        "drafts": {
+            "title": "Saved from citizenone.dk",
+            "delete": "Delete",
+            "deleteAria": "Delete saved draft: {tool}",
+            "tools": {
+                "smart-goal": "SMART goal",
+                "restraint": "Use of force form",
+                "daily-rhythm": "Daily rhythm plan",
+                "socialtilsyn": "Social supervision check"
+            }
+        }
     }
 }
