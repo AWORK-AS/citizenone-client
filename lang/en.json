@@ -252,7 +252,13 @@
             "won": "Won",
             "lost": "Lost"
         },
-        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
+        "viewToggle": "Board or list",
+        "viewBoard": "Board",
+        "viewList": "List",
+        "loadMore": "Show more ({count} more)",
+        "stageFilter": "Stage",
+        "allStages": "All stages",
+        "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
             "myself": "Myself",
@@ -862,6 +868,7 @@
                 "hideInternalJournals": "Cannot see internal notes",
                 "seesHrData": "Can see HR details and employee documents",
                 "countsAsConsultant": "Counts as consultant",
+                "onlyAssignedCitizens": "Sees only assigned citizens",
                 "certificateReminderFor": "Receives certificate reminders for"
             },
             "values": {
@@ -5062,6 +5069,7 @@
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
             "badgeIntake": "Intake coordinator",
+            "badgeConsultant": "Consultant",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
@@ -11688,6 +11696,8 @@
             "certificateRemindersRolesPlaceholder": "Choose roles",
             "countsAsConsultant": "Employees with this role are consultants",
             "countsAsConsultantHelp": "Used by Employees → Certificates → Missing: consultants need a CV, education papers and a contract on top of the child protection certificate.",
+            "onlyAssignedCitizens": "Sees only assigned citizens",
+            "onlyAssignedCitizensHelp": "Employees with this role see only the citizens (interventions) they are attached to under Contacts, including plans, goals, journals and documents. Department and level do not widen it. Admins always see everything.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -12382,6 +12392,7 @@
             "gdprRetention": "GDPR Retention",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
+            "zapier": "Zapier",
             "economic": "e-conomic",
             "dinero": "Dinero",
             "billy": "Billy",
@@ -12448,6 +12459,44 @@
             "adminOnly": "Only administrators can manage the Power BI token.",
             "notPurchased": "The Power BI app is not active yet. Activate it under Apps to get access to the live data feeds.",
             "goToApps": "Go to Apps"
+        },
+        "zapier": {
+            "title": "Zapier",
+            "subtitle": "Connect CitizenOne to thousands of other tools. Send new web leads on, or create leads from other apps.",
+            "adminOnly": "Only administrators can manage Zapier keys.",
+            "notPurchased": "The Zapier app is not active yet. Activate it under Apps to connect CitizenOne to Zapier.",
+            "goToApps": "Go to Apps",
+            "dataNote": "Only business data is shared with Zapier: web leads and tasks. No citizen or health data is ever sent.",
+            "freeTextLabel": "Include task titles",
+            "freeTextHint": "Titles are typed by hand and can contain names. Turn this off to keep them out of Zapier. Task descriptions are never sent.",
+            "settingSaved": "Setting saved.",
+            "keyOnce": "Copy the key now and paste it into Zapier. It is shown only once.",
+            "copy": "Copy",
+            "copied": "Copied!",
+            "keys": "Keys",
+            "ownerNote": "Calls made with a key act as the person who created it. If that person is archived, the key stops working and a new one must be created.",
+            "keyName": "Key name",
+            "keyNamePlaceholder": "For example: Marketing automations",
+            "createKey": "Create key",
+            "noKeys": "No keys yet.",
+            "keyEnds": "Key ends in",
+            "lastUsed": "Last used",
+            "neverUsed": "Never used",
+            "revoke": "Revoke",
+            "confirmRevoke": "Revoke this key? Zaps that use it stop working immediately.",
+            "keyCreated": "Key created",
+            "howTitle": "How to connect Zapier",
+            "how1": "Create a key above and copy it.",
+            "how2": "Open CitizenOne in Zapier and choose Connect.",
+            "how3": "Paste the key. Then build a Zap with CitizenOne as the trigger or the action.",
+            "openZapier": "Open CitizenOne in Zapier",
+            "deliveries": "Recent deliveries",
+            "noDeliveries": "Nothing has been sent to Zapier yet.",
+            "status": {
+                "delivered": "Delivered",
+                "failed": "Failed",
+                "pending": "Pending"
+            }
         },
         "economic": {
             "title": "e-conomic",
@@ -12636,6 +12685,10 @@
             "powerBi": {
                 "title": "What does Power BI do?",
                 "body": "Pull your data into reports in Power BI. The key grants read access, not the right to change anything."
+            },
+            "zapier": {
+                "title": "What does Zapier do?",
+                "body": "Connect CitizenOne to other tools without code. Only business data is shared, never citizen or health data."
             },
             "economic": {
                 "title": "What does e-conomic do?",

@@ -252,7 +252,13 @@
             "won": "Vunnen",
             "lost": "Förlorad"
         },
-        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
+        "viewToggle": "Tavla eller lista",
+        "viewBoard": "Tavla",
+        "viewList": "Lista",
+        "loadMore": "Visa fler ({count} till)",
+        "stageFilter": "Fas",
+        "allStages": "Alla faser",
+        "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
             "myself": "Mig själv",
@@ -862,6 +868,7 @@
                 "hideInternalJournals": "Kan inte se interna anteckningar",
                 "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
                 "countsAsConsultant": "Räknas som konsult",
+                "onlyAssignedCitizens": "Ser bara tilldelade insatser",
                 "certificateReminderFor": "Får påminnelser om certifikat för"
             },
             "values": {
@@ -5062,6 +5069,7 @@
         "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
         "coordinators": {
             "badgeIntake": "Mottagningskoordinator",
+            "badgeConsultant": "Konsult",
             "badgePrimary": "Primär koordinator",
             "badgeSecondary": "Sekundär koordinator",
             "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
@@ -11683,6 +11691,8 @@
             "certificateRemindersRolesPlaceholder": "Välj roller",
             "countsAsConsultant": "Medarbetare med den här rollen är konsulter",
             "countsAsConsultantHelp": "Används i Anställda → Intyg → Saknas: konsulter behöver utöver barnintyget CV, utbildningsbevis och kontrakt.",
+            "onlyAssignedCitizens": "Ser bara tilldelade insatser",
+            "onlyAssignedCitizensHelp": "Medarbetare med den här rollen ser bara de brukare (insatser) de är kopplade till under Kontakter, även planer, mål, journaler och dokument. Avdelning och nivå utökar det inte. Administratörer ser alltid allt.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -12377,6 +12387,7 @@
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
+            "zapier": "Zapier",
             "economic": "e-conomic",
             "dinero": "Dinero",
             "billy": "Billy",
@@ -12443,6 +12454,44 @@
             "adminOnly": "Endast administratörer kan hantera Power BI-token.",
             "notPurchased": "Power BI-appen är inte aktiverad ännu. Aktivera den under Appar för att få åtkomst till realtids-dataflöden.",
             "goToApps": "Gå till Appar"
+        },
+        "zapier": {
+            "title": "Zapier",
+            "subtitle": "Koppla CitizenOne till tusentals andra verktyg. Skicka vidare nya web-leads, eller skapa leads från andra appar.",
+            "adminOnly": "Bara administratörer kan hantera Zapier-nycklar.",
+            "notPurchased": "Zapier-appen är inte aktiv ännu. Aktivera den under Appar för att koppla CitizenOne till Zapier.",
+            "goToApps": "Gå till Appar",
+            "dataNote": "Bara företagsdata delas med Zapier: web-leads och uppgifter. Medborgar- eller hälsodata skickas aldrig.",
+            "freeTextLabel": "Ta med uppgiftstitlar",
+            "freeTextHint": "Titlar skrivs för hand och kan innehålla namn. Stäng av för att hålla dem utanför Zapier. Uppgiftsbeskrivningar skickas aldrig.",
+            "settingSaved": "Inställningen sparades.",
+            "keyOnce": "Kopiera nyckeln nu och klistra in den i Zapier. Den visas bara en gång.",
+            "copy": "Kopiera",
+            "copied": "Kopierat!",
+            "keys": "Nycklar",
+            "ownerNote": "Anrop med en nyckel utförs som personen som skapade den. Om personen arkiveras slutar nyckeln fungera och en ny måste skapas.",
+            "keyName": "Nyckelns namn",
+            "keyNamePlaceholder": "Till exempel: Marknadsföringsautomation",
+            "createKey": "Skapa nyckel",
+            "noKeys": "Inga nycklar ännu.",
+            "keyEnds": "Nyckeln slutar på",
+            "lastUsed": "Senast använd",
+            "neverUsed": "Aldrig använd",
+            "revoke": "Återkalla",
+            "confirmRevoke": "Återkalla den här nyckeln? Zaps som använder den slutar fungera direkt.",
+            "keyCreated": "Nyckel skapad",
+            "howTitle": "Så kopplar du Zapier",
+            "how1": "Skapa en nyckel ovan och kopiera den.",
+            "how2": "Öppna CitizenOne i Zapier och välj Connect.",
+            "how3": "Klistra in nyckeln. Bygg sedan en Zap med CitizenOne som trigger eller åtgärd.",
+            "openZapier": "Öppna CitizenOne i Zapier",
+            "deliveries": "Senaste leveranser",
+            "noDeliveries": "Inget har skickats till Zapier ännu.",
+            "status": {
+                "delivered": "Levererad",
+                "failed": "Misslyckades",
+                "pending": "Väntar"
+            }
         },
         "economic": {
             "title": "e-conomic",
@@ -12631,6 +12680,10 @@
             "powerBi": {
                 "title": "Vad gör Power BI?",
                 "body": "Hämta ut era data till rapporter i Power BI. Nyckeln ger läsbehörighet, inte rätt att ändra något."
+            },
+            "zapier": {
+                "title": "Vad gör Zapier?",
+                "body": "Koppla CitizenOne till andra verktyg utan kod. Bara företagsdata delas, aldrig medborgar- eller hälsodata."
             },
             "economic": {
                 "title": "Vad gör e-conomic?",

@@ -252,7 +252,13 @@
             "won": "Vundet",
             "lost": "Tabt"
         },
-        "tooManyToShow": "Viser {shown} af {total} henvendelser. Brug listevisningen eller et afdelingsfilter for at se resten.",
+        "viewToggle": "Tavle eller liste",
+        "viewBoard": "Tavle",
+        "viewList": "Liste",
+        "loadMore": "Vis flere ({count} mere)",
+        "stageFilter": "Fase",
+        "allStages": "Alle faser",
+        "stage": "Fase",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
             "myself": "Mig selv",
@@ -862,6 +868,7 @@
                 "hideInternalJournals": "Kan ikke se interne notater",
                 "seesHrData": "Kan se HR-oplysninger og medarbejderdokumenter",
                 "countsAsConsultant": "Tæller som konsulent",
+                "onlyAssignedCitizens": "Ser kun tilknyttede indsatser",
                 "certificateReminderFor": "Får påmindelser om certifikater for"
             },
             "values": {
@@ -5062,6 +5069,7 @@
         "emptyListHint": "Ingen {citizens} fundet endnu. Brug \"Ny {citizen}\" øverst, eller importér fra et andet system.",
         "coordinators": {
             "badgeIntake": "Modtagelseskoordinator",
+            "badgeConsultant": "Konsulent",
             "badgePrimary": "Primær koordinator",
             "badgeSecondary": "Sekundær koordinator",
             "hint": "Den medarbejder du sætter her vises under Kontakter på {theCitizen} og {theCitizen} vises under medarbejderens tildelte {citizens}.",
@@ -11688,6 +11696,8 @@
             "certificateRemindersRolesPlaceholder": "Vælg roller",
             "countsAsConsultant": "Medarbejdere med denne rolle er konsulenter",
             "countsAsConsultantHelp": "Bruges i Medarbejdere → Attester → Mangler: konsulenter skal ud over børneattesten have CV, uddannelsespapirer og kontrakt.",
+            "onlyAssignedCitizens": "Ser kun tilknyttede indsatser",
+            "onlyAssignedCitizensHelp": "Medarbejdere med denne rolle ser kun de borgere (indsatser), de er tilknyttet under Kontakter, også planer, mål, journaler og dokumenter. Afdeling og niveau udvider det ikke. Administratorer ser altid alt.",
             "selectAll": "Vælg alle",
             "clearAll": "Ryd alle",
             "noPermissionsMatch": "Ingen tilladelser matcher \"{search}\".",
@@ -12382,6 +12392,7 @@
             "gdprRetention": "GDPR Opbevaring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
+            "zapier": "Zapier",
             "economic": "e-conomic",
             "dinero": "Dinero",
             "billy": "Billy",
@@ -12448,6 +12459,44 @@
             "adminOnly": "Kun administratorer kan administrere Power BI-token.",
             "notPurchased": "Power BI-app’en er ikke aktiveret endnu. Aktivér den under Apps for at få adgang til live-datafeeds.",
             "goToApps": "Gå til Apps"
+        },
+        "zapier": {
+            "title": "Zapier",
+            "subtitle": "Forbind CitizenOne med tusindvis af andre værktøjer. Send nye web-leads videre, eller opret leads fra andre apps.",
+            "adminOnly": "Kun administratorer kan administrere Zapier-nøgler.",
+            "notPurchased": "Zapier-appen er ikke aktiv endnu. Aktivér den under Apps for at forbinde CitizenOne med Zapier.",
+            "goToApps": "Gå til Apps",
+            "dataNote": "Der deles kun virksomhedsdata med Zapier: web-leads og opgaver. Der sendes aldrig borger- eller sundhedsdata.",
+            "freeTextLabel": "Medtag opgavetitler",
+            "freeTextHint": "Titler skrives i hånden og kan indeholde navne. Slå fra for at holde dem ude af Zapier. Opgavebeskrivelser sendes aldrig.",
+            "settingSaved": "Indstilling gemt.",
+            "keyOnce": "Kopiér nøglen nu og indsæt den i Zapier. Den vises kun én gang.",
+            "copy": "Kopiér",
+            "copied": "Kopieret!",
+            "keys": "Nøgler",
+            "ownerNote": "Kald med en nøgle udføres som den person, der oprettede den. Bliver personen arkiveret, stopper nøglen, og der skal oprettes en ny.",
+            "keyName": "Navn på nøgle",
+            "keyNamePlaceholder": "For eksempel: Marketing-automatisering",
+            "createKey": "Opret nøgle",
+            "noKeys": "Ingen nøgler endnu.",
+            "keyEnds": "Nøglen slutter på",
+            "lastUsed": "Sidst brugt",
+            "neverUsed": "Aldrig brugt",
+            "revoke": "Tilbagekald",
+            "confirmRevoke": "Tilbagekald denne nøgle? Zaps, der bruger den, stopper med det samme.",
+            "keyCreated": "Nøgle oprettet",
+            "howTitle": "Sådan forbinder du Zapier",
+            "how1": "Opret en nøgle ovenfor og kopiér den.",
+            "how2": "Åbn CitizenOne i Zapier og vælg Connect.",
+            "how3": "Indsæt nøglen. Byg derefter en Zap med CitizenOne som trigger eller handling.",
+            "openZapier": "Åbn CitizenOne i Zapier",
+            "deliveries": "Seneste leverancer",
+            "noDeliveries": "Der er endnu ikke sendt noget til Zapier.",
+            "status": {
+                "delivered": "Leveret",
+                "failed": "Fejlet",
+                "pending": "Afventer"
+            }
         },
         "economic": {
             "title": "e-conomic",
@@ -12636,6 +12685,10 @@
             "powerBi": {
                 "title": "Hvad kan Power BI?",
                 "body": "Træk jeres data ud til rapporter i Power BI. Nøglen giver læseadgang, ikke ret til at ændre noget."
+            },
+            "zapier": {
+                "title": "Hvad gør Zapier?",
+                "body": "Forbind CitizenOne med andre værktøjer uden kode. Der deles kun virksomhedsdata, aldrig borger- eller sundhedsdata."
             },
             "economic": {
                 "title": "Hvad gør e-conomic?",

@@ -5,6 +5,12 @@ class CitizenInquiryService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries`, 'GET', params)
     }
 
+    // The pipeline board, column by column: each stage's true count and its
+    // newest cards. With stage + offset it returns the next cards of one column.
+    async getBoard(params: object): Promise<any> {
+        return await this.request(`/user/citizen-inquiries/board/columns`, 'GET', params)
+    }
+
     async getSelectedInquiry(inquiryUuid: any): Promise<any> {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}`, 'GET')
     }
