@@ -20,11 +20,11 @@
                 <div class="mt-5 flex items-center gap-x-2">
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / 5) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / step1Total) * 100)}%` }"></div>
                     </div>
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / 2) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / step2Total) * 100)}%` }"></div>
                     </div>
                     <img class="w-4" src="/img/icons/asset-app.png" :alt="$t('imageFailedToLoad')" />
                 </div>
@@ -141,15 +141,6 @@
                             </div>
                         </div>
                         <div class="space-y-1 py-1">
-                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
-                            <FormTextField id="company_name" name="company_name"
-                                :placeholder="$t('register.form.companyPlaceholder')"
-                                v-model="state.formRegister.company_name" />
-                            <FormError
-                                :error="vRules1$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.name?.[0]" />
-                        </div>
-                        <div class="space-y-1 py-1">
                             <FormLabel for="email" :label="$t('register.form.emailAddress')" />
                             <FormTextField id="email" name="email"
                                 :placeholder="$t('register.form.emailAddressPlaceholder')"
@@ -169,15 +160,19 @@
                             <FormError :error="vRules1$?.formRegister?.password?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.password?.[0]" />
                         </div>
-                        <div class="space-y-1 py-1">
-                            <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
-                            <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
-                                v-model="state.formRegister.phone" />
-                            <FormError :error="vRules1$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.phone?.[0]" />
-                        </div>
                     </div>
                     <div class="mt-5 space-y-3" v-else>
+                        <!-- Step 1 asks only for what the account needs. The organisation and the phone
+                             number come here, after the visitor has already committed to an account. -->
+                        <div class="space-y-1">
+                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
+                            <FormTextField id="company_name" name="company_name"
+                                :placeholder="$t('register.form.companyPlaceholder')"
+                                v-model="state.formRegister.company_name" />
+                            <FormError
+                                :error="vRules2$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.name?.[0]" />
+                        </div>
                         <div class="space-y-1">
                             <FormLabel for="industry" :label="$t('register.form.industry')" />
                             <FormSelect id="industry" :options="state.options.industries"
@@ -193,6 +188,12 @@
                             <FormError
                                 :error="vRules2$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
+                            <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
+                                v-model="state.formRegister.phone" />
+                            <FormError :error="state?.error?.errors?.phone?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <div class="w-fit flex items-center cursor-pointer"
@@ -368,9 +369,6 @@ const rules1 = computed(() => {
             lastname: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
-            company_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
             email: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -389,6 +387,9 @@ const rules1 = computed(() => {
 const rules2 = computed(() => {
     return {
         formRegister: {
+            company_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
             industry: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -451,33 +452,37 @@ watch(() => language.locale.value, (newValue: any) => {
     }
 })
 
+// The required fields of each step, so each bar fills to the end exactly when its step is done.
+const step1Total = computed(() => (state.oauthProvider ? 3 : 4))
+const step2Total = 3
+
 watch(() => ({
     firstname: state.formRegister.firstname,
     lastname: state.formRegister.lastname,
-    company_name: state.formRegister.company_name,
     email: state.formRegister.email,
-    phone: state.formRegister.phone,
-}), ({ firstname, lastname, company_name, email, phone }) => {
+    password: state.formRegister.password,
+}), ({ firstname, lastname, email, password }) => {
     const isFilled = (value: unknown) => {
         return String(value ?? "").trim().length > 0
     }
     let progress = 0
     if (isFilled(firstname)) progress += 1
     if (isFilled(lastname)) progress += 1
-    if (isFilled(company_name)) progress += 1
     if (isFilled(email)) progress += 1
-    if (isFilled(phone)) progress += 1
+    if (!state.oauthProvider && isFilled(password)) progress += 1
     state.progress.currentStep1Progress = progress
 }, { immediate: true })
 
 watch(() => ({
+    company_name: state.formRegister.company_name,
     industry: state.formRegister.industry,
     agreeToTerms: state.formRegister.agreeToTerms,
-}), ({ industry, agreeToTerms }) => {
+}), ({ company_name, industry, agreeToTerms }) => {
     const isFilled = (value: unknown) => {
         return String(value ?? "").trim().length > 0
     }
     let progress = 0
+    if (isFilled(company_name)) progress += 1
     if (isFilled(industry)) progress += 1
     if (agreeToTerms) progress += 1
     state.progress.currentStep2Progress = progress
@@ -622,13 +627,12 @@ async function register() {
 
                 const errors = error?.errors
 
+                // The organisation name and the phone number are on step 2, so their errors stay there.
                 const hasStep1Error =
                     !!errors?.firstname?.length ||
                     !!errors?.lastname?.length ||
-                    !!errors?.name?.length ||
                     !!errors?.email?.length ||
-                    !!errors?.password?.length ||
-                    !!errors?.phone?.length
+                    !!errors?.password?.length
 
                 if (hasStep1Error) {
                     state.progress.currentStep = 1
