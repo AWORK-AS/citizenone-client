@@ -625,6 +625,10 @@ async function fetchInquiries() {
             page_length: pipelineEnabled.value ? BOARD_PAGE_LENGTH : inquiryStore.getCurrentPageLength,
             sortField: inquiryStore.getSortData.sortField,
             sortOrder: inquiryStore.getSortData.sortOrder,
+            // The board ignores the table's saved sort: the server puts open
+            // stages first, newest first, so a new inquiry is never pushed off
+            // the one page the board loads.
+            ...(pipelineEnabled.value ? { board: 1 } : {}),
             ...state.dataFilter
         }
         const response = await citizenInquiryService.getInquiries(params)
