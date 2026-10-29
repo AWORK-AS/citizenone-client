@@ -252,7 +252,13 @@
             "won": "Vunnet",
             "lost": "Tapt"
         },
-        "tooManyToShow": "Viser {shown} av {total} henvendelser. Bruk listevisningen eller et avdelingsfilter for å se resten.",
+        "viewToggle": "Tavle eller liste",
+        "viewBoard": "Tavle",
+        "viewList": "Liste",
+        "loadMore": "Vis flere ({count} til)",
+        "stageFilter": "Fase",
+        "allStages": "Alle faser",
+        "stage": "Fase",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
             "myself": "Meg selv",
@@ -862,6 +868,7 @@
                 "hideInternalJournals": "Kan ikke se interne notater",
                 "seesHrData": "Kan se HR-opplysninger og medarbeiderdokumenter",
                 "countsAsConsultant": "Teller som konsulent",
+                "onlyAssignedCitizens": "Ser bare tilknyttede innsatser",
                 "certificateReminderFor": "Får påminnelser om sertifikater for"
             },
             "values": {
@@ -5062,6 +5069,7 @@
         "emptyListHint": "Ingen {citizens} funnet ennå. Bruk \"Ny {citizen}\" øverst, eller importer fra et annet system.",
         "coordinators": {
             "badgeIntake": "Mottakskoordinator",
+            "badgeConsultant": "Konsulent",
             "badgePrimary": "Primær koordinator",
             "badgeSecondary": "Sekundær koordinator",
             "hint": "Medarbeideren du setter her vises under Kontakter på {theCitizen}, og {theCitizen} vises under medarbeiderens tildelte {citizens}.",
@@ -11683,6 +11691,8 @@
             "certificateRemindersRolesPlaceholder": "Velg roller",
             "countsAsConsultant": "Ansatte med denne rollen er konsulenter",
             "countsAsConsultantHelp": "Brukes i Ansatte → Attester → Mangler: konsulenter må i tillegg til barneomsorgsattesten ha CV, utdanningspapirer og kontrakt.",
+            "onlyAssignedCitizens": "Ser bare tilknyttede innsatser",
+            "onlyAssignedCitizensHelp": "Ansatte med denne rollen ser bare de borgerne (innsatsene) de er tilknyttet under Kontakter, også planer, mål, journaler og dokumenter. Avdeling og nivå utvider det ikke. Administratorer ser alltid alt.",
             "selectAll": "Velg alle",
             "clearAll": "Tøm alle",
             "noPermissionsMatch": "Ingen tillatelser matcher \"{search}\".",
