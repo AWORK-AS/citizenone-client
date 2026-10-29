@@ -9345,7 +9345,9 @@
         },
         "unknownType": {
             "title": "Förfrågan saknar en typ",
-            "hint": "Den kan inte redigeras här förrän den är satt till kriscenter eller härbärge. Det händer vanligtvis med importerade förfrågningar."
+            "hint": "Välj vilken typ förfrågan är, så kan du redigera den. Typen sparas tillsammans med dina ändringar. Det händer vanligtvis med importerade förfrågningar.",
+            "chosen": "Sparas som {type}.",
+            "change": "Byt typ"
         },
         "review": {
             "edit": "Redigera",
