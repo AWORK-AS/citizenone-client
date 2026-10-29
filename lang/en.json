@@ -11503,7 +11503,6 @@
             "title": "Check your inbox",
             "sentTo": "We have sent an email to {email}.",
             "confirm": "Confirm your email address with the link in the email.",
-            "activate": "We switch your account on and write to you when it is ready.",
             "signIn": "Sign in with your email and the password you just chose.",
             "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
         },

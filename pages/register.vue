@@ -243,10 +243,6 @@
                         </li>
                         <li class="flex gap-x-3">
                             <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">2</span>
-                            <span class="text-sm text-gray-700">{{ $t('register.done.activate') }}</span>
-                        </li>
-                        <li class="flex gap-x-3">
-                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">3</span>
                             <span class="text-sm text-gray-700">{{ $t('register.done.signIn') }}</span>
                         </li>
                     </ol>
