@@ -2367,7 +2367,10 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal or single goal",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal, single goal or treatment",
+                "activeTreatments": "Active treatments",
+                "activeTreatmentsHint": "Pick a treatment to document on it. The note is added to the treatment's statuses.",
+                "treatment": "Treatment",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {
                     "currentLevel": "Current level",
@@ -10605,6 +10608,7 @@
                 "medicationOverview": "Medication overview",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
+                "newsAndPoll": "News and poll from CitizenOne",
                 "nextShift": "Next shift",
                 "onDutyToday": "On duty today",
                 "plansAndGoals": "Plans and goals",
@@ -11499,7 +11503,6 @@
             "title": "Check your inbox",
             "sentTo": "We have sent an email to {email}.",
             "confirm": "Confirm your email address with the link in the email.",
-            "activate": "We switch your account on and write to you when it is ready.",
             "signIn": "Sign in with your email and the password you just chose.",
             "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
         },
@@ -15660,6 +15663,7 @@
         },
         "metrics": {
             "contractMrr": "Contract MRR",
+            "sinceLastVisit": "since last visit",
             "contractArr": "Contract ARR {amount}",
             "cashMrr": "Cash MRR",
             "cashArr": "Cash ARR, next 12 months {amount}",

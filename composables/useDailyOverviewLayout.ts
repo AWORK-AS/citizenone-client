@@ -38,6 +38,8 @@ export const STATISTICS_SECTIONS = [
     { key: 'showJournalScoreStatistics', label: 'overview.filter.items.journalStatistics' },
     { key: 'showSubgoalsScoreStatistics', label: 'overview.filter.items.subgoalsStatistics' },
     { key: 'showUseOfForceStatistics', label: 'overview.filter.items.useOfForceStatistics' },
+    // Not in the personal filter: shown unless a role layout hides it.
+    { key: 'showNewsAndPoll', label: 'overview.filter.items.newsAndPoll' },
 ] as const
 
 /**

@@ -92,7 +92,7 @@
                                                 {{ $t('citizens.viewLocations.viewLocations') }}
                                             </button>
                                         </MenuItem>
-                                        <MenuItem v-slot="{ active }" v-if="isShelterOrCrisisCenter">
+                                        <MenuItem v-slot="{ active }" v-if="isShelterOrCrisisCenter && userHasPage(userStore.getUser?.pages, 'Inquiries')">
                                             <button
                                                 :class="[active && 'bg-gray-100', 'group flex w-full items-center gap-x-2 rounded-md px-2 py-2.5 text-sm text-left']"
                                                 @click="navigateTo('/inquiries')">
@@ -589,6 +589,7 @@
 <script setup lang="ts">
 import { Menu, MenuButton, MenuItems, MenuItem } from '@headlessui/vue'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { userHasPage } from '@/composables/pageAccess'
 import { userService } from '@/components/api/user/UserService'
 import { interventionHoursService } from '@/components/api/user/InterventionHoursService'
 import { useCheckInHourTypes } from '@/composables/useCheckInHourTypes'

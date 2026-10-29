@@ -2,22 +2,23 @@
  * Resolves the "Copy to plan, goal, or subgoal" checkbox's link on a journal
  * note into a breadcrumb label and a deep link back to the plans-and-goals
  * page, from the `linked_to` shape the API returns:
- * { type: 'plan'|'goal'|'subgoal', plan?: {uuid,name}, goal?: {uuid,name}, subgoal?: {uuid,name} }
+ * { type: 'plan'|'goal'|'subgoal'|'treatment', plan?: {uuid,name}, goal?: {uuid,name}, subgoal?: {uuid,name}, treatment?: {uuid,name} }
  *
  * Kept free of Vue so it can be reused identically across every journal list
  * page without each one re-deriving the label/URL logic on its own.
  */
 export interface JournalLinkedTo {
-    type: 'plan' | 'goal' | 'subgoal'
+    type: 'plan' | 'goal' | 'subgoal' | 'treatment'
     plan?: { uuid: string, name: string } | null
     goal?: { uuid: string, name: string } | null
     subgoal?: { uuid: string, name: string } | null
+    treatment?: { uuid: string, name: string } | null
 }
 
 export function linkedToLabel(linkedTo: JournalLinkedTo | null | undefined): string {
     if (!linkedTo) return ''
 
-    return [linkedTo.plan?.name, linkedTo.goal?.name, linkedTo.subgoal?.name]
+    return [linkedTo.plan?.name, linkedTo.goal?.name, linkedTo.subgoal?.name, linkedTo.treatment?.name]
         .filter(Boolean)
         .join(' / ')
 }
@@ -30,6 +31,13 @@ export function linkedToLabel(linkedTo: JournalLinkedTo | null | undefined): str
  */
 export function linkedToHref(plansAndGoalsBasePath: string, linkedTo: JournalLinkedTo | null | undefined): string {
     if (!linkedTo) return ''
+
+    // A treatment lives with the citizen's nursing areas, next to plans and
+    // goals, and opens its statuses from there.
+    if (linkedTo.treatment?.uuid) {
+        const nursingAreas = plansAndGoalsBasePath.replace(/plans-and-goals\/all$/, 'nursing-areas')
+        return `${nursingAreas}?open=treatments&treatment=${linkedTo.treatment.uuid}`
+    }
 
     const params = new URLSearchParams()
     if (linkedTo.plan?.uuid) params.set('plan_uuid', linkedTo.plan.uuid)
