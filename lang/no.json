@@ -12387,6 +12387,7 @@
             "gdprRetention": "GDPR Oppbevaring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
+            "zapier": "Zapier",
             "economic": "e-conomic",
             "dinero": "Dinero",
             "billy": "Billy",
@@ -12453,6 +12454,44 @@
             "adminOnly": "Bare administratorer kan administrere Power BI-token.",
             "notPurchased": "Power BI-appen er ikke aktivert ennå. Aktiver den under Apps for å få tilgang til sanntids-datafeeder.",
             "goToApps": "Gå til Apps"
+        },
+        "zapier": {
+            "title": "Zapier",
+            "subtitle": "Koble CitizenOne til tusenvis av andre verktøy. Send nye web-leads videre, eller opprett leads fra andre apper.",
+            "adminOnly": "Bare administratorer kan administrere Zapier-nøkler.",
+            "notPurchased": "Zapier-appen er ikke aktiv ennå. Aktiver den under Apper for å koble CitizenOne til Zapier.",
+            "goToApps": "Gå til Apper",
+            "dataNote": "Bare virksomhetsdata deles med Zapier: web-leads og oppgaver. Det sendes aldri borger- eller helsedata.",
+            "freeTextLabel": "Ta med oppgavetitler",
+            "freeTextHint": "Titler skrives for hånd og kan inneholde navn. Slå av for å holde dem utenfor Zapier. Oppgavebeskrivelser sendes aldri.",
+            "settingSaved": "Innstilling lagret.",
+            "keyOnce": "Kopier nøkkelen nå og lim den inn i Zapier. Den vises bare én gang.",
+            "copy": "Kopier",
+            "copied": "Kopiert!",
+            "keys": "Nøkler",
+            "ownerNote": "Kall med en nøkkel utføres som personen som opprettet den. Hvis personen arkiveres, slutter nøkkelen å virke, og en ny må opprettes.",
+            "keyName": "Navn på nøkkel",
+            "keyNamePlaceholder": "For eksempel: Markedsføringsautomatisering",
+            "createKey": "Opprett nøkkel",
+            "noKeys": "Ingen nøkler ennå.",
+            "keyEnds": "Nøkkelen slutter på",
+            "lastUsed": "Sist brukt",
+            "neverUsed": "Aldri brukt",
+            "revoke": "Tilbakekall",
+            "confirmRevoke": "Tilbakekalle denne nøkkelen? Zaps som bruker den slutter å virke umiddelbart.",
+            "keyCreated": "Nøkkel opprettet",
+            "howTitle": "Slik kobler du til Zapier",
+            "how1": "Opprett en nøkkel ovenfor og kopier den.",
+            "how2": "Åpne CitizenOne i Zapier og velg Connect.",
+            "how3": "Lim inn nøkkelen. Bygg deretter en Zap med CitizenOne som trigger eller handling.",
+            "openZapier": "Åpne CitizenOne i Zapier",
+            "deliveries": "Siste leveranser",
+            "noDeliveries": "Ingenting er sendt til Zapier ennå.",
+            "status": {
+                "delivered": "Levert",
+                "failed": "Feilet",
+                "pending": "Venter"
+            }
         },
         "economic": {
             "title": "e-conomic",
@@ -12641,6 +12680,10 @@
             "powerBi": {
                 "title": "Hva gjør Power BI?",
                 "body": "Hent dataene deres ut til rapporter i Power BI. Nøkkelen gir lesetilgang, ikke rett til å endre noe."
+            },
+            "zapier": {
+                "title": "Hva gjør Zapier?",
+                "body": "Koble CitizenOne til andre verktøy uten kode. Det deles bare virksomhetsdata, aldri borger- eller helsedata."
             },
             "economic": {
                 "title": "Hva gjør e-conomic?",
