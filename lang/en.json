@@ -868,6 +868,7 @@
                 "hideInternalJournals": "Cannot see internal notes",
                 "seesHrData": "Can see HR details and employee documents",
                 "countsAsConsultant": "Counts as consultant",
+                "onlyAssignedCitizens": "Sees only assigned citizens",
                 "certificateReminderFor": "Receives certificate reminders for"
             },
             "values": {
@@ -5068,6 +5069,7 @@
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
             "badgeIntake": "Intake coordinator",
+            "badgeConsultant": "Consultant",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
@@ -11694,6 +11696,8 @@
             "certificateRemindersRolesPlaceholder": "Choose roles",
             "countsAsConsultant": "Employees with this role are consultants",
             "countsAsConsultantHelp": "Used by Employees → Certificates → Missing: consultants need a CV, education papers and a contract on top of the child protection certificate.",
+            "onlyAssignedCitizens": "Sees only assigned citizens",
+            "onlyAssignedCitizensHelp": "Employees with this role see only the citizens (interventions) they are attached to under Contacts, including plans, goals, journals and documents. Department and level do not widen it. Admins always see everything.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
