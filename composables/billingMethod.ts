@@ -370,6 +370,7 @@ const ERROR_CODES = new Set([
     'card_security_not_applicable',
     'card_security_agreement_changed',
     'renewal_not_available',
+    'impersonation_not_allowed',
     'plan_change_invoice_company',
 ])
 

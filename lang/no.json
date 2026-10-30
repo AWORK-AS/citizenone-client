@@ -20668,7 +20668,8 @@
             "card_security_not_applicable": "Kort som sikkerhet gjelder bare fakturakunder.",
             "plan_change_invoice_company": "Virksomheten betaler med faktura. Bytt planen fra lisensoversikten, så den faktureres.",
             "card_security_agreement_changed": "Kortet forsøket ble sendt til er fjernet eller byttet siden. Det kan ikke gjentas med samme nøkkel. Sjekk trekket i Nexi-portalen.",
-            "renewal_not_available": "Oppdatering av betalingskort er ikke tilgjengelig akkurat nå. Kontakt support hvis kontoen er stengt."
+            "renewal_not_available": "Oppdatering av betalingskort er ikke tilgjengelig akkurat nå. Kontakt support hvis kontoen er stengt.",
+            "impersonation_not_allowed": "Kan ikke utføres mens support er logget inn som kunden."
         },
         "agreement": {
             "cardSecurity": "Kort som sikkerhet",

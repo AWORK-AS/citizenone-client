@@ -449,3 +449,7 @@ test('a failed request frees the guard so the button can be pressed again', asyn
     await assert.rejects(mint())
     assert.equal(requests, 2)
 })
+
+test('impersonation refusals have a message', () => {
+    assert.equal(errorMessageKey({ code: 'impersonation_not_allowed', status: 403 }), 'paymentDunning.errors.impersonation_not_allowed')
+})

@@ -20753,7 +20753,8 @@
             "card_security_not_applicable": "Card as security only applies to invoice customers.",
             "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced.",
             "card_security_agreement_changed": "The card the attempt was sent to has been removed or replaced since. It cannot be repeated with the same key. Check the charge in the Nexi portal.",
-            "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed."
+            "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed.",
+            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer."
         },
         "agreement": {
             "cardSecurity": "Card as security",
