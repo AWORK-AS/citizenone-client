@@ -258,6 +258,11 @@
         "loadMore": "Show more ({count} more)",
         "stageFilter": "Stage",
         "allStages": "All stages",
+        "receiverFilter": "Intake coordinator",
+        "receiverAll": "The whole team's",
+        "receiverMine": "My inquiries",
+        "receiverNone": "No intake coordinator",
+        "receivedBy": "Received by {name}",
         "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
