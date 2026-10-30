@@ -18908,6 +18908,7 @@
         "empty": "There are no documents on this inquiry.",
         "hint": "Paperwork that arrived with the inquiry. It follows to the @:terms.citizen{''}’s files on conversion.",
         "onCitizen": "On the @:terms.citizen{''}",
+        "fromSourceCase": "From WorkZone",
         "delete": "Delete document",
         "confirmDelete": "Are you sure you want to delete this document",
         "uploadFailed": "The document could not be uploaded",

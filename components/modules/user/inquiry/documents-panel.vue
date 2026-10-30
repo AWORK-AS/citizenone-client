@@ -51,6 +51,11 @@
                     {{ [readableSize(doc.size), uploaderName(doc), formatDateToReadable(doc.created_at)].filter(Boolean).join(' · ') }}
                 </p>
             </div>
+            <!-- Migrated with the case: the file stays in the citizen's files. -->
+            <span v-if="doc.is_from_source_case"
+                class="shrink-0 rounded-full bg-surface-100 px-2 py-px text-[11px] font-semibold text-slate-500">
+                {{ $t('inquiryDocuments.fromSourceCase') }}
+            </span>
             <span v-if="doc.is_copied_to_citizen"
                 class="shrink-0 rounded-full bg-[#e6f6ee] px-2 py-px text-[11px] font-semibold text-[#177a53]">
                 {{ $t('inquiryDocuments.onCitizen') }}

@@ -18823,6 +18823,7 @@
         "empty": "Det finnes ingen dokumenter på henvendelsen.",
         "hint": "Papirer som er kommet med henvendelsen. De følger med til borgerens filer ved konvertering.",
         "onCitizen": "På borgeren",
+        "fromSourceCase": "Fra WorkZone",
         "delete": "Slett dokument",
         "confirmDelete": "Er du sikker på at du vil slette dette dokumentet",
         "uploadFailed": "Dokumentet kunne ikke lastes opp",
