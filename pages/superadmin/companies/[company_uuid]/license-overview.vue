@@ -443,6 +443,22 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.description') }}
                         </p>
+                        <div class="flex items-start gap-2 rounded-lg px-3 py-2.5 text-[13px]"
+                            :class="grantNoticeKind ? 'bg-[#E4F1F6] text-[#205E77]' : 'bg-amber-50 text-amber-900'"
+                            role="note" data-testid="grant-billing-notice">
+                            <Icon :name="grantNoticeIcon" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
+                            <p class="flex-1">
+                                {{ grantNoticeKind
+                                    ? $t(`paymentDunning.grant.${grantNoticeKind}`)
+                                    : $t('paymentDunning.grant.methodUnknown') }}
+                            </p>
+                            <Tooltip :text="$t('paymentDunning.grant.changeMethodHelp')" position="top" wrap>
+                                <NuxtLink :to="`/superadmin/companies/${companyUuid}/overview`"
+                                    class="underline underline-offset-2 whitespace-nowrap font-medium">
+                                    {{ $t('paymentDunning.grant.changeMethod') }}
+                                </NuxtLink>
+                            </Tooltip>
+                        </div>
                         <p class="text-sm font-semibold text-gray-900">
                             {{ state.activeLicenseType === 'department'
                                 ? $t('superadmin.companies.licenseOverview.departmentLicenses')
@@ -482,13 +498,6 @@
                             <p class="text-xs text-gray-500">
                                 {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
                             </p>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.grant.paysViaLeverandorservice = !state.grant.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.grant.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.grant.isOpen = false">
@@ -875,6 +884,8 @@
 <script setup lang="ts">
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
+import { billingService } from '@/components/api/superadmin/BillingService'
+import { grantNotice, type CompanyBilling } from '@/composables/billingMethod'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
@@ -944,7 +955,6 @@ const state = reactive({
         isSaving: false,
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
-        paysViaLeverandorservice: false,
         termYears: 1 as number,
     },
     addSubscription: {
@@ -1010,6 +1020,36 @@ const contract = computed(() => state.subscriptions?.data?.contract ?? null)
 
 // Superadmin-only blocks on the subscriptions response; absent on an older API.
 const agreementView = computed(() => subscriptionAgreementView(state.subscriptions?.data))
+
+// What "Tilføj licenser" will do depends on how the company pays. The method is a
+// company setting; the dialog only reflects it. `null` until it has loaded, so a
+// failed load says so instead of promising a card charge.
+const billing = ref<CompanyBilling | null>(null)
+
+const grantNoticeKind = computed(() => {
+    if (!billing.value) return null
+    return grantNotice({
+        billingMethod: billing.value.billing_method,
+        underAgreement: billing.value.under_agreement || !!agreementView.value.agreement || agreementView.value.runningAgreements.length > 0,
+        economicDraft: billing.value.economic_draft,
+    })
+})
+
+const grantNoticeIcon = computed(() => ({
+    card: 'ph:credit-card',
+    invoice: 'ph:file-text',
+    invoice_economic: 'ph:file-text',
+    agreement: 'ph:handshake',
+}[grantNoticeKind.value ?? 'card'] ?? 'ph:warning'))
+
+async function loadBillingMethod() {
+    billing.value = null
+    try {
+        billing.value = await billingService.getBillingMethod(companyUuid as string)
+    } catch (_) {
+        billing.value = null
+    }
+}
 const agreement = computed(() => agreementView.value.agreement)
 const agreementRenewal = computed(() => renewalSummary(agreement.value ?? {}))
 const runningAgreement = computed(() => agreementView.value.runningAgreements[0] ?? null)
@@ -1161,9 +1201,9 @@ watch(() => state.activeLicenseType, () => {
 function openGrantModal() {
     state.grant.quantity = 1
     state.grant.frequency = 'monthly'
-    state.grant.paysViaLeverandorservice = false
     state.grant.termYears = 1
     state.grant.isOpen = true
+    loadBillingMethod()
 }
 
 async function submitGrant() {
@@ -1172,10 +1212,10 @@ async function submitGrant() {
     if (grantIsYearly.value && (!state.grant.termYears || state.grant.termYears < 1)) return
     state.grant.isSaving = true
     try {
-        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean, term_years?: number } = {
+        // Leverandorservice is a company setting now (Betalingsmaade), not a choice per grant.
+        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', term_years?: number } = {
             quantity: state.grant.quantity,
             type: state.activeLicenseType,
-            pays_via_leverandorservice: state.grant.paysViaLeverandorservice,
         }
         if (needsFrequencyPicker.value) {
             params.frequency = state.grant.frequency
