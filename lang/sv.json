@@ -5661,6 +5661,13 @@
             "downloadOnlyLeaveTypes": "Ladda ner endast fravärstyper",
             "downloadOverview": "Ladda ner översikt",
             "downloadType": "Downloadtype",
+            "dutyTypes": "Passtyper",
+            "allDutyTypes": "Alla passtyper",
+            "dutyTypeReport": "Rapport per passtyp",
+            "dutyTypeReportHint": "Ett avsnitt per passtyp med timmar per anställd.",
+            "reportFormat": "Rapportformat",
+            "reportFormatPdf": "PDF",
+            "reportFormatExcel": "Excel",
             "filter": {
                 "currentView": "Nuvarande visning",
                 "filterDate": "Filtrera datum",

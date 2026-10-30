@@ -2,7 +2,12 @@
     <Multiselect mode="tags" :close-on-select="true" :searchable="true" :options="props.options" :limit="props.limit"
         :no-options-text="$t('theListIsEmpty')" :noResultsText="$t('noResultFound')" :max-height="props.maxHeight"
         :appendToBody="props.appendToBody" :loading="props.loading"
-        class="multiselect-limited" :style="{ '--ms-max-height': `${props.maxHeight}px` }" :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)" />
+        class="multiselect-limited" :style="{ '--ms-max-height': `${props.maxHeight}px` }" :modelValue="modelValue" @update:modelValue="emit('update:modelValue', $event)">
+        <!-- Pass any slot the caller supplies (e.g. a custom option) on to Multiselect. -->
+        <template v-for="(_, slotName) in $slots" #[slotName]="slotProps">
+            <slot :name="slotName" v-bind="slotProps || {}" />
+        </template>
+    </Multiselect>
 </template>
 
 <script setup lang="ts">

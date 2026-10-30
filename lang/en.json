@@ -5716,6 +5716,13 @@
             "downloadOnlyLeaveTypes": "Download only leave types",
             "downloadOverview": "Download overview",
             "downloadType": "Download type",
+            "dutyTypes": "Duty types",
+            "allDutyTypes": "All duty types",
+            "dutyTypeReport": "Duty type report",
+            "dutyTypeReportHint": "One section per duty type with hours per employee.",
+            "reportFormat": "Report format",
+            "reportFormatPdf": "PDF",
+            "reportFormatExcel": "Excel",
             "filter": {
                 "currentView": "Current view",
                 "filterDate": "Filter date",

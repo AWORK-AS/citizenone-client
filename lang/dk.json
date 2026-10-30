@@ -5716,6 +5716,13 @@
             "downloadOnlyLeaveTypes": "Download kun fraværstyper",
             "downloadOverview": "Download oversigt",
             "downloadType": "Downloadtype",
+            "dutyTypes": "Vagttyper",
+            "allDutyTypes": "Alle vagttyper",
+            "dutyTypeReport": "Rapport pr. vagttype",
+            "dutyTypeReportHint": "Et afsnit pr. vagttype med timer pr. medarbejder.",
+            "reportFormat": "Rapportformat",
+            "reportFormatPdf": "PDF",
+            "reportFormatExcel": "Excel",
             "filter": {
                 "currentView": "Nuværende visning",
                 "filterDate": "Filtrer dato",
