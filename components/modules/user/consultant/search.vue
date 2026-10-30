@@ -197,6 +197,10 @@
                                     class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
                                     {{ $t('consultantMatch.archived') }}
                                 </span>
+                                <span v-if="result.active_cases"
+                                    class="rounded-full bg-[#eef6fb] px-2.5 py-[3px] text-[11.5px] font-bold text-secondary">
+                                    {{ $t('consultantMatch.activeCases', { count: result.active_cases }, result.active_cases) }}
+                                </span>
                                 <!-- Distance from the case to their home; approximate
                                      when their home is only known by postal code. -->
                                 <span v-if="state.locationGeocoded"
@@ -207,6 +211,11 @@
                                 </span>
                             </div>
                                 <p class="mt-1 text-xs text-slate-500">{{ profileLine(result) }}</p>
+                                <!-- Still working (on active indsatser) but archived by the
+                                     migration without a login: says what to do. -->
+                                <p v-if="result.is_archived && result.active_cases" class="mt-1 text-xs font-semibold text-[#8a6208]">
+                                    {{ $t('consultantMatch.archivedOnCases', { count: result.active_cases }) }}
+                                </p>
                             </div>
                         </div>
                         <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
