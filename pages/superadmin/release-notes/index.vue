@@ -19,6 +19,10 @@
                             <Icon name="ph:clock-counter-clockwise" class="h-4 w-4" aria-hidden="true" />
                             {{ state.filterStatus === 'all' ? $t('releaseNotes.pendingReview') : $t('releaseNotes.allNotes') }}
                         </button>
+                        <FormButton v-if="can('log_out_everyone')" buttonStyle="cancel" :disabled="state.loggingOut"
+                            data-testid="log-out-everyone" @click="state.logOutOpen = true">
+                            <Icon name="ph:sign-out" class="h-4 w-4" /> {{ $t('releaseNotes.logOutEveryone') }}
+                        </FormButton>
                         <FormButton buttonStyle="primary" @click="openForm()">
                             <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('releaseNotes.newNote') }}
                         </FormButton>
@@ -312,6 +316,10 @@
 
             <DialogConfirmation :isModalOpen="state.unpublishOpen" :message="$t('releaseNotes.unpublishConfirm')"
                 @close="state.unpublishOpen = false" @confirm="doUnpublish" />
+
+            <DialogConfirmation :isModalOpen="state.logOutOpen" :title="$t('releaseNotes.logOutEveryoneTitle')"
+                :message="$t('releaseNotes.logOutEveryoneConfirm')" :confirmLabel="$t('releaseNotes.logOutEveryone')"
+                @close="state.logOutOpen = false" @confirm="logOutEveryone" />
         </NuxtLayout>
     </div>
 </template>
@@ -319,11 +327,13 @@
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/superadmin/ReleaseNoteService'
 import { useAlert } from '@/composables/alert'
+import { usePermissions } from '@/composables/usePermissions'
 import { useVideoEmbed } from '@/composables/videoEmbed'
 import { useI18n } from 'vue-i18n'
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()
+const { can } = usePermissions()
 const { videoEmbedUrl } = useVideoEmbed()
 const imageInput = ref<HTMLInputElement | null>(null)
 const objectUrl = ref<string | null>(null)
@@ -373,6 +383,8 @@ const state = reactive({
     // into the past. Pending review is normally a small, bounded set.
     filterStatus: 'draft' as 'draft' | 'all',
     notifyingUuid: '' as string,
+    logOutOpen: false,
+    loggingOut: false,
 })
 
 onMounted(() => fetchNotes())
@@ -399,6 +411,20 @@ function previousPage() {
 function nextPage() {
     currentPage++
     fetchNotes()
+}
+
+// Task 250: everyone signs in again, and so gets the version just released.
+async function logOutEveryone() {
+    state.logOutOpen = false
+    state.loggingOut = true
+    state.error = ''
+    try {
+        const response = await releaseNoteService.logOutEveryone()
+        if (response?.message) successAlert(`${t('alert.success')}!`, response.message)
+    } catch (error: any) {
+        state.error = error?.message ?? 'Error'
+    }
+    state.loggingOut = false
 }
 
 function toggleFilter() {
