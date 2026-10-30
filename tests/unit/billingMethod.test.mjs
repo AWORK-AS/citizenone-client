@@ -58,13 +58,12 @@ test('card security state', () => {
 })
 
 test('grant notice: agreement wins over billing method', () => {
-    const base = { economicEnabled: true, hasEconomicCustomerNumber: true }
+    const base = { economicDraft: true }
     assert.equal(grantNotice({ ...base, billingMethod: 'invoice', underAgreement: true }), 'agreement')
     assert.equal(grantNotice({ ...base, billingMethod: 'card', underAgreement: true }), 'agreement')
     assert.equal(grantNotice({ ...base, billingMethod: 'card', underAgreement: false }), 'card')
     assert.equal(grantNotice({ ...base, billingMethod: 'invoice', underAgreement: false }), 'invoice_economic')
-    assert.equal(grantNotice({ ...base, hasEconomicCustomerNumber: false, billingMethod: 'invoice', underAgreement: false }), 'invoice')
-    assert.equal(grantNotice({ ...base, economicEnabled: false, billingMethod: 'invoice', underAgreement: false }), 'invoice')
+    assert.equal(grantNotice({ economicDraft: false, billingMethod: 'invoice', underAgreement: false }), 'invoice')
 })
 
 test('invoice chip: only unresolved failures are rejected', () => {

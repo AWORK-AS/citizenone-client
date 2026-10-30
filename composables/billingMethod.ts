@@ -33,6 +33,8 @@ export type CompanyBilling = BillingMethodForm & {
     /** "MM/YY". */
     card_expiry: string | null
     under_agreement: boolean
+    /** True when an e-conomic draft is also created for invoices (integration on and customer number set). */
+    economic_draft: boolean
 }
 
 export type DunningRow = {
@@ -75,6 +77,7 @@ export function normalizeCompanyBilling(raw: any): CompanyBilling {
         card_masked: card?.masked ?? card?.masked_pan ?? data.card_masked ?? null,
         card_expiry: card?.expiry ?? data.card_expiry ?? null,
         under_agreement: !!data.under_agreement,
+        economic_draft: !!(data.economic_draft ?? data.economic_draft_enabled),
     }
 }
 
@@ -120,12 +123,11 @@ export type GrantNotice = 'agreement' | 'invoice' | 'invoice_economic' | 'card'
 export function grantNotice(args: {
     billingMethod: BillingMethod
     underAgreement: boolean
-    economicEnabled: boolean
-    hasEconomicCustomerNumber: boolean
+    economicDraft: boolean
 }): GrantNotice {
     if (args.underAgreement) return 'agreement'
     if (args.billingMethod === 'invoice') {
-        return args.economicEnabled && args.hasEconomicCustomerNumber ? 'invoice_economic' : 'invoice'
+        return args.economicDraft ? 'invoice_economic' : 'invoice'
     }
     return 'card'
 }
