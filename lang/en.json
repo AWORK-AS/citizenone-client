@@ -20631,7 +20631,7 @@
         "grant": {
             "card": "The customer pays by card: the licences are charged to the card straight away.",
             "invoice": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days.",
-            "invoiceEconomic": "The customer pays by invoice: an invoice is created in CitizenOne and a draft in e-conomic.",
+            "invoice_economic": "The customer pays by invoice: an invoice is created in CitizenOne and a draft in e-conomic.",
             "agreement": "The company has an agreement: the licences are added to the agreement as an add-on.",
             "methodUnknown": "The payment method could not be loaded. Check the Payment method section on Overview before continuing.",
             "changeMethod": "Change payment method",

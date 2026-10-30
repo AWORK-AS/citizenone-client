@@ -20546,7 +20546,7 @@
         "grant": {
             "card": "Kunden betaler med kort: lisensene belastes kortet umiddelbart.",
             "invoice": "Kunden betaler med faktura: det opprettes en faktura i CitizenOne med betaling innen 3 dager.",
-            "invoiceEconomic": "Kunden betaler med faktura: det opprettes en faktura i CitizenOne og et utkast i e-conomic.",
+            "invoice_economic": "Kunden betaler med faktura: det opprettes en faktura i CitizenOne og et utkast i e-conomic.",
             "agreement": "Virksomheten har en avtale: lisensene legges til avtalen som tilkjøp.",
             "methodUnknown": "Betalingsmåten kunne ikke hentes. Sjekk seksjonen Betalingsmåte under Oversikt før du fortsetter.",
             "changeMethod": "Bytt betalingsmåte",
