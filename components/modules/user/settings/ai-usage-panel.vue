@@ -177,7 +177,7 @@
             </section>
 
             <ModulesUserBillingServicePausedNotice service="ai"
-                :paused="!!(state.data.payment_missing || state.data.auto_reload?.payment_missing)" />
+                :paused="!!(state.data.payment_paused || state.data.payment_missing || state.data.auto_reload?.payment_paused || state.data.auto_reload?.payment_missing)" />
 
             <!-- The other half of the ledger. A balance nobody can trace back to
                  a purchase is a number to be taken on trust. -->

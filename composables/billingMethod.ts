@@ -230,6 +230,6 @@ export type PausedService = 'ai' | 'sms'
 export function pausedServices(flags: any): PausedService[] {
     const out: PausedService[] = []
     if (flags?.ai_payment_missing || flags?.ai_paused) out.push('ai')
-    if (flags?.sms_payment_missing || flags?.sms_paused) out.push('sms')
+    if (flags?.sms_payment_missing || flags?.sms_paused || flags?.payment_paused) out.push('sms')
     return out
 }

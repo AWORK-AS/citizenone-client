@@ -310,7 +310,7 @@ async function fetchSettings() {
             state.settings.notify_reminder_24h = d.notify_reminder_24h ?? false
             state.settings.notify_reminder_same_day = d.notify_reminder_same_day ?? false
             state.settings.sms_balance = d.sms_balance ?? 0
-            state.settings.payment_missing = !!(d.payment_missing || d.sms_paused)
+            state.settings.payment_missing = !!(d.payment_paused || d.payment_missing || d.sms_paused)
             state.settings.auto_recharge_enabled = d.auto_recharge_enabled ?? false
             state.settings.auto_recharge_threshold = String(d.auto_recharge_threshold ?? 10)
             state.settings.auto_recharge_amount = String(d.auto_recharge_amount ?? 100)
