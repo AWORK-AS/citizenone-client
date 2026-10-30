@@ -20,6 +20,8 @@ import {
     invoiceCounts,
     errorMessageKey,
     chargeTone,
+    renewalLinkToken,
+    canRenew,
     latestRenewalToken,
     retryStatus,
     chargeStatus,
@@ -159,7 +161,7 @@ test('invoice counts never yield NaN, and resolved is null when not reported', (
 })
 
 test('wall: an admin gets the card flow, others are told to contact the admin', () => {
-    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'card', renewal_token: 't' }), 'update_card')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'card', can_renew: true }), 'update_card')
     assert.equal(wallMode({ status: 'suspended', can_manage: false }), 'contact_admin')
     assert.equal(wallMode({ status: 'past_due', can_manage: true, billing_method: 'card' }), 'update_card')
     assert.equal(wallMode({ status: 'past_due', can_manage: true }), 'update_card')
@@ -378,4 +380,43 @@ test('"Fjern sikkerhedskort" is offered exactly when the row has a security card
     assert.equal(actionNeedsNote('revoke_security_card'), false)
     assert.equal(actionTakesNote('revoke_security_card'), false)
     assert.equal(validateDunningAction('revoke_security_card', { note: '' }), null)
+})
+
+test('the wall no longer reads a token: can_renew decides between card flow and invoice_overdue', () => {
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, can_renew: true }), 'update_card')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, can_renew: false }), 'invoice_overdue')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true }), 'invoice_overdue')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'card', can_renew: false }), 'update_card')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'invoice', can_renew: true }), 'invoice_overdue')
+})
+
+test('the renew button shows only for can_renew === true', () => {
+    assert.equal(canRenew({ can_renew: true }), true)
+    for (const value of [false, undefined, null, 'true', 1]) assert.equal(canRenew({ can_renew: value }), false)
+    assert.equal(canRenew(null), false)
+    // The old status carried a token; it must not turn the button on.
+    assert.equal(canRenew({ renewal_token: 'abc' }), false)
+})
+
+test('the renewal link token comes only from the renewal-link response', () => {
+    assert.equal(renewalLinkToken({ data: { renewal_token: 'tok', url: 'u' } }), 'tok')
+    assert.equal(renewalLinkToken({ renewal_token: 'tok' }), 'tok')
+    assert.equal(renewalLinkToken({ data: {} }), null)
+    assert.equal(renewalLinkToken(null), null)
+})
+
+test('the new refusal codes have messages', () => {
+    assert.equal(errorMessageKey({ code: 'renewal_not_available' }), 'paymentDunning.errors.renewal_not_available')
+    assert.equal(errorMessageKey({ code: 'card_security_agreement_changed' }), 'paymentDunning.errors.card_security_agreement_changed')
+})
+
+test('a charge Nexi never answered is repostable only through the explicit action', () => {
+    const actions = { charge_security_card: true, close: true }
+    assert.deepEqual(dunningActions({ actions, needs_nexi_check: true }), ['retry_unknown_charge', 'close'])
+    assert.deepEqual(dunningActions({ actions, needs_nexi_check: false }), ['charge_security_card', 'close'])
+    assert.deepEqual(dunningActions({ actions }), ['charge_security_card', 'close'])
+    // Even when the API lists no plain charge, the explicit repost is what a Nexi check needs.
+    assert.deepEqual(dunningActions({ actions: { charge_security_card: false }, needs_nexi_check: true }), ['retry_unknown_charge'])
+    assert.equal(actionNeedsNote('retry_unknown_charge'), false)
+    assert.equal(validateDunningAction('retry_unknown_charge', { note: '' }), null)
 })

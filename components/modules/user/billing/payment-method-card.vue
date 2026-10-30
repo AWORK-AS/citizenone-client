@@ -25,13 +25,26 @@
             <ModulesUserBillingSecurityCardBanner v-else :inline="true" />
 
             <div v-if="canManage && billing.card_masked" class="mt-3">
-                <Tooltip :text="$t('paymentDunning.customer.changeCardHelp')" position="top" wrap>
-                    <FormButton type="button" buttonStyle="secondary" @click="state.isDialogOpen = true">
-                        {{ $t('paymentDunning.customer.changeCard') }}
-                    </FormButton>
-                </Tooltip>
+                <div class="flex flex-wrap gap-2">
+                    <Tooltip :text="$t('paymentDunning.customer.changeCardHelp')" position="top" wrap>
+                        <FormButton type="button" buttonStyle="secondary" @click="state.isDialogOpen = true">
+                            {{ $t('paymentDunning.customer.changeCard') }}
+                        </FormButton>
+                    </Tooltip>
+                    <Tooltip :text="$t('paymentDunning.customer.removeCardHelp')" position="top" wrap>
+                        <FormButton type="button" buttonStyle="danger" @click="state.isRemoveOpen = true">
+                            {{ $t('paymentDunning.customer.removeCard') }}
+                        </FormButton>
+                    </Tooltip>
+                </div>
             </div>
         </div>
+
+        <DialogConfirmation :isModalOpen="state.isRemoveOpen" :title="$t('paymentDunning.customer.removeCard')"
+            :message="$t('paymentDunning.customer.removeCardConfirm')" :confirmLabel="$t('paymentDunning.customer.removeCard')"
+            @close="state.isRemoveOpen = false" @confirm="removeCard" />
+
+        <Alert v-if="state.error" class="mt-3" type="danger" :text="state.error" />
 
         <ModulesUserBillingSecurityCardDialog :isOpen="state.isDialogOpen" @close="state.isDialogOpen = false"
             @saved="onSaved" />
@@ -39,12 +52,33 @@
 </template>
 
 <script setup lang="ts">
+import { billingService } from '@/components/api/user/BillingService'
+import { errorMessageKey } from '@/composables/billingMethod'
+import { useAlert } from '@/composables/alert'
+import { useI18n } from 'vue-i18n'
 const { billing, isInvoice, load } = usePaymentMethod()
 const { isAtLeast } = usePermissions()
 
 // The API refuses anyone but an Admin; this only decides whether to show the button.
 const canManage = computed(() => isAtLeast('Admin'))
-const state = reactive({ isDialogOpen: false })
+const { t } = useI18n()
+const { successAlert } = useAlert()
+const state = reactive({ isDialogOpen: false, isRemoveOpen: false, error: '' as string })
+
+// Withdraws the card. The API answers 404 while the feature is off (then nothing here shows
+// at all, because the status carries no card_security) and refuses anyone but an admin.
+async function removeCard() {
+    state.isRemoveOpen = false
+    state.error = ''
+    try {
+        await billingService.removeCardSecurity()
+        successAlert(`${t('alert.success')}!`, t('paymentDunning.customer.cardRemoved'))
+        await load(true)
+    } catch (error: any) {
+        const key = errorMessageKey(error)
+        state.error = key ? t(key) : (error?.message ?? '')
+    }
+}
 
 async function onSaved() {
     state.isDialogOpen = false

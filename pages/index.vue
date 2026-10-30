@@ -74,12 +74,12 @@
 			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isIpOtpOpen"
 				:isModalOpen="state.modal.isIpOtpOpen" otpType="ip" :email="state.formLogin.email ?? ''"
 				:deviceUuid="state.deviceUuid" @close="state.modal.isIpOtpOpen = false"
-				@requires2fa="open2faStep" />
+				@requires2fa="open2faStep" @suspended="onSuspendedAfter2fa" />
 
 			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isDeviceOtpOpen"
 				:isModalOpen="state.modal.isDeviceOtpOpen" otpType="device" :email="state.formLogin.email ?? ''"
 				:deviceUuid="state.deviceUuid" @close="state.modal.isDeviceOtpOpen = false"
-				@requires2fa="open2faStep" />
+				@requires2fa="open2faStep" @suspended="onSuspendedAfter2fa" />
 
 
 			<form v-if="!state.code.step" class="form-card" @submit.prevent="login">
@@ -527,6 +527,8 @@ async function login() {
 // renewal link for an admin) instead of a session that does not exist.
 function onSuspendedAfter2fa(error: any) {
 	state.modal.isGoogle2faVerificationOpen = false
+	state.modal.isIpOtpOpen = false
+	state.modal.isDeviceOtpOpen = false
 	state.error = error
 }
 

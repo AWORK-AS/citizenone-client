@@ -19,8 +19,9 @@
                 <template v-else>
                     <h1 class="text-lg font-semibold text-[#1F2533]">{{ title }}</h1>
                     <p class="mt-2 text-sm text-gray-600">{{ body }}</p>
+                    <Alert v-if="state.error" class="mt-3" type="danger" :text="state.error" />
 
-                    <Tooltip v-if="mode === 'update_card' && state.status?.renewal_token" :text="$t('paymentDunning.suspended.updateCardHelp')"
+                    <Tooltip v-if="mode === 'update_card' && canRenew(state.status)" :text="$t('paymentDunning.suspended.updateCardHelp')"
                         position="top" wrap class="!block mt-5">
                         <button type="button"
                             class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C]"
@@ -50,7 +51,7 @@
 
 <script setup lang="ts">
 import { billingService } from '@/components/api/user/BillingService'
-import { latestRenewalToken, wallMode } from '@/composables/billingMethod'
+import { canRenew, errorMessageKey, renewalLinkToken, wallMode } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import { authService } from '@/components/api/user/AuthService'
 import { signOutRevoking } from '@/composables/signOutRevoking'
@@ -64,7 +65,7 @@ import { signOutRevoking } from '@/composables/signOutRevoking'
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
-const state = reactive({ isLoading: true, status: null as any })
+const state = reactive({ isLoading: true, status: null as any, error: '' as string })
 
 // A suspended standing whose status could not be read still says "contact your administrator".
 const mode = computed(() => state.status ? wallMode({ ...state.status, status: 'suspended' }) : 'contact_admin')
@@ -85,16 +86,16 @@ const body = computed(() => ({
     none: t('paymentDunning.suspended.contactBody'),
 }[mode.value]))
 
-// Renewal tokens rotate on every issue, so the one read when the page loaded may already be
-// dead (the status call that loaded it minted it, and any later one replaces it). Ask again
-// and use only what that answer carries.
+// The status call only says `can_renew`. The link is minted here, on the click, because each
+// one replaces the last: calling it on page load would kill the link in the suspension email.
 async function updateCard() {
+    state.error = ''
     try {
-        const response = await billingService.getStatus()
-        const token = latestRenewalToken(response?.data ?? response)
+        const token = renewalLinkToken(await billingService.createRenewalLink())
         if (token) navigateTo({ path: '/subscription/renew', query: { token } })
-    } catch (_) {
-        // The standing could not be read; the button stays and can be pressed again.
+    } catch (error: any) {
+        const key = errorMessageKey(error)
+        state.error = key ? t(key) : (error?.message ?? '')
     }
 }
 

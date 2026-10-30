@@ -21,6 +21,7 @@ export type DunningAction =
     | 'reopen'
     | 'postpone'
     | 'revoke_security_card'
+    | 'retry_unknown_charge'
 
 export type BillingMethodForm = {
     billing_method: BillingMethod
@@ -62,6 +63,8 @@ export type DunningRow = {
     /** YYYY-MM-DD while dunning is postponed. */
     postponed_until: string | null
     postpone_note: string | null
+    /** A security charge Nexi never answered: check the charge in the Nexi portal. */
+    needs_nexi_check: boolean
     /** Masked security card, only while the feature is on. */
     security_card: { last_four: string | null; expiry: string | null } | null
     /** Invoice customers: each unpaid invoice and where its security-card charge stands. */
@@ -177,15 +180,19 @@ export function invoiceChip(invoice: any): InvoiceChip {
     return 'pending'
 }
 
-const ACTION_ORDER: DunningAction[] = ['retry', 'send_card_link', 'charge_security_card', 'revoke_security_card', 'close', 'reopen', 'postpone']
+const ACTION_ORDER: DunningAction[] = ['retry', 'send_card_link', 'charge_security_card', 'retry_unknown_charge', 'revoke_security_card', 'close', 'reopen', 'postpone']
 
 /**
  * What a row in "Betalingsproblemer" offers: exactly what the API's `actions` map
  * allows, in a fixed order. The screen never works out for itself whether a
  * company may be closed or charged; a missing map offers nothing.
  */
-export function dunningActions(row: { actions?: Partial<Record<DunningAction, boolean>> | null; security_card?: unknown }): DunningAction[] {
+export function dunningActions(row: { actions?: Partial<Record<DunningAction, boolean>> | null; security_card?: unknown; needs_nexi_check?: boolean }): DunningAction[] {
     return ACTION_ORDER.filter((action) => {
+        // Nexi never answered the last attempt: finance checks the Nexi portal first, and the
+        // same attempt may only be reposted through the explicit action, never a plain charge.
+        if (action === 'retry_unknown_charge') return row.needs_nexi_check === true
+        if (action === 'charge_security_card' && row.needs_nexi_check === true) return false
         // The API does not list this one in `actions`: it applies whenever a card is on file.
         if (action === 'revoke_security_card') return !!row.security_card
         return row.actions?.[action] === true
@@ -289,7 +296,7 @@ export function invoiceCounts(response: any): InvoiceCounts {
 export type WallMode = 'none' | 'update_card' | 'invoice_overdue' | 'contact_admin' | 'notice'
 
 export function wallMode(
-    status: { status?: string; can_manage?: boolean; billing_method?: string | null; renewal_token?: string | null } | null | undefined,
+    status: { status?: string; can_manage?: boolean; billing_method?: string | null; can_renew?: boolean } | null | undefined,
     onPayPage = false,
 ): WallMode {
     const overdue = status?.status === 'past_due' || status?.status === 'suspended'
@@ -300,7 +307,7 @@ export function wallMode(
         // no renewal token has nothing the card flow can pay: both are told the invoice is
         // unpaid and to contact us, instead of being offered a button that goes nowhere.
         const noCardFlow = status?.billing_method === 'invoice'
-            || (status?.status === 'suspended' && !status?.renewal_token && status?.billing_method !== 'card')
+            || (status?.status === 'suspended' && status?.can_renew !== true && status?.billing_method !== 'card')
         return noCardFlow ? 'invoice_overdue' : 'update_card'
     }
 
@@ -361,6 +368,8 @@ const ERROR_CODES = new Set([
     'card_security_over_cap',
     'card_security_consent_required',
     'card_security_not_applicable',
+    'card_security_agreement_changed',
+    'renewal_not_available',
     'plan_change_invoice_company',
 ])
 
@@ -422,4 +431,18 @@ export function shouldRouteToSuspended(url: string, error: any, currentPath = ''
 export function latestRenewalToken(source: { renewal_token?: unknown } | null | undefined): string | null {
     const token = source?.renewal_token
     return typeof token === 'string' && token.length > 0 ? token : null
+}
+
+/**
+ * The token from `POST /user/billing/renewal-link`. The status call no longer carries one
+ * (it only says `can_renew`), and each link replaces the last, so it is minted only when
+ * the admin clicks and used straight away.
+ */
+export function renewalLinkToken(response: any): string | null {
+    return latestRenewalToken(response?.data ?? response)
+}
+
+/** The renew button shows only when the API says this user may renew. */
+export function canRenew(source: { can_renew?: unknown } | null | undefined): boolean {
+    return source?.can_renew === true
 }

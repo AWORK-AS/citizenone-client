@@ -53,7 +53,10 @@ class BillingService extends BaseAPIService {
      * the others answer the row itself (`{ data: row }`) or a plain message.
      */
     async act(companyUuid: string, action: DunningAction, body: { note?: string; days?: number | null } = {}): Promise<DunningActResult> {
-        const response = await this.request(`/superadmin/payment-problems/${companyUuid}/${action.replace(/_/g, '-')}`, 'POST', body)
+        // The explicit repost of an unanswered charge is the same endpoint with a flag.
+        const isRepost = action === 'retry_unknown_charge'
+        const path = isRepost ? 'charge-security-card' : action.replace(/_/g, '-')
+        const response = await this.request(`/superadmin/payment-problems/${companyUuid}/${path}`, 'POST', isRepost ? { ...body, retry_unknown: true } : body)
         const data = response?.data ?? null
         const rawRow = data?.row ?? (data?.company ? data : null)
 
@@ -84,6 +87,7 @@ function toDunningRow(raw: any): DunningRow {
         closes_on: raw.closes_on ?? null,
         status: normalizeDunningStatus(raw.status),
         invoice_card_security: !!raw.invoice_card_security,
+        needs_nexi_check: raw.needs_nexi_check === true,
         security_card: raw.security_card ? { last_four: raw.security_card.last_four ?? null, expiry: raw.security_card.expiry ?? null } : null,
         invoices: Array.isArray(raw.invoices) ? raw.invoices.map(toDunningInvoice) : [],
         postponed_until: raw.postponed_until ?? null,

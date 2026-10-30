@@ -23,6 +23,10 @@
                         </p>
                     </div>
 
+                    <p v-if="props.action === 'retry_unknown_charge'"
+                        class="rounded-lg border border-[#FECACA] bg-[#FEF2F2] px-3 py-2 text-[13px] font-medium text-[#B91C1C]" role="alert">
+                        {{ $t('paymentDunning.problems.dialog.retryUnknownConfirm') }}
+                    </p>
                     <p v-if="props.action === 'revoke_security_card'" class="text-[13px] text-[#B91C1C]">
                         {{ $t('paymentDunning.problems.dialog.revokeConfirm') }}
                     </p>
@@ -83,7 +87,7 @@ const state = reactive({
 const takesNote = computed(() => !!props.action && actionTakesNote(props.action))
 const needsNote = computed(() => !!props.action && actionNeedsNote(props.action))
 const needsDays = computed(() => props.action === 'postpone' || props.action === 'reopen')
-const destructive = computed(() => props.action === 'close' || props.action === 'charge_security_card' || props.action === 'revoke_security_card')
+const destructive = computed(() => ['close', 'charge_security_card', 'revoke_security_card', 'retry_unknown_charge'].includes(props.action ?? ''))
 const title = computed(() => (props.action ? t(`paymentDunning.problems.dialog.title.${props.action}`) : ''))
 
 watch(() => props.isModalOpen, (open: boolean) => {

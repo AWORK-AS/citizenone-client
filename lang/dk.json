@@ -20565,7 +20565,8 @@
                 "close": "Luk nu",
                 "reopen": "Genåbn",
                 "postpone": "Udsæt",
-                "revoke_security_card": "Fjern sikkerhedskort"
+                "revoke_security_card": "Fjern sikkerhedskort",
+                "retry_unknown_charge": "Genforsøg med samme nøgle"
             },
             "help": {
                 "retry": "Forsøger at trække det udestående beløb på kundens kort nu.",
@@ -20575,7 +20576,8 @@
                 "close": "Lukker virksomheden, så brugerne ser siden om manglende betaling. Kan ikke ske for virksomheder med en løbende aftale.",
                 "reopen": "Åbner virksomheden igen med det samme og udsætter rykkerne i det antal dage, du vælger.",
                 "postpone": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger.",
-                "revoke_security_card": "Fjerner kundens sikkerhedskort. Kortet trækkes aldrig mere. Kortet slettes ikke hos Nexi."
+                "revoke_security_card": "Fjerner kundens sikkerhedskort. Kortet trækkes aldrig mere. Kortet slettes ikke hos Nexi.",
+                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen."
             },
             "dialog": {
                 "title": {
@@ -20585,7 +20587,8 @@
                     "close": "Luk virksomheden",
                     "reopen": "Genåbn virksomheden",
                     "postpone": "Udsæt rykkerforløbet",
-                    "revoke_security_card": "Fjern sikkerhedskortet"
+                    "revoke_security_card": "Fjern sikkerhedskortet",
+                    "retry_unknown_charge": "Genforsøg med samme nøgle"
                 },
                 "about": "{company}: {amount} udestående",
                 "noteLabel": "Begrundelse",
@@ -20600,7 +20603,8 @@
                 "daysLabelReopen": "Antal dage uden rykkere efter genåbning",
                 "optional": "valgfri",
                 "closeConfirm": "Virksomhedens brugere ser siden om manglende betaling, indtil den genåbnes.",
-                "revokeConfirm": "Kortet trækkes aldrig mere, heller ikke på fakturaer, der allerede er forfaldne. Kunden kan tilknytte et nyt kort."
+                "revokeConfirm": "Kortet trækkes aldrig mere, heller ikke på fakturaer, der allerede er forfaldne. Kunden kan tilknytte et nyt kort.",
+                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det."
             },
             "done": {
                 "retry": "Forsøget er sat i gang",
@@ -20609,7 +20613,8 @@
                 "close": "Virksomheden er lukket",
                 "reopen": "Virksomheden er åbnet igen",
                 "postpone": "Rykkerforløbet er udsat",
-                "revoke_security_card": "Sikkerhedskortet er fjernet"
+                "revoke_security_card": "Sikkerhedskortet er fjernet",
+                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle"
             },
             "failed": "Handlingen mislykkedes",
             "openCompany": "Åbn virksomheden",
@@ -20624,7 +20629,9 @@
                 "unknown": "Afventer Nexi"
             },
             "invoiceStatusHelp": "Status for træk på sikkerhedskortet for denne faktura.",
-            "securityCardLine": "Kort •••• {last_four} (udløber {expiry})"
+            "securityCardLine": "Kort •••• {last_four} (udløber {expiry})",
+            "needsNexiCheck": "Tjek i Nexi-portalen",
+            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages."
         },
         "company": {
             "title": "Betalingsmåde",
@@ -20678,7 +20685,11 @@
             "cardFailed": "Kortet kunne ikke tilknyttes. Prøv igen, eller kontakt supporten.",
             "cancel": "Annuller",
             "loadFailed": "Kunne ikke hente samtykketeksten. Prøv igen.",
-            "consentCheckbox": "Jeg har læst teksten ovenfor og giver samtykke"
+            "consentCheckbox": "Jeg har læst teksten ovenfor og giver samtykke",
+            "removeCard": "Fjern kort",
+            "removeCardHelp": "Fjerner sikkerhedskortet. Det trækkes aldrig mere, og I kan tilknytte et nyt senere.",
+            "removeCardConfirm": "Vil I fjerne sikkerhedskortet? Det trækkes aldrig mere.",
+            "cardRemoved": "Sikkerhedskortet er fjernet"
         },
         "suspended": {
             "title": "Betaling mangler – opdater betalingskort",
@@ -20740,7 +20751,9 @@
             "card_security_over_cap": "Beløbet er over loftet for sikkerhedskort og skal følges op manuelt.",
             "card_security_consent_required": "Samtykket er ikke gældende længere. Luk og åbn dialogen igen, og giv samtykke på ny.",
             "card_security_not_applicable": "Kort som sikkerhed gælder kun fakturakunder.",
-            "plan_change_invoice_company": "Virksomheden betaler med faktura. Skift planen fra licensoversigten, så den faktureres."
+            "plan_change_invoice_company": "Virksomheden betaler med faktura. Skift planen fra licensoversigten, så den faktureres.",
+            "card_security_agreement_changed": "Kortet, forsøget blev sendt til, er fjernet eller udskiftet siden. Det kan ikke gentages med samme nøgle. Tjek trækket i Nexi-portalen.",
+            "renewal_not_available": "Opdatering af betalingskort er ikke tilgængelig lige nu. Kontakt support, hvis kontoen er lukket."
         },
         "agreement": {
             "cardSecurity": "Kort som sikkerhed",

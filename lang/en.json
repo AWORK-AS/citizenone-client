@@ -20565,7 +20565,8 @@
                 "close": "Close now",
                 "reopen": "Reopen",
                 "postpone": "Postpone",
-                "revoke_security_card": "Remove security card"
+                "revoke_security_card": "Remove security card",
+                "retry_unknown_charge": "Retry with the same key"
             },
             "help": {
                 "retry": "Tries to charge the outstanding amount to the customer's card now.",
@@ -20575,7 +20576,8 @@
                 "close": "Closes the company, so its users see the missing-payment page. Not possible for companies with a running agreement.",
                 "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
                 "postpone": "Pauses dunning and closing for the number of days you choose.",
-                "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi."
+                "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi.",
+                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal."
             },
             "dialog": {
                 "title": {
@@ -20585,7 +20587,8 @@
                     "close": "Close the company",
                     "reopen": "Reopen the company",
                     "postpone": "Postpone dunning",
-                    "revoke_security_card": "Remove the security card"
+                    "revoke_security_card": "Remove the security card",
+                    "retry_unknown_charge": "Retry with the same key"
                 },
                 "about": "{company}: {amount} outstanding",
                 "noteLabel": "Reason",
@@ -20600,7 +20603,8 @@
                 "daysLabelReopen": "Days without reminders after reopening",
                 "optional": "optional",
                 "closeConfirm": "The company's users see the missing-payment page until it is reopened.",
-                "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card."
+                "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card.",
+                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have."
             },
             "done": {
                 "retry": "The retry has been started",
@@ -20609,7 +20613,8 @@
                 "close": "The company is closed",
                 "reopen": "The company is reopened",
                 "postpone": "Dunning has been postponed",
-                "revoke_security_card": "The security card was removed"
+                "revoke_security_card": "The security card was removed",
+                "retry_unknown_charge": "The charge was sent again with the same key"
             },
             "failed": "The action failed",
             "openCompany": "Open the company",
@@ -20624,7 +20629,9 @@
                 "unknown": "Waiting for Nexi"
             },
             "invoiceStatusHelp": "Status of the security card charge for this invoice.",
-            "securityCardLine": "Card •••• {last_four} (expires {expiry})"
+            "securityCardLine": "Card •••• {last_four} (expires {expiry})",
+            "needsNexiCheck": "Check in the Nexi portal",
+            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything."
         },
         "company": {
             "title": "Payment method",
@@ -20678,7 +20685,11 @@
             "cardFailed": "The card could not be attached. Try again or contact support.",
             "cancel": "Cancel",
             "loadFailed": "Could not load the consent text. Try again.",
-            "consentCheckbox": "I have read the text above and give my consent"
+            "consentCheckbox": "I have read the text above and give my consent",
+            "removeCard": "Remove card",
+            "removeCardHelp": "Removes the security card. It is never charged again, and you can attach a new one later.",
+            "removeCardConfirm": "Do you want to remove the security card? It is never charged again.",
+            "cardRemoved": "The security card was removed"
         },
         "suspended": {
             "title": "Payment missing – update your payment card",
@@ -20740,7 +20751,9 @@
             "card_security_over_cap": "The amount is above the security card limit and must be followed up manually.",
             "card_security_consent_required": "The consent is no longer valid. Close and reopen the dialog and consent again.",
             "card_security_not_applicable": "Card as security only applies to invoice customers.",
-            "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced."
+            "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced.",
+            "card_security_agreement_changed": "The card the attempt was sent to has been removed or replaced since. It cannot be repeated with the same key. Check the charge in the Nexi portal.",
+            "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed."
         },
         "agreement": {
             "cardSecurity": "Card as security",

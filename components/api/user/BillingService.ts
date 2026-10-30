@@ -74,6 +74,19 @@ class BillingService extends BaseAPIService {
         return await this.request(`/user/billing/card-security/complete`, 'POST', { payment_id: paymentId })
     }
 
+    /**
+     * Mints the one-time renewal link. Admin only. Every call replaces the previous link, so
+     * it is only ever called from a click, never on page load.
+     */
+    async createRenewalLink(): Promise<any> {
+        return await this.request(`/user/billing/renewal-link`, 'POST')
+    }
+
+    // Withdraws the customer's security card. Admin only; 404 while the feature is off.
+    async removeCardSecurity(): Promise<any> {
+        return await this.request(`/user/billing/card-security`, 'DELETE')
+    }
+
     // Collects the outstanding amount against the card now on file.
     async retry(): Promise<any> {
         return await this.request(`/user/billing/retry`, 'POST')

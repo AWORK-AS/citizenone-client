@@ -48,6 +48,12 @@
                                         {{ row.company_name || '—' }}
                                     </NuxtLink>
                                 </Tooltip>
+                                <Tooltip v-if="row.needs_nexi_check" :text="$t('paymentDunning.problems.needsNexiCheckHelp')" position="top" wrap>
+                                    <span class="co-badge co-badge-red mt-1">
+                                        <Icon name="ph:warning" class="w-3 h-3" aria-hidden="true" />
+                                        {{ $t('paymentDunning.problems.needsNexiCheck') }}
+                                    </span>
+                                </Tooltip>
                                 <ul v-if="row.invoices.length" class="mt-1 space-y-0.5">
                                     <li v-for="invoice in row.invoices" :key="invoice.uuid"
                                         class="flex items-center gap-1.5 text-[11px] text-[#5C6478]">
@@ -96,7 +102,7 @@
                                 <div v-if="canManage" class="flex flex-wrap items-center gap-1.5 justify-end">
                                     <Tooltip v-for="action in actionsFor(row)" :key="action"
                                         :text="$t(`paymentDunning.problems.help.${action}`)" position="top" wrap>
-                                        <SuperadminTableButton :buttonStyle="action === 'close' || action === 'revoke_security_card' ? 'danger' : undefined"
+                                        <SuperadminTableButton :buttonStyle="action === 'close' || action === 'revoke_security_card' || action === 'retry_unknown_charge' ? 'danger' : undefined"
                                             @click="openAction(row, action)">
                                             {{ $t(`paymentDunning.problems.action.${action}`) }}
                                         </SuperadminTableButton>
@@ -202,11 +208,11 @@ async function onDone(action: DunningAction, result: DunningActResult | null) {
 
     // Retry and the security charge say how it ended; "pending" is never shown as paid.
     const outcome = action === 'retry' ? retryStatus(result)
-        : action === 'charge_security_card' ? chargeStatus(result) : null
+        : action === 'charge_security_card' || action === 'retry_unknown_charge' ? chargeStatus(result) : null
 
     if (outcome) {
         const message = t(`paymentDunning.outcome.${action === 'retry' ? 'retry' : 'charge'}.${outcome}`)
-        const tone = action === 'charge_security_card' ? chargeTone(outcome as any) : outcomeTone(outcome as any)
+        const tone = action !== 'retry' ? chargeTone(outcome as any) : outcomeTone(outcome as any)
         if (tone === 'success') successAlert(`${t('alert.success')}!`, message)
         else errorAlert(tone === 'info' ? t('paymentDunning.problems.title') : t('alert.warning'), message)
     } else {
