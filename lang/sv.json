@@ -1106,6 +1106,7 @@
         }
     },
     "alert": {
+        "unsavedChangesLeave": "Du har osparade ändringar. Vill du lämna sidan utan att spara?",
         "accountSuccessfullyCreated": "Din konto har skapats",
         "emailVerification": {
             "invalidEmailVerificationToken": "Ogiltig e-post verificerings-token"
@@ -12210,6 +12211,9 @@
                 "manageApprovedDevices": "Administrér godkända enheter",
                 "actionBlock": "Blokér åtkomst",
                 "actionOtp": "Kräv OTP-bekräftelse",
+                "restrictionAdminsExempt": "Administratörer begränsas aldrig, så de kan alltid logga in och ändra de här inställningarna.",
+                "deviceActionBlockHelp": "En ny enhet nekas och väntar i listan över godkända enheter tills en administratör godkänner den.",
+                "deviceActionOtpHelp": "En ny enhet får en kod via e-post. När den anställda har angett den är enheten godkänd.",
                 "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den.",
                 "portalPreviewOpen": "Se vad de ser",
                 "portalPreviewTitle": "Så här ser {audience} det",
@@ -16023,13 +16027,23 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
+        "help": "Enheter läggs till här när en anställd loggar in på dem. Med \"Kräv OTP-bekräftelse\" bekräftar den anställda enheten med en kod som skickas via e-post. Med \"Blokér åtkomst\" väntar enheten här tills en administratör godkänner den. Avstängd betyder nekad: enheten kan inte logga in i något av lägena, inte heller med koden från e-posten. Godkänn slår på en avstängd enhet igen, även efter Avvisa. Avstängd, Avvisa och Radera loggar också ut den anställda på den enheten. Radera glömmer enheten, så att den anställda kan lägga till den igen genom att logga in. Administratörer begränsas aldrig.",
+        "status": {
+            "waiting": "Väntar på godkännande",
+            "approved": "Godkänd",
+            "off": "Avstängd"
+        },
         "table": {
             "user": "Användare",
             "deviceUuid": "Enheds-UUID",
+            "device": "Enhet",
+            "firstSeen": "Först sedd",
             "label": "Etiket",
             "isActive": "Status",
             "actions": {
                 "header": "Handlinger",
+                "approve": "Godkänn",
+                "decline": "Avvisa",
                 "edit": "Redigera",
                 "delete": "Radera"
             }
@@ -16039,6 +16053,8 @@
         },
         "alert": {
             "added": "Enhet godkänd",
+            "approved": "Enheten har godkänts",
+            "declined": "Enheten har avvisats",
             "updated": "Godkänd enhet uppdaterad",
             "deleted": "Godkänd enhet borttagen"
         }

@@ -1106,6 +1106,7 @@
         }
     },
     "alert": {
+        "unsavedChangesLeave": "Du har ugemte ændringer. Vil du forlade siden uden at gemme?",
         "accountSuccessfullyCreated": "Din konto er blevet oprettet med succes",
         "emailVerification": {
             "invalidEmailVerificationToken": "Ugyldig e-mail verificerings-token"
@@ -12215,6 +12216,9 @@
                 "manageApprovedDevices": "Administrér godkendte enheder",
                 "actionBlock": "Blokér adgang",
                 "actionOtp": "Kræv OTP-bekræftelse",
+                "restrictionAdminsExempt": "Administratorer bliver aldrig begrænset, så de kan altid logge ind og ændre disse indstillinger.",
+                "deviceActionBlockHelp": "En ny enhed afvises og venter på listen over godkendte enheder, til en administrator godkender den.",
+                "deviceActionOtpHelp": "En ny enhed får en kode på e-mail. Når medarbejderen har indtastet den, er enheden godkendt.",
                 "proFeatureHint": "Denne funktion er en del af Pro-abonnementet. Opgradér for at slå den til.",
                 "portalPreviewOpen": "Se hvad de ser",
                 "portalPreviewTitle": "Sådan ser {audience} det",
@@ -16108,13 +16112,23 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
+        "help": "Enheder kommer på listen, når en medarbejder logger ind på dem. Med \"Kræv OTP-bekræftelse\" bekræfter medarbejderen enheden med en kode, der sendes på e-mail. Med \"Blokér adgang\" venter enheden her, til en administrator godkender den. Slået fra betyder afvist: enheden kan ikke logge ind i nogen af tilstandene, heller ikke med koden fra e-mailen. Godkend slår en enhed, der er slået fra, til igen, også efter Afvis. Slået fra, Afvis og Slet logger også medarbejderen ud på den enhed. Slet glemmer enheden, så medarbejderen kan tilføje den igen ved at logge ind. Administratorer bliver aldrig begrænset.",
+        "status": {
+            "waiting": "Venter på godkendelse",
+            "approved": "Godkendt",
+            "off": "Slået fra"
+        },
         "table": {
             "user": "Bruger",
             "deviceUuid": "Enheds-UUID",
+            "device": "Enhed",
+            "firstSeen": "Først set",
             "label": "Etiket",
             "isActive": "Status",
             "actions": {
                 "header": "Handlinger",
+                "approve": "Godkend",
+                "decline": "Afvis",
                 "edit": "Rediger",
                 "delete": "Slet"
             }
@@ -16124,6 +16138,8 @@
         },
         "alert": {
             "added": "Enhed godkendt succesfuldt",
+            "approved": "Enhed godkendt",
+            "declined": "Enhed afvist",
             "updated": "Godkendt enhed opdateret succesfuldt",
             "deleted": "Godkendt enhed fjernet succesfuldt"
         }

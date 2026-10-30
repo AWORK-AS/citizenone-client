@@ -96,10 +96,15 @@ async function verifyCode() {
     state.error = {}
     state.isPageLoading = true
     try {
+        // device_uuid (the id the login page keeps in localStorage) tags the
+        // token with this browser, so an Admin switching the device off signs
+        // it out (task 613). Backends without it ignore the field.
+        const deviceUuid = localStorage.getItem('device_uuid')
         const params = {
             code: state.form2fa.code,
             email: props.formLogin.email,
             password: props.formLogin.password,
+            ...(deviceUuid ? { device_uuid: deviceUuid } : {}),
         }
         const response = await authService.verify2faCode(params)
         if (response.data) {
