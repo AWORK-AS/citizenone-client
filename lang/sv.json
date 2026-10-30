@@ -20591,6 +20591,19 @@
             "adminOnly": "Kontakta er administratör, som kan uppdatera kortet.",
             "updateCard": "Uppdatera kort",
             "updateCardHelp": "Går till sidan där du kan uppdatera kortet och återaktivera tjänsten."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (styrs under Betalningssätt)",
+            "yes": "Ja",
+            "no": "Nej",
+            "unknown": "okänt",
+            "help": "Om kunden betalar via Leverandørservice är en företagsinställning. Den avgör om serviceavgiften på 295 kr gäller.",
+            "link": "Ändra under Betalningssätt",
+            "linkHelp": "Öppnar företagets översikt där Betalningssätt kan ändras."
+        },
+        "grantApp": {
+            "methodFromCompany": "Betalningssättet följer företaget och kan inte ändras här.",
+            "methodDefaultHelp": "Föreslaget utifrån företagets betalningssätt. Kortkunder kan välja ett annat per tilldelning."
         }
     }
 }

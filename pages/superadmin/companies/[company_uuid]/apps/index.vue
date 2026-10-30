@@ -133,11 +133,7 @@
                                 class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
                         </div>
                         <div v-if="editTermDeltaYears > 0" class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.editTerm.paysViaLeverandorservice = !state.editTerm.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.editTerm.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
+                            <ModulesSuperadminCompanyLeverandorserviceLine :leverandorservice="billing ? billing.leverandorservice : null" :companyUuid="(companyUuid as string)" />
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.editTerm.isOpen = false">
@@ -159,6 +155,8 @@
 <script setup lang="ts">
 import { companyService } from '@/components/api/superadmin/CompanyService'
 import { licenseService } from '@/components/api/superadmin/LicenseService'
+import { billingService } from '@/components/api/superadmin/BillingService'
+import type { CompanyBilling } from '@/composables/billingMethod'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
@@ -169,6 +167,16 @@ const { successAlert } = useAlert()
 const { can } = usePermissions()
 const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
+
+// Leverandørservice is the company's own setting (Betalingsmåde on the overview).
+const billing = ref<CompanyBilling | null>(null)
+async function loadBillingMethod() {
+    try {
+        billing.value = await billingService.getBillingMethod(companyUuid as string)
+    } catch (_) {
+        billing.value = null
+    }
+}
 let currentTablePage = 1
 let searchTimeout: any = null
 const searchQuery = ref('')
@@ -216,7 +224,6 @@ const state = reactive({
         target: null as any,
         termYears: 1 as number,
         createdAt: '' as string,
-        paysViaLeverandorservice: false,
     },
 })
 
@@ -225,6 +232,7 @@ const editTermDeltaYears = computed(() =>
 )
 
 onMounted(() => {
+    loadBillingMethod()
     fetchCompanyApps()
 })
 
@@ -333,7 +341,6 @@ function openEditTermModal(companyApp: any) {
     state.editTerm.target = companyApp
     state.editTerm.termYears = companyApp?.term_years ?? 1
     state.editTerm.createdAt = ''
-    state.editTerm.paysViaLeverandorservice = false
     state.editTerm.isOpen = true
 }
 
@@ -344,7 +351,7 @@ async function submitEditTerm() {
     try {
         const params: { term_years: number; created_at?: string; pays_via_leverandorservice?: boolean } = {
             term_years: state.editTerm.termYears,
-            pays_via_leverandorservice: state.editTerm.paysViaLeverandorservice,
+            pays_via_leverandorservice: !!billing.value?.leverandorservice,
         }
         if (state.editTerm.createdAt) {
             params.created_at = state.editTerm.createdAt

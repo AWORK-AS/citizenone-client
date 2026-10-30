@@ -20591,6 +20591,19 @@
             "adminOnly": "Kontakt administratoren deres, som kan oppdatere kortet.",
             "updateCard": "Oppdater kort",
             "updateCardHelp": "Går til siden der du kan oppdatere kortet og reaktivere tjenesten."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (styres under Betalingsmåte)",
+            "yes": "Ja",
+            "no": "Nei",
+            "unknown": "ukjent",
+            "help": "Om kunden betaler via Leverandørservice er en virksomhetsinnstilling. Den avgjør om servicegebyret på 295 kr gjelder.",
+            "link": "Endre under Betalingsmåte",
+            "linkHelp": "Åpner virksomhetens oversikt der Betalingsmåte kan endres."
+        },
+        "grantApp": {
+            "methodFromCompany": "Betalingsmåten følger virksomheten og kan ikke endres her.",
+            "methodDefaultHelp": "Foreslått ut fra virksomhetens betalingsmåte. Kortkunder kan velge en annen per tildeling."
         }
     }
 }

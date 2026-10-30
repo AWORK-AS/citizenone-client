@@ -20676,6 +20676,19 @@
             "adminOnly": "Contact your administrator, who can update the card.",
             "updateCard": "Update card",
             "updateCardHelp": "Goes to the page where you can update the card and reactivate the service."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (managed under Payment method)",
+            "yes": "Yes",
+            "no": "No",
+            "unknown": "unknown",
+            "help": "Whether the customer pays through Leverandørservice is a company setting. It decides whether the 295 kr service fee applies.",
+            "link": "Change under Payment method",
+            "linkHelp": "Opens the company overview, where Payment method can be changed."
+        },
+        "grantApp": {
+            "methodFromCompany": "The payment method follows the company and cannot be changed here.",
+            "methodDefaultHelp": "Suggested from the company's payment method. Card customers can pick another per grant."
         }
     }
 }
