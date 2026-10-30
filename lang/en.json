@@ -20516,5 +20516,161 @@
                 "socialtilsyn": "Social supervision check"
             }
         }
+    },
+    "paymentDunning": {
+        "nav": {
+            "billingProblems": "Payment problems"
+        },
+        "invoices": {
+            "resolvedChip": "Resolved on retry",
+            "resolvedHelp": "The payment was rejected, but a later retry succeeded. Not counted under Rejected.",
+            "failedTabHelp": "Unresolved rejected payments only. Resolved attempts show as Resolved on retry."
+        },
+        "problems": {
+            "title": "Payment problems",
+            "intro": "Companies that are behind, closed or ready to close. Invoice customers are never closed automatically.",
+            "empty": "No payment problems right now",
+            "emptyFiltered": "No companies match the filter",
+            "loadFailed": "Could not load payment problems",
+            "refresh": "Refresh the list",
+            "filterAll": "All statuses",
+            "col": {
+                "company": "Company",
+                "method": "Payment method",
+                "outstanding": "Outstanding",
+                "daysOverdue": "Days overdue",
+                "warnings": "Warnings sent",
+                "closesOn": "Closes",
+                "status": "Status"
+            },
+            "status": {
+                "behind": "Behind",
+                "ready_to_close": "Ready to close",
+                "closed": "Closed",
+                "snoozed": "Postponed"
+            },
+            "method": {
+                "card": "Card",
+                "invoice": "Invoice"
+            },
+            "securityCard": "Card as security",
+            "overCap": "Above the amount limit: follow up manually",
+            "noClosingDate": "No date",
+            "readOnly": "You can view the list but not change anything.",
+            "action": {
+                "retry": "Retry now",
+                "send_card_link": "Send new card link",
+                "charge_security_card": "Charge security card now",
+                "close": "Close now",
+                "reopen": "Reopen",
+                "snooze": "Postpone"
+            },
+            "help": {
+                "retry": "Tries to charge the outstanding amount to the customer's card now.",
+                "send_card_link": "Sends the administrators a link where they can add a new card.",
+                "charge_security_card": "Charges the unpaid invoice to the customer's security card. Cannot be undone.",
+                "charge_security_card_disabled": "Needs an attached security card and an amount under the limit.",
+                "close": "Closes the company, so its users see the missing-payment page.",
+                "reopen": "Reopens the company immediately.",
+                "snooze": "Pauses dunning and closing for the number of days you choose."
+            },
+            "dialog": {
+                "title": {
+                    "retry": "Retry the charge",
+                    "send_card_link": "Send new card link",
+                    "charge_security_card": "Charge the security card",
+                    "close": "Close the company",
+                    "reopen": "Reopen the company",
+                    "snooze": "Postpone dunning"
+                },
+                "about": "{company}: {amount} outstanding",
+                "noteLabel": "Reason",
+                "noteHelp": "Written to the activity log with your name.",
+                "notePlaceholder": "E.g. agreed with the customer today",
+                "noteRequired": "Write a reason of at least 3 characters.",
+                "daysLabel": "Number of days",
+                "daysHelp": "Between 1 and 60 days.",
+                "daysInvalid": "Choose a whole number of days between 1 and 60.",
+                "confirm": "Confirm",
+                "cancel": "Cancel"
+            },
+            "done": {
+                "retry": "The retry has been started",
+                "send_card_link": "The link has been sent",
+                "charge_security_card": "The security card charge was attempted",
+                "close": "The company is closed",
+                "reopen": "The company is reopened",
+                "snooze": "Dunning has been postponed"
+            },
+            "failed": "The action failed",
+            "openCompany": "Open the company"
+        },
+        "company": {
+            "title": "Payment method",
+            "intro": "How the company pays for licences and subscriptions. Only superadmins with finance rights can change it.",
+            "card": "Card",
+            "invoice": "Invoice",
+            "cardHelp": "Amounts are charged automatically to the customer's card.",
+            "invoiceHelp": "An invoice is sent, payable within 3 days. The card is not charged unless card as security is on.",
+            "cardSecurity": "Card as security",
+            "cardSecurityHelp": "The customer attaches a card with no charge. An invoice unpaid 7 days after its due date is charged to the card after a notice 2 days before.",
+            "leverandorservice": "Leverandørservice",
+            "leverandorserviceHelp": "The customer pays through Leverandørservice. Applies to every invoice to the company.",
+            "cardState": "Security card",
+            "cardAttached": "{masked} (expires {expiry})",
+            "cardMissing": "Missing",
+            "cardMissingHelp": "The customer's administrator is asked to attach a card. You can send a link from Payment problems.",
+            "agreementNote": "The company has a running agreement. New licences are added to the agreement as an add-on, whatever the payment method.",
+            "save": "Save payment method",
+            "saveHelp": "Saves the payment method only. The rest of the company's details are not touched.",
+            "saved": "The payment method is saved",
+            "saveFailed": "Could not save the payment method",
+            "loadFailed": "Could not load the payment method",
+            "readOnly": "You can see the payment method, but only finance can change it."
+        },
+        "grant": {
+            "card": "The customer pays by card: the licences are charged to the card straight away.",
+            "invoice": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days.",
+            "invoiceEconomic": "The customer pays by invoice: an invoice is created in CitizenOne and a draft in e-conomic.",
+            "agreement": "The company has an agreement: the licences are added to the agreement as an add-on.",
+            "methodUnknown": "The payment method could not be loaded. Check the Payment method section on Overview before continuing.",
+            "changeMethod": "Change payment method",
+            "changeMethodHelp": "The payment method is a company setting and is changed on Overview."
+        },
+        "customer": {
+            "method": "Payment method",
+            "invoiceMethod": "Invoice",
+            "invoiceMethodHelp": "We send an invoice, payable within 3 days. No card price is shown.",
+            "securityCard": "Payment card as security: {masked} (expires {expiry})",
+            "securityCardHelp": "The card is only charged if an invoice is unpaid 7 days after its due date, and you have been warned 2 days before.",
+            "changeCard": "Change card",
+            "changeCardHelp": "Attach a different payment card as security. Nothing is charged now.",
+            "attachCard": "Attach card",
+            "bannerTitle": "Attach a payment card as security",
+            "bannerBody": "Your agreement uses a card as security. Nothing is charged when you attach it.",
+            "bannerAdminOnly": "An administrator needs to attach a payment card as security.",
+            "consent": "I consent to CitizenOne charging an unpaid invoice to this card once it is more than 7 days overdue, after a notice 2 days before. The consent can be withdrawn by contacting us.",
+            "consentHelp": "The consent and the time are recorded.",
+            "consentRequired": "Tick the consent to continue.",
+            "cardSaved": "The card is attached as security",
+            "cardFailed": "The card could not be attached. Try again or contact support.",
+            "cancel": "Cancel"
+        },
+        "suspended": {
+            "title": "Payment missing – update your payment card",
+            "adminBody": "Your account is closed because the payment did not go through. Update the payment card and we reopen the account immediately.",
+            "updateCard": "Update payment card",
+            "updateCardHelp": "Opens the payment where you can enter a new card. The account reopens when the payment succeeds.",
+            "contactTitle": "Payment missing",
+            "contactBody": "Contact your administrator. Only an administrator can update the payment card.",
+            "days": "The account closes in {days} days if the payment does not go through."
+        },
+        "paused": {
+            "ai": "Payment missing for AI capacity – update the card to reactivate",
+            "sms": "Payment missing for SMS – update the card to reactivate",
+            "adminOnly": "Contact your administrator, who can update the card.",
+            "updateCard": "Update card",
+            "updateCardHelp": "Goes to the page where you can update the card and reactivate the service."
+        }
     }
 }
