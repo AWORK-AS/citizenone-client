@@ -18737,6 +18737,8 @@
     },
     "consultantMatch": {
         "title": "Konsultmatchning",
+        "generalTitle": "Konsultsökning",
+        "generalDescription": "Hitta konsulter på namn, kompetenser, språk, plats, status, bil och körkort. Alla konsulter visas, även de som bara delvis matchar, med det de saknar.",
         "start": "Starta konsultmatchning",
         "description": "Sök på flera parametrar samtidigt. Alla konsulter visas - även de som bara matchar delvis, med det de saknar, så att du själv kan bedöma om det är tillräckligt.",
         "criteria": "Vad ärendet kräver",
@@ -18766,6 +18768,7 @@
             "minWeeklyHours": "Minst timmar per vecka",
             "minStep": "Minst stegbedömning",
             "needsCar": "Måste ha bil",
+            "needsDriversLicense": "Måste ha körkort",
             "secondaryHint": "Ett plus. Räknas inte emot konsulten.",
             "withinTravelRangeOnly": "Endast konsulter inom sitt köravstånd"
         },
@@ -18775,6 +18778,7 @@
             "municipality_uuid": "Bostadskommun",
             "region_uuid": "Region",
             "has_car": "Bil",
+            "has_drivers_license": "Körkort",
             "min_travel_km": "Körsträcka",
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",

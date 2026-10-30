@@ -43,6 +43,7 @@ export function getSidebarNavItemLabel(item: any, t: (key: string) => string, cu
     if (item.name === 'Management & Economy') return t('managementEconomy.title')
     if (item.name === 'Economy') return t('economy.title')
     if (item.name === 'Inquiries') return t('inquiries.inquiries')
+    if (item.name === 'Consultant search') return t('consultantMatch.generalTitle')
     if (item.name === 'Tasks') return t('taskBoards.title')
     if (item.name === 'Staff workload') return t('staffWorkloadReport.title')
     return item.name
