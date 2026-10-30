@@ -7,6 +7,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import {
     actionNeedsNote,
+    actionTakesNote,
     billingMethodDirty,
     billingMethodPayload,
     cardSecurityState,
@@ -16,7 +17,8 @@ import {
     normalizeCompanyBilling,
     normalizeDunningStatus,
     pausedServices,
-    problemCount,
+    invoiceCounts,
+    grantChargesCardNow,
     securityChargeUnavailable,
     suspendedLogin,
     wallMode,
@@ -105,35 +107,86 @@ test('the security charge is shown disabled for invoice customers with card secu
     assert.equal(securityChargeUnavailable({ billing_method: 'card', invoice_card_security: false, actions: {} }), false)
 })
 
-test('state changing actions require a note; postpone and reopen also need days 1-90', () => {
-    assert.equal(actionNeedsNote('retry'), false)
-    assert.equal(actionNeedsNote('send_card_link'), false)
-    assert.equal(actionNeedsNote('close'), true)
-    assert.equal(validateDunningAction('close', { note: '  ' }), 'note')
-    assert.equal(validateDunningAction('close', { note: 'Aftalt med kunden' }), null)
+test('only postpone needs a note; reopen takes an optional one; close takes none', () => {
+    assert.equal(actionNeedsNote('postpone'), true)
+    assert.equal(actionNeedsNote('close'), false)
+    assert.equal(actionNeedsNote('reopen'), false)
+    assert.equal(actionTakesNote('reopen'), true)
+    assert.equal(actionTakesNote('close'), false)
+    assert.equal(validateDunningAction('close', { note: '' }), null)
+    assert.equal(validateDunningAction('reopen', { note: '' }), null)
+    assert.equal(validateDunningAction('reopen', { note: '', days: '' }), null)
+    assert.equal(validateDunningAction('reopen', { note: '', days: 0 }), 'days')
+    assert.equal(validateDunningAction('reopen', { note: 'Betalt', days: 7 }), null)
+    assert.equal(validateDunningAction('reopen', { note: 'x'.repeat(501), days: 7 }), 'note')
+    assert.equal(validateDunningAction('postpone', { note: '  ', days: 7 }), 'note')
     assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 0 }), 'days')
     assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 7 }), null)
     assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 91 }), 'days')
     assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 2.5 }), 'days')
-    assert.equal(validateDunningAction('reopen', { note: 'Betalt i dag', days: 7 }), null)
+    assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: null }), 'days')
     assert.equal(validateDunningAction('retry', { note: '' }), null)
 })
 
-test('badge counts rows that are not postponed', () => {
-    const rows = [{ postponed_until: null }, { postponed_until: '2026-11-20' }, { postponed_until: '2026-10-01' }]
-    assert.equal(problemCount(rows, '2026-10-30'), 2)
+test('normalizeDunningStatus falls back to past_due', () => {
     assert.equal(normalizeDunningStatus('nonsense'), 'past_due')
+    assert.equal(normalizeDunningStatus(undefined), 'past_due')
     assert.equal(normalizeDunningStatus('suspended'), 'suspended')
 })
 
+test('invoice counts never yield NaN, and resolved is null when not reported', () => {
+    assert.deepEqual(invoiceCounts(undefined), { total: 0, paid: 0, pending: 0, failed: 0, covered: 0, resolved: null })
+    assert.deepEqual(invoiceCounts({}), { total: 0, paid: 0, pending: 0, failed: 0, covered: 0, resolved: null })
+    const old = invoiceCounts({ paid_invoices_count: 5, pending_invoices_count: 2, failed_invoices_count: 1, covered_invoices_count: 1 })
+    assert.equal(old.total, 9)
+    assert.equal(old.resolved, null)
+    assert.equal(invoiceCounts({ total_invoices_count: 40, paid_invoices_count: 'x' }).paid, 0)
+    assert.equal(invoiceCounts({ total_invoices_count: 40 }).total, 40)
+    assert.equal(invoiceCounts({ resolved_invoices_count: 0 }).resolved, 0)
+    assert.equal(invoiceCounts({ meta: { resolved_invoices_count: 3 } }).resolved, 3)
+    // Summed totals include resolved attempts, which are no longer in the failed count.
+    assert.equal(invoiceCounts({ paid_invoices_count: 1, failed_invoices_count: 1, resolved_invoices_count: 2 }).total, 4)
+    for (const value of Object.values(invoiceCounts({ paid_invoices_count: undefined, failed_invoices_count: null }))) {
+        assert.ok(value === null || Number.isFinite(value))
+    }
+})
+
 test('wall: an admin gets the card flow, others are told to contact the admin', () => {
-    assert.equal(wallMode({ status: 'suspended', can_manage: true }), 'update_card')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'card', renewal_token: 't' }), 'update_card')
     assert.equal(wallMode({ status: 'suspended', can_manage: false }), 'contact_admin')
+    assert.equal(wallMode({ status: 'past_due', can_manage: true, billing_method: 'card' }), 'update_card')
     assert.equal(wallMode({ status: 'past_due', can_manage: true }), 'update_card')
     assert.equal(wallMode({ status: 'past_due', can_manage: false }), 'notice')
-    assert.equal(wallMode({ status: 'current', can_manage: true }), 'none')
+    assert.equal(wallMode({ status: 'ok', can_manage: true }), 'none')
     assert.equal(wallMode(null), 'none')
+    assert.equal(wallMode(undefined), 'none')
     assert.equal(wallMode({ status: 'suspended', can_manage: true }, true), 'none')
+})
+
+test('wall: an invoice company admin gets no card flow, only "invoice unpaid, contact us"', () => {
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'invoice' }), 'invoice_overdue')
+    assert.equal(wallMode({ status: 'past_due', can_manage: true, billing_method: 'invoice' }), 'invoice_overdue')
+    // A suspended admin with no renewal token has nothing the card flow can pay.
+    assert.equal(wallMode({ status: 'suspended', can_manage: true }), 'invoice_overdue')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true, billing_method: 'card' }), 'update_card')
+    // Non-admins of an invoice company still just contact their administrator.
+    assert.equal(wallMode({ status: 'suspended', can_manage: false, billing_method: 'invoice' }), 'contact_admin')
+})
+
+test('a suspended login gives an admin the renewal link and everyone else the contact text', () => {
+    const admin = suspendedLogin({ code: 'subscription_suspended', can_manage: true, renewal_token: 'abc', message: 'm' })
+    assert.deepEqual(admin, { view: 'update_card', token: 'abc', message: 'm' })
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, message: 'm' }).view, 'contact_admin')
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, renewal_token: 'abc' }).view, 'contact_admin')
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, renewal_token: 'abc' }).token, null)
+    assert.equal(suspendedLogin({ code: 'other' }), null)
+    assert.equal(suspendedLogin(null), null)
+})
+
+test('a suspended invoice-company admin (no token) gets invoice_overdue, not a dead end', () => {
+    const login = suspendedLogin({ code: 'subscription_suspended', can_manage: true, message: 'm' })
+    assert.deepEqual(login, { view: 'invoice_overdue', token: null, message: 'm' })
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: true, renewal_token: '' }).view, 'invoice_overdue')
 })
 
 test('paused services', () => {
@@ -142,13 +195,54 @@ test('paused services', () => {
     assert.deepEqual(pausedServices(null), [])
 })
 
-test('a suspended login gives an admin the renewal link and everyone else the contact text', () => {
-    const admin = suspendedLogin({ code: 'subscription_suspended', can_manage: true, renewal_token: 'abc', message: 'm' })
-    assert.deepEqual(admin, { view: 'update_card', token: 'abc', message: 'm' })
-    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, message: 'm' }).view, 'contact_admin')
-    // can_manage without a token cannot open the flow, so it must not claim to.
-    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: true }).view, 'contact_admin')
-    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, renewal_token: 'abc' }).token, null)
-    assert.equal(suspendedLogin({ code: 'other' }), null)
-    assert.equal(suspendedLogin(null), null)
+
+test('normalizeCompanyBilling tolerates undefined, empty and wrapped payloads', () => {
+    for (const input of [undefined, {}, { data: {} }, { data: undefined }]) {
+        const billing = normalizeCompanyBilling(input)
+        assert.equal(billing.billing_method, 'card')
+        assert.equal(billing.invoice_card_security, false)
+        assert.equal(billing.leverandorservice, false)
+        assert.equal(billing.card_masked, null)
+        assert.equal(billing.under_agreement, false)
+    }
+    assert.equal(normalizeCompanyBilling({ data: { billing_method: null } }).under_agreement, true)
+    assert.equal(normalizeCompanyBilling({ data: { billing_method: null } }).billing_method, 'card')
+    assert.equal(normalizeCompanyBilling({ data: { security_card: { masked: '•••• 1234', expiry: '08/28' } } }).card_expiry, '08/28')
+})
+
+test('grant notice over the full method x agreement x e-conomic matrix', () => {
+    for (const billingMethod of ['card', 'invoice']) {
+        for (const underAgreement of [true, false]) {
+            for (const economicDraft of [true, false]) {
+                const expected = underAgreement ? 'agreement'
+                    : billingMethod === 'card' ? 'card'
+                        : economicDraft ? 'invoice_economic' : 'invoice'
+                assert.equal(grantNotice({ billingMethod, underAgreement, economicDraft }), expected,
+                    `${billingMethod}/${underAgreement}/${economicDraft}`)
+            }
+        }
+    }
+})
+
+test('only the card notice charges the card now', () => {
+    assert.equal(grantChargesCardNow('card'), true)
+    for (const notice of ['invoice', 'invoice_economic', 'agreement']) assert.equal(grantChargesCardNow(notice), false)
+})
+
+test('invoice chip: is_resolved undefined or false does not resolve a failure', () => {
+    assert.equal(invoiceChip({ status: 'failed', is_resolved: undefined }), 'failed')
+    assert.equal(invoiceChip({ status: 'failed', is_resolved: false, resolved_at: null }), 'failed')
+    assert.equal(invoiceChip({ status: 'failed', is_resolved: true }), 'resolved')
+})
+
+test('dunning actions: a null actions map offers nothing', () => {
+    assert.deepEqual(dunningActions({ actions: null }), [])
+    assert.deepEqual(dunningActions({ actions: { retry: 'yes' } }), [])
+})
+
+test('paused services: null, empty and the SMS flag', () => {
+    assert.deepEqual(pausedServices(null), [])
+    assert.deepEqual(pausedServices(undefined), [])
+    assert.deepEqual(pausedServices({}), [])
+    assert.deepEqual(pausedServices({ payment_paused: true }), ['sms'])
 })

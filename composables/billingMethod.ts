@@ -176,9 +176,16 @@ export function securityChargeUnavailable(row: Pick<DunningRow, 'billing_method'
     return row.billing_method === 'invoice' && row.invoice_card_security && row.actions?.charge_security_card !== true
 }
 
-/** Actions that change state need a reason; the note is required for these. */
+/**
+ * Which actions carry a note. The API takes one on reopen (optional) and postpone
+ * (required, up to 500 characters); close takes none, so its dialog is a plain confirm.
+ */
+export function actionTakesNote(action: DunningAction): boolean {
+    return action === 'reopen' || action === 'postpone'
+}
+
 export function actionNeedsNote(action: DunningAction): boolean {
-    return action === 'close' || action === 'reopen' || action === 'postpone' || action === 'charge_security_card'
+    return action === 'postpone'
 }
 
 export const POSTPONE_MIN_DAYS = 1
@@ -190,9 +197,16 @@ export function actionNeedsDays(action: DunningAction): boolean {
 
 export function validateDunningAction(action: DunningAction, input: { note: string; days?: number | null }): 'note' | 'days' | null {
     const note = (input.note ?? '').trim()
-    if (actionNeedsNote(action) && note.length < 3) return 'note'
+    if (actionNeedsNote(action) && note.length < 1) return 'note'
+    if (actionTakesNote(action) && note.length > 500) return 'note'
 
-    if (actionNeedsDays(action)) {
+    if (action === 'postpone') {
+        const days = Number(input.days)
+        if (!Number.isInteger(days) || days < POSTPONE_MIN_DAYS || days > POSTPONE_MAX_DAYS) return 'days'
+    }
+
+    // Reopen defaults to 7 days when none is given; a value that is given must be valid.
+    if (action === 'reopen' && input.days !== null && input.days !== undefined && String(input.days) !== '') {
         const days = Number(input.days)
         if (!Number.isInteger(days) || days < POSTPONE_MIN_DAYS || days > POSTPONE_MAX_DAYS) return 'days'
     }
@@ -200,9 +214,43 @@ export function validateDunningAction(action: DunningAction, input: { note: stri
     return null
 }
 
-/** Rows waiting on a human: everything whose dunning is not currently postponed. */
-export function problemCount(rows: Array<Pick<DunningRow, 'postponed_until'>>, today: string = new Date().toISOString().slice(0, 10)): number {
-    return rows.filter((row) => !row.postponed_until || row.postponed_until < today).length
+/**
+ * The invoice list's header counts, from whatever the API sent. An older backend lacks
+ * some of them, so every count is a finite number (never NaN or undefined) and
+ * `resolved` is null when the API does not report it at all, which hides its tab.
+ * `failed` is already unresolved-only on the server; the total includes resolved ones
+ * when it has to be summed.
+ */
+export type InvoiceCounts = {
+    total: number
+    paid: number
+    pending: number
+    failed: number
+    covered: number
+    resolved: number | null
+}
+
+function count(value: unknown): number | null {
+    if (value === null || value === undefined || value === '') return null
+    const n = Number(value)
+    return Number.isFinite(n) ? n : null
+}
+
+export function invoiceCounts(response: any): InvoiceCounts {
+    const paid = count(response?.paid_invoices_count) ?? 0
+    const pending = count(response?.pending_invoices_count) ?? 0
+    const failed = count(response?.failed_invoices_count) ?? 0
+    const covered = count(response?.covered_invoices_count) ?? 0
+    const resolved = count(response?.resolved_invoices_count) ?? count(response?.meta?.resolved_invoices_count)
+
+    return {
+        total: count(response?.total_invoices_count) ?? (paid + pending + failed + covered + (resolved ?? 0)),
+        paid,
+        pending,
+        failed,
+        covered,
+        resolved,
+    }
 }
 
 /**
@@ -214,13 +262,24 @@ export function problemCount(rows: Array<Pick<DunningRow, 'postponed_until'>>, t
  * flow: the rest are told to contact their administrator. Past due and not an
  * Admin is a plain notice, because blocking someone who cannot pay fixes nothing.
  */
-export type WallMode = 'none' | 'update_card' | 'contact_admin' | 'notice'
+export type WallMode = 'none' | 'update_card' | 'invoice_overdue' | 'contact_admin' | 'notice'
 
-export function wallMode(status: { status?: string; can_manage?: boolean } | null | undefined, onPayPage = false): WallMode {
+export function wallMode(
+    status: { status?: string; can_manage?: boolean; billing_method?: string | null; renewal_token?: string | null } | null | undefined,
+    onPayPage = false,
+): WallMode {
     const overdue = status?.status === 'past_due' || status?.status === 'suspended'
     if (!overdue || onPayPage) return 'none'
 
-    if (status?.can_manage) return 'update_card'
+    if (status?.can_manage) {
+        // An invoice company has no card to update, and a suspended company whose admin got
+        // no renewal token has nothing the card flow can pay: both are told the invoice is
+        // unpaid and to contact us, instead of being offered a button that goes nowhere.
+        const noCardFlow = status?.billing_method === 'invoice'
+            || (status?.status === 'suspended' && !status?.renewal_token && status?.billing_method !== 'card')
+        return noCardFlow ? 'invoice_overdue' : 'update_card'
+    }
+
     return status?.status === 'suspended' ? 'contact_admin' : 'notice'
 }
 
@@ -232,17 +291,18 @@ export function wallMode(status: { status?: string; can_manage?: boolean } | nul
  *
  * The token is a link into /subscription/renew, never a session: it only pays.
  */
-export type SuspendedLogin = { view: 'update_card' | 'contact_admin'; token: string | null; message: string }
+export type SuspendedLogin = { view: 'update_card' | 'invoice_overdue' | 'contact_admin'; token: string | null; message: string }
 
 export function suspendedLogin(error: any): SuspendedLogin | null {
     if (error?.code !== 'subscription_suspended') return null
 
     const token = typeof error?.renewal_token === 'string' && error.renewal_token.length > 0 ? error.renewal_token : null
-    const canManage = error?.can_manage === true && token !== null
+    // An admin without a token (an invoice company, or no payable invoice) has no card flow.
+    const view = error?.can_manage !== true ? 'contact_admin' : token !== null ? 'update_card' : 'invoice_overdue'
 
     return {
-        view: canManage ? 'update_card' : 'contact_admin',
-        token: canManage ? token : null,
+        view,
+        token: view === 'update_card' ? token : null,
         message: typeof error?.message === 'string' ? error.message : '',
     }
 }

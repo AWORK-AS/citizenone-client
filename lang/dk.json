@@ -20588,13 +20588,15 @@
                 "noteLabel": "Begrundelse",
                 "noteHelp": "Skrives i aktivitetsloggen sammen med dit navn.",
                 "notePlaceholder": "Fx: aftalt med kunden i dag",
-                "noteRequired": "Skriv en begrundelse på mindst 3 tegn.",
+                "noteRequired": "Skriv en begrundelse.",
                 "daysLabel": "Antal dage",
                 "daysHelp": "Mellem 1 og 90 dage.",
                 "daysInvalid": "Vælg et helt antal dage mellem 1 og 90.",
                 "confirm": "Bekræft",
                 "cancel": "Annuller",
-                "daysLabelReopen": "Antal dage uden rykkere efter genåbning"
+                "daysLabelReopen": "Antal dage uden rykkere efter genåbning",
+                "optional": "valgfri",
+                "closeConfirm": "Virksomhedens brugere ser siden om manglende betaling, indtil den genåbnes."
             },
             "done": {
                 "retry": "Forsøget er sat i gang",
@@ -20689,6 +20691,12 @@
         "grantApp": {
             "methodFromCompany": "Betalingsmåden følger virksomheden og kan ikke ændres her.",
             "methodDefaultHelp": "Foreslået ud fra virksomhedens betalingsmåde. Kortkunder kan vælge en anden pr. tildeling."
+        },
+        "invoiceOverdue": {
+            "title": "Faktura ikke betalt",
+            "body": "Jeres faktura er ikke betalt. Kontakt os, så finder vi en løsning og holder kontoen åben.",
+            "contact": "Kontakt os",
+            "contactHelp": "Åbner en e-mail til CitizenOnes support."
         }
     }
 }

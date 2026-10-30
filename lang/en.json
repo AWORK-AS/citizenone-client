@@ -20588,13 +20588,15 @@
                 "noteLabel": "Reason",
                 "noteHelp": "Written to the activity log with your name.",
                 "notePlaceholder": "E.g. agreed with the customer today",
-                "noteRequired": "Write a reason of at least 3 characters.",
+                "noteRequired": "Write a reason.",
                 "daysLabel": "Number of days",
                 "daysHelp": "Between 1 and 90 days.",
                 "daysInvalid": "Choose a whole number of days between 1 and 90.",
                 "confirm": "Confirm",
                 "cancel": "Cancel",
-                "daysLabelReopen": "Days without reminders after reopening"
+                "daysLabelReopen": "Days without reminders after reopening",
+                "optional": "optional",
+                "closeConfirm": "The company's users see the missing-payment page until it is reopened."
             },
             "done": {
                 "retry": "The retry has been started",
@@ -20689,6 +20691,12 @@
         "grantApp": {
             "methodFromCompany": "The payment method follows the company and cannot be changed here.",
             "methodDefaultHelp": "Suggested from the company's payment method. Card customers can pick another per grant."
+        },
+        "invoiceOverdue": {
+            "title": "Invoice not paid",
+            "body": "Your invoice has not been paid. Contact us and we will sort it out and keep the account open.",
+            "contact": "Contact us",
+            "contactHelp": "Opens an email to CitizenOne support."
         }
     }
 }

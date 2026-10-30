@@ -245,7 +245,7 @@
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { invoiceChip } from '@/composables/billingMethod'
+import { invoiceChip, invoiceCounts } from '@/composables/billingMethod'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -284,7 +284,7 @@ const state = reactive({
     } as any,
     error: {} as Error,
     failedCount: 0,
-    resolvedCount: 0,
+    resolvedCount: null as number | null,
     invoices: [] as any,
     isTableLoading: false,
     modal: {
@@ -313,7 +313,7 @@ const tabs = computed(() => [
     { key: 'paid', label: t('superadmin.invoices.tabs.paid'), count: state.paidCount, help: '' },
     { key: 'pending', label: t('superadmin.invoices.tabs.pending'), count: state.pendingCount, help: '' },
     { key: 'failed', label: t('superadmin.invoices.tabs.failed'), count: state.failedCount, help: t('paymentDunning.invoices.failedTabHelp') },
-    { key: 'resolved', label: t('paymentDunning.invoices.resolvedTab'), count: state.resolvedCount, help: t('paymentDunning.invoices.resolvedHelp') },
+    ...(state.resolvedCount === null ? [] : [{ key: 'resolved', label: t('paymentDunning.invoices.resolvedTab'), count: state.resolvedCount, help: t('paymentDunning.invoices.resolvedHelp') }]),
 ])
 
 onMounted(() => {
@@ -338,15 +338,14 @@ async function fetchInvoices() {
         const response = await invoiceService.getInvoices(params)
         if (response) {
             state.invoices = response
-            // total_invoices_count includes invoices covered by an agreement, which
-            // are neither paid, pending nor failed; older servers lack it.
-            state.totalCount = response?.total_invoices_count
-                ?? ((response?.paid_invoices_count ?? 0) + (response?.pending_invoices_count ?? 0)
-                    + (response?.failed_invoices_count ?? 0) + (response?.covered_invoices_count ?? 0))
-            state.paidCount = response?.paid_invoices_count
-            state.pendingCount = response?.pending_invoices_count
-            state.failedCount = response?.failed_invoices_count
-            state.resolvedCount = response?.resolved_invoices_count ?? response?.meta?.resolved_invoices_count ?? 0
+            // Older servers lack some counts; invoiceCounts never yields NaN and says
+            // when the resolved count is not reported at all.
+            const counts = invoiceCounts(response)
+            state.totalCount = counts.total
+            state.paidCount = counts.paid
+            state.pendingCount = counts.pending
+            state.failedCount = counts.failed
+            state.resolvedCount = counts.resolved
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false

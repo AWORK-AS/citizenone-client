@@ -16,15 +16,19 @@
                     <div v-if="needsDays">
                         <SuperadminFormLabel :label="props.action === 'reopen' ? $t('paymentDunning.problems.dialog.daysLabelReopen') : $t('paymentDunning.problems.dialog.daysLabel')" required />
                         <Tooltip :text="$t('paymentDunning.problems.dialog.daysHelp')" position="top" wrap class="!block w-full">
-                            <input type="number" min="1" max="90" step="1" v-model.number="state.days" class="co-input" required />
+                            <input type="number" min="1" max="90" step="1" v-model.number="state.days" class="co-input" :required="props.action === 'postpone'" />
                         </Tooltip>
                         <p v-if="state.invalid === 'days'" class="text-[12px] text-[#CC3B2D] mt-1" role="alert">
                             {{ $t('paymentDunning.problems.dialog.daysInvalid') }}
                         </p>
                     </div>
 
-                    <div v-if="needsNote">
-                        <SuperadminFormLabel :label="$t('paymentDunning.problems.dialog.noteLabel')" required />
+                    <p v-if="props.action === 'close'" class="text-[13px] text-[#B91C1C]">
+                        {{ $t('paymentDunning.problems.dialog.closeConfirm') }}
+                    </p>
+
+                    <div v-if="takesNote">
+                        <SuperadminFormLabel :label="needsNote ? $t('paymentDunning.problems.dialog.noteLabel') : `${$t('paymentDunning.problems.dialog.noteLabel')} (${$t('paymentDunning.problems.dialog.optional')})`" :required="needsNote" />
                         <Tooltip :text="$t('paymentDunning.problems.dialog.noteHelp')" position="top" wrap class="!block w-full">
                             <textarea v-model="state.note" rows="3" maxlength="500" class="co-input"
                                 :placeholder="$t('paymentDunning.problems.dialog.notePlaceholder')" />
@@ -51,7 +55,7 @@
 <script setup lang="ts">
 import { billingService } from '@/components/api/superadmin/BillingService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { actionNeedsDays, actionNeedsNote, validateDunningAction, type DunningAction, type DunningRow } from '@/composables/billingMethod'
+import { actionNeedsNote, actionTakesNote, validateDunningAction, type DunningAction, type DunningRow } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -73,8 +77,9 @@ const state = reactive({
     invalid: null as string | null,
 })
 
+const takesNote = computed(() => !!props.action && actionTakesNote(props.action))
 const needsNote = computed(() => !!props.action && actionNeedsNote(props.action))
-const needsDays = computed(() => !!props.action && actionNeedsDays(props.action))
+const needsDays = computed(() => props.action === 'postpone' || props.action === 'reopen')
 const destructive = computed(() => props.action === 'close' || props.action === 'charge_security_card')
 const title = computed(() => (props.action ? t(`paymentDunning.problems.dialog.title.${props.action}`) : ''))
 
@@ -96,7 +101,7 @@ async function submit() {
     state.isSaving = true
     try {
         await billingService.act(props.row.company_uuid, props.action, {
-            ...(needsNote.value ? { note: state.note.trim() } : {}),
+            ...(takesNote.value && state.note.trim() ? { note: state.note.trim() } : {}),
             ...(needsDays.value ? { days: Number(state.days) } : {}),
         })
         emit('done', props.action)
