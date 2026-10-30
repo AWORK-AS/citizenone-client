@@ -13557,7 +13557,7 @@
                 "unusedDepartmentLicense": "Unused department license",
                 "grant": {
                     "addLicenses": "Add licenses",
-                    "description": "Adds extra user licenses to the company pool. No in-app charge - invoiced separately in e-conomic.",
+                    "description": "Adds extra user licenses to the company pool.",
                     "quantity": "Number of licenses",
                     "billingFrequency": "Billing frequency",
                     "monthly": "Monthly",

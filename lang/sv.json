@@ -13549,7 +13549,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Lägg till licenser",
-                    "description": "Lägger till extra användarlicenser i företagets pool. Ingen debitering i systemet - faktureras separat i e-conomic.",
+                    "description": "Lägger till extra användarlicenser i företagets pool.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månadsvis",

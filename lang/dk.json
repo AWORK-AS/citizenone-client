@@ -13557,7 +13557,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Tilføj licenser",
-                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
