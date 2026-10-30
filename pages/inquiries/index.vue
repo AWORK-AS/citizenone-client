@@ -140,7 +140,20 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
-                    <TableSearch v-if="!showList" @search="handleSearch" />
+                    <div v-if="!showList" class="flex flex-wrap items-center gap-3">
+                        <div class="grow">
+                            <TableSearch @search="handleSearch" />
+                        </div>
+                        <label class="flex items-center gap-2 text-sm text-slate-600">
+                            <span>{{ $t('inquiryPipeline.receiverFilter') }}</span>
+                            <select v-model="state.receiverFilter" @change="changeReceiverFilter"
+                                class="h-12 rounded-lg border border-surface-200 bg-white px-3 text-sm focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30">
+                                <option value="">{{ $t('inquiryPipeline.receiverAll') }}</option>
+                                <option value="me">{{ $t('inquiryPipeline.receiverMine') }}</option>
+                                <option value="none">{{ $t('inquiryPipeline.receiverNone') }}</option>
+                            </select>
+                        </label>
+                    </div>
                     <p v-if="pipelineEnabled && state.unassignedConvertedCount > 0"
                         class="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
                         <span>{{ $t('inquiryPipeline.unassignedConverted.banner', { count: state.unassignedConvertedCount }) }}</span>
@@ -183,6 +196,10 @@
                                     <p class="mt-0.5 line-clamp-2 break-words text-[13.5px] font-bold leading-snug text-slate-900"
                                         :title="inqTitle(inq)">
                                         {{ inqTitle(inq) }}
+                                    </p>
+                                    <p v-if="inq.receiving_coordinator" class="mt-1 flex items-center gap-1 truncate text-[11.5px] text-slate-500">
+                                        <Icon name="ph:user-circle" class="size-3.5 shrink-0" />
+                                        {{ $t('inquiryPipeline.receivedBy', { name: personName(inq.receiving_coordinator) }) }}
                                     </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
                                         <!-- The worst answer to the company's risk fields; the
@@ -265,6 +282,15 @@
                             <div class="grow">
                                 <TableSearch @search="handleSearch" />
                             </div>
+                            <label class="flex items-center gap-2 text-sm text-slate-600">
+                                <span>{{ $t('inquiryPipeline.receiverFilter') }}</span>
+                                <select v-model="state.receiverFilter" @change="changeReceiverFilter"
+                                    class="h-12 rounded-lg border border-surface-200 bg-white px-3 text-sm focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30">
+                                    <option value="">{{ $t('inquiryPipeline.receiverAll') }}</option>
+                                    <option value="me">{{ $t('inquiryPipeline.receiverMine') }}</option>
+                                    <option value="none">{{ $t('inquiryPipeline.receiverNone') }}</option>
+                                </select>
+                            </label>
                             <label v-if="pipelineEnabled" class="flex items-center gap-2 text-sm text-slate-600">
                                 <span>{{ $t('inquiryPipeline.stageFilter') }}</span>
                                 <select v-model="state.stageFilter" @change="changeStageFilter"
@@ -315,6 +341,9 @@
                                                     {{ dept?.name }}
                                                 </span>
                                             </div>
+                                        </td>
+                                        <td width="10%">
+                                            <span class="line-clamp-2 break-words">{{ personName(inquiry?.receiving_coordinator) }}</span>
                                         </td>
                                         <td width="10%">
                                             <span class="line-clamp-2 break-words" :title="inquiry?.outcome || undefined">{{ inquiry?.outcome }}</span>
@@ -446,6 +475,30 @@ function storedViewMode(): ViewMode {
     }
 }
 const viewMode = ref<ViewMode>('board')
+
+const RECEIVER_STORAGE_KEY = 'inquiries.receiverFilter'
+function storedReceiverFilter(): string {
+    try {
+        const value = localStorage.getItem(RECEIVER_STORAGE_KEY) ?? ''
+        return ['', 'me', 'none'].includes(value) ? value : ''
+    } catch {
+        return ''
+    }
+}
+
+function changeReceiverFilter() {
+    try {
+        localStorage.setItem(RECEIVER_STORAGE_KEY, state.receiverFilter)
+    } catch {
+        // Private mode: the filter still applies, it is just not remembered.
+    }
+    inquiryStore.setCurrentPageNumber(1)
+    fetchInquiries()
+}
+
+function personName(person: any): string {
+    return person ? [person.firstname, person.lastname].filter(Boolean).join(' ') : ''
+}
 // Without the pipeline there is no board, only the list.
 const showList = computed(() => !pipelineEnabled.value || viewMode.value === 'list')
 
@@ -628,6 +681,7 @@ const state = reactive({
         { name: 'inquiries.table.firstname', isTranslateName: true, sorter: true, key: 'firstname' },
         { name: 'inquiries.table.lastname', isTranslateName: true, sorter: true, key: 'lastname' },
         { name: 'department.department', isTranslateName: true, },
+        { name: 'inquiryPipeline.receiverFilter', isTranslateName: true, },
         { name: 'inquiries.table.outcome', isTranslateName: true, },
         { name: 'inquiries.table.purpose', isTranslateName: true, },
         { name: 'inquiries.table.conversationSummary', isTranslateName: true, },
@@ -657,10 +711,13 @@ const state = reactive({
     unassignedConvertedCount: 0,
     board: {} as Record<string, { total: number, has_more: boolean, inquiries: any[], loadingMore?: boolean }>,
     stageFilter: '',
+    // '', 'me' or 'none'; kept per viewer, as "my inquiries" is a habit.
+    receiverFilter: '',
 })
 
 onMounted(() => {
     viewMode.value = storedViewMode()
+    state.receiverFilter = storedReceiverFilter()
     fetchDepartments()
     fetchInquiries()
     fetchForms()
@@ -711,6 +768,7 @@ async function fetchInquiries() {
             sortField: inquiryStore.getSortData.sortField,
             sortOrder: inquiryStore.getSortData.sortOrder,
             ...(pipelineEnabled.value && state.stageFilter ? { pipeline_stage: state.stageFilter } : {}),
+            ...(state.receiverFilter ? { receiver: state.receiverFilter } : {}),
             ...state.dataFilter
         }
         const response = await citizenInquiryService.getInquiries(params)
@@ -726,6 +784,7 @@ async function fetchInquiries() {
 function boardParams() {
     return {
         department: departmentStore.getSelectedDepartmentName,
+        ...(state.receiverFilter ? { receiver: state.receiverFilter } : {}),
         ...state.dataFilter,
     }
 }

@@ -258,6 +258,11 @@
         "loadMore": "Visa fler ({count} till)",
         "stageFilter": "Fas",
         "allStages": "Alla faser",
+        "receiverFilter": "Mottagningskoordinator",
+        "receiverAll": "Hela teamets",
+        "receiverMine": "Mina förfrågningar",
+        "receiverNone": "Utan mottagare",
+        "receivedBy": "Mottagen av {name}",
         "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {

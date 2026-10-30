@@ -258,6 +258,11 @@
         "loadMore": "Vis flere ({count} til)",
         "stageFilter": "Fase",
         "allStages": "Alle faser",
+        "receiverFilter": "Mottakskoordinator",
+        "receiverAll": "Hele teamets",
+        "receiverMine": "Mine henvendelser",
+        "receiverNone": "Uten mottaker",
+        "receivedBy": "Mottatt av {name}",
         "stage": "Fase",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {

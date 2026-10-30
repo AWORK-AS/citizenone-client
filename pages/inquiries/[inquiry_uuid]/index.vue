@@ -19,7 +19,14 @@
                 <!-- What this inquiry is, and the two decisions that can be made
                      about it from here. -->
                 <div class="flex flex-wrap items-start justify-between gap-3">
-                    <p class="text-sm text-slate-500">{{ subline }}</p>
+                    <div class="space-y-1">
+                        <p class="text-sm text-slate-500">{{ subline }}</p>
+                        <!-- The intake coordinator: set among the parties below, else who took it in. -->
+                        <p v-if="state.inquiry?.receiving_coordinator" class="flex items-center gap-1 text-sm font-semibold text-slate-700">
+                            <Icon name="ph:user-circle" class="size-4" />
+                            {{ $t('inquiryPipeline.receivedBy', { name: [state.inquiry.receiving_coordinator.firstname, state.inquiry.receiving_coordinator.lastname].filter(Boolean).join(' ') }) }}
+                        </p>
+                    </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <FormButton v-if="lostStage && !isLost" type="button" buttonStyle="cancel"
                             @click="moveTo(lostStage.slug)">
@@ -95,7 +102,7 @@
                         </div>
                         <!-- Who the case involves; they become the indsats' contacts when it is won. -->
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
-                            <ModulesUserInquiryPartiesPanel :inquiryUuid="state.inquiry.uuid" />
+                            <ModulesUserInquiryPartiesPanel :inquiryUuid="state.inquiry.uuid" @changed="refreshReceiver" />
                         </div>
                         <div v-if="state.inquiry?.uuid" class="rounded-lg border border-gray-200 bg-white p-5">
                             <ModulesUserInquiryDocumentsPanel :inquiryUuid="state.inquiry.uuid" />
@@ -340,6 +347,17 @@ function nextIsReached(index: number) {
 onMounted(() => {
     fetchAll()
 })
+
+async function refreshReceiver() {
+    try {
+        const inquiry = await citizenInquiryService.getSelectedInquiry(inquiryUuid)
+        if (state.inquiry && inquiry?.data) {
+            state.inquiry.receiving_coordinator = inquiry.data.receiving_coordinator
+        }
+    } catch {
+        // The header keeps the old name until the page is reloaded.
+    }
+}
 
 async function fetchAll() {
     state.error = {}
