@@ -1506,6 +1506,8 @@ function generateSidebarLinks(user: any) {
 
     if (user?.company?.inquiry_pipeline_enabled && companyHasModule('Inquiries') && user?.pages?.some((page: any) => page.name === 'Inquiries')) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
+        // Finding a consultant without first opening an inquiry.
+        nav.push({ name: 'Consultant search', href: '/consultants', icon: 'ph:user-focus', group: 'organisation', activeRouteNames: ['consultants'] })
     }
 
     // Task boards hold the work that belongs to nobody's citizen record, so they

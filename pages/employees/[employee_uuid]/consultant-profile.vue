@@ -124,7 +124,15 @@
                                 :class="contactStatusClass(state.contactStatus)">
                                 {{ $t('consultantProfile.contact.statuses.' + state.contactStatus) }}
                             </span>
+                            <span v-if="state.activeCases"
+                                class="rounded-full bg-[#eef6fb] px-2.5 py-[3px] text-[11.5px] font-bold text-secondary">
+                                {{ $t('consultantProfile.contact.activeCases', { count: state.activeCases }, state.activeCases) }}
+                            </span>
                         </div>
+                        <p v-if="state.contactStatus === 'inactive' && state.activeCases"
+                            class="mb-3 rounded-lg bg-[#fdf3df] px-3 py-2 text-[13px] font-semibold text-[#8a6208]">
+                            {{ $t('consultantProfile.contact.archivedOnCases', { count: state.activeCases }) }}
+                        </p>
                         <div class="grid grid-cols-1 gap-x-4 gap-y-3.5 sm:grid-cols-2 lg:grid-cols-3">
                             <div class="flex items-end">
                                 <div class="flex w-fit cursor-pointer items-center gap-2 pb-2.5"
@@ -288,6 +296,7 @@ const state = reactive({
     // Set when the backend reports the contact status; an older one does not.
     hasContactStatus: false,
     contactStatus: null as string | null,
+    activeCases: 0,
     isSavingSkills: false,
     municipalities: [] as any[],
     name: '',
@@ -442,6 +451,7 @@ function applyProfile(data: any) {
     const profile = data.profile ?? {}
     state.hasContactStatus = profile.do_not_contact !== undefined
     state.contactStatus = data.contact_status ?? null
+    state.activeCases = Number(data.active_cases ?? 0)
     state.form = {
         municipality_uuid: profile.municipality_uuid ?? null,
         region_uuid: profile.region_uuid ?? null,
