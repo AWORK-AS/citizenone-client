@@ -20439,7 +20439,8 @@
         "invoices": {
             "resolvedChip": "Løst ved nytt forsøk",
             "resolvedHelp": "Betalingen ble avvist, men et senere nytt forsøk lyktes. Telles ikke under Avvist.",
-            "failedTabHelp": "Bare uløste avviste betalinger. Løste forsøk vises som Løst ved nytt forsøk."
+            "failedTabHelp": "Bare uløste avviste betalinger. Løste forsøk vises som Løst ved nytt forsøk.",
+            "resolvedTab": "Løst ved nytt forsøk"
         },
         "problems": {
             "title": "Betalingsproblemer",
@@ -20459,10 +20460,10 @@
                 "status": "Status"
             },
             "status": {
-                "behind": "På etterskudd",
                 "ready_to_close": "Klar for stenging",
-                "closed": "Stengt",
-                "snoozed": "Utsatt"
+                "past_due": "På etterskudd",
+                "overdue": "Forfalt",
+                "suspended": "Stengt"
             },
             "method": {
                 "card": "Kort",
@@ -20478,16 +20479,16 @@
                 "charge_security_card": "Trekk sikkerhetskort nå",
                 "close": "Steng nå",
                 "reopen": "Gjenåpne",
-                "snooze": "Utsett"
+                "postpone": "Utsett"
             },
             "help": {
                 "retry": "Forsøker å trekke det utestående beløpet på kundens kort nå.",
                 "send_card_link": "Sender administratorene en lenke der de kan knytte til et nytt kort.",
                 "charge_security_card": "Trekker den ubetalte fakturaen på kundens sikkerhetskort. Kan ikke angres.",
-                "charge_security_card_disabled": "Krever et tilknyttet sikkerhetskort og et beløp under grensen.",
-                "close": "Stenger virksomheten, slik at brukerne ser siden om manglende betaling.",
-                "reopen": "Åpner virksomheten igjen med en gang.",
-                "snooze": "Pauser purreforløpet og stengingen i det antall dager du velger."
+                "charge_security_card_disabled": "Ikke tilgjengelig ennå: trekk på sikkerhetskort er ikke slått på i systemet.",
+                "close": "Stenger virksomheten, slik at brukerne ser siden om manglende betaling. Ikke mulig for virksomheter med en løpende avtale.",
+                "reopen": "Åpner virksomheten igjen med en gang og utsetter purringene i det antall dager du velger.",
+                "postpone": "Pauser purreforløpet og stengingen i det antall dager du velger."
             },
             "dialog": {
                 "title": {
@@ -20496,7 +20497,7 @@
                     "charge_security_card": "Trekk sikkerhetskortet",
                     "close": "Steng virksomheten",
                     "reopen": "Gjenåpne virksomheten",
-                    "snooze": "Utsett purreforløpet"
+                    "postpone": "Utsett purreforløpet"
                 },
                 "about": "{company}: {amount} utestående",
                 "noteLabel": "Begrunnelse",
@@ -20504,10 +20505,11 @@
                 "notePlaceholder": "F.eks. avtalt med kunden i dag",
                 "noteRequired": "Skriv en begrunnelse på minst 3 tegn.",
                 "daysLabel": "Antall dager",
-                "daysHelp": "Mellom 1 og 60 dager.",
-                "daysInvalid": "Velg et helt antall dager mellom 1 og 60.",
+                "daysHelp": "Mellom 1 og 90 dager.",
+                "daysInvalid": "Velg et helt antall dager mellom 1 og 90.",
                 "confirm": "Bekreft",
-                "cancel": "Avbryt"
+                "cancel": "Avbryt",
+                "daysLabelReopen": "Antall dager uten purringer etter gjenåpning"
             },
             "done": {
                 "retry": "Forsøket er satt i gang",
@@ -20515,10 +20517,11 @@
                 "charge_security_card": "Sikkerhetskortet er forsøkt trukket",
                 "close": "Virksomheten er stengt",
                 "reopen": "Virksomheten er gjenåpnet",
-                "snooze": "Purreforløpet er utsatt"
+                "postpone": "Purreforløpet er utsatt"
             },
             "failed": "Handlingen mislyktes",
-            "openCompany": "Åpne virksomheten"
+            "openCompany": "Åpne virksomheten",
+            "postponedUntil": "Utsatt til {date}"
         },
         "company": {
             "title": "Betalingsmåte",
@@ -20546,11 +20549,13 @@
         "grant": {
             "card": "Kunden betaler med kort: lisensene belastes kortet umiddelbart.",
             "invoice": "Kunden betaler med faktura: det opprettes en faktura i CitizenOne med betaling innen 3 dager.",
-            "invoice_economic": "Kunden betaler med faktura: det opprettes en faktura i CitizenOne og et utkast i e-conomic.",
+            "invoice_economic": "Kunden betaler med faktura: det opprettes en faktura i CitizenOne med betaling innen 3 dager, og et utkast i e-conomic når e-conomic er slått på.",
             "agreement": "Virksomheten har en avtale: lisensene legges til avtalen som tilkjøp.",
             "methodUnknown": "Betalingsmåten kunne ikke hentes. Sjekk seksjonen Betalingsmåte under Oversikt før du fortsetter.",
             "changeMethod": "Bytt betalingsmåte",
-            "changeMethodHelp": "Betalingsmåten er en virksomhetsinnstilling og endres under Oversikt."
+            "changeMethodHelp": "Betalingsmåten er en virksomhetsinnstilling og endres under Oversikt.",
+            "invoiceCreated": "Faktura {number} er opprettet og forfaller {date}",
+            "agreementAddOnHint": "Lisensene er knyttet til avtalen. Legg til tilkjøpsraten under Avtaler, så fakturaen ikke sendes to ganger."
         },
         "customer": {
             "method": "Betalingsmåte",

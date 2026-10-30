@@ -284,6 +284,7 @@ const state = reactive({
     } as any,
     error: {} as Error,
     failedCount: 0,
+    resolvedCount: 0,
     invoices: [] as any,
     isTableLoading: false,
     modal: {
@@ -312,6 +313,7 @@ const tabs = computed(() => [
     { key: 'paid', label: t('superadmin.invoices.tabs.paid'), count: state.paidCount, help: '' },
     { key: 'pending', label: t('superadmin.invoices.tabs.pending'), count: state.pendingCount, help: '' },
     { key: 'failed', label: t('superadmin.invoices.tabs.failed'), count: state.failedCount, help: t('paymentDunning.invoices.failedTabHelp') },
+    { key: 'resolved', label: t('paymentDunning.invoices.resolvedTab'), count: state.resolvedCount, help: t('paymentDunning.invoices.resolvedHelp') },
 ])
 
 onMounted(() => {
@@ -344,6 +346,7 @@ async function fetchInvoices() {
             state.paidCount = response?.paid_invoices_count
             state.pendingCount = response?.pending_invoices_count
             state.failedCount = response?.failed_invoices_count
+            state.resolvedCount = response?.resolved_invoices_count ?? response?.meta?.resolved_invoices_count ?? 0
         }
     } catch (error: any) { state.error = error }
     state.isTableLoading = false

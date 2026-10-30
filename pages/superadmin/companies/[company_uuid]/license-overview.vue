@@ -1223,9 +1223,17 @@ async function submitGrant() {
         if (grantIsYearly.value) {
             params.term_years = state.grant.termYears
         }
-        await licenseService.grantLicenses(companyUuid as string, params)
+        const response = await licenseService.grantLicenses(companyUuid as string, params)
         state.grant.isOpen = false
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.grant.granted')}.`)
+        // An invoice company gets an invoice (empty for card companies). Say which one.
+        for (const invoice of (response?.data?.invoices ?? [])) {
+            successAlert(`${t('alert.success')}!`, t('paymentDunning.grant.invoiceCreated', {
+                number: invoice.invoice_number, date: invoice.due_on ? formatDateToReadable(invoice.due_on) : '—' }))
+            if (invoice.agreement_add_on) {
+                successAlert(`${t('alert.success')}!`, t('paymentDunning.grant.agreementAddOnHint'))
+            }
+        }
         fetchLicenses()
         fetchLicensesCount()
     } catch (error: any) {

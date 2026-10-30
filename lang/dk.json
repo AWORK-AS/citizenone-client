@@ -20524,7 +20524,8 @@
         "invoices": {
             "resolvedChip": "Løst ved genforsøg",
             "resolvedHelp": "Betalingen blev afvist, men et senere genforsøg lykkedes. Tæller ikke med under Afvist.",
-            "failedTabHelp": "Kun uløste afviste betalinger. Løste forsøg vises som Løst ved genforsøg."
+            "failedTabHelp": "Kun uløste afviste betalinger. Løste forsøg vises som Løst ved genforsøg.",
+            "resolvedTab": "Løst ved genforsøg"
         },
         "problems": {
             "title": "Betalingsproblemer",
@@ -20544,10 +20545,10 @@
                 "status": "Status"
             },
             "status": {
-                "behind": "Bagud",
                 "ready_to_close": "Klar til lukning",
-                "closed": "Lukket",
-                "snoozed": "Udsat"
+                "past_due": "Bagud",
+                "overdue": "Forfalden",
+                "suspended": "Lukket"
             },
             "method": {
                 "card": "Kort",
@@ -20563,16 +20564,16 @@
                 "charge_security_card": "Træk sikkerhedskort nu",
                 "close": "Luk nu",
                 "reopen": "Genåbn",
-                "snooze": "Udsæt"
+                "postpone": "Udsæt"
             },
             "help": {
                 "retry": "Forsøger at trække det udestående beløb på kundens kort nu.",
                 "send_card_link": "Sender administratorerne et link, hvor de kan tilknytte et nyt kort.",
                 "charge_security_card": "Trækker den ubetalte faktura på kundens sikkerhedskort. Kan ikke fortrydes.",
-                "charge_security_card_disabled": "Kræver et tilknyttet sikkerhedskort og et beløb under loftet.",
-                "close": "Lukker virksomheden, så brugerne ser siden om manglende betaling.",
-                "reopen": "Åbner virksomheden igen med det samme.",
-                "snooze": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger."
+                "charge_security_card_disabled": "Ikke tilgængelig endnu: træk på sikkerhedskort er ikke slået til i systemet.",
+                "close": "Lukker virksomheden, så brugerne ser siden om manglende betaling. Kan ikke ske for virksomheder med en løbende aftale.",
+                "reopen": "Åbner virksomheden igen med det samme og udsætter rykkerne i det antal dage, du vælger.",
+                "postpone": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger."
             },
             "dialog": {
                 "title": {
@@ -20581,7 +20582,7 @@
                     "charge_security_card": "Træk sikkerhedskortet",
                     "close": "Luk virksomheden",
                     "reopen": "Genåbn virksomheden",
-                    "snooze": "Udsæt rykkerforløbet"
+                    "postpone": "Udsæt rykkerforløbet"
                 },
                 "about": "{company}: {amount} udestående",
                 "noteLabel": "Begrundelse",
@@ -20589,10 +20590,11 @@
                 "notePlaceholder": "Fx: aftalt med kunden i dag",
                 "noteRequired": "Skriv en begrundelse på mindst 3 tegn.",
                 "daysLabel": "Antal dage",
-                "daysHelp": "Mellem 1 og 60 dage.",
-                "daysInvalid": "Vælg et helt antal dage mellem 1 og 60.",
+                "daysHelp": "Mellem 1 og 90 dage.",
+                "daysInvalid": "Vælg et helt antal dage mellem 1 og 90.",
                 "confirm": "Bekræft",
-                "cancel": "Annuller"
+                "cancel": "Annuller",
+                "daysLabelReopen": "Antal dage uden rykkere efter genåbning"
             },
             "done": {
                 "retry": "Forsøget er sat i gang",
@@ -20600,10 +20602,11 @@
                 "charge_security_card": "Sikkerhedskortet er forsøgt trukket",
                 "close": "Virksomheden er lukket",
                 "reopen": "Virksomheden er åbnet igen",
-                "snooze": "Rykkerforløbet er udsat"
+                "postpone": "Rykkerforløbet er udsat"
             },
             "failed": "Handlingen mislykkedes",
-            "openCompany": "Åbn virksomheden"
+            "openCompany": "Åbn virksomheden",
+            "postponedUntil": "Udsat til {date}"
         },
         "company": {
             "title": "Betalingsmåde",
@@ -20631,11 +20634,13 @@
         "grant": {
             "card": "Kunden betaler med kort: licenserne opkræves på kortet med det samme.",
             "invoice": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne med betaling inden 3 dage.",
-            "invoice_economic": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne og en kladde i e-conomic.",
+            "invoice_economic": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne med betaling inden 3 dage, og en kladde i e-conomic, når e-conomic er slået til.",
             "agreement": "Virksomheden har en aftale: licenserne lægges til aftalen som tilkøb.",
             "methodUnknown": "Betalingsmåden kunne ikke hentes. Tjek sektionen Betalingsmåde under Oversigt, før du fortsætter.",
             "changeMethod": "Skift betalingsmåde",
-            "changeMethodHelp": "Betalingsmåden er en virksomhedsindstilling og ændres under Oversigt."
+            "changeMethodHelp": "Betalingsmåden er en virksomhedsindstilling og ændres under Oversigt.",
+            "invoiceCreated": "Faktura {number} er oprettet og forfalder {date}",
+            "agreementAddOnHint": "Licenserne er knyttet til aftalen. Tilføj tilkøbsraten under Aftaler, så fakturaen ikke sendes to gange."
         },
         "customer": {
             "method": "Betalingsmåde",

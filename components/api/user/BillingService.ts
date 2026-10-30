@@ -23,12 +23,14 @@ class BillingService extends BaseAPIService {
     }
 
     /**
-     * How the company pays and, for invoice customers, the masked security card.
-     * Never a full card number: the API returns only the masked number and expiry.
+     * How the company pays, from the same standing the wall reads: `billing_method`
+     * is "card", "invoice", or null for a running customer agreement (Elite), which
+     * shows Elite and no payment method. The API does not yet send the masked
+     * security card, so `card_masked` stays null until it does.
      */
     async getPaymentMethod(): Promise<CompanyBilling> {
-        const response = await this.request(`/user/billing/method`, 'GET')
-        return normalizeCompanyBilling(response)
+        const response = await this.getStatus()
+        return normalizeCompanyBilling(response?.data ?? response)
     }
 
     /**

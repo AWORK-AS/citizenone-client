@@ -20524,7 +20524,8 @@
         "invoices": {
             "resolvedChip": "Resolved on retry",
             "resolvedHelp": "The payment was rejected, but a later retry succeeded. Not counted under Rejected.",
-            "failedTabHelp": "Unresolved rejected payments only. Resolved attempts show as Resolved on retry."
+            "failedTabHelp": "Unresolved rejected payments only. Resolved attempts show as Resolved on retry.",
+            "resolvedTab": "Resolved on retry"
         },
         "problems": {
             "title": "Payment problems",
@@ -20544,10 +20545,10 @@
                 "status": "Status"
             },
             "status": {
-                "behind": "Behind",
                 "ready_to_close": "Ready to close",
-                "closed": "Closed",
-                "snoozed": "Postponed"
+                "past_due": "Behind",
+                "overdue": "Overdue",
+                "suspended": "Closed"
             },
             "method": {
                 "card": "Card",
@@ -20563,16 +20564,16 @@
                 "charge_security_card": "Charge security card now",
                 "close": "Close now",
                 "reopen": "Reopen",
-                "snooze": "Postpone"
+                "postpone": "Postpone"
             },
             "help": {
                 "retry": "Tries to charge the outstanding amount to the customer's card now.",
                 "send_card_link": "Sends the administrators a link where they can add a new card.",
                 "charge_security_card": "Charges the unpaid invoice to the customer's security card. Cannot be undone.",
-                "charge_security_card_disabled": "Needs an attached security card and an amount under the limit.",
-                "close": "Closes the company, so its users see the missing-payment page.",
-                "reopen": "Reopens the company immediately.",
-                "snooze": "Pauses dunning and closing for the number of days you choose."
+                "charge_security_card_disabled": "Not available yet: charging a security card is not enabled in the system.",
+                "close": "Closes the company, so its users see the missing-payment page. Not possible for companies with a running agreement.",
+                "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
+                "postpone": "Pauses dunning and closing for the number of days you choose."
             },
             "dialog": {
                 "title": {
@@ -20581,7 +20582,7 @@
                     "charge_security_card": "Charge the security card",
                     "close": "Close the company",
                     "reopen": "Reopen the company",
-                    "snooze": "Postpone dunning"
+                    "postpone": "Postpone dunning"
                 },
                 "about": "{company}: {amount} outstanding",
                 "noteLabel": "Reason",
@@ -20589,10 +20590,11 @@
                 "notePlaceholder": "E.g. agreed with the customer today",
                 "noteRequired": "Write a reason of at least 3 characters.",
                 "daysLabel": "Number of days",
-                "daysHelp": "Between 1 and 60 days.",
-                "daysInvalid": "Choose a whole number of days between 1 and 60.",
+                "daysHelp": "Between 1 and 90 days.",
+                "daysInvalid": "Choose a whole number of days between 1 and 90.",
                 "confirm": "Confirm",
-                "cancel": "Cancel"
+                "cancel": "Cancel",
+                "daysLabelReopen": "Days without reminders after reopening"
             },
             "done": {
                 "retry": "The retry has been started",
@@ -20600,10 +20602,11 @@
                 "charge_security_card": "The security card charge was attempted",
                 "close": "The company is closed",
                 "reopen": "The company is reopened",
-                "snooze": "Dunning has been postponed"
+                "postpone": "Dunning has been postponed"
             },
             "failed": "The action failed",
-            "openCompany": "Open the company"
+            "openCompany": "Open the company",
+            "postponedUntil": "Postponed until {date}"
         },
         "company": {
             "title": "Payment method",
@@ -20631,11 +20634,13 @@
         "grant": {
             "card": "The customer pays by card: the licences are charged to the card straight away.",
             "invoice": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days.",
-            "invoice_economic": "The customer pays by invoice: an invoice is created in CitizenOne and a draft in e-conomic.",
+            "invoice_economic": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days, and a draft in e-conomic when e-conomic is enabled.",
             "agreement": "The company has an agreement: the licences are added to the agreement as an add-on.",
             "methodUnknown": "The payment method could not be loaded. Check the Payment method section on Overview before continuing.",
             "changeMethod": "Change payment method",
-            "changeMethodHelp": "The payment method is a company setting and is changed on Overview."
+            "changeMethodHelp": "The payment method is a company setting and is changed on Overview.",
+            "invoiceCreated": "Invoice {number} was created and is due {date}",
+            "agreementAddOnHint": "The licences are linked to the agreement. Add the add-on instalment under Agreements so the invoice is not sent twice."
         },
         "customer": {
             "method": "Payment method",

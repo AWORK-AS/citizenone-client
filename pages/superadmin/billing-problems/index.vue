@@ -63,9 +63,6 @@
                             </td>
                             <td class="co-td text-[13px] font-semibold text-[#1F2533]">
                                 {{ formatAmount(row.amount_outstanding, 'DKK') }}
-                                <Tooltip v-if="row.over_cap" :text="$t('paymentDunning.problems.overCap')" position="top" wrap>
-                                    <Icon name="ph:warning" class="w-3.5 h-3.5 text-[#B45309] ml-1" aria-hidden="true" />
-                                </Tooltip>
                             </td>
                             <td class="co-td text-[13px] text-[#1F2533]">{{ row.days_overdue }}</td>
                             <td class="co-td text-[13px] text-[#1F2533]">{{ row.warnings_sent }}</td>
@@ -76,6 +73,12 @@
                                 <span class="co-badge" :class="statusClass(row.status)">
                                     {{ $t(`paymentDunning.problems.status.${row.status}`) }}
                                 </span>
+                                <Tooltip v-if="row.postponed_until" :text="row.postpone_note || $t('paymentDunning.problems.help.postpone')"
+                                    position="top" wrap>
+                                    <span class="co-badge co-badge-blue ml-1.5">
+                                        {{ $t('paymentDunning.problems.postponedUntil', { date: formatDateToReadable(row.postponed_until) }) }}
+                                    </span>
+                                </Tooltip>
                             </td>
                             <td class="co-td">
                                 <div v-if="canManage" class="flex flex-wrap items-center gap-1.5 justify-end">
@@ -86,7 +89,7 @@
                                             {{ $t(`paymentDunning.problems.action.${action}`) }}
                                         </SuperadminTableButton>
                                     </Tooltip>
-                                    <Tooltip v-if="row.billing_method === 'invoice' && row.invoice_card_security && !canChargeSecurity(row)"
+                                    <Tooltip v-if="securityChargeUnavailable(row)"
                                         :text="$t('paymentDunning.problems.help.charge_security_card_disabled')" position="top" wrap>
                                         <SuperadminTableButton :disabled="true">
                                             {{ $t('paymentDunning.problems.action.charge_security_card') }}
@@ -110,7 +113,7 @@ import { billingService } from '@/components/api/superadmin/BillingService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { dunningActions, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
+import { dunningActions, securityChargeUnavailable, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -122,7 +125,7 @@ const { t } = useI18n()
 const { can } = usePermissions()
 const { refresh: refreshBadge } = useBillingProblemCount()
 
-const statuses: DunningStatus[] = ['behind', 'ready_to_close', 'closed', 'snoozed']
+const statuses: DunningStatus[] = ['past_due', 'overdue', 'ready_to_close', 'suspended']
 
 // What the screen offers. The API refuses these without manage_financials anyway.
 const canManage = computed(() => can('manage_financials'))
@@ -152,15 +155,11 @@ const visibleRows = computed(() => state.status ? state.rows.filter((row) => row
 
 function statusClass(status: DunningStatus) {
     return {
-        behind: 'co-badge-gray',
+        past_due: 'co-badge-gray',
+        overdue: 'co-badge-gray',
         ready_to_close: 'co-badge-red',
-        closed: 'co-badge-red',
-        snoozed: 'co-badge-blue',
+        suspended: 'co-badge-red',
     }[status]
-}
-
-function canChargeSecurity(row: DunningRow) {
-    return dunningActions(row).includes('charge_security_card')
 }
 
 function actionsFor(row: DunningRow) {

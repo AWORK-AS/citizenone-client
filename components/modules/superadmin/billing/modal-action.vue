@@ -13,10 +13,10 @@
                         {{ props.action ? $t(`paymentDunning.problems.help.${props.action}`) : '' }}
                     </p>
 
-                    <div v-if="props.action === 'snooze'">
-                        <SuperadminFormLabel :label="$t('paymentDunning.problems.dialog.daysLabel')" required />
+                    <div v-if="needsDays">
+                        <SuperadminFormLabel :label="props.action === 'reopen' ? $t('paymentDunning.problems.dialog.daysLabelReopen') : $t('paymentDunning.problems.dialog.daysLabel')" required />
                         <Tooltip :text="$t('paymentDunning.problems.dialog.daysHelp')" position="top" wrap class="!block w-full">
-                            <input type="number" min="1" max="60" step="1" v-model.number="state.days" class="co-input" required />
+                            <input type="number" min="1" max="90" step="1" v-model.number="state.days" class="co-input" required />
                         </Tooltip>
                         <p v-if="state.invalid === 'days'" class="text-[12px] text-[#CC3B2D] mt-1" role="alert">
                             {{ $t('paymentDunning.problems.dialog.daysInvalid') }}
@@ -51,7 +51,7 @@
 <script setup lang="ts">
 import { billingService } from '@/components/api/superadmin/BillingService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { actionNeedsNote, validateDunningAction, type DunningAction, type DunningRow } from '@/composables/billingMethod'
+import { actionNeedsDays, actionNeedsNote, validateDunningAction, type DunningAction, type DunningRow } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -74,6 +74,7 @@ const state = reactive({
 })
 
 const needsNote = computed(() => !!props.action && actionNeedsNote(props.action))
+const needsDays = computed(() => !!props.action && actionNeedsDays(props.action))
 const destructive = computed(() => props.action === 'close' || props.action === 'charge_security_card')
 const title = computed(() => (props.action ? t(`paymentDunning.problems.dialog.title.${props.action}`) : ''))
 
@@ -96,7 +97,7 @@ async function submit() {
     try {
         await billingService.act(props.row.company_uuid, props.action, {
             ...(needsNote.value ? { note: state.note.trim() } : {}),
-            ...(props.action === 'snooze' ? { days: Number(state.days) } : {}),
+            ...(needsDays.value ? { days: Number(state.days) } : {}),
         })
         emit('done', props.action)
     } catch (error: any) {

@@ -20439,7 +20439,8 @@
         "invoices": {
             "resolvedChip": "Löst vid nytt försök",
             "resolvedHelp": "Betalningen avvisades, men ett senare nytt försök lyckades. Räknas inte under Avvisad.",
-            "failedTabHelp": "Endast olösta avvisade betalningar. Lösta försök visas som Löst vid nytt försök."
+            "failedTabHelp": "Endast olösta avvisade betalningar. Lösta försök visas som Löst vid nytt försök.",
+            "resolvedTab": "Löst vid nytt försök"
         },
         "problems": {
             "title": "Betalningsproblem",
@@ -20459,10 +20460,10 @@
                 "status": "Status"
             },
             "status": {
-                "behind": "Efter",
                 "ready_to_close": "Redo att stängas",
-                "closed": "Stängd",
-                "snoozed": "Uppskjuten"
+                "past_due": "Efter",
+                "overdue": "Förfallen",
+                "suspended": "Stängd"
             },
             "method": {
                 "card": "Kort",
@@ -20478,16 +20479,16 @@
                 "charge_security_card": "Dra säkerhetskortet nu",
                 "close": "Stäng nu",
                 "reopen": "Återöppna",
-                "snooze": "Skjut upp"
+                "postpone": "Skjut upp"
             },
             "help": {
                 "retry": "Försöker dra det utestående beloppet från kundens kort nu.",
                 "send_card_link": "Skickar administratörerna en länk där de kan koppla ett nytt kort.",
                 "charge_security_card": "Debiterar den obetalda fakturan på kundens säkerhetskort. Kan inte ångras.",
-                "charge_security_card_disabled": "Kräver ett kopplat säkerhetskort och ett belopp under gränsen.",
-                "close": "Stänger företaget så att användarna ser sidan om saknad betalning.",
-                "reopen": "Öppnar företaget igen direkt.",
-                "snooze": "Pausar påminnelser och stängning i det antal dagar du väljer."
+                "charge_security_card_disabled": "Inte tillgängligt ännu: dragning från säkerhetskort är inte aktiverad i systemet.",
+                "close": "Stänger företaget så att användarna ser sidan om saknad betalning. Inte möjligt för företag med ett löpande avtal.",
+                "reopen": "Öppnar företaget igen direkt och skjuter upp påminnelserna i det antal dagar du väljer.",
+                "postpone": "Pausar påminnelser och stängning i det antal dagar du väljer."
             },
             "dialog": {
                 "title": {
@@ -20496,7 +20497,7 @@
                     "charge_security_card": "Dra säkerhetskortet",
                     "close": "Stäng företaget",
                     "reopen": "Återöppna företaget",
-                    "snooze": "Skjut upp påminnelserna"
+                    "postpone": "Skjut upp påminnelserna"
                 },
                 "about": "{company}: {amount} utestående",
                 "noteLabel": "Motivering",
@@ -20504,10 +20505,11 @@
                 "notePlaceholder": "T.ex. överenskommet med kunden idag",
                 "noteRequired": "Skriv en motivering på minst 3 tecken.",
                 "daysLabel": "Antal dagar",
-                "daysHelp": "Mellan 1 och 60 dagar.",
-                "daysInvalid": "Välj ett helt antal dagar mellan 1 och 60.",
+                "daysHelp": "Mellan 1 och 90 dagar.",
+                "daysInvalid": "Välj ett helt antal dagar mellan 1 och 90.",
                 "confirm": "Bekräfta",
-                "cancel": "Avbryt"
+                "cancel": "Avbryt",
+                "daysLabelReopen": "Antal dagar utan påminnelser efter återöppning"
             },
             "done": {
                 "retry": "Försöket har startats",
@@ -20515,10 +20517,11 @@
                 "charge_security_card": "Säkerhetskortet har försökt dras",
                 "close": "Företaget är stängt",
                 "reopen": "Företaget är återöppnat",
-                "snooze": "Påminnelserna har skjutits upp"
+                "postpone": "Påminnelserna har skjutits upp"
             },
             "failed": "Åtgärden misslyckades",
-            "openCompany": "Öppna företaget"
+            "openCompany": "Öppna företaget",
+            "postponedUntil": "Uppskjuten till {date}"
         },
         "company": {
             "title": "Betalningssätt",
@@ -20546,11 +20549,13 @@
         "grant": {
             "card": "Kunden betalar med kort: licenserna debiteras kortet direkt.",
             "invoice": "Kunden betalar med faktura: en faktura skapas i CitizenOne med betalning inom 3 dagar.",
-            "invoice_economic": "Kunden betalar med faktura: en faktura skapas i CitizenOne och ett utkast i e-conomic.",
+            "invoice_economic": "Kunden betalar med faktura: en faktura skapas i CitizenOne med betalning inom 3 dagar, och ett utkast i e-conomic när e-conomic är aktiverat.",
             "agreement": "Företaget har ett avtal: licenserna läggs till avtalet som tillköp.",
             "methodUnknown": "Betalningssättet kunde inte hämtas. Kontrollera avsnittet Betalningssätt under Översikt innan du fortsätter.",
             "changeMethod": "Byt betalningssätt",
-            "changeMethodHelp": "Betalningssättet är en företagsinställning och ändras under Översikt."
+            "changeMethodHelp": "Betalningssättet är en företagsinställning och ändras under Översikt.",
+            "invoiceCreated": "Faktura {number} har skapats och förfaller {date}",
+            "agreementAddOnHint": "Licenserna är kopplade till avtalet. Lägg till tillköpsraten under Avtal så att fakturan inte skickas två gånger."
         },
         "customer": {
             "method": "Betalningssätt",

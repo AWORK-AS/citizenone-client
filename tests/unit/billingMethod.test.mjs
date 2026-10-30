@@ -17,6 +17,7 @@ import {
     normalizeDunningStatus,
     pausedServices,
     problemCount,
+    securityChargeUnavailable,
     suspendedLogin,
     wallMode,
     validateDunningAction,
@@ -28,6 +29,14 @@ test('a company with no billing fields is a card company with no security card',
     assert.equal(billing.invoice_card_security, false)
     assert.equal(billing.card_masked, null)
     assert.equal(normalizeCompanyBilling(null).billing_method, 'card')
+    assert.equal(normalizeCompanyBilling({ data: { economic_customer_number: 1234 } }).economic_draft, true)
+    assert.equal(normalizeCompanyBilling({ data: {} }).economic_draft, false)
+})
+
+test('a null billing method on the customer standing means a running agreement', () => {
+    assert.equal(normalizeCompanyBilling({ data: { billing_method: null } }).under_agreement, true)
+    assert.equal(normalizeCompanyBilling({ data: { billing_method: 'invoice' } }).under_agreement, false)
+    assert.equal(normalizeCompanyBilling({ data: {} }).under_agreement, false)
 })
 
 test('an unknown billing method falls back to card, never to invoice', () => {
@@ -71,6 +80,7 @@ test('invoice chip: only unresolved failures are rejected', () => {
     assert.equal(invoiceChip({ status: 'failed' }), 'failed')
     assert.equal(invoiceChip({ status: 'failed', resolved_at: '2026-10-01' }), 'resolved')
     assert.equal(invoiceChip({ status: 'resolved' }), 'resolved')
+    assert.equal(invoiceChip({ status: 'failed', is_resolved: true }), 'resolved')
     assert.equal(invoiceChip({ status: 'paid' }), 'paid')
     assert.equal(invoiceChip({ is_paid: true, status: 'failed' }), 'paid')
     assert.equal(invoiceChip({ covered_by_agreement: true, status: 'failed' }), 'covered')
@@ -78,35 +88,42 @@ test('invoice chip: only unresolved failures are rejected', () => {
     assert.equal(invoiceChip(null), 'pending')
 })
 
-test('dunning actions follow billing method and card security', () => {
-    const open = { status: 'behind', over_cap: false, has_security_card: false, invoice_card_security: false }
-    assert.deepEqual(dunningActions({ ...open, billing_method: 'card' }), ['retry', 'send_card_link', 'close', 'snooze'])
-    assert.deepEqual(dunningActions({ ...open, billing_method: 'invoice' }), ['close', 'snooze'])
+test('dunning actions are exactly what the API allows, in a fixed order', () => {
     assert.deepEqual(
-        dunningActions({ ...open, billing_method: 'invoice', invoice_card_security: true, has_security_card: true }),
-        ['charge_security_card', 'send_card_link', 'close', 'snooze'],
+        dunningActions({ actions: { retry: true, send_card_link: true, charge_security_card: false, close: true, reopen: false, postpone: true } }),
+        ['retry', 'send_card_link', 'close', 'postpone'],
     )
-    assert.deepEqual(
-        dunningActions({ ...open, billing_method: 'invoice', invoice_card_security: true, has_security_card: true, over_cap: true }),
-        ['send_card_link', 'close', 'snooze'],
-    )
-    assert.deepEqual(dunningActions({ ...open, billing_method: 'card', status: 'closed' }), ['retry', 'send_card_link', 'reopen'])
+    assert.deepEqual(dunningActions({ actions: { postpone: true, reopen: true } }), ['reopen', 'postpone'])
+    assert.deepEqual(dunningActions({ actions: {} }), [])
+    assert.deepEqual(dunningActions({}), [])
 })
 
-test('state changing actions require a note; snooze also needs days', () => {
+test('the security charge is shown disabled for invoice customers with card security', () => {
+    assert.equal(securityChargeUnavailable({ billing_method: 'invoice', invoice_card_security: true, actions: { charge_security_card: false } }), true)
+    assert.equal(securityChargeUnavailable({ billing_method: 'invoice', invoice_card_security: true, actions: { charge_security_card: true } }), false)
+    assert.equal(securityChargeUnavailable({ billing_method: 'invoice', invoice_card_security: false, actions: {} }), false)
+    assert.equal(securityChargeUnavailable({ billing_method: 'card', invoice_card_security: false, actions: {} }), false)
+})
+
+test('state changing actions require a note; postpone and reopen also need days 1-90', () => {
     assert.equal(actionNeedsNote('retry'), false)
+    assert.equal(actionNeedsNote('send_card_link'), false)
     assert.equal(actionNeedsNote('close'), true)
     assert.equal(validateDunningAction('close', { note: '  ' }), 'note')
     assert.equal(validateDunningAction('close', { note: 'Aftalt med kunden' }), null)
-    assert.equal(validateDunningAction('snooze', { note: 'Aftalt', days: 0 }), 'days')
-    assert.equal(validateDunningAction('snooze', { note: 'Aftalt', days: 7 }), null)
-    assert.equal(validateDunningAction('snooze', { note: 'Aftalt', days: 400 }), 'days')
+    assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 0 }), 'days')
+    assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 7 }), null)
+    assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 91 }), 'days')
+    assert.equal(validateDunningAction('postpone', { note: 'Aftalt', days: 2.5 }), 'days')
+    assert.equal(validateDunningAction('reopen', { note: 'Betalt i dag', days: 7 }), null)
     assert.equal(validateDunningAction('retry', { note: '' }), null)
 })
 
-test('badge counts what waits on a human, not snoozed rows', () => {
-    assert.equal(problemCount([{ status: 'behind' }, { status: 'snoozed' }, { status: 'ready_to_close' }, { status: 'closed' }]), 3)
-    assert.equal(normalizeDunningStatus('nonsense'), 'behind')
+test('badge counts rows that are not postponed', () => {
+    const rows = [{ postponed_until: null }, { postponed_until: '2026-11-20' }, { postponed_until: '2026-10-01' }]
+    assert.equal(problemCount(rows, '2026-10-30'), 2)
+    assert.equal(normalizeDunningStatus('nonsense'), 'past_due')
+    assert.equal(normalizeDunningStatus('suspended'), 'suspended')
 })
 
 test('wall: an admin gets the card flow, others are told to contact the admin', () => {

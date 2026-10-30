@@ -34,7 +34,7 @@ class BillingService extends BaseAPIService {
     }
 
     async getProblems(params: object = {}): Promise<{ rows: DunningRow[]; meta: any }> {
-        const response = await this.request(`/superadmin/billing-problems`, 'GET', params)
+        const response = await this.request(`/superadmin/payment-problems`, 'GET', params)
         const list: any[] = response?.data ?? []
 
         return { rows: list.map(toDunningRow), meta: response?.meta ?? response ?? {} }
@@ -42,29 +42,30 @@ class BillingService extends BaseAPIService {
 
     /** Count for the sidebar badge. */
     async getProblemCount(): Promise<number> {
-        const response = await this.request(`/superadmin/billing-problems/count`, 'GET')
+        const response = await this.request(`/superadmin/payment-problems/count`, 'GET')
         return Number(response?.data?.count ?? response?.count ?? 0)
     }
 
     /** Every action is written to the activity log by the API. */
     async act(companyUuid: string, action: DunningAction, body: { note?: string; days?: number | null } = {}): Promise<any> {
-        return await this.request(`/superadmin/billing-problems/${companyUuid}/${action.replace(/_/g, '-')}`, 'POST', body)
+        return await this.request(`/superadmin/payment-problems/${companyUuid}/${action.replace(/_/g, '-')}`, 'POST', body)
     }
 }
 
 function toDunningRow(raw: any): DunningRow {
     return {
-        company_uuid: raw.company_uuid ?? raw.company?.uuid ?? raw.uuid,
-        company_name: raw.company_name ?? raw.company?.name ?? '',
+        company_uuid: raw.company?.uuid ?? raw.company_uuid ?? '',
+        company_name: raw.company?.name ?? raw.company_name ?? '',
         billing_method: normalizeBillingMethod(raw.billing_method),
-        amount_outstanding: Number(raw.amount_outstanding ?? raw.amount ?? 0),
+        amount_outstanding: Number(raw.amount_outstanding ?? 0),
         days_overdue: Number(raw.days_overdue ?? 0),
         warnings_sent: Number(raw.warnings_sent ?? 0),
-        closes_on: raw.closes_on ?? raw.closing_date ?? null,
+        closes_on: raw.closes_on ?? null,
         status: normalizeDunningStatus(raw.status),
         invoice_card_security: !!raw.invoice_card_security,
-        has_security_card: !!(raw.has_security_card ?? raw.security_card),
-        over_cap: !!raw.over_cap,
+        postponed_until: raw.postponed_until ?? null,
+        postpone_note: raw.postpone_note ?? null,
+        actions: raw.actions ?? {},
     }
 }
 

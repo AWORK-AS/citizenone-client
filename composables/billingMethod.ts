@@ -11,7 +11,7 @@
 
 export type BillingMethod = 'card' | 'invoice'
 
-export type DunningStatus = 'behind' | 'ready_to_close' | 'closed' | 'snoozed'
+export type DunningStatus = 'past_due' | 'overdue' | 'suspended' | 'ready_to_close'
 
 export type DunningAction =
     | 'retry'
@@ -19,7 +19,7 @@ export type DunningAction =
     | 'charge_security_card'
     | 'close'
     | 'reopen'
-    | 'snooze'
+    | 'postpone'
 
 export type BillingMethodForm = {
     billing_method: BillingMethod
@@ -44,21 +44,24 @@ export type DunningRow = {
     amount_outstanding: number
     days_overdue: number
     warnings_sent: number
+    /** Card customers only. Invoice customers are closed by hand, so this is null. */
     closes_on: string | null
     status: DunningStatus
     invoice_card_security: boolean
-    has_security_card: boolean
-    /** True when the amount is above billing.card_security.max_amount. */
-    over_cap: boolean
+    /** YYYY-MM-DD while dunning is postponed. */
+    postponed_until: string | null
+    postpone_note: string | null
+    /** What the API says may be done to this row. The server is the authority. */
+    actions: Partial<Record<DunningAction, boolean>>
 }
 
 export function normalizeBillingMethod(value: unknown): BillingMethod {
     return value === 'invoice' ? 'invoice' : 'card'
 }
 
-/** Anything the API does not name as a known status is shown as "behind". */
+/** Anything the API does not name as a known status is shown as "past due". */
 export function normalizeDunningStatus(value: unknown): DunningStatus {
-    return value === 'ready_to_close' || value === 'closed' || value === 'snoozed' ? value : 'behind'
+    return value === 'overdue' || value === 'suspended' || value === 'ready_to_close' ? value : 'past_due'
 }
 
 /**
@@ -76,8 +79,11 @@ export function normalizeCompanyBilling(raw: any): CompanyBilling {
         leverandorservice: !!data.leverandorservice,
         card_masked: card?.masked ?? card?.masked_pan ?? data.card_masked ?? null,
         card_expiry: card?.expiry ?? data.card_expiry ?? null,
-        under_agreement: !!data.under_agreement,
-        economic_draft: !!(data.economic_draft ?? data.economic_draft_enabled),
+        // The customer standing sends `billing_method: null` for a running agreement (Elite).
+        under_agreement: !!data.under_agreement || data.billing_method === null,
+        // The API does not say whether the e-conomic integration is on; a customer number is
+        // the closest signal, and the notice words the draft as conditional on the integration.
+        economic_draft: !!(data.economic_draft ?? data.economic_customer_number),
     }
 }
 
@@ -146,63 +152,57 @@ export type InvoiceChip = 'covered' | 'paid' | 'resolved' | 'failed' | 'pending'
 export function invoiceChip(invoice: any): InvoiceChip {
     if (invoice?.covered_by_agreement) return 'covered'
     if (invoice?.is_paid || invoice?.status === 'paid') return 'paid'
-    if (invoice?.status === 'resolved' || (invoice?.status === 'failed' && invoice?.resolved_at)) return 'resolved'
+    if (invoice?.is_resolved === true || invoice?.status === 'resolved' || (invoice?.status === 'failed' && invoice?.resolved_at)) return 'resolved'
     if (invoice?.status === 'failed') return 'failed'
     return 'pending'
 }
 
+const ACTION_ORDER: DunningAction[] = ['retry', 'send_card_link', 'charge_security_card', 'close', 'reopen', 'postpone']
+
 /**
- * What a row in "Betalingsproblemer" can be given. Mirrors the spec:
- * - card companies can be retried and sent a card link,
- * - the security card is only for invoice companies that have one attached
- *   and where the amount is under the cap,
- * - a closed company can be reopened, an open one closed,
- * - a snooze only makes sense while the company is still open.
+ * What a row in "Betalingsproblemer" offers: exactly what the API's `actions` map
+ * allows, in a fixed order. The screen never works out for itself whether a
+ * company may be closed or charged; a missing map offers nothing.
  */
-export function dunningActions(row: Pick<DunningRow,
-    'billing_method' | 'status' | 'invoice_card_security' | 'has_security_card' | 'over_cap'>): DunningAction[] {
-    const actions: DunningAction[] = []
-    const closed = row.status === 'closed'
+export function dunningActions(row: Pick<DunningRow, 'actions'>): DunningAction[] {
+    return ACTION_ORDER.filter((action) => row.actions?.[action] === true)
+}
 
-    if (row.billing_method === 'card') {
-        actions.push('retry', 'send_card_link')
-    } else if (row.invoice_card_security) {
-        if (row.has_security_card && !row.over_cap) actions.push('charge_security_card')
-        actions.push('send_card_link')
-    }
-
-    if (closed) {
-        actions.push('reopen')
-    } else {
-        actions.push('close', 'snooze')
-    }
-
-    return actions
+/**
+ * "Træk sikkerhedskort nu" is shown disabled, with the reason, for an invoice
+ * customer who has card security on but where the API does not allow the charge.
+ */
+export function securityChargeUnavailable(row: Pick<DunningRow, 'billing_method' | 'invoice_card_security' | 'actions'>): boolean {
+    return row.billing_method === 'invoice' && row.invoice_card_security && row.actions?.charge_security_card !== true
 }
 
 /** Actions that change state need a reason; the note is required for these. */
 export function actionNeedsNote(action: DunningAction): boolean {
-    return action === 'close' || action === 'reopen' || action === 'snooze' || action === 'charge_security_card'
+    return action === 'close' || action === 'reopen' || action === 'postpone' || action === 'charge_security_card'
 }
 
-export const SNOOZE_MIN_DAYS = 1
-export const SNOOZE_MAX_DAYS = 60
+export const POSTPONE_MIN_DAYS = 1
+export const POSTPONE_MAX_DAYS = 90
 
-export function validateDunningAction(action: DunningAction, input: { note: string; days?: number | null }): string | null {
+export function actionNeedsDays(action: DunningAction): boolean {
+    return action === 'postpone' || action === 'reopen'
+}
+
+export function validateDunningAction(action: DunningAction, input: { note: string; days?: number | null }): 'note' | 'days' | null {
     const note = (input.note ?? '').trim()
     if (actionNeedsNote(action) && note.length < 3) return 'note'
 
-    if (action === 'snooze') {
+    if (actionNeedsDays(action)) {
         const days = Number(input.days)
-        if (!Number.isInteger(days) || days < SNOOZE_MIN_DAYS || days > SNOOZE_MAX_DAYS) return 'days'
+        if (!Number.isInteger(days) || days < POSTPONE_MIN_DAYS || days > POSTPONE_MAX_DAYS) return 'days'
     }
 
     return null
 }
 
-/** Rows for the sidebar badge: everything that is waiting on a human. */
-export function problemCount(rows: Array<Pick<DunningRow, 'status'>>): number {
-    return rows.filter((row) => row.status !== 'snoozed').length
+/** Rows waiting on a human: everything whose dunning is not currently postponed. */
+export function problemCount(rows: Array<Pick<DunningRow, 'postponed_until'>>, today: string = new Date().toISOString().slice(0, 10)): number {
+    return rows.filter((row) => !row.postponed_until || row.postponed_until < today).length
 }
 
 /**
