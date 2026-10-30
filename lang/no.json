@@ -18742,6 +18742,8 @@
     },
     "consultantMatch": {
         "title": "Konsulentmatch",
+        "generalTitle": "Konsulentsøk",
+        "generalDescription": "Finn konsulenter på navn, kompetanser, språk, sted, status, bil og førerkort. Alle konsulenter vises, også de som bare delvis matcher, med det de mangler.",
         "start": "Start konsulentmatch",
         "description": "Søk på flere parametre samtidig. Alle konsulenter vises - også de som bare matcher delvis, med det de mangler, så du selv kan vurdere om det er godt nok.",
         "criteria": "Hva saken krever",
@@ -18771,6 +18773,7 @@
             "minWeeklyHours": "Minst timer per uke",
             "minStep": "Minst trinnvurdering",
             "needsCar": "Må ha bil",
+            "needsDriversLicense": "Må ha førerkort",
             "secondaryHint": "Et pluss. Teller ikke mot konsulenten.",
             "withinTravelRangeOnly": "Kun konsulenter innenfor sin kjøreavstand"
         },
@@ -18780,6 +18783,7 @@
             "municipality_uuid": "Bostedskommune",
             "region_uuid": "Region",
             "has_car": "Bil",
+            "has_drivers_license": "Førerkort",
             "min_travel_km": "Kjøreavstand",
             "consultant_status": "Status",
             "min_step_assessment": "Trinnvurdering",

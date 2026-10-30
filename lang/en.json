@@ -18827,6 +18827,8 @@
     },
     "consultantMatch": {
         "title": "Consultant match",
+        "generalTitle": "Consultant search",
+        "generalDescription": "Find consultants by name, skills, languages, place, status, car and driving licence. Every consultant is shown, also those who only partly match, with what they lack.",
         "start": "Start consultant match",
         "description": "Search on several parameters at once. Every consultant is shown - including partial matches, with what they are missing, so you can judge whether it is good enough.",
         "criteria": "What the case needs",
@@ -18856,6 +18858,7 @@
             "minWeeklyHours": "At least hours per week",
             "minStep": "At least step assessment",
             "needsCar": "Needs a car",
+            "needsDriversLicense": "Must have a driving licence",
             "secondaryHint": "A plus. Never counts against the consultant.",
             "withinTravelRangeOnly": "Only consultants within their travel distance"
         },
@@ -18865,6 +18868,7 @@
             "municipality_uuid": "Home municipality",
             "region_uuid": "Region",
             "has_car": "Car",
+            "has_drivers_license": "Driving licence",
             "min_travel_km": "Travel distance",
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
