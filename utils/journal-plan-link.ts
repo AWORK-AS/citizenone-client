@@ -1,8 +1,10 @@
-// A journal note is attached to a plan, a goal, a sub-goal or a single goal
-// (enkeltmål). The backend takes one uuid: the most specific item picked.
-// A single goal belongs to no plan, so it is picked instead of plan + goal.
+// A journal note is attached to a plan, a goal, a sub-goal, a single goal
+// (enkeltmål) or a treatment. The backend takes one uuid: the most specific
+// item picked. A single goal belongs to no plan, so it is picked instead of
+// plan + goal. A treatment stands outside the plan tree and is picked alone.
 export function journalNotePlanGoalSubgoalUuid(form: any): string {
-    return form?.journal_note_subgoal
+    return form?.journal_note_treatment
+        || form?.journal_note_subgoal
         || form?.journal_note_goal
         || form?.journal_note_single_goal
         || form?.journal_note_plan

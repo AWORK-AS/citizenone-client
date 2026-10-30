@@ -186,21 +186,41 @@
 					<div class="or-line"></div>
 				</div>
 
+				<!-- Apple and Google: an existing user is signed in, a new address goes on
+				     to create a free account. See the backend's SignupService. -->
+				<a class="btn-provider btn-apple" :href="socialUrl('apple')" data-testid="login-apple">
+					<svg class="ms-logo" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+						<path d="M16.37 1.43c0 1.14-.46 2.22-1.2 3.01-.8.86-2.1 1.52-3.17 1.43-.14-1.1.41-2.25 1.12-3 .8-.85 2.18-1.48 3.25-1.44ZM20.5 17.3c-.55 1.27-.81 1.84-1.52 2.96-.99 1.57-2.39 3.52-4.12 3.54-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.05-1.78-4.04-3.35C-.27 16.1-.56 10.9 1.15 8.27c1.21-1.87 3.12-2.96 4.92-2.96 1.83 0 2.98 1.01 4.49 1.01 1.47 0 2.36-1.01 4.48-1.01 1.6 0 3.3.87 4.51 2.38-3.96 2.17-3.32 7.82.95 9.61Z" />
+					</svg>
+					{{ $t('signup.continueWithApple') }}
+				</a>
+				<a class="btn-provider" :href="socialUrl('google')" data-testid="login-google">
+					<svg class="ms-logo" width="18" height="18" viewBox="0 0 48 48" aria-hidden="true">
+                            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5Z" />
+                            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65Z" />
+                            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19Z" />
+                            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48Z" />
+                        </svg>
+					{{ $t('signup.continueWithGoogle') }}
+				</a>
+
 				<!-- Single sign-on with the company's Microsoft account, when the
-				     company has set it up. Uses the email typed above. -->
-				<Tooltip class="ms-wrap" :text="$t('login.sso.hint')" wrap>
-					<button class="btn-microsoft" type="button" :disabled="state.isPageLoading"
-						:aria-label="$t('login.sso.hint')" @click="loginWithMicrosoft">
-						<svg class="ms-logo" width="18" height="18" viewBox="0 0 21 21" aria-hidden="true">
-							<rect x="1" y="1" width="9" height="9" fill="#F25022" />
-							<rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
-							<rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
-							<rect x="11" y="11" width="9" height="9" fill="#FFB900" />
-						</svg>
-						{{ state.isSsoRedirecting ? $t('login.sso.redirecting') : $t('login.sso.microsoft') }}
-					</button>
-				</Tooltip>
-				<p v-if="state.ssoNeedsEmail" class="ms-hint" role="status">{{ $t('login.sso.enterEmail') }}</p>
+				     company has set it up. Uses the email typed above, so the hint
+				     says so above the button, where it is read before the click
+				     instead of in a tooltip nobody hovers. -->
+				<p class="ms-hint ms-hint-above" :class="{ 'ms-hint-alert': state.ssoNeedsEmail }" role="status">
+					{{ state.ssoNeedsEmail ? $t('login.sso.enterEmail') : $t('login.sso.hint') }}
+				</p>
+				<button class="btn-microsoft" type="button" :disabled="state.isPageLoading"
+					@click="loginWithMicrosoft">
+					<svg class="ms-logo" width="18" height="18" viewBox="0 0 21 21" aria-hidden="true">
+						<rect x="1" y="1" width="9" height="9" fill="#F25022" />
+						<rect x="11" y="1" width="9" height="9" fill="#7FBA00" />
+						<rect x="1" y="11" width="9" height="9" fill="#00A4EF" />
+						<rect x="11" y="11" width="9" height="9" fill="#FFB900" />
+					</svg>
+					{{ state.isSsoRedirecting ? $t('login.sso.redirecting') : $t('login.sso.microsoft') }}
+				</button>
 
 				<div class="alt-links">
 					<div class="signup-row">
@@ -277,9 +297,14 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { socialRedirectUrl } from '@/composables/signupQuery'
 import { EMAIL_CODE_LENGTH, EMAIL_CODE_RESEND_SECONDS, isPlausibleEmail, sanitizeEmailCode, shouldSubmitEmailCode } from '@/composables/emailLoginCode'
 
 const runtimeConfig = useRuntimeConfig()
+
+function socialUrl(provider: 'google' | 'apple') {
+	return socialRedirectUrl(String(runtimeConfig.public.apiBaseURL ?? ''), provider, {})
+}
 
 // Read once, not reactive: the desktop bridge is injected by the preload
 // before any page script runs and never changes after launch.
@@ -343,6 +368,14 @@ const v$ = useVuelidate(rules, state)
 
 onMounted(() => {
 	animateAssets()
+
+	// Arriving from "create your password": sign in with it, no second typing.
+	const pendingSignIn = usePendingSignIn().take()
+	if (pendingSignIn) {
+		state.formLogin.email = pendingSignIn.email
+		state.formLogin.password = pendingSignIn.password
+		nextTick(() => login())
+	}
 
 	const route = useRoute()
 	const impersonateToken = route.query.impersonate_token as string
@@ -653,7 +686,7 @@ async function loginWithMicrosoft() {
 	state.isPageLoading = true
 	state.isSsoRedirecting = true
 	try {
-		const response = await authService.microsoftSso(email)
+		const response = await authService.microsoftSso(email, useIsDesktopApp() ? 'desktop' : undefined)
 		if (response?.data?.url) {
 			window.location.href = response.data.url
 			return
@@ -1296,12 +1329,6 @@ async function loginWithGoogle() {
 /* Sign in with Microsoft: a white button with the Microsoft logo, as
    Microsoft's own branding guidance asks, so it reads as the second way in
    rather than as small print. */
-.ms-wrap,
-.ms-wrap > div {
-	display: block;
-	width: 100%;
-}
-
 .btn-microsoft {
 	width: 100%;
 	height: 46px;
@@ -1318,6 +1345,43 @@ async function loginWithGoogle() {
 	font-family: inherit;
 	cursor: pointer;
 	transition: background 0.15s, border-color 0.15s;
+}
+
+/* Apple and Google, in each provider's own colours: Apple black, Google white
+   like Microsoft below. */
+.btn-provider {
+	width: 100%;
+	height: 46px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 10px;
+	background: #fff;
+	color: #1a2332;
+	border: 1px solid #cbd5e1;
+	border-radius: 8px;
+	font-size: 15px;
+	font-weight: 600;
+	text-decoration: none;
+	transition: background 0.15s, border-color 0.15s;
+}
+
+.btn-provider:hover {
+	background: #f8fafc;
+	border-color: #94a3b8;
+}
+
+.btn-provider:focus-visible {
+	outline: 2px solid #0F4C75;
+	outline-offset: 2px;
+}
+
+.btn-apple,
+.btn-apple:hover {
+	background: #000;
+	color: #fff;
+	border-color: #000;
 }
 
 .btn-microsoft:hover:not(:disabled) {
@@ -1344,6 +1408,15 @@ async function loginWithGoogle() {
 	color: #475569;
 	text-align: center;
 	margin: 8px 0 0;
+}
+
+.ms-hint-above {
+	margin: 4px 0 8px;
+}
+
+.ms-hint-alert {
+	color: #0F4C75;
+	font-weight: 600;
 }
 
 .code-link-row {

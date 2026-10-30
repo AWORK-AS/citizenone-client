@@ -6,7 +6,7 @@ export type BoxState = 'mandatory' | 'optional' | 'hidden'
 /**
  * The Daily Overview boxes an admin layout can control, keyed by the flag
  * they already have in a user's daily_overview_filter. The Statistics page's
- * flags share that filter but are not part of a layout.
+ * flags share that filter; only a role layout can hide them (STATISTICS_SECTIONS).
  */
 export const DAILY_OVERVIEW_BOXES = [
     { key: 'showCitizensDailyEvents', label: 'overview.filter.items.citizensEvents' },
@@ -23,6 +23,25 @@ export const DAILY_OVERVIEW_BOXES = [
     { key: 'showOnDutyToday', label: 'overview.filter.items.onDutyToday' },
 ] as const
 
+/** The Statistics page's sections a role layout can hide. Mirrors DailyOverviewBoxes::STATISTICS. */
+export const STATISTICS_SECTIONS = [
+    { key: 'showCitizensAdmissionAndDischarged', label: 'overview.filter.items.citizensAdmissionAndDischarged' },
+    { key: 'showCitizensOrigin', label: 'overview.filter.items.citizensOrigin' },
+    { key: 'showCitizensAddictions', label: 'overview.filter.items.citizensAddictions' },
+    { key: 'showCitizensDiagnoses', label: 'overview.filter.items.citizensDiagnoses' },
+    { key: 'showRiskAssessment', label: 'overview.filter.items.riskAssessment' },
+    { key: 'showGender', label: 'overview.filter.items.gender' },
+    { key: 'showStatusesScoreStatistics', label: 'overview.filter.items.statusesStatistics' },
+    { key: 'showGoalsScoreStatistics', label: 'overview.filter.items.goalsStatistics' },
+    { key: 'showIncidentStatistics', label: 'overview.filter.items.incidentStatistics' },
+    { key: 'showMedicineDeviationStatistics', label: 'overview.filter.items.medicineDeviationStatistics' },
+    { key: 'showJournalScoreStatistics', label: 'overview.filter.items.journalStatistics' },
+    { key: 'showSubgoalsScoreStatistics', label: 'overview.filter.items.subgoalsStatistics' },
+    { key: 'showUseOfForceStatistics', label: 'overview.filter.items.useOfForceStatistics' },
+    // Not in the personal filter: shown unless a role layout hides it.
+    { key: 'showNewsAndPoll', label: 'overview.filter.items.newsAndPoll' },
+] as const
+
 /**
  * Whether each Daily Overview box shows, combining the admin's layout with the
  * user's own show/hide choices:
@@ -31,6 +50,11 @@ export const DAILY_OVERVIEW_BOXES = [
  * - mandatory: always shown, and the user cannot switch it off
  * - hidden: never shown in this department
  * - optional: the user's choice (a custom box defaults to shown)
+ *
+ * The server folds the user's role layouts in before it answers: whatever
+ * their roles hide comes back hidden, Statistics sections included, and with
+ * only role hiding in play the layout is an unsaved one where everything else
+ * is the user's choice.
  */
 export function useDailyOverviewLayout() {
     const store = useDailyOverviewStore() as any

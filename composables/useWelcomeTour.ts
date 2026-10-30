@@ -45,9 +45,10 @@ export function useWelcomeTour() {
 
     function startIfDue(user: any): 'legacy' | 'tour' | 'none' {
         const mode = welcomeTourMode(user)
-        if (mode === 'tour' && !tour.value.launched) {
-            tour.value = { active: true, route: user.tour_route, index: 0, launched: true, restart: false }
-        }
+        // The first-steps guide on My day and Discover replaces the spotlight
+        // tour on arrival (it covered the page it was explaining). The tour
+        // still plays from "Vis mig rundt".
+        if (mode === 'tour') return 'none'
         return mode
     }
 
@@ -69,9 +70,15 @@ export function useWelcomeTour() {
 
         if (openChat) revealAndOpenChat()
 
+        // Nothing to record for a replay.
+        if (wasRestart) return
+        await markSeen()
+    }
+
+    async function markSeen() {
         const user = userStore.getUser
-        // Nothing to record for a replay, or where the backend has no tour support.
-        if (wasRestart || !hasToursSeen(user) || user.tours_seen.welcome_web) return
+        // Nothing to record where the backend has no tour support.
+        if (!hasToursSeen(user) || user.tours_seen.welcome_web) return
         try {
             const response = await userService.markTourSeen('welcome_web')
             if (response?.tours_seen) userStore.setUser({ ...userStore.getUser, tours_seen: response.tours_seen })
@@ -81,5 +88,10 @@ export function useWelcomeTour() {
         }
     }
 
-    return { tour, steps, startIfDue, restart, setIndex, close }
+    /** The first-steps guide was finished or skipped: what the tour used to record. */
+    async function finishFirstSteps() {
+        await markSeen()
+    }
+
+    return { tour, steps, startIfDue, restart, setIndex, close, finishFirstSteps }
 }

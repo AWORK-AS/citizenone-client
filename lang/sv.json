@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "Alla",
+        "searchesAll": "Söker i alla avdelningar",
+        "search": "Sök efter namn",
+        "addMore": "Lägg till fler",
+        "remove": "Ta bort {name}",
+        "noResults": "Ingen med det namnet.",
+        "sections": {
+            "pinned": "Fästa",
+            "recent": "Senast använda",
+            "all": "Alla"
+        }
+    },
+    "firstSteps": {
+        "help": "Kom ihåg att Milo finns här om du behöver hjälp.",
+        "askMilo": "Fråga Milo",
+        "label": "Kom igång · steg {current} av {total}",
+        "skip": "Hoppa över",
+        "progress": "Steg i guiden",
+        "noCitizens": "Du har inte tillgång till någon ännu. Fråga din chef.",
+        "done": "Klart",
+        "later": "Senare",
+        "next": "Nästa",
+        "finish": "Klar",
+        "back": "Tillbaka",
+        "staff": {
+            "citizens": {
+                "title": "Här är dina @:terms.citizens{''}",
+                "desc": "Det är dem du arbetar med. Klicka på ett namn för att se journal, planer och dokument. Du hittar dem alltid under @.capitalize:terms.citizens{''} i menyn."
+            },
+            "note": {
+                "title": "Skriv din första anteckning",
+                "desc": "Välj en @:terms.citizen{''}, ge anteckningen en rubrik och skriv vad som hände. Det tar en minut.",
+                "cta": "Skriv anteckning"
+            },
+            "app": {
+                "title": "Hämta appen",
+                "desc": "Skriv anteckningar och se din dag i telefonen. Skanna koden med kameran, eller tryck på din butik."
+            },
+            "day": {
+                "title": "Här börjar din dag",
+                "desc": "Min dag visar ditt nästa pass, dagens uppgifter och det som behöver uppmärksamhet. Meddelanden från kollegor hittar du under Chat.",
+                "cta": "Öppna Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "Vad använder ni?",
+                "desc": "Välj de delar ni behöver. Resten döljs, så menyn blir kort för alla.",
+                "cta": "Välj moduler"
+            },
+            "firstCitizen": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Ett namn räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Skriv din första anteckning",
+                "desc": "Välj en @:terms.citizen{''} och skriv en kort anteckning, så ser du hur journalen fungerar.",
+                "cta": "Skriv anteckning"
+            },
+            "colleagues": {
+                "title": "Bjud in dina kollegor",
+                "desc": "Lägg till dem en i taget, eller importera många på en gång från Excel under Personal. De får ett mejl och en kort guide när de loggar in.",
+                "cta": "Gå till personal"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Fakturor skickas inte längre via e-post",
         "noticeBody": "Framöver får ni inte ett e-postmeddelande varje gång en prenumeration, en app eller en påfyllning dras automatiskt. Alla fakturor och kvitton finns här under Fakturor. Ni får fortfarande e-post om en betalning misslyckas.",
@@ -184,7 +252,13 @@
             "won": "Vunnen",
             "lost": "Förlorad"
         },
-        "tooManyToShow": "Visar {shown} av {total} förfrågningar. Använd listvyn eller ett avdelningsfilter för att se resten.",
+        "viewToggle": "Tavla eller lista",
+        "viewBoard": "Tavla",
+        "viewList": "Lista",
+        "loadMore": "Visa fler ({count} till)",
+        "stageFilter": "Fas",
+        "allStages": "Alla faser",
+        "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
             "myself": "Mig själv",
@@ -314,6 +388,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Visa alla inställningar",
+        "next": {
+            "label": "Ditt nästa steg",
+            "citizens_added": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Namn och kontaktuppgifter räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Lägg till din första @:terms.citizen{''}",
+                "desc": "Namn och kontaktuppgifter räcker för att komma igång. Resten kan fyllas i senare.",
+                "cta": "Lägg till @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Skriv din första journalanteckning",
+                "desc": "Välj en @:terms.citizen{''} och skriv en kort anteckning. Det är här CitizenOne börjar spara tid åt dig.",
+                "cta": "Skriv anteckning"
+            },
+            "colleagues_invited": {
+                "title": "Bjud in en kollega",
+                "desc": "Kollegor får ett mejl och loggar in med sitt eget lösenord.",
+                "cta": "Gå till personal"
+            },
+            "duty_schedule_created": {
+                "title": "Lägg in det första passet",
+                "desc": "Skapa ett pass så att ni ser vem som jobbar.",
+                "cta": "Gå till schemat"
+            },
+            "medicine_added": {
+                "title": "Lägg till läkemedel",
+                "desc": "Lägg till läkemedel på en @:terms.citizen{''} så att det kan ges och kvitteras.",
+                "cta": "Gå till @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Skapa dina tjänster",
+                "desc": "Namn, längd och pris. Sedan kan tider bokas.",
+                "cta": "Gå till bokning"
+            },
+            "online_booking_enabled": {
+                "title": "Slå på onlinebokning",
+                "desc": "Låt @:terms.citizens{''} boka tid själva.",
+                "cta": "Gå till bokning"
+            },
+            "profile_completed": {
+                "title": "Lägg till en profilbild",
+                "desc": "Så att dina kollegor ser vem som skrev vad.",
+                "cta": "Gå till profil"
+            }
+        },
+        "restOfSetup": "Resten av inställningarna",
         "welcome": "Välkommen, {name}",
         "subtitle": "Här är din snabbguide för att få CitizenOne uppsatt och igång för ditt team.",
         "whatDoYouNeed": "Vad behöver du?",
@@ -355,7 +479,7 @@
             "vagtplan": "Schema",
             "medicin": "Medicin",
             "dokumentation": "Dokumentation",
-            "people": "Klienter",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik och bokning",
             "cases": "Ärenden och jobbcenter"
@@ -408,14 +532,14 @@
                 "cta": "Gå till Medicin"
             },
             "citizens": {
-                "title": "Skapa klienter",
-                "desc": "Lägg till klienterna ni arbetar med.",
-                "cta": "Gå till Klienter"
+                "title": "Skapa @:terms.citizens{''}",
+                "desc": "Lägg till @:terms.citizens{''} ni arbetar med.",
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Stamdata och kontaktpersoner",
                 "desc": "Fyll i stamdata, kontaktpersoner och handläggare.",
-                "cta": "Gå till Klienter"
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Skapa patienter",
@@ -744,6 +868,7 @@
                 "hideInternalJournals": "Kan inte se interna anteckningar",
                 "seesHrData": "Kan se HR-uppgifter och medarbetardokument",
                 "countsAsConsultant": "Räknas som konsult",
+                "onlyAssignedCitizens": "Ser bara tilldelade insatser",
                 "certificateReminderFor": "Får påminnelser om certifikat för"
             },
             "values": {
@@ -2243,7 +2368,10 @@
             "form": {
                 "attachFile": "Bifoga fil",
                 "content": "Innehåll",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiér journalnote till plan, mål, delmål eller enkeltmål",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Kopiera journalanteckning till plan, mål, delmål, enskilt mål eller behandling",
+                "activeTreatments": "Aktiva behandlingar",
+                "activeTreatmentsHint": "Välj en behandling för att dokumentera på den. Anteckningen läggs till bland behandlingens statusar.",
+                "treatment": "Behandling",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Kopiér riskbedömning till plan, mål eller delmål",
                 "currentLevels": {
                     "currentLevel": "Nuvarande nivå",
@@ -2318,6 +2446,7 @@
                 "teeth": "Tänder",
                 "title": "Titel",
                 "usePredefinedcontent": "Använd foruddefineret innehåll",
+                "manageJournalTitles": "Redigera rubriker",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Kunde inte spara automatiskt. Dina senaste ändringar är inte sparade ännu - försöker igen.",
                 "showJournalTitles": "Visa journaltitlar",
@@ -4944,6 +5073,7 @@
         "emptyListHint": "Inga {citizens} hittades ännu. Använd \"Ny {citizen}\" ovan, eller importera från ett annat system.",
         "coordinators": {
             "badgeIntake": "Mottagningskoordinator",
+            "badgeConsultant": "Konsult",
             "badgePrimary": "Primär koordinator",
             "badgeSecondary": "Sekundär koordinator",
             "hint": "Medarbetaren du anger här visas under Kontakter på {theCitizen}, och {theCitizen} visas under medarbetarens tilldelade {citizens}.",
@@ -5532,6 +5662,13 @@
             "downloadOnlyLeaveTypes": "Ladda ner endast fravärstyper",
             "downloadOverview": "Ladda ner översikt",
             "downloadType": "Downloadtype",
+            "dutyTypes": "Passtyper",
+            "allDutyTypes": "Alla passtyper",
+            "dutyTypeReport": "Rapport per passtyp",
+            "dutyTypeReportHint": "Ett avsnitt per passtyp med timmar per anställd.",
+            "reportFormat": "Rapportformat",
+            "reportFormatPdf": "PDF",
+            "reportFormatExcel": "Excel",
             "filter": {
                 "currentView": "Nuvarande visning",
                 "filterDate": "Filtrera datum",
@@ -5552,6 +5689,7 @@
             "preset": {
                 "applyPreset": "Använd förinställning",
                 "applySuccess": "Förinställning blev använd på vagtplanskladder!",
+                "applySuccessWithSkipped": "{created} pass har lagts till. {skipped} pass fanns redan i utkastet och lades inte till igen.",
                 "confirmation": {
                     "deletePresetConfirmation": "Är du säker på att du vill radera denna förinställning"
                 },
@@ -5591,7 +5729,12 @@
                 "viewPresets": "Se förinställningar",
                 "infoBox": {
                     "title": "Vad är förinställningar?",
-                    "description": "En förinställning är en sparad version av din vagtplanskladde, som du kan genbruge. Välj en förinställning nedenfor och klicka Använd för att ladda den i kladden - du kan derefter redigere och publicera den."
+                    "description": "En förinställning är ett sparat schemamönster som du kan återanvända. Välj en förinställning nedan och klicka på Använd för att kopiera dess pass till de datum du väljer. Pass som redan finns i utkastet läggs inte till igen. Du behöver ingen förinställning för att spara ditt arbete: utkastet sparas automatiskt."
+                },
+                "applyInfoBox": {
+                    "title": "Vilken period ska förinställningen fylla?",
+                    "description": "Välj den period i utkastet som förinställningens pass ska kopieras till. Passen anpassas automatiskt till de datum du väljer. Pass som redan finns i utkastet på de datumen läggs inte till igen.",
+                    "example": "Exempel: Välj måndag 14 april som startdatum och söndag 20 april som slutdatum för att fylla vecka 16 med förinställningens schemamönster."
                 },
                 "saveInfoBox": {
                     "title": "Spara din nuvarande utkast som förinställning",
@@ -5604,7 +5747,7 @@
                 "step1": "Skapa kladdevagter",
                 "step2": "Spara förinställning (valfritt)",
                 "step3": "Publicera till tjänsteschema",
-                "tip": "💡 Tips: Använd 'skabeloner' till fasta vagtrulleringer, och 'förinställningar' till att genbruge en utkast du har gjort före."
+                "tip": "💡 Tips: Använd 'mallar' för fasta schemarotationer och 'förinställningar' för att återanvända ett schemamönster i en annan period. Utkastet sparas automatiskt."
             },
             "backToPublished": "Tillbaka till den udgivede tjänsteschema",
             "contextBanner": {
@@ -7703,6 +7846,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} av {total} medarbetare har loggat in",
+            "pendingHint": "{count} har inte skapat lösenord ännu. Skicka inbjudan igen, eller ring dem.",
+            "allIn": "Alla har kommit in.",
+            "show": "Visa vilka",
+            "hide": "Dölj",
+            "resendAll": "Skicka igen till {count}",
+            "resendOne": "Skicka igen",
+            "invitedAt": "inbjuden {date}",
+            "confirm": "Skicka inbjudan igen till {count}? De får ett nytt mejl och den gamla länken slutar fungera."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Anställd arkiverad"
         },
@@ -8617,19 +8771,19 @@
         }
     },
     "forgotPassword": {
-        "checkInboxSub": "Vi skickar ett länk innan för få minuter",
-        "checkInboxTitle": "Kontrollera din indbakke",
-        "emailAddress": "E-post adress",
-        "enterEmailAssociated": "Ange e-mailadressen, där är kopplad din konto, för att nulstille din lösenord",
+        "checkInboxSub": "Vi skickar en länk inom några minuter",
+        "checkInboxTitle": "Kontrollera din inkorg",
+        "emailAddress": "E-postadress",
+        "enterEmailAssociated": "Ange e-postadressen som är kopplad till ditt konto för att återställa ditt lösenord",
         "forgotPassword": "Glömt lösenord",
-        "headlineLine1": "Återställ din",
+        "headlineLine1": "Återställ ditt",
         "headlineLine2": "lösenord.",
-        "linkValidSub": "Anmod om ett nytt länk om det utgår",
-        "linkValidTitle": "Linket är gyldigt i 60 min.",
-        "loginHereInstead": "Logga in här i stedet",
+        "linkValidSub": "Begär en ny länk om den går ut",
+        "linkValidTitle": "Länken är giltig i 60 min.",
+        "loginHereInstead": "Logga in här i stället",
         "or": "Eller",
-        "panelDescription": "Ange din e-postadress och vi skickar dig ett länk till att nulstille din lösenord.",
-        "requestPasswordReset": "Anmod om nulstilling av lösenord"
+        "panelDescription": "Ange din e-postadress så skickar vi en länk för att återställa ditt lösenord.",
+        "requestPasswordReset": "Begär återställning av lösenord"
     },
     "formFieldConfig": {
         "alert": {
@@ -9202,7 +9356,9 @@
         },
         "unknownType": {
             "title": "Förfrågan saknar en typ",
-            "hint": "Den kan inte redigeras här förrän den är satt till kriscenter eller härbärge. Det händer vanligtvis med importerade förfrågningar."
+            "hint": "Välj vilken typ förfrågan är, så kan du redigera den. Typen sparas tillsammans med dina ändringar. Det händer vanligtvis med importerade förfrågningar.",
+            "chosen": "Sparas som {type}.",
+            "change": "Byt typ"
         },
         "review": {
             "edit": "Redigera",
@@ -9393,6 +9549,7 @@
         "wellbeingRulerDescription": "När den är påslagen kan ett välmåendevärde från 0 till 10 ges i @:terms.journalNotes{''}, ett för varje barn i ärendet. Värdet är frivilligt och ingår i välmåendeutvecklingen och i statusrapportens välmåendelinjal."
     },
     "journalNotes": {
+        "removeFilter": "Ta bort filter: {name}",
         "title": "Journal notes",
         "citizen": "Citizen",
         "department": "Department",
@@ -9696,8 +9853,8 @@
             "alwaysEncrypted": "Säker post skickas alltid krypterad. Ange ett lösenord som mottagaren behöver för att öppna meddelandet.",
             "enterCode": "Ange en selvvalgt kod",
             "message": "Meddelande",
-            "passwordHint": "Skriv ett liten hint, där kan hjälpa modtageren med att huske adgangskoden",
-            "passwordHintPlaceholder": "Ange hint till adgangskoden",
+            "passwordHint": "Skriv en kort ledtråd som hjälper mottagaren att komma ihåg lösenordet",
+            "passwordHintPlaceholder": "Ange en ledtråd till lösenordet",
             "reenterCode": "Ange den selvvalgte kod igen",
             "send": "Skicka",
             "subject": "Emne",
@@ -9925,6 +10082,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Ladda ner meddelanden",
+            "from": "Från",
+            "to": "Till",
+            "today": "Idag",
+            "last7": "Senaste 7 dagarna",
+            "last30": "Senaste 30 dagarna",
+            "all": "Alla",
+            "countOne": "1 meddelande tas med",
+            "countMany": "{count} meddelanden tas med",
+            "noMessages": "Inga meddelanden under perioden",
+            "invalidRange": "Startdatumet måste vara före slutdatumet",
+            "download": "Ladda ner PDF",
+            "downloading": "Laddar ner...",
+            "tooLarge": "Välj en kortare period (max. 12 månader / 5 000 meddelanden)",
+            "tooManyRequests": "För många nedladdningar. Försök igen om en minut.",
+            "personalData": "Innehåller personuppgifter — hantera med omsorg",
+            "error": "Meddelandena kunde inte laddas ner. Försök igen."
+        },
         "cprWarning": {
             "title": "Kontrollera innan du skickar",
             "message": "Meddelandet verkar innehålla ett CPR-nummer. Chatten är inte avsedd för känsliga personuppgifter.",
@@ -10435,6 +10611,7 @@
                 "medicationOverview": "Medicinoversigt",
                 "medicineDeviationStatistics": "Medicin avvikit",
                 "myDailyEvents": "Mina daglige händelser",
+                "newsAndPoll": "Nyheter och omröstning från CitizenOne",
                 "nextShift": "Nästa pass",
                 "onDutyToday": "I tjänst i dag",
                 "plansAndGoals": "Planer och mål",
@@ -11325,7 +11502,15 @@
         "youAreEditingARecurringShift": "Du redigerer en gentagende pass"
     },
     "register": {
+        "done": {
+            "title": "Kolla din inkorg",
+            "sentTo": "Vi har skickat ett mejl till {email}.",
+            "confirm": "Bekräfta din e-postadress med länken i mejlet.",
+            "signIn": "Logga in med din e-post och lösenordet du just valde.",
+            "noMail": "Inget mejl efter några minuter? Kolla skräpposten, eller skriv till support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "Minst 8 tecken",
             "agreetoTAC": "Du ska acceptere vilkår och betingelser",
             "alreadyHaveAnAccount": "Har du allerede en konto",
             "bySigningUpYouAgreeTo": "Vet att skapa dig accepterer du CitizenOne's",
@@ -11519,6 +11704,8 @@
             "certificateRemindersRolesPlaceholder": "Välj roller",
             "countsAsConsultant": "Medarbetare med den här rollen är konsulter",
             "countsAsConsultantHelp": "Används i Anställda → Intyg → Saknas: konsulter behöver utöver barnintyget CV, utbildningsbevis och kontrakt.",
+            "onlyAssignedCitizens": "Ser bara tilldelade insatser",
+            "onlyAssignedCitizensHelp": "Medarbetare med den här rollen ser bara de brukare (insatser) de är kopplade till under Kontakter, även planer, mål, journaler och dokument. Avdelning och nivå utökar det inte. Administratörer ser alltid allt.",
             "selectAll": "Välj alla",
             "clearAll": "Rensa alla",
             "noPermissionsMatch": "Inga behörigheter matchar \"{search}\".",
@@ -11901,6 +12088,14 @@
                 "patientChatInbox": "Patienter skriver till hela kliniken (gemensam inkorg)",
                 "patientChatInboxHint": "Patienterna kan inte välja en viss medarbetare. Alla aktiva medarbetare ser meddelandet och kan svara",
                 "chatCprWarning": "Varna för CPR-nummer i chatt",
+                "birthdayNotifications": "Födelsedagsnotiser",
+                "birthdayNotificationsHint": "Alla får en notis varje morgon när en klient eller kollega fyller år. Välj vem den ska handla om, eller stäng av den för hela företaget",
+                "birthdayNotificationOptions": {
+                    "all": "Klienter och anställda",
+                    "staff": "Bara anställda",
+                    "citizens": "Bara klienter",
+                    "off": "Av"
+                },
                 "missingNoteReminder": "Påminn om bokningar utan @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Meddela om @:terms.journalNotes{''} skapade från en bokning",
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} krävs vid Slutförd",
@@ -11971,7 +12166,7 @@
                 "groupPlans": "Planer & mål",
                 "groupSchedule": "Schema & arbetstid",
                 "groupOther": "Övrigt & integrationer",
-                "absenceCountsInNormHours": "Semester och sjukfrånvaro räknas med i normtimmar och kompledighet",
+                "absenceCountsInNormHours": "Frånvaro räknas med i normtimmar och kompledighet",
                 "upgradeToPro": "Uppgradera till Pro",
                 "whichHolidaysCount": "Vilka helgdagar ska räknas? (stäng av de som inte gäller för er)",
                 "holidayState": {
@@ -12601,7 +12796,7 @@
             "endTimeDayOffsetSameDay": "Samma dag",
             "endTimeDayOffsetThreeDaysLater": "3 dagar senere",
             "endTimeDayOffsetTwoDaysLater": "2 dagar senere",
-            "markAsLeaveType": "Markera som fravärstype",
+            "markAsLeaveType": "Markera som frånvarotyp",
             "nameDanish": "Namn (danska)",
             "nameEnglish": "Namn (engelska)",
             "paycode": "Lönningskode",
@@ -12735,6 +12930,7 @@
     },
     "submit": "Indsend",
     "subscription": {
+        "noUserLicense": "Alla era användarlicenser används. Köp fler här nedanför, så kan du lägga till medarbetaren sedan.",
         "addOnDeals": {
             "addOnDeals": "Extra användare och avdelningar",
             "checkout": "Betala och lägg till",
@@ -15393,6 +15589,7 @@
         },
         "metrics": {
             "contractMrr": "Kontrakt-MRR",
+            "sinceLastVisit": "sedan sist",
             "contractArr": "Kontrakt-ARR {amount}",
             "cashMrr": "Cash-MRR",
             "cashArr": "Cash-ARR, nästa 12 mån. {amount}",
@@ -15759,10 +15956,11 @@
         "pleaseCompleteTemplate": "Fyll i mallen"
     },
     "verifyEmail": {
-        "emailVerified": "Email verifierad",
+        "waitingForActivation": "Tack. Vi aktiverar ditt konto och mejlar dig när du kan logga in.",
+        "emailVerified": "E-post bekräftad",
         "loginToContinue": "Logga in för att fortsätta",
-        "verifyEmail": "Verifiera email",
-        "youHaveSuccessfullyVerifiedYourEmail": "Du har verifierad din email"
+        "verifyEmail": "Bekräfta e-post",
+        "youHaveSuccessfullyVerifiedYourEmail": "Din e-postadress är bekräftad"
     },
     "view": "Se",
     "wish": {
@@ -16831,6 +17029,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "Inga pass, möten eller påminnelser i dag.",
+        "openCalendar": "Öppna kalendern",
         "certificates": {
             "title": "Intyg som saknas eller går ut",
             "missing": "{count} saknas",
@@ -19696,6 +19896,12 @@
         "boxDeleted": "Rutan har tagits bort",
         "managedByAdmin": "Din administratör har ställt in den här översikten. Rutor med lås är obligatoriska.",
         "requiredByAdmin": "Obligatorisk enligt din administratör",
+        "rolePrefix": "Roll: {name}",
+        "roleIntro": "En rollayout döljer bara. Det den döljer ser personer med rollen varken i översikten eller på statistiksidan, även där företagets eller avdelningens layout kräver det. Den som har flera roller ser allt som någon av rollerna tillåter. Administratörer ser alltid allt.",
+        "roleSeesEverything": "Ser allt",
+        "statisticsSections": "Statistik",
+        "statisticsSectionsHelp": "Avsnitt på statistiksidan.",
+        "removeRoleLayoutConfirmation": "Ta bort rollens layout? Personer med rollen ser allt igen",
         "states": {
             "mandatory": "Obligatorisk",
             "optional": "Användarens val",
@@ -20169,5 +20375,48 @@
         "importFailed": "Ett fel uppstod vid importen.",
         "openFileFailed": "Ett fel uppstod när filen skulle öppnas.",
         "deleteFailed": "Ett fel uppstod vid raderingen."
+    },
+    "signup": {
+        "title": "Skapa ditt kostnadsfria konto för att spara ditt arbete",
+        "subtitle": "Ditt arbete från citizenone.dk är sparat och väntar på dig.",
+        "continueWithApple": "Fortsätt med Apple",
+        "continueWithGoogle": "Fortsätt med Google",
+        "continueWithEmail": "Fortsätt med e-post",
+        "emailLabel": "E-postadress",
+        "emailPlaceholder": "du{'@'}arbetsplatsen.se",
+        "sendCode": "Skicka kod",
+        "back": "Tillbaka",
+        "codeSent": "Vi har skickat en kod med 6 siffror till {email}.",
+        "codeLabel": "Kod med 6 siffror",
+        "verify": "Fortsätt",
+        "changeEmail": "Använd en annan e-postadress",
+        "resendCode": "Skicka en ny kod",
+        "haveAccount": "Har du redan ett konto med lösenord?",
+        "signIn": "Logga in",
+        "complete": {
+            "title": "Slutför ditt konto",
+            "heading": "Nästan klart",
+            "signedInAs": "Du registrerar dig som {email}.",
+            "submit": "Skapa konto",
+            "expiredTitle": "Länken för registrering har gått ut",
+            "expiredBody": "Börja om för att skapa ditt konto.",
+            "startAgain": "Börja om"
+        },
+        "pending": {
+            "title": "Vi granskar ditt konto",
+            "body": "Tack. Vi granskar varje nytt konto innan det slås på, och vi skriver till {email} när det är klart.",
+            "draftSaved": "Ditt utkast från citizenone.dk är sparat och väntar på dig när du loggar in."
+        },
+        "drafts": {
+            "title": "Sparat från citizenone.dk",
+            "delete": "Ta bort",
+            "deleteAria": "Ta bort sparat utkast: {tool}",
+            "tools": {
+                "smart-goal": "SMART-mål",
+                "restraint": "Formulär för tvångsåtgärd",
+                "daily-rhythm": "Dygnsrytmsplan",
+                "socialtilsyn": "Tillsynskontroll"
+            }
+        }
     }
 }

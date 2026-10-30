@@ -20,15 +20,15 @@
                 <div class="mt-5 flex items-center gap-x-2">
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / 5) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / step1Total) * 100)}%` }"></div>
                     </div>
                     <div class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / 2) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / step2Total) * 100)}%` }"></div>
                     </div>
                     <img class="w-4" src="/img/icons/asset-app.png" :alt="$t('imageFailedToLoad')" />
                 </div>
-                <form class="mt-5" method="POST" @submit.prevent="register">
+                <form v-if="!state.registeredEmail" class="mt-5" method="POST" @submit.prevent="register">
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <div class="space-y-1">
@@ -141,15 +141,6 @@
                             </div>
                         </div>
                         <div class="space-y-1 py-1">
-                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
-                            <FormTextField id="company_name" name="company_name"
-                                :placeholder="$t('register.form.companyPlaceholder')"
-                                v-model="state.formRegister.company_name" />
-                            <FormError
-                                :error="vRules1$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.name?.[0]" />
-                        </div>
-                        <div class="space-y-1 py-1">
                             <FormLabel for="email" :label="$t('register.form.emailAddress')" />
                             <FormTextField id="email" name="email"
                                 :placeholder="$t('register.form.emailAddressPlaceholder')"
@@ -157,15 +148,31 @@
                             <FormError :error="vRules1$?.formRegister?.email?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.email?.[0]" />
                         </div>
-                        <div class="space-y-1 py-1">
-                            <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
-                            <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
-                                v-model="state.formRegister.phone" />
-                            <FormError :error="vRules1$?.formRegister?.phone?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.phone?.[0]" />
+                        <!-- Chosen here, so the mail only has to confirm the address. A Google or
+                             Microsoft signup signs in through the provider and is not asked. -->
+                        <div class="space-y-1 py-1" v-if="!state.oauthProvider">
+                            <FormLabel for="password" :label="$t('register.form.password')" />
+                            <!-- name doubles as autocomplete: "new-password" keeps the browser
+                                 from filling in a saved password the customer never chose. -->
+                            <FormPasswordField id="password" name="new-password"
+                                :placeholder="$t('register.form.passwordHint')"
+                                v-model="state.formRegister.password" />
+                            <FormError :error="vRules1$?.formRegister?.password?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.password?.[0]" />
                         </div>
                     </div>
                     <div class="mt-5 space-y-3" v-else>
+                        <!-- Step 1 asks only for what the account needs. The organisation and the phone
+                             number come here, after the visitor has already committed to an account. -->
+                        <div class="space-y-1">
+                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
+                            <FormTextField id="company_name" name="company_name"
+                                :placeholder="$t('register.form.companyPlaceholder')"
+                                v-model="state.formRegister.company_name" />
+                            <FormError
+                                :error="vRules2$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.name?.[0]" />
+                        </div>
                         <div class="space-y-1">
                             <FormLabel for="industry" :label="$t('register.form.industry')" />
                             <FormSelect id="industry" :options="state.options.industries"
@@ -181,6 +188,12 @@
                             <FormError
                                 :error="vRules2$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
+                            <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
+                                v-model="state.formRegister.phone" />
+                            <FormError :error="state?.error?.errors?.phone?.[0]" />
                         </div>
                         <div class="space-y-1">
                             <div class="w-fit flex items-center cursor-pointer"
@@ -216,6 +229,26 @@
                         </a>
                     </p>
                 </form>
+                <div v-else class="mt-10" data-testid="register-done">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-full bg-secondary-25 text-primary">
+                        <Icon name="ph:envelope-simple-open" class="h-6 w-6" aria-hidden="true" />
+                    </div>
+                    <h3 class="mt-4 font-bold text-2xl md:text-3xl">{{ $t('register.done.title') }}</h3>
+                    <p class="mt-2 text-sm text-gray-600">
+                        {{ $t('register.done.sentTo', { email: state.registeredEmail }) }}
+                    </p>
+                    <ol class="mt-6 space-y-4">
+                        <li class="flex gap-x-3">
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">1</span>
+                            <span class="text-sm text-gray-700">{{ $t('register.done.confirm') }}</span>
+                        </li>
+                        <li class="flex gap-x-3">
+                            <span class="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary text-xs font-semibold text-white">2</span>
+                            <span class="text-sm text-gray-700">{{ $t('register.done.signIn') }}</span>
+                        </li>
+                    </ol>
+                    <p class="mt-6 text-xs text-gray-500">{{ $t('register.done.noMail') }}</p>
+                </div>
             </div>
             <div class="hidden lg:block p-4">
                 <div class="co-panel">
@@ -297,6 +330,7 @@ language.locale.value = userStore.getLanguage
 
 const state = reactive({
     agreeToTermsValidation: false,
+    registeredEmail: '',
     error: {} as Error,
     formRegister: {
         industry: '',
@@ -306,6 +340,7 @@ const state = reactive({
         company_name: '',
         phone: '',
         email: '',
+        password: '',
         oauthProvider: '' as string,
         agreeToTerms: false
     } as any,
@@ -334,12 +369,15 @@ const rules1 = computed(() => {
             lastname: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
-            company_name: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
             email: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
+            ...(state.oauthProvider ? {} : {
+                password: {
+                    required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                    minLength: helpers.withMessage(() => `${t('alert.setupPassword.required8Characters')}.`, minLength(8)),
+                },
+            }),
             // Optional since the signup form asked for a number the product never uses: it only ends
             // up in the new-user mail to support. A field that is not needed is a reason to leave.
         }
@@ -349,6 +387,9 @@ const rules1 = computed(() => {
 const rules2 = computed(() => {
     return {
         formRegister: {
+            company_name: {
+                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+            },
             industry: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
@@ -411,33 +452,37 @@ watch(() => language.locale.value, (newValue: any) => {
     }
 })
 
+// The required fields of each step, so each bar fills to the end exactly when its step is done.
+const step1Total = computed(() => (state.oauthProvider ? 3 : 4))
+const step2Total = 3
+
 watch(() => ({
     firstname: state.formRegister.firstname,
     lastname: state.formRegister.lastname,
-    company_name: state.formRegister.company_name,
     email: state.formRegister.email,
-    phone: state.formRegister.phone,
-}), ({ firstname, lastname, company_name, email, phone }) => {
+    password: state.formRegister.password,
+}), ({ firstname, lastname, email, password }) => {
     const isFilled = (value: unknown) => {
         return String(value ?? "").trim().length > 0
     }
     let progress = 0
     if (isFilled(firstname)) progress += 1
     if (isFilled(lastname)) progress += 1
-    if (isFilled(company_name)) progress += 1
     if (isFilled(email)) progress += 1
-    if (isFilled(phone)) progress += 1
+    if (!state.oauthProvider && isFilled(password)) progress += 1
     state.progress.currentStep1Progress = progress
 }, { immediate: true })
 
 watch(() => ({
+    company_name: state.formRegister.company_name,
     industry: state.formRegister.industry,
     agreeToTerms: state.formRegister.agreeToTerms,
-}), ({ industry, agreeToTerms }) => {
+}), ({ company_name, industry, agreeToTerms }) => {
     const isFilled = (value: unknown) => {
         return String(value ?? "").trim().length > 0
     }
     let progress = 0
+    if (isFilled(company_name)) progress += 1
     if (isFilled(industry)) progress += 1
     if (agreeToTerms) progress += 1
     state.progress.currentStep2Progress = progress
@@ -566,36 +611,28 @@ async function register() {
                     name: state.formRegister.company_name,
                     phone: state.formRegister.phone,
                     email: state.formRegister.email,
+                    ...(state.formRegister.password ? { password: state.formRegister.password } : {}),
                     ...signupSource.value,
                 }
                 const response = await authService.register(params)
                 if (response.data) {
-                    pushSignUpEvent()
-                    successAlert(`${t('alert.success')}!`, `${t('alert.accountSuccessfullyCreated')}.`)
-                    // Onboardingen frem for login-formularen.
-                    //
-                    // Registreringen sendte brugeren til '/', altså login-siden. Endepunktet
-                    // returnerer ingen token, så klienten kan ikke logge hende ind, og '/' var
-                    // derfor det eneste den kunne gøre. Men resultatet var at en ny kunde ramte
-                    // login-skærmen umiddelbart efter at have oprettet sin konto, og aldrig så
-                    // /discover medmindre hun selv fandt "Kom godt i gang" i sidebaren.
-                    //
-                    // `?redirect` findes og honoreres af login i forvejen, så det første hun ser
-                    // efter at have logget ind er checklisten med importen fra det gamle system
-                    // som første trin. E-mailverifikationen er urørt: hun logger stadig ind.
-                    navigateTo('/?redirect=/discover')
+                    pushSignUpEvent(state.oauthProvider || 'email', signupSource.value)
+                    // The account cannot be signed into yet: the address has to be confirmed
+                    // and the company switched on. Sending her to the login form said neither,
+                    // so the page now says what happens next instead.
+                    state.registeredEmail = state.formRegister.email
                 }
             } catch (error: any) {
                 state.error = error
 
                 const errors = error?.errors
 
+                // The organisation name and the phone number are on step 2, so their errors stay there.
                 const hasStep1Error =
                     !!errors?.firstname?.length ||
                     !!errors?.lastname?.length ||
-                    !!errors?.name?.length ||
                     !!errors?.email?.length ||
-                    !!errors?.phone?.length
+                    !!errors?.password?.length
 
                 if (hasStep1Error) {
                     state.progress.currentStep = 1

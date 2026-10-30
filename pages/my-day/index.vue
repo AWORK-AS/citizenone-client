@@ -14,8 +14,13 @@
             </template>
 
             <div class="space-y-6">
+                <!-- A new colleague's first steps: their citizens, a first note, where
+                     the day is. Gone once finished or skipped. -->
+                <ModulesUserOnboardingFirstSteps v-if="guideActive" role="staff"
+                    :greeting="`${greeting}, ${firstName} 👋`" />
+
                 <!-- Greeting -->
-                <div class="rounded-2xl bg-gradient-to-r from-primary to-secondary px-6 py-5 text-white shadow-sm">
+                <div v-if="!guideActive" class="rounded-2xl bg-gradient-to-r from-primary to-secondary px-6 py-5 text-white shadow-sm">
                     <p class="text-lg font-semibold">{{ greeting }}, {{ firstName }} 👋</p>
                     <p class="text-sm text-white/80 mt-0.5">{{ todayLabel }}</p>
                 </div>
@@ -66,8 +71,19 @@
                     </ul>
                 </section>
 
+                <!-- A day with nothing on it says so in one line. Three zeros and
+                     three "nothing today" cards looked like something was broken. -->
+                <section v-if="dayIsEmpty" data-testid="my-day-empty"
+                    class="flex items-center gap-3 rounded-xl bg-white ring-1 ring-gray-200 p-5 text-sm text-gray-600">
+                    <Icon name="ph:sun" class="size-5 shrink-0 text-amber-500" aria-hidden="true" />
+                    <span class="flex-1">{{ $t('myDay.emptyDay') }}</span>
+                    <NuxtLink v-if="showCalendarLink" to="/calendar" class="shrink-0 text-sm font-medium text-primary hover:underline">
+                        {{ $t('myDay.openCalendar') }}
+                    </NuxtLink>
+                </section>
+
                 <!-- Stat row -->
-                <div class="grid grid-cols-2 lg:grid-cols-4 gap-3">
+                <div v-if="!dayIsEmpty" class="grid grid-cols-2 lg:grid-cols-4 gap-3">
                     <button v-for="stat in stats" :key="stat.key" type="button" @click="scrollTo(stat.key)"
                         class="text-left rounded-xl bg-white ring-1 ring-gray-200 p-4 transition-all hover:ring-primary/40 hover:shadow-sm">
                         <div class="flex items-center gap-2 text-gray-500">
@@ -78,8 +94,11 @@
                     </button>
                 </div>
 
+                <!-- Drafts saved from the free tools on citizenone.dk. Hidden when there are none. -->
+                <ModulesUserSignupDraftsCard />
+
                 <LoadingSpinner :isActive="state.isLoading">
-                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+                    <div v-if="!dayIsEmpty" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
                         <!-- My shifts -->
                         <section :id="`card-shifts`" class="rounded-xl bg-white ring-1 ring-gray-200 p-5">
                             <div class="flex items-center gap-2 mb-3">
@@ -341,6 +360,7 @@ import { citizenInquiryService } from '@/components/api/user/CitizenInquiryServi
 import { reminderService } from '@/components/api/user/ReminderService'
 import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
 import { usePermissions } from '@/composables/usePermissions'
+import { welcomeTourMode } from '@/composables/welcomeTour'
 import { useAssistantStore, describeBriefItem, type BriefItem } from '@/store/assistant'
 
 const runtimeConfig = useRuntimeConfig()
@@ -372,6 +392,7 @@ const today = moment().format('YYYY-MM-DD')
 
 const state = reactive({
     isLoading: false,
+    loadedOnce: false,
     distribution: { coordinators: [] as any[], unassigned: 0 },
     unassignedWon: 0,
     certificateCounts: { missing: 0, expired: 0, expiring_soon: 0 },
@@ -531,6 +552,19 @@ function onMedicineGiven() {
     fetchAll()
 }
 
+// Nothing in any card: one line instead of zeros. Only once loaded, so the
+// cards do not flash away and back.
+const dayIsEmpty = computed(() => state.loadedOnce
+    && stats.value.every((stat) => stat.value === 0)
+    && !state.reminders.length
+    && !medicineRows.value.length
+    && !unassignedWon.value
+    && !certificateTotal.value
+    && !distribution.value.coordinators.length)
+
+// The first-steps guide (and the greeting it carries) while it is open.
+const guideActive = computed(() => !isAtLeast('Admin') && welcomeTourMode(userStore.getUser) === 'tour')
+
 const stats = computed(() => [
     { key: 'shifts', icon: 'ph:clock', label: t('myDay.shifts'), value: state.shifts.length },
     { key: 'events', icon: 'ph:calendar-blank', label: t('myDay.events'), value: state.events.length },
@@ -671,6 +705,7 @@ async function fetchAll() {
         return dd.some((d: any) => moment(d?.date).isSame(today, 'day')) || dd.length === 0
     })
     state.isLoading = false
+    state.loadedOnce = true
 }
 
 async function toggleReminder(r: any) {

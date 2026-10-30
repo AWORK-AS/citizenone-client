@@ -67,6 +67,7 @@
                         </FormButton>
                     </div>
                 </div>
+                <ModulesUserEmployeeOnboardingStatus v-if="isAtLeast('Admin')" />
                 <div class="space-y-5">
                     <div v-if="state.error?.message && state.error.message.length > 0">
                         <div v-if="state?.error?.message === 'There are not enough Secure Mail licenses available.' || state?.error?.message === 'Der er ikke nok Sikker Mail licenser tilgængelige.'"
@@ -119,7 +120,7 @@
                         </button>
                     </div>
                     <div class="table-responsive">
-                        <Table :key="state.tableKey" :columnHeaders="columnHeaders" :data="state.employees"
+                        <Table data-cody-seats-target :key="state.tableKey" :columnHeaders="columnHeaders" :data="state.employees"
                             :isLoading="state.isTableLoading" :sortData="employeeStore.getSortData" @sort="sort"
                             :selection="canBulkEdit" rowKey="uuid" @selection-change="onSelectionChange">
                             <template #body="{ selectedRows, handleRowSelect }"
@@ -215,7 +216,7 @@
                                                 </FormButton>
                                             </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveAIAccess')"
-                                                v-if="userStore.getUser?.has_ai_access && !employee?.has_ai_access">
+                                                v-if="canGiveAiAccess && !employee?.has_ai_access">
                                                 <FormButton :aria-label="$t('employees.table.actions.giveAIAccess')" type="button" buttonStyle="action"
                                                     @click="giveAIAccessConfirmation(employee)">
                                                     <Icon name="ph:sparkle" class="size-4" />
@@ -261,6 +262,7 @@
 </template>
 
 <script setup lang="ts">
+import { canGiveAiAccess as canGiveAiAccessFor } from '@/composables/codySeats'
 import { employeeService } from '@/components/api/user/EmployeeService'
 import { useDepartmentStore } from '@/store/department'
 import { useEmployeeStore } from '@/store/employee'
@@ -276,6 +278,9 @@ const runtimeConfig = useRuntimeConfig()
 const employeeStore = useEmployeeStore()
 const departmentStore = useDepartmentStore()
 const userStore = useUserStore() as any
+// Handing out Cody seats is for whoever manages them, with or without one (see codySeats).
+const { status: codyStatus, load: loadCodyAdoption } = useCodyAdoption()
+const canGiveAiAccess = computed(() => canGiveAiAccessFor(userStore.getUser, codyStatus.value))
 const { successAlert } = useAlert()
 const { isAtLeast, seesHrData } = usePermissions()
 const { t, locale } = useI18n()
@@ -355,6 +360,7 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 onMounted(() => {
+    if (!userStore.getUser?.has_ai_access) loadCodyAdoption()
     // A link such as the bell notification opens the list already filtered: /employees?inactive=1
     if (route.query.inactive === '1') {
         state.propertyFilter = { ...state.propertyFilter, inactive: '1' }

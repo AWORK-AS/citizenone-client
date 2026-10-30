@@ -38,70 +38,72 @@
             </div>
 
             <div class="mt-6 space-y-6">
-                <!-- Statistics grid -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged ||
-                    overviewStore.getDailyOverviewFilter.showCitizensOrigin ||
-                    overviewStore.getDailyOverviewFilter.showCitizensAddictions ||
-                    overviewStore.getDailyOverviewFilter.showCitizensDiagnoses ||
-                    overviewStore.getDailyOverviewFilter.showRiskAssessment ||
-                    overviewStore.getDailyOverviewFilter.showGender">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensAdmissionAndDischarged">
+                <!-- Statistics grid. Held back until the layout is in, so a
+                     section the user's role hides never asks for its data. -->
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="layoutReady && (shows('showCitizensAdmissionAndDischarged') ||
+                    shows('showCitizensOrigin') ||
+                    shows('showCitizensAddictions') ||
+                    shows('showCitizensDiagnoses') ||
+                    shows('showRiskAssessment') ||
+                    shows('showGender'))">
+                    <div v-if="shows('showCitizensAdmissionAndDischarged')">
                         <ModulesUserDailyOverviewCitizensAdmissionDischarged
                             :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showCitizensOrigin">
+                    <div v-if="shows('showCitizensOrigin')">
                         <ModulesUserDailyOverviewCitizensOrigin />
                     </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensAddictions">
+                    <div class="space-y-3" v-if="shows('showCitizensAddictions')">
                         <ModulesUserDailyOverviewCitizensAddictions :dateRange="state.dateRange.formDateRange" />
                         <ModulesUserDailyOverviewCitizensAddictionsCount :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showCitizensDiagnoses">
+                    <div class="space-y-3" v-if="shows('showCitizensDiagnoses')">
                         <ModulesUserDailyOverviewCitizensDiagnoses :dateRange="state.dateRange.formDateRange" />
                         <ModulesUserDailyOverviewCitizensDiagnosesCount :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showRiskAssessment">
+                    <div class="space-y-3" v-if="shows('showRiskAssessment')">
                         <ModulesUserDailyOverviewCitizensRiskAssessment :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div class="space-y-3" v-if="overviewStore.getDailyOverviewFilter.showGender">
+                    <div class="space-y-3" v-if="shows('showGender')">
                         <ModulesUserDailyOverviewCitizensGender />
                     </div>
                 </div>
 
                 <!-- Score statistics -->
-                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showIncidentStatistics ||
-                    overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics ||
-                    overviewStore.getDailyOverviewFilter.showJournalScoreStatistics ||
-                    overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics ||
-                    (overviewStore.getDailyOverviewFilter.showUseOfForceStatistics && userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false)">
-                    <div v-if="overviewStore.getDailyOverviewFilter.showStatusesScoreStatistics">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5" v-if="layoutReady && (shows('showStatusesScoreStatistics') ||
+                    shows('showGoalsScoreStatistics') ||
+                    shows('showIncidentStatistics') ||
+                    shows('showMedicineDeviationStatistics') ||
+                    shows('showJournalScoreStatistics') ||
+                    shows('showSubgoalsScoreStatistics') ||
+                    (shows('showUseOfForceStatistics') && userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false))">
+                    <div v-if="shows('showStatusesScoreStatistics')">
                         <ModulesUserDailyOverviewStatusesScoreStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showGoalsScoreStatistics">
+                    <div v-if="shows('showGoalsScoreStatistics')">
                         <ModulesUserDailyOverviewGoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showIncidentStatistics">
+                    <div v-if="shows('showIncidentStatistics')">
                         <ModulesUserDailyOverviewIncidentReportsStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showMedicineDeviationStatistics">
+                    <div v-if="shows('showMedicineDeviationStatistics')">
                         <ModulesUserDailyOverviewMedicineDeviationStatistics
                             :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showJournalScoreStatistics">
+                    <div v-if="shows('showJournalScoreStatistics')">
                         <ModulesUserDailyOverviewJournalScoreStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showSubgoalsScoreStatistics">
+                    <div v-if="shows('showSubgoalsScoreStatistics')">
                         <ModulesUserDailyOverviewSubgoalsScoreStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
-                    <div v-if="overviewStore.getDailyOverviewFilter.showUseOfForceStatistics && userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false">
+                    <div v-if="shows('showUseOfForceStatistics') && userStore.getUser?.company?.onboarding_preferences?.modules?.useOfForce !== false">
                         <ModulesUserDailyOverviewUseOfForceStatistics :dateRange="state.dateRange.formDateRange" />
                     </div>
                 </div>
 
-                <!-- News section -->
-                <div>
+                <!-- News section. Everyone gets it unless a role layout hides it;
+                     there is no personal switch for it. -->
+                <div v-if="layoutReady && !isHidden('showNewsAndPoll')">
                     <p class="text-lg font-semibold text-slate-900">
                         {{ $t('overview.from') }} CitizenOne<sup class="text-xs">&#8482;</sup>
                     </p>
@@ -132,12 +134,21 @@
 import moment from 'moment'
 import { useUserStore } from '@/store/user'
 import { useDailyOverviewStore } from '@/store/daily-overview'
+import { useDailyOverviewLayout } from '@/composables/useDailyOverviewLayout'
 
 const { formatLocalized } = useDatetimeFormatter()
 
 const runtimeConfig = useRuntimeConfig()
 const overviewStore = useDailyOverviewStore()
 const userStore = useUserStore() as any
+const { isHidden, refreshLayout } = useDailyOverviewLayout()
+
+// The user's own show/hide choice, unless one of their roles may not see the
+// section at all (a role layout; the server refuses its data too).
+const layoutReady = ref(false)
+function shows(key: string): boolean {
+    return !!(overviewStore.getDailyOverviewFilter as any)?.[key] && !isHidden(key)
+}
 
 const state = reactive({
     currentDate: moment(),
@@ -185,6 +196,7 @@ const route = useRoute()
 
 onMounted(() => {
     if (userStore.getUser) applyUserDateFilter(userStore.getUser)
+    refreshLayout().finally(() => { layoutReady.value = true })
     // The navbar megaphone links here with #news; scroll once content is in.
     if (route.hash === '#news') {
         nextTick(() => {

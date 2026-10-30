@@ -41,6 +41,12 @@ class DutyScheduleService extends BaseAPIService {
         return await this.request(`/user/duty-schedules/download/report`, 'GET', params)
     }
 
+    // The duty type report comes back as a PDF or XLSX whose file name is in the
+    // Content-Disposition header, so it needs the headers `request` cannot give.
+    async downloadDutyTypeReport(params: object, onHeaders?: (headers: Headers) => void): Promise<Blob | null> {
+        return await this.requestBlob(`/user/duty-schedules/download/report`, 'GET', params, onHeaders)
+    }
+
     async getDutyScheduleAbsencePercentage(params: object): Promise<any> {
         return await this.request(`/user/duty-schedules/show/percentage`, 'GET', params)
     }

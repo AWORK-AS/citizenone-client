@@ -20,7 +20,7 @@
 
             <div>
                 <div class="flex justify-between items-center mb-5">
-                    <div v-if="!pipelineEnabled" class="flex items-center gap-x-1">
+                    <div v-if="showList" class="flex items-center gap-x-1">
                         <span>{{ $t('entriesPerPage') }}:</span>
                         <select class="focus:outline-none bg-transparent" @change="changePageLength"
                             id="inquiriesPageLength">
@@ -33,7 +33,21 @@
                             <option value="500">500</option>
                         </select>
                     </div>
+                    <div v-else />
                     <div class="flex items-center gap-x-3">
+                        <!-- Board or list: with a large archive the list is the
+                             way to page, sort and filter through all of it. -->
+                        <div v-if="pipelineEnabled" role="group" :aria-label="$t('inquiryPipeline.viewToggle')"
+                            class="inline-flex rounded-lg border border-surface-200 bg-white p-0.5">
+                            <button v-for="mode in VIEW_MODES" :key="mode.key" type="button"
+                                :aria-pressed="viewMode === mode.key"
+                                class="inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors"
+                                :class="viewMode === mode.key ? 'bg-surface-100 text-slate-900' : 'text-slate-500 hover:text-slate-800'"
+                                @click="setViewMode(mode.key)">
+                                <Icon :name="mode.icon" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t(mode.label) }}
+                            </button>
+                        </div>
                         <!-- Lost cases per reason and what they would have been worth. -->
                         <FormButton v-if="pipelineEnabled && (isAtLeast('Manager') || can('update'))" buttonStyle="action"
                             @click="navigateTo('/inquiries/lost-report')">
@@ -126,10 +140,7 @@
                     <Alert type="danger" :text="state?.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
                     <!-- Inquiry pipeline (kanban) — opt-in per company -->
-                    <p v-if="pipelineEnabled && boardOverflowCount > 0"
-                        class="rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
-                        {{ $t('inquiryPipeline.tooManyToShow', { shown: boardShownCount, total: boardTotalCount }) }}
-                    </p>
+                    <TableSearch v-if="!showList" @search="handleSearch" />
                     <p v-if="pipelineEnabled && state.unassignedConvertedCount > 0"
                         class="flex flex-wrap items-center justify-between gap-2 rounded-lg bg-[#fdf3df] px-3 py-2 text-xs font-medium text-[#8a6208]">
                         <span>{{ $t('inquiryPipeline.unassignedConverted.banner', { count: state.unassignedConvertedCount }) }}</span>
@@ -137,7 +148,7 @@
                             {{ $t('inquiryPipeline.unassignedConverted.claimCases') }}
                         </button>
                     </p>
-                    <div v-if="pipelineEnabled" class="items-start gap-3.5 p-2"
+                    <div v-if="!showList" class="items-start gap-3.5 p-2"
                         :class="boardScrolls ? 'flex overflow-x-auto pr-4' : 'grid'"
                         :style="boardScrolls ? undefined : { gridTemplateColumns: `repeat(${state.pipelineStages.length}, minmax(0, 1fr))` }">
                         <div v-for="stage in state.pipelineStages" :key="stage.uuid"
@@ -155,7 +166,7 @@
                                 </span>
                                 <span
                                     class="ml-auto rounded-full bg-white px-2 py-px text-[11px] font-semibold text-slate-400">
-                                    {{ inquiriesByStage(stage.slug).length }}
+                                    {{ stageTotal(stage.slug) }}
                                 </span>
                             </div>
                             <div class="space-y-2.5">
@@ -164,10 +175,13 @@
                                     @click="openInquiry(inq)"
                                     class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
                                     :class="[dragged?.uuid === inq.uuid ? 'opacity-40' : '', RISK_STYLES[inq.risk_level]?.edge]">
-                                    <p class="text-[11px] font-bold text-secondary">
+                                    <!-- Clamped, with the whole text on hover: an imported
+                                         inquiry's heading can be a long case title. -->
+                                    <p class="truncate text-[11px] font-bold text-secondary" :title="inq.inquirer_name || undefined">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
-                                    <p class="mt-0.5 text-[13.5px] font-bold leading-snug text-slate-900">
+                                    <p class="mt-0.5 line-clamp-2 break-words text-[13.5px] font-bold leading-snug text-slate-900"
+                                        :title="inqTitle(inq)">
                                         {{ inqTitle(inq) }}
                                     </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
@@ -233,14 +247,37 @@
                                 </div>
                                 <p v-if="inquiriesByStage(stage.slug).length === 0"
                                     class="px-1.5 py-6 text-center text-xs text-slate-300">-</p>
+                                <!-- A column loads its newest cards first; the rest
+                                     follow on request, so a long lost or won column
+                                     never pushes the active ones off the board. -->
+                                <button v-if="state.board[stage.slug]?.has_more" type="button"
+                                    class="w-full rounded-lg border border-dashed border-surface-200 bg-white px-3 py-2 text-xs font-semibold text-primary transition-colors hover:bg-surface-100 disabled:opacity-50"
+                                    :disabled="state.board[stage.slug]?.loadingMore"
+                                    @click="loadMore(stage.slug)">
+                                    {{ $t('inquiryPipeline.loadMore', { count: stageTotal(stage.slug) - inquiriesByStage(stage.slug).length }) }}
+                                </button>
                             </div>
                         </div>
                     </div>
 
-                    <template v-if="!pipelineEnabled">
-                        <TableSearch @search="handleSearch" />
+                    <template v-if="showList">
+                        <div class="flex flex-wrap items-center gap-3">
+                            <div class="grow">
+                                <TableSearch @search="handleSearch" />
+                            </div>
+                            <label v-if="pipelineEnabled" class="flex items-center gap-2 text-sm text-slate-600">
+                                <span>{{ $t('inquiryPipeline.stageFilter') }}</span>
+                                <select v-model="state.stageFilter" @change="changeStageFilter"
+                                    class="h-12 rounded-lg border border-surface-200 bg-white px-3 text-sm focus:outline-none focus:border-secondary focus:ring-2 focus:ring-secondary/30">
+                                    <option value="">{{ $t('inquiryPipeline.allStages') }}</option>
+                                    <option v-for="stage in state.pipelineStages" :key="stage.uuid" :value="stage.slug">
+                                        {{ stage.name }}
+                                    </option>
+                                </select>
+                            </label>
+                        </div>
                         <div class="table-responsive">
-                            <Table :columnHeaders="state.columnHeaders" :data="state.inquiries"
+                            <Table :columnHeaders="columnHeaders" :data="state.inquiries"
                                 :isLoading="state.isTableLoading" :sortData="inquiryStore.getSortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.inquiries?.data?.length === 0))">
                                     <tr v-for="(inquiry, index) in state.inquiries?.data" :key="index">
@@ -256,14 +293,20 @@
                                                 </p>
                                             </Badge>
                                         </td>
+                                        <td v-if="pipelineEnabled" width="10%">
+                                            <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700">
+                                                <span class="size-[9px] rounded-[3px]" :style="{ background: stageOf(inquiry)?.color }"></span>
+                                                {{ stageOf(inquiry)?.name ?? '-' }}
+                                            </span>
+                                        </td>
                                         <td width="15%">
-                                            <span>{{ inquiry?.inquirer_name }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.inquirer_name || undefined">{{ inquiry?.inquirer_name }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.firstname }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.firstname || undefined">{{ inquiry?.firstname }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.lastname }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.lastname || undefined">{{ inquiry?.lastname }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex flex-wrap gap-1">
@@ -274,13 +317,13 @@
                                             </div>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.outcome }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.outcome || undefined">{{ inquiry?.outcome }}</span>
                                         </td>
                                         <td width="10%">
-                                            <span>{{ inquiry?.purpose }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.purpose || undefined">{{ inquiry?.purpose }}</span>
                                         </td>
                                         <td width="15%">
-                                            <span>{{ inquiry?.conversation_summary }}</span>
+                                            <span class="line-clamp-2 break-words" :title="inquiry?.conversation_summary || undefined">{{ inquiry?.conversation_summary }}</span>
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
@@ -383,13 +426,57 @@ const { isAtLeast, can } = usePermissions()
 const MAX_FITTED_COLUMNS = 6
 const boardScrolls = computed(() => state.pipelineStages.length > MAX_FITTED_COLUMNS)
 
-// The board asks for far more rows than the table's page size, since a column
-// with a missing card is worse than a slow first load.
-const BOARD_PAGE_LENGTH = 500
+// The board loads column by column: each stage's true count and its newest
+// cards, the rest on request. One list capped at 500 rows, oldest first, hid
+// every new inquiry once a company had more than 500.
+const BOARD_PER_STAGE = 50
 
-const boardTotalCount = computed(() => state.inquiries?.meta?.total ?? 0)
-const boardShownCount = computed(() => state.inquiries?.data?.length ?? 0)
-const boardOverflowCount = computed(() => Math.max(0, boardTotalCount.value - boardShownCount.value))
+const VIEW_MODES = [
+    { key: 'board', label: 'inquiryPipeline.viewBoard', icon: 'ph:kanban' },
+    { key: 'list', label: 'inquiryPipeline.viewList', icon: 'ph:list-bullets' },
+] as const
+type ViewMode = typeof VIEW_MODES[number]['key']
+const VIEW_STORAGE_KEY = 'inquiries.viewMode'
+
+function storedViewMode(): ViewMode {
+    try {
+        return localStorage.getItem(VIEW_STORAGE_KEY) === 'list' ? 'list' : 'board'
+    } catch {
+        return 'board'
+    }
+}
+const viewMode = ref<ViewMode>('board')
+// Without the pipeline there is no board, only the list.
+const showList = computed(() => !pipelineEnabled.value || viewMode.value === 'list')
+
+function setViewMode(mode: ViewMode) {
+    if (viewMode.value === mode) return
+    viewMode.value = mode
+    try {
+        localStorage.setItem(VIEW_STORAGE_KEY, mode)
+    } catch {
+        // Only a convenience; the board is the default.
+    }
+    inquiryStore.setCurrentPageNumber(1)
+    fetchInquiries()
+}
+
+const columnHeaders = computed(() => {
+    if (!pipelineEnabled.value) return state.columnHeaders
+    const headers = [...state.columnHeaders]
+    headers.splice(2, 0, { name: 'inquiryPipeline.stage', isTranslateName: true, sorter: true, key: 'pipeline_status' } as any)
+    return headers
+})
+
+function stageOf(inquiry: any) {
+    const status = inquiry?.pipeline_status
+    return state.pipelineStages.find((s: any) => s.slug === status)
+        ?? state.pipelineStages.find((s: any) => s.slug === entryStageSlug.value)
+}
+
+function stageTotal(slug: string) {
+    return state.board[slug]?.total ?? 0
+}
 
 // The stages are configured per company, so they come from the API. Renaming or
 // adding a stage in the settings shows up here without a release.
@@ -399,15 +486,10 @@ const entryStageSlug = computed(() =>
     ?? 'new'
 )
 
+// The server already places an inquiry with no status, or one left behind by
+// a deleted stage, in the entry column.
 function inquiriesByStage(slug: string) {
-    const known = state.pipelineStages.map((s: any) => s.slug)
-    return (state.inquiries?.data ?? []).filter((i: any) => {
-        const status = i.pipeline_status
-        // An inquiry with no status, or one left behind by a deleted stage,
-        // belongs in the entry column rather than nowhere.
-        const resolved = status && known.includes(status) ? status : entryStageSlug.value
-        return resolved === slug
-    })
+    return state.board[slug]?.inquiries ?? []
 }
 function inqTitle(inq: any) {
     return inq?.purpose || `${inq?.firstname ?? ''} ${inq?.lastname ?? ''}`.trim() || inq?.inquirer_name || '-'
@@ -573,9 +655,12 @@ const state = reactive({
     exportForm: null as InquiryForm | null,
     pipelineStages: [] as any[],
     unassignedConvertedCount: 0,
+    board: {} as Record<string, { total: number, has_more: boolean, inquiries: any[], loadingMore?: boolean }>,
+    stageFilter: '',
 })
 
 onMounted(() => {
+    viewMode.value = storedViewMode()
     fetchDepartments()
     fetchInquiries()
     fetchForms()
@@ -613,18 +698,19 @@ watch(() => departmentStore.getSelectedDepartmentName, (newValue: any) => {
 })
 
 async function fetchInquiries() {
+    if (!showList.value) {
+        return fetchBoard()
+    }
     state.error = {}
     state.isTableLoading = true
     try {
         const params = {
             department: departmentStore.getSelectedDepartmentName,
-            // The board has no pages - every card has to be in its column, or a
-            // count is wrong and an inquiry is invisible. The table keeps its
-            // own paging.
-            page: pipelineEnabled.value ? 1 : inquiryStore.getCurrentPageNumber,
-            page_length: pipelineEnabled.value ? BOARD_PAGE_LENGTH : inquiryStore.getCurrentPageLength,
+            page: inquiryStore.getCurrentPageNumber,
+            page_length: inquiryStore.getCurrentPageLength,
             sortField: inquiryStore.getSortData.sortField,
             sortOrder: inquiryStore.getSortData.sortOrder,
+            ...(pipelineEnabled.value && state.stageFilter ? { pipeline_stage: state.stageFilter } : {}),
             ...state.dataFilter
         }
         const response = await citizenInquiryService.getInquiries(params)
@@ -635,6 +721,59 @@ async function fetchInquiries() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+function boardParams() {
+    return {
+        department: departmentStore.getSelectedDepartmentName,
+        ...state.dataFilter,
+    }
+}
+
+async function fetchBoard() {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await citizenInquiryService.getBoard({ ...boardParams(), per_stage: BOARD_PER_STAGE })
+        const board: typeof state.board = {}
+        for (const column of response?.data ?? []) {
+            board[column.slug] = { total: column.total, has_more: column.has_more, inquiries: column.inquiries ?? [] }
+        }
+        state.board = board
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function loadMore(slug: string) {
+    const column = state.board[slug]
+    if (!column || column.loadingMore) return
+    column.loadingMore = true
+    try {
+        const response = await citizenInquiryService.getBoard({
+            ...boardParams(),
+            per_stage: BOARD_PER_STAGE,
+            stage: slug,
+            offset: column.inquiries.length,
+        })
+        const next = (response?.data ?? []).find((c: any) => c.slug === slug)
+        if (next) {
+            // A card created meanwhile shifts the offset by one; never show it twice.
+            const seen = new Set(column.inquiries.map((i: any) => i.uuid))
+            column.inquiries.push(...(next.inquiries ?? []).filter((i: any) => !seen.has(i.uuid)))
+            column.total = next.total
+            column.has_more = column.inquiries.length < next.total && (next.inquiries ?? []).length > 0
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    column.loadingMore = false
+}
+
+function changeStageFilter() {
+    inquiryStore.setCurrentPageNumber(1)
+    fetchInquiries()
 }
 
 function previous() {

@@ -1,4 +1,72 @@
 {
+    "citizenPicker": {
+        "allDepartments": "All",
+        "searchesAll": "Searching all departments",
+        "search": "Search by name",
+        "addMore": "Add more",
+        "remove": "Remove {name}",
+        "noResults": "No one by that name.",
+        "sections": {
+            "pinned": "Pinned",
+            "recent": "Recently used",
+            "all": "Everyone"
+        }
+    },
+    "firstSteps": {
+        "help": "Remember, Milo is right here if you need help.",
+        "askMilo": "Ask Milo",
+        "label": "Getting started · step {current} of {total}",
+        "skip": "Skip",
+        "progress": "Guide steps",
+        "noCitizens": "You do not have access to anyone yet. Ask your manager.",
+        "done": "Done",
+        "later": "Later",
+        "next": "Next",
+        "finish": "Finish",
+        "back": "Back",
+        "staff": {
+            "citizens": {
+                "title": "These are your @:terms.citizens{''}",
+                "desc": "These are the people you work with. Click a name to see the journal, plans and documents. You always find them under @.capitalize:terms.citizens{''} in the menu."
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''}, give the note a title and write what happened. It takes a minute.",
+                "cta": "Write a note"
+            },
+            "app": {
+                "title": "Get the app",
+                "desc": "Write notes and see your day on your phone. Scan the code with your camera, or tap your store."
+            },
+            "day": {
+                "title": "This is where your day starts",
+                "desc": "My day shows your next shift, today's tasks and what needs attention. Messages from colleagues are under Chat.",
+                "cta": "Open Chat"
+            }
+        },
+        "admin": {
+            "modules": {
+                "title": "What do you use?",
+                "desc": "Pick the parts you need. The rest is hidden, so the menu stays short for everyone.",
+                "cta": "Choose modules"
+            },
+            "firstCitizen": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name is enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "note": {
+                "title": "Write your first note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note to see how the journal works.",
+                "cta": "Write a note"
+            },
+            "colleagues": {
+                "title": "Invite your colleagues",
+                "desc": "Add them one at a time, or import many at once from Excel under Staff. They get an email and a short guide when they sign in.",
+                "cta": "Go to staff"
+            }
+        }
+    },
     "invoiceMail": {
         "noticeTitle": "Invoices are no longer emailed",
         "noticeBody": "You will no longer get an email each time a subscription, app or top-up is charged automatically. All invoices and receipts are here under Invoices. You will still be emailed if a payment fails.",
@@ -184,7 +252,13 @@
             "won": "Won",
             "lost": "Lost"
         },
-        "tooManyToShow": "Showing {shown} of {total} inquiries. Use the list view or a department filter to see the rest.",
+        "viewToggle": "Board or list",
+        "viewBoard": "Board",
+        "viewList": "List",
+        "loadMore": "Show more ({count} more)",
+        "stageFilter": "Stage",
+        "allStages": "All stages",
+        "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
             "myself": "Myself",
@@ -314,6 +388,56 @@
         }
     },
     "discover": {
+        "showAllSetup": "Show the whole setup",
+        "next": {
+            "label": "Your next step",
+            "citizens_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "clients_added": {
+                "title": "Add your first @:terms.citizen{''}",
+                "desc": "A name and contact details are enough to get started. The rest can wait.",
+                "cta": "Add @:terms.citizen{''}"
+            },
+            "journal_note_written": {
+                "title": "Write your first journal note",
+                "desc": "Pick a @:terms.citizen{''} and write a short note. This is where CitizenOne starts saving you time.",
+                "cta": "Write a note"
+            },
+            "colleagues_invited": {
+                "title": "Invite a colleague",
+                "desc": "Colleagues get an email and sign in with their own password.",
+                "cta": "Go to staff"
+            },
+            "duty_schedule_created": {
+                "title": "Add the first shift",
+                "desc": "Create a shift so you can see who is on.",
+                "cta": "Go to the duty schedule"
+            },
+            "medicine_added": {
+                "title": "Add medicine",
+                "desc": "Add medicine to a @:terms.citizen{''} so it can be given and signed for.",
+                "cta": "Go to @:terms.citizen{''}"
+            },
+            "services_created": {
+                "title": "Create your services",
+                "desc": "Name, duration and price. Then appointments can be booked.",
+                "cta": "Go to booking"
+            },
+            "online_booking_enabled": {
+                "title": "Turn on online booking",
+                "desc": "Let your @:terms.citizens{''} book appointments themselves.",
+                "cta": "Go to booking"
+            },
+            "profile_completed": {
+                "title": "Add a profile picture",
+                "desc": "So your colleagues can see who wrote what.",
+                "cta": "Go to profile"
+            }
+        },
+        "restOfSetup": "The rest of the setup",
         "welcome": "Welcome, {name}",
         "subtitle": "Here's your quick guide to getting CitizenOne set up and rolled out to your team.",
         "whatDoYouNeed": "What do you need?",
@@ -355,7 +479,7 @@
             "vagtplan": "Duty schedule",
             "medicin": "Medicine",
             "dokumentation": "Documentation",
-            "people": "Citizens",
+            "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patients",
             "clinic": "Clinic & booking",
             "cases": "Cases & jobcentre"
@@ -408,14 +532,14 @@
                 "cta": "Go to Medicine"
             },
             "citizens": {
-                "title": "Create citizens",
-                "desc": "Add the citizens you work with.",
-                "cta": "Go to Citizens"
+                "title": "Add @:terms.citizens{''}",
+                "desc": "Add the @:terms.citizens{''} you work with.",
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "citizenData": {
                 "title": "Master data & contacts",
                 "desc": "Fill in master data, contacts and caseworker.",
-                "cta": "Go to Citizens"
+                "cta": "Go to @.capitalize:terms.citizens{''}"
             },
             "patients": {
                 "title": "Create patients",
@@ -744,6 +868,7 @@
                 "hideInternalJournals": "Cannot see internal notes",
                 "seesHrData": "Can see HR details and employee documents",
                 "countsAsConsultant": "Counts as consultant",
+                "onlyAssignedCitizens": "Sees only assigned citizens",
                 "certificateReminderFor": "Receives certificate reminders for"
             },
             "values": {
@@ -2243,7 +2368,10 @@
             "form": {
                 "attachFile": "Attach file",
                 "content": "Content",
-                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal or single goal",
+                "copyJournalNoteToPlanOrGoalOrSubgoal": "Copy journal note to plan, goal, sub-goal, single goal or treatment",
+                "activeTreatments": "Active treatments",
+                "activeTreatmentsHint": "Pick a treatment to document on it. The note is added to the treatment's statuses.",
+                "treatment": "Treatment",
                 "copyRiskAssessmentToPlanOrGoalOrSubgoal": "Copy risk assessment to plan, goal or subgoal",
                 "currentLevels": {
                     "currentLevel": "Current level",
@@ -2318,6 +2446,7 @@
                 "teeth": "Teeth",
                 "title": "Title",
                 "usePredefinedcontent": "Use predefined content",
+                "manageJournalTitles": "Edit titles",
                 "createJournalTitle": "Create journal title",
                 "autosaveFailed": "Could not save automatically. Your latest changes are not saved yet - retrying.",
                 "showJournalTitles": "Show journal titles",
@@ -4944,6 +5073,7 @@
         "emptyListHint": "No {citizens} yet. Use \"New {citizen}\" above, or import from another system.",
         "coordinators": {
             "badgeIntake": "Intake coordinator",
+            "badgeConsultant": "Consultant",
             "badgePrimary": "Primary coordinator",
             "badgeSecondary": "Secondary coordinator",
             "hint": "The employee you set here appears under Contacts on {theCitizen}, and {theCitizen} appears under that employee’s assigned {citizens}.",
@@ -5587,6 +5717,13 @@
             "downloadOnlyLeaveTypes": "Download only leave types",
             "downloadOverview": "Download overview",
             "downloadType": "Download type",
+            "dutyTypes": "Duty types",
+            "allDutyTypes": "All duty types",
+            "dutyTypeReport": "Duty type report",
+            "dutyTypeReportHint": "One section per duty type with hours per employee.",
+            "reportFormat": "Report format",
+            "reportFormatPdf": "PDF",
+            "reportFormatExcel": "Excel",
             "filter": {
                 "currentView": "Current view",
                 "filterDate": "Filter date",
@@ -5607,6 +5744,7 @@
             "preset": {
                 "applyPreset": "Apply preset",
                 "applySuccess": "Preset successfully applied to draft schedules!",
+                "applySuccessWithSkipped": "{created} shifts added. {skipped} shifts were already in the draft and were not added again.",
                 "confirmation": {
                     "deletePresetConfirmation": "Are you sure you want to delete this preset"
                 },
@@ -5646,7 +5784,12 @@
                 "viewPresets": "View presets",
                 "infoBox": {
                     "title": "What are presets?",
-                    "description": "A preset is a saved version of your draft schedule that you can reuse. Select a preset below and click Apply to load it into the draft - you can then edit and publish it."
+                    "description": "A preset is a saved shift pattern you can reuse. Select a preset below and click Apply to copy its shifts into the dates you choose. Shifts that are already in the draft are not added again. You don't need a preset to keep your work: the draft is saved automatically."
+                },
+                "applyInfoBox": {
+                    "title": "Which period should the preset fill?",
+                    "description": "Choose the dates in your draft that the preset's shifts should be copied into. The shifts are adjusted to the dates you choose. Shifts that are already in the draft on those dates are not added again.",
+                    "example": "Example: choose Monday 14 April as the start date and Sunday 20 April as the end date to fill week 16 with the preset's shift pattern."
                 },
                 "saveInfoBox": {
                     "title": "Save your current draft as a preset",
@@ -5659,7 +5802,7 @@
                 "step1": "Create draft shifts",
                 "step2": "Save preset (optional)",
                 "step3": "Publish to schedule",
-                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a draft you've created before."
+                "tip": "💡 Tip: Use 'templates' for fixed shift rotations, and 'presets' to reuse a shift pattern in another period. Your draft is saved automatically."
             },
             "backToPublished": "Back to the published schedule",
             "contextBanner": {
@@ -7703,6 +7846,17 @@
         }
     },
     "employees": {
+        "onboarding": {
+            "signedIn": "{signedIn} of {total} employees have signed in",
+            "pendingHint": "{count} have not created a password yet. Send the invitation again, or give them a call.",
+            "allIn": "Everyone is in.",
+            "show": "Show who",
+            "hide": "Hide",
+            "resendAll": "Resend to {count}",
+            "resendOne": "Resend",
+            "invitedAt": "invited {date}",
+            "confirm": "Send the invitation again to {count}? They get a new email and the old link stops working."
+        },
         "alert": {
             "employeeSuccessfullyArchived": "Employee successfully archived"
         },
@@ -9202,7 +9356,9 @@
         },
         "unknownType": {
             "title": "This inquiry has no type",
-            "hint": "It cannot be edited here until it is set to crisis centre or shelter. This typically happens with imported inquiries."
+            "hint": "Choose which type the inquiry is, and you can edit it. The type is saved together with your changes. This typically happens with imported inquiries.",
+            "chosen": "Will be saved as {type}.",
+            "change": "Change type"
         },
         "review": {
             "edit": "Edit",
@@ -9393,6 +9549,7 @@
         "wellbeingRulerDescription": "When switched on, a wellbeing score from 0 to 10 can be given in @:terms.journalNotes{''}, one for each child on the case. The score is optional and is part of the wellbeing development and the status report's wellbeing ruler."
     },
     "journalNotes": {
+        "removeFilter": "Remove filter: {name}",
         "title": "@.capitalize:terms.journalNotes{''}",
         "citizen": "@.capitalize:terms.citizen{''}",
         "department": "Department",
@@ -9925,6 +10082,25 @@
         }
     },
     "messages": {
+        "export": {
+            "title": "Download messages",
+            "from": "From",
+            "to": "To",
+            "today": "Today",
+            "last7": "Last 7 days",
+            "last30": "Last 30 days",
+            "all": "All",
+            "countOne": "1 message will be included",
+            "countMany": "{count} messages will be included",
+            "noMessages": "No messages in this period",
+            "invalidRange": "The start date must be before the end date",
+            "download": "Download PDF",
+            "downloading": "Downloading...",
+            "tooLarge": "Choose a shorter period (max. 12 months / 5,000 messages)",
+            "tooManyRequests": "Too many downloads. Please try again in a minute.",
+            "personalData": "Contains personal data — handle with care",
+            "error": "The messages could not be downloaded. Please try again."
+        },
         "cprWarning": {
             "title": "Check before sending",
             "message": "This message seems to contain a CPR number. Chat isn't meant for sensitive personal data.",
@@ -10440,6 +10616,7 @@
                 "medicationOverview": "Medication overview",
                 "medicineDeviationStatistics": "Medicine deviated",
                 "myDailyEvents": "My daily events",
+                "newsAndPoll": "News and poll from CitizenOne",
                 "nextShift": "Next shift",
                 "onDutyToday": "On duty today",
                 "plansAndGoals": "Plans and goals",
@@ -11330,7 +11507,15 @@
         "youAreEditingARecurringShift": "You are editing a recurring shift"
     },
     "register": {
+        "done": {
+            "title": "Check your inbox",
+            "sentTo": "We have sent an email to {email}.",
+            "confirm": "Confirm your email address with the link in the email.",
+            "signIn": "Sign in with your email and the password you just chose.",
+            "noMail": "No email after a few minutes? Check your spam folder, or write to support{'@'}citizenone.dk."
+        },
         "form": {
+            "passwordHint": "At least 8 characters",
             "agreetoTAC": "You must agree to the terms and conditions",
             "alreadyHaveAnAccount": "Already have an account",
             "bySigningUpYouAgreeTo": "By signing up you agree to CitizenOne's",
@@ -11524,6 +11709,8 @@
             "certificateRemindersRolesPlaceholder": "Choose roles",
             "countsAsConsultant": "Employees with this role are consultants",
             "countsAsConsultantHelp": "Used by Employees → Certificates → Missing: consultants need a CV, education papers and a contract on top of the child protection certificate.",
+            "onlyAssignedCitizens": "Sees only assigned citizens",
+            "onlyAssignedCitizensHelp": "Employees with this role see only the citizens (interventions) they are attached to under Contacts, including plans, goals, journals and documents. Department and level do not widen it. Admins always see everything.",
             "selectAll": "Select all",
             "clearAll": "Clear all",
             "noPermissionsMatch": "No permissions match \"{search}\".",
@@ -11906,6 +12093,14 @@
                 "patientChatInbox": "Patients write to the whole clinic (shared inbox)",
                 "patientChatInboxHint": "Patients cannot choose a specific employee. All active employees see the message and can reply",
                 "chatCprWarning": "Warn about CPR numbers in chat",
+                "birthdayNotifications": "Birthday notifications",
+                "birthdayNotificationsHint": "Everyone gets a notification each morning when a citizen or colleague has a birthday. Choose who it is about, or switch it off for the whole company",
+                "birthdayNotificationOptions": {
+                    "all": "Citizens and staff",
+                    "staff": "Staff only",
+                    "citizens": "Citizens only",
+                    "off": "Off"
+                },
                 "missingNoteReminder": "Remind about bookings without a @:terms.journalNote{''}",
                 "bookingNoteNotifications": "Notify about @:terms.journalNotes{''} created from a booking",
                 "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
@@ -11976,7 +12171,7 @@
                 "groupPlans": "Plans & goals",
                 "groupSchedule": "Schedule & working time",
                 "groupOther": "Other & integrations",
-                "absenceCountsInNormHours": "Count vacation and sick leave toward norm hours and compensatory time off",
+                "absenceCountsInNormHours": "Count leave toward norm hours and compensatory time off",
                 "upgradeToPro": "Upgrade to Pro",
                 "whichHolidaysCount": "Which public holidays should count? (turn off the ones that do not apply to you)",
                 "holidayState": {
@@ -12766,6 +12961,7 @@
     },
     "submit": "Submit",
     "subscription": {
+        "noUserLicense": "All your user licenses are in use. Buy more below, then add the employee.",
         "addOnDeals": {
             "addOnDeals": "Add-on deals",
             "checkout": "Checkout",
@@ -15478,6 +15674,7 @@
         },
         "metrics": {
             "contractMrr": "Contract MRR",
+            "sinceLastVisit": "since last visit",
             "contractArr": "Contract ARR {amount}",
             "cashMrr": "Cash MRR",
             "cashArr": "Cash ARR, next 12 months {amount}",
@@ -15844,10 +16041,11 @@
         "pleaseCompleteTemplate": "Please complete the template"
     },
     "verifyEmail": {
-        "emailVerified": "Email verified",
-        "loginToContinue": "Login to continue",
-        "verifyEmail": "Verify email",
-        "youHaveSuccessfullyVerifiedYourEmail": "You have successfully verified your email"
+        "waitingForActivation": "Thank you. We switch your account on and email you when you can sign in.",
+        "emailVerified": "Email confirmed",
+        "loginToContinue": "Sign in to continue",
+        "verifyEmail": "Confirm email",
+        "youHaveSuccessfullyVerifiedYourEmail": "Your email address is confirmed"
     },
     "view": "View",
     "wish": {
@@ -16916,6 +17114,8 @@
         }
     },
     "myDay": {
+        "emptyDay": "No shifts, appointments or reminders today.",
+        "openCalendar": "Open the calendar",
         "certificates": {
             "title": "Certificates missing or expiring",
             "missing": "{count} missing",
@@ -19781,6 +19981,12 @@
         "boxDeleted": "The box has been deleted",
         "managedByAdmin": "Your administrator has set up this overview. Boxes with a lock are required.",
         "requiredByAdmin": "Required by your administrator",
+        "rolePrefix": "Role: {name}",
+        "roleIntro": "A role layout only hides. People with the role do not see what it hides on the overview or the Statistics page, even where the company or department layout requires it. Someone with several roles sees anything one of their roles allows. Administrators always see everything.",
+        "roleSeesEverything": "Sees everything",
+        "statisticsSections": "Statistics",
+        "statisticsSectionsHelp": "Sections on the Statistics page.",
+        "removeRoleLayoutConfirmation": "Remove this role's layout? People with the role see everything again",
         "states": {
             "mandatory": "Required",
             "optional": "User's choice",
@@ -20254,5 +20460,48 @@
         "importFailed": "An error occurred during the import.",
         "openFileFailed": "An error occurred while opening the file.",
         "deleteFailed": "An error occurred during the deletion."
+    },
+    "signup": {
+        "title": "Create your free account to save your progress",
+        "subtitle": "Your work from citizenone.dk is saved and waits for you.",
+        "continueWithApple": "Continue with Apple",
+        "continueWithGoogle": "Continue with Google",
+        "continueWithEmail": "Continue with Email",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "you{'@'}workplace.com",
+        "sendCode": "Send code",
+        "back": "Back",
+        "codeSent": "We sent a 6-digit code to {email}.",
+        "codeLabel": "6-digit code",
+        "verify": "Continue",
+        "changeEmail": "Use another email",
+        "resendCode": "Send a new code",
+        "haveAccount": "Already have an account with a password?",
+        "signIn": "Sign in",
+        "complete": {
+            "title": "Finish your account",
+            "heading": "Almost done",
+            "signedInAs": "You are signing up as {email}.",
+            "submit": "Create account",
+            "expiredTitle": "This sign-up link has expired",
+            "expiredBody": "Start again to create your account.",
+            "startAgain": "Start again"
+        },
+        "pending": {
+            "title": "We are reviewing your account",
+            "body": "Thank you. We review every new account before it is switched on, and we write to {email} when it is ready.",
+            "draftSaved": "Your draft from citizenone.dk is saved and will be waiting for you when you sign in."
+        },
+        "drafts": {
+            "title": "Saved from citizenone.dk",
+            "delete": "Delete",
+            "deleteAria": "Delete saved draft: {tool}",
+            "tools": {
+                "smart-goal": "SMART goal",
+                "restraint": "Use of force form",
+                "daily-rhythm": "Daily rhythm plan",
+                "socialtilsyn": "Social supervision check"
+            }
+        }
     }
 }
