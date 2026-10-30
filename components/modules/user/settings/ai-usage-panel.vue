@@ -176,6 +176,9 @@
                 </div>
             </section>
 
+            <ModulesUserBillingServicePausedNotice service="ai"
+                :paused="!!(state.data.payment_missing || state.data.auto_reload?.payment_missing)" />
+
             <!-- The other half of the ledger. A balance nobody can trace back to
                  a purchase is a number to be taken on trust. -->
             <ModulesUserSettingsAiAutoReload v-if="state.data.budget_enabled" :autoReload="state.data.auto_reload"
