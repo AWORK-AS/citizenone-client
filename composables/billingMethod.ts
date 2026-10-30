@@ -206,14 +206,22 @@ export function problemCount(rows: Array<Pick<DunningRow, 'status'>>): number {
 }
 
 /**
- * The customer's suspended page. Only an Admin can update the card; everyone
- * else is told to contact one. Role names are the platform's own.
+ * What the customer's payment wall shows, from the standing the API reports.
+ *
+ * `can_manage` is the server's answer to "may this user fix the card", so the
+ * role is never guessed here. An Admin is blocked until the card is fixed. A
+ * suspended company blocks everybody, but only an Admin gets the update-card
+ * flow: the rest are told to contact their administrator. Past due and not an
+ * Admin is a plain notice, because blocking someone who cannot pay fixes nothing.
  */
-export type SuspendedView = 'update_card' | 'contact_admin'
+export type WallMode = 'none' | 'update_card' | 'contact_admin' | 'notice'
 
-export function suspendedView(user: { roles?: Array<{ name?: string }> } | null | undefined): SuspendedView {
-    const names = (user?.roles ?? []).map((role) => role?.name)
-    return names.includes('Admin') ? 'update_card' : 'contact_admin'
+export function wallMode(status: { status?: string; can_manage?: boolean } | null | undefined, onPayPage = false): WallMode {
+    const overdue = status?.status === 'past_due' || status?.status === 'suspended'
+    if (!overdue || onPayPage) return 'none'
+
+    if (status?.can_manage) return 'update_card'
+    return status?.status === 'suspended' ? 'contact_admin' : 'notice'
 }
 
 /** AI/SMS paused for a failed top-up. Only that service is stopped. */

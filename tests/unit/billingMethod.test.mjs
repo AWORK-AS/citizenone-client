@@ -17,7 +17,7 @@ import {
     normalizeDunningStatus,
     pausedServices,
     problemCount,
-    suspendedView,
+    wallMode,
     validateDunningAction,
 } from '../../composables/billingMethod.ts'
 
@@ -108,10 +108,14 @@ test('badge counts what waits on a human, not snoozed rows', () => {
     assert.equal(normalizeDunningStatus('nonsense'), 'behind')
 })
 
-test('only an Admin gets the update-card flow', () => {
-    assert.equal(suspendedView({ roles: [{ name: 'Admin' }] }), 'update_card')
-    assert.equal(suspendedView({ roles: [{ name: 'Employee' }] }), 'contact_admin')
-    assert.equal(suspendedView(null), 'contact_admin')
+test('wall: an admin gets the card flow, others are told to contact the admin', () => {
+    assert.equal(wallMode({ status: 'suspended', can_manage: true }), 'update_card')
+    assert.equal(wallMode({ status: 'suspended', can_manage: false }), 'contact_admin')
+    assert.equal(wallMode({ status: 'past_due', can_manage: true }), 'update_card')
+    assert.equal(wallMode({ status: 'past_due', can_manage: false }), 'notice')
+    assert.equal(wallMode({ status: 'current', can_manage: true }), 'none')
+    assert.equal(wallMode(null), 'none')
+    assert.equal(wallMode({ status: 'suspended', can_manage: true }, true), 'none')
 })
 
 test('paused services', () => {
