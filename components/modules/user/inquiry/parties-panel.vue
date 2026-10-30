@@ -154,6 +154,8 @@ const props = defineProps({
         required: true,
     },
 })
+// After a party is saved or removed: the intake coordinator may have changed.
+const emit = defineEmits(['changed'])
 
 // Same gate as the API: Admin or the update permission.
 const { isAtLeast, can } = usePermissions()
@@ -267,6 +269,7 @@ async function save() {
         await inquiryPartyService.saveParty(props.inquiryUuid, params)
         state.adding = false
         await load()
+        emit('changed')
     } catch (error: any) {
         state.errors = error?.errors ?? {}
         if (!error?.errors) errorAlert(t('alert.warning'), error?.message ?? t('inquiryParties.saveFailed'))
@@ -277,6 +280,7 @@ async function remove(party: any) {
     try {
         await inquiryPartyService.deleteParty(party.uuid)
         await load()
+        emit('changed')
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryParties.saveFailed'))
     }
