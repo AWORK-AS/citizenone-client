@@ -420,3 +420,32 @@ test('a charge Nexi never answered is repostable only through the explicit actio
     assert.equal(actionNeedsNote('retry_unknown_charge'), false)
     assert.equal(validateDunningAction('retry_unknown_charge', { note: '' }), null)
 })
+
+test('a double call mints one renewal link, not two', async () => {
+    const { singleFlight } = await import('../../composables/singleFlight.ts')
+    let requests = 0
+    let release
+    const gate = new Promise((resolve) => { release = resolve })
+    const mint = singleFlight(async () => { requests++; await gate; return 'token' })
+
+    const first = mint()
+    const second = mint()
+    assert.equal(mint.isRunning(), true)
+    release()
+    assert.deepEqual(await Promise.all([first, second]), ['token', 'token'])
+    assert.equal(requests, 1)
+
+    // Once it has finished, a later click is a new request.
+    assert.equal(mint.isRunning(), false)
+    await mint()
+    assert.equal(requests, 2)
+})
+
+test('a failed request frees the guard so the button can be pressed again', async () => {
+    const { singleFlight } = await import('../../composables/singleFlight.ts')
+    let requests = 0
+    const mint = singleFlight(async () => { requests++; throw new Error('boom') })
+    await assert.rejects(mint())
+    await assert.rejects(mint())
+    assert.equal(requests, 2)
+})

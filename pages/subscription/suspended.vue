@@ -24,8 +24,9 @@
                     <Tooltip v-if="mode === 'update_card' && canRenew(state.status)" :text="$t('paymentDunning.suspended.updateCardHelp')"
                         position="top" wrap class="!block mt-5">
                         <button type="button"
-                            class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C]"
-                            @click="updateCard">
+                            class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C] disabled:opacity-60"
+                            :disabled="state.isRenewing" :aria-busy="state.isRenewing" @click="updateCard">
+                            <Icon v-if="state.isRenewing" name="ph:spinner" class="inline h-4 w-4 animate-spin mr-1.5" aria-hidden="true" />
                             {{ $t('paymentDunning.suspended.updateCard') }}
                         </button>
                     </Tooltip>
@@ -51,6 +52,7 @@
 
 <script setup lang="ts">
 import { billingService } from '@/components/api/user/BillingService'
+import { singleFlight } from '@/composables/singleFlight'
 import { canRenew, errorMessageKey, renewalLinkToken, wallMode } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import { authService } from '@/components/api/user/AuthService'
@@ -65,7 +67,7 @@ import { signOutRevoking } from '@/composables/signOutRevoking'
 const runtimeConfig = useRuntimeConfig()
 const { t } = useI18n()
 
-const state = reactive({ isLoading: true, status: null as any, error: '' as string })
+const state = reactive({ isLoading: true, status: null as any, error: '' as string, isRenewing: false })
 
 // A suspended standing whose status could not be read still says "contact your administrator".
 const mode = computed(() => state.status ? wallMode({ ...state.status, status: 'suspended' }) : 'contact_admin')
@@ -88,16 +90,20 @@ const body = computed(() => ({
 
 // The status call only says `can_renew`. The link is minted here, on the click, because each
 // one replaces the last: calling it on page load would kill the link in the suspension email.
-async function updateCard() {
+// singleFlight: a double click must not mint a second link, which would kill the first.
+const updateCard = singleFlight(async () => {
     state.error = ''
+    state.isRenewing = true
     try {
         const token = renewalLinkToken(await billingService.createRenewalLink())
         if (token) navigateTo({ path: '/subscription/renew', query: { token } })
     } catch (error: any) {
         const key = errorMessageKey(error)
         state.error = key ? t(key) : (error?.message ?? '')
+    } finally {
+        state.isRenewing = false
     }
-}
+})
 
 // Revokes the token on the server first, then clears the local one.
 async function logout() {
