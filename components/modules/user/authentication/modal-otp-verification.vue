@@ -65,7 +65,7 @@ const props = defineProps({
         default: '',
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'requires2fa'])
 
 const state = reactive({
     error: {} as Error,
@@ -121,7 +121,12 @@ async function verifyOtp() {
                 user_agent: navigator.userAgent,
             })
         }
-        if (response.data) {
+        if (response.data?.user?.is_google_2fa_enabled) {
+            // A 2FA user gets no token from the code (token is null); the
+            // page opens its 2FA step, which signs in with the code (task 613).
+            emit('requires2fa')
+            emit('close')
+        } else if (response.data) {
             await setSessionToken(response.data?.token)
             departmentStore.resetSelectedDepartmentName()
             userStore.setUser(response?.data?.user)

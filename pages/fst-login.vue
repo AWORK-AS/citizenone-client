@@ -64,11 +64,13 @@
 
 			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isIpOtpOpen"
 				:isModalOpen="state.modal.isIpOtpOpen" otpType="ip" :email="state.formLogin.email ?? ''"
-				:deviceUuid="state.deviceUuid" @close="state.modal.isIpOtpOpen = false" />
+				:deviceUuid="state.deviceUuid" @close="state.modal.isIpOtpOpen = false"
+				@requires2fa="open2faStep" />
 
 			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isDeviceOtpOpen"
 				:isModalOpen="state.modal.isDeviceOtpOpen" otpType="device" :email="state.formLogin.email ?? ''"
-				:deviceUuid="state.deviceUuid" @close="state.modal.isDeviceOtpOpen = false" />
+				:deviceUuid="state.deviceUuid" @close="state.modal.isDeviceOtpOpen = false"
+				@requires2fa="open2faStep" />
 
 			<div class="fst-form-card">
 				<Alert type="danger" :text="state?.error?.message"
@@ -194,6 +196,9 @@
 				</div>
 			</div>
 		</div>
+		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
+			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+			v-if="state.modal.isGoogle2faVerificationOpen" />
 	</div>
 </template>
 
@@ -324,6 +329,14 @@ async function login() {
 		}
 		state.isPageLoading = false
 	}
+}
+
+// A 2FA user who passed the emailed IP or device code still needs the 2FA
+// code; formLogin keeps the email and password the 2FA modal sends (task 613).
+function open2faStep() {
+	state.modal.isIpOtpOpen = false
+	state.modal.isDeviceOtpOpen = false
+	state.modal.isGoogle2faVerificationOpen = true
 }
 
 function setLang(lang: string) {
