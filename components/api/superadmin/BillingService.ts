@@ -21,7 +21,9 @@ import {
 class BillingService extends BaseAPIService {
     /** The company's billing method, flags and the masked security card. */
     async getBillingMethod(companyUuid: string): Promise<CompanyBilling> {
-        const response = await this.request(`/superadmin/companies/${companyUuid}/billing-method`, 'GET')
+        // The superadmin company resource carries the three flags (and nothing but
+        // superadmin sees them), so there is no separate read endpoint.
+        const response = await this.request(`/superadmin/companies/${companyUuid}`, 'GET')
         return normalizeCompanyBilling(response)
     }
 

@@ -83,8 +83,9 @@
 
 
 			<form v-if="!state.code.step" class="form-card" @submit.prevent="login">
+				<ModulesUserBillingSuspendedLoginNotice :error="state.error" />
 				<Alert type="danger" :text="state?.error?.message"
-					v-if="state.error?.message && state.error.message.length > 0" />
+					v-if="state.error?.message && state.error.message.length > 0 && state.error?.code !== 'subscription_suspended'" />
 				<div class="flex items-center justify-between mb-1">
 					<h1 class="form-title !mb-0">
 						{{ $t('login.welcomeBack') }}
@@ -246,8 +247,9 @@
 			</form>
 
 			<form v-else class="form-card" @submit.prevent="submitCode()">
+				<ModulesUserBillingSuspendedLoginNotice :error="state.error" />
 				<Alert type="danger" :text="state?.error?.message"
-					v-if="state.error?.message && state.error.message.length > 0" />
+					v-if="state.error?.message && state.error.message.length > 0 && state.error?.code !== 'subscription_suspended'" />
 				<h1 class="form-title">
 					{{ $t('login.emailCode.title') }}
 				</h1>

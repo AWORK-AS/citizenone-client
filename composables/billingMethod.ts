@@ -224,6 +224,29 @@ export function wallMode(status: { status?: string; can_manage?: boolean } | nul
     return status?.status === 'suspended' ? 'contact_admin' : 'notice'
 }
 
+/**
+ * A login refused because the company is closed for non-payment. The API sends
+ * `code: 'subscription_suspended'` with `can_manage` (is this person an Admin) and,
+ * for an Admin only, the one-time `renewal_token` that opens paying the outstanding
+ * invoice with a new card. Anything else is an ordinary login error.
+ *
+ * The token is a link into /subscription/renew, never a session: it only pays.
+ */
+export type SuspendedLogin = { view: 'update_card' | 'contact_admin'; token: string | null; message: string }
+
+export function suspendedLogin(error: any): SuspendedLogin | null {
+    if (error?.code !== 'subscription_suspended') return null
+
+    const token = typeof error?.renewal_token === 'string' && error.renewal_token.length > 0 ? error.renewal_token : null
+    const canManage = error?.can_manage === true && token !== null
+
+    return {
+        view: canManage ? 'update_card' : 'contact_admin',
+        token: canManage ? token : null,
+        message: typeof error?.message === 'string' ? error.message : '',
+    }
+}
+
 /** AI/SMS paused for a failed top-up. Only that service is stopped. */
 export type PausedService = 'ai' | 'sms'
 

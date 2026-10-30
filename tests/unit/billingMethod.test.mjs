@@ -17,6 +17,7 @@ import {
     normalizeDunningStatus,
     pausedServices,
     problemCount,
+    suspendedLogin,
     wallMode,
     validateDunningAction,
 } from '../../composables/billingMethod.ts'
@@ -122,4 +123,15 @@ test('paused services', () => {
     assert.deepEqual(pausedServices({ ai_payment_missing: true }), ['ai'])
     assert.deepEqual(pausedServices({ sms_paused: true, ai_paused: true }), ['ai', 'sms'])
     assert.deepEqual(pausedServices(null), [])
+})
+
+test('a suspended login gives an admin the renewal link and everyone else the contact text', () => {
+    const admin = suspendedLogin({ code: 'subscription_suspended', can_manage: true, renewal_token: 'abc', message: 'm' })
+    assert.deepEqual(admin, { view: 'update_card', token: 'abc', message: 'm' })
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, message: 'm' }).view, 'contact_admin')
+    // can_manage without a token cannot open the flow, so it must not claim to.
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: true }).view, 'contact_admin')
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, renewal_token: 'abc' }).token, null)
+    assert.equal(suspendedLogin({ code: 'other' }), null)
+    assert.equal(suspendedLogin(null), null)
 })

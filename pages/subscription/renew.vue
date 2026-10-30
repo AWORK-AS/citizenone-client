@@ -1,7 +1,7 @@
 <template>
 
     <Head>
-        <Title>{{ $t('paymentStatus.renew.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
+        <Title>{{ $t('paymentDunning.suspended.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
     </Head>
 
     <LoadingSpinner :isActive="state.isPageLoading">
@@ -23,7 +23,7 @@
                     </template>
 
                     <template v-else>
-                        <h1 class="text-lg font-semibold text-[#1F2533]">{{ $t('paymentStatus.renew.title') }}</h1>
+                        <h1 class="text-lg font-semibold text-[#1F2533]">{{ $t('paymentDunning.suspended.title') }}</h1>
                         <p v-if="!state.error" class="mt-2 text-sm text-gray-600">
                             {{ $t('paymentStatus.renew.intro', { company: state.companyName }) }}
                         </p>
