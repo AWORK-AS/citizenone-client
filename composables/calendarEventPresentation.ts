@@ -43,6 +43,7 @@ export interface DuplicateFields {
     description: string
     unit_uuid: string
     is_private: boolean
+    reminder_minutes: number | null
     is_online_meeting: boolean
     meeting_url: string
     calendar_tag_uuid: string[]
@@ -73,6 +74,7 @@ export function duplicateFields(event: any): DuplicateFields {
         description: event?.description ?? '',
         unit_uuid: event?.unit?.uuid ?? '',
         is_private: !!event?.is_private,
+        reminder_minutes: event?.reminder_minutes === null || event?.reminder_minutes === undefined ? null : Number(event.reminder_minutes),
         is_online_meeting: !!event?.is_online_meeting,
         meeting_url: event?.meeting_url ?? '',
         calendar_tag_uuid: (event?.calendar_tags ?? []).map((tag: any) => tag?.uuid).filter(Boolean),

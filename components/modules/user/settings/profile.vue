@@ -323,7 +323,7 @@ function beforeUnloadHandler(e: BeforeUnloadEvent) { if (isDirty.value) { e.prev
 onMounted(() => window.addEventListener('beforeunload', beforeUnloadHandler))
 onBeforeUnmount(() => window.removeEventListener('beforeunload', beforeUnloadHandler))
 onBeforeRouteLeave(() => {
-    if (isDirty.value) return window.confirm('Du har ugemte ændringer. Vil du forlade siden uden at gemme?')
+    if (isDirty.value) return window.confirm(t('alert.unsavedChangesLeave'))
     return true
 })
 

@@ -44,6 +44,7 @@ export const PANEL_PERMISSIONS = new Set([
     'view_email_logs',
     'view_data_retention',
     'impersonate_users',
+    'log_out_everyone',
 ])
 
 export function usePermissions() {

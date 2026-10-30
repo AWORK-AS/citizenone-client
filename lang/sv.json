@@ -1106,6 +1106,7 @@
         }
     },
     "alert": {
+        "unsavedChangesLeave": "Du har osparade ändringar. Vill du lämna sidan utan att spara?",
         "accountSuccessfullyCreated": "Din konto har skapats",
         "emailVerification": {
             "invalidEmailVerificationToken": "Ogiltig e-post verificerings-token"
@@ -2568,6 +2569,8 @@
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
                 "municipality": "Kommun",
+                "notifyUseOfForce": "Meddela om tvångsåtgärder",
+                "notifyUseOfForceHint": "Handläggaren får ett mejl när en tvångsåtgärd registreras för denna medborgare. Kräver en e-postadress. Av dataskyddsskäl framgår det inte av mejlet vem det gäller.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {
                     "category": {
@@ -8291,7 +8294,15 @@
             "private": "Privat",
             "sendInvitation": "Skicka invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "reminder": {
+                "label": "Påminnelse",
+                "none": "Ingen påminnelse",
+                "atStart": "När händelsen börjar",
+                "minutesBefore": "{count} minut innan | {count} minuter innan",
+                "hoursBefore": "{count} timme innan | {count} timmar innan",
+                "daysBefore": "{count} dag innan | {count} dagar innan"
+            }
         },
         "holidays": "Helgdagar",
         "invitees": "Inviterede",
@@ -12202,6 +12213,9 @@
                 "manageApprovedDevices": "Administrér godkända enheter",
                 "actionBlock": "Blokér åtkomst",
                 "actionOtp": "Kräv OTP-bekräftelse",
+                "restrictionAdminsExempt": "Administratörer begränsas aldrig, så de kan alltid logga in och ändra de här inställningarna.",
+                "deviceActionBlockHelp": "En ny enhet nekas och väntar i listan över godkända enheter tills en administratör godkänner den.",
+                "deviceActionOtpHelp": "En ny enhet får en kod via e-post. När den anställda har angett den är enheten godkänd.",
                 "proFeatureHint": "Den här funktionen ingår i Pro-abonnemanget. Uppgradera för att aktivera den.",
                 "portalPreviewOpen": "Se vad de ser",
                 "portalPreviewTitle": "Så här ser {audience} det",
@@ -16015,13 +16029,23 @@
         "isActive": "Aktiv",
         "active": "Aktiv",
         "inactive": "Inaktiv",
+        "help": "Enheter läggs till här när en anställd loggar in på dem. Med \"Kräv OTP-bekräftelse\" bekräftar den anställda enheten med en kod som skickas via e-post. Med \"Blokér åtkomst\" väntar enheten här tills en administratör godkänner den. Avstängd betyder nekad: enheten kan inte logga in i något av lägena, inte heller med koden från e-posten. Godkänn slår på en avstängd enhet igen, även efter Avvisa. Avstängd, Avvisa och Radera loggar också ut den anställda på den enheten. Radera glömmer enheten, så att den anställda kan lägga till den igen genom att logga in. Administratörer begränsas aldrig.",
+        "status": {
+            "waiting": "Väntar på godkännande",
+            "approved": "Godkänd",
+            "off": "Avstängd"
+        },
         "table": {
             "user": "Användare",
             "deviceUuid": "Enheds-UUID",
+            "device": "Enhet",
+            "firstSeen": "Först sedd",
             "label": "Etiket",
             "isActive": "Status",
             "actions": {
                 "header": "Handlinger",
+                "approve": "Godkänn",
+                "decline": "Avvisa",
                 "edit": "Redigera",
                 "delete": "Radera"
             }
@@ -16031,6 +16055,8 @@
         },
         "alert": {
             "added": "Enhet godkänd",
+            "approved": "Enheten har godkänts",
+            "declined": "Enheten har avvisats",
             "updated": "Godkänd enhet uppdaterad",
             "deleted": "Godkänd enhet borttagen"
         }
@@ -16930,6 +16956,9 @@
         "titleField": "Titel",
         "publishedTo": "Synlig för alla kunder",
         "gate": "Endast CTO kan godkänna & publicera.",
+        "logOutEveryone": "Logga ut alla",
+        "logOutEveryoneTitle": "Logga ut alla?",
+        "logOutEveryoneConfirm": "Alla som använder CitizenOne på webben, i skrivbordsappen och i mobilappen loggas ut nu och måste logga in igen. Då får de versionen som just släppts. Använd det när den nya versionen är live. Du förblir inloggad.",
         "noNotes": "Inga release notes än.",
         "noPendingNotes": "Inget väntar på godkännande.",
         "pendingReview": "Väntar på godkännande",

@@ -51,6 +51,7 @@
                     {{ $t('events.form.private') }}
                 </div>
             </div>
+            <ModulesUserMyCalendarReminderSelect v-model="state.formSchedule.reminder_minutes" />
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.recurring.is_recurring = !state.formSchedule.recurring.is_recurring">
@@ -257,6 +258,7 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_CALENDAR_REMINDER, reminderOf } from '@/utils/calendarReminder'
 import { unitService } from '@/components/api/user/UnitService'
 import { userService } from '@/components/api/user/UserService'
 import { shiftService } from '@/components/api/user/ShiftService'
@@ -324,6 +326,7 @@ const state = reactive({
         date_time_end: '',
         unit_uuid: '',
         is_private: false,
+        reminder_minutes: DEFAULT_CALENDAR_REMINDER as number | null,
         send_invitation: false,
         recurring: {
             is_recurring: false,
@@ -461,6 +464,7 @@ onMounted(() => {
         date_time_end: props.selectedSchedule.end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
+        reminder_minutes: reminderOf(props.selectedSchedule),
         send_invitation: props.selectedSchedule.send_invitation,
         recurring: {
             is_recurring: props.selectedSchedule.recurring.is_recurring,

@@ -100,6 +100,18 @@
                                         <FormError :error="state?.error?.errors?.post_code?.[0]" />
                                     </div>
                                 </div>
+                                <div class="mt-3">
+                                    <div class="space-y-1 rounded-lg border border-gray-200 bg-gray-50 p-4" data-testid="notify-use-of-force">
+                                        <div class="flex items-center gap-x-2">
+                                            <FormSwitch :value="state.formContact.notify_use_of_force"
+                                                @toggleSwitch="state.formContact.notify_use_of_force = !state.formContact.notify_use_of_force"
+                                                :label="$t('citizens.contacts.form.notifyUseOfForce')" />
+                                            <p class="text-sm font-medium text-gray-800">{{ $t('citizens.contacts.form.notifyUseOfForce') }}</p>
+                                        </div>
+                                        <p class="text-xs text-gray-500">{{ $t('citizens.contacts.form.notifyUseOfForceHint') }}</p>
+                                        <FormError :error="state?.error?.errors?.notify_use_of_force?.[0]" />
+                                    </div>
+                                </div>
                             </div>
                             <div class="mt-6">
                                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -162,6 +174,7 @@ const state = reactive({
         municipality: '',
         city: '',
         post_code: '',
+        notify_use_of_force: false,
     },
     options: {
         cities: [],
@@ -301,6 +314,7 @@ async function saveContact() {
             municipality_uuid: state.formContact.municipality,
             city_uuid: state.formContact.city,
             post_code: state.formContact.post_code,
+            notify_use_of_force: state.formContact.notify_use_of_force,
         }
         const response = await citizenContactService.saveContact(params)
         if (response?.data) {
