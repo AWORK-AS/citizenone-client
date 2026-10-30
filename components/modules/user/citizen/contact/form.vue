@@ -146,6 +146,17 @@
                         <FormError :error="props?.error?.errors?.phone?.[0]" />
                     </div>
                 </div>
+                <div class="space-y-1 rounded-lg border border-gray-200 bg-gray-50 p-4"
+                    v-if="state.formContact.title === 'case_manager'" data-testid="notify-use-of-force">
+                    <div class="flex items-center gap-x-2">
+                        <FormSwitch :value="state.formContact.notify_use_of_force"
+                            @toggleSwitch="state.formContact.notify_use_of_force = !state.formContact.notify_use_of_force"
+                            :label="$t('citizens.contacts.form.notifyUseOfForce')" />
+                        <p class="text-sm font-medium text-gray-800">{{ $t('citizens.contacts.form.notifyUseOfForce') }}</p>
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('citizens.contacts.form.notifyUseOfForceHint') }}</p>
+                    <FormError :error="props?.error?.errors?.notify_use_of_force?.[0]" />
+                </div>
                 <div class="space-y-3 rounded-lg border border-gray-200 bg-gray-50 p-4"
                     v-if="state.formContact.title === 'doctor'">
                     <p class="text-sm font-medium text-gray-800">{{ $t('citizens.contacts.form.gp.title') }}</p>
@@ -358,6 +369,7 @@ const state = reactive({
         has_system_access: false,
         chat_users: [] as any,
         is_primary_gp: false,
+        notify_use_of_force: false,
         provider_number: '',
         clinic_name: '',
         clinic_ean: '',
@@ -424,6 +436,7 @@ onMounted(async () => {
         has_system_access: contact?.has_system_access ?? false,
         chat_users: contact?.chat_users?.map((user: any) => user?.uuid) ?? [],
         is_primary_gp: contact?.is_primary_gp === true,
+        notify_use_of_force: contact?.notify_use_of_force === true,
         provider_number: contact?.provider_number ?? '',
         clinic_name: contact?.clinic_name ?? '',
         clinic_ean: contact?.clinic_ean ?? '',
@@ -481,6 +494,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         has_system_access: newValue?.has_system_access ?? false,
         chat_users: newValue?.chat_users?.map((user: any) => user?.uuid) ?? [],
         is_primary_gp: newValue?.is_primary_gp === true,
+        notify_use_of_force: newValue?.notify_use_of_force === true,
         provider_number: newValue?.provider_number ?? '',
         clinic_name: newValue?.clinic_name ?? '',
         clinic_ean: newValue?.clinic_ean ?? '',

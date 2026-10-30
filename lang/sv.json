@@ -2568,6 +2568,8 @@
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
                 "municipality": "Kommun",
+                "notifyUseOfForce": "Meddela om tvångsåtgärder",
+                "notifyUseOfForceHint": "Handläggaren får ett mejl när en tvångsåtgärd registreras för denna medborgare. Kräver en e-postadress. Av dataskyddsskäl framgår det inte av mejlet vem det gäller.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {
                     "category": {
