@@ -238,6 +238,7 @@
                     {{ $t('events.form.private') }}
                 </div>
             </div>
+            <ModulesUserMyCalendarReminderSelect v-model="state.formSchedule.reminder_minutes" />
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <FormLabel for="citizens_uuid" :label="$t('events.form.citizens')" />
                 <FormSelectMultiple id="citizens_uuid" name="citizens_uuid" :options="state.options.citizens"
@@ -292,6 +293,7 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_CALENDAR_REMINDER, reminderOf } from '@/utils/calendarReminder'
 import { usePermissions } from '@/composables/usePermissions'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
@@ -361,6 +363,7 @@ const state = reactive({
         date_time_end: '',
         unit_uuid: '',
         is_private: false,
+        reminder_minutes: DEFAULT_CALENDAR_REMINDER as number | null,
         is_online_meeting: false,
         meeting_url: '',
         is_video_consultation: false,
@@ -500,6 +503,7 @@ onMounted(() => {
         date_time_end: props.selectedSchedule.date_time_end ? formatDateTimeToYYYYmmddHHmm(props.selectedSchedule.date_time_end) : formatDateToYYYYmmddHHmm('', true),
         unit_uuid: props.selectedSchedule.unit_uuid,
         is_private: props.selectedSchedule.is_private,
+        reminder_minutes: reminderOf(props.selectedSchedule),
         is_online_meeting: props.selectedSchedule.is_online_meeting ?? false,
         meeting_url: props.selectedSchedule.meeting_url ?? '',
         is_video_consultation: props.selectedSchedule.is_video_consultation ?? false,

@@ -8291,7 +8291,15 @@
             "private": "Privat",
             "sendInvitation": "Skicka invitationen",
             "tags": "Etiketter",
-            "title": "Titel"
+            "title": "Titel",
+            "reminder": {
+                "label": "Påminnelse",
+                "none": "Ingen påminnelse",
+                "atStart": "När händelsen börjar",
+                "minutesBefore": "{count} minut innan | {count} minuter innan",
+                "hoursBefore": "{count} timme innan | {count} timmar innan",
+                "daysBefore": "{count} dag innan | {count} dagar innan"
+            }
         },
         "holidays": "Helgdagar",
         "invitees": "Inviterede",
