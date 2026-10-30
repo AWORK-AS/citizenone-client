@@ -286,6 +286,7 @@
 		</div>
 		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
 			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+			@suspended="onSuspendedAfter2fa"
 			v-if="state.modal.isGoogle2faVerificationOpen" />
 	</div>
 </template>
@@ -301,6 +302,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { suspendedLogin } from '@/composables/billingMethod'
 import { socialRedirectUrl } from '@/composables/signupQuery'
 import { EMAIL_CODE_LENGTH, EMAIL_CODE_RESEND_SECONDS, isPlausibleEmail, sanitizeEmailCode, shouldSubmitEmailCode } from '@/composables/emailLoginCode'
 
@@ -509,12 +511,23 @@ async function login() {
 			// on the superadmin login instead of leaving them at an error.
 			if (error?.code === 'platform_staff') {
 				await signInAsStaff()
+			} else if (suspendedLogin(error)?.view === 'two_factor') {
+				// A suspended admin with 2FA: no token yet, the code step answers with it.
+				state.error = {}
+				state.modal.isGoogle2faVerificationOpen = true
 			} else {
 				state.error = error
 			}
 		}
 		state.isPageLoading = false
 	}
+}
+
+// The 2FA code was right but the company is closed: show the suspended notice (with the
+// renewal link for an admin) instead of a session that does not exist.
+function onSuspendedAfter2fa(error: any) {
+	state.modal.isGoogle2faVerificationOpen = false
+	state.error = error
 }
 
 // A 2FA user who passed the emailed IP or device code still needs the 2FA

@@ -50,7 +50,7 @@
 
 <script setup lang="ts">
 import { billingService } from '@/components/api/user/BillingService'
-import { wallMode } from '@/composables/billingMethod'
+import { latestRenewalToken, wallMode } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import { authService } from '@/components/api/user/AuthService'
 import { signOutRevoking } from '@/composables/signOutRevoking'
@@ -85,9 +85,17 @@ const body = computed(() => ({
     none: t('paymentDunning.suspended.contactBody'),
 }[mode.value]))
 
-function updateCard() {
-    const token = state.status?.renewal_token
-    if (token) navigateTo({ path: '/subscription/renew', query: { token } })
+// Renewal tokens rotate on every issue, so the one read when the page loaded may already be
+// dead (the status call that loaded it minted it, and any later one replaces it). Ask again
+// and use only what that answer carries.
+async function updateCard() {
+    try {
+        const response = await billingService.getStatus()
+        const token = latestRenewalToken(response?.data ?? response)
+        if (token) navigateTo({ path: '/subscription/renew', query: { token } })
+    } catch (_) {
+        // The standing could not be read; the button stays and can be pressed again.
+    }
 }
 
 // Revokes the token on the server first, then clears the local one.

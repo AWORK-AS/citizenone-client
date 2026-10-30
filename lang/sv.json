@@ -20479,7 +20479,8 @@
                 "charge_security_card": "Dra säkerhetskortet nu",
                 "close": "Stäng nu",
                 "reopen": "Återöppna",
-                "postpone": "Skjut upp"
+                "postpone": "Skjut upp",
+                "revoke_security_card": "Ta bort säkerhetskort"
             },
             "help": {
                 "retry": "Försöker dra det utestående beloppet från kundens kort nu.",
@@ -20488,7 +20489,8 @@
                 "charge_security_card_disabled": "Kräver kort som säkerhet påslaget, ett aktivt säkerhetskort och en förfallen faktura.",
                 "close": "Stänger företaget så att användarna ser sidan om saknad betalning. Inte möjligt för företag med ett löpande avtal.",
                 "reopen": "Öppnar företaget igen direkt och skjuter upp påminnelserna i det antal dagar du väljer.",
-                "postpone": "Pausar påminnelser och stängning i det antal dagar du väljer."
+                "postpone": "Pausar påminnelser och stängning i det antal dagar du väljer.",
+                "revoke_security_card": "Tar bort kundens säkerhetskort. Kortet dras aldrig mer. Kortet raderas inte hos Nexi."
             },
             "dialog": {
                 "title": {
@@ -20497,7 +20499,8 @@
                     "charge_security_card": "Dra säkerhetskortet",
                     "close": "Stäng företaget",
                     "reopen": "Återöppna företaget",
-                    "postpone": "Skjut upp påminnelserna"
+                    "postpone": "Skjut upp påminnelserna",
+                    "revoke_security_card": "Ta bort säkerhetskortet"
                 },
                 "about": "{company}: {amount} utestående",
                 "noteLabel": "Motivering",
@@ -20511,7 +20514,8 @@
                 "cancel": "Avbryt",
                 "daysLabelReopen": "Antal dagar utan påminnelser efter återöppning",
                 "optional": "valfri",
-                "closeConfirm": "Företagets användare ser sidan om saknad betalning tills det återöppnas."
+                "closeConfirm": "Företagets användare ser sidan om saknad betalning tills det återöppnas.",
+                "revokeConfirm": "Kortet dras aldrig mer, inte heller för fakturor som redan har förfallit. Kunden kan koppla ett nytt kort."
             },
             "done": {
                 "retry": "Försöket har startats",
@@ -20519,7 +20523,8 @@
                 "charge_security_card": "Säkerhetskortet har försökt dras",
                 "close": "Företaget är stängt",
                 "reopen": "Företaget är återöppnat",
-                "postpone": "Påminnelserna har skjutits upp"
+                "postpone": "Påminnelserna har skjutits upp",
+                "revoke_security_card": "Säkerhetskortet har tagits bort"
             },
             "failed": "Åtgärden misslyckades",
             "openCompany": "Öppna företaget",
@@ -20530,7 +20535,8 @@
                 "pending": "Väntar på bank",
                 "charged": "Dragen",
                 "declined": "Avvisad",
-                "over_cap": "Över gränsen"
+                "over_cap": "Över gränsen",
+                "unknown": "Väntar på Nexi"
             },
             "invoiceStatusHelp": "Status för dragningen från säkerhetskortet för denna faktura.",
             "securityCardLine": "Kort •••• {last_four} (går ut {expiry})"
@@ -20636,7 +20642,8 @@
             "charge": {
                 "charged": "Säkerhetskortet har dragits och fakturan är betald",
                 "pending": "Dragningen har skickats till banken och väntar. Fakturan är inte betald ännu.",
-                "declined": "Säkerhetskortet avvisades. Påminnelseflödet har startat."
+                "declined": "Säkerhetskortet avvisades. Påminnelseflödet har startat.",
+                "unknown": "Väntar på svar från Nexi – dragningen får inte upprepas. Fakturan stäms av automatiskt."
             }
         },
         "errors": {

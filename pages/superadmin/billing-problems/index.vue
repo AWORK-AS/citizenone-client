@@ -96,7 +96,7 @@
                                 <div v-if="canManage" class="flex flex-wrap items-center gap-1.5 justify-end">
                                     <Tooltip v-for="action in actionsFor(row)" :key="action"
                                         :text="$t(`paymentDunning.problems.help.${action}`)" position="top" wrap>
-                                        <SuperadminTableButton :buttonStyle="action === 'close' ? 'danger' : undefined"
+                                        <SuperadminTableButton :buttonStyle="action === 'close' || action === 'revoke_security_card' ? 'danger' : undefined"
                                             @click="openAction(row, action)">
                                             {{ $t(`paymentDunning.problems.action.${action}`) }}
                                         </SuperadminTableButton>
@@ -125,7 +125,7 @@ import { billingService, type DunningActResult } from '@/components/api/superadm
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { chargeStatus, dunningActions, outcomeTone, retryStatus, securityChargeUnavailable, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
+import { chargeStatus, chargeTone, dunningActions, outcomeTone, retryStatus, securityChargeUnavailable, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -206,8 +206,9 @@ async function onDone(action: DunningAction, result: DunningActResult | null) {
 
     if (outcome) {
         const message = t(`paymentDunning.outcome.${action === 'retry' ? 'retry' : 'charge'}.${outcome}`)
-        if (outcomeTone(outcome) === 'success') successAlert(`${t('alert.success')}!`, message)
-        else errorAlert(outcomeTone(outcome) === 'info' ? t('paymentDunning.problems.title') : t('alert.warning'), message)
+        const tone = action === 'charge_security_card' ? chargeTone(outcome as any) : outcomeTone(outcome as any)
+        if (tone === 'success') successAlert(`${t('alert.success')}!`, message)
+        else errorAlert(tone === 'info' ? t('paymentDunning.problems.title') : t('alert.warning'), message)
     } else {
         successAlert(`${t('alert.success')}!`, t(`paymentDunning.problems.done.${action}`))
     }

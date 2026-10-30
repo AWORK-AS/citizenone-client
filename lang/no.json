@@ -20479,7 +20479,8 @@
                 "charge_security_card": "Trekk sikkerhetskort nå",
                 "close": "Steng nå",
                 "reopen": "Gjenåpne",
-                "postpone": "Utsett"
+                "postpone": "Utsett",
+                "revoke_security_card": "Fjern sikkerhetskort"
             },
             "help": {
                 "retry": "Forsøker å trekke det utestående beløpet på kundens kort nå.",
@@ -20488,7 +20489,8 @@
                 "charge_security_card_disabled": "Krever kort som sikkerhet slått på, et aktivt sikkerhetskort og en forfalt faktura.",
                 "close": "Stenger virksomheten, slik at brukerne ser siden om manglende betaling. Ikke mulig for virksomheter med en løpende avtale.",
                 "reopen": "Åpner virksomheten igjen med en gang og utsetter purringene i det antall dager du velger.",
-                "postpone": "Pauser purreforløpet og stengingen i det antall dager du velger."
+                "postpone": "Pauser purreforløpet og stengingen i det antall dager du velger.",
+                "revoke_security_card": "Fjerner kundens sikkerhetskort. Kortet trekkes aldri mer. Kortet slettes ikke hos Nexi."
             },
             "dialog": {
                 "title": {
@@ -20497,7 +20499,8 @@
                     "charge_security_card": "Trekk sikkerhetskortet",
                     "close": "Steng virksomheten",
                     "reopen": "Gjenåpne virksomheten",
-                    "postpone": "Utsett purreforløpet"
+                    "postpone": "Utsett purreforløpet",
+                    "revoke_security_card": "Fjern sikkerhetskortet"
                 },
                 "about": "{company}: {amount} utestående",
                 "noteLabel": "Begrunnelse",
@@ -20511,7 +20514,8 @@
                 "cancel": "Avbryt",
                 "daysLabelReopen": "Antall dager uten purringer etter gjenåpning",
                 "optional": "valgfri",
-                "closeConfirm": "Virksomhetens brukere ser siden om manglende betaling til den gjenåpnes."
+                "closeConfirm": "Virksomhetens brukere ser siden om manglende betaling til den gjenåpnes.",
+                "revokeConfirm": "Kortet trekkes aldri mer, heller ikke på fakturaer som allerede er forfalt. Kunden kan knytte til et nytt kort."
             },
             "done": {
                 "retry": "Forsøket er satt i gang",
@@ -20519,7 +20523,8 @@
                 "charge_security_card": "Sikkerhetskortet er forsøkt trukket",
                 "close": "Virksomheten er stengt",
                 "reopen": "Virksomheten er gjenåpnet",
-                "postpone": "Purreforløpet er utsatt"
+                "postpone": "Purreforløpet er utsatt",
+                "revoke_security_card": "Sikkerhetskortet er fjernet"
             },
             "failed": "Handlingen mislyktes",
             "openCompany": "Åpne virksomheten",
@@ -20530,7 +20535,8 @@
                 "pending": "Venter på bank",
                 "charged": "Trukket",
                 "declined": "Avvist",
-                "over_cap": "Over grensen"
+                "over_cap": "Over grensen",
+                "unknown": "Venter på Nexi"
             },
             "invoiceStatusHelp": "Status for trekk på sikkerhetskortet for denne fakturaen.",
             "securityCardLine": "Kort •••• {last_four} (utløper {expiry})"
@@ -20636,7 +20642,8 @@
             "charge": {
                 "charged": "Sikkerhetskortet er trukket og fakturaen er betalt",
                 "pending": "Trekket er sendt til banken og venter. Fakturaen er ikke betalt ennå.",
-                "declined": "Sikkerhetskortet ble avvist. Purreforløpet er startet."
+                "declined": "Sikkerhetskortet ble avvist. Purreforløpet er startet.",
+                "unknown": "Venter på svar fra Nexi – trekket må ikke gjentas. Fakturaen avstemmes automatisk."
             }
         },
         "errors": {

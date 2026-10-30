@@ -1,5 +1,5 @@
 <template>
-    <div v-if="suspended" role="alert" data-testid="suspended-login-notice"
+    <div v-if="suspended && suspended.view !== 'two_factor'" role="alert" data-testid="suspended-login-notice"
         class="mb-4 rounded-lg border border-red-200 bg-red-50 px-4 py-3 text-red-900">
         <p class="text-sm font-semibold">
             {{ titleKey }}

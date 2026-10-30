@@ -19,6 +19,8 @@ import {
     pausedServices,
     invoiceCounts,
     errorMessageKey,
+    chargeTone,
+    latestRenewalToken,
     retryStatus,
     chargeStatus,
     outcomeTone,
@@ -335,4 +337,45 @@ test('an unreachable server does not trap the user in a suspended session', asyn
     })
     assert.deepEqual(calls, ['local', 'done'])
     assert.equal(result.revoked, false)
+})
+
+test('a suspended admin with 2FA continues to the code step, with no notice and no token', () => {
+    const step = suspendedLogin({ code: 'subscription_suspended', can_manage: true, requires_2fa: true, message: 'm' })
+    assert.deepEqual(step, { view: 'two_factor', token: null, message: 'm' })
+    // Anyone who cannot manage is not sent through 2FA by this flag.
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: false, requires_2fa: true }).view, 'contact_admin')
+})
+
+test('the 2FA code step answer carries the renewal token and routes to the renew flow', () => {
+    const after = suspendedLogin({ code: 'subscription_suspended', can_manage: true, requires_2fa: true, renewal_token: 'tok2' })
+    assert.deepEqual(after, { view: 'update_card', token: 'tok2', message: '' })
+    // Without a token after a valid code (an invoice company) the admin gets invoice_overdue.
+    assert.equal(suspendedLogin({ code: 'subscription_suspended', can_manage: true }).view, 'invoice_overdue')
+})
+
+test('renewal tokens are taken only from the latest response, never kept', () => {
+    assert.equal(latestRenewalToken({ renewal_token: 'new' }), 'new')
+    assert.equal(latestRenewalToken({ renewal_token: null }), null)
+    assert.equal(latestRenewalToken({ renewal_token: '' }), null)
+    assert.equal(latestRenewalToken({ renewal_token: 42 }), null)
+    assert.equal(latestRenewalToken({}), null)
+    assert.equal(latestRenewalToken(null), null)
+})
+
+test('a security charge Nexi has not answered is "wait", not a failure or a success', () => {
+    assert.equal(chargeStatus({ status: 'unknown', paid: false }), 'unknown')
+    assert.equal(chargeTone('unknown'), 'info')
+    assert.equal(chargeTone('pending'), 'info')
+    assert.equal(chargeTone('charged'), 'success')
+    assert.equal(chargeTone('declined'), 'error')
+})
+
+test('"Fjern sikkerhedskort" is offered exactly when the row has a security card', () => {
+    assert.deepEqual(dunningActions({ actions: { close: true }, security_card: { last_four: '0004', expiry: '08/28' } }), ['revoke_security_card', 'close'])
+    assert.deepEqual(dunningActions({ actions: { close: true }, security_card: null }), ['close'])
+    assert.deepEqual(dunningActions({ actions: { close: true } }), ['close'])
+    assert.deepEqual(dunningActions({ actions: null, security_card: { last_four: '1', expiry: null } }), ['revoke_security_card'])
+    assert.equal(actionNeedsNote('revoke_security_card'), false)
+    assert.equal(actionTakesNote('revoke_security_card'), false)
+    assert.equal(validateDunningAction('revoke_security_card', { note: '' }), null)
 })

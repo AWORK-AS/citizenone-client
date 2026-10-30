@@ -20564,7 +20564,8 @@
                 "charge_security_card": "Charge security card now",
                 "close": "Close now",
                 "reopen": "Reopen",
-                "postpone": "Postpone"
+                "postpone": "Postpone",
+                "revoke_security_card": "Remove security card"
             },
             "help": {
                 "retry": "Tries to charge the outstanding amount to the customer's card now.",
@@ -20573,7 +20574,8 @@
                 "charge_security_card_disabled": "Needs card as security switched on, an active security card and an overdue invoice.",
                 "close": "Closes the company, so its users see the missing-payment page. Not possible for companies with a running agreement.",
                 "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
-                "postpone": "Pauses dunning and closing for the number of days you choose."
+                "postpone": "Pauses dunning and closing for the number of days you choose.",
+                "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi."
             },
             "dialog": {
                 "title": {
@@ -20582,7 +20584,8 @@
                     "charge_security_card": "Charge the security card",
                     "close": "Close the company",
                     "reopen": "Reopen the company",
-                    "postpone": "Postpone dunning"
+                    "postpone": "Postpone dunning",
+                    "revoke_security_card": "Remove the security card"
                 },
                 "about": "{company}: {amount} outstanding",
                 "noteLabel": "Reason",
@@ -20596,7 +20599,8 @@
                 "cancel": "Cancel",
                 "daysLabelReopen": "Days without reminders after reopening",
                 "optional": "optional",
-                "closeConfirm": "The company's users see the missing-payment page until it is reopened."
+                "closeConfirm": "The company's users see the missing-payment page until it is reopened.",
+                "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card."
             },
             "done": {
                 "retry": "The retry has been started",
@@ -20604,7 +20608,8 @@
                 "charge_security_card": "The security card charge was attempted",
                 "close": "The company is closed",
                 "reopen": "The company is reopened",
-                "postpone": "Dunning has been postponed"
+                "postpone": "Dunning has been postponed",
+                "revoke_security_card": "The security card was removed"
             },
             "failed": "The action failed",
             "openCompany": "Open the company",
@@ -20615,7 +20620,8 @@
                 "pending": "Pending at bank",
                 "charged": "Charged",
                 "declined": "Declined",
-                "over_cap": "Over the limit"
+                "over_cap": "Over the limit",
+                "unknown": "Waiting for Nexi"
             },
             "invoiceStatusHelp": "Status of the security card charge for this invoice.",
             "securityCardLine": "Card •••• {last_four} (expires {expiry})"
@@ -20721,7 +20727,8 @@
             "charge": {
                 "charged": "The security card was charged and the invoice is paid",
                 "pending": "The charge has been sent to the bank and is pending. The invoice is not paid yet.",
-                "declined": "The security card was declined. The dunning flow has started."
+                "declined": "The security card was declined. The dunning flow has started.",
+                "unknown": "Waiting for Nexi's answer – the charge must not be repeated. The invoice is reconciled automatically."
             }
         },
         "errors": {

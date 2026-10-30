@@ -20,6 +20,7 @@ export type DunningAction =
     | 'close'
     | 'reopen'
     | 'postpone'
+    | 'revoke_security_card'
 
 export type BillingMethodForm = {
     billing_method: BillingMethod
@@ -37,7 +38,7 @@ export type CompanyBilling = BillingMethodForm & {
     economic_draft: boolean
 }
 
-export type CardSecurityInvoiceStatus = 'noticed' | 'charging' | 'pending' | 'charged' | 'declined' | 'over_cap'
+export type CardSecurityInvoiceStatus = 'noticed' | 'charging' | 'pending' | 'unknown' | 'charged' | 'declined' | 'over_cap'
 
 export type DunningInvoice = {
     uuid: string
@@ -176,15 +177,19 @@ export function invoiceChip(invoice: any): InvoiceChip {
     return 'pending'
 }
 
-const ACTION_ORDER: DunningAction[] = ['retry', 'send_card_link', 'charge_security_card', 'close', 'reopen', 'postpone']
+const ACTION_ORDER: DunningAction[] = ['retry', 'send_card_link', 'charge_security_card', 'revoke_security_card', 'close', 'reopen', 'postpone']
 
 /**
  * What a row in "Betalingsproblemer" offers: exactly what the API's `actions` map
  * allows, in a fixed order. The screen never works out for itself whether a
  * company may be closed or charged; a missing map offers nothing.
  */
-export function dunningActions(row: Pick<DunningRow, 'actions'>): DunningAction[] {
-    return ACTION_ORDER.filter((action) => row.actions?.[action] === true)
+export function dunningActions(row: { actions?: Partial<Record<DunningAction, boolean>> | null; security_card?: unknown }): DunningAction[] {
+    return ACTION_ORDER.filter((action) => {
+        // The API does not list this one in `actions`: it applies whenever a card is on file.
+        if (action === 'revoke_security_card') return !!row.security_card
+        return row.actions?.[action] === true
+    })
 }
 
 /**
@@ -310,12 +315,18 @@ export function wallMode(
  *
  * The token is a link into /subscription/renew, never a session: it only pays.
  */
-export type SuspendedLogin = { view: 'update_card' | 'invoice_overdue' | 'contact_admin'; token: string | null; message: string }
+export type SuspendedLogin = { view: 'update_card' | 'invoice_overdue' | 'contact_admin' | 'two_factor'; token: string | null; message: string }
 
 export function suspendedLogin(error: any): SuspendedLogin | null {
     if (error?.code !== 'subscription_suspended') return null
 
     const token = typeof error?.renewal_token === 'string' && error.renewal_token.length > 0 ? error.renewal_token : null
+    // An admin with 2FA gets no token at the password step: the code step comes next, and
+    // only its answer carries the renewal token.
+    if (error?.requires_2fa === true && token === null && error?.can_manage === true) {
+        return { view: 'two_factor', token: null, message: typeof error?.message === 'string' ? error.message : '' }
+    }
+
     // An admin without a token (an invoice company, or no payable invoice) has no card flow.
     const view = error?.can_manage !== true ? 'contact_admin' : token !== null ? 'update_card' : 'invoice_overdue'
 
@@ -360,6 +371,7 @@ export function errorMessageKey(error: any): string | null {
 
 /** How a retry (customer or superadmin) or a security charge ended. */
 export type RetryStatus = 'paid' | 'pending' | 'declined' | 'no_card' | 'not_applicable' | 'unknown'
+/** `unknown`: Nexi did not answer in time. The charge must not be repeated; it is reconciled later. */
 export type ChargeStatus = 'charged' | 'pending' | 'declined' | 'unknown'
 export type OutcomeTone = 'success' | 'info' | 'error'
 
@@ -374,6 +386,13 @@ export function retryStatus(result: any): RetryStatus {
 export function chargeStatus(result: any): ChargeStatus {
     const status = result?.status
     return status === 'charged' || status === 'pending' || status === 'declined' ? status : 'unknown'
+}
+
+/** A security charge that Nexi has not answered is "wait", not a failure. */
+export function chargeTone(status: ChargeStatus): OutcomeTone {
+    if (status === 'charged') return 'success'
+    if (status === 'declined') return 'error'
+    return 'info'
 }
 
 export function outcomeTone(status: RetryStatus | ChargeStatus): OutcomeTone {
@@ -393,4 +412,14 @@ export function shouldRouteToSuspended(url: string, error: any, currentPath = ''
     if (url.startsWith('/user/billing/')) return false
     if (currentPath === '/' || currentPath.startsWith('/subscription/')) return false
     return true
+}
+
+/**
+ * Renewal tokens rotate: every issue (suspension mail, login, status call) invalidates the
+ * previous one, so a token is only ever used straight from the response that carried it.
+ * There is deliberately no fallback to an earlier value.
+ */
+export function latestRenewalToken(source: { renewal_token?: unknown } | null | undefined): string | null {
+    const token = source?.renewal_token
+    return typeof token === 'string' && token.length > 0 ? token : null
 }
