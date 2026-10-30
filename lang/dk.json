@@ -2569,6 +2569,8 @@
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
+                "notifyUseOfForce": "Giv besked om magtanvendelse",
+                "notifyUseOfForceHint": "Sagsbehandleren får en mail, når der registreres en magtanvendelse på denne borger. Kræver en e-mailadresse. Af hensyn til databeskyttelse står der ikke i mailen, hvem det drejer sig om.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {
                     "category": {

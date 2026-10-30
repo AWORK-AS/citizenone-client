@@ -2569,6 +2569,8 @@
                 "firstname": "First name",
                 "lastname": "Last name",
                 "municipality": "Municipality",
+                "notifyUseOfForce": "Notify about use of force",
+                "notifyUseOfForceHint": "The case manager is emailed when a use of force is registered on this citizen. Needs an email address. For data protection the email does not say who it is about.",
                 "notificationTypes": "Notification types",
                 "notifications": {
                     "category": {

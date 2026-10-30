@@ -2569,6 +2569,8 @@
                 "firstname": "Fornavn",
                 "lastname": "Etternavn",
                 "municipality": "Kommune",
+                "notifyUseOfForce": "Varsle om maktbruk",
+                "notifyUseOfForceHint": "Saksbehandleren får en e-post når det registreres maktbruk på denne borgeren. Krever en e-postadresse. Av hensyn til personvernet står det ikke i e-posten hvem det gjelder.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {
                     "category": {
