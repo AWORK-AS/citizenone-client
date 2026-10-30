@@ -31,12 +31,14 @@
                             <span class="w-2 h-2 rounded-full bg-orange-500 animate-pulse"></span>
                             {{ state.pendingCount }} {{ $t('superadmin.invoices.pending') }}
                         </button>
-                        <button
-                            class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors"
-                            @click="setTabFilter('failed')">
-                            <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                            {{ state.failedCount }} {{ $t('superadmin.invoices.failed') }}
-                        </button>
+                        <Tooltip :text="$t('paymentDunning.invoices.failedTabHelp')" position="bottom" wrap>
+                            <button
+                                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-red-50 text-red-600 border border-red-200 hover:bg-red-100 transition-colors"
+                                @click="setTabFilter('failed')">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                {{ state.failedCount }} {{ $t('superadmin.invoices.failed') }}
+                            </button>
+                        </Tooltip>
                         <FormButton buttonStyle="action" @click="state.modal.isDownloadOpen = true">
                             <Icon name="ph:download-simple" class="h-4 w-4" />
                             {{ $t('superadmin.invoices.download.download') }}
@@ -46,13 +48,15 @@
 
                 <div class="flex flex-wrap items-center gap-3 mb-4">
                     <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5">
-                        <button v-for="tab in tabs" :key="tab.key"
-                            class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
-                            :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
-                            @click="setTabFilter(tab.key)">
-                            {{ tab.label }}
-                            <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>
-                        </button>
+                        <Tooltip v-for="tab in tabs" :key="tab.key" :text="tab.help" position="bottom" wrap>
+                            <button
+                                class="px-3 py-1.5 rounded-md text-[12px] font-medium transition-colors flex items-center gap-1.5"
+                                :style="state.activeTab === tab.key ? 'background:#205E77;color:#fff' : 'color:#5C6478'"
+                                @click="setTabFilter(tab.key)">
+                                {{ tab.label }}
+                                <span class="text-[11px] font-normal opacity-70">({{ tab.count }})</span>
+                            </button>
+                        </Tooltip>
                     </div>
 
                     <select v-model="state.sortData.sortField"
@@ -148,7 +152,14 @@
                                     <Icon name="ph:check" class="w-3 h-3" />
                                     {{ $t('superadmin.invoices.table.paid') }}
                                 </span>
-                                <span v-else-if="invoice?.status === 'failed'" class="co-badge co-badge-red">
+                                <Tooltip v-else-if="invoiceChip(invoice) === 'resolved'"
+                                    :text="$t('paymentDunning.invoices.resolvedHelp')" position="top" wrap>
+                                    <span class="co-badge co-badge-gray">
+                                        <Icon name="ph:arrow-counter-clockwise" class="w-3 h-3" aria-hidden="true" />
+                                        {{ $t('paymentDunning.invoices.resolvedChip') }}
+                                    </span>
+                                </Tooltip>
+                                <span v-else-if="invoiceChip(invoice) === 'failed'" class="co-badge co-badge-red">
                                     <Icon name="ph:x" class="w-3 h-3" />
                                     {{ $t('superadmin.invoices.tabs.failed') }}
                                 </span>
@@ -234,6 +245,7 @@
 import { invoiceService } from '@/components/api/superadmin/InvoiceService'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
+import { invoiceChip } from '@/composables/billingMethod'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
@@ -296,10 +308,10 @@ const hasActiveFilters = computed(() =>
 )
 
 const tabs = computed(() => [
-    { key: 'all', label: t('superadmin.invoices.tabs.all'), count: state.totalCount },
-    { key: 'paid', label: t('superadmin.invoices.tabs.paid'), count: state.paidCount },
-    { key: 'pending', label: t('superadmin.invoices.tabs.pending'), count: state.pendingCount },
-    { key: 'failed', label: t('superadmin.invoices.tabs.failed'), count: state.failedCount },
+    { key: 'all', label: t('superadmin.invoices.tabs.all'), count: state.totalCount, help: '' },
+    { key: 'paid', label: t('superadmin.invoices.tabs.paid'), count: state.paidCount, help: '' },
+    { key: 'pending', label: t('superadmin.invoices.tabs.pending'), count: state.pendingCount, help: '' },
+    { key: 'failed', label: t('superadmin.invoices.tabs.failed'), count: state.failedCount, help: t('paymentDunning.invoices.failedTabHelp') },
 ])
 
 onMounted(() => {
