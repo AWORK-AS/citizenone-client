@@ -48,6 +48,15 @@
                                         {{ row.company_name || '—' }}
                                     </NuxtLink>
                                 </Tooltip>
+                                <ul v-if="row.invoices.length" class="mt-1 space-y-0.5">
+                                    <li v-for="invoice in row.invoices" :key="invoice.uuid"
+                                        class="flex items-center gap-1.5 text-[11px] text-[#5C6478]">
+                                        <span class="font-mono">#{{ invoice.invoice_number }}</span>
+                                        <Tooltip v-if="invoice.card_security_status" :text="$t('paymentDunning.problems.invoiceStatusHelp')" position="top" wrap>
+                                            <span class="co-badge co-badge-gray">{{ $t(`paymentDunning.problems.invoiceStatus.${invoice.card_security_status}`) }}</span>
+                                        </Tooltip>
+                                    </li>
+                                </ul>
                             </td>
                             <td class="co-td">
                                 <span class="co-badge" :class="row.billing_method === 'invoice' ? 'co-badge-navy' : 'co-badge-blue'">
@@ -60,6 +69,9 @@
                                         {{ $t('paymentDunning.problems.securityCard') }}
                                     </span>
                                 </Tooltip>
+                                <p v-if="row.security_card" class="mt-1 text-[11px] text-[#5C6478]">
+                                    {{ $t('paymentDunning.problems.securityCardLine', { last_four: row.security_card.last_four ?? '—', expiry: row.security_card.expiry ?? '—' }) }}
+                                </p>
                             </td>
                             <td class="co-td text-[13px] font-semibold text-[#1F2533]">
                                 {{ formatAmount(row.amount_outstanding, 'DKK') }}
@@ -109,18 +121,18 @@
 </template>
 
 <script setup lang="ts">
-import { billingService } from '@/components/api/superadmin/BillingService'
+import { billingService, type DunningActResult } from '@/components/api/superadmin/BillingService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useAlert } from '@/composables/alert'
-import { dunningActions, securityChargeUnavailable, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
+import { chargeStatus, dunningActions, outcomeTone, retryStatus, securityChargeUnavailable, type DunningAction, type DunningRow, type DunningStatus } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { successAlert } = useAlert()
+const { successAlert, errorAlert } = useAlert()
 const { t } = useI18n()
 const { can } = usePermissions()
 const { refresh: refreshBadge } = useBillingProblemCount()
@@ -184,10 +196,29 @@ function openAction(row: DunningRow, action: DunningAction) {
     state.modal.isOpen = true
 }
 
-async function onDone(action: DunningAction) {
+async function onDone(action: DunningAction, result: DunningActResult | null) {
     state.modal.isOpen = false
-    successAlert(`${t('alert.success')}!`, t(`paymentDunning.problems.done.${action}`))
-    await Promise.all([fetchRows(), refreshBadge()])
+    const company = state.selected?.company_uuid
+
+    // Retry and the security charge say how it ended; "pending" is never shown as paid.
+    const outcome = action === 'retry' ? retryStatus(result)
+        : action === 'charge_security_card' ? chargeStatus(result) : null
+
+    if (outcome) {
+        const message = t(`paymentDunning.outcome.${action === 'retry' ? 'retry' : 'charge'}.${outcome}`)
+        if (outcomeTone(outcome) === 'success') successAlert(`${t('alert.success')}!`, message)
+        else errorAlert(outcomeTone(outcome) === 'info' ? t('paymentDunning.problems.title') : t('alert.warning'), message)
+    } else {
+        successAlert(`${t('alert.success')}!`, t(`paymentDunning.problems.done.${action}`))
+    }
+
+    // Update the row in place from the response; a payment that cleared the problem
+    // drops out of the list on the next fetch.
+    if (result?.row && company) {
+        state.rows = state.rows.map((row) => (row.company_uuid === company ? result.row! : row))
+    }
+
+    await Promise.all([result?.row ? Promise.resolve() : fetchRows(), refreshBadge()])
 }
 
 onMounted(fetchRows)

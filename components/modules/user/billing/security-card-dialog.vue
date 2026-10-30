@@ -8,10 +8,15 @@
                 <Alert v-if="state.error" type="danger" :text="state.error" />
 
                 <template v-if="!state.checkoutReady">
+                    <!-- The consent text and its version come from the API, so what the customer
+                         read is exactly what is logged with the timestamp. -->
+                    <p v-if="state.info" class="rounded-lg bg-gray-50 px-3 py-2 text-sm text-gray-700 whitespace-pre-line">
+                        {{ state.info.consent_text }}
+                    </p>
                     <Tooltip :text="$t('paymentDunning.customer.consentHelp')" position="top" wrap class="!block">
                         <label class="flex items-start gap-2 text-sm text-gray-800 cursor-pointer">
                             <input type="checkbox" class="mt-1 rounded border-gray-300" v-model="state.consent" />
-                            <span>{{ $t('paymentDunning.customer.consent') }}</span>
+                            <span>{{ $t('paymentDunning.customer.consentCheckbox') }}</span>
                         </label>
                     </Tooltip>
                     <p v-if="state.needsConsent" class="text-[12px] text-red-600" role="alert">
@@ -23,7 +28,7 @@
                             {{ $t('paymentDunning.customer.cancel') }}
                         </FormButton>
                         <Tooltip :text="$t('paymentDunning.customer.changeCardHelp')" position="top" wrap>
-                            <FormButton type="button" buttonStyle="primary" :disabled="state.isStarting" @click="start">
+                            <FormButton type="button" buttonStyle="primary" :disabled="state.isStarting || !state.info" @click="start">
                                 {{ state.isStarting ? $t('paymentStatus.pleaseWait') : $t('paymentDunning.customer.attachCard') }}
                             </FormButton>
                         </Tooltip>
@@ -43,7 +48,8 @@
 </template>
 
 <script setup lang="ts">
-import { billingService } from '@/components/api/user/BillingService'
+import { billingService, type CardSecurityInfo } from '@/components/api/user/BillingService'
+import { errorMessageKey } from '@/composables/billingMethod'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 
@@ -69,15 +75,30 @@ const state = reactive({
     isSaving: false,
     checkoutReady: false,
     error: '' as string,
+    info: null as CardSecurityInfo | null,
 })
 
-watch(() => props.isOpen, (open: boolean) => {
+watch(() => props.isOpen, async (open: boolean) => {
     if (!open) return
     state.consent = false
     state.needsConsent = false
     state.error = ''
     state.checkoutReady = false
+    state.info = null
+
+    try {
+        state.info = await billingService.getCardSecurity()
+        // 404: the feature is off, so there is nothing to attach.
+        if (!state.info) emit('close')
+    } catch (error: any) {
+        state.error = errorText(error, t('paymentDunning.customer.loadFailed'))
+    }
 })
+
+function errorText(error: any, fallback: string): string {
+    const key = errorMessageKey(error)
+    return key ? t(key) : (error?.message || fallback)
+}
 
 function close() {
     checkout?.cleanup?.()
@@ -93,7 +114,7 @@ async function start() {
 
     state.isStarting = true
     try {
-        const response = await billingService.startSecurityCard(true)
+        const response = await billingService.startCardSecurityCheckout(state.info?.consent_version ?? '')
         const paymentId = response?.data?.payment_id
 
         if (!paymentId) {
@@ -114,7 +135,7 @@ async function start() {
 
         checkout.on('payment-completed', () => complete(paymentId))
     } catch (error: any) {
-        state.error = error?.message || t('paymentDunning.customer.cardFailed')
+        state.error = errorText(error, t('paymentDunning.customer.cardFailed'))
     } finally {
         state.isStarting = false
     }
@@ -127,11 +148,11 @@ async function complete(paymentId: string) {
     state.isSaving = true
 
     try {
-        await billingService.completeSecurityCard(paymentId)
+        await billingService.completeCardSecurity(paymentId)
         successAlert(`${t('alert.success')}!`, t('paymentDunning.customer.cardSaved'))
         emit('saved')
     } catch (error: any) {
-        state.error = error?.message || t('paymentDunning.customer.cardFailed')
+        state.error = errorText(error, t('paymentDunning.customer.cardFailed'))
     } finally {
         state.isSaving = false
     }

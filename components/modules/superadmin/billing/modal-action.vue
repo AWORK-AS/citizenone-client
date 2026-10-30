@@ -55,7 +55,7 @@
 <script setup lang="ts">
 import { billingService } from '@/components/api/superadmin/BillingService'
 import { useAmountFormatter } from '@/composables/amountFormatter'
-import { actionNeedsNote, actionTakesNote, validateDunningAction, type DunningAction, type DunningRow } from '@/composables/billingMethod'
+import { actionNeedsNote, actionTakesNote, errorMessageKey, validateDunningAction, type DunningAction, type DunningRow } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
 
@@ -100,13 +100,15 @@ async function submit() {
     state.error = {}
     state.isSaving = true
     try {
-        await billingService.act(props.row.company_uuid, props.action, {
+        const result = await billingService.act(props.row.company_uuid, props.action, {
             ...(takesNote.value && state.note.trim() ? { note: state.note.trim() } : {}),
             ...(needsDays.value ? { days: Number(state.days) } : {}),
         })
-        emit('done', props.action)
+        emit('done', props.action, result)
     } catch (error: any) {
-        state.error = error
+        // Every refusal carries a `code`; show our own text for the ones we know.
+        const key = errorMessageKey(error)
+        state.error = key ? ({ message: t(key) } as Error) : error
     }
     state.isSaving = false
 }

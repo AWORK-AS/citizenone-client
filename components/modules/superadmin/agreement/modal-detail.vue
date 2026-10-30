@@ -47,6 +47,16 @@
                             :autoRenews="state.agreement.auto_renews" />
                     </div>
 
+                    <Tooltip :text="$t('paymentDunning.agreement.cardSecurityHelp')" position="top" wrap class="!block">
+                        <label class="inline-flex items-center gap-2 text-[13px] text-[#1F2533]"
+                            :class="canManageFinancials ? 'cursor-pointer' : 'opacity-60'">
+                            <input type="checkbox" class="rounded border-[#D5D9E2]" :checked="cardSecurity"
+                                :disabled="!canManageFinancials || state.isSavingCardSecurity"
+                                @change="toggleCardSecurity(($event.target as HTMLInputElement).checked)" />
+                            {{ $t('paymentDunning.agreement.cardSecurity') }}
+                        </label>
+                    </Tooltip>
+
                     <Tooltip :text="$t('superadmin.agreements.help.renewalTerm')" position="top" wrap class="!block">
                         <p class="text-[13px] text-[#1F2533]">
                             {{ $t('superadmin.agreements.renewal.renewsFor', { term: renewalInfo.months, billing: $t(`superadmin.agreements.renewal.billing.${renewalInfo.billing}`) }) }}
@@ -393,6 +403,8 @@
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { agreementService } from '@/components/api/superadmin/AgreementService'
+import { billingService } from '@/components/api/superadmin/BillingService'
+import { useAlert } from '@/composables/alert'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import {
@@ -402,6 +414,24 @@ import {
 import type { Agreement, LinkableSubscription } from '@/types/agreement'
 import type { Error } from '@/types'
 
+const { can: canDo } = usePermissions()
+const canManageFinancials = computed(() => canDo('manage_financials'))
+const cardSecurity = computed(() => (state.agreement as any)?.card_security === true)
+
+async function toggleCardSecurity(value: boolean) {
+    if (!state.agreement) return
+    state.isSavingCardSecurity = true
+    state.error = {} as any
+    try {
+        const saved = await billingService.setAgreementCardSecurity(state.agreement.uuid, value)
+        ;(state.agreement as any).card_security = saved
+        successAlert(`${t('alert.success')}!`, t('paymentDunning.agreement.cardSecuritySaved'))
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isSavingCardSecurity = false
+}
+
 const props = defineProps({
     isModalOpen: { type: Boolean, required: true },
     companyUuid: { type: String, required: true },
@@ -410,11 +440,13 @@ const props = defineProps({
 const emit = defineEmits(['close', 'edit', 'addRenewalPlan', 'changed', 'deleted'])
 
 const { t } = useI18n()
+const { successAlert } = useAlert()
 const { formatAmount } = useAmountFormatter()
 const formatNumber = (value: number) => new Intl.NumberFormat(undefined, { maximumFractionDigits: 0 }).format(Number(value) || 0)
 const { formatDateToReadable } = useDatetimeFormatter()
 
 const state = reactive({
+    isSavingCardSecurity: false,
     agreement: null as Agreement | null,
     isLoading: false,
     error: {} as Error,

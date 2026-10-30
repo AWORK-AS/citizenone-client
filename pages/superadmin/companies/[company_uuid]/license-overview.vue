@@ -869,7 +869,7 @@
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
 import { billingService } from '@/components/api/superadmin/BillingService'
-import { grantNotice, type CompanyBilling } from '@/composables/billingMethod'
+import { errorMessageKey, grantNotice, type CompanyBilling } from '@/composables/billingMethod'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
@@ -1306,7 +1306,9 @@ async function submitEditSubscription() {
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.editSubscription.updated')}.`)
         fetchSubscription()
     } catch (error: any) {
-        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.editSubscription.failed'))
+        // plan_change_invoice_company: the company pays by invoice, so a card plan change is refused.
+        const key = errorMessageKey(error)
+        errorAlert(t('alert.warning'), key ? t(key) : (error?.message ?? t('superadmin.companies.licenseOverview.editSubscription.failed')))
     }
     state.editSubscription.isSaving = false
 }

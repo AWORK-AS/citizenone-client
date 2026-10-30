@@ -7,6 +7,14 @@ import { normalizeCompanyBilling, type CompanyBilling } from '@/composables/bill
  * could only be helped by hand: the one card-update link in the product was
  * minted by a nightly job and emailed out.
  */
+export type CardSecurityInfo = {
+    status: 'active' | 'missing'
+    last_four: string | null
+    expiry: string | null
+    consent_version: string
+    consent_text: string
+}
+
 class BillingService extends BaseAPIService {
     async getStatus(): Promise<any> {
         return await this.request(`/user/billing/status`, 'GET')
@@ -25,8 +33,8 @@ class BillingService extends BaseAPIService {
     /**
      * How the company pays, from the same standing the wall reads: `billing_method`
      * is "card", "invoice", or null for a running customer agreement (Elite), which
-     * shows Elite and no payment method. The API does not yet send the masked
-     * security card, so `card_masked` stays null until it does.
+     * shows Elite and no payment method. The masked security card is the `card_security`
+     * block, present only for invoice customers while the feature is on.
      */
     async getPaymentMethod(): Promise<CompanyBilling> {
         const response = await this.getStatus()
@@ -34,16 +42,36 @@ class BillingService extends BaseAPIService {
     }
 
     /**
-     * Starts attaching a card as security (no charge). The customer's consent is
-     * sent with the request so the API can log it with a timestamp. Admin only.
+     * The card an invoice customer has put up as security, with the consent text to show.
+     * Admin only. Answers 404 while the feature is off, which comes back as `null` so the
+     * caller hides the whole flow.
      */
-    async startSecurityCard(consent: boolean): Promise<any> {
-        return await this.request(`/user/billing/security-card`, 'POST', { consent })
+    async getCardSecurity(): Promise<CardSecurityInfo | null> {
+        try {
+            const response = await this.request(`/user/billing/card-security`, 'GET')
+            const data = response?.data ?? {}
+
+            return {
+                status: data.status === 'active' ? 'active' : 'missing',
+                last_four: data.last_four ?? null,
+                expiry: data.expiry ?? null,
+                consent_version: String(data.consent_version ?? ''),
+                consent_text: String(data.consent_text ?? ''),
+            }
+        } catch (error: any) {
+            if (error?.status === 404) return null
+            throw error
+        }
     }
 
-    // Confirms the Nexi payment from the widget and stores the masked card.
-    async completeSecurityCard(paymentId: string): Promise<any> {
-        return await this.request(`/user/billing/security-card/complete`, 'POST', { payment_id: paymentId })
+    /** 0 kr., cards only. The consent version must be the one from `getCardSecurity`. */
+    async startCardSecurityCheckout(consentVersion: string): Promise<any> {
+        return await this.request(`/user/billing/card-security/checkout`, 'POST', { consent: true, consent_version: consentVersion })
+    }
+
+    // Confirms the Nexi payment from the widget. The webhook activates the card too.
+    async completeCardSecurity(paymentId: string): Promise<any> {
+        return await this.request(`/user/billing/card-security/complete`, 'POST', { payment_id: paymentId })
     }
 
     // Collects the outstanding amount against the card now on file.

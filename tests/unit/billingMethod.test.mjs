@@ -18,6 +18,11 @@ import {
     normalizeDunningStatus,
     pausedServices,
     invoiceCounts,
+    errorMessageKey,
+    retryStatus,
+    chargeStatus,
+    outcomeTone,
+    shouldRouteToSuspended,
     grantChargesCardNow,
     securityChargeUnavailable,
     suspendedLogin,
@@ -245,4 +250,89 @@ test('paused services: null, empty and the SMS flag', () => {
     assert.deepEqual(pausedServices(undefined), [])
     assert.deepEqual(pausedServices({}), [])
     assert.deepEqual(pausedServices({ payment_paused: true }), ['sms'])
+})
+
+test('every known refusal code maps to a message key, unknown ones to null', () => {
+    for (const code of [
+        'payment_provider_unavailable', 'payment_problem_no_card', 'payment_problem_action_not_available',
+        'payment_problem_close_blocked', 'card_security_disabled', 'card_security_over_cap',
+        'card_security_consent_required', 'card_security_not_applicable', 'plan_change_invoice_company',
+    ]) {
+        assert.equal(errorMessageKey({ code }), `paymentDunning.errors.${code}`)
+    }
+    assert.equal(errorMessageKey({ code: 'something_else' }), null)
+    assert.equal(errorMessageKey({}), null)
+    assert.equal(errorMessageKey(null), null)
+    assert.equal(errorMessageKey({ code: 42 }), null)
+})
+
+test('retry and charge statuses', () => {
+    for (const status of ['paid', 'pending', 'declined', 'no_card', 'not_applicable']) assert.equal(retryStatus({ status }), status)
+    assert.equal(retryStatus({ paid: true }), 'paid')
+    assert.equal(retryStatus({ paid: false }), 'unknown')
+    assert.equal(retryStatus({ status: 'weird', paid: true }), 'unknown')
+    assert.equal(retryStatus(null), 'unknown')
+    for (const status of ['charged', 'pending', 'declined']) assert.equal(chargeStatus({ status }), status)
+    assert.equal(chargeStatus({ status: 'paid' }), 'unknown')
+    assert.equal(chargeStatus(undefined), 'unknown')
+})
+
+test('pending is never shown as success', () => {
+    assert.equal(outcomeTone('paid'), 'success')
+    assert.equal(outcomeTone('charged'), 'success')
+    assert.equal(outcomeTone('pending'), 'info')
+    assert.equal(outcomeTone('not_applicable'), 'info')
+    for (const status of ['declined', 'no_card', 'unknown']) assert.equal(outcomeTone(status), 'error')
+})
+
+test('a suspended refusal from a user call routes to the suspended page, except billing and the flow itself', () => {
+    const err = { code: 'subscription_suspended', can_manage: false }
+    assert.equal(shouldRouteToSuspended('/user/citizens', err, '/citizens'), true)
+    assert.equal(shouldRouteToSuspended('/user/billing/status', err, '/citizens'), false)
+    assert.equal(shouldRouteToSuspended('/user/billing/card-security', err, '/settings'), false)
+    assert.equal(shouldRouteToSuspended('/user/citizens', err, '/subscription/suspended'), false)
+    assert.equal(shouldRouteToSuspended('/user/citizens', err, '/'), false)
+    assert.equal(shouldRouteToSuspended('/superadmin/companies', err, '/superadmin'), false)
+    assert.equal(shouldRouteToSuspended('/user/citizens', { code: 'other' }, '/citizens'), false)
+    assert.equal(shouldRouteToSuspended('/user/citizens', null, '/citizens'), false)
+})
+
+test('the customer standing maps card_security to the masked card', () => {
+    const active = normalizeCompanyBilling({ data: { billing_method: 'invoice', card_security: { status: 'active', last_four: '0004', expiry: '08/28' } } })
+    assert.equal(active.invoice_card_security, true)
+    assert.equal(active.card_masked, '•••• 0004')
+    assert.equal(active.card_expiry, '08/28')
+    const missing = normalizeCompanyBilling({ data: { billing_method: 'invoice', card_security: { status: 'missing', last_four: null, expiry: null } } })
+    assert.equal(missing.invoice_card_security, true)
+    assert.equal(missing.card_masked, null)
+    // Flag off: the API sends null, so no security UI at all.
+    const off = normalizeCompanyBilling({ data: { billing_method: 'invoice', card_security: null } })
+    assert.equal(off.invoice_card_security, false)
+    assert.equal(cardSecurityState(off), 'off')
+    assert.equal(cardSecurityState(active), 'attached')
+    assert.equal(cardSecurityState(missing), 'missing')
+})
+
+test('signing out of a suspended session revokes the server token, then clears the local one', async () => {
+    const { signOutRevoking } = await import('../../composables/signOutRevoking.ts')
+    const calls = []
+    const result = await signOutRevoking({
+        logout: async () => { calls.push('server') },
+        clearLocal: async () => { calls.push('local') },
+        done: () => calls.push('done'),
+    })
+    assert.deepEqual(calls, ['server', 'local', 'done'])
+    assert.equal(result.revoked, true)
+})
+
+test('an unreachable server does not trap the user in a suspended session', async () => {
+    const { signOutRevoking } = await import('../../composables/signOutRevoking.ts')
+    const calls = []
+    const result = await signOutRevoking({
+        logout: async () => { throw new Error('network') },
+        clearLocal: () => { calls.push('local') },
+        done: () => calls.push('done'),
+    })
+    assert.deepEqual(calls, ['local', 'done'])
+    assert.equal(result.revoked, false)
 })

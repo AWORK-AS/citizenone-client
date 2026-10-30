@@ -20570,7 +20570,7 @@
                 "retry": "Tries to charge the outstanding amount to the customer's card now.",
                 "send_card_link": "Sends the administrators a link where they can add a new card.",
                 "charge_security_card": "Charges the unpaid invoice to the customer's security card. Cannot be undone.",
-                "charge_security_card_disabled": "Not available yet: charging a security card is not enabled in the system.",
+                "charge_security_card_disabled": "Needs card as security switched on, an active security card and an overdue invoice.",
                 "close": "Closes the company, so its users see the missing-payment page. Not possible for companies with a running agreement.",
                 "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
                 "postpone": "Pauses dunning and closing for the number of days you choose."
@@ -20608,7 +20608,17 @@
             },
             "failed": "The action failed",
             "openCompany": "Open the company",
-            "postponedUntil": "Postponed until {date}"
+            "postponedUntil": "Postponed until {date}",
+            "invoiceStatus": {
+                "noticed": "Notified",
+                "charging": "Charging",
+                "pending": "Pending at bank",
+                "charged": "Charged",
+                "declined": "Declined",
+                "over_cap": "Over the limit"
+            },
+            "invoiceStatusHelp": "Status of the security card charge for this invoice.",
+            "securityCardLine": "Card •••• {last_four} (expires {expiry})"
         },
         "company": {
             "title": "Payment method",
@@ -20656,12 +20666,13 @@
             "bannerTitle": "Attach a payment card as security",
             "bannerBody": "Your agreement uses a card as security. Nothing is charged when you attach it.",
             "bannerAdminOnly": "An administrator needs to attach a payment card as security.",
-            "consent": "I consent to CitizenOne charging an unpaid invoice to this card once it is more than 7 days overdue, after a notice 2 days before. The consent can be withdrawn by contacting us.",
             "consentHelp": "The consent and the time are recorded.",
             "consentRequired": "Tick the consent to continue.",
             "cardSaved": "The card is attached as security",
             "cardFailed": "The card could not be attached. Try again or contact support.",
-            "cancel": "Cancel"
+            "cancel": "Cancel",
+            "loadFailed": "Could not load the consent text. Try again.",
+            "consentCheckbox": "I have read the text above and give my consent"
         },
         "suspended": {
             "title": "Payment missing – update your payment card",
@@ -20697,6 +20708,40 @@
             "body": "Your invoice has not been paid. Contact us and we will sort it out and keep the account open.",
             "contact": "Contact us",
             "contactHelp": "Opens an email to CitizenOne support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "The payment went through",
+                "pending": "The payment has been sent to the bank and is pending. It is not paid yet.",
+                "declined": "The card was declined and nothing was charged. Update the card or try another.",
+                "no_card": "No payment card is registered. Update the payment card first.",
+                "not_applicable": "There is nothing to pay right now.",
+                "unknown": "We could not tell whether the payment went through. Try again shortly."
+            },
+            "charge": {
+                "charged": "The security card was charged and the invoice is paid",
+                "pending": "The charge has been sent to the bank and is pending. The invoice is not paid yet.",
+                "declined": "The security card was declined. The dunning flow has started."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "The payment provider cannot be reached right now. Nothing was changed. Try again shortly.",
+            "payment_problem_no_card": "The company has no payment card to charge.",
+            "payment_problem_action_not_available": "The action does not fit the company's state. Refresh the list.",
+            "payment_problem_close_blocked": "The company has a running agreement and cannot be closed for non-payment.",
+            "card_security_disabled": "Card as security is not enabled in the system.",
+            "card_security_over_cap": "The amount is above the security card limit and must be followed up manually.",
+            "card_security_consent_required": "The consent is no longer valid. Close and reopen the dialog and consent again.",
+            "card_security_not_applicable": "Card as security only applies to invoice customers.",
+            "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced."
+        },
+        "agreement": {
+            "cardSecurity": "Card as security",
+            "cardSecurityHelp": "The agreement's invoices can be charged to the customer's security card when unpaid. Large amounts are often above the limit and followed up manually.",
+            "cardSecuritySaved": "Card as security was updated on the agreement"
+        },
+        "suspendedPage": {
+            "loading": "Loading status..."
         }
     }
 }

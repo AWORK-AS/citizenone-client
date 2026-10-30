@@ -20485,7 +20485,7 @@
                 "retry": "Forsøker å trekke det utestående beløpet på kundens kort nå.",
                 "send_card_link": "Sender administratorene en lenke der de kan knytte til et nytt kort.",
                 "charge_security_card": "Trekker den ubetalte fakturaen på kundens sikkerhetskort. Kan ikke angres.",
-                "charge_security_card_disabled": "Ikke tilgjengelig ennå: trekk på sikkerhetskort er ikke slått på i systemet.",
+                "charge_security_card_disabled": "Krever kort som sikkerhet slått på, et aktivt sikkerhetskort og en forfalt faktura.",
                 "close": "Stenger virksomheten, slik at brukerne ser siden om manglende betaling. Ikke mulig for virksomheter med en løpende avtale.",
                 "reopen": "Åpner virksomheten igjen med en gang og utsetter purringene i det antall dager du velger.",
                 "postpone": "Pauser purreforløpet og stengingen i det antall dager du velger."
@@ -20523,7 +20523,17 @@
             },
             "failed": "Handlingen mislyktes",
             "openCompany": "Åpne virksomheten",
-            "postponedUntil": "Utsatt til {date}"
+            "postponedUntil": "Utsatt til {date}",
+            "invoiceStatus": {
+                "noticed": "Varslet",
+                "charging": "Trekker",
+                "pending": "Venter på bank",
+                "charged": "Trukket",
+                "declined": "Avvist",
+                "over_cap": "Over grensen"
+            },
+            "invoiceStatusHelp": "Status for trekk på sikkerhetskortet for denne fakturaen.",
+            "securityCardLine": "Kort •••• {last_four} (utløper {expiry})"
         },
         "company": {
             "title": "Betalingsmåte",
@@ -20571,12 +20581,13 @@
             "bannerTitle": "Knytt til et betalingskort som sikkerhet",
             "bannerBody": "Avtalen deres har kort som sikkerhet. Det trekkes ingenting ved tilknytning.",
             "bannerAdminOnly": "En administrator må knytte til et betalingskort som sikkerhet.",
-            "consent": "Jeg samtykker til at CitizenOne kan trekke en ubetalt faktura på dette kortet når den er mer enn 7 dager over forfall, etter varsel 2 dager før. Samtykket kan trekkes tilbake ved å kontakte oss.",
             "consentHelp": "Samtykket og tidspunktet lagres.",
             "consentRequired": "Kryss av for samtykket for å fortsette.",
             "cardSaved": "Kortet er knyttet til som sikkerhet",
             "cardFailed": "Kortet kunne ikke knyttes til. Prøv igjen eller kontakt support.",
-            "cancel": "Avbryt"
+            "cancel": "Avbryt",
+            "loadFailed": "Kunne ikke hente samtykketeksten. Prøv igjen.",
+            "consentCheckbox": "Jeg har lest teksten ovenfor og samtykker"
         },
         "suspended": {
             "title": "Betaling mangler – oppdater betalingskort",
@@ -20612,6 +20623,40 @@
             "body": "Fakturaen deres er ikke betalt. Kontakt oss, så finner vi en løsning og holder kontoen åpen.",
             "contact": "Kontakt oss",
             "contactHelp": "Åpner en e-post til CitizenOnes support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "Betalingen er gjennomført",
+                "pending": "Betalingen er sendt til banken og venter. Den er ikke betalt ennå.",
+                "declined": "Kortet ble avvist og ingenting er trukket. Oppdater kortet eller prøv et annet.",
+                "no_card": "Det er ikke registrert noe betalingskort. Oppdater betalingskortet først.",
+                "not_applicable": "Det er ingenting å betale akkurat nå.",
+                "unknown": "Vi kunne ikke se om betalingen gikk gjennom. Prøv igjen om litt."
+            },
+            "charge": {
+                "charged": "Sikkerhetskortet er trukket og fakturaen er betalt",
+                "pending": "Trekket er sendt til banken og venter. Fakturaen er ikke betalt ennå.",
+                "declined": "Sikkerhetskortet ble avvist. Purreforløpet er startet."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "Betalingsleverandøren kan ikke nås akkurat nå. Ingenting er endret. Prøv igjen om litt.",
+            "payment_problem_no_card": "Virksomheten har ikke noe betalingskort å trekke på.",
+            "payment_problem_action_not_available": "Handlingen passer ikke til virksomhetens tilstand. Oppdater listen.",
+            "payment_problem_close_blocked": "Virksomheten har en løpende avtale og kan ikke stenges for manglende betaling.",
+            "card_security_disabled": "Kort som sikkerhet er ikke slått på i systemet.",
+            "card_security_over_cap": "Beløpet er over grensen for sikkerhetskort og må følges opp manuelt.",
+            "card_security_consent_required": "Samtykket er ikke gyldig lenger. Lukk og åpne dialogen igjen og gi samtykke på nytt.",
+            "card_security_not_applicable": "Kort som sikkerhet gjelder bare fakturakunder.",
+            "plan_change_invoice_company": "Virksomheten betaler med faktura. Bytt planen fra lisensoversikten, så den faktureres."
+        },
+        "agreement": {
+            "cardSecurity": "Kort som sikkerhet",
+            "cardSecurityHelp": "Avtalens fakturaer kan trekkes på kundens sikkerhetskort når de er ubetalte. Store beløp ligger ofte over grensen og følges opp manuelt.",
+            "cardSecuritySaved": "Kort som sikkerhet er oppdatert på avtalen"
+        },
+        "suspendedPage": {
+            "loading": "Henter status..."
         }
     }
 }

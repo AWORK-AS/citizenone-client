@@ -37,6 +37,16 @@ export type CompanyBilling = BillingMethodForm & {
     economic_draft: boolean
 }
 
+export type CardSecurityInvoiceStatus = 'noticed' | 'charging' | 'pending' | 'charged' | 'declined' | 'over_cap'
+
+export type DunningInvoice = {
+    uuid: string
+    invoice_number: string
+    total_amount: number
+    due_on: string | null
+    card_security_status: CardSecurityInvoiceStatus | null
+}
+
 export type DunningRow = {
     company_uuid: string
     company_name: string
@@ -51,6 +61,10 @@ export type DunningRow = {
     /** YYYY-MM-DD while dunning is postponed. */
     postponed_until: string | null
     postpone_note: string | null
+    /** Masked security card, only while the feature is on. */
+    security_card: { last_four: string | null; expiry: string | null } | null
+    /** Invoice customers: each unpaid invoice and where its security-card charge stands. */
+    invoices: DunningInvoice[]
     /** What the API says may be done to this row. The server is the authority. */
     actions: Partial<Record<DunningAction, boolean>>
 }
@@ -71,11 +85,16 @@ export function normalizeDunningStatus(value: unknown): DunningStatus {
  */
 export function normalizeCompanyBilling(raw: any): CompanyBilling {
     const data = raw?.data ?? raw ?? {}
-    const card = data.security_card ?? data.card ?? null
+    // `card_security` is the customer standing's block (null while the feature is off or the
+    // company is not an invoice customer with card security); `security_card` the older name.
+    const cardSecurity = data.card_security ?? null
+    const card = cardSecurity?.status === 'active' || (cardSecurity && cardSecurity.last_four)
+        ? { masked: cardSecurity.last_four ? `•••• ${cardSecurity.last_four}` : null, expiry: cardSecurity.expiry ?? null }
+        : (data.security_card ?? data.card ?? null)
 
     return {
         billing_method: normalizeBillingMethod(data.billing_method),
-        invoice_card_security: !!data.invoice_card_security,
+        invoice_card_security: !!data.invoice_card_security || (cardSecurity !== null && typeof cardSecurity === 'object'),
         leverandorservice: !!data.leverandorservice,
         card_masked: card?.masked ?? card?.masked_pan ?? data.card_masked ?? null,
         card_expiry: card?.expiry ?? data.card_expiry ?? null,
@@ -315,4 +334,63 @@ export function pausedServices(flags: any): PausedService[] {
     if (flags?.ai_payment_missing || flags?.ai_paused) out.push('ai')
     if (flags?.sms_payment_missing || flags?.sms_paused || flags?.payment_paused) out.push('sms')
     return out
+}
+
+/**
+ * Messages for the API's refusal `code`s, as i18n keys. Every refusal carries `code` next
+ * to its (Danish) message, so the client shows its own text in the user's language and
+ * falls back to the server's message only for a code it does not know.
+ */
+const ERROR_CODES = new Set([
+    'payment_provider_unavailable',
+    'payment_problem_no_card',
+    'payment_problem_action_not_available',
+    'payment_problem_close_blocked',
+    'card_security_disabled',
+    'card_security_over_cap',
+    'card_security_consent_required',
+    'card_security_not_applicable',
+    'plan_change_invoice_company',
+])
+
+export function errorMessageKey(error: any): string | null {
+    const code = error?.code
+    return typeof code === 'string' && ERROR_CODES.has(code) ? `paymentDunning.errors.${code}` : null
+}
+
+/** How a retry (customer or superadmin) or a security charge ended. */
+export type RetryStatus = 'paid' | 'pending' | 'declined' | 'no_card' | 'not_applicable' | 'unknown'
+export type ChargeStatus = 'charged' | 'pending' | 'declined' | 'unknown'
+export type OutcomeTone = 'success' | 'info' | 'error'
+
+export function retryStatus(result: any): RetryStatus {
+    const status = result?.status
+    if (status === 'paid' || status === 'pending' || status === 'declined' || status === 'no_card' || status === 'not_applicable') return status
+    // An older API sent only `paid`.
+    if (status === undefined && result?.paid === true) return 'paid'
+    return 'unknown'
+}
+
+export function chargeStatus(result: any): ChargeStatus {
+    const status = result?.status
+    return status === 'charged' || status === 'pending' || status === 'declined' ? status : 'unknown'
+}
+
+export function outcomeTone(status: RetryStatus | ChargeStatus): OutcomeTone {
+    if (status === 'paid' || status === 'charged') return 'success'
+    if (status === 'pending' || status === 'not_applicable') return 'info'
+    return 'error'
+}
+
+/**
+ * Any `/user/*` call from a suspended company's session answers 400 `subscription_suspended`.
+ * The billing routes stay open so the suspended page can read its own standing and pay,
+ * and the pages that already are the suspended flow must not redirect to themselves.
+ */
+export function shouldRouteToSuspended(url: string, error: any, currentPath = ''): boolean {
+    if (error?.code !== 'subscription_suspended') return false
+    if (!url.startsWith('/user/')) return false
+    if (url.startsWith('/user/billing/')) return false
+    if (currentPath === '/' || currentPath.startsWith('/subscription/')) return false
+    return true
 }

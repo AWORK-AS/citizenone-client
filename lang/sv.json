@@ -20485,7 +20485,7 @@
                 "retry": "Försöker dra det utestående beloppet från kundens kort nu.",
                 "send_card_link": "Skickar administratörerna en länk där de kan koppla ett nytt kort.",
                 "charge_security_card": "Debiterar den obetalda fakturan på kundens säkerhetskort. Kan inte ångras.",
-                "charge_security_card_disabled": "Inte tillgängligt ännu: dragning från säkerhetskort är inte aktiverad i systemet.",
+                "charge_security_card_disabled": "Kräver kort som säkerhet påslaget, ett aktivt säkerhetskort och en förfallen faktura.",
                 "close": "Stänger företaget så att användarna ser sidan om saknad betalning. Inte möjligt för företag med ett löpande avtal.",
                 "reopen": "Öppnar företaget igen direkt och skjuter upp påminnelserna i det antal dagar du väljer.",
                 "postpone": "Pausar påminnelser och stängning i det antal dagar du väljer."
@@ -20523,7 +20523,17 @@
             },
             "failed": "Åtgärden misslyckades",
             "openCompany": "Öppna företaget",
-            "postponedUntil": "Uppskjuten till {date}"
+            "postponedUntil": "Uppskjuten till {date}",
+            "invoiceStatus": {
+                "noticed": "Meddelad",
+                "charging": "Dras",
+                "pending": "Väntar på bank",
+                "charged": "Dragen",
+                "declined": "Avvisad",
+                "over_cap": "Över gränsen"
+            },
+            "invoiceStatusHelp": "Status för dragningen från säkerhetskortet för denna faktura.",
+            "securityCardLine": "Kort •••• {last_four} (går ut {expiry})"
         },
         "company": {
             "title": "Betalningssätt",
@@ -20571,12 +20581,13 @@
             "bannerTitle": "Koppla ett betalkort som säkerhet",
             "bannerBody": "Ert avtal har kort som säkerhet. Inget dras när ni kopplar kortet.",
             "bannerAdminOnly": "En administratör behöver koppla ett betalkort som säkerhet.",
-            "consent": "Jag samtycker till att CitizenOne får dra en obetald faktura från detta kort när den är mer än 7 dagar förfallen, efter ett meddelande 2 dagar före. Samtycket kan återkallas genom att kontakta oss.",
             "consentHelp": "Samtycket och tidpunkten sparas.",
             "consentRequired": "Kryssa i samtycket för att fortsätta.",
             "cardSaved": "Kortet är kopplat som säkerhet",
             "cardFailed": "Kortet kunde inte kopplas. Försök igen eller kontakta supporten.",
-            "cancel": "Avbryt"
+            "cancel": "Avbryt",
+            "loadFailed": "Kunde inte hämta samtyckestexten. Försök igen.",
+            "consentCheckbox": "Jag har läst texten ovan och samtycker"
         },
         "suspended": {
             "title": "Betalning saknas – uppdatera betalkort",
@@ -20612,6 +20623,40 @@
             "body": "Er faktura är inte betald. Kontakta oss så löser vi det och håller kontot öppet.",
             "contact": "Kontakta oss",
             "contactHelp": "Öppnar ett e-postmeddelande till CitizenOnes support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "Betalningen gick igenom",
+                "pending": "Betalningen har skickats till banken och väntar. Den är inte betald ännu.",
+                "declined": "Kortet avvisades och inget har dragits. Uppdatera kortet eller försök med ett annat.",
+                "no_card": "Inget betalkort är registrerat. Uppdatera betalkortet först.",
+                "not_applicable": "Det finns inget att betala just nu.",
+                "unknown": "Vi kunde inte se om betalningen gick igenom. Försök igen om en stund."
+            },
+            "charge": {
+                "charged": "Säkerhetskortet har dragits och fakturan är betald",
+                "pending": "Dragningen har skickats till banken och väntar. Fakturan är inte betald ännu.",
+                "declined": "Säkerhetskortet avvisades. Påminnelseflödet har startat."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "Betalningsleverantören kan inte nås just nu. Inget har ändrats. Försök igen om en stund.",
+            "payment_problem_no_card": "Företaget har inget betalkort att dra från.",
+            "payment_problem_action_not_available": "Åtgärden passar inte företagets tillstånd. Uppdatera listan.",
+            "payment_problem_close_blocked": "Företaget har ett löpande avtal och kan inte stängas för utebliven betalning.",
+            "card_security_disabled": "Kort som säkerhet är inte aktiverat i systemet.",
+            "card_security_over_cap": "Beloppet är över gränsen för säkerhetskort och måste följas upp manuellt.",
+            "card_security_consent_required": "Samtycket gäller inte längre. Stäng och öppna dialogen igen och samtycka på nytt.",
+            "card_security_not_applicable": "Kort som säkerhet gäller bara fakturakunder.",
+            "plan_change_invoice_company": "Företaget betalar med faktura. Byt plan från licensöversikten så att den faktureras."
+        },
+        "agreement": {
+            "cardSecurity": "Kort som säkerhet",
+            "cardSecurityHelp": "Avtalets fakturor kan dras från kundens säkerhetskort när de är obetalda. Stora belopp ligger ofta över gränsen och följs upp manuellt.",
+            "cardSecuritySaved": "Kort som säkerhet har uppdaterats på avtalet"
+        },
+        "suspendedPage": {
+            "loading": "Hämtar status..."
         }
     }
 }
