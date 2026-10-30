@@ -12392,6 +12392,7 @@
             "gdprRetention": "GDPR Lagring",
             "smsNotifications": "SMS",
             "powerBi": "Power BI",
+            "zapier": "Zapier",
             "economic": "e-conomic",
             "dinero": "Dinero",
             "billy": "Billy",
@@ -12458,6 +12459,44 @@
             "adminOnly": "Endast administratörer kan hantera Power BI-token.",
             "notPurchased": "Power BI-appen är inte aktiverad ännu. Aktivera den under Appar för att få åtkomst till realtids-dataflöden.",
             "goToApps": "Gå till Appar"
+        },
+        "zapier": {
+            "title": "Zapier",
+            "subtitle": "Koppla CitizenOne till tusentals andra verktyg. Skicka vidare nya web-leads, eller skapa leads från andra appar.",
+            "adminOnly": "Bara administratörer kan hantera Zapier-nycklar.",
+            "notPurchased": "Zapier-appen är inte aktiv ännu. Aktivera den under Appar för att koppla CitizenOne till Zapier.",
+            "goToApps": "Gå till Appar",
+            "dataNote": "Bara företagsdata delas med Zapier: web-leads, kontakter, förfrågningar, uppgifter, bokningar, fakturor, medarbetare, ferieanmodninger och publicerade scheman. Medborgarfakturor skickas utan namn. Medborgar- eller hälsodata skickas aldrig.",
+            "freeTextLabel": "Ta med namn och fritext",
+            "freeTextHint": "När detta är på skickas uppgiftstitlar, kundnamn på fakturor, namn på förfrågningar samt namn, e-post och telefon för den som bokade. De kan innehålla personuppgifter. Stäng av för att hålla dem utanför Zapier. Uppgiftsbeskrivningar skickas aldrig.",
+            "settingSaved": "Inställningen sparades.",
+            "keyOnce": "Kopiera nyckeln nu och klistra in den i Zapier. Den visas bara en gång.",
+            "copy": "Kopiera",
+            "copied": "Kopierat!",
+            "keys": "Nycklar",
+            "ownerNote": "Anrop med en nyckel utförs som personen som skapade den. Om personen arkiveras slutar nyckeln fungera och en ny måste skapas.",
+            "keyName": "Nyckelns namn",
+            "keyNamePlaceholder": "Till exempel: Marknadsföringsautomation",
+            "createKey": "Skapa nyckel",
+            "noKeys": "Inga nycklar ännu.",
+            "keyEnds": "Nyckeln slutar på",
+            "lastUsed": "Senast använd",
+            "neverUsed": "Aldrig använd",
+            "revoke": "Återkalla",
+            "confirmRevoke": "Återkalla den här nyckeln? Zaps som använder den slutar fungera direkt.",
+            "keyCreated": "Nyckel skapad",
+            "howTitle": "Så kopplar du Zapier",
+            "how1": "Skapa en nyckel ovan och kopiera den.",
+            "how2": "Öppna CitizenOne i Zapier och välj Connect.",
+            "how3": "Klistra in nyckeln. Bygg sedan en Zap med CitizenOne som trigger eller åtgärd.",
+            "openZapier": "Öppna CitizenOne i Zapier",
+            "deliveries": "Senaste leveranser",
+            "noDeliveries": "Inget har skickats till Zapier ännu.",
+            "status": {
+                "delivered": "Levererad",
+                "failed": "Misslyckades",
+                "pending": "Väntar"
+            }
         },
         "economic": {
             "title": "e-conomic",
@@ -12646,6 +12685,10 @@
             "powerBi": {
                 "title": "Vad gör Power BI?",
                 "body": "Hämta ut era data till rapporter i Power BI. Nyckeln ger läsbehörighet, inte rätt att ändra något."
+            },
+            "zapier": {
+                "title": "Vad gör Zapier?",
+                "body": "Koppla CitizenOne till andra verktyg utan kod. Bara företagsdata delas, aldrig medborgar- eller hälsodata."
             },
             "economic": {
                 "title": "Vad gör e-conomic?",
