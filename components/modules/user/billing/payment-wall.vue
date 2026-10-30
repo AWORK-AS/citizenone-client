@@ -78,8 +78,10 @@
 
 <script setup lang="ts">
 import { billingService } from '@/components/api/user/BillingService'
-import { wallMode } from '@/composables/billingMethod'
+import { errorMessageKey, retryStatus, wallMode } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
+import { authService } from '@/components/api/user/AuthService'
+import { signOutRevoking } from '@/composables/signOutRevoking'
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
@@ -177,23 +179,34 @@ async function collectOutstanding() {
     try {
         const response = await billingService.retry()
 
-        if (response?.data?.paid) {
+        // One message per outcome. "Pending" is accepted by the bank but not settled, so it
+        // is never treated as paid and does not reload into an open app.
+        const status = retryStatus(response?.data)
+
+        if (status === 'paid') {
             window.location.reload()
             return
         }
 
-        state.error = t('paymentStatus.stillUnpaid')
+        state.error = t(`paymentDunning.outcome.retry.${status}`)
     } catch (error: any) {
-        state.error = error?.message ?? ''
+        const key = errorMessageKey(error)
+        state.error = key ? t(key) : (error?.message ?? '')
     } finally {
         state.isCollecting = false
     }
 }
 
-function logout() {
-    clearSessionToken()
-    localStorage.removeItem('rememberMe')
-    navigateTo('/')
+// Revokes the token on the server first, then clears the local one.
+async function logout() {
+    await signOutRevoking({
+        logout: () => authService.logout(),
+        clearLocal: () => clearSessionToken(),
+        done: () => {
+            localStorage.removeItem('rememberMe')
+            navigateTo('/')
+        },
+    })
 }
 
 onMounted(async () => {
