@@ -95,6 +95,7 @@
                     {{ $t('events.form.private') }}
                 </div>
             </div>
+            <ModulesUserMyCalendarReminderSelect v-model="state.formSchedule.reminder_minutes" />
             <div class="space-y-1" v-if="props.formType === 'create'">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.recurring.is_recurring = !state.formSchedule.recurring.is_recurring">
@@ -255,6 +256,7 @@
 </template>
 
 <script setup lang="ts">
+import { DEFAULT_CALENDAR_REMINDER } from '@/utils/calendarReminder'
 import { duplicateFields } from '@/composables/calendarEventPresentation'
 import { usePermissions } from '@/composables/usePermissions'
 import moment from 'moment'
@@ -327,6 +329,7 @@ const state = reactive({
         unit_uuid: '',
         calendar_tag_uuid: [],
         is_private: false,
+        reminder_minutes: DEFAULT_CALENDAR_REMINDER as number | null,
         is_online_meeting: false,
         meeting_url: '',
         is_video_consultation: false,
@@ -480,6 +483,7 @@ watch(() => props.duplicateOf, (event: any, previous: any) => {
             state.formSchedule.description = ''
             state.formSchedule.unit_uuid = ''
             state.formSchedule.is_private = false
+            state.formSchedule.reminder_minutes = DEFAULT_CALENDAR_REMINDER
             state.formSchedule.is_online_meeting = false
             state.formSchedule.meeting_url = ''
             state.formSchedule.is_video_consultation = false
@@ -493,6 +497,7 @@ watch(() => props.duplicateOf, (event: any, previous: any) => {
     state.formSchedule.description = fields.description
     state.formSchedule.unit_uuid = fields.unit_uuid
     state.formSchedule.is_private = fields.is_private
+    state.formSchedule.reminder_minutes = fields.reminder_minutes
     state.formSchedule.is_online_meeting = fields.is_online_meeting
     state.formSchedule.meeting_url = fields.meeting_url
     state.formSchedule.is_video_consultation = !!event.is_video_consultation

@@ -36,6 +36,12 @@ class ReleaseNoteService extends BaseAPIService {
         return await this.request(`/superadmin/release-notes/${uuid}/regenerate`, 'POST')
     }
 
+    // Task 250: signs every user out (web, desktop and the apps) so they log in
+    // again on the version just released. The caller stays signed in.
+    async logOutEveryone(): Promise<any> {
+        return await this.request(`/superadmin/sessions/log-out-everyone`, 'POST', { confirm: true })
+    }
+
     async unpublishReleaseNote(uuid: string): Promise<any> {
         return await this.request(`/superadmin/release-notes/${uuid}/unpublish`, 'PUT')
     }

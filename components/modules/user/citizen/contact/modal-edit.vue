@@ -78,6 +78,9 @@ async function updateContact(contactDetails: any) {
                 chat_user_uuid: contactDetails.chat_users ?? [],
             }
         }
+        if (contactDetails.title === 'case_manager') {
+            params = { ...params, notify_use_of_force: contactDetails.notify_use_of_force === true }
+        }
         if (contactDetails.title === 'doctor') {
             params = {
                 ...params,

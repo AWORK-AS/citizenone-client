@@ -1106,6 +1106,7 @@
         }
     },
     "alert": {
+        "unsavedChangesLeave": "You have unsaved changes. Leave the page without saving?",
         "accountSuccessfullyCreated": "Your account has been created successfully",
         "emailVerification": {
             "invalidEmailVerificationToken": "Invalid email verification token"
@@ -2568,6 +2569,8 @@
                 "firstname": "First name",
                 "lastname": "Last name",
                 "municipality": "Municipality",
+                "notifyUseOfForce": "Notify about use of force",
+                "notifyUseOfForceHint": "The case manager is emailed when a use of force is registered on this citizen. Needs an email address. For data protection the email does not say who it is about.",
                 "notificationTypes": "Notification types",
                 "notifications": {
                     "category": {
@@ -5716,6 +5719,13 @@
             "downloadOnlyLeaveTypes": "Download only leave types",
             "downloadOverview": "Download overview",
             "downloadType": "Download type",
+            "dutyTypes": "Duty types",
+            "allDutyTypes": "All duty types",
+            "dutyTypeReport": "Duty type report",
+            "dutyTypeReportHint": "One section per duty type with hours per employee.",
+            "reportFormat": "Report format",
+            "reportFormatPdf": "PDF",
+            "reportFormatExcel": "Excel",
             "filter": {
                 "currentView": "Current view",
                 "filterDate": "Filter date",
@@ -8284,7 +8294,15 @@
             "private": "Private",
             "sendInvitation": "Send invitation",
             "tags": "Tags",
-            "title": "Title"
+            "title": "Title",
+            "reminder": {
+                "label": "Reminder",
+                "none": "No reminder",
+                "atStart": "When the event starts",
+                "minutesBefore": "{count} minute before | {count} minutes before",
+                "hoursBefore": "{count} hour before | {count} hours before",
+                "daysBefore": "{count} day before | {count} days before"
+            }
         },
         "holidays": "Public holidays",
         "invitees": "Invitees",
@@ -12200,6 +12218,9 @@
                 "manageApprovedDevices": "Manage approved devices",
                 "actionBlock": "Block access",
                 "actionOtp": "Require OTP verification",
+                "restrictionAdminsExempt": "Admins are never restricted, so they can always sign in and change these settings.",
+                "deviceActionBlockHelp": "A new device is refused and waits in the list of approved devices until an admin approves it.",
+                "deviceActionOtpHelp": "A new device gets a code by email. Once the employee enters it, the device is approved.",
                 "proFeatureHint": "This feature is part of the Pro plan. Upgrade to enable it.",
                 "portalPreviewOpen": "See what they see",
                 "portalPreviewTitle": "This is what {audience} see",
@@ -16093,13 +16114,23 @@
         "isActive": "Active",
         "active": "Active",
         "inactive": "Inactive",
+        "help": "Devices are added here when an employee signs in on them. With \"Require OTP verification\" the employee confirms the device with a code sent by email. With \"Block access\" the device waits here until an admin approves it. Off means refused: the device can't sign in in either mode, not even with the emailed code. Approve turns an Off device back on, also after Decline. Off, Decline and Delete also sign the employee out on that device. Delete forgets the device, so the employee can add it again by signing in. Admins are never restricted.",
+        "status": {
+            "waiting": "Waiting for approval",
+            "approved": "Approved",
+            "off": "Off"
+        },
         "table": {
             "user": "User",
             "deviceUuid": "Device UUID",
+            "device": "Device",
+            "firstSeen": "First seen",
             "label": "Label",
             "isActive": "Status",
             "actions": {
                 "header": "Actions",
+                "approve": "Approve",
+                "decline": "Decline",
                 "edit": "Edit",
                 "delete": "Delete"
             }
@@ -16109,6 +16140,8 @@
         },
         "alert": {
             "added": "Device approved successfully",
+            "approved": "Device approved",
+            "declined": "Device declined",
             "updated": "Approved device updated successfully",
             "deleted": "Approved device removed successfully"
         }
@@ -17008,6 +17041,9 @@
         "titleField": "Title",
         "publishedTo": "Visible to all customers",
         "gate": "Only the CTO can approve & publish.",
+        "logOutEveryone": "Log everyone out",
+        "logOutEveryoneTitle": "Log everyone out?",
+        "logOutEveryoneConfirm": "Everyone using CitizenOne on the web, the desktop app and the mobile app is signed out now and has to log in again, which gives them the version just released. Use it once the new version is live. You stay signed in.",
         "noNotes": "No release notes yet.",
         "noPendingNotes": "Nothing pending review.",
         "pendingReview": "Pending review",

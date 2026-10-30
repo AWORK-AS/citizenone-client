@@ -204,6 +204,7 @@ function getCategory(type: string): string {
     if (type.toLowerCase().includes('cvoutdated')) return 'cv_outdated'
     if (type.toLowerCase().includes('whistleblowerreport')) return 'whistleblower'
     if (type.toLowerCase().includes('bookingmissingnote')) return 'booking_missing_note'
+    if (type.toLowerCase().includes('calendareventreminder')) return 'calendar_event_reminder'
     if (type.toLowerCase().includes('patientbooking')) return 'patient_booking'
     if (type.toLowerCase().includes('employeedeletionreminder')) return 'employee_deletion_reminder'
     // Task #97: a contract sent to sign, and a contract signed.
@@ -232,6 +233,7 @@ const categoryStyles: Record<string, { bg: string; icon: string; color: string }
     cv_outdated: { bg: 'bg-accent-orange/10', icon: 'ph:file-text', color: 'text-accent-orange' },
     whistleblower: { bg: 'bg-primary/10', icon: 'ph:megaphone-simple', color: 'text-primary' },
     booking_missing_note: { bg: 'bg-accent-orange/10', icon: 'ph:notebook', color: 'text-accent-orange' },
+    calendar_event_reminder: { bg: 'bg-primary/10', icon: 'ph:alarm', color: 'text-primary' },
     patient_booking: { bg: 'bg-primary/10', icon: 'ph:calendar-check', color: 'text-primary' },
     employee_deletion_reminder: { bg: 'bg-accent-orange/10', icon: 'ph:user-minus', color: 'text-accent-orange' },
     contract_to_sign: { bg: 'bg-accent-orange/10', icon: 'ph:signature', color: 'text-accent-orange' },
@@ -507,7 +509,9 @@ async function handleNotifClick(notif: any) {
     }
     // A booking that ended without a journal note: the note is written from
     // the booking, so go to the calendar.
-    if (getCategory(notif.type) === 'booking_missing_note') {
+    // A reminder before a calendar event (or a booking without a note): both
+    // are about an event, so go to the calendar.
+    if (getCategory(notif.type) === 'booking_missing_note' || getCategory(notif.type) === 'calendar_event_reminder') {
         if (!notif.read_at) {
             try {
                 const response = await notificationService.markSystemNotificationAsRead(notif.id)
