@@ -18917,6 +18917,7 @@
         "empty": "Der er ingen dokumenter på henvendelsen.",
         "hint": "Papirer der er kommet med henvendelsen. De følger med til @:terms.citizenDefinite{'s'} filer ved konvertering.",
         "onCitizen": "På @:terms.citizenDefinite{''}",
+        "fromSourceCase": "Fra WorkZone",
         "delete": "Slet dokument",
         "confirmDelete": "Er du sikker på, at du vil slette dette dokument",
         "uploadFailed": "Dokumentet kunne ikke uploades",

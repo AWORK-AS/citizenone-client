@@ -18832,6 +18832,7 @@
         "empty": "Det finns inga dokument på förfrågan.",
         "hint": "Papper som kommit med förfrågan. De följer med till medborgarens filer vid konvertering.",
         "onCitizen": "På medborgaren",
+        "fromSourceCase": "Från WorkZone",
         "delete": "Ta bort dokument",
         "confirmDelete": "Är du säker på att du vill ta bort det här dokumentet",
         "uploadFailed": "Dokumentet kunde inte laddas upp",
