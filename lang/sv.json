@@ -2220,6 +2220,24 @@
     "chooseFile": "Välj fil",
     "chooseFiles": "Välj fil(är)",
     "citizens": {
+        "consultantHours": {
+            "title": "Konsulenternas timmar per vecka",
+            "hint": "Ange hur många timmar varje konsulent har på insatsen, inklusive transport och administration. Utan siffra delas det som de andra inte har fått lika. Två konsulenter kan ha samma timmar vid dubbelbemanning.",
+            "granted": "Beviljat: {hours} h/vecka",
+            "grantedSplit": "kontakt {contact}, administration {admin}, transport {transport}",
+            "noGrant": "Insatsen har inga beviljade timmar per vecka.",
+            "consultant": "Konsulent",
+            "given": "Satt till",
+            "counts": "Räknas som",
+            "placeholder": "Delat",
+            "givenFor": "Timmar per vecka för {name}",
+            "perWeek": "h/vecka",
+            "basis": {
+                "explicit": "satt",
+                "even_split": "lika delning",
+                "none": "ingen beviljning"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} hittades inte",
             "message": "@.capitalize:terms.citizenDefinite{''} finns inte, eller så har du inte åtkomst."
@@ -18742,6 +18760,27 @@
             "offer_revised": "Offert revideras"
         }
     },
+    "consultantCapacity": {
+        "title": "Kapacitet",
+        "perWeek": "h/vecka",
+        "allocated": "Tilldelat",
+        "registered": "Registrerat (snitt 4 veckor)",
+        "desired": "Önskat",
+        "free": "Ledigt",
+        "case": "Insats",
+        "granted": "Beviljat på insatsen",
+        "basis": {
+            "explicit": "satt för konsulenten",
+            "even_split": "delat lika mellan {count}",
+            "none": "Inga beviljade timmar"
+        },
+        "hints": {
+            "explicit": "Tilldelade timmar är satta för konsulenten på varje insats. Transport och administration räknas med.",
+            "even_split": "Tilldelade timmar är beräknade: insatsens beviljade timmar delade lika mellan konsulenterna på den. Ange timmarna per konsulent under Kontakter för en exakt siffra.",
+            "mixed": "Tilldelade timmar är satta för konsulenten på vissa insatser och beräknade som lika delning på resten. Transport och administration räknas med.",
+            "none": "Konsulenten står inte på några aktiva insatser med beviljade timmar."
+        }
+    },
     "consultantMatch": {
         "title": "Konsultmatchning",
         "generalTitle": "Konsultsökning",
@@ -18756,6 +18795,8 @@
         "notReady": "Kan inte sättas på ärende",
         "archived": "Arkiverad - kan kontaktas",
         "activeCases": "{count} aktiv insats | {count} aktiva insatser",
+        "freeCapacity": "Ledig kapacitet: {hours} h/vecka",
+        "freeCapacityHint": "Önskar {desired} h/vecka och är tilldelad {allocated} h/vecka på aktiva insatser",
         "archivedOnCases": "Arkiverad utan inloggning, men står på {count} aktiva insatser. Återaktivera medarbetaren och ge en licens.",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
         "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
@@ -18771,6 +18812,7 @@
             "spokenLanguages": "Talade språk",
             "travelsUpToKm": "Kör upp till (km)",
             "minAvailableHours": "Minsta antal timmar konsulten har tillgängliga",
+            "minFreeWeeklyHours": "Minst ledig kapacitet (h/vecka)",
             "languagesAndDialects": "Språk och dialekter",
             "languagesHint": "Språk medarbetaren talar. Konsulten matchar om hen talar något av de valda språken.",
             "minTravelKm": "Måste köra minst (km)",
@@ -18792,6 +18834,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",
             "min_weekly_hours": "Timantal",
+            "min_free_weekly_hours": "Ledig kapacitet",
             "primary_spoken_language_uuid": "Primärt språk",
             "within_travel_range": "Inom köravstånd"
         },

@@ -2220,6 +2220,24 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "consultantHours": {
+            "title": "Consultants' hours a week",
+            "hint": "Set how many hours each consultant has on the case, including transport and administration. Without a figure, what the others are not given is split evenly. Two consultants can have the same hours when the case is double staffed.",
+            "granted": "Granted: {hours} h/week",
+            "grantedSplit": "contact {contact}, administration {admin}, transport {transport}",
+            "noGrant": "The case has no granted hours a week.",
+            "consultant": "Consultant",
+            "given": "Set to",
+            "counts": "Counts as",
+            "placeholder": "Split",
+            "givenFor": "Hours a week for {name}",
+            "perWeek": "h/week",
+            "basis": {
+                "explicit": "set",
+                "even_split": "even split",
+                "none": "no grant"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} not found",
             "message": "This @:terms.citizen{''} doesn't exist, or you don't have access to them."
@@ -18827,6 +18845,27 @@
             "offer_revised": "Offer to be revised"
         }
     },
+    "consultantCapacity": {
+        "title": "Capacity",
+        "perWeek": "h/week",
+        "allocated": "Allocated",
+        "registered": "Registered (4-week average)",
+        "desired": "Wished",
+        "free": "Free",
+        "case": "Case",
+        "granted": "Granted on the case",
+        "basis": {
+            "explicit": "set for the consultant",
+            "even_split": "split evenly between {count}",
+            "none": "No granted hours"
+        },
+        "hints": {
+            "explicit": "Allocated hours are set for the consultant on each case. Transport and administration are included.",
+            "even_split": "Allocated hours are estimated: the case's granted hours split evenly between its consultants. Set the hours per consultant under Contacts for an exact figure.",
+            "mixed": "Allocated hours are set for the consultant on some cases and estimated as an even split on the rest. Transport and administration are included.",
+            "none": "The consultant is not on any active case with granted hours."
+        }
+    },
     "consultantMatch": {
         "title": "Consultant match",
         "generalTitle": "Consultant search",
@@ -18841,6 +18880,8 @@
         "notReady": "Cannot be put on a case",
         "archived": "Archived - can be contacted",
         "activeCases": "{count} active case | {count} active cases",
+        "freeCapacity": "Free capacity: {hours} h/week",
+        "freeCapacityHint": "Wants {desired} h/week and is allocated {allocated} h/week on active cases",
         "archivedOnCases": "Archived without a login, but on {count} active cases. Reactivate the employee and give them a licence.",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
         "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
@@ -18856,6 +18897,7 @@
             "spokenLanguages": "Spoken languages",
             "travelsUpToKm": "Will travel up to (km)",
             "minAvailableHours": "Minimum hours the consultant has available",
+            "minFreeWeeklyHours": "Minimum free capacity (h/week)",
             "languagesAndDialects": "Languages and dialects",
             "languagesHint": "Languages the employee speaks. A consultant matches if they speak any of the chosen languages.",
             "minTravelKm": "Must travel at least (km)",
@@ -18877,6 +18919,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
             "min_weekly_hours": "Hours",
+            "min_free_weekly_hours": "Free capacity",
             "primary_spoken_language_uuid": "Primary language",
             "within_travel_range": "Within travel distance"
         },

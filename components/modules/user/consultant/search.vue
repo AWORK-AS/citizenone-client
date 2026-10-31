@@ -68,6 +68,13 @@
                         </div>
                     </div>
 
+                    <!-- Wished hours a week less what she is already given on indsatser. -->
+                    <div>
+                        <FormLabel for="crit-free-hours" :label="$t('consultantMatch.form.minFreeWeeklyHours')" />
+                        <FormTextField id="crit-free-hours" name="crit-free-hours"
+                            v-model="state.form.min_free_weekly_hours" placeholder="0" />
+                    </div>
+
                     <div>
                         <FormLabel for="crit-step" :label="$t('consultantMatch.form.minStep')" />
                         <div class="flex flex-wrap gap-1.5">
@@ -201,6 +208,15 @@
                                     class="rounded-full bg-[#eef6fb] px-2.5 py-[3px] text-[11.5px] font-bold text-secondary">
                                     {{ $t('consultantMatch.activeCases', { count: result.active_cases }, result.active_cases) }}
                                 </span>
+                                <span v-if="result.capacity?.free_weekly_hours !== null && result.capacity?.free_weekly_hours !== undefined"
+                                    :title="$t('consultantMatch.freeCapacityHint', {
+                                        allocated: hours(result.capacity.allocated_weekly_hours),
+                                        desired: hours(result.capacity.desired_weekly_hours),
+                                    })"
+                                    class="rounded-full px-2.5 py-[3px] text-[11.5px] font-bold tabular-nums"
+                                    :class="result.capacity.free_weekly_hours > 0 ? 'bg-[#e6f6ee] text-[#177a53]' : 'bg-surface-100 text-slate-600'">
+                                    {{ $t('consultantMatch.freeCapacity', { hours: hours(result.capacity.free_weekly_hours) }) }}
+                                </span>
                                 <!-- Distance from the case to their home; approximate
                                      when their home is only known by postal code. -->
                                 <span v-if="state.locationGeocoded"
@@ -263,6 +279,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useAlert } from '@/composables/alert'
+import { formatWeekHours } from '@/composables/citizenWeeklyHours'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
@@ -274,7 +291,7 @@ const props = defineProps({
         default: null,
     },
 })
-const { t } = useI18n()
+const { t, locale } = useI18n()
 const { toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
@@ -302,6 +319,7 @@ function emptyForm() {
         consultant_status: [] as string[],
         min_step_assessment: null as number | null,
         min_weekly_hours: '',
+        min_free_weekly_hours: '',
         within_travel_range_only: false,
         sort: 'match' as 'match' | 'distance',
     }
@@ -469,6 +487,10 @@ function matchClass(match: string) {
     return 'bg-surface-100 text-slate-500'
 }
 
+function hours(value: number) {
+    return formatWeekHours(value, locale.value)
+}
+
 function profileLine(result: any) {
     const p = result.profile ?? {}
 
@@ -593,6 +615,7 @@ async function search() {
         if (state.form.consultant_status.length) payload.consultant_status = state.form.consultant_status
         if (state.form.min_step_assessment !== null) payload.min_step_assessment = state.form.min_step_assessment
         if (state.form.min_weekly_hours !== '') payload.min_weekly_hours = Number(state.form.min_weekly_hours)
+        if (state.form.min_free_weekly_hours !== '') payload.min_free_weekly_hours = Number(String(state.form.min_free_weekly_hours).replace(',', '.'))
 
         const response = await consultantSkillService.match(payload)
         state.results = response?.data ?? []

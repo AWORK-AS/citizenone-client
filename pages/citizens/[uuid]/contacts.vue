@@ -23,6 +23,8 @@
                 <ModulesUserCitizenContactCoordinators class="mt-8" :citizenUuid="citizenUuid"
                     @saved="fetchContacts" />
 
+                <ModulesUserCitizenContactConsultantHours class="mt-4" :citizenUuid="citizenUuid" />
+
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
                         <FormButton buttonStyle="action" @click="state.modal.isAssignFromAddressBookOpen = true">
