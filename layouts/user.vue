@@ -1508,6 +1508,8 @@ function generateSidebarLinks(user: any) {
         nav.push({ name: 'Inquiries', href: '/inquiries', icon: 'ph:funnel', group: 'organisation', activeRouteNames: ['inquiries'] })
         // Finding a consultant without first opening an inquiry.
         nav.push({ name: 'Consultant search', href: '/consultants', icon: 'ph:user-focus', group: 'organisation', activeRouteNames: ['consultants'] })
+        // Acute, strategic and re-match recruitment, outside an ordinary inquiry.
+        nav.push({ name: 'Recruitment', href: '/recruitment', icon: 'ph:users-three', group: 'organisation', activeRouteNames: ['recruitment', 'recruitment-uuid'] })
     }
 
     // Task boards hold the work that belongs to nobody's citizen record, so they

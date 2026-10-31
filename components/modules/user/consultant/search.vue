@@ -243,10 +243,17 @@
                                 </p>
                             </div>
                         </div>
-                        <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
-                            class="shrink-0 text-[13px] font-semibold text-secondary hover:underline">
-                            {{ $t('consultantMatch.openProfile') }}
-                        </NuxtLink>
+                        <div class="flex shrink-0 items-center gap-3">
+                            <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
+                                class="text-[13px] font-semibold text-secondary hover:underline">
+                                {{ $t('consultantMatch.openProfile') }}
+                            </NuxtLink>
+                            <!-- Opened for a recruitment case: the answer is one
+                                 consultant, chosen here. -->
+                            <FormButton v-if="pickMode" type="button" buttonStyle="primary" @click="emit('pick', result)">
+                                {{ $t('recruitment.chooseConsultant') }}
+                            </FormButton>
+                        </div>
                     </div>
 
                     <!-- What they do not meet is the reason they are not a
@@ -301,7 +308,14 @@ const props = defineProps({
         type: String,
         default: null,
     },
+    // For a recruitment case: each result gets a "Choose consultant" action
+    // that emits the consultant instead of inviting.
+    pickMode: {
+        type: Boolean,
+        default: false,
+    },
 })
+const emit = defineEmits<{ pick: [consultant: any] }>()
 const { t, locale } = useI18n()
 const { toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
