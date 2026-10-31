@@ -18746,6 +18746,10 @@
         }
     },
     "consultantMatch": {
+        "export": "Eksporter til Excel",
+        "exporting": "Eksporterer...",
+        "exportHint": "Alle konsulenter med kontaktinformasjon, status, kompetanser og aktive tiltak. Avsluttede er ikke med.",
+        "exportFileName": "Konsulenter",
         "title": "Konsulentmatch",
         "generalTitle": "Konsulentsøk",
         "generalDescription": "Finn konsulenter på navn, kompetanser, språk, sted, status, bil og førerkort. Alle konsulenter vises, også de som bare delvis matcher, med det de mangler.",

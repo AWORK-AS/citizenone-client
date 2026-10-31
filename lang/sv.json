@@ -18746,6 +18746,10 @@
         }
     },
     "consultantMatch": {
+        "export": "Exportera till Excel",
+        "exporting": "Exporterar...",
+        "exportHint": "Alla konsulter med kontaktuppgifter, status, kompetenser och aktiva insatser. Avslutade är inte med.",
+        "exportFileName": "Konsulter",
         "title": "Konsultmatchning",
         "generalTitle": "Konsultsökning",
         "generalDescription": "Hitta konsulter på namn, kompetenser, språk, plats, status, bil och körkort. Alla konsulter visas, även de som bara delvis matchar, med det de saknar.",

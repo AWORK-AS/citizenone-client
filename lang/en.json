@@ -18831,6 +18831,10 @@
         }
     },
     "consultantMatch": {
+        "export": "Export to Excel",
+        "exporting": "Exporting...",
+        "exportHint": "All consultants with contact details, status, skills and active cases. Terminated consultants are left out.",
+        "exportFileName": "Consultants",
         "title": "Consultant match",
         "generalTitle": "Consultant search",
         "generalDescription": "Find consultants by name, skills, languages, place, status, car and driving licence. Every consultant is shown, also those who only partly match, with what they lack.",

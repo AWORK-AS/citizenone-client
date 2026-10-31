@@ -3,9 +3,18 @@
         <Alert type="danger" :text="state.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
-        <p class="max-w-3xl text-sm text-gray-500">
-            {{ inquiryUuid ? $t('consultantMatch.description') : $t('consultantMatch.generalDescription') }}
-        </p>
+        <div class="flex flex-wrap items-start justify-between gap-3">
+            <p class="max-w-3xl text-sm text-gray-500">
+                {{ inquiryUuid ? $t('consultantMatch.description') : $t('consultantMatch.generalDescription') }}
+            </p>
+            <!-- The whole list, not the current result: the search criteria
+                 do not travel with it. -->
+            <FormButton type="button" buttonStyle="secondary" :disabled="state.isExporting"
+                :title="$t('consultantMatch.exportHint')" @click="exportConsultants">
+                <Icon name="ph:file-xls" class="size-4" />
+                {{ state.isExporting ? $t('consultantMatch.exporting') : $t('consultantMatch.export') }}
+            </FormButton>
+        </div>
 
         <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <!-- What the case needs -->
@@ -263,6 +272,7 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useAlert } from '@/composables/alert'
+import { saveAs } from 'file-saver'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
@@ -323,6 +333,7 @@ const state = reactive({
     criteriaAsked: [] as string[],
     hasSearched: false,
     isSearching: false,
+    isExporting: false,
     languages: [] as any[],
     municipalities: [] as any[],
     regions: [] as any[],
@@ -605,5 +616,17 @@ async function search() {
         state.error = error
     }
     state.isSearching = false
+}
+
+async function exportConsultants() {
+    state.isExporting = true
+    state.error = {}
+    try {
+        const file = await consultantSkillService.exportConsultants()
+        if (file) saveAs(file, `${t('consultantMatch.exportFileName')}.xlsx`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isExporting = false
 }
 </script>
