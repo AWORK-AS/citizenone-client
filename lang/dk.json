@@ -18984,6 +18984,11 @@
         "markDeclined": "Sagde nej",
         "askedBy": "spurgt af {name}",
         "answeredBy": "svar registreret af {name}",
+        "answerTitle": "Registrer svar fra {name}",
+        "answerHint": "Svaret registreres på konsulentens vegne:",
+        "answerNote": "Note (valgfri)",
+        "answerNotePlaceholder": "Fx hvad I aftalte i telefonen",
+        "answerSave": "Gem svar",
         "unknownConsultant": "Ukendt",
         "failed": "Handlingen kunne ikke gennemføres",
         "statuses": {

@@ -18899,6 +18899,11 @@
         "markDeclined": "Sa nei",
         "askedBy": "spurt av {name}",
         "answeredBy": "svar registrert av {name}",
+        "answerTitle": "Registrer svar fra {name}",
+        "answerHint": "Svaret registreres på konsulentens vegne:",
+        "answerNote": "Notat (valgfritt)",
+        "answerNotePlaceholder": "F.eks. hva dere avtalte på telefonen",
+        "answerSave": "Lagre svar",
         "unknownConsultant": "Ukjent",
         "failed": "Handlingen kunne ikke gjennomføres",
         "statuses": {

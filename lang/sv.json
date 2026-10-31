@@ -18899,6 +18899,11 @@
         "markDeclined": "Sa nej",
         "askedBy": "tillfrågad av {name}",
         "answeredBy": "svar registrerat av {name}",
+        "answerTitle": "Registrera svar från {name}",
+        "answerHint": "Svaret registreras för konsultens räkning:",
+        "answerNote": "Anteckning (valfritt)",
+        "answerNotePlaceholder": "T.ex. vad ni kom överens om i telefon",
+        "answerSave": "Spara svar",
         "unknownConsultant": "Okänd",
         "failed": "Åtgärden kunde inte genomföras",
         "statuses": {

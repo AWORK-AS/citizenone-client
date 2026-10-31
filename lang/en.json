@@ -18984,6 +18984,11 @@
         "markDeclined": "Said no",
         "askedBy": "asked by {name}",
         "answeredBy": "answer recorded by {name}",
+        "answerTitle": "Register answer from {name}",
+        "answerHint": "The answer is registered on the consultant's behalf:",
+        "answerNote": "Note (optional)",
+        "answerNotePlaceholder": "E.g. what you agreed on the phone",
+        "answerSave": "Save answer",
         "unknownConsultant": "Unknown",
         "failed": "The action could not be completed",
         "statuses": {

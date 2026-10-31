@@ -57,10 +57,10 @@
                      is why these are here and not only on the consultant's own
                      screen. -->
                 <template v-if="canManage && invitation.status === 'invited'">
-                    <FormButton type="button" buttonStyle="action" @click="respond(invitation, 'interested')">
+                    <FormButton type="button" buttonStyle="action" @click="openAnswer(invitation, 'interested')">
                         {{ $t('inquiryInvitations.markInterested') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="cancel" @click="respond(invitation, 'declined')">
+                    <FormButton type="button" buttonStyle="cancel" @click="openAnswer(invitation, 'declined')">
                         {{ $t('inquiryInvitations.markDeclined') }}
                     </FormButton>
                 </template>
@@ -72,6 +72,34 @@
                 </Tooltip>
             </div>
         </div>
+
+        <!-- Registering an answer the consultant gave over the phone, with an
+             optional note of what was said. -->
+        <Modal size="sm" :title="$t('inquiryInvitations.answerTitle', { name: state.answering ? consultantName(state.answering) : '' })"
+            :show="state.answering !== null" @close="state.answering = null">
+            <template #modal-body>
+                <div class="space-y-3">
+                    <p class="text-[13px] text-slate-600">
+                        {{ $t('inquiryInvitations.answerHint') }}
+                        <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(state.answerStatus)">
+                            {{ $t('inquiryInvitations.statuses.' + state.answerStatus) }}
+                        </span>
+                    </p>
+                    <div class="space-y-1">
+                        <FormLabel for="invitation_answer_note" :label="$t('inquiryInvitations.answerNote')" />
+                        <FormTextArea id="invitation_answer_note" name="invitation_answer_note"
+                            :placeholder="$t('inquiryInvitations.answerNotePlaceholder')" :rows="2"
+                            v-model="state.answerNote" />
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2">
+                        <FormButton type="button" buttonStyle="cancel" @click="state.answering = null">{{ $t('cancel') }}</FormButton>
+                        <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving" @click="confirmAnswer">
+                            {{ $t('inquiryInvitations.answerSave') }}
+                        </FormButton>
+                    </div>
+                </div>
+            </template>
+        </Modal>
 
         <!-- Choosing the consultant, with what they may register on the case
              (optional; carried to the indsats when the inquiry is won). -->
@@ -122,6 +150,9 @@ const props = defineProps({
 const state = reactive({
     invitations: [] as any[],
     selecting: null as any,
+    answering: null as any,
+    answerStatus: 'interested' as 'interested' | 'declined',
+    answerNote: '',
     ruleDraft: toUserRuleDraft(null) as UserRuleDraft,
     isSaving: false,
 })
@@ -168,7 +199,9 @@ function trail(invitation: any) {
     const askedBy = invitation.invited_by
         ? `${invitation.invited_by.firstname ?? ''} ${invitation.invited_by.lastname ?? ''}`.trim()
         : ''
-    const answeredBy = invitation.responded_by
+    // Named only when someone else registered it. Without answered_on_behalf
+    // (an older backend) whoever recorded it is named, as before.
+    const answeredBy = invitation.responded_by && invitation.answered_on_behalf !== false
         ? `${invitation.responded_by.firstname ?? ''} ${invitation.responded_by.lastname ?? ''}`.trim()
         : ''
 
@@ -190,13 +223,24 @@ async function fetchInvitations() {
     }
 }
 
-async function respond(invitation: any, status: 'interested' | 'declined') {
+function openAnswer(invitation: any, status: 'interested' | 'declined') {
+    state.answerStatus = status
+    state.answerNote = ''
+    state.answering = invitation
+}
+
+async function confirmAnswer() {
+    const invitation = state.answering
+    if (!invitation) return
+    state.isSaving = true
     try {
-        await inquiryConsultantInvitationService.respond(invitation.uuid, status)
+        await inquiryConsultantInvitationService.respond(invitation.uuid, state.answerStatus, state.answerNote.trim() || undefined)
+        state.answering = null
         await fetchInvitations()
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryInvitations.failed'))
     }
+    state.isSaving = false
 }
 
 function openSelect(invitation: any) {
