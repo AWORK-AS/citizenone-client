@@ -2224,6 +2224,24 @@
     "chooseFile": "Vælg fil",
     "chooseFiles": "Vælg fil(er)",
     "citizens": {
+        "consultantHours": {
+            "title": "Konsulenternes timer pr. uge",
+            "hint": "Sæt hvor mange timer hver konsulent har på indsatsen, inklusive transport og administration. Uden tal deles det, de andre ikke har fået, ligeligt. To konsulenter kan godt have de samme timer ved dobbeltbemanding.",
+            "granted": "Bevilget: {hours} t/uge",
+            "grantedSplit": "kontakt {contact}, administration {admin}, transport {transport}",
+            "noGrant": "Indsatsen har ingen bevilgede timer pr. uge.",
+            "consultant": "Konsulent",
+            "given": "Sat til",
+            "counts": "Tæller som",
+            "placeholder": "Delt",
+            "givenFor": "Timer pr. uge for {name}",
+            "perWeek": "t/uge",
+            "basis": {
+                "explicit": "sat",
+                "even_split": "ligelig deling",
+                "none": "ingen bevilling"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} ikke fundet",
             "message": "@.capitalize:terms.citizenDefinite{''} findes ikke, eller du har ikke adgang."
@@ -18833,6 +18851,27 @@
             "offer_revised": "Tilbud revideres"
         }
     },
+    "consultantCapacity": {
+        "title": "Kapacitet",
+        "perWeek": "t/uge",
+        "allocated": "Tildelt",
+        "registered": "Registreret (snit 4 uger)",
+        "desired": "Ønsket",
+        "free": "Ledig",
+        "case": "Indsats",
+        "granted": "Bevilget på indsatsen",
+        "basis": {
+            "explicit": "sat for konsulenten",
+            "even_split": "delt ligeligt mellem {count}",
+            "none": "Ingen bevilgede timer"
+        },
+        "hints": {
+            "explicit": "Tildelte timer er sat for konsulenten på hver indsats. Transport og administration tæller med.",
+            "even_split": "Tildelte timer er beregnet: indsatsens bevilgede timer delt ligeligt mellem konsulenterne på den. Sæt timerne pr. konsulent under Kontakter for et præcist tal.",
+            "mixed": "Tildelte timer er sat for konsulenten på nogle indsatser og beregnet som en ligelig deling på resten. Transport og administration tæller med.",
+            "none": "Konsulenten står ikke på aktive indsatser med bevilgede timer."
+        }
+    },
     "consultantMatch": {
         "export": "Eksportér til Excel",
         "exporting": "Eksporterer...",
@@ -18851,6 +18890,8 @@
         "notReady": "Kan ikke sættes på sag",
         "archived": "Arkiveret - kan kontaktes",
         "activeCases": "{count} aktiv indsats | {count} aktive indsatser",
+        "freeCapacity": "Ledig kapacitet: {hours} t/uge",
+        "freeCapacityHint": "Ønsker {desired} t/uge og er tildelt {allocated} t/uge på aktive indsatser",
         "archivedOnCases": "Arkiveret uden login, men står på {count} aktive indsatser. Genaktivér medarbejderen og giv en licens.",
         "archivedHint": "Genaktiveres med en licens, når konsulenten vælges til sagen",
         "notNotified": "{count} konsulent fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne. | {count} konsulenter fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne.",
@@ -18868,6 +18909,7 @@
             "spokenLanguages": "Talte sprog",
             "travelsUpToKm": "Kører op til (km)",
             "minAvailableHours": "Minimum antal timer konsulenten har til rådighed",
+            "minFreeWeeklyHours": "Mindst ledig kapacitet (t/uge)",
             "languagesAndDialects": "Sprog og dialekter",
             "languagesHint": "Sprog medarbejderen taler. Konsulenten matcher, hvis vedkommende taler et af de valgte sprog.",
             "minTravelKm": "Skal køre mindst (km)",
@@ -18889,6 +18931,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Trinvurdering",
             "min_weekly_hours": "Timetal",
+            "min_free_weekly_hours": "Ledig kapacitet",
             "primary_spoken_language_uuid": "Primært sprog",
             "within_travel_range": "Inden for køreafstand"
         },
