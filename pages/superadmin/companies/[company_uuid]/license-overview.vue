@@ -443,6 +443,22 @@
                         <p class="text-sm text-gray-600">
                             {{ $t('superadmin.companies.licenseOverview.grant.description') }}
                         </p>
+                        <div class="flex items-start gap-2 rounded-lg px-3 py-2.5 text-[13px]"
+                            :class="grantNoticeKind ? 'bg-[#E4F1F6] text-[#205E77]' : 'bg-amber-50 text-amber-900'"
+                            role="note" data-testid="grant-billing-notice">
+                            <Icon :name="grantNoticeIcon" class="w-4 h-4 mt-px flex-shrink-0" aria-hidden="true" />
+                            <p class="flex-1">
+                                {{ grantNoticeKind
+                                    ? $t(`paymentDunning.grant.${grantNoticeKind}`)
+                                    : $t('paymentDunning.grant.methodUnknown') }}
+                            </p>
+                            <Tooltip :text="$t('paymentDunning.grant.changeMethodHelp')" position="top" wrap>
+                                <NuxtLink :to="`/superadmin/companies/${companyUuid}/overview`"
+                                    class="underline underline-offset-2 whitespace-nowrap font-medium">
+                                    {{ $t('paymentDunning.grant.changeMethod') }}
+                                </NuxtLink>
+                            </Tooltip>
+                        </div>
                         <p class="text-sm font-semibold text-gray-900">
                             {{ state.activeLicenseType === 'department'
                                 ? $t('superadmin.companies.licenseOverview.departmentLicenses')
@@ -482,13 +498,6 @@
                             <p class="text-xs text-gray-500">
                                 {{ $t('superadmin.companies.licenseOverview.addSubscription.termYearsHint') }}
                             </p>
-                        </div>
-                        <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.grant.paysViaLeverandorservice = !state.grant.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.grant.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.grant.isOpen = false">
@@ -559,11 +568,7 @@
                             </fieldset>
                         </div>
                         <div v-if="state.addSubscription.billingMethod === 'manual_invoice'" class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.addSubscription.paysViaLeverandorservice = !state.addSubscription.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.addSubscription.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
+                            <ModulesSuperadminCompanyLeverandorserviceLine :leverandorservice="companyLeverandorservice" :companyUuid="(companyUuid as string)" />
                         </div>
                         <div v-if="addSubscriptionNeedsTermYears" class="space-y-1">
                             <FormLabel for="add_subscription_term_years"
@@ -661,11 +666,7 @@
                             </fieldset>
                         </div>
                         <div v-if="state.editSubscription.billingMethod === 'manual_invoice'" class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.editSubscription.paysViaLeverandorservice = !state.editSubscription.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.editSubscription.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
+                            <ModulesSuperadminCompanyLeverandorserviceLine :leverandorservice="companyLeverandorservice" :companyUuid="(companyUuid as string)" />
                         </div>
                         <div class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div class="flex justify-between text-gray-600">
@@ -724,11 +725,7 @@
                                 class="appearance-none block w-full px-4 h-11 border border-gray-200 rounded-lg text-gray-900 focus:outline-none focus:ring-primary-700 focus:border-primary-700 sm:text-sm" />
                         </div>
                         <div v-if="editTermDeltaYears > 0" class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.editTerm.paysViaLeverandorservice = !state.editTerm.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.editTerm.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
+                            <ModulesSuperadminCompanyLeverandorserviceLine :leverandorservice="companyLeverandorservice" :companyUuid="(companyUuid as string)" />
                         </div>
                         <div v-if="editTermDeltaYears !== 0" class="rounded-lg bg-gray-50 p-3 space-y-1 text-sm">
                             <div v-if="editTermDeltaYears > 0" class="flex justify-between text-gray-600">
@@ -845,11 +842,7 @@
                             {{ $t('superadmin.companies.licenseOverview.grant.billingFixed', { frequency: fixedFrequencyLabel }) }}
                         </p>
                         <div class="space-y-1">
-                            <div class="w-fit flex items-center cursor-pointer"
-                                @click="state.grantStorage.paysViaLeverandorservice = !state.grantStorage.paysViaLeverandorservice">
-                                <FormCheckbox :value="state.grantStorage.paysViaLeverandorservice" />
-                                {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                            </div>
+                            <ModulesSuperadminCompanyLeverandorserviceLine :leverandorservice="companyLeverandorservice" :companyUuid="(companyUuid as string)" />
                         </div>
                         <div class="flex justify-end gap-3 pt-2">
                             <FormButton buttonStyle="secondary" @click="state.grantStorage.isOpen = false">
@@ -875,6 +868,8 @@
 <script setup lang="ts">
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { storagePackageService } from '@/components/api/superadmin/StoragePackageService'
+import { billingService } from '@/components/api/superadmin/BillingService'
+import { errorMessageKey, grantNotice, type CompanyBilling } from '@/composables/billingMethod'
 import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { usePermissions } from '@/composables/usePermissions'
@@ -944,7 +939,6 @@ const state = reactive({
         isSaving: false,
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
-        paysViaLeverandorservice: false,
         termYears: 1 as number,
     },
     addSubscription: {
@@ -955,7 +949,6 @@ const state = reactive({
         package: '' as string,
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card' | 'assigned_payment_card',
-        paysViaLeverandorservice: false,
         termYears: 1 as number,
     },
     editSubscription: {
@@ -964,7 +957,6 @@ const state = reactive({
         package: '' as string,
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card',
-        paysViaLeverandorservice: false,
     },
     // Extend/reduce the contract length of an already-granted manual yearly
     // license seat or Deal subscription. `target` is whichever row's "Edit
@@ -975,7 +967,6 @@ const state = reactive({
         target: null as any,
         termYears: 1 as number,
         createdAt: '' as string,
-        paysViaLeverandorservice: false,
     },
     removeLicense: {
         isConfirmOpen: false,
@@ -995,7 +986,6 @@ const state = reactive({
         packages: [] as any[],
         addOnDealUuid: '' as string,
         frequency: 'monthly' as 'monthly' | 'yearly',
-        paysViaLeverandorservice: false,
     },
     removeStorage: {
         isConfirmOpen: false,
@@ -1010,6 +1000,40 @@ const contract = computed(() => state.subscriptions?.data?.contract ?? null)
 
 // Superadmin-only blocks on the subscriptions response; absent on an older API.
 const agreementView = computed(() => subscriptionAgreementView(state.subscriptions?.data))
+
+// What "Tilføj licenser" will do depends on how the company pays. The method is a
+// company setting; the dialog only reflects it. `null` until it has loaded, so a
+// failed load says so instead of promising a card charge.
+const billing = ref<CompanyBilling | null>(null)
+
+// Leverandørservice is the company's own setting (Betalingsmåde). It is still sent as
+// `pays_via_leverandorservice` so the API keeps working unchanged; the value is the company's.
+const companyLeverandorservice = computed(() => !!billing.value?.leverandorservice)
+
+const grantNoticeKind = computed(() => {
+    if (!billing.value) return null
+    return grantNotice({
+        billingMethod: billing.value.billing_method,
+        underAgreement: billing.value.under_agreement || !!agreementView.value.agreement || agreementView.value.runningAgreements.length > 0,
+        economicDraft: billing.value.economic_draft,
+    })
+})
+
+const grantNoticeIcon = computed(() => ({
+    card: 'ph:credit-card',
+    invoice: 'ph:file-text',
+    invoice_economic: 'ph:file-text',
+    agreement: 'ph:handshake',
+}[grantNoticeKind.value ?? 'card'] ?? 'ph:warning'))
+
+async function loadBillingMethod() {
+    billing.value = null
+    try {
+        billing.value = await billingService.getBillingMethod(companyUuid as string)
+    } catch (_) {
+        billing.value = null
+    }
+}
 const agreement = computed(() => agreementView.value.agreement)
 const agreementRenewal = computed(() => renewalSummary(agreement.value ?? {}))
 const runningAgreement = computed(() => agreementView.value.runningAgreements[0] ?? null)
@@ -1055,7 +1079,7 @@ const addSubscriptionUnitPrice = computed(() => {
 const addSubscriptionTax = computed(() => addSubscriptionUnitPrice.value * 0.25)
 const addSubscriptionServiceFee = computed(() =>
     state.addSubscription.billingMethod !== 'manual_invoice' ? 4.75
-    : state.addSubscription.paysViaLeverandorservice ? 0 : 295
+    : companyLeverandorservice.value ? 0 : 295
 )
 const addSubscriptionTotal = computed(() => addSubscriptionUnitPrice.value * 1.25 + addSubscriptionServiceFee.value)
 
@@ -1092,7 +1116,7 @@ const editSubscriptionUnitPrice = computed(() => {
 const editSubscriptionTax = computed(() => editSubscriptionUnitPrice.value * 0.25)
 const editSubscriptionServiceFee = computed(() =>
     state.editSubscription.billingMethod !== 'manual_invoice' ? 4.75
-    : state.editSubscription.paysViaLeverandorservice ? 0 : 295
+    : companyLeverandorservice.value ? 0 : 295
 )
 const editSubscriptionEstimatedCredit = computed(() => {
     const current = state.subscriptions?.data
@@ -1119,7 +1143,7 @@ const editTermPerYearPrice = computed(() => {
     return Number(deal.new_yearly_price ?? deal.yearly_price ?? 0)
 })
 const editTermUnitAmount = computed(() => editTermPerYearPrice.value * Math.abs(editTermDeltaYears.value))
-const editTermServiceFee = computed(() => (state.editTerm.paysViaLeverandorservice ? 0 : 295))
+const editTermServiceFee = computed(() => (companyLeverandorservice.value ? 0 : 295))
 const editTermTotal = computed(() => {
     if (editTermDeltaYears.value > 0) {
         return (editTermUnitAmount.value * 1.25) + editTermServiceFee.value
@@ -1161,9 +1185,9 @@ watch(() => state.activeLicenseType, () => {
 function openGrantModal() {
     state.grant.quantity = 1
     state.grant.frequency = 'monthly'
-    state.grant.paysViaLeverandorservice = false
     state.grant.termYears = 1
     state.grant.isOpen = true
+    loadBillingMethod()
 }
 
 async function submitGrant() {
@@ -1172,10 +1196,10 @@ async function submitGrant() {
     if (grantIsYearly.value && (!state.grant.termYears || state.grant.termYears < 1)) return
     state.grant.isSaving = true
     try {
-        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean, term_years?: number } = {
+        // Leverandorservice is a company setting now (Betalingsmaade), not a choice per grant.
+        const params: { quantity: number, type: 'user' | 'department', frequency?: 'monthly' | 'yearly', term_years?: number } = {
             quantity: state.grant.quantity,
             type: state.activeLicenseType,
-            pays_via_leverandorservice: state.grant.paysViaLeverandorservice,
         }
         if (needsFrequencyPicker.value) {
             params.frequency = state.grant.frequency
@@ -1183,9 +1207,17 @@ async function submitGrant() {
         if (grantIsYearly.value) {
             params.term_years = state.grant.termYears
         }
-        await licenseService.grantLicenses(companyUuid as string, params)
+        const response = await licenseService.grantLicenses(companyUuid as string, params)
         state.grant.isOpen = false
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.grant.granted')}.`)
+        // An invoice company gets an invoice (empty for card companies). Say which one.
+        for (const invoice of (response?.data?.invoices ?? [])) {
+            successAlert(`${t('alert.success')}!`, t('paymentDunning.grant.invoiceCreated', {
+                number: invoice.invoice_number, date: invoice.due_on ? formatDateToReadable(invoice.due_on) : '—' }))
+            if (invoice.agreement_add_on) {
+                successAlert(`${t('alert.success')}!`, t('paymentDunning.grant.agreementAddOnHint'))
+            }
+        }
         fetchLicenses()
         fetchLicensesCount()
     } catch (error: any) {
@@ -1197,7 +1229,6 @@ async function submitGrant() {
 async function openAddSubscriptionModal() {
     state.addSubscription.frequency = 'monthly'
     state.addSubscription.billingMethod = 'manual_invoice'
-    state.addSubscription.paysViaLeverandorservice = false
     state.addSubscription.termYears = 1
     state.addSubscription.isOpen = true
 
@@ -1225,7 +1256,7 @@ async function submitAddSubscription() {
             package: state.addSubscription.package,
             frequency: state.addSubscription.frequency,
             billing_method: state.addSubscription.billingMethod,
-            pays_via_leverandorservice: state.addSubscription.paysViaLeverandorservice,
+            pays_via_leverandorservice: companyLeverandorservice.value,
             ...(addSubscriptionNeedsTermYears.value ? { term_years: state.addSubscription.termYears } : {}),
         })
         state.addSubscription.isOpen = false
@@ -1242,7 +1273,6 @@ async function openEditSubscriptionModal() {
     state.editSubscription.package = current?.deal?.name ?? ''
     state.editSubscription.frequency = current?.type?.includes('year') ? 'yearly' : 'monthly'
     state.editSubscription.billingMethod = current?.type?.startsWith('custom') ? 'manual_invoice' : 'payment_card'
-    state.editSubscription.paysViaLeverandorservice = false
     state.editSubscription.isOpen = true
 
     if (state.addSubscription.deals.length === 0) {
@@ -1269,14 +1299,16 @@ async function submitEditSubscription() {
         if (state.editSubscription.billingMethod === 'payment_card') {
             params.credit_amount = editSubscriptionEstimatedCredit.value
         } else {
-            params.pays_via_leverandorservice = state.editSubscription.paysViaLeverandorservice
+            params.pays_via_leverandorservice = companyLeverandorservice.value
         }
         await licenseService.updateDealSubscription(companyUuid as string, params)
         state.editSubscription.isOpen = false
         successAlert(`${t('alert.success')}!`, `${t('superadmin.companies.licenseOverview.editSubscription.updated')}.`)
         fetchSubscription()
     } catch (error: any) {
-        errorAlert(t('alert.warning'), error?.message ?? t('superadmin.companies.licenseOverview.editSubscription.failed'))
+        // plan_change_invoice_company: the company pays by invoice, so a card plan change is refused.
+        const key = errorMessageKey(error)
+        errorAlert(t('alert.warning'), key ? t(key) : (error?.message ?? t('superadmin.companies.licenseOverview.editSubscription.failed')))
     }
     state.editSubscription.isSaving = false
 }
@@ -1287,7 +1319,6 @@ function openEditTermModal(license: any) {
     // Slice rather than round-trip through Date() - a timezone shift there
     // could silently move the date a day off from what's actually stored.
     state.editTerm.createdAt = license?.created_at ? String(license.created_at).slice(0, 10) : ''
-    state.editTerm.paysViaLeverandorservice = false
     state.editTerm.isOpen = true
 }
 
@@ -1324,7 +1355,7 @@ async function submitEditTerm() {
     try {
         const params: { term_years: number; created_at?: string; pays_via_leverandorservice?: boolean } = {
             term_years: state.editTerm.termYears,
-            pays_via_leverandorservice: state.editTerm.paysViaLeverandorservice,
+            pays_via_leverandorservice: companyLeverandorservice.value,
         }
         const originalDate = target.created_at ? String(target.created_at).slice(0, 10) : ''
         if (state.editTerm.createdAt && state.editTerm.createdAt !== originalDate) {
@@ -1370,6 +1401,7 @@ async function submitRemoveLicense() {
 }
 
 onMounted(() => {
+    loadBillingMethod()
     fetchSubscription()
     fetchLicenses()
     fetchLicensesCount()
@@ -1393,7 +1425,6 @@ async function fetchCompanyStorage() {
 async function openGrantStorageModal() {
     state.grantStorage.addOnDealUuid = ''
     state.grantStorage.frequency = 'monthly'
-    state.grantStorage.paysViaLeverandorservice = false
     state.grantStorage.isOpen = true
 
     if (state.grantStorage.packages.length === 0) {
@@ -1415,7 +1446,7 @@ async function submitGrantStorage() {
     try {
         const params: { add_on_deal_uuid: string, frequency?: 'monthly' | 'yearly', pays_via_leverandorservice: boolean } = {
             add_on_deal_uuid: state.grantStorage.addOnDealUuid,
-            pays_via_leverandorservice: state.grantStorage.paysViaLeverandorservice,
+            pays_via_leverandorservice: companyLeverandorservice.value,
         }
         if (needsFrequencyPicker.value) {
             params.frequency = state.grantStorage.frequency

@@ -5,6 +5,7 @@ import { forgetChatSession } from '@/composables/obiyenChatSession'
 import { translateMessage } from '@/composables/translateMessage'
 import { notify } from '@kyvg/vue3-notification'
 import { createNoticeThrottle, shouldNoticeFailedWrite } from '@/composables/failedWrite'
+import { shouldRouteToSuspended } from '@/composables/billingMethod'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -409,6 +410,14 @@ class BaseAPIService {
 
             switch (error.response?.status) {
                 case 400:
+                    // A company closed for non-payment answers every /user/* call of an open
+                    // session with this 400. The suspended page reads the billing standing
+                    // (a route that stays open) and offers the card flow or "contact your admin".
+                    if (typeof window !== 'undefined'
+                        && shouldRouteToSuspended(url, error.response._data, window.location.pathname)) {
+                        BaseAPIService.goToSuspended()
+                    }
+
                     // A 400 here is usually a rule the server is enforcing on
                     // purpose - a required field, a delete that would orphan
                     // something - and that message is written for the user. An
@@ -723,6 +732,15 @@ class BaseAPIService {
         // release (task 250) must log in on the new build, and an open tab is
         // still running the old one until the page is loaded again.
         BaseAPIService.reloadToLogin(window.location.pathname)
+    }
+
+    // A burst of parallel calls all get the suspended refusal; only the first navigates.
+    private static routedToSuspended = false
+
+    private static goToSuspended() {
+        if (BaseAPIService.routedToSuspended) return
+        BaseAPIService.routedToSuspended = true
+        window.location.assign('/subscription/suspended')
     }
 
     // The rest of a burst of parallel 401s arrive before the page has gone.

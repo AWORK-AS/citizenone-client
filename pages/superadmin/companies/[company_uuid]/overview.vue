@@ -292,6 +292,10 @@
                             </div>
                         </div>
 
+
+                        <ModulesSuperadminCompanyBillingMethod :companyUuid="(companyUuid as string)"
+                            :underAgreement="!!subscriptionAgreement" />
+
                     </div>
                 </LoadingSpinner>
             </div>

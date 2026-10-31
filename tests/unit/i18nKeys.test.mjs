@@ -48,3 +48,59 @@ test('the settings catalogue entries for the contract catalogues exist', () => {
         }
     }
 })
+
+// ---------------------------------------------------------------------------------------------
+// paymentDunning.*: payment method, dunning worklist, suspended state. Used from pages,
+// components and layouts as `$t('paymentDunning.…')`, including keys built from a variable
+// (`paymentDunning.problems.action.${action}`), so a plain literal scan is not enough.
+// ---------------------------------------------------------------------------------------------
+
+function sourceFiles(dir) {
+    const out = []
+    for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+        const full = path.join(dir, entry.name)
+        if (entry.isDirectory()) out.push(...sourceFiles(full))
+        else if (/\.(vue|ts)$/.test(entry.name)) out.push(full)
+    }
+    return out
+}
+
+const flatKeys = (o, prefix = '') => Object.entries(o).flatMap(([k, v]) =>
+    v && typeof v === 'object' ? flatKeys(v, `${prefix}${k}.`) : [`${prefix}${k}`])
+
+test('paymentDunning has the same keys in every language', () => {
+    const reference = flatKeys(langs.en.paymentDunning).sort()
+    assert.ok(reference.length > 50)
+
+    for (const lang of ['dk', 'no', 'sv']) {
+        assert.deepEqual(flatKeys(langs[lang].paymentDunning).sort(), reference, `${lang} differs from en`)
+    }
+})
+
+test('every paymentDunning key the app uses resolves in every language', () => {
+    const used = new Set()
+    const pattern = /paymentDunning\.[A-Za-z0-9_.${}]*[A-Za-z0-9_}]/g
+
+    for (const dir of ['pages', 'components', 'layouts', 'composables']) {
+        for (const file of sourceFiles(path.join(root, dir))) {
+            for (const [key] of fs.readFileSync(file, 'utf8').matchAll(pattern)) used.add(key)
+        }
+    }
+
+    assert.ok(used.size > 30)
+    const missing = []
+
+    for (const key of used) {
+        // A variable segment: the parent must exist and be an object in every language.
+        const dynamic = key.includes('${')
+        const lookup = dynamic ? key.slice(0, key.indexOf('${')).replace(/\.$/, '') : key
+
+        for (const lang of Object.keys(langs)) {
+            const value = get(langs[lang], lookup)
+            const ok = dynamic ? value && typeof value === 'object' : typeof value === 'string'
+            if (!ok) missing.push(`${lang}: ${key}`)
+        }
+    }
+
+    assert.deepEqual(missing, [])
+})
