@@ -329,6 +329,8 @@
         "Calendar": "Kalender",
         "Contacts": "Kontakter",
         "Duty Schedule": "Schema",
+        "View duty schedule": "Visa schema",
+        "Invoicing": "Tjänster och fakturering",
         "Employee Group": "Medarbetargrupp",
         "Emails": "@.capitalize:terms.citizens{'s'} e-post",
         "Reports": "Rapporter",

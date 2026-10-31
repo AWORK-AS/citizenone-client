@@ -329,6 +329,8 @@
         "Calendar": "Calendar",
         "Contacts": "Contacts",
         "Duty Schedule": "Duty schedule",
+        "View duty schedule": "View duty schedule",
+        "Invoicing": "Services and invoicing",
         "Employee Group": "Employee group",
         "Emails": "@.capitalize:terms.citizen{''} emails",
         "Reports": "Reports",

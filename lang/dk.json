@@ -329,6 +329,8 @@
         "Calendar": "Kalender",
         "Contacts": "Kontakter",
         "Duty Schedule": "Vagtplan",
+        "View duty schedule": "Se vagtplan",
+        "Invoicing": "Ydelser og fakturering",
         "Employee Group": "Medarbejdergruppe",
         "Emails": "@.capitalize:terms.citizens{'s'} e-mails",
         "Reports": "Rapporter",
