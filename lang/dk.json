@@ -19816,7 +19816,9 @@
         "byMonth": "Per måned",
         "serviceType": "Indsatstype",
         "month": "Måned",
-        "noServiceType": "Uden indsatstype"
+        "noServiceType": "Uden indsatstype",
+        "includeImported": "Medtag migrerede henvendelser",
+        "includeImportedHint": "{count} henvendelser i perioden er flyttet over fra et tidligere system. De tæller ikke med i tallene, medmindre du vælger det."
     },
     "inquiryOffer": {
         "title": "Tilbud",

@@ -19731,7 +19731,9 @@
         "byMonth": "Per månad",
         "serviceType": "Insatstyp",
         "month": "Månad",
-        "noServiceType": "Utan insatstyp"
+        "noServiceType": "Utan insatstyp",
+        "includeImported": "Ta med migrerade förfrågningar",
+        "includeImportedHint": "{count} förfrågningar under perioden har flyttats över från ett tidigare system. De räknas inte med i siffrorna om du inte väljer det."
     },
     "inquiryOffer": {
         "title": "Offert",

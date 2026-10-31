@@ -19816,7 +19816,9 @@
         "byMonth": "By month",
         "serviceType": "Service type",
         "month": "Month",
-        "noServiceType": "No service type"
+        "noServiceType": "No service type",
+        "includeImported": "Include migrated inquiries",
+        "includeImportedHint": "{count} inquiries in the period were moved over from a previous system. They are left out of the figures unless you choose to include them."
     },
     "inquiryOffer": {
         "title": "Offer",
