@@ -18919,6 +18919,8 @@
             "title": "Saker du er spurt om",
             "empty": "Du er ikke spurt om noen saker.",
             "yes": "Ja takk",
+            "languages": "Språk: {languages}",
+            "reporting": "Rapport {frequency}",
             "no": "Nei takk",
             "answered": "Du har svart"
         },

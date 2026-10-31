@@ -21,6 +21,9 @@
                     {{ $t('inquiryInvitations.selected') }}
                 </span>
             </div>
+            <!-- Where, in which languages and how often reports are due: enough
+                 to answer without phoning the coordinator first. -->
+            <p v-if="details(invitation)" class="mt-1 text-[12px] text-slate-500">{{ details(invitation) }}</p>
 
             <div class="mt-2 flex flex-wrap items-center gap-2">
                 <template v-if="invitation.status === 'invited'">
@@ -51,6 +54,21 @@ const { t } = useI18n()
 const state = reactive({
     invitations: [] as any[],
 })
+
+const REPORTING_KEYS: Record<string, string> = {
+    weekly: 'weekly', biweekly: 'biweekly', monthly: 'monthly',
+    every_three_months: 'everyThreeMonths', every_six_months: 'everySixMonths', yearly: 'yearly',
+}
+
+function details(invitation: any): string {
+    const inquiry = invitation.inquiry || {}
+    const reporting = REPORTING_KEYS[inquiry.reporting_frequency]
+    return [
+        inquiry.area,
+        (inquiry.languages || []).length ? t('inquiryInvitations.mine.languages', { languages: inquiry.languages.join(', ') }) : '',
+        reporting ? t('inquiryInvitations.mine.reporting', { frequency: t('citizens.form.reportingOptions.' + reporting).toLowerCase() }) : '',
+    ].filter(Boolean).join(' · ')
+}
 
 onMounted(() => {
     fetchInvitations()

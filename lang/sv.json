@@ -18919,6 +18919,8 @@
             "title": "Ärenden du har blivit tillfrågad om",
             "empty": "Du har inte blivit tillfrågad om några ärenden.",
             "yes": "Ja tack",
+            "languages": "Språk: {languages}",
+            "reporting": "Rapport {frequency}",
             "no": "Nej tack",
             "answered": "Du har svarat"
         },

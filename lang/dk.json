@@ -19004,6 +19004,8 @@
             "title": "Sager du er spurgt om",
             "empty": "Du er ikke spurgt om nogen sager.",
             "yes": "Ja tak",
+            "languages": "Sprog: {languages}",
+            "reporting": "Rapport {frequency}",
             "no": "Nej tak",
             "answered": "Du har svaret"
         },

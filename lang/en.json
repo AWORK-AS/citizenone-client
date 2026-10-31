@@ -19004,6 +19004,8 @@
             "title": "Cases you have been asked about",
             "empty": "You have not been asked about any cases.",
             "yes": "Yes please",
+            "languages": "Languages: {languages}",
+            "reporting": "Report {frequency}",
             "no": "No thanks",
             "answered": "You have answered"
         },
