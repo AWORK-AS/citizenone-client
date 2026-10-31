@@ -266,6 +266,7 @@
         "receiverMine": "Mina förfrågningar",
         "receiverNone": "Utan mottagare",
         "receivedBy": "Mottagen av {name}",
+        "responsiblePrimary": "Ansvarig nu: {name}, primär koordinator",
         "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {

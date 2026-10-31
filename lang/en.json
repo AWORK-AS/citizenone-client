@@ -266,6 +266,7 @@
         "receiverMine": "My inquiries",
         "receiverNone": "No intake coordinator",
         "receivedBy": "Received by {name}",
+        "responsiblePrimary": "Responsible now: {name}, primary coordinator",
         "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {

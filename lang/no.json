@@ -266,6 +266,7 @@
         "receiverMine": "Mine henvendelser",
         "receiverNone": "Uten mottaker",
         "receivedBy": "Mottatt av {name}",
+        "responsiblePrimary": "Ansvarlig nå: {name}, primær koordinator",
         "stage": "Fase",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
