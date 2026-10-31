@@ -18761,11 +18761,11 @@
         "notNotified": "{count} konsulent fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne. | {count} konsulenter fikk ikke beskjed: inaktive konsulenter får ingen e-post eller varsel i appen. Kontakt dem direkte, på telefon eller e-post utenfor CitizenOne.",
         "nameSearch": "Søk konsulent på navn",
         "openProfile": "Åpne profil",
-        "resultSummary": "{total} konsulenter, hvorav {full} med fullt match på {criteria} kriterier.",
+        "resultSummary": "{total} konsulenter, hvorav {full} oppfyller alle {criteria} søkekriterier. Matchen sammenligner bare med opplysningene som er registrert på profilen, og vurderer ikke den faglige egnetheten.",
         "matches": {
-            "full": "Fullt match",
-            "partial": "Delvis match ({met} av {asked})",
-            "none": "Ingen match"
+            "full": "Oppfyller alle kriterier",
+            "partial": "Oppfyller {met} av {asked} kriterier",
+            "none": "Oppfyller ingen kriterier"
         },
         "form": {
             "spokenLanguages": "Talte språk",

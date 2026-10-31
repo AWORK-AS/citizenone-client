@@ -18846,11 +18846,11 @@
         "notNotified": "{count} konsulent fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne. | {count} konsulenter fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne.",
         "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
-        "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
+        "resultSummary": "{total} konsulenter, heraf {full} der opfylder alle {criteria} søgekriterier. Matchet sammenligner kun med de registrerede oplysninger på profilen og vurderer ikke den faglige egnethed.",
         "matches": {
-            "full": "Fuldt match",
-            "partial": "Delvist match ({met} af {asked})",
-            "none": "Intet match"
+            "full": "Opfylder alle kriterier",
+            "partial": "Opfylder {met} af {asked} kriterier",
+            "none": "Opfylder ingen kriterier"
         },
         "form": {
             "spokenLanguages": "Talte sprog",

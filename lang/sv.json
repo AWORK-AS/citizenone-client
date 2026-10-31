@@ -18761,11 +18761,11 @@
         "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
-        "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
+        "resultSummary": "{total} konsulter, varav {full} uppfyller alla {criteria} sökkriterier. Matchningen jämför bara med det som är registrerat på profilen och bedömer inte den yrkesmässiga lämpligheten.",
         "matches": {
-            "full": "Full matchning",
-            "partial": "Delvis matchning ({met} av {asked})",
-            "none": "Ingen matchning"
+            "full": "Uppfyller alla kriterier",
+            "partial": "Uppfyller {met} av {asked} kriterier",
+            "none": "Uppfyller inga kriterier"
         },
         "form": {
             "spokenLanguages": "Talade språk",

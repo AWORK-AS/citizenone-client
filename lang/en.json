@@ -18846,11 +18846,11 @@
         "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
-        "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
+        "resultSummary": "{total} consultants, {full} of them meet all {criteria} search criteria. The match only compares with what is recorded on the profile and does not judge professional suitability.",
         "matches": {
-            "full": "Full match",
-            "partial": "Partial match ({met} of {asked})",
-            "none": "No match"
+            "full": "Meets all criteria",
+            "partial": "Meets {met} of {asked} criteria",
+            "none": "Meets no criteria"
         },
         "form": {
             "spokenLanguages": "Spoken languages",
