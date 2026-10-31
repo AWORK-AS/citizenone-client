@@ -276,6 +276,7 @@ import { saveAs } from 'file-saver'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
+import { notifiedChannels } from '@/utils/consultantNotifiedVia'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -459,18 +460,41 @@ async function invite() {
     try {
         const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked)
         state.picked = []
-        // An inactive (archived) consultant is asked but gets no mail or app
-        // notice, so the coordinator has to reach them directly. Without
-        // `invitees` (an older backend) the message is as before.
-        const notNotified = (response?.invitees ?? []).filter((invitee: any) => invitee.notified === false).length
-        const message = response?.message ?? t('consultantMatch.asked')
-        successAlert(`${t('alert.success')}!`, notNotified
-            ? `${message} ${t('consultantMatch.notNotified', { count: notNotified }, notNotified)}`
-            : message)
+        successAlert(`${t('alert.success')}!`, inviteMessage(response))
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
     }
     state.isInviting = false
+}
+
+// Says per consultant how they were told (mail, app, SMS) or that nobody
+// reached them. An older backend sends only `notified`, and then the message is
+// the count of inactive consultants, as before.
+function inviteMessage(response: any) {
+    const message = response?.message ?? t('consultantMatch.asked')
+    const invitees = response?.invitees ?? []
+
+    if (invitees.length && invitees.every((invitee: any) => 'sms' in invitee)) {
+        const lines = invitees.map((invitee: any) => {
+            const result = state.results.find((r: any) => r.uuid === invitee.consultant_uuid)
+            const name = result
+                ? `${result.firstname ?? ''} ${result.lastname ?? ''}`.trim()
+                : t('inquiryInvitations.unknownConsultant')
+            const channels = notifiedChannels(invitee)
+
+            return channels.length
+                ? t('consultantMatch.toldVia', { name, channels: channels.map((c) => t('inquiryInvitations.channels.' + c)).join(', ') })
+                : t('consultantMatch.notReached', { name })
+        })
+
+        return [message, ...lines].join(' ')
+    }
+
+    const notNotified = invitees.filter((invitee: any) => invitee.notified === false).length
+
+    return notNotified
+        ? `${message} ${t('consultantMatch.notNotified', { count: notNotified }, notNotified)}`
+        : message
 }
 
 function matchClass(match: string) {

@@ -18769,6 +18769,8 @@
         "archivedOnCases": "Arkiverad utan inloggning, men står på {count} aktiva insatser. Återaktivera medarbetaren och ge en licens.",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
         "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
+        "toldVia": "{name} fick besked via {channels}.",
+        "notReached": "{name} nåddes inte. Kontakta dem direkt.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} uppfyller alla {criteria} sökkriterier. Matchningen jämför bara med det som är registrerat på profilen och bedömer inte den yrkesmässiga lämpligheten.",
@@ -18929,7 +18931,12 @@
         },
         "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet",
         "contactDirectly": "Kontakta direkt",
-        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens."
+        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens.",
+        "howToldHelp": "Aktiva konsulter får ett mejl och ett meddelande i appen. Har ni SMS-appen får de också ett sms utan uppgifter om brukaren. En inaktiv konsult utan licens får bara sms och kan svara dig per telefon. Du registrerar svaret med Sa ja eller Sa nej.",
+        "toldVia": "fick besked via {channels}",
+        "channels": {"mail": "mejl", "app": "app", "sms": "sms"},
+        "notReached": "Inte nådd",
+        "notReachedHint": "Konsulten fick varken mejl, meddelande i appen eller sms. Kontakta dem direkt och registrera svaret med Sa ja eller Sa nej."
     },
     "taskBoards": {
         "actions": {

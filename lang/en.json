@@ -18854,6 +18854,8 @@
         "archivedOnCases": "Archived without a login, but on {count} active cases. Reactivate the employee and give them a licence.",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
         "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
+        "toldVia": "{name} was told by {channels}.",
+        "notReached": "{name} was not reached. Contact them directly.",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them meet all {criteria} search criteria. The match only compares with what is recorded on the profile and does not judge professional suitability.",
@@ -19014,7 +19016,12 @@
         },
         "cannotBeChosen": "Marked after the invitation and can't be chosen for the case",
         "contactDirectly": "Contact directly",
-        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence."
+        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence.",
+        "howToldHelp": "Active consultants get a mail and an app notice. If you have the SMS app, they also get an SMS without any details about the citizen. An inactive consultant without a licence only gets the SMS and can answer you by phone. You record the answer with Said yes or Said no.",
+        "toldVia": "told by {channels}",
+        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "notReached": "Not reached",
+        "notReachedHint": "The consultant got no mail, app notice or SMS. Contact them directly and record the answer with Said yes or Said no."
     },
     "taskBoards": {
         "actions": {

@@ -10,6 +10,9 @@
             </NuxtLink>
         </div>
 
+        <!-- How a consultant hears about it, the question coordinators ask. -->
+        <p class="mb-2 text-[12px] text-slate-500">{{ $t('inquiryInvitations.howToldHelp') }}</p>
+
         <p v-if="!state.invitations.length" class="text-[13px] text-slate-400">
             {{ $t('inquiryInvitations.empty') }}
         </p>
@@ -33,12 +36,12 @@
                         class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-bold text-slate-600">
                         {{ $t('consultantMatch.archived') }}
                     </span>
-                    <!-- Asked, but an inactive consultant gets no mail or app notice. Not
+                    <!-- Asked, but nothing reached them: no mail, app notice or SMS. Not
                          once chosen: the choice is made, even if they were archived again. -->
-                    <span v-if="invitation.consultant?.contact_status === 'inactive' && !invitation.is_selected"
-                        :title="$t('inquiryInvitations.contactDirectlyHint')"
+                    <span v-if="isNotReached(invitation) && !invitation.is_selected"
+                        :title="$t('inquiryInvitations.notReachedHint')"
                         class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
-                        {{ $t('inquiryInvitations.contactDirectly') }}
+                        {{ invitation.notified_via ? $t('inquiryInvitations.notReached') : $t('inquiryInvitations.contactDirectly') }}
                     </span>
                     <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(invitation.status)">
                         {{ $t('inquiryInvitations.statuses.' + invitation.status) }}
@@ -135,6 +138,7 @@ import {
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
+import { notifiedChannels } from '@/utils/consultantNotifiedVia'
 
 const { errorAlert } = useAlert()
 const { t } = useI18n()
@@ -188,6 +192,23 @@ function canBeChosen(invitation: any) {
     return !isDoNotContact(invitation) && invitation.consultant?.contact_status !== 'terminated'
 }
 
+// Recorded since invitations note how the consultant was told. An older
+// invitation has no record, so an inactive consultant counts as not reached,
+// as before.
+function isNotReached(invitation: any) {
+    if (!invitation.notified_via) return invitation.consultant?.contact_status === 'inactive'
+
+    return notifiedChannels(invitation.notified_via).length === 0
+}
+
+function toldVia(invitation: any) {
+    const channels = notifiedChannels(invitation.notified_via)
+
+    return channels.length
+        ? t('inquiryInvitations.toldVia', { channels: channels.map((c) => t('inquiryInvitations.channels.' + c)).join(', ') })
+        : ''
+}
+
 function statusClass(status: string) {
     if (status === 'interested') return 'bg-[#e6f6ee] text-[#177a53]'
     if (status === 'declined') return 'bg-[#fbe9e5] text-[#c0442c]'
@@ -208,6 +229,7 @@ function trail(invitation: any) {
     return [
         askedBy ? t('inquiryInvitations.askedBy', { name: askedBy }) : '',
         invitation.created_at ? formatDateToReadable(invitation.created_at) : '',
+        toldVia(invitation),
         // Who recorded the answer matters: an answer taken over the phone is not
         // the same as the consultant answering themselves.
         answeredBy ? t('inquiryInvitations.answeredBy', { name: answeredBy }) : '',
