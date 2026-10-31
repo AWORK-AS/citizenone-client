@@ -20688,5 +20688,46 @@
                 "socialtilsyn": "Social supervision check"
             }
         }
+    },
+    "consultantCalendar": {
+        "title": "Consultant calendar",
+        "description": "See consultants' appointments across all their cases, and book a consultant.",
+        "consultants": "Consultants",
+        "views": {
+            "week": "Week",
+            "month": "Month"
+        },
+        "previous": "Previous",
+        "next": "Next",
+        "today": "Today",
+        "week": "Week {number}",
+        "book": "Book consultant",
+        "bookTitle": "Book consultant",
+        "pickConsultant": "Choose one or more consultants to see their calendar.",
+        "totals": {
+            "planned": "Planned in period",
+            "citizens": "Of which citizen appointments",
+            "meetings": "Staff meetings/supervision",
+            "all": "Total planned: {planned}. Staff meetings/supervision: {meetings}."
+        },
+        "hours": "{hours} h",
+        "more": "{count} more",
+        "list": "Appointments in period",
+        "empty": "No appointments in this period.",
+        "busy": "Busy",
+        "cancelled": "Cancelled",
+        "workTypes": {
+            "citizen": "Citizen appointment",
+            "staff_meeting": "Staff meeting",
+            "supervision": "Supervision"
+        },
+        "seeCalendar": "See calendar",
+        "booked": "The consultant has been booked.",
+        "form": {
+            "consultant": "Consultant",
+            "type": "Type",
+            "citizen": "Citizen",
+            "workTimeHint": "Staff meetings and supervision count as working time and are shown on their own line in the hours summary."
+        }
     }
 }

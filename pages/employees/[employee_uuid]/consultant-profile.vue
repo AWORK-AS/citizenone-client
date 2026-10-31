@@ -15,6 +15,13 @@
             <ModulesUserEmployeeTabs />
 
             <div class="mt-8 space-y-5">
+                <div class="flex justify-end">
+                    <NuxtLink :to="`/consultant-calendar?consultant=${employeeUuid}`"
+                        class="inline-flex items-center gap-x-1.5 text-sm font-semibold text-primary hover:underline">
+                        <Icon name="ph:calendar-dot" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('consultantCalendar.seeCalendar') }}
+                    </NuxtLink>
+                </div>
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 

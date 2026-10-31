@@ -243,7 +243,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="flex shrink-0 items-center gap-3">
+                        <div class="flex shrink-0 flex-col items-end gap-y-1">
                             <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
                                 class="text-[13px] font-semibold text-secondary hover:underline">
                                 {{ $t('consultantMatch.openProfile') }}
@@ -253,6 +253,10 @@
                             <FormButton v-if="pickMode" type="button" buttonStyle="primary" @click="emit('pick', result)">
                                 {{ $t('recruitment.chooseConsultant') }}
                             </FormButton>
+                            <NuxtLink :to="`/consultant-calendar?consultant=${result.uuid}`"
+                                class="text-[13px] font-semibold text-primary hover:underline">
+                                {{ $t('consultantCalendar.seeCalendar') }}
+                            </NuxtLink>
                         </div>
                     </div>
 

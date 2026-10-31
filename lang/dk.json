@@ -20688,5 +20688,46 @@
                 "socialtilsyn": "Socialtilsyn-tjek"
             }
         }
+    },
+    "consultantCalendar": {
+        "title": "Konsulentkalender",
+        "description": "Se konsulenternes aftaler på tværs af alle deres indsatser, og book en konsulent.",
+        "consultants": "Konsulenter",
+        "views": {
+            "week": "Uge",
+            "month": "Måned"
+        },
+        "previous": "Forrige",
+        "next": "Næste",
+        "today": "I dag",
+        "week": "Uge {number}",
+        "book": "Book konsulent",
+        "bookTitle": "Book konsulent",
+        "pickConsultant": "Vælg en eller flere konsulenter for at se deres kalender.",
+        "totals": {
+            "planned": "Planlagt i perioden",
+            "citizens": "Heraf borgeraftaler",
+            "meetings": "Personalemøder/supervision",
+            "all": "I alt planlagt: {planned}. Personalemøder/supervision: {meetings}."
+        },
+        "hours": "{hours} t",
+        "more": "{count} mere",
+        "list": "Aftaler i perioden",
+        "empty": "Ingen aftaler i perioden.",
+        "busy": "Optaget",
+        "cancelled": "Aflyst",
+        "workTypes": {
+            "citizen": "Borgeraftale",
+            "staff_meeting": "Personalemøde",
+            "supervision": "Supervision"
+        },
+        "seeCalendar": "Se kalender",
+        "booked": "Konsulenten er booket.",
+        "form": {
+            "consultant": "Konsulent",
+            "type": "Type",
+            "citizen": "Borger",
+            "workTimeHint": "Personalemøder og supervision tæller som arbejdstid og vises på deres egen linje i timeoversigten."
+        }
     }
 }

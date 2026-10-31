@@ -20603,5 +20603,46 @@
                 "socialtilsyn": "Tilsynssjekk"
             }
         }
+    },
+    "consultantCalendar": {
+        "title": "Konsulentkalender",
+        "description": "Se konsulentenes avtaler på tvers av alle deres tiltak, og book en konsulent.",
+        "consultants": "Konsulenter",
+        "views": {
+            "week": "Uke",
+            "month": "Måned"
+        },
+        "previous": "Forrige",
+        "next": "Neste",
+        "today": "I dag",
+        "week": "Uke {number}",
+        "book": "Book konsulent",
+        "bookTitle": "Book konsulent",
+        "pickConsultant": "Velg en eller flere konsulenter for å se kalenderen deres.",
+        "totals": {
+            "planned": "Planlagt i perioden",
+            "citizens": "Herav borgeravtaler",
+            "meetings": "Personalmøter/veiledning",
+            "all": "Totalt planlagt: {planned}. Personalmøter/veiledning: {meetings}."
+        },
+        "hours": "{hours} t",
+        "more": "{count} til",
+        "list": "Avtaler i perioden",
+        "empty": "Ingen avtaler i perioden.",
+        "busy": "Opptatt",
+        "cancelled": "Avlyst",
+        "workTypes": {
+            "citizen": "Borgeravtale",
+            "staff_meeting": "Personalmøte",
+            "supervision": "Veiledning"
+        },
+        "seeCalendar": "Se kalender",
+        "booked": "Konsulenten er booket.",
+        "form": {
+            "consultant": "Konsulent",
+            "type": "Type",
+            "citizen": "Borger",
+            "workTimeHint": "Personalmøter og veiledning teller som arbeidstid og vises på egen linje i timeoversikten."
+        }
     }
 }

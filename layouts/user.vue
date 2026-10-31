@@ -1401,6 +1401,11 @@ function generateSidebarLinks(user: any) {
                 'calendar-appointments-settings',
             ]
         })
+        // Consultants' appointments across their citizens, for the companies
+        // that place consultants on indsatser.
+        if (user?.company?.inquiry_pipeline_enabled) {
+            nav.push({ name: 'Consultant calendar', href: '/consultant-calendar', icon: 'ph:calendar-dot', group: 'daily', activeRouteNames: ['consultant-calendar'] })
+        }
     }
     // The shared inbox of prescription renewal requests from the patient portal.
     if (user?.can_review_prescription_renewals) {

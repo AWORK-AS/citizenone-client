@@ -20603,5 +20603,46 @@
                 "socialtilsyn": "Tillsynskontroll"
             }
         }
+    },
+    "consultantCalendar": {
+        "title": "Konsultkalender",
+        "description": "Se konsulternas bokningar för alla deras insatser, och boka en konsult.",
+        "consultants": "Konsulter",
+        "views": {
+            "week": "Vecka",
+            "month": "Månad"
+        },
+        "previous": "Föregående",
+        "next": "Nästa",
+        "today": "Idag",
+        "week": "Vecka {number}",
+        "book": "Boka konsult",
+        "bookTitle": "Boka konsult",
+        "pickConsultant": "Välj en eller flera konsulter för att se deras kalender.",
+        "totals": {
+            "planned": "Planerat i perioden",
+            "citizens": "Varav brukarbokningar",
+            "meetings": "Personalmöten/handledning",
+            "all": "Totalt planerat: {planned}. Personalmöten/handledning: {meetings}."
+        },
+        "hours": "{hours} h",
+        "more": "{count} till",
+        "list": "Bokningar i perioden",
+        "empty": "Inga bokningar i perioden.",
+        "busy": "Upptagen",
+        "cancelled": "Inställd",
+        "workTypes": {
+            "citizen": "Brukarbokning",
+            "staff_meeting": "Personalmöte",
+            "supervision": "Handledning"
+        },
+        "seeCalendar": "Se kalender",
+        "booked": "Konsulten är bokad.",
+        "form": {
+            "consultant": "Konsult",
+            "type": "Typ",
+            "citizen": "Brukare",
+            "workTimeHint": "Personalmöten och handledning räknas som arbetstid och visas på en egen rad i timöversikten."
+        }
     }
 }
