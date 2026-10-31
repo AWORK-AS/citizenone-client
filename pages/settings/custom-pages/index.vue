@@ -54,6 +54,11 @@
                             v-model="terms.term_agreement" />
                     </div>
                     <div class="space-y-1">
+                        <FormLabel for="term_mother_tongue" :label="$t('settings.company.form.termMotherTongue')" />
+                        <FormTextField id="term_mother_tongue" name="term_mother_tongue" :placeholder="$t('citizens.form.motherTongue')"
+                            v-model="terms.term_mother_tongue" />
+                    </div>
+                    <div class="space-y-1">
                         <FormLabel for="term_jobcenter" :label="$t('settings.company.form.termJobcenter')" />
                         <FormTextField id="term_jobcenter" name="term_jobcenter" placeholder="Jobcenter"
                             v-model="terms.term_jobcenter" />
@@ -148,6 +153,7 @@ const terms = reactive({
     term_caseworker: '',
     term_case: '',
     term_agreement: '',
+    term_mother_tongue: '',
     term_jobcenter: '',
     term_citizen: '',
     term_citizen_definite: '',
@@ -165,6 +171,7 @@ function loadTerms() {
     terms.term_caseworker = company?.term_caseworker ?? ''
     terms.term_case = company?.term_case ?? ''
     terms.term_agreement = company?.term_agreement ?? ''
+    terms.term_mother_tongue = company?.term_mother_tongue ?? ''
     terms.term_jobcenter = company?.term_jobcenter ?? ''
     terms.term_citizen = company?.term_citizen ?? ''
     terms.term_citizen_definite = company?.term_citizen_definite ?? ''
@@ -189,6 +196,7 @@ async function saveTerms() {
             term_caseworker: terms.term_caseworker,
             term_case: terms.term_case,
             term_agreement: terms.term_agreement,
+            term_mother_tongue: terms.term_mother_tongue,
             term_jobcenter: terms.term_jobcenter,
             term_citizen: terms.term_citizen,
             term_citizen_definite: terms.term_citizen_definite,
