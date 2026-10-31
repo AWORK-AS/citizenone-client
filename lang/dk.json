@@ -20718,6 +20718,7 @@
         "cancelled": "Aflyst",
         "workTypes": {
             "citizen": "Borgeraftale",
+            "ordinary": "Almindelig aftale",
             "staff_meeting": "Personalemøde",
             "supervision": "Supervision"
         },

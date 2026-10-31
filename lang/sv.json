@@ -20633,6 +20633,7 @@
         "cancelled": "Inställd",
         "workTypes": {
             "citizen": "Brukarbokning",
+            "ordinary": "Vanligt möte",
             "staff_meeting": "Personalmöte",
             "supervision": "Handledning"
         },

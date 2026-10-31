@@ -20633,6 +20633,7 @@
         "cancelled": "Avlyst",
         "workTypes": {
             "citizen": "Borgeravtale",
+            "ordinary": "Vanlig avtale",
             "staff_meeting": "Personalmøte",
             "supervision": "Veiledning"
         },
