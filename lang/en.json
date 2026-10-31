@@ -18989,6 +18989,7 @@
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
         "resultSummary": "{total} consultants, {full} of them meet all {criteria} search criteria. The match only compares with what is recorded on the profile and does not judge professional suitability.",
+        "resultSummaryNoCriteria": "{total} consultants. Choose criteria to see who fits the case.",
         "matches": {
             "full": "Meets all criteria",
             "partial": "Meets {met} of {asked} criteria",

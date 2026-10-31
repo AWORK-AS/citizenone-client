@@ -18989,6 +18989,7 @@
         "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
         "resultSummary": "{total} konsulenter, heraf {full} der opfylder alle {criteria} søgekriterier. Matchet sammenligner kun med de registrerede oplysninger på profilen og vurderer ikke den faglige egnethed.",
+        "resultSummaryNoCriteria": "{total} konsulenter. Vælg kriterier for at se, hvem der passer til sagen.",
         "matches": {
             "full": "Opfylder alle kriterier",
             "partial": "Opfylder {met} af {asked} kriterier",

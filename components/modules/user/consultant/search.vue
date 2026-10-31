@@ -152,11 +152,13 @@
                 </div>
                 <div v-if="state.hasSearched" class="flex flex-wrap items-center justify-between gap-3">
                     <p class="text-xs text-slate-400">
-                        {{ $t('consultantMatch.resultSummary', {
+                        <!-- With no criteria every consultant trivially meets them all,
+                             which is no answer to give. -->
+                        {{ state.criteriaAsked.length ? $t('consultantMatch.resultSummary', {
                             total: state.results.length,
                             full: fullCount,
                             criteria: state.criteriaAsked.length,
-                        }) }}
+                        }) : $t('consultantMatch.resultSummaryNoCriteria', { total: state.results.length }) }}
                     </p>
                     <div v-if="state.inquiry?.location_geocoded"
                         class="flex items-center gap-1 rounded-lg border border-surface-200 bg-white p-0.5">
@@ -243,7 +245,7 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="flex shrink-0 flex-col items-end gap-y-1">
+                        <div class="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1">
                             <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
                                 class="text-[13px] font-semibold text-secondary hover:underline">
                                 {{ $t('consultantMatch.openProfile') }}

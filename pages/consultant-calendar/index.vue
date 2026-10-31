@@ -316,6 +316,20 @@ async function fetchConsultants() {
         state.error = error
     }
     state.isLoadingOptions = false
+    keepSelectedInOptions()
+}
+
+// A consultant picked through the link, from the search or the profile, is
+// shown in the picker even when the colleague list leaves them out or arrives
+// after the selection: the multiselect only shows values it has options for.
+function keepSelectedInOptions() {
+    const known = new Set(state.consultantOptions.map((o: any) => o.value))
+    for (const consultant of state.consultants) {
+        if (!known.has(consultant.uuid)) {
+            state.consultantOptions.push({ value: consultant.uuid, label: consultant.name })
+        }
+    }
+    state.selected = [...state.selected]
 }
 
 async function fetchOverview() {
@@ -334,6 +348,7 @@ async function fetchOverview() {
         })
         state.events = response.data ?? []
         state.consultants = response.consultants ?? []
+        if (state.selected.some((uuid: string) => !state.consultantOptions.some((o: any) => o.value === uuid))) keepSelectedInOptions()
         state.totals = response.totals ?? state.totals
         state.mayBookOthers = !!response.may_book_others
     } catch (error: any) {

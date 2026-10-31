@@ -18904,6 +18904,7 @@
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
         "resultSummary": "{total} konsulter, varav {full} uppfyller alla {criteria} sökkriterier. Matchningen jämför bara med det som är registrerat på profilen och bedömer inte den yrkesmässiga lämpligheten.",
+        "resultSummaryNoCriteria": "{total} konsulter. Välj kriterier för att se vem som passar ärendet.",
         "matches": {
             "full": "Uppfyller alla kriterier",
             "partial": "Uppfyller {met} av {asked} kriterier",
