@@ -183,6 +183,67 @@
 
             <div ref="audioContainer" class="hidden" />
 
+            <!-- Polls: the creator's draft, then every poll with its live result. -->
+            <div v-if="state.pollDraft.open || state.polls.length"
+                class="absolute right-3 top-12 z-10 w-[min(22rem,calc(100%-1.5rem))] max-h-[70%] overflow-y-auto space-y-2">
+                <form v-if="state.pollDraft.open" class="rounded-xl bg-white shadow-lg p-4 space-y-3" @submit.prevent="createPoll">
+                    <p class="text-sm font-semibold text-[#0f2b46]">{{ $t('meetings.polls.new') }}</p>
+                    <input v-model="state.pollDraft.question" type="text" maxlength="200" :placeholder="$t('meetings.polls.question')"
+                        class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm" />
+                    <div v-for="(_, index) in state.pollDraft.options" :key="index" class="flex gap-1.5">
+                        <input v-model="state.pollDraft.options[index]" type="text" maxlength="80"
+                            :placeholder="$t('meetings.polls.option', { n: index + 1 })"
+                            class="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm" />
+                        <button v-if="state.pollDraft.options.length > 2" type="button" class="text-gray-400 hover:text-red-600 px-1"
+                            :title="$t('meetings.detail.remove')" @click="state.pollDraft.options.splice(index, 1)">
+                            <Icon name="ph:x" class="h-4 w-4" />
+                        </button>
+                    </div>
+                    <button v-if="state.pollDraft.options.length < 6" type="button" class="text-sm text-[#1b6d8a] hover:underline"
+                        @click="state.pollDraft.options.push('')">+ {{ $t('meetings.polls.addOption') }}</button>
+                    <label class="flex items-center gap-2 text-sm">
+                        <input type="checkbox" v-model="state.pollDraft.anonymous" /> {{ $t('meetings.polls.anonymous') }}
+                    </label>
+                    <div class="flex gap-2">
+                        <FormButton type="submit" buttonStyle="primary" buttonSize="xs" :disabled="!pollDraftValid">{{ $t('meetings.polls.start') }}</FormButton>
+                        <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="state.pollDraft.open = false">{{ $t('cancel') }}</FormButton>
+                    </div>
+                </form>
+
+                <div v-for="poll in state.polls" :key="poll.id" class="rounded-xl bg-white shadow-lg p-4 space-y-2.5">
+                    <div class="flex items-start justify-between gap-2">
+                        <p class="text-sm font-semibold text-[#0f2b46]">{{ poll.question }}</p>
+                        <span class="shrink-0 text-[11px] rounded-full px-2 py-0.5" :class="poll.closed ? 'bg-gray-100 text-gray-600' : 'bg-[#f0faf9] text-[#1b6d8a]'">
+                            {{ poll.closed ? $t('meetings.polls.closed') : $t('meetings.polls.open') }}
+                        </span>
+                    </div>
+                    <div v-for="(option, index) in poll.options" :key="index">
+                        <button type="button" class="w-full text-left rounded-lg border px-3 py-2 text-sm relative overflow-hidden transition disabled:cursor-default"
+                            :class="myVote(poll) === index ? 'border-[#2dbab2] ring-1 ring-[#2dbab2]' : 'border-gray-200 hover:border-gray-300'"
+                            :disabled="poll.closed" @click="vote(poll, index)">
+                            <span v-if="hasVoted(poll) || poll.closed" class="absolute inset-y-0 left-0 bg-[#2dbab2]/15"
+                                :style="{ width: `${percent(poll, index)}%` }" />
+                            <span class="relative flex justify-between gap-2">
+                                <span>{{ option }}</span>
+                                <span v-if="hasVoted(poll) || poll.closed" class="tabular-nums text-gray-600">{{ count(poll, index) }} · {{ percent(poll, index) }}%</span>
+                            </span>
+                        </button>
+                        <p v-if="!poll.anonymous && (hasVoted(poll) || poll.closed) && voters(poll, index).length" class="mt-0.5 px-1 text-[11px] text-gray-500">
+                            {{ voters(poll, index).join(', ') }}
+                        </p>
+                    </div>
+                    <p class="text-[11px] text-gray-500">
+                        {{ $t('meetings.polls.votes', { count: Object.keys(poll.votes).length }) }}
+                        <span v-if="poll.anonymous"> · {{ $t('meetings.polls.anonymousShort') }}</span>
+                    </p>
+                    <div v-if="isMine(poll)" class="flex flex-wrap gap-2">
+                        <FormButton v-if="!poll.closed" type="button" buttonStyle="cancel" buttonSize="xs" @click="closePoll(poll)">{{ $t('meetings.polls.close') }}</FormButton>
+                        <FormButton v-if="poll.closed" type="button" buttonStyle="secondary" buttonSize="xs" @click="emit('poll-result', pollResultText(poll))">{{ $t('meetings.polls.saveToNotes') }}</FormButton>
+                        <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="removePoll(poll)">{{ $t('meetings.polls.hide') }}</FormButton>
+                    </div>
+                </div>
+            </div>
+
             <!-- Prompts float over the stage. -->
             <div v-if="state.consentRequestFrom || state.notice || state.audioBlocked"
                 class="absolute left-1/2 -translate-x-1/2 top-14 z-10 w-[min(28rem,calc(100%-2rem))] space-y-2">
@@ -235,6 +296,10 @@
                     <span v-if="state.unread" class="absolute -top-1 -right-1 bg-red-600 text-white text-[11px] rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
                         {{ state.unread }}
                     </span>
+                </button>
+                <button v-if="canCreatePolls" type="button" :class="roundButton(false, false, state.pollDraft.open)"
+                    :aria-pressed="state.pollDraft.open" :title="$t('meetings.polls.new')" @click="state.pollDraft.open = !state.pollDraft.open">
+                    <Icon name="ph:chart-bar-horizontal" class="h-5 w-5" />
                 </button>
                 <slot name="controls" :recording="state.recording" />
                 <button type="button" class="h-11 px-5 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center gap-2 text-sm font-medium"
@@ -295,14 +360,28 @@ import { formatFileSize } from '@/utils/meetings'
  */
 type Connection = { ws_url: string, token: string, room: string, identity: string }
 
+// A poll lives only in the call. Votes are keyed by participant identity, so a
+// changed vote replaces the earlier one.
+type Poll = {
+    id: string
+    question: string
+    options: string[]
+    anonymous: boolean
+    closed: boolean
+    by: string
+    votes: Record<string, number>
+    names: Record<string, string>
+}
+
 const props = defineProps<{
     connect: (consent: boolean) => Promise<Connection>
     giveConsent: () => Promise<void>
     canShareScreen?: boolean
+    canCreatePolls?: boolean
     waitingText?: string
     isWaiting?: boolean
 }>()
-const emit = defineEmits(['joined', 'left', 'consent-answer'])
+const emit = defineEmits(['joined', 'left', 'consent-answer', 'poll-result'])
 const { t } = useI18n()
 
 const previewEl = ref<HTMLVideoElement>()
@@ -338,6 +417,8 @@ const state = reactive({
     chatOpen: false,
     messages: [] as { name: string, text: string, time: string, mine: boolean, file?: { name: string, size: number, url: string, sending?: boolean } }[],
     showSettings: false,
+    polls: [] as Poll[],
+    pollDraft: { open: false, question: '', options: ['', ''] as string[], anonymous: true },
     fileError: '',
     draft: '',
     unread: 0,
@@ -581,6 +662,9 @@ function bindRoomEvents(r: Room) {
     r.on(RoomEvent.ParticipantConnected, () => {
         // Somebody new does not know who already has a hand up.
         if (handRaisedByMe.value) send({ type: 'hand', raised: true })
+        // ...nor the polls this person started.
+        const mine = state.polls.filter((poll) => isMine(poll))
+        if (mine.length) send({ type: 'poll_state', polls: mine })
         refresh()
     })
         .on(RoomEvent.ParticipantDisconnected, (participant) => {
@@ -644,6 +728,7 @@ function onData(payload: Uint8Array, participant?: RemoteParticipant) {
     if (message?.type === 'chat' && typeof message.text === 'string' && participant) {
         pushMessage(participant.name || participant.identity, message.text.slice(0, 1000), false)
     }
+    if (participant) onPollMessage(message, participant)
     if (message?.type === 'hand' && participant) {
         state.hands[participant.identity] = !!message.raised
         refresh()
@@ -747,6 +832,106 @@ async function toggleHand() {
     state.hands[identity] = raised
     refresh()
     await send({ type: 'hand', raised })
+}
+
+
+/*
+ * Polls. The person who starts a poll keeps its state and sends it to anyone
+ * who joins later; everyone tallies the votes they receive. Nothing is stored
+ * unless the creator saves the result in the meeting notes.
+ */
+const me = () => room.value?.localParticipant.identity ?? ''
+
+const pollDraftValid = computed(() => state.pollDraft.question.trim() !== ''
+    && state.pollDraft.options.filter((option) => option.trim() !== '').length >= 2)
+
+async function createPoll() {
+    if (!pollDraftValid.value) return
+    const poll: Poll = {
+        id: (globalThis.crypto?.randomUUID?.() ?? `${Date.now()}-${Math.random()}`),
+        question: state.pollDraft.question.trim(),
+        options: state.pollDraft.options.map((option) => option.trim()).filter(Boolean).slice(0, 6),
+        anonymous: state.pollDraft.anonymous,
+        closed: false,
+        by: me(),
+        votes: {},
+        names: {},
+    }
+    state.polls.unshift(poll)
+    state.pollDraft = { open: false, question: '', options: ['', ''], anonymous: true }
+    await send({ type: 'poll', poll })
+}
+
+async function vote(poll: Poll, index: number) {
+    if (poll.closed) return
+    poll.votes[me()] = index
+    poll.names[me()] = room.value?.localParticipant.name ?? ''
+    await send({ type: 'vote', id: poll.id, option: index })
+}
+
+async function closePoll(poll: Poll) {
+    poll.closed = true
+    await send({ type: 'poll_close', id: poll.id })
+}
+
+function removePoll(poll: Poll) {
+    state.polls = state.polls.filter((p) => p.id !== poll.id)
+}
+
+function onPollMessage(message: any, participant: RemoteParticipant) {
+    if (message?.type === 'poll' && message.poll?.id) addPoll(message.poll, participant.identity)
+    if (message?.type === 'poll_state' && Array.isArray(message.polls)) {
+        message.polls.forEach((poll: any) => addPoll(poll, participant.identity))
+    }
+    const poll = state.polls.find((p) => p.id === message?.id)
+    if (!poll) return
+    if (message.type === 'vote' && !poll.closed && Number.isInteger(message.option)
+        && message.option >= 0 && message.option < poll.options.length) {
+        poll.votes[participant.identity] = message.option
+        poll.names[participant.identity] = participant.name || participant.identity
+    }
+    // Only the poll's creator can close it.
+    if (message.type === 'poll_close' && poll.by === participant.identity) poll.closed = true
+}
+
+function addPoll(incoming: any, from: string) {
+    if (typeof incoming?.question !== 'string' || !Array.isArray(incoming?.options)) return
+    const existing = state.polls.find((p) => p.id === incoming.id)
+    const poll: Poll = {
+        id: String(incoming.id),
+        question: incoming.question.slice(0, 200),
+        options: incoming.options.slice(0, 6).map((o: any) => String(o).slice(0, 80)),
+        anonymous: !!incoming.anonymous,
+        closed: !!incoming.closed,
+        // The sender is the creator: a poll cannot be passed off as someone else's.
+        by: from,
+        votes: { ...(incoming.votes ?? {}), ...(existing?.votes ?? {}) },
+        names: { ...(incoming.names ?? {}), ...(existing?.names ?? {}) },
+    }
+    if (existing) Object.assign(existing, poll)
+    else state.polls.unshift(poll)
+}
+
+const isMine = (poll: Poll) => poll.by === me()
+const myVote = (poll: Poll) => poll.votes[me()]
+const hasVoted = (poll: Poll) => myVote(poll) !== undefined
+const count = (poll: Poll, index: number) => Object.values(poll.votes).filter((v) => v === index).length
+
+function percent(poll: Poll, index: number) {
+    const total = Object.keys(poll.votes).length
+    return total ? Math.round((count(poll, index) / total) * 100) : 0
+}
+
+function voters(poll: Poll, index: number) {
+    return Object.entries(poll.votes).filter(([, v]) => v === index).map(([identity]) => poll.names[identity] || '')
+}
+
+function pollResultText(poll: Poll) {
+    const lines = poll.options.map((option, index) => {
+        const names = poll.anonymous ? '' : voters(poll, index).filter(Boolean).join(', ')
+        return `- ${option}: ${count(poll, index)}${names ? ` (${names})` : ''}`
+    })
+    return `${t('meetings.polls.resultTitle', { question: poll.question })}\n${lines.join('\n')}`
 }
 
 /**

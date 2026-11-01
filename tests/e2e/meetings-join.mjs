@@ -4,7 +4,8 @@
  *   1. the host starts a meeting now and goes in;
  *   2. a guest opens their personal link, waits in the lobby, is let in,
  *      and both see two people in the meeting;
- *   3. a chat message from the host reaches the guest;
+ *   3. a chat message from the host reaches the guest, and a poll the host
+ *      starts gets the guest's vote;
  *   4. the host joining again from a second window closes the first window's
  *      connection with a message that says so (not a technical error).
  *
@@ -106,6 +107,16 @@ try {
     check(await guestChat.locator('span').filter({ hasText: '1' }).waitFor({ timeout: 15000 }).then(() => true).catch(() => false), 'guest sees one unread message')
     await guestChat.click()
     check(await waitForText(visitor, 'Hej fra værten'), 'chat message arrives')
+
+    // Poll: the host asks, the guest answers, the host sees the vote.
+    await host.getByTitle('Ny afstemning', { exact: true }).click()
+    await host.getByPlaceholder('Spørgsmål').fill('Skal vi mødes igen om en uge?')
+    await host.getByPlaceholder('Svarmulighed 1').fill('Ja')
+    await host.getByPlaceholder('Svarmulighed 2').fill('Nej')
+    await host.getByRole('button', { name: 'Start afstemning' }).click()
+    check(await waitForText(visitor, 'Skal vi mødes igen om en uge?'), 'guest sees the poll')
+    await visitor.getByRole('button', { name: /^Ja/ }).click()
+    check(await waitForText(host, '1 har stemt'), 'host sees the guest vote')
 
     // 4. The host again from a second window replaces the first connection.
     const hostAgain = await newPage({ signedIn: true })

@@ -20775,6 +20775,23 @@
             "root": "Documents",
             "empty": "No documents here.",
             "hint": "The file goes straight to the others in the meeting and is not stored."
+        },
+        "polls": {
+            "new": "New poll",
+            "question": "Question",
+            "option": "Option {n}",
+            "addOption": "Add option",
+            "anonymous": "Anonymous poll",
+            "anonymousShort": "anonymous",
+            "start": "Start poll",
+            "open": "Open",
+            "closed": "Closed",
+            "close": "Close poll",
+            "votes": "{count} have voted",
+            "saveToNotes": "Save result in notes",
+            "hide": "Hide",
+            "resultTitle": "Poll: {question}",
+            "savedToNotes": "The result is saved in the meeting notes."
         }
     }
 }

@@ -20775,6 +20775,23 @@
             "root": "Dokumenter",
             "empty": "Ingen dokumenter her.",
             "hint": "Filen sendes direkte til de andre i mødet og gemmes ikke."
+        },
+        "polls": {
+            "new": "Ny afstemning",
+            "question": "Spørgsmål",
+            "option": "Svarmulighed {n}",
+            "addOption": "Tilføj svarmulighed",
+            "anonymous": "Anonym afstemning",
+            "anonymousShort": "anonym",
+            "start": "Start afstemning",
+            "open": "Åben",
+            "closed": "Lukket",
+            "close": "Luk afstemning",
+            "votes": "{count} har stemt",
+            "saveToNotes": "Gem resultat i noter",
+            "hide": "Skjul",
+            "resultTitle": "Afstemning: {question}",
+            "savedToNotes": "Resultatet er gemt i mødets noter."
         }
     }
 }

@@ -20690,6 +20690,23 @@
             "root": "Dokument",
             "empty": "Inga dokument här.",
             "hint": "Filen skickas direkt till de andra i mötet och sparas inte."
+        },
+        "polls": {
+            "new": "Ny omröstning",
+            "question": "Fråga",
+            "option": "Svarsalternativ {n}",
+            "addOption": "Lägg till svarsalternativ",
+            "anonymous": "Anonym omröstning",
+            "anonymousShort": "anonym",
+            "start": "Starta omröstning",
+            "open": "Öppen",
+            "closed": "Stängd",
+            "close": "Stäng omröstning",
+            "votes": "{count} har röstat",
+            "saveToNotes": "Spara resultat i anteckningar",
+            "hide": "Dölj",
+            "resultTitle": "Omröstning: {question}",
+            "savedToNotes": "Resultatet är sparat i mötets anteckningar."
         }
     }
 }

@@ -87,7 +87,7 @@
                     <div v-if="state.showRoom && isOpen"
                         :class="state.inRoom ? '' : 'px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-2xl'">
                         <MeetingRoom ref="roomRef" :connect="connect" :give-consent="giveConsent" can-share-screen
-                            @joined="onJoined" @left="onLeft">
+                            :can-create-polls="meeting.is_host" @joined="onJoined" @left="onLeft" @poll-result="addToNotes">
                             <template #info>
                                 <p class="text-sm text-gray-600 flex items-center gap-1.5">
                                     <Icon name="ph:calendar-blank" class="h-4 w-4 text-gray-400" />
@@ -277,6 +277,19 @@ const uuid = route.params.uuid as string
 
 const roomRef = ref<InstanceType<typeof MeetingRoom> | null>(null)
 const notesEl = ref<HTMLElement>()
+
+// A closed poll's result goes at the end of the shared notes.
+async function addToNotes(text: string) {
+    try {
+        const current = (await meetingService.get(uuid))?.data
+        const notes = [current?.notes?.trim(), text].filter(Boolean).join('\n\n')
+        await meetingService.updateNotes(uuid, notes, current?.notes_updated_at ?? null)
+        await load()
+        state.notice = t('meetings.polls.savedToNotes')
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 function scrollToNotes() {
     notesEl.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
