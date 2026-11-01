@@ -8855,7 +8855,8 @@
             "stayData": "Stay Data",
             "systemAccess": "System Access",
             "trafficLights": "Traffic Lights",
-            "transportation": "Transportation"
+            "transportation": "Transportation",
+            "caseNumber": "Intervention number"
         },
         "medicineSubtitle": "Configure which fields are visible in the medication create and edit forms.",
         "medicineTitle": "Medication Form Field Configuration",

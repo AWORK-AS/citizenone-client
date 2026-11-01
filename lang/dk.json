@@ -8855,7 +8855,8 @@
             "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "caseNumber": "Indsatsnummer"
         },
         "medicineSubtitle": "Konfigurer hvilke felter der er synlige i medicinens oprettelses- og redigeringsformularer.",
         "medicineTitle": "Formularfeltkonfiguration for medicin",

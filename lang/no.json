@@ -8855,7 +8855,8 @@
             "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "caseNumber": "Tiltaksnummer"
         },
         "medicineSubtitle": "Konfigurer hvilke felter som er synlige i medisinens opprettelses- og redigeringsskjemaer.",
         "medicineTitle": "Skjemafeltkonfigurasjon for medisin",

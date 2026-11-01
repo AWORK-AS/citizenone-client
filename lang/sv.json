@@ -8855,7 +8855,8 @@
             "stayData": "Vistelsedata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafikljus",
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "caseNumber": "Insatsnummer"
         },
         "medicineSubtitle": "Konfigurera vilka fält som är synliga i medicinens skapa- och redigeringsformulär.",
         "medicineTitle": "Formulärfältkonfiguration för medicin",

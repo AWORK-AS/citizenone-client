@@ -57,7 +57,9 @@
                             <span v-else>{{ $t('citizens.form.cprExistsHidden') }}</span>
                         </p>
                     </div>
-                    <div class="space-y-1">
+                    <!-- A municipal intervention number. Clinics and practices start with it hidden
+                         (backend config/industry_form_fields.php) and can turn it on in the form setup. -->
+                    <div class="space-y-1" v-if="isFieldVisible('case_number')">
                         <FormLabel for="case_number" :label="$t('citizens.form.caseNumber')" />
                         <FormTextField id="case_number" name="case_number"
                             v-model="state.formCitizen.case_number" />
