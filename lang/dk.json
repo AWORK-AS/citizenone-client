@@ -20573,7 +20573,10 @@
             "sendInvites": "Send invitation på mail",
             "create": "Opret møde",
             "save": "Gem",
-            "endBeforeStart": "Mødet skal slutte efter det starter."
+            "endBeforeStart": "Mødet skal slutte efter det starter.",
+            "repeat": "Gentag",
+            "repeatNone": "Gentages ikke",
+            "repeatUntil": "Gentag indtil"
         },
         "detail": {
             "join": "Deltag i mødet",
@@ -20652,13 +20655,53 @@
             "you": "{name} (dig)",
             "sharedBy": "{name} deler skærm",
             "permissionDenied": "Browseren har ikke adgang til kamera og mikrofon. Tillad det i browserens indstillinger.",
-            "deviceUnavailable": "Kamera eller mikrofon kan ikke bruges. Er det i brug i et andet program?"
+            "deviceUnavailable": "Kamera eller mikrofon kan ikke bruges. Er det i brug i et andet program?",
+            "chat": "Chat",
+            "closeChat": "Luk chat",
+            "chatEmpty": "Ingen beskeder endnu.",
+            "chatPlaceholder": "Skriv en besked",
+            "send": "Send",
+            "chatNotSaved": "Chatten gemmes ikke, når mødet slutter.",
+            "raiseHand": "Ræk hånden op",
+            "lowerHand": "Tag hånden ned",
+            "blurOn": "Baggrund sløret",
+            "blurOff": "Slør baggrund",
+            "blurUnavailable": "Baggrundssløring virker ikke i denne browser."
         },
         "guest": {
             "invitedBy": "{host} fra {company} har inviteret dig til et online møde.",
             "when": "{date} kl. {from}-{to}",
             "denied": "Du er ikke blevet lukket ind i mødet.",
             "noAccountNeeded": "Du skal ikke have en konto eller installere noget."
+        },
+        "recurrence": {
+            "weekly": "Hver uge",
+            "biweekly": "Hver anden uge",
+            "monthly": "Hver måned",
+            "until": "indtil {date}"
+        },
+        "summary": {
+            "make": "Lav referat med Cody",
+            "working": "Cody laver referatet. Det tager typisk et par minutter.",
+            "retry": "Prøv igen",
+            "byCody": "Referat lavet af Cody. Tjek det, før du bruger det.",
+            "openDraft": "Åbn kladden i borgerens journal",
+            "draftCreated": "Referatet er gemt som kladde i borgerens journal.",
+            "errors": {
+                "too_long": "Optagelsen er for lang til et referat (maks. cirka 1,5 time).",
+                "no_audio": "Optagelsen har ikke et lydspor.",
+                "empty": "Der blev ikke sagt noget, Cody kunne høre.",
+                "ai_error": "Cody kunne ikke lave referatet lige nu."
+            }
+        },
+        "citizen": {
+            "title": "Optagelser fra online møder",
+            "hasSummary": "har referat"
+        },
+        "calendar": {
+            "open": "Åbn online møde",
+            "make": "Gør til CitizenOne online møde",
+            "makeHint": "Kolleger på aftalen bliver inviteret. Gæster inviterer du fra mødesiden."
         }
     }
 }

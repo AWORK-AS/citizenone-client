@@ -20573,7 +20573,10 @@
             "sendInvites": "Send invitation by email",
             "create": "Create meeting",
             "save": "Save",
-            "endBeforeStart": "The meeting must end after it starts."
+            "endBeforeStart": "The meeting must end after it starts.",
+            "repeat": "Repeat",
+            "repeatNone": "Does not repeat",
+            "repeatUntil": "Repeat until"
         },
         "detail": {
             "join": "Join the meeting",
@@ -20652,13 +20655,53 @@
             "you": "{name} (you)",
             "sharedBy": "{name} is sharing their screen",
             "permissionDenied": "The browser has no access to camera and microphone. Allow it in the browser settings.",
-            "deviceUnavailable": "The camera or microphone cannot be used. Is it in use in another program?"
+            "deviceUnavailable": "The camera or microphone cannot be used. Is it in use in another program?",
+            "chat": "Chat",
+            "closeChat": "Close chat",
+            "chatEmpty": "No messages yet.",
+            "chatPlaceholder": "Write a message",
+            "send": "Send",
+            "chatNotSaved": "The chat is not saved when the meeting ends.",
+            "raiseHand": "Raise hand",
+            "lowerHand": "Lower hand",
+            "blurOn": "Background blurred",
+            "blurOff": "Blur background",
+            "blurUnavailable": "Background blur does not work in this browser."
         },
         "guest": {
             "invitedBy": "{host} from {company} has invited you to an online meeting.",
             "when": "{date} at {from}-{to}",
             "denied": "You have not been let into the meeting.",
             "noAccountNeeded": "You do not need an account or to install anything."
+        },
+        "recurrence": {
+            "weekly": "Every week",
+            "biweekly": "Every other week",
+            "monthly": "Every month",
+            "until": "until {date}"
+        },
+        "summary": {
+            "make": "Summarise with Cody",
+            "working": "Cody is writing the summary. It usually takes a few minutes.",
+            "retry": "Try again",
+            "byCody": "Summary written by Cody. Check it before you use it.",
+            "openDraft": "Open the draft in the citizen's journal",
+            "draftCreated": "The summary is saved as a draft in the citizen's journal.",
+            "errors": {
+                "too_long": "The recording is too long for a summary (max about 1.5 hours).",
+                "no_audio": "The recording has no audio track.",
+                "empty": "Nothing was said that Cody could hear.",
+                "ai_error": "Cody could not write the summary right now."
+            }
+        },
+        "citizen": {
+            "title": "Recordings of online meetings",
+            "hasSummary": "has a summary"
+        },
+        "calendar": {
+            "open": "Open online meeting",
+            "make": "Make it a CitizenOne online meeting",
+            "makeHint": "Colleagues on the event are invited. Invite guests from the meeting page."
         }
     }
 }

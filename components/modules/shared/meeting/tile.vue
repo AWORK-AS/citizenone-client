@@ -13,6 +13,9 @@
             <span class="truncate">{{ label }}</span>
         </div>
         <div v-if="speaking" class="absolute inset-0 rounded-lg ring-2 ring-teal-400 pointer-events-none" />
+        <div v-if="handRaised" class="absolute right-2 top-2 bg-amber-400 text-black rounded-full h-8 w-8 flex items-center justify-center shadow">
+            <Icon name="ph:hand-palm-fill" class="h-5 w-5" />
+        </div>
     </div>
 </template>
 
@@ -30,6 +33,7 @@ const props = defineProps<{
     isScreen?: boolean
     microphoneMuted?: boolean
     speaking?: boolean
+    handRaised?: boolean
 }>()
 
 const videoEl = ref<HTMLVideoElement>()

@@ -24,7 +24,11 @@
                             <div class="space-y-1">
                                 <h2 class="text-xl font-semibold text-[#0f2b46]">{{ meeting.title }}</h2>
                                 <p class="text-sm text-gray-600">
-                                    {{ formatDate(meeting.starts_at) }} · {{ formatTime(meeting.starts_at) }}-{{ formatTime(meeting.ends_at) }}
+                                    {{ formatDate(meeting.next_starts_at || meeting.starts_at) }} · {{ formatTime(meeting.next_starts_at || meeting.starts_at) }}-{{ formatTime(meeting.next_ends_at || meeting.ends_at) }}
+                                </p>
+                                <p v-if="meeting.recurrence" class="text-sm text-gray-600 flex items-center gap-1">
+                                    <Icon name="ph:repeat" class="h-4 w-4" />
+                                    {{ $t(`meetings.recurrence.${meeting.recurrence}`) }} · {{ $t('meetings.recurrence.until', { date: formatDate(meeting.recurrence_until) }) }}
                                 </p>
                                 <p class="text-sm text-gray-600">
                                     {{ $t('meetings.host') }}: {{ meeting.is_host ? $t('meetings.you') : meeting.host?.name }}
@@ -156,10 +160,38 @@
                                     <FormButton v-if="recording.status === 'ready'" type="button" buttonStyle="secondary" @click="play(recording)">
                                         <Icon name="ph:play" class="h-4 w-4 mr-1" /> {{ $t('meetings.detail.play') }}
                                     </FormButton>
+                                    <FormButton v-if="recording.status === 'ready' && recording.has_audio && !recording.summary_status"
+                                        type="button" buttonStyle="secondary" :disabled="state.summaryBusy === recording.uuid"
+                                        @click="requestSummary(recording)">
+                                        <Icon name="ph:sparkle" class="h-4 w-4 mr-1" /> {{ $t('meetings.summary.make') }}
+                                    </FormButton>
                                     <button v-if="meeting.is_host && ['ready', 'failed'].includes(recording.status)" type="button"
                                         class="text-sm px-2 py-1 rounded text-red-600 hover:bg-red-50" @click="state.deleteRecording = recording">
                                         {{ $t('meetings.detail.delete') }}
                                     </button>
+
+                                    <!-- Cody's summary -->
+                                    <div v-if="recording.summary_status" class="basis-full text-sm">
+                                        <p v-if="recording.summary_status === 'queued'" class="flex items-center gap-2 text-gray-600">
+                                            <Icon name="ph:spinner" class="h-4 w-4 animate-spin" /> {{ $t('meetings.summary.working') }}
+                                        </p>
+                                        <div v-else-if="recording.summary_status === 'failed'" class="flex flex-wrap items-center gap-2 text-red-700">
+                                            <span>{{ $t(`meetings.summary.errors.${recording.summary_error || 'ai_error'}`) }}</span>
+                                            <button v-if="!['too_long', 'no_audio'].includes(recording.summary_error)" type="button"
+                                                class="underline" @click="requestSummary(recording)">{{ $t('meetings.summary.retry') }}</button>
+                                        </div>
+                                        <div v-else-if="recording.summary" class="mt-1 border border-gray-200 rounded-md p-3 bg-gray-50">
+                                            <p class="text-xs text-gray-500 mb-2 flex items-center gap-1">
+                                                <Icon name="ph:sparkle" class="h-3.5 w-3.5" /> {{ $t('meetings.summary.byCody') }}
+                                            </p>
+                                            <div class="prose prose-sm max-w-none" v-safe-ai-html="recording.summary" />
+                                            <NuxtLink v-if="recording.summary_journal && meeting.citizen" class="inline-block mt-2 text-primary underline"
+                                                :to="`/citizens/${meeting.citizen.uuid}/journals`">
+                                                {{ $t('meetings.summary.openDraft') }}
+                                            </NuxtLink>
+                                            <p v-else-if="recording.summary_journal" class="mt-2 text-xs text-gray-500">{{ $t('meetings.summary.draftCreated') }}</p>
+                                        </div>
+                                    </div>
                                 </li>
                             </ul>
                             <video v-if="state.playUrl" :src="state.playUrl" controls autoplay class="w-full rounded-lg bg-black" />
@@ -186,6 +218,8 @@ import MeetingForm from '@/components/modules/user/meetings/form.vue'
 import { meetingService } from '@/components/api/user/MeetingService'
 import { userService } from '@/components/api/user/UserService'
 import { useMeetingJoinLinks } from '@/composables/meetingJoinLinks'
+import { useMeetingLobbyChannel } from '@/composables/meetingLobbyChannel'
+import { useCodyAdoption } from '@/composables/useCodyAdoption'
 import { useDepartmentStore } from '@/store/department'
 
 /**
@@ -215,6 +249,7 @@ const state = reactive({
     recordingBusy: false,
     confirmCancel: false,
     deleteRecording: null as any,
+    summaryBusy: '',
     playUrl: '',
     invite: { colleagues: [] as string[], name: '', email: '' },
     options: { users: [] as any[] },
@@ -228,11 +263,16 @@ const canInvite = computed(() => state.invite.colleagues.length > 0 || state.inv
 
 onMounted(async () => {
     await load()
-    loadRecordings()
+    await loadRecordings()
+    if (state.recordings.some((r: any) => r.summary_status === 'queued')) watchSummaries()
     if (state.meeting?.is_host) loadUsers()
 })
 
-onBeforeUnmount(stopPolling)
+onBeforeUnmount(() => {
+    stopPolling()
+    lobby.stop()
+    stopSummaryPoll()
+})
 
 async function load() {
     state.isLoading = true
@@ -268,13 +308,19 @@ async function loadUsers() {
 
 // While in the room the page refreshes the meeting, so the host sees guests
 // arrive in the lobby and everyone sees consent and recording state change.
+// With the live lobby channel connected, a guest knocking refreshes at once
+// and the poll only catches the rest, so it runs less often.
+const lobby = useMeetingLobbyChannel(uuid, () => load())
+
 function startPolling() {
     stopPolling()
     poll = setInterval(async () => {
         await load()
         loadRecordings()
-    }, 4000)
+    }, lobby.connected.value ? 15000 : 4000)
 }
+
+watch(lobby.connected, () => { if (poll) startPolling() })
 
 function stopPolling() {
     if (poll) clearInterval(poll)
@@ -292,14 +338,51 @@ async function giveConsent() {
 
 function onJoined() {
     state.inRoom = true
+    if (state.meeting?.is_host) lobby.start()
     startPolling()
 }
 
 function onLeft() {
     state.inRoom = false
     stopPolling()
+    lobby.stop()
     load()
     loadRecordings()
+}
+
+// Cody's summary. Without Cody (not bought, or no seat) the API says which,
+// and the app's own Cody screen opens: buy or start the trial for whoever
+// may buy, ask the administrator for everyone else.
+const codyAdoption = useCodyAdoption()
+let summaryPoll: ReturnType<typeof setInterval> | null = null
+
+async function requestSummary(recording: any) {
+    state.summaryBusy = recording.uuid
+    try {
+        const response = await meetingService.requestSummary(recording.uuid)
+        Object.assign(recording, response?.data ?? {})
+        watchSummaries()
+    } catch (error: any) {
+        if (['meeting_summary_cody_required', 'meeting_summary_cody_seat_required'].includes(error?.code)) {
+            codyAdoption.promptOpen.value = true
+        } else {
+            state.error = error
+        }
+    }
+    state.summaryBusy = ''
+}
+
+function watchSummaries() {
+    stopSummaryPoll()
+    summaryPoll = setInterval(async () => {
+        await loadRecordings()
+        if (!state.recordings.some((r: any) => r.summary_status === 'queued')) stopSummaryPoll()
+    }, 10000)
+}
+
+function stopSummaryPoll() {
+    if (summaryPoll) clearInterval(summaryPoll)
+    summaryPoll = null
 }
 
 async function startRecording() {

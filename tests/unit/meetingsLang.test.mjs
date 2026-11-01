@@ -46,6 +46,8 @@ test('the pages only use meetings keys that exist', () => {
         'pages/meetings/create.vue',
         'pages/meetings/[uuid].vue',
         'pages/meet/[token].vue',
+        'components/modules/user/meetings/citizen-recordings.vue',
+        'components/modules/user/my-calendar/form.vue',
         'components/modules/shared/meeting/room.vue',
         'components/modules/user/meetings/form.vue',
     ]

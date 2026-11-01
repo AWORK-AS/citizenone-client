@@ -76,6 +76,18 @@ class MeetingService extends BaseAPIService {
     async deleteRecording(recordingUuid: string): Promise<any> {
         return await this.request(`/user/meetings/recordings/${recordingUuid}`, 'DELETE')
     }
+
+    async requestSummary(recordingUuid: string): Promise<any> {
+        return await this.request(`/user/meetings/recordings/${recordingUuid}/summary`, 'POST')
+    }
+
+    async citizenRecordings(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizens/${citizenUuid}/meeting-recordings`, 'GET')
+    }
+
+    async createFromCalendar(calendarUuid: string): Promise<any> {
+        return await this.request(`/user/meetings/from-calendar/${calendarUuid}`, 'POST')
+    }
 }
 
 export const meetingService = new MeetingService()

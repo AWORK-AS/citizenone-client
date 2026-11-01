@@ -67,6 +67,26 @@
                 <FormError :error="props?.error?.errors?.meeting_url?.[0]" />
             </div>
 
+            <!-- CitizenOne Online Meetings: open the meeting this event belongs to,
+                 or turn a saved event of your own into one. -->
+            <div v-if="props.selectedSchedule?.meeting_uuid" class="space-y-1">
+                <FormButton type="button" buttonStyle="primary" @click="navigateTo(`/meetings/${props.selectedSchedule.meeting_uuid}`)">
+                    <span class="flex items-center gap-2">
+                        <Icon name="ph:video-conference" class="h-5 w-5" aria-hidden="true" />
+                        {{ $t('meetings.calendar.open') }}
+                    </span>
+                </FormButton>
+            </div>
+            <div v-else-if="canMakeOnlineMeeting" class="space-y-1">
+                <FormButton type="button" buttonStyle="secondary" :disabled="state.makingMeeting" @click="makeOnlineMeeting">
+                    <span class="flex items-center gap-2">
+                        <Icon name="ph:video-conference" class="h-5 w-5" aria-hidden="true" />
+                        {{ $t('meetings.calendar.make') }}
+                    </span>
+                </FormButton>
+                <p class="text-xs text-[#8891A4]">{{ $t('meetings.calendar.makeHint') }}</p>
+            </div>
+
             <div class="" v-if="state.formSchedule.recurring.is_recurring">
                 <!-- Recurring Frequency Fields -->
                 <div class="space-y-1">
@@ -297,6 +317,8 @@ import { DEFAULT_CALENDAR_REMINDER, reminderOf } from '@/utils/calendarReminder'
 import { usePermissions } from '@/composables/usePermissions'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
 import { citizenService } from '@/components/api/user/CitizenService'
+import { meetingService } from '@/components/api/user/MeetingService'
+import { useAlert } from '@/composables/alert'
 import { unitService } from '@/components/api/user/UnitService'
 import { userService } from '@/components/api/user/UserService'
 import { useVuelidate } from "@vuelidate/core"
@@ -337,6 +359,24 @@ const canOfferVideoConsultation = computed(
     () => !!userStore.getUser?.has_patient_app && !!props.selectedSchedule?.citizen_id
 )
 
+// A saved event (not a portal video consultation) can become a CitizenOne
+// online meeting where the company has the app. The API checks that the
+// event is the user's own.
+const canMakeOnlineMeeting = computed(() => !!userStore.getUser?.company?.meetings_enabled
+    && !!props.selectedSchedule?.uuid
+    && !props.selectedSchedule?.is_video_consultation)
+
+async function makeOnlineMeeting() {
+    state.makingMeeting = true
+    try {
+        const response = await meetingService.createFromCalendar(props.selectedSchedule.uuid)
+        if (response?.data?.uuid) navigateTo(`/meetings/${response.data.uuid}`)
+    } catch (error: any) {
+        useAlert().errorAlert(t('alert.warning'), error?.message ?? '')
+    }
+    state.makingMeeting = false
+}
+
 // One way to meet online at a time: the portal's own video or an external link.
 function toggleVideoConsultation() {
     state.formSchedule.is_video_consultation = !state.formSchedule.is_video_consultation
@@ -352,6 +392,7 @@ interface Option {
 }
 
 const state = reactive({
+    makingMeeting: false,
     error: {} as Error,
     isPageLoading: false,
     formSchedule: {

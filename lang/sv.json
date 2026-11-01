@@ -20488,7 +20488,10 @@
             "sendInvites": "Skicka inbjudan via e-post",
             "create": "Skapa möte",
             "save": "Spara",
-            "endBeforeStart": "Mötet måste sluta efter att det börjar."
+            "endBeforeStart": "Mötet måste sluta efter att det börjar.",
+            "repeat": "Upprepa",
+            "repeatNone": "Upprepas inte",
+            "repeatUntil": "Upprepa till"
         },
         "detail": {
             "join": "Delta i mötet",
@@ -20567,13 +20570,53 @@
             "you": "{name} (du)",
             "sharedBy": "{name} delar skärm",
             "permissionDenied": "Webbläsaren har inte åtkomst till kamera och mikrofon. Tillåt det i webbläsarens inställningar.",
-            "deviceUnavailable": "Kamera eller mikrofon kan inte användas. Används den i ett annat program?"
+            "deviceUnavailable": "Kamera eller mikrofon kan inte användas. Används den i ett annat program?",
+            "chat": "Chatt",
+            "closeChat": "Stäng chatt",
+            "chatEmpty": "Inga meddelanden än.",
+            "chatPlaceholder": "Skriv ett meddelande",
+            "send": "Skicka",
+            "chatNotSaved": "Chatten sparas inte när mötet slutar.",
+            "raiseHand": "Räck upp handen",
+            "lowerHand": "Ta ner handen",
+            "blurOn": "Bakgrund suddad",
+            "blurOff": "Sudda bakgrund",
+            "blurUnavailable": "Suddad bakgrund fungerar inte i den här webbläsaren."
         },
         "guest": {
             "invitedBy": "{host} från {company} har bjudit in dig till ett onlinemöte.",
             "when": "{date} kl. {from}-{to}",
             "denied": "Du har inte släppts in i mötet.",
             "noAccountNeeded": "Du behöver inget konto och behöver inte installera något."
+        },
+        "recurrence": {
+            "weekly": "Varje vecka",
+            "biweekly": "Varannan vecka",
+            "monthly": "Varje månad",
+            "until": "till {date}"
+        },
+        "summary": {
+            "make": "Sammanfatta med Cody",
+            "working": "Cody skriver sammanfattningen. Det tar oftast några minuter.",
+            "retry": "Försök igen",
+            "byCody": "Sammanfattning skriven av Cody. Kontrollera den innan du använder den.",
+            "openDraft": "Öppna utkastet i brukarens journal",
+            "draftCreated": "Sammanfattningen är sparad som utkast i brukarens journal.",
+            "errors": {
+                "too_long": "Inspelningen är för lång för en sammanfattning (max cirka 1,5 timme).",
+                "no_audio": "Inspelningen har inget ljudspår.",
+                "empty": "Inget sades som Cody kunde höra.",
+                "ai_error": "Cody kunde inte skriva sammanfattningen just nu."
+            }
+        },
+        "citizen": {
+            "title": "Inspelningar från onlinemöten",
+            "hasSummary": "har sammanfattning"
+        },
+        "calendar": {
+            "open": "Öppna onlinemöte",
+            "make": "Gör till CitizenOne onlinemöte",
+            "makeHint": "Kollegor på händelsen bjuds in. Gäster bjuder du in från mötessidan."
         }
     }
 }

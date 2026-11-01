@@ -44,6 +44,12 @@
                         {{ state.microphoneOn ? $t('meetings.room.microphoneOn') : $t('meetings.room.microphoneOff') }}
                     </button>
                 </div>
+                <button v-if="state.blurSupported" type="button" class="w-full flex items-center justify-center gap-2 border rounded-md py-2 text-sm"
+                    :class="state.blur ? 'border-primary bg-primary/5 text-primary' : 'border-gray-300'"
+                    :disabled="!state.cameraOn" @click="toggleBlur">
+                    <Icon name="ph:person-simple-circle" class="h-5 w-5" />
+                    {{ state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff') }}
+                </button>
 
                 <!-- A meeting that is being recorded is only entered with consent. -->
                 <label v-if="state.needsConsent" class="flex items-start gap-2 text-sm bg-amber-50 border border-amber-200 rounded-md p-3">
@@ -78,24 +84,55 @@
                 <p>{{ $t('meetings.room.connecting') }}</p>
             </div>
 
-            <template v-else>
-                <!-- A shared screen is shown large, everyone else beside it. -->
-                <div v-if="screenTile" class="grid grid-cols-1 xl:grid-cols-4 gap-3">
-                    <MeetingTile class="xl:col-span-3" :key="screenTile.key" :track="screenTile.track" :label="screenTile.label"
-                        :is-local="screenTile.isLocal" is-screen />
-                    <div class="grid grid-cols-2 xl:grid-cols-1 gap-3 content-start">
-                        <MeetingTile v-for="tile in cameraTiles" :key="tile.key" :track="tile.track" :label="tile.label"
-                            :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking" />
+            <div v-else class="flex flex-col lg:flex-row gap-3">
+                <div class="flex-1 min-w-0 space-y-3">
+                    <!-- A shared screen is shown large, everyone else beside it. -->
+                    <div v-if="screenTile" class="grid grid-cols-1 xl:grid-cols-4 gap-3">
+                        <MeetingTile class="xl:col-span-3" :key="screenTile.key" :track="screenTile.track" :label="screenTile.label"
+                            :is-local="screenTile.isLocal" is-screen />
+                        <div class="grid grid-cols-2 xl:grid-cols-1 gap-3 content-start">
+                            <MeetingTile v-for="tile in cameraTiles" :key="tile.key" :track="tile.track" :label="tile.label"
+                                :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking"
+                                :hand-raised="tile.handRaised" />
+                        </div>
                     </div>
+                    <div v-else class="grid gap-3" :class="gridClass">
+                        <MeetingTile v-for="tile in cameraTiles" :key="tile.key" :track="tile.track" :label="tile.label"
+                            :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking"
+                            :hand-raised="tile.handRaised" />
+                    </div>
+                    <p v-if="cameraTiles.length === 1" class="text-center text-sm text-gray-500">
+                        {{ $t('meetings.room.aloneInMeeting') }}
+                    </p>
                 </div>
-                <div v-else class="grid gap-3" :class="gridClass">
-                    <MeetingTile v-for="tile in cameraTiles" :key="tile.key" :track="tile.track" :label="tile.label"
-                        :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking" />
-                </div>
-                <p v-if="cameraTiles.length === 1" class="text-center text-sm text-gray-500">
-                    {{ $t('meetings.room.aloneInMeeting') }}
-                </p>
-            </template>
+
+                <!-- Chat: lives only in the call (LiveKit data messages), nothing is stored. -->
+                <aside v-if="state.chatOpen" class="lg:w-80 shrink-0 border border-gray-200 rounded-lg flex flex-col max-h-[60vh] lg:max-h-none">
+                    <div class="px-3 py-2 border-b flex items-center justify-between">
+                        <p class="font-medium text-sm">{{ $t('meetings.room.chat') }}</p>
+                        <button type="button" class="text-gray-500 hover:text-black" :title="$t('meetings.room.closeChat')" @click="state.chatOpen = false">
+                            <Icon name="ph:x" class="h-4 w-4" />
+                        </button>
+                    </div>
+                    <div ref="chatList" class="flex-1 overflow-y-auto p-3 space-y-2 text-sm min-h-[12rem]">
+                        <p v-if="!state.messages.length" class="text-gray-500 text-xs">{{ $t('meetings.room.chatEmpty') }}</p>
+                        <div v-for="(message, index) in state.messages" :key="index" :class="message.mine ? 'text-right' : ''">
+                            <p class="text-xs text-gray-500">{{ message.mine ? $t('meetings.you') : message.name }} · {{ message.time }}</p>
+                            <p class="inline-block rounded-lg px-3 py-1.5 whitespace-pre-wrap break-words max-w-full"
+                                :class="message.mine ? 'bg-primary text-white' : 'bg-gray-100'">{{ message.text }}</p>
+                        </div>
+                    </div>
+                    <form class="border-t p-2 flex gap-2" @submit.prevent="sendChat">
+                        <input v-model="state.draft" type="text" maxlength="1000" :placeholder="$t('meetings.room.chatPlaceholder')"
+                            class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
+                        <button type="submit" class="px-3 rounded-md bg-primary text-white disabled:opacity-50" :disabled="!state.draft.trim()"
+                            :title="$t('meetings.room.send')">
+                            <Icon name="ph:paper-plane-right" class="h-4 w-4" />
+                        </button>
+                    </form>
+                    <p class="px-3 pb-2 text-[11px] text-gray-500">{{ $t('meetings.room.chatNotSaved') }}</p>
+                </aside>
+            </div>
 
             <div ref="audioContainer" class="hidden" />
 
@@ -140,6 +177,25 @@
                     :title="state.screenSharing ? $t('meetings.room.stopSharing') : $t('meetings.room.shareScreen')"
                     @click="toggleScreenShare">
                     <Icon name="ph:monitor-arrow-up" class="h-6 w-6" />
+                </button>
+                <button v-if="state.blurSupported && state.cameraOn" type="button" class="h-12 w-12 rounded-full flex items-center justify-center"
+                    :class="state.blur ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                    :title="state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff')" @click="toggleBlur">
+                    <Icon name="ph:person-simple-circle" class="h-6 w-6" />
+                </button>
+                <button type="button" class="h-12 w-12 rounded-full flex items-center justify-center"
+                    :class="handRaisedByMe ? 'bg-amber-400 text-black' : 'bg-gray-200 hover:bg-gray-300'"
+                    :title="handRaisedByMe ? $t('meetings.room.lowerHand') : $t('meetings.room.raiseHand')"
+                    @click="toggleHand">
+                    <Icon :name="handRaisedByMe ? 'ph:hand-palm-fill' : 'ph:hand-palm'" class="h-6 w-6" />
+                </button>
+                <button type="button" class="relative h-12 w-12 rounded-full flex items-center justify-center"
+                    :class="state.chatOpen ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                    :title="$t('meetings.room.chat')" @click="toggleChat">
+                    <Icon name="ph:chat-circle-text" class="h-6 w-6" />
+                    <span v-if="state.unread" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
+                        {{ state.unread }}
+                    </span>
                 </button>
                 <slot name="controls" :recording="state.recording" />
                 <button type="button" class="h-12 px-5 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center gap-2"
@@ -209,6 +265,7 @@ const emit = defineEmits(['joined', 'left', 'consent-answer'])
 const { t } = useI18n()
 
 const previewEl = ref<HTMLVideoElement>()
+const chatList = ref<HTMLDivElement>()
 const audioContainer = ref<HTMLDivElement>()
 const room = shallowRef<Room | null>(null)
 let previewTracks: LocalTrack[] = []
@@ -234,6 +291,14 @@ const state = reactive({
     consentRequestFrom: '',
     notice: '',
     errorMessage: '',
+    blur: false,
+    blurSupported: false,
+    chatOpen: false,
+    messages: [] as { name: string, text: string, time: string, mine: boolean }[],
+    draft: '',
+    unread: 0,
+    // Raised hands by participant identity.
+    hands: {} as Record<string, boolean>,
     // Bumped on every room event; the tiles are recomputed from the room.
     version: 0,
 })
@@ -242,7 +307,7 @@ watch(() => props.isWaiting, (waiting) => {
     if (waiting && state.phase === 'prejoin') state.phase = 'waiting'
 })
 
-type Tile = { key: string, track: any, label: string, isLocal: boolean, microphoneMuted: boolean, speaking: boolean }
+type Tile = { key: string, track: any, label: string, isLocal: boolean, microphoneMuted: boolean, speaking: boolean, handRaised?: boolean }
 
 function participants(): Participant[] {
     const r = room.value
@@ -262,6 +327,7 @@ const cameraTiles = computed<Tile[]>(() => {
         isLocal: participant === r?.localParticipant,
         microphoneMuted: !participant.isMicrophoneEnabled,
         speaking: participant.isSpeaking,
+        handRaised: !!state.hands[participant.identity],
     }))
 })
 
@@ -295,6 +361,11 @@ const gridClass = computed(() => {
 onMounted(async () => {
     await loadDevices()
     await startPreview()
+    try {
+        state.blurSupported = (await loadBlurLibrary()).supportsBackgroundProcessors()
+    } catch {
+        state.blurSupported = false
+    }
 })
 
 onBeforeUnmount(() => {
@@ -328,6 +399,7 @@ async function startPreview() {
                 : false,
         })
         const video = previewTracks.find((track) => track.kind === Track.Kind.Video) as LocalVideoTrack | undefined
+        if (video && state.blur) await applyBlur(video)
         state.hasPreview = !!video
         await nextTick()
         if (video && previewEl.value) video.attach(previewEl.value)
@@ -337,6 +409,51 @@ async function startPreview() {
             ? t('meetings.room.permissionDenied')
             : t('meetings.room.deviceUnavailable')
     }
+}
+
+/*
+ * Background blur runs in the browser (MediaPipe selfie segmentation via
+ * @livekit/track-processors); only the blurred picture is sent. The library
+ * and its model are loaded the first time blur is switched on.
+ */
+let blurLibrary: typeof import('@livekit/track-processors') | null = null
+
+async function loadBlurLibrary() {
+    blurLibrary ??= await import('@livekit/track-processors')
+    return blurLibrary
+}
+
+function cameraTrack(): LocalVideoTrack | undefined {
+    return room.value?.localParticipant.getTrackPublication(Track.Source.Camera)?.track as LocalVideoTrack | undefined
+}
+
+async function applyBlur(track?: LocalVideoTrack) {
+    if (!track) return
+    try {
+        const { BackgroundProcessor } = await loadBlurLibrary()
+        await track.setProcessor(BackgroundProcessor({ mode: 'background-blur', blurRadius: 12 }))
+    } catch {
+        state.blur = false
+        state.notice = t('meetings.room.blurUnavailable')
+    }
+}
+
+async function removeBlur(track?: LocalVideoTrack) {
+    try {
+        await track?.stopProcessor()
+    } catch {
+        // Nothing to stop.
+    }
+}
+
+async function toggleBlur() {
+    state.blur = !state.blur
+    const track = state.phase === 'connected'
+        ? cameraTrack()
+        : previewTracks.find((t) => t.kind === Track.Kind.Video) as LocalVideoTrack | undefined
+    if (state.blur) await applyBlur(track)
+    else await removeBlur(track)
+    refresh()
 }
 
 function stopPreview() {
@@ -381,6 +498,7 @@ async function join() {
         state.phase = 'connected'
         await r.localParticipant.setMicrophoneEnabled(state.microphoneOn)
         await r.localParticipant.setCameraEnabled(state.cameraOn)
+        if (state.blur) await applyBlur(cameraTrack())
         state.recording = r.isRecording
         state.audioBlocked = !r.canPlaybackAudio
         refresh()
@@ -397,8 +515,15 @@ function refresh() {
 }
 
 function bindRoomEvents(r: Room) {
-    r.on(RoomEvent.ParticipantConnected, refresh)
-        .on(RoomEvent.ParticipantDisconnected, refresh)
+    r.on(RoomEvent.ParticipantConnected, () => {
+        // Somebody new does not know who already has a hand up.
+        if (handRaisedByMe.value) send({ type: 'hand', raised: true })
+        refresh()
+    })
+        .on(RoomEvent.ParticipantDisconnected, (participant) => {
+            delete state.hands[participant.identity]
+            refresh()
+        })
         .on(RoomEvent.TrackSubscribed, (track) => {
             if (track.kind === Track.Kind.Audio) audioContainer.value?.appendChild(track.attach())
             refresh()
@@ -446,11 +571,61 @@ function onData(payload: Uint8Array, participant?: RemoteParticipant) {
             ? t('meetings.room.consentGivenBy', { name: participant?.name ?? '' })
             : t('meetings.room.consentDeclinedBy', { name: participant?.name ?? '' })
     }
+    if (message?.type === 'chat' && typeof message.text === 'string' && participant) {
+        pushMessage(participant.name || participant.identity, message.text.slice(0, 1000), false)
+    }
+    if (message?.type === 'hand' && participant) {
+        state.hands[participant.identity] = !!message.raised
+        refresh()
+    }
 }
 
 async function send(message: object) {
     await room.value?.localParticipant.publishData(
         new TextEncoder().encode(JSON.stringify(message)), { reliable: true })
+}
+
+function pushMessage(name: string, text: string, mine: boolean) {
+    const now = new Date()
+    state.messages.push({
+        name,
+        text,
+        mine,
+        time: `${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`,
+    })
+    if (!mine && !state.chatOpen) state.unread++
+    nextTick(() => chatList.value?.scrollTo({ top: chatList.value.scrollHeight }))
+}
+
+async function sendChat() {
+    const text = state.draft.trim()
+    if (!text) return
+    state.draft = ''
+    await send({ type: 'chat', text })
+    pushMessage(room.value?.localParticipant.name ?? '', text, true)
+}
+
+function toggleChat() {
+    state.chatOpen = !state.chatOpen
+    if (state.chatOpen) {
+        state.unread = 0
+        nextTick(() => chatList.value?.scrollTo({ top: chatList.value.scrollHeight }))
+    }
+}
+
+const handRaisedByMe = computed(() => {
+    void state.version
+    const identity = room.value?.localParticipant.identity
+    return !!identity && !!state.hands[identity]
+})
+
+async function toggleHand() {
+    const identity = room.value?.localParticipant.identity
+    if (!identity) return
+    const raised = !state.hands[identity]
+    state.hands[identity] = raised
+    refresh()
+    await send({ type: 'hand', raised })
 }
 
 /**
@@ -484,6 +659,7 @@ async function toggleMicrophone() {
 async function toggleCamera() {
     state.cameraOn = !state.cameraOn
     await room.value?.localParticipant.setCameraEnabled(state.cameraOn)
+    if (state.cameraOn && state.blur) await applyBlur(cameraTrack())
     refresh()
 }
 

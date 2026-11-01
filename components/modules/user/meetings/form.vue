@@ -35,6 +35,23 @@
                     @toggleSwitch="state.form.waiting_room = !state.form.waiting_room" />
                 <span class="text-sm">{{ $t('meetings.form.waitingRoom') }}</span>
             </div>
+
+            <div class="space-y-1">
+                <FormLabel for="meeting-recurrence" :label="$t('meetings.form.repeat')" />
+                <select id="meeting-recurrence" v-model="state.form.recurrence"
+                    class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
+                    <option value="">{{ $t('meetings.form.repeatNone') }}</option>
+                    <option v-for="option in ['weekly', 'biweekly', 'monthly']" :key="option" :value="option">
+                        {{ $t(`meetings.recurrence.${option}`) }}
+                    </option>
+                </select>
+            </div>
+            <div class="space-y-1" v-if="state.form.recurrence">
+                <FormLabel for="meeting-recurrence-until" :label="$t('meetings.form.repeatUntil')" />
+                <FormDateField id="meeting-recurrence-until" name="recurrence_until" v-model="state.form.recurrence_until"
+                    :placeholder="$t('meetings.form.repeatUntil')" />
+                <FormError :error="state.error?.errors?.recurrence_until?.[0]" />
+            </div>
         </div>
 
         <template v-if="!isEdit">
@@ -113,6 +130,8 @@ const state = reactive({
         starts_at: props.meeting ? moment(props.meeting.starts_at).format('YYYY-MM-DD HH:mm') : nextQuarter.format('YYYY-MM-DD HH:mm'),
         ends_at: props.meeting ? moment(props.meeting.ends_at).format('YYYY-MM-DD HH:mm') : nextQuarter.clone().add(1, 'hour').format('YYYY-MM-DD HH:mm'),
         waiting_room: props.meeting?.waiting_room ?? true,
+        recurrence: (props.meeting?.recurrence ?? '') as string,
+        recurrence_until: (props.meeting?.recurrence_until ?? '') as string,
         citizen_uuid: '' as string,
         send_invites: true,
     },
@@ -176,6 +195,8 @@ async function submit() {
         starts_at: toIso(state.form.starts_at),
         ends_at: toIso(state.form.ends_at),
         waiting_room: state.form.waiting_room,
+        recurrence: state.form.recurrence || null,
+        recurrence_until: state.form.recurrence ? (state.form.recurrence_until || null) : null,
     }
 
     state.isSaving = true

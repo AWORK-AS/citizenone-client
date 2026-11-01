@@ -20488,7 +20488,10 @@
             "sendInvites": "Send invitasjon på e-post",
             "create": "Opprett møte",
             "save": "Lagre",
-            "endBeforeStart": "Møtet må slutte etter at det starter."
+            "endBeforeStart": "Møtet må slutte etter at det starter.",
+            "repeat": "Gjenta",
+            "repeatNone": "Gjentas ikke",
+            "repeatUntil": "Gjenta til"
         },
         "detail": {
             "join": "Delta i møtet",
@@ -20567,13 +20570,53 @@
             "you": "{name} (deg)",
             "sharedBy": "{name} deler skjerm",
             "permissionDenied": "Nettleseren har ikke tilgang til kamera og mikrofon. Tillat det i nettleserens innstillinger.",
-            "deviceUnavailable": "Kamera eller mikrofon kan ikke brukes. Er det i bruk i et annet program?"
+            "deviceUnavailable": "Kamera eller mikrofon kan ikke brukes. Er det i bruk i et annet program?",
+            "chat": "Chat",
+            "closeChat": "Lukk chat",
+            "chatEmpty": "Ingen meldinger ennå.",
+            "chatPlaceholder": "Skriv en melding",
+            "send": "Send",
+            "chatNotSaved": "Chatten lagres ikke når møtet slutter.",
+            "raiseHand": "Rekk opp hånden",
+            "lowerHand": "Ta ned hånden",
+            "blurOn": "Bakgrunn uskarp",
+            "blurOff": "Gjør bakgrunnen uskarp",
+            "blurUnavailable": "Uskarp bakgrunn virker ikke i denne nettleseren."
         },
         "guest": {
             "invitedBy": "{host} fra {company} har invitert deg til et nettmøte.",
             "when": "{date} kl. {from}-{to}",
             "denied": "Du har ikke blitt sluppet inn i møtet.",
             "noAccountNeeded": "Du trenger ikke konto eller å installere noe."
+        },
+        "recurrence": {
+            "weekly": "Hver uke",
+            "biweekly": "Annenhver uke",
+            "monthly": "Hver måned",
+            "until": "til {date}"
+        },
+        "summary": {
+            "make": "Lag referat med Cody",
+            "working": "Cody lager referatet. Det tar vanligvis et par minutter.",
+            "retry": "Prøv igjen",
+            "byCody": "Referat laget av Cody. Sjekk det før du bruker det.",
+            "openDraft": "Åpne utkastet i brukerens journal",
+            "draftCreated": "Referatet er lagret som utkast i brukerens journal.",
+            "errors": {
+                "too_long": "Opptaket er for langt for et referat (maks. ca. 1,5 time).",
+                "no_audio": "Opptaket har ikke lydspor.",
+                "empty": "Det ble ikke sagt noe Cody kunne høre.",
+                "ai_error": "Cody kunne ikke lage referatet akkurat nå."
+            }
+        },
+        "citizen": {
+            "title": "Opptak fra nettmøter",
+            "hasSummary": "har referat"
+        },
+        "calendar": {
+            "open": "Åpne nettmøte",
+            "make": "Gjør til CitizenOne nettmøte",
+            "makeHint": "Kolleger på avtalen blir invitert. Gjester inviterer du fra møtesiden."
         }
     }
 }

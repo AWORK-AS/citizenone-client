@@ -30,8 +30,11 @@
                     <NuxtLink v-for="meeting in state.meetings" :key="meeting.uuid" :to="`/meetings/${meeting.uuid}`"
                         class="flex flex-wrap items-center gap-x-4 gap-y-1 px-4 py-3 hover:bg-gray-50">
                         <div class="w-36 shrink-0 text-sm">
-                            <p class="font-semibold">{{ formatDate(meeting.starts_at) }}</p>
-                            <p class="text-gray-500">{{ formatTime(meeting.starts_at) }}-{{ formatTime(meeting.ends_at) }}</p>
+                            <p class="font-semibold flex items-center gap-1">
+                                {{ formatDate(meeting.next_starts_at || meeting.starts_at) }}
+                                <Icon v-if="meeting.recurrence" name="ph:repeat" class="h-4 w-4 text-gray-500" :title="$t(`meetings.recurrence.${meeting.recurrence}`)" />
+                            </p>
+                            <p class="text-gray-500">{{ formatTime(meeting.next_starts_at || meeting.starts_at) }}-{{ formatTime(meeting.next_ends_at || meeting.ends_at) }}</p>
                         </div>
                         <div class="flex-1 min-w-0">
                             <p class="font-medium truncate">{{ meeting.title }}</p>
