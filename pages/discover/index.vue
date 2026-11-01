@@ -500,36 +500,41 @@ async function saveModules() {
     } catch (e) { /* preferences still cached locally */ }
 }
 
-onMounted(async () => {
-    // Source of truth = the real company modules (same as /settings/company).
-    // Derive the coarse Discover toggles from the enabled Page list when present.
-    const enabledPages = userStore.getUser?.company?.module_pages
+// The coarse toggles, read from the company. Runs again when the user arrives:
+// on a fresh load the page mounts before the user is fetched, and reading it
+// once at mount saw no modules, assumed nothing was chosen and opened the
+// "What do you need?" modal on top of the guide asking the same question.
+function syncModulesFromCompany() {
+    const company = userStore.getUser?.company
+    if (!company) return
+    const enabledPages = company.module_pages
     if (Array.isArray(enabledPages) && enabledPages.length) {
         modules.vagtplan = MODULE_TO_PAGES.vagtplan.some(n => enabledPages.includes(n))
         modules.medicin = MODULE_TO_PAGES.medicin.some(n => enabledPages.includes(n))
         modules.dokumentation = MODULE_TO_PAGES.dokumentation.some(n => enabledPages.includes(n))
-    } else {
-        // No company_pages rows yet → fall back to saved onboarding prefs / cache, else ask.
-        const serverModules = userStore.getUser?.company?.onboarding_preferences?.modules
-        if (serverModules) {
-            Object.assign(modules, serverModules)
-        } else if (process.client) {
-            const saved = localStorage.getItem('co_discover_modules')
-            if (saved) {
-                try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
-            } else {
-                state.modal.whatDoYouNeed = true
-            }
+    } else if (company.onboarding_preferences?.modules) {
+        Object.assign(modules, company.onboarding_preferences.modules)
+    } else if (process.client) {
+        const saved = localStorage.getItem('co_discover_modules')
+        if (saved) {
+            try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
         }
     }
-    // useOfForce/predefinedContent have no Page mapping, so the module_pages
-    // branch above never sets them - read them from onboarding_preferences
-    // directly, regardless of which branch ran, or a previously-saved "off"
-    // would silently show as "on" again next time this modal opens.
-    const savedModules = userStore.getUser?.company?.onboarding_preferences?.modules
-    if (typeof savedModules?.useOfForce === 'boolean') modules.useOfForce = savedModules.useOfForce
-    if (typeof savedModules?.predefinedContent === 'boolean') modules.predefinedContent = savedModules.predefinedContent
-    if (typeof savedModules?.priceEstimates === 'boolean') modules.priceEstimates = savedModules.priceEstimates
+    // These have no Page mapping, so the module_pages branch above never sets
+    // them. carePlans was missing here: a dental clinic starts with it off, the
+    // modal showed it on, and saving the modal switched it back on.
+    const savedModules = company.onboarding_preferences?.modules
+    for (const key of ['useOfForce', 'predefinedContent', 'priceEstimates', 'carePlans']) {
+        if (typeof savedModules?.[key] === 'boolean') modules[key] = savedModules[key]
+    }
+}
+watch(() => userStore.getUser?.company?.uuid, syncModulesFromCompany)
+
+onMounted(async () => {
+    // The modal is no longer opened by itself: the first-steps guide asks
+    // "What do you use?" as its first step, and the industry has already chosen
+    // the modules for a new company. It stays one click away in the header.
+    syncModulesFromCompany()
     // Data-derived completion (a few easy ones)
     try {
         const [d, u, c, tags] = await Promise.all([

@@ -561,12 +561,12 @@
             "openingHours": {
                 "title": "Åpningstider og behandlere",
                 "desc": "Sett åpningstider og hvem som tar imot @:terms.citizens{''}.",
-                "cta": "Gå til Virksomhet"
+                "cta": "Gå til Bookinginnstillinger"
             },
             "booking": {
                 "title": "Åpne for booking",
-                "desc": "Lag de første avtalene, og la @:terms.citizens{''} booke selv.",
-                "cta": "Gå til Booking"
+                "desc": "Opprett behandlinger som kan bookes, og la @:terms.citizens{''} booke selv.",
+                "cta": "Gå til Behandlinger"
             },
             "caseTypes": {
                 "title": "Opprett sakstyper",

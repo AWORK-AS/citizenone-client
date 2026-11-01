@@ -561,12 +561,12 @@
             "openingHours": {
                 "title": "Opening hours & practitioners",
                 "desc": "Set your opening hours and who sees @:terms.citizens{''}.",
-                "cta": "Go to Company"
+                "cta": "Go to Booking settings"
             },
             "booking": {
                 "title": "Open for booking",
-                "desc": "Make the first appointments, and let @:terms.citizens{''} book their own.",
-                "cta": "Go to Booking"
+                "desc": "Add bookable treatments, and let @:terms.citizens{''} book their own.",
+                "cta": "Go to Treatments"
             },
             "caseTypes": {
                 "title": "Create case types",

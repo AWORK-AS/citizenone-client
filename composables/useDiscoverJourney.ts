@@ -94,13 +94,15 @@ const practicePeople: DiscoverGroup = {
     ],
 }
 
-// Opening hours and booking. `clinic` for health work, `practice` for therapy,
+// Opening hours and booking live under the calendar (/calendar/bookings/...);
+// there is no /booking page, and the step used to land on a 404.
+// `clinic` for health work, `practice` for therapy,
 // so the heading says the word the customer uses about their own place.
 const booking = (key: 'clinic' | 'practice'): DiscoverGroup => ({
     key, icon: 'ph:calendar-check', page: 'Calendar',
     steps: [
-        { key: 'openingHours', route: '/settings/company' },
-        { key: 'booking', route: '/booking' },
+        { key: 'openingHours', route: '/calendar/bookings/settings' },
+        { key: 'booking', route: '/calendar/bookings/treatments' },
     ],
 })
 
@@ -169,8 +171,8 @@ const JOURNEYS: Record<string, DiscoverGroup[]> = {
         {
             key: 'clinic', icon: 'ph:calendar-check', page: 'Calendar',
             steps: [
-                { key: 'openingHours', route: '/settings/company' },
-                { key: 'booking', route: '/booking' },
+                { key: 'openingHours', route: '/calendar/bookings/settings' },
+                { key: 'booking', route: '/calendar/bookings/treatments' },
             ],
         },
         documentation,
