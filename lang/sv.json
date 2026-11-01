@@ -8142,6 +8142,8 @@
                 "giveSecureMail": "Giv Säker E-post",
                 "message": "Chatt",
                 "removeSecureMailAccess": "Ta bort åtkomst till säker e-post",
+                "giveMeetingsSeat": "Ge en plats i Online Meetings",
+                "removeMeetingsSeat": "Ta bort plats i Online Meetings",
                 "view": "Se"
             },
             "admin": "Administratör",
@@ -8150,6 +8152,8 @@
                 "bookingAccessGranted": "Bokning åtkomst given",
                 "bookingAccessRemoved": "Bokning åtkomst borttagen",
                 "secureMailAccessGranted": "Åtkomst till säker e-post given",
+                "meetingsSeatGranted": "Medarbetaren kan nu skapa möten i Online Meetings",
+                "meetingsSeatRemoved": "Platsen i Online Meetings har tagits bort",
                 "secureMailAccessRemoved": "Åtkomst till säker e-post borttagen",
                 "secureMailLicenseInstruction": "Du kan få fler Säker E-post licenser genom att klikke här"
             },
@@ -20451,6 +20455,9 @@
         "nav": "Onlinemöten",
         "title": "Onlinemöten",
         "newMeeting": "Nytt möte",
+        "seat": {
+            "askAdmin": "Du kan delta i möten, men behöver en plats för att skapa dem. Be en administratör om en plats."
+        },
         "upcoming": "Kommande",
         "past": "Tidigare",
         "noMeetings": "Inga möten här ännu.",

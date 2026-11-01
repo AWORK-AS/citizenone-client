@@ -13,7 +13,8 @@
                 <span>{{ $t('back') }}</span>
             </button>
 
-            <div class="px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg max-w-3xl">
+            <Alert v-if="needsSeat" type="info" :text="$t('meetings.seat.askAdmin')" class="max-w-3xl" />
+            <div v-else class="px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg max-w-3xl">
                 <MeetingForm @saved="onSaved" />
             </div>
         </NuxtLayout>
@@ -25,6 +26,11 @@ definePageMeta({ middleware: 'require-application', requiredApplication: 'meetin
 
 import MeetingForm from '@/components/modules/user/meetings/form.vue'
 import { useMeetingJoinLinks } from '@/composables/meetingJoinLinks'
+import { needsMeetingsSeat } from '@/composables/meetingSeat'
+import { useUserStore } from '@/store/user'
+
+const userStore = useUserStore() as any
+const needsSeat = computed(() => needsMeetingsSeat(userStore.getUser))
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()

@@ -49,6 +49,11 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/toggle/secure-mail-license`, 'PUT')
     }
 
+    // Online Meetings is priced per host: a seat lets the employee create meetings.
+    async toggleMeetingsLicense(employeeUuid: any): Promise<any> {
+        return await this.request(`/user/employees/${employeeUuid}/toggle/meetings-license`, 'PUT')
+    }
+
     async toggleBookingLicense(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/toggle/booking-license`, 'PUT')
     }

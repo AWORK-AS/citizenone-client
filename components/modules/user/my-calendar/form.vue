@@ -313,6 +313,7 @@
 </template>
 
 <script setup lang="ts">
+import { canHostMeetings } from '@/composables/meetingSeat'
 import { DEFAULT_CALENDAR_REMINDER, reminderOf } from '@/utils/calendarReminder'
 import { usePermissions } from '@/composables/usePermissions'
 import { calendarTagService } from '@/components/api/user/CalendarTagService'
@@ -362,7 +363,7 @@ const canOfferVideoConsultation = computed(
 // A saved event (not a portal video consultation) can become a CitizenOne
 // online meeting where the company has the app. The API checks that the
 // event is the user's own.
-const canMakeOnlineMeeting = computed(() => !!userStore.getUser?.company?.meetings_enabled
+const canMakeOnlineMeeting = computed(() => canHostMeetings(userStore.getUser)
     && !!props.selectedSchedule?.uuid
     && !props.selectedSchedule?.is_video_consultation)
 

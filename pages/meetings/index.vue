@@ -27,11 +27,14 @@
                         @click="navigateTo('/meetings/statistics')">
                         <Icon name="ph:chart-bar" class="h-4 w-4 text-gray-600" /> {{ $t('meetings.stats.title') }}
                     </button>
-                    <button type="button" class="h-10 px-4 rounded-full ring-1 ring-[#0f4c75] text-[#0f4c75] bg-white hover:bg-[#f0faf9] text-sm font-semibold inline-flex items-center gap-2"
+                    <span v-if="needsSeat" class="text-sm text-gray-600 inline-flex items-center gap-2">
+                        <Icon name="ph:info" class="h-4 w-4" /> {{ $t('meetings.seat.askAdmin') }}
+                    </span>
+                    <button v-if="canHost" type="button" class="h-10 px-4 rounded-full ring-1 ring-[#0f4c75] text-[#0f4c75] bg-white hover:bg-[#f0faf9] text-sm font-semibold inline-flex items-center gap-2"
                         :disabled="state.starting" @click="startNow">
                         <Icon name="ph:lightning" class="h-4 w-4" /> {{ $t('meetings.startNow') }}
                     </button>
-                    <button type="button" class="h-10 px-4 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white text-sm font-semibold inline-flex items-center gap-2"
+                    <button v-if="canHost" type="button" class="h-10 px-4 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white text-sm font-semibold inline-flex items-center gap-2"
                         @click="navigateTo('/meetings/create')">
                         <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('meetings.newMeeting') }}
                     </button>
@@ -84,8 +87,15 @@ import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
 import MeetingSettingsModal from '@/components/modules/user/meetings/settings-modal.vue'
 import { usePermissions } from '@/composables/usePermissions'
+import { canHostMeetings, needsMeetingsSeat } from '@/composables/meetingSeat'
+import { useUserStore } from '@/store/user'
 
 const permissions = usePermissions()
+const userStore = useUserStore() as any
+// Priced per host: only someone with a seat creates meetings. Everyone with
+// the app still sees and joins the meetings they are invited to.
+const canHost = computed(() => canHostMeetings(userStore.getUser))
+const needsSeat = computed(() => needsMeetingsSeat(userStore.getUser))
 
 const runtimeConfig = useRuntimeConfig()
 

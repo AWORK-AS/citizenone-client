@@ -8142,6 +8142,8 @@
                 "giveSecureMail": "Give secure mail",
                 "message": "Message",
                 "removeSecureMailAccess": "Remove secure mail access",
+                "giveMeetingsSeat": "Give an Online Meetings seat",
+                "removeMeetingsSeat": "Remove Online Meetings seat",
                 "view": "View"
             },
             "admin": "Admin",
@@ -8150,6 +8152,8 @@
                 "bookingAccessGranted": "Booking access granted",
                 "bookingAccessRemoved": "Booking access removed",
                 "secureMailAccessGranted": "Secure mail access granted",
+                "meetingsSeatGranted": "The employee can now create meetings in Online Meetings",
+                "meetingsSeatRemoved": "The Online Meetings seat has been removed",
                 "secureMailAccessRemoved": "Secure mail access removed",
                 "secureMailLicenseInstruction": "You can get more Secure Mail licenses by clicking here"
             },
@@ -20536,6 +20540,9 @@
         "nav": "Online meetings",
         "title": "Online meetings",
         "newMeeting": "New meeting",
+        "seat": {
+            "askAdmin": "You can join meetings, but you need a seat to create them. Ask an administrator for a seat."
+        },
         "upcoming": "Upcoming",
         "past": "Past",
         "noMeetings": "No meetings here yet.",

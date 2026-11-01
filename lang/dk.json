@@ -8142,6 +8142,8 @@
                 "giveSecureMail": "Giv Sikker Mail",
                 "message": "Chat",
                 "removeSecureMailAccess": "Fjern adgang til sikker mail",
+                "giveMeetingsSeat": "Giv plads i Online Meetings",
+                "removeMeetingsSeat": "Fjern plads i Online Meetings",
                 "view": "Se"
             },
             "admin": "Administrator",
@@ -8150,6 +8152,8 @@
                 "bookingAccessGranted": "Booking adgang givet",
                 "bookingAccessRemoved": "Booking adgang fjernet",
                 "secureMailAccessGranted": "Adgang til sikker mail givet",
+                "meetingsSeatGranted": "Medarbejderen kan nu oprette møder i Online Meetings",
+                "meetingsSeatRemoved": "Pladsen i Online Meetings er fjernet",
                 "secureMailAccessRemoved": "Adgang til sikker mail fjernet",
                 "secureMailLicenseInstruction": "Du kan få flere Sikker Mail licenser ved at klikke her"
             },
@@ -20536,6 +20540,9 @@
         "nav": "Online møder",
         "title": "Online møder",
         "newMeeting": "Nyt møde",
+        "seat": {
+            "askAdmin": "Du kan deltage i møder, men skal have en plads for at oprette dem. Bed en administrator om en plads."
+        },
         "upcoming": "Kommende",
         "past": "Tidligere",
         "noMeetings": "Ingen møder her endnu.",

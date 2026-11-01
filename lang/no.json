@@ -8142,6 +8142,8 @@
                 "giveSecureMail": "Gi Sikker E-post",
                 "message": "Chat",
                 "removeSecureMailAccess": "Fjern tilgang til sikker e-post",
+                "giveMeetingsSeat": "Gi en plass i Online Meetings",
+                "removeMeetingsSeat": "Fjern plass i Online Meetings",
                 "view": "Se"
             },
             "admin": "Administrator",
@@ -8150,6 +8152,8 @@
                 "bookingAccessGranted": "Booking tilgang gitt",
                 "bookingAccessRemoved": "Booking tilgang fjernet",
                 "secureMailAccessGranted": "Tilgang til sikker e-post gitt",
+                "meetingsSeatGranted": "Den ansatte kan nå opprette møter i Online Meetings",
+                "meetingsSeatRemoved": "Plassen i Online Meetings er fjernet",
                 "secureMailAccessRemoved": "Tilgang til sikker e-post fjernet",
                 "secureMailLicenseInstruction": "Du kan få flere Sikker E-post lisenser ved at klikke her"
             },
@@ -20451,6 +20455,9 @@
         "nav": "Nettmøter",
         "title": "Nettmøter",
         "newMeeting": "Nytt møte",
+        "seat": {
+            "askAdmin": "Du kan delta i møter, men trenger en plass for å opprette dem. Be en administrator om en plass."
+        },
         "upcoming": "Kommende",
         "past": "Tidligere",
         "noMeetings": "Ingen møter her ennå.",

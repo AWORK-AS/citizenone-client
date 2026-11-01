@@ -13,6 +13,7 @@ import { useI18n } from 'vue-i18n'
 import { meetingService } from '@/components/api/user/MeetingService'
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
+import { canHostMeetings } from '@/composables/meetingSeat'
 
 /**
  * One click to an online meeting right now with this colleague or citizen:
@@ -29,7 +30,8 @@ const { t } = useI18n()
 const userStore = useUserStore() as any
 const state = reactive({ busy: false })
 
-const enabled = computed(() => !!userStore.getUser?.company?.meetings_enabled && !!(props.userUuid || props.citizenUuid))
+// Only for someone with a seat: starting a meeting makes them its host.
+const enabled = computed(() => canHostMeetings(userStore.getUser) && !!(props.userUuid || props.citizenUuid))
 const label = computed(() => t('meetings.startNowWith'))
 
 async function start() {
