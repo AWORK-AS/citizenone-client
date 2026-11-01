@@ -28,10 +28,33 @@
 
         <div class="flex flex-wrap items-center justify-between gap-2">
             <p class="text-xs text-gray-500">{{ $t('meetings.notes.hint') }}</p>
-            <FormButton v-if="meeting.citizen" type="button" buttonStyle="secondary" :disabled="state.filing" @click="toJournal">
-                <Icon name="ph:notebook" class="h-4 w-4 mr-1" />
-                {{ meeting.notes_in_journal ? $t('meetings.notes.updateJournal') : $t('meetings.notes.toJournal') }}
-            </FormButton>
+            <div class="flex flex-wrap gap-2">
+                <button type="button" :disabled="state.summarizing || (!state.text.trim() && !meeting.agenda)"
+                    class="h-9 px-4 rounded-full ring-1 ring-[#2dbab2] text-[#1b6d8a] bg-white hover:bg-[#f0faf9] text-sm font-medium inline-flex items-center gap-1.5 disabled:opacity-40"
+                    @click="summarize">
+                    <Icon :name="state.summarizing ? 'ph:spinner' : 'ph:sparkle'" class="h-4 w-4" :class="state.summarizing && 'animate-spin'" />
+                    {{ state.summarizing ? $t('meetings.notes.summarizing') : $t('meetings.notes.summarize') }}
+                </button>
+                <FormButton v-if="meeting.citizen" type="button" buttonStyle="secondary" :disabled="state.filing" @click="toJournal()">
+                    <Icon name="ph:notebook" class="h-4 w-4 mr-1" />
+                    {{ meeting.notes_in_journal ? $t('meetings.notes.updateJournal') : $t('meetings.notes.toJournal') }}
+                </FormButton>
+            </div>
+        </div>
+
+        <!-- Cody's summary of the agenda and notes: shown, never filed without a click. -->
+        <div v-if="state.summary" class="rounded-xl border border-[#2dbab2]/40 bg-[#f0faf9]/60 p-4 space-y-3">
+            <p class="text-xs text-[#1b6d8a] flex items-center gap-1.5">
+                <Icon name="ph:sparkle" class="h-3.5 w-3.5" /> {{ $t('meetings.summary.byCody') }}
+            </p>
+            <div class="prose prose-sm max-w-none" v-safe-ai-html="state.summary" />
+            <div class="flex flex-wrap gap-2">
+                <FormButton v-if="meeting.citizen" type="button" buttonStyle="primary" buttonSize="xs" :disabled="state.filing" @click="toJournal(state.summary)">
+                    {{ $t('meetings.notes.summaryToJournal') }}
+                </FormButton>
+                <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="copySummary">{{ $t('meetings.notes.copy') }}</FormButton>
+                <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="state.summary = ''">{{ $t('meetings.notes.dismiss') }}</FormButton>
+            </div>
         </div>
         <p v-if="state.filed" class="text-sm text-[#1b6d8a]">
             {{ $t('meetings.notes.filed') }}
@@ -44,6 +67,7 @@
 <script setup lang="ts">
 import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
+import { useCodyAdoption } from '@/composables/useCodyAdoption'
 
 /**
  * The meeting's agenda and the staff's shared notes. Notes save themselves a
@@ -62,6 +86,8 @@ const state = reactive({
     conflict: null as any,
     filing: false,
     filed: false,
+    summary: '',
+    summarizing: false,
     error: {} as any,
 })
 
@@ -108,7 +134,35 @@ async function keepMine() {
     await save()
 }
 
-async function toJournal() {
+// Cody's summary from the agenda and notes. Without Cody the app's own Cody
+// screen opens (buy or start the trial, or ask the administrator).
+const codyAdoption = useCodyAdoption()
+
+async function summarize() {
+    if (timer) {
+        clearTimeout(timer)
+        await save()
+    }
+    state.summarizing = true
+    state.error = {}
+    try {
+        state.summary = (await meetingService.summarizeNotes(props.meeting.uuid))?.data?.summary ?? ''
+    } catch (error: any) {
+        if (['meeting_summary_cody_required', 'meeting_summary_cody_seat_required'].includes(error?.code)) {
+            codyAdoption.promptOpen.value = true
+        } else {
+            state.error = error
+        }
+    }
+    state.summarizing = false
+}
+
+async function copySummary() {
+    const text = new DOMParser().parseFromString(state.summary, 'text/html').body.innerText
+    await navigator.clipboard.writeText(text)
+}
+
+async function toJournal(summary?: string) {
     if (timer) {
         clearTimeout(timer)
         await save()
@@ -116,7 +170,7 @@ async function toJournal() {
     state.filing = true
     state.error = {}
     try {
-        await meetingService.notesToJournal(props.meeting.uuid)
+        await meetingService.notesToJournal(props.meeting.uuid, summary)
         state.filed = true
         emit('filed')
     } catch (error: any) {

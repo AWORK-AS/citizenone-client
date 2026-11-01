@@ -20594,7 +20594,10 @@
             "soundBlocked": "Webbläsaren har pausat ljudet.",
             "attachFile": "Skicka en fil",
             "fileTooLarge": "Filen är för stor. Max 25 MB.",
-            "fileNotSent": "Filen kunde inte skickas. Försök igen."
+            "fileNotSent": "Filen kunde inte skickas. Försök igen.",
+            "joinedElsewhere": "Du har gått in i mötet från ett annat fönster eller en annan enhet, så den här anslutningen har stängts.",
+            "microphoneFailed": "Mikrofonen kunde inte startas. Du är med i mötet utan ljud.",
+            "cameraFailed": "Kameran kunde inte startas. Du är med i mötet utan video."
         },
         "guest": {
             "invitedBy": "{host} från {company} har bjudit in dig till ett onlinemöte.",
@@ -20674,7 +20677,12 @@
             "toJournal": "Spara i brukarens journal",
             "updateJournal": "Uppdatera utkastet i journalen",
             "filed": "Sparat som utkast i brukarens journal.",
-            "openJournal": "Öppna journalen"
+            "openJournal": "Öppna journalen",
+            "summarize": "Sammanfatta med Cody",
+            "summarizing": "Cody skriver ...",
+            "summaryToJournal": "Spara sammanfattning i brukarens journal",
+            "copy": "Kopiera",
+            "dismiss": "Stäng"
         },
         "files": {
             "fromCitizen": "Dela fil från brukarens dokument",

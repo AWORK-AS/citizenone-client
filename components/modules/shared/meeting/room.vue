@@ -155,7 +155,7 @@
                                 <Icon :name="message.file.sending ? 'ph:spinner' : 'ph:file-arrow-down'" class="h-5 w-5 shrink-0" :class="message.file.sending && 'animate-spin'" />
                                 <span class="min-w-0">
                                     <span class="block truncate font-medium">{{ message.file.name }}</span>
-                                    <span class="block text-[11px] opacity-70">{{ formatSize(message.file.size) }}</span>
+                                    <span class="block text-[11px] opacity-70">{{ formatFileSize(message.file.size) }}</span>
                                 </span>
                             </a>
                             <p v-else class="inline-block rounded-2xl px-3 py-2 whitespace-pre-wrap break-words max-w-full"
@@ -265,6 +265,7 @@ import { useI18n } from 'vue-i18n'
 import {
     ConnectionState,
     createLocalTracks,
+    DisconnectReason,
     Room,
     RoomEvent,
     Track,
@@ -275,6 +276,7 @@ import {
     type RemoteParticipant,
 } from 'livekit-client'
 import MeetingTile from '@/components/modules/shared/meeting/tile.vue'
+import { formatFileSize } from '@/utils/meetings'
 
 /**
  * A CitizenOne Online Meeting with any number of participants, used by the
@@ -541,9 +543,9 @@ async function join() {
     try {
         await r.connect(connection.ws_url, connection.token)
         state.phase = 'connected'
-        await r.localParticipant.setMicrophoneEnabled(state.microphoneOn)
-        await r.localParticipant.setCameraEnabled(state.cameraOn)
-        if (state.blur) await applyBlur(cameraTrack())
+        // Being in the room does not depend on the devices: a camera or
+        // microphone that fails is reported, and the person stays in.
+        await enableDevices(r)
         state.recording = r.isRecording
         state.audioBlocked = !r.canPlaybackAudio
         refresh()
@@ -553,6 +555,22 @@ async function join() {
         state.errorMessage = error?.message ?? ''
     }
     state.isJoining = false
+}
+
+async function enableDevices(r: Room) {
+    try {
+        await r.localParticipant.setMicrophoneEnabled(state.microphoneOn)
+    } catch {
+        state.microphoneOn = false
+        state.notice = t('meetings.room.microphoneFailed')
+    }
+    try {
+        await r.localParticipant.setCameraEnabled(state.cameraOn)
+        if (state.cameraOn && state.blur) await applyBlur(cameraTrack())
+    } catch {
+        state.cameraOn = false
+        state.notice = t('meetings.room.cameraFailed')
+    }
 }
 
 function refresh() {
@@ -591,9 +609,16 @@ function bindRoomEvents(r: Room) {
         .on(RoomEvent.ConnectionStateChanged, (connectionState) => {
             state.reconnecting = connectionState === ConnectionState.Reconnecting
         })
-        .on(RoomEvent.Disconnected, () => {
+        .on(RoomEvent.Disconnected, (reason?: DisconnectReason) => {
             if (state.phase === 'connected' || state.phase === 'connecting') {
-                state.phase = 'left'
+                // The same person joined from another window or device: this
+                // one was replaced, which is worth saying in so many words.
+                if (reason === DisconnectReason.DUPLICATE_IDENTITY) {
+                    state.phase = 'error'
+                    state.errorMessage = t('meetings.room.joinedElsewhere')
+                } else {
+                    state.phase = 'left'
+                }
                 emit('left')
             }
         })
@@ -687,11 +712,6 @@ function pushFileMessage(name: string, file: { name: string, size: number, url: 
     return message
 }
 
-function formatSize(bytes: number) {
-    if (bytes < 1024) return `${bytes} B`
-    if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
-    return `${(bytes / 1024 / 1024).toFixed(1)} MB`
-}
 
 /**
  * One look for every round control: red when something is off, teal when a

@@ -21,6 +21,7 @@
 
 <script setup lang="ts">
 import type { Track } from 'livekit-client'
+import { initials as initialsOf } from '@/utils/meetings'
 
 /**
  * One video tile in a meeting: a participant's camera or a shared screen.
@@ -39,8 +40,7 @@ const props = defineProps<{
 const videoEl = ref<HTMLVideoElement>()
 const hasVideo = computed(() => !!props.track && !props.track.isMuted)
 
-const initials = computed(() => (props.label || '?')
-    .split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase())
+const initials = computed(() => initialsOf(props.label))
 
 watch(() => [props.track, videoEl.value] as const, ([track, el], old) => {
     const previous = old?.[0]

@@ -32,6 +32,7 @@
 
 <script setup lang="ts">
 import { citizenDocumentService } from '@/components/api/user/CitizenDocumentService'
+import { sharedFileName } from '@/utils/meetings'
 
 /**
  * Pick one of the citizen's documents to send to the others in a meeting.
@@ -73,19 +74,12 @@ async function open(folder: any | null) {
     state.isLoading = false
 }
 
-// Names are often shown without the extension; the stored file has one.
-function fileName(item: any) {
-    const name = item.name || 'file'
-    const ext = String(item.file_url ?? '').split('?')[0].split('.').pop()
-    return name.includes('.') || !ext || ext.length > 5 ? name : `${name}.${ext}`
-}
-
 async function pick(item: any) {
     state.sending = item.uuid
     try {
         const blob = await citizenDocumentService.viewCitizenFile(item.uuid)
         if (blob) {
-            emit('picked', new File([blob], fileName(item), { type: blob.type || 'application/octet-stream' }))
+            emit('picked', new File([blob], sharedFileName(item.name, item.file_url), { type: blob.type || 'application/octet-stream' }))
             emit('close')
         }
     } catch (error: any) {

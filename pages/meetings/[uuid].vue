@@ -253,6 +253,7 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import MeetingRoom from '@/components/modules/shared/meeting/room.vue'
 import MeetingForm from '@/components/modules/user/meetings/form.vue'
+import { initials } from '@/utils/meetings'
 import MeetingNotesPanel from '@/components/modules/user/meetings/notes-panel.vue'
 import MeetingCitizenFilePicker from '@/components/modules/user/meetings/citizen-file-picker.vue'
 import { meetingService } from '@/components/api/user/MeetingService'
@@ -579,9 +580,6 @@ const inRoomNames = computed(() => (state.meeting?.participants ?? [])
     .filter((p: any) => p.state === 'in_room')
     .map((p: any) => p.name))
 
-function initials(name: string) {
-    return (name || '?').split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase()
-}
 
 function statusClass(status: string) {
     return {

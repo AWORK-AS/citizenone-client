@@ -20679,7 +20679,10 @@
             "soundBlocked": "The browser has paused the sound.",
             "attachFile": "Send a file",
             "fileTooLarge": "The file is too large. Max 25 MB.",
-            "fileNotSent": "The file could not be sent. Try again."
+            "fileNotSent": "The file could not be sent. Try again.",
+            "joinedElsewhere": "You joined the meeting from another window or device, so this connection was closed.",
+            "microphoneFailed": "The microphone could not be started. You are in the meeting without sound.",
+            "cameraFailed": "The camera could not be started. You are in the meeting without video."
         },
         "guest": {
             "invitedBy": "{host} from {company} has invited you to an online meeting.",
@@ -20759,7 +20762,12 @@
             "toJournal": "Save in the citizen's journal",
             "updateJournal": "Update the draft in the journal",
             "filed": "Saved as a draft in the citizen's journal.",
-            "openJournal": "Open the journal"
+            "openJournal": "Open the journal",
+            "summarize": "Summarise with Cody",
+            "summarizing": "Cody is writing ...",
+            "summaryToJournal": "Save summary in the citizen's journal",
+            "copy": "Copy",
+            "dismiss": "Close"
         },
         "files": {
             "fromCitizen": "Share a file from the citizen's documents",

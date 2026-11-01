@@ -35,7 +35,8 @@
     "test:booking-app": "node booking-app.mjs",
     "test:invoices-redirect-to-invoicing": "node invoices-redirect-to-invoicing.mjs",
     "test:mail-pdf": "node mail-pdf.mjs",
-    "test:document-viewer": "node document-viewer.mjs"
+    "test:document-viewer": "node document-viewer.mjs",
+    "test:meetings-join": "node meetings-join.mjs"
   },
   "dependencies": {
     "playwright-core": "1.60.0"

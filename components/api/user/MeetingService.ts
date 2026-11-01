@@ -97,8 +97,12 @@ class MeetingService extends BaseAPIService {
         return await this.request(`/user/meetings/${uuid}/notes`, 'PUT', { notes, seen_updated_at: seenUpdatedAt })
     }
 
-    async notesToJournal(uuid: string): Promise<any> {
-        return await this.request(`/user/meetings/${uuid}/notes/journal`, 'POST')
+    async notesToJournal(uuid: string, summary?: string): Promise<any> {
+        return await this.request(`/user/meetings/${uuid}/notes/journal`, 'POST', summary ? { summary } : {})
+    }
+
+    async summarizeNotes(uuid: string): Promise<any> {
+        return await this.request(`/user/meetings/${uuid}/notes/summary`, 'POST')
     }
 
     async settings(): Promise<any> {

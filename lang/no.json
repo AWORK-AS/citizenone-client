@@ -20594,7 +20594,10 @@
             "soundBlocked": "Nettleseren har satt lyden på pause.",
             "attachFile": "Send en fil",
             "fileTooLarge": "Filen er for stor. Maks. 25 MB.",
-            "fileNotSent": "Filen kunne ikke sendes. Prøv igjen."
+            "fileNotSent": "Filen kunne ikke sendes. Prøv igjen.",
+            "joinedElsewhere": "Du har gått inn i møtet fra et annet vindu eller en annen enhet, så denne tilkoblingen er lukket.",
+            "microphoneFailed": "Mikrofonen kunne ikke startes. Du er med i møtet uten lyd.",
+            "cameraFailed": "Kameraet kunne ikke startes. Du er med i møtet uten video."
         },
         "guest": {
             "invitedBy": "{host} fra {company} har invitert deg til et nettmøte.",
@@ -20674,7 +20677,12 @@
             "toJournal": "Lagre i brukerens journal",
             "updateJournal": "Oppdater utkastet i journalen",
             "filed": "Lagret som utkast i brukerens journal.",
-            "openJournal": "Åpne journalen"
+            "openJournal": "Åpne journalen",
+            "summarize": "Lag sammendrag med Cody",
+            "summarizing": "Cody skriver ...",
+            "summaryToJournal": "Lagre sammendrag i brukerens journal",
+            "copy": "Kopier",
+            "dismiss": "Lukk"
         },
         "files": {
             "fromCitizen": "Del fil fra brukerens dokumenter",

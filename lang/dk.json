@@ -20679,7 +20679,10 @@
             "soundBlocked": "Browseren har sat lyden på pause.",
             "attachFile": "Send en fil",
             "fileTooLarge": "Filen er for stor. Maks. 25 MB.",
-            "fileNotSent": "Filen kunne ikke sendes. Prøv igen."
+            "fileNotSent": "Filen kunne ikke sendes. Prøv igen.",
+            "joinedElsewhere": "Du er gået ind i mødet fra et andet vindue eller en anden enhed, så denne forbindelse er lukket.",
+            "microphoneFailed": "Mikrofonen kunne ikke startes. Du er med i mødet uden lyd.",
+            "cameraFailed": "Kameraet kunne ikke startes. Du er med i mødet uden video."
         },
         "guest": {
             "invitedBy": "{host} fra {company} har inviteret dig til et online møde.",
@@ -20759,7 +20762,12 @@
             "toJournal": "Gem i borgerens journal",
             "updateJournal": "Opdatér kladden i journalen",
             "filed": "Gemt som kladde i borgerens journal.",
-            "openJournal": "Åbn journalen"
+            "openJournal": "Åbn journalen",
+            "summarize": "Lav resumé med Cody",
+            "summarizing": "Cody skriver ...",
+            "summaryToJournal": "Gem resumé i borgerens journal",
+            "copy": "Kopiér",
+            "dismiss": "Luk"
         },
         "files": {
             "fromCitizen": "Del fil fra borgerens dokumenter",

@@ -35,6 +35,7 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import MeetingRoom from '@/components/modules/shared/meeting/room.vue'
 import { meetingGuestService } from '@/components/api/guest/MeetingGuestService'
+import { useUserStore } from '@/store/user'
 
 /**
  * A guest joins an online meeting from the personal link in their
@@ -43,7 +44,8 @@ import { meetingGuestService } from '@/components/api/guest/MeetingGuestService'
  */
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
-const { t } = useI18n()
+const { t, locale } = useI18n()
+const userStore = useUserStore() as any
 const token = route.params.token as string
 
 const state = reactive({
@@ -60,6 +62,12 @@ onMounted(async () => {
     try {
         const response = await meetingGuestService.show(token)
         state.info = response?.data ?? null
+        // A guest has no account to pick a language in: the page speaks the
+        // language the invitation was written in.
+        if (state.info?.language) {
+            userStore.setLanguage(state.info.language)
+            locale.value = state.info.language
+        }
     } catch (error: any) {
         state.error = error
     }
