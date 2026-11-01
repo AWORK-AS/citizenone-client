@@ -404,7 +404,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
-const { pushSignUpEvent } = useGtag()
+const { pushSignUpEvent, pushSignupStep } = useGtag()
 const { t } = useI18n()
 const route = useRoute()
 
@@ -585,6 +585,15 @@ const searchAllResults = computed(() => {
     return state.segment.query.trim() === '' ? all.slice(0, 12) : all.filter(option => matchesSearch(option, state.segment.query))
 })
 
+// The funnel, step by step (see useGtag().pushSignupStep). Step 1 is reported once
+// the industries are loaded, so a link that skips it is told apart from a visitor who saw it.
+const prefilled = ref(false)
+watch(() => state.progress.currentStep, (step) => {
+    const details = { profile: selectedProfile.value, industry: selectedIndustry.value?.en_name, prefilled: prefilled.value }
+    if (step === 2) pushSignupStep('about', details)
+    if (step === 3) pushSignupStep('account', details)
+})
+
 function bucketIcon(profile: string) {
     return BUCKETS.find(bucket => bucket.key === profile)?.icon ?? 'ph:dots-three-circle'
 }
@@ -693,10 +702,13 @@ async function fetchAllIndustries() {
             // The website has already asked "what do you do?" on the profession page the
             // visitor came from, so a link that answers it skips the question here.
             if (applyPreselection('industry', 'industry', options) && state.progress.currentStep === 1) {
+                prefilled.value = true
                 const chosen = options.find((option: IndustryOption) => option.value === state.formRegister.industry)
                 const profile = profileOf(chosen)
                 state.segment.bucket = isBucket(profile) ? profile : null
                 state.progress.currentStep = 2
+            } else if (state.progress.currentStep === 1) {
+                pushSignupStep('segment')
             }
         }
     } catch (error: any) {
@@ -764,7 +776,7 @@ async function register() {
         }
         const response = await authService.register(params)
         if (response.data) {
-            pushSignUpEvent(state.oauthProvider || 'email', signupSource.value)
+            pushSignUpEvent(state.oauthProvider || 'email', signupSource.value, selectedProfile.value)
             // The account cannot be signed into yet: the address has to be confirmed
             // and the company switched on. Sending her to the login form said neither,
             // so the page now says what happens next instead.

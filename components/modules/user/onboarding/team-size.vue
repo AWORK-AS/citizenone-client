@@ -32,6 +32,9 @@
 import { companyService } from '@/components/api/user/CompanyService'
 import { useUserStore } from '@/store/user'
 import { TEAM_SIZES, isTeamSize, type TeamSize } from '@/composables/teamSize'
+import { useGtag } from '@/composables/gTags'
+
+const { pushTeamSize } = useGtag()
 
 const userStore = useUserStore() as any
 
@@ -48,6 +51,7 @@ onMounted(() => {
 
 function dismiss() {
     dismissed.value = true
+    pushTeamSize('skipped')
     try { localStorage.setItem(DISMISS_KEY, '1') } catch { /* nothing to remember it in */ }
 }
 
@@ -59,6 +63,7 @@ async function choose(size: TeamSize) {
     const before = company.onboarding_preferences
     company.onboarding_preferences = { ...(before ?? {}), team_size: size }
     justAnswered.value = true
+    pushTeamSize(size)
     try {
         await companyService.updateTeamSize({ team_size: size })
     } catch {
