@@ -20666,5 +20666,28 @@
                 "socialtilsyn": "Social supervision check"
             }
         }
+    },
+    "teamSize": {
+        "title": "How many are you?",
+        "desc": "Then we only show what makes sense for you. It takes one click.",
+        "skip": "Skip",
+        "options": {
+            "solo": "Just me",
+            "2-4": "2-4",
+            "5-10": "5-10",
+            "11+": "11 or more"
+        },
+        "thanks": "Thanks. The list below is now fitted to you.",
+        "plan": {
+            "basis": {
+                "title": "Basis fits you",
+                "desc": "You are {size}. Basis includes 2 users and room for up to 4, so the whole team can sign in."
+            },
+            "pro": {
+                "title": "Pro fits you",
+                "desc": "You are {size}. Pro includes 4 users, and you can add more as you grow."
+            },
+            "cta": "See plans"
+        }
     }
 }

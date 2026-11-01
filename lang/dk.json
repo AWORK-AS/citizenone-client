@@ -20666,5 +20666,28 @@
                 "socialtilsyn": "Socialtilsyn-tjek"
             }
         }
+    },
+    "teamSize": {
+        "title": "Hvor mange er I?",
+        "desc": "Så viser vi kun det, der giver mening for jer. Det tager ét klik.",
+        "skip": "Spring over",
+        "options": {
+            "solo": "Kun mig",
+            "2-4": "2-4",
+            "5-10": "5-10",
+            "11+": "11 eller flere"
+        },
+        "thanks": "Tak. Listen nedenfor er tilpasset jer.",
+        "plan": {
+            "basis": {
+                "title": "Basis passer til jer",
+                "desc": "I er {size}. Basis har 2 brugere inkluderet og plads til op til 4, så hele teamet kan logge ind."
+            },
+            "pro": {
+                "title": "Pro passer til jer",
+                "desc": "I er {size}. Pro har 4 brugere inkluderet, og I kan tilføje flere, efterhånden som I vokser."
+            },
+            "cta": "Se planer"
+        }
     }
 }

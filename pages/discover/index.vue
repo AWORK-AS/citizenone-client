@@ -61,6 +61,11 @@
             <ModulesUserOnboardingFirstSteps v-if="isAdmin" role="admin" class="mt-6"
                 @openModules="state.modal.whatDoYouNeed = true" />
 
+            <!-- "How many are you?" and, once answered, the plan that fits while
+                 the company is on the free account. See composables/teamSize.ts. -->
+            <ModulesUserOnboardingTeamSize v-if="isAdmin" class="mt-6" />
+            <ModulesUserOnboardingPlanRecommendation v-if="isAdmin" class="mt-6" />
+
             <div v-if="next && !guideActive" data-testid="discover-next-step"
                 class="mt-6 rounded-2xl border-1.5 border-primary/20 bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="min-w-0">
@@ -307,6 +312,7 @@ import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 import { checklistDone, welcomeTourMode, type ChecklistResponse } from '@/composables/welcomeTour'
 import { onboardingProgress } from '@/composables/onboardingProgress'
 import { nextStep } from '@/composables/discoverNextStep'
+import { isTeamSize, journeyForTeam } from '@/composables/teamSize'
 
 const runtimeConfig = useRuntimeConfig()
 const isDesktopApp = useIsDesktopApp()
@@ -400,7 +406,11 @@ async function fetchChecklist() {
     } catch (e) { /* an older backend has no checklist: keep the local checks */ }
 }
 
-const visibleGroups = computed(() => journey.value.filter(g =>
+const teamSize = computed(() => {
+    const value = userStore.getUser?.company?.onboarding_preferences?.team_size
+    return isTeamSize(value) ? value : null
+})
+const visibleGroups = computed(() => journeyForTeam(journey.value, teamSize.value).filter(g =>
     groupEnabled(g) && (!g.adminOnly || isAdmin.value)
 ))
 const totalSteps = computed(() => visibleGroups.value.reduce((n, g) => n + g.steps.length, 0))
@@ -475,7 +485,9 @@ async function saveModules() {
     // answering on their behalf.
     const answered: Record<string, boolean> = {}
     moduleOptions.value.forEach(option => { answered[option.key] = modules[option.key] })
-    const preferences = { modules: answered, hidden: [] as string[] }
+    // Keep the other answers on the company (team size, consultant steps): this
+    // save used to replace the whole blob with just the modules.
+    const preferences = { ...(userStore.getUser?.company?.onboarding_preferences ?? {}), modules: answered, hidden: [] as string[] }
     if (process.client) localStorage.setItem('co_discover_modules', JSON.stringify(modules))
     // Platform staff may have no company of their own - nothing to save to.
     if (!userStore.getUser?.company) return

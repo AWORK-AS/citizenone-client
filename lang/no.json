@@ -20581,5 +20581,28 @@
                 "socialtilsyn": "Tilsynssjekk"
             }
         }
+    },
+    "teamSize": {
+        "title": "Hvor mange er dere?",
+        "desc": "Da viser vi bare det som gir mening for dere. Det tar ett klikk.",
+        "skip": "Hopp over",
+        "options": {
+            "solo": "Bare meg",
+            "2-4": "2-4",
+            "5-10": "5-10",
+            "11+": "11 eller flere"
+        },
+        "thanks": "Takk. Listen nedenfor er tilpasset dere.",
+        "plan": {
+            "basis": {
+                "title": "Basis passer for dere",
+                "desc": "Dere er {size}. Basis har 2 brukere inkludert og plass til opptil 4, så hele teamet kan logge inn."
+            },
+            "pro": {
+                "title": "Pro passer for dere",
+                "desc": "Dere er {size}. Pro har 4 brukere inkludert, og dere kan legge til flere etter hvert som dere vokser."
+            },
+            "cta": "Se planer"
+        }
     }
 }
