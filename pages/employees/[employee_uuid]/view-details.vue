@@ -536,6 +536,7 @@ import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { resolveEmploymentStatusLabel } from '@/utils/employmentOptions'
 import type { Error } from '@/types'
+import { useTerminology } from '@/composables/useTerminology'
 
 const runtimeConfig = useRuntimeConfig()
 const router = useRouter()
@@ -543,6 +544,7 @@ const customPagesStore = useCustomPagesStore() as any
 const userStore = useUserStore() as any
 const { isAtLeast, seesHrData } = usePermissions()
 const { locale, t } = useI18n()
+const { term } = useTerminology()
 const { formatDateToReadable } = useDatetimeFormatter()
 const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
 const employeeUuid = router?.currentRoute?.value?.params?.employee_uuid
@@ -611,7 +613,7 @@ const state = reactive({
 
 // Which languages the employee speaks, mother tongue first.
 const spokenLanguagesSummary = computed(() =>
-    summariseSpokenLanguages(state.selectedEmployee?.spoken_languages, t('employees.form.motherTongue').toLowerCase())
+    summariseSpokenLanguages(state.selectedEmployee?.spoken_languages, term('motherTongue', t('employees.form.motherTongue')).toLowerCase())
 )
 
 onMounted(() => {

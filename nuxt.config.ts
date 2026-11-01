@@ -16,6 +16,9 @@ const contentSecurityPolicy = [
   "font-src 'self' data:",
   // wss: for the video consultations' media server (LiveKit Cloud).
   "connect-src 'self' https: wss://*.livekit.cloud",
+  // Online meeting recordings play from short-lived signed URLs on the
+  // recordings bucket (S3, EU).
+  "media-src 'self' blob: https:",
   // The last three carry release-note videos, which are linked rather than
   // uploaded; without them the embed breaks the day this policy is enforced.
   // blob: is the in-app document viewer's PDF frame.

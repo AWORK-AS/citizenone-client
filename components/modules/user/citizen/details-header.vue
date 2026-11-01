@@ -61,6 +61,7 @@
                                                     <Icon name="ph:pencil-simple" class="w-5 h-5" aria-hidden="true" />
                                                 </button>
                                             </Tooltip>
+                                            <ModulesUserMeetingsStartNowButton :citizenUuid="state.selectedCitizen?.data?.uuid" />
                                             <Tooltip :text="$t('citizens.openInNewWindow')" v-if="isDesktopApp">
                                                 <button type="button" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-surface-100 hover:text-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
                                                     :aria-label="$t('citizens.openInNewWindow')"
@@ -607,7 +608,7 @@ const isBirthdayToday = computed(() => isTodaysBirthday(state.selectedCitizen?.d
 // before starting a conversation.
 const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
 const spokenLanguagesSummary = computed(() =>
-    summariseSpokenLanguages(state.selectedCitizen?.data?.spoken_languages, t('citizens.form.motherTongue').toLowerCase())
+    summariseSpokenLanguages(state.selectedCitizen?.data?.spoken_languages, term('motherTongue', t('citizens.form.motherTongue')).toLowerCase())
 )
 
 // A little 🎂 confetti when you open a citizen on their birthday.

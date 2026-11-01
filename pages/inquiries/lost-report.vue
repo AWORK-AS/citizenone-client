@@ -36,6 +36,18 @@
                             {{ $t('filter') }}
                         </FormButton>
                     </div>
+                    <!-- Migrated inquiries are mostly old lost cases, so they are
+                         left out unless asked for. Only offered where there are any. -->
+                    <div v-if="state.conversion?.imported_count || state.filter.includeImported" class="mt-3">
+                        <label class="inline-flex cursor-pointer items-center gap-2 text-sm text-gray-900">
+                            <input type="checkbox" class="h-4 w-4 rounded border-gray-300 text-primary"
+                                v-model="state.filter.includeImported" :disabled="state.isLoading" @change="fetchReport" />
+                            {{ $t('inquiryConversion.includeImported') }}
+                        </label>
+                        <p class="mt-1 text-xs text-gray-500">
+                            {{ $t('inquiryConversion.includeImportedHint', { count: state.conversion?.imported_count ?? 0 }) }}
+                        </p>
+                    </div>
                 </div>
 
                 <LoadingSpinner :isActive="state.isLoading">
@@ -162,6 +174,7 @@ const state = reactive({
     filter: {
         from: isoDate(new Date(today.getFullYear(), 0, 1)),
         to: isoDate(today),
+        includeImported: false,
     },
     report: {} as any,
     conversion: null as any,
@@ -190,6 +203,7 @@ async function fetchReport() {
         const params: Record<string, string> = {}
         if (state.filter.from) params.from = state.filter.from
         if (state.filter.to) params.to = state.filter.to
+        if (state.filter.includeImported) params.include_imported = '1'
         const [lost, conversion] = await Promise.all([
             citizenInquiryService.getLostReport(params),
             citizenInquiryService.getConversionReport(params),

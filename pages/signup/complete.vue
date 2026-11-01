@@ -76,6 +76,7 @@
 </template>
 
 <script setup lang="ts">
+import { industryLabel } from '@/composables/signupSegments'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
 import { useUserStore } from '@/store/user'
@@ -124,7 +125,7 @@ onMounted(async () => {
         state.form.lastname = identity.data?.lastname ?? ''
         state.industries = (industries.data ?? []).map((industry: any) => ({
             value: industry.uuid,
-            label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+            label: industryLabel(industry, language.locale.value),
         }))
     } catch (error: any) {
         state.expired = true

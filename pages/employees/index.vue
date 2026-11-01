@@ -222,6 +222,17 @@
                                                     <Icon name="ph:sparkle" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="employee?.has_meetings_seat ?
+                                                $t('employees.table.actions.removeMeetingsSeat') :
+                                                $t('employees.table.actions.giveMeetingsSeat')"
+                                                v-if="userStore.getUser?.company?.meetings_enabled">
+                                                <FormButton :aria-label="employee?.has_meetings_seat ?
+                                                $t('employees.table.actions.removeMeetingsSeat') :
+                                                $t('employees.table.actions.giveMeetingsSeat')" type="button" buttonStyle="action"
+                                                    @click="toggleMeetingsSeat(employee)">
+                                                    <Icon :name="employee?.has_meetings_seat ? 'ph:video-camera-slash' : 'ph:video-camera'" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('employees.table.actions.giveBookingAccess')"
                                                 v-if="userStore.getUser?.has_booking_app_access && !employee?.has_booking_app_access">
                                                 <FormButton :aria-label="$t('employees.table.actions.giveBookingAccess')" type="button" buttonStyle="action"
@@ -519,6 +530,27 @@ async function giveAIAccess() {
         if (response.data) {
             if (response.data?.has_ai_access) {
                 successAlert(`${t('alert.success')}!`, `${t('employees.table.alert.aIAccessGranted')}.`)
+            }
+            fetchEmployees()
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isTableLoading = false
+}
+
+async function toggleMeetingsSeat(employee: any) {
+    state.error = {}
+    state.isTableLoading = true
+    try {
+        const response = await employeeService.toggleMeetingsLicense(employee?.uuid)
+        if (response.data) {
+            successAlert(`${t('alert.success')}!`, response.data?.has_meetings_seat
+                ? `${t('employees.table.alert.meetingsSeatGranted')}.`
+                : `${t('employees.table.alert.meetingsSeatRemoved')}.`)
+            // Your own seat changes what the meetings page offers you.
+            if (employee?.uuid === userStore.getUser?.uuid) {
+                userStore.getUser.has_meetings_seat = !!response.data?.has_meetings_seat
             }
             fetchEmployees()
         }

@@ -40,7 +40,7 @@
                             {{ $t('superadmin.agreements.payment.register') }}
                         </FormButton>
                     </Tooltip>
-                    <Tooltip v-if="state.invoice?.data?.is_paid && state.invoice.data.paid_at && !state.invoice.data.covered_by_agreement"
+                    <Tooltip v-if="state.invoice?.data?.is_paid && state.invoice.data.paid_at && state.invoice.data.paid_source !== 'card' && !state.invoice.data.covered_by_agreement"
                         :text="$t('superadmin.agreements.payment.undoHelp')" position="bottom">
                         <FormButton buttonStyle="danger" @click="state.isUndoOpen = true">
                             <Icon name="ph:arrow-counter-clockwise" class="h-4 w-4" aria-hidden="true" />

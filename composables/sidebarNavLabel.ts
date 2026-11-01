@@ -18,6 +18,7 @@ export function getSidebarNavItemLabel(item: any, t: (key: string) => string, cu
     if (item.name === 'DentalRecalls') return t('sidebar.dentalRecalls')
     if (item.name === 'Calendar') return t('sidebar.calendar')
     if (item.name === 'WhistleblowerReports') return t('whistleblower.inbox.title')
+    if (item.name === 'Online meetings') return t('meetings.nav')
     if (item.name === 'PrescriptionRenewals') return t('prescriptionRenewals.title')
     if (item.name === 'ReportAnonymously') return t('whistleblower.reportAnonymously')
     if (item.name === 'Duty schedules') return customPagesStore.getCustomPagesName?.dutySchedules || t('sidebar.dutySchedules')
@@ -44,6 +45,8 @@ export function getSidebarNavItemLabel(item: any, t: (key: string) => string, cu
     if (item.name === 'Economy') return t('economy.title')
     if (item.name === 'Inquiries') return t('inquiries.inquiries')
     if (item.name === 'Consultant search') return t('consultantMatch.generalTitle')
+    if (item.name === 'Recruitment') return t('recruitment.title')
+    if (item.name === 'Consultant calendar') return t('consultantCalendar.title')
     if (item.name === 'Tasks') return t('taskBoards.title')
     if (item.name === 'Staff workload') return t('staffWorkloadReport.title')
     return item.name

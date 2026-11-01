@@ -95,6 +95,13 @@
                 <FormError :error="v$?.formSchedule?.calendar_tag_uuid?.$errors[0]?.$message.toString()" />
                 <FormError :error="props?.error?.errors?.calendar_tag_uuid?.[0]" />
             </div>
+            <!-- Staff meeting and supervision are working time of their own, shown
+                 apart in the consultant calendar's hour totals. -->
+            <div class="space-y-1" v-if="props.formType === 'create'">
+                <FormLabel for="work_type" :label="$t('consultantCalendar.form.type')" />
+                <FormSelect id="work_type" v-model="state.formSchedule.work_type" :searchable="false"
+                    :options="[{ value: null, label: $t('consultantCalendar.workTypes.ordinary') }, { value: 'staff_meeting', label: $t('consultantCalendar.workTypes.staff_meeting') }, { value: 'supervision', label: $t('consultantCalendar.workTypes.supervision') }]" />
+            </div>
             <div class="space-y-1">
                 <div class="w-fit flex items-center cursor-pointer"
                     @click="state.formSchedule.is_private = !state.formSchedule.is_private">
@@ -361,6 +368,7 @@ const state = reactive({
         date_time_end: '',
         unit_uuid: '',
         is_private: false,
+        work_type: null as string | null,
         reminder_minutes: DEFAULT_CALENDAR_REMINDER as number | null,
         is_online_meeting: false,
         meeting_url: '',

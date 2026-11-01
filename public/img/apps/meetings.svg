@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
+  <rect x="4" y="4" width="56" height="56" rx="12" fill="#0f4c75"/>
+  <!-- a video frame with two people, and the camera -->
+  <rect x="11" y="19" width="30" height="26" rx="5" fill="#ffffff" opacity="0.95"/>
+  <path d="M41 28.5 L53 21.5 V42.5 L41 35.5 Z" fill="#ffffff" opacity="0.95"/>
+  <circle cx="20.5" cy="29" r="3.6" fill="#2dbab2"/>
+  <path d="M14.5 40.5 C14.5 36.2 17.2 34.4 20.5 34.4 C23.8 34.4 26.5 36.2 26.5 40.5 Z" fill="#2dbab2"/>
+  <circle cx="31.5" cy="29.5" r="3.1" fill="#1b6d8a"/>
+  <path d="M26.8 40.5 C26.8 36.9 28.9 35.2 31.5 35.2 C34.1 35.2 36.2 36.9 36.2 40.5 Z" fill="#1b6d8a"/>
+</svg>

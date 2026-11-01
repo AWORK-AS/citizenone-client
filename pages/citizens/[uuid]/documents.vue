@@ -154,6 +154,8 @@
                     </div>
                     <Pagination :data="state.documents" @previous="previous" @next="next" />
                 </div>
+                <!-- Recordings of online meetings about this citizen (CitizenOne Online Meetings). -->
+                <ModulesUserMeetingsCitizenRecordings v-if="userStore.getUser?.company?.meetings_enabled" :citizenUuid="citizenUuid" class="mt-5" />
                 <ModulesUserCitizenDocumentModalNewFeatures :isModalOpen="state.modal.isViewNewFeaturesOpen"
                     @close="state.modal.isViewNewFeaturesOpen = false" />
                 <ModulesUserCitizenDocumentModalNewDirectory :isModalOpen="state.modal.isAddDirectoryOpen"
