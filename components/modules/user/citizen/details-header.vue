@@ -608,7 +608,7 @@ const isBirthdayToday = computed(() => isTodaysBirthday(state.selectedCitizen?.d
 // before starting a conversation.
 const { summarise: summariseSpokenLanguages } = useSpokenLanguages()
 const spokenLanguagesSummary = computed(() =>
-    summariseSpokenLanguages(state.selectedCitizen?.data?.spoken_languages, t('citizens.form.motherTongue').toLowerCase())
+    summariseSpokenLanguages(state.selectedCitizen?.data?.spoken_languages, term('motherTongue', t('citizens.form.motherTongue')).toLowerCase())
 )
 
 // A little 🎂 confetti when you open a citizen on their birthday.

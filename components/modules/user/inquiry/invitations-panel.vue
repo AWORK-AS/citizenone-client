@@ -10,6 +10,9 @@
             </NuxtLink>
         </div>
 
+        <!-- How a consultant hears about it, the question coordinators ask. -->
+        <p class="mb-2 text-[12px] text-slate-500">{{ $t('inquiryInvitations.howToldHelp') }}</p>
+
         <p v-if="!state.invitations.length" class="text-[13px] text-slate-400">
             {{ $t('inquiryInvitations.empty') }}
         </p>
@@ -33,12 +36,12 @@
                         class="rounded-full bg-surface-100 px-2 py-px text-[11px] font-bold text-slate-600">
                         {{ $t('consultantMatch.archived') }}
                     </span>
-                    <!-- Asked, but an inactive consultant gets no mail or app notice. Not
+                    <!-- Asked, but nothing reached them: no mail, app notice or SMS. Not
                          once chosen: the choice is made, even if they were archived again. -->
-                    <span v-if="invitation.consultant?.contact_status === 'inactive' && !invitation.is_selected"
-                        :title="$t('inquiryInvitations.contactDirectlyHint')"
+                    <span v-if="isNotReached(invitation) && !invitation.is_selected"
+                        :title="$t('inquiryInvitations.notReachedHint')"
                         class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
-                        {{ $t('inquiryInvitations.contactDirectly') }}
+                        {{ invitation.notified_via ? $t('inquiryInvitations.notReached') : $t('inquiryInvitations.contactDirectly') }}
                     </span>
                     <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(invitation.status)">
                         {{ $t('inquiryInvitations.statuses.' + invitation.status) }}
@@ -57,10 +60,10 @@
                      is why these are here and not only on the consultant's own
                      screen. -->
                 <template v-if="canManage && invitation.status === 'invited'">
-                    <FormButton type="button" buttonStyle="action" @click="respond(invitation, 'interested')">
+                    <FormButton type="button" buttonStyle="action" @click="openAnswer(invitation, 'interested')">
                         {{ $t('inquiryInvitations.markInterested') }}
                     </FormButton>
-                    <FormButton type="button" buttonStyle="cancel" @click="respond(invitation, 'declined')">
+                    <FormButton type="button" buttonStyle="cancel" @click="openAnswer(invitation, 'declined')">
                         {{ $t('inquiryInvitations.markDeclined') }}
                     </FormButton>
                 </template>
@@ -72,6 +75,34 @@
                 </Tooltip>
             </div>
         </div>
+
+        <!-- Registering an answer the consultant gave over the phone, with an
+             optional note of what was said. -->
+        <Modal size="sm" :title="$t('inquiryInvitations.answerTitle', { name: state.answering ? consultantName(state.answering) : '' })"
+            :show="state.answering !== null" @close="state.answering = null">
+            <template #modal-body>
+                <div class="space-y-3">
+                    <p class="text-[13px] text-slate-600">
+                        {{ $t('inquiryInvitations.answerHint') }}
+                        <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(state.answerStatus)">
+                            {{ $t('inquiryInvitations.statuses.' + state.answerStatus) }}
+                        </span>
+                    </p>
+                    <div class="space-y-1">
+                        <FormLabel for="invitation_answer_note" :label="$t('inquiryInvitations.answerNote')" />
+                        <FormTextArea id="invitation_answer_note" name="invitation_answer_note"
+                            :placeholder="$t('inquiryInvitations.answerNotePlaceholder')" :rows="2"
+                            v-model="state.answerNote" />
+                    </div>
+                    <div class="flex justify-end gap-2 pt-2">
+                        <FormButton type="button" buttonStyle="cancel" @click="state.answering = null">{{ $t('cancel') }}</FormButton>
+                        <FormButton type="button" buttonStyle="primary" :disabled="state.isSaving" @click="confirmAnswer">
+                            {{ $t('inquiryInvitations.answerSave') }}
+                        </FormButton>
+                    </div>
+                </div>
+            </template>
+        </Modal>
 
         <!-- Choosing the consultant, with what they may register on the case
              (optional; carried to the indsats when the inquiry is won). -->
@@ -107,6 +138,7 @@ import {
 import { useAlert } from '@/composables/alert'
 import { usePermissions } from '@/composables/usePermissions'
 import { useI18n } from 'vue-i18n'
+import { notifiedChannels } from '@/utils/consultantNotifiedVia'
 
 const { errorAlert } = useAlert()
 const { t } = useI18n()
@@ -122,6 +154,9 @@ const props = defineProps({
 const state = reactive({
     invitations: [] as any[],
     selecting: null as any,
+    answering: null as any,
+    answerStatus: 'interested' as 'interested' | 'declined',
+    answerNote: '',
     ruleDraft: toUserRuleDraft(null) as UserRuleDraft,
     isSaving: false,
 })
@@ -157,6 +192,23 @@ function canBeChosen(invitation: any) {
     return !isDoNotContact(invitation) && invitation.consultant?.contact_status !== 'terminated'
 }
 
+// Recorded since invitations note how the consultant was told. An older
+// invitation has no record, so an inactive consultant counts as not reached,
+// as before.
+function isNotReached(invitation: any) {
+    if (!invitation.notified_via) return invitation.consultant?.contact_status === 'inactive'
+
+    return notifiedChannels(invitation.notified_via).length === 0
+}
+
+function toldVia(invitation: any) {
+    const channels = notifiedChannels(invitation.notified_via)
+
+    return channels.length
+        ? t('inquiryInvitations.toldVia', { channels: channels.map((c) => t('inquiryInvitations.channels.' + c)).join(', ') })
+        : ''
+}
+
 function statusClass(status: string) {
     if (status === 'interested') return 'bg-[#e6f6ee] text-[#177a53]'
     if (status === 'declined') return 'bg-[#fbe9e5] text-[#c0442c]'
@@ -168,13 +220,16 @@ function trail(invitation: any) {
     const askedBy = invitation.invited_by
         ? `${invitation.invited_by.firstname ?? ''} ${invitation.invited_by.lastname ?? ''}`.trim()
         : ''
-    const answeredBy = invitation.responded_by
+    // Named only when someone else registered it. Without answered_on_behalf
+    // (an older backend) whoever recorded it is named, as before.
+    const answeredBy = invitation.responded_by && invitation.answered_on_behalf !== false
         ? `${invitation.responded_by.firstname ?? ''} ${invitation.responded_by.lastname ?? ''}`.trim()
         : ''
 
     return [
         askedBy ? t('inquiryInvitations.askedBy', { name: askedBy }) : '',
         invitation.created_at ? formatDateToReadable(invitation.created_at) : '',
+        toldVia(invitation),
         // Who recorded the answer matters: an answer taken over the phone is not
         // the same as the consultant answering themselves.
         answeredBy ? t('inquiryInvitations.answeredBy', { name: answeredBy }) : '',
@@ -190,13 +245,24 @@ async function fetchInvitations() {
     }
 }
 
-async function respond(invitation: any, status: 'interested' | 'declined') {
+function openAnswer(invitation: any, status: 'interested' | 'declined') {
+    state.answerStatus = status
+    state.answerNote = ''
+    state.answering = invitation
+}
+
+async function confirmAnswer() {
+    const invitation = state.answering
+    if (!invitation) return
+    state.isSaving = true
     try {
-        await inquiryConsultantInvitationService.respond(invitation.uuid, status)
+        await inquiryConsultantInvitationService.respond(invitation.uuid, state.answerStatus, state.answerNote.trim() || undefined)
+        state.answering = null
         await fetchInvitations()
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('inquiryInvitations.failed'))
     }
+    state.isSaving = false
 }
 
 function openSelect(invitation: any) {

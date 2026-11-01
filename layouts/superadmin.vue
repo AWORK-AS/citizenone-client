@@ -52,6 +52,10 @@
                                             <span>
                                                 {{ $t(item.label) }}
                                             </span>
+                                            <Tooltip v-if="item.badge === 'billingProblems' && billingProblemCount > 0"
+                                                :text="$t('paymentDunning.problems.intro')" position="right" wrap class="ml-auto">
+                                                <span class="co-nav-badge">{{ billingProblemCount }}</span>
+                                            </Tooltip>
                                         </div>
                                     </div>
 
@@ -162,6 +166,10 @@
                             <span>
                                 {{ $t(item.label) }}
                             </span>
+                            <Tooltip v-if="item.badge === 'billingProblems' && billingProblemCount > 0"
+                                :text="$t('paymentDunning.problems.intro')" position="right" wrap class="ml-auto">
+                                <span class="co-nav-badge">{{ billingProblemCount }}</span>
+                            </Tooltip>
                         </div>
                     </div>
 
@@ -335,6 +343,7 @@ const state = reactive({
  * som om noget mangler.
  */
 const { visible: groupedNav } = useSuperadminNav()
+const { count: billingProblemCount, refresh: refreshBillingProblemCount } = useBillingProblemCount()
 
 /*
  * Hvad der står under navnet i sidefoden.
@@ -371,7 +380,7 @@ const userInitials = computed(() => {
     return ((f[0] || '') + (l[0] || '')).toUpperCase() || 'SA'
 })
 
-onMounted(() => { fetchUser() })
+onMounted(() => { fetchUser(); refreshBillingProblemCount() })
 
 async function fetchUser() {
     try {
@@ -456,6 +465,20 @@ function identifyFlag() {
     background: rgba(255, 255, 255, 0.12);
     color: #ffffff;
     box-shadow: inset 2px 0 0 #42AED9;
+}
+
+.co-nav-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 6px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    background: #CC3B2D;
+    color: #ffffff;
 }
 
 .co-nav-inactive {

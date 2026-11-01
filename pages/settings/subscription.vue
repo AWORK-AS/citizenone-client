@@ -59,7 +59,7 @@
                                     {{ $t('subscription.deal.perfectForLargerCompanies') }} 🤝
                                 </span>
                             </p>
-                            <p class="mt-4 flex items-baseline gap-x-2">
+                            <p v-if="!isInvoice" class="mt-4 flex items-baseline gap-x-2">
                                 <span class="text-3xl font-bold tracking-tight text-gray-900">
                                     {{ ['monthly', 'custom_monthly'].includes(userStore.getUser?.user_subscription?.type) ?
                                         formatAmount(userStore.getUser?.user_subscription?.deal?.monthly_price ?? 0) :
@@ -130,6 +130,11 @@
                         </div>
                     </div>
                     <div class="mt-10 w-full">
+                        <!-- Invoice customers: how they pay and the security card. Renders
+                             nothing for card customers, and never for Elite. -->
+                        <div v-if="isInvoice && !isUnderAgreement(userStore.getUser?.user_subscription)" class="mb-5">
+                            <ModulesUserBillingPaymentMethodCard />
+                        </div>
                         <div v-if="isEmployeeServicesCompany" class="mb-5 bg-white ring-1 ring-gray-200 rounded-md p-6">
                             <div class="flex items-center justify-between gap-3">
                                 <div>
@@ -169,6 +174,8 @@ const userStore = useUserStore() as any
 const { t } = useI18n()
 const { term } = useTerminology()
 const caseworkerTerm = computed(() => term('caseworker', t('settings.company.form.termCaseworker')))
+const { isInvoice, load: loadPaymentMethod } = usePaymentMethod()
+onMounted(() => loadPaymentMethod())
 const router = useRouter()
 let error: string | undefined = router?.currentRoute?.value?.query?.error as string | undefined
 const isEmployeeServicesCompany = computed(() => {

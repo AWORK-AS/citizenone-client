@@ -117,7 +117,7 @@ export function citizenSeedStandard(sourceLocale: 'en' | 'dk'): string {
     return upperFirst(CITIZEN_DEFAULTS[sourceLocale].citizens)
 }
 
-type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter'
+type TermKey = 'journals' | 'journal' | 'journalNoteTag' | 'journalNotes' | 'caseworker' | 'case' | 'agreement' | 'jobcenter' | 'motherTongue'
     | 'citizen' | 'citizenDefinite' | 'citizens' | 'citizensDefinite'
 
 /**
@@ -144,6 +144,7 @@ export function useTerminology() {
             case: company?.term_case,
             agreement: company?.term_agreement,
             jobcenter: company?.term_jobcenter,
+            motherTongue: company?.term_mother_tongue,
             citizen: company?.term_citizen,
             citizenDefinite: company?.term_citizen_definite,
             citizens: company?.term_citizens,

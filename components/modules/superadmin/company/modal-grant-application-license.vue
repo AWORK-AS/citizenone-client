@@ -185,8 +185,11 @@
                         <label class="co-label">
                             {{ $t('superadmin.companies.licenseOverview.addSubscription.billingMethod') }}
                         </label>
+                        <p class="text-[11px] text-[#8891A4]">
+                            {{ billingMethodLocked ? $t('paymentDunning.grantApp.methodFromCompany') : $t('paymentDunning.grantApp.methodDefaultHelp') }}
+                        </p>
                         <fieldset :aria-label="$t('superadmin.companies.licenseOverview.addSubscription.billingMethod')">
-                            <RadioGroup v-model="state.form.billingMethod" class="space-y-2">
+                            <RadioGroup v-model="state.form.billingMethod" class="space-y-2" :disabled="billingMethodLocked">
                                 <RadioGroupOption as="template" v-for="option in [
                                     { value: 'manual_invoice', label: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoice'), description: $t('superadmin.companies.licenseOverview.addSubscription.manualInvoiceDescription') },
                                     { value: 'payment_card', label: $t('superadmin.companies.licenseOverview.addSubscription.paymentCard'), description: $t('superadmin.companies.licenseOverview.addSubscription.paymentCardDescription') },
@@ -203,11 +206,9 @@
                     </div>
 
                     <div v-if="!state.form.isIncludedInAgreement && state.form.billingMethod === 'manual_invoice'">
-                        <div class="w-fit flex items-center cursor-pointer"
-                            @click="state.form.paysViaLeverandorservice = !state.form.paysViaLeverandorservice">
-                            <FormCheckbox :value="state.form.paysViaLeverandorservice" />
-                            {{ $t('superadmin.companies.licenseOverview.addSubscription.paysViaLeverandorservice') }}
-                        </div>
+                        <ModulesSuperadminCompanyLeverandorserviceLine
+                            :leverandorservice="companyBilling ? companyBilling.leverandorservice : null"
+                            :companyUuid="effectiveCompanyUuid ?? ''" />
                     </div>
 
                     <!-- Multi-year contract term - only meaningful for a one-off manual
@@ -305,6 +306,8 @@
 </template>
 
 <script setup lang="ts">
+import { billingService } from '@/components/api/superadmin/BillingService'
+import type { CompanyBilling } from '@/composables/billingMethod'
 import { appService } from '@/components/api/superadmin/AppService'
 import { licenseService } from '@/components/api/superadmin/LicenseService'
 import { companyService } from '@/components/api/superadmin/CompanyService'
@@ -366,7 +369,6 @@ const state = reactive({
         quantity: 1 as number,
         frequency: 'monthly' as 'monthly' | 'yearly',
         billingMethod: 'manual_invoice' as 'manual_invoice' | 'payment_card' | 'assigned_payment_card',
-        paysViaLeverandorservice: false,
         isIncludedInAgreement: false,
         termYears: 1 as number,
     },
@@ -381,6 +383,31 @@ const state = reactive({
 })
 
 const effectiveCompanyUuid = computed(() => props.companyUuid ?? state.selectedCompany?.uuid ?? null)
+
+// The grant follows how the company pays (Betalingsmåde). An invoice company is locked to
+// manual invoice - the API forces it - while a card company starts on the card option and
+// may pick another per grant, which the API still honours.
+const companyBilling = ref<CompanyBilling | null>(null)
+const billingMethodLocked = computed(() => companyBilling.value?.billing_method === 'invoice')
+
+function applyDefaultMethod() {
+    if (!companyBilling.value) return
+    state.form.billingMethod = companyBilling.value.billing_method === 'invoice' ? 'manual_invoice' : 'payment_card'
+}
+
+watch(effectiveCompanyUuid, async (uuid) => {
+    companyBilling.value = null
+    if (!uuid) return
+
+    try {
+        const loaded = await billingService.getBillingMethod(uuid as string)
+        if (effectiveCompanyUuid.value !== uuid) return
+        companyBilling.value = loaded
+        applyDefaultMethod()
+    } catch (_) {
+        companyBilling.value = null
+    }
+}, { immediate: true })
 const preselectedAppName = computed(() =>
     state.apps.find((a) => (a.uuid ?? a.id) === props.preselectedApplicationUuid)?.name ?? null
 )
@@ -463,7 +490,8 @@ function selectApp(app: any) {
 
 watch(() => props.open, (open: boolean) => {
     if (open) {
-        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', billingMethod: 'manual_invoice', paysViaLeverandorservice: false, isIncludedInAgreement: false, termYears: 1 }
+        state.form = { application_uuid: props.preselectedApplicationUuid ?? '', quantity: 1, frequency: 'monthly', billingMethod: 'manual_invoice', isIncludedInAgreement: false, termYears: 1 }
+        applyDefaultMethod()
         state.appSearch = ''
         state.assignEnabled = false
         state.errors = { application: '', quantity: '', user: '', frequency: '' }
@@ -627,7 +655,8 @@ async function submit() {
             quantity: state.form.quantity,
             assign_to_user_uuid: state.selectedUser?.uuid ?? null,
             billing_method: state.form.isIncludedInAgreement ? 'manual_invoice' : state.form.billingMethod,
-            pays_via_leverandorservice: (state.form.isIncludedInAgreement || state.form.billingMethod !== 'manual_invoice') ? false : state.form.paysViaLeverandorservice,
+            // The company's own setting (Betalingsmåde); sent so the API stays unchanged.
+            pays_via_leverandorservice: (state.form.isIncludedInAgreement || state.form.billingMethod !== 'manual_invoice') ? false : !!companyBilling.value?.leverandorservice,
             is_included_in_agreement: state.form.isIncludedInAgreement,
             ...(needsFrequencyPicker.value ? { frequency: state.form.frequency } : {}),
             ...(needsTermYears.value ? { term_years: state.form.termYears } : {}),

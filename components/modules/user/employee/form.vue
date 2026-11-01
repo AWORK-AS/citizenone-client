@@ -137,7 +137,7 @@
                         <FormError :error="props?.error?.errors?.spoken_languages_uuid?.[0]" />
                     </div>
                     <div class="space-y-1" v-if="state.formEmployee.spoken_languages?.length > 0">
-                        <FormLabel for="primary_spoken_language" :label="$t('employees.form.motherTongue')" />
+                        <FormLabel for="primary_spoken_language" :label="term('motherTongue', $t('employees.form.motherTongue'))" />
                         <FormSelect id="primary_spoken_language" :options="selectedSpokenLanguageOptions"
                             v-model="state.formEmployee.primary_spoken_language" />
                         <FormError :error="props?.error?.errors?.primary_spoken_language_uuid?.[0]" />
@@ -606,6 +606,7 @@ import { usePermissions } from '@/composables/usePermissions'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { EMPLOYMENT_STATUS_LABELS, WORKING_HOURS_LABELS, builtInOptions } from '@/utils/employmentOptions'
 import type { EmployeeForm, Error } from '@/types'
+import { useTerminology } from '@/composables/useTerminology'
 
 const props = defineProps({
     error: {
@@ -631,6 +632,7 @@ const image = ref<HTMLInputElement | null>(null)
 const avatarUrl = ref('/img/avatars/user.svg')
 const { errorAlert } = useAlert()
 const { t } = useI18n()
+const { term } = useTerminology()
 const language = useI18n()
 const { fetchOptions: fetchSpokenLanguageOptions } = useSpokenLanguages()
 const firstnameField = ref<HTMLElement | null>(null)

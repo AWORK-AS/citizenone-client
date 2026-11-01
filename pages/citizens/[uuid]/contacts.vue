@@ -23,8 +23,15 @@
                 <ModulesUserCitizenContactCoordinators class="mt-8" :citizenUuid="citizenUuid"
                     @saved="fetchContacts" />
 
+                <ModulesUserCitizenContactConsultantHours class="mt-4" :citizenUuid="citizenUuid" />
+
                 <div>
                     <div class="mt-8 flex justify-end items-center mb-5 gap-x-2">
+                        <!-- The consultant stops: find a new one for this running indsats. -->
+                        <FormButton v-if="canRecruit" buttonStyle="action" @click="state.modal.isRematchOpen = true">
+                            <Icon name="ph:arrows-clockwise" class="h-4 w-4" aria-hidden="true" />
+                            {{ $t('recruitment.startRematch') }}
+                        </FormButton>
                         <FormButton buttonStyle="action" @click="state.modal.isAssignFromAddressBookOpen = true">
                             <Icon name="ph:address-book" class="h-4 w-4" aria-hidden="true" />
                             {{ $t('addressBook.assignFromAddressBook') }}
@@ -154,6 +161,9 @@
                     @close="state.modal.isDeleteContactOpen = false" @confirm="deleteContact" />
                 <ModulesUserMailModalSendEmail :isModalOpen="state.modal.isSendEmailOpen"
                     :selectedContact="state.selectedContact" @close="state.modal.isSendEmailOpen = false" />
+                <ModulesUserRecruitmentModalForm v-if="canRecruit" :isModalOpen="state.modal.isRematchOpen"
+                    :citizenUuid="citizenUuid" defaultType="rematch" @close="state.modal.isRematchOpen = false"
+                    @saved="openRematch" />
                 <ModulesUserCitizenContactModalAssignAddressBook :isModalOpen="state.modal.isAssignFromAddressBookOpen"
                     @close="state.modal.isAssignFromAddressBookOpen = false" @prefillContact="handlePrefillContact" />
             </div>
@@ -179,6 +189,14 @@ const router = useRouter()
 const citizenUuid = router?.currentRoute?.value?.params?.uuid as any
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+// Recruitment is part of the inquiry pipeline: the same app and page as Inquiries.
+const canRecruit = computed(() => !!userStore.getUser?.company?.inquiry_pipeline_enabled
+    && !!userStore.getUser?.pages?.some((page: any) => page.name === 'Inquiries'))
+
+function openRematch(recruitmentCase: any) {
+    state.modal.isRematchOpen = false
+    if (recruitmentCase?.uuid) router.push(`/recruitment/${recruitmentCase.uuid}`)
+}
 let currentTablePage = 1
 const breadcrumbLinks = [
     {
@@ -210,6 +228,7 @@ const state = reactive({
         isViewContactOpen: false,
         isSendEmailOpen: false,
         isAssignFromAddressBookOpen: false,
+        isRematchOpen: false,
     },
     selectedContact: [] as any,
     sortData: {

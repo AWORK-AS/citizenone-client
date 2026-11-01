@@ -14,17 +14,13 @@
                     <Logo class="w-40" @click="navigateTo('/')" />
                     <p class="text-xs text-gray-700">
                         {{ $t('register.step') }} {{ state.progress.currentStep }}
-                        <span class="lowercase">{{ $t('register.of') }}</span> 2
+                        <span class="lowercase">{{ $t('register.of') }}</span> 3
                     </p>
                 </div>
                 <div class="mt-5 flex items-center gap-x-2">
-                    <div class="h-2.5 w-full rounded-full bg-gray-200">
+                    <div v-for="(bar, index) in progressBars" :key="index" class="h-2.5 w-full rounded-full bg-gray-200">
                         <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep1Progress / step1Total) * 100)}%` }"></div>
-                    </div>
-                    <div class="h-2.5 w-full rounded-full bg-gray-200">
-                        <div class="h-2.5 rounded-full bg-secondary transition-all duration-300"
-                            :style="{ width: `${Math.round((state.progress.currentStep2Progress / step2Total) * 100)}%` }"></div>
+                            :style="{ width: `${Math.round(bar * 100)}%` }"></div>
                     </div>
                     <img class="w-4" src="/img/icons/asset-app.png" :alt="$t('imageFailedToLoad')" />
                 </div>
@@ -63,20 +59,33 @@
                                 </p>
                             </div>
                         </div>
-                        <div class="mt-10 flex justify-between items-center">
+                        <!-- The answer from step 1 stays in sight, so every later step reads as
+                             "for your clinic" and can be changed without starting over. -->
+                        <div v-if="state.progress.currentStep > 1" class="mt-8 flex items-center justify-between gap-3">
+                            <button type="button" class="inline-flex items-center gap-1 text-sm text-gray-600 hover:text-gray-900"
+                                data-testid="register-back" @click="state.progress.currentStep -= 1">
+                                <Icon name="ph:arrow-left" class="size-4" aria-hidden="true" />
+                                {{ $t('back') }}
+                            </button>
+                            <button v-if="selectedIndustry" type="button" data-testid="register-chosen-industry"
+                                class="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-3 py-1 text-xs font-medium text-slate-700 hover:border-slate-300"
+                                @click="state.progress.currentStep = 1">
+                                <Icon :name="bucketIcon(selectedProfile)" class="size-4 text-primary" aria-hidden="true" />
+                                {{ selectedIndustry.label }}
+                                <span class="text-primary">· {{ $t('register.segment.change') }}</span>
+                            </button>
+                        </div>
+                        <div :class="[state.progress.currentStep > 1 ? 'mt-4' : 'mt-10', 'flex justify-between items-center']">
                             <h3 class="font-bold text-2xl md:text-3xl">
-                                <span v-if="state.progress.currentStep === 1">
-                                    {{ $t('register.form.createYourAccount') }}
-                                </span>
-                                <span v-else>
-                                    {{ $t('register.form.letsTalkAboutYou') }}
-                                </span>
+                                <span v-if="state.progress.currentStep === 1">{{ $t('register.segment.title') }}</span>
+                                <span v-else-if="state.progress.currentStep === 2">{{ $t('register.about.title') }}</span>
+                                <span v-else>{{ $t('register.account.title') }}</span>
                             </h3>
                             <div class="relative" v-click-outside="() => state.langOpen = false">
                                 <button type="button" @click="state.langOpen = !state.langOpen"
                                     class="flex items-center gap-1.5 py-[5px] pr-[10px] pl-[6px] rounded-full border border-slate-200 bg-white cursor-pointer text-xs font-semibold text-slate-500 hover:border-slate-300 transition-colors">
                                     <img :src="identifyFlag()" alt="flag" class="w-5 h-5 rounded-full object-cover" />
-                                    {{ language.locale.value === 'en' ? 'EN' : 'DK' }}
+                                    {{ String(language.locale.value).toUpperCase() }}
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.5">
                                         <polyline points="6 9 12 15 18 9" />
@@ -112,15 +121,110 @@
                             </div>
                         </div>
                         <p class="text-sm text-gray-600">
-                            <span v-if="state.progress.currentStep === 1">
-                                {{ $t('register.form.justAFewClicksAndYoureIn') }}
-                            </span>
-                            <span v-else>
-                                {{ $t('register.form.personalizeYourCitizenOneExperience') }}
-                            </span>
+                            <span v-if="state.progress.currentStep === 1">{{ $t('register.segment.subtitle') }}</span>
+                            <span v-else-if="state.progress.currentStep === 2">{{ $t('register.about.subtitle') }}</span>
+                            <span v-else>{{ $t('register.account.subtitle') }}</span>
                         </p>
                     </div>
-                    <div class="mt-5 space-y-3" v-if="state.progress.currentStep === 1">
+                    <!-- Step 1: one easy question with five big answers, before anything personal.
+                         A bucket with one industry is answered by the click itself. -->
+                    <div class="mt-6 space-y-5" v-if="state.progress.currentStep === 1" data-testid="register-segment">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            <button v-for="bucket in BUCKETS" :key="bucket.key" type="button"
+                                :data-testid="`register-bucket-${bucket.key}`"
+                                :aria-pressed="state.segment.bucket === bucket.key"
+                                :class="['flex items-start gap-3 rounded-xl border bg-white p-4 text-left transition-colors',
+                                    state.segment.bucket === bucket.key ? 'border-primary ring-1 ring-primary' : 'border-slate-200 hover:border-slate-300']"
+                                @click="chooseBucket(bucket.key)">
+                                <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary-25 text-primary">
+                                    <Icon :name="bucket.icon" class="size-5" aria-hidden="true" />
+                                </span>
+                                <span>
+                                    <span class="block text-sm font-semibold text-gray-900">{{ $t(`register.segment.buckets.${bucket.key}.label`) }}</span>
+                                    <span class="mt-0.5 block text-xs text-gray-500">{{ $t(`register.segment.buckets.${bucket.key}.desc`) }}</span>
+                                </span>
+                            </button>
+                            <!-- Everyone else: beauty, teaching, and a profession that is not on
+                                 the list at all. Nobody should be left without an answer. -->
+                            <button type="button" data-testid="register-other"
+                                :aria-pressed="state.segment.searchAll"
+                                :class="['flex items-start gap-3 rounded-xl border bg-white p-4 text-left transition-colors',
+                                    state.segment.searchAll ? 'border-primary ring-1 ring-primary' : 'border-slate-200 hover:border-slate-300']"
+                                @click="openSearchAll">
+                                <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary-25 text-primary">
+                                    <Icon name="ph:dots-three-circle" class="size-5" aria-hidden="true" />
+                                </span>
+                                <span>
+                                    <span class="block text-sm font-semibold text-gray-900">{{ $t('register.segment.otherTile.label') }}</span>
+                                    <span class="mt-0.5 block text-xs text-gray-500">{{ $t('register.segment.otherTile.desc') }}</span>
+                                </span>
+                            </button>
+                        </div>
+
+                        <div v-if="state.segment.bucket && bucketIndustries.length > 1" data-testid="register-which">
+                            <p class="text-sm font-medium text-gray-900">{{ $t('register.segment.which') }}</p>
+                            <FormTextField v-if="state.segment.showAll" id="industry-search" name="industry-search" class="mt-2"
+                                :placeholder="$t('register.segment.search')" v-model="state.segment.query" />
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                <button v-for="option in visibleBucketIndustries" :key="option.value" type="button"
+                                    :class="industryChipClass(option)" @click="selectIndustry(option)">
+                                    {{ option.label }}
+                                </button>
+                                <button v-if="!state.segment.showAll && bucketIndustries.length > VISIBLE_BEFORE_SHOW_ALL"
+                                    type="button" class="rounded-full px-3 py-1.5 text-sm font-medium text-primary hover:underline"
+                                    @click="state.segment.showAll = true">
+                                    {{ $t('register.segment.showAll', { count: bucketIndustries.length }) }}
+                                </button>
+                            </div>
+                            <p v-if="visibleBucketIndustries.length === 0" class="mt-2 text-sm text-gray-500">{{ $t('register.segment.noMatch') }}</p>
+                        </div>
+
+                        <div v-if="state.segment.searchAll" data-testid="register-search-all">
+                            <FormTextField id="industry-search-all" name="industry-search-all"
+                                :placeholder="$t('register.segment.search')" v-model="state.segment.query" />
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                <button v-for="option in searchAllResults" :key="option.value" type="button"
+                                    :class="industryChipClass(option)" @click="selectIndustry(option)">
+                                    {{ option.label }}
+                                </button>
+                            </div>
+                            <p v-if="searchAllResults.length === 0" class="mt-2 text-sm text-gray-500">{{ $t('register.segment.noMatch') }}</p>
+                            <button v-if="otherIndustry" type="button" data-testid="register-not-listed"
+                                class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                                @click="selectIndustry(otherIndustry)">
+                                {{ $t('register.segment.notListed') }}
+                                <Icon name="ph:arrow-right" class="size-4" aria-hidden="true" />
+                            </button>
+                        </div>
+                        <FormError :error="vRulesIndustry$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
+                        <FormError :error="state?.error?.errors?.industry_uuid?.[0] ?? state?.error?.errors?.industry?.[0]" />
+                    </div>
+                    <!-- Step 2: the organisation, in the words of the answer above. -->
+                    <div class="mt-5 space-y-3" v-else-if="state.progress.currentStep === 2">
+                        <div class="space-y-1">
+                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
+                            <FormTextField id="company_name" name="company_name"
+                                :placeholder="$t(`register.about.placeholder.${panelProfile}`)"
+                                v-model="state.formRegister.company_name" />
+                            <FormError
+                                :error="vRules2$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
+                            <FormError :error="state?.error?.errors?.name?.[0]" />
+                        </div>
+                        <div class="space-y-1" v-if="selectedProfile === 'social_welfare'">
+                            <FormLabel for="facility_type_uuid" :label="$t('register.form.typeOfFacility')" />
+                            <FormSelect id="facility_type_uuid" :options="state.options.typeOfFacilities"
+                                v-model="state.formRegister.facility_type_uuid" />
+                            <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
+                        </div>
+                        <div class="space-y-1">
+                            <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
+                            <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
+                                v-model="state.formRegister.phone" />
+                            <FormError :error="state?.error?.errors?.phone?.[0]" />
+                        </div>
+                    </div>
+                    <!-- Step 3: the login, last, once the visitor has already said what they are building. -->
+                    <div class="mt-5 space-y-3" v-else>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 py-1">
                             <div class="space-y-1">
                                 <FormLabel for="firstname" :label="$t('register.form.firstname')" />
@@ -160,41 +264,6 @@
                             <FormError :error="vRules1$?.formRegister?.password?.$errors[0]?.$message.toString()" />
                             <FormError :error="state?.error?.errors?.password?.[0]" />
                         </div>
-                    </div>
-                    <div class="mt-5 space-y-3" v-else>
-                        <!-- Step 1 asks only for what the account needs. The organisation and the phone
-                             number come here, after the visitor has already committed to an account. -->
-                        <div class="space-y-1">
-                            <FormLabel for="company_name" :label="$t('register.form.companyLabel')" />
-                            <FormTextField id="company_name" name="company_name"
-                                :placeholder="$t('register.form.companyPlaceholder')"
-                                v-model="state.formRegister.company_name" />
-                            <FormError
-                                :error="vRules2$?.formRegister?.company_name?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.name?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="industry" :label="$t('register.form.industry')" />
-                            <FormSelect id="industry" :options="state.options.industries"
-                                v-model="state.formRegister.industry" />
-                            <FormError :error="vRules2$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.industry?.[0]" />
-                        </div>
-                        <div class="space-y-1"
-                            v-if="state.options.industries.find((industry: any) => industry.value === state.formRegister.industry)?.system_name === 'social_welfare'">
-                            <FormLabel for="facility_type_uuid" :label="$t('register.form.typeOfFacility')" />
-                            <FormSelect id="facility_type_uuid" :options="state.options.typeOfFacilities"
-                                v-model="state.formRegister.facility_type_uuid" />
-                            <FormError
-                                :error="vRules2$?.formRegister?.facility_type_uuid?.$errors[0]?.$message.toString()" />
-                            <FormError :error="state?.error?.errors?.facility_type_uuid?.[0]" />
-                        </div>
-                        <div class="space-y-1">
-                            <FormLabel for="phone" :label="$t('register.form.phoneOptional')" />
-                            <FormTextField id="phone" name="phone" type="tel" :placeholder="$t('register.form.phonePlaceholder')"
-                                v-model="state.formRegister.phone" />
-                            <FormError :error="state?.error?.errors?.phone?.[0]" />
-                        </div>
                         <div class="space-y-1">
                             <div class="w-fit flex items-center cursor-pointer"
                                 @click="state.formRegister.agreeToTerms = !state.formRegister.agreeToTerms">
@@ -212,9 +281,10 @@
                             </span>
                         </div>
                     </div>
-                    <div class="mt-5">
+                    <!-- Step 1 has no button: picking an answer is the step. -->
+                    <div class="mt-5" v-if="state.progress.currentStep > 1">
                         <FormButton type="submit" buttonStyle="primary" class="w-full"
-                            v-if="state.progress.currentStep === 1">
+                            v-if="state.progress.currentStep === 2">
                             {{ $t('register.form.continue') }}
                         </FormButton>
                         <FormButton type="submit" buttonStyle="primary" class="w-full" v-else>
@@ -273,7 +343,19 @@
                                     style="font-size:10px;vertical-align:super">&#x2122;</sup></span>
                         </div>
                     </div>
-                    <div class="co-mid">
+                    <!-- Once the visitor has answered, the panel shows what is being set up for
+                         exactly them, so the rest of the form is filling in for something already theirs. -->
+                    <div class="co-mid co-mid--swap" v-if="selectedIndustry" :key="panelProfile" data-testid="register-panel-profile">
+                        <div class="co-tag">{{ $t(`register.panel.${panelProfile}.tag`) }}</div>
+                        <div class="co-h1">{{ $t(`register.panel.${panelProfile}.title`) }}</div>
+                        <ul class="co-points">
+                            <li v-for="index in [0, 1, 2]" :key="index">{{ $t(`register.panel.${panelProfile}.points[${index}]`) }}</li>
+                        </ul>
+                        <ul class="co-points">
+                            <li>{{ $t('register.noCommitment') }}</li>
+                        </ul>
+                    </div>
+                    <div class="co-mid" v-else>
                         <div class="co-tag">{{ $t('login.tagline') }}</div>
                         <div class="co-h1">{{ $t('login.headlineLine1') }}<br>{{ $t('login.headlineLine2') }}</div>
                         <p class="co-desc">{{ $t('login.description') }}</p>
@@ -306,6 +388,7 @@
 // Same origin as the page, so the app on another market's domain points at itself.
 const canonicalUrl = `${useRequestURL().origin}/register`
 import { signupSourceFromQuery } from '@/composables/signupSource'
+import { BUCKETS, OTHER_INDUSTRY, VISIBLE_BEFORE_SHOW_ALL, industriesIn, industryLabel, isBucket, matchesSearch, profileOf, type IndustryOption, type SignupBucket } from '@/composables/signupSegments'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
 import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
@@ -321,7 +404,7 @@ const runtimeConfig = useRuntimeConfig()
 const userStore = useUserStore()
 const language = useI18n()
 const { successAlert } = useAlert()
-const { pushSignUpEvent } = useGtag()
+const { pushSignUpEvent, pushSignupStep } = useGtag()
 const { t } = useI18n()
 const route = useRoute()
 
@@ -346,14 +429,20 @@ const state = reactive({
     } as any,
     isPageLoading: false,
     langOpen: false,
+    // Step 1: which bucket was clicked, whether its long tail is open, and the
+    // "something else" search across every industry.
+    segment: {
+        bucket: null as SignupBucket | null,
+        showAll: false,
+        searchAll: false,
+        query: '',
+    },
     options: {
         industries: [] as any,
         typeOfFacilities: [] as any,
     },
     progress: {
         currentStep: 1,
-        currentStep1Progress: 0,
-        currentStep2Progress: 0,
     },
     slideOver: {
         isLanguageSwitcherOpen: false
@@ -390,14 +479,20 @@ const rules2 = computed(() => {
             company_name: {
                 required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
             },
-            industry: {
-                required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
-            },
         }
     }
 })
+const rulesIndustry = computed(() => ({
+    formRegister: {
+        industry: {
+            required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+        },
+    },
+}))
+// rules1 is the login (step 3), rules2 the organisation (step 2), rulesIndustry step 1.
 const vRules1$ = useVuelidate(rules1, state)
 const vRules2$ = useVuelidate(rules2, state)
+const vRulesIndustry$ = useVuelidate(rulesIndustry, state)
 
 // Where the signup came from: the website adds utm_*, gclid, landing, ref and a Salesflow sequence's sf to the register link
 // (see lib/attribution.ts in the website). Kept in sessionStorage because a Google or Microsoft
@@ -452,41 +547,88 @@ watch(() => language.locale.value, (newValue: any) => {
     }
 })
 
-// The required fields of each step, so each bar fills to the end exactly when its step is done.
-const step1Total = computed(() => (state.oauthProvider ? 3 : 4))
-const step2Total = 3
+// One bar per step, each full exactly when its step is answered. The first one
+// fills on a single click, which is the point: the visitor starts out ahead.
+const progressBars = computed(() => {
+    const isFilled = (value: unknown) => String(value ?? '').trim().length > 0
+    const account = [state.formRegister.firstname, state.formRegister.lastname, state.formRegister.email]
+    if (!state.oauthProvider) account.push(state.formRegister.password)
+    const accountDone = account.filter(isFilled).length + (state.formRegister.agreeToTerms ? 1 : 0)
 
-watch(() => ({
-    firstname: state.formRegister.firstname,
-    lastname: state.formRegister.lastname,
-    email: state.formRegister.email,
-    password: state.formRegister.password,
-}), ({ firstname, lastname, email, password }) => {
-    const isFilled = (value: unknown) => {
-        return String(value ?? "").trim().length > 0
-    }
-    let progress = 0
-    if (isFilled(firstname)) progress += 1
-    if (isFilled(lastname)) progress += 1
-    if (isFilled(email)) progress += 1
-    if (!state.oauthProvider && isFilled(password)) progress += 1
-    state.progress.currentStep1Progress = progress
-}, { immediate: true })
+    return [
+        isFilled(state.formRegister.industry) ? 1 : 0,
+        isFilled(state.formRegister.company_name) ? 1 : 0,
+        accountDone / (account.length + 1),
+    ]
+})
 
-watch(() => ({
-    company_name: state.formRegister.company_name,
-    industry: state.formRegister.industry,
-    agreeToTerms: state.formRegister.agreeToTerms,
-}), ({ company_name, industry, agreeToTerms }) => {
-    const isFilled = (value: unknown) => {
-        return String(value ?? "").trim().length > 0
-    }
-    let progress = 0
-    if (isFilled(company_name)) progress += 1
-    if (isFilled(industry)) progress += 1
-    if (agreeToTerms) progress += 1
-    state.progress.currentStep2Progress = progress
-}, { immediate: true })
+const selectedIndustry = computed<IndustryOption | undefined>(() =>
+    state.options.industries.find((option: IndustryOption) => option.value === state.formRegister.industry))
+const selectedProfile = computed(() => profileOf(selectedIndustry.value))
+// The profile the copy is written for. Beauty, teaching and unknown industries use the neutral text.
+const panelProfile = computed(() => (isBucket(selectedProfile.value) ? selectedProfile.value : 'default'))
+
+const bucketIndustries = computed(() =>
+    state.segment.bucket ? industriesIn(state.segment.bucket, state.options.industries) : [])
+const visibleBucketIndustries = computed(() => {
+    if (!state.segment.showAll) return bucketIndustries.value.slice(0, VISIBLE_BEFORE_SHOW_ALL)
+    return bucketIndustries.value.filter(option => matchesSearch(option, state.segment.query))
+})
+// "Other" is not offered as a profession of its own in the list; it is the
+// "not on the list" button below it. Missing until OtherIndustrySeeder has run.
+const otherIndustry = computed(() =>
+    (state.options.industries as IndustryOption[]).find(option => option.en_name === OTHER_INDUSTRY))
+const searchAllResults = computed(() => {
+    const all = (state.options.industries as IndustryOption[])
+        .filter(option => option.en_name !== OTHER_INDUSTRY)
+        .sort((a, b) => a.label.localeCompare(b.label))
+    return state.segment.query.trim() === '' ? all.slice(0, 12) : all.filter(option => matchesSearch(option, state.segment.query))
+})
+
+// The funnel, step by step (see useGtag().pushSignupStep). Step 1 is reported once
+// the industries are loaded, so a link that skips it is told apart from a visitor who saw it.
+const prefilled = ref(false)
+watch(() => state.progress.currentStep, (step) => {
+    const details = { profile: selectedProfile.value, industry: selectedIndustry.value?.en_name, prefilled: prefilled.value }
+    if (step === 2) pushSignupStep('about', details)
+    if (step === 3) pushSignupStep('account', details)
+})
+
+function bucketIcon(profile: string) {
+    return BUCKETS.find(bucket => bucket.key === profile)?.icon ?? 'ph:dots-three-circle'
+}
+
+function industryChipClass(option: IndustryOption) {
+    return ['rounded-full border px-3 py-1.5 text-sm transition-colors',
+        option.value === state.formRegister.industry
+            ? 'border-primary bg-primary text-white'
+            : 'border-slate-200 bg-white text-gray-800 hover:border-slate-300']
+}
+
+function selectIndustry(option: IndustryOption) {
+    state.formRegister.industry = option.value
+    if (profileOf(option) !== 'social_welfare') state.formRegister.facility_type_uuid = ''
+    state.progress.currentStep = 2
+}
+
+function chooseBucket(bucket: SignupBucket) {
+    state.segment.bucket = bucket
+    state.segment.searchAll = false
+    state.segment.showAll = false
+    state.segment.query = ''
+
+    const industries = industriesIn(bucket, state.options.industries)
+    // A dental clinic, a social service and an employment service are each one industry:
+    // the click on the bucket is the whole answer.
+    if (industries.length === 1) selectIndustry(industries[0])
+}
+
+function openSearchAll() {
+    state.segment.bucket = null
+    state.segment.showAll = false
+    state.segment.query = ''
+    state.segment.searchAll = true
+}
 
 function animateAssets() {
     const observer = new IntersectionObserver((entries) => {
@@ -521,20 +663,22 @@ function findOption(options: any[], wanted: string) {
 
     return options.find((option: any) => named(option, 'system_name'))
         ?? options.find((option: any) => named(option, 'label'))
-        ?? options.find((option: any) => named(option, 'dk_name') || named(option, 'en_name'))
+        ?? options.find((option: any) => named(option, 'dk_name') || named(option, 'en_name') || named(option, 'no_name') || named(option, 'sv_name'))
         ?? options.find((option: any) => option.value?.toLowerCase() === needle)
 }
 
 // Only fills a field the visitor has not answered yet, so an unrecognised or
 // stale link never overwrites a choice made in the form.
-function applyPreselection(field: 'industry' | 'facility_type_uuid', queryKey: string, options: any[]) {
+function applyPreselection(field: 'industry' | 'facility_type_uuid', queryKey: string, options: any[]): boolean {
     const wanted = route.query[queryKey]
 
-    if (typeof wanted !== 'string' || wanted === '' || state.formRegister[field]) return
+    if (typeof wanted !== 'string' || wanted === '' || state.formRegister[field]) return false
 
     const match = findOption(options, wanted)
 
     if (match) state.formRegister[field] = match.value
+
+    return !!match
 }
 
 async function fetchAllIndustries() {
@@ -547,14 +691,27 @@ async function fetchAllIndustries() {
             response.data.forEach(
                 (industry: any) => options.push({
                     value: industry?.uuid,
-                    label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                    label: industryLabel(industry, language.locale.value),
                     system_name: industry.system_name,
+                    profile: industry.profile,
                     dk_name: industry.dk_name,
                     en_name: industry.en_name,
+                    no_name: industry.no_name,
+                    sv_name: industry.sv_name,
                 })
             )
             state.options.industries = options
-            applyPreselection('industry', 'industry', options)
+            // The website has already asked "what do you do?" on the profession page the
+            // visitor came from, so a link that answers it skips the question here.
+            if (applyPreselection('industry', 'industry', options) && state.progress.currentStep === 1) {
+                prefilled.value = true
+                const chosen = options.find((option: IndustryOption) => option.value === state.formRegister.industry)
+                const profile = profileOf(chosen)
+                state.segment.bucket = isBucket(profile) ? profile : null
+                state.progress.currentStep = 2
+            } else if (state.progress.currentStep === 1) {
+                pushSignupStep('segment')
+            }
         }
     } catch (error: any) {
         state.error = error
@@ -588,59 +745,59 @@ async function fetchAllFacilityTypes() {
 
 async function register() {
     state.error = {}
+
     if (state.progress.currentStep === 1) {
-        vRules1$.value.$validate()
-        if (!vRules1$.value.$error) {
+        await vRulesIndustry$.value.$validate()
+        if (!vRulesIndustry$.value.$error) state.progress.currentStep = 2
+        return
+    }
+
+    if (state.progress.currentStep === 2) {
+        await vRules2$.value.$validate()
+        if (!vRules2$.value.$error) state.progress.currentStep = 3
+        return
+    }
+
+    await vRules1$.value.$validate()
+    state.agreeToTermsValidation = !state.formRegister.agreeToTerms
+
+    if (vRules1$.value.$error || !state.formRegister.agreeToTerms) return
+
+    state.isPageLoading = true
+    try {
+        const params = {
+            industry_uuid: state.formRegister.industry,
+            facility_type_uuid: state.formRegister.facility_type_uuid,
+            firstname: state.formRegister.firstname,
+            lastname: state.formRegister.lastname,
+            name: state.formRegister.company_name,
+            phone: state.formRegister.phone,
+            email: state.formRegister.email,
+            ...(state.formRegister.password ? { password: state.formRegister.password } : {}),
+            ...signupSource.value,
+        }
+        const response = await authService.register(params)
+        if (response.data) {
+            pushSignUpEvent(state.oauthProvider || 'email', signupSource.value, selectedProfile.value)
+            // The account cannot be signed into yet: the address has to be confirmed
+            // and the company switched on. Sending her to the login form said neither,
+            // so the page now says what happens next instead.
+            state.registeredEmail = state.formRegister.email
+        }
+    } catch (error: any) {
+        state.error = error
+
+        // Send the visitor back to the step that holds the field the server rejected.
+        const errors = error?.errors ?? {}
+        const has = (...keys: string[]) => keys.some(key => !!errors?.[key]?.length)
+
+        if (has('industry', 'industry_uuid')) {
+            state.progress.currentStep = 1
+        } else if (has('name', 'phone', 'facility_type_uuid')) {
             state.progress.currentStep = 2
         }
-    } else {
-        vRules2$.value.$validate()
-        if (!state.formRegister.agreeToTerms) {
-            state.agreeToTermsValidation = true
-        } else {
-            state.agreeToTermsValidation = false
-        }
-        if (!vRules2$.value.$error && state.formRegister.agreeToTerms) {
-            state.isPageLoading = true
-            try {
-                const params = {
-                    industry_uuid: state.formRegister.industry,
-                    facility_type_uuid: state.formRegister.facility_type_uuid,
-                    firstname: state.formRegister.firstname,
-                    lastname: state.formRegister.lastname,
-                    name: state.formRegister.company_name,
-                    phone: state.formRegister.phone,
-                    email: state.formRegister.email,
-                    ...(state.formRegister.password ? { password: state.formRegister.password } : {}),
-                    ...signupSource.value,
-                }
-                const response = await authService.register(params)
-                if (response.data) {
-                    pushSignUpEvent(state.oauthProvider || 'email', signupSource.value)
-                    // The account cannot be signed into yet: the address has to be confirmed
-                    // and the company switched on. Sending her to the login form said neither,
-                    // so the page now says what happens next instead.
-                    state.registeredEmail = state.formRegister.email
-                }
-            } catch (error: any) {
-                state.error = error
-
-                const errors = error?.errors
-
-                // The organisation name and the phone number are on step 2, so their errors stay there.
-                const hasStep1Error =
-                    !!errors?.firstname?.length ||
-                    !!errors?.lastname?.length ||
-                    !!errors?.email?.length ||
-                    !!errors?.password?.length
-
-                if (hasStep1Error) {
-                    state.progress.currentStep = 1
-                }
-            }
-            state.isPageLoading = false
-        }
     }
+    state.isPageLoading = false
 }
 
 function setLang(lang: string) {
@@ -873,6 +1030,12 @@ async function navigateToTAC() {
     z-index: 2;
     opacity: 0;
     animation: cofu 0.6s ease 1.4s forwards
+}
+
+/* The personalised panel replaces the first one after a click: waiting 1.4s
+   for it to fade in would read as nothing happening. */
+.co-mid--swap {
+    animation-delay: 0.05s
 }
 
 @keyframes cofu {

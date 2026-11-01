@@ -40,6 +40,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
+import { suspendedLogin } from '@/composables/billingMethod'
 import type { Error } from '@/types'
 
 const { t } = useI18n()
@@ -65,7 +66,7 @@ const props = defineProps({
         default: '',
     },
 })
-const emit = defineEmits(['close', 'requires2fa'])
+const emit = defineEmits(['close', 'requires2fa', 'suspended'])
 
 const state = reactive({
     error: {} as Error,
@@ -135,7 +136,18 @@ async function verifyOtp() {
             navigateTo(resolvePostLoginRedirect(response.data.user?.role))
         }
     } catch (error: any) {
-        state.error = error
+        // Routed like the password step: a suspended admin with 2FA goes on to the code step,
+        // anyone else sees the suspended notice on the login page.
+        const suspended = suspendedLogin(error)
+        if (suspended?.view === 'two_factor') {
+            emit('requires2fa')
+            emit('close')
+        } else if (suspended) {
+            emit('suspended', error)
+            emit('close')
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }

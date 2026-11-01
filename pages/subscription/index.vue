@@ -13,6 +13,9 @@
             <template #header>{{ $t('subscription.subscription') }}</template>
 
             <Alert type="danger" :text="error" v-if="error && error.length > 0" />
+            <!-- Reached from the free account's limit: the plan that fits the team
+                 size they gave on /discover, with the reason. -->
+            <ModulesUserOnboardingPlanRecommendation class="mt-6" />
             <div v-if="userStore.getUser?.user_subscription === null">
                 <div class="isolate mx-auto mt-10 grid max-w-lg">
                     <div class="bg-white ring-1 ring-gray-200 rounded-md p-8 xl:p-10">

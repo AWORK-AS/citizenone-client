@@ -178,7 +178,7 @@
         "reviewInvite": "Vil du dele din oplevelse med andre? En anmeldelse på Trustpilot hjælper andre tilbud med at vælge.",
         "reviewCta": "Skriv en anmeldelse",
         "error": "Svaret kunne ikke sendes. Prøv igen."
-},
+    },
     "citizenoneAttribution": {
         "portal": "Portalen leveres af CitizenOne, journalsystemet til omsorg og sundhed.",
         "setting": "Vis \"Udarbejdet i CitizenOne\" på det, I sender ud",
@@ -258,11 +258,15 @@
         "loadMore": "Vis flere ({count} mere)",
         "stageFilter": "Fase",
         "allStages": "Alle faser",
+        "discardTitle": "Luk uden at gemme?",
+        "discardMessage": "Det, du har udfyldt på henvendelsen, bliver ikke gemt.",
+        "discard": "Luk uden at gemme",
         "receiverFilter": "Modtagelseskoordinator",
         "receiverAll": "Hele teamets",
         "receiverMine": "Mine henvendelser",
         "receiverNone": "Uden modtager",
         "receivedBy": "Modtaget af {name}",
+        "responsiblePrimary": "Ansvarlig nu: {name}, primær koordinator",
         "stage": "Fase",
         "moveFailed": "Henvendelsen kunne ikke flyttes",
         "unassignedConverted": {
@@ -329,6 +333,8 @@
         "Calendar": "Kalender",
         "Contacts": "Kontakter",
         "Duty Schedule": "Vagtplan",
+        "View duty schedule": "Se vagtplan",
+        "Invoicing": "Ydelser og fakturering",
         "Employee Group": "Medarbejdergruppe",
         "Emails": "@.capitalize:terms.citizens{'s'} e-mails",
         "Reports": "Rapporter",
@@ -488,7 +494,9 @@
             "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik & booking",
-            "cases": "Sager & jobcenter"
+            "cases": "Sager & jobcenter",
+            "practice": "Praksis & booking",
+            "billing": "Fakturering"
         },
         "steps": {
             "firstNote": {
@@ -559,13 +567,13 @@
             },
             "openingHours": {
                 "title": "Åbningstider & behandlere",
-                "desc": "Sæt klinikkens åbningstider og hvem der tager patienter.",
-                "cta": "Gå til Virksomhed"
+                "desc": "Sæt åbningstider og hvem der tager imod @:terms.citizens{''}.",
+                "cta": "Gå til Bookingindstillinger"
             },
             "booking": {
                 "title": "Åbn for booking",
-                "desc": "Lav de første aftaler, og lad patienterne selv booke tid.",
-                "cta": "Gå til Booking"
+                "desc": "Opret behandlinger, der kan bookes, og lad @:terms.citizens{''} selv booke tid.",
+                "cta": "Gå til Behandlinger"
             },
             "caseTypes": {
                 "title": "Opret sagstyper",
@@ -586,6 +594,21 @@
                 "title": "Foruddefineret notatindhold",
                 "desc": "Skriv det indhold der går igen, så det kan sættes ind med ét klik.",
                 "cta": "Gå til Journalindhold"
+            },
+            "clinicData": {
+                "title": "Stamdata & kontaktpersoner",
+                "desc": "Udfyld stamdata, kontaktpersoner og helbredsoplysninger.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
+            },
+            "services": {
+                "title": "Opret ydelser og priser",
+                "desc": "Læg jeres ydelser ind, så fakturaen er klar efter besøget.",
+                "cta": "Gå til Ydelser"
+            },
+            "invoicing": {
+                "title": "Send jeres første faktura",
+                "desc": "Fakturér et besøg direkte fra journalen og følg betalingen.",
+                "cta": "Gå til Fakturering"
             }
         },
         "title": "Opdag",
@@ -2221,6 +2244,24 @@
     "chooseFile": "Vælg fil",
     "chooseFiles": "Vælg fil(er)",
     "citizens": {
+        "consultantHours": {
+            "title": "Konsulenternes timer pr. uge",
+            "hint": "Sæt hvor mange timer hver konsulent har på indsatsen, inklusive transport og administration. Uden tal deles det, de andre ikke har fået, ligeligt. To konsulenter kan godt have de samme timer ved dobbeltbemanding.",
+            "granted": "Bevilget: {hours} t/uge",
+            "grantedSplit": "kontakt {contact}, administration {admin}, transport {transport}",
+            "noGrant": "Indsatsen har ingen bevilgede timer pr. uge.",
+            "consultant": "Konsulent",
+            "given": "Sat til",
+            "counts": "Tæller som",
+            "placeholder": "Delt",
+            "givenFor": "Timer pr. uge for {name}",
+            "perWeek": "t/uge",
+            "basis": {
+                "explicit": "sat",
+                "even_split": "ligelig deling",
+                "none": "ingen bevilling"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} ikke fundet",
             "message": "@.capitalize:terms.citizenDefinite{''} findes ikke, eller du har ikke adgang."
@@ -3102,12 +3143,12 @@
             "secondaryCaseworker": "Sekundær {term}",
             "caseNumber": "Indsatsnummer",
             "caseNumberHint": "Nummeret indsatsen har i det system, den kom fra",
-            "reportingFrequency": "Rapportering til kommunen",
-            "reportingFrequencyHint": "Opretter en tilbagevendende påmindelse til alle på indsatsen med et login.",
-            "reportingStartsOn": "Første rapportering",
-            "reportDraftDaysBefore": "Internt udkast, dage før",
+            "reportingFrequency": "Hvor ofte skal kommunen have en statusrapport",
+            "reportingFrequencyHint": "Alle på indsatsen med et login får en påmindelse, når en rapport skal afleveres.",
+            "reportingStartsOn": "Første rapport skal afleveres",
+            "reportDraftDaysBefore": "Påmindelse om internt udkast (dage før fristen)",
             "reportDraftDaysBeforePlaceholder": "Fx 7",
-            "reportDraftDaysBeforeHint": "Sender en påmindelse \"Rapportudkast\" så mange dage før hver rapportering, så udkastet kan gennemses internt. Tomt betyder ingen påmindelse.",
+            "reportDraftDaysBeforeHint": "Så mange dage før hver frist får de på indsatsen en påmindelse om at skrive et udkast, som kan læses igennem internt, før rapporten sendes til kommunen. Tomt felt betyder ingen påmindelse.",
             "reportDraftDaysBeforeValue": "{days} dage før",
             "reportingOptions": {
                 "biweekly": "Hver 14. dag",
@@ -8843,7 +8884,8 @@
             "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "caseNumber": "Indsatsnummer"
         },
         "medicineSubtitle": "Konfigurer hvilke felter der er synlige i medicinens oprettelses- og redigeringsformularer.",
         "medicineTitle": "Formularfeltkonfiguration for medicin",
@@ -11583,7 +11625,117 @@
             }
         },
         "step": "Trin",
-        "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter oprettelse"
+        "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter oprettelse",
+        "segment": {
+            "title": "Hvad arbejder I med?",
+            "subtitle": "Så sætter vi CitizenOne op med jeres ord, journalskabeloner og eksempler fra jeres fag.",
+            "buckets": {
+                "dental": {
+                    "label": "Tandklinik",
+                    "desc": "Tandlæger og tandplejere"
+                },
+                "health": {
+                    "label": "Læge og sundhed",
+                    "desc": "Læger, kiropraktorer, sygeplejersker, jordemødre"
+                },
+                "therapy": {
+                    "label": "Terapi og behandling",
+                    "desc": "Psykologer, fysioterapeuter, terapeuter, coaches"
+                },
+                "social_welfare": {
+                    "label": "Socialt tilbud",
+                    "desc": "Bosteder, botilbud og dagtilbud"
+                },
+                "employment_services": {
+                    "label": "Beskæftigelse",
+                    "desc": "Beskæftigelses- og jobtilbud"
+                }
+            },
+            "which": "Hvilken faggruppe er I?",
+            "showAll": "Vis alle ({count})",
+            "search": "Søg efter jeres fag",
+            "noMatch": "Ingen faggruppe med det navn.",
+            "other": "Noget andet? Søg blandt alle faggrupper",
+            "change": "Skift",
+            "chosen": "Valgt",
+            "otherTile": {
+                "label": "Andet",
+                "desc": "Skønhed, undervisning og alle andre fag"
+            },
+            "notListed": "Vores fag er ikke på listen. Fortsæt"
+        },
+        "about": {
+            "title": "Fortæl os om jer",
+            "subtitle": "Navnet står på jeres journaler, fakturaer og mails.",
+            "placeholder": {
+                "dental": "Fx Tandklinikken på Torvet",
+                "health": "Fx Lægehuset Nørrebro",
+                "therapy": "Fx Psykolog Hansen",
+                "social_welfare": "Fx Bostedet Egely",
+                "employment_services": "Fx Jobvejen",
+                "default": "Navnet på jeres virksomhed"
+            }
+        },
+        "account": {
+            "title": "Opret din login",
+            "subtitle": "Sidste trin. Ingen binding og intet betalingskort."
+        },
+        "panel": {
+            "dental": {
+                "tag": "Til tandklinikker",
+                "title": "Klar til jeres første patient",
+                "points": [
+                    "Patientkort med tandkort og prisoverslag",
+                    "Journalskabeloner til undersøgelse, behandling og akut besøg",
+                    "Eksempelpatienter, så I kan prøve det hele med det samme"
+                ]
+            },
+            "health": {
+                "tag": "Til læger og sundhedspraksis",
+                "title": "Klar til jeres første konsultation",
+                "points": [
+                    "Journalskabeloner til konsultation, telefonkonsultation og prøvesvar",
+                    "Kalender og booking til jeres patienter",
+                    "Eksempelpatienter, så I kan prøve det hele med det samme"
+                ]
+            },
+            "therapy": {
+                "tag": "Til terapeuter og behandlere",
+                "title": "Klar til jeres første session",
+                "points": [
+                    "Skabeloner til første samtale, sessioner og status på mål",
+                    "Kalender, online booking og fakturering",
+                    "Eksempelklienter, så I kan prøve det hele med det samme"
+                ]
+            },
+            "social_welfare": {
+                "tag": "Til sociale tilbud",
+                "title": "Klar til jeres første vagt",
+                "points": [
+                    "Skabeloner til daglig observation, opfølgning og hændelser",
+                    "Medicin, vagtplan og magtanvendelse samlet ét sted",
+                    "Eksempelborgere, så I kan prøve det hele med det samme"
+                ]
+            },
+            "employment_services": {
+                "tag": "Til beskæftigelsestilbud",
+                "title": "Klar til jeres første forløb",
+                "points": [
+                    "Skabeloner til opfølgningssamtaler, praktikbesøg og statusnotater",
+                    "Sager, jobcentre og fremmøde samlet ét sted",
+                    "Eksempelborgere, så I kan prøve det hele med det samme"
+                ]
+            },
+            "default": {
+                "tag": "Tilpasset jeres fag",
+                "title": "Klar til jeres første kunde",
+                "points": [
+                    "Journalskabeloner til første besøg og forløb",
+                    "Kalender, booking og fakturering",
+                    "Eksempeldata, så I kan prøve det hele med det samme"
+                ]
+            }
+        }
     },
     "relationships": {
         "addNewRelationship": "Tilføj nyt forhold",
@@ -12126,7 +12278,9 @@
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} påkrævet ved Gennemført",
                 "calendarNoteRequiredHint": "Vælger man Gennemført på en aftale med en @:terms.citizen{''}, åbnes @:terms.journalNote{''}, og aftalen markeres som gennemført, når det gemmes. Ikke gennemført kræver intet notat",
                 "missingNoteCoordinatorReminder": "Påmind koordinator om manglende @:terms.journalNote{''}",
-                "missingNoteCoordinatorReminderHint": "Et døgn efter en aftale sluttede uden notat, får sagens primære koordinator også en påmindelse, og koordinatorer og ledere ser aftalerne på Min dag. Kræver, at påmindelsen om aftaler uden notat er slået til",
+                "missingNoteCoordinatorReminderHint": "Når fristen er gået uden notat efter en aftale, får sagens primære koordinator også en påmindelse, og koordinatorer og ledere ser aftalerne på Min dag. Kræver, at påmindelsen om aftaler uden notat er slået til",
+                "missingNoteDeadline": "Frist for notat efter en aftale",
+                "missingNoteDeadlineHours": "{hours} timer",
                 "certificateReminderAllRecipients": "Påmindelser om attester til alle administratorer og medarbejderen",
                 "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dækningsgrad for medarbejdere",
@@ -12216,6 +12370,7 @@
                 "termCaseworker": "Sagsbehandler",
                 "termCase": "Sag",
                 "termAgreement": "Aftale",
+                "termMotherTongue": "Modersmål",
                 "termJobcenter": "Jobcenter",
                 "website": "Hjemmeside",
                 "ipRestriction": "IP-begrænsning",
@@ -13008,7 +13163,15 @@
             "remove": "Fjern"
         },
         "currentSubscription": "Nuværende abonnement",
-        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Jeres abonnement er en specificeret aftale med CitizenOne.", "agreementText": "Specificeret aftale – priser og vilkår følger jeres aftale med CitizenOne.", "usage": "{used} af {total} {label} i brug", "contact": "Kontakt os", "contactHelp": "Skriv til CitizenOne om jeres aftale, priser eller ændringer."},
+        "enterprise": {
+            "title": "CitizenOne Enterprise",
+            "badge": "Enterprise",
+            "badgeHelp": "Jeres abonnement er en specificeret aftale med CitizenOne.",
+            "agreementText": "Specificeret aftale – priser og vilkår følger jeres aftale med CitizenOne.",
+            "usage": "{used} af {total} {label} i brug",
+            "contact": "Kontakt os",
+            "contactHelp": "Skriv til CitizenOne om jeres aftale, priser eller ændringer."
+        },
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "admin": "Admin",
@@ -13128,7 +13291,7 @@
                 "passive": "neutral",
                 "detractor": "kritiker"
             }
-    },
+        },
         "funnel": {
             "loops": {
                 "title": "Vækstløkker",
@@ -13567,7 +13730,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Tilføj licenser",
-                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
@@ -15644,7 +15807,13 @@
                 "addPlanHelp": "Åbner aftalen med rateplanen som en liste og en tom række på fornyelsesdatoen.",
                 "mrrEstimated": "skønnet",
                 "mrrEstimatedHelp": "Kontrakt-MRR indeholder en fornyelse uden rateplan og er derfor et skøn ud fra listepriserne.",
-                "billing": {"by_agreement": "Aftales med salg", "upfront": "Samlet ved fornyelse", "yearly": "Årligt", "monthly": "Månedligt", "plan": "Som betalingsplanen"},
+                "billing": {
+                    "by_agreement": "Aftales med salg",
+                    "upfront": "Samlet ved fornyelse",
+                    "yearly": "Årligt",
+                    "monthly": "Månedligt",
+                    "plan": "Som betalingsplanen"
+                },
                 "sources": {
                     "list_price": "Listepris",
                     "override": "Fast pris",
@@ -18832,7 +19001,121 @@
             "offer_revised": "Tilbud revideres"
         }
     },
+    "consultantCapacity": {
+        "title": "Kapacitet",
+        "perWeek": "t/uge",
+        "allocated": "Tildelt",
+        "registered": "Registreret (snit 4 uger)",
+        "desired": "Ønsket",
+        "free": "Ledig",
+        "case": "Indsats",
+        "granted": "Bevilget på indsatsen",
+        "basis": {
+            "explicit": "sat for konsulenten",
+            "even_split": "delt ligeligt mellem {count}",
+            "none": "Ingen bevilgede timer"
+        },
+        "hints": {
+            "explicit": "Tildelte timer er sat for konsulenten på hver indsats. Transport og administration tæller med.",
+            "even_split": "Tildelte timer er beregnet: indsatsens bevilgede timer delt ligeligt mellem konsulenterne på den. Sæt timerne pr. konsulent under Kontakter for et præcist tal.",
+            "mixed": "Tildelte timer er sat for konsulenten på nogle indsatser og beregnet som en ligelig deling på resten. Transport og administration tæller med.",
+            "none": "Konsulenten står ikke på aktive indsatser med bevilgede timer."
+        }
+    },
+    "recruitment": {
+        "title": "Rekruttering",
+        "description": "Akut og strategisk rekruttering samt genmatch, når en indsats, der allerede kører, skal have en ny konsulent. Almindelige nye henvendelser bruger rekrutteringsfasen på henvendelsen.",
+        "new": "Ny rekruttering",
+        "newTitle": "Ny rekruttering",
+        "editTitle": "Rediger rekruttering",
+        "create": "Opret",
+        "save": "Gem",
+        "edit": "Rediger",
+        "delete": "Slet",
+        "deleteConfirm": "Vil du slette rekrutteringen? Historikken slettes ikke.",
+        "export": "Eksporter til Excel",
+        "allTypes": "Alle typer",
+        "allStatuses": "Alle statusser",
+        "none": "Ingen",
+        "system": "Systemet",
+        "openInquiry": "Åbn henvendelse",
+        "startRematch": "Start genmatch",
+        "chooseConsultant": "Vælg konsulent",
+        "chooseTitle": "Vælg konsulent",
+        "chooseText": "{name} bliver valgt som konsulent, og rekrutteringen markeres som løst.",
+        "addToCitizen": "Tilføj som konsulent på {name}",
+        "solved": "Rekrutteringen er løst.",
+        "solvedAndAdded": "Rekrutteringen er løst, og konsulenten er tilføjet på borgeren.",
+        "outcome": "Udfald",
+        "openHint": "Find en konsulent i søgningen og vælg konsulenten, eller luk rekrutteringen som ikke løst.",
+        "closeNotSolved": "Luk som ikke løst",
+        "closedNotSolved": "Lukket som ikke løst.",
+        "solvedWith": "Løst med {name} den {date}.",
+        "reopen": "Genåbn",
+        "history": "Historik",
+        "addNote": "Tilføj note",
+        "historyCreated": "Oprettede rekrutteringen",
+        "historyStatus": "Ændrede status fra {from} til {to}",
+        "historyUpdated": "Ændrede {fields}",
+        "types": {
+            "acute": "Akut rekruttering",
+            "strategic": "Strategisk rekruttering",
+            "rematch": "Genmatch"
+        },
+        "typeHints": {
+            "acute": "Der skal findes en konsulent hurtigt til en konkret sag.",
+            "strategic": "Rekruttering i forvejen, fx af et sprog eller et område, hvor I mangler konsulenter.",
+            "rematch": "En indsats, der allerede kører, skal have en ny konsulent, fx fordi konsulenten stopper."
+        },
+        "statuses": {
+            "open": "Åben",
+            "solved": "Løst",
+            "not_solved": "Ikke løst"
+        },
+        "fields": {
+            "type": "Type",
+            "title": "Titel",
+            "citizen": "Borger",
+            "citizenRequired": "Borger (indsatsen)",
+            "inquiry": "Henvendelse",
+            "responsible": "Ansvarlig",
+            "createdBy": "Oprettet af",
+            "createdAt": "Oprettet",
+            "status": "Status",
+            "needs": "Behov",
+            "requirements": "Krav (kompetencer, sprog, område)",
+            "outcomeNote": "Note om udfaldet"
+        },
+        "placeholders": {
+            "title": "Fx konsulent til familie i Aarhus",
+            "citizen": "Vælg borger",
+            "responsible": "Vælg ansvarlig",
+            "needs": "Hvad skal konsulenten hjælpe med",
+            "requirements": "Fx arabisk, bil, Østjylland",
+            "note": "Skriv en note",
+            "outcomeNote": "Fx hvorfor konsulenten blev valgt",
+            "notSolvedNote": "Fx hvorfor der ikke blev fundet en konsulent"
+        },
+        "changedFields": {
+            "type": "type",
+            "title": "titel",
+            "needs": "behov",
+            "requirements": "krav",
+            "citizen_id": "borger",
+            "inquiry_data_id": "henvendelse",
+            "responsible_user_id": "ansvarlig",
+            "created_by_user_id": "oprettet af",
+            "chosen_consultant_id": "valgt konsulent",
+            "solved_at": "løst den",
+            "outcome_note": "note om udfaldet",
+            "status": "status"
+        }
+    },
     "consultantMatch": {
+        "export": "Eksportér til Excel",
+        "exporting": "Eksporterer...",
+        "exportHint": "Alle konsulenter med kontaktoplysninger, status, kompetencer og aktive indsatser. Fratrådte er ikke med.",
+        "exportFileName": "Konsulenter",
         "title": "Konsulentmatch",
         "generalTitle": "Konsulentsøgning",
         "generalDescription": "Find konsulenter på navn, kompetencer, sprog, sted, status, bil og kørekort. Alle konsulenter vises, også dem der kun matcher delvist, med det de mangler.",
@@ -18846,21 +19129,27 @@
         "notReady": "Kan ikke sættes på sag",
         "archived": "Arkiveret - kan kontaktes",
         "activeCases": "{count} aktiv indsats | {count} aktive indsatser",
+        "freeCapacity": "Ledig kapacitet: {hours} t/uge",
+        "freeCapacityHint": "Ønsker {desired} t/uge og er tildelt {allocated} t/uge på aktive indsatser",
         "archivedOnCases": "Arkiveret uden login, men står på {count} aktive indsatser. Genaktivér medarbejderen og giv en licens.",
         "archivedHint": "Genaktiveres med en licens, når konsulenten vælges til sagen",
         "notNotified": "{count} konsulent fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne. | {count} konsulenter fik ikke besked: inaktive konsulenter får ingen mail eller besked i appen. Kontakt dem direkte, pr. telefon eller mail uden for CitizenOne.",
+        "toldVia": "{name} fik besked på {channels}.",
+        "notReached": "{name} blev ikke nået. Kontakt dem direkte.",
         "nameSearch": "Søg konsulent på navn",
         "openProfile": "Åbn profil",
-        "resultSummary": "{total} konsulenter, heraf {full} med fuldt match på {criteria} kriterier.",
+        "resultSummary": "{total} konsulenter, heraf {full} der opfylder alle {criteria} søgekriterier. Matchet sammenligner kun med de registrerede oplysninger på profilen og vurderer ikke den faglige egnethed.",
+        "resultSummaryNoCriteria": "{total} konsulenter. Vælg kriterier for at se, hvem der passer til sagen.",
         "matches": {
-            "full": "Fuldt match",
-            "partial": "Delvist match ({met} af {asked})",
-            "none": "Intet match"
+            "full": "Opfylder alle kriterier",
+            "partial": "Opfylder {met} af {asked} kriterier",
+            "none": "Opfylder ingen kriterier"
         },
         "form": {
             "spokenLanguages": "Talte sprog",
             "travelsUpToKm": "Kører op til (km)",
             "minAvailableHours": "Minimum antal timer konsulenten har til rådighed",
+            "minFreeWeeklyHours": "Mindst ledig kapacitet (t/uge)",
             "languagesAndDialects": "Sprog og dialekter",
             "languagesHint": "Sprog medarbejderen taler. Konsulenten matcher, hvis vedkommende taler et af de valgte sprog.",
             "minTravelKm": "Skal køre mindst (km)",
@@ -18882,6 +19171,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Trinvurdering",
             "min_weekly_hours": "Timetal",
+            "min_free_weekly_hours": "Ledig kapacitet",
             "primary_spoken_language_uuid": "Primært sprog",
             "within_travel_range": "Inden for køreafstand"
         },
@@ -18986,6 +19276,11 @@
         "markDeclined": "Sagde nej",
         "askedBy": "spurgt af {name}",
         "answeredBy": "svar registreret af {name}",
+        "answerTitle": "Registrer svar fra {name}",
+        "answerHint": "Svaret registreres på konsulentens vegne:",
+        "answerNote": "Note (valgfri)",
+        "answerNotePlaceholder": "Fx hvad I aftalte i telefonen",
+        "answerSave": "Gem svar",
         "unknownConsultant": "Ukendt",
         "failed": "Handlingen kunne ikke gennemføres",
         "statuses": {
@@ -18997,12 +19292,19 @@
             "title": "Sager du er spurgt om",
             "empty": "Du er ikke spurgt om nogen sager.",
             "yes": "Ja tak",
+            "languages": "Sprog: {languages}",
+            "reporting": "Rapport {frequency}",
             "no": "Nej tak",
             "answered": "Du har svaret"
         },
         "cannotBeChosen": "Markeret efter invitationen og kan ikke vælges til sagen",
         "contactDirectly": "Kontakt direkte",
-        "contactDirectlyHint": "Inaktive konsulenter får ingen mail eller besked i appen om sagen. Kontakt dem direkte. Udpeg genaktiverer dem med en licens."
+        "contactDirectlyHint": "Inaktive konsulenter får ingen mail eller besked i appen om sagen. Kontakt dem direkte. Udpeg genaktiverer dem med en licens.",
+        "howToldHelp": "Aktive konsulenter får en mail og en besked i appen. Har I SMS-appen, får de også en SMS uden oplysninger om borgeren. En inaktiv konsulent uden licens får kun SMS og kan svare dig pr. telefon. Du registrerer svaret med Sagde ja eller Sagde nej.",
+        "toldVia": "fik besked på {channels}",
+        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "notReached": "Ikke nået",
+        "notReachedHint": "Konsulenten fik hverken mail, besked i appen eller SMS. Kontakt dem direkte, og registrer svaret med Sagde ja eller Sagde nej."
     },
     "taskBoards": {
         "actions": {
@@ -19607,7 +19909,7 @@
         "location": "Lokation",
         "locationPlaceholder": "Adresse eller område, fx Vesterbro",
         "postalCode": "Postnummer",
-        "reportingHint": "Følger med til borgeren, når sagen vindes, og starter påmindelsen om rapportering.",
+        "reportingHint": "Følger med til indsatsen, når henvendelsen vindes. Herfra starter påmindelserne om rapporter.",
         "pending": "Placeres på kortet om lidt",
         "unavailable": "Ikke placeret på kortet: kortopslag er ikke sat op, så der vises ingen afstand",
         "notFound": "Kunne ikke findes på kortet. Tjek adressen eller angiv et postnummer",
@@ -19818,7 +20120,9 @@
         "byMonth": "Per måned",
         "serviceType": "Indsatstype",
         "month": "Måned",
-        "noServiceType": "Uden indsatstype"
+        "noServiceType": "Uden indsatstype",
+        "includeImported": "Medtag migrerede henvendelser",
+        "includeImportedHint": "{count} henvendelser i perioden er flyttet over fra et tidligere system. De tæller ikke med i tallene, medmindre du vælger det."
     },
     "inquiryOffer": {
         "title": "Tilbud",
@@ -20825,6 +21129,319 @@
             "hide": "Skjul",
             "resultTitle": "Afstemning: {question}",
             "savedToNotes": "Resultatet er gemt i mødets noter."
+        }
+    },
+    "teamSize": {
+        "title": "Hvor mange er I?",
+        "desc": "Så viser vi kun det, der giver mening for jer. Det tager ét klik.",
+        "skip": "Spring over",
+        "options": {
+            "solo": "Kun mig",
+            "2-4": "2-4",
+            "5-10": "5-10",
+            "11+": "11 eller flere"
+        },
+        "thanks": "Tak. Listen nedenfor er tilpasset jer.",
+        "plan": {
+            "basis": {
+                "title": "Basis passer til jer",
+                "desc": "I er {size}. Basis har 2 brugere inkluderet og plads til op til 4, så hele teamet kan logge ind."
+            },
+            "pro": {
+                "title": "Pro passer til jer",
+                "desc": "I er {size}. Pro har 4 brugere inkluderet, og I kan tilføje flere, efterhånden som I vokser."
+            },
+            "cta": "Se planer"
+        }
+    },
+    "consultantCalendar": {
+        "title": "Konsulentkalender",
+        "description": "Se konsulenternes aftaler på tværs af alle deres indsatser, og book en konsulent.",
+        "consultants": "Konsulenter",
+        "views": {
+            "week": "Uge",
+            "month": "Måned"
+        },
+        "previous": "Forrige",
+        "next": "Næste",
+        "today": "I dag",
+        "week": "Uge {number}",
+        "book": "Book konsulent",
+        "bookTitle": "Book konsulent",
+        "pickConsultant": "Vælg en eller flere konsulenter for at se deres kalender.",
+        "totals": {
+            "planned": "Planlagt i perioden",
+            "citizens": "Heraf borgeraftaler",
+            "meetings": "Personalemøder/supervision",
+            "all": "I alt planlagt: {planned}. Personalemøder/supervision: {meetings}."
+        },
+        "hours": "{hours} t",
+        "more": "{count} mere",
+        "list": "Aftaler i perioden",
+        "empty": "Ingen aftaler i perioden.",
+        "busy": "Optaget",
+        "cancelled": "Aflyst",
+        "workTypes": {
+            "citizen": "Borgeraftale",
+            "ordinary": "Almindelig aftale",
+            "staff_meeting": "Personalemøde",
+            "supervision": "Supervision"
+        },
+        "seeCalendar": "Se kalender",
+        "booked": "Konsulenten er booket.",
+        "form": {
+            "consultant": "Konsulent",
+            "type": "Type",
+            "citizen": "Borger",
+            "workTimeHint": "Personalemøder og supervision tæller som arbejdstid og vises på deres egen linje i timeoversigten."
+        }
+    },
+    "paymentDunning": {
+        "nav": {
+            "billingProblems": "Betalingsproblemer"
+        },
+        "invoices": {
+            "resolvedChip": "Løst ved genforsøg",
+            "resolvedHelp": "Betalingen blev afvist, men et senere genforsøg lykkedes. Tæller ikke med under Afvist.",
+            "failedTabHelp": "Kun uløste afviste betalinger. Løste forsøg vises som Løst ved genforsøg.",
+            "resolvedTab": "Løst ved genforsøg"
+        },
+        "problems": {
+            "title": "Betalingsproblemer",
+            "intro": "Virksomheder, der er bagud, lukkede eller klar til lukning. Faktura-kunder lukkes aldrig automatisk.",
+            "empty": "Ingen betalingsproblemer lige nu",
+            "emptyFiltered": "Ingen virksomheder matcher filteret",
+            "loadFailed": "Kunne ikke hente betalingsproblemer",
+            "refresh": "Opdater listen",
+            "filterAll": "Alle statusser",
+            "col": {
+                "company": "Virksomhed",
+                "method": "Betalingsmåde",
+                "outstanding": "Udestående",
+                "daysOverdue": "Dage over forfald",
+                "warnings": "Sendte advarsler",
+                "closesOn": "Lukkes",
+                "status": "Status"
+            },
+            "status": {
+                "ready_to_close": "Klar til lukning",
+                "past_due": "Bagud",
+                "overdue": "Forfalden",
+                "suspended": "Lukket"
+            },
+            "method": {
+                "card": "Kort",
+                "invoice": "Faktura"
+            },
+            "securityCard": "Kort som sikkerhed",
+            "overCap": "Over beløbsloftet: manuel opfølgning",
+            "noClosingDate": "Ingen dato",
+            "readOnly": "Du kan se listen, men ikke ændre noget.",
+            "action": {
+                "retry": "Prøv igen nu",
+                "send_card_link": "Send link til nyt kort",
+                "charge_security_card": "Træk sikkerhedskort nu",
+                "close": "Luk nu",
+                "reopen": "Genåbn",
+                "postpone": "Udsæt",
+                "revoke_security_card": "Fjern sikkerhedskort",
+                "retry_unknown_charge": "Genforsøg med samme nøgle"
+            },
+            "help": {
+                "retry": "Forsøger at trække det udestående beløb på kundens kort nu.",
+                "send_card_link": "Sender administratorerne et link, hvor de kan tilknytte et nyt kort.",
+                "charge_security_card": "Trækker den ubetalte faktura på kundens sikkerhedskort. Kan ikke fortrydes.",
+                "charge_security_card_disabled": "Kræver kort som sikkerhed slået til, et aktivt sikkerhedskort og en forfalden faktura.",
+                "close": "Lukker virksomheden, så brugerne ser siden om manglende betaling. Kan ikke ske for virksomheder med en løbende aftale.",
+                "reopen": "Åbner virksomheden igen med det samme og udsætter rykkerne i det antal dage, du vælger.",
+                "postpone": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger.",
+                "revoke_security_card": "Fjerner kundens sikkerhedskort. Kortet trækkes aldrig mere. Kortet slettes ikke hos Nexi.",
+                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen."
+            },
+            "dialog": {
+                "title": {
+                    "retry": "Prøv at trække beløbet igen",
+                    "send_card_link": "Send link til nyt kort",
+                    "charge_security_card": "Træk sikkerhedskortet",
+                    "close": "Luk virksomheden",
+                    "reopen": "Genåbn virksomheden",
+                    "postpone": "Udsæt rykkerforløbet",
+                    "revoke_security_card": "Fjern sikkerhedskortet",
+                    "retry_unknown_charge": "Genforsøg med samme nøgle"
+                },
+                "about": "{company}: {amount} udestående",
+                "noteLabel": "Begrundelse",
+                "noteHelp": "Skrives i aktivitetsloggen sammen med dit navn.",
+                "notePlaceholder": "Fx: aftalt med kunden i dag",
+                "noteRequired": "Skriv en begrundelse.",
+                "daysLabel": "Antal dage",
+                "daysHelp": "Mellem 1 og 90 dage.",
+                "daysInvalid": "Vælg et helt antal dage mellem 1 og 90.",
+                "confirm": "Bekræft",
+                "cancel": "Annuller",
+                "daysLabelReopen": "Antal dage uden rykkere efter genåbning",
+                "optional": "valgfri",
+                "closeConfirm": "Virksomhedens brugere ser siden om manglende betaling, indtil den genåbnes.",
+                "revokeConfirm": "Kortet trækkes aldrig mere, heller ikke på fakturaer, der allerede er forfaldne. Kunden kan tilknytte et nyt kort.",
+                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det."
+            },
+            "done": {
+                "retry": "Forsøget er sat i gang",
+                "send_card_link": "Linket er sendt",
+                "charge_security_card": "Sikkerhedskortet er forsøgt trukket",
+                "close": "Virksomheden er lukket",
+                "reopen": "Virksomheden er åbnet igen",
+                "postpone": "Rykkerforløbet er udsat",
+                "revoke_security_card": "Sikkerhedskortet er fjernet",
+                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle"
+            },
+            "failed": "Handlingen mislykkedes",
+            "openCompany": "Åbn virksomheden",
+            "postponedUntil": "Udsat til {date}",
+            "invoiceStatus": {
+                "noticed": "Varslet",
+                "charging": "Trækker",
+                "pending": "Afventer bank",
+                "charged": "Trukket",
+                "declined": "Afvist",
+                "over_cap": "Over loft",
+                "unknown": "Afventer Nexi"
+            },
+            "invoiceStatusHelp": "Status for træk på sikkerhedskortet for denne faktura.",
+            "securityCardLine": "Kort •••• {last_four} (udløber {expiry})",
+            "needsNexiCheck": "Tjek i Nexi-portalen",
+            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages."
+        },
+        "company": {
+            "title": "Betalingsmåde",
+            "intro": "Hvordan virksomheden betaler for licenser og abonnement. Kun superadmin med økonomirettigheder kan ændre det.",
+            "card": "Kort",
+            "invoice": "Faktura",
+            "cardHelp": "Beløb trækkes automatisk på kundens betalingskort.",
+            "invoiceHelp": "Der sendes en faktura med betaling inden 3 dage. Kortet trækkes ikke, medmindre kort som sikkerhed er slået til.",
+            "cardSecurity": "Kort som sikkerhed",
+            "cardSecurityHelp": "Kunden tilknytter et kort uden træk. En faktura, der er ubetalt 7 dage efter forfald, trækkes på kortet efter en varsel 2 dage før.",
+            "leverandorservice": "Leverandørservice",
+            "leverandorserviceHelp": "Kunden betaler via Leverandørservice. Gælder for alle fakturaer til virksomheden.",
+            "cardState": "Sikkerhedskort",
+            "cardAttached": "{masked} (udløber {expiry})",
+            "cardMissing": "Mangler",
+            "cardMissingHelp": "Kundens administrator bliver bedt om at tilknytte et kort. Du kan sende et link fra Betalingsproblemer.",
+            "agreementNote": "Virksomheden har en løbende aftale. Nye licenser kobles til aftalen som tilkøb, uanset betalingsmåde.",
+            "save": "Gem betalingsmåde",
+            "saveHelp": "Gemmer kun betalingsmåden. Resten af virksomhedens oplysninger røres ikke.",
+            "saved": "Betalingsmåden er gemt",
+            "saveFailed": "Kunne ikke gemme betalingsmåden",
+            "loadFailed": "Kunne ikke hente betalingsmåden",
+            "readOnly": "Du kan se betalingsmåden, men kun økonomi kan ændre den."
+        },
+        "grant": {
+            "card": "Kunden betaler med kort: licenserne opkræves på kortet med det samme.",
+            "invoice": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne med betaling inden 3 dage.",
+            "invoice_economic": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne med betaling inden 3 dage, og en kladde i e-conomic, når e-conomic er slået til.",
+            "agreement": "Virksomheden har en aftale: licenserne lægges til aftalen som tilkøb.",
+            "methodUnknown": "Betalingsmåden kunne ikke hentes. Tjek sektionen Betalingsmåde under Oversigt, før du fortsætter.",
+            "changeMethod": "Skift betalingsmåde",
+            "changeMethodHelp": "Betalingsmåden er en virksomhedsindstilling og ændres under Oversigt.",
+            "invoiceCreated": "Faktura {number} er oprettet og forfalder {date}",
+            "agreementAddOnHint": "Licenserne er knyttet til aftalen. Tilføj tilkøbsraten under Aftaler, så fakturaen ikke sendes to gange."
+        },
+        "customer": {
+            "method": "Betalingsmåde",
+            "invoiceMethod": "Faktura",
+            "invoiceMethodHelp": "Vi sender en faktura, og den skal betales inden 3 dage. Der vises ingen kortpris.",
+            "securityCard": "Betalingskort som sikkerhed: {masked} (udløber {expiry})",
+            "securityCardHelp": "Kortet trækkes kun, hvis en faktura er ubetalt 7 dage efter forfald, og I har fået en varsel 2 dage før.",
+            "changeCard": "Skift kort",
+            "changeCardHelp": "Tilknyt et andet betalingskort som sikkerhed. Der trækkes ikke noget nu.",
+            "attachCard": "Tilknyt kort",
+            "bannerTitle": "Tilknyt et betalingskort som sikkerhed",
+            "bannerBody": "Jeres aftale har kort som sikkerhed. Der trækkes ikke noget ved tilknytning.",
+            "bannerAdminOnly": "En administrator skal tilknytte et betalingskort som sikkerhed.",
+            "consentHelp": "Samtykket og tidspunktet gemmes.",
+            "consentRequired": "Sæt kryds i samtykket for at fortsætte.",
+            "cardSaved": "Kortet er tilknyttet som sikkerhed",
+            "cardFailed": "Kortet kunne ikke tilknyttes. Prøv igen, eller kontakt supporten.",
+            "cancel": "Annuller",
+            "loadFailed": "Kunne ikke hente samtykketeksten. Prøv igen.",
+            "consentCheckbox": "Jeg har læst teksten ovenfor og giver samtykke",
+            "removeCard": "Fjern kort",
+            "removeCardHelp": "Fjerner sikkerhedskortet. Det trækkes aldrig mere, og I kan tilknytte et nyt senere.",
+            "removeCardConfirm": "Vil I fjerne sikkerhedskortet? Det trækkes aldrig mere.",
+            "cardRemoved": "Sikkerhedskortet er fjernet"
+        },
+        "suspended": {
+            "title": "Betaling mangler – opdater betalingskort",
+            "adminBody": "Jeres konto er lukket, fordi betalingen ikke blev gennemført. Opdater betalingskortet, så åbner vi kontoen igen med det samme.",
+            "updateCard": "Opdater betalingskort",
+            "updateCardHelp": "Åbner betalingen, hvor du kan indtaste et nyt kort. Kontoen åbnes, når betalingen lykkes.",
+            "contactTitle": "Betaling mangler",
+            "contactBody": "Kontakt jeres administrator. Kun en administrator kan opdatere betalingskortet.",
+            "days": "Kontoen lukkes om {days} dage, hvis betalingen ikke gennemføres."
+        },
+        "paused": {
+            "ai": "Betaling mangler for AI-kapacitet – opdater kortet for at genaktivere",
+            "sms": "Betaling mangler for SMS – opdater kortet for at genaktivere",
+            "adminOnly": "Kontakt jeres administrator, som kan opdatere kortet.",
+            "updateCard": "Opdater kort",
+            "updateCardHelp": "Går til siden, hvor du kan opdatere kortet og genaktivere ydelsen."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (styres under Betalingsmåde)",
+            "yes": "Ja",
+            "no": "Nej",
+            "unknown": "ukendt",
+            "help": "Om kunden betaler via Leverandørservice er en virksomhedsindstilling. Den afgør, om servicegebyret på 295 kr. kræves.",
+            "link": "Skift under Betalingsmåde",
+            "linkHelp": "Åbner virksomhedens oversigt, hvor Betalingsmåde kan ændres."
+        },
+        "grantApp": {
+            "methodFromCompany": "Betalingsmåden følger virksomheden og kan ikke ændres her.",
+            "methodDefaultHelp": "Foreslået ud fra virksomhedens betalingsmåde. Kortkunder kan vælge en anden pr. tildeling."
+        },
+        "invoiceOverdue": {
+            "title": "Faktura ikke betalt",
+            "body": "Jeres faktura er ikke betalt. Kontakt os, så finder vi en løsning og holder kontoen åben.",
+            "contact": "Kontakt os",
+            "contactHelp": "Åbner en e-mail til CitizenOnes support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "Betalingen er gennemført",
+                "pending": "Betalingen er sendt til banken og afventer. Den er ikke betalt endnu.",
+                "declined": "Kortet blev afvist, og der er ikke trukket noget. Opdater kortet, eller prøv et andet.",
+                "no_card": "Der er intet betalingskort registreret. Opdater betalingskortet først.",
+                "not_applicable": "Der er intet at betale lige nu.",
+                "unknown": "Vi kunne ikke se, om betalingen gik igennem. Prøv igen om lidt."
+            },
+            "charge": {
+                "charged": "Sikkerhedskortet er trukket, og fakturaen er betalt",
+                "pending": "Trækket er sendt til banken og afventer. Fakturaen er ikke betalt endnu.",
+                "declined": "Sikkerhedskortet blev afvist. Rykkerforløbet er startet.",
+                "unknown": "Afventer svar fra Nexi – trækket må ikke gentages. Fakturaen afstemmes automatisk."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "Betalingsudbyderen kan ikke nås lige nu. Der er ikke ændret noget. Prøv igen om lidt.",
+            "payment_problem_no_card": "Virksomheden har intet betalingskort at trække på.",
+            "payment_problem_action_not_available": "Handlingen passer ikke til virksomhedens tilstand. Opdater listen.",
+            "payment_problem_close_blocked": "Virksomheden har en løbende aftale og kan ikke lukkes for manglende betaling.",
+            "card_security_disabled": "Kort som sikkerhed er ikke slået til i systemet.",
+            "card_security_over_cap": "Beløbet er over loftet for sikkerhedskort og skal følges op manuelt.",
+            "card_security_consent_required": "Samtykket er ikke gældende længere. Luk og åbn dialogen igen, og giv samtykke på ny.",
+            "card_security_not_applicable": "Kort som sikkerhed gælder kun fakturakunder.",
+            "plan_change_invoice_company": "Virksomheden betaler med faktura. Skift planen fra licensoversigten, så den faktureres.",
+            "card_security_agreement_changed": "Kortet, forsøget blev sendt til, er fjernet eller udskiftet siden. Det kan ikke gentages med samme nøgle. Tjek trækket i Nexi-portalen.",
+            "renewal_not_available": "Opdatering af betalingskort er ikke tilgængelig lige nu. Kontakt support, hvis kontoen er lukket.",
+            "impersonation_not_allowed": "Kan ikke udføres, mens support er logget ind som kunden."
+        },
+        "agreement": {
+            "cardSecurity": "Kort som sikkerhed",
+            "cardSecurityHelp": "Aftalens fakturaer kan trækkes på kundens sikkerhedskort, når de er ubetalte. Store beløb ligger ofte over loftet og følges op manuelt.",
+            "cardSecuritySaved": "Kort som sikkerhed er opdateret på aftalen"
+        },
+        "suspendedPage": {
+            "loading": "Henter status..."
         }
     }
 }
