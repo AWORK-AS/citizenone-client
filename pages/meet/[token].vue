@@ -11,10 +11,11 @@
             <LoadingSpinner :isActive="state.isLoading">
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
-                <div v-if="state.info" class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
-                    <MeetingRoom :connect="connect" :give-consent="giveConsent" :is-waiting="state.waiting">
+                <div v-if="state.info" :class="state.inRoom ? '' : 'px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-2xl'">
+                    <MeetingRoom :connect="connect" :give-consent="giveConsent" :is-waiting="state.waiting"
+                        @joined="state.inRoom = true" @left="state.inRoom = false">
                         <template #info>
-                            <p class="text-lg font-semibold text-[#0f2b46]">
+                            <p class="text-sm text-gray-700">
                                 {{ $t('meetings.guest.invitedBy', { host: state.info.host_name, company: state.info.company_name }) }}
                             </p>
                             <p class="text-sm text-gray-600">
@@ -49,6 +50,7 @@ const state = reactive({
     info: null as any,
     isLoading: true,
     waiting: false,
+    inRoom: false,
     error: {} as any,
 })
 

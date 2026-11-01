@@ -8,92 +8,110 @@
 
             <template #header>{{ $t('meetings.title') }}</template>
 
-            <button type="button" class="flex items-center gap-x-2 mb-3 max-w-fit" @click="navigateTo('/meetings')">
-                <Icon name="ph:arrow-left" size="20" class="text-black" />
-                <span>{{ $t('back') }}</span>
-            </button>
+            <NuxtLink to="/meetings" class="inline-flex items-center gap-1.5 mb-4 text-sm text-gray-500 hover:text-[#0f2b46]">
+                <Icon name="ph:arrow-left" class="h-4 w-4" /> {{ $t('meetings.title') }}
+            </NuxtLink>
 
             <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
             <Alert type="default" :text="state.notice" v-if="state.notice" />
 
             <LoadingSpinner :isActive="state.isLoading && !meeting">
-                <div v-if="meeting" class="space-y-5">
-                    <!-- Summary -->
-                    <div class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
-                        <div class="flex flex-wrap items-start justify-between gap-4">
-                            <div class="space-y-1">
-                                <h2 class="text-xl font-semibold text-[#0f2b46]">{{ meeting.title }}</h2>
-                                <p class="text-sm text-gray-600">
-                                    {{ formatDate(meeting.next_starts_at || meeting.starts_at) }} · {{ formatTime(meeting.next_starts_at || meeting.starts_at) }}-{{ formatTime(meeting.next_ends_at || meeting.ends_at) }}
-                                </p>
-                                <p v-if="meeting.recurrence" class="text-sm text-gray-600 flex items-center gap-1">
-                                    <Icon name="ph:repeat" class="h-4 w-4" />
-                                    {{ $t(`meetings.recurrence.${meeting.recurrence}`) }} · {{ $t('meetings.recurrence.until', { date: formatDate(meeting.recurrence_until) }) }}
-                                </p>
-                                <p class="text-sm text-gray-600">
-                                    {{ $t('meetings.host') }}: {{ meeting.is_host ? $t('meetings.you') : meeting.host?.name }}
-                                    <span v-if="meeting.citizen"> · {{ meeting.citizen.name }}</span>
-                                    <span v-else-if="meeting.has_citizen"> · {{ $t('meetings.detail.aboutCitizen') }}</span>
-                                </p>
-                                <p v-if="meeting.description" class="text-sm text-gray-700 whitespace-pre-line pt-1">{{ meeting.description }}</p>
-                                <span class="inline-block text-xs rounded-full px-2 py-0.5 bg-gray-100">
+                <div v-if="meeting" class="space-y-6">
+                    <!-- Header: what, when, who - one compact block, actions on the right. -->
+                    <div class="flex flex-wrap items-start justify-between gap-4">
+                        <div class="min-w-0 space-y-2">
+                            <div class="flex flex-wrap items-center gap-3">
+                                <h2 class="text-2xl font-semibold text-[#0f2b46] truncate">{{ meeting.title }}</h2>
+                                <span class="text-xs font-medium rounded-full px-2.5 py-0.5" :class="statusClass(meeting.status)">
                                     {{ $t(`meetings.status.${meeting.status}`) }}
                                 </span>
                             </div>
-                            <div class="flex flex-wrap gap-2" v-if="isOpen && !state.inRoom">
-                                <FormButton type="button" buttonStyle="primary" @click="state.showRoom = true">
-                                    <Icon name="ph:video-camera" class="h-4 w-4 mr-1" /> {{ $t('meetings.detail.join') }}
-                                </FormButton>
-                                <template v-if="meeting.is_host">
-                                    <FormButton type="button" buttonStyle="secondary" @click="state.editing = !state.editing">
-                                        {{ $t('meetings.detail.edit') }}
-                                    </FormButton>
-                                    <FormButton type="button" buttonStyle="danger" @click="state.confirmCancel = true">
-                                        {{ $t('meetings.detail.cancelMeeting') }}
-                                    </FormButton>
-                                </template>
+                            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-600">
+                                <span class="inline-flex items-center gap-1.5">
+                                    <Icon name="ph:calendar-blank" class="h-4 w-4 text-gray-400" />
+                                    {{ formatDate(meeting.next_starts_at || meeting.starts_at) }}
+                                </span>
+                                <span class="inline-flex items-center gap-1.5">
+                                    <Icon name="ph:clock" class="h-4 w-4 text-gray-400" />
+                                    {{ formatTime(meeting.next_starts_at || meeting.starts_at) }}-{{ formatTime(meeting.next_ends_at || meeting.ends_at) }}
+                                </span>
+                                <span v-if="meeting.recurrence" class="inline-flex items-center gap-1.5">
+                                    <Icon name="ph:repeat" class="h-4 w-4 text-gray-400" />
+                                    {{ $t(`meetings.recurrence.${meeting.recurrence}`) }} {{ $t('meetings.recurrence.until', { date: formatDate(meeting.recurrence_until) }) }}
+                                </span>
+                                <span class="inline-flex items-center gap-1.5">
+                                    <Icon name="ph:user-circle" class="h-4 w-4 text-gray-400" />
+                                    {{ $t('meetings.host') }}: {{ meeting.is_host ? $t('meetings.you') : meeting.host?.name }}
+                                </span>
+                                <span v-if="meeting.citizen || meeting.has_citizen" class="inline-flex items-center gap-1.5">
+                                    <Icon name="ph:identification-badge" class="h-4 w-4 text-gray-400" />
+                                    {{ meeting.citizen ? meeting.citizen.name : $t('meetings.detail.aboutCitizen') }}
+                                </span>
                             </div>
+                            <p v-if="meeting.description" class="text-sm text-gray-600 whitespace-pre-line max-w-3xl">{{ meeting.description }}</p>
                         </div>
-                        <div v-if="state.editing" class="mt-6 border-t pt-6 max-w-3xl">
-                            <MeetingForm :meeting="meeting" @saved="onEdited" />
+                        <div class="flex items-center gap-2" v-if="isOpen && !state.inRoom">
+                            <button v-if="!state.showRoom" type="button"
+                                class="h-10 px-5 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white text-sm font-semibold inline-flex items-center gap-2"
+                                @click="state.showRoom = true">
+                                <Icon name="ph:video-camera" class="h-4 w-4" /> {{ $t('meetings.detail.join') }}
+                            </button>
+                            <ModulesUserCitizenRowActionMenu v-if="meeting.is_host" :items="headerActions" buttonSize="sm" />
                         </div>
                     </div>
 
-                    <!-- The room -->
-                    <div v-if="state.showRoom && isOpen" class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg">
+                    <div v-if="state.editing" class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-2xl max-w-3xl">
+                        <MeetingForm :meeting="meeting" @saved="onEdited" />
+                    </div>
+
+                    <!-- Lobby: guests waiting to be let in (host). -->
+                    <div v-if="meeting.is_host && waiting.length" class="rounded-2xl border border-amber-200 bg-amber-50 p-4">
+                        <p class="text-sm font-semibold text-[#0f2b46] mb-2 flex items-center gap-2">
+                            <Icon name="ph:door-open" class="h-4 w-4" /> {{ $t('meetings.lobby.title') }}
+                        </p>
+                        <div v-for="participant in waiting" :key="participant.uuid" class="flex items-center justify-between gap-3 py-1.5">
+                            <span class="flex items-center gap-2 text-sm">
+                                <span class="h-8 w-8 rounded-full bg-white text-[#0f2b46] text-xs font-semibold flex items-center justify-center ring-1 ring-amber-200">
+                                    {{ initials(participant.name) }}
+                                </span>
+                                {{ participant.name }}
+                            </span>
+                            <div class="flex gap-2">
+                                <button type="button" class="h-9 px-4 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white text-sm font-medium" @click="admit(participant)">{{ $t('meetings.lobby.admit') }}</button>
+                                <button type="button" class="h-9 px-4 rounded-full bg-white ring-1 ring-gray-200 hover:bg-gray-50 text-sm" @click="deny(participant)">{{ $t('meetings.lobby.deny') }}</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- The room: a card before joining, the dark stage on its own while in the call. -->
+                    <div v-if="state.showRoom && isOpen"
+                        :class="state.inRoom ? '' : 'px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-2xl'">
                         <MeetingRoom ref="roomRef" :connect="connect" :give-consent="giveConsent" can-share-screen
                             @joined="onJoined" @left="onLeft">
                             <template #info>
-                                <p class="text-lg font-semibold">{{ meeting.title }}</p>
-                                <p class="text-sm text-gray-500">{{ formatTime(meeting.starts_at) }}-{{ formatTime(meeting.ends_at) }}</p>
+                                <p class="text-sm text-gray-600 flex items-center gap-1.5">
+                                    <Icon name="ph:calendar-blank" class="h-4 w-4 text-gray-400" />
+                                    {{ meeting.title }} · {{ formatTime(meeting.next_starts_at || meeting.starts_at) }}-{{ formatTime(meeting.next_ends_at || meeting.ends_at) }}
+                                </p>
+                                <p v-if="inRoomNames.length" class="text-sm text-gray-500">
+                                    {{ $t('meetings.room.alreadyIn', { names: inRoomNames.join(', ') }) }}
+                                </p>
                             </template>
                             <template #controls="{ recording }">
                                 <template v-if="meeting.is_host">
-                                    <button type="button" class="h-12 px-4 rounded-full flex items-center gap-2 text-sm"
-                                        :class="recording ? 'bg-red-600 text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                                    <button type="button" class="h-11 px-4 rounded-full flex items-center gap-2 text-sm font-medium transition"
+                                        :class="recording ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-white/10 text-white hover:bg-white/20'"
                                         :disabled="state.recordingBusy" @click="recording ? stopRecording() : startRecording()">
-                                        <Icon name="ph:record-fill" class="h-5 w-5" :class="recording ? 'text-white' : 'text-red-600'" />
+                                        <Icon name="ph:record-fill" class="h-5 w-5" :class="recording ? 'text-white' : 'text-red-500'" />
                                         {{ recording ? $t('meetings.host_controls.stopRecording') : $t('meetings.host_controls.record') }}
                                     </button>
-                                    <button type="button" class="h-12 px-4 rounded-full border border-red-300 text-red-700 hover:bg-red-50 text-sm"
+                                    <button type="button" class="h-11 px-4 rounded-full ring-1 ring-red-400/50 text-red-300 hover:bg-red-500/10 text-sm"
                                         @click="finishForEveryone">
                                         {{ $t('meetings.host_controls.endForEveryone') }}
                                     </button>
                                 </template>
                             </template>
                         </MeetingRoom>
-
-                        <!-- Lobby: guests waiting to be let in -->
-                        <div v-if="meeting.is_host && waiting.length" class="mt-4 border border-amber-300 bg-amber-50 rounded-md p-4">
-                            <p class="font-medium mb-2">{{ $t('meetings.lobby.title') }}</p>
-                            <div v-for="participant in waiting" :key="participant.uuid" class="flex items-center justify-between gap-3 py-1">
-                                <span>{{ participant.name }}</span>
-                                <div class="flex gap-2">
-                                    <FormButton type="button" buttonStyle="primary" @click="admit(participant)">{{ $t('meetings.lobby.admit') }}</FormButton>
-                                    <FormButton type="button" buttonStyle="cancel" @click="deny(participant)">{{ $t('meetings.lobby.deny') }}</FormButton>
-                                </div>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
@@ -519,6 +537,29 @@ async function deleteRecording() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+const headerActions = computed(() => [
+    { key: 'edit', label: t('meetings.detail.edit'), icon: 'ph:pencil-simple', run: () => { state.editing = !state.editing } },
+    { key: 'cancel', label: t('meetings.detail.cancelMeeting'), icon: 'ph:x-circle', danger: true, run: () => { state.confirmCancel = true } },
+])
+
+// Who is already in the room, shown before joining.
+const inRoomNames = computed(() => (state.meeting?.participants ?? [])
+    .filter((p: any) => p.state === 'in_room')
+    .map((p: any) => p.name))
+
+function initials(name: string) {
+    return (name || '?').split(' ').filter(Boolean).slice(0, 2).map((part) => part[0]).join('').toUpperCase()
+}
+
+function statusClass(status: string) {
+    return {
+        scheduled: 'bg-[#f0faf9] text-[#1b6d8a]',
+        live: 'bg-green-50 text-green-700',
+        finished: 'bg-gray-100 text-gray-600',
+        cancelled: 'bg-red-50 text-red-700',
+    }[status] ?? 'bg-gray-100 text-gray-600'
 }
 
 const formatDate = (value: string) => moment(value).format('DD-MM-YYYY')

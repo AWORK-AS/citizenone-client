@@ -1,58 +1,73 @@
 <template>
-    <div class="space-y-4">
-        <!-- Before joining: see yourself, pick camera and microphone. -->
-        <div v-if="state.phase === 'prejoin' || state.phase === 'waiting'" class="grid grid-cols-1 lg:grid-cols-3 gap-5">
-            <div class="lg:col-span-2 relative aspect-video bg-gray-900 rounded-lg overflow-hidden">
+    <div>
+        <!-- Before joining: a compact preview with the toggles on the picture. -->
+        <div v-if="state.phase === 'prejoin' || state.phase === 'waiting'"
+            class="mx-auto max-w-5xl grid grid-cols-1 md:grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-6 md:gap-10 items-center">
+            <div class="relative w-full aspect-video rounded-2xl overflow-hidden bg-[#0f2b46] shadow-sm">
                 <video ref="previewEl" autoplay muted playsinline class="w-full h-full object-cover -scale-x-100"
                     v-show="state.cameraOn && state.hasPreview" />
                 <div v-if="!state.cameraOn || !state.hasPreview"
-                    class="absolute inset-0 flex items-center justify-center text-gray-300">
-                    <Icon name="ph:video-camera-slash" class="h-12 w-12" />
+                    class="absolute inset-0 flex flex-col items-center justify-center gap-2 text-white/70">
+                    <Icon name="ph:video-camera-slash" class="h-10 w-10" />
+                    <p class="text-sm">{{ $t('meetings.room.cameraIsOff') }}</p>
+                </div>
+
+                <div class="absolute inset-x-0 bottom-0 pt-10 pb-3 flex justify-center gap-3 bg-gradient-to-t from-black/60 to-transparent">
+                    <button type="button" :class="roundButton(!state.microphoneOn, true)"
+                        :title="state.microphoneOn ? $t('meetings.room.muteMicrophone') : $t('meetings.room.unmuteMicrophone')"
+                        :aria-pressed="!state.microphoneOn" @click="state.microphoneOn = !state.microphoneOn">
+                        <Icon :name="state.microphoneOn ? 'ph:microphone' : 'ph:microphone-slash'" class="h-5 w-5" />
+                    </button>
+                    <button type="button" :class="roundButton(!state.cameraOn, true)"
+                        :title="state.cameraOn ? $t('meetings.room.turnCameraOff') : $t('meetings.room.turnCameraOn')"
+                        :aria-pressed="!state.cameraOn" @click="state.cameraOn = !state.cameraOn">
+                        <Icon :name="state.cameraOn ? 'ph:video-camera' : 'ph:video-camera-slash'" class="h-5 w-5" />
+                    </button>
+                    <button v-if="state.blurSupported" type="button" :class="roundButton(false, true, state.blur)"
+                        :disabled="!state.cameraOn" :aria-pressed="state.blur"
+                        :title="state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff')" @click="toggleBlur">
+                        <Icon name="ph:person-simple-circle" class="h-5 w-5" />
+                    </button>
+                    <button type="button" :class="roundButton(false, true, state.showSettings)" :aria-pressed="state.showSettings"
+                        :title="$t('meetings.room.settings')" @click="state.showSettings = !state.showSettings">
+                        <Icon name="ph:gear-six" class="h-5 w-5" />
+                    </button>
                 </div>
             </div>
-            <div class="space-y-4">
-                <slot name="info" />
+
+            <div class="space-y-5">
                 <div class="space-y-1">
-                    <FormLabel for="meeting-camera" :label="$t('meetings.room.camera')" />
-                    <select id="meeting-camera" v-model="state.cameraId" @change="startPreview"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                        <option v-for="d in state.cameras" :key="d.deviceId" :value="d.deviceId">
-                            {{ d.label || $t('meetings.room.camera') }}
-                        </option>
-                    </select>
+                    <h3 class="text-2xl font-semibold text-[#0f2b46]">{{ $t('meetings.room.ready') }}</h3>
+                    <slot name="info" />
                 </div>
-                <div class="space-y-1">
-                    <FormLabel for="meeting-microphone" :label="$t('meetings.room.microphone')" />
-                    <select id="meeting-microphone" v-model="state.microphoneId" @change="startPreview"
-                        class="w-full border border-gray-300 rounded-md px-3 py-2 text-sm">
-                        <option v-for="d in state.microphones" :key="d.deviceId" :value="d.deviceId">
-                            {{ d.label || $t('meetings.room.microphone') }}
-                        </option>
-                    </select>
+
+                <div v-if="state.showSettings" class="space-y-3 rounded-xl border border-gray-200 p-4">
+                    <label class="block space-y-1">
+                        <span class="flex items-center gap-1.5 text-xs font-medium text-gray-500">
+                            <Icon name="ph:video-camera" class="h-4 w-4" /> {{ $t('meetings.room.camera') }}
+                        </span>
+                        <select v-model="state.cameraId" @change="startPreview"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                            <option v-for="d in state.cameras" :key="d.deviceId" :value="d.deviceId">
+                                {{ d.label || $t('meetings.room.camera') }}
+                            </option>
+                        </select>
+                    </label>
+                    <label class="block space-y-1">
+                        <span class="flex items-center gap-1.5 text-xs font-medium text-gray-500">
+                            <Icon name="ph:microphone" class="h-4 w-4" /> {{ $t('meetings.room.microphone') }}
+                        </span>
+                        <select v-model="state.microphoneId" @change="startPreview"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm bg-white">
+                            <option v-for="d in state.microphones" :key="d.deviceId" :value="d.deviceId">
+                                {{ d.label || $t('meetings.room.microphone') }}
+                            </option>
+                        </select>
+                    </label>
                 </div>
-                <div class="flex gap-2">
-                    <button type="button" class="flex-1 flex items-center justify-center gap-2 border rounded-md py-2 text-sm"
-                        :class="state.cameraOn ? 'border-gray-300' : 'border-red-300 bg-red-50 text-red-700'"
-                        @click="state.cameraOn = !state.cameraOn">
-                        <Icon :name="state.cameraOn ? 'ph:video-camera' : 'ph:video-camera-slash'" class="h-5 w-5" />
-                        {{ state.cameraOn ? $t('meetings.room.cameraOn') : $t('meetings.room.cameraOff') }}
-                    </button>
-                    <button type="button" class="flex-1 flex items-center justify-center gap-2 border rounded-md py-2 text-sm"
-                        :class="state.microphoneOn ? 'border-gray-300' : 'border-red-300 bg-red-50 text-red-700'"
-                        @click="state.microphoneOn = !state.microphoneOn">
-                        <Icon :name="state.microphoneOn ? 'ph:microphone' : 'ph:microphone-slash'" class="h-5 w-5" />
-                        {{ state.microphoneOn ? $t('meetings.room.microphoneOn') : $t('meetings.room.microphoneOff') }}
-                    </button>
-                </div>
-                <button v-if="state.blurSupported" type="button" class="w-full flex items-center justify-center gap-2 border rounded-md py-2 text-sm"
-                    :class="state.blur ? 'border-primary bg-primary/5 text-primary' : 'border-gray-300'"
-                    :disabled="!state.cameraOn" @click="toggleBlur">
-                    <Icon name="ph:person-simple-circle" class="h-5 w-5" />
-                    {{ state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff') }}
-                </button>
 
                 <!-- A meeting that is being recorded is only entered with consent. -->
-                <label v-if="state.needsConsent" class="flex items-start gap-2 text-sm bg-amber-50 border border-amber-200 rounded-md p-3">
+                <label v-if="state.needsConsent" class="flex items-start gap-2 text-sm bg-amber-50 border border-amber-200 rounded-xl p-3">
                     <input type="checkbox" v-model="state.consent" class="mt-0.5" />
                     <span>{{ $t('meetings.room.consentToEnter') }}</span>
                 </label>
@@ -60,26 +75,40 @@
                 <Alert type="danger" :text="state.deviceError" v-if="state.deviceError" />
                 <Alert type="danger" :text="state.joinError" v-if="state.joinError" />
 
-                <div v-if="state.phase === 'waiting'" class="flex items-center gap-2 text-sm text-gray-600">
-                    <Icon name="ph:hourglass-medium" class="h-5 w-5 animate-pulse" />
+                <div v-if="state.phase === 'waiting'" class="flex items-center gap-3 rounded-xl bg-[#f0faf9] px-4 py-3 text-sm text-[#0f2b46]">
+                    <Icon name="ph:hourglass-medium" class="h-5 w-5 animate-pulse text-[#1b6d8a]" />
                     {{ waitingText || $t('meetings.room.waitingToBeLetIn') }}
                 </div>
-                <FormButton v-else type="button" buttonStyle="primary" class="w-full"
+                <button v-else type="button"
+                    class="w-full h-12 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white font-semibold transition disabled:opacity-50"
                     :disabled="state.isJoining || (state.needsConsent && !state.consent)" @click="join">
                     {{ $t('meetings.room.join') }}
-                </FormButton>
-                <p class="text-xs text-gray-500">{{ $t('meetings.room.privacyNote') }}</p>
+                </button>
+
+                <p class="flex items-center gap-1.5 text-xs text-gray-500">
+                    <Icon name="ph:lock-simple" class="h-3.5 w-3.5" /> {{ $t('meetings.room.privacyNote') }}
+                </p>
             </div>
         </div>
 
-        <!-- In the meeting. -->
-        <div v-else-if="state.phase === 'connected' || state.phase === 'connecting'" class="space-y-3">
-            <div v-if="state.recording" class="flex items-center gap-2 bg-red-50 border border-red-200 text-red-800 rounded-md px-3 py-2 text-sm">
-                <span class="h-2.5 w-2.5 rounded-full bg-red-600 animate-pulse" />
-                {{ $t('meetings.room.recordingNow') }}
+        <!-- In the meeting: a dark stage with the people, chat beside, controls below. -->
+        <div v-else-if="state.phase === 'connected' || state.phase === 'connecting'"
+            class="relative rounded-2xl bg-[#0b1726] p-3 sm:p-4 space-y-3">
+            <div class="flex items-center justify-between gap-3 text-white/80 text-sm min-h-7">
+                <div class="flex items-center gap-2">
+                    <span v-if="state.recording" class="inline-flex items-center gap-1.5 rounded-full bg-red-600/90 px-2.5 py-1 text-xs font-medium text-white">
+                        <span class="h-2 w-2 rounded-full bg-white animate-pulse" /> {{ $t('meetings.room.recordingPill') }}
+                    </span>
+                    <span v-if="state.reconnecting" class="inline-flex items-center gap-1.5 rounded-full bg-amber-500/90 px-2.5 py-1 text-xs font-medium text-black">
+                        {{ $t('meetings.room.reconnecting') }}
+                    </span>
+                </div>
+                <span class="inline-flex items-center gap-1.5 text-xs">
+                    <Icon name="ph:users" class="h-4 w-4" /> {{ $t('meetings.room.participantsCount', { count: cameraTiles.length }) }}
+                </span>
             </div>
 
-            <div v-if="state.phase === 'connecting'" class="aspect-video bg-gray-900 rounded-lg flex flex-col items-center justify-center gap-3 text-gray-200">
+            <div v-if="state.phase === 'connecting'" class="aspect-video rounded-xl flex flex-col items-center justify-center gap-3 text-white/70">
                 <Icon name="ph:spinner" class="h-10 w-10 animate-spin" />
                 <p>{{ $t('meetings.room.connecting') }}</p>
             </div>
@@ -101,106 +130,115 @@
                             :is-local="tile.isLocal" :microphone-muted="tile.microphoneMuted" :speaking="tile.speaking"
                             :hand-raised="tile.handRaised" />
                     </div>
-                    <p v-if="cameraTiles.length === 1" class="text-center text-sm text-gray-500">
+                    <p v-if="cameraTiles.length === 1" class="text-center text-sm text-white/60">
                         {{ $t('meetings.room.aloneInMeeting') }}
                     </p>
                 </div>
 
-                <!-- Chat: lives only in the call (LiveKit data messages), nothing is stored. -->
-                <aside v-if="state.chatOpen" class="lg:w-80 shrink-0 border border-gray-200 rounded-lg flex flex-col max-h-[60vh] lg:max-h-none">
-                    <div class="px-3 py-2 border-b flex items-center justify-between">
-                        <p class="font-medium text-sm">{{ $t('meetings.room.chat') }}</p>
-                        <button type="button" class="text-gray-500 hover:text-black" :title="$t('meetings.room.closeChat')" @click="state.chatOpen = false">
+                <!-- Chat and files: only in the call (LiveKit data channel), nothing is stored. -->
+                <aside v-if="state.chatOpen"
+                    class="lg:w-80 shrink-0 rounded-xl bg-white flex flex-col max-h-[60vh] lg:max-h-[70vh]">
+                    <div class="px-4 py-3 border-b border-gray-100 flex items-center justify-between">
+                        <p class="font-semibold text-sm text-[#0f2b46]">{{ $t('meetings.room.chat') }}</p>
+                        <button type="button" class="text-gray-400 hover:text-gray-700" :title="$t('meetings.room.closeChat')" @click="state.chatOpen = false">
                             <Icon name="ph:x" class="h-4 w-4" />
                         </button>
                     </div>
-                    <div ref="chatList" class="flex-1 overflow-y-auto p-3 space-y-2 text-sm min-h-[12rem]">
-                        <p v-if="!state.messages.length" class="text-gray-500 text-xs">{{ $t('meetings.room.chatEmpty') }}</p>
-                        <div v-for="(message, index) in state.messages" :key="index" :class="message.mine ? 'text-right' : ''">
-                            <p class="text-xs text-gray-500">{{ message.mine ? $t('meetings.you') : message.name }} · {{ message.time }}</p>
-                            <p class="inline-block rounded-lg px-3 py-1.5 whitespace-pre-wrap break-words max-w-full"
-                                :class="message.mine ? 'bg-primary text-white' : 'bg-gray-100'">{{ message.text }}</p>
+                    <div ref="chatList" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm min-h-[12rem]">
+                        <p v-if="!state.messages.length" class="text-gray-400 text-xs text-center pt-6">{{ $t('meetings.room.chatEmpty') }}</p>
+                        <div v-for="(message, index) in state.messages" :key="index" class="flex flex-col"
+                            :class="message.mine ? 'items-end' : 'items-start'">
+                            <p class="text-[11px] text-gray-400 mb-0.5">{{ message.mine ? $t('meetings.you') : message.name }} · {{ message.time }}</p>
+                            <a v-if="message.file" :href="message.file.url" :download="message.file.name"
+                                class="inline-flex items-center gap-2 rounded-2xl px-3 py-2 max-w-full border"
+                                :class="message.mine ? 'bg-[#0f4c75] text-white border-[#0f4c75]' : 'bg-gray-50 border-gray-200 text-[#0f2b46]'">
+                                <Icon :name="message.file.sending ? 'ph:spinner' : 'ph:file-arrow-down'" class="h-5 w-5 shrink-0" :class="message.file.sending && 'animate-spin'" />
+                                <span class="min-w-0">
+                                    <span class="block truncate font-medium">{{ message.file.name }}</span>
+                                    <span class="block text-[11px] opacity-70">{{ formatSize(message.file.size) }}</span>
+                                </span>
+                            </a>
+                            <p v-else class="inline-block rounded-2xl px-3 py-2 whitespace-pre-wrap break-words max-w-full"
+                                :class="message.mine ? 'bg-[#0f4c75] text-white' : 'bg-gray-100 text-gray-900'">{{ message.text }}</p>
                         </div>
                     </div>
-                    <form class="border-t p-2 flex gap-2" @submit.prevent="sendChat">
+                    <p v-if="state.fileError" class="px-4 pb-1 text-xs text-red-600">{{ state.fileError }}</p>
+                    <form class="border-t border-gray-100 p-2 flex items-center gap-1.5" @submit.prevent="sendChat">
+                        <input ref="fileInput" type="file" class="hidden" @change="sendFile" />
+                        <button type="button" class="h-9 w-9 shrink-0 rounded-full text-gray-500 hover:bg-gray-100 flex items-center justify-center"
+                            :title="$t('meetings.room.attachFile')" @click="fileInput?.click()">
+                            <Icon name="ph:paperclip" class="h-5 w-5" />
+                        </button>
                         <input v-model="state.draft" type="text" maxlength="1000" :placeholder="$t('meetings.room.chatPlaceholder')"
-                            class="flex-1 border border-gray-300 rounded-md px-2 py-1.5 text-sm" />
-                        <button type="submit" class="px-3 rounded-md bg-primary text-white disabled:opacity-50" :disabled="!state.draft.trim()"
-                            :title="$t('meetings.room.send')">
+                            class="flex-1 min-w-0 border border-gray-200 rounded-full px-3 py-2 text-sm" />
+                        <button type="submit" class="h-9 w-9 shrink-0 rounded-full bg-[#0f4c75] text-white flex items-center justify-center disabled:opacity-40"
+                            :disabled="!state.draft.trim()" :title="$t('meetings.room.send')">
                             <Icon name="ph:paper-plane-right" class="h-4 w-4" />
                         </button>
                     </form>
-                    <p class="px-3 pb-2 text-[11px] text-gray-500">{{ $t('meetings.room.chatNotSaved') }}</p>
+                    <p class="px-4 pb-3 text-[11px] text-gray-400">{{ $t('meetings.room.chatNotSaved') }}</p>
                 </aside>
             </div>
 
             <div ref="audioContainer" class="hidden" />
 
-            <Alert type="warning" :text="$t('meetings.room.reconnecting')" v-if="state.reconnecting" />
-            <div v-if="state.audioBlocked" class="flex justify-center">
-                <FormButton type="button" buttonStyle="primary" @click="enableAudio">
-                    {{ $t('meetings.room.enableSound') }}
-                </FormButton>
-            </div>
-
-            <!-- Somebody asked to record: everyone else answers here. -->
-            <div v-if="state.consentRequestFrom" class="border border-amber-300 bg-amber-50 rounded-md p-4 space-y-3">
-                <p class="text-sm">{{ $t('meetings.room.consentQuestion', { name: state.consentRequestFrom }) }}</p>
-                <div class="flex gap-2">
-                    <FormButton type="button" buttonStyle="primary" @click="answerConsent(true)">
-                        {{ $t('meetings.room.consentYes') }}
-                    </FormButton>
-                    <FormButton type="button" buttonStyle="secondary" @click="answerConsent(false)">
-                        {{ $t('meetings.room.consentNo') }}
-                    </FormButton>
+            <!-- Prompts float over the stage. -->
+            <div v-if="state.consentRequestFrom || state.notice || state.audioBlocked"
+                class="absolute left-1/2 -translate-x-1/2 top-14 z-10 w-[min(28rem,calc(100%-2rem))] space-y-2">
+                <div v-if="state.consentRequestFrom" class="rounded-xl bg-white shadow-lg p-4 space-y-3">
+                    <p class="text-sm text-gray-900">{{ $t('meetings.room.consentQuestion', { name: state.consentRequestFrom }) }}</p>
+                    <div class="flex gap-2">
+                        <FormButton type="button" buttonStyle="primary" @click="answerConsent(true)">{{ $t('meetings.room.consentYes') }}</FormButton>
+                        <FormButton type="button" buttonStyle="cancel" @click="answerConsent(false)">{{ $t('meetings.room.consentNo') }}</FormButton>
+                    </div>
+                </div>
+                <div v-if="state.audioBlocked" class="rounded-xl bg-white shadow-lg p-3 flex items-center justify-between gap-3 text-sm">
+                    <span>{{ $t('meetings.room.soundBlocked') }}</span>
+                    <FormButton type="button" buttonStyle="primary" @click="enableAudio">{{ $t('meetings.room.enableSound') }}</FormButton>
+                </div>
+                <div v-if="state.notice" class="rounded-xl bg-white/95 shadow-lg px-4 py-2.5 text-sm text-gray-800 flex items-start justify-between gap-3">
+                    <span>{{ state.notice }}</span>
+                    <button type="button" class="text-gray-400 hover:text-gray-700" @click="state.notice = ''"><Icon name="ph:x" class="h-4 w-4" /></button>
                 </div>
             </div>
 
-            <div v-if="state.notice" class="text-center text-sm text-gray-600">{{ state.notice }}</div>
-
-            <div class="flex flex-wrap items-center justify-center gap-3">
-                <button type="button" class="h-12 w-12 rounded-full flex items-center justify-center"
-                    :class="state.microphoneOn ? 'bg-gray-200 hover:bg-gray-300' : 'bg-red-600 text-white'"
+            <!-- Controls -->
+            <div class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 pt-1">
+                <button type="button" :class="roundButton(!state.microphoneOn)"
                     :title="state.microphoneOn ? $t('meetings.room.muteMicrophone') : $t('meetings.room.unmuteMicrophone')"
-                    @click="toggleMicrophone">
-                    <Icon :name="state.microphoneOn ? 'ph:microphone' : 'ph:microphone-slash'" class="h-6 w-6" />
+                    :aria-pressed="!state.microphoneOn" @click="toggleMicrophone">
+                    <Icon :name="state.microphoneOn ? 'ph:microphone' : 'ph:microphone-slash'" class="h-5 w-5" />
                 </button>
-                <button type="button" class="h-12 w-12 rounded-full flex items-center justify-center"
-                    :class="state.cameraOn ? 'bg-gray-200 hover:bg-gray-300' : 'bg-red-600 text-white'"
+                <button type="button" :class="roundButton(!state.cameraOn)"
                     :title="state.cameraOn ? $t('meetings.room.turnCameraOff') : $t('meetings.room.turnCameraOn')"
-                    @click="toggleCamera">
-                    <Icon :name="state.cameraOn ? 'ph:video-camera' : 'ph:video-camera-slash'" class="h-6 w-6" />
+                    :aria-pressed="!state.cameraOn" @click="toggleCamera">
+                    <Icon :name="state.cameraOn ? 'ph:video-camera' : 'ph:video-camera-slash'" class="h-5 w-5" />
                 </button>
-                <button v-if="canShareScreen" type="button"
-                    class="h-12 w-12 rounded-full flex items-center justify-center"
-                    :class="state.screenSharing ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                <button v-if="state.blurSupported && state.cameraOn" type="button" :class="roundButton(false, false, state.blur)"
+                    :aria-pressed="state.blur" :title="state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff')" @click="toggleBlur">
+                    <Icon name="ph:person-simple-circle" class="h-5 w-5" />
+                </button>
+                <button v-if="canShareScreen" type="button" :class="roundButton(false, false, state.screenSharing)"
+                    :aria-pressed="state.screenSharing"
                     :title="state.screenSharing ? $t('meetings.room.stopSharing') : $t('meetings.room.shareScreen')"
                     @click="toggleScreenShare">
-                    <Icon name="ph:monitor-arrow-up" class="h-6 w-6" />
+                    <Icon name="ph:monitor-arrow-up" class="h-5 w-5" />
                 </button>
-                <button v-if="state.blurSupported && state.cameraOn" type="button" class="h-12 w-12 rounded-full flex items-center justify-center"
-                    :class="state.blur ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'"
-                    :title="state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff')" @click="toggleBlur">
-                    <Icon name="ph:person-simple-circle" class="h-6 w-6" />
+                <button type="button" :class="roundButton(false, false, handRaisedByMe)" :aria-pressed="handRaisedByMe"
+                    :title="handRaisedByMe ? $t('meetings.room.lowerHand') : $t('meetings.room.raiseHand')" @click="toggleHand">
+                    <Icon :name="handRaisedByMe ? 'ph:hand-palm-fill' : 'ph:hand-palm'" class="h-5 w-5" />
                 </button>
-                <button type="button" class="h-12 w-12 rounded-full flex items-center justify-center"
-                    :class="handRaisedByMe ? 'bg-amber-400 text-black' : 'bg-gray-200 hover:bg-gray-300'"
-                    :title="handRaisedByMe ? $t('meetings.room.lowerHand') : $t('meetings.room.raiseHand')"
-                    @click="toggleHand">
-                    <Icon :name="handRaisedByMe ? 'ph:hand-palm-fill' : 'ph:hand-palm'" class="h-6 w-6" />
-                </button>
-                <button type="button" class="relative h-12 w-12 rounded-full flex items-center justify-center"
-                    :class="state.chatOpen ? 'bg-primary text-white' : 'bg-gray-200 hover:bg-gray-300'"
+                <button type="button" class="relative" :class="roundButton(false, false, state.chatOpen)" :aria-pressed="state.chatOpen"
                     :title="$t('meetings.room.chat')" @click="toggleChat">
-                    <Icon name="ph:chat-circle-text" class="h-6 w-6" />
-                    <span v-if="state.unread" class="absolute -top-1 -right-1 bg-red-600 text-white text-xs rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
+                    <Icon name="ph:chat-circle-text" class="h-5 w-5" />
+                    <span v-if="state.unread" class="absolute -top-1 -right-1 bg-red-600 text-white text-[11px] rounded-full min-w-5 h-5 px-1 flex items-center justify-center">
                         {{ state.unread }}
                     </span>
                 </button>
                 <slot name="controls" :recording="state.recording" />
-                <button type="button" class="h-12 px-5 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center gap-2"
+                <button type="button" class="h-11 px-5 rounded-full bg-red-600 hover:bg-red-700 text-white flex items-center gap-2 text-sm font-medium"
                     @click="leave">
-                    <Icon name="ph:phone-disconnect" class="h-6 w-6" />
+                    <Icon name="ph:phone-disconnect" class="h-5 w-5" />
                     {{ $t('meetings.room.leave') }}
                 </button>
             </div>
@@ -209,14 +247,14 @@
         <!-- After the meeting. -->
         <div v-else class="py-12 flex flex-col items-center gap-3 text-center">
             <Icon :name="state.phase === 'error' ? 'ph:warning-circle' : 'ph:check-circle'" class="h-12 w-12"
-                :class="state.phase === 'error' ? 'text-red-500' : 'text-primary'" />
-            <p class="text-lg font-semibold">
+                :class="state.phase === 'error' ? 'text-red-500' : 'text-[#2dbab2]'" />
+            <p class="text-lg font-semibold text-[#0f2b46]">
                 {{ state.phase === 'error' ? $t('meetings.room.couldNotConnect') : $t('meetings.room.left') }}
             </p>
             <p class="text-sm text-gray-500" v-if="state.phase === 'error'">{{ state.errorMessage }}</p>
-            <FormButton type="button" buttonStyle="primary" @click="backToPrejoin">
+            <button type="button" class="h-11 px-6 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white font-medium" @click="backToPrejoin">
                 {{ $t('meetings.room.rejoin') }}
-            </FormButton>
+            </button>
         </div>
     </div>
 </template>
@@ -266,6 +304,7 @@ const { t } = useI18n()
 
 const previewEl = ref<HTMLVideoElement>()
 const chatList = ref<HTMLDivElement>()
+const fileInput = ref<HTMLInputElement>()
 const audioContainer = ref<HTMLDivElement>()
 const room = shallowRef<Room | null>(null)
 let previewTracks: LocalTrack[] = []
@@ -294,7 +333,9 @@ const state = reactive({
     blur: false,
     blurSupported: false,
     chatOpen: false,
-    messages: [] as { name: string, text: string, time: string, mine: boolean }[],
+    messages: [] as { name: string, text: string, time: string, mine: boolean, file?: { name: string, size: number, url: string, sending?: boolean } }[],
+    showSettings: false,
+    fileError: '',
     draft: '',
     unread: 0,
     // Raised hands by participant identity.
@@ -370,6 +411,7 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
     stopPreview()
+    fileUrls.forEach((url) => URL.revokeObjectURL(url))
     room.value?.disconnect()
 })
 
@@ -492,6 +534,7 @@ async function join() {
     })
     room.value = r
     bindRoomEvents(r)
+    r.registerByteStreamHandler(FILE_TOPIC, (reader, participantInfo) => receiveFile(reader, participantInfo.identity))
 
     try {
         await r.connect(connection.ws_url, connection.token)
@@ -603,6 +646,79 @@ async function sendChat() {
     state.draft = ''
     await send({ type: 'chat', text })
     pushMessage(room.value?.localParticipant.name ?? '', text, true)
+}
+
+/*
+ * Files in the chat go straight to the others in the call over LiveKit's data
+ * channel (byte streams). They are not uploaded anywhere or kept: a
+ * participant who wants a file saves it from the chat during the meeting.
+ */
+const FILE_TOPIC = 'meeting-file'
+const MAX_FILE_BYTES = 25 * 1024 * 1024
+const fileUrls: string[] = []
+
+async function sendFile(event: Event) {
+    const input = event.target as HTMLInputElement
+    const file = input.files?.[0]
+    input.value = ''
+    if (!file || !room.value) return
+
+    state.fileError = ''
+    if (file.size > MAX_FILE_BYTES) {
+        state.fileError = t('meetings.room.fileTooLarge')
+        return
+    }
+
+    const url = URL.createObjectURL(file)
+    fileUrls.push(url)
+    const message = pushFileMessage(room.value.localParticipant.name ?? '', { name: file.name, size: file.size, url, sending: true }, true)
+
+    try {
+        await room.value.localParticipant.sendFile(file, { topic: FILE_TOPIC })
+    } catch {
+        state.fileError = t('meetings.room.fileNotSent')
+    }
+    message.file!.sending = false
+}
+
+async function receiveFile(reader: any, identity: string) {
+    try {
+        const chunks: Uint8Array[] = await reader.readAll()
+        const info = reader.info ?? {}
+        const blob = new Blob(chunks as BlobPart[], { type: info.mimeType || 'application/octet-stream' })
+        const url = URL.createObjectURL(blob)
+        fileUrls.push(url)
+        const sender = room.value?.remoteParticipants.get(identity)
+        pushFileMessage(sender?.name || identity, { name: info.name || 'file', size: blob.size, url }, false)
+    } catch {
+        // A file that did not arrive whole is dropped.
+    }
+}
+
+function pushFileMessage(name: string, file: { name: string, size: number, url: string, sending?: boolean }, mine: boolean) {
+    pushMessage(name, '', mine)
+    const message = state.messages[state.messages.length - 1]
+    message.file = file
+    return message
+}
+
+function formatSize(bytes: number) {
+    if (bytes < 1024) return `${bytes} B`
+    if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`
+    return `${(bytes / 1024 / 1024).toFixed(1)} MB`
+}
+
+/**
+ * One look for every round control: red when something is off, teal when a
+ * mode is on, translucent white otherwise (on the video or on the stage).
+ */
+function roundButton(off: boolean, onVideo = false, pressed = false) {
+    const base = 'h-11 w-11 rounded-full flex items-center justify-center transition disabled:opacity-40 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2dbab2]'
+    if (off) return `${base} bg-red-600 text-white hover:bg-red-700`
+    if (pressed) return `${base} bg-[#2dbab2] text-[#0b1726] hover:bg-[#25a39c]`
+    return onVideo
+        ? `${base} bg-white/20 text-white backdrop-blur hover:bg-white/30`
+        : `${base} bg-white/10 text-white hover:bg-white/20`
 }
 
 function toggleChat() {
