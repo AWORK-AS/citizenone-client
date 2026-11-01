@@ -620,6 +620,9 @@
                          admin (who can fix it) and a plain notice for everyone else. -->
                     <ModulesUserBillingPaymentWall />
 
+                    <!-- Invoice customers with card as security who have not attached it yet. -->
+                    <ModulesUserBillingSecurityCardBanner />
+
                     <!-- Settings is some seventy pages, so they get a rail of their own
                          rather than a menubar of dropdowns in the page body: every
                          destination is on screen, searchable, and marked when it is the one

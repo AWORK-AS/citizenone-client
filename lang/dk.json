@@ -13562,7 +13562,7 @@
                 "unusedDepartmentLicense": "Ubrugt afdelingslicens",
                 "grant": {
                     "addLicenses": "Tilføj licenser",
-                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje. Der opkræves ikke i systemet - faktureres separat i e-conomic.",
+                    "description": "Tilføjer ekstra bruger-licenser til virksomhedens pulje.",
                     "quantity": "Antal licenser",
                     "billingFrequency": "Faktureringsfrekvens",
                     "monthly": "Månedlig",
@@ -20529,6 +20529,254 @@
                 "daily-rhythm": "Døgnrytmeplan",
                 "socialtilsyn": "Socialtilsyn-tjek"
             }
+        }
+    },
+    "paymentDunning": {
+        "nav": {
+            "billingProblems": "Betalingsproblemer"
+        },
+        "invoices": {
+            "resolvedChip": "Løst ved genforsøg",
+            "resolvedHelp": "Betalingen blev afvist, men et senere genforsøg lykkedes. Tæller ikke med under Afvist.",
+            "failedTabHelp": "Kun uløste afviste betalinger. Løste forsøg vises som Løst ved genforsøg.",
+            "resolvedTab": "Løst ved genforsøg"
+        },
+        "problems": {
+            "title": "Betalingsproblemer",
+            "intro": "Virksomheder, der er bagud, lukkede eller klar til lukning. Faktura-kunder lukkes aldrig automatisk.",
+            "empty": "Ingen betalingsproblemer lige nu",
+            "emptyFiltered": "Ingen virksomheder matcher filteret",
+            "loadFailed": "Kunne ikke hente betalingsproblemer",
+            "refresh": "Opdater listen",
+            "filterAll": "Alle statusser",
+            "col": {
+                "company": "Virksomhed",
+                "method": "Betalingsmåde",
+                "outstanding": "Udestående",
+                "daysOverdue": "Dage over forfald",
+                "warnings": "Sendte advarsler",
+                "closesOn": "Lukkes",
+                "status": "Status"
+            },
+            "status": {
+                "ready_to_close": "Klar til lukning",
+                "past_due": "Bagud",
+                "overdue": "Forfalden",
+                "suspended": "Lukket"
+            },
+            "method": {
+                "card": "Kort",
+                "invoice": "Faktura"
+            },
+            "securityCard": "Kort som sikkerhed",
+            "overCap": "Over beløbsloftet: manuel opfølgning",
+            "noClosingDate": "Ingen dato",
+            "readOnly": "Du kan se listen, men ikke ændre noget.",
+            "action": {
+                "retry": "Prøv igen nu",
+                "send_card_link": "Send link til nyt kort",
+                "charge_security_card": "Træk sikkerhedskort nu",
+                "close": "Luk nu",
+                "reopen": "Genåbn",
+                "postpone": "Udsæt",
+                "revoke_security_card": "Fjern sikkerhedskort",
+                "retry_unknown_charge": "Genforsøg med samme nøgle"
+            },
+            "help": {
+                "retry": "Forsøger at trække det udestående beløb på kundens kort nu.",
+                "send_card_link": "Sender administratorerne et link, hvor de kan tilknytte et nyt kort.",
+                "charge_security_card": "Trækker den ubetalte faktura på kundens sikkerhedskort. Kan ikke fortrydes.",
+                "charge_security_card_disabled": "Kræver kort som sikkerhed slået til, et aktivt sikkerhedskort og en forfalden faktura.",
+                "close": "Lukker virksomheden, så brugerne ser siden om manglende betaling. Kan ikke ske for virksomheder med en løbende aftale.",
+                "reopen": "Åbner virksomheden igen med det samme og udsætter rykkerne i det antal dage, du vælger.",
+                "postpone": "Pauser rykkerforløbet og lukningen i det antal dage, du vælger.",
+                "revoke_security_card": "Fjerner kundens sikkerhedskort. Kortet trækkes aldrig mere. Kortet slettes ikke hos Nexi.",
+                "retry_unknown_charge": "Sender det samme træk til Nexi igen med samme nøgle, så det højst kan gennemføres én gang. Brug det først, når du har tjekket Nexi-portalen."
+            },
+            "dialog": {
+                "title": {
+                    "retry": "Prøv at trække beløbet igen",
+                    "send_card_link": "Send link til nyt kort",
+                    "charge_security_card": "Træk sikkerhedskortet",
+                    "close": "Luk virksomheden",
+                    "reopen": "Genåbn virksomheden",
+                    "postpone": "Udsæt rykkerforløbet",
+                    "revoke_security_card": "Fjern sikkerhedskortet",
+                    "retry_unknown_charge": "Genforsøg med samme nøgle"
+                },
+                "about": "{company}: {amount} udestående",
+                "noteLabel": "Begrundelse",
+                "noteHelp": "Skrives i aktivitetsloggen sammen med dit navn.",
+                "notePlaceholder": "Fx: aftalt med kunden i dag",
+                "noteRequired": "Skriv en begrundelse.",
+                "daysLabel": "Antal dage",
+                "daysHelp": "Mellem 1 og 90 dage.",
+                "daysInvalid": "Vælg et helt antal dage mellem 1 og 90.",
+                "confirm": "Bekræft",
+                "cancel": "Annuller",
+                "daysLabelReopen": "Antal dage uden rykkere efter genåbning",
+                "optional": "valgfri",
+                "closeConfirm": "Virksomhedens brugere ser siden om manglende betaling, indtil den genåbnes.",
+                "revokeConfirm": "Kortet trækkes aldrig mere, heller ikke på fakturaer, der allerede er forfaldne. Kunden kan tilknytte et nyt kort.",
+                "retryUnknownConfirm": "Du skal først have tjekket i Nexi-portalen, at trækket ikke allerede er gennemført. Bekræft kun, hvis du har gjort det."
+            },
+            "done": {
+                "retry": "Forsøget er sat i gang",
+                "send_card_link": "Linket er sendt",
+                "charge_security_card": "Sikkerhedskortet er forsøgt trukket",
+                "close": "Virksomheden er lukket",
+                "reopen": "Virksomheden er åbnet igen",
+                "postpone": "Rykkerforløbet er udsat",
+                "revoke_security_card": "Sikkerhedskortet er fjernet",
+                "retry_unknown_charge": "Trækket er sendt igen med samme nøgle"
+            },
+            "failed": "Handlingen mislykkedes",
+            "openCompany": "Åbn virksomheden",
+            "postponedUntil": "Udsat til {date}",
+            "invoiceStatus": {
+                "noticed": "Varslet",
+                "charging": "Trækker",
+                "pending": "Afventer bank",
+                "charged": "Trukket",
+                "declined": "Afvist",
+                "over_cap": "Over loft",
+                "unknown": "Afventer Nexi"
+            },
+            "invoiceStatusHelp": "Status for træk på sikkerhedskortet for denne faktura.",
+            "securityCardLine": "Kort •••• {last_four} (udløber {expiry})",
+            "needsNexiCheck": "Tjek i Nexi-portalen",
+            "needsNexiCheckHelp": "Nexi svarede aldrig på det sidste træk. Tjek i Nexi-portalen, om det blev gennemført, før noget gentages."
+        },
+        "company": {
+            "title": "Betalingsmåde",
+            "intro": "Hvordan virksomheden betaler for licenser og abonnement. Kun superadmin med økonomirettigheder kan ændre det.",
+            "card": "Kort",
+            "invoice": "Faktura",
+            "cardHelp": "Beløb trækkes automatisk på kundens betalingskort.",
+            "invoiceHelp": "Der sendes en faktura med betaling inden 3 dage. Kortet trækkes ikke, medmindre kort som sikkerhed er slået til.",
+            "cardSecurity": "Kort som sikkerhed",
+            "cardSecurityHelp": "Kunden tilknytter et kort uden træk. En faktura, der er ubetalt 7 dage efter forfald, trækkes på kortet efter en varsel 2 dage før.",
+            "leverandorservice": "Leverandørservice",
+            "leverandorserviceHelp": "Kunden betaler via Leverandørservice. Gælder for alle fakturaer til virksomheden.",
+            "cardState": "Sikkerhedskort",
+            "cardAttached": "{masked} (udløber {expiry})",
+            "cardMissing": "Mangler",
+            "cardMissingHelp": "Kundens administrator bliver bedt om at tilknytte et kort. Du kan sende et link fra Betalingsproblemer.",
+            "agreementNote": "Virksomheden har en løbende aftale. Nye licenser kobles til aftalen som tilkøb, uanset betalingsmåde.",
+            "save": "Gem betalingsmåde",
+            "saveHelp": "Gemmer kun betalingsmåden. Resten af virksomhedens oplysninger røres ikke.",
+            "saved": "Betalingsmåden er gemt",
+            "saveFailed": "Kunne ikke gemme betalingsmåden",
+            "loadFailed": "Kunne ikke hente betalingsmåden",
+            "readOnly": "Du kan se betalingsmåden, men kun økonomi kan ændre den."
+        },
+        "grant": {
+            "card": "Kunden betaler med kort: licenserne opkræves på kortet med det samme.",
+            "invoice": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne med betaling inden 3 dage.",
+            "invoice_economic": "Kunden betaler med faktura: der oprettes en faktura i CitizenOne med betaling inden 3 dage, og en kladde i e-conomic, når e-conomic er slået til.",
+            "agreement": "Virksomheden har en aftale: licenserne lægges til aftalen som tilkøb.",
+            "methodUnknown": "Betalingsmåden kunne ikke hentes. Tjek sektionen Betalingsmåde under Oversigt, før du fortsætter.",
+            "changeMethod": "Skift betalingsmåde",
+            "changeMethodHelp": "Betalingsmåden er en virksomhedsindstilling og ændres under Oversigt.",
+            "invoiceCreated": "Faktura {number} er oprettet og forfalder {date}",
+            "agreementAddOnHint": "Licenserne er knyttet til aftalen. Tilføj tilkøbsraten under Aftaler, så fakturaen ikke sendes to gange."
+        },
+        "customer": {
+            "method": "Betalingsmåde",
+            "invoiceMethod": "Faktura",
+            "invoiceMethodHelp": "Vi sender en faktura, og den skal betales inden 3 dage. Der vises ingen kortpris.",
+            "securityCard": "Betalingskort som sikkerhed: {masked} (udløber {expiry})",
+            "securityCardHelp": "Kortet trækkes kun, hvis en faktura er ubetalt 7 dage efter forfald, og I har fået en varsel 2 dage før.",
+            "changeCard": "Skift kort",
+            "changeCardHelp": "Tilknyt et andet betalingskort som sikkerhed. Der trækkes ikke noget nu.",
+            "attachCard": "Tilknyt kort",
+            "bannerTitle": "Tilknyt et betalingskort som sikkerhed",
+            "bannerBody": "Jeres aftale har kort som sikkerhed. Der trækkes ikke noget ved tilknytning.",
+            "bannerAdminOnly": "En administrator skal tilknytte et betalingskort som sikkerhed.",
+            "consentHelp": "Samtykket og tidspunktet gemmes.",
+            "consentRequired": "Sæt kryds i samtykket for at fortsætte.",
+            "cardSaved": "Kortet er tilknyttet som sikkerhed",
+            "cardFailed": "Kortet kunne ikke tilknyttes. Prøv igen, eller kontakt supporten.",
+            "cancel": "Annuller",
+            "loadFailed": "Kunne ikke hente samtykketeksten. Prøv igen.",
+            "consentCheckbox": "Jeg har læst teksten ovenfor og giver samtykke",
+            "removeCard": "Fjern kort",
+            "removeCardHelp": "Fjerner sikkerhedskortet. Det trækkes aldrig mere, og I kan tilknytte et nyt senere.",
+            "removeCardConfirm": "Vil I fjerne sikkerhedskortet? Det trækkes aldrig mere.",
+            "cardRemoved": "Sikkerhedskortet er fjernet"
+        },
+        "suspended": {
+            "title": "Betaling mangler – opdater betalingskort",
+            "adminBody": "Jeres konto er lukket, fordi betalingen ikke blev gennemført. Opdater betalingskortet, så åbner vi kontoen igen med det samme.",
+            "updateCard": "Opdater betalingskort",
+            "updateCardHelp": "Åbner betalingen, hvor du kan indtaste et nyt kort. Kontoen åbnes, når betalingen lykkes.",
+            "contactTitle": "Betaling mangler",
+            "contactBody": "Kontakt jeres administrator. Kun en administrator kan opdatere betalingskortet.",
+            "days": "Kontoen lukkes om {days} dage, hvis betalingen ikke gennemføres."
+        },
+        "paused": {
+            "ai": "Betaling mangler for AI-kapacitet – opdater kortet for at genaktivere",
+            "sms": "Betaling mangler for SMS – opdater kortet for at genaktivere",
+            "adminOnly": "Kontakt jeres administrator, som kan opdatere kortet.",
+            "updateCard": "Opdater kort",
+            "updateCardHelp": "Går til siden, hvor du kan opdatere kortet og genaktivere ydelsen."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (styres under Betalingsmåde)",
+            "yes": "Ja",
+            "no": "Nej",
+            "unknown": "ukendt",
+            "help": "Om kunden betaler via Leverandørservice er en virksomhedsindstilling. Den afgør, om servicegebyret på 295 kr. kræves.",
+            "link": "Skift under Betalingsmåde",
+            "linkHelp": "Åbner virksomhedens oversigt, hvor Betalingsmåde kan ændres."
+        },
+        "grantApp": {
+            "methodFromCompany": "Betalingsmåden følger virksomheden og kan ikke ændres her.",
+            "methodDefaultHelp": "Foreslået ud fra virksomhedens betalingsmåde. Kortkunder kan vælge en anden pr. tildeling."
+        },
+        "invoiceOverdue": {
+            "title": "Faktura ikke betalt",
+            "body": "Jeres faktura er ikke betalt. Kontakt os, så finder vi en løsning og holder kontoen åben.",
+            "contact": "Kontakt os",
+            "contactHelp": "Åbner en e-mail til CitizenOnes support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "Betalingen er gennemført",
+                "pending": "Betalingen er sendt til banken og afventer. Den er ikke betalt endnu.",
+                "declined": "Kortet blev afvist, og der er ikke trukket noget. Opdater kortet, eller prøv et andet.",
+                "no_card": "Der er intet betalingskort registreret. Opdater betalingskortet først.",
+                "not_applicable": "Der er intet at betale lige nu.",
+                "unknown": "Vi kunne ikke se, om betalingen gik igennem. Prøv igen om lidt."
+            },
+            "charge": {
+                "charged": "Sikkerhedskortet er trukket, og fakturaen er betalt",
+                "pending": "Trækket er sendt til banken og afventer. Fakturaen er ikke betalt endnu.",
+                "declined": "Sikkerhedskortet blev afvist. Rykkerforløbet er startet.",
+                "unknown": "Afventer svar fra Nexi – trækket må ikke gentages. Fakturaen afstemmes automatisk."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "Betalingsudbyderen kan ikke nås lige nu. Der er ikke ændret noget. Prøv igen om lidt.",
+            "payment_problem_no_card": "Virksomheden har intet betalingskort at trække på.",
+            "payment_problem_action_not_available": "Handlingen passer ikke til virksomhedens tilstand. Opdater listen.",
+            "payment_problem_close_blocked": "Virksomheden har en løbende aftale og kan ikke lukkes for manglende betaling.",
+            "card_security_disabled": "Kort som sikkerhed er ikke slået til i systemet.",
+            "card_security_over_cap": "Beløbet er over loftet for sikkerhedskort og skal følges op manuelt.",
+            "card_security_consent_required": "Samtykket er ikke gældende længere. Luk og åbn dialogen igen, og giv samtykke på ny.",
+            "card_security_not_applicable": "Kort som sikkerhed gælder kun fakturakunder.",
+            "plan_change_invoice_company": "Virksomheden betaler med faktura. Skift planen fra licensoversigten, så den faktureres.",
+            "card_security_agreement_changed": "Kortet, forsøget blev sendt til, er fjernet eller udskiftet siden. Det kan ikke gentages med samme nøgle. Tjek trækket i Nexi-portalen.",
+            "renewal_not_available": "Opdatering af betalingskort er ikke tilgængelig lige nu. Kontakt support, hvis kontoen er lukket.",
+            "impersonation_not_allowed": "Kan ikke udføres, mens support er logget ind som kunden."
+        },
+        "agreement": {
+            "cardSecurity": "Kort som sikkerhed",
+            "cardSecurityHelp": "Aftalens fakturaer kan trækkes på kundens sikkerhedskort, når de er ubetalte. Store beløb ligger ofte over loftet og følges op manuelt.",
+            "cardSecuritySaved": "Kort som sikkerhed er opdateret på aftalen"
+        },
+        "suspendedPage": {
+            "loading": "Henter status..."
         }
     }
 }

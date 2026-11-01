@@ -13562,7 +13562,7 @@
                 "unusedDepartmentLicense": "Unused department license",
                 "grant": {
                     "addLicenses": "Add licenses",
-                    "description": "Adds extra user licenses to the company pool. No in-app charge - invoiced separately in e-conomic.",
+                    "description": "Adds extra user licenses to the company pool.",
                     "quantity": "Number of licenses",
                     "billingFrequency": "Billing frequency",
                     "monthly": "Monthly",
@@ -20529,6 +20529,254 @@
                 "daily-rhythm": "Daily rhythm plan",
                 "socialtilsyn": "Social supervision check"
             }
+        }
+    },
+    "paymentDunning": {
+        "nav": {
+            "billingProblems": "Payment problems"
+        },
+        "invoices": {
+            "resolvedChip": "Resolved on retry",
+            "resolvedHelp": "The payment was rejected, but a later retry succeeded. Not counted under Rejected.",
+            "failedTabHelp": "Unresolved rejected payments only. Resolved attempts show as Resolved on retry.",
+            "resolvedTab": "Resolved on retry"
+        },
+        "problems": {
+            "title": "Payment problems",
+            "intro": "Companies that are behind, closed or ready to close. Invoice customers are never closed automatically.",
+            "empty": "No payment problems right now",
+            "emptyFiltered": "No companies match the filter",
+            "loadFailed": "Could not load payment problems",
+            "refresh": "Refresh the list",
+            "filterAll": "All statuses",
+            "col": {
+                "company": "Company",
+                "method": "Payment method",
+                "outstanding": "Outstanding",
+                "daysOverdue": "Days overdue",
+                "warnings": "Warnings sent",
+                "closesOn": "Closes",
+                "status": "Status"
+            },
+            "status": {
+                "ready_to_close": "Ready to close",
+                "past_due": "Behind",
+                "overdue": "Overdue",
+                "suspended": "Closed"
+            },
+            "method": {
+                "card": "Card",
+                "invoice": "Invoice"
+            },
+            "securityCard": "Card as security",
+            "overCap": "Above the amount limit: follow up manually",
+            "noClosingDate": "No date",
+            "readOnly": "You can view the list but not change anything.",
+            "action": {
+                "retry": "Retry now",
+                "send_card_link": "Send new card link",
+                "charge_security_card": "Charge security card now",
+                "close": "Close now",
+                "reopen": "Reopen",
+                "postpone": "Postpone",
+                "revoke_security_card": "Remove security card",
+                "retry_unknown_charge": "Retry with the same key"
+            },
+            "help": {
+                "retry": "Tries to charge the outstanding amount to the customer's card now.",
+                "send_card_link": "Sends the administrators a link where they can add a new card.",
+                "charge_security_card": "Charges the unpaid invoice to the customer's security card. Cannot be undone.",
+                "charge_security_card_disabled": "Needs card as security switched on, an active security card and an overdue invoice.",
+                "close": "Closes the company, so its users see the missing-payment page. Not possible for companies with a running agreement.",
+                "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
+                "postpone": "Pauses dunning and closing for the number of days you choose.",
+                "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi.",
+                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal."
+            },
+            "dialog": {
+                "title": {
+                    "retry": "Retry the charge",
+                    "send_card_link": "Send new card link",
+                    "charge_security_card": "Charge the security card",
+                    "close": "Close the company",
+                    "reopen": "Reopen the company",
+                    "postpone": "Postpone dunning",
+                    "revoke_security_card": "Remove the security card",
+                    "retry_unknown_charge": "Retry with the same key"
+                },
+                "about": "{company}: {amount} outstanding",
+                "noteLabel": "Reason",
+                "noteHelp": "Written to the activity log with your name.",
+                "notePlaceholder": "E.g. agreed with the customer today",
+                "noteRequired": "Write a reason.",
+                "daysLabel": "Number of days",
+                "daysHelp": "Between 1 and 90 days.",
+                "daysInvalid": "Choose a whole number of days between 1 and 90.",
+                "confirm": "Confirm",
+                "cancel": "Cancel",
+                "daysLabelReopen": "Days without reminders after reopening",
+                "optional": "optional",
+                "closeConfirm": "The company's users see the missing-payment page until it is reopened.",
+                "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card.",
+                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have."
+            },
+            "done": {
+                "retry": "The retry has been started",
+                "send_card_link": "The link has been sent",
+                "charge_security_card": "The security card charge was attempted",
+                "close": "The company is closed",
+                "reopen": "The company is reopened",
+                "postpone": "Dunning has been postponed",
+                "revoke_security_card": "The security card was removed",
+                "retry_unknown_charge": "The charge was sent again with the same key"
+            },
+            "failed": "The action failed",
+            "openCompany": "Open the company",
+            "postponedUntil": "Postponed until {date}",
+            "invoiceStatus": {
+                "noticed": "Notified",
+                "charging": "Charging",
+                "pending": "Pending at bank",
+                "charged": "Charged",
+                "declined": "Declined",
+                "over_cap": "Over the limit",
+                "unknown": "Waiting for Nexi"
+            },
+            "invoiceStatusHelp": "Status of the security card charge for this invoice.",
+            "securityCardLine": "Card •••• {last_four} (expires {expiry})",
+            "needsNexiCheck": "Check in the Nexi portal",
+            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything."
+        },
+        "company": {
+            "title": "Payment method",
+            "intro": "How the company pays for licences and subscriptions. Only superadmins with finance rights can change it.",
+            "card": "Card",
+            "invoice": "Invoice",
+            "cardHelp": "Amounts are charged automatically to the customer's card.",
+            "invoiceHelp": "An invoice is sent, payable within 3 days. The card is not charged unless card as security is on.",
+            "cardSecurity": "Card as security",
+            "cardSecurityHelp": "The customer attaches a card with no charge. An invoice unpaid 7 days after its due date is charged to the card after a notice 2 days before.",
+            "leverandorservice": "Leverandørservice",
+            "leverandorserviceHelp": "The customer pays through Leverandørservice. Applies to every invoice to the company.",
+            "cardState": "Security card",
+            "cardAttached": "{masked} (expires {expiry})",
+            "cardMissing": "Missing",
+            "cardMissingHelp": "The customer's administrator is asked to attach a card. You can send a link from Payment problems.",
+            "agreementNote": "The company has a running agreement. New licences are added to the agreement as an add-on, whatever the payment method.",
+            "save": "Save payment method",
+            "saveHelp": "Saves the payment method only. The rest of the company's details are not touched.",
+            "saved": "The payment method is saved",
+            "saveFailed": "Could not save the payment method",
+            "loadFailed": "Could not load the payment method",
+            "readOnly": "You can see the payment method, but only finance can change it."
+        },
+        "grant": {
+            "card": "The customer pays by card: the licences are charged to the card straight away.",
+            "invoice": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days.",
+            "invoice_economic": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days, and a draft in e-conomic when e-conomic is enabled.",
+            "agreement": "The company has an agreement: the licences are added to the agreement as an add-on.",
+            "methodUnknown": "The payment method could not be loaded. Check the Payment method section on Overview before continuing.",
+            "changeMethod": "Change payment method",
+            "changeMethodHelp": "The payment method is a company setting and is changed on Overview.",
+            "invoiceCreated": "Invoice {number} was created and is due {date}",
+            "agreementAddOnHint": "The licences are linked to the agreement. Add the add-on instalment under Agreements so the invoice is not sent twice."
+        },
+        "customer": {
+            "method": "Payment method",
+            "invoiceMethod": "Invoice",
+            "invoiceMethodHelp": "We send an invoice, payable within 3 days. No card price is shown.",
+            "securityCard": "Payment card as security: {masked} (expires {expiry})",
+            "securityCardHelp": "The card is only charged if an invoice is unpaid 7 days after its due date, and you have been warned 2 days before.",
+            "changeCard": "Change card",
+            "changeCardHelp": "Attach a different payment card as security. Nothing is charged now.",
+            "attachCard": "Attach card",
+            "bannerTitle": "Attach a payment card as security",
+            "bannerBody": "Your agreement uses a card as security. Nothing is charged when you attach it.",
+            "bannerAdminOnly": "An administrator needs to attach a payment card as security.",
+            "consentHelp": "The consent and the time are recorded.",
+            "consentRequired": "Tick the consent to continue.",
+            "cardSaved": "The card is attached as security",
+            "cardFailed": "The card could not be attached. Try again or contact support.",
+            "cancel": "Cancel",
+            "loadFailed": "Could not load the consent text. Try again.",
+            "consentCheckbox": "I have read the text above and give my consent",
+            "removeCard": "Remove card",
+            "removeCardHelp": "Removes the security card. It is never charged again, and you can attach a new one later.",
+            "removeCardConfirm": "Do you want to remove the security card? It is never charged again.",
+            "cardRemoved": "The security card was removed"
+        },
+        "suspended": {
+            "title": "Payment missing – update your payment card",
+            "adminBody": "Your account is closed because the payment did not go through. Update the payment card and we reopen the account immediately.",
+            "updateCard": "Update payment card",
+            "updateCardHelp": "Opens the payment where you can enter a new card. The account reopens when the payment succeeds.",
+            "contactTitle": "Payment missing",
+            "contactBody": "Contact your administrator. Only an administrator can update the payment card.",
+            "days": "The account closes in {days} days if the payment does not go through."
+        },
+        "paused": {
+            "ai": "Payment missing for AI capacity – update the card to reactivate",
+            "sms": "Payment missing for SMS – update the card to reactivate",
+            "adminOnly": "Contact your administrator, who can update the card.",
+            "updateCard": "Update card",
+            "updateCardHelp": "Goes to the page where you can update the card and reactivate the service."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (managed under Payment method)",
+            "yes": "Yes",
+            "no": "No",
+            "unknown": "unknown",
+            "help": "Whether the customer pays through Leverandørservice is a company setting. It decides whether the 295 kr service fee applies.",
+            "link": "Change under Payment method",
+            "linkHelp": "Opens the company overview, where Payment method can be changed."
+        },
+        "grantApp": {
+            "methodFromCompany": "The payment method follows the company and cannot be changed here.",
+            "methodDefaultHelp": "Suggested from the company's payment method. Card customers can pick another per grant."
+        },
+        "invoiceOverdue": {
+            "title": "Invoice not paid",
+            "body": "Your invoice has not been paid. Contact us and we will sort it out and keep the account open.",
+            "contact": "Contact us",
+            "contactHelp": "Opens an email to CitizenOne support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "The payment went through",
+                "pending": "The payment has been sent to the bank and is pending. It is not paid yet.",
+                "declined": "The card was declined and nothing was charged. Update the card or try another.",
+                "no_card": "No payment card is registered. Update the payment card first.",
+                "not_applicable": "There is nothing to pay right now.",
+                "unknown": "We could not tell whether the payment went through. Try again shortly."
+            },
+            "charge": {
+                "charged": "The security card was charged and the invoice is paid",
+                "pending": "The charge has been sent to the bank and is pending. The invoice is not paid yet.",
+                "declined": "The security card was declined. The dunning flow has started.",
+                "unknown": "Waiting for Nexi's answer – the charge must not be repeated. The invoice is reconciled automatically."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "The payment provider cannot be reached right now. Nothing was changed. Try again shortly.",
+            "payment_problem_no_card": "The company has no payment card to charge.",
+            "payment_problem_action_not_available": "The action does not fit the company's state. Refresh the list.",
+            "payment_problem_close_blocked": "The company has a running agreement and cannot be closed for non-payment.",
+            "card_security_disabled": "Card as security is not enabled in the system.",
+            "card_security_over_cap": "The amount is above the security card limit and must be followed up manually.",
+            "card_security_consent_required": "The consent is no longer valid. Close and reopen the dialog and consent again.",
+            "card_security_not_applicable": "Card as security only applies to invoice customers.",
+            "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced.",
+            "card_security_agreement_changed": "The card the attempt was sent to has been removed or replaced since. It cannot be repeated with the same key. Check the charge in the Nexi portal.",
+            "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed.",
+            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer."
+        },
+        "agreement": {
+            "cardSecurity": "Card as security",
+            "cardSecurityHelp": "The agreement's invoices can be charged to the customer's security card when unpaid. Large amounts are often above the limit and followed up manually.",
+            "cardSecuritySaved": "Card as security was updated on the agreement"
+        },
+        "suspendedPage": {
+            "loading": "Loading status..."
         }
     }
 }
