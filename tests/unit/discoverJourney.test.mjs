@@ -12,7 +12,7 @@ import path from 'node:path'
 import { journeyFor } from '../../composables/useDiscoverJourney.ts'
 import { onboardingProgress, showProgressPill } from '../../composables/onboardingProgress.ts'
 
-const INDUSTRIES = ['social_welfare', 'dental', 'employment_services', null, 'an_industry_without_a_journey']
+const INDUSTRIES = ['social_welfare', 'dental', 'employment_services', 'health', 'therapy', null, 'an_industry_without_a_journey']
 
 const steps = journey => journey.flatMap(g => g.steps)
 

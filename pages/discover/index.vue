@@ -61,6 +61,11 @@
             <ModulesUserOnboardingFirstSteps v-if="isAdmin" role="admin" class="mt-6"
                 @openModules="state.modal.whatDoYouNeed = true" />
 
+            <!-- "How many are you?" and, once answered, the plan that fits while
+                 the company is on the free account. See composables/teamSize.ts. -->
+            <ModulesUserOnboardingTeamSize v-if="isAdmin" class="mt-6" />
+            <ModulesUserOnboardingPlanRecommendation v-if="isAdmin" class="mt-6" />
+
             <div v-if="next && !guideActive" data-testid="discover-next-step"
                 class="mt-6 rounded-2xl border-1.5 border-primary/20 bg-white p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div class="min-w-0">
@@ -307,6 +312,7 @@ import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 import { checklistDone, welcomeTourMode, type ChecklistResponse } from '@/composables/welcomeTour'
 import { onboardingProgress } from '@/composables/onboardingProgress'
 import { nextStep } from '@/composables/discoverNextStep'
+import { isTeamSize, journeyForTeam } from '@/composables/teamSize'
 
 const runtimeConfig = useRuntimeConfig()
 const isDesktopApp = useIsDesktopApp()
@@ -321,7 +327,9 @@ const firstName = computed(() => userStore.getUser?.firstname ?? '')
 // The industry the customer already told the marketing site about, carried
 // through `/register?industry=` and stored on the company. It decides which
 // journey this page shows and which module questions are worth asking.
-const industrySystemName = () => userStore.getUser?.company?.industry?.system_name ?? null
+// `profile` groups the 59 industries; an older API without it still has the system name.
+const industrySystemName = () => userStore.getUser?.company?.industry?.profile
+    ?? userStore.getUser?.company?.industry?.system_name ?? null
 
 // --- "What do you need" personalisation (persisted to the company) ---
 const { journey, moduleOptions } = useDiscoverJourney(industrySystemName)
@@ -398,7 +406,11 @@ async function fetchChecklist() {
     } catch (e) { /* an older backend has no checklist: keep the local checks */ }
 }
 
-const visibleGroups = computed(() => journey.value.filter(g =>
+const teamSize = computed(() => {
+    const value = userStore.getUser?.company?.onboarding_preferences?.team_size
+    return isTeamSize(value) ? value : null
+})
+const visibleGroups = computed(() => journeyForTeam(journey.value, teamSize.value).filter(g =>
     groupEnabled(g) && (!g.adminOnly || isAdmin.value)
 ))
 const totalSteps = computed(() => visibleGroups.value.reduce((n, g) => n + g.steps.length, 0))
@@ -473,7 +485,9 @@ async function saveModules() {
     // answering on their behalf.
     const answered: Record<string, boolean> = {}
     moduleOptions.value.forEach(option => { answered[option.key] = modules[option.key] })
-    const preferences = { modules: answered, hidden: [] as string[] }
+    // Keep the other answers on the company (team size, consultant steps): this
+    // save used to replace the whole blob with just the modules.
+    const preferences = { ...(userStore.getUser?.company?.onboarding_preferences ?? {}), modules: answered, hidden: [] as string[] }
     if (process.client) localStorage.setItem('co_discover_modules', JSON.stringify(modules))
     // Platform staff may have no company of their own - nothing to save to.
     if (!userStore.getUser?.company) return
@@ -486,36 +500,41 @@ async function saveModules() {
     } catch (e) { /* preferences still cached locally */ }
 }
 
-onMounted(async () => {
-    // Source of truth = the real company modules (same as /settings/company).
-    // Derive the coarse Discover toggles from the enabled Page list when present.
-    const enabledPages = userStore.getUser?.company?.module_pages
+// The coarse toggles, read from the company. Runs again when the user arrives:
+// on a fresh load the page mounts before the user is fetched, and reading it
+// once at mount saw no modules, assumed nothing was chosen and opened the
+// "What do you need?" modal on top of the guide asking the same question.
+function syncModulesFromCompany() {
+    const company = userStore.getUser?.company
+    if (!company) return
+    const enabledPages = company.module_pages
     if (Array.isArray(enabledPages) && enabledPages.length) {
         modules.vagtplan = MODULE_TO_PAGES.vagtplan.some(n => enabledPages.includes(n))
         modules.medicin = MODULE_TO_PAGES.medicin.some(n => enabledPages.includes(n))
         modules.dokumentation = MODULE_TO_PAGES.dokumentation.some(n => enabledPages.includes(n))
-    } else {
-        // No company_pages rows yet → fall back to saved onboarding prefs / cache, else ask.
-        const serverModules = userStore.getUser?.company?.onboarding_preferences?.modules
-        if (serverModules) {
-            Object.assign(modules, serverModules)
-        } else if (process.client) {
-            const saved = localStorage.getItem('co_discover_modules')
-            if (saved) {
-                try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
-            } else {
-                state.modal.whatDoYouNeed = true
-            }
+    } else if (company.onboarding_preferences?.modules) {
+        Object.assign(modules, company.onboarding_preferences.modules)
+    } else if (process.client) {
+        const saved = localStorage.getItem('co_discover_modules')
+        if (saved) {
+            try { Object.assign(modules, JSON.parse(saved)) } catch (e) { }
         }
     }
-    // useOfForce/predefinedContent have no Page mapping, so the module_pages
-    // branch above never sets them - read them from onboarding_preferences
-    // directly, regardless of which branch ran, or a previously-saved "off"
-    // would silently show as "on" again next time this modal opens.
-    const savedModules = userStore.getUser?.company?.onboarding_preferences?.modules
-    if (typeof savedModules?.useOfForce === 'boolean') modules.useOfForce = savedModules.useOfForce
-    if (typeof savedModules?.predefinedContent === 'boolean') modules.predefinedContent = savedModules.predefinedContent
-    if (typeof savedModules?.priceEstimates === 'boolean') modules.priceEstimates = savedModules.priceEstimates
+    // These have no Page mapping, so the module_pages branch above never sets
+    // them. carePlans was missing here: a dental clinic starts with it off, the
+    // modal showed it on, and saving the modal switched it back on.
+    const savedModules = company.onboarding_preferences?.modules
+    for (const key of ['useOfForce', 'predefinedContent', 'priceEstimates', 'carePlans']) {
+        if (typeof savedModules?.[key] === 'boolean') modules[key] = savedModules[key]
+    }
+}
+watch(() => userStore.getUser?.company?.uuid, syncModulesFromCompany)
+
+onMounted(async () => {
+    // The modal is no longer opened by itself: the first-steps guide asks
+    // "What do you use?" as its first step, and the industry has already chosen
+    // the modules for a new company. It stays one click away in the header.
+    syncModulesFromCompany()
     // Data-derived completion (a few easy ones)
     try {
         const [d, u, c, tags] = await Promise.all([

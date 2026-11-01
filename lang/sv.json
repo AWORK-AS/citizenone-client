@@ -178,7 +178,7 @@
         "reviewInvite": "Vill du dela din upplevelse med andra? En recension på Trustpilot hjälper andra verksamheter att välja.",
         "reviewCta": "Skriv en recension",
         "error": "Svaret kunde inte skickas. Försök igen."
-},
+    },
     "citizenoneAttribution": {
         "portal": "Portalen tillhandahålls av CitizenOne, journalsystemet för omsorg och hälsa.",
         "setting": "Visa \"Skapat med CitizenOne\" på det ni skickar ut",
@@ -493,7 +493,9 @@
             "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patienter",
             "clinic": "Klinik och bokning",
-            "cases": "Ärenden och jobbcenter"
+            "cases": "Ärenden och jobbcenter",
+            "practice": "Praktik och bokning",
+            "billing": "Fakturering"
         },
         "steps": {
             "firstNote": {
@@ -564,13 +566,13 @@
             },
             "openingHours": {
                 "title": "Öppettider och behandlare",
-                "desc": "Ange klinikens öppettider och vem som tar patienter.",
-                "cta": "Gå till Företag"
+                "desc": "Ange öppettider och vem som tar emot @:terms.citizens{''}.",
+                "cta": "Gå till Bokningsinställningar"
             },
             "booking": {
                 "title": "Öppna för bokning",
-                "desc": "Lägg de första besöken, och låt patienterna boka själva.",
-                "cta": "Gå till Bokning"
+                "desc": "Lägg upp bokningsbara behandlingar, och låt @:terms.citizens{''} boka själva.",
+                "cta": "Gå till Behandlingar"
             },
             "caseTypes": {
                 "title": "Skapa ärendetyper",
@@ -591,6 +593,21 @@
                 "title": "Fördefinierat anteckningsinnehåll",
                 "desc": "Skriv innehållet som återkommer, så det kan infogas med ett klick.",
                 "cta": "Gå till Journalinnehåll"
+            },
+            "clinicData": {
+                "title": "Stamdata och kontaktpersoner",
+                "desc": "Fyll i stamdata, kontaktpersoner och hälsouppgifter.",
+                "cta": "Gå till @.capitalize:terms.citizens{''}"
+            },
+            "services": {
+                "title": "Lägg upp tjänster och priser",
+                "desc": "Lägg in era tjänster så att fakturan är klar efter besöket.",
+                "cta": "Gå till Tjänster"
+            },
+            "invoicing": {
+                "title": "Skicka er första faktura",
+                "desc": "Fakturera ett besök direkt från journalen och följ betalningen.",
+                "cta": "Gå till Fakturering"
             }
         },
         "title": "Utforska",
@@ -3347,7 +3364,7 @@
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "fromDutySchedule": "Från tjänsteschema",
-                "historical": "Fr\u00e5n WorkZone",
+                "historical": "Från WorkZone",
                 "note": "Anmärkning",
                 "totalHours": "Totalt timmar",
                 "transport": "Transportere",
@@ -8862,7 +8879,8 @@
             "stayData": "Vistelsedata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafikljus",
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "caseNumber": "Insatsnummer"
         },
         "medicineSubtitle": "Konfigurera vilka fält som är synliga i medicinens skapa- och redigeringsformulär.",
         "medicineTitle": "Formulärfältkonfiguration för medicin",
@@ -11597,7 +11615,117 @@
             }
         },
         "step": "Steg",
-        "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter skapande"
+        "youCanExplore": "Du kan gratis udforske CitizenOnes funktioner efter skapande",
+        "segment": {
+            "title": "Vad arbetar ni med?",
+            "subtitle": "Då ställer vi in CitizenOne med era ord, journalmallar och exempel från ert yrke.",
+            "buckets": {
+                "dental": {
+                    "label": "Tandklinik",
+                    "desc": "Tandläkare och tandhygienister"
+                },
+                "health": {
+                    "label": "Läkare och hälsa",
+                    "desc": "Läkare, kiropraktorer, sjuksköterskor, barnmorskor"
+                },
+                "therapy": {
+                    "label": "Terapi och behandling",
+                    "desc": "Psykologer, fysioterapeuter, terapeuter, coacher"
+                },
+                "social_welfare": {
+                    "label": "Social verksamhet",
+                    "desc": "Boenden och dagverksamhet"
+                },
+                "employment_services": {
+                    "label": "Sysselsättning",
+                    "desc": "Arbets- och sysselsättningsinsatser"
+                }
+            },
+            "which": "Vilken yrkesgrupp är ni?",
+            "showAll": "Visa alla ({count})",
+            "search": "Sök efter ert yrke",
+            "noMatch": "Ingen yrkesgrupp med det namnet.",
+            "other": "Något annat? Sök bland alla yrkesgrupper",
+            "change": "Byt",
+            "chosen": "Vald",
+            "otherTile": {
+                "label": "Annat",
+                "desc": "Skönhet, undervisning och alla andra yrken"
+            },
+            "notListed": "Vårt yrke finns inte på listan. Fortsätt"
+        },
+        "about": {
+            "title": "Berätta om er",
+            "subtitle": "Namnet står på journaler, fakturor och mejl.",
+            "placeholder": {
+                "dental": "T.ex. Tandkliniken vid Torget",
+                "health": "T.ex. Vårdcentralen Söder",
+                "therapy": "T.ex. Psykolog Hansen",
+                "social_welfare": "T.ex. Boendet Ekbacken",
+                "employment_services": "T.ex. Jobbvägen",
+                "default": "Namnet på ert företag"
+            }
+        },
+        "account": {
+            "title": "Skapa din inloggning",
+            "subtitle": "Sista steget. Ingen bindning och inget betalkort."
+        },
+        "panel": {
+            "dental": {
+                "tag": "För tandkliniker",
+                "title": "Redo för er första patient",
+                "points": [
+                    "Patientkort med tandkarta och kostnadsförslag",
+                    "Journalmallar för undersökning, behandling och akuta besök",
+                    "Exempelpatienter så att ni kan prova allt direkt"
+                ]
+            },
+            "health": {
+                "tag": "För läkare och hälsopraktik",
+                "title": "Redo för er första konsultation",
+                "points": [
+                    "Journalmallar för konsultation, telefonkonsultation och provsvar",
+                    "Kalender och bokning för era patienter",
+                    "Exempelpatienter så att ni kan prova allt direkt"
+                ]
+            },
+            "therapy": {
+                "tag": "För terapeuter och behandlare",
+                "title": "Redo för er första session",
+                "points": [
+                    "Mallar för första samtalet, sessioner och status på mål",
+                    "Kalender, onlinebokning och fakturering",
+                    "Exempelklienter så att ni kan prova allt direkt"
+                ]
+            },
+            "social_welfare": {
+                "tag": "För sociala verksamheter",
+                "title": "Redo för ert första pass",
+                "points": [
+                    "Mallar för daglig observation, uppföljning och händelser",
+                    "Medicin, schema och tvångsåtgärder på ett ställe",
+                    "Exempelbrukare så att ni kan prova allt direkt"
+                ]
+            },
+            "employment_services": {
+                "tag": "För sysselsättning",
+                "title": "Redo för ert första ärende",
+                "points": [
+                    "Mallar för uppföljningssamtal, praktikbesök och statusanteckningar",
+                    "Ärenden, jobbcenter och närvaro på ett ställe",
+                    "Exempeldeltagare så att ni kan prova allt direkt"
+                ]
+            },
+            "default": {
+                "tag": "Anpassat efter ert yrke",
+                "title": "Redo för er första kund",
+                "points": [
+                    "Journalmallar för första besök och förlopp",
+                    "Kalender, bokning och fakturering",
+                    "Exempeldata så att ni kan prova allt direkt"
+                ]
+            }
+        }
     },
     "relationships": {
         "addNewRelationship": "Lägg till nytt förhållande",
@@ -12999,7 +13127,15 @@
             "remove": "Ta bort"
         },
         "currentSubscription": "Nuvarande prenumeration",
-        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Er prenumeration är ett specificerat avtal med CitizenOne.", "agreementText": "Specificerat avtal – priser och villkor följer ert avtal med CitizenOne.", "usage": "{used} av {total} {label} används", "contact": "Kontakta oss", "contactHelp": "Skriv till CitizenOne om avtalet, priserna eller ändringar."},
+        "enterprise": {
+            "title": "CitizenOne Enterprise",
+            "badge": "Enterprise",
+            "badgeHelp": "Er prenumeration är ett specificerat avtal med CitizenOne.",
+            "agreementText": "Specificerat avtal – priser och villkor följer ert avtal med CitizenOne.",
+            "usage": "{used} av {total} {label} används",
+            "contact": "Kontakta oss",
+            "contactHelp": "Skriv till CitizenOne om avtalet, priserna eller ändringar."
+        },
         "deal": {
             "additionalPurchaseFor": "tilköb extra för",
             "admin": "Admin",
@@ -13142,7 +13278,7 @@
                 "passive": "neutral",
                 "detractor": "kritiker"
             }
-    },
+        },
         "funnel": {
             "loops": {
                 "title": "Tillväxtloopar",
@@ -15581,7 +15717,13 @@
                 "addPlanHelp": "Öppnar avtalet med planen som en lista och en tom rad på förnyelsedagen.",
                 "mrrEstimated": "uppskattad",
                 "mrrEstimatedHelp": "Kontrakts-MRR innehåller en förnyelse utan avbetalningsplan och är därför en uppskattning från listpriserna.",
-                "billing": {"by_agreement": "Avtalas vid försäljning", "upfront": "Samlat vid förnyelse", "yearly": "Årligen", "monthly": "Månadsvis", "plan": "Som betalningsplanen"},
+                "billing": {
+                    "by_agreement": "Avtalas vid försäljning",
+                    "upfront": "Samlat vid förnyelse",
+                    "yearly": "Årligen",
+                    "monthly": "Månadsvis",
+                    "plan": "Som betalningsplanen"
+                },
                 "sources": {
                     "list_price": "Listpris",
                     "override": "Fast pris",
@@ -20606,6 +20748,29 @@
                 "daily-rhythm": "Dygnsrytmsplan",
                 "socialtilsyn": "Tillsynskontroll"
             }
+        }
+    },
+    "teamSize": {
+        "title": "Hur många är ni?",
+        "desc": "Då visar vi bara det som är vettigt för er. Det tar ett klick.",
+        "skip": "Hoppa över",
+        "options": {
+            "solo": "Bara jag",
+            "2-4": "2-4",
+            "5-10": "5-10",
+            "11+": "11 eller fler"
+        },
+        "thanks": "Tack. Listan nedan är anpassad efter er.",
+        "plan": {
+            "basis": {
+                "title": "Basis passar er",
+                "desc": "Ni är {size}. Basis har 2 användare inkluderade och plats för upp till 4, så hela teamet kan logga in."
+            },
+            "pro": {
+                "title": "Pro passar er",
+                "desc": "Ni är {size}. Pro har 4 användare inkluderade, och ni kan lägga till fler när ni växer."
+            },
+            "cta": "Se planer"
         }
     },
     "consultantCalendar": {

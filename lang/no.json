@@ -178,7 +178,7 @@
         "reviewInvite": "Vil du dele opplevelsen din med andre? En anmeldelse på Trustpilot hjelper andre tilbud med å velge.",
         "reviewCta": "Skriv en anmeldelse",
         "error": "Svaret kunne ikke sendes. Prøv igjen."
-},
+    },
     "citizenoneAttribution": {
         "portal": "Portalen leveres av CitizenOne, journalsystemet for omsorg og helse.",
         "setting": "Vis \"Laget med CitizenOne\" på det dere sender ut",
@@ -493,7 +493,9 @@
             "people": "@.capitalize:terms.citizens{''}",
             "patients": "Pasienter",
             "clinic": "Klinikk og booking",
-            "cases": "Saker og NAV"
+            "cases": "Saker og NAV",
+            "practice": "Praksis og booking",
+            "billing": "Fakturering"
         },
         "steps": {
             "firstNote": {
@@ -564,13 +566,13 @@
             },
             "openingHours": {
                 "title": "Åpningstider og behandlere",
-                "desc": "Sett klinikkens åpningstider og hvem som tar pasienter.",
-                "cta": "Gå til Virksomhet"
+                "desc": "Sett åpningstider og hvem som tar imot @:terms.citizens{''}.",
+                "cta": "Gå til Bookinginnstillinger"
             },
             "booking": {
                 "title": "Åpne for booking",
-                "desc": "Lag de første avtalene, og la pasientene booke selv.",
-                "cta": "Gå til Booking"
+                "desc": "Opprett behandlinger som kan bookes, og la @:terms.citizens{''} booke selv.",
+                "cta": "Gå til Behandlinger"
             },
             "caseTypes": {
                 "title": "Opprett sakstyper",
@@ -591,6 +593,21 @@
                 "title": "Forhåndsdefinert notatinnhold",
                 "desc": "Skriv innholdet som går igjen, så det kan settes inn med ett klikk.",
                 "cta": "Gå til Journalinnhold"
+            },
+            "clinicData": {
+                "title": "Stamdata og kontaktpersoner",
+                "desc": "Fyll inn stamdata, kontaktpersoner og helseopplysninger.",
+                "cta": "Gå til @.capitalize:terms.citizens{''}"
+            },
+            "services": {
+                "title": "Opprett tjenester og priser",
+                "desc": "Legg inn tjenestene deres, så fakturaen er klar etter besøket.",
+                "cta": "Gå til Tjenester"
+            },
+            "invoicing": {
+                "title": "Send deres første faktura",
+                "desc": "Fakturer et besøk rett fra journalen og følg betalingen.",
+                "cta": "Gå til Fakturering"
             }
         },
         "title": "Utforsk",
@@ -8862,7 +8879,8 @@
             "stayData": "Opholdsdata",
             "systemAccess": "Systemadgang",
             "trafficLights": "Trafiklys",
-            "transportation": "Transport"
+            "transportation": "Transport",
+            "caseNumber": "Tiltaksnummer"
         },
         "medicineSubtitle": "Konfigurer hvilke felter som er synlige i medisinens opprettelses- og redigeringsskjemaer.",
         "medicineTitle": "Skjemafeltkonfigurasjon for medisin",
@@ -11597,7 +11615,117 @@
             }
         },
         "step": "Trin",
-        "youCanExplore": "Du kan gratis udforske CitizenOnes funksjoner etter opprettelse"
+        "youCanExplore": "Du kan gratis udforske CitizenOnes funksjoner etter opprettelse",
+        "segment": {
+            "title": "Hva jobber dere med?",
+            "subtitle": "Så setter vi opp CitizenOne med deres ord, journalmaler og eksempler fra faget deres.",
+            "buckets": {
+                "dental": {
+                    "label": "Tannklinikk",
+                    "desc": "Tannleger og tannpleiere"
+                },
+                "health": {
+                    "label": "Lege og helse",
+                    "desc": "Leger, kiropraktorer, sykepleiere, jordmødre"
+                },
+                "therapy": {
+                    "label": "Terapi og behandling",
+                    "desc": "Psykologer, fysioterapeuter, terapeuter, coacher"
+                },
+                "social_welfare": {
+                    "label": "Sosialt tilbud",
+                    "desc": "Bofellesskap, botilbud og dagtilbud"
+                },
+                "employment_services": {
+                    "label": "Arbeid og aktivitet",
+                    "desc": "Arbeids- og jobbtilbud"
+                }
+            },
+            "which": "Hvilken faggruppe er dere?",
+            "showAll": "Vis alle ({count})",
+            "search": "Søk etter faget deres",
+            "noMatch": "Ingen faggruppe med det navnet.",
+            "other": "Noe annet? Søk blant alle faggrupper",
+            "change": "Bytt",
+            "chosen": "Valgt",
+            "otherTile": {
+                "label": "Annet",
+                "desc": "Skjønnhet, undervisning og alle andre fag"
+            },
+            "notListed": "Faget vårt er ikke på listen. Fortsett"
+        },
+        "about": {
+            "title": "Fortell oss om dere",
+            "subtitle": "Navnet står på journaler, fakturaer og e-poster.",
+            "placeholder": {
+                "dental": "F.eks. Tannklinikken på Torget",
+                "health": "F.eks. Legesenteret Grünerløkka",
+                "therapy": "F.eks. Psykolog Hansen",
+                "social_welfare": "F.eks. Bofellesskapet Eikely",
+                "employment_services": "F.eks. Jobbveien",
+                "default": "Navnet på virksomheten deres"
+            }
+        },
+        "account": {
+            "title": "Lag innloggingen din",
+            "subtitle": "Siste steg. Ingen binding og intet betalingskort."
+        },
+        "panel": {
+            "dental": {
+                "tag": "For tannklinikker",
+                "title": "Klar for deres første pasient",
+                "points": [
+                    "Pasientkort med tannkart og prisoverslag",
+                    "Journalmaler for undersøkelse, behandling og akutte besøk",
+                    "Eksempelpasienter, så dere kan prøve alt med en gang"
+                ]
+            },
+            "health": {
+                "tag": "For leger og helsepraksis",
+                "title": "Klar for deres første konsultasjon",
+                "points": [
+                    "Journalmaler for konsultasjon, telefonkonsultasjon og prøvesvar",
+                    "Kalender og booking for pasientene deres",
+                    "Eksempelpasienter, så dere kan prøve alt med en gang"
+                ]
+            },
+            "therapy": {
+                "tag": "For terapeuter og behandlere",
+                "title": "Klar for deres første økt",
+                "points": [
+                    "Maler for første samtale, økter og status på mål",
+                    "Kalender, nettbooking og fakturering",
+                    "Eksempelklienter, så dere kan prøve alt med en gang"
+                ]
+            },
+            "social_welfare": {
+                "tag": "For sosiale tilbud",
+                "title": "Klar for deres første vakt",
+                "points": [
+                    "Maler for daglig observasjon, oppfølging og hendelser",
+                    "Medisin, vaktplan og tvang samlet på ett sted",
+                    "Eksempelbrukere, så dere kan prøve alt med en gang"
+                ]
+            },
+            "employment_services": {
+                "tag": "For arbeidstilbud",
+                "title": "Klar for deres første forløp",
+                "points": [
+                    "Maler for oppfølgingssamtaler, praksisbesøk og statusnotater",
+                    "Saker, NAV og oppmøte samlet på ett sted",
+                    "Eksempeldeltakere, så dere kan prøve alt med en gang"
+                ]
+            },
+            "default": {
+                "tag": "Tilpasset faget deres",
+                "title": "Klar for deres første kunde",
+                "points": [
+                    "Journalmaler for første besøk og forløp",
+                    "Kalender, booking og fakturering",
+                    "Eksempeldata, så dere kan prøve alt med en gang"
+                ]
+            }
+        }
     },
     "relationships": {
         "addNewRelationship": "Legg til nytt forhold",
@@ -12999,7 +13127,15 @@
             "remove": "Fjern"
         },
         "currentSubscription": "Nåværende abonnement",
-        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Abonnementet deres er en spesifisert avtale med CitizenOne.", "agreementText": "Spesifisert avtale – priser og vilkår følger avtalen deres med CitizenOne.", "usage": "{used} av {total} {label} i bruk", "contact": "Kontakt oss", "contactHelp": "Skriv til CitizenOne om avtalen, prisene eller endringer."},
+        "enterprise": {
+            "title": "CitizenOne Enterprise",
+            "badge": "Enterprise",
+            "badgeHelp": "Abonnementet deres er en spesifisert avtale med CitizenOne.",
+            "agreementText": "Spesifisert avtale – priser og vilkår følger avtalen deres med CitizenOne.",
+            "usage": "{used} av {total} {label} i bruk",
+            "contact": "Kontakt oss",
+            "contactHelp": "Skriv til CitizenOne om avtalen, prisene eller endringer."
+        },
         "deal": {
             "additionalPurchaseFor": "tilkøb ekstra for",
             "admin": "Admin",
@@ -13142,7 +13278,7 @@
                 "passive": "nøytral",
                 "detractor": "kritiker"
             }
-    },
+        },
         "funnel": {
             "loops": {
                 "title": "Vekstløkker",
@@ -15581,7 +15717,13 @@
                 "addPlanHelp": "Åpner avtalen med rateplanen som en liste og en tom rad på fornyelsesdatoen.",
                 "mrrEstimated": "anslått",
                 "mrrEstimatedHelp": "Kontrakt-MRR inneholder en fornyelse uten rateplan og er derfor et anslag ut fra listeprisene.",
-                "billing": {"by_agreement": "Avtales med salget", "upfront": "Samlet ved fornyelse", "yearly": "Årlig", "monthly": "Månedlig", "plan": "Som betalingsplanen"},
+                "billing": {
+                    "by_agreement": "Avtales med salget",
+                    "upfront": "Samlet ved fornyelse",
+                    "yearly": "Årlig",
+                    "monthly": "Månedlig",
+                    "plan": "Som betalingsplanen"
+                },
                 "sources": {
                     "list_price": "Listepris",
                     "override": "Fast pris",
@@ -20606,6 +20748,29 @@
                 "daily-rhythm": "Døgnrytmeplan",
                 "socialtilsyn": "Tilsynssjekk"
             }
+        }
+    },
+    "teamSize": {
+        "title": "Hvor mange er dere?",
+        "desc": "Da viser vi bare det som gir mening for dere. Det tar ett klikk.",
+        "skip": "Hopp over",
+        "options": {
+            "solo": "Bare meg",
+            "2-4": "2-4",
+            "5-10": "5-10",
+            "11+": "11 eller flere"
+        },
+        "thanks": "Takk. Listen nedenfor er tilpasset dere.",
+        "plan": {
+            "basis": {
+                "title": "Basis passer for dere",
+                "desc": "Dere er {size}. Basis har 2 brukere inkludert og plass til opptil 4, så hele teamet kan logge inn."
+            },
+            "pro": {
+                "title": "Pro passer for dere",
+                "desc": "Dere er {size}. Pro har 4 brukere inkludert, og dere kan legge til flere etter hvert som dere vokser."
+            },
+            "cta": "Se planer"
         }
     },
     "consultantCalendar": {

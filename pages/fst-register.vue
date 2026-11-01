@@ -223,6 +223,7 @@
 </template>
 
 <script setup lang="ts">
+import { industryLabel } from '@/composables/signupSegments'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
 import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
@@ -369,7 +370,7 @@ async function fetchAllIndustries() {
             response.data.forEach(
                 (industry: any) => options.push({
                     value: industry?.uuid,
-                    label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                    label: industryLabel(industry, language.locale.value),
                     system_name: industry.system_name,
                 })
             )

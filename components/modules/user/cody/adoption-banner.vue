@@ -53,6 +53,8 @@
 
 <script setup lang="ts">
 import { useI18n } from 'vue-i18n'
+import { useUserStore } from '@/store/user'
+import { welcomeTourMode } from '@/composables/welcomeTour'
 import { seatsActionOnPage } from '@/composables/codySeats'
 import { trialDays } from '@/composables/managerSuggestion'
 import { formatPrice } from '@/composables/customerSpecialPrice'
@@ -87,7 +89,18 @@ const variant = computed<BannerVariant | null>(() => bannerVariant({
 const demand = computed(() => demandCount(status.value))
 
 // One unsolicited prompt at a time: the banner waits for the tour and the security prompts.
-const granted = usePromptSlot('codyBanner', computed(() => variant.value !== null))
+// A company's first day is for its own setup. The offers to buy Cody wait until
+// the first-steps guide is done and the account is a day old; a trial already
+// running, a request or a seats prompt is not an offer and still shows.
+const userStore = useUserStore() as any
+const settlingIn = computed(() => {
+    const user = userStore.getUser
+    const created = Date.parse(user?.company?.created_at ?? '')
+    const firstDay = Number.isFinite(created) && Date.now() - created < 24 * 60 * 60 * 1000
+    return welcomeTourMode(user) === 'tour' || firstDay
+})
+const isOffer = computed(() => variant.value === 'adminTrial' || variant.value === 'adminEnable')
+const granted = usePromptSlot('codyBanner', computed(() => variant.value !== null && !(isOffer.value && settlingIn.value)))
 
 const title = computed(() => {
     switch (variant.value) {
