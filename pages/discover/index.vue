@@ -321,7 +321,9 @@ const firstName = computed(() => userStore.getUser?.firstname ?? '')
 // The industry the customer already told the marketing site about, carried
 // through `/register?industry=` and stored on the company. It decides which
 // journey this page shows and which module questions are worth asking.
-const industrySystemName = () => userStore.getUser?.company?.industry?.system_name ?? null
+// `profile` groups the 59 industries; an older API without it still has the system name.
+const industrySystemName = () => userStore.getUser?.company?.industry?.profile
+    ?? userStore.getUser?.company?.industry?.system_name ?? null
 
 // --- "What do you need" personalisation (persisted to the company) ---
 const { journey, moduleOptions } = useDiscoverJourney(industrySystemName)

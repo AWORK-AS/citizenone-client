@@ -178,7 +178,7 @@
         "reviewInvite": "Would you share your experience with others? A review on Trustpilot helps other organisations choose.",
         "reviewCta": "Write a review",
         "error": "Your answer could not be sent. Please try again."
-},
+    },
     "citizenoneAttribution": {
         "portal": "This portal is provided by CitizenOne, the journal system for care and health services.",
         "setting": "Show \"Made with CitizenOne\" on what you send out",
@@ -487,7 +487,9 @@
             "people": "@.capitalize:terms.citizens{''}",
             "patients": "Patients",
             "clinic": "Clinic & booking",
-            "cases": "Cases & jobcentre"
+            "cases": "Cases & jobcentre",
+            "practice": "Practice & booking",
+            "billing": "Invoicing"
         },
         "steps": {
             "firstNote": {
@@ -558,12 +560,12 @@
             },
             "openingHours": {
                 "title": "Opening hours & practitioners",
-                "desc": "Set the clinic hours and who sees patients.",
+                "desc": "Set your opening hours and who sees @:terms.citizens{''}.",
                 "cta": "Go to Company"
             },
             "booking": {
                 "title": "Open for booking",
-                "desc": "Make the first appointments, and let patients book their own.",
+                "desc": "Make the first appointments, and let @:terms.citizens{''} book their own.",
                 "cta": "Go to Booking"
             },
             "caseTypes": {
@@ -585,6 +587,21 @@
                 "title": "Predefined note content",
                 "desc": "Write the content that keeps recurring, so it can be inserted in one click.",
                 "cta": "Go to Journal content"
+            },
+            "clinicData": {
+                "title": "Master data & contacts",
+                "desc": "Fill in master data, contacts and health information.",
+                "cta": "Go to @.capitalize:terms.citizens{''}"
+            },
+            "services": {
+                "title": "Add services and prices",
+                "desc": "Add your services so the invoice is ready after the visit.",
+                "cta": "Go to Services"
+            },
+            "invoicing": {
+                "title": "Send your first invoice",
+                "desc": "Invoice a visit straight from the journal and follow the payment.",
+                "cta": "Go to Invoicing"
             }
         },
         "title": "Discover",
@@ -11578,7 +11595,112 @@
             }
         },
         "step": "Step",
-        "youCanExplore": "You can explore CitizenOne's features for free after signing up"
+        "youCanExplore": "You can explore CitizenOne's features for free after signing up",
+        "segment": {
+            "title": "What do you do?",
+            "subtitle": "We'll set CitizenOne up with your words, journal templates and examples from your field.",
+            "buckets": {
+                "dental": {
+                    "label": "Dental clinic",
+                    "desc": "Dentists and dental hygienists"
+                },
+                "health": {
+                    "label": "Medical and health",
+                    "desc": "Doctors, chiropractors, nurses, midwives"
+                },
+                "therapy": {
+                    "label": "Therapy and treatment",
+                    "desc": "Psychologists, physiotherapists, therapists, coaches"
+                },
+                "social_welfare": {
+                    "label": "Social care",
+                    "desc": "Residential homes and day services"
+                },
+                "employment_services": {
+                    "label": "Employment",
+                    "desc": "Employment and job programmes"
+                }
+            },
+            "which": "Which profession are you?",
+            "showAll": "Show all ({count})",
+            "search": "Search for your profession",
+            "noMatch": "No profession with that name.",
+            "other": "Something else? Search all professions",
+            "change": "Change",
+            "chosen": "Chosen"
+        },
+        "about": {
+            "title": "Tell us about you",
+            "subtitle": "The name appears on your journals, invoices and emails.",
+            "placeholder": {
+                "dental": "E.g. Market Square Dental",
+                "health": "E.g. Northside Medical Centre",
+                "therapy": "E.g. Hansen Psychology",
+                "social_welfare": "E.g. Oakwood House",
+                "employment_services": "E.g. Pathway to Work",
+                "default": "The name of your business"
+            }
+        },
+        "account": {
+            "title": "Create your login",
+            "subtitle": "Last step. No commitment and no card."
+        },
+        "panel": {
+            "dental": {
+                "tag": "For dental clinics",
+                "title": "Ready for your first patient",
+                "points": [
+                    "Patient records with tooth chart and estimates",
+                    "Journal templates for examination, treatment and emergencies",
+                    "Example patients so you can try everything right away"
+                ]
+            },
+            "health": {
+                "tag": "For doctors and health practices",
+                "title": "Ready for your first consultation",
+                "points": [
+                    "Journal templates for consultations, phone consultations and test results",
+                    "Calendar and booking for your patients",
+                    "Example patients so you can try everything right away"
+                ]
+            },
+            "therapy": {
+                "tag": "For therapists and practitioners",
+                "title": "Ready for your first session",
+                "points": [
+                    "Templates for first sessions, sessions and progress on goals",
+                    "Calendar, online booking and invoicing",
+                    "Example clients so you can try everything right away"
+                ]
+            },
+            "social_welfare": {
+                "tag": "For social care services",
+                "title": "Ready for your first shift",
+                "points": [
+                    "Templates for daily observations, follow-ups and incidents",
+                    "Medication, rota and use of force in one place",
+                    "Example residents so you can try everything right away"
+                ]
+            },
+            "employment_services": {
+                "tag": "For employment services",
+                "title": "Ready for your first case",
+                "points": [
+                    "Templates for follow-ups, placement visits and status notes",
+                    "Cases, job centres and attendance in one place",
+                    "Example participants so you can try everything right away"
+                ]
+            },
+            "default": {
+                "tag": "Fitted to your field",
+                "title": "Ready for your first customer",
+                "points": [
+                    "Journal templates for first visits and courses",
+                    "Calendar, booking and invoicing",
+                    "Example data so you can try everything right away"
+                ]
+            }
+        }
     },
     "relationships": {
         "addNewRelationship": "Add new relationship",
@@ -13003,7 +13125,15 @@
             "remove": "Remove"
         },
         "currentSubscription": "Current subscription",
-        "enterprise": {"title": "CitizenOne Enterprise", "badge": "Enterprise", "badgeHelp": "Your subscription is a specified agreement with CitizenOne.", "agreementText": "Specified agreement – prices and terms follow your agreement with CitizenOne.", "usage": "{used} of {total} {label} in use", "contact": "Contact us", "contactHelp": "Write to CitizenOne about your agreement, prices or changes."},
+        "enterprise": {
+            "title": "CitizenOne Enterprise",
+            "badge": "Enterprise",
+            "badgeHelp": "Your subscription is a specified agreement with CitizenOne.",
+            "agreementText": "Specified agreement – prices and terms follow your agreement with CitizenOne.",
+            "usage": "{used} of {total} {label} in use",
+            "contact": "Contact us",
+            "contactHelp": "Write to CitizenOne about your agreement, prices or changes."
+        },
         "deal": {
             "additionalPurchaseFor": "Additional purchase for",
             "admin": "Admin",
@@ -13123,7 +13253,7 @@
                 "passive": "passive",
                 "detractor": "detractor"
             }
-    },
+        },
         "funnel": {
             "loops": {
                 "title": "Growth loops",
@@ -15639,7 +15769,13 @@
                 "addPlanHelp": "Opens the agreement with the installments as a list and an empty row on the renewal date.",
                 "mrrEstimated": "estimated",
                 "mrrEstimatedHelp": "Contract MRR includes a renewal without an installment plan, so it is an estimate from list prices.",
-                "billing": {"by_agreement": "Agreed with the sale", "upfront": "Upfront at renewal", "yearly": "Yearly", "monthly": "Monthly", "plan": "As the payment plan"},
+                "billing": {
+                    "by_agreement": "Agreed with the sale",
+                    "upfront": "Upfront at renewal",
+                    "yearly": "Yearly",
+                    "monthly": "Monthly",
+                    "plan": "As the payment plan"
+                },
                 "sources": {
                     "list_price": "List price",
                     "override": "Fixed price",

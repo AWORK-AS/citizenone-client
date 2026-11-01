@@ -7,9 +7,10 @@
 // about patients, opening hours and dental journal templates, not about
 // "borgere", medicine cards and a duty schedule it does not run.
 //
-// So the journey is picked by the company's industry `system_name`, the same
-// field the rest of the product already branches on, and falls back to a
-// neutral set for the 56 industries that have no journey of their own.
+// So the journey is picked by the company's industry `profile` (the backend's
+// IndustryDefaults::profile(), which is the system name for the three that have
+// one and health/therapy for the clinics and practices), and falls back to a
+// neutral set for beauty, teaching and anything unknown.
 //
 // Groups can also name a `page`. That is a real module name from the Page
 // table, the one `/settings/company` and the sidebar are driven by, so a group
@@ -82,7 +83,62 @@ const documentation: DiscoverGroup = {
     ],
 }
 
+// A private practice's own people: the master data step talks about health
+// information, not the caseworker the social sector's version asks for.
+const practicePeople: DiscoverGroup = {
+    key: 'people', icon: 'ph:users-three',
+    steps: [
+        { key: 'citizens', route: '/citizens', doneKey: 'citizens' },
+        { key: 'clinicData', route: '/citizens' },
+        firstNote,
+    ],
+}
+
+// Opening hours and booking. `clinic` for health work, `practice` for therapy,
+// so the heading says the word the customer uses about their own place.
+const booking = (key: 'clinic' | 'practice'): DiscoverGroup => ({
+    key, icon: 'ph:calendar-check', page: 'Calendar',
+    steps: [
+        { key: 'openingHours', route: '/settings/company' },
+        { key: 'booking', route: '/booking' },
+    ],
+})
+
+// A practice bills the person it treats, so the first invoice belongs in the
+// first week rather than somewhere in the settings.
+const invoicing: DiscoverGroup = {
+    key: 'billing', icon: 'ph:receipt', page: 'Billing',
+    steps: [
+        { key: 'services', route: '/invoicing?tab=services' },
+        { key: 'invoicing', route: '/invoicing' },
+    ],
+}
+
 const JOURNEYS: Record<string, DiscoverGroup[]> = {
+    // Doctors, chiropractors, nurses, midwives: IndustryDefaults::profile() `health`.
+    health: [
+        practicePeople,
+        migration,
+        booking('clinic'),
+        invoicing,
+        documentation,
+        getStarted,
+        medicine,
+        dutySchedule,
+    ],
+
+    // Psychologists, physiotherapists, therapists, coaches: profile `therapy`.
+    // Colleagues come late: most of these practices are one or two people.
+    therapy: [
+        practicePeople,
+        migration,
+        booking('practice'),
+        invoicing,
+        documentation,
+        getStarted,
+        dutySchedule,
+    ],
+
     social_welfare: [
         {
             key: 'people', icon: 'ph:users-three',
