@@ -258,11 +258,15 @@
         "loadMore": "Show more ({count} more)",
         "stageFilter": "Stage",
         "allStages": "All stages",
+        "discardTitle": "Close without saving?",
+        "discardMessage": "What you have filled in on the inquiry will not be saved.",
+        "discard": "Close without saving",
         "receiverFilter": "Intake coordinator",
         "receiverAll": "The whole team's",
         "receiverMine": "My inquiries",
         "receiverNone": "No intake coordinator",
         "receivedBy": "Received by {name}",
+        "responsiblePrimary": "Responsible now: {name}, primary coordinator",
         "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
@@ -329,6 +333,8 @@
         "Calendar": "Calendar",
         "Contacts": "Contacts",
         "Duty Schedule": "Duty schedule",
+        "View duty schedule": "View duty schedule",
+        "Invoicing": "Services and invoicing",
         "Employee Group": "Employee group",
         "Emails": "@.capitalize:terms.citizen{''} emails",
         "Reports": "Reports",
@@ -2237,6 +2243,24 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "consultantHours": {
+            "title": "Consultants' hours a week",
+            "hint": "Set how many hours each consultant has on the case, including transport and administration. Without a figure, what the others are not given is split evenly. Two consultants can have the same hours when the case is double staffed.",
+            "granted": "Granted: {hours} h/week",
+            "grantedSplit": "contact {contact}, administration {admin}, transport {transport}",
+            "noGrant": "The case has no granted hours a week.",
+            "consultant": "Consultant",
+            "given": "Set to",
+            "counts": "Counts as",
+            "placeholder": "Split",
+            "givenFor": "Hours a week for {name}",
+            "perWeek": "h/week",
+            "basis": {
+                "explicit": "set",
+                "even_split": "even split",
+                "none": "no grant"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} not found",
             "message": "This @:terms.citizen{''} doesn't exist, or you don't have access to them."
@@ -3118,12 +3142,12 @@
             "secondaryCaseworker": "Secondary {term}",
             "caseNumber": "Case number",
             "caseNumberHint": "The number the case carries in the system it came from",
-            "reportingFrequency": "Reporting to the authority",
-            "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
-            "reportingStartsOn": "First report",
-            "reportDraftDaysBefore": "Internal draft, days before",
+            "reportingFrequency": "How often the municipality needs a status report",
+            "reportingFrequencyHint": "Everyone on the case with a login gets a reminder when a report is due.",
+            "reportingStartsOn": "First report due",
+            "reportDraftDaysBefore": "Reminder for an internal draft (days before the deadline)",
             "reportDraftDaysBeforePlaceholder": "E.g. 7",
-            "reportDraftDaysBeforeHint": "Sends a \"Report draft\" reminder this many days before each reporting date, so the draft can be reviewed internally. Leave empty for no reminder.",
+            "reportDraftDaysBeforeHint": "This many days before each deadline, the people on the case get a reminder to write a draft that can be read through internally before the report goes to the municipality. Leave empty for no reminder.",
             "reportDraftDaysBeforeValue": "{days} days before",
             "reportingOptions": {
                 "biweekly": "Every two weeks",
@@ -12249,7 +12273,9 @@
                 "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
                 "calendarNoteRequiredHint": "Choosing Completed on a booking with a @:terms.citizen{''} opens the @:terms.journalNote{''}, and the booking is completed when it is saved. Not completed needs no note",
                 "missingNoteCoordinatorReminder": "Remind the coordinator about a missing @:terms.journalNote{''}",
-                "missingNoteCoordinatorReminderHint": "A day after a booking ended without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
+                "missingNoteCoordinatorReminderHint": "When the deadline has passed after a booking without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
+                "missingNoteDeadline": "Deadline for the note after an appointment",
+                "missingNoteDeadlineHours": "{hours} hours",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
@@ -12339,6 +12365,7 @@
                 "termCaseworker": "Caseworker",
                 "termCase": "Case",
                 "termAgreement": "Agreement",
+                "termMotherTongue": "Mother tongue",
                 "termJobcenter": "Job center",
                 "website": "Website",
                 "ipRestriction": "IP restriction",
@@ -13698,7 +13725,7 @@
                 "unusedDepartmentLicense": "Unused department license",
                 "grant": {
                     "addLicenses": "Add licenses",
-                    "description": "Adds extra user licenses to the company pool. No in-app charge - invoiced separately in e-conomic.",
+                    "description": "Adds extra user licenses to the company pool.",
                     "quantity": "Number of licenses",
                     "billingFrequency": "Billing frequency",
                     "monthly": "Monthly",
@@ -18969,7 +18996,121 @@
             "offer_revised": "Offer to be revised"
         }
     },
+    "consultantCapacity": {
+        "title": "Capacity",
+        "perWeek": "h/week",
+        "allocated": "Allocated",
+        "registered": "Registered (4-week average)",
+        "desired": "Wished",
+        "free": "Free",
+        "case": "Case",
+        "granted": "Granted on the case",
+        "basis": {
+            "explicit": "set for the consultant",
+            "even_split": "split evenly between {count}",
+            "none": "No granted hours"
+        },
+        "hints": {
+            "explicit": "Allocated hours are set for the consultant on each case. Transport and administration are included.",
+            "even_split": "Allocated hours are estimated: the case's granted hours split evenly between its consultants. Set the hours per consultant under Contacts for an exact figure.",
+            "mixed": "Allocated hours are set for the consultant on some cases and estimated as an even split on the rest. Transport and administration are included.",
+            "none": "The consultant is not on any active case with granted hours."
+        }
+    },
+    "recruitment": {
+        "title": "Recruitment",
+        "description": "Acute and strategic recruitment, and re-match when an indsats that is already running needs a new consultant. Ordinary new inquiries use the recruitment phase on the inquiry.",
+        "new": "New recruitment",
+        "newTitle": "New recruitment",
+        "editTitle": "Edit recruitment",
+        "create": "Create",
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this recruitment? Its history is kept.",
+        "export": "Export to Excel",
+        "allTypes": "All types",
+        "allStatuses": "All statuses",
+        "none": "None",
+        "system": "System",
+        "openInquiry": "Open inquiry",
+        "startRematch": "Start re-match",
+        "chooseConsultant": "Choose consultant",
+        "chooseTitle": "Choose consultant",
+        "chooseText": "{name} will be chosen as consultant, and the recruitment is marked as solved.",
+        "addToCitizen": "Add as consultant on {name}",
+        "solved": "The recruitment is solved.",
+        "solvedAndAdded": "The recruitment is solved, and the consultant has been added to the citizen.",
+        "outcome": "Outcome",
+        "openHint": "Find a consultant in the search and choose them, or close the recruitment as not solved.",
+        "closeNotSolved": "Close as not solved",
+        "closedNotSolved": "Closed as not solved.",
+        "solvedWith": "Solved with {name} on {date}.",
+        "reopen": "Reopen",
+        "history": "History",
+        "addNote": "Add note",
+        "historyCreated": "Created the recruitment",
+        "historyStatus": "Changed status from {from} to {to}",
+        "historyUpdated": "Changed {fields}",
+        "types": {
+            "acute": "Acute recruitment",
+            "strategic": "Strategic recruitment",
+            "rematch": "Re-match"
+        },
+        "typeHints": {
+            "acute": "A consultant is needed quickly for a specific case.",
+            "strategic": "Recruiting ahead of need, for example a language or an area where you lack consultants.",
+            "rematch": "An indsats that is already running needs a new consultant, for example because the consultant stops."
+        },
+        "statuses": {
+            "open": "Open",
+            "solved": "Solved",
+            "not_solved": "Not solved"
+        },
+        "fields": {
+            "type": "Type",
+            "title": "Title",
+            "citizen": "Citizen",
+            "citizenRequired": "Citizen (the indsats)",
+            "inquiry": "Inquiry",
+            "responsible": "Responsible",
+            "createdBy": "Created by",
+            "createdAt": "Created",
+            "status": "Status",
+            "needs": "Needs",
+            "requirements": "Requirements (skills, languages, area)",
+            "outcomeNote": "Note on the outcome"
+        },
+        "placeholders": {
+            "title": "For example consultant for a family in Aarhus",
+            "citizen": "Choose citizen",
+            "responsible": "Choose responsible",
+            "needs": "What the consultant should help with",
+            "requirements": "For example Arabic, car, East Jutland",
+            "note": "Write a note",
+            "outcomeNote": "For example why they were chosen",
+            "notSolvedNote": "For example why no consultant was found"
+        },
+        "changedFields": {
+            "type": "type",
+            "title": "title",
+            "needs": "needs",
+            "requirements": "requirements",
+            "citizen_id": "citizen",
+            "inquiry_data_id": "inquiry",
+            "responsible_user_id": "responsible",
+            "created_by_user_id": "created by",
+            "chosen_consultant_id": "chosen consultant",
+            "solved_at": "solved on",
+            "outcome_note": "note on the outcome",
+            "status": "status"
+        }
+    },
     "consultantMatch": {
+        "export": "Export to Excel",
+        "exporting": "Exporting...",
+        "exportHint": "All consultants with contact details, status, skills and active cases. Terminated consultants are left out.",
+        "exportFileName": "Consultants",
         "title": "Consultant match",
         "generalTitle": "Consultant search",
         "generalDescription": "Find consultants by name, skills, languages, place, status, car and driving licence. Every consultant is shown, also those who only partly match, with what they lack.",
@@ -18983,21 +19124,27 @@
         "notReady": "Cannot be put on a case",
         "archived": "Archived - can be contacted",
         "activeCases": "{count} active case | {count} active cases",
+        "freeCapacity": "Free capacity: {hours} h/week",
+        "freeCapacityHint": "Wants {desired} h/week and is allocated {allocated} h/week on active cases",
         "archivedOnCases": "Archived without a login, but on {count} active cases. Reactivate the employee and give them a licence.",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
         "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
+        "toldVia": "{name} was told by {channels}.",
+        "notReached": "{name} was not reached. Contact them directly.",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
-        "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
+        "resultSummary": "{total} consultants, {full} of them meet all {criteria} search criteria. The match only compares with what is recorded on the profile and does not judge professional suitability.",
+        "resultSummaryNoCriteria": "{total} consultants. Choose criteria to see who fits the case.",
         "matches": {
-            "full": "Full match",
-            "partial": "Partial match ({met} of {asked})",
-            "none": "No match"
+            "full": "Meets all criteria",
+            "partial": "Meets {met} of {asked} criteria",
+            "none": "Meets no criteria"
         },
         "form": {
             "spokenLanguages": "Spoken languages",
             "travelsUpToKm": "Will travel up to (km)",
             "minAvailableHours": "Minimum hours the consultant has available",
+            "minFreeWeeklyHours": "Minimum free capacity (h/week)",
             "languagesAndDialects": "Languages and dialects",
             "languagesHint": "Languages the employee speaks. A consultant matches if they speak any of the chosen languages.",
             "minTravelKm": "Must travel at least (km)",
@@ -19019,6 +19166,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
             "min_weekly_hours": "Hours",
+            "min_free_weekly_hours": "Free capacity",
             "primary_spoken_language_uuid": "Primary language",
             "within_travel_range": "Within travel distance"
         },
@@ -19123,6 +19271,11 @@
         "markDeclined": "Said no",
         "askedBy": "asked by {name}",
         "answeredBy": "answer recorded by {name}",
+        "answerTitle": "Register answer from {name}",
+        "answerHint": "The answer is registered on the consultant's behalf:",
+        "answerNote": "Note (optional)",
+        "answerNotePlaceholder": "E.g. what you agreed on the phone",
+        "answerSave": "Save answer",
         "unknownConsultant": "Unknown",
         "failed": "The action could not be completed",
         "statuses": {
@@ -19134,12 +19287,19 @@
             "title": "Cases you have been asked about",
             "empty": "You have not been asked about any cases.",
             "yes": "Yes please",
+            "languages": "Languages: {languages}",
+            "reporting": "Report {frequency}",
             "no": "No thanks",
             "answered": "You have answered"
         },
         "cannotBeChosen": "Marked after the invitation and can't be chosen for the case",
         "contactDirectly": "Contact directly",
-        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence."
+        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence.",
+        "howToldHelp": "Active consultants get a mail and an app notice. If you have the SMS app, they also get an SMS without any details about the citizen. An inactive consultant without a licence only gets the SMS and can answer you by phone. You record the answer with Said yes or Said no.",
+        "toldVia": "told by {channels}",
+        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "notReached": "Not reached",
+        "notReachedHint": "The consultant got no mail, app notice or SMS. Contact them directly and record the answer with Said yes or Said no."
     },
     "taskBoards": {
         "actions": {
@@ -19744,7 +19904,7 @@
         "location": "Location",
         "locationPlaceholder": "Address or area, e.g. Vesterbro",
         "postalCode": "Postal code",
-        "reportingHint": "Carried to the citizen when the case is won, and starts the reporting reminder.",
+        "reportingHint": "Carried to the case when the inquiry is won. The report reminders start from there.",
         "pending": "Being placed on the map",
         "unavailable": "Not placed on the map: map lookup is not set up, so no distance is shown",
         "notFound": "Could not be found on the map. Check the address or add a postal code",
@@ -19955,7 +20115,9 @@
         "byMonth": "By month",
         "serviceType": "Service type",
         "month": "Month",
-        "noServiceType": "No service type"
+        "noServiceType": "No service type",
+        "includeImported": "Include migrated inquiries",
+        "includeImportedHint": "{count} inquiries in the period were moved over from a previous system. They are left out of the figures unless you choose to include them."
     },
     "inquiryOffer": {
         "title": "Offer",
@@ -20694,6 +20856,296 @@
                 "desc": "You are {size}. Pro includes 4 users, and you can add more as you grow."
             },
             "cta": "See plans"
+        }
+    },
+    "consultantCalendar": {
+        "title": "Consultant calendar",
+        "description": "See consultants' appointments across all their cases, and book a consultant.",
+        "consultants": "Consultants",
+        "views": {
+            "week": "Week",
+            "month": "Month"
+        },
+        "previous": "Previous",
+        "next": "Next",
+        "today": "Today",
+        "week": "Week {number}",
+        "book": "Book consultant",
+        "bookTitle": "Book consultant",
+        "pickConsultant": "Choose one or more consultants to see their calendar.",
+        "totals": {
+            "planned": "Planned in period",
+            "citizens": "Of which citizen appointments",
+            "meetings": "Staff meetings/supervision",
+            "all": "Total planned: {planned}. Staff meetings/supervision: {meetings}."
+        },
+        "hours": "{hours} h",
+        "more": "{count} more",
+        "list": "Appointments in period",
+        "empty": "No appointments in this period.",
+        "busy": "Busy",
+        "cancelled": "Cancelled",
+        "workTypes": {
+            "citizen": "Citizen appointment",
+            "ordinary": "Ordinary appointment",
+            "staff_meeting": "Staff meeting",
+            "supervision": "Supervision"
+        },
+        "seeCalendar": "See calendar",
+        "booked": "The consultant has been booked.",
+        "form": {
+            "consultant": "Consultant",
+            "type": "Type",
+            "citizen": "Citizen",
+            "workTimeHint": "Staff meetings and supervision count as working time and are shown on their own line in the hours summary."
+        }
+    },
+    "paymentDunning": {
+        "nav": {
+            "billingProblems": "Payment problems"
+        },
+        "invoices": {
+            "resolvedChip": "Resolved on retry",
+            "resolvedHelp": "The payment was rejected, but a later retry succeeded. Not counted under Rejected.",
+            "failedTabHelp": "Unresolved rejected payments only. Resolved attempts show as Resolved on retry.",
+            "resolvedTab": "Resolved on retry"
+        },
+        "problems": {
+            "title": "Payment problems",
+            "intro": "Companies that are behind, closed or ready to close. Invoice customers are never closed automatically.",
+            "empty": "No payment problems right now",
+            "emptyFiltered": "No companies match the filter",
+            "loadFailed": "Could not load payment problems",
+            "refresh": "Refresh the list",
+            "filterAll": "All statuses",
+            "col": {
+                "company": "Company",
+                "method": "Payment method",
+                "outstanding": "Outstanding",
+                "daysOverdue": "Days overdue",
+                "warnings": "Warnings sent",
+                "closesOn": "Closes",
+                "status": "Status"
+            },
+            "status": {
+                "ready_to_close": "Ready to close",
+                "past_due": "Behind",
+                "overdue": "Overdue",
+                "suspended": "Closed"
+            },
+            "method": {
+                "card": "Card",
+                "invoice": "Invoice"
+            },
+            "securityCard": "Card as security",
+            "overCap": "Above the amount limit: follow up manually",
+            "noClosingDate": "No date",
+            "readOnly": "You can view the list but not change anything.",
+            "action": {
+                "retry": "Retry now",
+                "send_card_link": "Send new card link",
+                "charge_security_card": "Charge security card now",
+                "close": "Close now",
+                "reopen": "Reopen",
+                "postpone": "Postpone",
+                "revoke_security_card": "Remove security card",
+                "retry_unknown_charge": "Retry with the same key"
+            },
+            "help": {
+                "retry": "Tries to charge the outstanding amount to the customer's card now.",
+                "send_card_link": "Sends the administrators a link where they can add a new card.",
+                "charge_security_card": "Charges the unpaid invoice to the customer's security card. Cannot be undone.",
+                "charge_security_card_disabled": "Needs card as security switched on, an active security card and an overdue invoice.",
+                "close": "Closes the company, so its users see the missing-payment page. Not possible for companies with a running agreement.",
+                "reopen": "Reopens the company immediately and postpones reminders for the number of days you choose.",
+                "postpone": "Pauses dunning and closing for the number of days you choose.",
+                "revoke_security_card": "Removes the customer's security card. The card is never charged again. It is not deleted at Nexi.",
+                "retry_unknown_charge": "Sends the same charge to Nexi again with the same key, so it can go through at most once. Use it only after checking the Nexi portal."
+            },
+            "dialog": {
+                "title": {
+                    "retry": "Retry the charge",
+                    "send_card_link": "Send new card link",
+                    "charge_security_card": "Charge the security card",
+                    "close": "Close the company",
+                    "reopen": "Reopen the company",
+                    "postpone": "Postpone dunning",
+                    "revoke_security_card": "Remove the security card",
+                    "retry_unknown_charge": "Retry with the same key"
+                },
+                "about": "{company}: {amount} outstanding",
+                "noteLabel": "Reason",
+                "noteHelp": "Written to the activity log with your name.",
+                "notePlaceholder": "E.g. agreed with the customer today",
+                "noteRequired": "Write a reason.",
+                "daysLabel": "Number of days",
+                "daysHelp": "Between 1 and 90 days.",
+                "daysInvalid": "Choose a whole number of days between 1 and 90.",
+                "confirm": "Confirm",
+                "cancel": "Cancel",
+                "daysLabelReopen": "Days without reminders after reopening",
+                "optional": "optional",
+                "closeConfirm": "The company's users see the missing-payment page until it is reopened.",
+                "revokeConfirm": "The card is never charged again, not even for invoices already overdue. The customer can attach a new card.",
+                "retryUnknownConfirm": "You must first have checked in the Nexi portal that the charge has not already gone through. Confirm only if you have."
+            },
+            "done": {
+                "retry": "The retry has been started",
+                "send_card_link": "The link has been sent",
+                "charge_security_card": "The security card charge was attempted",
+                "close": "The company is closed",
+                "reopen": "The company is reopened",
+                "postpone": "Dunning has been postponed",
+                "revoke_security_card": "The security card was removed",
+                "retry_unknown_charge": "The charge was sent again with the same key"
+            },
+            "failed": "The action failed",
+            "openCompany": "Open the company",
+            "postponedUntil": "Postponed until {date}",
+            "invoiceStatus": {
+                "noticed": "Notified",
+                "charging": "Charging",
+                "pending": "Pending at bank",
+                "charged": "Charged",
+                "declined": "Declined",
+                "over_cap": "Over the limit",
+                "unknown": "Waiting for Nexi"
+            },
+            "invoiceStatusHelp": "Status of the security card charge for this invoice.",
+            "securityCardLine": "Card •••• {last_four} (expires {expiry})",
+            "needsNexiCheck": "Check in the Nexi portal",
+            "needsNexiCheckHelp": "Nexi never answered the last charge. Check in the Nexi portal whether it went through before repeating anything."
+        },
+        "company": {
+            "title": "Payment method",
+            "intro": "How the company pays for licences and subscriptions. Only superadmins with finance rights can change it.",
+            "card": "Card",
+            "invoice": "Invoice",
+            "cardHelp": "Amounts are charged automatically to the customer's card.",
+            "invoiceHelp": "An invoice is sent, payable within 3 days. The card is not charged unless card as security is on.",
+            "cardSecurity": "Card as security",
+            "cardSecurityHelp": "The customer attaches a card with no charge. An invoice unpaid 7 days after its due date is charged to the card after a notice 2 days before.",
+            "leverandorservice": "Leverandørservice",
+            "leverandorserviceHelp": "The customer pays through Leverandørservice. Applies to every invoice to the company.",
+            "cardState": "Security card",
+            "cardAttached": "{masked} (expires {expiry})",
+            "cardMissing": "Missing",
+            "cardMissingHelp": "The customer's administrator is asked to attach a card. You can send a link from Payment problems.",
+            "agreementNote": "The company has a running agreement. New licences are added to the agreement as an add-on, whatever the payment method.",
+            "save": "Save payment method",
+            "saveHelp": "Saves the payment method only. The rest of the company's details are not touched.",
+            "saved": "The payment method is saved",
+            "saveFailed": "Could not save the payment method",
+            "loadFailed": "Could not load the payment method",
+            "readOnly": "You can see the payment method, but only finance can change it."
+        },
+        "grant": {
+            "card": "The customer pays by card: the licences are charged to the card straight away.",
+            "invoice": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days.",
+            "invoice_economic": "The customer pays by invoice: an invoice is created in CitizenOne, payable within 3 days, and a draft in e-conomic when e-conomic is enabled.",
+            "agreement": "The company has an agreement: the licences are added to the agreement as an add-on.",
+            "methodUnknown": "The payment method could not be loaded. Check the Payment method section on Overview before continuing.",
+            "changeMethod": "Change payment method",
+            "changeMethodHelp": "The payment method is a company setting and is changed on Overview.",
+            "invoiceCreated": "Invoice {number} was created and is due {date}",
+            "agreementAddOnHint": "The licences are linked to the agreement. Add the add-on instalment under Agreements so the invoice is not sent twice."
+        },
+        "customer": {
+            "method": "Payment method",
+            "invoiceMethod": "Invoice",
+            "invoiceMethodHelp": "We send an invoice, payable within 3 days. No card price is shown.",
+            "securityCard": "Payment card as security: {masked} (expires {expiry})",
+            "securityCardHelp": "The card is only charged if an invoice is unpaid 7 days after its due date, and you have been warned 2 days before.",
+            "changeCard": "Change card",
+            "changeCardHelp": "Attach a different payment card as security. Nothing is charged now.",
+            "attachCard": "Attach card",
+            "bannerTitle": "Attach a payment card as security",
+            "bannerBody": "Your agreement uses a card as security. Nothing is charged when you attach it.",
+            "bannerAdminOnly": "An administrator needs to attach a payment card as security.",
+            "consentHelp": "The consent and the time are recorded.",
+            "consentRequired": "Tick the consent to continue.",
+            "cardSaved": "The card is attached as security",
+            "cardFailed": "The card could not be attached. Try again or contact support.",
+            "cancel": "Cancel",
+            "loadFailed": "Could not load the consent text. Try again.",
+            "consentCheckbox": "I have read the text above and give my consent",
+            "removeCard": "Remove card",
+            "removeCardHelp": "Removes the security card. It is never charged again, and you can attach a new one later.",
+            "removeCardConfirm": "Do you want to remove the security card? It is never charged again.",
+            "cardRemoved": "The security card was removed"
+        },
+        "suspended": {
+            "title": "Payment missing – update your payment card",
+            "adminBody": "Your account is closed because the payment did not go through. Update the payment card and we reopen the account immediately.",
+            "updateCard": "Update payment card",
+            "updateCardHelp": "Opens the payment where you can enter a new card. The account reopens when the payment succeeds.",
+            "contactTitle": "Payment missing",
+            "contactBody": "Contact your administrator. Only an administrator can update the payment card.",
+            "days": "The account closes in {days} days if the payment does not go through."
+        },
+        "paused": {
+            "ai": "Payment missing for AI capacity – update the card to reactivate",
+            "sms": "Payment missing for SMS – update the card to reactivate",
+            "adminOnly": "Contact your administrator, who can update the card.",
+            "updateCard": "Update card",
+            "updateCardHelp": "Goes to the page where you can update the card and reactivate the service."
+        },
+        "leverandorservice": {
+            "line": "Leverandørservice: {value} (managed under Payment method)",
+            "yes": "Yes",
+            "no": "No",
+            "unknown": "unknown",
+            "help": "Whether the customer pays through Leverandørservice is a company setting. It decides whether the 295 kr service fee applies.",
+            "link": "Change under Payment method",
+            "linkHelp": "Opens the company overview, where Payment method can be changed."
+        },
+        "grantApp": {
+            "methodFromCompany": "The payment method follows the company and cannot be changed here.",
+            "methodDefaultHelp": "Suggested from the company's payment method. Card customers can pick another per grant."
+        },
+        "invoiceOverdue": {
+            "title": "Invoice not paid",
+            "body": "Your invoice has not been paid. Contact us and we will sort it out and keep the account open.",
+            "contact": "Contact us",
+            "contactHelp": "Opens an email to CitizenOne support."
+        },
+        "outcome": {
+            "retry": {
+                "paid": "The payment went through",
+                "pending": "The payment has been sent to the bank and is pending. It is not paid yet.",
+                "declined": "The card was declined and nothing was charged. Update the card or try another.",
+                "no_card": "No payment card is registered. Update the payment card first.",
+                "not_applicable": "There is nothing to pay right now.",
+                "unknown": "We could not tell whether the payment went through. Try again shortly."
+            },
+            "charge": {
+                "charged": "The security card was charged and the invoice is paid",
+                "pending": "The charge has been sent to the bank and is pending. The invoice is not paid yet.",
+                "declined": "The security card was declined. The dunning flow has started.",
+                "unknown": "Waiting for Nexi's answer – the charge must not be repeated. The invoice is reconciled automatically."
+            }
+        },
+        "errors": {
+            "payment_provider_unavailable": "The payment provider cannot be reached right now. Nothing was changed. Try again shortly.",
+            "payment_problem_no_card": "The company has no payment card to charge.",
+            "payment_problem_action_not_available": "The action does not fit the company's state. Refresh the list.",
+            "payment_problem_close_blocked": "The company has a running agreement and cannot be closed for non-payment.",
+            "card_security_disabled": "Card as security is not enabled in the system.",
+            "card_security_over_cap": "The amount is above the security card limit and must be followed up manually.",
+            "card_security_consent_required": "The consent is no longer valid. Close and reopen the dialog and consent again.",
+            "card_security_not_applicable": "Card as security only applies to invoice customers.",
+            "plan_change_invoice_company": "The company pays by invoice. Change the plan from the licence overview so it is invoiced.",
+            "card_security_agreement_changed": "The card the attempt was sent to has been removed or replaced since. It cannot be repeated with the same key. Check the charge in the Nexi portal.",
+            "renewal_not_available": "Updating the payment card is not available right now. Contact support if the account is closed.",
+            "impersonation_not_allowed": "Cannot be done while support is signed in as the customer."
+        },
+        "agreement": {
+            "cardSecurity": "Card as security",
+            "cardSecurityHelp": "The agreement's invoices can be charged to the customer's security card when unpaid. Large amounts are often above the limit and followed up manually.",
+            "cardSecuritySaved": "Card as security was updated on the agreement"
+        },
+        "suspendedPage": {
+            "loading": "Loading status..."
         }
     }
 }

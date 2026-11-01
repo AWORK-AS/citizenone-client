@@ -45,6 +45,12 @@ class ConsultantSkillService extends BaseAPIService {
     async match(criteria: object): Promise<any> {
         return await this.request(`/user/consultant-skills/match`, 'POST', criteria)
     }
+
+    // Everyone the match can offer, plus those who must not be contacted, as
+    // an Excel file.
+    async exportConsultants(): Promise<Blob | null> {
+        return await this.requestBlob(`/user/consultant-skills/export/download`, 'GET')
+    }
 }
 
 export const consultantSkillService = new ConsultantSkillService()
