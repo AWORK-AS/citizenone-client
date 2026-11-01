@@ -82,6 +82,9 @@
                             <Icon name="ph:notebook" class="h-4 w-4 text-gray-500" aria-hidden="true" />
                         </NuxtLink>
                     </Tooltip>
+                    <!-- A video meeting right now with the colleague in a one-to-one chat. -->
+                    <ModulesUserMeetingsStartNowButton v-if="state.chat?.data?.type !== 'group' && meetingColleagueUuid"
+                        :userUuid="meetingColleagueUuid" tooltipPosition="left" />
                     <Tooltip :text="$t('messages.openInNewWindow')" position="left" v-if="isDesktopApp">
                         <button :aria-label="$t('messages.openInNewWindow')"
                             class="w-8 h-8 rounded-lg hover:bg-gray-100 flex items-center justify-center transition-colors"
@@ -827,6 +830,13 @@ async function downloadFile(attachment: any) {
 function chatToSelf(chatMembers: any) {
     return chatMembers.filter((m: any) => m.user_id === userStore.getUser?.id)
 }
+
+// The colleague in a one-to-one chat with a member of staff (not a citizen).
+const meetingColleagueUuid = computed(() => {
+    const others = excludeCurrentUserFromChatMembers(state.chat?.data?.chat_members || [])
+    const member = others.length === 1 ? others[0] : null
+    return member && !String(member.user_type ?? '').includes('Citizen') ? member.user?.uuid : null
+})
 
 function excludeCurrentUserFromChatMembers(chatMembers: any) {
     return chatMembers.filter((m: any) => m.user_id !== userStore.getUser?.id)
