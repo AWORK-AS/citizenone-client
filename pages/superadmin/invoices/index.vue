@@ -199,7 +199,7 @@
                                             {{ $t('superadmin.agreements.payment.register') }}
                                         </SuperadminTableButton>
                                     </Tooltip>
-                                    <Tooltip v-if="invoice?.is_paid && invoice?.paid_at"
+                                    <Tooltip v-if="invoice?.is_paid && invoice?.paid_at && invoice?.paid_source !== 'card'"
                                         :text="$t('superadmin.agreements.payment.undoHelp')" position="top">
                                         <SuperadminTableButton buttonStyle="danger" @click="confirmUndoPayment(invoice)">
                                             <Icon name="ph:arrow-counter-clockwise" class="w-3.5 h-3.5" aria-hidden="true" />
