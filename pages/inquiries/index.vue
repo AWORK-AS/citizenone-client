@@ -186,11 +186,17 @@
                                 <div v-for="inq in inquiriesByStage(stage.slug)" :key="inq.uuid" draggable="true"
                                     @dragstart="onDragStart(inq)" @dragend="dragOverKey = null"
                                     @click="openInquiry(inq)"
-                                    class="group cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
+                                    class="group relative cursor-pointer rounded-[11px] bg-white border border-surface-200 p-3 shadow-card transition-all duration-150 hover:-translate-y-0.5 hover:border-[#cfe3ea] hover:shadow-card-hover active:cursor-grabbing"
                                     :class="[dragged?.uuid === inq.uuid ? 'opacity-40' : '', RISK_STYLES[inq.risk_level]?.edge]">
                                     <!-- Clamped, with the whole text on hover: an imported
                                          inquiry's heading can be a long case title. -->
-                                    <p class="truncate text-[11px] font-bold text-secondary" :title="inq.inquirer_name || undefined">
+                                    <!-- Deleting from the board too, as from the list; shown on hover. -->
+                                    <button type="button" :aria-label="$t('inquiries.table.actions.delete')" :title="$t('inquiries.table.actions.delete')"
+                                        class="absolute right-2 top-2 rounded-md p-1 text-slate-400 opacity-0 transition-opacity hover:bg-[#fbe9e5] hover:text-[#c0442c] focus:opacity-100 group-hover:opacity-100"
+                                        @click.stop="deleteConfirmation(inq)">
+                                        <Icon name="ph:trash" class="size-4" />
+                                    </button>
+                                    <p class="truncate pr-6 text-[11px] font-bold text-secondary" :title="inq.inquirer_name || undefined">
                                         {{ inq.inquirer_name || $t('inquiries.inquiries') }}
                                     </p>
                                     <p class="mt-0.5 line-clamp-2 break-words text-[13.5px] font-bold leading-snug text-slate-900"
@@ -200,6 +206,10 @@
                                     <p v-if="inq.receiving_coordinator" class="mt-1 flex items-center gap-1 truncate text-[11.5px] text-slate-500">
                                         <Icon name="ph:user-circle" class="size-3.5 shrink-0" />
                                         {{ $t('inquiryPipeline.receivedBy', { name: personName(inq.receiving_coordinator) }) }}
+                                    </p>
+                                    <p v-if="inq.responsible?.role === 'primary'" class="mt-0.5 flex items-center gap-1 truncate text-[11.5px] text-slate-500">
+                                        <Icon name="ph:user-check" class="size-3.5 shrink-0" />
+                                        {{ $t('inquiryPipeline.responsiblePrimary', { name: personName(inq.responsible) }) }}
                                     </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
                                         <!-- The worst answer to the company's risk fields; the
@@ -306,7 +316,9 @@
                             <Table :columnHeaders="columnHeaders" :data="state.inquiries"
                                 :isLoading="state.isTableLoading" :sortData="inquiryStore.getSortData" @sort="sort">
                                 <template #body v-if="!(state.isTableLoading || (state.inquiries?.data?.length === 0))">
-                                    <tr v-for="(inquiry, index) in state.inquiries?.data" :key="index">
+                                    <!-- The row opens the inquiry, as a card on the board does. -->
+                                    <tr v-for="(inquiry, index) in state.inquiries?.data" :key="index"
+                                        class="cursor-pointer hover:bg-surface-50" @click="openInquiry(inquiry)">
                                         <td width="15%">
                                             {{ formatDateToReadable(inquiry?.inquiry_date) }}
                                         </td>
@@ -356,22 +368,28 @@
                                         </td>
                                         <td width="10%">
                                             <div class="flex items-end justify-end gap-2">
+                                                <Tooltip :text="$t('inquiryPipeline.unassignedConverted.openInquiry')">
+                                                    <FormButton :aria-label="$t('inquiryPipeline.unassignedConverted.openInquiry')" type="button" buttonStyle="action"
+                                                        @click.stop="openInquiry(inquiry)">
+                                                        <Icon name="ph:arrow-square-out" class="size-4" />
+                                                    </FormButton>
+                                                </Tooltip>
                                                 <Tooltip :text="$t('inquiries.table.actions.edit')">
                                                     <FormButton :aria-label="$t('inquiries.table.actions.edit')" type="button" buttonStyle="action"
-                                                        @click="editInquiry(inquiry)">
+                                                        @click.stop="editInquiry(inquiry)">
                                                         <Icon name="ph:pencil-simple" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="tt('inquiries.table.actions.convertAsCitizen')"
                                                     v-if="!inquiry?.citizen_id">
                                                     <FormButton :aria-label="tt('inquiries.table.actions.convertAsCitizen')" type="button" buttonStyle="action"
-                                                        @click="convertInquiryConfirmation(inquiry)">
+                                                        @click.stop="convertInquiryConfirmation(inquiry)">
                                                         <Icon name="ph:check" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>
                                                 <Tooltip :text="$t('inquiries.table.actions.delete')">
                                                     <FormButton :aria-label="$t('inquiries.table.actions.delete')" type="button" buttonStyle="danger"
-                                                        @click="deleteConfirmation(inquiry)">
+                                                        @click.stop="deleteConfirmation(inquiry)">
                                                         <Icon name="ph:trash" class="size-4" />
                                                     </FormButton>
                                                 </Tooltip>

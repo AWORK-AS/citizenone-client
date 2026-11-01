@@ -3,9 +3,18 @@
         <Alert type="danger" :text="state.error?.message"
             v-if="state.error?.message && state.error.message.length > 0" />
 
-        <p class="max-w-3xl text-sm text-gray-500">
-            {{ inquiryUuid ? $t('consultantMatch.description') : $t('consultantMatch.generalDescription') }}
-        </p>
+        <div class="flex flex-wrap items-start justify-between gap-3">
+            <p class="max-w-3xl text-sm text-gray-500">
+                {{ inquiryUuid ? $t('consultantMatch.description') : $t('consultantMatch.generalDescription') }}
+            </p>
+            <!-- The whole list, not the current result: the search criteria
+                 do not travel with it. -->
+            <FormButton type="button" buttonStyle="secondary" :disabled="state.isExporting"
+                :title="$t('consultantMatch.exportHint')" @click="exportConsultants">
+                <Icon name="ph:file-xls" class="size-4" />
+                {{ state.isExporting ? $t('consultantMatch.exporting') : $t('consultantMatch.export') }}
+            </FormButton>
+        </div>
 
         <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
             <!-- What the case needs -->
@@ -66,6 +75,13 @@
                             <FormTextField id="crit-hours" name="crit-hours"
                                 v-model="state.form.min_weekly_hours" placeholder="0" />
                         </div>
+                    </div>
+
+                    <!-- Wished hours a week less what she is already given on indsatser. -->
+                    <div>
+                        <FormLabel for="crit-free-hours" :label="$t('consultantMatch.form.minFreeWeeklyHours')" />
+                        <FormTextField id="crit-free-hours" name="crit-free-hours"
+                            v-model="state.form.min_free_weekly_hours" placeholder="0" />
                     </div>
 
                     <div>
@@ -136,11 +152,13 @@
                 </div>
                 <div v-if="state.hasSearched" class="flex flex-wrap items-center justify-between gap-3">
                     <p class="text-xs text-slate-400">
-                        {{ $t('consultantMatch.resultSummary', {
+                        <!-- With no criteria every consultant trivially meets them all,
+                             which is no answer to give. -->
+                        {{ state.criteriaAsked.length ? $t('consultantMatch.resultSummary', {
                             total: state.results.length,
                             full: fullCount,
                             criteria: state.criteriaAsked.length,
-                        }) }}
+                        }) : $t('consultantMatch.resultSummaryNoCriteria', { total: state.results.length }) }}
                     </p>
                     <div v-if="state.inquiry?.location_geocoded"
                         class="flex items-center gap-1 rounded-lg border border-surface-200 bg-white p-0.5">
@@ -201,6 +219,15 @@
                                     class="rounded-full bg-[#eef6fb] px-2.5 py-[3px] text-[11.5px] font-bold text-secondary">
                                     {{ $t('consultantMatch.activeCases', { count: result.active_cases }, result.active_cases) }}
                                 </span>
+                                <span v-if="result.capacity?.free_weekly_hours !== null && result.capacity?.free_weekly_hours !== undefined"
+                                    :title="$t('consultantMatch.freeCapacityHint', {
+                                        allocated: hours(result.capacity.allocated_weekly_hours),
+                                        desired: hours(result.capacity.desired_weekly_hours),
+                                    })"
+                                    class="rounded-full px-2.5 py-[3px] text-[11.5px] font-bold tabular-nums"
+                                    :class="result.capacity.free_weekly_hours > 0 ? 'bg-[#e6f6ee] text-[#177a53]' : 'bg-surface-100 text-slate-600'">
+                                    {{ $t('consultantMatch.freeCapacity', { hours: hours(result.capacity.free_weekly_hours) }) }}
+                                </span>
                                 <!-- Distance from the case to their home; approximate
                                      when their home is only known by postal code. -->
                                 <span v-if="state.locationGeocoded"
@@ -218,10 +245,21 @@
                                 </p>
                             </div>
                         </div>
-                        <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
-                            class="shrink-0 text-[13px] font-semibold text-secondary hover:underline">
-                            {{ $t('consultantMatch.openProfile') }}
-                        </NuxtLink>
+                        <div class="flex shrink-0 flex-wrap items-center gap-x-4 gap-y-1">
+                            <NuxtLink :to="`/employees/${result.uuid}/consultant-profile`"
+                                class="text-[13px] font-semibold text-secondary hover:underline">
+                                {{ $t('consultantMatch.openProfile') }}
+                            </NuxtLink>
+                            <!-- Opened for a recruitment case: the answer is one
+                                 consultant, chosen here. -->
+                            <FormButton v-if="pickMode" type="button" buttonStyle="primary" @click="emit('pick', result)">
+                                {{ $t('recruitment.chooseConsultant') }}
+                            </FormButton>
+                            <NuxtLink :to="`/consultant-calendar?consultant=${result.uuid}`"
+                                class="text-[13px] font-semibold text-primary hover:underline">
+                                {{ $t('consultantCalendar.seeCalendar') }}
+                            </NuxtLink>
+                        </div>
                     </div>
 
                     <!-- What they do not meet is the reason they are not a
@@ -263,9 +301,12 @@ import { municipalityService } from '@/components/api/user/MunicipalityService'
 import { regionService } from '@/components/api/user/RegionService'
 import { spokenLanguageService } from '@/components/api/user/SpokenLanguageService'
 import { useAlert } from '@/composables/alert'
+import { saveAs } from 'file-saver'
+import { formatWeekHours } from '@/composables/citizenWeeklyHours'
 import { useSpokenLanguages } from '@/composables/useSpokenLanguages'
 import { useI18n } from 'vue-i18n'
 import { useUserStore } from '@/store/user'
+import { notifiedChannels } from '@/utils/consultantNotifiedVia'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -273,8 +314,15 @@ const props = defineProps({
         type: String,
         default: null,
     },
+    // For a recruitment case: each result gets a "Choose consultant" action
+    // that emits the consultant instead of inviting.
+    pickMode: {
+        type: Boolean,
+        default: false,
+    },
 })
-const { t } = useI18n()
+const emit = defineEmits<{ pick: [consultant: any] }>()
+const { t, locale } = useI18n()
 const { toOptions } = useSpokenLanguages()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
@@ -302,6 +350,7 @@ function emptyForm() {
         consultant_status: [] as string[],
         min_step_assessment: null as number | null,
         min_weekly_hours: '',
+        min_free_weekly_hours: '',
         within_travel_range_only: false,
         sort: 'match' as 'match' | 'distance',
     }
@@ -323,6 +372,7 @@ const state = reactive({
     criteriaAsked: [] as string[],
     hasSearched: false,
     isSearching: false,
+    isExporting: false,
     languages: [] as any[],
     municipalities: [] as any[],
     regions: [] as any[],
@@ -448,18 +498,41 @@ async function invite() {
     try {
         const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked)
         state.picked = []
-        // An inactive (archived) consultant is asked but gets no mail or app
-        // notice, so the coordinator has to reach them directly. Without
-        // `invitees` (an older backend) the message is as before.
-        const notNotified = (response?.invitees ?? []).filter((invitee: any) => invitee.notified === false).length
-        const message = response?.message ?? t('consultantMatch.asked')
-        successAlert(`${t('alert.success')}!`, notNotified
-            ? `${message} ${t('consultantMatch.notNotified', { count: notNotified }, notNotified)}`
-            : message)
+        successAlert(`${t('alert.success')}!`, inviteMessage(response))
     } catch (error: any) {
         errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
     }
     state.isInviting = false
+}
+
+// Says per consultant how they were told (mail, app, SMS) or that nobody
+// reached them. An older backend sends only `notified`, and then the message is
+// the count of inactive consultants, as before.
+function inviteMessage(response: any) {
+    const message = response?.message ?? t('consultantMatch.asked')
+    const invitees = response?.invitees ?? []
+
+    if (invitees.length && invitees.every((invitee: any) => 'sms' in invitee)) {
+        const lines = invitees.map((invitee: any) => {
+            const result = state.results.find((r: any) => r.uuid === invitee.consultant_uuid)
+            const name = result
+                ? `${result.firstname ?? ''} ${result.lastname ?? ''}`.trim()
+                : t('inquiryInvitations.unknownConsultant')
+            const channels = notifiedChannels(invitee)
+
+            return channels.length
+                ? t('consultantMatch.toldVia', { name, channels: channels.map((c) => t('inquiryInvitations.channels.' + c)).join(', ') })
+                : t('consultantMatch.notReached', { name })
+        })
+
+        return [message, ...lines].join(' ')
+    }
+
+    const notNotified = invitees.filter((invitee: any) => invitee.notified === false).length
+
+    return notNotified
+        ? `${message} ${t('consultantMatch.notNotified', { count: notNotified }, notNotified)}`
+        : message
 }
 
 function matchClass(match: string) {
@@ -467,6 +540,10 @@ function matchClass(match: string) {
     if (match === 'partial') return 'bg-[#fdf3df] text-[#8a6208]'
 
     return 'bg-surface-100 text-slate-500'
+}
+
+function hours(value: number) {
+    return formatWeekHours(value, locale.value)
 }
 
 function profileLine(result: any) {
@@ -593,6 +670,7 @@ async function search() {
         if (state.form.consultant_status.length) payload.consultant_status = state.form.consultant_status
         if (state.form.min_step_assessment !== null) payload.min_step_assessment = state.form.min_step_assessment
         if (state.form.min_weekly_hours !== '') payload.min_weekly_hours = Number(state.form.min_weekly_hours)
+        if (state.form.min_free_weekly_hours !== '') payload.min_free_weekly_hours = Number(String(state.form.min_free_weekly_hours).replace(',', '.'))
 
         const response = await consultantSkillService.match(payload)
         state.results = response?.data ?? []
@@ -605,5 +683,17 @@ async function search() {
         state.error = error
     }
     state.isSearching = false
+}
+
+async function exportConsultants() {
+    state.isExporting = true
+    state.error = {}
+    try {
+        const file = await consultantSkillService.exportConsultants()
+        if (file) saveAs(file, `${t('consultantMatch.exportFileName')}.xlsx`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isExporting = false
 }
 </script>

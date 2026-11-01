@@ -15,6 +15,13 @@
             <ModulesUserEmployeeTabs />
 
             <div class="mt-8 space-y-5">
+                <div class="flex justify-end">
+                    <NuxtLink :to="`/consultant-calendar?consultant=${employeeUuid}`"
+                        class="inline-flex items-center gap-x-1.5 text-sm font-semibold text-primary hover:underline">
+                        <Icon name="ph:calendar-dot" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('consultantCalendar.seeCalendar') }}
+                    </NuxtLink>
+                </div>
                 <Alert type="danger" :text="state.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
@@ -42,6 +49,8 @@
                         </div>
                     </div>
                 </div>
+
+                <ModulesUserConsultantCapacityPanel :capacity="state.capacity" />
 
                 <!-- Profile -->
                 <div class="rounded-lg border border-gray-200 bg-white p-4">
@@ -297,6 +306,8 @@ const state = reactive({
     hasContactStatus: false,
     contactStatus: null as string | null,
     activeCases: 0,
+    // Hours a week across her indsatser; null from a backend without it.
+    capacity: null as any,
     isSavingSkills: false,
     municipalities: [] as any[],
     name: '',
@@ -452,6 +463,7 @@ function applyProfile(data: any) {
     state.hasContactStatus = profile.do_not_contact !== undefined
     state.contactStatus = data.contact_status ?? null
     state.activeCases = Number(data.active_cases ?? 0)
+    state.capacity = data.capacity ?? null
     state.form = {
         municipality_uuid: profile.municipality_uuid ?? null,
         region_uuid: profile.region_uuid ?? null,

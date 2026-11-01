@@ -29,6 +29,14 @@ class CitizenContactService extends BaseAPIService {
         return await this.request(`/user/citizen-contacts/${citizenUuid}/coordinators`, 'PUT', params)
     }
 
+    async getConsultantHours(citizenUuid: string): Promise<any> {
+        return await this.request(`/user/citizen-contacts/${citizenUuid}/consultant-hours`, 'GET')
+    }
+
+    async updateConsultantHours(citizenUuid: string, contactUuid: string, params: { weekly_hours: number | null }): Promise<any> {
+        return await this.request(`/user/citizen-contacts/${citizenUuid}/consultant-hours/${contactUuid}`, 'PUT', params)
+    }
+
     async getAllCitizenContactPersons(params: object): Promise<any> {
         return await this.request(`/user/citizen-contact-persons/all/list`, 'GET', params)
     }

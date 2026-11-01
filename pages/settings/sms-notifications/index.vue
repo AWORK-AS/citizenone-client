@@ -18,6 +18,8 @@
                     <Alert type="danger" :text="state.error?.message"
                         v-if="state.error?.message && state.error.message.length > 0" />
 
+                    <ModulesUserBillingServicePausedNotice service="sms" :paused="state.settings.payment_missing" />
+
                     <!-- SMS Enable + Balance card -->
                     <LoadingSpinner :isActive="state.isPageLoading">
                         <div class="bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm max-w-2xl">
@@ -244,6 +246,7 @@ const state = reactive({
         notify_reminder_24h: false,
         notify_reminder_same_day: false,
         sms_balance: 0 as number,
+        payment_missing: false,
         auto_recharge_enabled: false,
         auto_recharge_threshold: '10' as string,
         auto_recharge_amount: '100' as string,
@@ -307,6 +310,7 @@ async function fetchSettings() {
             state.settings.notify_reminder_24h = d.notify_reminder_24h ?? false
             state.settings.notify_reminder_same_day = d.notify_reminder_same_day ?? false
             state.settings.sms_balance = d.sms_balance ?? 0
+            state.settings.payment_missing = !!(d.payment_paused || d.payment_missing || d.sms_paused)
             state.settings.auto_recharge_enabled = d.auto_recharge_enabled ?? false
             state.settings.auto_recharge_threshold = String(d.auto_recharge_threshold ?? 10)
             state.settings.auto_recharge_amount = String(d.auto_recharge_amount ?? 100)
