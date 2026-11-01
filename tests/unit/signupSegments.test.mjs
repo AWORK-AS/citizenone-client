@@ -65,7 +65,8 @@ describe('signup buckets', () => {
                 assert.equal(register.panel[key].points.length, 3, `${lang} ${key}`)
             }
             assert.equal(register.panel.default.points.length, 3, lang)
-            for (const field of ['title', 'subtitle', 'which', 'showAll', 'search', 'noMatch', 'other', 'change']) {
+            assert.ok(register.segment.otherTile.label && register.segment.otherTile.desc, lang)
+            for (const field of ['title', 'subtitle', 'which', 'showAll', 'search', 'noMatch', 'notListed', 'change']) {
                 assert.ok(register.segment[field] ?? register.about[field], `${lang} ${field}`)
             }
         }

@@ -11622,7 +11622,12 @@
             "noMatch": "Ingen yrkesgrupp med det namnet.",
             "other": "Något annat? Sök bland alla yrkesgrupper",
             "change": "Byt",
-            "chosen": "Vald"
+            "chosen": "Vald",
+            "otherTile": {
+                "label": "Annat",
+                "desc": "Skönhet, undervisning och alla andra yrken"
+            },
+            "notListed": "Vårt yrke finns inte på listan. Fortsätt"
         },
         "about": {
             "title": "Berätta om er",

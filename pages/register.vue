@@ -144,6 +144,21 @@
                                     <span class="mt-0.5 block text-xs text-gray-500">{{ $t(`register.segment.buckets.${bucket.key}.desc`) }}</span>
                                 </span>
                             </button>
+                            <!-- Everyone else: beauty, teaching, and a profession that is not on
+                                 the list at all. Nobody should be left without an answer. -->
+                            <button type="button" data-testid="register-other"
+                                :aria-pressed="state.segment.searchAll"
+                                :class="['flex items-start gap-3 rounded-xl border bg-white p-4 text-left transition-colors',
+                                    state.segment.searchAll ? 'border-primary ring-1 ring-primary' : 'border-slate-200 hover:border-slate-300']"
+                                @click="openSearchAll">
+                                <span class="flex size-10 shrink-0 items-center justify-center rounded-lg bg-secondary-25 text-primary">
+                                    <Icon name="ph:dots-three-circle" class="size-5" aria-hidden="true" />
+                                </span>
+                                <span>
+                                    <span class="block text-sm font-semibold text-gray-900">{{ $t('register.segment.otherTile.label') }}</span>
+                                    <span class="mt-0.5 block text-xs text-gray-500">{{ $t('register.segment.otherTile.desc') }}</span>
+                                </span>
+                            </button>
                         </div>
 
                         <div v-if="state.segment.bucket && bucketIndustries.length > 1" data-testid="register-which">
@@ -174,11 +189,13 @@
                                 </button>
                             </div>
                             <p v-if="searchAllResults.length === 0" class="mt-2 text-sm text-gray-500">{{ $t('register.segment.noMatch') }}</p>
+                            <button v-if="otherIndustry" type="button" data-testid="register-not-listed"
+                                class="mt-4 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+                                @click="selectIndustry(otherIndustry)">
+                                {{ $t('register.segment.notListed') }}
+                                <Icon name="ph:arrow-right" class="size-4" aria-hidden="true" />
+                            </button>
                         </div>
-                        <button v-else type="button" class="text-sm font-medium text-primary hover:underline"
-                            data-testid="register-other" @click="openSearchAll">
-                            {{ $t('register.segment.other') }}
-                        </button>
                         <FormError :error="vRulesIndustry$?.formRegister?.industry?.$errors[0]?.$message.toString()" />
                         <FormError :error="state?.error?.errors?.industry_uuid?.[0] ?? state?.error?.errors?.industry?.[0]" />
                     </div>
@@ -371,7 +388,7 @@
 // Same origin as the page, so the app on another market's domain points at itself.
 const canonicalUrl = `${useRequestURL().origin}/register`
 import { signupSourceFromQuery } from '@/composables/signupSource'
-import { BUCKETS, VISIBLE_BEFORE_SHOW_ALL, industriesIn, isBucket, matchesSearch, profileOf, type IndustryOption, type SignupBucket } from '@/composables/signupSegments'
+import { BUCKETS, OTHER_INDUSTRY, VISIBLE_BEFORE_SHOW_ALL, industriesIn, isBucket, matchesSearch, profileOf, type IndustryOption, type SignupBucket } from '@/composables/signupSegments'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
 import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
@@ -557,13 +574,19 @@ const visibleBucketIndustries = computed(() => {
     if (!state.segment.showAll) return bucketIndustries.value.slice(0, VISIBLE_BEFORE_SHOW_ALL)
     return bucketIndustries.value.filter(option => matchesSearch(option, state.segment.query))
 })
+// "Other" is not offered as a profession of its own in the list; it is the
+// "not on the list" button below it. Missing until OtherIndustrySeeder has run.
+const otherIndustry = computed(() =>
+    (state.options.industries as IndustryOption[]).find(option => option.en_name === OTHER_INDUSTRY))
 const searchAllResults = computed(() => {
-    const all = [...state.options.industries as IndustryOption[]].sort((a, b) => a.label.localeCompare(b.label))
+    const all = (state.options.industries as IndustryOption[])
+        .filter(option => option.en_name !== OTHER_INDUSTRY)
+        .sort((a, b) => a.label.localeCompare(b.label))
     return state.segment.query.trim() === '' ? all.slice(0, 12) : all.filter(option => matchesSearch(option, state.segment.query))
 })
 
 function bucketIcon(profile: string) {
-    return BUCKETS.find(bucket => bucket.key === profile)?.icon ?? 'ph:briefcase'
+    return BUCKETS.find(bucket => bucket.key === profile)?.icon ?? 'ph:dots-three-circle'
 }
 
 function industryChipClass(option: IndustryOption) {

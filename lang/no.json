@@ -11622,7 +11622,12 @@
             "noMatch": "Ingen faggruppe med det navnet.",
             "other": "Noe annet? Søk blant alle faggrupper",
             "change": "Bytt",
-            "chosen": "Valgt"
+            "chosen": "Valgt",
+            "otherTile": {
+                "label": "Annet",
+                "desc": "Skjønnhet, undervisning og alle andre fag"
+            },
+            "notListed": "Faget vårt er ikke på listen. Fortsett"
         },
         "about": {
             "title": "Fortell oss om dere",

@@ -39,6 +39,9 @@ const POPULAR: Partial<Record<SignupBucket, string[]>> = {
 
 export const VISIBLE_BEFORE_SHOW_ALL = 6
 
+/** `en_name` of the backend's "Other" industry (OtherIndustrySeeder): the "not on the list" answer. */
+export const OTHER_INDUSTRY = 'Other'
+
 /** The profile of an industry, falling back on the system name for an older API. */
 export function profileOf(option: IndustryOption | undefined | null): string {
     return option?.profile || option?.system_name || 'default'

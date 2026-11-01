@@ -11627,7 +11627,12 @@
             "noMatch": "Ingen faggruppe med det navn.",
             "other": "Noget andet? Søg blandt alle faggrupper",
             "change": "Skift",
-            "chosen": "Valgt"
+            "chosen": "Valgt",
+            "otherTile": {
+                "label": "Andet",
+                "desc": "Skønhed, undervisning og alle andre fag"
+            },
+            "notListed": "Vores fag er ikke på listen. Fortsæt"
         },
         "about": {
             "title": "Fortæl os om jer",

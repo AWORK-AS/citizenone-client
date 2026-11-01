@@ -11627,7 +11627,12 @@
             "noMatch": "No profession with that name.",
             "other": "Something else? Search all professions",
             "change": "Change",
-            "chosen": "Chosen"
+            "chosen": "Chosen",
+            "otherTile": {
+                "label": "Other",
+                "desc": "Beauty, teaching and every other profession"
+            },
+            "notListed": "Our profession is not on the list. Continue"
         },
         "about": {
             "title": "Tell us about you",
