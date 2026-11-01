@@ -214,7 +214,7 @@
                     <FormError :error="props?.error?.errors?.spoken_languages_uuid?.[0]" />
                 </div>
                 <div class="space-y-1" v-if="state.formCitizen.spoken_languages?.length > 0">
-                    <FormLabel for="primary_spoken_language" :label="$t('citizens.form.motherTongue')" />
+                    <FormLabel for="primary_spoken_language" :label="term('motherTongue', $t('citizens.form.motherTongue'))" />
                     <FormSelect id="primary_spoken_language" :options="selectedSpokenLanguageOptions"
                         v-model="state.formCitizen.primary_spoken_language" />
                     <FormError :error="props?.error?.errors?.primary_spoken_language_uuid?.[0]" />

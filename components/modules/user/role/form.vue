@@ -261,7 +261,7 @@ const props = defineProps({
 
 const emit = defineEmits(['isPageLoading', 'submitForm'])
 
-const { t, locale } = useI18n()
+const { t, te, locale } = useI18n()
 
 // Native checkboxes can't express "some but not all" via a prop — set the
 // DOM indeterminate flag directly.
@@ -398,7 +398,8 @@ async function fetchAllPages() {
 
 const pageOptions = computed(() => {
     return state.pages
-        .map((page: any) => ({ value: page.uuid, label: page.name }))
+        // The module names Settings -> Company -> Modules shows, not the stored English name.
+        .map((page: any) => ({ value: page.uuid, label: te(`companyModules.${page.name}`) ? t(`companyModules.${page.name}`) : page.name }))
         .sort((a: any, b: any) => a.label.localeCompare(b.label))
 })
 
