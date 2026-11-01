@@ -74,17 +74,18 @@
 			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isIpOtpOpen"
 				:isModalOpen="state.modal.isIpOtpOpen" otpType="ip" :email="state.formLogin.email ?? ''"
 				:deviceUuid="state.deviceUuid" @close="state.modal.isIpOtpOpen = false"
-				@requires2fa="open2faStep" />
+				@requires2fa="open2faStep" @suspended="onSuspendedAfter2fa" />
 
 			<ModulesUserAuthenticationModalOtpVerification v-if="state.modal.isDeviceOtpOpen"
 				:isModalOpen="state.modal.isDeviceOtpOpen" otpType="device" :email="state.formLogin.email ?? ''"
 				:deviceUuid="state.deviceUuid" @close="state.modal.isDeviceOtpOpen = false"
-				@requires2fa="open2faStep" />
+				@requires2fa="open2faStep" @suspended="onSuspendedAfter2fa" />
 
 
 			<form v-if="!state.code.step" class="form-card" @submit.prevent="login">
+				<ModulesUserBillingSuspendedLoginNotice :error="state.error" />
 				<Alert type="danger" :text="state?.error?.message"
-					v-if="state.error?.message && state.error.message.length > 0" />
+					v-if="state.error?.message && state.error.message.length > 0 && state.error?.code !== 'subscription_suspended'" />
 				<div class="flex items-center justify-between mb-1">
 					<h1 class="form-title !mb-0">
 						{{ $t('login.welcomeBack') }}
@@ -246,8 +247,9 @@
 			</form>
 
 			<form v-else class="form-card" @submit.prevent="submitCode()">
+				<ModulesUserBillingSuspendedLoginNotice :error="state.error" />
 				<Alert type="danger" :text="state?.error?.message"
-					v-if="state.error?.message && state.error.message.length > 0" />
+					v-if="state.error?.message && state.error.message.length > 0 && state.error?.code !== 'subscription_suspended'" />
 				<h1 class="form-title">
 					{{ $t('login.emailCode.title') }}
 				</h1>
@@ -284,6 +286,7 @@
 		</div>
 		<ModulesUserAuthenticationModal2fa :isModalOpen="state.modal.isGoogle2faVerificationOpen"
 			:formLogin="state.formLogin" @close="state.modal.isGoogle2faVerificationOpen = false"
+			@suspended="onSuspendedAfter2fa"
 			v-if="state.modal.isGoogle2faVerificationOpen" />
 	</div>
 </template>
@@ -299,6 +302,7 @@ import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+import { suspendedLogin } from '@/composables/billingMethod'
 import { socialRedirectUrl } from '@/composables/signupQuery'
 import { EMAIL_CODE_LENGTH, EMAIL_CODE_RESEND_SECONDS, isPlausibleEmail, sanitizeEmailCode, shouldSubmitEmailCode } from '@/composables/emailLoginCode'
 
@@ -507,12 +511,25 @@ async function login() {
 			// on the superadmin login instead of leaving them at an error.
 			if (error?.code === 'platform_staff') {
 				await signInAsStaff()
+			} else if (suspendedLogin(error)?.view === 'two_factor') {
+				// A suspended admin with 2FA: no token yet, the code step answers with it.
+				state.error = {}
+				state.modal.isGoogle2faVerificationOpen = true
 			} else {
 				state.error = error
 			}
 		}
 		state.isPageLoading = false
 	}
+}
+
+// The 2FA code was right but the company is closed: show the suspended notice (with the
+// renewal link for an admin) instead of a session that does not exist.
+function onSuspendedAfter2fa(error: any) {
+	state.modal.isGoogle2faVerificationOpen = false
+	state.modal.isIpOtpOpen = false
+	state.modal.isDeviceOtpOpen = false
+	state.error = error
 }
 
 // A 2FA user who passed the emailed IP or device code still needs the 2FA

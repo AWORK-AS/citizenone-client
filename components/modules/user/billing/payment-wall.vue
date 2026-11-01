@@ -1,7 +1,8 @@
 <template>
-    <!-- Admin, payment outstanding: the app is blocked until the card is fixed.
-         Everyone else keeps working and is told who can fix it. -->
-    <div v-if="isBlocking" class="fixed inset-0 z-[100] bg-[#1F2533]/70 backdrop-blur-sm flex items-start justify-center overflow-y-auto p-4 sm:p-8">
+    <!-- Payment outstanding. An admin is blocked until the card is fixed. A suspended company
+         blocks everyone, and non-admins are told to contact their administrator; a company
+         that is only past due shows non-admins a notice. -->
+    <div v-if="mode === 'update_card' || mode === 'contact_admin' || mode === 'invoice_overdue'" class="fixed inset-0 z-[100] bg-[#1F2533]/70 backdrop-blur-sm flex items-start justify-center overflow-y-auto p-4 sm:p-8">
         <div class="w-full max-w-lg rounded-xl bg-white shadow-xl my-auto">
             <div class="px-6 pt-6 pb-4 border-b border-gray-100">
                 <div class="flex items-start gap-3">
@@ -10,19 +11,15 @@
                     </span>
                     <div class="min-w-0">
                         <h2 class="text-lg font-semibold text-[#1F2533]">
-                            {{ isSuspended ? $t('paymentStatus.wall.suspendedTitle') : $t('paymentStatus.wall.pastDueTitle') }}
+                            {{ heading }}
                         </h2>
-                        <p class="mt-1 text-sm text-gray-600">
-                            {{ isSuspended
-                                ? $t('paymentStatus.wall.suspendedBody')
-                                : $t('paymentStatus.wall.pastDueBody', { days: state.status?.days_until_suspension ?? 0 }) }}
-                        </p>
+                        <p class="mt-1 text-sm text-gray-600">{{ body }}</p>
                     </div>
                 </div>
             </div>
 
             <div class="px-6 py-4 space-y-4">
-                <div v-if="amountLabel" class="rounded-lg bg-gray-50 px-4 py-3 flex items-baseline justify-between">
+                <div v-if="amountLabel && (mode === 'update_card' || mode === 'invoice_overdue')" class="rounded-lg bg-gray-50 px-4 py-3 flex items-baseline justify-between">
                     <span class="text-sm text-gray-600">{{ $t('paymentStatus.amountDue') }}</span>
                     <span class="text-base font-semibold text-[#1F2533]">{{ amountLabel }}</span>
                 </div>
@@ -37,11 +34,21 @@
                 <!-- The Nexi widget mounts here once a payment has been minted. -->
                 <div v-show="state.checkoutReady" id="billing-wall-checkout" class="mx-auto max-w-sm"></div>
 
-                <button v-if="!state.checkoutReady" type="button"
-                    class="w-full rounded-lg bg-[#00607A] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#004c61] disabled:opacity-60"
-                    :disabled="state.isStarting" @click="startPayment">
-                    {{ state.isStarting ? $t('paymentStatus.pleaseWait') : (state.status?.failed_invoice_uuid ? $t('paymentStatus.payButton') : $t('paymentStatus.updateCard')) }}
-                </button>
+                <Tooltip v-if="mode === 'invoice_overdue'" :text="$t('paymentDunning.invoiceOverdue.contactHelp')"
+                    position="top" wrap class="!block w-full">
+                    <a :href="`mailto:${supportEmail}`"
+                        class="block w-full text-center rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C]">
+                        {{ $t('paymentDunning.invoiceOverdue.contact') }}
+                    </a>
+                </Tooltip>
+                <Tooltip v-if="mode === 'update_card' && !state.checkoutReady"
+                    :text="$t('paymentDunning.suspended.updateCardHelp')" position="top" wrap class="!block w-full">
+                    <button type="button"
+                        class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C] disabled:opacity-60"
+                        :disabled="state.isStarting" @click="startPayment">
+                        {{ state.isStarting ? $t('paymentStatus.pleaseWait') : $t('paymentDunning.suspended.updateCard') }}
+                    </button>
+                </Tooltip>
             </div>
 
             <div class="px-6 pb-6 flex items-center justify-between text-sm">
@@ -57,7 +64,7 @@
 
     <!-- Not an admin: a standing notice, not a wall. Blocking someone who cannot
          pay only stops the work without fixing anything. -->
-    <div v-else-if="isNotice"
+    <div v-else-if="mode === 'notice'"
         class="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-3 flex items-start gap-3 text-amber-900">
         <Icon name="ph:warning" class="h-5 w-5 shrink-0 mt-0.5" aria-hidden="true" />
         <div class="min-w-0 flex-1">
@@ -71,7 +78,10 @@
 
 <script setup lang="ts">
 import { billingService } from '@/components/api/user/BillingService'
+import { errorMessageKey, retryStatus, wallMode } from '@/composables/billingMethod'
 import { useI18n } from 'vue-i18n'
+import { authService } from '@/components/api/user/AuthService'
+import { signOutRevoking } from '@/composables/signOutRevoking'
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()
@@ -87,15 +97,26 @@ const state = reactive({
     checkoutReady: false,
 })
 
-const isOverdue = computed(() => ['past_due', 'suspended'].includes(state.status?.status))
-const isSuspended = computed(() => state.status?.status === 'suspended')
+const route = useRoute()
 // The pay page is where the wall's own button leads, and where the dunning
 // emails land. A blocking modal on top of it would hide the one thing that
 // fixes the problem.
-const route = useRoute()
 const onPayPage = computed(() => route.path.startsWith('/subscription/pay/'))
-const isBlocking = computed(() => isOverdue.value && !!state.status?.can_manage && !onPayPage.value)
-const isNotice = computed(() => isOverdue.value && !state.status?.can_manage && !onPayPage.value)
+const mode = computed(() => wallMode(state.status, onPayPage.value))
+const isSuspended = computed(() => state.status?.status === 'suspended')
+
+const heading = computed(() => {
+    if (mode.value === 'contact_admin') return t('paymentDunning.suspended.contactTitle')
+    if (mode.value === 'invoice_overdue') return t('paymentDunning.invoiceOverdue.title')
+    return isSuspended.value ? t('paymentDunning.suspended.title') : t('paymentStatus.wall.pastDueTitle')
+})
+
+const body = computed(() => {
+    if (mode.value === 'contact_admin') return t('paymentDunning.suspended.contactBody')
+    if (mode.value === 'invoice_overdue') return t('paymentDunning.invoiceOverdue.body')
+    if (isSuspended.value) return t('paymentDunning.suspended.adminBody')
+    return t('paymentStatus.wall.pastDueBody', { days: state.status?.days_until_suspension ?? 0 })
+})
 
 const amountLabel = computed(() => {
     const amount = Number(state.status?.amount_due ?? 0)
@@ -158,23 +179,34 @@ async function collectOutstanding() {
     try {
         const response = await billingService.retry()
 
-        if (response?.data?.paid) {
+        // One message per outcome. "Pending" is accepted by the bank but not settled, so it
+        // is never treated as paid and does not reload into an open app.
+        const status = retryStatus(response?.data)
+
+        if (status === 'paid') {
             window.location.reload()
             return
         }
 
-        state.error = t('paymentStatus.stillUnpaid')
+        state.error = t(`paymentDunning.outcome.retry.${status}`)
     } catch (error: any) {
-        state.error = error?.message ?? ''
+        const key = errorMessageKey(error)
+        state.error = key ? t(key) : (error?.message ?? '')
     } finally {
         state.isCollecting = false
     }
 }
 
-function logout() {
-    clearSessionToken()
-    localStorage.removeItem('rememberMe')
-    navigateTo('/')
+// Revokes the token on the server first, then clears the local one.
+async function logout() {
+    await signOutRevoking({
+        logout: () => authService.logout(),
+        clearLocal: () => clearSessionToken(),
+        done: () => {
+            localStorage.removeItem('rememberMe')
+            navigateTo('/')
+        },
+    })
 }
 
 onMounted(async () => {

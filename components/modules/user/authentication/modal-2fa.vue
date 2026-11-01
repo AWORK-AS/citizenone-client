@@ -41,6 +41,7 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
+import { suspendedLogin } from '@/composables/billingMethod'
 import type { Error } from '@/types'
 
 const { t } = useI18n()
@@ -58,7 +59,7 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+const emit = defineEmits(['close', 'suspended'])
 
 const state = reactive({
     error: {} as Error,
@@ -116,7 +117,13 @@ async function verifyCode() {
             navigateTo(resolvePostLoginRedirect(response.data.user?.role))
         }
     } catch (error: any) {
-        state.error = error
+        // Closed for non-payment: the code was right, there is just no session. The login
+        // page shows the notice, with the latest renewal token for an admin.
+        if (suspendedLogin(error) && suspendedLogin(error)?.view !== 'two_factor') {
+            emit('suspended', error)
+        } else {
+            state.error = error
+        }
     }
     state.isPageLoading = false
 }
