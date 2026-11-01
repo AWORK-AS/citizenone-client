@@ -85,7 +85,7 @@
                                 <button type="button" @click="state.langOpen = !state.langOpen"
                                     class="flex items-center gap-1.5 py-[5px] pr-[10px] pl-[6px] rounded-full border border-slate-200 bg-white cursor-pointer text-xs font-semibold text-slate-500 hover:border-slate-300 transition-colors">
                                     <img :src="identifyFlag()" alt="flag" class="w-5 h-5 rounded-full object-cover" />
-                                    {{ language.locale.value === 'en' ? 'EN' : 'DK' }}
+                                    {{ String(language.locale.value).toUpperCase() }}
                                     <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                         stroke-width="2.5">
                                         <polyline points="6 9 12 15 18 9" />
@@ -388,7 +388,7 @@
 // Same origin as the page, so the app on another market's domain points at itself.
 const canonicalUrl = `${useRequestURL().origin}/register`
 import { signupSourceFromQuery } from '@/composables/signupSource'
-import { BUCKETS, OTHER_INDUSTRY, VISIBLE_BEFORE_SHOW_ALL, industriesIn, isBucket, matchesSearch, profileOf, type IndustryOption, type SignupBucket } from '@/composables/signupSegments'
+import { BUCKETS, OTHER_INDUSTRY, VISIBLE_BEFORE_SHOW_ALL, industriesIn, industryLabel, isBucket, matchesSearch, profileOf, type IndustryOption, type SignupBucket } from '@/composables/signupSegments'
 import { authService } from '@/components/api/user/AuthService'
 import { industryService } from '@/components/api/user/IndustryService'
 import { facilityTypeService } from '@/components/api/user/FacilityTypeService'
@@ -663,7 +663,7 @@ function findOption(options: any[], wanted: string) {
 
     return options.find((option: any) => named(option, 'system_name'))
         ?? options.find((option: any) => named(option, 'label'))
-        ?? options.find((option: any) => named(option, 'dk_name') || named(option, 'en_name'))
+        ?? options.find((option: any) => named(option, 'dk_name') || named(option, 'en_name') || named(option, 'no_name') || named(option, 'sv_name'))
         ?? options.find((option: any) => option.value?.toLowerCase() === needle)
 }
 
@@ -691,11 +691,13 @@ async function fetchAllIndustries() {
             response.data.forEach(
                 (industry: any) => options.push({
                     value: industry?.uuid,
-                    label: language.locale.value === 'en' ? industry.en_name : industry.dk_name,
+                    label: industryLabel(industry, language.locale.value),
                     system_name: industry.system_name,
                     profile: industry.profile,
                     dk_name: industry.dk_name,
                     en_name: industry.en_name,
+                    no_name: industry.no_name,
+                    sv_name: industry.sv_name,
                 })
             )
             state.options.industries = options

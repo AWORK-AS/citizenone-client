@@ -8,7 +8,7 @@ import { test, describe } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
-import { BUCKETS, industriesIn, isBucket, matchesSearch, profileOf } from '../../composables/signupSegments.ts'
+import { BUCKETS, industriesIn, industryLabel, isBucket, matchesSearch, profileOf } from '../../composables/signupSegments.ts'
 
 const option = (en_name, dk_name, profile, system_name = null) =>
     ({ value: en_name, label: dk_name, en_name, dk_name, profile, system_name })
@@ -53,6 +53,16 @@ describe('signup buckets', () => {
         assert.ok(matchesSearch(OPTIONS[0], 'ACUPUNCT'))
         assert.ok(matchesSearch(option('x', 'Kiropraktør', 'health'), 'kiropraktor'))
         assert.equal(matchesSearch(OPTIONS[1], 'tand'), false)
+    })
+
+    test('the profession is named in the visitor\'s language, Danish when a name is missing', () => {
+        const doctors = { en_name: 'Doctors', dk_name: 'Læger', no_name: 'Leger', sv_name: 'Läkare' }
+        assert.equal(industryLabel(doctors, 'dk'), 'Læger')
+        assert.equal(industryLabel(doctors, 'en'), 'Doctors')
+        assert.equal(industryLabel(doctors, 'no'), 'Leger')
+        assert.equal(industryLabel(doctors, 'sv'), 'Läkare')
+        assert.equal(industryLabel({ en_name: 'X', dk_name: 'Y', no_name: null }, 'no'), 'Y')
+        assert.ok(matchesSearch({ value: 'd', label: 'Læger', ...doctors }, 'lakare'))
     })
 
     test('every bucket and panel has its text in all four languages', () => {

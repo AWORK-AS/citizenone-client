@@ -20,6 +20,20 @@ export interface IndustryOption {
     profile?: string | null
     en_name?: string
     dk_name?: string
+    no_name?: string | null
+    sv_name?: string | null
+}
+
+/**
+ * An industry's name in the visitor's language. Norwegian and Swedish names
+ * came later and can be missing, so they fall back on the Danish one, which
+ * is what those visitors saw before.
+ */
+export function industryLabel(industry: { en_name?: string, dk_name?: string, no_name?: string | null, sv_name?: string | null }, locale: string): string {
+    if (locale === 'en') return industry.en_name ?? industry.dk_name ?? ''
+    if (locale === 'no') return industry.no_name || industry.dk_name || ''
+    if (locale === 'sv') return industry.sv_name || industry.dk_name || ''
+    return industry.dk_name ?? industry.en_name ?? ''
 }
 
 export const BUCKETS: { key: SignupBucket, icon: string }[] = [
@@ -74,6 +88,6 @@ export function matchesSearch(option: IndustryOption, query: string): boolean {
 
     if (needle === '') return true
 
-    return [option.label, option.dk_name, option.en_name]
+    return [option.label, option.dk_name, option.en_name, option.no_name, option.sv_name]
         .some(name => !!name && fold(name).includes(needle))
 }
