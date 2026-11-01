@@ -20662,7 +20662,8 @@
             "summaries": "Referater / opptak",
             "perMonth": "Møter per måned",
             "hoursMinutes": "{h} t {m} min",
-            "minutes": "{m} min"
+            "minutes": "{m} min",
+            "hours": "{h} t"
         },
         "notes": {
             "title": "Dagsorden og notater",

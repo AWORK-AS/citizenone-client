@@ -47,7 +47,7 @@
             <p class="text-xs text-[#1b6d8a] flex items-center gap-1.5">
                 <Icon name="ph:sparkle" class="h-3.5 w-3.5" /> {{ $t('meetings.summary.byCody') }}
             </p>
-            <div class="prose prose-sm max-w-none" v-safe-ai-html="state.summary" />
+            <div class="prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_p]:my-1" v-safe-ai-html="state.summary" />
             <div class="flex flex-wrap gap-2">
                 <FormButton v-if="meeting.citizen" type="button" buttonStyle="primary" buttonSize="xs" :disabled="state.filing" @click="toJournal(state.summary)">
                     {{ $t('meetings.notes.summaryToJournal') }}

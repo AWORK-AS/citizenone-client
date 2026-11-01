@@ -20662,7 +20662,8 @@
             "summaries": "Sammanfattningar / inspelningar",
             "perMonth": "Möten per månad",
             "hoursMinutes": "{h} h {m} min",
-            "minutes": "{m} min"
+            "minutes": "{m} min",
+            "hours": "{h} h"
         },
         "notes": {
             "title": "Dagordning och anteckningar",

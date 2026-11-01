@@ -222,7 +222,7 @@
                                             <p class="text-xs text-gray-500 mb-2 flex items-center gap-1">
                                                 <Icon name="ph:sparkle" class="h-3.5 w-3.5" /> {{ $t('meetings.summary.byCody') }}
                                             </p>
-                                            <div class="prose prose-sm max-w-none" v-safe-ai-html="recording.summary" />
+                                            <div class="prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_p]:my-1" v-safe-ai-html="recording.summary" />
                                             <NuxtLink v-if="recording.summary_journal && meeting.citizen" class="inline-block mt-2 text-primary underline"
                                                 :to="`/citizens/${meeting.citizen.uuid}/journals`">
                                                 {{ $t('meetings.summary.openDraft') }}

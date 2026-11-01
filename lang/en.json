@@ -20747,7 +20747,8 @@
             "summaries": "Summaries / recordings",
             "perMonth": "Meetings per month",
             "hoursMinutes": "{h} h {m} min",
-            "minutes": "{m} min"
+            "minutes": "{m} min",
+            "hours": "{h} h"
         },
         "notes": {
             "title": "Agenda and notes",

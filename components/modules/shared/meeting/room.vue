@@ -144,6 +144,11 @@
                             <Icon name="ph:x" class="h-4 w-4" />
                         </button>
                     </div>
+                    <!-- With the chat open, polls live at its top instead of over the people. -->
+                    <div v-if="state.polls.length" class="border-b border-gray-100 bg-gray-50/70 p-3 space-y-2 max-h-[45%] overflow-y-auto">
+                        <MeetingPollCard v-for="poll in state.polls" :key="poll.id" :poll="poll" :me="me()" :mine="isMine(poll)" flat
+                            @vote="(i: number) => vote(poll, i)" @close="closePoll(poll)" @save="emit('poll-result', pollResultText(poll))" @hide="removePoll(poll)" />
+                    </div>
                     <div ref="chatList" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm min-h-[12rem]">
                         <p v-if="!state.messages.length" class="text-gray-400 text-xs text-center pt-6">{{ $t('meetings.room.chatEmpty') }}</p>
                         <div v-for="(message, index) in state.messages" :key="index" class="flex flex-col"
@@ -184,7 +189,8 @@
             <div ref="audioContainer" class="hidden" />
 
             <!-- Polls: the creator's draft, then every poll with its live result. -->
-            <div v-if="state.pollDraft.open || state.polls.length"
+            <div v-if="state.pollDraft.open || (!state.chatOpen && state.polls.length)"
+                :class="state.chatOpen ? 'lg:right-[21.5rem]' : ''"
                 class="absolute right-3 top-12 z-10 w-[min(22rem,calc(100%-1.5rem))] max-h-[70%] overflow-y-auto space-y-2">
                 <form v-if="state.pollDraft.open" class="rounded-xl bg-white shadow-lg p-4 space-y-3" @submit.prevent="createPoll">
                     <p class="text-sm font-semibold text-[#0f2b46]">{{ $t('meetings.polls.new') }}</p>
@@ -210,38 +216,10 @@
                     </div>
                 </form>
 
-                <div v-for="poll in state.polls" :key="poll.id" class="rounded-xl bg-white shadow-lg p-4 space-y-2.5">
-                    <div class="flex items-start justify-between gap-2">
-                        <p class="text-sm font-semibold text-[#0f2b46]">{{ poll.question }}</p>
-                        <span class="shrink-0 text-[11px] rounded-full px-2 py-0.5" :class="poll.closed ? 'bg-gray-100 text-gray-600' : 'bg-[#f0faf9] text-[#1b6d8a]'">
-                            {{ poll.closed ? $t('meetings.polls.closed') : $t('meetings.polls.open') }}
-                        </span>
-                    </div>
-                    <div v-for="(option, index) in poll.options" :key="index">
-                        <button type="button" class="w-full text-left rounded-lg border px-3 py-2 text-sm relative overflow-hidden transition disabled:cursor-default"
-                            :class="myVote(poll) === index ? 'border-[#2dbab2] ring-1 ring-[#2dbab2]' : 'border-gray-200 hover:border-gray-300'"
-                            :disabled="poll.closed" @click="vote(poll, index)">
-                            <span v-if="hasVoted(poll) || poll.closed" class="absolute inset-y-0 left-0 bg-[#2dbab2]/15"
-                                :style="{ width: `${percent(poll, index)}%` }" />
-                            <span class="relative flex justify-between gap-2">
-                                <span>{{ option }}</span>
-                                <span v-if="hasVoted(poll) || poll.closed" class="tabular-nums text-gray-600">{{ count(poll, index) }} · {{ percent(poll, index) }}%</span>
-                            </span>
-                        </button>
-                        <p v-if="!poll.anonymous && (hasVoted(poll) || poll.closed) && voters(poll, index).length" class="mt-0.5 px-1 text-[11px] text-gray-500">
-                            {{ voters(poll, index).join(', ') }}
-                        </p>
-                    </div>
-                    <p class="text-[11px] text-gray-500">
-                        {{ $t('meetings.polls.votes', { count: Object.keys(poll.votes).length }) }}
-                        <span v-if="poll.anonymous"> · {{ $t('meetings.polls.anonymousShort') }}</span>
-                    </p>
-                    <div v-if="isMine(poll)" class="flex flex-wrap gap-2">
-                        <FormButton v-if="!poll.closed" type="button" buttonStyle="cancel" buttonSize="xs" @click="closePoll(poll)">{{ $t('meetings.polls.close') }}</FormButton>
-                        <FormButton v-if="poll.closed" type="button" buttonStyle="secondary" buttonSize="xs" @click="emit('poll-result', pollResultText(poll))">{{ $t('meetings.polls.saveToNotes') }}</FormButton>
-                        <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="removePoll(poll)">{{ $t('meetings.polls.hide') }}</FormButton>
-                    </div>
-                </div>
+                <template v-if="!state.chatOpen">
+                    <MeetingPollCard v-for="poll in state.polls" :key="poll.id" :poll="poll" :me="me()" :mine="isMine(poll)"
+                        @vote="(i: number) => vote(poll, i)" @close="closePoll(poll)" @save="emit('poll-result', pollResultText(poll))" @hide="removePoll(poll)" />
+                </template>
             </div>
 
             <!-- Prompts float over the stage. -->
@@ -341,6 +319,7 @@ import {
     type RemoteParticipant,
 } from 'livekit-client'
 import MeetingTile from '@/components/modules/shared/meeting/tile.vue'
+import MeetingPollCard from '@/components/modules/shared/meeting/poll-card.vue'
 import { formatFileSize } from '@/utils/meetings'
 
 /**
@@ -913,14 +892,7 @@ function addPoll(incoming: any, from: string) {
 }
 
 const isMine = (poll: Poll) => poll.by === me()
-const myVote = (poll: Poll) => poll.votes[me()]
-const hasVoted = (poll: Poll) => myVote(poll) !== undefined
 const count = (poll: Poll, index: number) => Object.values(poll.votes).filter((v) => v === index).length
-
-function percent(poll: Poll, index: number) {
-    const total = Object.keys(poll.votes).length
-    return total ? Math.round((count(poll, index) / total) * 100) : 0
-}
 
 function voters(poll: Poll, index: number) {
     return Object.entries(poll.votes).filter(([, v]) => v === index).map(([identity]) => poll.names[identity] || '')

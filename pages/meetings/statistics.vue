@@ -53,11 +53,14 @@
 
                     <div v-if="stats.by_month.length > 1" class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
                         <p class="text-sm font-semibold text-[#0f2b46] mb-4">{{ $t('meetings.stats.perMonth') }}</p>
-                        <div class="flex items-end gap-3 h-40">
-                            <div v-for="row in stats.by_month" :key="row.month" class="flex-1 flex flex-col items-center gap-2 min-w-0">
-                                <span class="text-xs text-gray-600 tabular-nums">{{ row.meetings }}</span>
-                                <div class="w-full max-w-12 rounded-t-md bg-[#2dbab2]" :style="{ height: `${Math.max(4, (row.meetings / maxMonth) * 100)}%` }" />
-                                <span class="text-[11px] text-gray-500 truncate">{{ monthLabel(row.month) }}</span>
+                        <div class="flex gap-3 h-48">
+                            <div v-for="row in stats.by_month" :key="row.month" class="flex-1 h-full flex flex-col items-center gap-2 min-w-0">
+                                <!-- The bar's height is a share of this box, so the box needs one of its own. -->
+                                <div class="flex-1 w-full flex flex-col items-center justify-end gap-1.5">
+                                    <span class="text-xs text-gray-600 tabular-nums">{{ row.meetings }}</span>
+                                    <div class="w-full max-w-14 rounded-t-md bg-[#2dbab2]" :style="{ height: `${Math.max(4, (row.meetings / maxMonth) * 85)}%` }" />
+                                </div>
+                                <span class="text-[11px] text-gray-500 truncate capitalize">{{ monthLabel(row.month) }}</span>
                             </div>
                         </div>
                     </div>
@@ -112,11 +115,14 @@ const maxMonth = computed(() => Math.max(1, ...(stats.value?.by_month ?? []).map
 function hours(minutes: number) {
     const h = Math.floor(minutes / 60)
     const m = minutes % 60
-    return h ? t('meetings.stats.hoursMinutes', { h: number(h), m }) : t('meetings.stats.minutes', { m })
+    if (!h) return t('meetings.stats.minutes', { m })
+    return m ? t('meetings.stats.hoursMinutes', { h: number(h), m }) : t('meetings.stats.hours', { h: number(h) })
 }
 
+// "okt. 26" in the user's language (moment has no Danish locale loaded here).
 function monthLabel(month: string) {
-    return moment(`${month}-01`).locale(locale.value === 'dk' ? 'da' : locale.value).format('MMM YY')
+    const tag = { dk: 'da-DK', no: 'nb-NO', sv: 'sv-SE', en: 'en-GB' }[locale.value as string] ?? 'da-DK'
+    return new Intl.DateTimeFormat(tag, { month: 'short', year: '2-digit' }).format(new Date(`${month}-01T12:00:00`))
 }
 
 async function load() {
