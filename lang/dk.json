@@ -343,7 +343,8 @@
         "Forms": "Formularer",
         "Tasks": "Opgaver",
         "AI assistant": "AI-assistent",
-        "Staff workload": "Medarbejderbelastning"
+        "Staff workload": "Medarbejderbelastning",
+        "Online meetings": "Online møder"
     },
     "companyModulesCard": {
         "title": "Moduler",
@@ -20529,6 +20530,135 @@
                 "daily-rhythm": "Døgnrytmeplan",
                 "socialtilsyn": "Socialtilsyn-tjek"
             }
+        }
+    },
+    "meetings": {
+        "nav": "Online møder",
+        "title": "Online møder",
+        "newMeeting": "Nyt møde",
+        "upcoming": "Kommende",
+        "past": "Tidligere",
+        "noMeetings": "Ingen møder her endnu.",
+        "host": "Vært",
+        "you": "Dig",
+        "status": {
+            "scheduled": "Planlagt",
+            "live": "I gang",
+            "finished": "Afsluttet",
+            "cancelled": "Aflyst"
+        },
+        "participantState": {
+            "invited": "Inviteret",
+            "waiting": "Venter",
+            "in_room": "I mødet",
+            "left": "Har forladt mødet",
+            "denied": "Afvist"
+        },
+        "form": {
+            "title": "Titel",
+            "titlePlaceholder": "Fx netværksmøde",
+            "titleHint": "Titlen ses kun i CitizenOne. Den kommer ikke med i invitationen.",
+            "description": "Beskrivelse",
+            "startsAt": "Start",
+            "endsAt": "Slut",
+            "citizen": "Borger (valgfri)",
+            "citizenHint": "Optagelser af mødet kan ses af medarbejdere med adgang til borgeren.",
+            "waitingRoom": "Venterum: gæster venter, til du lukker dem ind",
+            "colleagues": "Kolleger",
+            "guests": "Gæster",
+            "guestName": "Navn",
+            "guestEmail": "E-mail",
+            "addGuest": "Tilføj gæst",
+            "inviteCitizen": "Invitér borgeren som gæst",
+            "sendInvites": "Send invitation på mail",
+            "create": "Opret møde",
+            "save": "Gem",
+            "endBeforeStart": "Mødet skal slutte efter det starter."
+        },
+        "detail": {
+            "join": "Deltag i mødet",
+            "participants": "Deltagere",
+            "invite": "Invitér flere",
+            "resend": "Send igen",
+            "copyLink": "Kopiér link",
+            "linkCopied": "Linket er kopieret",
+            "remove": "Fjern",
+            "linkOnce": "Gæstelinks vises kun nu. Kopiér dem, hvis gæsten ikke har en e-mail.",
+            "edit": "Ret",
+            "cancelMeeting": "Aflys møde",
+            "cancelConfirm": "Aflys mødet? Alle inviterede får besked.",
+            "recordings": "Optagelser",
+            "noRecordings": "Ingen optagelser.",
+            "play": "Afspil",
+            "delete": "Slet",
+            "deleteRecordingConfirm": "Slet optagelsen permanent?",
+            "recordingStatus": {
+                "starting": "Starter",
+                "recording": "Optager",
+                "processing": "Behandles",
+                "ready": "Klar",
+                "failed": "Fejlede"
+            },
+            "consent": "Samtykke til optagelse",
+            "aboutCitizen": "Mødet handler om en borger."
+        },
+        "lobby": {
+            "title": "Venter på at komme ind",
+            "admit": "Luk ind",
+            "deny": "Afvis"
+        },
+        "host_controls": {
+            "record": "Optag",
+            "stopRecording": "Stop optagelse",
+            "endForEveryone": "Afslut for alle",
+            "missingConsent": "Mangler samtykke fra: {names}. De er blevet spurgt.",
+            "recordingStarted": "Optagelsen er startet.",
+            "recordingStopped": "Optagelsen er stoppet. Den er klar om lidt."
+        },
+        "room": {
+            "camera": "Kamera",
+            "microphone": "Mikrofon",
+            "cameraOn": "Kamera til",
+            "cameraOff": "Kamera fra",
+            "microphoneOn": "Mikrofon til",
+            "microphoneOff": "Mikrofon fra",
+            "join": "Deltag",
+            "privacyNote": "Mødet er krypteret og kører på servere i EU.",
+            "consentToEnter": "Mødet bliver optaget. Jeg giver samtykke til, at jeg bliver optaget.",
+            "consentNeededToEnter": "Mødet bliver optaget. Giv samtykke for at deltage.",
+            "waitingToBeLetIn": "Du venter på at blive lukket ind.",
+            "recordingNow": "Mødet bliver optaget.",
+            "connecting": "Forbinder ...",
+            "aloneInMeeting": "Du er den eneste i mødet lige nu.",
+            "reconnecting": "Forbindelsen er ustabil. Forbinder igen ...",
+            "enableSound": "Slå lyd til",
+            "consentQuestion": "{name} vil gerne optage mødet. Giver du samtykke til, at du bliver optaget?",
+            "consentYes": "Ja, optag gerne",
+            "consentNo": "Nej",
+            "theHost": "Værten",
+            "consentGivenBy": "{name} har givet samtykke.",
+            "consentDeclinedBy": "{name} har ikke givet samtykke.",
+            "consentRequested": "Deltagerne er blevet spurgt om samtykke.",
+            "muteMicrophone": "Slå mikrofon fra",
+            "unmuteMicrophone": "Slå mikrofon til",
+            "turnCameraOff": "Slå kamera fra",
+            "turnCameraOn": "Slå kamera til",
+            "shareScreen": "Del skærm",
+            "stopSharing": "Stop deling",
+            "leave": "Forlad",
+            "couldNotConnect": "Kunne ikke forbinde",
+            "left": "Du har forladt mødet",
+            "rejoin": "Deltag igen",
+            "you": "{name} (dig)",
+            "sharedBy": "{name} deler skærm",
+            "permissionDenied": "Browseren har ikke adgang til kamera og mikrofon. Tillad det i browserens indstillinger.",
+            "deviceUnavailable": "Kamera eller mikrofon kan ikke bruges. Er det i brug i et andet program?"
+        },
+        "guest": {
+            "invitedBy": "{host} fra {company} har inviteret dig til et online møde.",
+            "when": "{date} kl. {from}-{to}",
+            "denied": "Du er ikke blevet lukket ind i mødet.",
+            "noAccountNeeded": "Du skal ikke have en konto eller installere noget."
         }
     }
 }

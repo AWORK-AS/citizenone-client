@@ -343,7 +343,8 @@
         "Forms": "Skjemaer",
         "Tasks": "Oppgaver",
         "AI assistant": "AI-assistent",
-        "Staff workload": "Ansattbelastning"
+        "Staff workload": "Ansattbelastning",
+        "Online meetings": "Nettmøter"
     },
     "companyModulesCard": {
         "title": "Moduler",
@@ -20444,6 +20445,135 @@
                 "daily-rhythm": "Døgnrytmeplan",
                 "socialtilsyn": "Tilsynssjekk"
             }
+        }
+    },
+    "meetings": {
+        "nav": "Nettmøter",
+        "title": "Nettmøter",
+        "newMeeting": "Nytt møte",
+        "upcoming": "Kommende",
+        "past": "Tidligere",
+        "noMeetings": "Ingen møter her ennå.",
+        "host": "Vert",
+        "you": "Deg",
+        "status": {
+            "scheduled": "Planlagt",
+            "live": "Pågår",
+            "finished": "Avsluttet",
+            "cancelled": "Avlyst"
+        },
+        "participantState": {
+            "invited": "Invitert",
+            "waiting": "Venter",
+            "in_room": "I møtet",
+            "left": "Har forlatt møtet",
+            "denied": "Avvist"
+        },
+        "form": {
+            "title": "Tittel",
+            "titlePlaceholder": "F.eks. nettverksmøte",
+            "titleHint": "Tittelen vises bare i CitizenOne. Den kommer ikke med i invitasjonen.",
+            "description": "Beskrivelse",
+            "startsAt": "Start",
+            "endsAt": "Slutt",
+            "citizen": "Bruker (valgfritt)",
+            "citizenHint": "Opptak av møtet kan ses av ansatte med tilgang til brukeren.",
+            "waitingRoom": "Venterom: gjester venter til du slipper dem inn",
+            "colleagues": "Kolleger",
+            "guests": "Gjester",
+            "guestName": "Navn",
+            "guestEmail": "E-post",
+            "addGuest": "Legg til gjest",
+            "inviteCitizen": "Inviter brukeren som gjest",
+            "sendInvites": "Send invitasjon på e-post",
+            "create": "Opprett møte",
+            "save": "Lagre",
+            "endBeforeStart": "Møtet må slutte etter at det starter."
+        },
+        "detail": {
+            "join": "Delta i møtet",
+            "participants": "Deltakere",
+            "invite": "Inviter flere",
+            "resend": "Send igjen",
+            "copyLink": "Kopier lenke",
+            "linkCopied": "Lenken er kopiert",
+            "remove": "Fjern",
+            "linkOnce": "Gjestelenker vises bare nå. Kopier dem hvis gjesten ikke har e-post.",
+            "edit": "Rediger",
+            "cancelMeeting": "Avlys møte",
+            "cancelConfirm": "Avlyse møtet? Alle inviterte får beskjed.",
+            "recordings": "Opptak",
+            "noRecordings": "Ingen opptak.",
+            "play": "Spill av",
+            "delete": "Slett",
+            "deleteRecordingConfirm": "Slette opptaket permanent?",
+            "recordingStatus": {
+                "starting": "Starter",
+                "recording": "Tar opp",
+                "processing": "Behandles",
+                "ready": "Klar",
+                "failed": "Feilet"
+            },
+            "consent": "Samtykke til opptak",
+            "aboutCitizen": "Møtet handler om en bruker."
+        },
+        "lobby": {
+            "title": "Venter på å komme inn",
+            "admit": "Slipp inn",
+            "deny": "Avvis"
+        },
+        "host_controls": {
+            "record": "Ta opp",
+            "stopRecording": "Stopp opptak",
+            "endForEveryone": "Avslutt for alle",
+            "missingConsent": "Mangler samtykke fra: {names}. De er blitt spurt.",
+            "recordingStarted": "Opptaket har startet.",
+            "recordingStopped": "Opptaket er stoppet. Det er klart om litt."
+        },
+        "room": {
+            "camera": "Kamera",
+            "microphone": "Mikrofon",
+            "cameraOn": "Kamera på",
+            "cameraOff": "Kamera av",
+            "microphoneOn": "Mikrofon på",
+            "microphoneOff": "Mikrofon av",
+            "join": "Delta",
+            "privacyNote": "Møtet er kryptert og kjører på servere i EU.",
+            "consentToEnter": "Møtet blir tatt opp. Jeg samtykker til å bli tatt opp.",
+            "consentNeededToEnter": "Møtet blir tatt opp. Gi samtykke for å delta.",
+            "waitingToBeLetIn": "Du venter på å bli sluppet inn.",
+            "recordingNow": "Møtet blir tatt opp.",
+            "connecting": "Kobler til ...",
+            "aloneInMeeting": "Du er den eneste i møtet akkurat nå.",
+            "reconnecting": "Forbindelsen er ustabil. Kobler til igjen ...",
+            "enableSound": "Slå på lyd",
+            "consentQuestion": "{name} vil ta opp møtet. Samtykker du til å bli tatt opp?",
+            "consentYes": "Ja, ta opp",
+            "consentNo": "Nei",
+            "theHost": "Verten",
+            "consentGivenBy": "{name} har gitt samtykke.",
+            "consentDeclinedBy": "{name} har ikke gitt samtykke.",
+            "consentRequested": "Deltakerne er blitt spurt om samtykke.",
+            "muteMicrophone": "Slå av mikrofon",
+            "unmuteMicrophone": "Slå på mikrofon",
+            "turnCameraOff": "Slå av kamera",
+            "turnCameraOn": "Slå på kamera",
+            "shareScreen": "Del skjerm",
+            "stopSharing": "Stopp deling",
+            "leave": "Forlat",
+            "couldNotConnect": "Kunne ikke koble til",
+            "left": "Du har forlatt møtet",
+            "rejoin": "Delta igjen",
+            "you": "{name} (deg)",
+            "sharedBy": "{name} deler skjerm",
+            "permissionDenied": "Nettleseren har ikke tilgang til kamera og mikrofon. Tillat det i nettleserens innstillinger.",
+            "deviceUnavailable": "Kamera eller mikrofon kan ikke brukes. Er det i bruk i et annet program?"
+        },
+        "guest": {
+            "invitedBy": "{host} fra {company} har invitert deg til et nettmøte.",
+            "when": "{date} kl. {from}-{to}",
+            "denied": "Du har ikke blitt sluppet inn i møtet.",
+            "noAccountNeeded": "Du trenger ikke konto eller å installere noe."
         }
     }
 }

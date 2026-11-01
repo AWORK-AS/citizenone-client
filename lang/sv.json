@@ -343,7 +343,8 @@
         "Forms": "Formulär",
         "Tasks": "Uppgifter",
         "AI assistant": "AI-assistent",
-        "Staff workload": "Personalbelastning"
+        "Staff workload": "Personalbelastning",
+        "Online meetings": "Onlinemöten"
     },
     "companyModulesCard": {
         "title": "Moduler",
@@ -20444,6 +20445,135 @@
                 "daily-rhythm": "Dygnsrytmsplan",
                 "socialtilsyn": "Tillsynskontroll"
             }
+        }
+    },
+    "meetings": {
+        "nav": "Onlinemöten",
+        "title": "Onlinemöten",
+        "newMeeting": "Nytt möte",
+        "upcoming": "Kommande",
+        "past": "Tidigare",
+        "noMeetings": "Inga möten här ännu.",
+        "host": "Värd",
+        "you": "Du",
+        "status": {
+            "scheduled": "Planerat",
+            "live": "Pågår",
+            "finished": "Avslutat",
+            "cancelled": "Inställt"
+        },
+        "participantState": {
+            "invited": "Inbjuden",
+            "waiting": "Väntar",
+            "in_room": "I mötet",
+            "left": "Har lämnat mötet",
+            "denied": "Nekad"
+        },
+        "form": {
+            "title": "Titel",
+            "titlePlaceholder": "T.ex. nätverksmöte",
+            "titleHint": "Titeln visas bara i CitizenOne. Den kommer inte med i inbjudan.",
+            "description": "Beskrivning",
+            "startsAt": "Start",
+            "endsAt": "Slut",
+            "citizen": "Brukare (valfritt)",
+            "citizenHint": "Inspelningar av mötet kan ses av personal med åtkomst till brukaren.",
+            "waitingRoom": "Väntrum: gäster väntar tills du släpper in dem",
+            "colleagues": "Kollegor",
+            "guests": "Gäster",
+            "guestName": "Namn",
+            "guestEmail": "E-post",
+            "addGuest": "Lägg till gäst",
+            "inviteCitizen": "Bjud in brukaren som gäst",
+            "sendInvites": "Skicka inbjudan via e-post",
+            "create": "Skapa möte",
+            "save": "Spara",
+            "endBeforeStart": "Mötet måste sluta efter att det börjar."
+        },
+        "detail": {
+            "join": "Delta i mötet",
+            "participants": "Deltagare",
+            "invite": "Bjud in fler",
+            "resend": "Skicka igen",
+            "copyLink": "Kopiera länk",
+            "linkCopied": "Länken har kopierats",
+            "remove": "Ta bort",
+            "linkOnce": "Gästlänkar visas bara nu. Kopiera dem om gästen saknar e-post.",
+            "edit": "Redigera",
+            "cancelMeeting": "Ställ in mötet",
+            "cancelConfirm": "Ställa in mötet? Alla inbjudna får besked.",
+            "recordings": "Inspelningar",
+            "noRecordings": "Inga inspelningar.",
+            "play": "Spela upp",
+            "delete": "Radera",
+            "deleteRecordingConfirm": "Radera inspelningen permanent?",
+            "recordingStatus": {
+                "starting": "Startar",
+                "recording": "Spelar in",
+                "processing": "Bearbetas",
+                "ready": "Klar",
+                "failed": "Misslyckades"
+            },
+            "consent": "Samtycke till inspelning",
+            "aboutCitizen": "Mötet gäller en brukare."
+        },
+        "lobby": {
+            "title": "Väntar på att komma in",
+            "admit": "Släpp in",
+            "deny": "Neka"
+        },
+        "host_controls": {
+            "record": "Spela in",
+            "stopRecording": "Stoppa inspelning",
+            "endForEveryone": "Avsluta för alla",
+            "missingConsent": "Samtycke saknas från: {names}. De har tillfrågats.",
+            "recordingStarted": "Inspelningen har startat.",
+            "recordingStopped": "Inspelningen har stoppats. Den är klar om en stund."
+        },
+        "room": {
+            "camera": "Kamera",
+            "microphone": "Mikrofon",
+            "cameraOn": "Kamera på",
+            "cameraOff": "Kamera av",
+            "microphoneOn": "Mikrofon på",
+            "microphoneOff": "Mikrofon av",
+            "join": "Delta",
+            "privacyNote": "Mötet är krypterat och körs på servrar i EU.",
+            "consentToEnter": "Mötet spelas in. Jag samtycker till att bli inspelad.",
+            "consentNeededToEnter": "Mötet spelas in. Ge samtycke för att delta.",
+            "waitingToBeLetIn": "Du väntar på att bli insläppt.",
+            "recordingNow": "Mötet spelas in.",
+            "connecting": "Ansluter ...",
+            "aloneInMeeting": "Du är ensam i mötet just nu.",
+            "reconnecting": "Anslutningen är instabil. Ansluter igen ...",
+            "enableSound": "Slå på ljud",
+            "consentQuestion": "{name} vill spela in mötet. Samtycker du till att bli inspelad?",
+            "consentYes": "Ja, spela in",
+            "consentNo": "Nej",
+            "theHost": "Värden",
+            "consentGivenBy": "{name} har gett samtycke.",
+            "consentDeclinedBy": "{name} har inte gett samtycke.",
+            "consentRequested": "Deltagarna har tillfrågats om samtycke.",
+            "muteMicrophone": "Stäng av mikrofon",
+            "unmuteMicrophone": "Slå på mikrofon",
+            "turnCameraOff": "Stäng av kamera",
+            "turnCameraOn": "Slå på kamera",
+            "shareScreen": "Dela skärm",
+            "stopSharing": "Sluta dela",
+            "leave": "Lämna",
+            "couldNotConnect": "Kunde inte ansluta",
+            "left": "Du har lämnat mötet",
+            "rejoin": "Delta igen",
+            "you": "{name} (du)",
+            "sharedBy": "{name} delar skärm",
+            "permissionDenied": "Webbläsaren har inte åtkomst till kamera och mikrofon. Tillåt det i webbläsarens inställningar.",
+            "deviceUnavailable": "Kamera eller mikrofon kan inte användas. Används den i ett annat program?"
+        },
+        "guest": {
+            "invitedBy": "{host} från {company} har bjudit in dig till ett onlinemöte.",
+            "when": "{date} kl. {from}-{to}",
+            "denied": "Du har inte släppts in i mötet.",
+            "noAccountNeeded": "Du behöver inget konto och behöver inte installera något."
         }
     }
 }

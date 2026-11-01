@@ -343,7 +343,8 @@
         "Forms": "Forms",
         "Tasks": "Tasks",
         "AI assistant": "AI assistant",
-        "Staff workload": "Staff workload"
+        "Staff workload": "Staff workload",
+        "Online meetings": "Online meetings"
     },
     "companyModulesCard": {
         "title": "Modules",
@@ -20529,6 +20530,135 @@
                 "daily-rhythm": "Daily rhythm plan",
                 "socialtilsyn": "Social supervision check"
             }
+        }
+    },
+    "meetings": {
+        "nav": "Online meetings",
+        "title": "Online meetings",
+        "newMeeting": "New meeting",
+        "upcoming": "Upcoming",
+        "past": "Past",
+        "noMeetings": "No meetings here yet.",
+        "host": "Host",
+        "you": "You",
+        "status": {
+            "scheduled": "Scheduled",
+            "live": "In progress",
+            "finished": "Finished",
+            "cancelled": "Cancelled"
+        },
+        "participantState": {
+            "invited": "Invited",
+            "waiting": "Waiting",
+            "in_room": "In the meeting",
+            "left": "Left",
+            "denied": "Denied"
+        },
+        "form": {
+            "title": "Title",
+            "titlePlaceholder": "E.g. network meeting",
+            "titleHint": "The title is only shown in CitizenOne. It is not included in the invitation.",
+            "description": "Description",
+            "startsAt": "Start",
+            "endsAt": "End",
+            "citizen": "Citizen (optional)",
+            "citizenHint": "Recordings of the meeting can be seen by staff with access to the citizen.",
+            "waitingRoom": "Waiting room: guests wait until you let them in",
+            "colleagues": "Colleagues",
+            "guests": "Guests",
+            "guestName": "Name",
+            "guestEmail": "Email",
+            "addGuest": "Add guest",
+            "inviteCitizen": "Invite the citizen as a guest",
+            "sendInvites": "Send invitation by email",
+            "create": "Create meeting",
+            "save": "Save",
+            "endBeforeStart": "The meeting must end after it starts."
+        },
+        "detail": {
+            "join": "Join the meeting",
+            "participants": "Participants",
+            "invite": "Invite more",
+            "resend": "Send again",
+            "copyLink": "Copy link",
+            "linkCopied": "The link has been copied",
+            "remove": "Remove",
+            "linkOnce": "Guest links are only shown now. Copy them if the guest has no email.",
+            "edit": "Edit",
+            "cancelMeeting": "Cancel meeting",
+            "cancelConfirm": "Cancel the meeting? Everyone invited will be told.",
+            "recordings": "Recordings",
+            "noRecordings": "No recordings.",
+            "play": "Play",
+            "delete": "Delete",
+            "deleteRecordingConfirm": "Delete the recording permanently?",
+            "recordingStatus": {
+                "starting": "Starting",
+                "recording": "Recording",
+                "processing": "Processing",
+                "ready": "Ready",
+                "failed": "Failed"
+            },
+            "consent": "Consent to recording",
+            "aboutCitizen": "The meeting is about a citizen."
+        },
+        "lobby": {
+            "title": "Waiting to come in",
+            "admit": "Let in",
+            "deny": "Deny"
+        },
+        "host_controls": {
+            "record": "Record",
+            "stopRecording": "Stop recording",
+            "endForEveryone": "End for everyone",
+            "missingConsent": "Consent missing from: {names}. They have been asked.",
+            "recordingStarted": "Recording has started.",
+            "recordingStopped": "Recording has stopped. It will be ready shortly."
+        },
+        "room": {
+            "camera": "Camera",
+            "microphone": "Microphone",
+            "cameraOn": "Camera on",
+            "cameraOff": "Camera off",
+            "microphoneOn": "Microphone on",
+            "microphoneOff": "Microphone off",
+            "join": "Join",
+            "privacyNote": "The meeting is encrypted and runs on servers in the EU.",
+            "consentToEnter": "The meeting is being recorded. I consent to being recorded.",
+            "consentNeededToEnter": "The meeting is being recorded. Give consent to join.",
+            "waitingToBeLetIn": "You are waiting to be let in.",
+            "recordingNow": "The meeting is being recorded.",
+            "connecting": "Connecting ...",
+            "aloneInMeeting": "You are the only one in the meeting right now.",
+            "reconnecting": "The connection is unstable. Reconnecting ...",
+            "enableSound": "Turn on sound",
+            "consentQuestion": "{name} would like to record the meeting. Do you consent to being recorded?",
+            "consentYes": "Yes, record",
+            "consentNo": "No",
+            "theHost": "The host",
+            "consentGivenBy": "{name} has given consent.",
+            "consentDeclinedBy": "{name} has not given consent.",
+            "consentRequested": "The participants have been asked for consent.",
+            "muteMicrophone": "Mute microphone",
+            "unmuteMicrophone": "Unmute microphone",
+            "turnCameraOff": "Turn camera off",
+            "turnCameraOn": "Turn camera on",
+            "shareScreen": "Share screen",
+            "stopSharing": "Stop sharing",
+            "leave": "Leave",
+            "couldNotConnect": "Could not connect",
+            "left": "You have left the meeting",
+            "rejoin": "Join again",
+            "you": "{name} (you)",
+            "sharedBy": "{name} is sharing their screen",
+            "permissionDenied": "The browser has no access to camera and microphone. Allow it in the browser settings.",
+            "deviceUnavailable": "The camera or microphone cannot be used. Is it in use in another program?"
+        },
+        "guest": {
+            "invitedBy": "{host} from {company} has invited you to an online meeting.",
+            "when": "{date} at {from}-{to}",
+            "denied": "You have not been let into the meeting.",
+            "noAccountNeeded": "You do not need an account or to install anything."
         }
     }
 }
