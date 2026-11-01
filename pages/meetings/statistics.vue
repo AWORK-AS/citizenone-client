@@ -1,0 +1,143 @@
+<template>
+    <div>
+        <NuxtLayout name="user">
+
+            <Head>
+                <Title>{{ $t('meetings.stats.title') }} - {{ runtimeConfig?.public?.appName }}</Title>
+            </Head>
+
+            <template #header>{{ $t('meetings.title') }}</template>
+
+            <NuxtLink to="/meetings" class="inline-flex items-center gap-1.5 mb-4 text-sm text-gray-500 hover:text-[#0f2b46]">
+                <Icon name="ph:arrow-left" class="h-4 w-4" /> {{ $t('meetings.title') }}
+            </NuxtLink>
+
+            <div class="flex flex-wrap items-end justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-2xl font-semibold text-[#0f2b46]">{{ $t('meetings.stats.title') }}</h2>
+                    <p class="text-sm text-gray-500">{{ $t('meetings.stats.subtitle') }}</p>
+                </div>
+                <div class="inline-flex rounded-full bg-white ring-1 ring-gray-200 p-1">
+                    <button v-for="option in periods" :key="option.days" type="button"
+                        class="px-3.5 py-1.5 text-sm rounded-full transition"
+                        :class="state.days === option.days ? 'bg-[#0f4c75] text-white' : 'text-gray-600 hover:bg-gray-50'"
+                        @click="choose(option.days)">
+                        {{ option.label }}
+                    </button>
+                </div>
+            </div>
+
+            <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+
+            <LoadingSpinner :isActive="state.isLoading">
+                <div v-if="stats" class="space-y-6">
+                    <!-- Saved by meeting online: the headline. -->
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <div v-for="tile in savedTiles" :key="tile.key" class="rounded-2xl bg-[#0f2b46] text-white p-5">
+                            <p class="text-sm text-white/70 flex items-center gap-2">
+                                <Icon :name="tile.icon" class="h-4 w-4" /> {{ tile.label }}
+                            </p>
+                            <p class="mt-2 text-3xl font-semibold tabular-nums">{{ tile.value }}</p>
+                        </div>
+                    </div>
+                    <p class="text-xs text-gray-500 -mt-3">
+                        {{ $t('meetings.stats.assumption', { km: stats.saved.assumed_km_per_meeting, minutes: stats.saved.assumed_minutes_per_meeting }) }}
+                    </p>
+
+                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div v-for="tile in countTiles" :key="tile.key" class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
+                            <p class="text-sm text-gray-500">{{ tile.label }}</p>
+                            <p class="mt-1 text-2xl font-semibold text-[#0f2b46] tabular-nums">{{ tile.value }}</p>
+                        </div>
+                    </div>
+
+                    <div v-if="stats.by_month.length > 1" class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
+                        <p class="text-sm font-semibold text-[#0f2b46] mb-4">{{ $t('meetings.stats.perMonth') }}</p>
+                        <div class="flex items-end gap-3 h-40">
+                            <div v-for="row in stats.by_month" :key="row.month" class="flex-1 flex flex-col items-center gap-2 min-w-0">
+                                <span class="text-xs text-gray-600 tabular-nums">{{ row.meetings }}</span>
+                                <div class="w-full max-w-12 rounded-t-md bg-[#2dbab2]" :style="{ height: `${Math.max(4, (row.meetings / maxMonth) * 100)}%` }" />
+                                <span class="text-[11px] text-gray-500 truncate">{{ monthLabel(row.month) }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </LoadingSpinner>
+        </NuxtLayout>
+    </div>
+</template>
+
+<script setup lang="ts">
+definePageMeta({ middleware: 'require-application', requiredApplication: 'meetings_enabled' })
+
+import moment from 'moment'
+import { useI18n } from 'vue-i18n'
+import { meetingService } from '@/components/api/user/MeetingService'
+
+/**
+ * What online meetings did for the company: meetings held, time in
+ * meetings, guests reached, and the driving saved by not meeting in person
+ * (from the company's own estimate per meeting, set under settings).
+ * Managers and administrators only; the API checks.
+ */
+const runtimeConfig = useRuntimeConfig()
+const { t, locale } = useI18n()
+
+const state = reactive({ days: 30, data: null as any, isLoading: false, error: {} as any })
+const stats = computed(() => state.data)
+
+const periods = computed(() => [
+    { days: 30, label: t('meetings.stats.days', { days: 30 }) },
+    { days: 90, label: t('meetings.stats.days', { days: 90 }) },
+    { days: 365, label: t('meetings.stats.year') },
+])
+
+const number = (value: number) => new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK').format(value)
+
+const savedTiles = computed(() => stats.value ? [
+    { key: 'km', icon: 'ph:car', label: t('meetings.stats.kmSaved'), value: `${number(stats.value.saved.km)} km` },
+    { key: 'time', icon: 'ph:clock-countdown', label: t('meetings.stats.timeSaved'), value: hours(stats.value.saved.travel_minutes) },
+    { key: 'co2', icon: 'ph:leaf', label: t('meetings.stats.co2Saved'), value: `${number(stats.value.saved.co2_kg)} kg` },
+] : [])
+
+const countTiles = computed(() => stats.value ? [
+    { key: 'held', label: t('meetings.stats.held'), value: number(stats.value.meetings_held) },
+    { key: 'minutes', label: t('meetings.stats.inMeetings'), value: hours(stats.value.minutes) },
+    { key: 'guests', label: t('meetings.stats.withGuests'), value: number(stats.value.meetings_with_guests) },
+    { key: 'summaries', label: t('meetings.stats.summaries'), value: `${number(stats.value.summaries)} / ${number(stats.value.recordings)}` },
+] : [])
+
+const maxMonth = computed(() => Math.max(1, ...(stats.value?.by_month ?? []).map((row: any) => row.meetings)))
+
+function hours(minutes: number) {
+    const h = Math.floor(minutes / 60)
+    const m = minutes % 60
+    return h ? t('meetings.stats.hoursMinutes', { h: number(h), m }) : t('meetings.stats.minutes', { m })
+}
+
+function monthLabel(month: string) {
+    return moment(`${month}-01`).locale(locale.value === 'dk' ? 'da' : locale.value).format('MMM YY')
+}
+
+async function load() {
+    state.isLoading = true
+    state.error = {}
+    try {
+        const response = await meetingService.statistics({
+            from: moment().subtract(state.days - 1, 'days').format('YYYY-MM-DD'),
+            to: moment().format('YYYY-MM-DD'),
+        })
+        state.data = response?.data ?? null
+    } catch (error: any) {
+        state.error = error
+    }
+    state.isLoading = false
+}
+
+function choose(days: number) {
+    state.days = days
+    load()
+}
+
+onMounted(load)
+</script>

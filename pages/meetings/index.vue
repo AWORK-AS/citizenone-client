@@ -17,9 +17,25 @@
                         {{ $t(`meetings.${scope}`) }}
                     </button>
                 </div>
-                <FormButton type="button" buttonStyle="primary" @click="navigateTo('/meetings/create')">
-                    <Icon name="ph:plus" class="h-4 w-4 mr-1" /> {{ $t('meetings.newMeeting') }}
-                </FormButton>
+                <div class="flex flex-wrap items-center gap-2">
+                    <button type="button" class="h-10 w-10 rounded-full ring-1 ring-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center"
+                        :title="$t('meetings.settings.title')" @click="state.showSettings = true">
+                        <Icon name="ph:gear-six" class="h-5 w-5 text-gray-600" />
+                    </button>
+                    <button v-if="permissions.isAtLeast('Manager')" type="button"
+                        class="h-10 px-4 rounded-full ring-1 ring-gray-200 bg-white hover:bg-gray-50 text-sm inline-flex items-center gap-2"
+                        @click="navigateTo('/meetings/statistics')">
+                        <Icon name="ph:chart-bar" class="h-4 w-4 text-gray-600" /> {{ $t('meetings.stats.title') }}
+                    </button>
+                    <button type="button" class="h-10 px-4 rounded-full ring-1 ring-[#0f4c75] text-[#0f4c75] bg-white hover:bg-[#f0faf9] text-sm font-semibold inline-flex items-center gap-2"
+                        :disabled="state.starting" @click="startNow">
+                        <Icon name="ph:lightning" class="h-4 w-4" /> {{ $t('meetings.startNow') }}
+                    </button>
+                    <button type="button" class="h-10 px-4 rounded-full bg-[#0f4c75] hover:bg-[#0f2b46] text-white text-sm font-semibold inline-flex items-center gap-2"
+                        @click="navigateTo('/meetings/create')">
+                        <Icon name="ph:plus" class="h-4 w-4" /> {{ $t('meetings.newMeeting') }}
+                    </button>
+                </div>
             </div>
 
             <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
@@ -56,6 +72,7 @@
                     <FormButton type="button" buttonStyle="cancel" :disabled="state.page >= state.lastPage" @click="load(state.page + 1)">›</FormButton>
                 </div>
             </LoadingSpinner>
+            <MeetingSettingsModal :show="state.showSettings" @close="state.showSettings = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -65,6 +82,10 @@ definePageMeta({ middleware: 'require-application', requiredApplication: 'meetin
 
 import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
+import MeetingSettingsModal from '@/components/modules/user/meetings/settings-modal.vue'
+import { usePermissions } from '@/composables/usePermissions'
+
+const permissions = usePermissions()
 
 const runtimeConfig = useRuntimeConfig()
 
@@ -75,7 +96,21 @@ const state = reactive({
     lastPage: 1,
     isLoading: false,
     error: {} as any,
+    showSettings: false,
+    starting: false,
 })
+
+// A meeting right now, straight to the pre-join; invite people from there.
+async function startNow() {
+    state.starting = true
+    try {
+        const response = await meetingService.startNow()
+        if (response?.data?.uuid) navigateTo(`/meetings/${response.data.uuid}?join=1`)
+    } catch (error: any) {
+        state.error = error
+    }
+    state.starting = false
+}
 
 onMounted(() => load(1))
 

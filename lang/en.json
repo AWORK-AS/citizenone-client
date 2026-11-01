@@ -20576,7 +20576,10 @@
             "endBeforeStart": "The meeting must end after it starts.",
             "repeat": "Repeat",
             "repeatNone": "Does not repeat",
-            "repeatUntil": "Repeat until"
+            "repeatUntil": "Repeat until",
+            "agenda": "Agenda",
+            "agendaPlaceholder": "1. Status\n2. Agreements\n3. Next meeting",
+            "agendaHint": "Shown in the meeting, and Cody uses it for the summary."
         },
         "detail": {
             "join": "Join the meeting",
@@ -20712,6 +20715,58 @@
             "open": "Open online meeting",
             "make": "Make it a CitizenOne online meeting",
             "makeHint": "Colleagues on the event are invited. Invite guests from the meeting page."
+        },
+        "interpreter": "Interpreter",
+        "startNow": "Start a meeting now",
+        "startNowWith": "Start an online meeting now",
+        "settings": {
+            "title": "Online meeting settings",
+            "retention": "Keep recordings for",
+            "days": "{days} days",
+            "retentionHint": "After that the recording is deleted automatically. Summaries in the journal stay.",
+            "travelKm": "Km saved per meeting",
+            "travelMinutes": "Minutes saved per meeting",
+            "travelHint": "Used for the statistics: the driving a meeting with an external participant saves.",
+            "adminOnly": "Only administrators can change the settings."
+        },
+        "stats": {
+            "title": "Statistics",
+            "subtitle": "What online meetings have meant for you",
+            "days": "{days} days",
+            "year": "1 year",
+            "kmSaved": "Driving saved",
+            "timeSaved": "Travel time saved",
+            "co2Saved": "CO2 saved",
+            "assumption": "Based on {km} km and {minutes} minutes of travel per meeting with an external participant. Change it under settings.",
+            "held": "Meetings held",
+            "inMeetings": "Time in meetings",
+            "withGuests": "With external people",
+            "summaries": "Summaries / recordings",
+            "perMonth": "Meetings per month",
+            "hoursMinutes": "{h} h {m} min",
+            "minutes": "{m} min"
+        },
+        "notes": {
+            "title": "Agenda and notes",
+            "agenda": "Agenda",
+            "placeholder": "Write notes from the meeting here. They save automatically and colleagues in the meeting can see them.",
+            "hint": "Guests cannot see the notes.",
+            "saving": "Saving ...",
+            "saved": "Saved {time}",
+            "conflict": "{name} changed the notes in the meantime.",
+            "useLatest": "Use the latest",
+            "keepMine": "Keep mine",
+            "toJournal": "Save in the citizen's journal",
+            "updateJournal": "Update the draft in the journal",
+            "filed": "Saved as a draft in the citizen's journal.",
+            "openJournal": "Open the journal"
+        },
+        "files": {
+            "fromCitizen": "Share a file from the citizen's documents",
+            "pickTitle": "Choose a document",
+            "root": "Documents",
+            "empty": "No documents here.",
+            "hint": "The file goes straight to the others in the meeting and is not stored."
         }
     }
 }

@@ -97,7 +97,18 @@
                                     {{ $t('meetings.room.alreadyIn', { names: inRoomNames.join(', ') }) }}
                                 </p>
                             </template>
+                            <template #chat-attach>
+                                <button v-if="meeting.citizen" type="button"
+                                    class="h-9 w-9 shrink-0 rounded-full text-gray-500 hover:bg-gray-100 flex items-center justify-center"
+                                    :title="$t('meetings.files.fromCitizen')" @click="state.pickFile = true">
+                                    <Icon name="ph:folder-open" class="h-5 w-5" />
+                                </button>
+                            </template>
                             <template #controls="{ recording }">
+                                <button type="button" class="h-11 w-11 rounded-full flex items-center justify-center bg-white/10 text-white hover:bg-white/20"
+                                    :title="$t('meetings.notes.title')" @click="scrollToNotes">
+                                    <Icon name="ph:note-pencil" class="h-5 w-5" />
+                                </button>
                                 <template v-if="meeting.is_host">
                                     <button type="button" class="h-11 px-4 rounded-full flex items-center gap-2 text-sm font-medium transition"
                                         :class="recording ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-white/10 text-white hover:bg-white/20'"
@@ -114,6 +125,14 @@
                         </MeetingRoom>
                     </div>
 
+                    <!-- Agenda and shared notes (staff only). -->
+                    <div ref="notesEl">
+                        <MeetingNotesPanel :meeting="meeting" @filed="load" />
+                    </div>
+
+                    <MeetingCitizenFilePicker v-if="meeting.citizen" :show="state.pickFile" :citizenUuid="meeting.citizen.uuid"
+                        @close="state.pickFile = false" @picked="(file: File) => roomRef?.shareFile(file)" />
+
                     <div class="grid grid-cols-1 xl:grid-cols-2 gap-5">
                         <!-- Participants -->
                         <div class="px-4 py-5 sm:p-6 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg space-y-4">
@@ -126,6 +145,7 @@
                                         <p class="font-medium truncate">
                                             {{ participant.name }}
                                             <span v-if="participant.role === 'host'" class="text-xs text-gray-500">({{ $t('meetings.host') }})</span>
+                                            <span v-if="participant.is_interpreter" class="ml-1 text-[11px] font-medium rounded-full px-2 py-0.5 bg-[#f0faf9] text-[#1b6d8a]">{{ $t('meetings.interpreter') }}</span>
                                         </p>
                                         <p class="text-xs text-gray-500 truncate">
                                             {{ $t(`meetings.participantState.${participant.state}`) }}
@@ -233,6 +253,8 @@ import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import MeetingRoom from '@/components/modules/shared/meeting/room.vue'
 import MeetingForm from '@/components/modules/user/meetings/form.vue'
+import MeetingNotesPanel from '@/components/modules/user/meetings/notes-panel.vue'
+import MeetingCitizenFilePicker from '@/components/modules/user/meetings/citizen-file-picker.vue'
 import { meetingService } from '@/components/api/user/MeetingService'
 import { userService } from '@/components/api/user/UserService'
 import { useMeetingJoinLinks } from '@/composables/meetingJoinLinks'
@@ -253,6 +275,11 @@ const departmentStore = useDepartmentStore() as any
 const uuid = route.params.uuid as string
 
 const roomRef = ref<InstanceType<typeof MeetingRoom> | null>(null)
+const notesEl = ref<HTMLElement>()
+
+function scrollToNotes() {
+    notesEl.value?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+}
 let poll: ReturnType<typeof setInterval> | null = null
 
 const state = reactive({
@@ -268,6 +295,7 @@ const state = reactive({
     confirmCancel: false,
     deleteRecording: null as any,
     summaryBusy: '',
+    pickFile: false,
     playUrl: '',
     invite: { colleagues: [] as string[], name: '', email: '' },
     options: { users: [] as any[] },
@@ -281,6 +309,8 @@ const canInvite = computed(() => state.invite.colleagues.length > 0 || state.inv
 
 onMounted(async () => {
     await load()
+    // "Start now" and the calendar send people straight to the pre-join.
+    if (route.query.join && isOpen.value) state.showRoom = true
     await loadRecordings()
     if (state.recordings.some((r: any) => r.summary_status === 'queued')) watchSummaries()
     if (state.meeting?.is_host) loadUsers()

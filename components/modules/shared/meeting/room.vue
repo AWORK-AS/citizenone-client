@@ -165,6 +165,7 @@
                     <p v-if="state.fileError" class="px-4 pb-1 text-xs text-red-600">{{ state.fileError }}</p>
                     <form class="border-t border-gray-100 p-2 flex items-center gap-1.5" @submit.prevent="sendChat">
                         <input ref="fileInput" type="file" class="hidden" @change="sendFile" />
+                        <slot name="chat-attach" />
                         <button type="button" class="h-9 w-9 shrink-0 rounded-full text-gray-500 hover:bg-gray-100 flex items-center justify-center"
                             :title="$t('meetings.room.attachFile')" @click="fileInput?.click()">
                             <Icon name="ph:paperclip" class="h-5 w-5" />
@@ -362,9 +363,10 @@ const cameraTiles = computed<Tile[]>(() => {
     return participants().map((participant) => ({
         key: participant.identity,
         track: participant.getTrackPublication(Track.Source.Camera)?.track ?? null,
-        label: participant === r?.localParticipant
+        label: (participant === r?.localParticipant
             ? t('meetings.room.you', { name: participant.name || '' })
-            : (participant.name || participant.identity),
+            : (participant.name || participant.identity))
+            + (isInterpreter(participant) ? ` · ${t('meetings.interpreter')}` : ''),
         isLocal: participant === r?.localParticipant,
         microphoneMuted: !participant.isMicrophoneEnabled,
         speaking: participant.isSpeaking,
@@ -661,24 +663,7 @@ async function sendFile(event: Event) {
     const input = event.target as HTMLInputElement
     const file = input.files?.[0]
     input.value = ''
-    if (!file || !room.value) return
-
-    state.fileError = ''
-    if (file.size > MAX_FILE_BYTES) {
-        state.fileError = t('meetings.room.fileTooLarge')
-        return
-    }
-
-    const url = URL.createObjectURL(file)
-    fileUrls.push(url)
-    const message = pushFileMessage(room.value.localParticipant.name ?? '', { name: file.name, size: file.size, url, sending: true }, true)
-
-    try {
-        await room.value.localParticipant.sendFile(file, { topic: FILE_TOPIC })
-    } catch {
-        state.fileError = t('meetings.room.fileNotSent')
-    }
-    message.file!.sending = false
+    if (file) await shareFile(file)
 }
 
 async function receiveFile(reader: any, identity: string) {
@@ -807,5 +792,37 @@ async function backToPrejoin() {
     await startPreview()
 }
 
-defineExpose({ requestConsent, leave })
+function isInterpreter(participant: Participant) {
+    try {
+        return !!JSON.parse(participant.metadata || '{}')?.interpreter
+    } catch {
+        return false
+    }
+}
+
+/**
+ * Sends a file the page picked (e.g. from the citizen's documents) to the
+ * others in the call, the same way as one chosen from the computer.
+ */
+async function shareFile(file: File) {
+    if (!room.value) return
+    state.chatOpen = true
+    state.unread = 0
+    state.fileError = ''
+    if (file.size > MAX_FILE_BYTES) {
+        state.fileError = t('meetings.room.fileTooLarge')
+        return
+    }
+    const url = URL.createObjectURL(file)
+    fileUrls.push(url)
+    const message = pushFileMessage(room.value.localParticipant.name ?? '', { name: file.name, size: file.size, url, sending: true }, true)
+    try {
+        await room.value.localParticipant.sendFile(file, { topic: FILE_TOPIC })
+    } catch {
+        state.fileError = t('meetings.room.fileNotSent')
+    }
+    message.file!.sending = false
+}
+
+defineExpose({ requestConsent, leave, shareFile })
 </script>

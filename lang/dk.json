@@ -20576,7 +20576,10 @@
             "endBeforeStart": "Mødet skal slutte efter det starter.",
             "repeat": "Gentag",
             "repeatNone": "Gentages ikke",
-            "repeatUntil": "Gentag indtil"
+            "repeatUntil": "Gentag indtil",
+            "agenda": "Dagsorden",
+            "agendaPlaceholder": "1. Status\n2. Aftaler\n3. Næste møde",
+            "agendaHint": "Vises i mødet, og Cody bruger den til referatet."
         },
         "detail": {
             "join": "Deltag i mødet",
@@ -20712,6 +20715,58 @@
             "open": "Åbn online møde",
             "make": "Gør til CitizenOne online møde",
             "makeHint": "Kolleger på aftalen bliver inviteret. Gæster inviterer du fra mødesiden."
+        },
+        "interpreter": "Tolk",
+        "startNow": "Start møde nu",
+        "startNowWith": "Start online møde nu",
+        "settings": {
+            "title": "Indstillinger for online møder",
+            "retention": "Gem optagelser i",
+            "days": "{days} dage",
+            "retentionHint": "Herefter slettes optagelsen automatisk. Referater i journalen bliver liggende.",
+            "travelKm": "Km sparet pr. møde",
+            "travelMinutes": "Minutter sparet pr. møde",
+            "travelHint": "Bruges til statistikken: hvad et møde med en ekstern deltager sparer i kørsel.",
+            "adminOnly": "Kun administratorer kan ændre indstillingerne."
+        },
+        "stats": {
+            "title": "Statistik",
+            "subtitle": "Hvad online møder har betydet for jer",
+            "days": "{days} dage",
+            "year": "1 år",
+            "kmSaved": "Kørsel sparet",
+            "timeSaved": "Transporttid sparet",
+            "co2Saved": "CO2 sparet",
+            "assumption": "Beregnet ud fra {km} km og {minutes} minutters transport pr. møde med en ekstern deltager. Kan ændres under indstillinger.",
+            "held": "Møder holdt",
+            "inMeetings": "Tid i møder",
+            "withGuests": "Med eksterne",
+            "summaries": "Referater / optagelser",
+            "perMonth": "Møder pr. måned",
+            "hoursMinutes": "{h} t {m} min",
+            "minutes": "{m} min"
+        },
+        "notes": {
+            "title": "Dagsorden og noter",
+            "agenda": "Dagsorden",
+            "placeholder": "Skriv noter fra mødet her. De gemmes automatisk og kan ses af kollegerne i mødet.",
+            "hint": "Gæster kan ikke se noterne.",
+            "saving": "Gemmer ...",
+            "saved": "Gemt {time}",
+            "conflict": "{name} har ændret noterne imens.",
+            "useLatest": "Brug den nyeste",
+            "keepMine": "Behold mine",
+            "toJournal": "Gem i borgerens journal",
+            "updateJournal": "Opdatér kladden i journalen",
+            "filed": "Gemt som kladde i borgerens journal.",
+            "openJournal": "Åbn journalen"
+        },
+        "files": {
+            "fromCitizen": "Del fil fra borgerens dokumenter",
+            "pickTitle": "Vælg et dokument",
+            "root": "Dokumenter",
+            "empty": "Ingen dokumenter her.",
+            "hint": "Filen sendes direkte til de andre i mødet og gemmes ikke."
         }
     }
 }

@@ -1519,7 +1519,7 @@ function generateSidebarLinks(user: any) {
     // CitizenOne Online Meetings: video meetings with colleagues, citizens and
     // external guests. A company-bought app, gated like the task boards.
     if (user?.company?.meetings_enabled) {
-        nav.push({ name: 'Online meetings', href: '/meetings', icon: 'ph:video-conference', group: 'organisation', activeRouteNames: ['meetings', 'meetings-create', 'meetings-uuid'] })
+        nav.push({ name: 'Online meetings', href: '/meetings', icon: 'ph:video-conference', group: 'organisation', activeRouteNames: ['meetings', 'meetings-create', 'meetings-uuid', 'meetings-statistics'] })
     }
 
     // Whistleblower: the handlers' inbox, and for everyone the company's public

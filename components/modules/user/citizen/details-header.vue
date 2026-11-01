@@ -61,6 +61,7 @@
                                                     <Icon name="ph:pencil-simple" class="w-5 h-5" aria-hidden="true" />
                                                 </button>
                                             </Tooltip>
+                                            <ModulesUserMeetingsStartNowButton :citizenUuid="state.selectedCitizen?.data?.uuid" />
                                             <Tooltip :text="$t('citizens.openInNewWindow')" v-if="isDesktopApp">
                                                 <button type="button" class="inline-flex h-8 w-8 items-center justify-center rounded-lg text-slate-500 hover:bg-surface-100 hover:text-primary transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
                                                     :aria-label="$t('citizens.openInNewWindow')"

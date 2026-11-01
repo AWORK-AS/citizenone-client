@@ -20491,7 +20491,10 @@
             "endBeforeStart": "Mötet måste sluta efter att det börjar.",
             "repeat": "Upprepa",
             "repeatNone": "Upprepas inte",
-            "repeatUntil": "Upprepa till"
+            "repeatUntil": "Upprepa till",
+            "agenda": "Dagordning",
+            "agendaPlaceholder": "1. Status\n2. Överenskommelser\n3. Nästa möte",
+            "agendaHint": "Visas i mötet, och Cody använder den till sammanfattningen."
         },
         "detail": {
             "join": "Delta i mötet",
@@ -20627,6 +20630,58 @@
             "open": "Öppna onlinemöte",
             "make": "Gör till CitizenOne onlinemöte",
             "makeHint": "Kollegor på händelsen bjuds in. Gäster bjuder du in från mötessidan."
+        },
+        "interpreter": "Tolk",
+        "startNow": "Starta möte nu",
+        "startNowWith": "Starta onlinemöte nu",
+        "settings": {
+            "title": "Inställningar för onlinemöten",
+            "retention": "Spara inspelningar i",
+            "days": "{days} dagar",
+            "retentionHint": "Därefter raderas inspelningen automatiskt. Sammanfattningar i journalen ligger kvar.",
+            "travelKm": "Km sparade per möte",
+            "travelMinutes": "Minuter sparade per möte",
+            "travelHint": "Används till statistiken: vad ett möte med en extern deltagare sparar i körning.",
+            "adminOnly": "Bara administratörer kan ändra inställningarna."
+        },
+        "stats": {
+            "title": "Statistik",
+            "subtitle": "Vad onlinemöten har betytt för er",
+            "days": "{days} dagar",
+            "year": "1 år",
+            "kmSaved": "Körning sparad",
+            "timeSaved": "Restid sparad",
+            "co2Saved": "CO2 sparad",
+            "assumption": "Beräknat utifrån {km} km och {minutes} minuters resa per möte med en extern deltagare. Kan ändras under inställningar.",
+            "held": "Hållna möten",
+            "inMeetings": "Tid i möten",
+            "withGuests": "Med externa",
+            "summaries": "Sammanfattningar / inspelningar",
+            "perMonth": "Möten per månad",
+            "hoursMinutes": "{h} h {m} min",
+            "minutes": "{m} min"
+        },
+        "notes": {
+            "title": "Dagordning och anteckningar",
+            "agenda": "Dagordning",
+            "placeholder": "Skriv anteckningar från mötet här. De sparas automatiskt och kan ses av kollegorna i mötet.",
+            "hint": "Gäster kan inte se anteckningarna.",
+            "saving": "Sparar ...",
+            "saved": "Sparat {time}",
+            "conflict": "{name} har ändrat anteckningarna under tiden.",
+            "useLatest": "Använd den senaste",
+            "keepMine": "Behåll mina",
+            "toJournal": "Spara i brukarens journal",
+            "updateJournal": "Uppdatera utkastet i journalen",
+            "filed": "Sparat som utkast i brukarens journal.",
+            "openJournal": "Öppna journalen"
+        },
+        "files": {
+            "fromCitizen": "Dela fil från brukarens dokument",
+            "pickTitle": "Välj ett dokument",
+            "root": "Dokument",
+            "empty": "Inga dokument här.",
+            "hint": "Filen skickas direkt till de andra i mötet och sparas inte."
         }
     }
 }

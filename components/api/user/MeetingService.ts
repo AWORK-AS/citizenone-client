@@ -88,6 +88,30 @@ class MeetingService extends BaseAPIService {
     async createFromCalendar(calendarUuid: string): Promise<any> {
         return await this.request(`/user/meetings/from-calendar/${calendarUuid}`, 'POST')
     }
+
+    async startNow(payload: { user_uuid?: string, citizen_uuid?: string } = {}): Promise<any> {
+        return await this.request('/user/meetings/start-now', 'POST', payload)
+    }
+
+    async updateNotes(uuid: string, notes: string, seenUpdatedAt: string | null): Promise<any> {
+        return await this.request(`/user/meetings/${uuid}/notes`, 'PUT', { notes, seen_updated_at: seenUpdatedAt })
+    }
+
+    async notesToJournal(uuid: string): Promise<any> {
+        return await this.request(`/user/meetings/${uuid}/notes/journal`, 'POST')
+    }
+
+    async settings(): Promise<any> {
+        return await this.request('/user/meetings/settings', 'GET')
+    }
+
+    async updateSettings(payload: object): Promise<any> {
+        return await this.request('/user/meetings/settings', 'PUT', payload)
+    }
+
+    async statistics(params: { from?: string, to?: string }): Promise<any> {
+        return await this.request('/user/meetings/statistics', 'GET', params)
+    }
 }
 
 export const meetingService = new MeetingService()
