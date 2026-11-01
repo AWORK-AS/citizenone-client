@@ -328,7 +328,7 @@
                     </div>
                     <!-- Once the visitor has answered, the panel shows what is being set up for
                          exactly them, so the rest of the form is filling in for something already theirs. -->
-                    <div class="co-mid" v-if="selectedIndustry" data-testid="register-panel-profile">
+                    <div class="co-mid co-mid--swap" v-if="selectedIndustry" :key="panelProfile" data-testid="register-panel-profile">
                         <div class="co-tag">{{ $t(`register.panel.${panelProfile}.tag`) }}</div>
                         <div class="co-h1">{{ $t(`register.panel.${panelProfile}.title`) }}</div>
                         <ul class="co-points">
@@ -993,6 +993,12 @@ async function navigateToTAC() {
     z-index: 2;
     opacity: 0;
     animation: cofu 0.6s ease 1.4s forwards
+}
+
+/* The personalised panel replaces the first one after a click: waiting 1.4s
+   for it to fade in would read as nothing happening. */
+.co-mid--swap {
+    animation-delay: 0.05s
 }
 
 @keyframes cofu {
