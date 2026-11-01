@@ -20540,6 +20540,20 @@
         "nav": "Online møder",
         "title": "Online møder",
         "newMeeting": "Nyt møde",
+        "recordingsTab": {
+            "title": "Optagelser",
+            "empty": "Der er ingen optagelser, du har adgang til.",
+            "noCitizen": "Intet borgerforløb",
+            "recordedBy": "optaget af {name}",
+            "delete": "Slet optagelse",
+            "inJournal": "I journalen",
+            "summaryReady": "Referat klar",
+            "summaryRunning": "Referat laves",
+            "summaryFailed": "Referat fejlede",
+            "noSummary": "Intet referat",
+            "deletedIn": "Slettes om {days} dage",
+            "deletedTomorrow": "Slettes i morgen"
+        },
         "seat": {
             "askAdmin": "Du kan deltage i møder, men skal have en plads for at oprette dem. Bed en administrator om en plads."
         },
@@ -20586,7 +20600,7 @@
             "repeatUntil": "Gentag indtil",
             "agenda": "Dagsorden",
             "agendaPlaceholder": "1. Status\n2. Aftaler\n3. Næste møde",
-            "agendaHint": "Vises i mødet, og Cody bruger den til referatet."
+            "agendaHint": "Vises i mødet, og Cody AI bruger den til referatet."
         },
         "detail": {
             "join": "Deltag i mødet",
@@ -20704,17 +20718,17 @@
             "until": "indtil {date}"
         },
         "summary": {
-            "make": "Lav referat med Cody",
-            "working": "Cody laver referatet. Det tager typisk et par minutter.",
+            "make": "Lav referat med Cody AI",
+            "working": "Cody AI laver referatet. Det tager typisk et par minutter.",
             "retry": "Prøv igen",
-            "byCody": "Referat lavet af Cody. Tjek det, før du bruger det.",
+            "byCody": "Referat lavet af Cody AI. Tjek det, før du bruger det.",
             "openDraft": "Åbn kladden i borgerens journal",
             "draftCreated": "Referatet er gemt som kladde i borgerens journal.",
             "errors": {
                 "too_long": "Optagelsen er for lang til et referat (maks. cirka 1,5 time).",
                 "no_audio": "Optagelsen har ikke et lydspor.",
-                "empty": "Der blev ikke sagt noget, Cody kunne høre.",
-                "ai_error": "Cody kunne ikke lave referatet lige nu."
+                "empty": "Der blev ikke sagt noget, Cody AI kunne høre.",
+                "ai_error": "Cody AI kunne ikke lave referatet lige nu."
             }
         },
         "citizen": {
@@ -20737,6 +20751,8 @@
             "travelKm": "Km sparet pr. møde",
             "travelMinutes": "Minutter sparet pr. møde",
             "travelHint": "Bruges til statistikken: hvad et møde med en ekstern deltager sparer i kørsel.",
+            "hourlyRate": "Timepris for medarbejdertid (kr.)",
+            "hourlyRateHint": "Bruges til at regne sparet transporttid om til kroner i statistikken.",
             "adminOnly": "Kun administratorer kan ændre indstillingerne."
         },
         "stats": {
@@ -20745,6 +20761,15 @@
             "days": "{days} dage",
             "year": "1 år",
             "kmSaved": "Kørsel sparet",
+            "kronerSaved": "Sparet i medarbejdertid",
+            "rateAssumption": "Kroner er regnet med {rate} kr. i timen.",
+            "seatsTitle": "Pladser i brug",
+            "seatsActive": "{active} af {assigned} værter har holdt møder",
+            "seatsBought": "{bought} pladser købt, {free} ikke tildelt. Gælder de seneste 30 dage.",
+            "seatsIdle": "Har ikke holdt møder de seneste 30 dage:",
+            "journalTitle": "Fra møde til journal",
+            "journalDetail": "{done} af {total} møder om en borger har noter eller referat i journalen.",
+            "journalNone": "Ingen møder om en borger i perioden.",
             "timeSaved": "Transporttid sparet",
             "co2Saved": "CO2 sparet",
             "assumption": "Beregnet ud fra {km} km og {minutes} minutters transport pr. møde med en ekstern deltager. Kan ændres under indstillinger.",
@@ -20771,8 +20796,8 @@
             "updateJournal": "Opdatér kladden i journalen",
             "filed": "Gemt som kladde i borgerens journal.",
             "openJournal": "Åbn journalen",
-            "summarize": "Lav resumé med Cody",
-            "summarizing": "Cody skriver ...",
+            "summarize": "Lav resumé med Cody AI",
+            "summarizing": "Cody AI skriver ...",
             "summaryToJournal": "Gem resumé i borgerens journal",
             "copy": "Kopiér",
             "dismiss": "Luk"

@@ -69,6 +69,11 @@ class MeetingService extends BaseAPIService {
         return await this.request(`/user/meetings/${uuid}/recordings`, 'GET')
     }
 
+    // Every recording the user may see, for the Recordings tab.
+    async allRecordings(page = 1): Promise<any> {
+        return await this.request(`/user/meetings/recordings`, 'GET', { page })
+    }
+
     async recordingUrl(recordingUuid: string): Promise<any> {
         return await this.request(`/user/meetings/recordings/${recordingUuid}/url`, 'GET')
     }

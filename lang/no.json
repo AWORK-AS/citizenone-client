@@ -20455,6 +20455,20 @@
         "nav": "Nettmøter",
         "title": "Nettmøter",
         "newMeeting": "Nytt møte",
+        "recordingsTab": {
+            "title": "Opptak",
+            "empty": "Det finnes ingen opptak du har tilgang til.",
+            "noCitizen": "Ingen bruker",
+            "recordedBy": "tatt opp av {name}",
+            "delete": "Slett opptak",
+            "inJournal": "I journalen",
+            "summaryReady": "Referat klart",
+            "summaryRunning": "Referat lages",
+            "summaryFailed": "Referat feilet",
+            "noSummary": "Ikke referat",
+            "deletedIn": "Slettes om {days} dager",
+            "deletedTomorrow": "Slettes i morgen"
+        },
         "seat": {
             "askAdmin": "Du kan delta i møter, men trenger en plass for å opprette dem. Be en administrator om en plass."
         },
@@ -20501,7 +20515,7 @@
             "repeatUntil": "Gjenta til",
             "agenda": "Dagsorden",
             "agendaPlaceholder": "1. Status\n2. Avtaler\n3. Neste møte",
-            "agendaHint": "Vises i møtet, og Cody bruker den til referatet."
+            "agendaHint": "Vises i møtet, og Cody AI bruker den til referatet."
         },
         "detail": {
             "join": "Delta i møtet",
@@ -20619,17 +20633,17 @@
             "until": "til {date}"
         },
         "summary": {
-            "make": "Lag referat med Cody",
-            "working": "Cody lager referatet. Det tar vanligvis et par minutter.",
+            "make": "Lag referat med Cody AI",
+            "working": "Cody AI lager referatet. Det tar vanligvis et par minutter.",
             "retry": "Prøv igjen",
-            "byCody": "Referat laget av Cody. Sjekk det før du bruker det.",
+            "byCody": "Referat laget av Cody AI. Sjekk det før du bruker det.",
             "openDraft": "Åpne utkastet i brukerens journal",
             "draftCreated": "Referatet er lagret som utkast i brukerens journal.",
             "errors": {
                 "too_long": "Opptaket er for langt for et referat (maks. ca. 1,5 time).",
                 "no_audio": "Opptaket har ikke lydspor.",
-                "empty": "Det ble ikke sagt noe Cody kunne høre.",
-                "ai_error": "Cody kunne ikke lage referatet akkurat nå."
+                "empty": "Det ble ikke sagt noe Cody AI kunne høre.",
+                "ai_error": "Cody AI kunne ikke lage referatet akkurat nå."
             }
         },
         "citizen": {
@@ -20652,6 +20666,8 @@
             "travelKm": "Km spart per møte",
             "travelMinutes": "Minutter spart per møte",
             "travelHint": "Brukes til statistikken: hva et møte med en ekstern deltaker sparer i kjøring.",
+            "hourlyRate": "Timepris for ansattes tid (kr)",
+            "hourlyRateHint": "Brukes til å regne spart reisetid om til kroner i statistikken.",
             "adminOnly": "Bare administratorer kan endre innstillingene."
         },
         "stats": {
@@ -20660,6 +20676,15 @@
             "days": "{days} dager",
             "year": "1 år",
             "kmSaved": "Kjøring spart",
+            "kronerSaved": "Spart i ansattes tid",
+            "rateAssumption": "Kroner er regnet med {rate} kr i timen.",
+            "seatsTitle": "Plasser i bruk",
+            "seatsActive": "{active} av {assigned} verter har holdt møter",
+            "seatsBought": "{bought} plasser kjøpt, {free} ikke tildelt. Gjelder de siste 30 dagene.",
+            "seatsIdle": "Har ikke holdt møter de siste 30 dagene:",
+            "journalTitle": "Fra møte til journal",
+            "journalDetail": "{done} av {total} møter om en bruker har notater eller referat i journalen.",
+            "journalNone": "Ingen møter om en bruker i perioden.",
             "timeSaved": "Reisetid spart",
             "co2Saved": "CO2 spart",
             "assumption": "Beregnet ut fra {km} km og {minutes} minutters reise per møte med en ekstern deltaker. Kan endres under innstillinger.",
@@ -20686,8 +20711,8 @@
             "updateJournal": "Oppdater utkastet i journalen",
             "filed": "Lagret som utkast i brukerens journal.",
             "openJournal": "Åpne journalen",
-            "summarize": "Lag sammendrag med Cody",
-            "summarizing": "Cody skriver ...",
+            "summarize": "Lag sammendrag med Cody AI",
+            "summarizing": "Cody AI skriver ...",
             "summaryToJournal": "Lagre sammendrag i brukerens journal",
             "copy": "Kopier",
             "dismiss": "Lukk"

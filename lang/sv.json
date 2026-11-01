@@ -20455,6 +20455,20 @@
         "nav": "Onlinemöten",
         "title": "Onlinemöten",
         "newMeeting": "Nytt möte",
+        "recordingsTab": {
+            "title": "Inspelningar",
+            "empty": "Det finns inga inspelningar du har tillgång till.",
+            "noCitizen": "Ingen brukare",
+            "recordedBy": "inspelad av {name}",
+            "delete": "Radera inspelning",
+            "inJournal": "I journalen",
+            "summaryReady": "Sammanfattning klar",
+            "summaryRunning": "Sammanfattning pågår",
+            "summaryFailed": "Sammanfattning misslyckades",
+            "noSummary": "Ingen sammanfattning",
+            "deletedIn": "Raderas om {days} dagar",
+            "deletedTomorrow": "Raderas i morgon"
+        },
         "seat": {
             "askAdmin": "Du kan delta i möten, men behöver en plats för att skapa dem. Be en administratör om en plats."
         },
@@ -20501,7 +20515,7 @@
             "repeatUntil": "Upprepa till",
             "agenda": "Dagordning",
             "agendaPlaceholder": "1. Status\n2. Överenskommelser\n3. Nästa möte",
-            "agendaHint": "Visas i mötet, och Cody använder den till sammanfattningen."
+            "agendaHint": "Visas i mötet, och Cody AI använder den till sammanfattningen."
         },
         "detail": {
             "join": "Delta i mötet",
@@ -20619,17 +20633,17 @@
             "until": "till {date}"
         },
         "summary": {
-            "make": "Sammanfatta med Cody",
-            "working": "Cody skriver sammanfattningen. Det tar oftast några minuter.",
+            "make": "Sammanfatta med Cody AI",
+            "working": "Cody AI skriver sammanfattningen. Det tar oftast några minuter.",
             "retry": "Försök igen",
-            "byCody": "Sammanfattning skriven av Cody. Kontrollera den innan du använder den.",
+            "byCody": "Sammanfattning skriven av Cody AI. Kontrollera den innan du använder den.",
             "openDraft": "Öppna utkastet i brukarens journal",
             "draftCreated": "Sammanfattningen är sparad som utkast i brukarens journal.",
             "errors": {
                 "too_long": "Inspelningen är för lång för en sammanfattning (max cirka 1,5 timme).",
                 "no_audio": "Inspelningen har inget ljudspår.",
-                "empty": "Inget sades som Cody kunde höra.",
-                "ai_error": "Cody kunde inte skriva sammanfattningen just nu."
+                "empty": "Inget sades som Cody AI kunde höra.",
+                "ai_error": "Cody AI kunde inte skriva sammanfattningen just nu."
             }
         },
         "citizen": {
@@ -20652,6 +20666,8 @@
             "travelKm": "Km sparade per möte",
             "travelMinutes": "Minuter sparade per möte",
             "travelHint": "Används till statistiken: vad ett möte med en extern deltagare sparar i körning.",
+            "hourlyRate": "Timpris för personaltid (kr)",
+            "hourlyRateHint": "Används för att räkna om sparad restid till kronor i statistiken.",
             "adminOnly": "Bara administratörer kan ändra inställningarna."
         },
         "stats": {
@@ -20660,6 +20676,15 @@
             "days": "{days} dagar",
             "year": "1 år",
             "kmSaved": "Körning sparad",
+            "kronerSaved": "Sparat i personaltid",
+            "rateAssumption": "Kronor är beräknade med {rate} kr i timmen.",
+            "seatsTitle": "Platser i bruk",
+            "seatsActive": "{active} av {assigned} värdar har hållit möten",
+            "seatsBought": "{bought} platser köpta, {free} inte tilldelade. Gäller de senaste 30 dagarna.",
+            "seatsIdle": "Har inte hållit möten de senaste 30 dagarna:",
+            "journalTitle": "Från möte till journal",
+            "journalDetail": "{done} av {total} möten om en brukare har anteckningar eller sammanfattning i journalen.",
+            "journalNone": "Inga möten om en brukare under perioden.",
             "timeSaved": "Restid sparad",
             "co2Saved": "CO2 sparad",
             "assumption": "Beräknat utifrån {km} km och {minutes} minuters resa per möte med en extern deltagare. Kan ändras under inställningar.",
@@ -20686,8 +20711,8 @@
             "updateJournal": "Uppdatera utkastet i journalen",
             "filed": "Sparat som utkast i brukarens journal.",
             "openJournal": "Öppna journalen",
-            "summarize": "Sammanfatta med Cody",
-            "summarizing": "Cody skriver ...",
+            "summarize": "Sammanfatta med Cody AI",
+            "summarizing": "Cody AI skriver ...",
             "summaryToJournal": "Spara sammanfattning i brukarens journal",
             "copy": "Kopiera",
             "dismiss": "Stäng"

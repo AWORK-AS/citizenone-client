@@ -32,7 +32,7 @@
             <LoadingSpinner :isActive="state.isLoading">
                 <div v-if="stats" class="space-y-6">
                     <!-- Saved by meeting online: the headline. -->
-                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         <div v-for="tile in savedTiles" :key="tile.key" class="rounded-2xl bg-[#0f2b46] text-white p-5">
                             <p class="text-sm text-white/70 flex items-center gap-2">
                                 <Icon :name="tile.icon" class="h-4 w-4" /> {{ tile.label }}
@@ -42,7 +42,47 @@
                     </div>
                     <p class="text-xs text-gray-500 -mt-3">
                         {{ $t('meetings.stats.assumption', { km: stats.saved.assumed_km_per_meeting, minutes: stats.saved.assumed_minutes_per_meeting }) }}
+                        {{ $t('meetings.stats.rateAssumption', { rate: number(stats.saved.hourly_rate) }) }}
                     </p>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                        <!-- Host seats: what is paid for, and who is not using theirs. -->
+                        <div v-if="stats.seats" class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
+                            <p class="text-sm font-semibold text-[#0f2b46] flex items-center gap-2">
+                                <Icon name="ph:identification-badge" class="h-4 w-4" /> {{ $t('meetings.stats.seatsTitle') }}
+                            </p>
+                            <p class="mt-2 text-2xl font-semibold text-[#0f2b46] tabular-nums">
+                                {{ $t('meetings.stats.seatsActive', { active: stats.seats.active_hosts, assigned: stats.seats.assigned }) }}
+                            </p>
+                            <div class="mt-3 h-2 rounded-full bg-gray-100 overflow-hidden">
+                                <div class="h-full bg-[#2dbab2]" :style="{ width: `${seatShare}%` }" />
+                            </div>
+                            <p class="mt-2 text-xs text-gray-500">
+                                {{ $t('meetings.stats.seatsBought', { bought: stats.seats.bought, free: Math.max(0, stats.seats.bought - stats.seats.assigned) }) }}
+                            </p>
+                            <div v-if="stats.seats.idle_hosts.length" class="mt-3 text-sm">
+                                <p class="text-gray-600">{{ $t('meetings.stats.seatsIdle') }}</p>
+                                <p class="text-gray-900">{{ stats.seats.idle_hosts.map((h: any) => h.name).join(', ') }}</p>
+                            </div>
+                        </div>
+
+                        <!-- From meeting to journal. -->
+                        <div class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
+                            <p class="text-sm font-semibold text-[#0f2b46] flex items-center gap-2">
+                                <Icon name="ph:notebook" class="h-4 w-4" /> {{ $t('meetings.stats.journalTitle') }}
+                            </p>
+                            <template v-if="stats.journal.meetings_about_citizen">
+                                <p class="mt-2 text-2xl font-semibold text-[#0f2b46] tabular-nums">{{ stats.journal.share }}%</p>
+                                <div class="mt-3 h-2 rounded-full bg-gray-100 overflow-hidden">
+                                    <div class="h-full bg-[#2dbab2]" :style="{ width: `${stats.journal.share}%` }" />
+                                </div>
+                                <p class="mt-2 text-xs text-gray-500">
+                                    {{ $t('meetings.stats.journalDetail', { done: stats.journal.to_journal, total: stats.journal.meetings_about_citizen }) }}
+                                </p>
+                            </template>
+                            <p v-else class="mt-2 text-sm text-gray-500">{{ $t('meetings.stats.journalNone') }}</p>
+                        </div>
+                    </div>
 
                     <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
                         <div v-for="tile in countTiles" :key="tile.key" class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
@@ -98,6 +138,7 @@ const periods = computed(() => [
 const number = (value: number) => new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK').format(value)
 
 const savedTiles = computed(() => stats.value ? [
+    { key: 'kroner', icon: 'ph:coins', label: t('meetings.stats.kronerSaved'), value: `${number(stats.value.saved.kroner ?? 0)} kr.` },
     { key: 'km', icon: 'ph:car', label: t('meetings.stats.kmSaved'), value: `${number(stats.value.saved.km)} km` },
     { key: 'time', icon: 'ph:clock-countdown', label: t('meetings.stats.timeSaved'), value: hours(stats.value.saved.travel_minutes) },
     { key: 'co2', icon: 'ph:leaf', label: t('meetings.stats.co2Saved'), value: `${number(stats.value.saved.co2_kg)} kg` },
@@ -109,6 +150,11 @@ const countTiles = computed(() => stats.value ? [
     { key: 'guests', label: t('meetings.stats.withGuests'), value: number(stats.value.meetings_with_guests) },
     { key: 'summaries', label: t('meetings.stats.summaries'), value: `${number(stats.value.summaries)} / ${number(stats.value.recordings)}` },
 ] : [])
+
+const seatShare = computed(() => {
+    const seats = stats.value?.seats
+    return seats?.assigned ? Math.round((seats.active_hosts / seats.assigned) * 100) : 0
+})
 
 const maxMonth = computed(() => Math.max(1, ...(stats.value?.by_month ?? []).map((row: any) => row.meetings)))
 

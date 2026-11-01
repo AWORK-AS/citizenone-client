@@ -30,6 +30,13 @@
                     </div>
                     <p class="text-xs text-gray-500 -mt-3">{{ $t('meetings.settings.travelHint') }}</p>
 
+                    <div class="space-y-1.5">
+                        <FormLabel for="hourly-rate" :label="$t('meetings.settings.hourlyRate')" />
+                        <input id="hourly-rate" type="number" min="0" max="5000" v-model.number="state.form.hourly_rate" :disabled="!state.canManage"
+                            class="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm disabled:bg-gray-50" />
+                        <p class="text-xs text-gray-500">{{ $t('meetings.settings.hourlyRateHint') }}</p>
+                    </div>
+
                     <p v-if="!state.canManage" class="text-xs text-gray-500">{{ $t('meetings.settings.adminOnly') }}</p>
                     <div v-else class="flex justify-end gap-2">
                         <FormButton type="button" buttonStyle="cancel" @click="emit('close')">{{ $t('cancel') }}</FormButton>
@@ -53,7 +60,7 @@ const props = defineProps<{ show: boolean }>()
 const emit = defineEmits(['close', 'saved'])
 
 const state = reactive({
-    form: { recording_retention_days: 90, travel_km_per_meeting: 20, travel_minutes_per_meeting: 30 },
+    form: { recording_retention_days: 90, travel_km_per_meeting: 20, travel_minutes_per_meeting: 30, hourly_rate: 350 },
     choices: [30, 90, 180, 365] as number[],
     canManage: false,
     isLoading: false,
@@ -71,6 +78,7 @@ watch(() => props.show, async (show) => {
             recording_retention_days: data.recording_retention_days,
             travel_km_per_meeting: data.travel_km_per_meeting,
             travel_minutes_per_meeting: data.travel_minutes_per_meeting,
+            hourly_rate: data.hourly_rate ?? 350,
         }
         state.choices = data.retention_choices ?? state.choices
         state.canManage = !!data.can_manage

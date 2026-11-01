@@ -16,6 +16,11 @@
                         @click="changeScope(scope)">
                         {{ $t(`meetings.${scope}`) }}
                     </button>
+                    <button type="button" class="px-3 py-1.5 text-sm rounded inline-flex items-center gap-1"
+                        :class="state.scope === 'recordings' ? 'bg-primary text-white' : 'text-gray-700 hover:bg-gray-50'"
+                        @click="state.scope = 'recordings'">
+                        <Icon name="ph:record" class="h-4 w-4" /> {{ $t('meetings.recordingsTab.title') }}
+                    </button>
                 </div>
                 <div class="flex flex-wrap items-center gap-2">
                     <button type="button" class="h-10 w-10 rounded-full ring-1 ring-gray-200 bg-white hover:bg-gray-50 flex items-center justify-center"
@@ -43,7 +48,9 @@
 
             <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
-            <LoadingSpinner :isActive="state.isLoading">
+            <RecordingsTab v-if="state.scope === 'recordings'" />
+
+            <LoadingSpinner v-else :isActive="state.isLoading">
                 <div class="bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg divide-y divide-gray-100">
                     <p v-if="!state.meetings.length" class="p-6 text-sm text-gray-500">{{ $t('meetings.noMeetings') }}</p>
                     <NuxtLink v-for="meeting in state.meetings" :key="meeting.uuid" :to="`/meetings/${meeting.uuid}`"
@@ -86,6 +93,7 @@ definePageMeta({ middleware: 'require-application', requiredApplication: 'meetin
 import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
 import MeetingSettingsModal from '@/components/modules/user/meetings/settings-modal.vue'
+import RecordingsTab from '@/components/modules/user/meetings/recordings-tab.vue'
 import { usePermissions } from '@/composables/usePermissions'
 import { canHostMeetings, needsMeetingsSeat } from '@/composables/meetingSeat'
 import { useUserStore } from '@/store/user'
@@ -100,7 +108,7 @@ const needsSeat = computed(() => needsMeetingsSeat(userStore.getUser))
 const runtimeConfig = useRuntimeConfig()
 
 const state = reactive({
-    scope: 'upcoming' as 'upcoming' | 'past',
+    scope: 'upcoming' as 'upcoming' | 'past' | 'recordings',
     meetings: [] as any[],
     page: 1,
     lastPage: 1,
