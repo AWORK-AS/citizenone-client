@@ -258,11 +258,15 @@
         "loadMore": "Visa fler ({count} till)",
         "stageFilter": "Fas",
         "allStages": "Alla faser",
+        "discardTitle": "Stäng utan att spara?",
+        "discardMessage": "Det du har fyllt i på förfrågan sparas inte.",
+        "discard": "Stäng utan att spara",
         "receiverFilter": "Mottagningskoordinator",
         "receiverAll": "Hela teamets",
         "receiverMine": "Mina förfrågningar",
         "receiverNone": "Utan mottagare",
         "receivedBy": "Mottagen av {name}",
+        "responsiblePrimary": "Ansvarig nu: {name}, primär koordinator",
         "stage": "Fas",
         "moveFailed": "Förfrågan kunde inte flyttas",
         "unassignedConverted": {
@@ -2222,6 +2226,24 @@
     "chooseFile": "Välj fil",
     "chooseFiles": "Välj fil(är)",
     "citizens": {
+        "consultantHours": {
+            "title": "Konsulenternas timmar per vecka",
+            "hint": "Ange hur många timmar varje konsulent har på insatsen, inklusive transport och administration. Utan siffra delas det som de andra inte har fått lika. Två konsulenter kan ha samma timmar vid dubbelbemanning.",
+            "granted": "Beviljat: {hours} h/vecka",
+            "grantedSplit": "kontakt {contact}, administration {admin}, transport {transport}",
+            "noGrant": "Insatsen har inga beviljade timmar per vecka.",
+            "consultant": "Konsulent",
+            "given": "Satt till",
+            "counts": "Räknas som",
+            "placeholder": "Delat",
+            "givenFor": "Timmar per vecka för {name}",
+            "perWeek": "h/vecka",
+            "basis": {
+                "explicit": "satt",
+                "even_split": "lika delning",
+                "none": "ingen beviljning"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} hittades inte",
             "message": "@.capitalize:terms.citizenDefinite{''} finns inte, eller så har du inte åtkomst."
@@ -3103,12 +3125,12 @@
             "secondaryCaseworker": "Sekundär {term}",
             "caseNumber": "Ärendenummer",
             "caseNumberHint": "Numret ärendet har i systemet det kom från",
-            "reportingFrequency": "Rapportering till kommunen",
-            "reportingFrequencyHint": "Skapar en återkommande påminnelse till alla på insatsen som har en inloggning.",
-            "reportingStartsOn": "Första rapportering",
-            "reportDraftDaysBefore": "Internt utkast, dagar före",
+            "reportingFrequency": "Hur ofta kommunen ska ha en statusrapport",
+            "reportingFrequencyHint": "Alla på insatsen med inloggning får en påminnelse när en rapport ska lämnas.",
+            "reportingStartsOn": "Första rapporten ska lämnas",
+            "reportDraftDaysBefore": "Påminnelse om internt utkast (dagar före tidsfristen)",
             "reportDraftDaysBeforePlaceholder": "T.ex. 7",
-            "reportDraftDaysBeforeHint": "Skickar en påminnelse \"Rapportutkast\" så många dagar före varje rapportering, så att utkastet kan granskas internt. Tomt betyder ingen påminnelse.",
+            "reportDraftDaysBeforeHint": "Så många dagar före varje tidsfrist får de på insatsen en påminnelse om att skriva ett utkast som kan läsas igenom internt innan rapporten skickas till kommunen. Tomt fält betyder ingen påminnelse.",
             "reportDraftDaysBeforeValue": "{days} dagar före",
             "reportingOptions": {
                 "biweekly": "Varannan vecka",
@@ -12118,7 +12140,9 @@
                 "calendarNoteRequired": "@.capitalize:terms.journalNote{''} krävs vid Slutförd",
                 "calendarNoteRequiredHint": "Väljer man Slutförd på en bokning med en @:terms.citizen{''} öppnas @:terms.journalNote{''}, och bokningen markeras som slutförd när den sparas. Inte slutförd kräver ingen anteckning",
                 "missingNoteCoordinatorReminder": "Påminn koordinatorn om saknad @:terms.journalNote{''}",
-                "missingNoteCoordinatorReminderHint": "Ett dygn efter att en bokning avslutats utan anteckning får ärendets primära koordinator också en påminnelse, och koordinatorer och chefer ser bokningarna på Min dag. Kräver att påminnelsen om bokningar utan anteckning är påslagen",
+                "missingNoteCoordinatorReminderHint": "När tidsfristen har gått efter en bokning utan anteckning får ärendets primära koordinator också en påminnelse, och koordinatorer och chefer ser bokningarna på Min dag. Kräver att påminnelsen om bokningar utan anteckning är påslagen",
+                "missingNoteDeadline": "Tidsfrist för anteckning efter ett möte",
+                "missingNoteDeadlineHours": "{hours} timmar",
                 "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
@@ -18745,7 +18769,121 @@
             "offer_revised": "Offert revideras"
         }
     },
+    "consultantCapacity": {
+        "title": "Kapacitet",
+        "perWeek": "h/vecka",
+        "allocated": "Tilldelat",
+        "registered": "Registrerat (snitt 4 veckor)",
+        "desired": "Önskat",
+        "free": "Ledigt",
+        "case": "Insats",
+        "granted": "Beviljat på insatsen",
+        "basis": {
+            "explicit": "satt för konsulenten",
+            "even_split": "delat lika mellan {count}",
+            "none": "Inga beviljade timmar"
+        },
+        "hints": {
+            "explicit": "Tilldelade timmar är satta för konsulenten på varje insats. Transport och administration räknas med.",
+            "even_split": "Tilldelade timmar är beräknade: insatsens beviljade timmar delade lika mellan konsulenterna på den. Ange timmarna per konsulent under Kontakter för en exakt siffra.",
+            "mixed": "Tilldelade timmar är satta för konsulenten på vissa insatser och beräknade som lika delning på resten. Transport och administration räknas med.",
+            "none": "Konsulenten står inte på några aktiva insatser med beviljade timmar."
+        }
+    },
+    "recruitment": {
+        "title": "Rekrytering",
+        "description": "Akut och strategisk rekrytering samt ny matchning när en insats som redan pågår behöver en ny konsult. Vanliga nya förfrågningar använder rekryteringsfasen på förfrågan.",
+        "new": "Ny rekrytering",
+        "newTitle": "Ny rekrytering",
+        "editTitle": "Redigera rekrytering",
+        "create": "Skapa",
+        "save": "Spara",
+        "edit": "Redigera",
+        "delete": "Ta bort",
+        "deleteConfirm": "Vill du ta bort rekryteringen? Historiken sparas.",
+        "export": "Exportera till Excel",
+        "allTypes": "Alla typer",
+        "allStatuses": "Alla statusar",
+        "none": "Ingen",
+        "system": "Systemet",
+        "openInquiry": "Öppna förfrågan",
+        "startRematch": "Starta ny matchning",
+        "chooseConsultant": "Välj konsult",
+        "chooseTitle": "Välj konsult",
+        "chooseText": "{name} väljs som konsult, och rekryteringen markeras som löst.",
+        "addToCitizen": "Lägg till som konsult på {name}",
+        "solved": "Rekryteringen är löst.",
+        "solvedAndAdded": "Rekryteringen är löst, och konsulten har lagts till på medborgaren.",
+        "outcome": "Utfall",
+        "openHint": "Hitta en konsult i sökningen och välj hen, eller stäng rekryteringen som inte löst.",
+        "closeNotSolved": "Stäng som inte löst",
+        "closedNotSolved": "Stängd som inte löst.",
+        "solvedWith": "Löst med {name} den {date}.",
+        "reopen": "Öppna igen",
+        "history": "Historik",
+        "addNote": "Lägg till anteckning",
+        "historyCreated": "Skapade rekryteringen",
+        "historyStatus": "Ändrade status från {from} till {to}",
+        "historyUpdated": "Ändrade {fields}",
+        "types": {
+            "acute": "Akut rekrytering",
+            "strategic": "Strategisk rekrytering",
+            "rematch": "Ny matchning"
+        },
+        "typeHints": {
+            "acute": "En konsult behövs snabbt till ett konkret ärende.",
+            "strategic": "Rekrytering i förväg, till exempel av ett språk eller ett område där ni saknar konsulter.",
+            "rematch": "En insats som redan pågår behöver en ny konsult, till exempel för att konsulten slutar."
+        },
+        "statuses": {
+            "open": "Öppen",
+            "solved": "Löst",
+            "not_solved": "Inte löst"
+        },
+        "fields": {
+            "type": "Typ",
+            "title": "Titel",
+            "citizen": "Medborgare",
+            "citizenRequired": "Medborgare (insatsen)",
+            "inquiry": "Förfrågan",
+            "responsible": "Ansvarig",
+            "createdBy": "Skapad av",
+            "createdAt": "Skapad",
+            "status": "Status",
+            "needs": "Behov",
+            "requirements": "Krav (kompetenser, språk, område)",
+            "outcomeNote": "Anteckning om utfallet"
+        },
+        "placeholders": {
+            "title": "Till exempel konsult till familj i Malmö",
+            "citizen": "Välj medborgare",
+            "responsible": "Välj ansvarig",
+            "needs": "Vad konsulten ska hjälpa till med",
+            "requirements": "Till exempel arabiska, bil, Skåne",
+            "note": "Skriv en anteckning",
+            "outcomeNote": "Till exempel varför hen valdes",
+            "notSolvedNote": "Till exempel varför ingen konsult hittades"
+        },
+        "changedFields": {
+            "type": "typ",
+            "title": "titel",
+            "needs": "behov",
+            "requirements": "krav",
+            "citizen_id": "medborgare",
+            "inquiry_data_id": "förfrågan",
+            "responsible_user_id": "ansvarig",
+            "created_by_user_id": "skapad av",
+            "chosen_consultant_id": "vald konsult",
+            "solved_at": "löst den",
+            "outcome_note": "anteckning om utfallet",
+            "status": "status"
+        }
+    },
     "consultantMatch": {
+        "export": "Exportera till Excel",
+        "exporting": "Exporterar...",
+        "exportHint": "Alla konsulter med kontaktuppgifter, status, kompetenser och aktiva insatser. Avslutade är inte med.",
+        "exportFileName": "Konsulter",
         "title": "Konsultmatchning",
         "generalTitle": "Konsultsökning",
         "generalDescription": "Hitta konsulter på namn, kompetenser, språk, plats, status, bil och körkort. Alla konsulter visas, även de som bara delvis matchar, med det de saknar.",
@@ -18759,21 +18897,27 @@
         "notReady": "Kan inte sättas på ärende",
         "archived": "Arkiverad - kan kontaktas",
         "activeCases": "{count} aktiv insats | {count} aktiva insatser",
+        "freeCapacity": "Ledig kapacitet: {hours} h/vecka",
+        "freeCapacityHint": "Önskar {desired} h/vecka och är tilldelad {allocated} h/vecka på aktiva insatser",
         "archivedOnCases": "Arkiverad utan inloggning, men står på {count} aktiva insatser. Återaktivera medarbetaren och ge en licens.",
         "archivedHint": "Återaktiveras med en licens när konsulten väljs till ärendet",
         "notNotified": "{count} konsult fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne. | {count} konsulter fick inget meddelande: inaktiva konsulter får inget mejl eller meddelande i appen. Kontakta dem direkt, per telefon eller mejl utanför CitizenOne.",
+        "toldVia": "{name} fick besked via {channels}.",
+        "notReached": "{name} nåddes inte. Kontakta dem direkt.",
         "nameSearch": "Sök konsult på namn",
         "openProfile": "Öppna profil",
-        "resultSummary": "{total} konsulter, varav {full} med full matchning på {criteria} kriterier.",
+        "resultSummary": "{total} konsulter, varav {full} uppfyller alla {criteria} sökkriterier. Matchningen jämför bara med det som är registrerat på profilen och bedömer inte den yrkesmässiga lämpligheten.",
+        "resultSummaryNoCriteria": "{total} konsulter. Välj kriterier för att se vem som passar ärendet.",
         "matches": {
-            "full": "Full matchning",
-            "partial": "Delvis matchning ({met} av {asked})",
-            "none": "Ingen matchning"
+            "full": "Uppfyller alla kriterier",
+            "partial": "Uppfyller {met} av {asked} kriterier",
+            "none": "Uppfyller inga kriterier"
         },
         "form": {
             "spokenLanguages": "Talade språk",
             "travelsUpToKm": "Kör upp till (km)",
             "minAvailableHours": "Minsta antal timmar konsulten har tillgängliga",
+            "minFreeWeeklyHours": "Minst ledig kapacitet (h/vecka)",
             "languagesAndDialects": "Språk och dialekter",
             "languagesHint": "Språk medarbetaren talar. Konsulten matchar om hen talar något av de valda språken.",
             "minTravelKm": "Måste köra minst (km)",
@@ -18795,6 +18939,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",
             "min_weekly_hours": "Timantal",
+            "min_free_weekly_hours": "Ledig kapacitet",
             "primary_spoken_language_uuid": "Primärt språk",
             "within_travel_range": "Inom köravstånd"
         },
@@ -18899,6 +19044,11 @@
         "markDeclined": "Sa nej",
         "askedBy": "tillfrågad av {name}",
         "answeredBy": "svar registrerat av {name}",
+        "answerTitle": "Registrera svar från {name}",
+        "answerHint": "Svaret registreras för konsultens räkning:",
+        "answerNote": "Anteckning (valfritt)",
+        "answerNotePlaceholder": "T.ex. vad ni kom överens om i telefon",
+        "answerSave": "Spara svar",
         "unknownConsultant": "Okänd",
         "failed": "Åtgärden kunde inte genomföras",
         "statuses": {
@@ -18910,12 +19060,19 @@
             "title": "Ärenden du har blivit tillfrågad om",
             "empty": "Du har inte blivit tillfrågad om några ärenden.",
             "yes": "Ja tack",
+            "languages": "Språk: {languages}",
+            "reporting": "Rapport {frequency}",
             "no": "Nej tack",
             "answered": "Du har svarat"
         },
         "cannotBeChosen": "Markerad efter inbjudan och kan inte väljas till ärendet",
         "contactDirectly": "Kontakta direkt",
-        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens."
+        "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens.",
+        "howToldHelp": "Aktiva konsulter får ett mejl och ett meddelande i appen. Har ni SMS-appen får de också ett sms utan uppgifter om brukaren. En inaktiv konsult utan licens får bara sms och kan svara dig per telefon. Du registrerar svaret med Sa ja eller Sa nej.",
+        "toldVia": "fick besked via {channels}",
+        "channels": {"mail": "mejl", "app": "app", "sms": "sms"},
+        "notReached": "Inte nådd",
+        "notReachedHint": "Konsulten fick varken mejl, meddelande i appen eller sms. Kontakta dem direkt och registrera svaret med Sa ja eller Sa nej."
     },
     "taskBoards": {
         "actions": {
@@ -19520,7 +19677,7 @@
         "location": "Plats",
         "locationPlaceholder": "Adress eller område, t.ex. Vesterbro",
         "postalCode": "Postnummer",
-        "reportingHint": "Följer med till brukaren när ärendet vinns och startar påminnelsen om rapportering.",
+        "reportingHint": "Följer med till insatsen när förfrågan vinns. Påminnelserna om rapporter börjar därifrån.",
         "pending": "Placeras på kartan om en stund",
         "unavailable": "Inte placerad på kartan: kartuppslag är inte konfigurerat, så inget avstånd visas",
         "notFound": "Kunde inte hittas på kartan. Kontrollera adressen eller ange ett postnummer",
@@ -19731,7 +19888,9 @@
         "byMonth": "Per månad",
         "serviceType": "Insatstyp",
         "month": "Månad",
-        "noServiceType": "Utan insatstyp"
+        "noServiceType": "Utan insatstyp",
+        "includeImported": "Ta med migrerade förfrågningar",
+        "includeImportedHint": "{count} förfrågningar under perioden har flyttats över från ett tidigare system. De räknas inte med i siffrorna om du inte väljer det."
     },
     "inquiryOffer": {
         "title": "Offert",
@@ -20447,6 +20606,48 @@
                 "daily-rhythm": "Dygnsrytmsplan",
                 "socialtilsyn": "Tillsynskontroll"
             }
+        }
+    },
+    "consultantCalendar": {
+        "title": "Konsultkalender",
+        "description": "Se konsulternas bokningar för alla deras insatser, och boka en konsult.",
+        "consultants": "Konsulter",
+        "views": {
+            "week": "Vecka",
+            "month": "Månad"
+        },
+        "previous": "Föregående",
+        "next": "Nästa",
+        "today": "Idag",
+        "week": "Vecka {number}",
+        "book": "Boka konsult",
+        "bookTitle": "Boka konsult",
+        "pickConsultant": "Välj en eller flera konsulter för att se deras kalender.",
+        "totals": {
+            "planned": "Planerat i perioden",
+            "citizens": "Varav brukarbokningar",
+            "meetings": "Personalmöten/handledning",
+            "all": "Totalt planerat: {planned}. Personalmöten/handledning: {meetings}."
+        },
+        "hours": "{hours} h",
+        "more": "{count} till",
+        "list": "Bokningar i perioden",
+        "empty": "Inga bokningar i perioden.",
+        "busy": "Upptagen",
+        "cancelled": "Inställd",
+        "workTypes": {
+            "citizen": "Brukarbokning",
+            "ordinary": "Vanligt möte",
+            "staff_meeting": "Personalmöte",
+            "supervision": "Handledning"
+        },
+        "seeCalendar": "Se kalender",
+        "booked": "Konsulten är bokad.",
+        "form": {
+            "consultant": "Konsult",
+            "type": "Typ",
+            "citizen": "Brukare",
+            "workTimeHint": "Personalmöten och handledning räknas som arbetstid och visas på en egen rad i timöversikten."
         }
     },
     "paymentDunning": {

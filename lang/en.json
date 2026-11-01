@@ -258,11 +258,15 @@
         "loadMore": "Show more ({count} more)",
         "stageFilter": "Stage",
         "allStages": "All stages",
+        "discardTitle": "Close without saving?",
+        "discardMessage": "What you have filled in on the inquiry will not be saved.",
+        "discard": "Close without saving",
         "receiverFilter": "Intake coordinator",
         "receiverAll": "The whole team's",
         "receiverMine": "My inquiries",
         "receiverNone": "No intake coordinator",
         "receivedBy": "Received by {name}",
+        "responsiblePrimary": "Responsible now: {name}, primary coordinator",
         "stage": "Stage",
         "moveFailed": "The inquiry could not be moved",
         "unassignedConverted": {
@@ -2222,6 +2226,24 @@
     "chooseFile": "Choose file",
     "chooseFiles": "Choose file(s)",
     "citizens": {
+        "consultantHours": {
+            "title": "Consultants' hours a week",
+            "hint": "Set how many hours each consultant has on the case, including transport and administration. Without a figure, what the others are not given is split evenly. Two consultants can have the same hours when the case is double staffed.",
+            "granted": "Granted: {hours} h/week",
+            "grantedSplit": "contact {contact}, administration {admin}, transport {transport}",
+            "noGrant": "The case has no granted hours a week.",
+            "consultant": "Consultant",
+            "given": "Set to",
+            "counts": "Counts as",
+            "placeholder": "Split",
+            "givenFor": "Hours a week for {name}",
+            "perWeek": "h/week",
+            "basis": {
+                "explicit": "set",
+                "even_split": "even split",
+                "none": "no grant"
+            }
+        },
         "notFoundOrNoAccess": {
             "title": "@.capitalize:terms.citizen{''} not found",
             "message": "This @:terms.citizen{''} doesn't exist, or you don't have access to them."
@@ -3103,12 +3125,12 @@
             "secondaryCaseworker": "Secondary {term}",
             "caseNumber": "Case number",
             "caseNumberHint": "The number the case carries in the system it came from",
-            "reportingFrequency": "Reporting to the authority",
-            "reportingFrequencyHint": "Creates a recurring reminder for everyone on the case who has a login.",
-            "reportingStartsOn": "First report",
-            "reportDraftDaysBefore": "Internal draft, days before",
+            "reportingFrequency": "How often the municipality needs a status report",
+            "reportingFrequencyHint": "Everyone on the case with a login gets a reminder when a report is due.",
+            "reportingStartsOn": "First report due",
+            "reportDraftDaysBefore": "Reminder for an internal draft (days before the deadline)",
             "reportDraftDaysBeforePlaceholder": "E.g. 7",
-            "reportDraftDaysBeforeHint": "Sends a \"Report draft\" reminder this many days before each reporting date, so the draft can be reviewed internally. Leave empty for no reminder.",
+            "reportDraftDaysBeforeHint": "This many days before each deadline, the people on the case get a reminder to write a draft that can be read through internally before the report goes to the municipality. Leave empty for no reminder.",
             "reportDraftDaysBeforeValue": "{days} days before",
             "reportingOptions": {
                 "biweekly": "Every two weeks",
@@ -12123,7 +12145,9 @@
                 "calendarNoteRequired": "Require a @:terms.journalNote{''} before a booking is marked completed",
                 "calendarNoteRequiredHint": "Choosing Completed on a booking with a @:terms.citizen{''} opens the @:terms.journalNote{''}, and the booking is completed when it is saved. Not completed needs no note",
                 "missingNoteCoordinatorReminder": "Remind the coordinator about a missing @:terms.journalNote{''}",
-                "missingNoteCoordinatorReminderHint": "A day after a booking ended without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
+                "missingNoteCoordinatorReminderHint": "When the deadline has passed after a booking without a note, the case's primary coordinator is reminded too, and coordinators and managers see such bookings on My day. Needs the reminder about bookings without a note switched on",
+                "missingNoteDeadline": "Deadline for the note after an appointment",
+                "missingNoteDeadlineHours": "{hours} hours",
                 "certificateReminderAllRecipients": "Certificate reminders to all admins and the employee",
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
@@ -18830,7 +18854,121 @@
             "offer_revised": "Offer to be revised"
         }
     },
+    "consultantCapacity": {
+        "title": "Capacity",
+        "perWeek": "h/week",
+        "allocated": "Allocated",
+        "registered": "Registered (4-week average)",
+        "desired": "Wished",
+        "free": "Free",
+        "case": "Case",
+        "granted": "Granted on the case",
+        "basis": {
+            "explicit": "set for the consultant",
+            "even_split": "split evenly between {count}",
+            "none": "No granted hours"
+        },
+        "hints": {
+            "explicit": "Allocated hours are set for the consultant on each case. Transport and administration are included.",
+            "even_split": "Allocated hours are estimated: the case's granted hours split evenly between its consultants. Set the hours per consultant under Contacts for an exact figure.",
+            "mixed": "Allocated hours are set for the consultant on some cases and estimated as an even split on the rest. Transport and administration are included.",
+            "none": "The consultant is not on any active case with granted hours."
+        }
+    },
+    "recruitment": {
+        "title": "Recruitment",
+        "description": "Acute and strategic recruitment, and re-match when an indsats that is already running needs a new consultant. Ordinary new inquiries use the recruitment phase on the inquiry.",
+        "new": "New recruitment",
+        "newTitle": "New recruitment",
+        "editTitle": "Edit recruitment",
+        "create": "Create",
+        "save": "Save",
+        "edit": "Edit",
+        "delete": "Delete",
+        "deleteConfirm": "Delete this recruitment? Its history is kept.",
+        "export": "Export to Excel",
+        "allTypes": "All types",
+        "allStatuses": "All statuses",
+        "none": "None",
+        "system": "System",
+        "openInquiry": "Open inquiry",
+        "startRematch": "Start re-match",
+        "chooseConsultant": "Choose consultant",
+        "chooseTitle": "Choose consultant",
+        "chooseText": "{name} will be chosen as consultant, and the recruitment is marked as solved.",
+        "addToCitizen": "Add as consultant on {name}",
+        "solved": "The recruitment is solved.",
+        "solvedAndAdded": "The recruitment is solved, and the consultant has been added to the citizen.",
+        "outcome": "Outcome",
+        "openHint": "Find a consultant in the search and choose them, or close the recruitment as not solved.",
+        "closeNotSolved": "Close as not solved",
+        "closedNotSolved": "Closed as not solved.",
+        "solvedWith": "Solved with {name} on {date}.",
+        "reopen": "Reopen",
+        "history": "History",
+        "addNote": "Add note",
+        "historyCreated": "Created the recruitment",
+        "historyStatus": "Changed status from {from} to {to}",
+        "historyUpdated": "Changed {fields}",
+        "types": {
+            "acute": "Acute recruitment",
+            "strategic": "Strategic recruitment",
+            "rematch": "Re-match"
+        },
+        "typeHints": {
+            "acute": "A consultant is needed quickly for a specific case.",
+            "strategic": "Recruiting ahead of need, for example a language or an area where you lack consultants.",
+            "rematch": "An indsats that is already running needs a new consultant, for example because the consultant stops."
+        },
+        "statuses": {
+            "open": "Open",
+            "solved": "Solved",
+            "not_solved": "Not solved"
+        },
+        "fields": {
+            "type": "Type",
+            "title": "Title",
+            "citizen": "Citizen",
+            "citizenRequired": "Citizen (the indsats)",
+            "inquiry": "Inquiry",
+            "responsible": "Responsible",
+            "createdBy": "Created by",
+            "createdAt": "Created",
+            "status": "Status",
+            "needs": "Needs",
+            "requirements": "Requirements (skills, languages, area)",
+            "outcomeNote": "Note on the outcome"
+        },
+        "placeholders": {
+            "title": "For example consultant for a family in Aarhus",
+            "citizen": "Choose citizen",
+            "responsible": "Choose responsible",
+            "needs": "What the consultant should help with",
+            "requirements": "For example Arabic, car, East Jutland",
+            "note": "Write a note",
+            "outcomeNote": "For example why they were chosen",
+            "notSolvedNote": "For example why no consultant was found"
+        },
+        "changedFields": {
+            "type": "type",
+            "title": "title",
+            "needs": "needs",
+            "requirements": "requirements",
+            "citizen_id": "citizen",
+            "inquiry_data_id": "inquiry",
+            "responsible_user_id": "responsible",
+            "created_by_user_id": "created by",
+            "chosen_consultant_id": "chosen consultant",
+            "solved_at": "solved on",
+            "outcome_note": "note on the outcome",
+            "status": "status"
+        }
+    },
     "consultantMatch": {
+        "export": "Export to Excel",
+        "exporting": "Exporting...",
+        "exportHint": "All consultants with contact details, status, skills and active cases. Terminated consultants are left out.",
+        "exportFileName": "Consultants",
         "title": "Consultant match",
         "generalTitle": "Consultant search",
         "generalDescription": "Find consultants by name, skills, languages, place, status, car and driving licence. Every consultant is shown, also those who only partly match, with what they lack.",
@@ -18844,21 +18982,27 @@
         "notReady": "Cannot be put on a case",
         "archived": "Archived - can be contacted",
         "activeCases": "{count} active case | {count} active cases",
+        "freeCapacity": "Free capacity: {hours} h/week",
+        "freeCapacityHint": "Wants {desired} h/week and is allocated {allocated} h/week on active cases",
         "archivedOnCases": "Archived without a login, but on {count} active cases. Reactivate the employee and give them a licence.",
         "archivedHint": "Reactivated with a licence when the consultant is picked for the case",
         "notNotified": "{count} consultant wasn't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne. | {count} consultants weren't notified: inactive consultants get no mail or app notice. Contact them directly, by phone or mail outside CitizenOne.",
+        "toldVia": "{name} was told by {channels}.",
+        "notReached": "{name} was not reached. Contact them directly.",
         "nameSearch": "Search consultant by name",
         "openProfile": "Open profile",
-        "resultSummary": "{total} consultants, {full} of them a full match on {criteria} criteria.",
+        "resultSummary": "{total} consultants, {full} of them meet all {criteria} search criteria. The match only compares with what is recorded on the profile and does not judge professional suitability.",
+        "resultSummaryNoCriteria": "{total} consultants. Choose criteria to see who fits the case.",
         "matches": {
-            "full": "Full match",
-            "partial": "Partial match ({met} of {asked})",
-            "none": "No match"
+            "full": "Meets all criteria",
+            "partial": "Meets {met} of {asked} criteria",
+            "none": "Meets no criteria"
         },
         "form": {
             "spokenLanguages": "Spoken languages",
             "travelsUpToKm": "Will travel up to (km)",
             "minAvailableHours": "Minimum hours the consultant has available",
+            "minFreeWeeklyHours": "Minimum free capacity (h/week)",
             "languagesAndDialects": "Languages and dialects",
             "languagesHint": "Languages the employee speaks. A consultant matches if they speak any of the chosen languages.",
             "minTravelKm": "Must travel at least (km)",
@@ -18880,6 +19024,7 @@
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
             "min_weekly_hours": "Hours",
+            "min_free_weekly_hours": "Free capacity",
             "primary_spoken_language_uuid": "Primary language",
             "within_travel_range": "Within travel distance"
         },
@@ -18984,6 +19129,11 @@
         "markDeclined": "Said no",
         "askedBy": "asked by {name}",
         "answeredBy": "answer recorded by {name}",
+        "answerTitle": "Register answer from {name}",
+        "answerHint": "The answer is registered on the consultant's behalf:",
+        "answerNote": "Note (optional)",
+        "answerNotePlaceholder": "E.g. what you agreed on the phone",
+        "answerSave": "Save answer",
         "unknownConsultant": "Unknown",
         "failed": "The action could not be completed",
         "statuses": {
@@ -18995,12 +19145,19 @@
             "title": "Cases you have been asked about",
             "empty": "You have not been asked about any cases.",
             "yes": "Yes please",
+            "languages": "Languages: {languages}",
+            "reporting": "Report {frequency}",
             "no": "No thanks",
             "answered": "You have answered"
         },
         "cannotBeChosen": "Marked after the invitation and can't be chosen for the case",
         "contactDirectly": "Contact directly",
-        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence."
+        "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence.",
+        "howToldHelp": "Active consultants get a mail and an app notice. If you have the SMS app, they also get an SMS without any details about the citizen. An inactive consultant without a licence only gets the SMS and can answer you by phone. You record the answer with Said yes or Said no.",
+        "toldVia": "told by {channels}",
+        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "notReached": "Not reached",
+        "notReachedHint": "The consultant got no mail, app notice or SMS. Contact them directly and record the answer with Said yes or Said no."
     },
     "taskBoards": {
         "actions": {
@@ -19605,7 +19762,7 @@
         "location": "Location",
         "locationPlaceholder": "Address or area, e.g. Vesterbro",
         "postalCode": "Postal code",
-        "reportingHint": "Carried to the citizen when the case is won, and starts the reporting reminder.",
+        "reportingHint": "Carried to the case when the inquiry is won. The report reminders start from there.",
         "pending": "Being placed on the map",
         "unavailable": "Not placed on the map: map lookup is not set up, so no distance is shown",
         "notFound": "Could not be found on the map. Check the address or add a postal code",
@@ -19816,7 +19973,9 @@
         "byMonth": "By month",
         "serviceType": "Service type",
         "month": "Month",
-        "noServiceType": "No service type"
+        "noServiceType": "No service type",
+        "includeImported": "Include migrated inquiries",
+        "includeImportedHint": "{count} inquiries in the period were moved over from a previous system. They are left out of the figures unless you choose to include them."
     },
     "inquiryOffer": {
         "title": "Offer",
@@ -20532,6 +20691,48 @@
                 "daily-rhythm": "Daily rhythm plan",
                 "socialtilsyn": "Social supervision check"
             }
+        }
+    },
+    "consultantCalendar": {
+        "title": "Consultant calendar",
+        "description": "See consultants' appointments across all their cases, and book a consultant.",
+        "consultants": "Consultants",
+        "views": {
+            "week": "Week",
+            "month": "Month"
+        },
+        "previous": "Previous",
+        "next": "Next",
+        "today": "Today",
+        "week": "Week {number}",
+        "book": "Book consultant",
+        "bookTitle": "Book consultant",
+        "pickConsultant": "Choose one or more consultants to see their calendar.",
+        "totals": {
+            "planned": "Planned in period",
+            "citizens": "Of which citizen appointments",
+            "meetings": "Staff meetings/supervision",
+            "all": "Total planned: {planned}. Staff meetings/supervision: {meetings}."
+        },
+        "hours": "{hours} h",
+        "more": "{count} more",
+        "list": "Appointments in period",
+        "empty": "No appointments in this period.",
+        "busy": "Busy",
+        "cancelled": "Cancelled",
+        "workTypes": {
+            "citizen": "Citizen appointment",
+            "ordinary": "Ordinary appointment",
+            "staff_meeting": "Staff meeting",
+            "supervision": "Supervision"
+        },
+        "seeCalendar": "See calendar",
+        "booked": "The consultant has been booked.",
+        "form": {
+            "consultant": "Consultant",
+            "type": "Type",
+            "citizen": "Citizen",
+            "workTimeHint": "Staff meetings and supervision count as working time and are shown on their own line in the hours summary."
         }
     },
     "paymentDunning": {

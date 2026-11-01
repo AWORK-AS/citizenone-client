@@ -207,6 +207,10 @@
                                         <Icon name="ph:user-circle" class="size-3.5 shrink-0" />
                                         {{ $t('inquiryPipeline.receivedBy', { name: personName(inq.receiving_coordinator) }) }}
                                     </p>
+                                    <p v-if="inq.responsible?.role === 'primary'" class="mt-0.5 flex items-center gap-1 truncate text-[11.5px] text-slate-500">
+                                        <Icon name="ph:user-check" class="size-3.5 shrink-0" />
+                                        {{ $t('inquiryPipeline.responsiblePrimary', { name: personName(inq.responsible) }) }}
+                                    </p>
                                     <div class="mt-1.5 flex flex-wrap items-center gap-1.5">
                                         <!-- The worst answer to the company's risk fields; the
                                              card's left edge carries the same colour. -->

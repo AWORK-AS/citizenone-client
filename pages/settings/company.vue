@@ -766,6 +766,13 @@
                                     </p>
                                 </div>
                                 <p class="text-xs text-gray-500">{{ $t('settings.company.form.missingNoteCoordinatorReminderHint') }}.</p>
+                                <!-- When the note is due: 24 or 48 hours after the visit. -->
+                                <div v-if="state.formCompany.missing_note_coordinator_reminder_enabled" class="max-w-xs pt-1">
+                                    <FormLabel for="missing_note_deadline_hours" :label="$t('settings.company.form.missingNoteDeadline')" />
+                                    <FormSelect id="missing_note_deadline_hours" v-model="state.formCompany.missing_note_deadline_hours"
+                                        :options="[{ value: 24, label: $t('settings.company.form.missingNoteDeadlineHours', { hours: 24 }) }, { value: 48, label: $t('settings.company.form.missingNoteDeadlineHours', { hours: 48 }) }]"
+                                        :searchable="false" :canClear="false" />
+                                </div>
                             </div>
                             <div class="space-y-1 flex items-center gap-x-2">
                                 <FormSwitch :value="state.formCompany.certificate_reminder_all_recipients_enabled"
@@ -1166,6 +1173,7 @@ const state = reactive({
         booking_note_notifications_enabled: false,
         calendar_note_required_enabled: false,
         missing_note_coordinator_reminder_enabled: false,
+        missing_note_deadline_hours: 24,
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
@@ -1328,6 +1336,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             booking_note_notifications_enabled: newValue?.company?.booking_note_notifications_enabled === true,
             calendar_note_required_enabled: newValue?.company?.calendar_note_required_enabled === true,
             missing_note_coordinator_reminder_enabled: newValue?.company?.missing_note_coordinator_reminder_enabled === true,
+            missing_note_deadline_hours: Number(newValue?.company?.missing_note_deadline_hours ?? 24),
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
@@ -1609,6 +1618,7 @@ async function submitForm() {
                 booking_note_notifications_enabled: state.formCompany.booking_note_notifications_enabled,
                 calendar_note_required_enabled: state.formCompany.calendar_note_required_enabled,
                 missing_note_coordinator_reminder_enabled: state.formCompany.missing_note_coordinator_reminder_enabled,
+                missing_note_deadline_hours: state.formCompany.missing_note_deadline_hours,
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,

@@ -1,8 +1,12 @@
 <template>
     <div>
+        <!-- A click outside the dialog or Escape closes it; once something is
+             typed that would throw it away, so it asks first. A calendar or list
+             opened over the dialog counts as outside. -->
         <Modal size="lg" :title="title"
-            :show="props.isModalOpen" @close="closeModal">
+            :show="props.isModalOpen" @close="requestClose">
             <template #modal-body>
+                <div @input.capture="state.isDirty = true">
                 <LoadingSpinner :isActive="state.isPageLoading">
                     <!-- The company's own fields sit inside the form, above Save, and
                          follow the service type as it is picked, so they are there
@@ -26,8 +30,12 @@
                         </template>
                     </ModulesUserInquiryModalShelterForm>
                 </LoadingSpinner>
+                </div>
             </template>
         </Modal>
+        <DialogConfirmation :isModalOpen="state.isConfirmCloseOpen" :title="$t('inquiryPipeline.discardTitle')"
+            :message="$t('inquiryPipeline.discardMessage')" :confirmLabel="$t('inquiryPipeline.discard')"
+            @close="state.isConfirmCloseOpen = false" @confirm="state.isConfirmCloseOpen = false; closeModal()" />
     </div>
 </template>
 
@@ -98,11 +106,23 @@ const state = reactive({
     },
     fieldValues: {} as Record<string, any>,
     isPageLoading: false,
+    isDirty: false,
+    isConfirmCloseOpen: false,
 })
+
+function requestClose() {
+    if (state.isDirty) {
+        state.isConfirmCloseOpen = true
+
+        return
+    }
+    closeModal()
+}
 
 function closeModal() {
     state.error = {}
     state.fieldValues = {}
+    state.isDirty = false
     emit('close')
 }
 

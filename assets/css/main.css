@@ -272,8 +272,36 @@ table td {
 ---------------------------------------------------------------------------------------------------- */
 /* Open lists show about ten options before they scroll, but never more than
    60% of the viewport. The library's own default is 10rem (about 4 options). */
-.multiselect {
-    --ms-max-height: min(20rem, 60vh);
+/* Also on the list itself: one appended to the body sits outside .multiselect
+   and fell back to the library's 10rem. */
+.multiselect,
+.multiselect-dropdown {
+    --ms-max-height: min(24rem, 60vh);
+}
+
+/* The global scrollbar is a 6px pale line, hard to see and to grab in a long
+   list; an open list gets a wider, visible one. */
+.multiselect-dropdown {
+    scrollbar-width: auto;
+    scrollbar-color: #94a3b8 #f1f5f9;
+}
+
+.multiselect-dropdown::-webkit-scrollbar {
+    width: 12px;
+}
+
+.multiselect-dropdown::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.multiselect-dropdown::-webkit-scrollbar-thumb {
+    background: #94a3b8;
+    border: 3px solid #f1f5f9;
+    border-radius: 10px;
+}
+
+.multiselect-option {
+    min-height: 2.5rem;
 }
 
 .multiselect {

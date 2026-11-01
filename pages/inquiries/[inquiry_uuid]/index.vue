@@ -26,6 +26,11 @@
                             <Icon name="ph:user-circle" class="size-4" />
                             {{ $t('inquiryPipeline.receivedBy', { name: [state.inquiry.receiving_coordinator.firstname, state.inquiry.receiving_coordinator.lastname].filter(Boolean).join(' ') }) }}
                         </p>
+                        <!-- Once won, the indsats' primary coordinator answers for the case. -->
+                        <p v-if="state.inquiry?.responsible?.role === 'primary'" class="flex items-center gap-1 text-sm font-semibold text-slate-700">
+                            <Icon name="ph:user-check" class="size-4" />
+                            {{ $t('inquiryPipeline.responsiblePrimary', { name: [state.inquiry.responsible.firstname, state.inquiry.responsible.lastname].filter(Boolean).join(' ') }) }}
+                        </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-2">
                         <FormButton v-if="lostStage && !isLost" type="button" buttonStyle="cancel"
@@ -353,6 +358,7 @@ async function refreshReceiver() {
         const inquiry = await citizenInquiryService.getSelectedInquiry(inquiryUuid)
         if (state.inquiry && inquiry?.data) {
             state.inquiry.receiving_coordinator = inquiry.data.receiving_coordinator
+            state.inquiry.responsible = inquiry.data.responsible
         }
     } catch {
         // The header keeps the old name until the page is reloaded.

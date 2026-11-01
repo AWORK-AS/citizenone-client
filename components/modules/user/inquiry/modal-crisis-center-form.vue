@@ -89,6 +89,10 @@
                         </div>
                     </div>
                 </section>
+                <!-- Languages and place right after who the inquiry is about: the
+                     language is asked early in the conversation. -->
+                <ModulesUserInquiryMatchNeedsBlock :class="customLayout && 'sm:col-span-2'" :style="matchNeedsStyle" :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
+                    :error="props.error" @update="(value: any) => matchNeeds = value" />
                 <section v-if="['topic', 'assessment', 'received_visit', 'assessment_reason', 'guidance'].some(asksFor)" :class="customLayout && 'contents'">
                     <h3 v-if="!customLayout" class="mb-3 text-[11px] font-bold uppercase tracking-wider text-slate-400">
                         {{ $t('inquiries.form.sections.assessment') }}
@@ -174,8 +178,6 @@
                         </div>
                     </div>
                 </section>
-                <ModulesUserInquiryMatchNeedsBlock :class="customLayout && 'sm:col-span-2'" :style="customLayout ? { order: 3000 } : undefined" :inquiry="props.formType === 'update' ? props.selectedInquiry : null"
-                    :error="props.error" @update="(value: any) => matchNeeds = value" />
                 <!-- Whatever else the edit carries, saved by the same button. -->
                 <slot name="after-fields" :serviceTypeUuid="state.formInquiry.inquiry_service_type_uuid" :fieldOrder="customLayout ? (props.form as any)?.field_order : null" />
             </div>
@@ -241,6 +243,16 @@ const emit = defineEmits(['closeModal', 'isPageLoading', 'submitForm'])
 // field, built-in and own, out in one grid in that order. Only when creating:
 // the edit shows what the inquiry holds, in the standard layout.
 const customLayout = computed(() => props.formType === 'create' && hasFieldOrder(props.form as any))
+
+// Right after the name on a form with its own order, unless the order
+// places the block itself.
+const matchNeedsStyle = computed(() => {
+    if (!customLayout.value) return undefined
+    const order: string[] = (props.form as any)?.field_order ?? []
+    if (order.includes('match_needs')) return { order: order.indexOf('match_needs') }
+
+    return orderStyle(order.includes('last_name') || !order.includes('first_name') ? 'last_name' : 'first_name')
+})
 
 function orderStyle(key: string) {
     if (!customLayout.value) return undefined
