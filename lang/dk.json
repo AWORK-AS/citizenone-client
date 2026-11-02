@@ -18981,8 +18981,8 @@
             "bank": "Løn og bank"
         },
         "fields": {
-            "privateEmail": "Privat mail",
-            "privatePhone": "Privat telefon",
+            "privateEmail": "E-mailadresse privat",
+            "privatePhone": "Telefon privat",
             "workPhone": "Arbejdstelefon",
             "gender": "Køn",
             "nationality": "Nationalitet",
