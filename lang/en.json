@@ -2617,6 +2617,10 @@
                 "lastname": "Last name",
                 "municipality": "Municipality",
                 "notifyUseOfForce": "Notify about use of force",
+                "subcategories": "Subcategory",
+                "addSubcategory": "Add new subcategory",
+                "newSubcategoryPlaceholder": "Subcategory name",
+                "subcategoriesHint": "A consultant can be given hours. Each coordinator role exists once per case and moves from whoever held it.",
                 "notifyUseOfForceHint": "The case manager is emailed when a use of force is registered on this citizen. Needs an email address. For data protection the email does not say who it is about.",
                 "notificationTypes": "Notification types",
                 "notifications": {

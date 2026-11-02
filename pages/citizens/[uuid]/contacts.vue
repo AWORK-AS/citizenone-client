@@ -80,6 +80,10 @@
                                                     : $t('citizens.coordinators.badgeSecondary') }}
                                             </p>
                                         </Badge>
+                                        <Badge type="active" class="w-fit mt-1 ml-1" v-for="subcategory in contact?.subcategories ?? []"
+                                            :key="subcategory.uuid">
+                                            <p class="text-xxs px-2">{{ subcategory.name }}</p>
+                                        </Badge>
                                         <span v-if="contact?.contact_job_title?.system_name === 'relatives'">
                                             <Badge type="primary" class="w-fit mt-1" v-if="contact?.relationship">
                                                 <p class="text-xxs px-2">

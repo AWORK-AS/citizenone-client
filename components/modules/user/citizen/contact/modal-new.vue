@@ -100,6 +100,7 @@ async function saveContact(contactDetails: any) {
                 contact_job_title_uuid: contactDetails.contact_job_title_uuid,
                 employees_uuid: contactDetails.employees,
                 notifications: contactDetails.notifications,
+                subcategories: contactDetails.subcategories ?? [],
             }
         } else {
             params = {
