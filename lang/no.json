@@ -21016,6 +21016,37 @@
             "admit": "Slipp inn",
             "deny": "Avvis"
         },
+        "brief": {
+            "prepare": "Forbered med Cody AI",
+            "working": "Cody forbereder ...",
+            "hint": "Cody leser journal, mål og siste møte om innbyggeren.",
+            "byCody": "Cody AI har lest {journals} journalnotater og {goals} mål. Sjekk det før du bruker det.",
+            "suggestedAgenda": "Forslag til dagsorden",
+            "useAgenda": "Bruk som dagsorden",
+            "replaceAgenda": "Erstatt dagsordenen"
+        },
+        "tasks": {
+            "find": "Finn avtaler",
+            "title": "Avtaler fra møtet",
+            "intro": "Cody AI har funnet disse avtalene. Rett dem, velg hvem som gjør hva, og opprett dem som oppgaver.",
+            "none": "Cody AI fant ingen avtaler som noen må handle på.",
+            "include": "Ta med",
+            "description": "Beskrivelse (valgfri)",
+            "assignee": "Ansvarlig",
+            "codySays": "Cody: {owner}",
+            "nobody": "Ingen",
+            "due": "Frist",
+            "board": "Oppgavetavle",
+            "boardHint": "Alle med tilgang til tavlen kan se oppgavene. Ikke skriv helseopplysninger i dem.",
+            "noBoards": "Det finnes ingen oppgavetavler. Du kan kopiere avtalene i stedet.",
+            "create": "Opprett {count} oppgave | Opprett {count} oppgaver",
+            "created": "Opprettet",
+            "copy": "Kopier",
+            "copied": "Kopiert"
+        },
+        "minutes": {
+            "download": "Last ned som PDF"
+        },
         "host_controls": {
             "record": "Ta opp",
             "stopRecording": "Stopp opptak",

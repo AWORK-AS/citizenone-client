@@ -10,6 +10,35 @@
             </span>
         </div>
 
+        <!-- Cody prepares a meeting about a citizen: what happened since last time, and an agenda to take over. -->
+        <div v-if="meeting.citizen && !state.brief" class="flex flex-wrap items-center gap-2">
+            <button type="button" :disabled="state.briefing"
+                class="h-9 px-4 rounded-full bg-[#0f2b46] text-white hover:bg-[#16395c] text-sm font-medium inline-flex items-center gap-1.5 disabled:opacity-60"
+                @click="prepare">
+                <Icon :name="state.briefing ? 'ph:spinner' : 'ph:sparkle'" class="h-4 w-4" :class="state.briefing && 'animate-spin'" />
+                {{ state.briefing ? $t('meetings.brief.working') : $t('meetings.brief.prepare') }}
+            </button>
+            <span class="text-xs text-gray-500">{{ $t('meetings.brief.hint') }}</span>
+        </div>
+        <div v-if="state.brief" class="rounded-xl border border-[#2dbab2]/40 bg-[#f0faf9]/60 p-4 space-y-3">
+            <p class="text-xs text-[#1b6d8a] flex items-center gap-1.5">
+                <Icon name="ph:sparkle" class="h-3.5 w-3.5" />
+                {{ $t('meetings.brief.byCody', { journals: state.brief.sources?.journals ?? 0, goals: state.brief.sources?.goals ?? 0 }) }}
+            </p>
+            <div class="prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_li]:my-0.5 [&_p]:my-1" v-safe-ai-html="state.brief.brief" />
+            <div v-if="state.brief.agenda" class="rounded-lg bg-white px-3 py-2">
+                <p class="text-xs font-semibold uppercase tracking-wide text-[#1b6d8a] mb-1">{{ $t('meetings.brief.suggestedAgenda') }}</p>
+                <p class="text-sm whitespace-pre-line">{{ state.brief.agenda }}</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <FormButton v-if="meeting.is_host && state.brief.agenda" type="button" buttonStyle="primary" buttonSize="xs"
+                    :disabled="state.agendaSaving" @click="useAgenda">
+                    {{ meeting.agenda ? $t('meetings.brief.replaceAgenda') : $t('meetings.brief.useAgenda') }}
+                </FormButton>
+                <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="state.brief = null">{{ $t('meetings.notes.dismiss') }}</FormButton>
+            </div>
+        </div>
+
         <div v-if="meeting.agenda" class="rounded-xl bg-[#f0faf9] px-4 py-3">
             <p class="text-xs font-semibold uppercase tracking-wide text-[#1b6d8a] mb-1">{{ $t('meetings.notes.agenda') }}</p>
             <p class="text-sm text-[#0f2b46] whitespace-pre-line">{{ meeting.agenda }}</p>
@@ -35,6 +64,13 @@
                     <Icon :name="state.summarizing ? 'ph:spinner' : 'ph:sparkle'" class="h-4 w-4" :class="state.summarizing && 'animate-spin'" />
                     {{ state.summarizing ? $t('meetings.notes.summarizing') : $t('meetings.notes.summarize') }}
                 </button>
+                <FormButton type="button" buttonStyle="secondary" :disabled="!state.text.trim() && !meeting.agenda"
+                    @click="state.tasksOpen = true; state.tasksSource = {}">
+                    <Icon name="ph:check-square-offset" class="h-4 w-4 mr-1" /> {{ $t('meetings.tasks.find') }}
+                </FormButton>
+                <FormButton type="button" buttonStyle="secondary" :disabled="state.downloading || (!state.text.trim() && !meeting.agenda)" @click="downloadPdf()">
+                    <Icon name="ph:file-pdf" class="h-4 w-4 mr-1" /> {{ $t('meetings.minutes.download') }}
+                </FormButton>
                 <FormButton v-if="meeting.citizen" type="button" buttonStyle="secondary" :disabled="state.filing" @click="toJournal()">
                     <Icon name="ph:notebook" class="h-4 w-4 mr-1" />
                     {{ meeting.notes_in_journal ? $t('meetings.notes.updateJournal') : $t('meetings.notes.toJournal') }}
@@ -52,6 +88,12 @@
                 <FormButton v-if="meeting.citizen" type="button" buttonStyle="primary" buttonSize="xs" :disabled="state.filing" @click="toJournal(state.summary)">
                     {{ $t('meetings.notes.summaryToJournal') }}
                 </FormButton>
+                <FormButton type="button" buttonStyle="secondary" buttonSize="xs" @click="state.tasksOpen = true; state.tasksSource = { summary: state.summary }">
+                    {{ $t('meetings.tasks.find') }}
+                </FormButton>
+                <FormButton type="button" buttonStyle="secondary" buttonSize="xs" :disabled="state.downloading" @click="downloadPdf(state.summary)">
+                    {{ $t('meetings.minutes.download') }}
+                </FormButton>
                 <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="copySummary">{{ $t('meetings.notes.copy') }}</FormButton>
                 <FormButton type="button" buttonStyle="cancel" buttonSize="xs" @click="state.summary = ''">{{ $t('meetings.notes.dismiss') }}</FormButton>
             </div>
@@ -61,6 +103,9 @@
             <NuxtLink :to="`/citizens/${meeting.citizen.uuid}/journals`" class="underline">{{ $t('meetings.notes.openJournal') }}</NuxtLink>
         </p>
         <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
+
+        <MeetingActionItemsModal :show="state.tasksOpen" :meeting-uuid="meeting.uuid" :source="state.tasksSource"
+            @close="state.tasksOpen = false" />
     </div>
 </template>
 
@@ -68,6 +113,8 @@
 import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
 import { useCodyAdoption } from '@/composables/useCodyAdoption'
+import { downloadMeetingMinutes } from '@/composables/meetingMinutes'
+import MeetingActionItemsModal from '@/components/modules/user/meetings/action-items-modal.vue'
 
 /**
  * The meeting's agenda and the staff's shared notes. Notes save themselves a
@@ -76,7 +123,7 @@ import { useCodyAdoption } from '@/composables/useCodyAdoption'
  * Guests never see the notes.
  */
 const props = defineProps<{ meeting: any }>()
-const emit = defineEmits(['filed'])
+const emit = defineEmits(['filed', 'changed'])
 
 const state = reactive({
     text: props.meeting.notes ?? '',
@@ -88,6 +135,12 @@ const state = reactive({
     filed: false,
     summary: '',
     summarizing: false,
+    brief: null as null | { brief: string, agenda: string, sources?: { journals: number, goals: number, last_meeting: boolean } },
+    briefing: false,
+    agendaSaving: false,
+    tasksOpen: false,
+    tasksSource: {} as { recording_uuid?: string, summary?: string },
+    downloading: false,
     error: {} as any,
 })
 
@@ -155,6 +208,51 @@ async function summarize() {
         }
     }
     state.summarizing = false
+}
+
+// Cody's brief before the meeting. Nothing is saved until the host takes the agenda over.
+async function prepare() {
+    state.briefing = true
+    state.error = {}
+    try {
+        state.brief = (await meetingService.brief(props.meeting.uuid))?.data ?? null
+    } catch (error: any) {
+        if (['meeting_summary_cody_required', 'meeting_summary_cody_seat_required'].includes(error?.code)) {
+            codyAdoption.promptOpen.value = true
+        } else {
+            state.error = error
+        }
+    }
+    state.briefing = false
+}
+
+async function useAgenda() {
+    if (!state.brief?.agenda) return
+    state.agendaSaving = true
+    state.error = {}
+    try {
+        await meetingService.update(props.meeting.uuid, { agenda: state.brief.agenda })
+        state.brief = null
+        emit('changed')
+    } catch (error: any) {
+        state.error = error
+    }
+    state.agendaSaving = false
+}
+
+async function downloadPdf(summary?: string) {
+    if (timer) {
+        clearTimeout(timer)
+        await save()
+    }
+    state.downloading = true
+    state.error = {}
+    try {
+        await downloadMeetingMinutes(props.meeting.uuid, summary ? { summary } : {})
+    } catch (error: any) {
+        state.error = error
+    }
+    state.downloading = false
 }
 
 async function copySummary() {
