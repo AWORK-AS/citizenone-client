@@ -12308,6 +12308,8 @@
                 "calendarDoneCreatesCareHours": "Gennemførte aftaler giver indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dækningsgrad for medarbejdere",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og medarbejdere med økonomirettigheder ser dem stadig",
+                "autoAiForNewEmployees": "Giv nye medarbejdere AI automatisk",
+                "autoAiForNewEmployeesHint": "En ny medarbejder får en ledig AI-licens, når den oprettes. Er der ingen ledig, oprettes medarbejderen uden",
                 "careHourTypes": "Vælg timetype på indsatstimer",
                 "careHourTypesHint": "Besøgs-, transport- eller administrationstid på hver registrering, også fra en aftale (Registrér tid)",
                 "mileageRequiresTransport": "Kørsel kun hvor transport er bevilget",

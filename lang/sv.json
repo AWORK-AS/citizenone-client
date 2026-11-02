@@ -12303,6 +12303,8 @@
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "autoAiForNewEmployees": "Ge nya medarbetare AI automatiskt",
+                "autoAiForNewEmployeesHint": "En ny medarbetare får en ledig AI-licens när den skapas. Finns ingen ledig skapas medarbetaren utan",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
                 "mileageRequiresTransport": "Körning bara där transport är beviljad",

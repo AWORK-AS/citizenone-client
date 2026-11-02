@@ -12308,6 +12308,8 @@
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
                 "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
+                "autoAiForNewEmployees": "Give new employees AI automatically",
+                "autoAiForNewEmployeesHint": "A new employee gets a free AI seat when created. With none free, the employee is created without one",
                 "careHourTypes": "Choose an hour type on intervention hours",
                 "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
                 "mileageRequiresTransport": "Mileage only where transport is granted",
