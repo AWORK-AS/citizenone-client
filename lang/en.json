@@ -13675,7 +13675,21 @@
                 "oneTime12Months": "One-off sales, 12 months",
                 "perMonthExVat": "Per month, excl. VAT",
                 "trendLabel": "Trend for {name}"
-            }
+            },
+            "filterCategory": "Category",
+            "allCategories": "All categories",
+            "noCategory": "No category",
+            "statusAll": "All",
+            "statusLive": "In the store",
+            "statusHidden": "Hidden on the website",
+            "statusIncomplete": "Missing content",
+            "shownCount": "Showing {shown} of {total}",
+            "clearFilters": "Clear filters",
+            "colCustomers": "Customers",
+            "customersCount": "{count} customer | {count} customers",
+            "priceOnce": "DKK {amount} one-time",
+            "pricePerMonth": "DKK {amount}/mo",
+            "pricePerYear": "DKK {amount}/yr"
         },
         "appCategories": {
             "pageTitle": "App categories",
@@ -13709,7 +13723,13 @@
                 "iconHint": "An emoji or icon name (e.g. ic:baseline-category)",
                 "sortOrder": "Sort order",
                 "isActive": "Active"
-            }
+            },
+            "colPosition": "Position",
+            "sharedPositionsHint": "Some categories share a position. The store then shows them alphabetically. Give each its own position if the order matters.",
+            "sharedPosition": "Same position as {names}",
+            "appsCount": "{count} app | {count} apps",
+            "noApps": "No apps",
+            "cannotDelete": "This category has apps. Move them to another category before deleting it."
         },
         "companies": {
             "companies": "Companies",
@@ -19464,7 +19484,11 @@
         "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence.",
         "howToldHelp": "Active consultants get a mail and an app notice. If you have the SMS app, they also get an SMS without any details about the citizen. An inactive consultant without a licence only gets the SMS and can answer you by phone. You record the answer with Said yes or Said no.",
         "toldVia": "told by {channels}",
-        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "channels": {
+            "mail": "mail",
+            "app": "app",
+            "sms": "SMS"
+        },
         "notReached": "Not reached",
         "notReachedHint": "The consultant got no mail, app notice or SMS. Contact them directly and record the answer with Said yes or Said no."
     },
