@@ -1,4 +1,23 @@
 {
+    "announcements": {
+        "eyebrow": {
+            "feature": "Ny app från CitizenOne",
+            "news": "Nytt från CitizenOne",
+            "tip": "Tips från CitizenOne"
+        },
+        "cta": {
+            "trial": "Prova gratis",
+            "trialDays": "Prova gratis i {days} dagar",
+            "buy": "Se appen",
+            "ask": "Be min administratör om den",
+            "open": "Visa mig var"
+        },
+        "later": "Påminn mig senare",
+        "gotIt": "Uppfattat",
+        "queue": "1 av {total}",
+        "listTitle": "Nytt från CitizenOne",
+        "colleaguesAsked": "1 kollega har bett om den | {n} kollegor har bett om den"
+    },
     "citizenPicker": {
         "allDepartments": "Alla",
         "searchesAll": "Söker i alla avdelningar",
@@ -13197,6 +13216,74 @@
         "couldNotStartCheckout": "Kassan kunde inte startas. Försök igen om en stund."
     },
     "superadmin": {
+        "announcements": {
+            "title": "Meddelanden",
+            "intro": "Korta meddelanden från CitizenOne som visas som popup nere till vänster: prova den nya appen, nyheter och tips. Kunden får högst ett om dagen, resten väntar i kö. Release notes är fortfarande den tekniska ändringsloggen.",
+            "new": "Nytt meddelande",
+            "edit": "Redigera meddelande",
+            "empty": "Inga meddelanden här ännu.",
+            "publish": "Publicera",
+            "unpublish": "Dra tillbaka",
+            "draft": "utkast",
+            "deleteConfirm": "Ta bort meddelandet? Siffrorna för det sparas.",
+            "allIndustries": "Alla branscher",
+            "waitsFor": "väntar på release noten ”{title}”",
+            "filter": {
+                "live": "Aktiva",
+                "scheduled": "Planerade",
+                "draft": "Utkast",
+                "ended": "Avslutade"
+            },
+            "kind": {
+                "feature": "Prova den nya appen",
+                "news": "Nyhet",
+                "tip": "Tips"
+            },
+            "kindHint": {
+                "feature": "Knappen följer den som ser meddelandet: köparen kan starta provperioden, en medarbetare kan be sin administratör om appen, och företag som redan har appen ser det inte.",
+                "news": "En nyhet med valfri bild och en knapp till en sida.",
+                "tip": "Ett litet kort utan bild, t.ex. en genväg eller en funktion som är lätt att missa."
+            },
+            "audience": {
+                "all": "Alla användare",
+                "buyers": "Bara de som kan köpa appar",
+                "staff": "Bara medarbetare"
+            },
+            "stats": {
+                "seen": "Sett",
+                "clicked": "Klickat",
+                "trialClicks": "Klick på prova gratis",
+                "askClicks": "Klick på be administratör",
+                "trialsStarted": "Provperioder startade",
+                "dismissed": "Stängt"
+            },
+            "form": {
+                "kind": "Typ",
+                "app": "App",
+                "noApp": "Ingen app",
+                "appHint": "Provperiodens längd hämtas från appen.",
+                "title": "Titel",
+                "body": "Kort text",
+                "bodyHint": "Skriv vad användaren får ut av det, inte vad funktionen heter.",
+                "ctaLabel": "Knapptext",
+                "link": "Knappen öppnar",
+                "linkHint": "En sida i appen (/citizens) eller en https-länk.",
+                "image": "Bild",
+                "imageHint": "Samma format som nyhetsbrevets banners, t.ex. 1200 × 630 px.",
+                "removeImage": "Ta bort bilden",
+                "audience": "Vem",
+                "industries": "Branscher",
+                "industriesHint": "Inget valt betyder alla branscher.",
+                "startsAt": "Visas från",
+                "endsAt": "Visas till",
+                "releaseNote": "Vänta på release note",
+                "noReleaseNote": "Ingen",
+                "releaseNoteHint": "Meddelandet visas först när release noten är publicerad, så det aldrig kommer före koden.",
+                "preview": "Förhandsvisning",
+                "previewAppHint": "Visas som en köpare ser det. Medarbetare får knappen ”Be min administratör om den”.",
+                "frequencyHint": "Kunden får högst ett meddelande från CitizenOne om dagen, och aldrig två popupper samtidigt."
+            }
+        },
         "supportAccess": {
             "table": {
                 "duration": "Varaktighet",
@@ -14633,7 +14720,8 @@
             "industries": "Branscher",
             "salesInquiries": "Förfrågningar",
             "news": "Nyheter",
-            "campaigns": "Kampanjer"
+            "campaigns": "Kampanjer",
+            "announcements": "Meddelanden"
         },
         "emailTemplates": {
             "title": "E-postmallar",

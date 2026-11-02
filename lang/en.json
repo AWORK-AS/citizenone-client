@@ -1,4 +1,23 @@
 {
+    "announcements": {
+        "eyebrow": {
+            "feature": "New app from CitizenOne",
+            "news": "News from CitizenOne",
+            "tip": "Tip from CitizenOne"
+        },
+        "cta": {
+            "trial": "Try it free",
+            "trialDays": "Try it free for {days} days",
+            "buy": "See the app",
+            "ask": "Ask my administrator for it",
+            "open": "Show me where"
+        },
+        "later": "Remind me later",
+        "gotIt": "Got it",
+        "queue": "1 of {total}",
+        "listTitle": "News from CitizenOne",
+        "colleaguesAsked": "1 colleague has asked for it | {n} colleagues have asked for it"
+    },
     "citizenPicker": {
         "allDepartments": "All",
         "searchesAll": "Searching all departments",
@@ -13228,6 +13247,74 @@
         "couldNotStartCheckout": "The checkout could not be started. Try again shortly."
     },
     "superadmin": {
+        "announcements": {
+            "title": "Messages",
+            "intro": "Short messages from CitizenOne shown as a popup in the lower left corner: try the new app, news and tips. A customer gets at most one a day; the rest wait their turn. Release notes stay the technical changelog.",
+            "new": "New message",
+            "edit": "Edit message",
+            "empty": "No messages here yet.",
+            "publish": "Publish",
+            "unpublish": "Unpublish",
+            "draft": "draft",
+            "deleteConfirm": "Delete the message? Its numbers are kept.",
+            "allIndustries": "All industries",
+            "waitsFor": "waits for the release note \"{title}\"",
+            "filter": {
+                "live": "Live",
+                "scheduled": "Scheduled",
+                "draft": "Drafts",
+                "ended": "Ended"
+            },
+            "kind": {
+                "feature": "Try the new app",
+                "news": "News",
+                "tip": "Tip"
+            },
+            "kindHint": {
+                "feature": "The button follows the viewer: a buyer can start the trial, staff can ask their administrator for the app, and companies that already have it never see it.",
+                "news": "A news item with an optional image and a button to a page.",
+                "tip": "A small card without an image, e.g. a shortcut or a feature that is easy to miss."
+            },
+            "audience": {
+                "all": "All users",
+                "buyers": "Only those who can buy apps",
+                "staff": "Only staff"
+            },
+            "stats": {
+                "seen": "Seen",
+                "clicked": "Clicked",
+                "trialClicks": "Try-free clicks",
+                "askClicks": "Ask-admin clicks",
+                "trialsStarted": "Trials started",
+                "dismissed": "Closed"
+            },
+            "form": {
+                "kind": "Type",
+                "app": "App",
+                "noApp": "No app",
+                "appHint": "The trial length comes from the app.",
+                "title": "Title",
+                "body": "Short text",
+                "bodyHint": "Say what the user gets out of it, not what the feature is called.",
+                "ctaLabel": "Button text",
+                "link": "The button opens",
+                "linkHint": "A page in the app (/citizens) or an https link.",
+                "image": "Image",
+                "imageHint": "The same format as the newsletter banners, e.g. 1200 × 630 px.",
+                "removeImage": "Remove the image",
+                "audience": "Who",
+                "industries": "Industries",
+                "industriesHint": "None selected means every industry.",
+                "startsAt": "Shown from",
+                "endsAt": "Shown until",
+                "releaseNote": "Wait for release note",
+                "noReleaseNote": "None",
+                "releaseNoteHint": "The message is shown only once the release note is published, so it never runs ahead of the code.",
+                "preview": "Preview",
+                "previewAppHint": "Shown as a buyer sees it. Staff get \"Ask my administrator for it\".",
+                "frequencyHint": "A customer gets at most one message from CitizenOne a day, and never two popups at once."
+            }
+        },
         "referrals": {
             "header": "Referrals",
             "subtitle": "Businesses that signed up through a customer's link, and the free months they have earned.",
@@ -14643,7 +14730,8 @@
             "teamRoles": "Roles",
             "supportAccess": "Customer access",
             "news": "News",
-            "campaigns": "Campaigns"
+            "campaigns": "Campaigns",
+            "announcements": "Messages"
         },
         "teamRoles": {
             "pageTitle": "Roles",

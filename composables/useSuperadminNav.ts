@@ -67,8 +67,9 @@ export const superadminNav: SuperadminNavGroups = {
     ],
     kommunikation: [
         {
-            name: 'News', label: 'superadmin.sidebar.news', href: '/superadmin/release-notes', icon: 'ph:megaphone', permission: null,
+            name: 'News', label: 'superadmin.sidebar.news', href: '/superadmin/announcements', icon: 'ph:megaphone', permission: null,
             tabs: [
+                { name: 'Announcements', label: 'superadmin.sidebar.announcements', href: '/superadmin/announcements', icon: 'ph:chat-circle-dots', permission: 'view_content', routes: ['superadmin-announcements'] },
                 { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', permission: 'view_content', routes: ['superadmin-release-notes'] },
                 { name: 'Roadmap', label: 'superadmin.sidebar.roadmap', href: '/superadmin/roadmap', icon: 'ph:map-trifold', permission: 'view_content', routes: ['superadmin-roadmap'] },
                 { name: 'Polls', label: 'superadmin.sidebar.polls', href: '/superadmin/polls', icon: 'ph:chart-bar-horizontal', permission: 'view_marketing', routes: ['superadmin-polls', 'superadmin-polls-new', 'superadmin-polls-pollUuid', 'superadmin-polls-pollUuid-edit'] },
