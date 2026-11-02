@@ -24,7 +24,7 @@ const read = (file) => fs.readFileSync(path.join(root, file), 'utf8')
 const hub = (name) => superadminNav.kommunikation.find((item) => item.name === name)
 
 test('News and Campaigns hold the six pages that sat under PLATFORM', () => {
-    assert.deepEqual(hub('News').tabs.map((t) => t.href), ['/superadmin/release-notes', '/superadmin/roadmap', '/superadmin/polls'])
+    assert.deepEqual(hub('News').tabs.map((t) => t.href), ['/superadmin/announcements', '/superadmin/release-notes', '/superadmin/roadmap', '/superadmin/polls'])
     assert.deepEqual(hub('Campaigns').tabs.map((t) => t.href), ['/superadmin/sales-campaign', '/superadmin/coupons', '/superadmin/platform-shares'])
 
     const platform = superadminNav.platform.map((item) => item.href)
@@ -36,6 +36,7 @@ test('News and Campaigns hold the six pages that sat under PLATFORM', () => {
 
 test('a moved page keeps the permission it had', () => {
     const expected = {
+        '/superadmin/announcements': 'view_content',
         '/superadmin/release-notes': 'view_content',
         '/superadmin/roadmap': 'view_content',
         '/superadmin/polls/new': 'view_marketing',

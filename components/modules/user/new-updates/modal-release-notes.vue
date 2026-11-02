@@ -23,6 +23,27 @@
                             </div>
                         </div>
 
+                        <!-- "Nyt fra CitizenOne": the popup messages, kept here once closed. -->
+                        <section v-if="state.announcements.length" class="mb-6" :aria-label="$t('announcements.listTitle')">
+                            <p class="mb-2 text-xs font-semibold uppercase tracking-wider text-gray-400">{{ $t('announcements.listTitle') }}</p>
+                            <ul class="space-y-2">
+                                <li v-for="item in state.announcements" :key="item.uuid"
+                                    class="flex items-start gap-x-3 rounded-xl border border-gray-200 bg-white p-3">
+                                    <span class="flex h-8 w-8 flex-none items-center justify-center rounded-full bg-primary/10 text-primary">
+                                        <Icon :name="item.kind === 'tip' ? 'ph:lightbulb' : item.kind === 'feature' ? 'ph:sparkle' : 'ph:megaphone'" class="h-4 w-4" />
+                                    </span>
+                                    <div class="min-w-0 flex-1">
+                                        <p class="text-sm font-semibold text-gray-900">{{ item.title }}</p>
+                                        <p class="mt-0.5 text-sm text-gray-600">{{ item.body }}</p>
+                                        <button v-if="ctaText(item.cta)" type="button" @click="openAnnouncement(item)"
+                                            class="mt-2 text-sm font-medium text-tertiary hover:underline">
+                                            {{ ctaText(item.cta)!.literal ?? $t(ctaText(item.cta)!.key, ctaText(item.cta)!.values ?? {}) }}
+                                        </button>
+                                    </div>
+                                </li>
+                            </ul>
+                        </section>
+
                         <!-- Empty state -->
                         <p v-if="!state.isLoading && visibleNotes.length === 0"
                             class="flex flex-col items-center gap-y-2 py-10 text-center text-sm text-gray-400">
@@ -81,6 +102,8 @@
 
 <script setup lang="ts">
 import { releaseNoteService } from '@/components/api/user/ReleaseNoteService'
+import { announcementService } from '@/components/api/user/AnnouncementService'
+import { ctaTarget, ctaText, type UserAnnouncement } from '@/composables/announcements'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useVideoEmbed } from '@/composables/videoEmbed'
 
@@ -97,6 +120,7 @@ const { videoEmbedUrl } = useVideoEmbed()
 const state = reactive({
     isLoading: false,
     notes: [] as any[],
+    announcements: [] as UserAnnouncement[],
     showHistory: false,
 })
 
@@ -111,6 +135,9 @@ watch(() => props.isModalOpen, (open: boolean) => {
 
 async function fetchNotes() {
     state.isLoading = true
+    announcementService.getRecent()
+        .then((response: any) => { state.announcements = response?.data ?? [] })
+        .catch(() => { state.announcements = [] })
     try {
         const response = await releaseNoteService.getReleaseNotes()
         state.notes = response?.data ?? []
@@ -128,6 +155,18 @@ async function fetchNotes() {
     } catch (error: any) {
         // keep the badge as-is if marking seen fails
     }
+}
+
+async function openAnnouncement(item: UserAnnouncement) {
+    const target = ctaTarget(item.cta?.url)
+    announcementService.markClicked(item.uuid, item.cta?.action ?? null).catch(() => {})
+    if (!target) return
+    if (target.kind === 'external') {
+        window.open(target.url, '_blank', 'noopener')
+        return
+    }
+    closeModal()
+    await navigateTo(target.url)
 }
 
 function closeModal() {
