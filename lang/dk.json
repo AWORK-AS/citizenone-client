@@ -21051,6 +21051,7 @@
             "citizen": "Borger (valgfri)",
             "citizenHint": "Optagelser af mødet kan ses af medarbejdere med adgang til borgeren.",
             "waitingRoom": "Venterum: gæster venter, til du lukker dem ind",
+            "guestsCanShareScreen": "Gæster må dele deres skærm",
             "colleagues": "Kolleger",
             "guests": "Gæster",
             "guestName": "Navn",
@@ -21106,7 +21107,11 @@
             "endForEveryone": "Afslut for alle",
             "missingConsent": "Mangler samtykke fra: {names}. De er blevet spurgt.",
             "recordingStarted": "Optagelsen er startet.",
-            "recordingStopped": "Optagelsen er stoppet. Den er klar om lidt."
+            "recordingStopped": "Optagelsen er stoppet. Den er klar om lidt.",
+            "guestScreenShareOff": "Gæster kan ikke dele skærm. Klik for at give dem lov.",
+            "guestScreenShareOn": "Gæster må dele skærm. Klik for at tage det tilbage.",
+            "guestScreenShareAllowed": "Gæsterne kan nu dele deres skærm.",
+            "guestScreenShareStopped": "Gæsterne kan ikke længere dele deres skærm."
         },
         "room": {
             "camera": "Kamera",
@@ -21191,7 +21196,7 @@
             "openDraft": "Åbn kladden i borgerens journal",
             "draftCreated": "Referatet er gemt som kladde i borgerens journal.",
             "errors": {
-                "too_long": "Optagelsen er for lang til et referat (maks. cirka 1,5 time).",
+                "too_long": "Optagelsen er for lang til et referat (maks. cirka 4 timer).",
                 "no_audio": "Optagelsen har ikke et lydspor.",
                 "empty": "Der blev ikke sagt noget, Cody AI kunne høre.",
                 "ai_error": "Cody AI kunne ikke lave referatet lige nu."

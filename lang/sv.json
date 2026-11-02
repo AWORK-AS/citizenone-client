@@ -20966,6 +20966,7 @@
             "citizen": "Brukare (valfritt)",
             "citizenHint": "Inspelningar av mötet kan ses av personal med åtkomst till brukaren.",
             "waitingRoom": "Väntrum: gäster väntar tills du släpper in dem",
+            "guestsCanShareScreen": "Gäster får dela sin skärm",
             "colleagues": "Kollegor",
             "guests": "Gäster",
             "guestName": "Namn",
@@ -21021,7 +21022,11 @@
             "endForEveryone": "Avsluta för alla",
             "missingConsent": "Samtycke saknas från: {names}. De har tillfrågats.",
             "recordingStarted": "Inspelningen har startat.",
-            "recordingStopped": "Inspelningen har stoppats. Den är klar om en stund."
+            "recordingStopped": "Inspelningen har stoppats. Den är klar om en stund.",
+            "guestScreenShareOff": "Gäster kan inte dela skärm. Klicka för att tillåta det.",
+            "guestScreenShareOn": "Gäster får dela skärm. Klicka för att ta tillbaka det.",
+            "guestScreenShareAllowed": "Gästerna kan nu dela sin skärm.",
+            "guestScreenShareStopped": "Gästerna kan inte längre dela sin skärm."
         },
         "room": {
             "camera": "Kamera",
@@ -21106,7 +21111,7 @@
             "openDraft": "Öppna utkastet i brukarens journal",
             "draftCreated": "Sammanfattningen är sparad som utkast i brukarens journal.",
             "errors": {
-                "too_long": "Inspelningen är för lång för en sammanfattning (max cirka 1,5 timme).",
+                "too_long": "Inspelningen är för lång för en sammanfattning (max cirka 4 timmar).",
                 "no_audio": "Inspelningen har inget ljudspår.",
                 "empty": "Inget sades som Cody AI kunde höra.",
                 "ai_error": "Cody AI kunde inte skriva sammanfattningen just nu."

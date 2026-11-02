@@ -110,6 +110,13 @@
                                     <Icon name="ph:note-pencil" class="h-5 w-5" />
                                 </button>
                                 <template v-if="meeting.is_host">
+                                    <button type="button" class="h-11 w-11 rounded-full flex items-center justify-center transition"
+                                        :class="meeting.guests_can_share_screen ? 'bg-white text-gray-900 hover:bg-gray-100' : 'bg-white/10 text-white hover:bg-white/20'"
+                                        :aria-pressed="!!meeting.guests_can_share_screen" :disabled="state.screenShareBusy"
+                                        :title="meeting.guests_can_share_screen ? $t('meetings.host_controls.guestScreenShareOn') : $t('meetings.host_controls.guestScreenShareOff')"
+                                        @click="toggleGuestScreenShare">
+                                        <Icon name="ph:users-three" class="h-5 w-5" />
+                                    </button>
                                     <button type="button" class="h-11 px-4 rounded-full flex items-center gap-2 text-sm font-medium transition"
                                         :class="recording ? 'bg-red-600 text-white hover:bg-red-700' : 'bg-white/10 text-white hover:bg-white/20'"
                                         :disabled="state.recordingBusy" @click="recording ? stopRecording() : startRecording()">
@@ -303,6 +310,7 @@ const state = reactive({
     error: {} as any,
     notice: '',
     editing: false,
+    screenShareBusy: false,
     showRoom: false,
     inRoom: false,
     recordingBusy: false,
@@ -445,6 +453,22 @@ function watchSummaries() {
 function stopSummaryPoll() {
     if (summaryPoll) clearInterval(summaryPoll)
     summaryPoll = null
+}
+
+async function toggleGuestScreenShare() {
+    if (!state.meeting) return
+    state.screenShareBusy = true
+    state.notice = ''
+    try {
+        const response = await meetingService.update(uuid, { guests_can_share_screen: !state.meeting.guests_can_share_screen })
+        state.meeting = response?.data ?? state.meeting
+        state.notice = state.meeting.guests_can_share_screen
+            ? t('meetings.host_controls.guestScreenShareAllowed')
+            : t('meetings.host_controls.guestScreenShareStopped')
+    } catch (error: any) {
+        state.error = error
+    }
+    state.screenShareBusy = false
 }
 
 async function startRecording() {
