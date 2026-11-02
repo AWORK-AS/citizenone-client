@@ -2617,6 +2617,10 @@
                 "lastname": "Efternamn",
                 "municipality": "Kommun",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
+                "subcategories": "Underkategori",
+                "addSubcategory": "Lägg till ny underkategori",
+                "newSubcategoryPlaceholder": "Namn på underkategori",
+                "subcategoriesHint": "En konsult kan tilldelas timmar. Varje koordinatorsroll finns en gång per insats och flyttas från den som hade den.",
                 "notifyUseOfForceHint": "Handläggaren får ett mejl när en tvångsåtgärd registreras för denna medborgare. Kräver en e-postadress. Av dataskyddsskäl framgår det inte av mejlet vem det gäller.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {

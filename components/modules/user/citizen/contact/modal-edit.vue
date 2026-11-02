@@ -58,6 +58,7 @@ async function updateContact(contactDetails: any) {
                 contact_job_title_uuid: contactDetails.contact_job_title_uuid,
                 employee_uuid: contactDetails.employee,
                 notifications: contactDetails.notifications,
+                subcategories: contactDetails.subcategories ?? [],
             }
         } else {
             params = {
