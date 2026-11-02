@@ -188,7 +188,8 @@
                         <div class="flex min-w-0 items-start gap-3">
                             <!-- Asking is a decision per consultant, so each
                                  one is picked rather than the whole result set. -->
-                            <div v-if="inquiryUuid" class="mt-0.5 shrink-0 cursor-pointer" @click="togglePick(result.uuid)">
+                            <!-- Someone who must not be contacted is shown, never asked. -->
+                            <div v-if="inquiryUuid && result.contact_status !== 'do_not_contact'" class="mt-0.5 shrink-0 cursor-pointer" @click="togglePick(result.uuid)">
                                 <FormCheckbox :value="state.picked.includes(result.uuid)" />
                             </div>
                             <div class="min-w-0">
@@ -209,8 +210,13 @@
                                 </span>
                                 <!-- Archived consultants are matched too ("Inaktiv - kan kontaktes");
                                      this says they have to be reactivated and given a licence
-                                     before the case. Whoever must not be contacted never
-                                     comes back from the match. -->
+                                     before the case. Whoever must not be contacted only
+                                     comes back when the company switched that on; then
+                                     they carry this badge and are never asked. -->
+                                <span v-if="result.contact_status === 'do_not_contact'"
+                                    class="rounded-full bg-red-50 px-2.5 py-[3px] text-[11.5px] font-bold text-red-700">
+                                    {{ $t('consultantProfile.contact.doNotContact') }}
+                                </span>
                                 <span v-if="result.is_archived" :title="$t('consultantMatch.archivedHint')"
                                     class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
                                     {{ $t('consultantMatch.archived') }}

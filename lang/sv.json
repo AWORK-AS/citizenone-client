@@ -12303,6 +12303,8 @@
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
+                "matchIncludesDoNotContactHint": "Endast konsulter med ett avgångsdatum utelämnas. De visas med sin status och kan inte tillfrågas",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
                 "mileageRequiresTransport": "Körning bara där transport är beviljad",
