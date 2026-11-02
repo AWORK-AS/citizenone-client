@@ -63,6 +63,31 @@
                     <FormError :error="v$?.formContact?.employee?.$errors[0]?.$message.toString()" />
                     <FormError :error="props?.error?.errors?.employee_uuid?.[0]" />
                 </div>
+                <!-- Subcategories under "Vores kontaktperson": Konsulent (can be given hours),
+                     the three coordinator roles and the company's own. -->
+                <div class="space-y-1" v-if="state.formContact.title === 'our_contact_person'"
+                    data-testid="contact-subcategories">
+                    <div class="flex justify-between items-center py-0.5">
+                        <FormLabel for="subcategories" :label="$t('citizens.contacts.form.subcategories')" />
+                        <span class="text-xs cursor-pointer text-tertiary hover:text-tertiary-800"
+                            @click="state.showAddSubcategory = !state.showAddSubcategory">
+                            {{ $t('citizens.contacts.form.addSubcategory') }}
+                        </span>
+                    </div>
+                    <FormSelectMultiple id="subcategories" :options="subcategoryOptions"
+                        v-model="state.formContact.subcategories" />
+                    <div v-if="state.showAddSubcategory" class="flex items-center gap-x-2 pt-1">
+                        <FormTextField id="newSubcategory" name="newSubcategory" class="flex-1"
+                            :placeholder="$t('citizens.contacts.form.newSubcategoryPlaceholder')"
+                            v-model="state.newSubcategory" @keydown.enter.prevent="addSubcategory()" />
+                        <FormButton type="button" buttonStyle="primary" @click="addSubcategory()"
+                            :disabled="!state.newSubcategory.trim()">
+                            {{ $t('save') }}
+                        </FormButton>
+                    </div>
+                    <p class="text-xs text-gray-500">{{ $t('citizens.contacts.form.subcategoriesHint') }}</p>
+                    <FormError :error="props?.error?.errors?.subcategories?.[0]" />
+                </div>
                 <div class="py-5 space-y-8" v-if="state.formContact.title === 'our_contact_person'" id="notifications">
                     <div v-for="(notification, index) in state.formContact.notifications" :key="index" class="relative">
                         <div class="grid grid-cols-1 gap-3 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-lg px-4 py-6 sm:p-8"
@@ -294,6 +319,7 @@
 
 <script setup lang="ts">
 import { contactJobTitlesService } from '@/components/api/user/ContactJobTitlesService'
+import { contactSubcategoriesService } from '@/components/api/user/ContactSubcategoriesService'
 import { relationshipService } from '@/components/api/user/RelationshipService'
 import { regionService } from '@/components/api/user/RegionService'
 import { municipalityService } from '@/components/api/user/MunicipalityService'
@@ -341,6 +367,8 @@ const THIRD_PARTY_TITLES = ['third_party', 'external_contact', 'case_manager', '
 const state = reactive({
     error: {} as Error,
     showRegistrationRule: false,
+    showAddSubcategory: false,
+    newSubcategory: '',
     formContact: {
         id: '',
         uuid: '',
@@ -370,6 +398,7 @@ const state = reactive({
         chat_users: [] as any,
         is_primary_gp: false,
         notify_use_of_force: false,
+        subcategories: [] as string[],
         provider_number: '',
         clinic_name: '',
         clinic_ean: '',
@@ -390,13 +419,62 @@ const state = reactive({
         relationships: [],
         regions: [],
         risk_levels: [],
+        subcategories: [] as any,
     }
 })
+
+// Built in, sent as these keys; the backend keeps them on is_consultant and coordinator_role.
+const subcategoryOptions = computed(() => [
+    { value: 'consultant', label: t('citizens.coordinators.badgeConsultant') },
+    { value: 'primary', label: t('citizens.coordinators.badgePrimary') },
+    { value: 'secondary', label: t('citizens.coordinators.badgeSecondary') },
+    { value: 'intake', label: t('citizens.coordinators.badgeIntake') },
+    ...state.options.subcategories,
+])
+
+function subcategoriesOf(contact: any): string[] {
+    return [
+        ...(contact?.is_consultant ? ['consultant'] : []),
+        ...(contact?.coordinator_role ? [contact.coordinator_role] : []),
+        ...(contact?.subcategories ?? []).map((subcategory: any) => subcategory?.uuid),
+    ]
+}
+
+async function fetchSubcategories() {
+    try {
+        const response = await contactSubcategoriesService.getContactSubcategories()
+        state.options.subcategories = (response?.data ?? []).map((item: any) => ({ value: item?.uuid, label: item?.name }))
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
+async function addSubcategory() {
+    const name = state.newSubcategory.trim()
+    if (!name) {
+        return
+    }
+    try {
+        const response = await contactSubcategoriesService.saveContactSubcategory({ name })
+        const uuid = response?.data?.uuid
+        if (uuid) {
+            await fetchSubcategories()
+            if (!state.formContact.subcategories.includes(uuid)) {
+                state.formContact.subcategories = [...state.formContact.subcategories, uuid]
+            }
+            state.newSubcategory = ''
+            state.showAddSubcategory = false
+        }
+    } catch (error: any) {
+        state.error = error
+    }
+}
 
 const isThirdPartyTitle = computed(() => THIRD_PARTY_TITLES.includes(state.formContact.title))
 
 onMounted(async () => {
     fetchAllContactJobTitles()
+    fetchSubcategories()
     fetchNotificationTypes()
     fetchRiskLevels()
     fetchRegions()
@@ -437,6 +515,7 @@ onMounted(async () => {
         chat_users: contact?.chat_users?.map((user: any) => user?.uuid) ?? [],
         is_primary_gp: contact?.is_primary_gp === true,
         notify_use_of_force: contact?.notify_use_of_force === true,
+        subcategories: subcategoriesOf(contact),
         provider_number: contact?.provider_number ?? '',
         clinic_name: contact?.clinic_name ?? '',
         clinic_ean: contact?.clinic_ean ?? '',
@@ -495,6 +574,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         chat_users: newValue?.chat_users?.map((user: any) => user?.uuid) ?? [],
         is_primary_gp: newValue?.is_primary_gp === true,
         notify_use_of_force: newValue?.notify_use_of_force === true,
+        subcategories: subcategoriesOf(newValue),
         provider_number: newValue?.provider_number ?? '',
         clinic_name: newValue?.clinic_name ?? '',
         clinic_ean: newValue?.clinic_ean ?? '',

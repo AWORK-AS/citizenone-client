@@ -2617,6 +2617,10 @@
                 "lastname": "Etternavn",
                 "municipality": "Kommune",
                 "notifyUseOfForce": "Varsle om maktbruk",
+                "subcategories": "Underkategori",
+                "addSubcategory": "Legg til ny underkategori",
+                "newSubcategoryPlaceholder": "Navn på underkategori",
+                "subcategoriesHint": "Konsulent kan få tildelt timer. Koordinatorrollene finnes én gang per innsats og flyttes fra den som hadde dem.",
                 "notifyUseOfForceHint": "Saksbehandleren får en e-post når det registreres maktbruk på denne borgeren. Krever en e-postadresse. Av hensyn til personvernet står det ikke i e-posten hvem det gjelder.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {
