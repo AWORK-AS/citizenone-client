@@ -18762,7 +18762,9 @@
             "serviceTypesLabel": "Insatstyper",
             "serviceTypesHint": "Avmarkera Alla insatstyper för att välja en eller flera typer som fältet bara ska efterfrågas på.",
             "form": "Formulär",
-            "formHint": "Fältet frågas bara på det här formuläret."
+            "formHint": "Fältet frågas bara på det här formuläret.",
+            "partyRole": "Läggs under Parter som",
+            "partyRoleHint": "Den valda läggs automatiskt under Parter på förfrågan. Personer som redan står där behåller sin roll."
         },
         "types": {
             "text": "Text",
@@ -18800,7 +18802,16 @@
         "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)",
         "wellbeingRuler": "Trivsellinjal",
         "wellbeingRulerHint": "Visas som trivsellinjalen i journalanteckningar, och svaret blir första punkten på brukarens trivselkurva när ärendet vinns.",
-        "allForms": "Alla formulär"
+        "allForms": "Alla formulär",
+        "partyRoles": {
+            "none": "Läggs inte under Parter",
+            "contact_person": "Kontaktperson",
+            "primary": "Primär koordinator",
+            "secondary": "Sekundär koordinator",
+            "intake": "Mottagningskoordinator",
+            "consultant": "Konsult",
+            "case_manager": "Handläggare"
+        }
     },
     "inquiryOrigin": {
         "label": "Förfrågan kommer från",

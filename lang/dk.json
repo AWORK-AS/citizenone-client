@@ -18847,7 +18847,9 @@
             "serviceTypesLabel": "Indsatstyper",
             "serviceTypesHint": "Fjern fluebenet ved Alle indsatstyper for at vælge en eller flere typer, feltet kun skal spørges på.",
             "form": "Formular",
-            "formHint": "Feltet spørges kun på denne formular."
+            "formHint": "Feltet spørges kun på denne formular.",
+            "partyRole": "Kommer under Parter som",
+            "partyRoleHint": "Den valgte kommer automatisk under Parter på henvendelsen. Personer, der allerede står der, beholder deres rolle."
         },
         "types": {
             "text": "Tekst",
@@ -18885,7 +18887,16 @@
         "allowHalfSteps": "Tillad halve trin (fx 4,5)",
         "wellbeingRuler": "Trivselslineal",
         "wellbeingRulerHint": "Vises som trivselslinealen i journalnotater, og svaret bliver første punkt på borgerens trivselskurve, når sagen vindes.",
-        "allForms": "Alle formularer"
+        "allForms": "Alle formularer",
+        "partyRoles": {
+            "none": "Kommer ikke under Parter",
+            "contact_person": "Kontaktperson",
+            "primary": "Primær koordinator",
+            "secondary": "Sekundær koordinator",
+            "intake": "Modtagelseskoordinator",
+            "consultant": "Konsulent",
+            "case_manager": "Sagsbehandler"
+        }
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",

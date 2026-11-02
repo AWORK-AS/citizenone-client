@@ -18847,7 +18847,9 @@
             "serviceTypesLabel": "Service types",
             "serviceTypesHint": "Untick All service types to pick one or more types the field is only asked on.",
             "form": "Form",
-            "formHint": "The field is asked only on this form."
+            "formHint": "The field is asked only on this form.",
+            "partyRole": "Added to Parties as",
+            "partyRoleHint": "The person picked is added to the inquiry's Parties. People already there keep their role."
         },
         "types": {
             "text": "Text",
@@ -18885,7 +18887,16 @@
         "allowHalfSteps": "Allow half steps (e.g. 4.5)",
         "wellbeingRuler": "Wellbeing ruler",
         "wellbeingRulerHint": "Shown as the wellbeing ruler in journal notes, and the answer becomes the first point on the citizen's wellbeing curve when the case is won.",
-        "allForms": "All forms"
+        "allForms": "All forms",
+        "partyRoles": {
+            "none": "Not added to Parties",
+            "contact_person": "Contact person",
+            "primary": "Primary coordinator",
+            "secondary": "Secondary coordinator",
+            "intake": "Intake coordinator",
+            "consultant": "Consultant",
+            "case_manager": "Case manager"
+        }
     },
     "inquiryOrigin": {
         "label": "The inquiry comes from",
