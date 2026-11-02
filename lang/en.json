@@ -15449,6 +15449,31 @@
             "appFree": "Free",
             "noApps": "None"
         },
+        "salesMeetings": {
+            "title": "Online meetings",
+            "plan": "Plan online meeting",
+            "notConfigured": "Sales meetings are not set up yet. Set MEETINGS_SALES_COMPANY_ID to the CitizenOne account.",
+            "startsAt": "Time",
+            "minutes": "Duration",
+            "host": "Host",
+            "chooseHost": "Choose host",
+            "titleField": "Title",
+            "guests": "Invited",
+            "otherName": "Other name",
+            "otherEmail": "Other email",
+            "inviteHint": "Guests get an email with the link and a calendar invitation. The host finds the meeting in their CitizenOne calendar.",
+            "send": "Plan and send invitation",
+            "none": "No online meetings yet.",
+            "open": "Open",
+            "openHint": "Opens the meeting in CitizenOne. You must be signed in as the host.",
+            "sent": "The meeting is planned and the invitation was sent to {guests}.",
+            "status": {
+                "scheduled": "Planned",
+                "live": "Live",
+                "finished": "Held",
+                "cancelled": "Cancelled"
+            }
+        },
         "salesInquiries": {
             "pageTitle": "Inquiries",
             "description": "Contact and demo requests from citizenone.dk. Take one, call or write, and leave a note so the next colleague can see what happened.",

@@ -15364,6 +15364,31 @@
             "appFree": "Gratis",
             "noApps": "Inga"
         },
+        "salesMeetings": {
+            "title": "Onlinemöten",
+            "plan": "Planera onlinemöte",
+            "notConfigured": "Säljmöten är inte konfigurerade ännu. Sätt MEETINGS_SALES_COMPANY_ID till CitizenOnes eget konto.",
+            "startsAt": "Tid",
+            "minutes": "Längd",
+            "host": "Värd",
+            "chooseHost": "Välj värd",
+            "titleField": "Titel",
+            "guests": "Inbjudna",
+            "otherName": "Annat namn",
+            "otherEmail": "Annan e-post",
+            "inviteHint": "Gästerna får ett mejl med länk och kalenderinbjudan. Värden hittar mötet i sin kalender i CitizenOne.",
+            "send": "Planera och skicka inbjudan",
+            "none": "Inga onlinemöten ännu.",
+            "open": "Öppna",
+            "openHint": "Öppnar mötet i CitizenOne. Du måste vara inloggad som värden.",
+            "sent": "Mötet är planerat och inbjudan har skickats till {guests}.",
+            "status": {
+                "scheduled": "Planerat",
+                "live": "Pågår",
+                "finished": "Hållet",
+                "cancelled": "Inställt"
+            }
+        },
         "salesInquiries": {
             "pageTitle": "Förfrågningar",
             "description": "Kontakt- och demoförfrågningar från citizenone.dk. Ta en, ring eller skriv, och lämna en anteckning så nästa kollega ser vad som hänt.",

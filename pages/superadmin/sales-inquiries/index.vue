@@ -414,6 +414,13 @@
                             </div>
                         </div>
 
+                        <!-- A demo as an online meeting: the prospect gets the link. -->
+                        <ModulesSuperadminSalesMeetingsPanel :inquiryUuid="selected.uuid"
+                            :inquiryGuest="[selected.name, selected.email].filter(Boolean).join(' · ')"
+                            :suggestedAt="selected.preferred_at" :canPlan="canPlanMeetings && !!selected.email"
+                            :defaultTitle="`CitizenOne demo · ${selected.company_name || selected.name || ''}`"
+                            @scheduled="refreshSelected" />
+
                         <!-- Timeline -->
                         <div>
                             <p class="co-detail-label mb-2">{{ $t('superadmin.salesInquiries.detail.timeline') }}</p>
@@ -455,6 +462,7 @@ import { salesInquiryService } from '@/components/api/superadmin/SalesInquirySer
 import { userService } from '@/components/api/superadmin/UserService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -826,6 +834,23 @@ async function dropOn(status: string) {
         card.status = previous
         state.error = error
     }
+}
+
+// Planning a meeting moves the inquiry to Demo booked and writes the
+// timeline, so the open inquiry is read again.
+const { can } = usePermissions()
+const canPlanMeetings = computed(() => can('manage_sales_inquiries'))
+
+async function refreshSelected() {
+    if (!state.selected) return
+    try {
+        const response = await salesInquiryService.getInquiry(state.selected.uuid)
+        state.selected = response?.data ?? state.selected
+        state.form.status = state.selected?.status ?? state.form.status
+    } catch (error: any) {
+        state.detailError = error
+    }
+    fetchInquiries()
 }
 
 async function openInquiry(inquiry: any) {
