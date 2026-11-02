@@ -42,7 +42,7 @@
                     </div>
                     <p class="text-xs text-gray-500 -mt-3">
                         {{ $t('meetings.stats.assumption', { km: stats.saved.assumed_km_per_meeting, minutes: stats.saved.assumed_minutes_per_meeting }) }}
-                        {{ $t('meetings.stats.rateAssumption', { rate: number(stats.saved.hourly_rate) }) }}
+                        <template v-if="stats.saved.hourly_rate !== undefined">{{ $t('meetings.stats.rateAssumption', { rate: number(stats.saved.hourly_rate) }) }}</template>
                     </p>
 
                     <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -66,8 +66,8 @@
                             </div>
                         </div>
 
-                        <!-- From meeting to journal. -->
-                        <div class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
+                        <!-- From meeting to journal. Older API versions do not send it. -->
+                        <div v-if="stats.journal" class="rounded-2xl bg-white ring-1 ring-gray-900/5 shadow-sm p-5">
                             <p class="text-sm font-semibold text-[#0f2b46] flex items-center gap-2">
                                 <Icon name="ph:notebook" class="h-4 w-4" /> {{ $t('meetings.stats.journalTitle') }}
                             </p>
@@ -138,7 +138,9 @@ const periods = computed(() => [
 const number = (value: number) => new Intl.NumberFormat(locale.value === 'en' ? 'en-GB' : 'da-DK').format(value)
 
 const savedTiles = computed(() => stats.value ? [
-    { key: 'kroner', icon: 'ph:coins', label: t('meetings.stats.kronerSaved'), value: `${number(stats.value.saved.kroner ?? 0)} kr.` },
+    ...(stats.value.saved.kroner !== undefined
+        ? [{ key: 'kroner', icon: 'ph:coins', label: t('meetings.stats.kronerSaved'), value: `${number(stats.value.saved.kroner)} kr.` }]
+        : []),
     { key: 'km', icon: 'ph:car', label: t('meetings.stats.kmSaved'), value: `${number(stats.value.saved.km)} km` },
     { key: 'time', icon: 'ph:clock-countdown', label: t('meetings.stats.timeSaved'), value: hours(stats.value.saved.travel_minutes) },
     { key: 'co2', icon: 'ph:leaf', label: t('meetings.stats.co2Saved'), value: `${number(stats.value.saved.co2_kg)} kg` },
