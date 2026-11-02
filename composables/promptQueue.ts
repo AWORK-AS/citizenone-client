@@ -10,6 +10,7 @@ export type PromptId =
     | 'checkinReminder'
     | 'completionReminder'
     | 'cmdkTip'
+    | 'announcement'
     | 'codyBanner'
     | 'nps'
 
@@ -19,6 +20,9 @@ export const PROMPT_PRIORITY: Record<PromptId, number> = {
     checkinReminder: 20,
     completionReminder: 21,
     cmdkTip: 30,
+    // "Nyt fra CitizenOne" (try the new app, news, tips): after our own one-time tip,
+    // before the Cody banner and the survey.
+    announcement: 35,
     codyBanner: 40,
     nps: 50,
 }

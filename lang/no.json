@@ -1,4 +1,23 @@
 {
+    "announcements": {
+        "eyebrow": {
+            "feature": "Ny app fra CitizenOne",
+            "news": "Nytt fra CitizenOne",
+            "tip": "Tips fra CitizenOne"
+        },
+        "cta": {
+            "trial": "Prøv gratis",
+            "trialDays": "Prøv gratis i {days} dager",
+            "buy": "Se appen",
+            "ask": "Be administratoren min om den",
+            "open": "Vis meg hvor"
+        },
+        "later": "Minn meg på det senere",
+        "gotIt": "Skjønner",
+        "queue": "1 av {total}",
+        "listTitle": "Nytt fra CitizenOne",
+        "colleaguesAsked": "1 kollega har bedt om den | {n} kolleger har bedt om den"
+    },
     "citizenPicker": {
         "allDepartments": "Alle",
         "searchesAll": "Søker i alle avdelinger",
@@ -13197,6 +13216,74 @@
         "couldNotStartCheckout": "Kassen kunne ikke startes. Prøv igjen om litt."
     },
     "superadmin": {
+        "announcements": {
+            "title": "Meldinger",
+            "intro": "Korte meldinger fra CitizenOne som vises som popup nederst til venstre: prøv den nye appen, nyheter og tips. Kunden får høyst én om dagen, resten venter i kø. Release notes er fortsatt den tekniske endringsloggen.",
+            "new": "Ny melding",
+            "edit": "Rediger melding",
+            "empty": "Ingen meldinger her ennå.",
+            "publish": "Publiser",
+            "unpublish": "Trekk tilbake",
+            "draft": "utkast",
+            "deleteConfirm": "Slette meldingen? Tallene for den beholdes.",
+            "allIndustries": "Alle bransjer",
+            "waitsFor": "venter på release noten «{title}»",
+            "filter": {
+                "live": "Aktive",
+                "scheduled": "Planlagte",
+                "draft": "Utkast",
+                "ended": "Avsluttede"
+            },
+            "kind": {
+                "feature": "Prøv den nye appen",
+                "news": "Nyhet",
+                "tip": "Tips"
+            },
+            "kindHint": {
+                "feature": "Knappen følger den som ser meldingen: kjøperen kan starte prøveperioden, en ansatt kan be administratoren om appen, og firmaer som allerede har appen, ser den ikke.",
+                "news": "En nyhet med valgfritt bilde og en knapp til en side.",
+                "tip": "Et lite kort uten bilde, f.eks. en snarvei eller en funksjon som er lett å overse."
+            },
+            "audience": {
+                "all": "Alle brukere",
+                "buyers": "Bare de som kan kjøpe apper",
+                "staff": "Bare ansatte"
+            },
+            "stats": {
+                "seen": "Sett",
+                "clicked": "Klikket",
+                "trialClicks": "Klikk på prøv gratis",
+                "askClicks": "Klikk på be administrator",
+                "trialsStarted": "Prøveperioder startet",
+                "dismissed": "Lukket"
+            },
+            "form": {
+                "kind": "Type",
+                "app": "App",
+                "noApp": "Ingen app",
+                "appHint": "Lengden på prøveperioden hentes fra appen.",
+                "title": "Tittel",
+                "body": "Kort tekst",
+                "bodyHint": "Skriv hva brukeren får ut av det, ikke hva funksjonen heter.",
+                "ctaLabel": "Knappetekst",
+                "link": "Knappen åpner",
+                "linkHint": "En side i appen (/citizens) eller en https-lenke.",
+                "image": "Bilde",
+                "imageHint": "Samme format som nyhetsbrevets bannere, f.eks. 1200 × 630 px.",
+                "removeImage": "Fjern bildet",
+                "audience": "Hvem",
+                "industries": "Bransjer",
+                "industriesHint": "Ingen valgt betyr alle bransjer.",
+                "startsAt": "Vises fra",
+                "endsAt": "Vises til",
+                "releaseNote": "Vent på release note",
+                "noReleaseNote": "Ingen",
+                "releaseNoteHint": "Meldingen vises først når release noten er publisert, så den aldri kommer før koden.",
+                "preview": "Forhåndsvisning",
+                "previewAppHint": "Vist slik en kjøper ser den. Ansatte får knappen «Be administratoren min om den».",
+                "frequencyHint": "Kunden får høyst én melding fra CitizenOne om dagen, og aldri to popuper samtidig."
+            }
+        },
         "supportAccess": {
             "table": {
                 "duration": "Varighet",
@@ -14616,7 +14703,8 @@
             "groups": {
                 "overview": "Oversikt",
                 "finance": "Økonomi",
-                "platform": "Plattform"
+                "platform": "Plattform",
+                "communication": "Kommunikasjon"
             },
             "superAdmin": "Superadmin",
             "breadcrumb": "Superadmin",
@@ -14630,7 +14718,10 @@
             "platformShares": "Delinger",
             "storageUsage": "Lagerforbruk",
             "industries": "Bransjer",
-            "salesInquiries": "Henvendelser"
+            "salesInquiries": "Henvendelser",
+            "news": "Nyheter",
+            "campaigns": "Kampanjer",
+            "announcements": "Meldinger"
         },
         "emailTemplates": {
             "title": "E-postmaler",

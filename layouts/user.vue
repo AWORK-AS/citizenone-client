@@ -744,6 +744,9 @@
         <ModulesUserAssistantPanel v-if="userStore.getUser?.has_ai_access && aiAssistantEnabled" />
         <ModulesUserOwnChatGptSyncProgressBar />
 
+        <!-- "Nyt fra CitizenOne": try the new app, news and tips, one at a time in the lower left corner -->
+        <AnnouncementPopup :leftOffsetClass="announcementOffsetClass" :heldBack="medicineToastVisible || codyPanelShown" />
+
         <!-- One-time ⌘K discovery tip -->
         <Transition enter-active-class="transition ease-out duration-300" enter-from-class="opacity-0 translate-y-2"
             enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-200"
@@ -811,6 +814,7 @@
 <script setup lang="ts">
 import { welcomeTourMode } from '@/composables/welcomeTour'
 import { clearAllDrafts } from '@/composables/journalNoteDraft'
+import AnnouncementPopup from '@/components/modules/user/announcements/AnnouncementPopup.vue'
 import moment from 'moment'
 import { Dialog, DialogPanel, Disclosure, DisclosureButton, DisclosurePanel, Menu, MenuButton, MenuItem, MenuItems, TransitionChild, TransitionRoot } from '@headlessui/vue'
 import { authService } from '@/components/api/user/AuthService'
@@ -1060,6 +1064,10 @@ const { visible: undoVisible, message: undoMessage, undo, dismiss: dismissUndo }
 
 const showCmdkTip = ref(false)
 const medicineToastVisible = ref(false)
+// The popup sits in the lower left corner of the content, past the sidebar.
+const announcementOffsetClass = computed(() => isDesktopApp
+    ? 'lg:left-[19.5rem]'
+    : (sidebarExpanded.value ? 'lg:left-[18rem]' : 'lg:left-[5.5rem]'))
 // The feedback survey and the inactive-employees pop-up never show at the same time.
 const npsPromptVisible = ref(false)
 const inactivePromptVisible = ref(false)

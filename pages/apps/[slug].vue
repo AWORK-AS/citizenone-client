@@ -106,7 +106,9 @@
 
                             <!-- Free trial. The card is saved through the same checkout a purchase
                                  uses; nothing is charged until the trial ends. -->
-                            <div v-if="app.trial_enabled && trial" class="space-y-2 border-t border-gray-100 pt-3">
+                            <div v-if="app.trial_enabled && trial" id="app-trial-offer"
+                                class="space-y-2 border-t border-gray-100 pt-3 transition-shadow duration-700"
+                                :class="highlightTrial ? 'rounded-lg ring-2 ring-tertiary ring-offset-4' : ''">
                                 <template v-if="trial.available && isAdmin">
                                     <div v-if="offeredFrequencies.length > 1" role="radiogroup" :aria-label="$t('appTrial.frequency')"
                                         class="grid grid-cols-2 gap-1 rounded-lg bg-gray-100 p-1 text-xs font-semibold">
@@ -179,7 +181,8 @@
                                 @close="confirmCancelOpen = false" @confirm="cancelTrial()" />
 
                             <ModulesUserAppsSuggestToManager :appUuid="app.uuid" :appName="app.name"
-                                :priceText="suggestionPriceText" :isBuyer="isAdmin" :appActivated="!!app.user_activated" />
+                                :priceText="suggestionPriceText" :isBuyer="isAdmin" :appActivated="!!app.user_activated"
+                                :autoOpen="startOn === 'ask'" />
 
                             <FormButton type="button" buttonStyle="action" class="w-full justify-center"
                                 @click="state.isContactOpen = true">
@@ -279,6 +282,7 @@ import { useUserStore } from '@/store/user'
 import { trialDays as trialDaysOf, suggesterSummary } from '@/composables/managerSuggestion'
 import { managerSuggestionService } from '@/components/api/user/ManagerSuggestionService'
 import type { Error } from '@/types'
+import { appPageStart } from '@/composables/announcements'
 
 const runtimeConfig = useRuntimeConfig()
 const route = useRoute()
@@ -478,6 +482,24 @@ async function refreshUser() {
         if (response?.data) userStore.setUser(response.data)
     } catch (_) { /* the next request picks it up */ }
 }
+
+/*
+ * Reached from a "Nyt fra CitizenOne" message: open on the offer itself rather than at the
+ * top of the page. `?start=trial` brings the trial card into view and marks it for a moment;
+ * `?start=ask` opens the ask-my-admin dialog (see suggest-to-manager's autoOpen).
+ */
+const startOn = computed(() => appPageStart(route.query.start))
+const highlightTrial = ref(false)
+let trialFocused = false
+
+watch(() => [startOn.value, trial.value?.available, state.app?.uuid], async () => {
+    if (trialFocused || startOn.value !== 'trial' || !trial.value) return
+    trialFocused = true
+    await nextTick()
+    document.getElementById('app-trial-offer')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
+    highlightTrial.value = true
+    setTimeout(() => { highlightTrial.value = false }, 2500)
+})
 
 onMounted(() => {
     fetchApp()
