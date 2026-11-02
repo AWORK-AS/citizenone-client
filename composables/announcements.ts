@@ -13,6 +13,8 @@ export interface AnnouncementCta {
     /** Only for a message without an app: the editor's own button text. */
     label: string | null
     trial_days: number | null
+    /** Buyers only: colleagues in their own company who asked an admin for the app lately. */
+    colleagues_asked?: number | null
 }
 
 export interface UserAnnouncement {
@@ -69,4 +71,20 @@ export function queueLabel(queued: number): { position: number, total: number } 
 /** A tip is a small card; a feature or news message can carry an image. */
 export function showsImage(item: Pick<UserAnnouncement, 'kind' | 'image_url'>): boolean {
     return item.kind !== 'tip' && !!item.image_url
+}
+
+/**
+ * "3 colleagues have asked for it": real demand from the buyer's own company, shown only
+ * when there is some. Never names, and never on staff's popup.
+ */
+export function demandCount(cta: AnnouncementCta | null | undefined): number | null {
+    const n = cta?.colleagues_asked
+    if (!cta || (cta.action !== 'trial' && cta.action !== 'buy') || typeof n !== 'number' || n < 1) return null
+    return n
+}
+
+/** What the app page should open on when it was reached from a message: `?start=trial|ask`. */
+export function appPageStart(query: unknown): 'trial' | 'ask' | null {
+    const value = Array.isArray(query) ? query[0] : query
+    return value === 'trial' || value === 'ask' ? value : null
 }

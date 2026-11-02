@@ -80,6 +80,8 @@ const props = defineProps<{
     showStates?: boolean
     /** Called after a successful send. */
     onSent?: () => void
+    /** Open the dialog as soon as sending is possible: the page was reached from "ask my admin". */
+    autoOpen?: boolean
 }>()
 
 const { t, locale } = useI18n()
@@ -149,4 +151,13 @@ async function send() {
 }
 
 watch(() => [props.appUuid, props.isBuyer, props.appActivated], load, { immediate: true })
+
+// Once, and only when there is someone to ask: otherwise the page simply shows why not.
+let autoOpened = false
+watch(offered, (canOffer) => {
+    if (canOffer && props.autoOpen && !autoOpened) {
+        autoOpened = true
+        open()
+    }
+}, { immediate: true })
 </script>

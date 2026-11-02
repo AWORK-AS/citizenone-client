@@ -15,7 +15,8 @@
         "later": "Minn meg på det senere",
         "gotIt": "Skjønner",
         "queue": "1 av {total}",
-        "listTitle": "Nytt fra CitizenOne"
+        "listTitle": "Nytt fra CitizenOne",
+        "colleaguesAsked": "1 kollega har bedt om den | {n} kolleger har bedt om den"
     },
     "citizenPicker": {
         "allDepartments": "Alle",
@@ -13253,6 +13254,7 @@
                 "clicked": "Klikket",
                 "trialClicks": "Klikk på prøv gratis",
                 "askClicks": "Klikk på be administrator",
+                "trialsStarted": "Prøveperioder startet",
                 "dismissed": "Lukket"
             },
             "form": {

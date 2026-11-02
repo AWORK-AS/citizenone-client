@@ -15,7 +15,8 @@
         "later": "Remind me later",
         "gotIt": "Got it",
         "queue": "1 of {total}",
-        "listTitle": "News from CitizenOne"
+        "listTitle": "News from CitizenOne",
+        "colleaguesAsked": "1 colleague has asked for it | {n} colleagues have asked for it"
     },
     "citizenPicker": {
         "allDepartments": "All",
@@ -13284,6 +13285,7 @@
                 "clicked": "Clicked",
                 "trialClicks": "Try-free clicks",
                 "askClicks": "Ask-admin clicks",
+                "trialsStarted": "Trials started",
                 "dismissed": "Closed"
             },
             "form": {

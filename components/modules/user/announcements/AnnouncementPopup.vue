@@ -29,6 +29,10 @@
                     </p>
                     <p class="mt-0.5 text-[15px] font-semibold leading-snug text-slate-900">{{ item.title }}</p>
                     <p class="mt-1 text-sm leading-relaxed text-slate-600">{{ item.body }}</p>
+                    <p v-if="demand" class="mt-2 flex items-center gap-x-1.5 text-xs font-medium text-tertiary">
+                        <Icon name="ph:users-three" class="h-4 w-4" aria-hidden="true" />
+                        {{ $t('announcements.colleaguesAsked', { n: demand }, demand) }}
+                    </p>
 
                     <div class="mt-3 flex flex-wrap items-center gap-2">
                         <button v-if="primary" type="button" @click="act"
@@ -56,7 +60,7 @@
 
 <script setup lang="ts">
 import { announcementService } from '@/components/api/user/AnnouncementService'
-import { ctaTarget, ctaText, eyebrowKey, queueLabel, showsImage, type UserAnnouncement } from '@/composables/announcements'
+import { ctaTarget, ctaText, demandCount, eyebrowKey, queueLabel, showsImage, type UserAnnouncement } from '@/composables/announcements'
 
 /**
  * "Nyt fra CitizenOne" in the lower left corner: try the new app, a news item or a tip.
@@ -87,6 +91,7 @@ const visible = computed(() => wants.value && granted.value && !props.heldBack)
 
 const primary = computed(() => ctaText(item.value?.cta))
 const queue = computed(() => queueLabel(queued.value))
+const demand = computed(() => demandCount(item.value?.cta))
 
 let timer: ReturnType<typeof setTimeout> | null = null
 

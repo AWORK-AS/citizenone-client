@@ -14,7 +14,7 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
-import { ctaTarget, ctaText, eyebrowKey, queueLabel, showsImage } from '../../composables/announcements.ts'
+import { appPageStart, ctaTarget, ctaText, demandCount, eyebrowKey, queueLabel, showsImage } from '../../composables/announcements.ts'
 import { PROMPT_PRIORITY, arbitrate, initialPromptState } from '../../composables/promptQueue.ts'
 
 const root = path.resolve(import.meta.dirname, '../..')
@@ -74,6 +74,31 @@ test('the megaphone lists the messages', () => {
     assert.match(modal, /announcementService\.getRecent\(\)/)
 })
 
+test('colleague demand shows on a buyer\'s popup only, and only when someone asked', () => {
+    assert.equal(demandCount({ action: 'trial', url: '/apps/x?start=trial', label: null, trial_days: 14, colleagues_asked: 3 }), 3)
+    assert.equal(demandCount({ action: 'buy', url: '/apps/x', label: null, trial_days: null, colleagues_asked: 1 }), 1)
+    assert.equal(demandCount({ action: 'trial', url: '/apps/x', label: null, trial_days: 14, colleagues_asked: 0 }), null)
+    assert.equal(demandCount({ action: 'ask', url: '/apps/x', label: null, trial_days: null, colleagues_asked: 5 }), null)
+    assert.equal(demandCount(null), null)
+    const popup = read('components/modules/user/announcements/AnnouncementPopup.vue')
+    assert.match(popup, /\$t\('announcements\.colleaguesAsked', \{ n: demand \}, demand\)/)
+})
+
+test('the app page opens on the offer when reached from a message', () => {
+    assert.equal(appPageStart('trial'), 'trial')
+    assert.equal(appPageStart(['ask']), 'ask')
+    assert.equal(appPageStart('checkout'), null)
+    assert.equal(appPageStart(undefined), null)
+
+    const page = read('pages/apps/[slug].vue')
+    assert.match(page, /id="app-trial-offer"/)
+    assert.match(page, /scrollIntoView/)
+    assert.match(page, /:autoOpen="startOn === 'ask'"/)
+    const suggest = read('components/modules/user/apps/suggest-to-manager.vue')
+    assert.match(suggest, /autoOpen\?: boolean/)
+    assert.match(suggest, /if \(canOffer && props\.autoOpen && !autoOpened\)/)
+})
+
 test('every label exists in all four languages', () => {
     const keys = [
         'announcements.cta.trialDays', 'announcements.cta.ask', 'announcements.cta.buy', 'announcements.cta.open', 'announcements.cta.trial',
@@ -81,6 +106,7 @@ test('every label exists in all four languages', () => {
         'announcements.later', 'announcements.gotIt', 'announcements.queue', 'announcements.listTitle',
         'superadmin.announcements.title', 'superadmin.announcements.form.preview', 'superadmin.announcements.kind.tip',
         'superadmin.announcements.audience.buyers', 'superadmin.announcements.stats.trialClicks', 'superadmin.sidebar.announcements',
+        'announcements.colleaguesAsked', 'superadmin.announcements.stats.trialsStarted',
     ]
     for (const lang of ['dk', 'en', 'no', 'sv']) {
         const messages = JSON.parse(read(`lang/${lang}.json`))
