@@ -19234,6 +19234,7 @@
             "minStep": "Minst stegbedömning",
             "needsCar": "Måste ha bil",
             "needsDriversLicense": "Måste ha körkort",
+            "drivingWillingness": "Villighet att köra",
             "secondaryHint": "Ett plus. Räknas inte emot konsulten.",
             "withinTravelRangeOnly": "Endast konsulter inom sitt köravstånd"
         },
@@ -19244,6 +19245,7 @@
             "region_uuid": "Region",
             "has_car": "Bil",
             "has_drivers_license": "Körkort",
+            "driving_willingness": "Villighet att köra",
             "min_travel_km": "Körsträcka",
             "consultant_status": "Status",
             "min_step_assessment": "Stegbedömning",
@@ -19253,6 +19255,7 @@
             "within_travel_range": "Inom köravstånd"
         },
         "askSelected": "Fråga {count} valda",
+        "childCertificate": "Belastningsregisterutdrag hämtat {issued}, går ut {expires}",
         "asked": "Konsulterna är tillfrågade",
         "askFailed": "Konsulterna kunde inte tillfrågas",
         "location": {

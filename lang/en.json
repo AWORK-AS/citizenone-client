@@ -19319,6 +19319,7 @@
             "minStep": "At least step assessment",
             "needsCar": "Needs a car",
             "needsDriversLicense": "Must have a driving licence",
+            "drivingWillingness": "Willingness to drive",
             "secondaryHint": "A plus. Never counts against the consultant.",
             "withinTravelRangeOnly": "Only consultants within their travel distance"
         },
@@ -19329,6 +19330,7 @@
             "region_uuid": "Region",
             "has_car": "Car",
             "has_drivers_license": "Driving licence",
+            "driving_willingness": "Willingness to drive",
             "min_travel_km": "Travel distance",
             "consultant_status": "Status",
             "min_step_assessment": "Step assessment",
@@ -19338,6 +19340,7 @@
             "within_travel_range": "Within travel distance"
         },
         "askSelected": "Ask {count} selected",
+        "childCertificate": "Child certificate obtained {issued}, expires {expires}",
         "asked": "The consultants have been asked",
         "askFailed": "The consultants could not be asked",
         "location": {
