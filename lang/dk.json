@@ -2617,6 +2617,10 @@
                 "lastname": "Efternavn",
                 "municipality": "Kommune",
                 "notifyUseOfForce": "Giv besked om magtanvendelse",
+                "subcategories": "Underkategori",
+                "addSubcategory": "Tilføj ny underkategori",
+                "newSubcategoryPlaceholder": "Navn på underkategori",
+                "subcategoriesHint": "Konsulent kan få tildelt timer. Koordinatorrollerne findes én gang pr. indsats og flyttes fra den, der havde dem.",
                 "notifyUseOfForceHint": "Sagsbehandleren får en mail, når der registreres en magtanvendelse på denne borger. Kræver en e-mailadresse. Af hensyn til databeskyttelse står der ikke i mailen, hvem det drejer sig om.",
                 "notificationTypes": "Notifikationstyper",
                 "notifications": {
