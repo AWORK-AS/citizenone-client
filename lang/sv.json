@@ -21019,7 +21019,7 @@
         "brief": {
             "prepare": "Förbered med Cody AI",
             "working": "Cody förbereder ...",
-            "hint": "Cody läser journal, mål och senaste mötet om medborgaren.",
+            "hint": "Cody läser journal, mål och senaste mötet om brukaren.",
             "byCody": "Cody AI har läst {journals} journalanteckningar och {goals} mål. Kontrollera innan du använder det.",
             "suggestedAgenda": "Förslag till dagordning",
             "useAgenda": "Använd som dagordning",
