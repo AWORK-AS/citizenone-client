@@ -19253,6 +19253,8 @@
             "within_travel_range": "Innenfor kjøreavstand"
         },
         "askSelected": "Spør {count} valgte",
+        "pickSelected": "Velg {count} valgte uten beskjed",
+        "picked": "Konsulentene er valgt uten beskjed",
         "asked": "Konsulentene er spurt",
         "askFailed": "Konsulentene kunne ikke spørres",
         "location": {

@@ -19338,6 +19338,8 @@
             "within_travel_range": "Inden for køreafstand"
         },
         "askSelected": "Spørg {count} valgte",
+        "pickSelected": "Vælg {count} valgte uden besked",
+        "picked": "Konsulenterne er valgt uden besked",
         "asked": "Konsulenterne er spurgt",
         "askFailed": "Konsulenterne kunne ikke spørges",
         "location": {
