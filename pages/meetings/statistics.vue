@@ -62,7 +62,29 @@
                             </p>
                             <div v-if="stats.seats.idle_hosts.length" class="mt-3 text-sm">
                                 <p class="text-gray-600">{{ $t('meetings.stats.seatsIdle') }}</p>
-                                <p class="text-gray-900">{{ stats.seats.idle_hosts.map((h: any) => h.name).join(', ') }}</p>
+                                <!-- Who may move seats can hand an unused one to a colleague here. -->
+                                <ul v-if="canMoveSeats" class="mt-1 divide-y divide-gray-100">
+                                    <li v-for="host in stats.seats.idle_hosts" :key="host.uuid" class="py-1.5">
+                                        <div class="flex items-center justify-between gap-2">
+                                            <span class="text-gray-900">{{ host.name }}</span>
+                                            <button v-if="move.from !== host.uuid" type="button" class="text-primary hover:underline text-xs"
+                                                @click="startMove(host.uuid)">{{ $t('meetings.stats.moveSeat') }}</button>
+                                        </div>
+                                        <div v-if="move.from === host.uuid" class="mt-2 flex flex-wrap items-center gap-2">
+                                            <select v-model="move.to" :aria-label="$t('meetings.stats.moveSeatTo')"
+                                                class="flex-1 min-w-40 rounded-md border-gray-300 text-sm py-1">
+                                                <option value="" disabled>{{ $t('meetings.stats.moveSeatTo') }}</option>
+                                                <option v-for="person in stats.seats.without_seat" :key="person.uuid" :value="person.uuid">{{ person.name }}</option>
+                                            </select>
+                                            <FormButton type="button" buttonStyle="primary" :disabled="!move.to || move.busy" @click="moveSeat">
+                                                {{ $t('meetings.stats.moveSeatConfirm') }}
+                                            </FormButton>
+                                            <FormButton type="button" buttonStyle="cancel" @click="move.from = ''">{{ $t('meetings.stats.cancel') }}</FormButton>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <p v-else class="text-gray-900">{{ stats.seats.idle_hosts.map((h: any) => h.name).join(', ') }}</p>
+                                <p v-if="move.done" class="mt-2 text-xs text-green-700">{{ move.done }}</p>
                             </div>
                         </div>
 
@@ -116,6 +138,7 @@ definePageMeta({ middleware: 'require-application', requiredApplication: 'meetin
 import moment from 'moment'
 import { useI18n } from 'vue-i18n'
 import { meetingService } from '@/components/api/user/MeetingService'
+import { employeeService } from '@/components/api/user/EmployeeService'
 
 /**
  * What online meetings did for the company: meetings held, time in
@@ -157,6 +180,34 @@ const seatShare = computed(() => {
     const seats = stats.value?.seats
     return seats?.assigned ? Math.round((seats.active_hosts / seats.assigned) * 100) : 0
 })
+
+// Move an idle host's seat to a colleague without one. Older API versions
+// send neither can_manage nor without_seat, and the names stay plain text.
+const canMoveSeats = computed(() => !!stats.value?.seats?.can_manage && (stats.value?.seats?.without_seat?.length ?? 0) > 0)
+const move = reactive({ from: '', to: '', busy: false, done: '' })
+
+function startMove(uuid: string) {
+    move.from = uuid
+    move.to = ''
+    move.done = ''
+}
+
+async function moveSeat() {
+    const from = stats.value?.seats?.idle_hosts.find((h: any) => h.uuid === move.from)
+    const to = stats.value?.seats?.without_seat.find((p: any) => p.uuid === move.to)
+    if (!from || !to) return
+    move.busy = true
+    state.error = {}
+    try {
+        await employeeService.moveMeetingsLicense(from.uuid, to.uuid)
+        move.from = ''
+        await load()
+        move.done = t('meetings.stats.moveSeatDone', { from: from.name, to: to.name })
+    } catch (error: any) {
+        state.error = error
+    }
+    move.busy = false
+}
 
 const maxMonth = computed(() => Math.max(1, ...(stats.value?.by_month ?? []).map((row: any) => row.meetings)))
 
