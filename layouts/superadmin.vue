@@ -73,6 +73,20 @@
                                             </span>
                                         </div>
                                     </div>
+                                    <!-- KOMMUNIKATION -->
+                                    <div class="mb-1" v-if="groupedNav.kommunikation.length">
+                                        <p class="co-nav-group-label">
+                                            {{ $t('superadmin.sidebar.groups.communication') }}
+                                        </p>
+                                        <div v-for="item in groupedNav.kommunikation" :key="item.href"
+                                            @click="navigateTo(item.href); sidebarOpen = false" class="co-nav-item"
+                                            :class="isActive(item) ? 'co-nav-active' : 'co-nav-inactive'">
+                                            <Icon :name="item.icon" class="w-4 h-4 shrink-0" />
+                                            <span>
+                                                {{ $t(item.label) }}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </nav>
 
                                 <!-- User footer -->
@@ -179,6 +193,19 @@
                             {{ $t('superadmin.sidebar.groups.platform') }}
                         </p>
                         <div v-for="item in groupedNav.platform" :key="item.href" @click="navigateTo(item.href)"
+                            class="co-nav-item" :class="isActive(item) ? 'co-nav-active' : 'co-nav-inactive'">
+                            <Icon :name="item.icon" class="w-4 h-4 shrink-0" />
+                            <span>
+                                {{ $t(item.label) }}
+                            </span>
+                        </div>
+                    </div>
+                    <!-- KOMMUNIKATION -->
+                    <div class="mb-1" v-if="groupedNav.kommunikation.length">
+                        <p class="co-nav-group-label">
+                            {{ $t('superadmin.sidebar.groups.communication') }}
+                        </p>
+                        <div v-for="item in groupedNav.kommunikation" :key="item.href" @click="navigateTo(item.href)"
                             class="co-nav-item" :class="isActive(item) ? 'co-nav-active' : 'co-nav-inactive'">
                             <Icon :name="item.icon" class="w-4 h-4 shrink-0" />
                             <span>
@@ -301,6 +328,16 @@
             <main class="py-8">
                 <div class="px-4 sm:px-6 lg:px-8">
                     <div class="mt-0">
+                        <!-- Fanerne for et samlepunkt i menuen, fx Nyheder: Release notes | Roadmap | Afstemninger -->
+                        <nav v-if="currentHub && currentHub.tabs && currentHub.tabs.length > 1" class="co-hub-tabs"
+                            :aria-label="$t(currentHub.label)">
+                            <NuxtLink v-for="tab in currentHub.tabs" :key="tab.href" :to="tab.href" class="co-hub-tab"
+                                :class="isActive(tab) ? 'co-hub-tab-active' : ''"
+                                :aria-current="isActive(tab) ? 'page' : undefined">
+                                <Icon :name="tab.icon" class="w-4 h-4 shrink-0" />
+                                <span>{{ $t(tab.label) }}</span>
+                            </NuxtLink>
+                        </nav>
                         <slot />
                     </div>
                 </div>
@@ -318,6 +355,7 @@ import { authService } from '@/components/api/superadmin/AuthService'
 import { userService } from '@/components/api/superadmin/UserService'
 import { useUserStore } from '@/store/user'
 import { useI18n } from 'vue-i18n'
+import { isNavItemActive, type SuperadminNavItem } from '@/composables/useSuperadminNav'
 import type { Error } from '@/types'
 
 const userStore = useUserStore() as any
@@ -342,7 +380,7 @@ const state = reactive({
  * ingenting under PLATFORM, og en overskrift over ingenting er en overskrift der ser ud
  * som om noget mangler.
  */
-const { visible: groupedNav } = useSuperadminNav()
+const { visible: groupedNav, currentHub } = useSuperadminNav()
 const { count: billingProblemCount, refresh: refreshBillingProblemCount } = useBillingProblemCount()
 
 /*
@@ -370,8 +408,8 @@ const roleLabel = computed(() => {
     return labels[platformRole.name] ?? platformRole.name
 })
 
-function isActive(item: any) {
-    return item.routes?.includes(route.name as string) || route.path.startsWith(item.href + '/')
+function isActive(item: SuperadminNavItem) {
+    return isNavItemActive(item, route.name as string, route.path)
 }
 
 const userInitials = computed(() => {
@@ -488,6 +526,38 @@ function identifyFlag() {
 .co-nav-inactive:hover {
     background: rgba(255, 255, 255, 0.07);
     color: rgba(255, 255, 255, 0.90);
+}
+
+.co-hub-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 24px;
+    border-bottom: 1px solid #E5E7EB;
+}
+
+.co-hub-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 14px;
+    margin-bottom: -1px;
+    border-bottom: 2px solid transparent;
+    font-size: 14px;
+    font-weight: 500;
+    color: #6B7280;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.co-hub-tab:hover {
+    color: #1F2533;
+}
+
+.co-hub-tab-active {
+    color: #1a5068;
+    font-weight: 600;
+    border-bottom-color: #1a5068;
 }
 
 .co-user-footer {
