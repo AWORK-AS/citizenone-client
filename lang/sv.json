@@ -14574,7 +14574,8 @@
             "groups": {
                 "overview": "Översikt",
                 "finance": "Ekonomi",
-                "platform": "Plattform"
+                "platform": "Plattform",
+                "communication": "Kommunikation"
             },
             "superAdmin": "Superadmin",
             "breadcrumb": "Superadmin",
@@ -14588,7 +14589,9 @@
             "platformShares": "Delningar",
             "storageUsage": "Lagringsanvändning",
             "industries": "Branscher",
-            "salesInquiries": "Förfrågningar"
+            "salesInquiries": "Förfrågningar",
+            "news": "Nyheter",
+            "campaigns": "Kampanjer"
         },
         "emailTemplates": {
             "title": "E-postmallar",

@@ -22,12 +22,22 @@ export type SuperadminNavItem = {
     permission?: string | null
     /** Names a live count shown beside the label; see useBillingProblemCount. */
     badge?: 'billingProblems'
+    /**
+     * Et samlepunkt: én linje i menuen, og siderne under det som faner øverst på siden.
+     *
+     * Hver fane er sin egen side med sin egen adresse og sin egen rettighed - de lå før
+     * som tolv punkter under PLATFORM, og bogmærker til dem skal blive ved med at virke.
+     * Selve samlepunktet har ingen side og ingen rettighed: det peger på den første fane
+     * kollegaen må se, og forsvinder hvis de ikke må se nogen.
+     */
+    tabs?: SuperadminNavItem[]
 }
 
 export type SuperadminNavGroups = {
     oversigt: SuperadminNavItem[]
     okonomi: SuperadminNavItem[]
     platform: SuperadminNavItem[]
+    kommunikation: SuperadminNavItem[]
 }
 
 export const superadminNav: SuperadminNavGroups = {
@@ -50,16 +60,28 @@ export const superadminNav: SuperadminNavGroups = {
     platform: [
         { name: 'Apps', label: 'superadmin.sidebar.apps', href: '/superadmin/apps', icon: 'ic:baseline-apps', permission: 'view_apps', routes: ['superadmin-apps', 'superadmin-apps-new', 'superadmin-apps-appUuid-edit'] },
         { name: 'App categories', label: 'superadmin.sidebar.appCategories', href: '/superadmin/app-categories', icon: 'ic:baseline-category', permission: 'view_apps', routes: ['superadmin-app-categories'] },
-        { name: 'Sales Campaign', label: 'superadmin.sidebar.salesCampaign', href: '/superadmin/sales-campaign', icon: 'ph:megaphone-simple', permission: 'view_marketing', routes: ['superadmin-sales-campaign', 'superadmin-sales-campaign-new', 'superadmin-sales-campaign-edit-uuid'] },
-        { name: 'Polls', label: 'superadmin.sidebar.polls', href: '/superadmin/polls', icon: 'ph:chart-bar-horizontal', permission: 'view_marketing', routes: ['superadmin-polls', 'superadmin-polls-new', 'superadmin-polls-pollUuid', 'superadmin-polls-pollUuid-edit'] },
-        { name: 'Coupons', label: 'superadmin.sidebar.coupons', href: '/superadmin/coupons', icon: 'ic:outline-discount', permission: 'view_marketing', routes: ['superadmin-coupons', 'superadmin-coupons-new', 'superadmin-coupons-couponUuid-edit'] },
-        { name: 'PlatformShares', label: 'superadmin.sidebar.platformShares', href: '/superadmin/platform-shares', icon: 'ph:share-network', permission: 'view_marketing', routes: ['superadmin-platform-shares'] },
         { name: 'StorageUsage', label: 'superadmin.sidebar.storageUsage', href: '/superadmin/dashboard/company-storage', icon: 'ph:hard-drives', permission: 'view_dashboard', routes: ['superadmin-dashboard-company-storage'] },
         { name: 'StoragePackages', label: 'superadmin.sidebar.storagePackages', href: '/superadmin/storage-packages', icon: 'ph:cloud', permission: 'view_apps', routes: ['superadmin-storage-packages'] },
         { name: 'Industries', label: 'superadmin.sidebar.industries', href: '/superadmin/industries', icon: 'ph:buildings', permission: 'view_content', routes: ['superadmin-industries'] },
         { name: 'EmailTemplates', label: 'superadmin.sidebar.emailTemplates', href: '/superadmin/email-templates', icon: 'ph:envelope-simple', permission: 'view_content', routes: ['superadmin-email-templates'] },
-        { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', permission: 'view_content', routes: ['superadmin-release-notes'] },
-        { name: 'Roadmap', label: 'superadmin.sidebar.roadmap', href: '/superadmin/roadmap', icon: 'ph:map-trifold', permission: 'view_content', routes: ['superadmin-roadmap'] },
+    ],
+    kommunikation: [
+        {
+            name: 'News', label: 'superadmin.sidebar.news', href: '/superadmin/release-notes', icon: 'ph:megaphone', permission: null,
+            tabs: [
+                { name: 'ReleaseNotes', label: 'releaseNotes.title', href: '/superadmin/release-notes', icon: 'ph:sparkle', permission: 'view_content', routes: ['superadmin-release-notes'] },
+                { name: 'Roadmap', label: 'superadmin.sidebar.roadmap', href: '/superadmin/roadmap', icon: 'ph:map-trifold', permission: 'view_content', routes: ['superadmin-roadmap'] },
+                { name: 'Polls', label: 'superadmin.sidebar.polls', href: '/superadmin/polls', icon: 'ph:chart-bar-horizontal', permission: 'view_marketing', routes: ['superadmin-polls', 'superadmin-polls-new', 'superadmin-polls-pollUuid', 'superadmin-polls-pollUuid-edit'] },
+            ],
+        },
+        {
+            name: 'Campaigns', label: 'superadmin.sidebar.campaigns', href: '/superadmin/sales-campaign', icon: 'ph:tag', permission: null,
+            tabs: [
+                { name: 'Sales Campaign', label: 'superadmin.sidebar.salesCampaign', href: '/superadmin/sales-campaign', icon: 'ph:megaphone-simple', permission: 'view_marketing', routes: ['superadmin-sales-campaign', 'superadmin-sales-campaign-new', 'superadmin-sales-campaign-edit-uuid'] },
+                { name: 'Coupons', label: 'superadmin.sidebar.coupons', href: '/superadmin/coupons', icon: 'ic:outline-discount', permission: 'view_marketing', routes: ['superadmin-coupons', 'superadmin-coupons-new', 'superadmin-coupons-couponUuid-edit'] },
+                { name: 'PlatformShares', label: 'superadmin.sidebar.platformShares', href: '/superadmin/platform-shares', icon: 'ph:share-network', permission: 'view_marketing', routes: ['superadmin-platform-shares'] },
+            ],
+        },
     ],
 }
 
@@ -70,7 +92,8 @@ export const superadminNav: SuperadminNavGroups = {
  * lagerforbruget og dashboardet, og det er lagerforbrugets rettighed der skal gælde.
  */
 export function superadminNavItemForPath(path: string): SuperadminNavItem | null {
-    const items = [...superadminNav.oversigt, ...superadminNav.okonomi, ...superadminNav.platform]
+    // Fanerne frem for samlepunktet: det er fanens rettighed der gælder for dens side.
+    const items = allGroups(superadminNav).flatMap((item) => item.tabs ?? [item])
 
     const matches = items
         .filter((item) => path === item.href || path.startsWith(item.href + '/'))
@@ -82,10 +105,27 @@ export function superadminNavItemForPath(path: string): SuperadminNavItem | null
 export function useSuperadminNav() {
     const { can } = usePermissions()
 
+    const allowed = (item: SuperadminNavItem) => !item.permission || can(item.permission)
+
+    /*
+     * Et samlepunkt beholder kun de faner kollegaen må se, peger på den første af dem og
+     * er væk hvis der ingen er - ellers et menupunkt der sender dem videre til en 403.
+     */
+    const filterGroup = (items: SuperadminNavItem[]) => items.flatMap((item) => {
+        if (!item.tabs) {
+            return allowed(item) ? [item] : []
+        }
+
+        const tabs = item.tabs.filter(allowed)
+
+        return tabs.length ? [{ ...item, href: tabs[0].href, tabs }] : []
+    })
+
     const visible = computed<SuperadminNavGroups>(() => ({
-        oversigt: superadminNav.oversigt.filter((item) => !item.permission || can(item.permission)),
-        okonomi: superadminNav.okonomi.filter((item) => !item.permission || can(item.permission)),
-        platform: superadminNav.platform.filter((item) => !item.permission || can(item.permission)),
+        oversigt: filterGroup(superadminNav.oversigt),
+        okonomi: filterGroup(superadminNav.okonomi),
+        platform: filterGroup(superadminNav.platform),
+        kommunikation: filterGroup(superadminNav.kommunikation),
     }))
 
     /**
@@ -96,8 +136,29 @@ export function useSuperadminNav() {
     const firstAllowedHref = computed<string | null>(() => {
         const groups = visible.value
 
-        return groups.oversigt[0]?.href ?? groups.okonomi[0]?.href ?? groups.platform[0]?.href ?? null
+        return allGroups(groups)[0]?.href ?? null
     })
 
-    return { visible, firstAllowedHref }
+    /** Samlepunktet den side man står på hører under, hvis den gør - til fanebjælken. */
+    const route = useRoute()
+    const currentHub = computed<SuperadminNavItem | null>(() => {
+        const path = route.path
+
+        return allGroups(visible.value).find((item) => item.tabs?.some((tab) => isNavItemActive(tab, route.name as string, path))) ?? null
+    })
+
+    return { visible, firstAllowedHref, currentHub }
+}
+
+function allGroups(groups: SuperadminNavGroups): SuperadminNavItem[] {
+    return [...groups.oversigt, ...groups.okonomi, ...groups.platform, ...groups.kommunikation]
+}
+
+/** Om et punkt - eller for et samlepunkt: en af dets faner - er den side man står på. */
+export function isNavItemActive(item: SuperadminNavItem, routeName: string, path: string): boolean {
+    if (item.tabs) {
+        return item.tabs.some((tab) => isNavItemActive(tab, routeName, path))
+    }
+
+    return !!item.routes?.includes(routeName) || path === item.href || path.startsWith(item.href + '/')
 }
