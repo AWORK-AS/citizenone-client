@@ -12303,6 +12303,8 @@
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dekningsgrad for ansatte",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
+                "calendarSubscriptions": "Brukerne kan abonnere på kalenderen sin",
+                "calendarSubscriptionsHint": "Slått av kan kalenderen ikke lenger legges til i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
                 "mileageRequiresTransport": "Kjøring bare der transport er innvilget",

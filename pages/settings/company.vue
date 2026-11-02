@@ -836,6 +836,16 @@
                             </div>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.calendar_subscriptions_enabled"
+                                        @toggleSwitch="state.formCompany.calendar_subscriptions_enabled = !state.formCompany.calendar_subscriptions_enabled" :label="$t('settings.company.form.calendarSubscriptions')" />
+                                    <p>
+                                        {{ $t('settings.company.form.calendarSubscriptions') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.calendarSubscriptionsHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
                                     <FormSwitch :value="state.formCompany.care_hour_types_enabled"
                                         @toggleSwitch="state.formCompany.care_hour_types_enabled = !state.formCompany.care_hour_types_enabled" :label="$t('settings.company.form.careHourTypes')" />
                                     <p>
@@ -1177,6 +1187,7 @@ const state = reactive({
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
+        calendar_subscriptions_enabled: true,
         care_hour_types_enabled: false,
         contact_weekly_hours_enabled: false,
         registration_mileage_requires_transport_enabled: false,
@@ -1340,6 +1351,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
+            calendar_subscriptions_enabled: newValue?.company?.calendar_subscriptions_enabled !== false,
             care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
             contact_weekly_hours_enabled: newValue?.company?.contact_weekly_hours_enabled === true,
             registration_mileage_requires_transport_enabled: newValue?.company?.registration_mileage_requires_transport_enabled === true,
@@ -1622,6 +1634,7 @@ async function submitForm() {
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
+                calendar_subscriptions_enabled: state.formCompany.calendar_subscriptions_enabled,
                 care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
                 contact_weekly_hours_enabled: state.formCompany.contact_weekly_hours_enabled,
                 registration_mileage_requires_transport_enabled: state.formCompany.registration_mileage_requires_transport_enabled,
