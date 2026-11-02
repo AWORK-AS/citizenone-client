@@ -14616,7 +14616,8 @@
             "groups": {
                 "overview": "Oversikt",
                 "finance": "Økonomi",
-                "platform": "Plattform"
+                "platform": "Plattform",
+                "communication": "Kommunikasjon"
             },
             "superAdmin": "Superadmin",
             "breadcrumb": "Superadmin",
@@ -14630,7 +14631,9 @@
             "platformShares": "Delinger",
             "storageUsage": "Lagerforbruk",
             "industries": "Bransjer",
-            "salesInquiries": "Henvendelser"
+            "salesInquiries": "Henvendelser",
+            "news": "Nyheter",
+            "campaigns": "Kampanjer"
         },
         "emailTemplates": {
             "title": "E-postmaler",

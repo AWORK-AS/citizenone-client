@@ -14624,7 +14624,8 @@
             "groups": {
                 "overview": "Oversigt",
                 "finance": "Økonomi",
-                "platform": "Platform"
+                "platform": "Platform",
+                "communication": "Kommunikation"
             },
             "superAdmin": "Super Admin",
             "breadcrumb": "Superadmin",
@@ -14640,7 +14641,9 @@
             "industries": "Brancher",
             "salesInquiries": "Henvendelser",
             "teamRoles": "Roller",
-            "supportAccess": "Adgang hos kunder"
+            "supportAccess": "Adgang hos kunder",
+            "news": "Nyheder",
+            "campaigns": "Kampagner"
         },
         "teamRoles": {
             "pageTitle": "Roller",

@@ -14624,7 +14624,8 @@
             "groups": {
                 "overview": "Overview",
                 "finance": "Finance",
-                "platform": "Platform"
+                "platform": "Platform",
+                "communication": "Communication"
             },
             "superAdmin": "Super Admin",
             "breadcrumb": "Superadmin",
@@ -14640,7 +14641,9 @@
             "industries": "Industries",
             "salesInquiries": "Inquiries",
             "teamRoles": "Roles",
-            "supportAccess": "Customer access"
+            "supportAccess": "Customer access",
+            "news": "News",
+            "campaigns": "Campaigns"
         },
         "teamRoles": {
             "pageTitle": "Roles",
