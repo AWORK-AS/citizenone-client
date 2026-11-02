@@ -653,6 +653,7 @@
             "verifyCode": "Bekreft kode"
         },
         "google2FactorAuthentication": "Google 2-faktor autentisering",
+        "logOut": "Logg ut",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Bruk din 2FA-kode fra Google Authenticator appen på din telefon"
     },
     "addressBook": {
