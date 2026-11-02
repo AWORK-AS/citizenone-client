@@ -43,6 +43,12 @@
                     </div>
 
                     <div class="flex items-center gap-2">
+                        <!-- Make the summary right here, so a recording close to deletion can still be kept. -->
+                        <FormButton v-if="canSummarize(recording)" type="button"
+                            :buttonStyle="warnBeforePurge(recording) ? 'primary' : 'secondary'"
+                            :disabled="state.summaryBusy === recording.uuid" @click="requestSummary(recording)">
+                            <Icon name="ph:sparkle" class="h-4 w-4 mr-1" /> {{ $t('meetings.summary.make') }}
+                        </FormButton>
                         <FormButton v-if="recording.status === 'ready'" type="button" buttonStyle="secondary" @click="play(recording)">
                             <Icon name="ph:play" class="h-4 w-4 mr-1" /> {{ $t('meetings.detail.play') }}
                         </FormButton>
@@ -94,12 +100,17 @@ const state = reactive({
     playing: '',
     playUrl: '',
     toDelete: null as any,
+    summaryBusy: '',
 })
+
+const codyAdoption = useCodyAdoption()
+let summaryPoll: ReturnType<typeof setInterval> | null = null
+onBeforeUnmount(stopSummaryPoll)
 
 onMounted(() => load(1))
 
-async function load(page: number) {
-    state.isLoading = true
+async function load(page: number, quiet = false) {
+    if (!quiet) state.isLoading = true
     state.error = {}
     try {
         const response = await meetingService.allRecordings(page)
@@ -133,6 +144,45 @@ async function remove() {
     } catch (error: any) {
         state.error = error
     }
+}
+
+// Same rule as the meeting page: audio is ready and nothing was asked for yet,
+// or the last try failed for a reason a new try can fix.
+function canSummarize(recording: any): boolean {
+    if (recording.status !== 'ready' || !recording.has_audio) return false
+    if (!recording.summary_status) return true
+    return recording.summary_status === 'failed' && !['too_long', 'no_audio'].includes(recording.summary_error)
+}
+
+async function requestSummary(recording: any) {
+    state.summaryBusy = recording.uuid
+    state.error = {}
+    try {
+        const response = await meetingService.requestSummary(recording.uuid)
+        Object.assign(recording, response?.data ?? {})
+        watchSummaries()
+    } catch (error: any) {
+        if (['meeting_summary_cody_required', 'meeting_summary_cody_seat_required'].includes(error?.code)) {
+            codyAdoption.promptOpen.value = true
+        } else {
+            state.error = error
+        }
+    }
+    state.summaryBusy = ''
+}
+
+// Poll the current page until no summary is queued any more.
+function watchSummaries() {
+    stopSummaryPoll()
+    summaryPoll = setInterval(async () => {
+        await load(state.page, true)
+        if (!state.recordings.some((r: any) => r.summary_status === 'queued')) stopSummaryPoll()
+    }, 10000)
+}
+
+function stopSummaryPoll() {
+    if (summaryPoll) clearInterval(summaryPoll)
+    summaryPoll = null
 }
 
 function summaryLabel(recording: any): string {

@@ -54,6 +54,10 @@ class EmployeeService extends BaseAPIService {
         return await this.request(`/user/employees/${employeeUuid}/toggle/meetings-license`, 'PUT')
     }
 
+    async moveMeetingsLicense(fromUuid: string, toUuid: string): Promise<any> {
+        return await this.request(`/user/employees/${fromUuid}/meetings-license/move`, 'PUT', { to_user_uuid: toUuid })
+    }
+
     async toggleBookingLicense(employeeUuid: any): Promise<any> {
         return await this.request(`/user/employees/${employeeUuid}/toggle/booking-license`, 'PUT')
     }

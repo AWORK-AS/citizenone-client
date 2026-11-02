@@ -20999,7 +20999,12 @@
             "perMonth": "Möten per månad",
             "hoursMinutes": "{h} h {m} min",
             "minutes": "{m} min",
-            "hours": "{h} h"
+            "hours": "{h} h",
+            "moveSeat": "Flytta plats",
+            "moveSeatTo": "Välj kollega",
+            "moveSeatConfirm": "Flytta",
+            "cancel": "Avbryt",
+            "moveSeatDone": "Platsen har flyttats från {from} till {to}."
         },
         "notes": {
             "title": "Dagordning och anteckningar",
