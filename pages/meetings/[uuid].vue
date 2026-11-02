@@ -207,7 +207,7 @@
                                     </FormButton>
                                     <FormButton v-if="recording.status === 'ready' && recording.has_audio && !recording.summary_status"
                                         type="button" buttonStyle="secondary" :disabled="state.summaryBusy === recording.uuid"
-                                        @click="requestSummary(recording)">
+                                        @click="!askForCody() && requestSummary(recording)">
                                         <Icon name="ph:sparkle" class="h-4 w-4 mr-1" /> {{ $t('meetings.summary.make') }}
                                     </FormButton>
                                     <button v-if="meeting.is_host && ['ready', 'failed'].includes(recording.status)" type="button"
@@ -232,7 +232,7 @@
                                             <div class="prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_p]:my-1" v-safe-ai-html="recording.summary" />
                                             <div class="flex flex-wrap gap-2 mt-3">
                                                 <FormButton type="button" buttonStyle="secondary" buttonSize="xs"
-                                                    @click="state.tasksSource = { recording_uuid: recording.uuid }; state.tasksOpen = true">
+                                                    @click="!askForCody() && openRecordingTasks(recording)">
                                                     <Icon name="ph:check-square-offset" class="h-4 w-4 mr-1" /> {{ $t('meetings.tasks.find') }}
                                                 </FormButton>
                                                 <FormButton type="button" buttonStyle="secondary" buttonSize="xs" :disabled="state.downloading === recording.uuid"
@@ -283,6 +283,7 @@ import { useMeetingJoinLinks } from '@/composables/meetingJoinLinks'
 import { useMeetingLobbyChannel } from '@/composables/meetingLobbyChannel'
 import { useCodyAdoption } from '@/composables/useCodyAdoption'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 
 /**
  * One online meeting: who is invited, recordings, and the room itself. The
@@ -441,6 +442,7 @@ function onLeft() {
 // and the app's own Cody screen opens: buy or start the trial for whoever
 // may buy, ask the administrator for everyone else.
 const codyAdoption = useCodyAdoption()
+const userStore = useUserStore() as any
 let summaryPoll: ReturnType<typeof setInterval> | null = null
 
 async function requestSummary(recording: any) {
@@ -486,6 +488,19 @@ async function toggleGuestScreenShare() {
         state.error = error
     }
     state.screenShareBusy = false
+}
+
+// Without Cody the Cody buttons open the Cody screen (trial, buy or ask the administrator).
+function askForCody(): boolean {
+    if (userStore.getUser?.has_ai_access) return false
+    codyAdoption.load()
+    codyAdoption.promptOpen.value = true
+    return true
+}
+
+function openRecordingTasks(recording: any) {
+    state.tasksSource = { recording_uuid: recording.uuid }
+    state.tasksOpen = true
 }
 
 async function downloadRecordingMinutes(recording: any) {

@@ -14,7 +14,7 @@
         <div v-if="meeting.citizen && !state.brief" class="flex flex-wrap items-center gap-2">
             <button type="button" :disabled="state.briefing"
                 class="h-9 px-4 rounded-full bg-[#0f2b46] text-white hover:bg-[#16395c] text-sm font-medium inline-flex items-center gap-1.5 disabled:opacity-60"
-                @click="prepare">
+                @click="!askForCody() && prepare()">
                 <Icon :name="state.briefing ? 'ph:spinner' : 'ph:sparkle'" class="h-4 w-4" :class="state.briefing && 'animate-spin'" />
                 {{ state.briefing ? $t('meetings.brief.working') : $t('meetings.brief.prepare') }}
             </button>
@@ -58,14 +58,14 @@
         <div class="flex flex-wrap items-center justify-between gap-2">
             <p class="text-xs text-gray-500">{{ $t('meetings.notes.hint') }}</p>
             <div class="flex flex-wrap gap-2">
-                <button type="button" :disabled="state.summarizing || (!state.text.trim() && !meeting.agenda)"
+                <button type="button" :disabled="hasCody && (state.summarizing || (!state.text.trim() && !meeting.agenda))"
                     class="h-9 px-4 rounded-full ring-1 ring-[#2dbab2] text-[#1b6d8a] bg-white hover:bg-[#f0faf9] text-sm font-medium inline-flex items-center gap-1.5 disabled:opacity-40"
-                    @click="summarize">
+                    @click="!askForCody() && summarize()">
                     <Icon :name="state.summarizing ? 'ph:spinner' : 'ph:sparkle'" class="h-4 w-4" :class="state.summarizing && 'animate-spin'" />
                     {{ state.summarizing ? $t('meetings.notes.summarizing') : $t('meetings.notes.summarize') }}
                 </button>
-                <FormButton type="button" buttonStyle="secondary" :disabled="!state.text.trim() && !meeting.agenda"
-                    @click="state.tasksOpen = true; state.tasksSource = {}">
+                <FormButton type="button" buttonStyle="secondary" :disabled="hasCody && !state.text.trim() && !meeting.agenda"
+                    @click="!askForCody() && openTasks({})">
                     <Icon name="ph:check-square-offset" class="h-4 w-4 mr-1" /> {{ $t('meetings.tasks.find') }}
                 </FormButton>
                 <FormButton type="button" buttonStyle="secondary" :disabled="state.downloading || (!state.text.trim() && !meeting.agenda)" @click="downloadPdf()">
@@ -88,7 +88,7 @@
                 <FormButton v-if="meeting.citizen" type="button" buttonStyle="primary" buttonSize="xs" :disabled="state.filing" @click="toJournal(state.summary)">
                     {{ $t('meetings.notes.summaryToJournal') }}
                 </FormButton>
-                <FormButton type="button" buttonStyle="secondary" buttonSize="xs" @click="state.tasksOpen = true; state.tasksSource = { summary: state.summary }">
+                <FormButton type="button" buttonStyle="secondary" buttonSize="xs" @click="openTasks({ summary: state.summary })">
                     {{ $t('meetings.tasks.find') }}
                 </FormButton>
                 <FormButton type="button" buttonStyle="secondary" buttonSize="xs" :disabled="state.downloading" @click="downloadPdf(state.summary)">
@@ -114,6 +114,7 @@ import moment from 'moment'
 import { meetingService } from '@/components/api/user/MeetingService'
 import { useCodyAdoption } from '@/composables/useCodyAdoption'
 import { downloadMeetingMinutes } from '@/composables/meetingMinutes'
+import { useUserStore } from '@/store/user'
 import MeetingActionItemsModal from '@/components/modules/user/meetings/action-items-modal.vue'
 
 /**
@@ -190,6 +191,22 @@ async function keepMine() {
 // Cody's summary from the agenda and notes. Without Cody the app's own Cody
 // screen opens (buy or start the trial, or ask the administrator).
 const codyAdoption = useCodyAdoption()
+const userStore = useUserStore() as any
+const hasCody = computed(() => !!userStore.getUser?.has_ai_access)
+
+// Without Cody the buttons still work: they open the Cody screen (start the
+// trial, buy it, or ask the administrator) instead of doing nothing.
+function askForCody(): boolean {
+    if (hasCody.value) return false
+    codyAdoption.load()
+    codyAdoption.promptOpen.value = true
+    return true
+}
+
+function openTasks(source: { recording_uuid?: string, summary?: string }) {
+    state.tasksSource = source
+    state.tasksOpen = true
+}
 
 async function summarize() {
     if (timer) {
