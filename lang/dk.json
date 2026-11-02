@@ -21088,7 +21088,12 @@
             "perMonth": "Møder pr. måned",
             "hoursMinutes": "{h} t {m} min",
             "minutes": "{m} min",
-            "hours": "{h} t"
+            "hours": "{h} t",
+            "moveSeat": "Flyt plads",
+            "moveSeatTo": "Vælg kollega",
+            "moveSeatConfirm": "Flyt",
+            "cancel": "Annuller",
+            "moveSeatDone": "Pladsen er flyttet fra {from} til {to}."
         },
         "notes": {
             "title": "Dagsorden og noter",

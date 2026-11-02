@@ -21003,7 +21003,12 @@
             "perMonth": "Møter per måned",
             "hoursMinutes": "{h} t {m} min",
             "minutes": "{m} min",
-            "hours": "{h} t"
+            "hours": "{h} t",
+            "moveSeat": "Flytt plass",
+            "moveSeatTo": "Velg kollega",
+            "moveSeatConfirm": "Flytt",
+            "cancel": "Avbryt",
+            "moveSeatDone": "Plassen er flyttet fra {from} til {to}."
         },
         "notes": {
             "title": "Dagsorden og notater",

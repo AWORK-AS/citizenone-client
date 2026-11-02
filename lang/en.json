@@ -21088,7 +21088,12 @@
             "perMonth": "Meetings per month",
             "hoursMinutes": "{h} h {m} min",
             "minutes": "{m} min",
-            "hours": "{h} h"
+            "hours": "{h} h",
+            "moveSeat": "Move seat",
+            "moveSeatTo": "Choose colleague",
+            "moveSeatConfirm": "Move",
+            "cancel": "Cancel",
+            "moveSeatDone": "The seat moved from {from} to {to}."
         },
         "notes": {
             "title": "Agenda and notes",
