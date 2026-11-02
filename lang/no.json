@@ -15360,6 +15360,31 @@
             "appFree": "Gratis",
             "noApps": "Ingen"
         },
+        "salesMeetings": {
+            "title": "Nettmøter",
+            "plan": "Planlegg nettmøte",
+            "notConfigured": "Salgsmøter er ikke satt opp ennå. Sett MEETINGS_SALES_COMPANY_ID til CitizenOnes egen konto.",
+            "startsAt": "Tidspunkt",
+            "minutes": "Varighet",
+            "host": "Vert",
+            "chooseHost": "Velg vert",
+            "titleField": "Tittel",
+            "guests": "Inviteres",
+            "otherName": "Annet navn",
+            "otherEmail": "Annen e-post",
+            "inviteHint": "Gjestene får en e-post med lenke og kalenderinvitasjon. Verten finner møtet i kalenderen sin i CitizenOne.",
+            "send": "Planlegg og send invitasjon",
+            "none": "Ingen nettmøter ennå.",
+            "open": "Åpne",
+            "openHint": "Åpner møtet i CitizenOne. Du må være logget inn som verten.",
+            "sent": "Møtet er planlagt, og invitasjonen er sendt til {guests}.",
+            "status": {
+                "scheduled": "Planlagt",
+                "live": "Pågår",
+                "finished": "Holdt",
+                "cancelled": "Avlyst"
+            }
+        },
         "salesInquiries": {
             "pageTitle": "Henvendelser",
             "description": "Kontakt- og demoforespørsler fra citizenone.dk. Ta en, ring eller skriv, og legg igjen et notat slik at neste kollega ser hva som har skjedd.",
