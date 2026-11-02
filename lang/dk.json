@@ -303,7 +303,11 @@
             "claimed": "1 sag tildelt | {count} sager tildelt",
             "open": "Åbn",
             "openCase": "Åbn @:terms.citizen{''}",
-            "openInquiry": "Åbn henvendelse"
+            "openInquiry": "Åbn henvendelse",
+            "role": "Koordinatorrolle",
+            "skippedIntro": "Rollen blev ikke sat på disse sager - ingen blev flyttet:",
+            "skippedTaken": "{name}: {holder} har allerede rollen",
+            "skippedOtherRole": "{name}: medarbejderen har allerede en anden koordinatorrolle"
         }
     },
     "managementEconomy": {
