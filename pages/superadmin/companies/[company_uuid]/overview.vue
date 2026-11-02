@@ -296,6 +296,10 @@
                         <ModulesSuperadminCompanyBillingMethod :companyUuid="(companyUuid as string)"
                             :underAgreement="!!subscriptionAgreement" />
 
+                        <!-- Demos and follow-ups with this customer as online meetings. -->
+                        <ModulesSuperadminSalesMeetingsPanel :companyUuid="(companyUuid as string)"
+                            :canPlan="can('manage_companies')" :defaultTitle="`CitizenOne · ${state.company?.name ?? ''}`" />
+
                     </div>
                 </LoadingSpinner>
             </div>
@@ -316,6 +320,7 @@ import { subscriptionAgreementView } from '@/composables/agreements'
 import { useAlert } from '@/composables/alert'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from 'vue-i18n'
+import { usePermissions } from '@/composables/usePermissions'
 import type { Error } from '@/types'
 
 const runtimeConfig = useRuntimeConfig()
@@ -330,6 +335,8 @@ const router = useRouter()
 const companyUuid = router?.currentRoute?.value?.params?.company_uuid
 
 const subscriptionAgreement = computed(() => subscriptionAgreementView(state.subscription?.data).agreement)
+
+const { can } = usePermissions()
 
 const state = reactive({
     company: null as any,

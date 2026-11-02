@@ -5,6 +5,14 @@ class OrderService extends BaseAPIService {
         return await this.request(`/superadmin/external-data`, 'GET', params)
     }
 
+    async getReportOverview(params: object): Promise<any> {
+        return await this.request(`/superadmin/order-report/overview`, 'GET', params)
+    }
+
+    async getReportOrders(params: object): Promise<any> {
+        return await this.request(`/superadmin/order-report/orders`, 'GET', params)
+    }
+
     async getOrder(orderUuid: string): Promise<any> {
         return await this.request(`/superadmin/orders/${orderUuid}`, 'GET')
     }
