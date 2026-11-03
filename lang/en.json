@@ -657,6 +657,7 @@
             "verifyCode": "Verify code"
         },
         "google2FactorAuthentication": "Google 2 factor authentication",
+        "logOut": "Log out",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Use your 2FA code from Google Authenticator app on your phone"
     },
     "addressBook": {

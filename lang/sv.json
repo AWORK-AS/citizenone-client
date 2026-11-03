@@ -657,6 +657,7 @@
             "verifyCode": "Bekräfta kod"
         },
         "google2FactorAuthentication": "Google tvåfaktorsautentisering",
+        "logOut": "Logga ut",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Använd din 2FA-kod från Google Authenticator appen på din telefon"
     },
     "addressBook": {
