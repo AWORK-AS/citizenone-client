@@ -1145,6 +1145,10 @@
                                                         :text="$t('dutySchedules.moveShiftTooltip')"
                                                         :disabled="!(isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)) || isHoveringShiftAction"
                                                         position="top" class="!block w-full [&>div]:w-full">
+                                                    <!-- A click anywhere on the card opens the shift, as in the other
+                                                         views. On the compact card only the hours line did, so a
+                                                         multi-day shift looked like one card per day you could not
+                                                         edit as a whole. -->
                                                     <div :class="[
                                                             'rounded-lg relative mb-1.5 shadow-sm hover:shadow-md transition-all cursor-grab active:cursor-grabbing z-20',
                                                             isShiftLocked(shift?.date_time_start) && 'opacity-60',
@@ -1156,7 +1160,8 @@
                                                         }" :draggable="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start)"
                                                         @dragstart="isAtLeast('Admin') && !isShiftLocked(shift?.date_time_start) && onDragStart($event, employee, weekIndex as number, shift)"
                                                         @dragend="isAtLeast('Admin') && onDragEnd($event)"
-                                                        @mouseenter="hoverSpan(shift)" @mouseleave="hoverSpan(null)">
+                                                        @mouseenter="hoverSpan(shift)" @mouseleave="hoverSpan(null)"
+                                                        @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
                                                         <div class="absolute -left-2 -top-2 sm:-left-3 sm:-top-3 z-10 w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white border-0.5 border-gray-300 flex items-center justify-center text-xs sm:text-sm"
                                                             v-if="shift?.type?.system_name === 'sick-leave'">
                                                             🤒
@@ -1195,8 +1200,7 @@
                                                             :disabled="!((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) || isHoveringTimeField"
                                                             position="top" class="!block w-full [&>div]:w-full"
                                                             @mouseenter="isHoveringShiftAction = true" @mouseleave="isHoveringShiftAction = false">
-                                                        <div class="flex flex-col lg:flex-row lg:items-center lg:flex-wrap text-white cursor-pointer px-1.5 sm:px-2 pt-1 sm:pt-1.5 pb-0.5"
-                                                            @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
+                                                        <div class="flex flex-col lg:flex-row lg:items-center lg:flex-wrap text-white cursor-pointer px-1.5 sm:px-2 pt-1 sm:pt-1.5 pb-0.5">
                                                             <!-- Start time -->
                                                             <div v-if="shift?.date_time_start && shift?.date_time_end" class="flex items-center gap-0.5">
                                                                 <div v-if="shift?.is_from_lastweek"
@@ -1206,8 +1210,8 @@
                                                                 </div>
                                                                 <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'start')"
                                                                     :text="$t('dutySchedules.quickEditTime.tooltip')"
-                                                                    :disabled="!canQuickEditShift(shift)"
-                                                                    @mouseenter="isHoveringTimeField = true" @mouseleave="isHoveringTimeField = false">
+                                                                    :disabled="!canQuickEditTime(shift, 'start')"
+                                                                    @mouseenter="isHoveringTimeField = canQuickEditTime(shift, 'start')" @mouseleave="isHoveringTimeField = false">
                                                                     <span
                                                                         class="text-xs 2xl:text-sm font-bold text-white tracking-tight leading-none"
                                                                         @click="handleTimeClick($event, employeeIndex, weekIndex, shift, shiftIndex, 'start')">
@@ -1234,8 +1238,8 @@
                                                             <div v-if="shift?.date_time_start && shift?.date_time_end" class="flex items-center gap-0.5 mt-0.5 sm:mt-0">
                                                                 <Tooltip v-if="!isQuickEditingField(employeeIndex, weekIndex, shiftIndex, 'end')"
                                                                     :text="$t('dutySchedules.quickEditTime.tooltip')"
-                                                                    :disabled="!canQuickEditShift(shift)"
-                                                                    @mouseenter="isHoveringTimeField = true" @mouseleave="isHoveringTimeField = false">
+                                                                    :disabled="!canQuickEditTime(shift, 'end')"
+                                                                    @mouseenter="isHoveringTimeField = canQuickEditTime(shift, 'end')" @mouseleave="isHoveringTimeField = false">
                                                                     <span
                                                                         class="text-xs 2xl:text-sm font-bold text-white/80 sm:text-white tracking-tight leading-none"
                                                                         @click="handleTimeClick($event, employeeIndex, weekIndex, shift, shiftIndex, 'end')">
@@ -1269,11 +1273,8 @@
                                                             :text="shiftHoursTooltip(shift)"
                                                             position="left" :wrap="true"
                                                             @mouseenter="isHoveringShiftAction = true" @mouseleave="isHoveringShiftAction = false">
-                                                            <!-- Opens the shift too: on a compact card the times fill the
-                                                                 top line, and a click on a time is a quick edit. -->
                                                             <div
-                                                                class="flex items-center gap-1 px-1.5 sm:px-2 pb-1 cursor-pointer"
-                                                                @click="((hasUpdatePermission || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)) ? editSchedule(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number) : viewSchedule(employeeIndex as number, weekIndex as number, shift, shiftIndex as number)">
+                                                                class="flex items-center gap-1 px-1.5 sm:px-2 pb-1 cursor-pointer">
                                                                 <Icon name="ph:clock" class="w-3 h-3 flex-shrink-0"
                                                                     style="color:rgba(255,255,255,0.7)" />
                                                                 <span
@@ -1413,6 +1414,7 @@
                                                         </button>
                                                         <button
                                                             class="bg-gray-200 w-4 h-4 text-sm text-gray-600 rounded-full flex items-center justify-center absolute -right-1 -top-1"
+                                                            @click.stop
                                                             v-else v-if="userStore.getUser?.uuid === employee?.uuid">
                                                             <Menu as="div"
                                                                 class="absolute right-0 top-6 xl:relative xl:right-auto xl:top-auto xl:self-center">
@@ -3375,8 +3377,18 @@ function buildScheduleUpdateParams(shift: any, userUuid: string, dateTimeStart: 
     }
 }
 
-function canQuickEditShift(shift: any): boolean {
-    return (hasUpdatePermission.value || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start)
+// A multi-day shift is one row per day, so a row's 00:00 start or 23:59 end is only
+// where the day cuts the shift, not a time anyone planned. A click there opens the
+// whole shift (the card's click) instead of a quick edit the backend would refuse.
+function isSpanCut(shift: any, field: 'start' | 'end'): boolean {
+    const position = shift?.shift_span_position
+    return field === 'start'
+        ? position === 'middle' || position === 'end'
+        : position === 'start' || position === 'middle'
+}
+
+function canQuickEditTime(shift: any, field: 'start' | 'end'): boolean {
+    return (hasUpdatePermission.value || isAtLeast('Admin')) && !isShiftLocked(shift?.date_time_start) && !isSpanCut(shift, field)
 }
 
 function isQuickEditingField(employeeIndex: number, weekIndex: any, shiftIndex: number, field: 'start' | 'end'): boolean {
@@ -3387,7 +3399,7 @@ function isQuickEditingField(employeeIndex: number, weekIndex: any, shiftIndex: 
 }
 
 function handleTimeClick(event: MouseEvent, employeeIndex: number, weekIndex: any, shift: any, shiftIndex: number, field: 'start' | 'end') {
-    if (!canQuickEditShift(shift)) return
+    if (!canQuickEditTime(shift, field)) return
     event.stopPropagation()
     startQuickEditTime(employeeIndex, weekIndex, shift, shiftIndex, field)
 }
