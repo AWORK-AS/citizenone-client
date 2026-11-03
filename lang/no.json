@@ -13671,7 +13671,21 @@
                 "oneTime12Months": "Engangssalg 12 måneder",
                 "perMonthExVat": "Per måned, ekskl. mva.",
                 "trendLabel": "Utvikling for {name}"
-            }
+            },
+            "filterCategory": "Kategori",
+            "allCategories": "Alle kategorier",
+            "noCategory": "Uten kategori",
+            "statusAll": "Alle",
+            "statusLive": "I butikken",
+            "statusHidden": "Skjult på nettsiden",
+            "statusIncomplete": "Mangler innhold",
+            "shownCount": "Viser {shown} av {total}",
+            "clearFilters": "Nullstill filtre",
+            "colCustomers": "Kunder",
+            "customersCount": "{count} kunde | {count} kunder",
+            "priceOnce": "{amount} kr. engang",
+            "pricePerMonth": "{amount} kr./mnd.",
+            "pricePerYear": "{amount} kr./år"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -13705,7 +13719,13 @@
                 "iconHint": "En emoji eller et ikonnavn (f.eks. ic:baseline-category)",
                 "sortOrder": "Sorteringsrekkefølge",
                 "isActive": "Aktiv"
-            }
+            },
+            "colPosition": "Plassering",
+            "sharedPositionsHint": "Noen kategorier har samme plassering. Butikken viser dem da i alfabetisk rekkefølge. Gi dem hver sin plassering hvis rekkefølgen betyr noe.",
+            "sharedPosition": "Samme plassering som {names}",
+            "appsCount": "{count} app | {count} apper",
+            "noApps": "Ingen apper",
+            "cannotDelete": "Kategorien har apper. Flytt dem til en annen kategori før den kan slettes."
         },
         "companies": {
             "companies": "Virksomheter",
@@ -19383,7 +19403,11 @@
         "contactDirectlyHint": "Inaktive konsulenter får ingen e-post eller varsel i appen om saken. Kontakt dem direkte. Utpek reaktiverer dem med en lisens.",
         "howToldHelp": "Aktive konsulenter får en e-post og et varsel i appen. Har dere SMS-appen, får de også en SMS uten opplysninger om innbyggeren. En inaktiv konsulent uten lisens får bare SMS og kan svare deg på telefon. Du registrerer svaret med Sa ja eller Sa nei.",
         "toldVia": "fikk beskjed på {channels}",
-        "channels": {"mail": "e-post", "app": "app", "sms": "SMS"},
+        "channels": {
+            "mail": "e-post",
+            "app": "app",
+            "sms": "SMS"
+        },
         "notReached": "Ikke nådd",
         "notReachedHint": "Konsulenten fikk verken e-post, varsel i appen eller SMS. Kontakt dem direkte, og registrer svaret med Sa ja eller Sa nei."
     },

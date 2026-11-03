@@ -33,8 +33,16 @@
                     <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
                 </div>
 
+                <!-- Two categories on the same position are drawn alphabetically by the store, which
+                     is rarely what anyone meant. Say so, and name them, rather than leave a silent tie. -->
+                <div v-if="!state.isLoading && sharedPositions.length"
+                    class="mb-4 flex items-start gap-2 rounded-lg border border-[#F5D9A8] bg-[#FFF7E6] px-4 py-3 text-[13px] text-[#8A5A00]">
+                    <Icon name="ph:info" class="w-4 h-4 mt-0.5 shrink-0" />
+                    <p>{{ $t('superadmin.appCategories.sharedPositionsHint') }}</p>
+                </div>
+
                 <!-- LIST VIEW -->
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
+                <div v-if="!state.isLoading" class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
                     <div v-if="!filteredCategories.length"
                         class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
                         <Icon name="ic:baseline-category" class="w-12 h-12 opacity-30" />
@@ -43,23 +51,44 @@
                     <table v-else class="w-full">
                         <thead>
                             <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
+                                <th class="co-th w-[90px]">{{ $t('superadmin.appCategories.colPosition') }}</th>
                                 <th class="co-th">{{ $t('superadmin.appCategories.colName') }}</th>
-                                <th class="co-th">{{ $t('superadmin.appCategories.colSlug') }}</th>
-                                <th class="co-th">{{ $t('superadmin.appCategories.colIcon') }}</th>
-                                <th class="co-th">{{ $t('superadmin.appCategories.colSortOrder') }}</th>
-                                <th class="co-th">{{ $t('superadmin.appCategories.colStatus') }}</th>
-                                <th class="co-th">{{ $t('superadmin.appCategories.colApps') }}</th>
-                                <th class="co-th"></th>
+                                <th class="co-th w-[120px]">{{ $t('superadmin.appCategories.colStatus') }}</th>
+                                <th class="co-th w-[140px]">{{ $t('superadmin.appCategories.colApps') }}</th>
+                                <th class="co-th w-[150px]"></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr v-for="category in filteredCategories" :key="category.uuid ?? category.id"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
+                                class="border-b border-[#F5F6F8] last:border-b-0 hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                                @click="openEdit(category)">
 
-                                <td class="co-td text-[13px] font-semibold text-[#1F2533]">{{ category.name }}</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ category.slug }}</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ category.icon || '—' }}</td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ category.sort_order }}</td>
+                                <td class="co-td">
+                                    <span class="inline-flex items-center gap-1 text-[13px] tabular-nums text-[#5C6478]"
+                                        :title="sharedWith(category).length
+                                            ? $t('superadmin.appCategories.sharedPosition', { names: sharedWith(category).join(', ') })
+                                            : undefined">
+                                        {{ category.sort_order }}
+                                        <Icon v-if="sharedWith(category).length" name="ph:warning-circle"
+                                            class="w-3.5 h-3.5 text-[#D4900A]" />
+                                    </span>
+                                </td>
+
+                                <td class="co-td">
+                                    <div class="flex items-center gap-3">
+                                        <span class="w-9 h-9 shrink-0 rounded-lg bg-[#E4F1F6] text-[#205E77] flex items-center justify-center"
+                                            :title="category.icon || undefined">
+                                            <Icon v-if="isIconName(category.icon)" :name="category.icon" class="w-5 h-5" />
+                                            <span v-else-if="category.icon" class="text-[16px] leading-none">{{ category.icon }}</span>
+                                            <Icon v-else name="ic:baseline-category" class="w-5 h-5 opacity-60" />
+                                        </span>
+                                        <div class="min-w-0">
+                                            <p class="text-[13px] font-semibold text-[#1F2533]">{{ category.name }}</p>
+                                            <p class="text-[11px] text-[#8891A4]">{{ category.slug }}</p>
+                                        </div>
+                                    </div>
+                                </td>
+
                                 <td class="co-td">
                                     <span v-if="category.is_active !== false"
                                         class="co-badge co-badge-green text-[10px]">
@@ -70,17 +99,37 @@
                                         {{ $t('superadmin.appCategories.inactive') }}
                                     </span>
                                 </td>
-                                <td class="co-td text-[13px] text-[#5C6478]">{{ category.applications_count ?? 0 }}</td>
+
+                                <!-- The count is the way into the apps: it opens the app list on this category. -->
+                                <td class="co-td">
+                                    <NuxtLink v-if="(category.applications_count ?? 0) > 0"
+                                        :to="{ path: '/superadmin/apps', query: { category: category.slug } }"
+                                        class="inline-flex items-center gap-1 text-[13px] font-medium text-[#205E77] hover:underline"
+                                        @click.stop>
+                                        {{ $t('superadmin.appCategories.appsCount', category.applications_count) }}
+                                        <Icon name="ph:arrow-right" class="w-3.5 h-3.5" />
+                                    </NuxtLink>
+                                    <span v-else class="text-[13px] text-[#8891A4]">
+                                        {{ $t('superadmin.appCategories.noApps') }}
+                                    </span>
+                                </td>
 
                                 <td class="co-td">
                                     <div class="flex items-center gap-2 justify-end">
-                                        <button class="co-action-btn" @click="openEdit(category)">
+                                        <button class="co-action-btn" @click.stop="openEdit(category)">
                                             <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
                                             {{ $t('superadmin.appCategories.edit') }}
                                         </button>
-                                        <button class="co-action-btn-danger" @click="confirmDelete(category)">
+                                        <!-- A category with apps cannot be deleted from here: the apps would be
+                                             left without a shelf in the store. -->
+                                        <button class="co-icon-btn-danger"
+                                            :disabled="(category.applications_count ?? 0) > 0"
+                                            :title="(category.applications_count ?? 0) > 0
+                                                ? $t('superadmin.appCategories.cannotDelete')
+                                                : $t('delete')"
+                                            :aria-label="`${$t('delete')} ${category.name}`"
+                                            @click.stop="confirmDelete(category)">
                                             <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                            {{ $t('delete') }}
                                         </button>
                                     </div>
                                 </td>
@@ -89,7 +138,9 @@
                     </table>
                 </div>
 
-                <Pagination :data="state.categories" @previous="previous" @next="next" />
+                <!-- Only if there are ever more categories than one request returns. -->
+                <Pagination v-if="(state.categories?.meta?.last_page ?? 1) > 1" :data="state.categories"
+                    @previous="previous" @next="next" />
             </div>
 
             <ModulesSuperadminAppCategoryModalCategory :isOpen="showModal" :category="selectedCategory"
@@ -128,7 +179,21 @@ const state = reactive({
     selectedCategory: null as any,
 })
 
-const filteredCategories = computed(() => state.categories?.data ?? [])
+/** In the order the store draws them: position first, then name, which is how ties are broken. */
+const filteredCategories = computed<any[]>(() => [...(state.categories?.data ?? [])]
+    .sort((a: any, b: any) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || String(a.name).localeCompare(String(b.name), 'da')))
+
+/** The other categories on the same position as this one. */
+function sharedWith(category: any): string[] {
+    return filteredCategories.value
+        .filter((other: any) => other !== category && (other.sort_order ?? 0) === (category.sort_order ?? 0))
+        .map((other: any) => other.name)
+}
+
+const sharedPositions = computed(() => filteredCategories.value.filter((category: any) => sharedWith(category).length > 0))
+
+/** "ph:sparkle" is an icon; anything else in the field (an emoji, per the form's hint) is shown as text. */
+const isIconName = (icon: any) => typeof icon === 'string' && /^[a-z0-9-]+:[a-z0-9-]+$/i.test(icon)
 
 onMounted(() => {
     fetchCategories()
@@ -137,7 +202,8 @@ onMounted(() => {
 async function fetchCategories() {
     state.isLoading = true
     try {
-        const params: any = { page: currentTablePage, ...state.dataFilter }
+        // Every category at once: there are about a dozen, and ten per page hid the last two.
+        const params: any = { page: currentTablePage, per_page: 100, ...state.dataFilter }
         const response = await appCategoryService.getCategories(params)
         if (response) {
             state.categories = response
@@ -270,5 +336,29 @@ function next() {
 .co-badge-gray {
     background: #F5F6F8;
     color: #5C6478
+}
+
+.co-icon-btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    color: #8891A4;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    cursor: pointer
+}
+
+.co-icon-btn-danger:hover:not(:disabled) {
+    background: #FEF2F2;
+    color: #CC3B2D;
+    border-color: #F5C6C3
+}
+
+.co-icon-btn-danger:disabled {
+    opacity: 0.35;
+    cursor: not-allowed
 }
 </style>
