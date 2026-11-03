@@ -73,8 +73,8 @@ class UserService extends BaseAPIService {
         return await this.request(`/user/employees/import-mapped`, 'POST', params)
     }
 
-    async getAllUsersWithoutAllUsersOption(): Promise<any> {
-        return await this.request(`/user/employees/all/no-all-employees`, 'GET')
+    async getAllUsersWithoutAllUsersOption(params: object = {}): Promise<any> {
+        return await this.request(`/user/employees/all/no-all-employees`, 'GET', params)
     }
 
     async getAllUsersWithoutMyself(params: object): Promise<any> {
