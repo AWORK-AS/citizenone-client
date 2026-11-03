@@ -80,7 +80,8 @@
                     </transition>
                 </Menu>
                 </Tooltip>
-                <FormButton buttonStyle="action" @click="subscribe">
+                <!-- Hidden when the company has switched calendar subscriptions off. -->
+                <FormButton v-if="userStore.getUser?.company?.calendar_subscriptions_enabled !== false" buttonStyle="action" @click="subscribe">
                     <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe.label') }}
                 </FormButton>
@@ -465,6 +466,12 @@ function clearAllFilters() {
 }
 
 onMounted(() => {
+    // Opens on the user's own calendar ("Kun mine" on). A link to someone's
+    // calendar (?employee_uuid) shows theirs instead.
+    const me = userStore.getUser?.uuid
+    if (!employeeUuid && me) {
+        state.formCalendar.users_uuid = [me] as any
+    }
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllEmployeeGroups()

@@ -5,11 +5,12 @@ class InquiryConsultantInvitationService extends BaseAPIService {
         return await this.request(`/user/citizen-inquiries/${inquiryUuid}/consultant-invitations`, 'GET')
     }
 
-    async invite(inquiryUuid: string, userUuids: string[]): Promise<any> {
+    // notify false: picked without a message, the coordinator phones them first.
+    async invite(inquiryUuid: string, userUuids: string[], notify = true): Promise<any> {
         return await this.request(
             `/user/citizen-inquiries/${inquiryUuid}/consultant-invitations`,
             'POST',
-            { user_uuids: userUuids }
+            notify ? { user_uuids: userUuids } : { user_uuids: userUuids, notify: false }
         )
     }
 

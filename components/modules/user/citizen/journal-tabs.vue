@@ -69,7 +69,9 @@ watch([() => userStore.getUser, locale], ([newValue]: any[]) => {
     // Forms sent to the patient to fill in themselves: in the portal where the clinic has one,
     // otherwise as a link by email or SMS. So any clinic can use it - a tattoo studio's consent
     // form was the case - for whoever may send forms.
-    if ((isDental && newValue?.has_patient_app) || permissions.isAtLeast('Admin') || permissions.can('manage_status_reports')) {
+    // The company can hide the tab altogether (Settings -> Company).
+    if (!newValue?.company?.patient_forms_tab_hidden
+        && ((isDental && newValue?.has_patient_app) || permissions.isAtLeast('Admin') || permissions.can('manage_status_reports'))) {
         tabs.push({
             name: 'citizens.tabs.patientForms', icon: 'ph:note-pencil', isTranslateName: true,
             href: `/citizens/${citizenUuid}/patient-forms`,

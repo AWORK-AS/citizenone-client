@@ -1,6 +1,11 @@
 import BaseAPIService from '@/components/api/BaseAPIService'
 
 class EmployeeDocumentService extends BaseAPIService {
+    // Documents (not archived) per file type, for the boxes on the employee.
+    async getCounts(employeeUuid: string): Promise<any> {
+        return await this.request(`/user/employee-documents/all/counts`, 'GET', { employee_uuid: employeeUuid })
+    }
+
     async getDocuments(params: object): Promise<any> {
         return await this.request(`/user/employee-documents`, 'GET', params)
     }
