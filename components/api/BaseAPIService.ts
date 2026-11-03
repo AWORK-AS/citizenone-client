@@ -6,6 +6,7 @@ import { translateMessage } from '@/composables/translateMessage'
 import { notify } from '@kyvg/vue3-notification'
 import { createNoticeThrottle, shouldNoticeFailedWrite } from '@/composables/failedWrite'
 import { shouldRouteToSuspended } from '@/composables/billingMethod'
+import { readPreviewRole } from '@/composables/usePreviewRole'
 import { useUserStore } from '@/store/user'
 
 class BaseAPIService {
@@ -144,7 +145,11 @@ class BaseAPIService {
      */
     private static authHeader(): Record<string, string> {
         const token = localStorage.getItem('_token')
-        return token ? { Authorization: 'Bearer ' + token } : {}
+        const headers: Record<string, string> = token ? { Authorization: 'Bearer ' + token } : {}
+        // An Admin viewing the system as another role (composables/usePreviewRole).
+        const preview = readPreviewRole()
+        if (preview?.id) headers['X-Preview-Role'] = String(preview.id)
+        return headers
     }
 
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {

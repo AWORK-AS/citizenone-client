@@ -21699,5 +21699,11 @@
         "suspendedPage": {
             "loading": "Loading status..."
         }
+    },
+    "rolePreview": {
+        "viewAs": "View as role",
+        "banner": "You are viewing the system as the role {role}.",
+        "readOnly": "View only - nothing can be saved.",
+        "end": "End preview"
     }
 }

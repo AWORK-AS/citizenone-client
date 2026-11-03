@@ -611,6 +611,7 @@
                 <div class="px-4 sm:px-6 lg:px-6">
                     <!-- Storage is nearly or completely full. Sits in the content flow rather than
                          above the navbar so it never disturbs the measured sticky offsets. -->
+                    <ModulesUserRolePreviewBanner />
                     <ModulesUserStorageQuotaNotice />
 
                     <!-- Cody adoption: trial offer, countdown, or a request to the admin. -->

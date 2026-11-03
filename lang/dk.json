@@ -21699,5 +21699,11 @@
         "suspendedPage": {
             "loading": "Henter status..."
         }
+    },
+    "rolePreview": {
+        "viewAs": "Se som rolle",
+        "banner": "Du ser systemet som rollen {role}.",
+        "readOnly": "Kun visning - intet kan gemmes.",
+        "end": "Afslut visning"
     }
 }
