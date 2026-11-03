@@ -17312,8 +17312,8 @@
             "responseSaved": "Response saved"
         },
         "editWarning": {
-            "hasResponses": "This survey has {count} response(s). Changing questions or options can alter the meaning of existing answers and scores",
-            "confirmUpdate": "This survey has {count} response(s). Are you sure you want to save changes"
+            "hasResponses": "This survey has {count} response(s). Responses that are already filled in keep the questions and the order they were answered with. Your changes apply to responses filled in from now on.",
+            "confirmUpdate": "This survey has {count} response(s). Responses that are already filled in stay as they are. Are you sure you want to save changes"
         },
         "builder": {
             "title": "Title",
@@ -17335,6 +17335,8 @@
             "addFollowUp": "Add follow-up question",
             "followUpShownWhen": "Shown when the answer to \"{question}\" is:",
             "followUpPickOption": "Pick at least one answer that shows this question.",
+            "moveUp": "Move up",
+            "moveDown": "Move down",
             "scoreRanges": {
                 "title": "Score interpretation",
                 "subtitle": "Give score intervals a label, e.g. 0-4 Minimal anxiety. Shown with the result.",
