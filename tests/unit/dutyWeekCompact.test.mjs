@@ -206,8 +206,20 @@ describe('the week grid stays compact', () => {
         assert.match(week, /if \(value === current\) \{\s*cancelQuickEditTime\(\)\s*return\s*\}/)
     })
 
-    test('the hours line opens the shift, since the times are a quick edit', () => {
-        assert.match(week, /class="flex items-center gap-1 px-1\.5 sm:px-2 pb-1 cursor-pointer"\s*@click="\(\(hasUpdatePermission/)
+    test('a click anywhere on the card opens the shift, once', () => {
+        // Only the hours line did, so a Friday-Sunday shift looked like three
+        // cards that could not be changed to Friday-Saturday in one go.
+        assert.match(week, /@mouseenter="hoverSpan\(shift\)" @mouseleave="hoverSpan\(null\)"\s*@click="\(\(hasUpdatePermission/)
+        assert.equal(week.match(/\? editSchedule\(employee, employeeIndex as number, weekIndex as number, shift, shiftIndex as number\)/g).length, 1)
+    })
+
+    test('a multi-day shift\'s 00:00 and 23:59 cut-offs open the whole shift, not a quick edit', () => {
+        assert.match(week, /function canQuickEditTime\(shift: any, field: 'start' \| 'end'\): boolean \{[^}]*!isSpanCut\(shift, field\)/)
+        assert.match(week, /if \(!canQuickEditTime\(shift, field\)\) return\s*event\.stopPropagation\(\)/)
+    })
+
+    test('the "?" menu on your own shift does not open the shift too', () => {
+        assert.match(week, /absolute -right-1 -top-1"\s*@click\.stop\s*v-else v-if="userStore\.getUser\?\.uuid === employee\?\.uuid"/)
     })
 
     test('"moreShifts" exists in all four languages', () => {
