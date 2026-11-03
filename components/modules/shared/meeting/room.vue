@@ -258,7 +258,7 @@
                     :aria-pressed="state.blur" :title="state.blur ? $t('meetings.room.blurOn') : $t('meetings.room.blurOff')" @click="toggleBlur">
                     <Icon name="ph:person-simple-circle" class="h-5 w-5" />
                 </button>
-                <button v-if="canShareScreen" type="button" :class="roundButton(false, false, state.screenSharing)"
+                <button v-if="screenShareAllowed" type="button" :class="roundButton(false, false, state.screenSharing)"
                     :aria-pressed="state.screenSharing"
                     :title="state.screenSharing ? $t('meetings.room.stopSharing') : $t('meetings.room.shareScreen')"
                     @click="toggleScreenShare">
@@ -370,7 +370,12 @@ const audioContainer = ref<HTMLDivElement>()
 const room = shallowRef<Room | null>(null)
 let previewTracks: LocalTrack[] = []
 
+// LiveKit's TrackSource.SCREEN_SHARE in a participant's permission.
+const TRACK_SOURCE_SCREEN_SHARE = 3
+
 const state = reactive({
+    // What LiveKit allows once connected; the host can change it during the meeting.
+    screenAllowed: null as boolean | null,
     phase: 'prejoin' as 'prejoin' | 'waiting' | 'connecting' | 'connected' | 'left' | 'error',
     cameras: [] as MediaDeviceInfo[],
     microphones: [] as MediaDeviceInfo[],
@@ -603,6 +608,7 @@ async function join() {
     try {
         await r.connect(connection.ws_url, connection.token)
         state.phase = 'connected'
+        readScreenPermission()
         // Being in the room does not depend on the devices: a camera or
         // microphone that fails is reported, and the person stays in.
         await enableDevices(r)
@@ -660,6 +666,9 @@ function bindRoomEvents(r: Room) {
         })
         .on(RoomEvent.TrackMuted, refresh)
         .on(RoomEvent.TrackUnmuted, refresh)
+        .on(RoomEvent.ParticipantPermissionsChanged, (_previous, participant) => {
+            if (participant === room.value?.localParticipant) readScreenPermission()
+        })
         .on(RoomEvent.LocalTrackPublished, refresh)
         .on(RoomEvent.LocalTrackUnpublished, (publication) => {
             if (publication.source === Track.Source.ScreenShare) state.screenSharing = false
@@ -939,6 +948,16 @@ async function toggleCamera() {
     await room.value?.localParticipant.setCameraEnabled(state.cameraOn)
     if (state.cameraOn && state.blur) await applyBlur(cameraTrack())
     refresh()
+}
+
+const screenShareAllowed = computed(() => state.screenAllowed ?? !!props.canShareScreen)
+
+function readScreenPermission() {
+    const permissions = room.value?.localParticipant.permissions
+    if (!permissions) return
+    const sources = permissions.canPublishSources ?? []
+    // An empty list means every source is allowed.
+    state.screenAllowed = sources.length === 0 || sources.includes(TRACK_SOURCE_SCREEN_SHARE)
 }
 
 async function toggleScreenShare() {

@@ -20999,6 +20999,7 @@
             "citizen": "Bruker (valgfritt)",
             "citizenHint": "Opptak av møtet kan ses av ansatte med tilgang til brukeren.",
             "waitingRoom": "Venterom: gjester venter til du slipper dem inn",
+            "guestsCanShareScreen": "Gjester kan dele skjermen sin",
             "colleagues": "Kolleger",
             "guests": "Gjester",
             "guestName": "Navn",
@@ -21054,7 +21055,11 @@
             "endForEveryone": "Avslutt for alle",
             "missingConsent": "Mangler samtykke fra: {names}. De er blitt spurt.",
             "recordingStarted": "Opptaket har startet.",
-            "recordingStopped": "Opptaket er stoppet. Det er klart om litt."
+            "recordingStopped": "Opptaket er stoppet. Det er klart om litt.",
+            "guestScreenShareOff": "Gjester kan ikke dele skjerm. Klikk for å gi dem lov.",
+            "guestScreenShareOn": "Gjester kan dele skjerm. Klikk for å ta det tilbake.",
+            "guestScreenShareAllowed": "Gjestene kan nå dele skjermen sin.",
+            "guestScreenShareStopped": "Gjestene kan ikke lenger dele skjermen sin."
         },
         "room": {
             "camera": "Kamera",
@@ -21139,7 +21144,7 @@
             "openDraft": "Åpne utkastet i brukerens journal",
             "draftCreated": "Referatet er lagret som utkast i brukerens journal.",
             "errors": {
-                "too_long": "Opptaket er for langt for et referat (maks. ca. 1,5 time).",
+                "too_long": "Opptaket er for langt for et referat (maks. ca. 4 timer).",
                 "no_audio": "Opptaket har ikke lydspor.",
                 "empty": "Det ble ikke sagt noe Cody AI kunne høre.",
                 "ai_error": "Cody AI kunne ikke lage referatet akkurat nå."

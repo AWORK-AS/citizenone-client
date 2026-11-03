@@ -21084,6 +21084,7 @@
             "citizen": "Citizen (optional)",
             "citizenHint": "Recordings of the meeting can be seen by staff with access to the citizen.",
             "waitingRoom": "Waiting room: guests wait until you let them in",
+            "guestsCanShareScreen": "Guests may share their screen",
             "colleagues": "Colleagues",
             "guests": "Guests",
             "guestName": "Name",
@@ -21139,7 +21140,11 @@
             "endForEveryone": "End for everyone",
             "missingConsent": "Consent missing from: {names}. They have been asked.",
             "recordingStarted": "Recording has started.",
-            "recordingStopped": "Recording has stopped. It will be ready shortly."
+            "recordingStopped": "Recording has stopped. It will be ready shortly.",
+            "guestScreenShareOff": "Guests cannot share their screen. Click to allow it.",
+            "guestScreenShareOn": "Guests may share their screen. Click to stop it.",
+            "guestScreenShareAllowed": "Guests can now share their screen.",
+            "guestScreenShareStopped": "Guests can no longer share their screen."
         },
         "room": {
             "camera": "Camera",
@@ -21224,7 +21229,7 @@
             "openDraft": "Open the draft in the citizen's journal",
             "draftCreated": "The summary is saved as a draft in the citizen's journal.",
             "errors": {
-                "too_long": "The recording is too long for a summary (max about 1.5 hours).",
+                "too_long": "The recording is too long for a summary (max about 4 hours).",
                 "no_audio": "The recording has no audio track.",
                 "empty": "Nothing was said that Cody AI could hear.",
                 "ai_error": "Cody AI could not write the summary right now."
