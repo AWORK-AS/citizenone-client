@@ -19361,6 +19361,7 @@
             "minStep": "Mindst trinvurdering",
             "needsCar": "Skal have bil",
             "needsDriversLicense": "Skal have kørekort",
+            "drivingWillingness": "Villighed til at køre",
             "secondaryHint": "Et plus. Tæller ikke imod konsulenten.",
             "withinTravelRangeOnly": "Kun konsulenter inden for deres køreafstand"
         },
@@ -19371,6 +19372,7 @@
             "region_uuid": "Region",
             "has_car": "Bil",
             "has_drivers_license": "Kørekort",
+            "driving_willingness": "Villighed til at køre",
             "min_travel_km": "Køreafstand",
             "consultant_status": "Status",
             "min_step_assessment": "Trinvurdering",
@@ -19380,6 +19382,7 @@
             "within_travel_range": "Inden for køreafstand"
         },
         "askSelected": "Spørg {count} valgte",
+        "childCertificate": "Børneattest indhentet {issued}, udløber {expires}",
         "pickSelected": "Vælg {count} valgte uden besked",
         "picked": "Konsulenterne er valgt uden besked",
         "asked": "Konsulenterne er spurgt",

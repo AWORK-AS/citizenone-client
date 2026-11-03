@@ -124,6 +124,13 @@
                         <FormCheckbox :value="!!state.form.has_drivers_license" />
                         <span class="text-sm">{{ $t('consultantMatch.form.needsDriversLicense') }}</span>
                     </div>
+                    <!-- The values come from the consultants' own profiles (free text),
+                         so the list fills after the first search. -->
+                    <div v-if="state.drivingValues.length" class="space-y-1">
+                        <FormLabel for="crit-driving" :label="$t('consultantMatch.form.drivingWillingness')" />
+                        <FormSelectMultiple id="crit-driving" v-model="state.form.driving_willingness"
+                            :options="state.drivingValues.map((value: string) => ({ value, label: value }))" />
+                    </div>
                 </div>
 
                 <div class="mt-4 flex items-center justify-between gap-2">
@@ -283,6 +290,13 @@
                         </span>
                     </div>
 
+                    <!-- The latest child protection certificate and when it runs out. -->
+                    <p v-if="result.child_certificate" class="mt-2 text-[12.5px] text-slate-600">
+                        {{ $t('consultantMatch.childCertificate', {
+                            issued: formatDay(result.child_certificate.issued_at),
+                            expires: formatDay(result.child_certificate.expires_at),
+                        }) }}
+                    </p>
                     <ul v-if="result.readiness.length" class="mt-3 space-y-1 border-t border-surface-100 pt-3">
                         <li v-for="(finding, index) in result.readiness" :key="index"
                             class="flex items-start gap-2 text-[12.5px]"
@@ -358,6 +372,7 @@ function emptyForm() {
         region_uuid: null as string | null,
         has_car: null as boolean | null,
         has_drivers_license: null as boolean | null,
+        driving_willingness: [] as string[],
         min_travel_km: '',
         consultant_status: [] as string[],
         min_step_assessment: null as number | null,
@@ -391,6 +406,7 @@ const state = reactive({
     results: [] as any[],
     nameQuery: '',
     picked: [] as string[],
+    drivingValues: [] as string[],
     isInviting: false,
     inquiry: null as any,
     locationGeocoded: false,
@@ -497,6 +513,13 @@ function setSkills(type: string, uuids: string[]) {
         (uuid) => state.catalogue.find((skill: any) => skill.uuid === uuid)?.type !== type
     )
     state.form.skill_uuids = [...others, ...(uuids ?? [])]
+}
+
+// 2026-02-10 -> 10.02.2026
+function formatDay(date: string | null) {
+    if (!date) return '-'
+    const [y, m, d] = date.split('-')
+    return `${d}.${m}.${y}`
 }
 
 function togglePick(uuid: string) {
@@ -690,6 +713,7 @@ async function search() {
         if (state.form.region_uuid) payload.region_uuid = state.form.region_uuid
         if (state.form.has_car !== null) payload.has_car = state.form.has_car
         if (state.form.has_drivers_license !== null) payload.has_drivers_license = state.form.has_drivers_license
+        if (state.form.driving_willingness.length) payload.driving_willingness = state.form.driving_willingness
         if (state.form.min_travel_km !== '') payload.min_travel_km = Number(state.form.min_travel_km)
         if (state.form.consultant_status.length) payload.consultant_status = state.form.consultant_status
         if (state.form.min_step_assessment !== null) payload.min_step_assessment = state.form.min_step_assessment
@@ -699,6 +723,7 @@ async function search() {
         const response = await consultantSkillService.match(payload)
         state.results = response?.data ?? []
         state.criteriaAsked = response?.meta?.criteria_asked ?? []
+        state.drivingValues = response?.meta?.driving_willingness_values ?? state.drivingValues
         state.locationGeocoded = !!response?.meta?.location?.geocoded
         state.hasSearched = true
         // A new result set makes an old selection meaningless.
