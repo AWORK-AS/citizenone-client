@@ -2871,6 +2871,7 @@
             "template": "Template",
             "upgradeStorage": "Upgrade storage",
             "uploadFile": "Upload file",
+            "uploadFileHelp": "You can also save emails from Outlook here, both received and sent. Drag the email from Outlook to your desktop (or choose File > Save As), then upload the file (.msg or .eml) here or drag it onto the page.",
             "useTemplate": "Use template",
             "viewDraftFile": "View draft files"
         },
@@ -5618,7 +5619,8 @@
                 "move": "Move",
                 "openSelected": "Open selected",
                 "view": "View",
-                "downloadOriginal": "Download original"
+                "downloadOriginal": "Download original",
+                "sendToCitizen": "Send to {citizen}"
             },
             "dateCreated": "Date created",
             "lastModified": "Last modified",
@@ -5644,6 +5646,18 @@
             "previous": "Previous document",
             "next": "Next document",
             "position": "{current} of {total}"
+        },
+        "sendToCitizen": {
+            "title": "Send document to {citizen}",
+            "citizens": "{Citizens}",
+            "note": "The document is copied into each selected {citizen}'s own documents and shared in the portal, where they can open it.",
+            "send": "Send",
+            "required": "Select at least one {citizen}.",
+            "tooMany": "You can send to at most {max} {citizens} at a time.",
+            "sentTitle": "Document sent",
+            "sentOne": "Sent to 1 {citizen}.",
+            "sentMany": "Sent to {count} {citizens}.",
+            "notNotified": "Not notified, as they have no portal access: {count}."
         }
     },
     "dutySchedules": {
@@ -11828,7 +11842,11 @@
                 "weekly": "Weekly",
                 "yearly": "Yearly"
             },
-            "title": "Title"
+            "title": "Title",
+            "citizen": "{Citizen} (optional)",
+            "citizenHelp": "Only for your team. {TheCitizen} is not notified.",
+            "citizenHidden": "Linked to a {citizen} you do not have access to.",
+            "choose": "Choose {citizen}"
         },
         "iDontNeedToCheckinNow": "I don't need to check in now",
         "newReminder": "New reminder",
@@ -11855,7 +11873,8 @@
             "markAsComplete": "Mark as complete",
             "markAsIncomplete": "Mark as incomplete",
             "time": "Time"
-        }
+        },
+        "citizenLabel": "{Citizen}"
     },
     "resetPassword": {
         "form": {

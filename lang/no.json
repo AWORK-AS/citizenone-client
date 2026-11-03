@@ -2871,6 +2871,7 @@
             "template": "Mal",
             "upgradeStorage": "Opgradér lager",
             "uploadFile": "Last opp fil",
+            "uploadFileHelp": "Du kan også lagre e-poster fra Outlook her, både mottatte og sendte. Dra e-posten fra Outlook til skrivebordet (eller velg Fil > Lagre som), og last opp filen (.msg eller .eml) her eller dra den inn på siden.",
             "useTemplate": "Bruk mal",
             "viewDraftFile": "Vis udkastfiler"
         },
@@ -5618,7 +5619,8 @@
                 "move": "Flytt",
                 "openSelected": "Åpne valgte",
                 "view": "Se",
-                "downloadOriginal": "Last ned original"
+                "downloadOriginal": "Last ned original",
+                "sendToCitizen": "Send til {citizen}"
             },
             "dateCreated": "Opprettelsesdato",
             "lastModified": "Sist endret",
@@ -5644,6 +5646,18 @@
             "previous": "Forrige dokument",
             "next": "Neste dokument",
             "position": "{current} av {total}"
+        },
+        "sendToCitizen": {
+            "title": "Send dokument til {citizen}",
+            "citizens": "{Citizens}",
+            "note": "Dokumentet kopieres til de egne dokumentene til hver valgt {citizen} og deles i portalen, der de kan åpne det.",
+            "send": "Send",
+            "required": "Velg minst én {citizen}.",
+            "tooMany": "Du kan sende til maks {max} {citizens} om gangen.",
+            "sentTitle": "Dokumentet er sendt",
+            "sentOne": "Sendt til 1 {citizen}.",
+            "sentMany": "Sendt til {count} {citizens}.",
+            "notNotified": "{count} har ikke tilgang til portalen og har ikke fått beskjed."
         }
     },
     "dutySchedules": {
@@ -11823,7 +11837,11 @@
                 "weekly": "Ugentligt",
                 "yearly": "Årligt"
             },
-            "title": "Tittel"
+            "title": "Tittel",
+            "citizen": "{Citizen} (valgfri)",
+            "citizenHelp": "Kun for dere. {TheCitizen} får ingen beskjed.",
+            "citizenHidden": "Knyttet til en {citizen} du ikke har tilgang til.",
+            "choose": "Velg {citizen}"
         },
         "iDontNeedToCheckinNow": "Jeg behøver ikke sjekke inn nå",
         "newReminder": "Ny påminnelse",
@@ -11850,7 +11868,8 @@
             "markAsComplete": "Markér som fullført",
             "markAsIncomplete": "Markér som ikke fullført",
             "time": "Tid"
-        }
+        },
+        "citizenLabel": "{Citizen}"
     },
     "resetPassword": {
         "form": {

@@ -50,10 +50,14 @@
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading"
                             v-if="isAtLeast('Admin') || can('create_citizen_document')">
-                            <FormButton buttonStyle="primary" @click="triggerFileInput">
-                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.documents.uploadFile') }}
-                            </FormButton>
+                            <!-- Tells people they can journal Outlook mails (inbox or sent)
+                                 as .msg/.eml files without connecting their mailbox. -->
+                            <Tooltip :text="$t('citizens.documents.uploadFileHelp')" wrap position="bottom">
+                                <FormButton buttonStyle="primary" @click="triggerFileInput">
+                                    <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.documents.uploadFile') }}
+                                </FormButton>
+                            </Tooltip>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
                         </LoadingSpinner>
                         <!-- Four rarely used tools sat at the same weight as Upload. -->

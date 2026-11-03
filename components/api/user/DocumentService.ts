@@ -73,6 +73,11 @@ class DocumentService extends BaseAPIService {
         return await this.request(`/user/company-file-folders/${documentUuid}/download-pdf`, 'GET', params)
     }
 
+    // A copy of the file into each patient's own documents, shared in the portal.
+    async sendToCitizens(documentUuid: any, params: { citizen_uuids: string[] }): Promise<any> {
+        return await this.request(`/user/company-file-folders/${documentUuid}/send-to-citizens`, 'POST', params)
+    }
+
     async getAllFolders(): Promise<any> {
         return await this.request(`/user/company-file-folders/all/list`, 'GET')
     }

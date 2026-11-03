@@ -58,6 +58,9 @@ async function updateReminder(reminderDetails: any) {
             date_time: reminderDetails.date_time,
             repeat: reminderDetails.repeat,
             notes: reminderDetails.notes,
+            // Left out when the user may not see the linked citizen, so the
+            // link is kept rather than cleared.
+            ...(reminderDetails.citizenHidden ? {} : { citizen_uuid: reminderDetails.citizen_uuid || null }),
         };
         const response = await reminderService.updateReminder(reminderUuid, params)
         if (response?.data) {
