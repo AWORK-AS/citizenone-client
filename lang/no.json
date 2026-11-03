@@ -12308,6 +12308,8 @@
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dekningsgrad for ansatte",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
+                "autoAiForNewEmployees": "Gi nye medarbeidere AI automatisk",
+                "autoAiForNewEmployeesHint": "En ny medarbeider får en ledig AI-lisens når den opprettes. Er det ingen ledig, opprettes medarbeideren uten",
                 "calendarSubscriptions": "Brukerne kan abonnere på kalenderen sin",
                 "calendarSubscriptionsHint": "Slått av kan kalenderen ikke lenger legges til i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
                 "matchIncludesDoNotContact": "Vis også konsulenter som ikke må kontaktes, i konsulentmatch",

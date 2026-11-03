@@ -12308,6 +12308,8 @@
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "autoAiForNewEmployees": "Ge nya medarbetare AI automatiskt",
+                "autoAiForNewEmployeesHint": "En ny medarbetare får en ledig AI-licens när den skapas. Finns ingen ledig skapas medarbetaren utan",
                 "calendarSubscriptions": "Användarna kan prenumerera på sin kalender",
                 "calendarSubscriptionsHint": "Avstängt kan kalendern inte längre läggas till i Outlook, Google eller iPhone, och befintliga prenumerationer slutar",
                 "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
