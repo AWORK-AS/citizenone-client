@@ -303,7 +303,11 @@
             "claimed": "1 case claimed | {count} cases claimed",
             "open": "Open",
             "openCase": "Open @:terms.citizen{''}",
-            "openInquiry": "Open inquiry"
+            "openInquiry": "Open inquiry",
+            "role": "Coordinator role",
+            "skippedIntro": "The role was not set on these cases - nobody was moved:",
+            "skippedTaken": "{name}: {holder} already has the role",
+            "skippedOtherRole": "{name}: the employee already has another coordinator role"
         }
     },
     "managementEconomy": {
@@ -653,6 +657,7 @@
             "verifyCode": "Verify code"
         },
         "google2FactorAuthentication": "Google 2 factor authentication",
+        "logOut": "Log out",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Use your 2FA code from Google Authenticator app on your phone"
     },
     "addressBook": {
@@ -12310,6 +12315,10 @@
                 "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
                 "calendarSubscriptions": "Users can subscribe to their calendar",
                 "calendarSubscriptionsHint": "When off, the calendar can no longer be added to Outlook, Google or iPhone, and existing subscriptions stop",
+                "matchIncludesDoNotContact": "Also show consultants who must not be contacted in the consultant match",
+                "matchIncludesDoNotContactHint": "Only consultants with a termination date are left out. They are shown with their status and cannot be asked",
+                "hidePatientFormsTab": "Hide the \"Patient forms\" tab",
+                "hidePatientFormsTabHint": "The tab is hidden on every citizen for the whole company",
                 "careHourTypes": "Choose an hour type on intervention hours",
                 "careHourTypesHint": "Visit, transport or administration time on each registration, also from a booking (Register time)",
                 "mileageRequiresTransport": "Mileage only where transport is granted",
@@ -13677,7 +13686,21 @@
                 "oneTime12Months": "One-off sales, 12 months",
                 "perMonthExVat": "Per month, excl. VAT",
                 "trendLabel": "Trend for {name}"
-            }
+            },
+            "filterCategory": "Category",
+            "allCategories": "All categories",
+            "noCategory": "No category",
+            "statusAll": "All",
+            "statusLive": "In the store",
+            "statusHidden": "Hidden on the website",
+            "statusIncomplete": "Missing content",
+            "shownCount": "Showing {shown} of {total}",
+            "clearFilters": "Clear filters",
+            "colCustomers": "Customers",
+            "customersCount": "{count} customer | {count} customers",
+            "priceOnce": "DKK {amount} one-time",
+            "pricePerMonth": "DKK {amount}/mo",
+            "pricePerYear": "DKK {amount}/yr"
         },
         "appCategories": {
             "pageTitle": "App categories",
@@ -13711,7 +13734,13 @@
                 "iconHint": "An emoji or icon name (e.g. ic:baseline-category)",
                 "sortOrder": "Sort order",
                 "isActive": "Active"
-            }
+            },
+            "colPosition": "Position",
+            "sharedPositionsHint": "Some categories share a position. The store then shows them alphabetically. Give each its own position if the order matters.",
+            "sharedPosition": "Same position as {names}",
+            "appsCount": "{count} app | {count} apps",
+            "noApps": "No apps",
+            "cannotDelete": "This category has apps. Move them to another category before deleting it."
         },
         "companies": {
             "companies": "Companies",
@@ -18849,7 +18878,9 @@
             "serviceTypesLabel": "Service types",
             "serviceTypesHint": "Untick All service types to pick one or more types the field is only asked on.",
             "form": "Form",
-            "formHint": "The field is asked only on this form."
+            "formHint": "The field is asked only on this form.",
+            "partyRole": "Added to Parties as",
+            "partyRoleHint": "The person picked is added to the inquiry's Parties. People already there keep their role."
         },
         "types": {
             "text": "Text",
@@ -18887,7 +18918,16 @@
         "allowHalfSteps": "Allow half steps (e.g. 4.5)",
         "wellbeingRuler": "Wellbeing ruler",
         "wellbeingRulerHint": "Shown as the wellbeing ruler in journal notes, and the answer becomes the first point on the citizen's wellbeing curve when the case is won.",
-        "allForms": "All forms"
+        "allForms": "All forms",
+        "partyRoles": {
+            "none": "Not added to Parties",
+            "contact_person": "Contact person",
+            "primary": "Primary coordinator",
+            "secondary": "Secondary coordinator",
+            "intake": "Intake coordinator",
+            "consultant": "Consultant",
+            "case_manager": "Case manager"
+        }
     },
     "inquiryOrigin": {
         "label": "The inquiry comes from",
@@ -19340,6 +19380,8 @@
             "within_travel_range": "Within travel distance"
         },
         "askSelected": "Ask {count} selected",
+        "pickSelected": "Pick {count} selected without a message",
+        "picked": "The consultants have been picked without a message",
         "asked": "The consultants have been asked",
         "askFailed": "The consultants could not be asked",
         "location": {
@@ -19466,7 +19508,11 @@
         "contactDirectlyHint": "Inactive consultants get no mail or app notice about the case. Contact them directly. Choose reactivates them with a licence.",
         "howToldHelp": "Active consultants get a mail and an app notice. If you have the SMS app, they also get an SMS without any details about the citizen. An inactive consultant without a licence only gets the SMS and can answer you by phone. You record the answer with Said yes or Said no.",
         "toldVia": "told by {channels}",
-        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "channels": {
+            "mail": "mail",
+            "app": "app",
+            "sms": "SMS"
+        },
         "notReached": "Not reached",
         "notReachedHint": "The consultant got no mail, app notice or SMS. Contact them directly and record the answer with Said yes or Said no."
     },
@@ -21053,6 +21099,7 @@
             "citizen": "Citizen (optional)",
             "citizenHint": "Recordings of the meeting can be seen by staff with access to the citizen.",
             "waitingRoom": "Waiting room: guests wait until you let them in",
+            "guestsCanShareScreen": "Guests may share their screen",
             "colleagues": "Colleagues",
             "guests": "Guests",
             "guestName": "Name",
@@ -21102,13 +21149,48 @@
             "admit": "Let in",
             "deny": "Deny"
         },
+        "brief": {
+            "prepare": "Prepare with Cody AI",
+            "working": "Cody is preparing ...",
+            "hint": "Cody reads the journal, goals and last meeting about the citizen.",
+            "byCody": "Cody AI read {journals} journal notes and {goals} goals. Check it before you use it.",
+            "suggestedAgenda": "Suggested agenda",
+            "useAgenda": "Use as agenda",
+            "replaceAgenda": "Replace the agenda"
+        },
+        "tasks": {
+            "find": "Find agreements",
+            "title": "Agreements from the meeting",
+            "intro": "Cody AI found these agreements. Edit them, choose who does what, and create them as tasks.",
+            "none": "Cody AI found no agreements that someone has to act on.",
+            "include": "Include",
+            "description": "Description (optional)",
+            "assignee": "Responsible",
+            "codySays": "Cody: {owner}",
+            "nobody": "Nobody",
+            "due": "Due",
+            "board": "Task board",
+            "boardHint": "Everyone with access to the board can see the tasks. Do not write health details in them.",
+            "noBoards": "There are no task boards. You can copy the agreements instead.",
+            "create": "Create {count} task | Create {count} tasks",
+            "created": "Created",
+            "copy": "Copy",
+            "copied": "Copied"
+        },
+        "minutes": {
+            "download": "Download as PDF"
+        },
         "host_controls": {
             "record": "Record",
             "stopRecording": "Stop recording",
             "endForEveryone": "End for everyone",
             "missingConsent": "Consent missing from: {names}. They have been asked.",
             "recordingStarted": "Recording has started.",
-            "recordingStopped": "Recording has stopped. It will be ready shortly."
+            "recordingStopped": "Recording has stopped. It will be ready shortly.",
+            "guestScreenShareOff": "Guests cannot share their screen. Click to allow it.",
+            "guestScreenShareOn": "Guests may share their screen. Click to stop it.",
+            "guestScreenShareAllowed": "Guests can now share their screen.",
+            "guestScreenShareStopped": "Guests can no longer share their screen."
         },
         "room": {
             "camera": "Camera",
@@ -21193,7 +21275,7 @@
             "openDraft": "Open the draft in the citizen's journal",
             "draftCreated": "The summary is saved as a draft in the citizen's journal.",
             "errors": {
-                "too_long": "The recording is too long for a summary (max about 1.5 hours).",
+                "too_long": "The recording is too long for a summary (max about 4 hours).",
                 "no_audio": "The recording has no audio track.",
                 "empty": "Nothing was said that Cody AI could hear.",
                 "ai_error": "Cody AI could not write the summary right now."

@@ -166,6 +166,16 @@
                                 <FormCheckbox :value="state.form.multiple" />
                                 <span class="text-sm">{{ $t('inquiryFieldSettings.allowMultiple') }}</span>
                             </div>
+                            <!-- The person picked here joins "Parter" in this role. -->
+                            <div v-if="partyRoleOptions.length" class="mt-3">
+                                <FormLabel for="field-party-role" :label="$t('inquiryFieldSettings.form.partyRole')" />
+                                <FormSelect id="field-party-role" :modelValue="state.form.party_role ?? 'none'"
+                                    :options="partyRoleOptions" :canClear="false" :searchable="false"
+                                    @update:modelValue="(value: string) => state.form.party_role = value && value !== 'none' ? value : null" />
+                                <p class="mt-1 text-[11px] text-gray-400">
+                                    {{ $t('inquiryFieldSettings.form.partyRoleHint') }}
+                                </p>
+                            </div>
                         </div>
 
                         <!-- "All service types" is its own choice, so it can be picked
@@ -340,6 +350,7 @@ function emptyForm() {
         wellbeing: false,
         source: 'municipalities',
         multiple: false,
+        party_role: null as string | null,
         all_service_types: true,
         service_type_uuids: [] as string[],
         form_uuid: null as string | null,
@@ -385,6 +396,21 @@ const stageOptions = computed(() => [
 ])
 
 const isChoiceType = computed(() => CHOICE_TYPES.includes(state.form.type))
+
+// Same list as InquiryFieldDefinition::PARTY_ROLES on the server.
+const PARTY_ROLES: Record<string, string[]> = {
+    employees: ['contact_person', 'primary', 'secondary', 'intake', 'consultant'],
+    company_contacts: ['case_manager'],
+}
+
+const partyRoleOptions = computed(() => {
+    const roles = PARTY_ROLES[state.form.source] ?? []
+    if (!roles.length) return []
+    return [
+        { value: 'none', label: t('inquiryFieldSettings.partyRoles.none') },
+        ...roles.map((role) => ({ value: role, label: t('inquiryFieldSettings.partyRoles.' + role) })),
+    ]
+})
 
 const sourceOptions = computed(() =>
     LOOKUP_SOURCES.map((source) => ({ value: source, label: sourceLabel(source) }))
@@ -530,6 +556,7 @@ function openEdit(field: any) {
         wellbeing: !!field.options?.wellbeing,
         source: field.options?.source ?? 'municipalities',
         multiple: !!field.options?.multiple,
+        party_role: field.options?.party_role ?? null,
         all_service_types: fieldServiceTypes(field).length === 0,
         service_type_uuids: fieldServiceTypes(field).map((type: any) => type.uuid),
         form_uuid: field.form?.uuid ?? null,
@@ -568,6 +595,9 @@ function payload() {
         body.options = { choices: parsedChoices() }
     } else if (state.form.type === 'lookup') {
         body.options = { source: state.form.source, multiple: state.form.multiple }
+        if (state.form.party_role && PARTY_ROLES[state.form.source]?.includes(state.form.party_role)) {
+            body.options.party_role = state.form.party_role
+        }
     } else if (state.form.type === 'scale') {
         body.options = {
             min: Number(state.form.min) || 1,

@@ -13,6 +13,7 @@
 
                 <div v-if="state.info" :class="state.inRoom ? '' : 'px-4 py-6 sm:p-8 bg-white shadow-sm ring-1 ring-gray-900/5 rounded-2xl'">
                     <MeetingRoom :connect="connect" :give-consent="giveConsent" :is-waiting="state.waiting"
+                        :can-share-screen="!!state.info.can_share_screen"
                         @joined="state.inRoom = true" @left="state.inRoom = false">
                         <template #info>
                             <p class="text-sm text-gray-700">

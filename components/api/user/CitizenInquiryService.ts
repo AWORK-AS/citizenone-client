@@ -61,10 +61,13 @@ class CitizenInquiryService extends BaseAPIService {
     }
 
     // Without an employee the caller takes the cases; a leader can name someone else.
-    async assignSelf(inquiryUuids: string[], employeeUuid: string | null = null): Promise<any> {
+    // The coordinator role defaults to primary on the server; a role somebody
+    // already holds is not moved and comes back in `skipped`.
+    async assignSelf(inquiryUuids: string[], employeeUuid: string | null = null, coordinatorRole: string | null = null): Promise<any> {
         return await this.request(`/user/citizen-inquiries/assign/self`, 'POST', {
             inquiry_uuids: inquiryUuids,
             ...(employeeUuid ? { employee_uuid: employeeUuid } : {}),
+            ...(coordinatorRole ? { coordinator_role: coordinatorRole } : {}),
         })
     }
 
