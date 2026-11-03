@@ -19280,6 +19280,8 @@
             "within_travel_range": "Inom köravstånd"
         },
         "askSelected": "Fråga {count} valda",
+        "pickSelected": "Välj {count} valda utan meddelande",
+        "picked": "Konsulterna är valda utan meddelande",
         "asked": "Konsulterna är tillfrågade",
         "askFailed": "Konsulterna kunde inte tillfrågas",
         "location": {

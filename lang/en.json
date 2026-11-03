@@ -19365,6 +19365,8 @@
             "within_travel_range": "Within travel distance"
         },
         "askSelected": "Ask {count} selected",
+        "pickSelected": "Pick {count} selected without a message",
+        "picked": "The consultants have been picked without a message",
         "asked": "The consultants have been asked",
         "askFailed": "The consultants could not be asked",
         "location": {

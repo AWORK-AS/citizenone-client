@@ -174,6 +174,12 @@
                         <Icon name="ph:paper-plane-tilt" class="size-4" />
                         {{ $t('consultantMatch.askSelected', { count: state.picked.length }) }}
                     </FormButton>
+                    <!-- On the inquiry without a message: the coordinator phones them first. -->
+                    <FormButton v-if="inquiryUuid && state.picked.length" type="button" buttonStyle="secondary"
+                        :disabled="state.isInviting" @click="pickWithoutAsking">
+                        <Icon name="ph:hand-pointing" class="size-4" />
+                        {{ $t('consultantMatch.pickSelected', { count: state.picked.length }) }}
+                    </FormButton>
                 </div>
 
                 <p v-if="state.hasSearched && !shownResults.length"
@@ -491,6 +497,18 @@ function togglePick(uuid: string) {
     state.picked = state.picked.includes(uuid)
         ? state.picked.filter((picked) => picked !== uuid)
         : [...state.picked, uuid]
+}
+
+async function pickWithoutAsking() {
+    state.isInviting = true
+    try {
+        const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked, false)
+        state.picked = []
+        successAlert(`${t('alert.success')}!`, response?.message ?? t('consultantMatch.picked'))
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
+    }
+    state.isInviting = false
 }
 
 async function invite() {
