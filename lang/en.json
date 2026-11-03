@@ -303,7 +303,11 @@
             "claimed": "1 case claimed | {count} cases claimed",
             "open": "Open",
             "openCase": "Open @:terms.citizen{''}",
-            "openInquiry": "Open inquiry"
+            "openInquiry": "Open inquiry",
+            "role": "Coordinator role",
+            "skippedIntro": "The role was not set on these cases - nobody was moved:",
+            "skippedTaken": "{name}: {holder} already has the role",
+            "skippedOtherRole": "{name}: the employee already has another coordinator role"
         }
     },
     "managementEconomy": {

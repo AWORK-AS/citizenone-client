@@ -303,7 +303,11 @@
             "claimed": "1 ärende tilldelat | {count} ärenden tilldelade",
             "open": "Öppna",
             "openCase": "Öppna @:terms.citizen{''}",
-            "openInquiry": "Öppna förfrågan"
+            "openInquiry": "Öppna förfrågan",
+            "role": "Koordinatorroll",
+            "skippedIntro": "Rollen sattes inte på dessa ärenden - ingen flyttades:",
+            "skippedTaken": "{name}: {holder} har redan rollen",
+            "skippedOtherRole": "{name}: medarbetaren har redan en annan koordinatorroll"
         }
     },
     "managementEconomy": {
