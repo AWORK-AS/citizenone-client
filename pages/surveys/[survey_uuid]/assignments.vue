@@ -229,7 +229,9 @@ const chartOption = computed(() => {
 const answerEntries = computed(() => {
     const a = state.answersModal.assignment
     if (!a) return []
-    const questions = state.survey?.questions ?? []
+    // A completed response keeps the questions as they were answered, so later
+    // edits to the survey do not change it.
+    const questions = a.questions ?? state.survey?.questions ?? []
     const entries: any[] = []
     // Follow-ups the respondent never saw are left out.
     visibleSurveyQuestions(questions, a.answers ?? {}).forEach((q: any) => {

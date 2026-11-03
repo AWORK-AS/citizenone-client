@@ -67,9 +67,21 @@
                             <span class="text-xs font-semibold text-gray-500 uppercase tracking-wide">
                                 {{ $t('surveys.builder.types.' + question.type) }}
                             </span>
-                            <button type="button" @click="removeQuestion(qi)">
-                                <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
-                            </button>
+                            <div class="flex items-center gap-x-1">
+                                <button type="button" :disabled="adjacentSibling(qi, -1) === undefined"
+                                    class="disabled:opacity-30" :title="$t('surveys.builder.moveUp')"
+                                    :aria-label="$t('surveys.builder.moveUp')" @click="moveQuestion(qi, -1)">
+                                    <Icon name="ph:arrow-up" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <button type="button" :disabled="adjacentSibling(qi, 1) === undefined"
+                                    class="disabled:opacity-30" :title="$t('surveys.builder.moveDown')"
+                                    :aria-label="$t('surveys.builder.moveDown')" @click="moveQuestion(qi, 1)">
+                                    <Icon name="ph:arrow-down" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                                <button type="button" @click="removeQuestion(qi)">
+                                    <Icon name="ph:trash" class="h-5 w-5" aria-hidden="true" />
+                                </button>
+                            </div>
                         </div>
 
                         <!-- follow-up condition: which answers on the parent show this question -->
@@ -222,6 +234,7 @@ import { useVuelidate } from '@vuelidate/core'
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from 'vue-i18n'
 import { surveyTemplates, type SurveyTemplate } from '@/components/modules/user/survey/survey-templates'
+import { adjacentSiblingIndex, moveSurveyQuestion } from '@/composables/surveyQuestionOrder'
 import type { Error } from '@/types'
 
 const props = defineProps({
@@ -294,6 +307,14 @@ function lastDescendantIndex(index: number) {
     let end = index
     while (end + 1 < state.survey.questions.length && isDescendantOf(state.survey.questions[end + 1], key)) end++
     return end
+}
+
+function adjacentSibling(index: number, direction: -1 | 1) {
+    return adjacentSiblingIndex(state.survey.questions, index, direction)
+}
+
+function moveQuestion(index: number, direction: -1 | 1) {
+    moveSurveyQuestion(state.survey.questions, index, direction)
 }
 
 // 1, 2, 2.1, 2.2, 3 ... so a follow-up reads as belonging to its parent.
