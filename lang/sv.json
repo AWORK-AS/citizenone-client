@@ -2871,6 +2871,7 @@
             "template": "Mall",
             "upgradeStorage": "Opgradér lager",
             "uploadFile": "Upload fil",
+            "uploadFileHelp": "Du kan också spara mejl från Outlook här, både mottagna och skickade. Dra mejlet från Outlook till skrivbordet (eller välj Arkiv > Spara som) och ladda upp filen (.msg eller .eml) här eller dra in den på sidan.",
             "useTemplate": "Använd mall",
             "viewDraftFile": "Visa udkastfiler"
         },

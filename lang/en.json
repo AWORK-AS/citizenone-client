@@ -2871,6 +2871,7 @@
             "template": "Template",
             "upgradeStorage": "Upgrade storage",
             "uploadFile": "Upload file",
+            "uploadFileHelp": "You can also save emails from Outlook here, both received and sent. Drag the email from Outlook to your desktop (or choose File > Save As), then upload the file (.msg or .eml) here or drag it onto the page.",
             "useTemplate": "Use template",
             "viewDraftFile": "View draft files"
         },
