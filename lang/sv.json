@@ -12308,6 +12308,8 @@
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "calendarSubscriptions": "Användarna kan prenumerera på sin kalender",
+                "calendarSubscriptionsHint": "Avstängt kan kalendern inte längre läggas till i Outlook, Google eller iPhone, och befintliga prenumerationer slutar",
                 "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
                 "matchIncludesDoNotContactHint": "Endast konsulter med ett avgångsdatum utelämnas. De visas med sin status och kan inte tillfrågas",
                 "hidePatientFormsTab": "Dölj fliken \"Formulär till patienten\"",

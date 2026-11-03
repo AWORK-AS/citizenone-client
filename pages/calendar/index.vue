@@ -80,7 +80,8 @@
                     </transition>
                 </Menu>
                 </Tooltip>
-                <FormButton buttonStyle="action" @click="subscribe">
+                <!-- Hidden when the company has switched calendar subscriptions off. -->
+                <FormButton v-if="userStore.getUser?.company?.calendar_subscriptions_enabled !== false" buttonStyle="action" @click="subscribe">
                     <Icon name="ph:bell-ringing" class="h-4 w-4" aria-hidden="true" />
                     {{ $t('events.subscribe.label') }}
                 </FormButton>
