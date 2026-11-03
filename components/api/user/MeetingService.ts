@@ -110,6 +110,20 @@ class MeetingService extends BaseAPIService {
         return await this.request(`/user/meetings/${uuid}/notes/summary`, 'POST')
     }
 
+    // Cody's brief before a meeting about a citizen, with a suggested agenda.
+    async brief(uuid: string): Promise<any> {
+        return await this.request(`/user/meetings/${uuid}/brief`, 'POST')
+    }
+
+    // The agreements in a recording's summary, the summary on screen or the notes, as suggested tasks.
+    async actionItems(uuid: string, source: { recording_uuid?: string, summary?: string } = {}): Promise<any> {
+        return await this.request(`/user/meetings/${uuid}/action-items`, 'POST', source)
+    }
+
+    async minutesPdf(uuid: string, source: { recording_uuid?: string, summary?: string } = {}, onHeaders?: (headers: Headers) => void): Promise<Blob | null> {
+        return await this.requestBlob(`/user/meetings/${uuid}/minutes`, 'POST', source, onHeaders)
+    }
+
     async settings(): Promise<any> {
         return await this.request('/user/meetings/settings', 'GET')
     }

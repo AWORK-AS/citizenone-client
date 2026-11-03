@@ -303,7 +303,11 @@
             "claimed": "1 sag tildelt | {count} sager tildelt",
             "open": "Åbn",
             "openCase": "Åbn @:terms.citizen{''}",
-            "openInquiry": "Åbn henvendelse"
+            "openInquiry": "Åbn henvendelse",
+            "role": "Koordinatorrolle",
+            "skippedIntro": "Rollen blev ikke sat på disse sager - ingen blev flyttet:",
+            "skippedTaken": "{name}: {holder} har allerede rollen",
+            "skippedOtherRole": "{name}: medarbejderen har allerede en anden koordinatorrolle"
         }
     },
     "managementEconomy": {
@@ -653,6 +657,7 @@
             "verifyCode": "Bekræft kode"
         },
         "google2FactorAuthentication": "Google 2-faktor autentifikation",
+        "logOut": "Log ud",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Brug din 2FA-kode fra Google Authenticator appen på din telefon"
     },
     "addressBook": {
@@ -12310,6 +12315,8 @@
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og medarbejdere med økonomirettigheder ser dem stadig",
                 "matchIncludesDoNotContact": "Vis også konsulenter, der ikke må kontaktes, i konsulentmatch",
                 "matchIncludesDoNotContactHint": "Kun konsulenter med en fratrædelsesdato udelades. De vises med deres status og kan ikke spørges",
+                "hidePatientFormsTab": "Skjul fanen \"Formularer til patienten\"",
+                "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheden",
                 "careHourTypes": "Vælg timetype på indsatstimer",
                 "careHourTypesHint": "Besøgs-, transport- eller administrationstid på hver registrering, også fra en aftale (Registrér tid)",
                 "mileageRequiresTransport": "Kørsel kun hvor transport er bevilget",
@@ -13677,7 +13684,21 @@
                 "oneTime12Months": "Engangssalg 12 måneder",
                 "perMonthExVat": "Pr. måned, ekskl. moms",
                 "trendLabel": "Udvikling for {name}"
-            }
+            },
+            "filterCategory": "Kategori",
+            "allCategories": "Alle kategorier",
+            "noCategory": "Uden kategori",
+            "statusAll": "Alle",
+            "statusLive": "I butikken",
+            "statusHidden": "Skjult på hjemmesiden",
+            "statusIncomplete": "Mangler indhold",
+            "shownCount": "Viser {shown} af {total}",
+            "clearFilters": "Nulstil filtre",
+            "colCustomers": "Kunder",
+            "customersCount": "{count} kunde | {count} kunder",
+            "priceOnce": "{amount} kr. engang",
+            "pricePerMonth": "{amount} kr./md.",
+            "pricePerYear": "{amount} kr./år"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -13711,7 +13732,13 @@
                 "iconHint": "En emoji eller et ikonnavn (f.eks. ic:baseline-category)",
                 "sortOrder": "Sorteringsrækkefølge",
                 "isActive": "Aktiv"
-            }
+            },
+            "colPosition": "Placering",
+            "sharedPositionsHint": "Nogle kategorier har samme placering. Butikken viser dem så i alfabetisk rækkefølge. Giv dem hver sin placering, hvis rækkefølgen betyder noget.",
+            "sharedPosition": "Samme placering som {names}",
+            "appsCount": "{count} app | {count} apps",
+            "noApps": "Ingen apps",
+            "cannotDelete": "Kategorien har apps. Flyt dem til en anden kategori, før den kan slettes."
         },
         "companies": {
             "companies": "Virksomheder",
@@ -18849,7 +18876,9 @@
             "serviceTypesLabel": "Indsatstyper",
             "serviceTypesHint": "Fjern fluebenet ved Alle indsatstyper for at vælge en eller flere typer, feltet kun skal spørges på.",
             "form": "Formular",
-            "formHint": "Feltet spørges kun på denne formular."
+            "formHint": "Feltet spørges kun på denne formular.",
+            "partyRole": "Kommer under Parter som",
+            "partyRoleHint": "Den valgte kommer automatisk under Parter på henvendelsen. Personer, der allerede står der, beholder deres rolle."
         },
         "types": {
             "text": "Tekst",
@@ -18887,7 +18916,16 @@
         "allowHalfSteps": "Tillad halve trin (fx 4,5)",
         "wellbeingRuler": "Trivselslineal",
         "wellbeingRulerHint": "Vises som trivselslinealen i journalnotater, og svaret bliver første punkt på borgerens trivselskurve, når sagen vindes.",
-        "allForms": "Alle formularer"
+        "allForms": "Alle formularer",
+        "partyRoles": {
+            "none": "Kommer ikke under Parter",
+            "contact_person": "Kontaktperson",
+            "primary": "Primær koordinator",
+            "secondary": "Sekundær koordinator",
+            "intake": "Modtagelseskoordinator",
+            "consultant": "Konsulent",
+            "case_manager": "Sagsbehandler"
+        }
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -18983,8 +19021,8 @@
             "bank": "Løn og bank"
         },
         "fields": {
-            "privateEmail": "Privat mail",
-            "privatePhone": "Privat telefon",
+            "privateEmail": "E-mailadresse privat",
+            "privatePhone": "Telefon privat",
             "workPhone": "Arbejdstelefon",
             "gender": "Køn",
             "nationality": "Nationalitet",
@@ -19340,6 +19378,8 @@
             "within_travel_range": "Inden for køreafstand"
         },
         "askSelected": "Spørg {count} valgte",
+        "pickSelected": "Vælg {count} valgte uden besked",
+        "picked": "Konsulenterne er valgt uden besked",
         "asked": "Konsulenterne er spurgt",
         "askFailed": "Konsulenterne kunne ikke spørges",
         "location": {
@@ -19466,7 +19506,11 @@
         "contactDirectlyHint": "Inaktive konsulenter får ingen mail eller besked i appen om sagen. Kontakt dem direkte. Udpeg genaktiverer dem med en licens.",
         "howToldHelp": "Aktive konsulenter får en mail og en besked i appen. Har I SMS-appen, får de også en SMS uden oplysninger om borgeren. En inaktiv konsulent uden licens får kun SMS og kan svare dig pr. telefon. Du registrerer svaret med Sagde ja eller Sagde nej.",
         "toldVia": "fik besked på {channels}",
-        "channels": {"mail": "mail", "app": "app", "sms": "SMS"},
+        "channels": {
+            "mail": "mail",
+            "app": "app",
+            "sms": "SMS"
+        },
         "notReached": "Ikke nået",
         "notReachedHint": "Konsulenten fik hverken mail, besked i appen eller SMS. Kontakt dem direkte, og registrer svaret med Sagde ja eller Sagde nej."
     },
@@ -21053,6 +21097,7 @@
             "citizen": "Borger (valgfri)",
             "citizenHint": "Optagelser af mødet kan ses af medarbejdere med adgang til borgeren.",
             "waitingRoom": "Venterum: gæster venter, til du lukker dem ind",
+            "guestsCanShareScreen": "Gæster må dele deres skærm",
             "colleagues": "Kolleger",
             "guests": "Gæster",
             "guestName": "Navn",
@@ -21102,13 +21147,48 @@
             "admit": "Luk ind",
             "deny": "Afvis"
         },
+        "brief": {
+            "prepare": "Forbered med Cody AI",
+            "working": "Cody forbereder ...",
+            "hint": "Cody læser journal, mål og sidste møde om borgeren.",
+            "byCody": "Cody AI har læst {journals} journalnotater og {goals} mål. Tjek det, før du bruger det.",
+            "suggestedAgenda": "Forslag til dagsorden",
+            "useAgenda": "Brug som dagsorden",
+            "replaceAgenda": "Erstat dagsordenen"
+        },
+        "tasks": {
+            "find": "Find aftaler",
+            "title": "Aftaler fra mødet",
+            "intro": "Cody AI har fundet disse aftaler. Ret dem, vælg hvem der gør hvad, og opret dem som opgaver.",
+            "none": "Cody AI fandt ingen aftaler, som nogen skal handle på.",
+            "include": "Medtag",
+            "description": "Beskrivelse (valgfri)",
+            "assignee": "Ansvarlig",
+            "codySays": "Cody: {owner}",
+            "nobody": "Ingen",
+            "due": "Frist",
+            "board": "Opgavetavle",
+            "boardHint": "Alle med adgang til tavlen kan se opgaverne. Skriv ikke helbredsoplysninger i dem.",
+            "noBoards": "Der er ingen opgavetavler. Du kan kopiere aftalerne i stedet.",
+            "create": "Opret {count} opgave | Opret {count} opgaver",
+            "created": "Oprettet",
+            "copy": "Kopiér",
+            "copied": "Kopieret"
+        },
+        "minutes": {
+            "download": "Hent som PDF"
+        },
         "host_controls": {
             "record": "Optag",
             "stopRecording": "Stop optagelse",
             "endForEveryone": "Afslut for alle",
             "missingConsent": "Mangler samtykke fra: {names}. De er blevet spurgt.",
             "recordingStarted": "Optagelsen er startet.",
-            "recordingStopped": "Optagelsen er stoppet. Den er klar om lidt."
+            "recordingStopped": "Optagelsen er stoppet. Den er klar om lidt.",
+            "guestScreenShareOff": "Gæster kan ikke dele skærm. Klik for at give dem lov.",
+            "guestScreenShareOn": "Gæster må dele skærm. Klik for at tage det tilbage.",
+            "guestScreenShareAllowed": "Gæsterne kan nu dele deres skærm.",
+            "guestScreenShareStopped": "Gæsterne kan ikke længere dele deres skærm."
         },
         "room": {
             "camera": "Kamera",
@@ -21193,7 +21273,7 @@
             "openDraft": "Åbn kladden i borgerens journal",
             "draftCreated": "Referatet er gemt som kladde i borgerens journal.",
             "errors": {
-                "too_long": "Optagelsen er for lang til et referat (maks. cirka 1,5 time).",
+                "too_long": "Optagelsen er for lang til et referat (maks. cirka 4 timer).",
                 "no_audio": "Optagelsen har ikke et lydspor.",
                 "empty": "Der blev ikke sagt noget, Cody AI kunne høre.",
                 "ai_error": "Cody AI kunne ikke lave referatet lige nu."

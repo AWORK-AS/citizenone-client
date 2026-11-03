@@ -418,6 +418,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('employees.documents.employmentContracts') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('employment_contract') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -427,6 +428,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('employees.documents.criminalRecords') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('criminal_record') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -436,6 +438,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('employees.documents.childProtectionCertificates') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('child_protection_certificate') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -445,6 +448,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('employees.documents.driversLicense') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('drivers_license') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -454,6 +458,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('employees.documents.passport') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('passport') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -463,6 +468,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('consultantProfile.documentTypes.cv') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('cv') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -472,6 +478,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('consultantProfile.documentTypes.education') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('education') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -481,6 +488,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('consultantProfile.documentTypes.work_permit') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('work_permit') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -490,6 +498,7 @@
                                         <Icon name="ph:file" class="h-6 w-6" aria-hidden="true" />
                                         <p class="text-xs font-semibold leading-7 text-gray-900">
                                             {{ $t('employees.documents.miscellaneous') }}
+                                            <span class="font-normal text-gray-500">({{ docCount('miscellaneous') }})</span>
                                         </p>
                                     </div>
                                 </div>
@@ -529,6 +538,7 @@
 <script setup lang="ts">
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { employeeService } from '@/components/api/user/EmployeeService'
+import { employeeDocumentService } from '@/components/api/user/EmployeeDocumentService'
 import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { usePermissions, getPermissionLabel } from '@/composables/usePermissions'
@@ -616,7 +626,31 @@ const spokenLanguagesSummary = computed(() =>
     summariseSpokenLanguages(state.selectedEmployee?.spoken_languages, term('motherTongue', t('employees.form.motherTongue')).toLowerCase())
 )
 
+// How many documents each box holds; read again when a box is closed,
+// since a document may have been added, archived or deleted in it.
+const documentCounts = ref<Record<string, number>>({})
+function docCount(type: string) {
+    return documentCounts.value[type] ?? 0
+}
+async function fetchDocumentCounts() {
+    try {
+        const response = await employeeDocumentService.getCounts(String(employeeUuid))
+        documentCounts.value = response?.data ?? {}
+    } catch {
+        // The boxes still open without a number.
+    }
+}
+watch(() => [
+    state.modal.isViewEmploymentContractsOpen, state.modal.isViewCriminalRecordsOpen,
+    state.modal.isViewChildProtectionCertificatesOpen, state.modal.isViewDriversLicenseOpen,
+    state.modal.isViewPassportOpen, state.modal.isViewCvOpen, state.modal.isViewEducationOpen,
+    state.modal.isViewWorkPermitOpen, state.modal.isMiscellaneousOpen,
+], (open, before) => {
+    if (before?.some(Boolean) && !open.some(Boolean)) fetchDocumentCounts()
+})
+
 onMounted(() => {
+    fetchDocumentCounts()
     fetchEmployee()
     // Task #97: "contract signed" notifications open the employee's contracts.
     if (useRoute().query.contracts === '1') {

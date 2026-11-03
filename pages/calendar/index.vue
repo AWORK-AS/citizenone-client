@@ -465,6 +465,12 @@ function clearAllFilters() {
 }
 
 onMounted(() => {
+    // Opens on the user's own calendar ("Kun mine" on). A link to someone's
+    // calendar (?employee_uuid) shows theirs instead.
+    const me = userStore.getUser?.uuid
+    if (!employeeUuid && me) {
+        state.formCalendar.users_uuid = [me] as any
+    }
     fetchAllCitizens()
     fetchAllUsers()
     fetchAllEmployeeGroups()
