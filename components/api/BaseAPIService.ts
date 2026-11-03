@@ -6,6 +6,8 @@ import { translateMessage } from '@/composables/translateMessage'
 import { notify } from '@kyvg/vue3-notification'
 import { createNoticeThrottle, shouldNoticeFailedWrite } from '@/composables/failedWrite'
 import { shouldRouteToSuspended } from '@/composables/billingMethod'
+import { readPreviewRole } from '@/composables/usePreviewRole'
+import { useUserStore } from '@/store/user'
 
 class BaseAPIService {
     // Shared across every service instance, so two different services asking for
@@ -143,7 +145,11 @@ class BaseAPIService {
      */
     private static authHeader(): Record<string, string> {
         const token = localStorage.getItem('_token')
-        return token ? { Authorization: 'Bearer ' + token } : {}
+        const headers: Record<string, string> = token ? { Authorization: 'Bearer ' + token } : {}
+        // An Admin viewing the system as another role (composables/usePreviewRole).
+        const preview = readPreviewRole()
+        if (preview?.id) headers['X-Preview-Role'] = String(preview.id)
+        return headers
     }
 
     async request(url: string, method: string, params: object = [], signal?: AbortSignal): Promise<any> {
@@ -467,6 +473,11 @@ class BaseAPIService {
                         message: error.response._data?.message ?? translateMessage('apiErrors.unauthorized', 'Unauthorized'),
                     })
                 case 403:
+                    // The company requires 2FA and this user has not set it up
+                    // (also when an admin switched it on mid-session): the store
+                    // is told, and the user layout opens the setup it cannot close.
+                    BaseAPIService.noticeTwoFactorSetupRequired(error.response._data)
+
                     // Status kept so a screen can tell "you may not see this"
                     // from "this broke" - the AI usage panel told admins to try
                     // again later for a refusal that would never change.
@@ -543,6 +554,11 @@ class BaseAPIService {
                         message: error.response._data?.message ?? translateMessage('apiErrors.unauthorized', 'Unauthorized'),
                     })
                 case 403:
+                    // The company requires 2FA and this user has not set it up
+                    // (also when an admin switched it on mid-session): the store
+                    // is told, and the user layout opens the setup it cannot close.
+                    BaseAPIService.noticeTwoFactorSetupRequired(error.response._data)
+
                     // Status kept so a screen can tell "you may not see this"
                     // from "this broke" - the AI usage panel told admins to try
                     // again later for a refusal that would never change.
@@ -736,6 +752,14 @@ class BaseAPIService {
 
     // A burst of parallel calls all get the suspended refusal; only the first navigates.
     private static routedToSuspended = false
+
+    private static noticeTwoFactorSetupRequired(body: any) {
+        if (body?.code !== 'two_factor_setup_required' || typeof window === 'undefined') return
+        const userStore = useUserStore() as any
+        const user = userStore.getUser
+        if (!user?.id || (user.company?.is_2fa_enabled && !user.is_google_2fa_enabled)) return
+        userStore.setUser({ ...user, is_google_2fa_enabled: false, company: { ...user.company, is_2fa_enabled: true } })
+    }
 
     private static goToSuspended() {
         if (BaseAPIService.routedToSuspended) return

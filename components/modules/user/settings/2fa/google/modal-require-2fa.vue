@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Modal size="sm" :title="$t('2fa.2fa')" :show="props.isModalOpen" @close="closeModal">
+        <Modal size="sm" :title="$t('2fa.2fa')" :show="props.isModalOpen" @close="() => {}">
             <template #modal-body>
                 <div v-if="language.locale.value === 'en'">
                     <div class="space-y-3">
@@ -55,8 +55,8 @@
                     </div>
                 </div>
                 <div class="mt-5 flex gap-x-3">
-                    <FormButton @click="closeModal" class="w-full">
-                        {{ $t('cancel') }}
+                    <FormButton @click="emit('logout')" class="w-full">
+                        {{ $t('2fa.logOut') }}
                     </FormButton>
                     <FormButton buttonStyle="primary" @click="state.modal.isVerify2faOpen = true" class="w-full">
                         {{ $t('2fa.enable') }}
@@ -83,7 +83,10 @@ const props = defineProps({
         required: true,
     },
 })
-const emit = defineEmits(['close'])
+// Not closable: the company requires 2FA and the API refuses everything else
+// (two_factor_setup_required) until it is on. The only ways out are setting it
+// up or logging out.
+const emit = defineEmits(['close', 'logout'])
 
 const state = reactive({
     form2fa: {
@@ -94,11 +97,11 @@ const state = reactive({
     },
 })
 
-function closeModal() {
-    emit('close')
-}
-
 function setGoogle2faStatus(status: boolean) {
     state.form2fa.is_google_2fa_enabled = status
+    if (status) {
+        userStore.setUser({ ...userStore.getUser, is_google_2fa_enabled: true })
+        emit('close')
+    }
 }
 </script>
