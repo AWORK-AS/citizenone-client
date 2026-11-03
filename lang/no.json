@@ -12307,6 +12307,8 @@
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dekningsgrad for ansatte",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
+                "hidePatientFormsTab": "Skjul fanen \"Skjemaer til pasienten\"",
+                "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheten",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
                 "mileageRequiresTransport": "Kjøring bare der transport er innvilget",
