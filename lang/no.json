@@ -303,7 +303,11 @@
             "claimed": "1 sak tildelt | {count} saker tildelt",
             "open": "Åpne",
             "openCase": "Åpne @:terms.citizen{''}",
-            "openInquiry": "Åpne henvendelse"
+            "openInquiry": "Åpne henvendelse",
+            "role": "Koordinatorrolle",
+            "skippedIntro": "Rollen ble ikke satt på disse sakene - ingen ble flyttet:",
+            "skippedTaken": "{name}: {holder} har allerede rollen",
+            "skippedOtherRole": "{name}: medarbeideren har allerede en annen koordinatorrolle"
         }
     },
     "managementEconomy": {
@@ -653,6 +657,7 @@
             "verifyCode": "Bekreft kode"
         },
         "google2FactorAuthentication": "Google 2-faktor autentisering",
+        "logOut": "Logg ut",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Bruk din 2FA-kode fra Google Authenticator appen på din telefon"
     },
     "addressBook": {
@@ -12303,6 +12308,14 @@
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dekningsgrad for ansatte",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
+                "autoAiForNewEmployees": "Gi nye medarbeidere AI automatisk",
+                "autoAiForNewEmployeesHint": "En ny medarbeider får en ledig AI-lisens når den opprettes. Er det ingen ledig, opprettes medarbeideren uten",
+                "calendarSubscriptions": "Brukerne kan abonnere på kalenderen sin",
+                "calendarSubscriptionsHint": "Slått av kan kalenderen ikke lenger legges til i Outlook, Google eller iPhone, og eksisterende abonnementer stopper",
+                "matchIncludesDoNotContact": "Vis også konsulenter som ikke må kontaktes, i konsulentmatch",
+                "matchIncludesDoNotContactHint": "Bare konsulenter med en fratredelsesdato utelates. De vises med status og kan ikke spørres",
+                "hidePatientFormsTab": "Skjul fanen \"Skjemaer til pasienten\"",
+                "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheten",
                 "careHourTypes": "Velg timetype på innsatstimer",
                 "careHourTypesHint": "Besøks-, transport- eller administrasjonstid på hver registrering, også fra en avtale (Registrer tid)",
                 "mileageRequiresTransport": "Kjøring bare der transport er innvilget",
@@ -13667,7 +13680,21 @@
                 "oneTime12Months": "Engangssalg 12 måneder",
                 "perMonthExVat": "Per måned, ekskl. mva.",
                 "trendLabel": "Utvikling for {name}"
-            }
+            },
+            "filterCategory": "Kategori",
+            "allCategories": "Alle kategorier",
+            "noCategory": "Uten kategori",
+            "statusAll": "Alle",
+            "statusLive": "I butikken",
+            "statusHidden": "Skjult på nettsiden",
+            "statusIncomplete": "Mangler innhold",
+            "shownCount": "Viser {shown} av {total}",
+            "clearFilters": "Nullstill filtre",
+            "colCustomers": "Kunder",
+            "customersCount": "{count} kunde | {count} kunder",
+            "priceOnce": "{amount} kr. engang",
+            "pricePerMonth": "{amount} kr./mnd.",
+            "pricePerYear": "{amount} kr./år"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -13701,7 +13728,13 @@
                 "iconHint": "En emoji eller et ikonnavn (f.eks. ic:baseline-category)",
                 "sortOrder": "Sorteringsrekkefølge",
                 "isActive": "Aktiv"
-            }
+            },
+            "colPosition": "Plassering",
+            "sharedPositionsHint": "Noen kategorier har samme plassering. Butikken viser dem da i alfabetisk rekkefølge. Gi dem hver sin plassering hvis rekkefølgen betyr noe.",
+            "sharedPosition": "Samme plassering som {names}",
+            "appsCount": "{count} app | {count} apper",
+            "noApps": "Ingen apper",
+            "cannotDelete": "Kategorien har apper. Flytt dem til en annen kategori før den kan slettes."
         },
         "companies": {
             "companies": "Virksomheter",
@@ -18762,7 +18795,9 @@
             "serviceTypesLabel": "Innsatstyper",
             "serviceTypesHint": "Fjern haken ved Alle innsatstyper for å velge én eller flere typer feltet bare skal spørres på.",
             "form": "Skjema",
-            "formHint": "Feltet spørres bare på dette skjemaet."
+            "formHint": "Feltet spørres bare på dette skjemaet.",
+            "partyRole": "Legges under Parter som",
+            "partyRoleHint": "Den valgte legges automatisk under Parter på henvendelsen. Personer som allerede står der, beholder rollen sin."
         },
         "types": {
             "text": "Tekst",
@@ -18800,7 +18835,16 @@
         "allowHalfSteps": "Tillat halve trinn (f.eks. 4,5)",
         "wellbeingRuler": "Trivselslinjal",
         "wellbeingRulerHint": "Vises som trivselslinjalen i journalnotater, og svaret blir første punkt på borgerens trivselskurve når saken vinnes.",
-        "allForms": "Alle skjemaer"
+        "allForms": "Alle skjemaer",
+        "partyRoles": {
+            "none": "Legges ikke under Parter",
+            "contact_person": "Kontaktperson",
+            "primary": "Primærkoordinator",
+            "secondary": "Sekundærkoordinator",
+            "intake": "Mottakskoordinator",
+            "consultant": "Konsulent",
+            "case_manager": "Saksbehandler"
+        }
     },
     "inquiryOrigin": {
         "label": "Henvendelsen kommer fra",
@@ -19234,6 +19278,7 @@
             "minStep": "Minst trinnvurdering",
             "needsCar": "Må ha bil",
             "needsDriversLicense": "Må ha førerkort",
+            "drivingWillingness": "Villighet til å kjøre",
             "secondaryHint": "Et pluss. Teller ikke mot konsulenten.",
             "withinTravelRangeOnly": "Kun konsulenter innenfor sin kjøreavstand"
         },
@@ -19244,6 +19289,7 @@
             "region_uuid": "Region",
             "has_car": "Bil",
             "has_drivers_license": "Førerkort",
+            "driving_willingness": "Villighet til å kjøre",
             "min_travel_km": "Kjøreavstand",
             "consultant_status": "Status",
             "min_step_assessment": "Trinnvurdering",
@@ -19253,6 +19299,9 @@
             "within_travel_range": "Innenfor kjøreavstand"
         },
         "askSelected": "Spør {count} valgte",
+        "childCertificate": "Politiattest innhentet {issued}, utløper {expires}",
+        "pickSelected": "Velg {count} valgte uten beskjed",
+        "picked": "Konsulentene er valgt uten beskjed",
         "asked": "Konsulentene er spurt",
         "askFailed": "Konsulentene kunne ikke spørres",
         "location": {
@@ -19379,7 +19428,11 @@
         "contactDirectlyHint": "Inaktive konsulenter får ingen e-post eller varsel i appen om saken. Kontakt dem direkte. Utpek reaktiverer dem med en lisens.",
         "howToldHelp": "Aktive konsulenter får en e-post og et varsel i appen. Har dere SMS-appen, får de også en SMS uten opplysninger om innbyggeren. En inaktiv konsulent uten lisens får bare SMS og kan svare deg på telefon. Du registrerer svaret med Sa ja eller Sa nei.",
         "toldVia": "fikk beskjed på {channels}",
-        "channels": {"mail": "e-post", "app": "app", "sms": "SMS"},
+        "channels": {
+            "mail": "e-post",
+            "app": "app",
+            "sms": "SMS"
+        },
         "notReached": "Ikke nådd",
         "notReachedHint": "Konsulenten fikk verken e-post, varsel i appen eller SMS. Kontakt dem direkte, og registrer svaret med Sa ja eller Sa nei."
     },
@@ -20966,6 +21019,7 @@
             "citizen": "Bruker (valgfritt)",
             "citizenHint": "Opptak av møtet kan ses av ansatte med tilgang til brukeren.",
             "waitingRoom": "Venterom: gjester venter til du slipper dem inn",
+            "guestsCanShareScreen": "Gjester kan dele skjermen sin",
             "colleagues": "Kolleger",
             "guests": "Gjester",
             "guestName": "Navn",
@@ -21015,13 +21069,48 @@
             "admit": "Slipp inn",
             "deny": "Avvis"
         },
+        "brief": {
+            "prepare": "Forbered med Cody AI",
+            "working": "Cody forbereder ...",
+            "hint": "Cody leser journal, mål og siste møte om brukeren.",
+            "byCody": "Cody AI har lest {journals} journalnotater og {goals} mål. Sjekk det før du bruker det.",
+            "suggestedAgenda": "Forslag til dagsorden",
+            "useAgenda": "Bruk som dagsorden",
+            "replaceAgenda": "Erstatt dagsordenen"
+        },
+        "tasks": {
+            "find": "Finn avtaler",
+            "title": "Avtaler fra møtet",
+            "intro": "Cody AI har funnet disse avtalene. Rett dem, velg hvem som gjør hva, og opprett dem som oppgaver.",
+            "none": "Cody AI fant ingen avtaler som noen må handle på.",
+            "include": "Ta med",
+            "description": "Beskrivelse (valgfri)",
+            "assignee": "Ansvarlig",
+            "codySays": "Cody: {owner}",
+            "nobody": "Ingen",
+            "due": "Frist",
+            "board": "Oppgavetavle",
+            "boardHint": "Alle med tilgang til tavlen kan se oppgavene. Ikke skriv helseopplysninger i dem.",
+            "noBoards": "Det finnes ingen oppgavetavler. Du kan kopiere avtalene i stedet.",
+            "create": "Opprett {count} oppgave | Opprett {count} oppgaver",
+            "created": "Opprettet",
+            "copy": "Kopier",
+            "copied": "Kopiert"
+        },
+        "minutes": {
+            "download": "Last ned som PDF"
+        },
         "host_controls": {
             "record": "Ta opp",
             "stopRecording": "Stopp opptak",
             "endForEveryone": "Avslutt for alle",
             "missingConsent": "Mangler samtykke fra: {names}. De er blitt spurt.",
             "recordingStarted": "Opptaket har startet.",
-            "recordingStopped": "Opptaket er stoppet. Det er klart om litt."
+            "recordingStopped": "Opptaket er stoppet. Det er klart om litt.",
+            "guestScreenShareOff": "Gjester kan ikke dele skjerm. Klikk for å gi dem lov.",
+            "guestScreenShareOn": "Gjester kan dele skjerm. Klikk for å ta det tilbake.",
+            "guestScreenShareAllowed": "Gjestene kan nå dele skjermen sin.",
+            "guestScreenShareStopped": "Gjestene kan ikke lenger dele skjermen sin."
         },
         "room": {
             "camera": "Kamera",
@@ -21106,7 +21195,7 @@
             "openDraft": "Åpne utkastet i brukerens journal",
             "draftCreated": "Referatet er lagret som utkast i brukerens journal.",
             "errors": {
-                "too_long": "Opptaket er for langt for et referat (maks. ca. 1,5 time).",
+                "too_long": "Opptaket er for langt for et referat (maks. ca. 4 timer).",
                 "no_audio": "Opptaket har ikke lydspor.",
                 "empty": "Det ble ikke sagt noe Cody AI kunne høre.",
                 "ai_error": "Cody AI kunne ikke lage referatet akkurat nå."
@@ -21525,5 +21614,11 @@
         "suspendedPage": {
             "loading": "Henter status..."
         }
+    },
+    "rolePreview": {
+        "viewAs": "Se som rolle",
+        "banner": "Du ser systemet som rollen {role}.",
+        "readOnly": "Bare visning - ingenting kan lagres.",
+        "end": "Avslutt visning"
     }
 }

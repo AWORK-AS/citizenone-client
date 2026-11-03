@@ -32,23 +32,53 @@
                 <ModulesSuperadminAppSalesOverview v-if="view === 'sales'" />
 
                 <template v-else>
-                <!-- Search + view toggle -->
-                <div class="flex flex-wrap items-center gap-3 mb-4">
-                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.apps.searchPlaceholder')"
-                        @input="debouncedSearch" />
+                <!-- Search, filters and view toggle. Every app is loaded at once (there are a few dozen),
+                     so search and filters answer instantly and the counts are true for the whole catalogue. -->
+                <div class="flex flex-wrap items-center gap-3 mb-3">
+                    <SuperadminTableSearch v-model="searchQuery" :placeholder="$t('superadmin.apps.searchPlaceholder')" />
+
+                    <select v-model="categoryFilter" :aria-label="$t('superadmin.apps.filterCategory')"
+                        class="h-9 rounded-lg border border-[#EAECF0] bg-white pl-3 pr-8 text-[13px] text-[#1F2533] focus:border-[#205E77] focus:ring-0">
+                        <option value="all">{{ $t('superadmin.apps.allCategories') }} ({{ allApps.length }})</option>
+                        <option v-for="category in categories" :key="category.slug" :value="category.slug">
+                            {{ category.name }} ({{ category.count }})
+                        </option>
+                    </select>
 
                     <div class="flex items-center bg-white border border-[#EAECF0] rounded-lg p-0.5 ml-auto">
                         <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
                             :style="viewMode === 'grid' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
-                            @click="viewMode = 'grid'">
+                            :aria-label="'Grid'" @click="viewMode = 'grid'">
                             <Icon name="ph:squares-four" class="w-4 h-4" />
                         </button>
                         <button class="w-8 h-8 rounded-md flex items-center justify-center transition-colors"
                             :style="viewMode === 'list' ? 'background:#205E77;color:#fff' : 'color:#8891A4'"
-                            @click="viewMode = 'list'">
+                            :aria-label="'List'" @click="viewMode = 'list'">
                             <Icon name="ph:list" class="w-4 h-4" />
                         </button>
                     </div>
+                </div>
+
+                <!-- Status: what a superadmin is usually looking for is the odd one out. -->
+                <div class="flex flex-wrap items-center gap-2 mb-4">
+                    <button v-for="status in statuses" :key="status.value" type="button"
+                        class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[12px] font-medium border transition-colors"
+                        :class="statusFilter === status.value
+                            ? 'bg-[#205E77] border-[#205E77] text-white'
+                            : 'bg-white border-[#EAECF0] text-[#5C6478] hover:text-[#1F2533]'"
+                        :aria-pressed="statusFilter === status.value" @click="statusFilter = status.value">
+                        <span v-if="status.dot" class="w-1.5 h-1.5 rounded-full" :class="status.dot"></span>
+                        {{ status.label }}
+                        <span class="opacity-70">{{ status.count }}</span>
+                    </button>
+
+                    <span class="ml-auto text-[12px] text-[#8891A4]">
+                        {{ $t('superadmin.apps.shownCount', { shown: visibleApps.length, total: allApps.length }) }}
+                    </span>
+                    <button v-if="isFiltered" type="button" class="text-[12px] font-medium text-[#205E77] hover:underline"
+                        @click="clearFilters">
+                        {{ $t('superadmin.apps.clearFilters') }}
+                    </button>
                 </div>
 
                 <Alert type="danger" :text="state.error?.message"
@@ -58,191 +88,126 @@
                     <Icon name="ph:spinner" class="w-7 h-7 text-[#42AED9] animate-spin" />
                 </div>
 
+                <div v-else-if="!visibleApps.length"
+                    class="bg-white border border-[#EAECF0] rounded-xl flex flex-col items-center gap-3 py-16 text-[#8891A4]">
+                    <Icon name="ph:squares-four" class="w-12 h-12 opacity-30" />
+                    <p class="text-sm">{{ $t('superadmin.apps.noAppsFound') }}</p>
+                    <button v-if="isFiltered" type="button" class="text-[13px] font-medium text-[#205E77] hover:underline"
+                        @click="clearFilters">
+                        {{ $t('superadmin.apps.clearFilters') }}
+                    </button>
+                </div>
+
                 <!-- GRID VIEW -->
                 <div v-else-if="viewMode === 'grid'" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div v-if="!filteredApps.length"
-                        class="col-span-3 flex flex-col items-center gap-3 py-16 text-[#8891A4]">
-                        <Icon name="ph:squares-four" class="w-12 h-12 opacity-30" />
-                        <p class="text-sm">{{ $t('superadmin.apps.noAppsFound') }}</p>
-                    </div>
-                    <div v-for="app in filteredApps" :key="app.uuid ?? app.id"
-                        class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow group relative">
-
-                        <!-- Active badge -->
-                        <div class="absolute top-4 right-4">
-                            <span v-if="app.is_active !== false" class="co-badge co-badge-green text-[10px]">
-                                <span class="w-1.5 h-1.5 rounded-full bg-[#2E9E33]"></span>
-                                {{ $t('superadmin.apps.active') }}
-                            </span>
-                            <span v-else class="co-badge co-badge-gray text-[10px]">
-                                {{ $t('superadmin.apps.inactive') }}
-                            </span>
+                    <div v-for="app in visibleApps" :key="app.uuid ?? app.id"
+                        class="bg-white border border-[#EAECF0] rounded-xl p-5 shadow-sm hover:shadow-md transition-shadow cursor-pointer"
+                        @click="openEditAppSlider(app)">
+                        <div class="flex items-start gap-3">
+                            <ModulesSuperadminAppMark :app="app" size="lg" />
+                            <div class="min-w-0 flex-1">
+                                <h3 class="text-[14px] font-semibold text-[#1F2533] truncate">{{ app.name }}</h3>
+                                <p class="text-[11px] text-[#8891A4] truncate">{{ app.category?.name ?? $t('superadmin.apps.noCategory') }}</p>
+                            </div>
                         </div>
 
-                        <!-- App icon -->
-                        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-3 overflow-hidden"
-                            :style="`background:${appColor(app.name)}20`">
-                            <img :src="app.image || app.logo || '/img/icons/asset-app.png'"
-                                class="w-10 h-10 object-contain rounded-lg" />
-                        </div>
-
-                        <h3 class="text-[14px] font-semibold text-[#1F2533] pr-16">{{ app.name }}</h3>
-                        <p v-if="app.missing_for_store?.length"
-                            class="mt-1 flex items-center gap-1 text-[11px] font-medium text-[#B45309]">
-                            <Icon name="ph:warning-circle" class="w-3.5 h-3.5" />
-                            {{ $t('superadmin.apps.missingForStore', { fields: missingLabels(app) }) }}
-                        </p>
-                        <p v-else-if="app.version" class="mt-1 text-[11px] text-[#8891A4]">
-                            {{ $t('apps.version') }} {{ app.version }}
-                        </p>
-                        <p v-if="app.description" class="text-[12px] text-[#8891A4] mt-1 line-clamp-2">{{
-                            app.description }}</p>
-
-                        <!-- Boolean badges -->
-                        <div v-if="appBadges(app).length" class="flex flex-wrap gap-1 mt-2">
-                            <span v-for="badge in appBadges(app)" :key="badge.key"
-                                class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                                style="background:#205E77; color:white">
+                        <div class="flex flex-wrap gap-1 mt-3">
+                            <span v-for="pill in statusPills(app)" :key="pill.key" class="co-badge text-[10px]" :class="pill.class">
+                                <span v-if="pill.dot" class="w-1.5 h-1.5 rounded-full" :class="pill.dot"></span>
+                                {{ pill.label }}
+                            </span>
+                            <span v-for="badge in appBadges(app)" :key="badge.key" class="co-badge co-badge-navy text-[10px]">
                                 {{ badge.label }}
                             </span>
                         </div>
 
-                        <!-- Pricing -->
-                        <div class="mt-3 space-y-1">
-                            <div v-if="app.is_one_time_fee && app.price > 0"
-                                class="flex items-center gap-2 text-[12px]">
-                                <span class="co-badge co-badge-navy text-[10px]">{{ $t('superadmin.apps.oneTime')
-                                    }}</span>
-                                <span class="font-semibold text-[#1F2533]">kr. {{ app.price }}</span>
-                            </div>
-                            <div v-if="!app.is_one_time_fee && app.monthly_price > 0"
-                                class="flex items-center gap-2 text-[12px]">
-                                <span class="text-[#5C6478]">{{ $t('superadmin.apps.monthly') }}</span>
-                                <span class="font-semibold text-[#1F2533]">kr. {{ app.monthly_price }}{{
-                                    $t('superadmin.apps.perMonth') }}</span>
-                            </div>
-                            <div v-if="!app.is_one_time_fee && app.yearly_price > 0"
-                                class="flex items-center gap-2 text-[12px]">
-                                <span class="text-[#5C6478]">{{ $t('superadmin.apps.yearly') }}</span>
-                                <span class="font-semibold text-[#1F2533]">kr. {{ app.yearly_price }}{{
-                                    $t('superadmin.apps.perYear') }}</span>
-                            </div>
-                            <div v-if="!app.monthly_price && !app.yearly_price && !app.price"
-                                class="text-[12px] text-[#8891A4]">
-                                {{ $t('superadmin.apps.free') }}
-                            </div>
-                        </div>
+                        <p v-if="app.tagline || app.description" class="text-[12px] text-[#5C6478] mt-2 line-clamp-2">
+                            {{ app.tagline || app.description }}
+                        </p>
 
-                        <!-- Type badge -->
-                        <div class="mt-3">
-                            <span class="co-badge co-badge-gray text-[10px]">{{ capitalizeType(app.type) }}</span>
-                        </div>
-
-                        <!-- Actions -->
-                        <div class="flex items-center gap-2 mt-4 pt-3 border-t border-[#F5F6F8]">
-                            <button
-                                class="flex-1 py-1.5 rounded-lg text-[12px] font-medium bg-[#F5F6F8] text-[#5C6478] hover:bg-[#EEF4FB] hover:text-[#205E77] transition-colors flex items-center justify-center gap-1"
-                                @click="openEditAppSlider(app)">
-                                <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                {{ $t('superadmin.apps.edit') }}
-                            </button>
-                            <button
-                                class="w-8 h-8 rounded-lg flex items-center justify-center text-[#CC3B2D] bg-red-50 hover:bg-red-100 transition-colors"
-                                @click="confirmDelete(app)">
-                                <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                            </button>
+                        <div class="flex items-center justify-between mt-4 pt-3 border-t border-[#F5F6F8] text-[12px]">
+                            <span class="font-medium text-[#1F2533]">{{ priceSummary(app) }}</span>
+                            <span class="text-[#8891A4]">{{ $t('superadmin.apps.customersCount', app.install_count ?? 0) }}</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- LIST VIEW -->
-                <div v-else class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
-                    <div v-if="!filteredApps.length" class="flex flex-col items-center gap-3 py-16 text-[#8891A4]">
-                        <Icon name="ph:squares-four" class="w-12 h-12 opacity-30" />
-                        <p class="text-sm">{{ $t('superadmin.apps.noAppsFound') }}</p>
-                    </div>
-                    <table v-else class="w-full">
-                        <thead>
-                            <tr class="border-b border-[#EAECF0] bg-[#F9FAFB]">
-                                <th class="co-th">
-                                    <div class="flex items-center gap-1">
-                                        {{ $t('superadmin.apps.colName') }}
-                                        <Icon name="ph:arrows-down-up" class="w-3 h-3 text-[#B0B8C4]" />
-                                    </div>
-                                </th>
-                                <th class="co-th">
-                                    <div class="flex items-center gap-1">
-                                        {{ $t('superadmin.apps.colPrice') }}
-                                        <Icon name="ph:arrows-down-up" class="w-3 h-3 text-[#B0B8C4]" />
-                                    </div>
-                                </th>
-                                <th class="co-th">
-                                    <div class="flex items-center gap-1">
-                                        {{ $t('superadmin.apps.colType') }}
-                                        <Icon name="ph:arrows-down-up" class="w-3 h-3 text-[#B0B8C4]" />
-                                    </div>
-                                </th>
-                                <th class="co-th"></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="app in filteredApps" :key="app.uuid ?? app.id"
-                                class="border-b border-[#F5F6F8] hover:bg-[#F9FAFB] transition-colors">
-
-                                <!-- Name -->
-                                <td class="co-td">
-                                    <div v-if="appBadges(app).length" class="flex flex-wrap gap-1 mb-2">
-                                        <span v-for="badge in appBadges(app)" :key="badge.key"
-                                            class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-semibold"
-                                            style="background:#205E77; color:white">
-                                            {{ badge.label }}
-                                        </span>
-                                    </div>
-                                    <div class="flex items-center gap-3">
-                                        <div class="w-9 h-9 rounded-full border-2 border-[#42AED9] flex items-center justify-center overflow-hidden flex-shrink-0"
-                                            :style="`background:${appColor(app.name)}18`">
-                                            <img :src="app.image || app.logo || '/img/icons/asset-app.png'"
-                                                class="w-7 h-7 object-contain rounded-full" />
+                <!-- LIST VIEW, grouped by category in the order the store shows them -->
+                <div v-else class="space-y-6">
+                    <section v-for="group in groups" :key="group.key"
+                        class="bg-white border border-[#EAECF0] rounded-xl overflow-hidden shadow-sm">
+                        <header class="flex items-center gap-2 px-4 py-2.5 border-b border-[#EAECF0] bg-[#F9FAFB]">
+                            <h2 class="text-[13px] font-semibold text-[#1F2533]">{{ group.name }}</h2>
+                            <span class="text-[12px] text-[#8891A4]">{{ group.apps.length }}</span>
+                        </header>
+                        <table class="w-full table-fixed">
+                            <colgroup>
+                                <col />
+                                <col class="w-[220px]" />
+                                <col class="w-[90px]" />
+                                <col class="w-[260px]" />
+                                <col class="w-[150px]" />
+                            </colgroup>
+                            <thead class="sr-only">
+                                <tr>
+                                    <th>{{ $t('superadmin.apps.colApp') }}</th>
+                                    <th>{{ $t('superadmin.apps.colPrice') }}</th>
+                                    <th>{{ $t('superadmin.apps.colCustomers') }}</th>
+                                    <th>{{ $t('superadmin.apps.colStatus') }}</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="app in group.apps" :key="app.uuid ?? app.id"
+                                    class="border-b border-[#F5F6F8] last:border-b-0 hover:bg-[#F9FAFB] transition-colors cursor-pointer"
+                                    @click="openEditAppSlider(app)">
+                                    <td class="co-td">
+                                        <div class="flex items-center gap-3 min-w-0">
+                                            <ModulesSuperadminAppMark :app="app" />
+                                            <div class="min-w-0">
+                                                <div class="flex items-center gap-1.5 min-w-0">
+                                                    <span class="text-[13px] font-semibold text-[#1F2533] truncate">{{ app.name }}</span>
+                                                    <span v-for="badge in appBadges(app)" :key="badge.key"
+                                                        class="co-badge co-badge-navy text-[10px] shrink-0">{{ badge.label }}</span>
+                                                </div>
+                                                <p class="text-[11px] text-[#8891A4] truncate">{{ app.slug }}</p>
+                                            </div>
                                         </div>
-                                        <span class="text-[13px] font-semibold text-[#1F2533]">{{ app.name }}</span>
-                                    </div>
-                                </td>
-
-                                <!-- Price -->
-                                <td class="co-td">
-                                    <div class="space-y-0.5 text-[12px] text-[#5C6478]">
-                                        <div>{{ $t('superadmin.apps.labelMonthlyPrice') }}: {{
-                                            formatPrice(app.monthly_price) }}
+                                    </td>
+                                    <td class="co-td text-[12px] text-[#1F2533]">{{ priceSummary(app) }}</td>
+                                    <td class="co-td text-[12px] text-[#5C6478] tabular-nums"
+                                        :title="$t('superadmin.apps.colCustomers')">
+                                        {{ app.install_count ?? 0 }}
+                                    </td>
+                                    <td class="co-td">
+                                        <div class="flex flex-wrap gap-1">
+                                            <span v-for="pill in statusPills(app)" :key="pill.key" class="co-badge text-[10px]"
+                                                :class="pill.class" :title="pill.title">
+                                                <span v-if="pill.dot" class="w-1.5 h-1.5 rounded-full" :class="pill.dot"></span>
+                                                {{ pill.label }}
+                                            </span>
                                         </div>
-                                        <div>{{ $t('superadmin.apps.labelYearlyPrice') }}: {{
-                                            formatPrice(app.yearly_price) }}</div>
-                                    </div>
-                                </td>
-
-                                <!-- Type -->
-                                <td class="co-td text-[13px] text-[#5C6478]">
-                                    {{ capitalizeType(app.type) }}
-                                </td>
-
-                                <!-- Actions -->
-                                <td class="co-td">
-                                    <div class="flex items-center gap-2 justify-end">
-                                        <button class="co-action-btn" @click="openEditAppSlider(app)">
-                                            <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
-                                            {{ $t('superadmin.apps.edit') }}
-                                        </button>
-                                        <button class="co-action-btn-danger" @click="confirmDelete(app)">
-                                            <Icon name="ph:trash" class="w-3.5 h-3.5" />
-                                            {{ $t('delete') }}
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                    </td>
+                                    <td class="co-td">
+                                        <div class="flex items-center gap-2 justify-end">
+                                            <button class="co-action-btn" @click.stop="openEditAppSlider(app)">
+                                                <Icon name="ph:pencil-simple" class="w-3.5 h-3.5" />
+                                                {{ $t('superadmin.apps.edit') }}
+                                            </button>
+                                            <button class="co-icon-btn-danger" :title="$t('delete')" :aria-label="`${$t('delete')} ${app.name}`"
+                                                @click.stop="confirmDelete(app)">
+                                                <Icon name="ph:trash" class="w-3.5 h-3.5" />
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </section>
                 </div>
 
-                <Pagination :data="state.apps" @previous="previous" @next="next" />
+                <!-- Only when the catalogue ever outgrows one page. -->
+                <Pagination v-if="(state.apps?.meta?.last_page ?? 1) > 1" :data="state.apps" @previous="previous" @next="next" />
                 </template>
             </div>
 
@@ -289,67 +254,162 @@ function missingLabels(app: any) {
 }
 
 let currentTablePage = 1
-let searchTimeout: any = null
-const searchQuery = ref('')
+const route = useRoute()
+const router = useRouter()
+
+/** Filters live in the address, so a link (from the category page, or a colleague) opens the same view. */
+const searchQuery = ref(String(route.query.q ?? ''))
+const categoryFilter = ref(String(route.query.category ?? 'all'))
+const statusFilter = ref(String(route.query.status ?? 'all'))
 const viewMode = ref<'grid' | 'list'>('list')
+
+watch([searchQuery, categoryFilter, statusFilter], () => {
+    const query: Record<string, string> = {}
+    if (searchQuery.value.trim()) query.q = searchQuery.value.trim()
+    if (categoryFilter.value !== 'all') query.category = categoryFilter.value
+    if (statusFilter.value !== 'all') query.status = statusFilter.value
+    router.replace({ query })
+})
 
 const showNewAppSlider = ref(false)
 const showEditAppSlider = ref(false)
 const editAppUuid = ref(null) as any
 
-// App icon + colour mapping
-const APP_ICONS: Record<string, string> = {
-    'mail': 'ph:envelope', 'booking': 'ph:calendar', 'kursus': 'ph:graduation-cap',
-    'leads': 'ph:funnel', 'ai': 'ph:robot', 'chat': 'ph:chat', 'fakturering': 'ph:invoice',
-}
-const APP_COLORS = ['#205E77', '#2E9E33', '#368F8B', '#1A4D99', '#D4900A', '#9B4D9B', '#CC3B2D']
-const appIcon = (name: string) => {
-    const key = (name || '').toLowerCase()
-    const match = Object.keys(APP_ICONS).find(k => key.includes(k))
-    return match ? APP_ICONS[match] : 'ph:squares-four'
-}
-const appColor = (name: string) => APP_COLORS[(name?.charCodeAt(0) ?? 0) % APP_COLORS.length]
-
 const state = reactive({
     apps: [] as any,
-    allApps: [] as any,
-    dataFilter: { search: null as any },
     error: {} as Error,
     isLoading: false,
     modal: { isDeleteOpen: false },
     selectedApp: null as any,
 })
 
-const filteredApps = computed(() => state.allApps?.data ?? [])
+const NO_CATEGORY = 'none'
+
+const allApps = computed<any[]>(() => state.apps?.data ?? [])
+
+/** The categories in the order the store draws its shelves, each with how many apps it holds. */
+const categories = computed(() => {
+    const map = new Map<string, { slug: string; name: string; sort: number; count: number }>()
+    for (const app of allApps.value) {
+        const slug = app.category?.slug ?? NO_CATEGORY
+        const entry = map.get(slug) ?? {
+            slug,
+            name: app.category?.name ?? t('superadmin.apps.noCategory'),
+            sort: app.category ? (app.category.sort_order ?? 0) : Number.MAX_SAFE_INTEGER,
+            count: 0,
+        }
+        entry.count++
+        map.set(slug, entry)
+    }
+    return [...map.values()].sort((a, b) => a.sort - b.sort || a.name.localeCompare(b.name, 'da'))
+})
+
+const isLive = (app: any) => app.is_active !== false && app.is_public !== false
+const isHidden = (app: any) => app.is_active !== false && app.is_public === false
+const isInactive = (app: any) => app.is_active === false
+const isIncomplete = (app: any) => (app.missing_for_store?.length ?? 0) > 0
+
+const STATUS_TESTS: Record<string, (app: any) => boolean> = {
+    all: () => true,
+    live: isLive,
+    hidden: isHidden,
+    inactive: isInactive,
+    incomplete: isIncomplete,
+}
+
+const inCategory = computed(() => allApps.value.filter(app =>
+    categoryFilter.value === 'all' || (app.category?.slug ?? NO_CATEGORY) === categoryFilter.value))
+
+const statuses = computed(() => [
+    { value: 'all', label: t('superadmin.apps.statusAll'), dot: '' },
+    { value: 'live', label: t('superadmin.apps.statusLive'), dot: 'bg-[#2E9E33]' },
+    { value: 'hidden', label: t('superadmin.apps.statusHidden'), dot: 'bg-[#8891A4]' },
+    { value: 'inactive', label: t('superadmin.apps.inactive'), dot: 'bg-[#CC3B2D]' },
+    { value: 'incomplete', label: t('superadmin.apps.statusIncomplete'), dot: 'bg-[#D4900A]' },
+].map(status => ({ ...status, count: inCategory.value.filter(STATUS_TESTS[status.value]).length })))
+
+const visibleApps = computed(() => {
+    const words = searchQuery.value.trim().toLowerCase().split(/\s+/).filter(Boolean)
+    const test = STATUS_TESTS[statusFilter.value] ?? STATUS_TESTS.all
+    return inCategory.value.filter(app => {
+        if (!test(app)) return false
+        const haystack = [app.name, app.slug, app.tagline, app.description, app.category?.name, app.type]
+            .filter(Boolean).join(' ').toLowerCase()
+        return words.every(word => haystack.includes(word))
+    })
+})
+
+/** One section per category, in shelf order; within it the store's own order. */
+const groups = computed(() => categories.value
+    .map(category => ({
+        key: category.slug,
+        name: category.name,
+        apps: visibleApps.value
+            .filter(app => (app.category?.slug ?? NO_CATEGORY) === category.slug)
+            .sort((a, b) => (a.sort_order ?? 0) - (b.sort_order ?? 0) || a.name.localeCompare(b.name, 'da')),
+    }))
+    .filter(group => group.apps.length > 0))
+
+const isFiltered = computed(() =>
+    searchQuery.value.trim() !== '' || categoryFilter.value !== 'all' || statusFilter.value !== 'all')
+
+function clearFilters() {
+    searchQuery.value = ''
+    categoryFilter.value = 'all'
+    statusFilter.value = 'all'
+}
 
 function appBadges(app: any) {
     const badges = []
     if (app.is_popular) badges.push({ key: 'popular', label: t('superadmin.apps.form.popular') })
     if (app.is_news) badges.push({ key: 'news', label: t('superadmin.apps.form.news') })
-    if (app.is_thirdparty) badges.push({ key: 'thirdparty', label: t('superadmin.apps.form.thirdPartyApp') })
     if (app.is_recommended) badges.push({ key: 'recommended', label: t('superadmin.apps.form.recommended') })
-    if (app.is_quantifiable) badges.push({ key: 'quantifiable', label: t('superadmin.apps.form.quantifiable') })
+    if (app.is_thirdparty) badges.push({ key: 'thirdparty', label: t('superadmin.apps.form.thirdPartyApp') })
     return badges
 }
 
-function formatPrice(val: any) {
-    const n = parseFloat(val ?? 0)
-    return isNaN(n) ? '0.00' : n.toFixed(2)
+/** Where the app stands, in the order a superadmin asks: is it on sale, and is anything missing. */
+function statusPills(app: any) {
+    const pills: { key: string; label: string; class: string; dot?: string; title?: string }[] = []
+    if (isInactive(app)) {
+        pills.push({ key: 'inactive', label: t('superadmin.apps.inactive'), class: 'co-badge-red', dot: 'bg-[#CC3B2D]' })
+    } else if (isHidden(app)) {
+        pills.push({ key: 'hidden', label: t('superadmin.apps.statusHidden'), class: 'co-badge-gray', dot: 'bg-[#8891A4]' })
+    } else {
+        pills.push({ key: 'live', label: t('superadmin.apps.statusLive'), class: 'co-badge-green', dot: 'bg-[#2E9E33]' })
+    }
+    if (isIncomplete(app)) {
+        pills.push({
+            key: 'incomplete',
+            label: t('superadmin.apps.statusIncomplete'),
+            class: 'co-badge-amber',
+            title: t('superadmin.apps.missingForStore', { fields: missingLabels(app) }),
+        })
+    }
+    return pills
 }
 
-function capitalizeType(type: any) {
-    if (!type) return t('superadmin.apps.typeOther')
-    const map: Record<string, string> = {
-        citizenone: 'CitizenOne',
-        fst: 'FST',
-        marketing: 'Marketing',
-        visual: 'Visual',
-        other: 'Other',
-        module: 'Module',
-        course: 'Course',
-        integration: 'Integration',
+const whole = new Intl.NumberFormat('da-DK', { maximumFractionDigits: 0 })
+const exact = new Intl.NumberFormat('da-DK', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+/** "1.490" for whole kroner, "1.393,20" for the rest: never "1.393,2". */
+const kroner = { format: (n: number) => (Number.isInteger(n) ? whole : exact).format(n) }
+
+function amount(value: any): number {
+    const n = parseFloat(value ?? 0)
+    return Number.isNaN(n) ? 0 : n
+}
+
+/** "749 kr./md. · 8.988 kr./år", "1.500 kr. engang" or "Gratis": one line instead of two zero rows. */
+function priceSummary(app: any): string {
+    if (app.is_one_time_fee) {
+        return amount(app.price) > 0
+            ? t('superadmin.apps.priceOnce', { amount: kroner.format(amount(app.price)) })
+            : t('superadmin.apps.free')
     }
-    return map[type.toLowerCase()] ?? (type.charAt(0).toUpperCase() + type.slice(1))
+    const parts = []
+    if (amount(app.monthly_price) > 0) parts.push(t('superadmin.apps.pricePerMonth', { amount: kroner.format(amount(app.monthly_price)) }))
+    if (amount(app.yearly_price) > 0) parts.push(t('superadmin.apps.pricePerYear', { amount: kroner.format(amount(app.yearly_price)) }))
+    return parts.length ? parts.join(' · ') : t('superadmin.apps.free')
 }
 
 onMounted(() => {
@@ -359,26 +419,14 @@ onMounted(() => {
 async function fetchApps() {
     state.isLoading = true
     try {
-        const params: any = { page: currentTablePage, ...state.dataFilter }
-        const response = await appService.getApplications(params)
+        const response = await appService.getApplications({ page: currentTablePage, per_page: 500 })
         if (response) {
-            state.allApps = response
             state.apps = response
         }
     } catch (error: any) {
         state.error = error
     }
     state.isLoading = false
-}
-
-function debouncedSearch() {
-    clearTimeout(searchTimeout)
-    searchTimeout = setTimeout(() => {
-        const trimmed = searchQuery.value.trim()
-        state.dataFilter.search = trimmed.length ? Array(trimmed.split(/\s+/)) : null
-        currentTablePage = 1
-        fetchApps()
-    }, 350)
 }
 
 function openEditAppSlider(app: any) {
@@ -493,6 +541,35 @@ function next() {
 .co-badge-gray {
     background: #F5F6F8;
     color: #5C6478
+}
+
+.co-badge-red {
+    background: #FEF2F2;
+    color: #CC3B2D
+}
+
+.co-badge-amber {
+    background: #FFF7E6;
+    color: #B45309
+}
+
+.co-icon-btn-danger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    color: #8891A4;
+    border: 1px solid transparent;
+    transition: all 0.15s;
+    cursor: pointer
+}
+
+.co-icon-btn-danger:hover {
+    background: #FEF2F2;
+    color: #CC3B2D;
+    border-color: #F5C6C3
 }
 
 .line-clamp-2 {

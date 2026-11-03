@@ -611,6 +611,7 @@
                 <div class="px-4 sm:px-6 lg:px-6">
                     <!-- Storage is nearly or completely full. Sits in the content flow rather than
                          above the navbar so it never disturbs the measured sticky offsets. -->
+                    <ModulesUserRolePreviewBanner />
                     <ModulesUserStorageQuotaNotice />
 
                     <!-- Cody adoption: trial offer, countdown, or a request to the admin. -->
@@ -692,8 +693,9 @@
             @close="state.modal.isContactUsOpen = false" v-if="state.modal.isContactUsOpen" />
         <ModulesUserReminderCheckIn :isModalOpen="state.modal.isCheckinReminderOpen && checkinGranted"
             @close="state.modal.isCheckinReminderOpen = false" />
-        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen && twofaGranted"
-            @close="state.modal.is2faRequiredOpen = false" />
+        <!-- Not behind the prompt slot: the API answers nothing else until 2FA is on. -->
+        <ModulesUserSettings2faGoogleModalRequire2fa :isModalOpen="state.modal.is2faRequiredOpen"
+            @close="state.modal.is2faRequiredOpen = false" @logout="logout" />
         <ModulesUserCitizenPlanModalCompletionReminder
             :isModalOpen="state.modal.isPlanGoalSubgoalCompletionReminderOpen && completionGranted" @close="closeCompletionReminder" />
         <ModulesUserLanguageSlideOver :isOpen="state.slideOver.isLanguageSwitcherOpen"
@@ -1236,7 +1238,8 @@ const state = reactive({
 // generateSidebarLinks() never runs - leaving the sidebar permanently empty.
 watch(() => userStore.getUser, (user: any) => {
     if (user) { setCustomPageNames(); state.showSubscribeButton = true; generateSidebarLinks(user) }
-    if (user?.company?.is_2fa_enabled && !user?.is_google_2fa_enabled) { state.modal.is2faRequiredOpen = true }
+    // Mandatory while the company requires 2FA and the user has none; lifts if the admin switches it off.
+    state.modal.is2faRequiredOpen = !!(user?.company?.is_2fa_enabled && !user?.is_google_2fa_enabled)
 }, { immediate: true })
 
 watch(() => userStore.getUser?.company?.onboarding_preferences?.modules?.vagtplan, () => {
@@ -1757,7 +1760,8 @@ const { tour: welcomeTour, steps: welcomeSteps, startIfDue: startWelcomeTourIfDu
 
 // One unsolicited prompt at a time (see composables/promptQueue.ts): security first, then the
 // tour, then the rest. Each prompt keeps its own trigger; the slot only decides when it shows.
-const twofaGranted = usePromptSlot('security2fa', computed(() => state.modal.is2faRequiredOpen))
+// The 2FA setup shows regardless; it still holds the slot so nothing else opens on top of it.
+usePromptSlot('security2fa', computed(() => state.modal.is2faRequiredOpen))
 const tourGranted = usePromptSlot('tour', computed(() => welcomeTour.value.active || !!state.activeAppTour
     || state.modal.isGuidedTourWelcomeOpen || state.modal.isGuidedTourDailyOverviewOpen
     || state.modal.isGuidedTourCitizensOverviewOpen || state.modal.isGuidedTourCalendarOpen

@@ -108,6 +108,12 @@
                                     </td>
                                     <td width="20%">
                                         <div class="flex items-end justify-end gap-2">
+                                            <!-- Read-only: see the app as this role. -->
+                                            <FormButton type="button" buttonStyle="action"
+                                                @click="previewRole(role)" v-if="canPreview(role)">
+                                                <Icon name="ph:eye" class="size-4" />
+                                                {{ $t('rolePreview.viewAs') }}
+                                            </FormButton>
                                             <FormButton type="button" buttonStyle="action"
                                                 @click="navigateTo(`/settings/roles/${role.id}/edit`)"
                                                 v-if="role?.is_editable">
@@ -138,6 +144,9 @@
 <script setup lang="ts">
 import { roleService } from '@/components/api/user/RoleService'
 import { getPermissionLabel } from '@/composables/usePermissions'
+import { startPreviewRole } from '@/composables/usePreviewRole'
+import { useUserStore } from '@/store/user'
+import { rolePreviewService } from '@/components/api/user/RolePreviewService'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
@@ -262,5 +271,22 @@ async function deleteRole() {
         state.error = error
     }
     state.isTableLoading = false
+}
+
+// Admins only, roles at most at their own level. The backend also refuses another
+// company's roles and our own platform roles.
+function canPreview(role: any) {
+    const me = (useUserStore() as any).getUser
+    const myLevel = Math.max(0, ...((me?.roles ?? []).map((r: any) => Number(r?.level ?? 0))))
+    return myLevel >= 80 && Number(role?.level ?? 0) <= myLevel
+}
+
+async function previewRole(role: any) {
+    try {
+        const response = await rolePreviewService.start(role.id)
+        startPreviewRole({ id: role.id, name: response?.data?.role_name ?? role.name })
+    } catch (error: any) {
+        state.error = error
+    }
 }
 </script>

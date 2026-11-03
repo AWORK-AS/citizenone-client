@@ -5,6 +5,14 @@
             <template #modal-body>
                 <Alert type="danger" :text="state.error?.message" v-if="state.error?.message" />
 
+                <!-- A role somebody already holds is never moved by taking a case. -->
+                <div v-if="state.skipped.length" role="alert" class="mb-4 rounded-lg bg-yellow-200 px-4 py-3 text-sm text-black">
+                    <p class="font-medium">{{ $t('inquiryPipeline.unassignedConverted.skippedIntro') }}</p>
+                    <ul class="mt-1 list-disc pl-5">
+                        <li v-for="item in state.skipped" :key="item.inquiry_uuid">{{ skippedLine(item) }}</li>
+                    </ul>
+                </div>
+
                 <p v-if="!state.items.length && !state.isLoading" class="text-sm text-gray-400 py-5">
                     {{ $t('inquiryPipeline.unassignedConverted.empty') }}
                 </p>
@@ -14,7 +22,14 @@
                         <p class="text-[13px] text-slate-500">
                             {{ $t('inquiryPipeline.unassignedConverted.selectedOfTotal', { selected: selectedCount, total: state.items.length }) }}
                         </p>
-                        <div class="flex items-end gap-2">
+                        <div class="flex flex-wrap items-end gap-2">
+                            <!-- Taking a case makes you its coordinator, so it shows in the
+                                 coordinator distribution on Min dag. -->
+                            <div class="w-52">
+                                <FormSelect id="coordinator-role" :options="roleOptions" v-model="state.coordinatorRole"
+                                    :canClear="false" :canDeselect="false"
+                                    :aria-label="$t('inquiryPipeline.unassignedConverted.role')" />
+                            </div>
                             <!-- A leader hands the cases out; everyone else takes them. -->
                             <div v-if="isAtLeast('Manager')" class="w-56">
                                 <FormSelect id="assign-to" :options="assigneeOptions" v-model="state.assignTo"
@@ -116,9 +131,24 @@ const state = reactive({
     // Empty means the person opening this takes the cases.
     assignTo: null as string | null,
     employees: [] as any[],
+    coordinatorRole: 'primary' as 'primary' | 'secondary' | 'intake',
+    skipped: [] as any[],
 })
 
 const { isAtLeast } = usePermissions()
+
+const roleOptions = computed(() => [
+    { value: 'primary', label: t('citizens.coordinators.primary') },
+    { value: 'secondary', label: t('citizens.coordinators.secondary') },
+    { value: 'intake', label: t('citizens.coordinators.intake') },
+])
+
+function skippedLine(item: any) {
+    const name = item?.citizen_name || '-'
+    return item?.reason === 'role_taken'
+        ? t('inquiryPipeline.unassignedConverted.skippedTaken', { name, holder: item?.holder_name || '-' })
+        : t('inquiryPipeline.unassignedConverted.skippedOtherRole', { name })
+}
 
 const assigneeOptions = computed(() => [
     { value: null, label: t('inquiryPipeline.unassignedConverted.myself') },
@@ -140,6 +170,7 @@ async function fetchEmployees() {
 
 watch(() => props.isModalOpen, (isOpen) => {
     if (isOpen) {
+        state.skipped = []
         fetchItems()
         fetchEmployees()
     }
@@ -170,8 +201,10 @@ async function claimSelected() {
 
     state.isClaiming = true
     state.error = {}
+    state.skipped = []
     try {
-        const response = await citizenInquiryService.assignSelf(uuids, state.assignTo)
+        const response = await citizenInquiryService.assignSelf(uuids, state.assignTo, state.coordinatorRole)
+        state.skipped = response?.skipped ?? []
         // The server names who now has them, which says more than a count.
         successAlert(`${t('alert.success')}!`, response?.message ?? t('inquiryPipeline.unassignedConverted.claimed', { count: uuids.length }))
         await fetchItems()
