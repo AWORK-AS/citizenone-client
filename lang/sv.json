@@ -3393,6 +3393,7 @@
                 "datetimeEnd": "Datum och tid slut",
                 "datetimeStart": "Datum och tid start",
                 "fromDutySchedule": "Från tjänsteschema",
+                "paidOut": "Utbetald",
                 "historical": "Från WorkZone",
                 "note": "Anmärkning",
                 "totalHours": "Totalt timmar",
@@ -12306,6 +12307,8 @@
                 "missingNoteDeadlineHours": "{hours} timmar",
                 "certificateReminderAllRecipients": "Påminnelser om intyg till alla administratörer och medarbetaren",
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
+                "careHourPayrollLock": "Stäng månader för lön",
+                "careHourPayrollLockHint": "En administratör stänger en månad under Tidsloggar → Indsatstimer → Lönemånader. Insatstimmar i en stängd månad visas som utbetalda och kan inte läggas till, ändras eller tas bort förrän månaden öppnas igen",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
                 "autoAiForNewEmployees": "Ge nya medarbetare AI automatiskt",
@@ -16196,6 +16199,25 @@
         "timeAccounts": "Timekonti"
     },
     "timeLogs": {
+        "payrollMonths": {
+            "button": "Lönemånader",
+            "title": "Lönemånader",
+            "hint": "Stäng en månad när lönen för den har körts. Insatstimmar i en stängd månad är utbetalda: ingen kan lägga till, ändra eller ta bort dem förrän en administratör öppnar månaden igen. Bara en månad som är slut kan stängas.",
+            "month": "Månad",
+            "status": "Status",
+            "registrations": "Registreringar",
+            "open": "Öppen",
+            "closed": "Stängd",
+            "closedBy": "Stängd {date} av {name}",
+            "reopenedBy": "Öppnad igen {date} av {name}",
+            "close": "Stäng månad",
+            "reopen": "Öppna igen",
+            "confirmClose": "Stäng {month} för lön? Insatstimmarna i den blir utbetalda och låsta.",
+            "confirmCloseOpenRows": "{count} registreringar i {month} pågår fortfarande (incheckad eller en pågående resa). De kan fortfarande avslutas och låses då också.",
+            "confirmReopen": "Öppna {month} igen? Insatstimmarna i den kan ändras igen.",
+            "closedAlert": "{month} är stängd för lön",
+            "reopenedAlert": "{month} är öppen igen"
+        },
         "download": {
             "date": "Datum",
             "download": "Ladda ner",
