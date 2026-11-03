@@ -18115,9 +18115,47 @@
         "filter": "Inaktiv i 3+ månader"
     },
     "questionnaireInbox": {
+        "sendQuestionnaire": "Skicka enkät",
+        "sentToast": "Enkät skickad till {name}",
+        "withdrawConfirm": "Enkäten dras tillbaka och patienten kan inte längre svara på den. Är du säker?",
+        "awaiting": {
+            "patient": "Patient",
+            "questionnaire": "Enkät",
+            "sent": "Skickad",
+            "waiting": "Väntar",
+            "delivery": "Leverans",
+            "status": "Status",
+            "actions": "Åtgärder",
+            "today": "I dag",
+            "daysWaiting": "Väntar i {days} dagar",
+            "daysWaitingOne": "Väntar i 1 dag"
+        },
+        "pending": {
+            "waiting": "Väntar",
+            "opened": "Öppnad",
+            "expired": "Utgången"
+        },
+        "actions": {
+            "resend": "Skicka igen",
+            "withdraw": "Dra tillbaka",
+            "openPatient": "Öppna patient"
+        },
+        "send": {
+            "patient": "Patient",
+            "chooseQuestionnaire": "Välj formulär eller enkät",
+            "searchPatient": "Sök på namn eller personnummer",
+            "alreadySent": "redan skickad",
+            "expired": "utgången",
+            "alreadySentHint": "Har redan skickats till patienten och väntar på svar.",
+            "expiredHint": "Länken har gått ut. Använd Skicka igen för att skicka en ny länk.",
+            "surveyPortalNote": "Enkäten skickas till patientportalen.",
+            "noPortalAccess": "Patienten har inte tillgång till portalen och kan inte svara på enkäten förrän systemåtkomst har aktiverats i patientens uppgifter.",
+            "nothingToSend": "Det finns inget du kan skicka till den här patienten."
+        },
         "title": "Formulärinkorg",
         "subtitle": "Formulär och enkäter som patienter har skickat tillbaka, för granskning",
         "tabs": {
+            "awaiting": "Väntar på svar",
             "to_review": "Att granska",
             "approved": "Godkända",
             "declined": "Avslagna",
@@ -18133,6 +18171,9 @@
             "survey": "Enkät"
         },
         "filters": {
+            "sentFrom": "Skickad från",
+            "sentTo": "Skickad till",
+            "onlyExpired": "Endast utgångna",
             "search": "Patient",
             "searchPlaceholder": "Sök på patientens namn",
             "questionnaire": "Formulär",
@@ -18143,6 +18184,7 @@
             "clear": "Rensa filter"
         },
         "empty": {
+            "awaiting": "Inga enkäter väntar på svar",
             "to_review": "Inga formulär väntar på granskning",
             "approved": "Inga godkända formulär",
             "declined": "Inga avslagna formulär",
@@ -18175,6 +18217,8 @@
             "declinedBy": "Avslagen av {name} den {date}"
         },
         "alert": {
+            "resent": "En ny länk skickades. Den gamla länken fungerar inte längre.",
+            "withdrawn": "Enkäten drogs tillbaka.",
             "approved": "Formuläret är godkänt.",
             "declined": "Formuläret är avslaget.",
             "reopened": "Formuläret är tillbaka under Att granska."

@@ -18200,9 +18200,47 @@
         "filter": "Inaktiv i 3+ måneder"
     },
     "questionnaireInbox": {
+        "sendQuestionnaire": "Send spørgeskema",
+        "sentToast": "Spørgeskema sendt til {name}",
+        "withdrawConfirm": "Spørgeskemaet trækkes tilbage, og patienten kan ikke længere besvare det. Er du sikker?",
+        "awaiting": {
+            "patient": "Patient",
+            "questionnaire": "Spørgeskema",
+            "sent": "Sendt",
+            "waiting": "Venter",
+            "delivery": "Levering",
+            "status": "Status",
+            "actions": "Handlinger",
+            "today": "I dag",
+            "daysWaiting": "Venter i {days} dage",
+            "daysWaitingOne": "Venter i 1 dag"
+        },
+        "pending": {
+            "waiting": "Afventer",
+            "opened": "Åbnet",
+            "expired": "Udløbet"
+        },
+        "actions": {
+            "resend": "Send igen",
+            "withdraw": "Træk tilbage",
+            "openPatient": "Åbn patient"
+        },
+        "send": {
+            "patient": "Patient",
+            "chooseQuestionnaire": "Vælg formular eller spørgeskema",
+            "searchPatient": "Søg på navn eller CPR",
+            "alreadySent": "allerede sendt",
+            "expired": "udløbet",
+            "alreadySentHint": "Er allerede sendt til patienten og afventer svar.",
+            "expiredHint": "Linket er udløbet. Brug Send igen for at sende et nyt link.",
+            "surveyPortalNote": "Spørgeskemaet sendes til patientportalen.",
+            "noPortalAccess": "Patienten har ikke adgang til portalen og kan ikke besvare spørgeskemaet, før systemadgang er slået til under patientens oplysninger.",
+            "nothingToSend": "Der er intet, du kan sende til denne patient."
+        },
         "title": "Spørgeskema-indbakke",
         "subtitle": "Formularer og spørgeskemaer som patienter har sendt tilbage, til gennemsyn",
         "tabs": {
+            "awaiting": "Afventer svar",
             "to_review": "Til gennemsyn",
             "approved": "Godkendt",
             "declined": "Afvist",
@@ -18218,6 +18256,9 @@
             "survey": "Spørgeskema"
         },
         "filters": {
+            "sentFrom": "Sendt fra",
+            "sentTo": "Sendt til",
+            "onlyExpired": "Kun udløbne",
             "search": "Patient",
             "searchPlaceholder": "Søg på patientens navn",
             "questionnaire": "Skema",
@@ -18228,6 +18269,7 @@
             "clear": "Nulstil filtre"
         },
         "empty": {
+            "awaiting": "Ingen spørgeskemaer afventer svar",
             "to_review": "Ingen skemaer venter på gennemsyn",
             "approved": "Ingen godkendte skemaer",
             "declined": "Ingen afviste skemaer",
@@ -18260,6 +18302,8 @@
             "declinedBy": "Afvist af {name} den {date}"
         },
         "alert": {
+            "resent": "Der er sendt et nyt link. Det gamle link virker ikke længere.",
+            "withdrawn": "Spørgeskemaet er trukket tilbage.",
             "approved": "Skemaet er godkendt.",
             "declined": "Skemaet er afvist.",
             "reopened": "Skemaet er tilbage under Til gennemsyn."

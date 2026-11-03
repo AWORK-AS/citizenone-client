@@ -18,6 +18,18 @@ describe('matches', () => {
         assert.equal(matches(people[2], 'soren'), true)
         assert.equal(matches(people[3], 'marie'), true)
     })
+
+    test('digits search the CPR number, never the name', () => {
+        const withCpr = { value: 'x', label: 'Anna Jensen', cpr: '170580-1234' }
+        assert.equal(matches(withCpr, '170580'), true)
+        assert.equal(matches(withCpr, '170580-1234'), true)
+        assert.equal(matches(withCpr, '1705801234'), true)
+        assert.equal(matches(withCpr, '17 05 80'), true)
+        assert.equal(matches(withCpr, '1234'), false)
+        assert.equal(matches(withCpr, 'anna'), true)
+        // No CPR (or one the user may not see): a number finds nobody.
+        assert.equal(matches(people[0], '170580'), false)
+    })
 })
 
 describe('pickerSections', () => {

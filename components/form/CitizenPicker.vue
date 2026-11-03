@@ -15,7 +15,7 @@
                     <Icon name="ph:x" class="size-3.5" aria-hidden="true" />
                 </button>
             </li>
-            <li v-if="!searching">
+            <li v-if="!searching && !props.single">
                 <button type="button" @click="startSearch"
                     class="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-sm font-medium text-primary hover:bg-primary/5">
                     <Icon name="ph:plus" class="size-3.5" aria-hidden="true" />
@@ -30,7 +30,7 @@
                 <input ref="inputRef" v-model="query" type="search" :id="id" autocomplete="off"
                     role="combobox" :aria-expanded="true" :aria-controls="`${id}-list`"
                     :aria-activedescendant="flat[active] ? `${id}-opt-${flat[active].value}` : undefined"
-                    :placeholder="$t('citizenPicker.search')"
+                    :placeholder="props.placeholder || $t('citizenPicker.search')"
                     @keydown.down.prevent="move(1)" @keydown.up.prevent="move(-1)"
                     @keydown.enter.prevent="flat[active] && pick(flat[active].value)"
                     @keydown.esc.stop.prevent="selectedOptions.length && (searching = false)"
@@ -82,14 +82,20 @@ import { pickerDepartments, pickerSections, rememberRecent, type PickerOption } 
 // The same initials as every avatar in the app.
 import { avatarInitials as initials } from '@/utils/avatar'
 
-const props = defineProps<{ options: PickerOption[], modelValue: string[], id?: string }>()
-const emit = defineEmits<{ (e: 'update:modelValue', value: string[]): void }>()
+// Multiple (default): modelValue is a list of uuids. Single: modelValue is one uuid ('' for nobody),
+// and picking replaces it. `placeholder` replaces the default "Search by name" (e.g. when options carry a CPR).
+const props = defineProps<{ options: PickerOption[], modelValue: string[] | string, id?: string, single?: boolean, placeholder?: string }>()
+const emit = defineEmits<{ (e: 'update:modelValue', value: any): void }>()
 
 const id = props.id ?? 'citizen_picker'
 const userStore = useUserStore() as any
 const query = ref('')
 const active = ref(0)
-const searching = ref(!props.modelValue?.length)
+// The chosen uuids as a list, whichever mode.
+const chosen = computed<string[]>(() => props.single
+    ? (props.modelValue ? [props.modelValue as string] : [])
+    : ((props.modelValue as string[]) ?? []))
+const searching = ref(!chosen.value.length)
 const inputRef = ref<HTMLInputElement | null>(null)
 
 // Per user and browser: a convenience, not something that must follow them.
@@ -99,7 +105,7 @@ function readRecent(): string[] {
 }
 const recent = ref<string[]>([])
 
-const selectedOptions = computed(() => (props.modelValue ?? [])
+const selectedOptions = computed(() => chosen.value
     .map(uuid => props.options.find(o => o.value === uuid))
     .filter((o): o is PickerOption => !!o))
 const departments = computed(() => pickerDepartments(props.options))
@@ -114,11 +120,11 @@ watch(departments, (list) => {
 
 const departmentName = computed(() => departments.value.find(d => d.uuid === department.value)?.name ?? '')
 
-const sections = computed(() => pickerSections(props.options, query.value, recent.value, props.modelValue ?? [], department.value))
+const sections = computed(() => pickerSections(props.options, query.value, recent.value, chosen.value, department.value))
 const flat = computed(() => sections.value.flatMap(s => s.options))
 
 watch(query, () => { active.value = 0 })
-watch(() => props.modelValue, (value) => { if (!value?.length) searching.value = true })
+watch(chosen, (value) => { if (!value.length) searching.value = true })
 
 function move(step: number) {
     if (!flat.value.length) return
@@ -126,7 +132,7 @@ function move(step: number) {
 }
 
 function pick(uuid: string) {
-    emit('update:modelValue', [...(props.modelValue ?? []), uuid])
+    emit('update:modelValue', props.single ? uuid : [...chosen.value, uuid])
     recent.value = rememberRecent(recent.value, uuid)
     try { localStorage.setItem(recentKey.value, JSON.stringify(recent.value)) } catch { /* private mode */ }
     query.value = ''
@@ -134,7 +140,7 @@ function pick(uuid: string) {
 }
 
 function remove(uuid: string) {
-    emit('update:modelValue', (props.modelValue ?? []).filter(u => u !== uuid))
+    emit('update:modelValue', props.single ? '' : chosen.value.filter(u => u !== uuid))
 }
 
 async function startSearch() {
