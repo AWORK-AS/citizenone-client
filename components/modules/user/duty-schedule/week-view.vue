@@ -1681,7 +1681,7 @@ const carryOverEnabled = computed(() => !!userStore.getUser?.company?.transfer_n
 const departmentStore = useDepartmentStore()
 const { formatNumber, parseLocaleNumber } = useNumberFormatter()
 const { formatDateToReadable } = useDatetimeFormatter()
-const { errorAlert } = useAlert()
+const { errorAlert, successAlert, warningAlert } = useAlert()
 const currentDate = ref(moment())
 const teleportReady = ref(false)
 const route = useRoute()
@@ -3065,15 +3065,43 @@ async function pasteEmployeeWeeklySchedule(weeklySchedule: any) {
             state.progress.pendingRequests = state.progress.pendingRequests - 1
             identifyTheProgressPercentage()
             fetchDutySchedule()
+            announceEmployeeCopyResult(response)
         }
     } catch (error: any) {
         state.copyShiftError = error
         state.progress.totalRequests = state.progress.totalRequests - 1
         state.progress.pendingRequests = state.progress.pendingRequests - 1
         identifyTheProgressPercentage()
+        // The Alert sits at the top of the page, out of view once the list is
+        // scrolled, so a refused paste looked like nothing happened.
+        errorAlert(language.t('alert.error'), error?.data?.message || error?.message || '')
     } finally {
         state.isPasting = false
     }
+}
+
+// Says what a paste did. Shifts the target already has at the same times are
+// skipped, so without this a paste of an identical week showed nothing at all.
+function announceEmployeeCopyResult(response: any) {
+    const meta = response?.meta
+    const created = Number(meta?.created ?? response?.data?.length ?? 0)
+    const skipped = Number(meta?.skipped_duplicates ?? 0)
+    const sourceCount = meta?.source_count
+
+    if (created > 0) {
+        const text = [language.t('dutySchedules.copyPaste.created', { count: created }, created)]
+        if (skipped > 0) {
+            text.push(language.t('dutySchedules.copyPaste.skipped', { count: skipped }, skipped))
+        }
+        successAlert(language.t('dutySchedules.copyPaste.resultTitle'), text.join('. '))
+        return
+    }
+
+    // Older backends send no meta; an empty result then has no known reason.
+    const reason = sourceCount === 0
+        ? language.t('dutySchedules.copyPaste.sourceEmpty')
+        : skipped > 0 ? language.t('dutySchedules.copyPaste.allSkipped') : ''
+    warningAlert(language.t('dutySchedules.copyPaste.noneCreatedTitle'), reason)
 }
 
 function isAllWeeklyScheduleCopiedEmpty() {

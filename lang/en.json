@@ -5785,7 +5785,13 @@
             "clickHereToPasteTheSchedule": "Click here to paste the schedule, or press the Escape key on your keyboard to cancel",
             "clickHereToStopCopyingTheSchedule": "Click here to stop copying the schedule",
             "copyingActive": "Copying active - Click to stop",
-            "stopCopying": "Stop copying"
+            "stopCopying": "Stop copying",
+            "resultTitle": "Schedule pasted",
+            "created": "{count} shift added | {count} shifts added",
+            "skipped": "{count} shift skipped because the employee already has the same shift. | {count} shifts skipped because the employee already has the same shifts.",
+            "noneCreatedTitle": "No shifts added",
+            "allSkipped": "The employee already has the same shifts this week.",
+            "sourceEmpty": "There are no shifts in the week you copied."
         },
         "custom": "Custom",
         "date": "Shift Date",
@@ -6120,7 +6126,8 @@
             "sendEmailToEmployee": "Send email to employee",
             "sendEmailToEmployeeTimesChanged": "The shift's date or time has changed, so sending an email is suggested.",
             "sendEmailToEmployeeTimesUnchanged": "The date and time are unchanged, so an email usually isn't needed. The employee still gets a notification in the app.",
-            "compensatoryHours": "Compensatory hours used"
+            "compensatoryHours": "Compensatory hours used",
+            "citizensHint": "Only shows @:terms.citizens{''} this employee has access to. If one is missing, add the employee to the same department, an employee group, or as a contact person."
         },
         "holidays": "Public holidays",
         "holidayWorked": "Public holiday hours (worked)",

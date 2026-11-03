@@ -5730,7 +5730,13 @@
             "clickHereToPasteTheSchedule": "Klikk her for at lime inn vaktplanen, eller trykk på Escape-tasten på dit tastatur for at kansellere",
             "clickHereToStopCopyingTheSchedule": "Klikk her for at stoppe med at kopiere",
             "copyingActive": "Kopiering aktiv - Klikk for at stoppe",
-            "stopCopying": "Stop kopiering"
+            "stopCopying": "Stop kopiering",
+            "resultTitle": "Vaktplan limt inn",
+            "created": "{count} vakt lagt til | {count} vakter lagt til",
+            "skipped": "{count} vakt hoppet over fordi den ansatte allerede har den samme vakten. | {count} vakter hoppet over fordi den ansatte allerede har de samme vaktene.",
+            "noneCreatedTitle": "Ingen vakter lagt til",
+            "allSkipped": "Den ansatte har allerede de samme vaktene denne uken.",
+            "sourceEmpty": "Det er ingen vakter i uken du kopierte."
         },
         "custom": "Brugerdefineret",
         "date": "Vakt dato",
@@ -6065,7 +6071,8 @@
             "sendEmailToEmployee": "Send e-post til den ansatte",
             "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
             "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
-            "compensatoryHours": "Avspaseringstimer brukt"
+            "compensatoryHours": "Avspaseringstimer brukt",
+            "citizensHint": "Viser bare @:terms.citizens{''} som den ansatte har tilgang til. Mangler en, knytt den ansatte til samme avdeling, en ansattgruppe eller som kontaktperson."
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
