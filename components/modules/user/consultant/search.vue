@@ -124,6 +124,13 @@
                         <FormCheckbox :value="!!state.form.has_drivers_license" />
                         <span class="text-sm">{{ $t('consultantMatch.form.needsDriversLicense') }}</span>
                     </div>
+                    <!-- The values come from the consultants' own profiles (free text),
+                         so the list fills after the first search. -->
+                    <div v-if="state.drivingValues.length" class="space-y-1">
+                        <FormLabel for="crit-driving" :label="$t('consultantMatch.form.drivingWillingness')" />
+                        <FormSelectMultiple id="crit-driving" v-model="state.form.driving_willingness"
+                            :options="state.drivingValues.map((value: string) => ({ value, label: value }))" />
+                    </div>
                 </div>
 
                 <div class="mt-4 flex items-center justify-between gap-2">
@@ -174,6 +181,12 @@
                         <Icon name="ph:paper-plane-tilt" class="size-4" />
                         {{ $t('consultantMatch.askSelected', { count: state.picked.length }) }}
                     </FormButton>
+                    <!-- On the inquiry without a message: the coordinator phones them first. -->
+                    <FormButton v-if="inquiryUuid && state.picked.length" type="button" buttonStyle="secondary"
+                        :disabled="state.isInviting" @click="pickWithoutAsking">
+                        <Icon name="ph:hand-pointing" class="size-4" />
+                        {{ $t('consultantMatch.pickSelected', { count: state.picked.length }) }}
+                    </FormButton>
                 </div>
 
                 <p v-if="state.hasSearched && !shownResults.length"
@@ -188,7 +201,8 @@
                         <div class="flex min-w-0 items-start gap-3">
                             <!-- Asking is a decision per consultant, so each
                                  one is picked rather than the whole result set. -->
-                            <div v-if="inquiryUuid" class="mt-0.5 shrink-0 cursor-pointer" @click="togglePick(result.uuid)">
+                            <!-- Someone who must not be contacted is shown, never asked. -->
+                            <div v-if="inquiryUuid && result.contact_status !== 'do_not_contact'" class="mt-0.5 shrink-0 cursor-pointer" @click="togglePick(result.uuid)">
                                 <FormCheckbox :value="state.picked.includes(result.uuid)" />
                             </div>
                             <div class="min-w-0">
@@ -209,8 +223,13 @@
                                 </span>
                                 <!-- Archived consultants are matched too ("Inaktiv - kan kontaktes");
                                      this says they have to be reactivated and given a licence
-                                     before the case. Whoever must not be contacted never
-                                     comes back from the match. -->
+                                     before the case. Whoever must not be contacted only
+                                     comes back when the company switched that on; then
+                                     they carry this badge and are never asked. -->
+                                <span v-if="result.contact_status === 'do_not_contact'"
+                                    class="rounded-full bg-red-50 px-2.5 py-[3px] text-[11.5px] font-bold text-red-700">
+                                    {{ $t('consultantProfile.contact.doNotContact') }}
+                                </span>
                                 <span v-if="result.is_archived" :title="$t('consultantMatch.archivedHint')"
                                     class="rounded-full bg-surface-100 px-2.5 py-[3px] text-[11.5px] font-bold text-slate-600">
                                     {{ $t('consultantMatch.archived') }}
@@ -271,6 +290,13 @@
                         </span>
                     </div>
 
+                    <!-- The latest child protection certificate and when it runs out. -->
+                    <p v-if="result.child_certificate" class="mt-2 text-[12.5px] text-slate-600">
+                        {{ $t('consultantMatch.childCertificate', {
+                            issued: formatDay(result.child_certificate.issued_at),
+                            expires: formatDay(result.child_certificate.expires_at),
+                        }) }}
+                    </p>
                     <ul v-if="result.readiness.length" class="mt-3 space-y-1 border-t border-surface-100 pt-3">
                         <li v-for="(finding, index) in result.readiness" :key="index"
                             class="flex items-start gap-2 text-[12.5px]"
@@ -346,6 +372,7 @@ function emptyForm() {
         region_uuid: null as string | null,
         has_car: null as boolean | null,
         has_drivers_license: null as boolean | null,
+        driving_willingness: [] as string[],
         min_travel_km: '',
         consultant_status: [] as string[],
         min_step_assessment: null as number | null,
@@ -379,6 +406,7 @@ const state = reactive({
     results: [] as any[],
     nameQuery: '',
     picked: [] as string[],
+    drivingValues: [] as string[],
     isInviting: false,
     inquiry: null as any,
     locationGeocoded: false,
@@ -487,10 +515,29 @@ function setSkills(type: string, uuids: string[]) {
     state.form.skill_uuids = [...others, ...(uuids ?? [])]
 }
 
+// 2026-02-10 -> 10.02.2026
+function formatDay(date: string | null) {
+    if (!date) return '-'
+    const [y, m, d] = date.split('-')
+    return `${d}.${m}.${y}`
+}
+
 function togglePick(uuid: string) {
     state.picked = state.picked.includes(uuid)
         ? state.picked.filter((picked) => picked !== uuid)
         : [...state.picked, uuid]
+}
+
+async function pickWithoutAsking() {
+    state.isInviting = true
+    try {
+        const response = await inquiryConsultantInvitationService.invite(inquiryUuid, state.picked, false)
+        state.picked = []
+        successAlert(`${t('alert.success')}!`, response?.message ?? t('consultantMatch.picked'))
+    } catch (error: any) {
+        errorAlert(t('alert.warning'), error?.message ?? t('consultantMatch.askFailed'))
+    }
+    state.isInviting = false
 }
 
 async function invite() {
@@ -666,6 +713,7 @@ async function search() {
         if (state.form.region_uuid) payload.region_uuid = state.form.region_uuid
         if (state.form.has_car !== null) payload.has_car = state.form.has_car
         if (state.form.has_drivers_license !== null) payload.has_drivers_license = state.form.has_drivers_license
+        if (state.form.driving_willingness.length) payload.driving_willingness = state.form.driving_willingness
         if (state.form.min_travel_km !== '') payload.min_travel_km = Number(state.form.min_travel_km)
         if (state.form.consultant_status.length) payload.consultant_status = state.form.consultant_status
         if (state.form.min_step_assessment !== null) payload.min_step_assessment = state.form.min_step_assessment
@@ -675,6 +723,7 @@ async function search() {
         const response = await consultantSkillService.match(payload)
         state.results = response?.data ?? []
         state.criteriaAsked = response?.meta?.criteria_asked ?? []
+        state.drivingValues = response?.meta?.driving_willingness_values ?? state.drivingValues
         state.locationGeocoded = !!response?.meta?.location?.geocoded
         state.hasSearched = true
         // A new result set makes an old selection meaningless.

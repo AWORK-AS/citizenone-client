@@ -713,7 +713,9 @@ async function fetchAllUsers() {
     state.isPageLoading = true
     try {
         const params = {
-            department: departmentStore.getSelectedDepartmentName
+            department: departmentStore.getSelectedDepartmentName,
+            // Also employees without a login yet, e.g. restored from the archive.
+            include_unverified: 1,
         }
         const response = await userService.getAllUsers(params)
         if (response.data) {
@@ -736,7 +738,7 @@ async function fetchAllUsersWithoutAllUsersOption() {
     state.error = {}
     state.isPageLoading = true
     try {
-        const response = await userService.getAllUsersWithoutAllUsersOption()
+        const response = await userService.getAllUsersWithoutAllUsersOption({ include_unverified: 1 })
         if (response.data) {
             let options: any = []
             response.data.forEach(

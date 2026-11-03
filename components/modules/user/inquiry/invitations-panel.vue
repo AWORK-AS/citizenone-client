@@ -41,7 +41,7 @@
                     <span v-if="isNotReached(invitation) && !invitation.is_selected"
                         :title="$t('inquiryInvitations.notReachedHint')"
                         class="rounded-full bg-[#fdf3df] px-2 py-px text-[11px] font-bold text-[#8a6208]">
-                        {{ invitation.notified_via ? $t('inquiryInvitations.notReached') : $t('inquiryInvitations.contactDirectly') }}
+                        {{ invitation.notified_via && !invitation.notified_via.skipped ? $t('inquiryInvitations.notReached') : $t('inquiryInvitations.contactDirectly') }}
                     </span>
                     <span class="rounded-full px-2 py-px text-[11px] font-bold" :class="statusClass(invitation.status)">
                         {{ $t('inquiryInvitations.statuses.' + invitation.status) }}
