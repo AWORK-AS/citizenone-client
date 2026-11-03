@@ -367,6 +367,14 @@
                                                     <Icon name="ph:file-pdf" class="size-4" />
                                                 </FormButton>
                                             </Tooltip>
+                                            <Tooltip :text="tt('drive.table.actions.sendToCitizen')"
+                                                v-if="document.type === 'file' && canSendToCitizen && state.viewMode === 'local' && !state.isInsideOneDrive && !document?.is_onedrive">
+                                                <FormButton :aria-label="tt('drive.table.actions.sendToCitizen')" type="button" buttonStyle="action"
+                                                    data-testid="drive-send-to-citizen"
+                                                    @click="openSendToCitizen(document)">
+                                                    <Icon name="ph:paper-plane-tilt" class="size-4" />
+                                                </FormButton>
+                                            </Tooltip>
                                             <Tooltip :text="$t('drive.table.actions.edit')">
                                                 <FormButton :aria-label="$t('drive.table.actions.edit')" type="button" buttonStyle="action"
                                                     @click="editDocument(document)">
@@ -426,6 +434,8 @@
                         @refreshDocuments="handleRefreshDocuments" @submitForm="saveOneDriveFileContent" />
                     <ModulesUserDocumentAccessModalView :isModalOpen="state.modal.isViewAccessOpen"
                         :selectedDocument="state.selectedDocument" @close="state.modal.isViewAccessOpen = false" />
+                    <ModulesUserDocumentModalSendToCitizen :isModalOpen="state.modal.isSendToCitizenOpen"
+                        :selectedDocument="state.selectedDocument" @close="state.modal.isSendToCitizenOpen = false" />
                     <ModulesUserDocumentModalMoveFile :isModalOpen="state.modal.isMoveFileOpen"
                         :selectedDocument="state.selectedDocument"
                         :onedriveFolders="state.isInsideOneDrive ? state.onedriveFolders : []"
@@ -554,6 +564,7 @@ import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { saveAs } from 'file-saver'
 import { documentBlobViewer, documentFileName, documentExtension, canPreviewInApp } from '@/composables/documentBlobViewer'
@@ -643,6 +654,9 @@ const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { successAlert, errorAlert } = useAlert()
 const userStore = useUserStore() as any
 const { isAtLeast, can } = usePermissions()
+const { tt } = useTerminology()
+// The same rule as putting a file in a patient's documents.
+const canSendToCitizen = computed(() => isAtLeast('Admin') || can('create_citizen_document') || can('create'))
 // Without download_documents a company document can still be viewed, but not
 // saved. OneDrive files go through the user's own OneDrive and aren't covered.
 const canDownloadDocuments = computed(() => isAtLeast('Admin') || can('download_documents'))
@@ -833,6 +847,7 @@ const state = reactive({
         isUpgradeStorageOpen: false,
         isUploadFileOpen: false,
         isViewAccessOpen: false,
+        isSendToCitizenOpen: false,
         isViewFolderStructureOpen: false,
         isViewDocumentOpen: false,
         isDownloadDialogConfirmationOpen: false,
@@ -1829,6 +1844,11 @@ async function confirmOpenEditDocFile() {
     state.modal.isEditDocumentFileWarningOpen = false
     await nextTick()
     state.modal.isEditDocumentFileOpen = true
+}
+
+function openSendToCitizen(document: any) {
+    state.selectedDocument = document
+    state.modal.isSendToCitizenOpen = true
 }
 
 function viewDocumentAccess(document: any) {

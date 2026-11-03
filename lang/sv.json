@@ -2871,6 +2871,7 @@
             "template": "Mall",
             "upgradeStorage": "Opgradér lager",
             "uploadFile": "Upload fil",
+            "uploadFileHelp": "Du kan också spara mejl från Outlook här, både mottagna och skickade. Dra mejlet från Outlook till skrivbordet (eller välj Arkiv > Spara som) och ladda upp filen (.msg eller .eml) här eller dra in den på sidan.",
             "useTemplate": "Använd mall",
             "viewDraftFile": "Visa udkastfiler"
         },
@@ -5618,7 +5619,8 @@
                 "move": "Flytta",
                 "openSelected": "Öppna valda",
                 "view": "Se",
-                "downloadOriginal": "Ladda ner original"
+                "downloadOriginal": "Ladda ner original",
+                "sendToCitizen": "Skicka till {citizen}"
             },
             "dateCreated": "Skapandedatum",
             "lastModified": "Sidst ändrad",
@@ -5644,6 +5646,18 @@
             "previous": "Föregående dokument",
             "next": "Nästa dokument",
             "position": "{current} av {total}"
+        },
+        "sendToCitizen": {
+            "title": "Skicka dokument till {citizen}",
+            "citizens": "{Citizens}",
+            "note": "Dokumentet kopieras till varje vald {citizen}s egna dokument och delas i portalen, där de kan öppna det.",
+            "send": "Skicka",
+            "required": "Välj minst en {citizen}.",
+            "tooMany": "Du kan skicka till högst {max} {citizens} åt gången.",
+            "sentTitle": "Dokumentet har skickats",
+            "sentOne": "Skickat till 1 {citizen}.",
+            "sentMany": "Skickat till {count} {citizens}.",
+            "notNotified": "{count} har inte åtkomst till portalen och har inte fått något meddelande."
         }
     },
     "dutySchedules": {
@@ -11823,7 +11837,11 @@
                 "weekly": "Veckovis",
                 "yearly": "Årligen"
             },
-            "title": "Titel"
+            "title": "Titel",
+            "citizen": "{Citizen} (valfri)",
+            "citizenHelp": "Bara för er. {TheCitizen} får inget meddelande.",
+            "citizenHidden": "Kopplad till en {citizen} som du inte har åtkomst till.",
+            "choose": "Välj {citizen}"
         },
         "iDontNeedToCheckinNow": "Jag behöver inte kontrollera in nu",
         "newReminder": "Ny påminnelse",
@@ -11850,7 +11868,8 @@
             "markAsComplete": "Markera som slutförd",
             "markAsIncomplete": "Markera som inte slutförd",
             "time": "Tid"
-        }
+        },
+        "citizenLabel": "{Citizen}"
     },
     "resetPassword": {
         "form": {
