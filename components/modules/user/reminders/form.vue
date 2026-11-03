@@ -36,6 +36,21 @@
             </div>
             <div class="space-y-1">
                 <p class="text-sm text-gray-600">
+                    {{ tt('reminders.form.citizen') }}
+                </p>
+                <p v-if="isCitizenHidden" class="text-sm text-gray-500">
+                    {{ tt('reminders.form.citizenHidden') }}
+                </p>
+                <template v-else>
+                    <FormSelect id="citizen_uuid" :options="state.options.citizens" :searchable="true"
+                        :canClear="true" :canDeselect="true" :placeholder="tt('reminders.form.choose')"
+                        v-model="state.formReminder.citizen_uuid" />
+                    <p class="text-xs text-gray-500">{{ tt('reminders.form.citizenHelp') }}</p>
+                </template>
+                <FormError :error="props?.error?.errors?.citizen_uuid?.[0]" />
+            </div>
+            <div class="space-y-1">
+                <p class="text-sm text-gray-600">
                     {{ $t('reminders.notes') }}
                 </p>
                 <ckeditor :editor="editor" v-model="state.formReminder.notes" :config="editorStatusConfig"></ckeditor>
@@ -63,12 +78,15 @@ import { useVuelidate } from "@vuelidate/core"
 import { required, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { userService } from '@/components/api/user/UserService'
+import { citizenService } from '@/components/api/user/CitizenService'
+import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
 import { useDepartmentStore } from '@/store/department'
 import { useUserStore } from '@/store/user'
 import { usePermissions } from '@/composables/usePermissions'
 
 const { isAtLeast } = usePermissions()
+const { tt } = useTerminology()
 
 const props = defineProps({
     error: {
@@ -117,7 +135,8 @@ const state = reactive({
         date_time: '',
         notes: '',
         repeat: '',
-        employee: []
+        employee: [],
+        citizen_uuid: null,
     } as any,
     options: {
         repeat: [
@@ -132,18 +151,27 @@ const state = reactive({
             { value: 'every_six_months', label: `${t('reminders.form.repeat.everySixMonths')}` },
             { value: 'yearly', label: `${t('reminders.form.repeat.yearly')}` },
         ],
-        employees: []
+        employees: [],
+        citizens: [] as any[],
     },
 })
 
+// Linked to a citizen this user may not see: the picker is left out, and the
+// field is not sent, so saving keeps the link someone else made.
+const isCitizenHidden = computed(() => props.selectedReminder?.citizen?.is_hidden === true)
+
 onMounted(() => {
     fetchAllEmployees()
+    if (!isCitizenHidden.value) {
+        fetchCitizens()
+    }
     state.formReminder = {
         title: props.selectedReminder.title,
         date_time: props.selectedReminder.date_time,
         notes: props.selectedReminder.notes,
         repeat: props.selectedReminder.repeat,
         employee: [],
+        citizen_uuid: props.selectedReminder?.citizen?.uuid ?? null,
     }
     props.selectedReminder?.reminder_users?.forEach((reminderUser: any) => {
         state.formReminder.employee.push(reminderUser?.user?.uuid)
@@ -184,6 +212,22 @@ async function fetchAllEmployees() {
     state.isTableLoading = false
 }
 
+async function fetchCitizens() {
+    try {
+        const response = await citizenService.getAllCitizens({
+            department: departmentStore.getSelectedDepartmentName
+        })
+        state.options.citizens = (response?.data ?? [])
+            .filter((citizen: any) => citizen?.uuid && citizen.uuid !== 'all-citizens')
+            .map((citizen: any) => ({
+                value: citizen.uuid,
+                label: `${citizen.firstname ?? ''} ${citizen.lastname ?? ''}`.trim(),
+            }))
+    } catch (error: any) {
+        state.error = error
+    }
+}
+
 const rules = computed(() => {
     return {
         formReminder: {
@@ -212,7 +256,7 @@ function submitForm() {
         if (currentUserUuid && !state.formReminder.employee.includes(currentUserUuid)) {
             state.formReminder.employee = [...state.formReminder.employee, currentUserUuid]
         }
-        emit('submitForm', state.formReminder)
+        emit('submitForm', { ...state.formReminder, citizenHidden: isCitizenHidden.value })
     }
 }
 </script>

@@ -11828,7 +11828,11 @@
                 "weekly": "Ugentligt",
                 "yearly": "Årligt"
             },
-            "title": "Titel"
+            "title": "Titel",
+            "citizen": "{Citizen} (valgfri)",
+            "citizenHelp": "Kun til jer. {TheCitizen} får ingen besked.",
+            "citizenHidden": "Knyttet til en {citizen}, du ikke har adgang til.",
+            "choose": "Vælg {citizen}"
         },
         "iDontNeedToCheckinNow": "Jeg behøver ikke tjekke ind nu",
         "newReminder": "Ny påmindelse",
@@ -11855,7 +11859,8 @@
             "markAsComplete": "Markér som fuldført",
             "markAsIncomplete": "Markér som ikke fuldført",
             "time": "Tid"
-        }
+        },
+        "citizenLabel": "{Citizen}"
     },
     "resetPassword": {
         "form": {

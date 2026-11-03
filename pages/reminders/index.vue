@@ -49,6 +49,11 @@
                                             · {{ repeatLabel(reminder.repeat) }}
                                         </template>
                                     </span>
+                                    <NuxtLink v-if="reminder?.citizen?.uuid" :to="`/citizens/${reminder.citizen.uuid}/journals`"
+                                        class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary hover:bg-primary/20">
+                                        <Icon name="ph:user" class="h-3 w-3" />
+                                        {{ reminder.citizen.name }}
+                                    </NuxtLink>
                                 </div>
                             </div>
                             <div class="flex items-center gap-1.5 flex-shrink-0">
@@ -106,6 +111,11 @@
                                                 <Icon name="ph:calendar" class="h-3 w-3" />
                                                 {{ formatDateToReadable(reminder?.date_time) }}
                                             </span>
+                                            <NuxtLink v-if="reminder?.citizen?.uuid" :to="`/citizens/${reminder.citizen.uuid}/journals`"
+                                                class="inline-flex items-center gap-1 text-xs px-2 py-0.5 rounded-full bg-gray-100 text-gray-500 hover:text-primary">
+                                                <Icon name="ph:user" class="h-3 w-3" />
+                                                {{ reminder.citizen.name }}
+                                            </NuxtLink>
                                         </div>
                                     </div>
                                     <div class="flex items-center gap-1.5 flex-shrink-0">

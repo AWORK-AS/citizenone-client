@@ -11828,7 +11828,11 @@
                 "weekly": "Weekly",
                 "yearly": "Yearly"
             },
-            "title": "Title"
+            "title": "Title",
+            "citizen": "{Citizen} (optional)",
+            "citizenHelp": "Only for your team. {TheCitizen} is not notified.",
+            "citizenHidden": "Linked to a {citizen} you do not have access to.",
+            "choose": "Choose {citizen}"
         },
         "iDontNeedToCheckinNow": "I don't need to check in now",
         "newReminder": "New reminder",
@@ -11855,7 +11859,8 @@
             "markAsComplete": "Mark as complete",
             "markAsIncomplete": "Mark as incomplete",
             "time": "Time"
-        }
+        },
+        "citizenLabel": "{Citizen}"
     },
     "resetPassword": {
         "form": {

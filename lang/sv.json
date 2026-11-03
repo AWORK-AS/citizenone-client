@@ -11823,7 +11823,11 @@
                 "weekly": "Veckovis",
                 "yearly": "Årligen"
             },
-            "title": "Titel"
+            "title": "Titel",
+            "citizen": "{Citizen} (valfri)",
+            "citizenHelp": "Bara för er. {TheCitizen} får inget meddelande.",
+            "citizenHidden": "Kopplad till en {citizen} som du inte har åtkomst till.",
+            "choose": "Välj {citizen}"
         },
         "iDontNeedToCheckinNow": "Jag behöver inte kontrollera in nu",
         "newReminder": "Ny påminnelse",
@@ -11850,7 +11854,8 @@
             "markAsComplete": "Markera som slutförd",
             "markAsIncomplete": "Markera som inte slutförd",
             "time": "Tid"
-        }
+        },
+        "citizenLabel": "{Citizen}"
     },
     "resetPassword": {
         "form": {
