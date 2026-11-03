@@ -294,6 +294,7 @@
                                     <MenuItem>
                                         <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
                                             class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
+                                            <ModulesUserGrowthImpression loop="share" />
                                             <div class="flex items-center gap-x-3">
                                                 <Icon name="ph:share-network" class="h-5 w-5" aria-hidden="true" />
                                                 {{ $t('navbar.shareCitizenOne') }}

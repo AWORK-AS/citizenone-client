@@ -6,9 +6,9 @@
 
 export type BannerVariant = 'trial' | 'adminTrial' | 'adminEnable' | 'request' | 'seats'
 
-export type NudgeSurface = 'banner' | 'prompt' | 'journal_preview' | 'seats'
+export type NudgeSurface = 'banner' | 'prompt' | 'journal_preview' | 'seats' | 'staff_banner'
 
-export type NudgeEvent = 'impression' | 'click' | 'try_free' | 'buy'
+export type NudgeEvent = 'impression' | 'click' | 'try_free' | 'buy' | 'dismiss'
 
 export const DISMISS_DAYS = 14
 
@@ -89,6 +89,7 @@ export function bannerVariant(opts: {
 export function bannerSurface(variant: BannerVariant | null): NudgeSurface | null {
     if (variant === 'adminTrial' || variant === 'adminEnable') return 'banner'
     if (variant === 'seats') return 'seats'
+    if (variant === 'request') return 'staff_banner'
     return null
 }
 
@@ -120,6 +121,7 @@ export interface NudgeReportCell {
     clicks: number
     try_free: number
     buy: number
+    dismissed?: number
     companies: number
     trial_started: number
     bought: number
@@ -127,6 +129,8 @@ export interface NudgeReportCell {
 
 export interface NudgeReport {
     surfaces: NudgeSurface[]
+    /** Surfaces with an X; elsewhere "closed" is not a thing and shows as a dash. */
+    dismissable?: NudgeSurface[]
     weeks: Array<{ week: string, starts_on: string, surfaces: Record<string, NudgeReportCell> }>
     totals: Record<string, NudgeReportCell>
 }
@@ -139,8 +143,17 @@ export function nudgeReportRows(report: NudgeReport | null | undefined): Array<N
         for (const surface of report.surfaces ?? []) {
             const cell = week.surfaces?.[surface]
             if (!cell) continue
-            if (cell.impressions || cell.clicks || cell.companies) rows.push({ week: week.week, surface, ...cell })
+            if (cell.impressions || cell.clicks || cell.dismissed || cell.companies) rows.push({ week: week.week, surface, ...cell })
         }
     }
     return rows
+}
+
+/**
+ * A report cell as shown: a number, or a dash where the column cannot apply to the surface
+ * (closing a surface that has no X), so a structural 0 is never read as "nobody did it".
+ */
+export function nudgeCellText(report: NudgeReport | null | undefined, surface: string, column: string, value: unknown): string {
+    if (column === 'dismissed' && !(report?.dismissable ?? []).includes(surface as NudgeSurface)) return '–'
+    return String(Number(value ?? 0))
 }

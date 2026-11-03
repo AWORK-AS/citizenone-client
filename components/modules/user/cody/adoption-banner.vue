@@ -26,7 +26,7 @@
                 </FormButton>
                 <FormButton v-else-if="variant === 'request' && requestState !== 'sent' && requestState !== 'recent'"
                     type="button" buttonStyle="primary" buttonSize="xs" class="!bg-ai-ink !border-ai-ink hover:!bg-ai-ink/90 hover:!border-ai-ink" :disabled="requestState === 'sending'"
-                    @click="requestFromAdmin()">
+                    @click="askAdmin()">
                     {{ $t('cody.adoption.askAdmin') }}
                 </FormButton>
                 <span v-else-if="variant === 'request'" class="text-sm font-medium text-ai-ink">
@@ -45,7 +45,7 @@
         </div>
 
         <button type="button" class="shrink-0 text-gray-500 hover:text-gray-900 transition-colors"
-            :aria-label="$t('close')" @click="dismiss(variant === 'trial' ? 'trial' : variant === 'seats' ? 'seats' : 'banner')">
+            :aria-label="$t('close')" @click="close()">
             <Icon name="ph:x" class="h-4 w-4" aria-hidden="true" />
         </button>
     </div>
@@ -147,6 +147,18 @@ function act(event: NudgeEvent, path: string) {
     const target = seatsActionOnPage(route.path, path) === 'scroll' ? document.querySelector('[data-cody-seats-target]') : null
     if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' })
     else navigateTo(path)
+}
+
+function askAdmin() {
+    recordNudge('click', 'staff_banner')
+    requestFromAdmin()
+}
+
+// Closing it is measured too: seen and turned down is an answer, unlike not seen at all.
+function close() {
+    const surface = bannerSurface(variant.value)
+    if (surface) recordNudge('dismiss', surface)
+    dismiss(variant.value === 'trial' ? 'trial' : variant.value === 'seats' ? 'seats' : 'banner')
 }
 
 // Counted when it is actually on screen, i.e. it has the prompt slot.
