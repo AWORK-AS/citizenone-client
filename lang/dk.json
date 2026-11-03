@@ -17290,8 +17290,8 @@
             "responseSaved": "Besvarelse gemt"
         },
         "editWarning": {
-            "hasResponses": "Dette spørgeskema har {count} besvarelse(r). Ændringer i spørgsmål eller svarmuligheder kan ændre betydningen af eksisterende svar og scores",
-            "confirmUpdate": "Dette spørgeskema har {count} besvarelse(r). Er du sikker på, at du vil gemme ændringerne"
+            "hasResponses": "Dette spørgeskema har {count} besvarelse(r). Besvarelser, der allerede er udfyldt, beholder spørgsmålene og rækkefølgen, som de blev besvaret med. Dine ændringer gælder for besvarelser, der udfyldes fra nu af.",
+            "confirmUpdate": "Dette spørgeskema har {count} besvarelse(r). Besvarelser, der allerede er udfyldt, forbliver som de er. Er du sikker på, at du vil gemme ændringerne"
         },
         "builder": {
             "title": "Titel",
@@ -17313,6 +17313,8 @@
             "addFollowUp": "Tilføj opfølgende spørgsmål",
             "followUpShownWhen": "Vises når svaret på \"{question}\" er:",
             "followUpPickOption": "Vælg mindst ét svar, der viser dette spørgsmål.",
+            "moveUp": "Flyt op",
+            "moveDown": "Flyt ned",
             "scoreRanges": {
                 "title": "Score-fortolkning",
                 "subtitle": "Giv score-intervaller en betegnelse, fx 0-4 Minimal angst. Vises sammen med resultatet.",
