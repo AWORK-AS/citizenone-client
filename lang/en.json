@@ -21134,6 +21134,37 @@
             "admit": "Let in",
             "deny": "Deny"
         },
+        "brief": {
+            "prepare": "Prepare with Cody AI",
+            "working": "Cody is preparing ...",
+            "hint": "Cody reads the journal, goals and last meeting about the citizen.",
+            "byCody": "Cody AI read {journals} journal notes and {goals} goals. Check it before you use it.",
+            "suggestedAgenda": "Suggested agenda",
+            "useAgenda": "Use as agenda",
+            "replaceAgenda": "Replace the agenda"
+        },
+        "tasks": {
+            "find": "Find agreements",
+            "title": "Agreements from the meeting",
+            "intro": "Cody AI found these agreements. Edit them, choose who does what, and create them as tasks.",
+            "none": "Cody AI found no agreements that someone has to act on.",
+            "include": "Include",
+            "description": "Description (optional)",
+            "assignee": "Responsible",
+            "codySays": "Cody: {owner}",
+            "nobody": "Nobody",
+            "due": "Due",
+            "board": "Task board",
+            "boardHint": "Everyone with access to the board can see the tasks. Do not write health details in them.",
+            "noBoards": "There are no task boards. You can copy the agreements instead.",
+            "create": "Create {count} task | Create {count} tasks",
+            "created": "Created",
+            "copy": "Copy",
+            "copied": "Copied"
+        },
+        "minutes": {
+            "download": "Download as PDF"
+        },
         "host_controls": {
             "record": "Record",
             "stopRecording": "Stop recording",

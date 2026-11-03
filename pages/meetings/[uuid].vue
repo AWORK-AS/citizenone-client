@@ -134,7 +134,7 @@
 
                     <!-- Agenda and shared notes (staff only). -->
                     <div ref="notesEl">
-                        <MeetingNotesPanel :meeting="meeting" @filed="load" />
+                        <MeetingNotesPanel :meeting="meeting" @filed="load" @changed="load" />
                     </div>
 
                     <MeetingCitizenFilePicker v-if="meeting.citizen" :show="state.pickFile" :citizenUuid="meeting.citizen.uuid"
@@ -207,7 +207,7 @@
                                     </FormButton>
                                     <FormButton v-if="recording.status === 'ready' && recording.has_audio && !recording.summary_status"
                                         type="button" buttonStyle="secondary" :disabled="state.summaryBusy === recording.uuid"
-                                        @click="requestSummary(recording)">
+                                        @click="!askForCody() && requestSummary(recording)">
                                         <Icon name="ph:sparkle" class="h-4 w-4 mr-1" /> {{ $t('meetings.summary.make') }}
                                     </FormButton>
                                     <button v-if="meeting.is_host && ['ready', 'failed'].includes(recording.status)" type="button"
@@ -230,6 +230,16 @@
                                                 <Icon name="ph:sparkle" class="h-3.5 w-3.5" /> {{ $t('meetings.summary.byCody') }}
                                             </p>
                                             <div class="prose prose-sm max-w-none [&_ul]:list-disc [&_ul]:pl-5 [&_ol]:list-decimal [&_ol]:pl-5 [&_li]:my-0.5 [&_p]:my-1" v-safe-ai-html="recording.summary" />
+                                            <div class="flex flex-wrap gap-2 mt-3">
+                                                <FormButton type="button" buttonStyle="secondary" buttonSize="xs"
+                                                    @click="!askForCody() && openRecordingTasks(recording)">
+                                                    <Icon name="ph:check-square-offset" class="h-4 w-4 mr-1" /> {{ $t('meetings.tasks.find') }}
+                                                </FormButton>
+                                                <FormButton type="button" buttonStyle="secondary" buttonSize="xs" :disabled="state.downloading === recording.uuid"
+                                                    @click="downloadRecordingMinutes(recording)">
+                                                    <Icon name="ph:file-pdf" class="h-4 w-4 mr-1" /> {{ $t('meetings.minutes.download') }}
+                                                </FormButton>
+                                            </div>
                                             <NuxtLink v-if="recording.summary_journal && meeting.citizen" class="inline-block mt-2 text-primary underline"
                                                 :to="`/citizens/${meeting.citizen.uuid}/journals`">
                                                 {{ $t('meetings.summary.openDraft') }}
@@ -249,6 +259,8 @@
                 @close="state.confirmCancel = false" @confirm="cancelMeeting" />
             <DialogConfirmation :isModalOpen="!!state.deleteRecording" :message="$t('meetings.detail.deleteRecordingConfirm')"
                 @close="state.deleteRecording = null" @confirm="deleteRecording" />
+            <MeetingActionItemsModal v-if="meeting" :show="state.tasksOpen" :meeting-uuid="meeting.uuid" :source="state.tasksSource"
+                @close="state.tasksOpen = false" />
         </NuxtLayout>
     </div>
 </template>
@@ -262,6 +274,8 @@ import MeetingRoom from '@/components/modules/shared/meeting/room.vue'
 import MeetingForm from '@/components/modules/user/meetings/form.vue'
 import { initials } from '@/utils/meetings'
 import MeetingNotesPanel from '@/components/modules/user/meetings/notes-panel.vue'
+import MeetingActionItemsModal from '@/components/modules/user/meetings/action-items-modal.vue'
+import { downloadMeetingMinutes } from '@/composables/meetingMinutes'
 import MeetingCitizenFilePicker from '@/components/modules/user/meetings/citizen-file-picker.vue'
 import { meetingService } from '@/components/api/user/MeetingService'
 import { userService } from '@/components/api/user/UserService'
@@ -269,6 +283,7 @@ import { useMeetingJoinLinks } from '@/composables/meetingJoinLinks'
 import { useMeetingLobbyChannel } from '@/composables/meetingLobbyChannel'
 import { useCodyAdoption } from '@/composables/useCodyAdoption'
 import { useDepartmentStore } from '@/store/department'
+import { useUserStore } from '@/store/user'
 
 /**
  * One online meeting: who is invited, recordings, and the room itself. The
@@ -310,6 +325,9 @@ const state = reactive({
     error: {} as any,
     notice: '',
     editing: false,
+    tasksOpen: false,
+    tasksSource: {} as { recording_uuid?: string, summary?: string },
+    downloading: '' as string,
     screenShareBusy: false,
     showRoom: false,
     inRoom: false,
@@ -424,6 +442,7 @@ function onLeft() {
 // and the app's own Cody screen opens: buy or start the trial for whoever
 // may buy, ask the administrator for everyone else.
 const codyAdoption = useCodyAdoption()
+const userStore = useUserStore() as any
 let summaryPoll: ReturnType<typeof setInterval> | null = null
 
 async function requestSummary(recording: any) {
@@ -469,6 +488,29 @@ async function toggleGuestScreenShare() {
         state.error = error
     }
     state.screenShareBusy = false
+}
+
+// Without Cody the Cody buttons open the Cody screen (trial, buy or ask the administrator).
+function askForCody(): boolean {
+    if (userStore.getUser?.has_ai_access) return false
+    codyAdoption.load()
+    codyAdoption.promptOpen.value = true
+    return true
+}
+
+function openRecordingTasks(recording: any) {
+    state.tasksSource = { recording_uuid: recording.uuid }
+    state.tasksOpen = true
+}
+
+async function downloadRecordingMinutes(recording: any) {
+    state.downloading = recording.uuid
+    try {
+        await downloadMeetingMinutes(uuid, { recording_uuid: recording.uuid })
+    } catch (error: any) {
+        state.error = error
+    }
+    state.downloading = ''
 }
 
 async function startRecording() {

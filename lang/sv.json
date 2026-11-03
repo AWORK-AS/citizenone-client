@@ -21049,6 +21049,37 @@
             "admit": "Släpp in",
             "deny": "Neka"
         },
+        "brief": {
+            "prepare": "Förbered med Cody AI",
+            "working": "Cody förbereder ...",
+            "hint": "Cody läser journal, mål och senaste mötet om brukaren.",
+            "byCody": "Cody AI har läst {journals} journalanteckningar och {goals} mål. Kontrollera innan du använder det.",
+            "suggestedAgenda": "Förslag till dagordning",
+            "useAgenda": "Använd som dagordning",
+            "replaceAgenda": "Ersätt dagordningen"
+        },
+        "tasks": {
+            "find": "Hitta överenskommelser",
+            "title": "Överenskommelser från mötet",
+            "intro": "Cody AI har hittat dessa överenskommelser. Redigera dem, välj vem som gör vad och skapa dem som uppgifter.",
+            "none": "Cody AI hittade inga överenskommelser som någon behöver agera på.",
+            "include": "Ta med",
+            "description": "Beskrivning (valfri)",
+            "assignee": "Ansvarig",
+            "codySays": "Cody: {owner}",
+            "nobody": "Ingen",
+            "due": "Deadline",
+            "board": "Uppgiftstavla",
+            "boardHint": "Alla med åtkomst till tavlan kan se uppgifterna. Skriv inte hälsouppgifter i dem.",
+            "noBoards": "Det finns inga uppgiftstavlor. Du kan kopiera överenskommelserna i stället.",
+            "create": "Skapa {count} uppgift | Skapa {count} uppgifter",
+            "created": "Skapad",
+            "copy": "Kopiera",
+            "copied": "Kopierad"
+        },
+        "minutes": {
+            "download": "Ladda ner som PDF"
+        },
         "host_controls": {
             "record": "Spela in",
             "stopRecording": "Stoppa inspelning",
