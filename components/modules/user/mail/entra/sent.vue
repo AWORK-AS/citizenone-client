@@ -81,8 +81,16 @@
                         <p class="text-lg font-semibold">
                             {{ state.selectedEmail?.subject }}
                         </p>
-                        <ModulesUserMailSavePdfMenu :messageId="state.selectedEmail?.id ?? ''" folder="sent"
-                            :subject="state.selectedEmail?.subject ?? ''" openDirection="down" />
+                        <div class="flex items-center gap-x-2 shrink-0">
+                            <!-- Sent mails can be journaled on a citizen too, not only inbox mails. -->
+                            <FormButton buttonStyle="white" class="w-fit rounded-md"
+                                @click="state.modal.isLinkToCitizen = true" data-testid="sent-link-to-citizen">
+                                <Icon name="ph:link" class="h-4 w-4" aria-hidden="true" />
+                                {{ $t('citizens.emails.linkToCitizen') }}
+                            </FormButton>
+                            <ModulesUserMailSavePdfMenu :messageId="state.selectedEmail?.id ?? ''" folder="sent"
+                                :subject="state.selectedEmail?.subject ?? ''" openDirection="down" />
+                        </div>
                     </div>
                     <div class="flex-wrap md:flex gap-1 text-sm">
                         <p>
@@ -139,6 +147,8 @@
         <ModulesUserMailEntraModalDownloadFile :isModalOpen="state.modal.isDownloadAttachment"
             :selectedAttachment="state.selectedAttachment" :messageId="state.selectedEmail?.id ?? ''" folder="sent"
             @close="state.modal.isDownloadAttachment = false" />
+        <ModulesUserMailModalLinkToCitizen :isModalOpen="state.modal.isLinkToCitizen"
+            :selectedEmail="state.selectedEmail" sourceFolder="SENT" @close="state.modal.isLinkToCitizen = false" />
     </div>
 </template>
 
@@ -159,6 +169,7 @@ const state = reactive({
     },
     modal: {
         isDownloadAttachment: false,
+        isLinkToCitizen: false,
     },
     nextPageLink: '',
     selectedAttachment: '' as any,
