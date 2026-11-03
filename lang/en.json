@@ -18200,9 +18200,47 @@
         "filter": "Inactive 3+ months"
     },
     "questionnaireInbox": {
+        "sendQuestionnaire": "Send questionnaire",
+        "sentToast": "Questionnaire sent to {name}",
+        "withdrawConfirm": "The questionnaire is withdrawn and the patient can no longer answer it. Are you sure?",
+        "awaiting": {
+            "patient": "Patient",
+            "questionnaire": "Questionnaire",
+            "sent": "Sent",
+            "waiting": "Waiting",
+            "delivery": "Delivery",
+            "status": "Status",
+            "actions": "Actions",
+            "today": "Today",
+            "daysWaiting": "Waiting for {days} days",
+            "daysWaitingOne": "Waiting for 1 day"
+        },
+        "pending": {
+            "waiting": "Waiting",
+            "opened": "Opened",
+            "expired": "Expired"
+        },
+        "actions": {
+            "resend": "Resend",
+            "withdraw": "Withdraw",
+            "openPatient": "Open patient"
+        },
+        "send": {
+            "patient": "Patient",
+            "chooseQuestionnaire": "Choose form or survey",
+            "searchPatient": "Search by name or CPR",
+            "alreadySent": "already sent",
+            "expired": "expired",
+            "alreadySentHint": "This has already been sent to the patient and is waiting for an answer.",
+            "expiredHint": "The link has expired. Use Resend to send a new link.",
+            "surveyPortalNote": "The survey goes to the patient portal.",
+            "noPortalAccess": "The patient has no access to the portal and cannot answer the survey until system access is turned on in the patient's details.",
+            "nothingToSend": "There is nothing you can send to this patient."
+        },
         "title": "Questionnaire inbox",
         "subtitle": "Forms and surveys that patients have sent back, for you to review",
         "tabs": {
+            "awaiting": "Awaiting response",
             "to_review": "To review",
             "approved": "Approved",
             "declined": "Declined",
@@ -18218,6 +18256,9 @@
             "survey": "Survey"
         },
         "filters": {
+            "sentFrom": "Sent from",
+            "sentTo": "Sent to",
+            "onlyExpired": "Only expired",
             "search": "Patient",
             "searchPlaceholder": "Search by patient name",
             "questionnaire": "Questionnaire",
@@ -18228,6 +18269,7 @@
             "clear": "Clear filters"
         },
         "empty": {
+            "awaiting": "No questionnaires are waiting for an answer",
             "to_review": "No questionnaires waiting for review",
             "approved": "No approved questionnaires",
             "declined": "No declined questionnaires",
@@ -18260,6 +18302,8 @@
             "declinedBy": "Declined by {name} on {date}"
         },
         "alert": {
+            "resent": "A new link was sent. The old link no longer works.",
+            "withdrawn": "The questionnaire was withdrawn.",
             "approved": "The questionnaire is approved.",
             "declined": "The questionnaire is declined.",
             "reopened": "The questionnaire is back in To review."

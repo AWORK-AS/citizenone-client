@@ -21,18 +21,26 @@ export function reviewStatusStyle(status: string): { key: string, classes: strin
 export function useQuestionnaireInbox() {
     const userStore = useUserStore() as any
 
-    /** Reads the number waiting for review and writes it back into the user, which is what the sidebar badge shows. */
-    async function refreshToReviewCount(): Promise<void> {
+    /**
+     * Reads both counts. The number waiting for review is written back into the user, which is what
+     * the sidebar badge shows (the badge stays the to-review number only). Returns the counts, or
+     * null when the read failed.
+     */
+    async function refreshCounts(): Promise<{ to_review: number, awaiting: number } | null> {
         try {
-            const response = await questionnaireInboxService.getToReviewCount()
-            const count = response?.data?.to_review
-            if (typeof count === 'number') {
-                userStore.setQuestionnaireInboxToReviewCount(count)
-            }
+            const counts = await questionnaireInboxService.getCount()
+            userStore.setQuestionnaireInboxToReviewCount(counts.to_review)
+            return counts
         } catch {
             // The badge is a convenience: a failed refresh must not break the action that triggered it.
+            return null
         }
     }
 
-    return { refreshToReviewCount }
+    /** Reads the number waiting for review and writes it back into the user, which is what the sidebar badge shows. */
+    async function refreshToReviewCount(): Promise<void> {
+        await refreshCounts()
+    }
+
+    return { refreshToReviewCount, refreshCounts }
 }

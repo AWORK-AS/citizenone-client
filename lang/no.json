@@ -18115,9 +18115,47 @@
         "filter": "Inaktiv i 3+ måneder"
     },
     "questionnaireInbox": {
+        "sendQuestionnaire": "Send spørreskjema",
+        "sentToast": "Spørreskjema sendt til {name}",
+        "withdrawConfirm": "Spørreskjemaet trekkes tilbake, og pasienten kan ikke lenger svare på det. Er du sikker?",
+        "awaiting": {
+            "patient": "Pasient",
+            "questionnaire": "Spørreskjema",
+            "sent": "Sendt",
+            "waiting": "Venter",
+            "delivery": "Levering",
+            "status": "Status",
+            "actions": "Handlinger",
+            "today": "I dag",
+            "daysWaiting": "Venter i {days} dager",
+            "daysWaitingOne": "Venter i 1 dag"
+        },
+        "pending": {
+            "waiting": "Venter",
+            "opened": "Åpnet",
+            "expired": "Utløpt"
+        },
+        "actions": {
+            "resend": "Send på nytt",
+            "withdraw": "Trekk tilbake",
+            "openPatient": "Åpne pasient"
+        },
+        "send": {
+            "patient": "Pasient",
+            "chooseQuestionnaire": "Velg skjema eller spørreskjema",
+            "searchPatient": "Søk på navn eller personnummer",
+            "alreadySent": "allerede sendt",
+            "expired": "utløpt",
+            "alreadySentHint": "Er allerede sendt til pasienten og venter på svar.",
+            "expiredHint": "Lenken er utløpt. Bruk Send på nytt for å sende en ny lenke.",
+            "surveyPortalNote": "Spørreskjemaet sendes til pasientportalen.",
+            "noPortalAccess": "Pasienten har ikke tilgang til portalen og kan ikke svare på spørreskjemaet før systemtilgang er slått på i pasientens opplysninger.",
+            "nothingToSend": "Det er ingenting du kan sende til denne pasienten."
+        },
         "title": "Skjemainnboks",
         "subtitle": "Skjemaer og spørreskjemaer som pasienter har sendt tilbake, til gjennomgang",
         "tabs": {
+            "awaiting": "Venter på svar",
             "to_review": "Til gjennomgang",
             "approved": "Godkjent",
             "declined": "Avslått",
@@ -18133,6 +18171,9 @@
             "survey": "Spørreskjema"
         },
         "filters": {
+            "sentFrom": "Sendt fra",
+            "sentTo": "Sendt til",
+            "onlyExpired": "Bare utløpte",
             "search": "Pasient",
             "searchPlaceholder": "Søk på pasientens navn",
             "questionnaire": "Skjema",
@@ -18143,6 +18184,7 @@
             "clear": "Nullstill filtre"
         },
         "empty": {
+            "awaiting": "Ingen spørreskjemaer venter på svar",
             "to_review": "Ingen skjemaer venter på gjennomgang",
             "approved": "Ingen godkjente skjemaer",
             "declined": "Ingen avslåtte skjemaer",
@@ -18175,6 +18217,8 @@
             "declinedBy": "Avslått av {name} den {date}"
         },
         "alert": {
+            "resent": "En ny lenke ble sendt. Den gamle lenken fungerer ikke lenger.",
+            "withdrawn": "Spørreskjemaet ble trukket tilbake.",
             "approved": "Skjemaet er godkjent.",
             "declined": "Skjemaet er avslått.",
             "reopened": "Skjemaet er tilbake under Til gjennomgang."

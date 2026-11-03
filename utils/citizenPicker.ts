@@ -14,6 +14,8 @@ export interface PickerOption {
     pinned?: boolean
     image?: string | null
     departments?: PickerDepartment[]
+    // Searched, never shown. Only present when the server let the user see it.
+    cpr?: string | null
 }
 
 export interface PickerSection {
@@ -24,8 +26,17 @@ export interface PickerSection {
 const fold = (s: string) => s.toLowerCase().replace(/ø/g, 'o').replace(/æ/g, 'ae')
     .normalize('NFD').replace(/\p{M}/gu, '')
 
-/** Every typed word must start a word of the name: "an lin" finds Anna Lindberg. */
+/**
+ * Every typed word must start a word of the name: "an lin" finds Anna Lindberg.
+ * A query of digits (dashes and spaces ignored) is a CPR number instead: "170580",
+ * "170580-1234" and "1705801234" all find the patient born 17-05-80.
+ */
 export function matches(option: PickerOption, query: string): boolean {
+    const digits = query.replace(/[\s-]/g, '')
+    if (/^\d+$/.test(digits)) {
+        const cpr = String(option.cpr ?? '').replace(/\D/g, '')
+        return cpr !== '' && cpr.startsWith(digits)
+    }
     const words = fold(option.label).split(/[\s\-()]+/).filter(Boolean)
     return fold(query).split(/\s+/).filter(Boolean).every(q => words.some(w => w.startsWith(q)))
 }
