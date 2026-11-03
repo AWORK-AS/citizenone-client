@@ -5618,7 +5618,8 @@
                 "move": "Flytt",
                 "openSelected": "Åpne valgte",
                 "view": "Se",
-                "downloadOriginal": "Last ned original"
+                "downloadOriginal": "Last ned original",
+                "sendToCitizen": "Send til {citizen}"
             },
             "dateCreated": "Opprettelsesdato",
             "lastModified": "Sist endret",
@@ -5644,6 +5645,18 @@
             "previous": "Forrige dokument",
             "next": "Neste dokument",
             "position": "{current} av {total}"
+        },
+        "sendToCitizen": {
+            "title": "Send dokument til {citizen}",
+            "citizens": "{Citizens}",
+            "note": "Dokumentet kopieres til de egne dokumentene til hver valgt {citizen} og deles i portalen, der de kan åpne det.",
+            "send": "Send",
+            "required": "Velg minst én {citizen}.",
+            "tooMany": "Du kan sende til maks {max} {citizens} om gangen.",
+            "sentTitle": "Dokumentet er sendt",
+            "sentOne": "Sendt til 1 {citizen}.",
+            "sentMany": "Sendt til {count} {citizens}.",
+            "notNotified": "{count} har ikke tilgang til portalen og har ikke fått beskjed."
         }
     },
     "dutySchedules": {

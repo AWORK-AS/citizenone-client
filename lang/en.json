@@ -5618,7 +5618,8 @@
                 "move": "Move",
                 "openSelected": "Open selected",
                 "view": "View",
-                "downloadOriginal": "Download original"
+                "downloadOriginal": "Download original",
+                "sendToCitizen": "Send to {citizen}"
             },
             "dateCreated": "Date created",
             "lastModified": "Last modified",
@@ -5644,6 +5645,18 @@
             "previous": "Previous document",
             "next": "Next document",
             "position": "{current} of {total}"
+        },
+        "sendToCitizen": {
+            "title": "Send document to {citizen}",
+            "citizens": "{Citizens}",
+            "note": "The document is copied into each selected {citizen}'s own documents and shared in the portal, where they can open it.",
+            "send": "Send",
+            "required": "Select at least one {citizen}.",
+            "tooMany": "You can send to at most {max} {citizens} at a time.",
+            "sentTitle": "Document sent",
+            "sentOne": "Sent to 1 {citizen}.",
+            "sentMany": "Sent to {count} {citizens}.",
+            "notNotified": "Not notified, as they have no portal access: {count}."
         }
     },
     "dutySchedules": {
