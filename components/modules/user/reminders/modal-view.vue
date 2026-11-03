@@ -38,6 +38,16 @@
                                 <span class="font-medium text-gray-700">{{ formatDateTimeToReadable(state.reminder.created_at) }}</span>
                             </div>
 
+                            <!-- The citizen it is about, for the staff only -->
+                            <div v-if="state.reminder.citizen?.uuid" class="flex items-center gap-2">
+                                <Icon name="ph:user-circle" class="h-4 w-4 text-gray-400 flex-shrink-0" />
+                                <span class="text-gray-500">{{ tt('reminders.citizenLabel') }}:</span>
+                                <NuxtLink :to="`/citizens/${state.reminder.citizen.uuid}/journals`"
+                                    class="font-medium text-primary hover:underline">
+                                    {{ state.reminder.citizen.name }}
+                                </NuxtLink>
+                            </div>
+
                             <!-- Repeat -->
                             <div class="flex items-center gap-2">
                                 <Icon name="ph:arrows-clockwise" class="h-4 w-4 text-gray-400 flex-shrink-0" />
@@ -132,12 +142,14 @@
 </template>
 
 <script setup lang="ts">
+import { useTerminology } from '@/composables/useTerminology'
 import { reminderService } from '@/components/api/user/ReminderService'
 import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import type { Error } from '@/types'
 
 const { formatDateTimeToReadable } = useDatetimeFormatter()
 const { repeatLabel } = useReminderRepeat()
+const { tt } = useTerminology()
 
 const props = defineProps({
     isModalOpen: {
