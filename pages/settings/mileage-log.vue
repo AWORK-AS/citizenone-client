@@ -134,6 +134,10 @@
                                         <Icon name="ph:pencil-simple-line" class="h-3.5 w-3.5" aria-hidden="true" />
                                         {{ $t('mileageLog.table.corrected') }}
                                     </div>
+                                    <!-- In a month closed for payroll: locked for everyone. -->
+                                    <Badge type="neutral" class="mt-1 w-fit text-xxs" v-if="log?.is_paid_out">
+                                        {{ $t('citizens.interventionHours.table.paidOut') }}
+                                    </Badge>
                                 </td>
                                 <td width="15%">
                                     <div v-if="log?.citizen"
@@ -157,7 +161,7 @@
                                             {{ $t('mileageLog.table.actions.edit') }}
                                         </FormButton>
                                         <FormButton type="button" buttonStyle="action"
-                                            @click="correctMileageLogDistance(log)" v-if="canCorrectDistance">
+                                            @click="correctMileageLogDistance(log)" v-if="canCorrectDistance && !log?.is_paid_out">
                                             <Icon name="ph:ruler" class="size-4" />
                                             {{ $t('mileageLog.correction.correctDistance') }}
                                         </FormButton>

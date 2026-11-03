@@ -49,6 +49,9 @@
                                                 v-if="inteventionHours?.is_from_duty_schedule">
                                                 {{ $t('citizens.interventionHours.table.fromDutySchedule') }}
                                             </Badge>
+                                            <Badge type="neutral" class="text-xxs" v-if="inteventionHours?.is_paid_out">
+                                                {{ $t('citizens.interventionHours.table.paidOut') }}
+                                            </Badge>
                                         </div>
                                     </td>
                                     <td width="10%">
