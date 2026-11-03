@@ -12313,6 +12313,8 @@
                 "calendarDoneCreatesCareHours": "Completed bookings add intervention hours (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Hide hourly rate and contribution margin from employees",
                 "hideCitizenRatesFromStaffHint": "Managers, administrators and employees with economy rights still see them",
+                "matchIncludesDoNotContact": "Also show consultants who must not be contacted in the consultant match",
+                "matchIncludesDoNotContactHint": "Only consultants with a termination date are left out. They are shown with their status and cannot be asked",
                 "hidePatientFormsTab": "Hide the \"Patient forms\" tab",
                 "hidePatientFormsTabHint": "The tab is hidden on every citizen for the whole company",
                 "careHourTypes": "Choose an hour type on intervention hours",

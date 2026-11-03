@@ -836,6 +836,16 @@
                             </div>
                             <div class="space-y-1">
                                 <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.match_includes_do_not_contact"
+                                        @toggleSwitch="state.formCompany.match_includes_do_not_contact = !state.formCompany.match_includes_do_not_contact" :label="$t('settings.company.form.matchIncludesDoNotContact')" />
+                                    <p>
+                                        {{ $t('settings.company.form.matchIncludesDoNotContact') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.matchIncludesDoNotContactHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
                                     <FormSwitch :value="state.formCompany.patient_forms_tab_hidden"
                                         @toggleSwitch="state.formCompany.patient_forms_tab_hidden = !state.formCompany.patient_forms_tab_hidden" :label="$t('settings.company.form.hidePatientFormsTab')" />
                                     <p>
@@ -1128,7 +1138,7 @@ const plansCount = computed(() => [
     state.formCompany.edit_subgoals_enabled,
 ].filter(Boolean).length)
 const scheduleCount = computed(() => [state.formCompany.is_lock_past_schedules, state.formCompany.warning_13_hour_shift_enabled, state.formCompany.warning_11_hour_rest_enabled, state.formCompany.warning_48_hour_rule_enabled, state.formCompany.transfer_norm_hours_enabled, state.formCompany.is_sort_by_status, state.formCompany.duty_schedule_default_sort === 'first_shift', state.formCompany.absence_counts_in_norm_hours_enabled, state.formCompany.holiday_non_sunday_hours_enabled, state.formCompany.compensatory_time_enabled, state.formCompany.payout_beyond_balance_enabled, state.formCompany.holiday_worked_rule_enabled].filter(Boolean).length)
-const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.epikrise_enabled])
+const otherSwitches = computed(() => [state.formCompany.quick_risk_assessment_enabled, state.formCompany.one_journal_note_per_day_enabled, state.formCompany.register_transport_enabled, state.formCompany.social_og_boligstyrelsen, state.formCompany.missing_note_reminder_enabled, state.formCompany.booking_note_notifications_enabled, state.formCompany.certificate_reminder_all_recipients_enabled, state.formCompany.calendar_done_creates_care_hours_enabled, state.formCompany.citizen_calendar_shift_enabled, state.formCompany.hide_citizen_rates_from_staff_enabled, state.formCompany.match_includes_do_not_contact, state.formCompany.patient_forms_tab_hidden, state.formCompany.care_hour_types_enabled, state.formCompany.contact_weekly_hours_enabled, state.formCompany.registration_mileage_requires_transport_enabled, state.formCompany.epikrise_enabled])
 const otherCount = computed(() => otherSwitches.value.filter(Boolean).length)
 // Out of every switch counted above plus the two note switches (was a fixed 9).
 const otherTotal = computed(() => otherSwitches.value.length + 2)
@@ -1187,6 +1197,7 @@ const state = reactive({
         certificate_reminder_all_recipients_enabled: false,
         calendar_done_creates_care_hours_enabled: false,
         hide_citizen_rates_from_staff_enabled: false,
+        match_includes_do_not_contact: false,
         patient_forms_tab_hidden: false,
         care_hour_types_enabled: false,
         contact_weekly_hours_enabled: false,
@@ -1351,6 +1362,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             certificate_reminder_all_recipients_enabled: newValue?.company?.certificate_reminder_all_recipients_enabled === true,
             calendar_done_creates_care_hours_enabled: newValue?.company?.calendar_done_creates_care_hours_enabled === true,
             hide_citizen_rates_from_staff_enabled: newValue?.company?.hide_citizen_rates_from_staff_enabled === true,
+            match_includes_do_not_contact: newValue?.company?.match_includes_do_not_contact === true,
             patient_forms_tab_hidden: newValue?.company?.patient_forms_tab_hidden === true,
             care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
             contact_weekly_hours_enabled: newValue?.company?.contact_weekly_hours_enabled === true,
@@ -1634,6 +1646,7 @@ async function submitForm() {
                 certificate_reminder_all_recipients_enabled: state.formCompany.certificate_reminder_all_recipients_enabled,
                 calendar_done_creates_care_hours_enabled: state.formCompany.calendar_done_creates_care_hours_enabled,
                 hide_citizen_rates_from_staff_enabled: state.formCompany.hide_citizen_rates_from_staff_enabled,
+                match_includes_do_not_contact: state.formCompany.match_includes_do_not_contact,
                 patient_forms_tab_hidden: state.formCompany.patient_forms_tab_hidden,
                 care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
                 contact_weekly_hours_enabled: state.formCompany.contact_weekly_hours_enabled,

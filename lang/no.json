@@ -12308,6 +12308,8 @@
                 "calendarDoneCreatesCareHours": "Fullførte avtaler gir innsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Skjul timepris og dekningsgrad for ansatte",
                 "hideCitizenRatesFromStaffHint": "Ledere, administratorer og ansatte med økonomirettigheter ser dem fortsatt",
+                "matchIncludesDoNotContact": "Vis også konsulenter som ikke må kontaktes, i konsulentmatch",
+                "matchIncludesDoNotContactHint": "Bare konsulenter med en fratredelsesdato utelates. De vises med status og kan ikke spørres",
                 "hidePatientFormsTab": "Skjul fanen \"Skjemaer til pasienten\"",
                 "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheten",
                 "careHourTypes": "Velg timetype på innsatstimer",
