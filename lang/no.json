@@ -2871,6 +2871,7 @@
             "template": "Mal",
             "upgradeStorage": "Opgradér lager",
             "uploadFile": "Last opp fil",
+            "uploadFileHelp": "Du kan også lagre e-poster fra Outlook her, både mottatte og sendte. Dra e-posten fra Outlook til skrivebordet (eller velg Fil > Lagre som), og last opp filen (.msg eller .eml) her eller dra den inn på siden.",
             "useTemplate": "Bruk mal",
             "viewDraftFile": "Vis udkastfiler"
         },

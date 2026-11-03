@@ -46,10 +46,13 @@
                             {{ $t('citizens.documents.createNewFolder') }}
                         </FormButton>
                         <LoadingSpinner :isActive="state.isPageLoading">
-                            <FormButton v-if="isAtLeast('Admin') || can('create_citizen_document')" buttonStyle="action" @click="triggerFileInput">
-                                <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
-                                {{ $t('citizens.documents.uploadFile') }}
-                            </FormButton>
+                            <Tooltip v-if="isAtLeast('Admin') || can('create_citizen_document')"
+                                :text="$t('citizens.documents.uploadFileHelp')" wrap position="bottom">
+                                <FormButton buttonStyle="action" @click="triggerFileInput">
+                                    <Icon name="ph:upload" class="h-4 w-4" aria-hidden="true" />
+                                    {{ $t('citizens.documents.uploadFile') }}
+                                </FormButton>
+                            </Tooltip>
                             <input type="file" ref="documentFile" @change="uploadFile" class="hidden" multiple />
                         </LoadingSpinner>
                         <FormButton buttonStyle="action" @click="state.modal.isViewFolderStructureOpen = true">

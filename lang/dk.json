@@ -2871,6 +2871,7 @@
             "template": "Skabelon",
             "upgradeStorage": "Opgradér lager",
             "uploadFile": "Upload fil",
+            "uploadFileHelp": "Du kan også gemme mails fra Outlook her, både fra indbakken og sendte mails. Træk mailen fra Outlook ud på skrivebordet (eller vælg Filer > Gem som), og upload filen (.msg eller .eml) her eller træk den ind på siden.",
             "useTemplate": "Brug skabelon",
             "viewDraftFile": "Vis udkastfiler"
         },
