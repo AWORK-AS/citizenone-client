@@ -303,7 +303,11 @@
             "claimed": "1 ärende tilldelat | {count} ärenden tilldelade",
             "open": "Öppna",
             "openCase": "Öppna @:terms.citizen{''}",
-            "openInquiry": "Öppna förfrågan"
+            "openInquiry": "Öppna förfrågan",
+            "role": "Koordinatorroll",
+            "skippedIntro": "Rollen sattes inte på dessa ärenden - ingen flyttades:",
+            "skippedTaken": "{name}: {holder} har redan rollen",
+            "skippedOtherRole": "{name}: medarbetaren har redan en annan koordinatorroll"
         }
     },
     "managementEconomy": {
@@ -653,6 +657,7 @@
             "verifyCode": "Bekräfta kod"
         },
         "google2FactorAuthentication": "Google tvåfaktorsautentisering",
+        "logOut": "Logga ut",
         "useYour2faCodeFromGoogleAuthenticatorAppOnYourPhone": "Använd din 2FA-kod från Google Authenticator appen på din telefon"
     },
     "addressBook": {
@@ -12303,6 +12308,12 @@
                 "calendarDoneCreatesCareHours": "Slutförda bokningar ger indsatstimer (Kontakttimer (ATA))",
                 "hideCitizenRatesFromStaff": "Dölj timpris och täckningsgrad för medarbetare",
                 "hideCitizenRatesFromStaffHint": "Chefer, administratörer och medarbetare med ekonomibehörighet ser dem fortfarande",
+                "calendarSubscriptions": "Användarna kan prenumerera på sin kalender",
+                "calendarSubscriptionsHint": "Avstängt kan kalendern inte längre läggas till i Outlook, Google eller iPhone, och befintliga prenumerationer slutar",
+                "matchIncludesDoNotContact": "Visa även konsulter som inte får kontaktas i konsultmatchningen",
+                "matchIncludesDoNotContactHint": "Endast konsulter med ett avgångsdatum utelämnas. De visas med sin status och kan inte tillfrågas",
+                "hidePatientFormsTab": "Dölj fliken \"Formulär till patienten\"",
+                "hidePatientFormsTabHint": "Fliken döljs på alla medborgare för hela företaget",
                 "careHourTypes": "Välj timtyp på insatstimmar",
                 "careHourTypesHint": "Besöks-, transport- eller administrationstid på varje registrering, även från en bokning (Registrera tid)",
                 "mileageRequiresTransport": "Körning bara där transport är beviljad",
@@ -13667,7 +13678,21 @@
                 "oneTime12Months": "Engångsförsäljning 12 månader",
                 "perMonthExVat": "Per månad, exkl. moms",
                 "trendLabel": "Utveckling för {name}"
-            }
+            },
+            "filterCategory": "Kategori",
+            "allCategories": "Alla kategorier",
+            "noCategory": "Utan kategori",
+            "statusAll": "Alla",
+            "statusLive": "I butiken",
+            "statusHidden": "Dold på webbplatsen",
+            "statusIncomplete": "Saknar innehåll",
+            "shownCount": "Visar {shown} av {total}",
+            "clearFilters": "Rensa filter",
+            "colCustomers": "Kunder",
+            "customersCount": "{count} kund | {count} kunder",
+            "priceOnce": "{amount} kr engång",
+            "pricePerMonth": "{amount} kr/mån",
+            "pricePerYear": "{amount} kr/år"
         },
         "appCategories": {
             "pageTitle": "App-kategorier",
@@ -13701,7 +13726,13 @@
                 "iconHint": "En emoji eller ett ikonnamn (t.ex. ic:baseline-category)",
                 "sortOrder": "Sorteringsordning",
                 "isActive": "Aktiv"
-            }
+            },
+            "colPosition": "Placering",
+            "sharedPositionsHint": "Några kategorier har samma placering. Butiken visar dem då i alfabetisk ordning. Ge var och en sin egen placering om ordningen spelar roll.",
+            "sharedPosition": "Samma placering som {names}",
+            "appsCount": "{count} app | {count} appar",
+            "noApps": "Inga appar",
+            "cannotDelete": "Kategorin har appar. Flytta dem till en annan kategori innan den kan tas bort."
         },
         "companies": {
             "companies": "Företag",
@@ -18762,7 +18793,9 @@
             "serviceTypesLabel": "Insatstyper",
             "serviceTypesHint": "Avmarkera Alla insatstyper för att välja en eller flera typer som fältet bara ska efterfrågas på.",
             "form": "Formulär",
-            "formHint": "Fältet frågas bara på det här formuläret."
+            "formHint": "Fältet frågas bara på det här formuläret.",
+            "partyRole": "Läggs under Parter som",
+            "partyRoleHint": "Den valda läggs automatiskt under Parter på förfrågan. Personer som redan står där behåller sin roll."
         },
         "types": {
             "text": "Text",
@@ -18800,7 +18833,16 @@
         "allowHalfSteps": "Tillåt halva steg (t.ex. 4,5)",
         "wellbeingRuler": "Trivsellinjal",
         "wellbeingRulerHint": "Visas som trivsellinjalen i journalanteckningar, och svaret blir första punkten på brukarens trivselkurva när ärendet vinns.",
-        "allForms": "Alla formulär"
+        "allForms": "Alla formulär",
+        "partyRoles": {
+            "none": "Läggs inte under Parter",
+            "contact_person": "Kontaktperson",
+            "primary": "Primär koordinator",
+            "secondary": "Sekundär koordinator",
+            "intake": "Mottagningskoordinator",
+            "consultant": "Konsult",
+            "case_manager": "Handläggare"
+        }
     },
     "inquiryOrigin": {
         "label": "Förfrågan kommer från",
@@ -19256,6 +19298,8 @@
         },
         "askSelected": "Fråga {count} valda",
         "childCertificate": "Belastningsregisterutdrag hämtat {issued}, går ut {expires}",
+        "pickSelected": "Välj {count} valda utan meddelande",
+        "picked": "Konsulterna är valda utan meddelande",
         "asked": "Konsulterna är tillfrågade",
         "askFailed": "Konsulterna kunde inte tillfrågas",
         "location": {
@@ -19382,7 +19426,11 @@
         "contactDirectlyHint": "Inaktiva konsulter får inget mejl eller meddelande i appen om ärendet. Kontakta dem direkt. Utse återaktiverar dem med en licens.",
         "howToldHelp": "Aktiva konsulter får ett mejl och ett meddelande i appen. Har ni SMS-appen får de också ett sms utan uppgifter om brukaren. En inaktiv konsult utan licens får bara sms och kan svara dig per telefon. Du registrerar svaret med Sa ja eller Sa nej.",
         "toldVia": "fick besked via {channels}",
-        "channels": {"mail": "mejl", "app": "app", "sms": "sms"},
+        "channels": {
+            "mail": "mejl",
+            "app": "app",
+            "sms": "sms"
+        },
         "notReached": "Inte nådd",
         "notReachedHint": "Konsulten fick varken mejl, meddelande i appen eller sms. Kontakta dem direkt och registrera svaret med Sa ja eller Sa nej."
     },
@@ -20969,6 +21017,7 @@
             "citizen": "Brukare (valfritt)",
             "citizenHint": "Inspelningar av mötet kan ses av personal med åtkomst till brukaren.",
             "waitingRoom": "Väntrum: gäster väntar tills du släpper in dem",
+            "guestsCanShareScreen": "Gäster får dela sin skärm",
             "colleagues": "Kollegor",
             "guests": "Gäster",
             "guestName": "Namn",
@@ -21018,13 +21067,48 @@
             "admit": "Släpp in",
             "deny": "Neka"
         },
+        "brief": {
+            "prepare": "Förbered med Cody AI",
+            "working": "Cody förbereder ...",
+            "hint": "Cody läser journal, mål och senaste mötet om brukaren.",
+            "byCody": "Cody AI har läst {journals} journalanteckningar och {goals} mål. Kontrollera innan du använder det.",
+            "suggestedAgenda": "Förslag till dagordning",
+            "useAgenda": "Använd som dagordning",
+            "replaceAgenda": "Ersätt dagordningen"
+        },
+        "tasks": {
+            "find": "Hitta överenskommelser",
+            "title": "Överenskommelser från mötet",
+            "intro": "Cody AI har hittat dessa överenskommelser. Redigera dem, välj vem som gör vad och skapa dem som uppgifter.",
+            "none": "Cody AI hittade inga överenskommelser som någon behöver agera på.",
+            "include": "Ta med",
+            "description": "Beskrivning (valfri)",
+            "assignee": "Ansvarig",
+            "codySays": "Cody: {owner}",
+            "nobody": "Ingen",
+            "due": "Deadline",
+            "board": "Uppgiftstavla",
+            "boardHint": "Alla med åtkomst till tavlan kan se uppgifterna. Skriv inte hälsouppgifter i dem.",
+            "noBoards": "Det finns inga uppgiftstavlor. Du kan kopiera överenskommelserna i stället.",
+            "create": "Skapa {count} uppgift | Skapa {count} uppgifter",
+            "created": "Skapad",
+            "copy": "Kopiera",
+            "copied": "Kopierad"
+        },
+        "minutes": {
+            "download": "Ladda ner som PDF"
+        },
         "host_controls": {
             "record": "Spela in",
             "stopRecording": "Stoppa inspelning",
             "endForEveryone": "Avsluta för alla",
             "missingConsent": "Samtycke saknas från: {names}. De har tillfrågats.",
             "recordingStarted": "Inspelningen har startat.",
-            "recordingStopped": "Inspelningen har stoppats. Den är klar om en stund."
+            "recordingStopped": "Inspelningen har stoppats. Den är klar om en stund.",
+            "guestScreenShareOff": "Gäster kan inte dela skärm. Klicka för att tillåta det.",
+            "guestScreenShareOn": "Gäster får dela skärm. Klicka för att ta tillbaka det.",
+            "guestScreenShareAllowed": "Gästerna kan nu dela sin skärm.",
+            "guestScreenShareStopped": "Gästerna kan inte längre dela sin skärm."
         },
         "room": {
             "camera": "Kamera",
@@ -21109,7 +21193,7 @@
             "openDraft": "Öppna utkastet i brukarens journal",
             "draftCreated": "Sammanfattningen är sparad som utkast i brukarens journal.",
             "errors": {
-                "too_long": "Inspelningen är för lång för en sammanfattning (max cirka 1,5 timme).",
+                "too_long": "Inspelningen är för lång för en sammanfattning (max cirka 4 timmar).",
                 "no_audio": "Inspelningen har inget ljudspår.",
                 "empty": "Inget sades som Cody AI kunde höra.",
                 "ai_error": "Cody AI kunde inte skriva sammanfattningen just nu."

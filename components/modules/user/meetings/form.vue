@@ -43,6 +43,12 @@
                 <span class="text-sm">{{ $t('meetings.form.waitingRoom') }}</span>
             </div>
 
+            <div class="md:col-span-2 flex items-center gap-3">
+                <FormSwitch :value="state.form.guests_can_share_screen" :label="$t('meetings.form.guestsCanShareScreen')"
+                    @toggleSwitch="state.form.guests_can_share_screen = !state.form.guests_can_share_screen" />
+                <span class="text-sm">{{ $t('meetings.form.guestsCanShareScreen') }}</span>
+            </div>
+
             <div class="space-y-1">
                 <FormLabel for="meeting-recurrence" :label="$t('meetings.form.repeat')" />
                 <select id="meeting-recurrence" v-model="state.form.recurrence"
@@ -141,6 +147,7 @@ const state = reactive({
         starts_at: props.meeting ? moment(props.meeting.starts_at).format('YYYY-MM-DD HH:mm') : nextQuarter.format('YYYY-MM-DD HH:mm'),
         ends_at: props.meeting ? moment(props.meeting.ends_at).format('YYYY-MM-DD HH:mm') : nextQuarter.clone().add(1, 'hour').format('YYYY-MM-DD HH:mm'),
         waiting_room: props.meeting?.waiting_room ?? true,
+        guests_can_share_screen: props.meeting?.guests_can_share_screen ?? false,
         recurrence: (props.meeting?.recurrence ?? '') as string,
         recurrence_until: (props.meeting?.recurrence_until ?? '') as string,
         citizen_uuid: '' as string,
@@ -206,6 +213,7 @@ async function submit() {
         starts_at: toIso(state.form.starts_at),
         ends_at: toIso(state.form.ends_at),
         waiting_room: state.form.waiting_room,
+        guests_can_share_screen: state.form.guests_can_share_screen,
         agenda: state.form.agenda || null,
         recurrence: state.form.recurrence || null,
         recurrence_until: state.form.recurrence ? (state.form.recurrence_until || null) : null,
