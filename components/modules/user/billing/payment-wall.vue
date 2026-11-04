@@ -116,6 +116,8 @@ const heading = computed(() => {
 const body = computed(() => {
     if (mode.value === 'contact_admin') return t('paymentDunning.suspended.contactBody')
     if (mode.value === 'invoice_overdue') return t('paymentDunning.invoiceOverdue.body')
+    // The card cannot be updated in the desktop app (its button is hidden), so it does not ask for that.
+    if (isDesktopApp) return t('desktopApp.paymentNotAvailable')
     if (isSuspended.value) return t('paymentDunning.suspended.adminBody')
     return t('paymentStatus.wall.pastDueBody', { days: state.status?.days_until_suspension ?? 0 })
 })

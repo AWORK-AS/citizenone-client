@@ -94,18 +94,25 @@ const SEATS_PATH = '/employees'
 const { t } = useI18n()
 const userStore = useUserStore() as any
 const canBuy = useCanPurchase()
+// Who may hand out seats: the same people, also in the desktop app, where buying is left out.
+const canManage = useCanPurchase({ allowInDesktopApp: true })
+const isDesktopApp = useIsDesktopApp()
 const { status, trialAvailable, promptOpen, appPath, requestState, load, requestFromAdmin, recordNudge } = useCodyAdoption()
 
 const bullets = ['bulletShift', 'bulletMissing', 'bulletNotes']
 const examples = ['example1', 'example2', 'example3']
 
-const audience = computed(() => previewAudience({
-    moduleEnabled: hasCompanyModule(userStore.getUser?.company?.module_pages, 'AI assistant'),
-    hasAccess: !!userStore.getUser?.has_ai_access,
-    canBuy: canBuy.value,
-    // Until the status says otherwise nobody is offered a purchase: the company may have Cody.
-    companyHasCody: status.value ? !!status.value.company_has_cody : null,
-}))
+const audience = computed(() => {
+    const result = previewAudience({
+        moduleEnabled: hasCompanyModule(userStore.getUser?.company?.module_pages, 'AI assistant'),
+        hasAccess: !!userStore.getUser?.has_ai_access,
+        canBuy: canManage.value,
+        // Until the status says otherwise nobody is offered a purchase: the company may have Cody.
+        companyHasCody: status.value ? !!status.value.company_has_cody : null,
+    })
+    // The desktop app offers no purchase, so the one who could buy Cody is not shown the offer.
+    return isDesktopApp && result === 'buyer' ? 'hidden' : result
+})
 // A seat arriving while the screen is open (a trial just started) closes it.
 const OPEN_FOR = ['buyer', 'staff', 'assign', 'askSeat', 'pending']
 const open = computed(() => promptOpen.value && OPEN_FOR.includes(audience.value))

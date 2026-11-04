@@ -21763,5 +21763,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Bare visning - ingenting kan lagres.",
         "end": "Avslutt visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Dette er ikke tilgjengelig i skrivebordsappen.",
+        "paymentNotAvailable": "Betalingskortet kan ikke oppdateres i skrivebordsappen. Kontakt support hvis dere trenger hjelp."
     }
 }

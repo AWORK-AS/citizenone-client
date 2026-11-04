@@ -83,7 +83,8 @@ const title = computed(() => ({
 }[mode.value]))
 
 const body = computed(() => ({
-    update_card: t('paymentDunning.suspended.adminBody'),
+    // The card cannot be updated in the desktop app (its button is hidden), so it does not ask for that.
+    update_card: isDesktopApp ? t('desktopApp.paymentNotAvailable') : t('paymentDunning.suspended.adminBody'),
     invoice_overdue: t('paymentDunning.invoiceOverdue.body'),
     contact_admin: t('paymentDunning.suspended.contactBody'),
     notice: t('paymentDunning.suspended.contactBody'),
