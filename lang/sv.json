@@ -17525,7 +17525,7 @@
             "open": "Öppna översikt"
         },
         "unassignedWon": "Vunna ärenden utan koordinator",
-        "unassignedWonCount": "1 ärende väntar | {count} ärenden väntar",
+        "unassignedWonCount": "1 nytt ärende väntar på att fördelas | {count} nya ärenden väntar på att fördelas",
         "unassignedWonOpen": "Fördela ärenden",
         "unassignedWonTooltip": "Se de vunna ärenden som ingen står på än, och fördela dem",
         "brief": {
@@ -17567,7 +17567,8 @@
             "prompt": "Det här kräver min uppmärksamhet i dag:\n{lines}\n\nSkriv två korta meningar om hur min dag ser ut och vad jag bör ta först. Inga rubriker, inga punktlistor, inga namn."
         },
         "distribution": "Fördelning av insatser",
-        "distributionUnassigned": "{count} utan koordinator",
+        "distributionUnassigned": "1 aktiv @:terms.citizen{''} utan koordinator | {count} aktiva @:terms.citizens{''} utan koordinator",
+        "distributionUnassignedTooltip": "Alla aktiva @:terms.citizens{''} där ingen är primär-, sekundär- eller mottagningskoordinator",
         "distributionIntake": "{count} i mottagning",
         "distributionPrimary": "{count} primära",
         "distributionSecondary": "{count} sekundära",
