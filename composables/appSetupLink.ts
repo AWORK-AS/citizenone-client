@@ -12,6 +12,7 @@ const APP_LINKS: Record<string, AppDestination> = {
     'dinero': { path: '/settings/dinero' },
     'billy': { path: '/settings/billy' },
     'power-bi': { path: '/settings/power-bi' },
+    'zapier': { path: '/settings/zapier' },
     'microsoft-sso': { path: '/settings/company' },
     // Portal apps: who has a login, and what each audience may see
     'relative-access': { path: '/settings/portal-access' },
