@@ -13321,7 +13321,9 @@
                 "trialClicks": "Try-free clicks",
                 "askClicks": "Ask-admin clicks",
                 "trialsStarted": "Trials started",
-                "dismissed": "Closed"
+                "dismissed": "Closed",
+                "pushed": "Pushes sent",
+                "pushOpened": "Pushes opened"
             },
             "form": {
                 "kind": "Type",
@@ -13347,7 +13349,10 @@
                 "releaseNoteHint": "The message is shown only once the release note is published, so it never runs ahead of the code.",
                 "preview": "Preview",
                 "previewAppHint": "Shown as a buyer sees it. Staff get \"Ask my administrator for it\".",
-                "frequencyHint": "A customer gets at most one message from CitizenOne a day, and never two popups at once."
+                "frequencyHint": "A customer gets at most one message from CitizenOne a day, and never two popups at once.",
+                "sendPush": "Also send as a push to the mobile app",
+                "sendPushHint": "Only to users who switched on \"News from CitizenOne\" in their notification settings. Sent once, when the message goes live (weekdays 9-16), and at most one push a week per user.",
+                "pushSent": "Sent as push {date}"
             }
         },
         "referrals": {
