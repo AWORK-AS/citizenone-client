@@ -1,4 +1,5 @@
 import { aIAssistantService } from '@/components/api/user/AIAssistantService'
+import { useIsDesktopApp } from '@/composables/useIsDesktopApp'
 import { ANSWER_FEEDBACK_REASONS, nextFeedback } from '@/composables/codyFeedback'
 import type { AnswerRating, AnswerFeedbackReason } from '@/composables/codyFeedback'
 import { memoryNoteFor, noteAfterConfirm } from '@/composables/codyMemory'
@@ -131,7 +132,9 @@ export function createCodyChat() {
     // Mirrors User::managesAiCapacity() on the server. manage_licenses alone was
     // only ever on the Superadmin role, so a customer's admin was told to ask
     // their administrator - themselves.
-    const canBuyCapacity = () => isAtLeast('Admin') || can('manage_licenses')
+    // Never in the desktop app: it sells nothing (composables/purchaseAccess.ts).
+    const inDesktopApp = useIsDesktopApp()
+    const canBuyCapacity = () => !inDesktopApp && (isAtLeast('Admin') || can('manage_licenses'))
     const { errorAlert } = useAlert()
     const citizenStore = useCitizenStore() as any
     const route = useRoute()
@@ -584,7 +587,7 @@ export function createCodyChat() {
                 message: error?.message ?? t('assistants.budgetSpent'),
                 isLimit: true,
                 isDaily: true,
-                canBuy: canBuyCapacity() || error?.can_manage_licenses === true,
+                canBuy: canBuyCapacity() || (!inDesktopApp && error?.can_manage_licenses === true),
             }
         }
 
@@ -618,7 +621,7 @@ export function createCodyChat() {
                 // that appears or not depending on which request path answered is worse
                 // than one decided by what the user is actually allowed to do.
                 // The company's admin counts: the server's gate is the same.
-                canBuy: canBuyCapacity() || error?.can_manage_licenses === true,
+                canBuy: canBuyCapacity() || (!inDesktopApp && error?.can_manage_licenses === true),
             }
         }
 

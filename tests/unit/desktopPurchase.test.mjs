@@ -79,4 +79,27 @@ describe('wiring', () => {
             if (file.includes('guided-tour')) assert.match(src, /<FormButton v-if="!isDesktopApp" buttonStyle="primary"\s*@click="navigateToExternalLink\('https:\/\/citizenone\.dk\/priser-til-journalsystem\/kurser'\)"/, file)
         }
     })
+
+    test('a blocked page tells the user why, in all four languages', () => {
+        assert.match(read('middleware/desktop-no-purchase.global.ts'), /desktopApp\.notAvailable/)
+        for (const lang of ['dk', 'en', 'no', 'sv']) {
+            const strings = JSON.parse(read(`lang/${lang}.json`)).desktopApp
+            assert.ok(strings?.notAvailable && strings?.paymentNotAvailable, lang)
+        }
+    })
+
+    test('the billing menu entry does not lead to a blocked page in the desktop app', () => {
+        assert.match(read('composables/useSettingsNav.ts'), /useIsDesktopApp\(\) \? '\/settings\/billing-overview' : '\/settings\/subscription'/)
+        assert.equal(isPurchaseRoute('/settings/billing-overview'), false)
+        assert.match(read('components/modules/user/settings/billing-sub-tab.vue'), /isDesktopApp \? \[\]/)
+    })
+
+    test('Cody offers no purchase in the desktop app but admins can still assign seats', () => {
+        const chat = read('composables/useCodyChat.ts')
+        assert.match(chat, /canBuyCapacity = \(\) => !inDesktopApp &&/)
+        assert.equal((chat.match(/!inDesktopApp && error\?\.can_manage_licenses/g) ?? []).length, 2)
+        const prompt = read('components/modules/user/cody/access-prompt.vue')
+        assert.match(prompt, /useCanPurchase\(\{ allowInDesktopApp: true \}\)/)
+        assert.match(prompt, /isDesktopApp && result === 'buyer' \? 'hidden'/)
+    })
 })

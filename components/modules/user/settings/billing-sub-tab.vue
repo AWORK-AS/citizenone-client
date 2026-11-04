@@ -16,8 +16,10 @@ function changeTab(href: string) {
     navigateTo(href)
 }
 
+// The desktop app does not open the subscription page (composables/purchaseAccess.ts).
+const isDesktopApp = useIsDesktopApp()
 const tabs = [
-    { name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] },
+    ...(isDesktopApp ? [] : [{ name: 'settings.tabs.subscription', isTranslateName: true, href: '/settings/subscription', routeNames: ['settings-subscription'] }]),
     { name: 'billingOverview.title', isTranslateName: true, href: '/settings/billing-overview', routeNames: ['settings-billing-overview'] },
     { name: 'settings.licenseOverview.licenseOverview', isTranslateName: true, href: '/settings/license-overview', routeNames: ['settings-license-overview', 'settings-license-overview-caseworker', 'settings-license-overview-departments'] },
     { name: 'storage.storage', isTranslateName: true, href: '/settings/storage', routeNames: ['settings-storage'] },

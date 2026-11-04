@@ -181,7 +181,7 @@
 
             <!-- The other half of the ledger. A balance nobody can trace back to
                  a purchase is a number to be taken on trust. -->
-            <ModulesUserSettingsAiAutoReload v-if="state.data.budget_enabled" :autoReload="state.data.auto_reload"
+            <ModulesUserSettingsAiAutoReload v-if="state.data.budget_enabled && !isDesktopApp" :autoReload="state.data.auto_reload"
                 :minimumKroner="state.data.topup_app?.minimum_kroner" @updated="load" />
 
             <ModulesUserSettingsAiCapacityPurchase :isModalOpen="state.buying" :topupApp="state.data.topup_app" :hasCard="!!state.data.auto_reload?.has_card"

@@ -21809,5 +21809,9 @@
         "banner": "Du ser systemet som rollen {role}.",
         "readOnly": "Endast visning - inget kan sparas.",
         "end": "Avsluta visning"
+    },
+    "desktopApp": {
+        "notAvailable": "Det här är inte tillgängligt i skrivbordsappen.",
+        "paymentNotAvailable": "Betalkortet kan inte uppdateras i skrivbordsappen. Kontakta support om ni behöver hjälp."
     }
 }
