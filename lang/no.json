@@ -5730,7 +5730,13 @@
             "clickHereToPasteTheSchedule": "Klikk her for at lime inn vaktplanen, eller trykk på Escape-tasten på dit tastatur for at kansellere",
             "clickHereToStopCopyingTheSchedule": "Klikk her for at stoppe med at kopiere",
             "copyingActive": "Kopiering aktiv - Klikk for at stoppe",
-            "stopCopying": "Stop kopiering"
+            "stopCopying": "Stop kopiering",
+            "resultTitle": "Vaktplan limt inn",
+            "created": "{count} vakt lagt til | {count} vakter lagt til",
+            "skipped": "{count} vakt hoppet over fordi den ansatte allerede har den samme vakten. | {count} vakter hoppet over fordi den ansatte allerede har de samme vaktene.",
+            "noneCreatedTitle": "Ingen vakter lagt til",
+            "allSkipped": "Den ansatte har allerede de samme vaktene denne uken.",
+            "sourceEmpty": "Det er ingen vakter i uken du kopierte."
         },
         "custom": "Brugerdefineret",
         "date": "Vakt dato",
@@ -6065,7 +6071,8 @@
             "sendEmailToEmployee": "Send e-post til den ansatte",
             "sendEmailToEmployeeTimesChanged": "Vaktens dato eller tidspunkt er endret, så det anbefales å sende en e-post.",
             "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uendret, så en e-post er vanligvis ikke nødvendig. Den ansatte får fortsatt et varsel i appen.",
-            "compensatoryHours": "Avspaseringstimer brukt"
+            "compensatoryHours": "Avspaseringstimer brukt",
+            "citizensHint": "Viser bare @:terms.citizens{''} som den ansatte har tilgang til. Mangler en, knytt den ansatte til samme avdeling, en ansattgruppe eller som kontaktperson."
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbeidet)",
@@ -13419,6 +13426,8 @@
                 "suggestions": {
                     "title": "Foreslå for lederen min",
                     "hint": "Én app i én virksomhet teller én gang, fra det første forslaget. Kjøpt = et betalt abonnement på appen innen {days} dager. Åpen = vinduet er ikke lukket ennå og teller ikke med i raten.",
+                    "seen": "Sett av",
+                    "opened": "Åpnet",
                     "sends": "Sendt",
                     "recipients": "Mottakere",
                     "apps": "Foreslåtte apper",
@@ -13429,6 +13438,8 @@
                 "referrals": {
                     "title": "Delte lenker",
                     "hint": "Delinger av \"Del CitizenOne\"-lenken, virksomheter opprettet via en (telt i perioden de ble opprettet), og hvor mange av dem som har betalt en faktura.",
+                    "seen": "Sett av",
+                    "opened": "Åpnet",
                     "shares": "Delinger",
                     "signedUp": "Opprettet",
                     "paid": "Betalt",
@@ -13465,6 +13476,7 @@
                     "clicks": "Klikk",
                     "try_free": "Prøv gratis",
                     "buy": "Kjøp",
+                    "dismissed": "Lukket",
                     "companies": "Virksomheter",
                     "trial_started": "Prøve startet",
                     "bought": "Kjøpt"
@@ -13473,7 +13485,8 @@
                     "banner": "Admin-banner",
                     "prompt": "Cody AI-dialog",
                     "journal_preview": "Journal-forhåndsvisning",
-                    "seats": "Tildel plasser"
+                    "seats": "Tildel plasser",
+                    "staff_banner": "Ansatt-banner"
                 }
             }
         },

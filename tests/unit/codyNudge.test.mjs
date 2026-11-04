@@ -10,7 +10,7 @@ import assert from 'node:assert/strict'
 import fs from 'node:fs'
 import path from 'node:path'
 import {
-    DISMISS_DAYS, bannerSurface, bannerVariant, demandCount, isBannerDismissed, nudgeReportRows,
+    DISMISS_DAYS, bannerSurface, bannerVariant, demandCount, isBannerDismissed, nudgeCellText, nudgeReportRows,
     parseDismissRecord, priceLine,
 } from '../../composables/codyNudge.ts'
 
@@ -51,7 +51,8 @@ describe('bannerVariant', () => {
         assert.equal(variant(admin(), { hasAccess: true }), null)
         assert.equal(variant(admin(), { bannerDismissed: true }), null)
     })
-    test('only the admin banners and the seats banner are measured', () => {
+    test('the admin banners, the seats banner and the staff request banner are measured', () => {
+        assert.equal(bannerSurface('request'), 'staff_banner')
         assert.equal(bannerSurface('adminTrial'), 'banner')
         assert.equal(bannerSurface('adminEnable'), 'banner')
         assert.equal(bannerSurface('seats'), 'seats')
@@ -129,13 +130,31 @@ describe('nudgeReportRows', () => {
     })
 })
 
+describe('nudgeCellText', () => {
+    const report = { surfaces: ['banner', 'journal_preview'], dismissable: ['banner'], weeks: [], totals: {} }
+    test('closed is a dash where there is no X, a number elsewhere', () => {
+        assert.equal(nudgeCellText(report, 'journal_preview', 'dismissed', 0), '–')
+        assert.equal(nudgeCellText(report, 'banner', 'dismissed', 3), '3')
+        assert.equal(nudgeCellText(report, 'banner', 'dismissed', undefined), '0')
+        assert.equal(nudgeCellText(report, 'journal_preview', 'clicks', 2), '2')
+    })
+    test('a row with only dismissals is still shown', () => {
+        const zero = { impressions: 0, viewers: 0, clicks: 0, try_free: 0, buy: 0, dismissed: 0, companies: 0, trial_started: 0, bought: 0 }
+        const rows = nudgeReportRows({ surfaces: ['banner'], weeks: [{ week: '2026-W45', starts_on: '2026-11-02', surfaces: { banner: { ...zero, dismissed: 1 } } }], totals: {} })
+        assert.equal(rows.length, 1)
+    })
+})
+
 describe('copy', () => {
     const root = path.resolve(import.meta.dirname, '../..')
     const langs = Object.fromEntries(['dk', 'en', 'no', 'sv'].map(l =>
         [l, JSON.parse(fs.readFileSync(path.join(root, 'lang', `${l}.json`), 'utf8'))]))
     const keys = ['cody.adoption.demand', 'cody.adoption.price.month', 'cody.adoption.price.monthSeats', 'cody.adoption.price.year',
         'cody.adoption.price.yearSeats', 'cody.adoption.seats.title', 'cody.adoption.seats.assign', 'cody.preview.askAdminAccess',
-        'cody.preview.assignSelf', 'cody.preview.goToSeats', 'superadmin.funnel.codyNudges.title']
+        'cody.preview.assignSelf', 'cody.preview.goToSeats', 'superadmin.funnel.codyNudges.title',
+        'superadmin.funnel.codyNudges.columns.dismissed', 'superadmin.funnel.codyNudges.surfaces.staff_banner',
+        'superadmin.funnel.loops.suggestions.seen', 'superadmin.funnel.loops.suggestions.opened',
+        'superadmin.funnel.loops.referrals.seen', 'superadmin.funnel.loops.referrals.opened']
     const get = (o, k) => k.split('.').reduce((a, p) => a?.[p], o)
 
     test('every key in every language, plurals with two forms, no em-dash', () => {

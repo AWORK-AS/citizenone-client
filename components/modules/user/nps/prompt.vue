@@ -66,6 +66,7 @@
                     review invitation, which stays the same for every score.
                 -->
                 <div v-if="referralOffer && isPromoter(score)" class="mt-4 space-y-2 border-t border-gray-100 pt-4" data-testid="nps-referral">
+                    <ModulesUserGrowthImpression loop="share" />
                     <p class="text-sm font-semibold text-gray-900">{{ $t('referralProgram.npsTitle') }}</p>
                     <p class="text-sm text-gray-600">{{ $t('referralProgram.npsBody') }}</p>
                     <div class="flex items-stretch gap-2">

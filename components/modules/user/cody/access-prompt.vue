@@ -1,5 +1,5 @@
 <template>
-    <Modal size="sm" :title="$t('assistants.identity.name')" :show="open" @close="promptOpen = false">
+    <Modal size="sm" :title="$t('assistants.identity.name')" :show="open" @close="close()">
         <template #modal-body>
             <div class="pb-6">
                 <!-- What Cody is, shown to someone who does not have it. Nothing here
@@ -128,6 +128,12 @@ function buyerAction() {
 watch(() => [open.value, audience.value] as const, ([isOpen, who]) => {
     if (isOpen && (who === 'buyer' || who === 'staff')) recordNudge('impression', 'prompt')
 }, { immediate: true })
+
+// Closed without acting: counted as turned down, in the buy funnel only like the impression.
+function close() {
+    if (audience.value === 'buyer' || audience.value === 'staff') recordNudge('dismiss', 'prompt')
+    promptOpen.value = false
+}
 
 function go(path: string) {
     promptOpen.value = false

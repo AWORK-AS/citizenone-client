@@ -63,6 +63,7 @@ import { platformShareService } from '@/components/api/user/PlatformShareService
 import { referralProgramService } from '@/components/api/user/ReferralProgramService'
 import { referralOfferFrom, type ReferralOffer, type ReferralSummary } from '@/composables/referralProgram'
 import { platformShareTargets, type PlatformShareMethod } from '@/utils/platformShare'
+import { recordGrowthEvent } from '@/composables/growthEvents'
 
 const props = defineProps({
     isModalOpen: {
@@ -174,6 +175,8 @@ async function load() {
 }
 
 onMounted(() => {
+    // Mounted only while open (v-if in the layouts): opening sharing is the loop's "open".
+    recordGrowthEvent('share', 'open')
     canShareNatively.value = typeof navigator !== 'undefined' && typeof navigator.share === 'function'
     isPhone.value = typeof window !== 'undefined' && window.matchMedia?.('(pointer: coarse)').matches === true
     load()
