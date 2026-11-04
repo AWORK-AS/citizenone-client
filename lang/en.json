@@ -12569,6 +12569,20 @@
                 "description": "Choose which of your available menu items show in your own left sidebar. Turning one off only hides it for you.",
                 "empty": "No customizable menu items are available to you.",
                 "saved": "Your sidebar menu has been updated."
+            },
+            "accountDeletion": {
+                "title": "Delete my account",
+                "description": "You can ask to have your account deleted. We confirm the request with you and your workplace before the account is deleted.",
+                "records": "Journals and other information you have registered belong to your workplace and may be subject to a retention duty, so they are not deleted with the account.",
+                "reasonLabel": "Reason (optional)",
+                "reasonPlaceholder": "Feel free to tell us why",
+                "button": "Request account deletion",
+                "confirmTitle": "Request account deletion?",
+                "confirmMessage": "We send your request to CitizenOne support, who will contact you. Your account keeps working until the deletion is done.",
+                "confirmButton": "Send request",
+                "sent": "Your request has been sent. Support will contact you.",
+                "pending": "You have asked to have your account deleted ({date}). Support will contact you.",
+                "failed": "The request could not be sent. Please try again."
             }
         },
         "settings": "Settings",
