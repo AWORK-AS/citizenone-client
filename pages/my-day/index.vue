@@ -300,16 +300,20 @@
 
                         <!-- Who is carrying what, and what is on nobody. Read here
                              rather than by opening every case, which is how a team
-                             works out who covers for somebody away. -->
+                             works out who covers for somebody away. Only for Admins
+                             and roles given view_coordinator_distribution. -->
                         <section v-if="distribution.coordinators.length" :id="`card-distribution`"
                             class="rounded-xl bg-white ring-1 ring-gray-200 p-5 lg:col-span-2">
                             <div class="flex items-center gap-2 mb-3">
                                 <Icon name="ph:users-three" class="size-5 text-tertiary" />
                                 <h3 class="font-semibold text-gray-900">{{ $t('myDay.distribution') }}</h3>
-                                <NuxtLink v-if="distribution.unassigned" to="/citizens"
-                                    class="ml-auto inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-100 transition-colors">
-                                    {{ $t('myDay.distributionUnassigned', { count: distribution.unassigned }) }}
-                                </NuxtLink>
+                                <Tooltip v-if="distribution.unassigned" class="ml-auto" wrap
+                                    :text="$t('myDay.distributionUnassignedTooltip')">
+                                    <NuxtLink to="/citizens"
+                                        class="inline-flex items-center gap-1.5 rounded-full bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-100 transition-colors">
+                                        {{ $t('myDay.distributionUnassigned', { count: distribution.unassigned }) }}
+                                    </NuxtLink>
+                                </Tooltip>
                             </div>
                             <ul class="space-y-2">
                                 <li v-for="row in distribution.coordinators" :key="row.uuid"
@@ -667,8 +671,14 @@ const distribution = computed(() => state.distribution)
  * Its own request rather than part of fetchAll: it is the one card here that
  * is about the team rather than about today, and a company with no
  * coordinators simply never renders it.
+ *
+ * It names every coordinator and their caseload, so it is its own right
+ * (view_coordinator_distribution); anyone else would get a refusal, so the
+ * request isn't sent and the card stays hidden.
  */
 async function fetchDistribution() {
+    if (!isAtLeast('Admin') && !can('view_coordinator_distribution')) return
+
     try {
         const response = await citizenContactService.getCoordinatorDistribution()
         state.distribution = {

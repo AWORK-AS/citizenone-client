@@ -17525,7 +17525,7 @@
             "open": "Åpne oversikt"
         },
         "unassignedWon": "Vunne saker uten koordinator",
-        "unassignedWonCount": "1 sak venter | {count} saker venter",
+        "unassignedWonCount": "1 ny sak venter på fordeling | {count} nye saker venter på fordeling",
         "unassignedWonOpen": "Fordel saker",
         "unassignedWonTooltip": "Se de vunne sakene som ingen står på ennå, og fordel dem",
         "brief": {
@@ -17567,7 +17567,8 @@
             "prompt": "Her er hva som krever min oppmerksomhet i dag:\n{lines}\n\nSkriv to korte setninger om hvordan dagen min ser ut, og hva jeg bør ta først. Ingen overskrifter, ingen punktliste, ingen navn."
         },
         "distribution": "Fordeling av tiltak",
-        "distributionUnassigned": "{count} uten koordinator",
+        "distributionUnassigned": "1 aktiv @:terms.citizen{''} uten koordinator | {count} aktive @:terms.citizens{''} uten koordinator",
+        "distributionUnassignedTooltip": "Alle aktive @:terms.citizens{''} der ingen er primær-, sekundær- eller mottakskoordinator",
         "distributionIntake": "{count} i mottak",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære",

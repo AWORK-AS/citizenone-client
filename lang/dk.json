@@ -17610,7 +17610,7 @@
             "open": "Åbn oversigt"
         },
         "unassignedWon": "Vundne sager uden koordinator",
-        "unassignedWonCount": "1 sag venter | {count} sager venter",
+        "unassignedWonCount": "1 ny sag afventer fordeling | {count} nye sager afventer fordeling",
         "unassignedWonOpen": "Fordel sager",
         "unassignedWonTooltip": "Se de vundne sager, som ingen står på endnu, og fordel dem",
         "brief": {
@@ -17652,7 +17652,8 @@
             "prompt": "Her er hvad der kræver min opmærksomhed i dag:\n{lines}\n\nSkriv to korte sætninger om hvordan min dag ser ud, og hvad jeg bør tage først. Ingen overskrifter, ingen punktopstilling, ingen navne."
         },
         "distribution": "Fordeling af indsatser",
-        "distributionUnassigned": "{count} uden koordinator",
+        "distributionUnassigned": "1 aktiv @:terms.citizen{''} uden koordinator | {count} aktive @:terms.citizens{''} uden koordinator",
+        "distributionUnassignedTooltip": "Alle aktive @:terms.citizens{''}, hvor ingen er primær, sekundær eller modtagelseskoordinator",
         "distributionIntake": "{count} i modtagelse",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære",
