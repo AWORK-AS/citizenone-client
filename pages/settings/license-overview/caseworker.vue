@@ -29,7 +29,7 @@
                             {{ $t('subscription.noSubscription.toEnjoyOurFullRangeOfServicesAndBenefits') }}.
                         </p>
                         <div class="mt-6">
-                            <FormButton type="button" buttonStyle="primary" class="w-full"
+                            <FormButton v-if="!isDesktopApp" type="button" buttonStyle="primary" class="w-full"
                                 @click="navigateTo('/subscription/subscribe')">
                                 {{ $t('subscription.noSubscription.subscribeNow') }}
                             </FormButton>
@@ -122,7 +122,7 @@
                             <div class="mt-8">
                                 <FormButton type="button" buttonStyle="primary" class="w-full"
                                     @click="navigateTo('/subscription/subscribe')"
-                                    v-if="!userStore.getUser?.user_subscription?.is_max">
+                                    v-if="!isDesktopApp && !userStore.getUser?.user_subscription?.is_max">
                                     {{ $t('subscription.upgrade') }}
                                 </FormButton>
                             </div>
@@ -147,7 +147,7 @@
                                                 {{ $t('caseworkerSharing.configureSharingSubtitle') }}
                                             </p>
                                         </div>
-                                        <FormButton type="button" buttonStyle="primary"
+                                        <FormButton v-if="!isDesktopApp" type="button" buttonStyle="primary"
                                             @click="navigateTo('/settings/subscription')">
                                             {{ $t('subscription.addOnDeals.purchaseExtraLicenses') }}
                                         </FormButton>
@@ -223,6 +223,8 @@ import { useAmountFormatter } from '@/composables/amountFormatter'
 import { useI18n } from 'vue-i18n'
 import { useTerminology } from '@/composables/useTerminology'
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()

@@ -50,7 +50,7 @@
                             {{ kr(state.data.balance_kroner) }}
                         </p>
                     </div>
-                    <Tooltip :text="$t('aiUsage.buyHint')" wrap>
+                    <Tooltip v-if="!isDesktopApp" :text="$t('aiUsage.buyHint')" wrap>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="buyMore">
                             {{ $t('aiUsage.buyMore') }}
                         </FormButton>
@@ -71,7 +71,7 @@
                         </h3>
                         <p class="mt-1 text-sm text-gray-600">{{ $t('aiUsage.offer.body') }}</p>
                     </div>
-                    <Tooltip :text="$t('aiUsage.buyHint')" wrap>
+                    <Tooltip v-if="!isDesktopApp" :text="$t('aiUsage.buyHint')" wrap>
                         <FormButton buttonStyle="AI" buttonSize="xs" class="px-4" @click="buyMore">
                             {{ $t('aiUsage.offer.cta') }}
                         </FormButton>
@@ -206,6 +206,8 @@
 import { useI18n } from 'vue-i18n'
 import { aiUsageService } from '@/components/api/user/AiUsageService'
 import { useAlert } from '@/composables/alert'
+
+const isDesktopApp = useIsDesktopApp()
 
 const { t, locale } = useI18n()
 const route = useRoute()
@@ -383,7 +385,7 @@ async function load() {
 
         // Cody's "buy more" lands here with ?buy=1, so the person who hit the
         // limit goes straight to the purchase instead of hunting for it.
-        if (route.query.buy && state.data.topup_app?.uuid) {
+        if (route.query.buy && state.data.topup_app?.uuid && !isDesktopApp) {
             state.buying = true
             router.replace({ query: { ...route.query, buy: undefined } })
         }

@@ -255,7 +255,7 @@
                                             </div>
                                         </div>
                                     </MenuItem>
-                                    <MenuItem>
+                                    <MenuItem v-if="!isDesktopApp">
                                         <div @click="navigateTo('/apps')"
                                             class="cursor-pointer bg-gray-50 block px-3 py-3 text-sm leading-6 text-gray-900 hover:bg-gray-100">
                                             <div class="flex items-center gap-x-3">
@@ -394,6 +394,8 @@ import { useCustomPagesStore } from '@/store/custom-pages'
 import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const userStore = useUserStore() as any
 const showUpgrade = useCanPurchase()

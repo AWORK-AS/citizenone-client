@@ -490,7 +490,7 @@
                     <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
                         :message="$t('drive.confirmation.deleteFileConfirmation') + '?'"
                         @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
-                    <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                    <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen && !isDesktopApp"
                         :title="$t('drive.upgradeStorage')"
                         :message="state.error?.message + ' ' + $t('drive.confirmation.upgradeStorageConfirmation') + '?'"
                         @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -570,6 +570,8 @@ import { saveAs } from 'file-saver'
 import { documentBlobViewer, documentFileName, documentExtension, canPreviewInApp } from '@/composables/documentBlobViewer'
 import OneDriveService from '@/components/api/oneDrive/OneDriveService'
 import { useOneDriveCache } from '@/composables/useOneDriveCache'
+
+const isDesktopApp = useIsDesktopApp()
 
 const { openOrSaveOriginal } = documentBlobViewer()
 const oneDriveService = new OneDriveService()

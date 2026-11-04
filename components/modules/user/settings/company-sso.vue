@@ -11,7 +11,7 @@
                  is refused, so point to the app instead of offering the form. -->
             <div v-if="!state.appActive" class="flex flex-wrap items-center gap-3">
                 <p class="text-sm text-slate-600">{{ $t('companySso.needsApp') }}</p>
-                <Tooltip :text="$t('companySso.openAppHint')" wrap>
+                <Tooltip v-if="!isDesktopApp" :text="$t('companySso.openAppHint')" wrap>
                     <FormButton type="button" buttonStyle="primary" :aria-label="$t('companySso.openAppHint')"
                         @click="navigateTo('/apps/microsoft-sso')">{{ $t('companySso.openApp') }}</FormButton>
                 </Tooltip>
@@ -38,6 +38,8 @@
 
 <script setup lang="ts">
 import { companySsoService } from '@/components/api/user/CompanySsoService'
+
+const isDesktopApp = useIsDesktopApp()
 
 const state = reactive({
     tenantId: '',

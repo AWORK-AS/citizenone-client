@@ -41,7 +41,7 @@
                         {{ $t('paymentDunning.invoiceOverdue.contact') }}
                     </a>
                 </Tooltip>
-                <Tooltip v-if="mode === 'update_card' && !state.checkoutReady"
+                <Tooltip v-if="mode === 'update_card' && !state.checkoutReady && !isDesktopApp"
                     :text="$t('paymentDunning.suspended.updateCardHelp')" position="top" wrap class="!block w-full">
                     <button type="button"
                         class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C] disabled:opacity-60"
@@ -82,6 +82,8 @@ import { errorMessageKey, retryStatus, wallMode } from '@/composables/billingMet
 import { useI18n } from 'vue-i18n'
 import { authService } from '@/components/api/user/AuthService'
 import { signOutRevoking } from '@/composables/signOutRevoking'
+
+const isDesktopApp = useIsDesktopApp()
 
 const runtimeConfig = useRuntimeConfig()
 const { t, locale } = useI18n()

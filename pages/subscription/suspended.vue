@@ -21,7 +21,7 @@
                     <p class="mt-2 text-sm text-gray-600">{{ body }}</p>
                     <Alert v-if="state.error" class="mt-3" type="danger" :text="state.error" />
 
-                    <Tooltip v-if="mode === 'update_card' && canRenew(state.status)" :text="$t('paymentDunning.suspended.updateCardHelp')"
+                    <Tooltip v-if="mode === 'update_card' && canRenew(state.status) && !isDesktopApp" :text="$t('paymentDunning.suspended.updateCardHelp')"
                         position="top" wrap class="!block mt-5">
                         <button type="button"
                             class="w-full rounded-lg bg-[#0F4C75] px-4 py-2.5 text-sm font-semibold text-white hover:bg-[#0A3B5C] disabled:opacity-60"
@@ -57,6 +57,8 @@ import { canRenew, errorMessageKey, renewalLinkToken, wallMode } from '@/composa
 import { useI18n } from 'vue-i18n'
 import { authService } from '@/components/api/user/AuthService'
 import { signOutRevoking } from '@/composables/signOutRevoking'
+
+const isDesktopApp = useIsDesktopApp()
 
 /**
  * Where a signed-in user lands when their company has been closed for non-payment: any
