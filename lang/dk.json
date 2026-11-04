@@ -5785,7 +5785,13 @@
             "clickHereToPasteTheSchedule": "Klik her for at indsætte vagtplanen, eller tryk på Escape-tasten på dit tastatur for at annullere",
             "clickHereToStopCopyingTheSchedule": "Klik her for at stoppe med at kopiere",
             "copyingActive": "Kopiering aktiv - Klik for at stoppe",
-            "stopCopying": "Stop kopiering"
+            "stopCopying": "Stop kopiering",
+            "resultTitle": "Vagtplan indsat",
+            "created": "{count} vagt indsat | {count} vagter indsat",
+            "skipped": "{count} vagt sprunget over, fordi medarbejderen allerede har den samme vagt. | {count} vagter sprunget over, fordi medarbejderen allerede har de samme vagter.",
+            "noneCreatedTitle": "Ingen vagter indsat",
+            "allSkipped": "Medarbejderen har allerede de samme vagter i ugen.",
+            "sourceEmpty": "Der er ingen vagter i den uge, du kopierede."
         },
         "custom": "Brugerdefineret",
         "date": "Vagt dato",
@@ -6120,7 +6126,8 @@
             "sendEmailToEmployee": "Send e-mail til medarbejderen",
             "sendEmailToEmployeeTimesChanged": "Vagtens dato eller tidspunkt er ændret, så det anbefales at sende en e-mail.",
             "sendEmailToEmployeeTimesUnchanged": "Dato og tidspunkt er uændret, så en e-mail er som regel ikke nødvendig. Medarbejderen får stadig en notifikation i appen.",
-            "compensatoryHours": "Afspadseringstimer brugt"
+            "compensatoryHours": "Afspadseringstimer brugt",
+            "citizensHint": "Viser kun @:terms.citizens{''}, som medarbejderen har adgang til. Mangler der en, så tilknyt medarbejderen til samme afdeling, en medarbejdergruppe eller som kontaktperson."
         },
         "holidays": "Helligdage",
         "holidayWorked": "Helligdagstimer (arbejdet)",

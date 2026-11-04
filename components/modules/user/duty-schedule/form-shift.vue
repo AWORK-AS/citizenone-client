@@ -335,6 +335,11 @@
                     <FormLabel for="citizens" :label="$t('dutySchedules.form.citizens')" />
                     <FormSelectMultiple id="citizens" :options="state.options.citizens"
                         v-model="state.formShift.citizens" />
+                    <!-- The list is the citizens the shift's employee can see, not the
+                         planner's, so a citizen on Borgere can be missing here. -->
+                    <p class="text-xs text-gray-500" v-if="selectedEmployeeUuidForAvailability">
+                        {{ $t('dutySchedules.form.citizensHint') }}
+                    </p>
                     <FormError :error="v$?.formShift?.citizens?.$errors[0]?.$message.toString()" />
                     <FormError :error="state?.error?.errors?.citizen_uuid?.[0]" />
                 </div>
@@ -1038,9 +1043,12 @@ async function fetchAllScheduleTags() {
     emit('isPageLoading', false)
 }
 
+let citizenOptionsToken = 0
 async function fetchAllCitizensPerUserDepartment() {
     const uuid = selectedEmployeeUuidForAvailability.value
     if (!uuid) return
+    // Switching employee quickly must not let an older answer overwrite the list.
+    const token = ++citizenOptionsToken
 
     state.error = {}
     emit('isPageLoading', true)
@@ -1049,6 +1057,7 @@ async function fetchAllCitizensPerUserDepartment() {
             user_uuid: uuid
         }
         const response = await citizenService.getAllCitizensPerUserDepartment(params)
+        if (token !== citizenOptionsToken) return
         if (response.data) {
             let options: any = []
             response.data.forEach(

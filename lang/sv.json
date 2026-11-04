@@ -5730,7 +5730,13 @@
             "clickHereToPasteTheSchedule": "Klicka här för att indsätte vagtplanen, eller tryck på Escape-tasten på ditt tastatur för att annullere",
             "clickHereToStopCopyingTheSchedule": "Klicka här för att stoppa med att kopiere",
             "copyingActive": "Kopiering aktiv - Klicka för att stoppa",
-            "stopCopying": "Stopp kopiering"
+            "stopCopying": "Stopp kopiering",
+            "resultTitle": "Schema inklistrat",
+            "created": "{count} pass tillagt | {count} pass tillagda",
+            "skipped": "{count} pass hoppades över eftersom medarbetaren redan har samma pass. | {count} pass hoppades över eftersom medarbetaren redan har samma pass.",
+            "noneCreatedTitle": "Inga pass tillagda",
+            "allSkipped": "Medarbetaren har redan samma pass den här veckan.",
+            "sourceEmpty": "Det finns inga pass i veckan du kopierade."
         },
         "custom": "Brugerdefineret",
         "date": "Pass datum",
@@ -6065,7 +6071,8 @@
             "sendEmailToEmployee": "Skicka e-post till medarbetaren",
             "sendEmailToEmployeeTimesChanged": "Passets datum eller tid har ändrats, så det rekommenderas att skicka ett e-postmeddelande.",
             "sendEmailToEmployeeTimesUnchanged": "Datum och tid är oförändrade, så ett e-postmeddelande behövs oftast inte. Medarbetaren får fortfarande en avisering i appen.",
-            "compensatoryHours": "Kompensationstimmar använda"
+            "compensatoryHours": "Kompensationstimmar använda",
+            "citizensHint": "Visar bara @:terms.citizens{''} som medarbetaren har åtkomst till. Saknas någon, koppla medarbetaren till samma avdelning, en medarbetargrupp eller som kontaktperson."
         },
         "holidays": "Helgdagar",
         "holidayWorked": "Helgdagstimmar (arbetade)",
