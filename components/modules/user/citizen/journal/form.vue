@@ -630,7 +630,7 @@
             :content="state.choicesContent" @close="state.modal.isChoosingJournalContent = false"
             @insert="onChoicesInsert" />
 
-        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen && !isDesktopApp"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
             @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -720,6 +720,8 @@ import {
 } from '@/composables/careHourTypes'
 import { countChoiceLists } from '@/composables/journalChoiceLists'
 import { draftKey, hasWriting, loadDraft, saveDraft, clearDraft, type JournalNoteDraft } from '@/composables/journalNoteDraft'
+
+const isDesktopApp = useIsDesktopApp()
 
 const { isAtLeast, can } = usePermissions()
 

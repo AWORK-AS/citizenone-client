@@ -13,7 +13,7 @@
             </p>
 
             <div class="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1">
-                <button v-if="state.status?.can_upgrade" class="text-sm font-semibold underline underline-offset-2"
+                <button v-if="state.status?.can_upgrade && !isDesktopApp" class="text-sm font-semibold underline underline-offset-2"
                     @click="navigateTo('/storage/upgrade')">
                     {{ $t('storage.upgrade') }}
                 </button>
@@ -33,6 +33,8 @@
 
 <script setup lang="ts">
 import { storageService } from '@/components/api/user/StorageService'
+
+const isDesktopApp = useIsDesktopApp()
 
 const DISMISSED_KEY = 'storage-quota-notice-dismissed'
 

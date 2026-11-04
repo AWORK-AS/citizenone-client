@@ -191,7 +191,7 @@
                             <p class="text-sm text-slate-500">{{ $t('discover.appsPromo.desc') }}</p>
                         </div>
                     </div>
-                    <button type="button" @click="navigateTo('/apps')"
+                    <button v-if="!isDesktopApp" type="button" @click="navigateTo('/apps')"
                         class="shrink-0 inline-flex items-center gap-x-1.5 rounded-lg bg-primary text-white px-3.5 py-2.5 text-sm font-medium hover:bg-[#0d3f61] transition-colors">
                         {{ $t('discover.appsPromo.cta') }}
                         <Icon name="ph:arrow-right" class="h-4 w-4" />

@@ -581,7 +581,7 @@
                                 <p class="font-medium">{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
                             </div>
                             <p class="text-xs text-gray-500 mt-1.5">{{ $t('settings.company.form.proFeatureHint') }}</p>
-                            <button type="button" @click="navigateTo('/settings/subscription')"
+                            <button v-if="!isDesktopApp" type="button" @click="navigateTo('/settings/subscription')"
                                 class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
                                 <Icon name="ph:sparkle" class="w-3.5 h-3.5" aria-hidden="true" />
                                 {{ $t('settings.company.form.upgradeToPro') }}
@@ -1011,6 +1011,8 @@ import { useCompanyStore } from '@/store/company'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 // Saving the company is for its Admins; the API refuses everyone else too.
 definePageMeta({ middleware: 'require-admin' })

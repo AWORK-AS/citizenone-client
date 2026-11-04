@@ -177,7 +177,7 @@
         </div>
         <ModulesUserJournalTitleModalNew :isModalOpen="state.modal.isAddJournalTitleOpen"
             @close="state.modal.isAddJournalTitleOpen = false" @refreshJournalTitles="fetchAllJournalTitles" />
-        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+        <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen && !isDesktopApp"
             :title="$t('citizens.documents.upgradeStorage')"
             :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
             @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -199,6 +199,8 @@ import { useUserStore } from '@/store/user'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 import { useCustomPagesStore } from '@/store/custom-pages'
+
+const isDesktopApp = useIsDesktopApp()
 
 const props = defineProps({
     error: {
