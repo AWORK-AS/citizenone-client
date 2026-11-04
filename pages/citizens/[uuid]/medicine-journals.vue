@@ -23,8 +23,8 @@
                 <Alert type="danger" :text="state?.error?.message"
                     v-if="state.error?.message && state.error.message.length > 0" />
 
-                <!-- STATUS STATS -->
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                <!-- STATUS STATS (the company can hide them, Settings -> Company) -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3" v-if="!userStore.getUser?.company?.medicine_stats_hidden">
                     <button type="button" @click="toggleStatsFilter('overdue')"
                         :class="['rounded-xl border px-4 py-3 flex items-center gap-3 w-full text-left transition-all', state.statsFilter === 'overdue' ? 'border-red-400 bg-red-100 ring-2 ring-red-300' : 'border-red-200 bg-red-50 hover:bg-red-100', stats.overdue > 0 ? 'pulse-danger' : '']">
                         <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center shrink-0">
@@ -83,8 +83,8 @@
                     </button>
                 </div>
 
-                <!-- ALARM BANNERS -->
-                <div class="space-y-2" v-if="alarmBanners.length > 0">
+                <!-- ALARM BANNERS (the company can hide them, Settings -> Company) -->
+                <div class="space-y-2" v-if="alarmBanners.length > 0 && !userStore.getUser?.company?.medicine_alarm_banners_hidden">
                     <div v-for="alarm in alarmBanners" :key="alarm.uuid"
                         :class="['rounded-xl border px-4 py-3 flex items-start gap-3', alarm.type === 'overdue' ? 'bg-red-50 border-red-200' : 'bg-amber-50 border-amber-200']">
                         <div
