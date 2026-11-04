@@ -52,6 +52,7 @@ async function updateContact(contactDetails: any) {
     state.isPageLoading = true
     try {
         const contactUuid = contactDetails.uuid
+        const cprKnown = Object.prototype.hasOwnProperty.call(props.selectedContact ?? {}, 'social_security_number')
         let params = {}
         if (contactDetails.title === 'our_contact_person') {
             params = {
@@ -67,6 +68,10 @@ async function updateContact(contactDetails: any) {
                 company_name: contactDetails.company_name,
                 firstname: contactDetails.firstname,
                 lastname: contactDetails.lastname,
+                // Only staff get the CPR back; leave the key out when it was never shown, so the stored value is kept.
+                ...(cprKnown || contactDetails.social_security_number?.trim()
+                    ? { social_security_number: contactDetails.social_security_number?.trim() || null }
+                    : {}),
                 email: contactDetails.email,
                 phone: contactDetails.phone,
                 note: contactDetails.note,

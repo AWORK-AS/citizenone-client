@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "Fornavn",
                 "lastname": "Etternavn",
+                "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommune",
                 "notifyUseOfForce": "Varsle om maktbruk",
                 "subcategories": "Underkategori",

@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "First name",
                 "lastname": "Last name",
+                "socialSecurityNumber": "CPR no.",
                 "municipality": "Municipality",
                 "notifyUseOfForce": "Notify about use of force",
                 "subcategories": "Subcategory",
