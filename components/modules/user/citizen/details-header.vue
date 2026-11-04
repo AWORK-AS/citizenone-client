@@ -152,7 +152,7 @@
                                         </LoadingSpinner>
                                         <!-- The QR card used to be a column of its own, stretching the
                                              header to its height with empty space. -->
-                                        <div v-if="$route.name === 'citizens-uuid-medicine-journals'" class="flex justify-end px-4 pt-2">
+                                        <div v-if="$route.name === 'citizens-uuid-medicine-journals' && !userStore.getUser?.company?.medicine_qr_code_hidden" class="flex justify-end px-4 pt-2">
                                             <Popover class="relative">
                                                 <PopoverButton
                                                     class="inline-flex items-center gap-x-1.5 rounded-lg border-1.5 border-blue-200 bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700 hover:border-blue-700">

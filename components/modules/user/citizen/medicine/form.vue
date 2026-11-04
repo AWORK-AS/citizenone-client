@@ -656,6 +656,7 @@ import { required, requiredIf, helpers } from '@vuelidate/validators'
 import { useI18n } from "vue-i18n"
 import { euDecimalValidation } from "@/composables/euDecimalValidation"
 import type { Error } from '@/types'
+import { useUserStore } from '@/store/user'
 
 const props = defineProps({
     error: {
@@ -676,6 +677,7 @@ const { t } = useI18n()
 const { validateEuropeanDecimal } = euDecimalValidation()
 const language = useI18n()
 const router = useRouter()
+const userStore = useUserStore() as any
 const citizenUuid = router?.currentRoute?.value?.params?.uuid
 
 const formConfig = ref<Record<string, boolean>>({})
@@ -683,6 +685,13 @@ const formConfig = ref<Record<string, boolean>>({})
 function isFieldVisible(fieldKey: string): boolean {
     if (Object.keys(formConfig.value).length === 0) return true
     return formConfig.value[fieldKey] !== false
+}
+
+// Settings -> Company can make everything but the medicine and its dose times optional;
+// otherwise a shown field is required, as before.
+function isFieldRequired(fieldKey?: string): boolean {
+    if (userStore.getUser?.company?.medicine_fields_optional === true) return false
+    return !fieldKey || isFieldVisible(fieldKey)
 }
 
 const state = reactive({
@@ -925,25 +934,25 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dose_per_administration: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('max_dose_per_administration'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('max_dose_per_administration'))),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('ingredients'))),
                     },
                     description: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     schedule_frequency: {},
                 },
@@ -955,22 +964,22 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('ingredients'))),
                     },
                     description: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     schedule_frequency: {
                         // recurring: {
@@ -991,25 +1000,25 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_dose_per_administration: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('max_dose_per_administration'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('max_dose_per_administration'))),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('ingredients'))),
                     },
                     description: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     schedule_frequency: {},
                 },
@@ -1021,22 +1030,22 @@ const rules = computed(() => {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     strength: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('strength'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('strength'))),
                     },
                     dosage: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('dosage'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('dosage'))),
                     },
                     max_dosage_per_time: {
                         required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
                     },
                     max_daily_dose: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     ingredients: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldVisible('ingredients'))),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired('ingredients'))),
                     },
                     description: {
-                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, required),
+                        required: helpers.withMessage(() => `${t('validation.thisFieldIsRequired')}.`, requiredIf(() => isFieldRequired())),
                     },
                     schedule_frequency: {
                         // recurring: {
