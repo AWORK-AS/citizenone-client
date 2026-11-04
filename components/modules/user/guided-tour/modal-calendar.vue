@@ -80,7 +80,7 @@
                                         <div v-if="state.isSubscribed">
                                             <div class="flex gap-x-2 justify-center"
                                                 v-if="userStore.getUser?.user_subscription">
-                                                <FormButton buttonStyle="primary"
+                                                <FormButton v-if="!isDesktopApp" buttonStyle="primary"
                                                     @click="navigateToExternalLink('https://citizenone.dk/priser-til-journalsystem/kurser')"
                                                     class="w-fit">
                                                     <span v-if="language.locale.value === 'en'">
