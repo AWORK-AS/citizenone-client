@@ -709,6 +709,35 @@
                         </div>
 
                         <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.app = !openSections.app"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:device-mobile" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupApp') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ appHiddenCount }} / {{ APP_HIDDEN_SWITCHES.length }}</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.app }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.app" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <p class="text-xs text-gray-500 mb-3">{{ $t('settings.company.form.groupAppHint') }}.</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div v-for="item in APP_HIDDEN_SWITCHES" :key="item.key" class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany[item.key]"
+                                        @toggleSwitch="state.formCompany[item.key] = !state.formCompany[item.key]" :label="$t(`settings.company.form.${item.label}`)" />
+                                    <p>
+                                        {{ $t(`settings.company.form.${item.label}`) }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t(`settings.company.form.${item.label}Hint`) }}.</p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                         <button type="button" @click="openSections.other = !openSections.other"
                             class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
                             <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
@@ -1087,7 +1116,20 @@ const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 // inquiry_pipeline_activated vs inquiry_pipeline_enabled split on the backend).
 const hasInquiryPipelineApp = computed(() => !!(userStore.getUser as any)?.company?.inquiry_pipeline_activated)
 // Collapsible (accordion) open-state for the grouped toggle sections (default all open).
-const openSections = reactive({ access: true, communication: true, portals: true, plans: true, medicine: true, schedule: true, other: true })
+const openSections = reactive({ access: true, communication: true, portals: true, plans: true, medicine: true, schedule: true, app: true, other: true })
+
+// Parts of the staff app the company can hide (Company::APP_HIDDEN_SWITCHES in
+// the backend). All off, so the app looks the same until an Admin turns one on.
+const APP_HIDDEN_SWITCHES = [
+    { key: 'app_risk_badge_hidden', label: 'hideAppRiskBadge' },
+    { key: 'app_children_hidden', label: 'hideAppChildren' },
+    { key: 'app_check_in_card_hidden', label: 'hideAppCheckInCard' },
+    { key: 'app_report_card_hidden', label: 'hideAppReportCard' },
+    { key: 'app_driving_hidden', label: 'hideAppDriving' },
+    { key: 'app_procedures_hidden', label: 'hideAppProcedures' },
+    { key: 'app_statistics_hidden', label: 'hideAppStatistics' },
+] as const
+const appHiddenCount = computed(() => APP_HIDDEN_SWITCHES.filter((item) => state.formCompany[item.key]).length)
 // Count of enabled toggles per group, for the header count chips (default-safe via filter(Boolean)).
 // Sections each external audience can open in its portal. Mirrors
 // PortalVisibilityService::SECTIONS on the backend.
@@ -1305,6 +1347,7 @@ const state = reactive({
         calendar_subscriptions_enabled: true,
         match_includes_do_not_contact: false,
         patient_forms_tab_hidden: false,
+        ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, false])) as Record<(typeof APP_HIDDEN_SWITCHES)[number]['key'], boolean>,
         medicine_stats_hidden: false,
         medicine_alarm_banners_hidden: false,
         medicine_qr_code_hidden: false,
@@ -1477,6 +1520,7 @@ watch(() => userStore.getUser, (newValue: any) => {
             calendar_subscriptions_enabled: newValue?.company?.calendar_subscriptions_enabled !== false,
             match_includes_do_not_contact: newValue?.company?.match_includes_do_not_contact === true,
             patient_forms_tab_hidden: newValue?.company?.patient_forms_tab_hidden === true,
+            ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, newValue?.company?.[item.key] === true])),
             medicine_stats_hidden: newValue?.company?.medicine_stats_hidden === true,
             medicine_alarm_banners_hidden: newValue?.company?.medicine_alarm_banners_hidden === true,
             medicine_qr_code_hidden: newValue?.company?.medicine_qr_code_hidden === true,
@@ -1768,6 +1812,7 @@ async function submitForm() {
                 calendar_subscriptions_enabled: state.formCompany.calendar_subscriptions_enabled,
                 match_includes_do_not_contact: state.formCompany.match_includes_do_not_contact,
                 patient_forms_tab_hidden: state.formCompany.patient_forms_tab_hidden,
+                ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, state.formCompany[item.key]])),
                 medicine_stats_hidden: state.formCompany.medicine_stats_hidden,
                 medicine_alarm_banners_hidden: state.formCompany.medicine_alarm_banners_hidden,
                 medicine_qr_code_hidden: state.formCompany.medicine_qr_code_hidden,
