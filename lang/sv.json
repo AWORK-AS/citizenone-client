@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "Förnamn",
                 "lastname": "Efternamn",
+                "socialSecurityNumber": "Personnummer",
                 "municipality": "Kommun",
                 "notifyUseOfForce": "Meddela om tvångsåtgärder",
                 "subcategories": "Underkategori",
@@ -13340,7 +13341,9 @@
                 "trialClicks": "Klick på prova gratis",
                 "askClicks": "Klick på be administratör",
                 "trialsStarted": "Provperioder startade",
-                "dismissed": "Stängt"
+                "dismissed": "Stängt",
+                "pushed": "Push skickade",
+                "pushOpened": "Push öppnade"
             },
             "form": {
                 "kind": "Typ",
@@ -13366,7 +13369,10 @@
                 "releaseNoteHint": "Meddelandet visas först när release noten är publicerad, så det aldrig kommer före koden.",
                 "preview": "Förhandsvisning",
                 "previewAppHint": "Visas som en köpare ser det. Medarbetare får knappen ”Be min administratör om den”.",
-                "frequencyHint": "Kunden får högst ett meddelande från CitizenOne om dagen, och aldrig två popupper samtidigt."
+                "frequencyHint": "Kunden får högst ett meddelande från CitizenOne om dagen, och aldrig två popupper samtidigt.",
+                "sendPush": "Skicka även som push till mobilappen",
+                "sendPushHint": "Bara till användare som själva har slagit på \"Nytt från CitizenOne\" under aviseringar. Skickas en gång, när meddelandet går live (vardagar 9-16), och högst en push i veckan per användare.",
+                "pushSent": "Skickad som push {date}"
             }
         },
         "supportAccess": {
