@@ -57,6 +57,8 @@
                                     <div v-if="item.application"><dt class="inline">{{ $t('superadmin.announcements.stats.trialClicks') }}</dt> <dd class="inline font-semibold text-gray-800">{{ item.stats.trial_clicks }}</dd></div>
                                     <div v-if="item.application"><dt class="inline">{{ $t('superadmin.announcements.stats.askClicks') }}</dt> <dd class="inline font-semibold text-gray-800">{{ item.stats.ask_clicks }}</dd></div>
                                     <div v-if="item.application"><dt class="inline">{{ $t('superadmin.announcements.stats.trialsStarted') }}</dt> <dd class="inline font-semibold text-gray-800">{{ item.stats.trials_started ?? 0 }}</dd></div>
+                                    <div v-if="item.send_push"><dt class="inline">{{ $t('superadmin.announcements.stats.pushed') }}</dt> <dd class="inline font-semibold text-gray-800">{{ item.stats.pushed ?? 0 }}</dd></div>
+                                    <div v-if="item.send_push"><dt class="inline">{{ $t('superadmin.announcements.stats.pushOpened') }}</dt> <dd class="inline font-semibold text-gray-800">{{ item.stats.push_opened ?? 0 }} ({{ percent(item.stats.push_opened ?? 0, item.stats.pushed ?? 0) }})</dd></div>
                                     <div><dt class="inline">{{ $t('superadmin.announcements.stats.dismissed') }}</dt> <dd class="inline font-semibold text-gray-800">{{ item.stats.dismissed }}</dd></div>
                                 </dl>
                             </div>

@@ -13340,7 +13340,9 @@
                 "trialClicks": "Klikk på prøv gratis",
                 "askClicks": "Klikk på be administrator",
                 "trialsStarted": "Prøveperioder startet",
-                "dismissed": "Lukket"
+                "dismissed": "Lukket",
+                "pushed": "Push sendt",
+                "pushOpened": "Push åpnet"
             },
             "form": {
                 "kind": "Type",
@@ -13366,7 +13368,10 @@
                 "releaseNoteHint": "Meldingen vises først når release noten er publisert, så den aldri kommer før koden.",
                 "preview": "Forhåndsvisning",
                 "previewAppHint": "Vist slik en kjøper ser den. Ansatte får knappen «Be administratoren min om den».",
-                "frequencyHint": "Kunden får høyst én melding fra CitizenOne om dagen, og aldri to popuper samtidig."
+                "frequencyHint": "Kunden får høyst én melding fra CitizenOne om dagen, og aldri to popuper samtidig.",
+                "sendPush": "Send også som push til mobilappen",
+                "sendPushHint": "Bare til brukere som selv har slått på \"Nytt fra CitizenOne\" under varsler. Sendes én gang, når meldingen går live (hverdager 9-16), og høyst én push i uken per bruker.",
+                "pushSent": "Sendt som push {date}"
             }
         },
         "supportAccess": {
