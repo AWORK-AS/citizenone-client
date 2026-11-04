@@ -13426,7 +13426,9 @@
                 "empty": "Nothing in the period.",
                 "suggestions": {
                     "title": "Suggest to my manager",
-                    "hint": "One app in one company counts once, from its first suggestion. Bought = a paid subscription to that app within {days} days. Open = window not closed yet, left out of the rate.",
+                    "hint": "Seen by = staff shown the button, Opened = who opened it. One app in one company counts once, from its first suggestion. Bought = a paid subscription to that app within {days} days. Open = window not closed yet, left out of the rate.",
+                    "seen": "Seen by",
+                    "opened": "Opened",
                     "sends": "Sent",
                     "recipients": "Recipients",
                     "apps": "Apps suggested",
@@ -13436,7 +13438,9 @@
                 },
                 "referrals": {
                     "title": "Shared links",
-                    "hint": "Shares of the \"Share CitizenOne\" link, companies that signed up through one (counted in the period they signed up), and how many of them have paid an invoice.",
+                    "hint": "Seen by = users shown \"Share CitizenOne\" (menu item or recommendation), Opened = who opened sharing. Then shares, companies that signed up through a link (counted in the period they signed up), and how many of them have paid an invoice.",
+                    "seen": "Seen by",
+                    "opened": "Opened",
                     "shares": "Shares",
                     "signedUp": "Signed up",
                     "paid": "Paid",
@@ -13466,13 +13470,14 @@
                 "subtitle": "Impressions, clicks and how many companies started a trial or bought Cody AI within {days} days of first seeing it. Per week and surface.",
                 "week": "Week",
                 "surface": "Surface",
-                "footnote": "Impressions count once per person, surface and day. A company that already has Cody AI only appears under Assign seats. Internal companies are left out.",
+                "footnote": "Impressions count once per person, surface and day. Clicks are every button press on the surface, Try free and Buy included. Closed = closed with the X; – means the surface cannot be closed. A company that already has Cody AI only appears under Assign seats. Internal companies are left out.",
                 "columns": {
                     "impressions": "Impressions",
                     "viewers": "People",
                     "clicks": "Clicks",
                     "try_free": "Try free",
                     "buy": "Buy",
+                    "dismissed": "Closed",
                     "companies": "Companies",
                     "trial_started": "Trial started",
                     "bought": "Bought"
@@ -13481,7 +13486,8 @@
                     "banner": "Admin banner",
                     "prompt": "Cody AI dialog",
                     "journal_preview": "Journal preview",
-                    "seats": "Assign seats"
+                    "seats": "Assign seats",
+                    "staff_banner": "Staff banner"
                 }
             }
         },

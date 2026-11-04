@@ -13426,7 +13426,9 @@
                 "empty": "Intet i perioden.",
                 "suggestions": {
                     "title": "Foreslå til min leder",
-                    "hint": "Én app i én virksomhed tæller én gang, fra det første forslag. Købt = et betalt abonnement på appen inden for {days} dage. Åben = vinduet er ikke lukket endnu og tæller ikke med i raten.",
+                    "hint": "Set af = medarbejdere der fik knappen vist, Åbnet = der åbnede den. Én app i én virksomhed tæller én gang, fra det første forslag. Købt = et betalt abonnement på appen inden for {days} dage. Åben = vinduet er ikke lukket endnu og tæller ikke med i raten.",
+                    "seen": "Set af",
+                    "opened": "Åbnet",
                     "sends": "Sendt",
                     "recipients": "Modtagere",
                     "apps": "Foreslåede apps",
@@ -13436,7 +13438,9 @@
                 },
                 "referrals": {
                     "title": "Delte links",
-                    "hint": "Delinger af \"Del CitizenOne\"-linket, virksomheder oprettet via et (talt i den periode de blev oprettet), og hvor mange af dem der har betalt en faktura.",
+                    "hint": "Set af = brugere der fik \"Del CitizenOne\" vist (menupunkt eller anbefaling), Åbnet = der åbnede delingen. Derefter delinger, virksomheder oprettet via et link (talt i den periode de blev oprettet), og hvor mange af dem der har betalt en faktura.",
+                    "seen": "Set af",
+                    "opened": "Åbnet",
                     "shares": "Delinger",
                     "signedUp": "Oprettet",
                     "paid": "Betalt",
@@ -13466,13 +13470,14 @@
                 "subtitle": "Visninger, klik og hvor mange virksomheder der startede en prøveperiode eller købte Cody AI inden for {days} dage efter første visning. Pr. uge og flade.",
                 "week": "Uge",
                 "surface": "Flade",
-                "footnote": "Visninger tælles én gang pr. person, flade og dag. En virksomhed, der allerede har Cody AI, indgår kun under Tildel pladser. Interne virksomheder er udeladt.",
+                "footnote": "Visninger tælles én gang pr. person, flade og dag. Klik er alle knaptryk på fladen, også Prøv gratis og Køb. Lukket = lukket med krydset; – betyder at fladen ikke kan lukkes. En virksomhed, der allerede har Cody AI, indgår kun under Tildel pladser. Interne virksomheder er udeladt.",
                 "columns": {
                     "impressions": "Visninger",
                     "viewers": "Personer",
                     "clicks": "Klik",
                     "try_free": "Prøv gratis",
                     "buy": "Køb",
+                    "dismissed": "Lukket",
                     "companies": "Virksomheder",
                     "trial_started": "Prøve startet",
                     "bought": "Købt"
@@ -13481,7 +13486,8 @@
                     "banner": "Admin-banner",
                     "prompt": "Cody AI-dialog",
                     "journal_preview": "Journal-forhåndsvisning",
-                    "seats": "Tildel pladser"
+                    "seats": "Tildel pladser",
+                    "staff_banner": "Medarbejder-banner"
                 }
             }
         },

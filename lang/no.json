@@ -13419,6 +13419,8 @@
                 "suggestions": {
                     "title": "Foreslå for lederen min",
                     "hint": "Én app i én virksomhet teller én gang, fra det første forslaget. Kjøpt = et betalt abonnement på appen innen {days} dager. Åpen = vinduet er ikke lukket ennå og teller ikke med i raten.",
+                    "seen": "Sett av",
+                    "opened": "Åpnet",
                     "sends": "Sendt",
                     "recipients": "Mottakere",
                     "apps": "Foreslåtte apper",
@@ -13429,6 +13431,8 @@
                 "referrals": {
                     "title": "Delte lenker",
                     "hint": "Delinger av \"Del CitizenOne\"-lenken, virksomheter opprettet via en (telt i perioden de ble opprettet), og hvor mange av dem som har betalt en faktura.",
+                    "seen": "Sett av",
+                    "opened": "Åpnet",
                     "shares": "Delinger",
                     "signedUp": "Opprettet",
                     "paid": "Betalt",
@@ -13465,6 +13469,7 @@
                     "clicks": "Klikk",
                     "try_free": "Prøv gratis",
                     "buy": "Kjøp",
+                    "dismissed": "Lukket",
                     "companies": "Virksomheter",
                     "trial_started": "Prøve startet",
                     "bought": "Kjøpt"
@@ -13473,7 +13478,8 @@
                     "banner": "Admin-banner",
                     "prompt": "Cody AI-dialog",
                     "journal_preview": "Journal-forhåndsvisning",
-                    "seats": "Tildel plasser"
+                    "seats": "Tildel plasser",
+                    "staff_banner": "Ansatt-banner"
                 }
             }
         },

@@ -1,5 +1,6 @@
 <template>
     <div v-if="offered">
+        <ModulesUserGrowthImpression loop="suggestion" />
         <FormButton type="button" :buttonStyle="buttonStyle ?? 'cancel'" class="w-full justify-center" @click="open()">
             {{ buttonLabel || $t('managerSuggestion.button') }}
         </FormButton>
@@ -57,6 +58,7 @@
 </template>
 
 <script setup lang="ts">
+import { recordGrowthEvent } from '@/composables/growthEvents'
 import { managerSuggestionService } from '@/components/api/user/ManagerSuggestionService'
 import {
     SUGGESTION_MESSAGE_MAX, initialSelection, messageProblem, shouldOfferSuggestion, staffAskState, suggestionOutcome, toggleRecipient,
@@ -127,6 +129,7 @@ function open() {
     selected.value = initialSelection(status.value?.recipients ?? [])
     if (!message.value) message.value = t('managerSuggestion.defaultMessage', { app: props.appName })
     isOpen.value = true
+    recordGrowthEvent('suggestion', 'open')
 }
 
 async function send() {

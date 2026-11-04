@@ -13419,6 +13419,8 @@
                 "suggestions": {
                     "title": "Föreslå för min chef",
                     "hint": "En app i ett företag räknas en gång, från det första förslaget. Köpt = ett betalt abonnemang på appen inom {days} dagar. Öppen = fönstret har inte stängts än och räknas inte med i andelen.",
+                    "seen": "Sedd av",
+                    "opened": "Öppnad",
                     "sends": "Skickat",
                     "recipients": "Mottagare",
                     "apps": "Föreslagna appar",
@@ -13429,6 +13431,8 @@
                 "referrals": {
                     "title": "Delade länkar",
                     "hint": "Delningar av länken \"Dela CitizenOne\", företag som skapats via en (räknat i den period de skapades), och hur många av dem som har betalat en faktura.",
+                    "seen": "Sedd av",
+                    "opened": "Öppnad",
                     "shares": "Delningar",
                     "signedUp": "Skapade",
                     "paid": "Betalat",
@@ -13465,6 +13469,7 @@
                     "clicks": "Klick",
                     "try_free": "Prova gratis",
                     "buy": "Köp",
+                    "dismissed": "Stängd",
                     "companies": "Företag",
                     "trial_started": "Provperiod startad",
                     "bought": "Köpt"
@@ -13473,7 +13478,8 @@
                     "banner": "Admin-banner",
                     "prompt": "Cody AI-dialog",
                     "journal_preview": "Journal-förhandsvisning",
-                    "seats": "Tilldela platser"
+                    "seats": "Tilldela platser",
+                    "staff_banner": "Personal-banner"
                 }
             }
         },

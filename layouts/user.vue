@@ -573,6 +573,7 @@
                                     <MenuItem v-if="citizenOneMenuOpen">
                                         <div @click="state.modal.isPlatformShareOpen = true" data-testid="menu-share-citizenone"
                                             class="cursor-pointer flex items-center gap-x-3 pl-9 pr-3 py-2.5 text-sm text-slate-700 hover:bg-surface-50 transition-colors">
+                                            <ModulesUserGrowthImpression loop="share" />
                                             <Icon name="ph:share-network" class="h-4 w-4 text-slate-400" />{{
                                                 $t('navbar.shareCitizenOne') }}
                                         </div>
