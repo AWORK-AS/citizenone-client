@@ -9,7 +9,7 @@
                 {{ canManage ? $t('paymentDunning.customer.bannerBody') : $t('paymentDunning.customer.bannerAdminOnly') }}
             </p>
         </div>
-        <Tooltip v-if="canManage" :text="$t('paymentDunning.customer.changeCardHelp')" position="top" wrap>
+        <Tooltip v-if="canManage && !isDesktopApp" :text="$t('paymentDunning.customer.changeCardHelp')" position="top" wrap>
             <FormButton type="button" buttonStyle="primary" @click="state.isDialogOpen = true">
                 {{ $t('paymentDunning.customer.attachCard') }}
             </FormButton>
@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+const isDesktopApp = useIsDesktopApp()
 /**
  * Asks an invoice customer with "kort som sikkerhed" to attach the card. Only an
  * Admin gets the button; everyone else is told an administrator has to. Elite

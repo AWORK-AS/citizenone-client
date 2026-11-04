@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "First name",
                 "lastname": "Last name",
+                "socialSecurityNumber": "CPR no.",
                 "municipality": "Municipality",
                 "notifyUseOfForce": "Notify about use of force",
                 "subcategories": "Subcategory",
@@ -12350,6 +12351,15 @@
                 "matchIncludesDoNotContactHint": "Only consultants with a termination date are left out. They are shown with their status and cannot be asked",
                 "hidePatientFormsTab": "Hide the \"Patient forms\" tab",
                 "hidePatientFormsTabHint": "The tab is hidden on every citizen for the whole company",
+                "groupMedicine": "Medicine",
+                "hideMedicineStats": "Hide the status figures on the medicine card",
+                "hideMedicineStatsHint": "Late, Due soon, Given today and Pending are hidden on every citizen",
+                "hideMedicineAlarmBanners": "Hide late medicine alerts",
+                "hideMedicineAlarmBannersHint": "The \"Late\" and \"Due soon\" banners above the medicine list are hidden",
+                "hideMedicineQrCode": "Hide the QR code and help links",
+                "hideMedicineQrCodeHint": "The button with the citizen's QR code and medicine help links is hidden on the medicine card",
+                "medicineFieldsOptional": "Only the medicine and dose times are required",
+                "medicineFieldsOptionalHint": "Strength, dosage form, max daily dose, ingredients and other information become optional when a medicine is created or edited",
                 "groupApp": "The app",
                 "groupAppHint": "Hide the parts of the staff app you do not use. It only changes what the app shows – nobody loses access and no form changes",
                 "hideAppRiskBadge": "Hide risk assessment",
@@ -13387,7 +13397,9 @@
                 "trialClicks": "Try-free clicks",
                 "askClicks": "Ask-admin clicks",
                 "trialsStarted": "Trials started",
-                "dismissed": "Closed"
+                "dismissed": "Closed",
+                "pushed": "Pushes sent",
+                "pushOpened": "Pushes opened"
             },
             "form": {
                 "kind": "Type",
@@ -13413,7 +13425,10 @@
                 "releaseNoteHint": "The message is shown only once the release note is published, so it never runs ahead of the code.",
                 "preview": "Preview",
                 "previewAppHint": "Shown as a buyer sees it. Staff get \"Ask my administrator for it\".",
-                "frequencyHint": "A customer gets at most one message from CitizenOne a day, and never two popups at once."
+                "frequencyHint": "A customer gets at most one message from CitizenOne a day, and never two popups at once.",
+                "sendPush": "Also send as a push to the mobile app",
+                "sendPushHint": "Only to users who switched on \"News from CitizenOne\" in their notification settings. Sent once, when the message goes live (weekdays 9-16), and at most one push a week per user.",
+                "pushSent": "Sent as push {date}"
             }
         },
         "referrals": {
@@ -17626,7 +17641,7 @@
             "open": "Open overview"
         },
         "unassignedWon": "Won cases without a coordinator",
-        "unassignedWonCount": "1 case waiting | {count} cases waiting",
+        "unassignedWonCount": "1 new case waiting to be assigned | {count} new cases waiting to be assigned",
         "unassignedWonOpen": "Assign cases",
         "unassignedWonTooltip": "See the won cases nobody is on yet, and hand them out",
         "brief": {
@@ -17668,7 +17683,8 @@
             "prompt": "Here is what needs my attention today:\n{lines}\n\nWrite two short sentences about how my day looks and what I should take first. No headings, no bullet points, no names."
         },
         "distribution": "How cases are spread",
-        "distributionUnassigned": "{count} with no coordinator",
+        "distributionUnassigned": "1 active @:terms.citizen{''} without a coordinator | {count} active @:terms.citizens{''} without a coordinator",
+        "distributionUnassignedTooltip": "All active @:terms.citizens{''} where nobody is primary, secondary or intake coordinator",
         "distributionIntake": "{count} intake",
         "distributionPrimary": "{count} primary",
         "distributionSecondary": "{count} secondary",

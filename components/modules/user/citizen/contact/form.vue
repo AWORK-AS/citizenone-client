@@ -153,6 +153,12 @@
                         <FormError :error="v$?.formContact?.lastname?.$errors[0]?.$message.toString()" />
                         <FormError :error="props?.error?.errors?.lastname?.[0]" />
                     </div>
+                    <div class="space-y-1">
+                        <FormLabel for="socialSecurityNumber" :label="$t('citizens.contacts.form.socialSecurityNumber')" />
+                        <FormTextField id="socialSecurityNumber" name="socialSecurityNumber" placeholder="000000-0000"
+                            v-model="state.formContact.social_security_number" />
+                        <FormError :error="props?.error?.errors?.social_security_number?.[0]" />
+                    </div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3"
                     v-if="state.formContact.title !== 'our_contact_person'">
@@ -382,6 +388,7 @@ const state = reactive({
         registration_rule: toUserRuleDraft(null),
         firstname: '',
         lastname: '',
+        social_security_number: '',
         email: '',
         phone: '',
         note: '',
@@ -502,6 +509,7 @@ onMounted(async () => {
         registration_rule: toUserRuleDraft(null),
         firstname: contact?.firstname ?? '',
         lastname: contact?.lastname ?? '',
+        social_security_number: contact?.social_security_number ?? '',
         email: contact?.email ?? '',
         phone: contact?.phone ?? '',
         note: contact?.note ?? '',
@@ -561,6 +569,7 @@ watch(() => props.selectedContact, async (newValue: any) => {
         registration_rule: toUserRuleDraft(null),
         firstname: newValue?.firstname ?? '',
         lastname: newValue?.lastname ?? '',
+        social_security_number: newValue?.social_security_number ?? '',
         email: newValue?.email ?? '',
         phone: newValue?.phone ?? '',
         note: newValue?.note ?? '',

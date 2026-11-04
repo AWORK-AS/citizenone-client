@@ -9,7 +9,7 @@
                         <Icon name="ph:question" class="h-4 w-4" aria-hidden="true" />
                     </button>
                 </div>
-                <div class="cursor-pointer hover:text-primary-600 flex items-center gap-1"
+                <div v-if="!isDesktopApp" class="cursor-pointer hover:text-primary-600 flex items-center gap-1"
                     @click="navigateTo('/storage/upgrade')">
                     <Icon name="ph:arrow-circle-up" class="h-5 w-5" aria-hidden="true" />
                     <span class="text-xs">
@@ -24,7 +24,7 @@
                     <p class="font-medium">
                         {{ localQuotaPercent >= 100 ? $t('storage.fullWarning') : $t('storage.almostFullWarning') }}
                     </p>
-                    <button class="underline mt-1" @click="navigateTo('/storage/upgrade')">
+                    <button v-if="!isDesktopApp" class="underline mt-1" @click="navigateTo('/storage/upgrade')">
                         {{ $t('storage.upgrade') }}
                     </button>
                 </div>
@@ -77,6 +77,8 @@ import { storageService } from '@/components/api/user/StorageService'
 import { useUserStore } from '@/store/user'
 import { useStorageFormat } from '@/composables/useStorageFormat'
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const { formatStorageOr } = useStorageFormat()
 

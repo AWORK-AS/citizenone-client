@@ -126,12 +126,12 @@
                                                 {{ $t('invoices.table.actions.sendInvoice') }}
                                             </FormButton>
                                             <FormButton type="button" buttonStyle="action"
-                                                v-if="!invoice?.is_paid && !invoice?.covered_by_agreement && !isBankTransferInvoice(invoice)"
+                                                v-if="!isDesktopApp && !invoice?.is_paid && !invoice?.covered_by_agreement && !isBankTransferInvoice(invoice)"
                                                 @click="payInvoice(invoice)">
                                                 <Icon name="ph:credit-card" class="size-4" />
                                                 {{ $t('invoices.table.actions.pay') }}
                                             </FormButton>
-                                            <span v-else-if="!invoice?.is_paid && !invoice?.covered_by_agreement" class="self-center text-xs text-primary">
+                                            <span v-else-if="!invoice?.is_paid && !invoice?.covered_by_agreement && isBankTransferInvoice(invoice)" class="self-center text-xs text-primary">
                                                 {{ $t('invoicePayment.payByBankTransfer') }}
                                             </span>
                                         </div>
@@ -159,6 +159,8 @@ import { useDatetimeFormatter } from '@/composables/datetimeFormatter'
 import { useI18n } from "vue-i18n"
 import { useAlert } from '@/composables/alert'
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const runtimeConfig = useRuntimeConfig()
 const { formatAmount } = useAmountFormatter()

@@ -242,7 +242,7 @@
                 <DialogConfirmation :isModalOpen="state.modal.isDeleteFileOpen"
                     :message="$t('citizens.documents.confirmation.deleteFileConfirmation') + '?'"
                     @close="state.modal.isDeleteFileOpen = false" @confirm="deleteDocument" />
-                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen"
+                <DialogConfirmation :isModalOpen="state.modal.isUpgradeStorageOpen && !isDesktopApp"
                     :title="$t('citizens.documents.upgradeStorage')"
                     :message="state.error?.message + ' ' + $t('citizens.documents.confirmation.upgradeStorageConfirmation') + '?'"
                     @close="closeUpgradeStorageModal" @confirm="navigateTo(`/storage/upgrade`)" />
@@ -266,6 +266,8 @@ import { usePermissions } from '@/composables/usePermissions'
 import { documentFileName } from '@/composables/documentBlobViewer'
 import { saveAs } from 'file-saver'
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 // Documents open in the app's viewer from the stored original, never in a
 // browser tab. "Open selected" passes its documents to step through.

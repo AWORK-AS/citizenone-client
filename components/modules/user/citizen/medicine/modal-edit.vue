@@ -151,7 +151,7 @@ async function updateMedicine(medicineDetails: any) {
         params.append('is_self_administered', medicineDetails.is_self_administered)
         params.append('is_pn_medicine', medicineDetails.is_pn_medicine)
         params.append('medicine_uuid', medicineDetails.medicine)
-        params.append('dosage_uuid', medicineDetails.dosage)
+        params.append('dosage_uuid', medicineDetails.dosage ?? '')
         if (!medicineDetails.is_pn_medicine) {
             params.append('schedule_frequency', medicineDetails.schedule_frequency.recurring ?? '')
             params.append('recurring_until', medicineDetails.schedule_frequency.recurring_until ?? '')
@@ -184,7 +184,7 @@ async function updateMedicine(medicineDetails: any) {
             }
         }
         params.append('current_stocks', medicineDetails.current_stocks)
-        params.append('strength', medicineDetails.strength)
+        params.append('strength', medicineDetails.strength ?? '')
         params.append('mass_unit_uuid', medicineDetails.unit)
         params.append('max_dose_per_administration', (medicineDetails.max_dose_per_administration ?? '').toString().replace(',', '.'))
         params.append('pn_minimum_interval_minutes', (medicineDetails.pn_minimum_interval_minutes ?? '').toString())
@@ -204,8 +204,8 @@ async function updateMedicine(medicineDetails: any) {
         params.append('prescribed_by', medicineDetails.has_consent ? (medicineDetails.prescribed_by ?? '') : '')
         params.append('date_opened', medicineDetails.date_opened ?? '')
         params.append('shelf_life_days', medicineDetails.shelf_life_days ?? '')
-        params.append('ingredients', medicineDetails.ingredients)
-        params.append('description', medicineDetails.description)
+        params.append('ingredients', medicineDetails.ingredients ?? '')
+        params.append('description', medicineDetails.description ?? '')
         params.append('extra_dates', JSON.stringify(medicineDetails.extra_dates ?? []))
         params.append('treatment_periods', JSON.stringify(medicineDetails.treatment_periods ?? []))
         const response = await medicineJournalService.updateMedicine(medicineUuid, params)

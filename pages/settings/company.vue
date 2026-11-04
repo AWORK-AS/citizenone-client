@@ -476,6 +476,65 @@
                         </div>
 
                         <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
+                        <button type="button" @click="openSections.medicine = !openSections.medicine"
+                            class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
+                            <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
+                                <Icon name="ph:pill" class="w-5 h-5" />
+                            </span>
+                            <span class="font-semibold text-gray-800 text-sm">{{ $t('settings.company.form.groupMedicine') }}</span>
+                            <span class="ml-auto flex items-center gap-3">
+                                <span class="text-xs font-medium text-gray-400 tabular-nums">{{ medicineCount }} / 4</span>
+                                <Icon name="ph:caret-down" class="w-4 h-4 text-gray-400 transition-transform" :class="{ '-rotate-90': !openSections.medicine }" />
+                            </span>
+                        </button>
+                        <div v-show="openSections.medicine" class="px-5 pb-5 pt-3 border-t border-gray-100">
+                        <!-- All off by default: the medicine card and form stay as they are until a company switches one on. -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-3">
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.medicine_stats_hidden"
+                                        @toggleSwitch="state.formCompany.medicine_stats_hidden = !state.formCompany.medicine_stats_hidden" :label="$t('settings.company.form.hideMedicineStats')" />
+                                    <p>
+                                        {{ $t('settings.company.form.hideMedicineStats') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.hideMedicineStatsHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.medicine_alarm_banners_hidden"
+                                        @toggleSwitch="state.formCompany.medicine_alarm_banners_hidden = !state.formCompany.medicine_alarm_banners_hidden" :label="$t('settings.company.form.hideMedicineAlarmBanners')" />
+                                    <p>
+                                        {{ $t('settings.company.form.hideMedicineAlarmBanners') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.hideMedicineAlarmBannersHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.medicine_qr_code_hidden"
+                                        @toggleSwitch="state.formCompany.medicine_qr_code_hidden = !state.formCompany.medicine_qr_code_hidden" :label="$t('settings.company.form.hideMedicineQrCode')" />
+                                    <p>
+                                        {{ $t('settings.company.form.hideMedicineQrCode') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.hideMedicineQrCodeHint') }}.</p>
+                            </div>
+                            <div class="space-y-1">
+                                <div class="flex items-center gap-x-2">
+                                    <FormSwitch :value="state.formCompany.medicine_fields_optional"
+                                        @toggleSwitch="state.formCompany.medicine_fields_optional = !state.formCompany.medicine_fields_optional" :label="$t('settings.company.form.medicineFieldsOptional')" />
+                                    <p>
+                                        {{ $t('settings.company.form.medicineFieldsOptional') }}
+                                    </p>
+                                </div>
+                                <p class="text-xs text-gray-500">{{ $t('settings.company.form.medicineFieldsOptionalHint') }}.</p>
+                            </div>
+                        </div>
+                        </div>
+                        </div>
+
+                        <div class="rounded-xl border border-gray-200 bg-white shadow-sm overflow-hidden">
                         <button type="button" @click="openSections.schedule = !openSections.schedule"
                             class="flex items-center gap-3 w-full px-5 py-3.5 text-left hover:bg-gray-50 transition-colors">
                             <span class="flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-primary flex-shrink-0">
@@ -581,7 +640,7 @@
                                 <p class="font-medium">{{ $t('settings.company.form.absenceCountsInNormHours') }}</p>
                             </div>
                             <p class="text-xs text-gray-500 mt-1.5">{{ $t('settings.company.form.proFeatureHint') }}</p>
-                            <button type="button" @click="navigateTo('/settings/subscription')"
+                            <button v-if="!isDesktopApp" type="button" @click="navigateTo('/settings/subscription')"
                                 class="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">
                                 <Icon name="ph:sparkle" class="w-3.5 h-3.5" aria-hidden="true" />
                                 {{ $t('settings.company.form.upgradeToPro') }}
@@ -1041,6 +1100,8 @@ import { useAlert } from '@/composables/alert'
 import { useI18n } from "vue-i18n"
 import type { Error } from '@/types'
 
+const isDesktopApp = useIsDesktopApp()
+
 // Saving the company is for its Admins; the API refuses everyone else too.
 definePageMeta({ middleware: 'require-admin' })
 
@@ -1055,7 +1116,7 @@ const isPro = computed(() => !!(userStore.getUser as any)?.is_pro)
 // inquiry_pipeline_activated vs inquiry_pipeline_enabled split on the backend).
 const hasInquiryPipelineApp = computed(() => !!(userStore.getUser as any)?.company?.inquiry_pipeline_activated)
 // Collapsible (accordion) open-state for the grouped toggle sections (default all open).
-const openSections = reactive({ access: true, communication: true, portals: true, plans: true, schedule: true, app: true, other: true })
+const openSections = reactive({ access: true, communication: true, portals: true, plans: true, medicine: true, schedule: true, app: true, other: true })
 
 // Parts of the staff app the company can hide (Company::APP_HIDDEN_SWITCHES in
 // the backend). All off, so the app looks the same until an Admin turns one on.
@@ -1213,6 +1274,7 @@ const birthdayNotificationOptions = computed(() => ['all', 'staff', 'citizens', 
 })))
 
 const communicationCount = computed(() => [state.formCompany.group_chat_enabled, state.formCompany.checkin_enabled, state.formCompany.intervention_checkin_enabled, state.formCompany.relative_chat_enabled, state.formCompany.chat_cpr_warning_enabled].filter(Boolean).length)
+const medicineCount = computed(() => [state.formCompany.medicine_stats_hidden, state.formCompany.medicine_alarm_banners_hidden, state.formCompany.medicine_qr_code_hidden, state.formCompany.medicine_fields_optional].filter(Boolean).length)
 const plansCount = computed(() => [
     state.formCompany.plans_enabled,
     state.formCompany.goals_enabled,
@@ -1286,6 +1348,10 @@ const state = reactive({
         match_includes_do_not_contact: false,
         patient_forms_tab_hidden: false,
         ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, false])) as Record<(typeof APP_HIDDEN_SWITCHES)[number]['key'], boolean>,
+        medicine_stats_hidden: false,
+        medicine_alarm_banners_hidden: false,
+        medicine_qr_code_hidden: false,
+        medicine_fields_optional: false,
         care_hour_types_enabled: false,
         contact_weekly_hours_enabled: false,
         registration_mileage_requires_transport_enabled: false,
@@ -1455,6 +1521,10 @@ watch(() => userStore.getUser, (newValue: any) => {
             match_includes_do_not_contact: newValue?.company?.match_includes_do_not_contact === true,
             patient_forms_tab_hidden: newValue?.company?.patient_forms_tab_hidden === true,
             ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, newValue?.company?.[item.key] === true])),
+            medicine_stats_hidden: newValue?.company?.medicine_stats_hidden === true,
+            medicine_alarm_banners_hidden: newValue?.company?.medicine_alarm_banners_hidden === true,
+            medicine_qr_code_hidden: newValue?.company?.medicine_qr_code_hidden === true,
+            medicine_fields_optional: newValue?.company?.medicine_fields_optional === true,
             care_hour_types_enabled: newValue?.company?.care_hour_types_enabled === true,
             contact_weekly_hours_enabled: newValue?.company?.contact_weekly_hours_enabled === true,
             registration_mileage_requires_transport_enabled: newValue?.company?.registration_mileage_requires_transport_enabled === true,
@@ -1743,6 +1813,10 @@ async function submitForm() {
                 match_includes_do_not_contact: state.formCompany.match_includes_do_not_contact,
                 patient_forms_tab_hidden: state.formCompany.patient_forms_tab_hidden,
                 ...Object.fromEntries(APP_HIDDEN_SWITCHES.map((item) => [item.key, state.formCompany[item.key]])),
+                medicine_stats_hidden: state.formCompany.medicine_stats_hidden,
+                medicine_alarm_banners_hidden: state.formCompany.medicine_alarm_banners_hidden,
+                medicine_qr_code_hidden: state.formCompany.medicine_qr_code_hidden,
+                medicine_fields_optional: state.formCompany.medicine_fields_optional,
                 care_hour_types_enabled: state.formCompany.care_hour_types_enabled,
                 contact_weekly_hours_enabled: state.formCompany.contact_weekly_hours_enabled,
                 registration_mileage_requires_transport_enabled: state.formCompany.registration_mileage_requires_transport_enabled,

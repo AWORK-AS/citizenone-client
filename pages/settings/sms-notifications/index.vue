@@ -164,7 +164,7 @@
                         </div>
 
                         <!-- Buy credits card -->
-                        <div class="mt-4 bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm max-w-2xl">
+                        <div v-if="!isDesktopApp" class="mt-4 bg-white border border-[#EAECF0] rounded-xl p-6 shadow-sm max-w-2xl">
                             <h2 class="text-[16px] font-semibold text-[#1F2533] mb-1">
                                 {{ $t('sms.credits.title') }}
                             </h2>
@@ -218,6 +218,8 @@ import { appService } from '@/components/api/user/AppService'
 import { useAlert } from '@/composables/alert'
 import { useI18n } from 'vue-i18n'
 import type { Error } from '@/types'
+
+const isDesktopApp = useIsDesktopApp()
 
 const runtimeConfig = useRuntimeConfig()
 const { successAlert } = useAlert()

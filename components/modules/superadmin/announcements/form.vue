@@ -88,6 +88,21 @@
                     </select>
                 </div>
 
+                <!-- Push to phones: opt-in for the user, once per message -->
+                <div class="space-y-1">
+                    <label class="inline-flex cursor-pointer items-start gap-2 text-sm text-gray-800">
+                        <input id="send_push" type="checkbox" v-model="state.form.send_push" :disabled="pushSent"
+                            class="mt-0.5 h-4 w-4 rounded border-gray-300 text-primary focus:ring-primary" />
+                        <span>
+                            {{ $t('superadmin.announcements.form.sendPush') }}
+                            <span class="block text-xs text-gray-500">
+                                <template v-if="pushSent">{{ $t('superadmin.announcements.form.pushSent', { date: pushSentDate }) }}</template>
+                                <template v-else>{{ $t('superadmin.announcements.form.sendPushHint') }}</template>
+                            </span>
+                        </span>
+                    </label>
+                </div>
+
                 <div class="space-y-1">
                     <SuperadminFormLabel :label="$t('superadmin.announcements.form.industries')" />
                     <p class="text-xs text-gray-500">{{ $t('superadmin.announcements.form.industriesHint') }}</p>
@@ -193,6 +208,12 @@ const state = reactive({
     removeImage: false,
 })
 
+// Pushed already: the tick stays as it was, since a message is never pushed twice.
+const pushSent = computed(() => !!props.selectedItem?.push_sent_at)
+const pushSentDate = computed(() => props.selectedItem?.push_sent_at
+    ? new Date(props.selectedItem.push_sent_at).toLocaleString('da-DK', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
+    : '')
+
 function emptyForm() {
     return {
         kind: 'feature' as AnnouncementKind,
@@ -202,6 +223,7 @@ function emptyForm() {
         cta_label: '',
         link_url: '',
         audience: 'all',
+        send_push: false,
         industry_uuids: [] as string[],
         starts_at: '',
         ends_at: '',
@@ -230,6 +252,7 @@ function syncFromProps(item: any) {
             cta_label: item.cta_label ?? '',
             link_url: item.link_url ?? '',
             audience: item.audience ?? 'all',
+            send_push: !!item.send_push,
             industry_uuids: (item.industries ?? []).map((industry: any) => industry.uuid),
             starts_at: toLocalInput(item.starts_at),
             ends_at: toLocalInput(item.ends_at),
@@ -299,6 +322,7 @@ async function submitForm() {
     form.append('cta_label', hasApp.value ? '' : f.cta_label)
     form.append('link_url', hasApp.value ? '' : f.link_url)
     form.append('audience', f.audience)
+    form.append('send_push', f.send_push ? '1' : '0')
     form.append('starts_at', f.starts_at ? new Date(f.starts_at).toISOString() : '')
     form.append('ends_at', f.ends_at ? new Date(f.ends_at).toISOString() : '')
     form.append('release_note_uuid', f.release_note_uuid)

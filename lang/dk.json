@@ -2639,6 +2639,7 @@
                 },
                 "firstname": "Fornavn",
                 "lastname": "Efternavn",
+                "socialSecurityNumber": "CPR-nr.",
                 "municipality": "Kommune",
                 "notifyUseOfForce": "Giv besked om magtanvendelse",
                 "subcategories": "Underkategori",
@@ -12350,6 +12351,15 @@
                 "matchIncludesDoNotContactHint": "Kun konsulenter med en fratrædelsesdato udelades. De vises med deres status og kan ikke spørges",
                 "hidePatientFormsTab": "Skjul fanen \"Formularer til patienten\"",
                 "hidePatientFormsTabHint": "Fanen skjules på alle borgere for hele virksomheden",
+                "groupMedicine": "Medicin",
+                "hideMedicineStats": "Skjul status-tal på medicinkortet",
+                "hideMedicineStatsHint": "Felterne Forsinkede, Forfalder snart, Givet i dag og Afventer skjules på alle borgere",
+                "hideMedicineAlarmBanners": "Skjul advarsler om forsinket medicin",
+                "hideMedicineAlarmBannersHint": "Bannerne \"Forsinket\" og \"Forfalder snart\" over medicinlisten skjules",
+                "hideMedicineQrCode": "Skjul QR-kode og hjælpelinks",
+                "hideMedicineQrCodeHint": "Knappen med borgerens QR-kode og hjælpelinks til medicin skjules på medicinkortet",
+                "medicineFieldsOptional": "Kun medicin og doseringstider er påkrævet",
+                "medicineFieldsOptionalHint": "Styrke, doseringsform, maksimal daglig dosis, indholdsstoffer og andre oplysninger bliver valgfrie, når medicin oprettes eller redigeres",
                 "groupApp": "Appen",
                 "groupAppHint": "Skjul dele af medarbejder-appen, som I ikke bruger. Det ændrer kun, hvad der vises i appen – ingen mister adgang, og ingen formularer ændres",
                 "hideAppRiskBadge": "Skjul risikovurdering",
@@ -13387,7 +13397,9 @@
                 "trialClicks": "Klik på prøv gratis",
                 "askClicks": "Klik på bed administrator",
                 "trialsStarted": "Prøveperioder startet",
-                "dismissed": "Lukket"
+                "dismissed": "Lukket",
+                "pushed": "Push sendt",
+                "pushOpened": "Push åbnet"
             },
             "form": {
                 "kind": "Type",
@@ -13413,7 +13425,10 @@
                 "releaseNoteHint": "Beskeden vises først, når release noten er udgivet, så den aldrig kommer før koden.",
                 "preview": "Forhåndsvisning",
                 "previewAppHint": "Vist som for en køber. Medarbejdere får knappen \"Bed min administrator om den\".",
-                "frequencyHint": "Kunden får højst én besked fra CitizenOne om dagen og aldrig to popups på én gang."
+                "frequencyHint": "Kunden får højst én besked fra CitizenOne om dagen og aldrig to popups på én gang.",
+                "sendPush": "Send også som push til mobilappen",
+                "sendPushHint": "Kun til brugere, der selv har slået \"Nyt fra CitizenOne\" til under notifikationer. Sendes én gang, når beskeden går live (hverdage 9-16), og højst én push om ugen per bruger.",
+                "pushSent": "Sendt som push {date}"
             }
         },
         "referrals": {
@@ -17626,7 +17641,7 @@
             "open": "Åbn oversigt"
         },
         "unassignedWon": "Vundne sager uden koordinator",
-        "unassignedWonCount": "1 sag venter | {count} sager venter",
+        "unassignedWonCount": "1 ny sag afventer fordeling | {count} nye sager afventer fordeling",
         "unassignedWonOpen": "Fordel sager",
         "unassignedWonTooltip": "Se de vundne sager, som ingen står på endnu, og fordel dem",
         "brief": {
@@ -17668,7 +17683,8 @@
             "prompt": "Her er hvad der kræver min opmærksomhed i dag:\n{lines}\n\nSkriv to korte sætninger om hvordan min dag ser ud, og hvad jeg bør tage først. Ingen overskrifter, ingen punktopstilling, ingen navne."
         },
         "distribution": "Fordeling af indsatser",
-        "distributionUnassigned": "{count} uden koordinator",
+        "distributionUnassigned": "1 aktiv @:terms.citizen{''} uden koordinator | {count} aktive @:terms.citizens{''} uden koordinator",
+        "distributionUnassignedTooltip": "Alle aktive @:terms.citizens{''}, hvor ingen er primær, sekundær eller modtagelseskoordinator",
         "distributionIntake": "{count} i modtagelse",
         "distributionPrimary": "{count} primære",
         "distributionSecondary": "{count} sekundære",
